@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+    Checkstyle-Configuration: Avaloq Tools
+    Description: Avaloq Tools Checkstyle configuration
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <module name="TreeWalker">
+    <property name="tabWidth" value="2"/>
+    <module name="FileContentsHolder"/>
+    <module name="AbstractClassName">
+      <property name="ignoreModifier" value="true"/>
+    </module>
+    <!--module name="AnonInnerLength">
+      <property name="max" value="10"/>
+    </module-->
+    <module name="ArrayTypeStyle"/>
+    <module name="AvoidNestedBlocks">
+      <property name="allowInSwitchCase" value="true"/>
+    </module>
+    <module name="AvoidStarImport"/>
+    <module name="BooleanExpressionComplexity"/>
+    <module name="CovariantEquals"/>
+    <!--module name="ClassFanOutComplexity"/-->
+    <module name="ClassDataAbstractionCoupling">
+      <property name="max" value="10"/>
+    </module>
+    <module name="ConstantName"/>
+    <module name="DefaultComesLast"/>
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+    </module>
+    <module name="EmptyForIteratorPad"/>
+    <module name="EmptyStatement"/>
+    <module name="EqualsHashCode"/>
+    <module name="ExplicitInitialization"/>
+    <module name="FallThrough"/>
+    <module name="FinalClass"/>
+    <module name="FinalParameters"/>
+    <module name="HiddenField">
+      <property name="ignoreConstructorParameter" value="true"/>
+      <property name="ignoreSetter" value="true"/>
+    </module>
+    <module name="HideUtilityClassConstructor"/>
+    <module name="InnerAssignment"/>
+    <module name="IllegalImport">
+      <property name="illegalPkgs" value="net.jcip.annotations"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="IllegalCatch"/>
+    <module name="IllegalImport"/>
+    <module name="IllegalThrows"/>
+    <module name="InterfaceIsType"/>
+    <module name="JavadocMethod">
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+      <property name="logLoadErrors" value="true"/>
+      <property name="suppressLoadErrors" value="true"/>
+      <property name="tokens" value="METHOD_DEF"/>
+    </module>
+    <module name="JavadocType"/>
+    <module name="JavadocStyle"/>
+    <module name="LeftCurly"/>
+    <module name="LocalFinalVariableName"/>
+    <module name="LocalVariableName"/>
+    <module name="MagicNumber"/>
+    <module name="MemberName"/>
+    <module name="MethodName"/>
+    <module name="MethodParamPad"/>
+    <module name="ModifiedControlVariable"/>
+    <module name="ModifierOrder"/>
+    <module name="MultipleStringLiterals">
+      <property name="ignoreOccurrenceContext" value="UNARY_MINUS,UNARY_PLUS,SEMI,DOT,STAR,COMMA,LPAREN,RPAREN,ASSIGN,COLON,BXOR,PLUS,MINUS,DIV,ANNOTATION"/>
+    </module>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="MutableException"/>
+    <module name="NeedBraces"/>
+    <!--module name="NPathComplexity"/-->
+    <module name="NestedTryDepth"/>
+    <module name="OperatorWrap"/>
+    <module name="PackageDeclaration"/>
+    <module name="PackageName"/>
+    <module name="ParameterAssignment"/>
+    <module name="ParameterName"/>
+    <!--module name="ParameterNumber"/-->
+    <module name="ParenPad"/>
+    <module name="RedundantModifier"/>
+    <module name="RightCurly"/>
+    <module name="StaticVariableName"/>
+    <module name="ThrowsCount">
+      <property name="max" value="3"/>
+    </module>
+    <module name="TypecastParenPad"/>
+    <module name="TypeName"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="StringLiteralEquality"/>
+    <module name="SuperClone"/>
+    <module name="SuperFinalize"/>
+    <module name="UpperEll"/>
+    <module name="VisibilityModifier"/>
+    <module name="Regexp">
+      <property name="format" value="edu.umd.cs.findbugs.annotations.CheckForNull"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="edu.umd.cs.findbugs.annotations.CheckReturnValue"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="edu.umd.cs.findbugs.annotations.NonNull"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="edu.umd.cs.findbugs.annotations.Nullable"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="edu.umd.cs.findbugs.annotations.PossiblyNull"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="edu.umd.cs.findbugs.annotations.UnknowNullness"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="javax.annotation.Nullable"/>
+      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
+      <property name="illegalPattern" value="true"/>
+      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations @CheckForNull und @Nonnull benutzen"/>
+    </module>
+  </module>
+  <module name="FileLength"/>
+  <module name="Translation"/>
+  <module name="SuppressionCommentFilter"/>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\:COUPLING-OFF"/>
+    <property name="onCommentFormat" value="CHECKSTYLE\:COUPLING-ON"/>
+    <property name="checkFormat" value=".*(Coupling|Complexity)"/>
+  </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\:CONSTANTS-OFF"/>
+    <property name="onCommentFormat" value="CHECKSTYLE\:CONSTANTS-ON"/>
+    <property name="checkFormat" value="(MagicNumber|MultipleStringLiterals)"/>
+  </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\:CHECK-OFF ([\w\|]+)"/>
+    <property name="onCommentFormat" value="CHECKSTYLE\:CHECK-ON ([\w\|]+)"/>
+    <property name="checkFormat" value="($1)"/>
+  </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="${config_loc}/suppressions.xml"/>
+    <property name="optional" value="false"/>
+  </module>
+</module>

@@ -1,0 +1,369 @@
+«IMPORT org::eclipse::xtext»
+«IMPORT com::avaloq::tools::ddk::xtext::format::format»
+«IMPORT org::eclipse::emf::ecore»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+«EXTENSION org::eclipse::xtext::generator::grammarAccess::GrammarAccess»
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::format::generator::FormatExtensions»
+
+«DEFINE addToPluginXmlRt(FormatConfiguration model, String baseFormatterName) FOR Grammar»«ENDDEFINE»
+
+«DEFINE addToPluginXmlUi(FormatConfiguration model, String baseFormatterName) FOR Grammar»«ENDDEFINE»
+
+«DEFINE addToStandaloneSetup(FormatConfiguration model, String baseFormatterName) FOR Grammar»«ENDDEFINE»
+
+«DEFINE generate(FormatConfiguration model, String baseFormatterName) FOR Grammar»
+«EXPAND generateSrcGen(model, baseFormatterName) FOR this»
+«EXPAND generateSrc(model) FOR this»
+«ENDDEFINE»
+
+«DEFINE generateSrc(FormatConfiguration model) FOR Grammar»
+«FILE formatterClassName().asPath()+".java" SRC -»
+package «formatterClassName().toJavaPackage()»;
+
+/**
+ * The formatting configuration for «this.name.toSimpleName()».
+ */
+public class «formatterClassName().toSimpleName()» extends «formatterClassName("Abstract").toSimpleName()» {
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE generateSrcGen(FormatConfiguration model, String baseFormatterName) FOR Grammar»
+«FILE formatterClassName("Abstract").asPath()+".java" SRC_GEN -»
+package «formatterClassName().toJavaPackage()»;
+
+import «baseFormatterName»;
+import «configClassName()»;
+
+import «this.gaFQName()»;
+«IF model != null -»
+«IF !model.getTerminalRules().isEmpty-»
+import org.eclipse.xtext.TerminalRule;
+«ENDIF-»
+«IF !model.getEnumRules().isEmpty-»
+import org.eclipse.xtext.EnumRule;
+«ENDIF-»
+«FOREACH model.getParserRules() AS rule-»
+import «rule.targetRule.containingGrammar().gaFQName()».«rule.targetRule.gaRuleAccesorClassName()»;
+«ENDFOREACH-»
+«ENDIF-»
+
+/**
+ * The abstract formatting configuration for «this.name.toSimpleName()»«IF model != null»«ENDIF».
+ */
+@SuppressWarnings("all")
+public abstract class «formatterClassName("Abstract").toSimpleName()» extends «baseFormatterName.toSimpleName()» {
+«IF model != null && !model.getAllConstants().isEmpty-»
+  «EXPAND constantDeclaration(this) FOREACH model.getAllConstants()-»
+«ENDIF-»
+
+  @Override
+  protected «this.gaSimpleName()» getGrammarAccess() {
+    return («this.gaSimpleName()») super.getGrammarAccess();
+  }
+
+  @Override
+  protected void configureDdkFormatting(«configClassName().toSimpleName()» config) {
+    «IF model != null»init(config, getGrammarAccess());«ENDIF»
+  }
+
+«IF model != null -»
+«EXPAND configInit(this) FOR model-»
+«EXPAND configMethods(this) FOR model-»
+«ENDIF-»
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE constantDeclaration(Grammar grammar) FOR Constant-»
+  «IF this.intValue == null-»
+  protected static final String «this.name» = "«this.stringValue»"; // «locatorString()»
+  «ELSE-»
+  protected static final int «this.name» = «this.intValue»; // «locatorString()»
+  «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE configInit(Grammar grammar) FOR FormatConfiguration-»
+  /**
+   * Calls all configXyz methods declared in this class.
+   *
+   * @param config
+   *          - the format configuration
+   * @param elements
+   *          - the grammar access for the grammar
+   */
+  protected void init(«configClassName().toSimpleName()» config, «grammar.gaSimpleName()» grammarAccess) {
+  «IF this.getWildcardRule() != null-»
+    configFindElements(config, grammarAccess);
+  «ENDIF-»
+  «FOREACH this.getParserRules() AS rule-»
+    config«rule.targetRule.name»(config, grammarAccess.«rule.targetRule.gaElementsAccessor()»);
+  «ENDFOREACH-»
+  «FOREACH this.getEnumRules() AS rule-»
+    config«rule.targetRule.name»(config, grammarAccess.«rule.targetRule.gaRuleAccessor()»);
+  «ENDFOREACH-»
+  «FOREACH this.getTerminalRules() AS rule-»
+    config«rule.targetRule.name»(config, grammarAccess.«rule.targetRule.gaRuleAccessor()»);
+  «ENDFOREACH-»
+  }
+«ENDDEFINE»
+
+«DEFINE configMethods(Grammar grammar) FOR FormatConfiguration-»
+  «EXPAND configRuleMethod(grammar) FOREACH this.getParserRules()-»
+  «EXPAND configEnumRuleMethod(grammar) FOREACH this.getEnumRules()-»
+  «EXPAND configTerminalRuleMethod(grammar) FOREACH this.getTerminalRules()-»
+  «IF this.getWildcardRule() != null-»«EXPAND configFindElements(grammar) FOR this.getWildcardRule()-»«ENDIF-»
+«ENDDEFINE»
+
+
+«DEFINE configFindElements(Grammar grammar) FOR WildcardRule-»
+  /**
+   * Configuration for IGrammarAccess.findXyz() methods.
+   *
+   * @param config
+   *          - the format configuration
+   * @param elements
+   *          - the grammar access for the grammar
+   */
+  protected void configFindElements(«configClassName().toSimpleName()» config, «grammar.gaSimpleName()» elements) {
+  «EXPAND directive FOREACH this.directives-»
+  }
+«ENDDEFINE»
+
+«DEFINE configRuleMethod(Grammar grammar) FOR GrammarRule»
+  /**
+   * Configuration for «this.targetRule.name».
+   *
+   * @param config
+   *          - the format configuration
+   * @param elements
+   *          - the grammar access for «this.targetRule.name» elements
+   */
+  protected void config«this.targetRule.name»(«configClassName().toSimpleName()» config, «this.targetRule.gaRuleAccesorClassName()» elements) {
+  «EXPAND directive FOREACH this.directives-»
+  }
+«ENDDEFINE»
+
+«DEFINE configEnumRuleMethod(Grammar grammar) FOR GrammarRule»
+  /**
+   * Configuration for «this.targetRule.name».
+   *
+   * @param config
+   *          - the format configuration
+   * @param rule
+   *          - the enum rule for «this.targetRule.name»
+   */
+  protected void config«this.targetRule.name»(«configClassName().toSimpleName()» config, EnumRule rule) {
+  «EXPAND directive FOREACH this.directives-»
+  }
+«ENDDEFINE»
+
+«DEFINE configTerminalRuleMethod(Grammar grammar) FOR GrammarRule»
+  /**
+   * Configuration for «this.targetRule.name».
+   *
+   * @param config
+   *          - the format configuration
+   * @param rule
+   *          - the terminal rule for «this.targetRule.name»
+   */
+  protected void config«this.targetRule.name»(«configClassName().toSimpleName()» config, TerminalRule rule) {
+  «EXPAND directive FOREACH this.directives-»
+  }
+«ENDDEFINE»
+
+«DEFINE directive FOR SpecificDirective-»
+  «EXPAND matchReference(this.grammarElements) FOR this.matcherList-»
+«ENDDEFINE»
+«DEFINE directive FOR ContextFreeDirective-»
+  «EXPAND matchLookup(this.grammarElements) FOR this.matcherList-»
+«ENDDEFINE»
+«DEFINE directive FOR GroupBlock-»
+  «IF this.matcherList != null-»«EXPAND matchReference({this.grammarElement}) FOR this.matcherList-»
+  «ELSEIF this.subGroup != null-»«EXPAND directive FOR this.subGroup-»
+  «ELSE-»«EXPAND directive FOREACH this.directives-»
+  «ENDIF-»
+«ENDDEFINE»
+«DEFINE directive FOR KeywordPair-»
+    //// «locatorString()»
+    for (final org.eclipse.xtext.util.Pair<org.eclipse.xtext.Keyword, org.eclipse.xtext.Keyword> pair : elements.findKeywordPairs("«this.left»", "«this.right»")) {
+  «FOREACH this.leftMatchers AS matcher-»
+      «EXPAND matchLookupPartial(matcher, "pair.getFirst()") FOR matcher.locator-»
+  «ENDFOREACH-»
+  «FOREACH this.rightMatchers AS matcher-»
+      «EXPAND matchLookupPartial(matcher, "pair.getSecond()") FOR matcher.locator-»
+  «ENDFOREACH-»
+    }
+«ENDDEFINE»
+
+«DEFINE directive FOR Object-»
+UNKNOWN DIRECTIVE «this.metaType.name-»«
+ENDDEFINE»
+
+«DEFINE matchLookup(List[GrammarElementLookup] elements) FOR MatcherList-»
+  «IF !elements.isEmpty-»
+    «IF !elements.select(e|e.rule != null).isEmpty-»
+    // «locatorString()»
+    for (org.eclipse.xtext.RuleCall ruleCall : elements.findRuleCalls(«FOREACH elements.select(e|e.rule != null) AS element SEPARATOR ', '-»elements.«element.rule.gaRuleAccessor()-»«ENDFOREACH-»)) {
+      «FOREACH this.matchers AS matcher-»
+      «EXPAND matchLookupPartial(matcher, "rulecall") FOR matcher.locator-»
+      «ENDFOREACH-»
+    }
+    «ENDIF-»
+    «IF !elements.select(e|e.keyword != null).isEmpty-»
+    // «locatorString()»
+    for (org.eclipse.xtext.Keyword keyword : elements.findKeywords(«FOREACH elements.select(e|e.keyword != null) AS element SEPARATOR ', '-»"«element.keyword-»"«ENDFOREACH-»)) {
+      «FOREACH this.matchers AS matcher-»
+      «EXPAND matchLookupPartial(matcher, "keyword") FOR matcher.locator-»
+      «ENDFOREACH-»
+    }
+    «ENDIF-»
+  «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE matchLookupPartial(Matcher matcher, String eobjectTypeName) FOR ColumnLocator-»
+    «IF matcher.type.literal.compareTo("before")==0 -»
+    config.setColumn(«this.value.getValueOrConstant()», «this.fixed», «this.relative», «this.nobreak»).before(«eobjectTypeName»);  // «locatorString()»
+    config.setColumn(«this.value.getValueOrConstant()», «this.fixed», «this.relative», «this.nobreak»).after(«eobjectTypeName»);  // «locatorString()»
+    «ELSE-»
+    config.setColumn(«this.value.getValueOrConstant()»).«EXPAND matcherType FOR matcher.type-»(«eobjectTypeName»); // «locatorString()»
+    «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE matchLookupPartial(Matcher matcher, String eobjectTypeName) FOR OffsetLocator-»
+    «IF matcher.type.literal.compareTo("before")==0 -»
+    config.setColumn(«this.value.getValueOrConstant()», «this.fixed», true, «this.nobreak»).before(«eobjectTypeName»);  // «locatorString()»
+    config.setColumn(«this.value.getValueOrConstant()», «this.fixed», true, «this.nobreak»).after(«eobjectTypeName»);  // «locatorString()»
+    «ELSE-»
+    config.setOffset(«this.value.getValueOrConstant()»).«EXPAND matcherType FOR matcher.type-»(«eobjectTypeName»); // «locatorString()»
+    «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE matchLookupPartial(Matcher matcher, String eobjectTypeName) FOR Locator-»
+    config.«EXPAND locator(matcher) FOR matcher.locator-».«EXPAND matcherType FOR matcher.type-»(«eobjectTypeName»);
+«ENDDEFINE»
+
+«DEFINE matchReference(List[EObject] elements) FOR MatcherList-»
+  «IF !elements.isEmpty-»
+    «FOREACH this.matchers AS matcher-»
+      «IF matcher.type.isTwoArgumentMatcherType()-»
+    «EXPAND match(elements.get(0), elements.get(1), matcher.locator) FOR matcher-»
+        «ELSE-»
+        «FOREACH elements AS e-»
+    «EXPAND match(e, matcher.locator) FOR matcher-»
+        «ENDFOREACH-»
+      «ENDIF-»
+      «ENDFOREACH-»
+  «ENDIF-»
+«ENDDEFINE»
+
+
+«DEFINE match(EObject element1, EObject element2, Locator locator) FOR Matcher-»
+    config.«EXPAND locator(this) FOR this.locator-».«EXPAND matcherType FOR this.type-»(«EXPAND elementAccess FOR element1-», «EXPAND elementAccess FOR element2-»); // «locatorString()»
+«ENDDEFINE»
+
+«DEFINE match(EObject element, Locator locator) FOR Matcher-»
+    config.«EXPAND locator(this) FOR this.locator-».«EXPAND matcherType FOR this.type-»(«EXPAND elementAccess FOR element-»); // «locatorString()»
+«ENDDEFINE»
+
+«DEFINE match(EObject element, ColumnLocator locator) FOR Matcher-»
+    «IF this.type.literal.compareTo("before")==0 -»
+    config.setColumn(«locator.value.getValueOrConstant()», «locator.fixed», «locator.relative», «locator.nobreak»).before(«EXPAND elementAccess FOR element-»);  // «locatorString()»
+    config.setColumn(«locator.value.getValueOrConstant()», «locator.fixed», «locator.relative», «locator.nobreak»).after(«EXPAND elementAccess FOR element-»);  // «locatorString()»
+    «ELSE-»
+    config.setColumn(«locator.value.getValueOrConstant()»).«EXPAND matcherType FOR this.type-»(«EXPAND elementAccess FOR element-»); // «locatorString()»
+    «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE match(EObject element, OffsetLocator locator) FOR Matcher-»
+    «IF this.type.literal.compareTo("before")==0 -»
+    config.setColumn(«locator.value.getValueOrConstant()», «locator.fixed», true, «locator.nobreak»).before(«EXPAND elementAccess FOR element-»);  // «locatorString()»
+    config.setColumn(«locator.value.getValueOrConstant()», «locator.fixed», true, «locator.nobreak»).after(«EXPAND elementAccess FOR element-»);  // «locatorString()»
+    «ELSE-»
+    config.setOffset(«locator.value.getValueOrConstant()»).«EXPAND matcherType FOR this.type-»(«EXPAND elementAccess FOR element-»); // «locatorString()»
+    «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE match(EObject element, IndentLocator locator) FOR Matcher-»
+  «IF locator.value != null && locator.value.reference != null || locator.value.literal > 1-»
+    for(int indentCounter = 0; indentCounter < «locator.value.getValueOrConstant()»; indentCounter++) { // «locatorString()»
+      config.«EXPAND locator(this) FOR this.locator-».«EXPAND matcherType FOR this.type-»(«EXPAND elementAccess FOR element-»);
+    }
+  «ELSE-»
+    config.«EXPAND locator(this) FOR this.locator-».«EXPAND matcherType FOR this.type-»(«EXPAND elementAccess FOR element-»); // «locatorString()»
+  «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE elementAccess FOR GrammarElementLookup-»
+«IF this.rule != null-»elements.findRuleCalls(«this.rule.gaElementsAccessor()-»)«
+ELSEIF this.keyword != null-»elements.findKeywords("«this.keyword-»")«
+ENDIF-»«
+ENDDEFINE»
+
+«DEFINE elementAccess FOR GrammarElementReference-»
+«IF this.ruleCall != null-»«EXPAND elementAccess FOR this.ruleCall-»«
+ELSEIF this.keyword != null-»«EXPAND elementAccess FOR this.keyword-»«
+ELSEIF this.assignment != null-»«EXPAND elementAccess FOR this.assignment-»«
+ELSEIF this.self != null-»«IF this.containedByParserRule()-»elements.getRule()«ELSE-»rule«ENDIF-»«
+ELSEIF this.rule != null-»«EXPAND elementAccess FOR this.rule-»«
+ENDIF-»«
+ENDDEFINE»
+
+«DEFINE elementAccess FOR AbstractRule-»
+getGrammarAccess().«this.gaRuleAccessor()-»«
+ENDDEFINE»
+
+«DEFINE elementAccess FOR AbstractElement-»
+elements.«this.gaElementAccessor()-»«
+ENDDEFINE»
+
+«DEFINE elementAccess FOR Object-»
+UNKNOWN XTEXT ELEMENT «this.metaType.name-»«
+ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR SpaceLocator-»
+«IF this.noSpace-»setNoSpace()«ELSE-»setSpace(«this.value.getValueOrConstant()-»)«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR RightPaddingLocator-»
+setRightPadding(«this.value.getValueOrConstant()-»)«
+ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR LinewrapLocator-»
+«IF this.noLinewrap-»setNoLinewrap()«
+ELSE-»setLinewrap(«
+  IF this.value != null-»«this.value.getValueOrConstant()-»«
+  ELSEIF this.minimum != null-»«this.minimum.getValueOrConstant()-», «this.^default.getValueOrConstant()-», «this.maximum.getValueOrConstant()-»«
+  ENDIF-»)«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR ColumnLocator-»
+setColumn(«this.value.getValueOrConstant()», «this.fixed», «this.relative», «this.nobreak»)«
+ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR OffsetLocator-»
+setColumn(«this.value.getValueOrConstant()», «this.fixed», true, «this.nobreak»)«
+ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR IndentLocator-»
+«IF this.increment-»setIndentationIncrement()«ELSE-»setIndentationDecrement()«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE locator(Matcher matcher) FOR Locator-»
+UNKNOWN LOCATOR «this.metaType.name-»«
+ENDDEFINE»
+
+«DEFINE matcherType FOR MatcherType-»
+«this.literal-»
+«ENDDEFINE»
+
+«REM»
+«DEFINE padding(int length) FOR Object-»
+«IF length > 0-» «EXPAND padding(length-1) FOR this-»«ENDIF-»
+«ENDDEFINE»
+«ENDREM»
+
+

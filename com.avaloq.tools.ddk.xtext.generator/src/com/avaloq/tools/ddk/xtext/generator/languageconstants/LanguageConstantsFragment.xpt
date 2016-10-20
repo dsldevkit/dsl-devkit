@@ -1,0 +1,14 @@
+«IMPORT org::eclipse::xtext»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+
+«DEFINE generate(String preferredFileExtension, List[String] fileExtensions) FOR Grammar»
+«EXPAND LanguageConstants::generateConstantsClass(preferredFileExtension, fileExtensions) FOR this»
+«EXPAND LanguageConstants::generateConstantsExtension FOR this»
+«ENDDEFINE»
+
+«DEFINE addToPluginXmlRt(String preferredFileExtension, List[String] fileExtensions) FOR Grammar»«ENDDEFINE»
+
+«DEFINE addToPluginXmlUi(String preferredFileExtension, List[String] fileExtensions) FOR Grammar»«ENDDEFINE»
+
+«DEFINE addToStandaloneSetup(String preferredFileExtension, List[String] fileExtensions) FOR Grammar»«ENDDEFINE»

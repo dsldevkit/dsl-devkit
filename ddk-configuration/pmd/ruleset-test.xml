@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="Tools PMD test ruleset"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+  <description>Avaloq Tools PMD test projects ruleset</description>
+
+  <!-- Exclude default folders for generated files from analysis -->
+  <exclude-pattern>.*/src-gen/.*</exclude-pattern>
+  <exclude-pattern>.*/src-model/.*</exclude-pattern>
+  <exclude-pattern>.*/xtend-gen/.*</exclude-pattern>
+
+  <rule ref="rulesets/java/basic.xml">
+    <exclude name="JumbledIncrementer"/><!--Checkstyle-->
+    <exclude name="AvoidUsingHardCodedIP"/><!--New after PMD 5.3 upgrade, not sensible for tests-->
+  </rule>
+  <rule ref="rulesets/java/empty.xml">
+    <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
+    <exclude name="EmptyFinallyBlock"/><!--Checkstyle-->
+    <exclude name="EmptyIfStmt"/><!--Checkstyle-->
+    <exclude name="EmptyInitializer"/><!--Checkstyle-->
+    <exclude name="EmptyStatementNotInLoop"/><!--Checkstyle-->
+    <exclude name="EmptyStaticInitializer"/><!--Checkstyle-->
+    <exclude name="EmptySwitchStatements"/><!--Checkstyle-->
+    <exclude name="EmptyTryBlock"/><!--Checkstyle-->
+    <exclude name="EmptyWhileStmt"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/unnecessary.xml">
+    <exclude name="UnnecessaryFinalModifier"/><!--Checkstyle-->
+    <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
+  </rule>
+  <rule ref="rulesets/java/braces.xml">
+    <exclude name="ForLoopsMustUseBraces"/><!--Checkstyle-->
+    <exclude name="IfElseStmtsMustUseBraces"/><!--Checkstyle-->
+    <exclude name="IfStmtsMustUseBraces"/><!--Checkstyle-->
+    <exclude name="WhileLoopsMustUseBraces"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/clone.xml">
+    <exclude name="CloneMethodMustImplementCloneable"/>
+    <exclude name="ProperCloneImplementation"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/codesize.xml">
+    <exclude name="CyclomaticComplexity"/>
+    <!--exclude name="NPathComplexity"/--><!--Checkstyle-->
+    <exclude name="ExcessiveMethodLength"/>
+    <exclude name="ModifiedCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
+    <exclude name="NcssMethodCount"/>
+    <exclude name="StdCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
+    <exclude name="TooManyFields"/>
+    <exclude name="TooManyMethods"/>
+  </rule>
+  <rule ref="rulesets/java/controversial.xml">
+    <exclude name="AssignmentInOperand"/><!--Checkstyle-->
+    <exclude name="AtLeastOneConstructor"/>
+    <exclude name="AvoidFinalLocalVariable"/>
+    <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
+    <exclude name="AvoidPrefixingMethodParameters"/><!--New after PMD 5.3 upgrade, only false positives-->
+    <exclude name="CallSuperInConstructor"/>
+    <exclude name="DataflowAnomalyAnalysis"/>
+    <exclude name="DefaultPackage"/>
+    <exclude name="DontImportSun"/><!--Checkstyle-->
+    <exclude name="NullAssignment"/>
+    <exclude name="OnlyOneReturn"/>
+    <exclude name="UseConcurrentHashMap"/><!--New after PMD 5.3 upgrade, but not intelligent enough-->
+  </rule>
+  <rule ref="rulesets/java/coupling.xml">
+    <exclude name="ExcessiveImports"/>
+    <exclude name="LawOfDemeter"/><!--New after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
+    <exclude name="LoosePackageCoupling"/>
+  </rule>
+  <rule ref="rulesets/java/design.xml">
+    <exclude name="AbstractClassWithoutAbstractMethod"/>
+    <exclude name="AvoidConstantsInterface"/><!--Checkstyle-->
+    <exclude name="AvoidDeeplyNestedIfStmts"/>
+    <exclude name="AvoidReassigningParameters"/><!--Checkstyle-->
+    <exclude name="AvoidSynchronizedAtMethodLevel"/>
+    <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
+    <exclude name="ConfusingTernary"/>
+    <!--exclude name="ConstantsInInterface"/--><!--New when upgrading to PMD 5.5, many markers (2'000+), done by Checkstyle, see AvoidConstantsInterface-->
+    <exclude name="DefaultLabelNotLastInSwitchStmt"/><!--Checkstyle-->
+    <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
+    <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/><!--New after PMD 5.3 upgrade, many markers (1'400+), not needed because of Outline and Formatter-->
+    <exclude name="GodClass"/><!--New after PMD 5.3 upgrade, not to be activated by default-->
+    <exclude name="MissingBreakInSwitch"/><!--Replaced by MissingBreakOrReturnInSwitch (custom rule see below)-->
+    <exclude name="PreserveStackTrace"/>
+    <exclude name="SimplifyBooleanExpressions"/><!--Checkstyle-->
+    <exclude name="SwitchStmtsShouldHaveDefault"/><!--Checkstyle-->
+    <exclude name="TooFewBranchesForASwitchStatement"/>
+    <exclude name="UncommentedEmptyMethodBody"/><!--Checkstyle-->
+    <exclude name="UncommentedEmptyConstructor"/><!--Checkstyle-->
+    <exclude name="UseUtilityClass"/>
+  </rule>
+  <rule ref="rulesets/java/finalizers.xml"/>
+  <rule ref="rulesets/java/imports.xml">
+    <exclude name="DontImportJavaLang"/><!--Eclipse-->
+    <exclude name="DuplicateImports"/><!--Eclipse-->
+    <exclude name="ImportFromSamePackage"/><!--Eclipse-->
+    <exclude name="TooManyStaticImports"/>
+    <exclude name="UnusedImports"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/junit.xml">
+    <exclude name="JUnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
+    <exclude name="JUnitTestsShouldIncludeAssert"/>
+    <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+    <exclude name="TestClassWithoutTestCases"/><!--Wrong with JUnit4-->
+  </rule>
+  <rule ref="rulesets/java/naming.xml">
+    <exclude name="AbstractNaming"/><!--Checkstyle-->
+    <exclude name="LongVariable"/>
+    <exclude name="MethodNamingConventions"/><!--Checkstyle-->
+    <exclude name="NoPackage"/><!--Checkstyle-->
+    <exclude name="ShortClassName"/><!--New after PMD 5.3 upgrade, not sensible/only false positives-->
+    <exclude name="ShortVariable"/>
+    <exclude name="SuspiciousConstantFieldName"/><!--Checkstyle-->
+    <exclude name="SuspiciousEqualsMethodName"/><!--Checkstyle-->
+    <exclude name="VariableNamingConventions"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/optimizations.xml">
+    <exclude name="AvoidInstantiatingObjectsInLoops"/>
+    <exclude name="LocalVariableCouldBeFinal"/>
+    <exclude name="MethodArgumentCouldBeFinal"/><!--Checkstyle-->
+    <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/strictexception.xml">
+    <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
+    <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
+    <exclude name="AvoidRethrowingException"/>
+    <exclude name="SignatureDeclareThrowsException"/><!--Testing-->
+  </rule>
+  <rule ref="rulesets/java/strings.xml">
+    <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
+    <exclude name="ConsecutiveAppendsShouldReuse"/><!--New after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
+    <exclude name="ConsecutiveLiteralAppends"/>
+    <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/sunsecure.xml"/>
+  <rule ref="rulesets/java/unusedcode.xml">
+    <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
+    <exclude name="UnusedModifier"/><!--Checkstyle-->
+  </rule>
+  <rule ref="rulesets/java/logging-java.xml">
+    <exclude name="GuardLogStatementJavaUtil"/><!--New after PMD 5.3 upgrade, memory effect uncertain, impairs readability-->
+  </rule>
+  <rule ref="rulesets/java/migrating.xml">
+    <exclude name="JUnit4TestShouldUseAfterAnnotation"/><!--Checkstyle-->
+    <exclude name="JUnit4TestShouldUseBeforeAnnotation"/><!--Checkstyle-->
+    <exclude name="JUnit4TestShouldUseTestAnnotation"/>
+  </rule>
+
+  <rule
+      language="java"
+      name="MissingBreakOrReturnInSwitch"
+      message="A switch statement does not contain a break or return statement"
+      class="net.sourceforge.pmd.lang.rule.XPathRule"
+      dfa="false"
+      typeResolution="true">
+    <description>A switch statement without an enclosed break or return statement may be a bug.</description>
+    <priority>3</priority>
+    <properties>
+      <property name="xpath">
+        <value>
+          <![CDATA[
+//SwitchStatement
+[count(SwitchLabel) > 0]
+[count(.//BreakStatement)+count(.//ReturnStatement)=0]
+[count(BlockStatement/Statement/ReturnStatement)
+ + count(BlockStatement/Statement/ThrowStatement)
+     < count (SwitchLabel)]
+]]>
+        </value>
+      </property>
+    </properties>
+    <example><![CDATA[
+public class Foo {
+  public void bar(int status) {
+    switch(status) {
+      case CANCELLED:
+        doCancelled();
+        // break; hm, should this be commented out?
+      case NEW:
+        doNew();
+      case REMOVED:
+        doRemoved();
+    }
+  }
+}
+]]>
+    </example>
+  </rule>
+
+  <rule
+      language="java"
+      name="BeforeAfterClassStatic"
+      message="Methods annotated with @BeforeClass or @AfterClass need to be static."
+      class="net.sourceforge.pmd.lang.rule.XPathRule"
+      dfa="false"
+      typeResolution="true">
+    <description>Test methods annotated with @BeforeClass or @AfterClass need to be static.</description>
+    <priority>3</priority>
+    <properties>
+      <property name="xpath">
+        <value>
+          <![CDATA[
+//ClassOrInterfaceBodyDeclaration[Annotation/MarkerAnnotation/Name[@Image='BeforeClass' or @Image='AfterClass']]
+[count(MethodDeclaration[@Static='true'])=0]]]>
+        </value>
+      </property>
+    </properties>
+    <example>
+      <![CDATA[
+]]>
+    </example>
+  </rule>
+
+  <rule
+      language="java"
+      name="BeforeAfterNotStatic"
+      message="Methods annotated with @Before or @After must not be static."
+      class="net.sourceforge.pmd.lang.rule.XPathRule"
+      dfa="false"
+      typeResolution="true">
+    <description>Test methods annotated with @Before or @After must not be static.</description>
+    <priority>3</priority>
+    <properties>
+      <property name="xpath">
+        <value>
+          <![CDATA[
+//ClassOrInterfaceBodyDeclaration[Annotation/MarkerAnnotation/Name[@Image='Before' or @Image='After']]
+[count(MethodDeclaration[@Static='false'])=0]]]>
+        </value>
+      </property>
+    </properties>
+    <example>
+      <![CDATA[
+]]>
+    </example>
+  </rule>
+
+</ruleset>

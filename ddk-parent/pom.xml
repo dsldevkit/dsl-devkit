@@ -1,0 +1,306 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <groupId>com.avaloq.tools.ddk</groupId>
+  <artifactId>ddk-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+
+    <!-- build parameter -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <target.platform>ddk</target.platform>
+    <workspace>${env.WORKSPACE}</workspace>
+
+    <!-- OSGI parameter -->
+    <osgi.os>win32</osgi.os>
+    <osgi.ws>win32</osgi.ws>
+    <osgi.arch>x86_64</osgi.arch>
+
+    <!-- runtime parameter -->
+    <runtime.pluginCustomization></runtime.pluginCustomization>
+    <!-- add the following to runtime.javaOptions to enable debugging: -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 -Xnoagent -Djava.compiler=NONE -->
+    <runtime.javaOptions>-XX:MaxPermSize=256m -Xms256m -Xmx1g -Dfile.encoding=UTF-8</runtime.javaOptions>
+    <runtime.product>org.eclipse.sdk.ide</runtime.product>
+    <runtime.logbackConfig>${workspace}/ddk-configuration/logging/logback-config.xml</runtime.logbackConfig>
+
+    <!-- analysis parameter -->
+    <compiler.showWarnings>true</compiler.showWarnings>
+    <pmd.ruleset>${workspace}/ddk-configuration/pmd/ruleset.xml</pmd.ruleset>
+    <pmd.test.ruleset>${workspace}/ddk-configuration/pmd/ruleset-test.xml</pmd.test.ruleset>
+    <checkstyle.skip>false</checkstyle.skip>
+    <checkstyle.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq.xml</checkstyle.configLocation>
+    <checkstyle.test.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq-test.xml</checkstyle.test.configLocation>
+    <findbugs.excludeFilterFile>${workspace}/ddk-configuration/findbugs/exclusion-filter.xml</findbugs.excludeFilterFile>
+    <findbugs.skip>false</findbugs.skip>
+    <findbugs.maxHeap>2048</findbugs.maxHeap>
+
+    <!-- test parameter-->
+    <test.javaOptions>${runtime.javaOptions}</test.javaOptions>
+    <test.timeout>1800</test.timeout>
+    <test.testClass>com.avaloq.tools.ddk.xtext.AllTests</test.testClass>
+
+    <!-- maven plugin versions -->
+    <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+    <checkstyle.version>6.19</checkstyle.version>
+    <clean.version>2.4.1</clean.version>
+    <deploy.version>2.8.2</deploy.version>
+    <dita.version>1.0-beta-2</dita.version>
+    <findbugs.plugin.version>3.0.4</findbugs.plugin.version><!-- Maven plug-in 3.0.4 uses FindBugs 3.0.1 -->
+    <jxr.version>2.2</jxr.version>
+    <maven.version>3.0</maven.version>
+    <pmd.plugin.version>3.6</pmd.plugin.version><!-- Maven plug-in 3.6 uses PMD 5.3.5 -->
+    <resources.version>2.4.3</resources.version>
+    <tycho.version>0.23.1</tycho.version>
+  </properties>
+
+  <modules>
+    <module>../ddk-target</module>
+    <module>../com.avaloq.tools.ddk.xtext</module>
+    <module>../com.avaloq.tools.ddk.xtext.builder</module>
+    <module>../com.avaloq.tools.ddk.xtext.format</module>
+    <module>../com.avaloq.tools.ddk.xtext.format.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.format.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.ui</module>
+  </modules>
+
+  <distributionManagement>
+    <repository>
+      <id>${releaseRepoId}</id>
+      <name>${releaseRepoName}</name>
+      <url>${releaseRepoUrl}</url>
+    </repository>
+    <snapshotRepository>
+      <id>${snapshotRepoId}</id>
+      <name>${snapshotRepoName}</name>
+      <url>${snapshotRepoUrl}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${deploy.version}</version>
+        <configuration>
+          <deployAtEnd>true</deployAtEnd>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <target>
+            <artifact>
+              <groupId>com.avaloq.tools.ddk</groupId>
+              <artifactId>ddk-target</artifactId>
+              <version>${project.version}</version>
+              <classifier>${target.platform}</classifier>
+            </artifact>
+          </target>
+          <ignoreTychoRepositories>true</ignoreTychoRepositories>
+          <environments>
+            <environment>
+              <os>${osgi.os}</os>
+              <ws>${osgi.ws}</ws>
+              <arch>${osgi.arch}</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-compiler-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <showDeprecation>${compiler.showWarnings}</showDeprecation>
+          <showWarnings>${compiler.showWarnings}</showWarnings>
+          <source>1.8</source>
+          <target>1.8</target>
+          <!-- Disable 'Unsupported @SuppressWarnings' warnings More information
+            about the eclipse compiler warning configuration: http://www.jarvana.com/jarvana/view/org/eclipse/jdt/doc/isv/3.2.1-r321_v20060907/isv-3.2.1-r321_v20060907.jar!/guide/jdt_api_compile.htm -->
+          <compilerArgument>-warn:-warningToken,discouraged</compilerArgument>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <format>'v'yyyyMMdd-HHmm</format>
+          <archive>
+            <manifestEntries>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <skip>true</skip> <!-- activated only in/for com.avaloq.tools.ddk.xtext.test bundle -->
+          <testClass>${test.testClass}</testClass>
+          <failIfNoTests>false</failIfNoTests>
+          <useUIThread>false</useUIThread>
+          <useUIHarness>true</useUIHarness>
+          <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
+          <argLine>-Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
+          <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
+          <product>${runtime.product}</product>
+          <systemProperties>
+            <tychotest>true</tychotest>
+          </systemProperties>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-source-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <id>plugin-source</id>
+            <goals>
+              <goal>plugin-source</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifestEntries>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-source-feature-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-versions-plugin</artifactId>
+        <version>${tycho.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${pmd.plugin.version}</version>
+        <configuration>
+          <targetJdk>1.8</targetJdk>
+          <minimumTokens>100</minimumTokens>
+          <format>xml</format>
+          <failOnViolation>false</failOnViolation>
+          <linkXRef>false</linkXRef>
+          <rulesets>
+            <ruleset>${pmd.ruleset}</ruleset>
+          </rulesets>
+          <excludeRoots>
+            <excludeRoot>${basedir}/src-gen</excludeRoot>
+            <excludeRoot>${basedir}/src-model</excludeRoot>
+            <excludeRoot>${basedir}/xtend-gen</excludeRoot>
+          </excludeRoots>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>${checkstyle.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <skip>${checkstyle.skip}</skip>
+          <linkXRef>false</linkXRef>
+          <sourceDirectory>src</sourceDirectory>
+          <configLocation>${checkstyle.configLocation}</configLocation>
+          <propertyExpansion>config_loc=${workspace}/ddk-configuration/checkstyle</propertyExpansion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>${findbugs.plugin.version}</version>
+        <configuration>
+          <findbugsXmlOutput>true</findbugsXmlOutput>
+          <failOnError>false</failOnError>
+          <maxHeap>${findbugs.maxHeap}</maxHeap>
+          <maxRank>15</maxRank>
+          <threshold>Low</threshold>
+          <excludeFilterFile>${findbugs.excludeFilterFile}</excludeFilterFile>
+          <skip>${findbugs.skip}</skip>
+          <maxHeap>1024</maxHeap>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <activation>
+        <os>
+          <arch>amd64</arch>
+          <family>windows</family>
+        </os>
+      </activation>
+      <id>64bit_windows</id>
+      <properties>
+        <osgi.arch>x86_64</osgi.arch>
+      </properties>
+    </profile>
+    <profile>
+      <activation>
+        <os>
+          <name>sunos</name>
+          <family>unix</family>
+        </os>
+      </activation>
+      <id>solaris</id>
+      <properties>
+        <osgi.os>solaris</osgi.os>
+        <osgi.ws>gtk</osgi.ws>
+        <osgi.arch>x86</osgi.arch>
+      </properties>
+    </profile>
+    <profile>
+      <activation>
+        <os>
+          <name>linux</name>
+          <arch>amd64</arch>
+          <family>unix</family>
+        </os>
+      </activation>
+      <id>64bit_linux</id>
+      <properties>
+        <osgi.os>linux</osgi.os>
+        <osgi.ws>gtk</osgi.ws>
+        <osgi.arch>x86_64</osgi.arch>
+      </properties>
+    </profile>
+  </profiles>
+</project>

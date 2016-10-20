@@ -1,0 +1,42 @@
+<FindBugsFilter>
+  <Match>
+      <Bug code="OBL" />
+      <Class name="~.*Service.*" />
+  </Match>
+  <Match>
+      <Bug code="UwF, SIC, NP, EC" />
+      <Class name="~.*Test.*" />
+  </Match>
+  <Match>
+      <Bug code="UwF" />
+      <Class name="~.*Action.*" />
+  </Match>
+  <Match>
+      <Bug code="Nm" />
+      <Method name="propertyChange" />
+  </Match>
+  <Match>
+     <Bug code="UwF" />
+     <Class name="~.*Dialog.*" />
+  </Match>
+  <Match>
+     <Bug code="UwF" />
+     <Class name="~.*View.*" />
+  </Match>
+  <Match>
+     <Bug code="UwF" />
+     <Class name="~.*WizardPage.*" />
+  </Match>
+  <Match>
+     <Bug code="Nm,EC" />
+     <Class name="~.*\.generator\..*[Field|Type|Component]Util" />
+  </Match>
+  <Match>
+     <Bug code="SIO" />
+     <Class name="~.*\.generator\..*Generator" />
+  </Match>
+  <Match>
+     <Bug code="EC" />
+     <Class name="~.*\.impl\..*Impl" />
+  </Match>
+</FindBugsFilter>

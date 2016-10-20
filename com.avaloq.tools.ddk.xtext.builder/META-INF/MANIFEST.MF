@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.builder
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.builder;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Require-Bundle: org.eclipse.xtext.builder,
+ org.eclipse.xtext.ui,
+ com.avaloq.tools.ddk.xtext,
+ org.eclipse.xtext.common.types.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.avaloq.tools.ddk.xtext.builder,
+ com.avaloq.tools.ddk.xtext.builder.layered,
+ com.avaloq.tools.ddk.xtext.builder.resourceloader,
+ com.avaloq.tools.ddk.xtext.builder.tracing,
+ com.avaloq.tools.ddk.xtext.extensions
+Import-Package: org.apache.log4j

@@ -1,0 +1,32 @@
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d{HH:mm:ss.SSS} %-5level %logger{0} - %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Possible logging levels: trace,debug,info,warn,error  -->
+
+  <logger name="com.avaloq" level="info" />
+
+  <logger name="org.apache.commons.digester" level="warn" />
+
+  <logger name="org.eclipse.xtext" level="warn" />
+  <logger name="org.eclipse.swtbot" level="warn" />
+
+  <!-- matchers, this is very high amount of chatter -->
+  <logger name="org.eclipse.swtbot.swt.finder.matchers" level="warn" />
+
+  <!-- notification events, this is moderately high chatter -->
+  <logger name="org.eclipse.swtbot.swt.finder.widgets" level="warn" />
+
+  <!-- finders, this is moderate chatter -->
+  <logger name="org.eclipse.swtbot.swt.finder.finders" level="warn" />
+
+  <!-- set to a value higher than debug to turn on -->
+  <logger name="org.eclipse.swtbot.swt.finder.keyboard" level="warn" />
+
+  <root level="off">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>

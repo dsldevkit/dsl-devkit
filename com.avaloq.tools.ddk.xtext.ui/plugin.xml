@@ -1,0 +1,4 @@
+<?eclipse version="3.6"?>
+<plugin>
+   <extension-point id="valid" name="Valid Extensions" schema="schema/valid.exsd"/>
+</plugin>
