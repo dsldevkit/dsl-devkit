@@ -23,21 +23,21 @@
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
@@ -198,7 +198,7 @@
          <meta.section type="copyright"/>
       </appinfo>
       <documentation>
-         Avaloq License AG 2010
+         Avaloq Evolution AG
       </documentation>
    </annotation>
 

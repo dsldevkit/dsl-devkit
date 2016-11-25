@@ -22,13 +22,13 @@ import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 
-import com.avaloq.tools.ddk.xtext.linking.DdkLazyLinkingResource;
-import com.avaloq.tools.ddk.xtext.linking.DdkLazyURIEncoder;
+import com.avaloq.tools.ddk.xtext.linking.FastLazyURIEncoder;
+import com.avaloq.tools.ddk.xtext.linking.LazyLinkingResource2;
 import com.google.common.collect.Lists;
 
 
 /**
- * Fragment to properly include the DDK clustering builder support in generated languages.
+ * Fragment to properly include the DSL DevKit clustering builder support in generated languages.
  */
 @SuppressWarnings("nls")
 public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.builder.BuilderIntegrationFragment {
@@ -40,8 +40,8 @@ public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.buil
     final Set<Binding> bindings = super.getGuiceBindingsRt(grammar);
     final BindFactory factory = new BindFactory();
     factory.addTypeToType(IContainer.Manager.class.getName(), "com.avaloq.tools.ddk.xtext.builder.CachingStateBasedContainerManager");
-    factory.addTypeToType(LazyLinkingResource.class.getName(), DdkLazyLinkingResource.class.getName());
-    factory.addTypeToType(LazyURIEncoder.class.getName(), DdkLazyURIEncoder.class.getName());
+    factory.addTypeToType(LazyLinkingResource.class.getName(), LazyLinkingResource2.class.getName());
+    factory.addTypeToType(LazyURIEncoder.class.getName(), FastLazyURIEncoder.class.getName());
     final Set<Binding> result = factory.getBindings();
     result.addAll(bindings);
     return result;
@@ -66,7 +66,7 @@ public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.buil
     final BindFactory factory = new BindFactory();
     factory.addConfiguredBinding(IResourceDescriptions.class.getName() + "BuilderScope", "binder.bind(" + IResourceDescriptions.class.getName() + ".class"
         + ").annotatedWith(com.google.inject.name.Names.named(" + ResourceDescriptionsProvider.class.getName() + ".NAMED_BUILDER_SCOPE)).to("
-        + "com.avaloq.tools.ddk.xtext.builder.DdkCurrentDescriptions.ResourceSetAware.class)");
+        + "com.avaloq.tools.ddk.xtext.builder.CurrentDescriptions2.ResourceSetAware.class)");
     final Set<Binding> result = factory.getBindings();
     result.addAll(bindings);
     return result;

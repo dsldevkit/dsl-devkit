@@ -12,12 +12,10 @@ package com.avaloq.tools.ddk.xtext.format.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
-import org.eclipse.xtext.common.types.access.jdt.JdtTypeProviderFactory;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 
 import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.format.ui.hyperlinking.FormatHyperlinkHelper;
-import com.avaloq.tools.ddk.xtext.format.ui.typing.FormatJdtTypeProviderFactory;
 
 
 /**
@@ -44,15 +42,6 @@ public class FormatUiModule extends AbstractFormatUiModule {
   @Override
   public Class<? extends IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
     return FormatBuilderParticipant.class;
-  }
-
-  /**
-   * Binds a JDT type provider factory capable of creating custimized providers for format language, that are able to refer to model types from local project.
-   *
-   * @return the JDT type provider factory
-   */
-  public Class<? extends JdtTypeProviderFactory> bindJdtTypeProviderFactory() {
-    return FormatJdtTypeProviderFactory.class;
   }
 
 }

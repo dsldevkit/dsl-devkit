@@ -27,9 +27,9 @@ import com.google.common.collect.Sets;
 public class WrapEntry {
   private int linewraps = -1;
   private int indent = -1;
-  private final DdkLineEntry entry;
+  private final ExtendedLineEntry entry;
   private final IHiddenTokenHelper hiddenTokenHelper;
-  private final DdkLine line;
+  private final ExtendedLine line;
   private int minLinewrap;
   private int maxLinewrap;
 
@@ -43,7 +43,7 @@ public class WrapEntry {
    * @param entry
    *          the entry
    */
-  public WrapEntry(final IHiddenTokenHelper hiddenTokenHelper, final DdkLine line, final DdkLineEntry entry) {
+  public WrapEntry(final IHiddenTokenHelper hiddenTokenHelper, final ExtendedLine line, final ExtendedLineEntry entry) {
     this.entry = entry;
     this.hiddenTokenHelper = hiddenTokenHelper;
     this.line = line;

@@ -32,6 +32,8 @@ import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.diagnostics.Severity;
 import org.eclipse.xtext.generator.Generator;
+import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.ClasspathUriResolutionException;
 import org.eclipse.xtext.validation.Issue;
 
@@ -39,6 +41,7 @@ import com.avaloq.tools.ddk.xtext.format.FormatConstants;
 import com.avaloq.tools.ddk.xtext.format.FormatStandaloneSetup;
 import com.avaloq.tools.ddk.xtext.format.format.Constant;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
+import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
 import com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference;
 import com.avaloq.tools.ddk.xtext.format.format.GrammarRule;
 import com.avaloq.tools.ddk.xtext.format.format.MatcherType;
@@ -79,9 +82,32 @@ public final class FormatGeneratorUtil {
    *          xpand execution context (defines required SRC outlet)
    * @return the file URI to the default format file location
    */
-  public static URI getDefaultFormatLocation(final Grammar grammar, final XpandExecutionContext ctx) {
+  private static URI getDefaultFormatLocation(final Grammar grammar, final XpandExecutionContext ctx) {
     final String xmiPath = GrammarUtil.getClasspathRelativePathToXmi(grammar);
     return URI.createFileURI(new File(ctx.getOutput().getOutlet(Generator.SRC).getPath(), xmiPath).getAbsolutePath()).trimFileExtension().appendFileExtension(FormatConstants.FILE_EXTENSION);
+  }
+
+  /**
+   * Get the qualified class name of the formatter. The class name is prefixed with classNamePrefix.
+   *
+   * @param format
+   *          format model, must not be {@code null}
+   * @param classNamePrefix
+   *          the class prefix - may be null
+   * @return String fully qualified name of the formatter class
+   */
+  public static String getFormatterName(final FormatConfiguration format, final String classNamePrefix) {
+    String qualifiedName = null;
+    List<INode> nodes = NodeModelUtils.findNodesForFeature(format, FormatPackage.Literals.FORMAT_CONFIGURATION__TARGET_GRAMMAR);
+    if (nodes.isEmpty()) {
+      qualifiedName = format.getTargetGrammar().getName();
+    } else {
+      qualifiedName = nodes.get(0).getText().trim();
+    }
+    int lastDotIdx = qualifiedName.lastIndexOf('.');
+    return (lastDotIdx == -1 ? qualifiedName
+        : qualifiedName.substring(0, lastDotIdx) + ".formatting." + (classNamePrefix == null ? "" : classNamePrefix) + qualifiedName.substring(lastDotIdx + 1))
+        + "Formatter";
   }
 
   /**

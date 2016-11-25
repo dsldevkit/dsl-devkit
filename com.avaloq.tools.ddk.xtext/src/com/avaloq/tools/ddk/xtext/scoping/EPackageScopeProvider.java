@@ -8,7 +8,6 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-
 package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.util.Collection;
@@ -27,10 +26,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.xtext.AbstractMetamodelDeclaration;
 import org.eclipse.xtext.Grammar;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.resource.IResourceDescriptions;
+import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.scoping.impl.ScopeBasedSelectable;
 import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
@@ -53,24 +57,10 @@ public class EPackageScopeProvider {
 
   @Inject
   private IGlobalScopeProvider globalScopeProvider;
-
-  /**
-   * Helper method to build a EPackage scope.
-   *
-   * @param parent
-   *          parent scope
-   * @param packages
-   *          EPackages of this scope
-   * @return scope
-   */
-  private IScope buildScope(final IScope parent, final Iterable<EPackage> packages) {
-    return new SimpleScope(parent, Iterables.transform(Iterables.filter(packages, Predicates.notNull()), new Function<EPackage, IEObjectDescription>() {
-      @Override
-      public IEObjectDescription apply(final EPackage param) {
-        return EObjectDescription.create(param.getNsURI(), param);
-      }
-    }));
-  }
+  @Inject
+  private ResourceDescriptionsProvider descriptionsProvider;
+  @Inject
+  private IQualifiedNameConverter nameConverter;
 
   /**
    * Scope for {@link EPackage}. These are read from the registry as well as from the {@link Grammar Xtext grammar} corresponding
@@ -89,11 +79,21 @@ public class EPackageScopeProvider {
     IScope result = IScope.NULLSCOPE;
     // Add packages from the registry first.
     final Registry packageRegistry = EPackage.Registry.INSTANCE;
-    result = buildScope(result, Iterables.transform(Sets.newHashSet(packageRegistry.keySet()), new Function<String, EPackage>() {
+    result = new AbstractScope(result, false) {
       @Override
-      public EPackage apply(final String nsURI) {
+      protected IEObjectDescription getSingleLocalElementByName(final QualifiedName name) {
+        return getEPackage(nameConverter.toString(name));
+      }
+
+      @Override
+      protected Iterable<IEObjectDescription> getAllLocalElements() {
+        return Iterables.filter(Iterables.transform(Sets.newHashSet(packageRegistry.keySet()), this::getEPackage), Predicates.notNull());
+      }
+
+      private IEObjectDescription getEPackage(final String nsURI) {
         try {
-          return packageRegistry.getEPackage(nsURI);
+          EPackage ePackage = packageRegistry.getEPackage(nsURI);
+          return ePackage != null ? EObjectDescription.create(QualifiedName.create(nsURI), ePackage) : null;
           // CHECKSTYLE:OFF
         } catch (Exception e) {
           // CHECKSTYLE:ON
@@ -101,7 +101,12 @@ public class EPackageScopeProvider {
           return null;
         }
       }
-    }));
+    };
+    // Add the index
+    IResourceDescriptions descriptions = descriptionsProvider.getResourceDescriptions(context.eResource());
+    if (descriptions != null) {
+      result = SelectableBasedScope.createScope(result, descriptions, EcorePackage.Literals.EPACKAGE, false);
+    }
     // Add the global scope
     result = SelectableBasedScope.createScope(result, new ScopeBasedSelectable(globalScopeProvider.getScope(rsc, reference, null)), EcorePackage.Literals.EPACKAGE, false);
     // Now add all packages from the grammar
@@ -112,7 +117,13 @@ public class EPackageScopeProvider {
       final Resource grammarResource = resourceSet.getResource(grammarUri, true);
       if (grammarResource != null && !grammarResource.getContents().isEmpty()) {
         final Grammar grammar = (Grammar) grammarResource.getContents().get(0);
-        result = buildScope(result, getGrammarEPackages(grammar));
+        final IScope parent = result;
+        result = new SimpleScope(parent, Iterables.transform(Iterables.filter(getGrammarEPackages(grammar), Predicates.notNull()), new Function<EPackage, IEObjectDescription>() {
+          @Override
+          public IEObjectDescription apply(final EPackage param) {
+            return EObjectDescription.create(param.getNsURI(), param);
+          }
+        }));
       }
     }
 

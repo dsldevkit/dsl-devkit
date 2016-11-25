@@ -13,7 +13,7 @@ package com.avaloq.tools.ddk.xtext.formatting.locators.parameterized;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.AbstractElement;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IConditionalLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IParametrizedLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IndentationLocatorStartFacade;
@@ -32,14 +32,14 @@ public class ParameterizedConditionalIndentationStartLocator extends Indentation
   private final LocatorActivator<?> locatorActivator;
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ParameterizedConditionalIndentationStartLocator(final DdkFormattingConfig formattingConfig, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> locatorActivator) {
+  public ParameterizedConditionalIndentationStartLocator(final ExtendedFormattingConfig formattingConfig, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> locatorActivator) {
     super(formattingConfig);
     this.calculator = calculator;
     this.locatorActivator = locatorActivator;
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ParameterizedConditionalIndentationStartLocator(final DdkFormattingConfig formattingConfig, final AbstractElement ele, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> locatorActivator) {
+  public ParameterizedConditionalIndentationStartLocator(final ExtendedFormattingConfig formattingConfig, final AbstractElement ele, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> locatorActivator) {
     super(formattingConfig, ele);
     this.calculator = calculator;
     this.locatorActivator = locatorActivator;

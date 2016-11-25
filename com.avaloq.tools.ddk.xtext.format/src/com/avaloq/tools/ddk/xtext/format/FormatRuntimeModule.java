@@ -16,13 +16,14 @@ import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
-import org.eclipse.xtext.resource.generic.GenericResourceDescriptionManager;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 
 import com.avaloq.tools.ddk.xtext.format.conversion.FormatValueConverterService;
 import com.avaloq.tools.ddk.xtext.format.generator.FormatOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.format.naming.FormatQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.format.naming.FormatQualifiedNameProvider;
+import com.avaloq.tools.ddk.xtext.format.resource.FormatResource;
 import com.avaloq.tools.ddk.xtext.format.resource.FormatResourceDescriptionStrategy;
 import com.avaloq.tools.ddk.xtext.format.scoping.FormatLinkingService;
 import com.avaloq.tools.ddk.xtext.format.scoping.FormatScopeProvider;
@@ -35,6 +36,11 @@ import com.google.inject.name.Names;
  */
 @SuppressWarnings("PMD.AvoidDollarSigns")
 public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
+
+  @Override
+  public Class<? extends XtextResource> bindXtextResource() {
+    return FormatResource.class;
+  }
 
   /**
    * Binds a class loader required by the resource manager.
@@ -75,19 +81,6 @@ public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
   @Override
   public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
     return FixedPartialParsingHelper.class;
-  }
-
-  /**
-   * Workaround for the bug in the incremental build - missing resource set for the resources taken from the remaining URIs
-   * (isAffected method from org.eclipse.xtext.resource.impl.DefaultResourceDescriptionManager is not applicable for files with "format" extension).
-   *
-   * @return {@link GenericResourceDescriptionManager}
-   */
-  @Override
-  // CHECKSTYLE:OFF
-  public Class<? extends org.eclipse.xtext.resource.IResourceDescription.Manager> bindIResourceDescription$Manager() {
-    // CHECKSTYLE:ON
-    return GenericResourceDescriptionManager.class;
   }
 
   /** {@inheritDoc} */

@@ -11,9 +11,9 @@
 package com.avaloq.tools.ddk.xtext.formatting.locators;
 
 /**
- * Interface common to all line indentation locators that are customized and handled by the DDK formatting.
+ * Interface common to all line indentation locators that are customized and handled by the DSL DevKit formatting.
  */
-public interface IIndentationLocator extends IDdkLocator {
+public interface IIndentationLocator extends IExtendedLocator {
 
   /**
    * Sets the indentation of the locator.

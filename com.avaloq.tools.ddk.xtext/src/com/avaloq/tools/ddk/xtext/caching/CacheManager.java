@@ -150,7 +150,7 @@ public final class CacheManager {
   public <K, V> QualifiedNameLookup<V> createNameLookupCache(final String name, final Class<V> clazz, final boolean shareValues) {
     QualifiedNameLookup<V> cache = new QualifiedNameSegmentTreeLookup<V>(clazz, shareValues);
     synchronized (caches) {
-      caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+      caches.put(name, new WeakReference<ICache<?, ?>>((ICache<?, ?>) cache));
     }
     return cache;
   }

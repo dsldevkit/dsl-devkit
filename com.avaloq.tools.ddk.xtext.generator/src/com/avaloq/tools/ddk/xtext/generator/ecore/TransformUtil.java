@@ -185,9 +185,9 @@ public class TransformUtil {
   private static void loadImplicitMetamodels(final ResourceSet resourceSet) {
     // Are platform URIs correct here? What if this is deployed, and the workspace doesn't have these models? Anyway, isn't this ASMD-specific?
     try {
-      resourceSet.getResource(URI.createURI("platform:/resource/com.avaloq.tools.dsl.metamodel/src/com/avaloq/tools/dsl/common/AbstractTypeModel.ecore"), true);
-      resourceSet.getResource(URI.createURI("platform:/resource/com.avaloq.tools.dsl.metamodel/src/com/avaloq/tools/dsl/common/MetaModel.ecore"), true);
-      resourceSet.getResource(URI.createURI("platform:/resource/com.avaloq.tools.refactoring.core/src/com/avaloq/tools/refactoring/model/RefactoringTypeModel.ecore"), true);
+      resourceSet.getResource(URI.createURI("platform:/plugin/com.avaloq.tools.foundation.xtext.core/metamodel/com/avaloq/tools/dsl/common/AbstractTypeModel.ecore"), true);
+      resourceSet.getResource(URI.createURI("platform:/plugin/com.avaloq.tools.foundation.xtext.core/metamodel/com/avaloq/tools/dsl/common/MetaModel.ecore"), true);
+      resourceSet.getResource(URI.createURI("platform:/plugin/com.avaloq.tools.refactoring.core/model/RefactoringTypeModel.ecore"), true);
       // CHECKSTYLE:OFF Yes, we want to catch any exception here for now.
       // However, it seems to me this is a dependency on non-SDK stuff and must be removed. Use an extension point to register implicit metamodels?
     } catch (Exception ex) {

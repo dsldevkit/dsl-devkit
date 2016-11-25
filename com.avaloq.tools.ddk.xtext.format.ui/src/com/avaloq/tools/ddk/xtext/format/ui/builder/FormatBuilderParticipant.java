@@ -17,7 +17,7 @@ import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
-import com.avaloq.tools.ddk.xtext.builder.DdkBuilderParticipant;
+import com.avaloq.tools.ddk.xtext.builder.ConditionalBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.generator.FormatGenerator;
 import com.google.inject.Inject;
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 /**
  * A Builder Participant for the Format Language, that takes care of the plugin extension registry.
  */
-public class FormatBuilderParticipant extends DdkBuilderParticipant {
+public class FormatBuilderParticipant extends ConditionalBuilderParticipant {
 
   @Inject
   private IResourceServiceProvider resourceServiceProvider;

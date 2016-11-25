@@ -11,9 +11,9 @@
 package com.avaloq.tools.ddk.xtext.formatting.locators;
 
 /**
- * Interface common to all line wrapping locators which are handled by DDK formatting.
+ * Interface common to all line wrapping locators which are handled by DSL DevKit formatting.
  */
-public interface ILinewrapLocator extends IDdkLocator {
+public interface ILinewrapLocator extends IExtendedLocator {
 
   /**
    * Get the default number of lines to wrap - see {@link org.eclipse.xtext.formatting.impl.FormattingConfig.LinewrapLocator#getDefaultWrap()}.

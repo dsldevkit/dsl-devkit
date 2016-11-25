@@ -79,7 +79,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
 
   /**
    * Create a case sensitive scope with a given id.
-   *
+   * 
    * @param id
    *          The id.
    * @param parent
@@ -91,7 +91,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
 
   /**
    * Create a scope with specified case sensitivity and id.
-   *
+   * 
    * @param id
    *          The id.
    * @param parent
@@ -220,7 +220,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
 
   /**
    * For debugging.
-   *
+   * 
    * @return A string representation of the scope useful for debugging.
    */
   @SuppressWarnings("nls")

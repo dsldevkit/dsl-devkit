@@ -10,6 +10,34 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.jvmmodel
 
+import com.avaloq.tools.ddk.xtext.format.format.ColumnLocator
+import com.avaloq.tools.ddk.xtext.format.format.Constant
+import com.avaloq.tools.ddk.xtext.format.format.ContextFreeDirective
+import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration
+import com.avaloq.tools.ddk.xtext.format.format.GrammarElementLookup
+import com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference
+import com.avaloq.tools.ddk.xtext.format.format.GrammarRule
+import com.avaloq.tools.ddk.xtext.format.format.GroupBlock
+import com.avaloq.tools.ddk.xtext.format.format.IndentLocator
+import com.avaloq.tools.ddk.xtext.format.format.IntValue
+import com.avaloq.tools.ddk.xtext.format.format.KeywordPair
+import com.avaloq.tools.ddk.xtext.format.format.LinewrapLocator
+import com.avaloq.tools.ddk.xtext.format.format.Locator
+import com.avaloq.tools.ddk.xtext.format.format.Matcher
+import com.avaloq.tools.ddk.xtext.format.format.MatcherList
+import com.avaloq.tools.ddk.xtext.format.format.MatcherType
+import com.avaloq.tools.ddk.xtext.format.format.NoFormatLocator
+import com.avaloq.tools.ddk.xtext.format.format.OffsetLocator
+import com.avaloq.tools.ddk.xtext.format.format.RightPaddingLocator
+import com.avaloq.tools.ddk.xtext.format.format.Rule
+import com.avaloq.tools.ddk.xtext.format.format.SpaceLocator
+import com.avaloq.tools.ddk.xtext.format.format.SpecificDirective
+import com.avaloq.tools.ddk.xtext.format.format.StringValue
+import com.avaloq.tools.ddk.xtext.format.format.WildcardRule
+import com.avaloq.tools.ddk.xtext.formatting.AbstractExtendedFormatter
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig
+import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator
+import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator
 import com.google.common.collect.Iterables
 import com.google.inject.Inject
 import java.util.List
@@ -38,42 +66,12 @@ import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
-import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor.IPostIndexingInitializing
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 
 import static com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.*
 import static org.eclipse.xtext.GrammarUtil.*
 
 import static extension com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
-import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration
-import com.avaloq.tools.ddk.xtext.format.format.Rule
-import com.avaloq.tools.ddk.xtext.format.format.Matcher
-import com.avaloq.tools.ddk.xtext.format.format.GrammarRule
-import com.avaloq.tools.ddk.xtext.format.format.WildcardRule
-import com.avaloq.tools.ddk.xtext.format.format.IndentLocator
-import com.avaloq.tools.ddk.xtext.format.format.ColumnLocator
-import com.avaloq.tools.ddk.xtext.format.format.Constant
-import com.avaloq.tools.ddk.xtext.format.format.MatcherList
-import com.avaloq.tools.ddk.xtext.format.format.OffsetLocator
-import com.avaloq.tools.ddk.xtext.format.format.GrammarElementLookup
-import com.avaloq.tools.ddk.xtext.format.format.StringValue
-import com.avaloq.tools.ddk.xtext.format.format.IntValue
-import com.avaloq.tools.ddk.xtext.format.format.NoFormatLocator
-import com.avaloq.tools.ddk.xtext.format.format.Locator
-import com.avaloq.tools.ddk.xtext.format.format.LinewrapLocator
-import com.avaloq.tools.ddk.xtext.format.format.SpaceLocator
-import com.avaloq.tools.ddk.xtext.format.format.RightPaddingLocator
-import com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference
-import com.avaloq.tools.ddk.xtext.format.format.KeywordPair
-import com.avaloq.tools.ddk.xtext.format.format.SpecificDirective
-import com.avaloq.tools.ddk.xtext.format.format.ContextFreeDirective
-import com.avaloq.tools.ddk.xtext.format.format.GroupBlock
-import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator
-import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator
-import com.avaloq.tools.ddk.xtext.format.format.MatcherType
-import org.eclipse.xtext.xtext.RuleNames
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig
-import com.avaloq.tools.ddk.xtext.formatting.AbstractDdkFormatter
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -89,8 +87,8 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   @Inject TypesFactory typesFactory;
   @Inject XbaseCompiler xbaseCompiler;
 
-  private static final String BASE_FORMATTER_CLASS_NAME = AbstractDdkFormatter.name
-  private static final String BASE_FORMAT_CONFIG = DdkFormattingConfig.name
+  private static final String BASE_FORMATTER_CLASS_NAME = AbstractExtendedFormatter.name
+  private static final String BASE_FORMAT_CONFIG = ExtendedFormattingConfig.name
 
   private static final String METHOD_ACTIVATE= 'activate'
   private static final String METHOD_CALCULATE= 'calculateParameter'
@@ -110,29 +108,25 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
    *      the model to create one or more {@link JvmDeclaredType declared types} from.
    * @param acceptor
    *      each created {@link JvmDeclaredType type} without a container should be passed to the acceptor in order
-   *      get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(org.eclipse.xtext.common.types.JvmDeclaredType)
-   *      accept(..)} method takes the constructed empty type for the pre-indexing phase. This one is further initialized in the
-   *      indexing phase using the closure you pass to the returned
-   *      {@link IPostIndexingInitializing#initializeLater(org.eclipse.xtext.xbase.lib.Procedures.Procedure1) initializeLater(..)}.
+   *      get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(JvmDeclaredType,
+   *      org.eclipse.xtext.xbase.lib.Procedures.Procedure1)} method takes the constructed empty type for the
+   *      pre-indexing phase. This one is further initialized in the indexing phase using the passed closure.
    * @param isPreIndexingPhase
    *      whether the method is called in a pre-indexing phase, i.e. when the global index is not yet fully updated. You must not
    *      rely on linking using the index if isPreIndexingPhase is {@code true}.
    */
   def dispatch void infer(FormatConfiguration format, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-    RuleNames.ensureAdapterInstalled(format.targetGrammar)
-    if(!format.targetGrammar.eIsProxy) {
-      acceptor.accept(
-        format.toClass(getFormatterName(format.targetGrammar, "Abstract").toSimpleName), [
-          inferClass(format, it)
-          inferConstants(format, it)
-          inferGetGrammarAccess(format, it)
-          inferConfigureDdkFormatting(format, it)
-          inferInit(format, it)
-          inferRules(format, it)
-          inferLocatorActivators(format, it)
-        ]
-      )
-    }
+    acceptor.accept(
+      format.toClass(getFormatterName(format, "Abstract").toSimpleName), [
+        inferClass(format, it)
+        inferConstants(format, it)
+        inferGetGrammarAccess(format, it)
+        inferConfigureAcsFormatting(format, it)
+        inferInit(format, it)
+        inferRules(format, it)
+        inferLocatorActivators(format, it)
+      ]
+    )
   }
 
   def inferClass(FormatConfiguration format, JvmGenericType it) {
@@ -142,7 +136,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else {
       superTypes += typeRef(BASE_FORMATTER_CLASS_NAME)
     }
-    packageName = getFormatterName(format.targetGrammar, "").toPackageName
+    packageName = getFormatterName(format, "").toPackageName
     abstract = true
   }
 
@@ -163,8 +157,8 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     ]
   }
 
-  def inferConfigureDdkFormatting(FormatConfiguration format, JvmGenericType it) {
-    members += format.toMethod('configureDdkFormatting', typeRef('void')) [
+  def inferConfigureAcsFormatting(FormatConfiguration format, JvmGenericType it) {
+    members += format.toMethod('configureAcsFormatting', typeRef('void')) [
       visibility = JvmVisibility::PROTECTED
       val JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format)
       if(overrideAnnotation != null) {
@@ -384,14 +378,15 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   // getGrammarElementNameFromSelf dispatch
   def dispatch String getGrammarElementNameFromSelf(GrammarRule rule) {
     var ruleName = rule.getRuleName
-    if (ruleName != rule.targetRule?.type?.classifier?.name) {
+    if (rule.targetRule === null || rule.targetRule.type === null || rule.targetRule.type.classifier === null) {
+      return ruleName
+    } else if (ruleName != rule.targetRule?.type?.classifier?.name) {
       ruleName = rule.targetRule.type.classifier.name
     }
     var metamodel = rule.targetRule?.type?.metamodel
-    if(metamodel == null) {
+    if (metamodel == null) {
       return ruleName
-    }
-    else if(metamodel.alias == null) {
+    } else if (metamodel.alias == null) {
       return EcoreUtil2::getContainerOfType(metamodel, typeof(Grammar))?.name?.toLowerCase + '.' + ruleName
     } else {
       return 'com.avaloq.tools.dsl.' + metamodel.alias + '.' + metamodel.alias + '.' + ruleName
@@ -703,7 +698,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   def dispatch locator(Matcher matcher, IndentLocator indentLocator, String partialName) '''
     «IF indentLocator.increment»setIndentationIncrement(«ELSE»setIndentationDecrement(«
     ENDIF»«
-    IF indentLocator.value != null && (indentLocator.value.reference != null || indentLocator.value.literal > 1)»«indentLocator.value.getValueOrConstant»«
+    IF indentLocator.value != null && (indentLocator.value.reference != null || indentLocator.value.literal >= 1)»«indentLocator.value.getValueOrConstant»«
     ELSEIF indentLocator.parameter != null»new «getParameterCalculatorName(partialName, matcher)»()«
     ENDIF»«
     IF matcher.condition != null»«IF indentLocator.value != null || indentLocator.parameter != null»,«ENDIF» new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''

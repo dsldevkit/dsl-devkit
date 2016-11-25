@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
-encoding//src/com/avaloq/tools/ddk/xtext/format/generator/FormatFragment.xpt=UTF-8
-encoding//src/com/avaloq/tools/ddk/xtext/generator/languageconstants/LanguageConstants.xpt=UTF-8
+encoding//src/com/avaloq/tools/ddk/xtext/format/generator/FormatFragment.xpt=ISO-8859-1
+encoding//src/com/avaloq/tools/ddk/xtext/generator/builder/StandaloneBuilderIntegrationFragment.xpt=ISO-8859-1
+encoding//src/com/avaloq/tools/ddk/xtext/generator/languageconstants/LanguageConstants.xpt=ISO-8859-1
+encoding//src/com/avaloq/tools/ddk/xtext/generator/languageconstants/LanguageConstantsFragment.xpt=ISO-8859-1
+encoding//src/com/avaloq/tools/ddk/xtext/generator/ui/compare/CompareFragment.xpt=ISO-8859-1
 encoding/<project>=UTF-8

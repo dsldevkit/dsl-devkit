@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.modelcache;
 
-import com.avaloq.tools.ddk.xtext.linking.IDdkLazyLinkingResource;
+import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.google.inject.Inject;
 
 
@@ -29,7 +29,7 @@ public class ModelCacheManagerFactory {
    *          the resource to be managed, must not be {@code null}
    * @return the specific {@link IModelCacheManager} implementation, never {@code null}
    */
-  public IModelCacheManager createModelCacheManager(final IDdkLazyLinkingResource resource) {
+  public IModelCacheManager createModelCacheManager(final ILazyLinkingResource2 resource) {
     if (modelCache != null) {
       return new BinaryModelCacheManager(modelCache, resource);
     }

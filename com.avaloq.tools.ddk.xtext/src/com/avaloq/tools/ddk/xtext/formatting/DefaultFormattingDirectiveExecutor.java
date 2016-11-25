@@ -30,7 +30,7 @@ public class DefaultFormattingDirectiveExecutor implements IFormattingDirectiveE
    * {@inheritDoc}
    */
   @Override
-  public void execute(final String commentText, final DdkFormattingConfigBasedStream stream) {
+  public void execute(final String commentText, final ExtendedFormattingConfigBasedStream stream) {
     FORMAT_MATCHER.reset(commentText);
     String formatCommand = null;
     while (FORMAT_MATCHER.find()) {

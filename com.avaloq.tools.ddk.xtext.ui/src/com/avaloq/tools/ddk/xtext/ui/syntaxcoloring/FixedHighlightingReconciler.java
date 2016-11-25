@@ -218,7 +218,9 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
     this.editor = editor;
     this.sourceViewer = sourceViewer;
     if (calculator != null) {
-      if (editor.getDocument() != null) {
+      if (editor == null) {
+        ((IXtextDocument) sourceViewer.getDocument()).addModelListener(this);
+      } else if (editor.getDocument() != null) {
         editor.getDocument().addModelListener(this);
       }
 
@@ -279,12 +281,20 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
   @Override
   public void refresh() {
     if (calculator != null) {
-      editor.getDocument().readOnly(new IUnitOfWork.Void<XtextResource>() {
-        @Override
-        public void process(final XtextResource state) throws Exception {
-          modelChanged(state);
-        }
-      });
+      IDocument document;
+      if (editor != null) {
+        document = editor.getDocument();
+      } else {
+        document = sourceViewer.getDocument();
+      }
+      if (document instanceof IXtextDocument) {
+        ((IXtextDocument) document).readOnly(new IUnitOfWork.Void<XtextResource>() {
+          @Override
+          public void process(final XtextResource state) throws Exception {
+            modelChanged(state);
+          }
+        });
+      }
     } else {
       Display display = getDisplay();
       display.asyncExec(presenter.createSimpleUpdateRunnable());

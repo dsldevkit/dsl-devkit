@@ -24,7 +24,7 @@ import org.eclipse.xtext.nodemodel.impl.CompositeNodeWithSemanticElement;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.nodemodel.util.NodeTreeIterator;
 
-import com.avaloq.tools.ddk.xtext.linking.IDdkLazyLinkingResource;
+import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 
 
 /**
@@ -76,8 +76,8 @@ public class LazyLoadingCompositeNode extends CompositeNodeWithSemanticElement {
     if (delegateNode == null) {
       EObject proxiedObject = basicGetSemanticElement();
       Resource resource = proxiedObject.eResource();
-      if (resource instanceof IDdkLazyLinkingResource) {
-        IDdkLazyLinkingResource lazyLinkingResource = (IDdkLazyLinkingResource) resource;
+      if (resource instanceof ILazyLinkingResource2) {
+        ILazyLinkingResource2 lazyLinkingResource = (ILazyLinkingResource2) resource;
         lazyLinkingResource.getModelManager().loadBinaryModels(ResourceModelType.NODE);
         ICompositeNode compositeNode = NodeModelUtils.getNode(proxiedObject);
         if (compositeNode instanceof CompositeNodeWithSemanticElement) {

@@ -25,8 +25,9 @@ import org.eclipse.xtext.generator.BindFactory;
 import org.eclipse.xtext.generator.Binding;
 
 import com.avaloq.tools.ddk.xtext.format.FormatStandaloneSetup;
-import com.avaloq.tools.ddk.xtext.formatting.AbstractDdkFormatter;
-import com.avaloq.tools.ddk.xtext.formatting.DdkNodeModelStreamer;
+import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
+import com.avaloq.tools.ddk.xtext.formatting.AbstractExtendedFormatter;
+import com.avaloq.tools.ddk.xtext.formatting.DirectNodeModelStreamer;
 import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter;
 import com.google.common.collect.Lists;
 
@@ -43,9 +44,9 @@ public class FormatFragment extends AbstractGeneratorFragment {
   private static final Logger LOGGER = Logger.getLogger(FormatFragment.class);
 
   /** The model for the format resource. */
-  private Object model;
+  private FormatConfiguration model;
 
-  private String baseFormatterClassName = AbstractDdkFormatter.class.getName();
+  private String baseFormatterClassName = AbstractExtendedFormatter.class.getName();
 
   /**
    * Set the super type / base class of the formatter.
@@ -84,7 +85,7 @@ public class FormatFragment extends AbstractGeneratorFragment {
     final BindFactory bindFactory = new BindFactory();
     bindFactory.addTypeToType(IFormatter.class.getName(), FormatGeneratorUtil.getFormatterName(grammar, ""));
     bindFactory.addTypeToType(INodeModelFormatter.class.getName(), RegionNodeModelFormatter.class.getName());
-    bindFactory.addTypeToType(INodeModelStreamer.class.getName(), DdkNodeModelStreamer.class.getName());
+    bindFactory.addTypeToType(INodeModelStreamer.class.getName(), DirectNodeModelStreamer.class.getName());
     return bindFactory.getBindings();
   }
 

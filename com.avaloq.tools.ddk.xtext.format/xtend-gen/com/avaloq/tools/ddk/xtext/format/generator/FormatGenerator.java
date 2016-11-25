@@ -130,8 +130,7 @@ public class FormatGenerator extends JvmModelGenerator {
     Iterable<EObject> _iterable = IteratorExtensions.<EObject>toIterable(_allContents);
     Iterable<FormatConfiguration> _filter = Iterables.<FormatConfiguration>filter(_iterable, FormatConfiguration.class);
     for (final FormatConfiguration model : _filter) {
-      Grammar _targetGrammar = model.getTargetGrammar();
-      String _formatterName = FormatGeneratorUtil.getFormatterName(_targetGrammar, "");
+      String _formatterName = FormatGeneratorUtil.getFormatterName(model, "");
       String _asPath = this.naming.asPath(_formatterName);
       String _plus = (_asPath + ".java");
       CharSequence _generateSrc = this.generateSrc(model);
@@ -142,8 +141,7 @@ public class FormatGenerator extends JvmModelGenerator {
   public CharSequence generateSrc(final FormatConfiguration model) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("package ");
-    Grammar _targetGrammar = model.getTargetGrammar();
-    String _formatterName = FormatGeneratorUtil.getFormatterName(_targetGrammar, "");
+    String _formatterName = FormatGeneratorUtil.getFormatterName(model, "");
     String _packageName = this.naming.toPackageName(_formatterName);
     _builder.append(_packageName, "");
     _builder.append(";");
@@ -153,8 +151,8 @@ public class FormatGenerator extends JvmModelGenerator {
     _builder.newLine();
     _builder.append(" ");
     _builder.append("* The formatting configuration for ");
-    Grammar _targetGrammar_1 = model.getTargetGrammar();
-    String _name = _targetGrammar_1.getName();
+    Grammar _targetGrammar = model.getTargetGrammar();
+    String _name = _targetGrammar.getName();
     String _simpleName = this.naming.toSimpleName(_name);
     _builder.append(_simpleName, " ");
     _builder.append(".");
@@ -163,13 +161,11 @@ public class FormatGenerator extends JvmModelGenerator {
     _builder.append("*/");
     _builder.newLine();
     _builder.append("public class ");
-    Grammar _targetGrammar_2 = model.getTargetGrammar();
-    String _formatterName_1 = FormatGeneratorUtil.getFormatterName(_targetGrammar_2, "");
+    String _formatterName_1 = FormatGeneratorUtil.getFormatterName(model, "");
     String _simpleName_1 = this.naming.toSimpleName(_formatterName_1);
     _builder.append(_simpleName_1, "");
     _builder.append(" extends ");
-    Grammar _targetGrammar_3 = model.getTargetGrammar();
-    String _formatterName_2 = FormatGeneratorUtil.getFormatterName(_targetGrammar_3, "Abstract");
+    String _formatterName_2 = FormatGeneratorUtil.getFormatterName(model, "Abstract");
     String _simpleName_2 = this.naming.toSimpleName(_formatterName_2);
     _builder.append(_simpleName_2, "");
     _builder.append(" {");

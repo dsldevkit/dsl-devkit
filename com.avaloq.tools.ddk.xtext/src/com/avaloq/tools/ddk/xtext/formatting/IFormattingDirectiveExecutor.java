@@ -27,6 +27,6 @@ public interface IFormattingDirectiveExecutor {
    * @param stream
    *          formatting stream, must not be {@code null}
    */
-  void execute(String commentText, DdkFormattingConfigBasedStream stream);
+  void execute(String commentText, ExtendedFormattingConfigBasedStream stream);
 
 }

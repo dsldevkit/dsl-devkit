@@ -40,7 +40,7 @@ public class ResourceDescriptions2 implements IResourceDescriptions2 {
 
   public ResourceDescriptions2(final ResourceDescriptionsData data) {
     if (data instanceof IResourceDescriptions) {
-      delegate = data;
+      delegate = (IResourceDescriptions) data;
     } else {
       delegate = new IResourceDescriptions() {
 

@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 import org.eclipse.xtext.formatting.impl.AbstractFormattingConfig.ElementLocator;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkLine;
-import com.avaloq.tools.ddk.xtext.formatting.DdkLineEntry;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLine;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;
 import com.avaloq.tools.ddk.xtext.formatting.SpaceEntry;
 
 
@@ -32,7 +32,7 @@ public class RightPaddingLocator extends ElementLocator implements ISpaceLocator
    *
    * @param length
    *          the minimum amount of space allocated for an entry
-   * @see {@link #getPadding(DdkLineEntry)}
+   * @see {@link #getPadding(ExtendedLineEntry)}
    */
   public RightPaddingLocator(final FormattingConfig formattingConfig, final int length) { // NOPMD CallSuperInConstructor - false positive by PMD
     formattingConfig.super();
@@ -50,7 +50,7 @@ public class RightPaddingLocator extends ElementLocator implements ISpaceLocator
    * @return the padding required
    */
   @Override
-  public String computeSpace(final DdkLine line, final DdkLineEntry entry) {
+  public String computeSpace(final ExtendedLine line, final ExtendedLineEntry entry) {
     final int entryLength = entry == null ? 0 : line.getPrecedingLineEntry(entry).getValue().length();
     return SpaceEntry.createPadding(Math.max(length - entryLength, 1));
   }

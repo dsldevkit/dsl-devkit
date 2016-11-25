@@ -37,8 +37,8 @@ import com.avaloq.tools.ddk.xtext.format.format.StringValue;
 import com.avaloq.tools.ddk.xtext.format.format.WildcardRule;
 import com.avaloq.tools.ddk.xtext.format.format.WildcardRuleDirective;
 import com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil;
-import com.avaloq.tools.ddk.xtext.formatting.AbstractDdkFormatter;
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.AbstractExtendedFormatter;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator;
 import com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil;
@@ -92,7 +92,6 @@ import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor.IPostIndexingInitializing;
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
@@ -104,7 +103,6 @@ import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
-import org.eclipse.xtext.xtext.RuleNames;
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -136,9 +134,9 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   @Inject
   private XbaseCompiler xbaseCompiler;
   
-  private final static String BASE_FORMATTER_CLASS_NAME = AbstractDdkFormatter.class.getName();
+  private final static String BASE_FORMATTER_CLASS_NAME = AbstractExtendedFormatter.class.getName();
   
-  private final static String BASE_FORMAT_CONFIG = DdkFormattingConfig.class.getName();
+  private final static String BASE_FORMAT_CONFIG = ExtendedFormattingConfig.class.getName();
   
   private final static String METHOD_ACTIVATE = "activate";
   
@@ -164,36 +162,27 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
    *      the model to create one or more {@link JvmDeclaredType declared types} from.
    * @param acceptor
    *      each created {@link JvmDeclaredType type} without a container should be passed to the acceptor in order
-   *      get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(org.eclipse.xtext.common.types.JvmDeclaredType)
-   *      accept(..)} method takes the constructed empty type for the pre-indexing phase. This one is further initialized in the
-   *      indexing phase using the closure you pass to the returned
-   *      {@link IPostIndexingInitializing#initializeLater(org.eclipse.xtext.xbase.lib.Procedures.Procedure1) initializeLater(..)}.
+   *      get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(JvmDeclaredType,
+   *      org.eclipse.xtext.xbase.lib.Procedures.Procedure1)} method takes the constructed empty type for the
+   *      pre-indexing phase. This one is further initialized in the indexing phase using the passed closure.
    * @param isPreIndexingPhase
    *      whether the method is called in a pre-indexing phase, i.e. when the global index is not yet fully updated. You must not
    *      rely on linking using the index if isPreIndexingPhase is {@code true}.
    */
   protected void _infer(final FormatConfiguration format, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
-    Grammar _targetGrammar = format.getTargetGrammar();
-    RuleNames.ensureAdapterInstalled(_targetGrammar);
-    Grammar _targetGrammar_1 = format.getTargetGrammar();
-    boolean _eIsProxy = _targetGrammar_1.eIsProxy();
-    boolean _not = (!_eIsProxy);
-    if (_not) {
-      Grammar _targetGrammar_2 = format.getTargetGrammar();
-      String _formatterName = FormatGeneratorUtil.getFormatterName(_targetGrammar_2, "Abstract");
-      String _simpleName = this.naming.toSimpleName(_formatterName);
-      JvmGenericType _class = this._jvmTypesBuilder.toClass(format, _simpleName);
-      final Procedure1<JvmGenericType> _function = (JvmGenericType it) -> {
-        this.inferClass(format, it);
-        this.inferConstants(format, it);
-        this.inferGetGrammarAccess(format, it);
-        this.inferConfigureDdkFormatting(format, it);
-        this.inferInit(format, it);
-        this.inferRules(format, it);
-        this.inferLocatorActivators(format, it);
-      };
-      acceptor.<JvmGenericType>accept(_class, _function);
-    }
+    String _formatterName = FormatGeneratorUtil.getFormatterName(format, "Abstract");
+    String _simpleName = this.naming.toSimpleName(_formatterName);
+    JvmGenericType _class = this._jvmTypesBuilder.toClass(format, _simpleName);
+    final Procedure1<JvmGenericType> _function = (JvmGenericType it) -> {
+      this.inferClass(format, it);
+      this.inferConstants(format, it);
+      this.inferGetGrammarAccess(format, it);
+      this.inferConfigureAcsFormatting(format, it);
+      this.inferInit(format, it);
+      this.inferRules(format, it);
+      this.inferLocatorActivators(format, it);
+    };
+    acceptor.<JvmGenericType>accept(_class, _function);
   }
   
   public void inferClass(final FormatConfiguration format, final JvmGenericType it) {
@@ -250,8 +239,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       JvmTypeReference _typeRef_1 = this._typeReferenceBuilder.typeRef(FormatJvmModelInferrer.BASE_FORMATTER_CLASS_NAME);
       this._jvmTypesBuilder.<JvmTypeReference>operator_add(_superTypes_1, _typeRef_1);
     }
-    Grammar _targetGrammar_3 = format.getTargetGrammar();
-    String _formatterName = FormatGeneratorUtil.getFormatterName(_targetGrammar_3, "");
+    String _formatterName = FormatGeneratorUtil.getFormatterName(format, "");
     String _packageName_2 = this.naming.toPackageName(_formatterName);
     it.setPackageName(_packageName_2);
     it.setAbstract(true);
@@ -303,7 +291,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     return this._jvmTypesBuilder.<JvmOperation>operator_add(_members, _method);
   }
   
-  public boolean inferConfigureDdkFormatting(final FormatConfiguration format, final JvmGenericType it) {
+  public boolean inferConfigureAcsFormatting(final FormatConfiguration format, final JvmGenericType it) {
     EList<JvmMember> _members = it.getMembers();
     JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef("void");
     final Procedure1<JvmOperation> _function = (JvmOperation it_1) -> {
@@ -325,7 +313,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       };
       this._jvmTypesBuilder.setBody(it_1, _function_1);
     };
-    JvmOperation _method = this._jvmTypesBuilder.toMethod(format, "configureDdkFormatting", _typeRef, _function);
+    JvmOperation _method = this._jvmTypesBuilder.toMethod(format, "configureAcsFormatting", _typeRef, _function);
     return this._jvmTypesBuilder.<JvmOperation>operator_add(_members, _method);
   }
   
@@ -834,26 +822,30 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   
   protected String _getGrammarElementNameFromSelf(final GrammarRule rule) {
     String ruleName = this.getRuleName(rule);
-    AbstractRule _targetRule = rule.getTargetRule();
-    TypeRef _type = null;
-    if (_targetRule!=null) {
-      _type=_targetRule.getType();
-    }
-    EClassifier _classifier = null;
-    if (_type!=null) {
-      _classifier=_type.getClassifier();
-    }
-    String _name = null;
-    if (_classifier!=null) {
-      _name=_classifier.getName();
-    }
-    boolean _notEquals = (!Objects.equal(ruleName, _name));
-    if (_notEquals) {
-      AbstractRule _targetRule_1 = rule.getTargetRule();
-      TypeRef _type_1 = _targetRule_1.getType();
-      EClassifier _classifier_1 = _type_1.getClassifier();
-      String _name_1 = _classifier_1.getName();
-      ruleName = _name_1;
+    if ((((rule.getTargetRule() == null) || (rule.getTargetRule().getType() == null)) || (rule.getTargetRule().getType().getClassifier() == null))) {
+      return ruleName;
+    } else {
+      AbstractRule _targetRule = rule.getTargetRule();
+      TypeRef _type = null;
+      if (_targetRule!=null) {
+        _type=_targetRule.getType();
+      }
+      EClassifier _classifier = null;
+      if (_type!=null) {
+        _classifier=_type.getClassifier();
+      }
+      String _name = null;
+      if (_classifier!=null) {
+        _name=_classifier.getName();
+      }
+      boolean _notEquals = (!Objects.equal(ruleName, _name));
+      if (_notEquals) {
+        AbstractRule _targetRule_1 = rule.getTargetRule();
+        TypeRef _type_1 = _targetRule_1.getType();
+        EClassifier _classifier_1 = _type_1.getClassifier();
+        String _name_1 = _classifier_1.getName();
+        ruleName = _name_1;
+      }
     }
     AbstractRule _targetRule_2 = rule.getTargetRule();
     TypeRef _type_2 = null;
@@ -2379,7 +2371,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       }
     }
     {
-      if (((!Objects.equal(indentLocator.getValue(), null)) && ((!Objects.equal(indentLocator.getValue().getReference(), null)) || ((indentLocator.getValue().getLiteral()).intValue() > 1)))) {
+      if (((!Objects.equal(indentLocator.getValue(), null)) && ((!Objects.equal(indentLocator.getValue().getReference(), null)) || ((indentLocator.getValue().getLiteral()).intValue() >= 1)))) {
         IntValue _value = indentLocator.getValue();
         String _valueOrConstant = this.getValueOrConstant(_value);
         _builder.append(_valueOrConstant, "");

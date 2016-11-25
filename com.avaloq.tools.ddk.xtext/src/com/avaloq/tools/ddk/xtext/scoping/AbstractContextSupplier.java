@@ -31,7 +31,7 @@ public abstract class AbstractContextSupplier implements IContextSupplier {
    *          an Iterable
    * @return The Iterable passed as a parameter
    */
-  public Iterable<? extends EObject> makeIterable(final Iterable<? extends EObject> elements) {
+  protected Iterable<? extends EObject> makeIterable(final Iterable<? extends EObject> elements) {
     return EObjectUtil.filterProxies(elements);
   }
 
@@ -42,7 +42,7 @@ public abstract class AbstractContextSupplier implements IContextSupplier {
    *          The object
    * @return An iterable containing exactly the object.
    */
-  public Iterable<? extends EObject> makeIterable(final EObject element) {
+  protected Iterable<? extends EObject> makeIterable(final EObject element) {
     if (element == null || element.eIsProxy()) {
       return Collections.emptyList();
     }

@@ -10,13 +10,13 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder.tracing;
 
-import com.avaloq.tools.ddk.xtext.tracing.TraceEvent;
+import com.avaloq.tools.ddk.xtext.tracing.ResourceEvent;
 
 
 /**
- * The event that represents start\end of resource processing of during a build.
+ * The event that represents start/end of resource processing of during a build.
  */
-public class ResourceProcessingEvent extends TraceEvent {
+public class ResourceProcessingEvent extends ResourceEvent {
 
   /**
    * Creates a new instance of {@link ResourcePostProcessingEvent}.

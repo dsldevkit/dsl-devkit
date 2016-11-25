@@ -24,9 +24,9 @@ import com.google.common.collect.Iterables;
  */
 public class SpaceEntry {
   private String value;
-  private final DdkLineEntry entry;
+  private final ExtendedLineEntry entry;
   private final IHiddenTokenHelper hiddenTokenHelper;
-  private final DdkLine line;
+  private final ExtendedLine line;
   private AbstractRule grammarRule;
 
   /**
@@ -39,7 +39,7 @@ public class SpaceEntry {
    * @param entry
    *          the entry
    */
-  public SpaceEntry(final IHiddenTokenHelper hiddenTokenHelper, final DdkLine line, final DdkLineEntry entry) {
+  public SpaceEntry(final IHiddenTokenHelper hiddenTokenHelper, final ExtendedLine line, final ExtendedLineEntry entry) {
     this.entry = entry;
     this.hiddenTokenHelper = hiddenTokenHelper;
     this.line = line;

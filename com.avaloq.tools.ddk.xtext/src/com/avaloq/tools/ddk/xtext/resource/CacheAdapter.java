@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.resource;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
-import com.avaloq.tools.ddk.xtext.caching.CacheManager;
-import com.avaloq.tools.ddk.xtext.caching.MapCache;
+import com.avaloq.tools.ddk.caching.CacheManager;
+import com.avaloq.tools.ddk.caching.MapCache;
 
 
 /**

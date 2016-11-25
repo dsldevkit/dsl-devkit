@@ -17,7 +17,7 @@ import org.eclipse.osgi.util.NLS;
  * Internationalization: messages.
  */
 public final class Messages extends NLS {
-  private static final String BUNDLE_NAME = "com.avaloq.tools.ddk.xtext.ui"; //$NON-NLS-1$
+  private static final String BUNDLE_NAME = "om.avaloq.tools.ddk.xtext.ui"; //$NON-NLS-1$
   // CHECKSTYLE:OFF
   public static String AbstractAcfLabelProvider_NULL;
   public static String AbstractAcfLabelProvider_NAME_FALLBACK;
@@ -32,3 +32,4 @@ public final class Messages extends NLS {
     super();
   }
 }
+

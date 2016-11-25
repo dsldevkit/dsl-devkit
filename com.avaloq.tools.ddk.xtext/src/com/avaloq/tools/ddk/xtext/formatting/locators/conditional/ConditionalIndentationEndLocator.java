@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.formatting.locators.conditional;
 
 import org.eclipse.xtext.AbstractElement;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IConditionalLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IndentationLocatorEndFacade;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator;
@@ -26,25 +26,25 @@ public class ConditionalIndentationEndLocator extends IndentationLocatorEndFacad
   private final LocatorActivator<?> locatorActivator;
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ConditionalIndentationEndLocator(final DdkFormattingConfig formattingConfig, final LocatorActivator<?> locatorActivator) {
+  public ConditionalIndentationEndLocator(final ExtendedFormattingConfig formattingConfig, final LocatorActivator<?> locatorActivator) {
     super(formattingConfig);
     this.locatorActivator = locatorActivator;
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ConditionalIndentationEndLocator(final DdkFormattingConfig formattingConfig, final AbstractElement ele, final LocatorActivator<?> locatorActivator) {
+  public ConditionalIndentationEndLocator(final ExtendedFormattingConfig formattingConfig, final AbstractElement ele, final LocatorActivator<?> locatorActivator) {
     super(formattingConfig, ele);
     this.locatorActivator = locatorActivator;
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ConditionalIndentationEndLocator(final DdkFormattingConfig formattingConfig, final LocatorActivator<?> locatorActivator, final int indentation) {
+  public ConditionalIndentationEndLocator(final ExtendedFormattingConfig formattingConfig, final LocatorActivator<?> locatorActivator, final int indentation) {
     super(formattingConfig, indentation);
     this.locatorActivator = locatorActivator;
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ConditionalIndentationEndLocator(final DdkFormattingConfig formattingConfig, final AbstractElement ele, final LocatorActivator<?> locatorActivator, final int indentation) {
+  public ConditionalIndentationEndLocator(final ExtendedFormattingConfig formattingConfig, final AbstractElement ele, final LocatorActivator<?> locatorActivator, final int indentation) {
     super(formattingConfig, indentation, ele);
     this.locatorActivator = locatorActivator;
   }

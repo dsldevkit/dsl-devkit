@@ -18,7 +18,7 @@ import java.util.Set;
 
 import org.eclipse.xtext.naming.QualifiedName;
 
-import com.avaloq.tools.ddk.xtext.caching.CacheStatistics;
+import com.avaloq.tools.ddk.caching.CacheStatistics;
 import com.avaloq.tools.ddk.xtext.util.ArrayUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

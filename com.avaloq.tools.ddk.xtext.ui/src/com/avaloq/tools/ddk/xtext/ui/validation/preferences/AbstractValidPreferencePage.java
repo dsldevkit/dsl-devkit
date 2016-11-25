@@ -217,7 +217,7 @@ public abstract class AbstractValidPreferencePage extends PreferencePage impleme
    */
   @Override
   public void setElement(final IAdaptable element) {
-    this.project = element.getAdapter(IProject.class);
+    this.project = (IProject) element.getAdapter(IProject.class);
   }
 
   /**

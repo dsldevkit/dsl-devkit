@@ -18,7 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IReferenceDescription;
 
-import com.avaloq.tools.ddk.xtext.resource.DdkReferenceDescription;
+import com.avaloq.tools.ddk.xtext.resource.ReferenceDescription;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -70,7 +70,7 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
     return Iterables.transform(implicitReferences, new Function<URI, IReferenceDescription>() {
       @Override
       public IReferenceDescription apply(final URI target) {
-        return new DdkReferenceDescription(contextURI, target.hasFragment() ? target : target.appendFragment(IMPLICIT_FRAGMENT), null, null, -1);
+        return new ReferenceDescription(contextURI, target.hasFragment() ? target : target.appendFragment(IMPLICIT_FRAGMENT), null, null, -1);
       }
     });
   }

@@ -123,13 +123,13 @@ public class «name.toSimpleName()»StandaloneBuildSetupGenerated extends «name.to
   <extension
     point="org.eclipse.emf.ecore.extension_parser">
     <parser
-      class="com.avaloq.tools.ddk.builder.osgi.ExecutableExtensionFactory:«name»:org.eclipse.xtext.resource.IResourceFactory"
+      class="com.avaloq.tools.ddk.acf.builder.osgi.ExecutableExtensionFactory:«name»:org.eclipse.xtext.resource.IResourceFactory"
       type="«ext»">
     </parser>
   </extension>
   <extension point="org.eclipse.xtext.extension_resourceServiceProvider">
         <resourceServiceProvider
-            class="com.avaloq.tools.ddk.builder.osgi.ExecutableExtensionFactory:«name»:org.eclipse.xtext.resource.IResourceServiceProvider"
+            class="com.avaloq.tools.ddk.acf.builder.osgi.ExecutableExtensionFactory:«name»:org.eclipse.xtext.resource.IResourceServiceProvider"
             uriExtension="«ext»">
         </resourceServiceProvider>
     </extension>

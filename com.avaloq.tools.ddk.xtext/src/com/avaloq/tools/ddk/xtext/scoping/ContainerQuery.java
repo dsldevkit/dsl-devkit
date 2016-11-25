@@ -10,14 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -27,17 +24,13 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IEObjectDescription;
-import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Arrays;
 
-import com.avaloq.tools.ddk.xtext.caching.CacheManager;
-import com.avaloq.tools.ddk.xtext.caching.ResourceCache;
-import com.avaloq.tools.ddk.xtext.naming.DdkQualifiedNameConverter;
+import com.avaloq.tools.ddk.xtext.naming.QualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
-import com.avaloq.tools.ddk.xtext.resource.DdkEObjectDescription;
+import com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
-import com.avaloq.tools.ddk.xtext.util.Regexps;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
@@ -62,8 +55,6 @@ public class ContainerQuery {
    * namePattern (which matches against the index names), and user data criteria.
    */
   private EClass type;
-  /** The URI pattern. */
-  private String uriPattern;
   /** The name pattern. */
   private QualifiedName namePattern;
   /** User data to match. */
@@ -71,7 +62,7 @@ public class ContainerQuery {
   /** The domains in which this query applies. */
   private List<String> domains;
 
-  private boolean doCache = true;
+  private boolean doIgnoreCase = true;
 
   private final IDomain.Mapper domainMapper;
 
@@ -111,16 +102,6 @@ public class ContainerQuery {
     } else {
       throw new IllegalArgumentException("Cannot convert type to EClass: " + type); //$NON-NLS-1$
     }
-  }
-
-  /**
-   * Sets the URI pattern.
-   *
-   * @param pattern
-   *          the URI pattern
-   */
-  public void setUriPattern(final String pattern) {
-    this.uriPattern = URI.encodeSegment(pattern, true);
   }
 
   /**
@@ -165,22 +146,13 @@ public class ContainerQuery {
   }
 
   /**
-   * Sets whether the results of this query should be cached or not.
+   * Sets whether the query should be case insensitive.
    *
-   * @param cache
-   *          true if result should be cached
+   * @param ignoreCase
+   *          true if case sensitive lookup is desired
    */
-  public void setDoCache(final boolean cache) {
-    this.doCache = cache;
-  }
-
-  /**
-   * Gets the URI pattern.
-   *
-   * @return the URI pattern
-   */
-  public String getURIPattern() {
-    return uriPattern;
+  public void setDoIgnoreCase(final boolean ignoreCase) {
+    this.doIgnoreCase = ignoreCase;
   }
 
   /**
@@ -207,7 +179,8 @@ public class ContainerQuery {
 
   /**
    * Execute the query on containers visible from a certain object's resource. The results will grouped by
-   * container and in the order of {@link IContainer.Manager#getVisibleContainers(IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
+   * container and in the order of
+   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
    * result does <em>not</em> apply
    * any name shadowing.
    *
@@ -220,10 +193,9 @@ public class ContainerQuery {
   }
 
   /**
-   * Execute the query on containers visible from a certain resource, but cache the results on originalResource. The results will grouped by
-   * container and in the order of {@link IContainer.Manager#getVisibleContainers(IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
-   * result does <em>not</em> apply
-   * any name shadowing.
+   * Execute the query on containers visible from a certain resource. The results will grouped by container and in the order of
+   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
+   * result does <em>not</em> apply any name shadowing.
    *
    * @param context
    *          The context resource.
@@ -237,7 +209,8 @@ public class ContainerQuery {
 
   /**
    * Execute the query on containers visible from an object in a certain resource, but cache the results on originalResource. The results will grouped by
-   * container and in the order of {@link IContainer.Manager#getVisibleContainers(IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
+   * container and in the order of
+   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
    * result does <em>not</em> apply
    * any name shadowing.
    *
@@ -249,71 +222,14 @@ public class ContainerQuery {
    */
   @SuppressWarnings("nls")
   public Iterable<IEObjectDescription> execute(final EObject context, final Resource originalResource) {
-    final String key = getCacheKey(context);
-    Iterable<IEObjectDescription> result = null;
-    ResourceCache<String, Iterable<IEObjectDescription>> cache = null;
-    if (key != null) {
-      cache = CacheManager.getInstance().getOrCreateResourceCache("ContainerQuery#cache", originalResource); //$NON-NLS-1$
-      if (cache != null) {
-        result = cache.get(key);
-        if (result != null) {
-          return result;
-        }
-      }
-    }
-
     if (!(originalResource instanceof LazyLinkingResource)) {
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug(MessageFormat.format("Resource is not a LazyLinkingResource; query key={0}", key));
-      }
       throw new IllegalStateException("Resource is not a LazyLinkingResource.");
     }
     final IScopeProvider scopeProvider = EObjectUtil.getScopeProviderByResource((LazyLinkingResource) originalResource);
     if (!(scopeProvider instanceof AbstractPolymorphicScopeProvider)) {
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug(MessageFormat.format("Scope provider is not an AbstractPolymorphicScopeProvider scope provider; query key={0}", key));
-      }
       throw new IllegalStateException("Scope provider is not an AbstractPolymorphicScopeProvider scope provider.");
     }
-    result = execute(((AbstractPolymorphicScopeProvider) scopeProvider).getVisibleContainers(originalResource.getContents().get(0), originalResource));
-    if (key != null && cache != null) {
-      cache.set(key, result);
-    }
-    return result;
-  }
-
-  /**
-   * Return a cache key identifying this query, given a context object. Subclasses may override (and must, if their queries add
-   * any more query properties).
-   *
-   * @param context
-   *          The context object.
-   * @return The cache key.
-   */
-  @SuppressWarnings("nls")
-  protected String getCacheKey(final EObject context) {
-    if (!doCache) {
-      return null;
-    }
-
-    StringBuilder key = new StringBuilder("CONTAINERQUERY&").append(context.eResource().getURI()).append('#').append(type.getEPackage().getNsURI()).append('#').append(type.getName());
-    if (uriPattern != null) {
-      key.append('#').append(uriPattern);
-    }
-    if (namePattern != null) {
-      key.append('#').append(namePattern);
-    }
-    if (userData != null) {
-      for (final Map.Entry<String, String> entry : userData.entrySet()) {
-        key.append('#').append(entry.getKey()).append('#').append(entry.getValue());
-      }
-    }
-    if (domains != null) {
-      for (final String domain : domains) {
-        key.append('#').append(domain);
-      }
-    }
-    return key.toString();
+    return execute(((AbstractPolymorphicScopeProvider) scopeProvider).getVisibleContainers(originalResource.getContents().get(0), originalResource));
   }
 
   /**
@@ -351,93 +267,10 @@ public class ContainerQuery {
         return ImmutableList.of();
       }
     }
-    Iterable<IEObjectDescription> result = null;
-    Iterable<IResourceDescription> resourceDescriptions = null;
-    final String resourcePattern = getURIPattern();
-    if (resourcePattern != null) {
-      LOGGER.warn("URI pattern encountered: " + resourcePattern); //$NON-NLS-1$
-      // Try to avoid expensive regexp operations, if possible
-      final int wildCardIndex = resourcePattern.indexOf(WILDCARD);
-      if (wildCardIndex >= 0) {
-        final int nextWildCardIndex = resourcePattern.indexOf(WILDCARD, wildCardIndex + 1);
-        if (nextWildCardIndex < 0) {
-          // We have exactly one wildcard
-          if (wildCardIndex == 0) {
-            // Pattern is "*suffix"
-            final String suffix = resourcePattern.substring(1);
-            resourceDescriptions = Iterables.filter(container.getResourceDescriptions(), new Predicate<IResourceDescription>() {
-              @Override
-              public boolean apply(final IResourceDescription input) {
-                final String str = input.getURI().lastSegment();
-                final int strLength = str.length();
-                final int suffixLength = suffix.length();
-                int strOffset = strLength - suffixLength;
-                return str.regionMatches(true, strOffset, suffix, 0, suffixLength);
-              }
-            });
-          } else if (wildCardIndex == resourcePattern.length() - 1) {
-            // Pattern is "prefix*"
-            final String prefix = resourcePattern.substring(0, wildCardIndex).toLowerCase();
-            resourceDescriptions = Iterables.filter(container.getResourceDescriptions(), new Predicate<IResourceDescription>() {
-              @Override
-              public boolean apply(final IResourceDescription input) {
-                final String str = input.getURI().lastSegment();
-                return str.regionMatches(true, 0, prefix, 0, prefix.length());
-              }
-            });
-          } else {
-            // Pattern is "prefix*suffix". Consider the length, to rule out overlaps between prefix and suffix.
-            final String prefix = resourcePattern.substring(0, wildCardIndex).toLowerCase();
-            final String suffix = resourcePattern.substring(wildCardIndex + 1).toLowerCase();
-            final int minLength = wildCardIndex + suffix.length();
-            resourceDescriptions = Iterables.filter(container.getResourceDescriptions(), new Predicate<IResourceDescription>() {
-              @Override
-              public boolean apply(final IResourceDescription input) {
-                final String str = input.getURI().lastSegment();
-                final int strLength = str.length();
-                if (strLength < minLength || !str.regionMatches(true, 0, prefix, 0, prefix.length())) {
-                  return false;
-                }
-                final int suffixLength = suffix.length();
-                int strOffset = strLength - suffixLength;
-                return str.regionMatches(true, strOffset, suffix, 0, suffixLength);
-              }
-            });
-          }
-        } else {
-          // Two or more wildcards: use a regular expression
-          final Pattern p = Regexps.fromGlob(resourcePattern);
-          resourceDescriptions = Iterables.filter(container.getResourceDescriptions(), new Predicate<IResourceDescription>() {
-            @Override
-            public boolean apply(final IResourceDescription input) {
-              return p.matcher(input.getURI().lastSegment()).matches();
-            }
-          });
-        }
-      } else {
-        // No wildcards
-        resourceDescriptions = Iterables.filter(container.getResourceDescriptions(), new Predicate<IResourceDescription>() {
-          @Override
-          public boolean apply(final IResourceDescription input) {
-            final String lastSegment = input.getURI().lastSegment();
-            return lastSegment.equals(resourcePattern) || lastSegment.equalsIgnoreCase(resourcePattern);
-          }
-        });
-      }
-    }
 
     // Warning: we assume that our Containers and ResourceDescriptions from the index can handle name patterns.
-
-    if (resourceDescriptions == null) {
-      result = namePattern != null ? container.getExportedObjects(getType(), namePattern, true) : container.getExportedObjectsByType(getType());
-    } else {
-      result = Iterables.concat(Iterables.transform(resourceDescriptions, new Function<IResourceDescription, Iterable<IEObjectDescription>>() {
-        @Override
-        public Iterable<IEObjectDescription> apply(final IResourceDescription from) {
-          return namePattern != null ? from.getExportedObjects(getType(), namePattern, true) : from.getExportedObjectsByType(getType());
-        }
-      }));
-    }
+    Iterable<IEObjectDescription> result = namePattern != null ? container.getExportedObjects(getType(), namePattern, doIgnoreCase)
+        : container.getExportedObjectsByType(getType());
 
     if (getUserData() != null && !getUserData().isEmpty()) {
       final Map<String, String> userDataEquals = getUserData();
@@ -459,7 +292,7 @@ public class ContainerQuery {
       @Override
       public IEObjectDescription apply(final IEObjectDescription from) {
         String[] keys = from.getUserDataKeys();
-        if (keys.length == 0 || !Arrays.contains(keys, DdkEObjectDescription.ALLOW_LOOKUP)) {
+        if (keys.length == 0 || !Arrays.contains(keys, DetachableEObjectDescription.ALLOW_LOOKUP)) {
           LOGGER.error("Found object description '" + from.getQualifiedName() + "' at " + from.getEObjectURI() + ", but lookup is not allowed!"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         return keys.length == 0 ? from : new ProxyFactoryEObjectDescription(from);
@@ -478,11 +311,6 @@ public class ContainerQuery {
 
     result.append(" (type: ");
     result.append(getType().getEPackage().getName() + "::" + getType().getName());
-
-    if (getURIPattern() != null) {
-      result.append(", uri: ");
-      result.append(getURIPattern());
-    }
 
     if (getNamePattern() != null) {
       result.append(", name: ");
@@ -522,7 +350,7 @@ public class ContainerQuery {
    */
   public static class Builder extends ContainerQuery {
 
-    private final IQualifiedNameConverter nameConverter = new DdkQualifiedNameConverter();
+    private final IQualifiedNameConverter nameConverter = new QualifiedNameConverter();
 
     /**
      * Creator.
@@ -543,7 +371,6 @@ public class ContainerQuery {
     public Builder copy() {
       Builder result = new Builder(getDomainMapper(), getType());
       result.setType(getType());
-      result.setUriPattern(getURIPattern());
       result.setNamePattern(getNamePattern());
       if (getUserData() != null) {
         result.setUserData(Maps.newHashMap(getUserData()));
@@ -559,11 +386,11 @@ public class ContainerQuery {
      *          {@link ContainerQuery#getURIPattern() Resource pattern} (glob pattern) for queried objects. The URI pattern is
      *          matched against the last segment of a resource's URI.
      * @return The Builder itself.
+     * @deprecated URI pattern matching of resources is no longer supported
      */
+    @Deprecated
     public Builder resource(final String uriPattern) {
-      if (uriPattern != null && uriPattern.length() > 0) {
-        setUriPattern(uriPattern);
-      }
+      LOGGER.error("URI pattern matching using ContainerQuery.Builder#resource() is no longer supported"); //$NON-NLS-1$
       return this;
     }
 
@@ -640,9 +467,22 @@ public class ContainerQuery {
      * @param doCache
      *          false if no caching is desired
      * @return the builder itself
+     * @deprecated Caching of {@link ContainerQuery} is no longer supported
      */
+    @Deprecated
     public Builder cache(final boolean doCache) {
-      setDoCache(doCache);
+      return this;
+    }
+
+    /**
+     * Specifies whether the query must be case sensitive. The default is case insesitive.
+     *
+     * @param doIgnoreCase
+     *          true if the lookup must be case insensitive, false otherwise
+     * @return the builder object
+     */
+    public Builder ignoreCase(final boolean doIgnoreCase) {
+      setDoIgnoreCase(doIgnoreCase);
       return this;
     }
   }

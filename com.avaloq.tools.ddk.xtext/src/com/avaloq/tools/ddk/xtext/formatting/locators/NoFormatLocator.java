@@ -17,7 +17,7 @@ import org.eclipse.xtext.formatting.impl.FormattingConfig;
 /**
  * No Format locator.
  */
-public class NoFormatLocator extends ElementLocator implements IDdkLocator {
+public class NoFormatLocator extends ElementLocator implements IExtendedLocator {
 
   /**
    * Creates a new locator.

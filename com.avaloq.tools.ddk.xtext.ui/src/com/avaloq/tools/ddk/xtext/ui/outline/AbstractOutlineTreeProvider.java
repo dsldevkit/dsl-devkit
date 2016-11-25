@@ -191,10 +191,14 @@ public abstract class AbstractOutlineTreeProvider extends BackgroundOutlineTreeP
           createNodeDispatcher.invoke(parentNode, modelElement, feature);
         }
       } else if (feature instanceof EReference && ((EReference) feature).isContainment()) { // only consider containment references
+        IOutlineNode listNode = null;
         EList<EObject> featureElements;
         Object value = modelElement.eGet(feature);
         if (feature.isMany()) {
           featureElements = (EList<EObject>) value;
+          if (getRelevantElements().contains(feature)) {
+            listNode = createEStructuralFeatureNode(parentNode, modelElement, feature, getImageDescriptor(feature), feature.getName(), false);
+          }
         } else {
           featureElements = new BasicEList<EObject>();
           featureElements.add((EObject) value);
@@ -204,9 +208,9 @@ public abstract class AbstractOutlineTreeProvider extends BackgroundOutlineTreeP
             continue;
           }
           if (isRelevantElement(childElement)) {
-            createNodeDispatcher.invoke(parentNode, childElement);
+            createNodeDispatcher.invoke(listNode != null ? listNode : parentNode, childElement);
           } else {
-            createChildrenDispatcher.invoke(parentNode, childElement);
+            createChildrenDispatcher.invoke(listNode != null ? listNode : parentNode, childElement);
           }
         }
       }

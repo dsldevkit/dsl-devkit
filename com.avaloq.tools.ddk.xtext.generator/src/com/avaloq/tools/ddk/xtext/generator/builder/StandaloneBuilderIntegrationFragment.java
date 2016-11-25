@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
 
 
 /**
- * Fragment to properly include the DDK clustering builder support in generated languages.
+ * Fragment to properly include the DSL DevKit clustering builder support in generated languages.
  */
 @SuppressWarnings("nls")
 public class StandaloneBuilderIntegrationFragment extends AbstractGeneratorFragment {

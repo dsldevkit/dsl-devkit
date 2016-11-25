@@ -76,6 +76,7 @@ public class FixedPartialParsingHelper implements IPartialParsingHelper {
   @Inject(optional = true)
   private TokenRegionProvider tokenRegionProvider;
 
+  @Override
   @SuppressWarnings({"unchecked", "rawtypes"})
   public IParseResult reparse(final IParser parser, final IParseResult previousParseResult, final ReplaceRegion changedRegion) {
     if (parser == null) {

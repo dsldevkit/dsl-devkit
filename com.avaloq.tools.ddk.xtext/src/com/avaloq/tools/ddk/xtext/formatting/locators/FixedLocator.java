@@ -13,15 +13,15 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 import org.eclipse.xtext.formatting.impl.AbstractFormattingConfig;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkLine;
-import com.avaloq.tools.ddk.xtext.formatting.DdkLineEntry;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLine;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;
 import com.avaloq.tools.ddk.xtext.formatting.SpaceEntry;
 
 
 /**
  * Column locator capable of handling columns that spans over multiple lines. It is used as a marker to indicate the content that should be aligned as a column.
  * If the cursor of a line, to which an entry is to be added, is to the left of the specified column,
- * padding must be added. The method {@link #computeSpace(DdkLine, DdkLineEntry)} will calculate the
+ * padding must be added. The method {@link #computeSpace(ExtendedLine, ExtendedLineEntry)} will calculate the
  * necessary amount of padding required.
  */
 public class FixedLocator extends AbstractFormattingConfig.ElementLocator implements ISpaceLocator {
@@ -96,11 +96,11 @@ public class FixedLocator extends AbstractFormattingConfig.ElementLocator implem
    * @return the padding required to ensure entry will occupy space after the specified column
    */
   @Override
-  public String computeSpace(final DdkLine line, final DdkLineEntry entry) {
+  public String computeSpace(final ExtendedLine line, final ExtendedLineEntry entry) {
     int absoluteLineLength = line.getAbsoluteLineLength(entry);
     int distanceFromLastLineCharacterToColumn = entry.getColumnIndent() - absoluteLineLength;
     int predecessorIndex = line.findPredecessorOrLastEntryIndex(entry);
-    DdkLineEntry precedingEntry = line.getEntries().get(predecessorIndex);
+    ExtendedLineEntry precedingEntry = line.getEntries().get(predecessorIndex);
 
     int precedingEntryLength = 0;
     if (!precedingEntry.equals(entry)) {

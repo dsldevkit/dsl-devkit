@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
  */
 public class FormatOutlineTreeProvider extends AbstractOutlineTreeProvider {
 
-  private static List<ENamedElement> ELEMENTS = Lists.newArrayList(FormatPackage.Literals.FORMAT_CONFIGURATION, FormatPackage.Literals.RULE);
+  private static final List<ENamedElement> ELEMENTS = Lists.newArrayList(FormatPackage.Literals.FORMAT_CONFIGURATION, FormatPackage.Literals.RULE);
 
   @Override
   protected List<ENamedElement> getRelevantElements() {

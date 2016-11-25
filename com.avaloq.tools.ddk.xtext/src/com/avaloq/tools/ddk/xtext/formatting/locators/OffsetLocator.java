@@ -13,15 +13,15 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 import org.eclipse.xtext.formatting.impl.AbstractFormattingConfig.ElementLocator;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkLine;
-import com.avaloq.tools.ddk.xtext.formatting.DdkLineEntry;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLine;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;
 import com.avaloq.tools.ddk.xtext.formatting.SpaceEntry;
 
 
 /**
  * Offset locator with offset padding. The OffsetLocator is similar to the ColumnLocator - the difference
  * is that the value/offset specified is relative to the indentation, not the beginning of the line.
- * The method {@link #getPadding(InternalDdkLine, DdkLineEntry)} will calculate the
+ * The method {@link #getPadding(InternalExtendedLine, ExtendedLineEntry)} will calculate the
  * necessary amount of padding required.
  */
 public class OffsetLocator extends ElementLocator implements ISpaceLocator {
@@ -49,7 +49,7 @@ public class OffsetLocator extends ElementLocator implements ISpaceLocator {
    * @return the padding required to ensure entry will occupy space after the specified offset
    */
   @Override
-  public String computeSpace(final DdkLine line, final DdkLineEntry entry) {
+  public String computeSpace(final ExtendedLine line, final ExtendedLineEntry entry) {
     int length = offset - line.getOffset(entry);
     if (length < 1 && offset > 0) {
       // unless offset is 0 always create at least one character of padding

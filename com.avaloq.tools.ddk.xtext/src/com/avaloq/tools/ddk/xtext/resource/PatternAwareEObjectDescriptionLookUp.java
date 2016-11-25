@@ -23,7 +23,7 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.impl.EObjectDescriptionLookUp;
 
-import com.avaloq.tools.ddk.xtext.caching.CacheManager;
+import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;

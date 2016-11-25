@@ -38,8 +38,8 @@ import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScopeProvider;
 
-import com.avaloq.tools.ddk.xtext.caching.CacheManager;
-import com.avaloq.tools.ddk.xtext.caching.ResourceCache;
+import com.avaloq.tools.ddk.caching.CacheManager;
+import com.avaloq.tools.ddk.caching.ResourceCache;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.scoping.impl.BranchingScope;
 import com.avaloq.tools.ddk.xtext.scoping.impl.DataFilteringScope;

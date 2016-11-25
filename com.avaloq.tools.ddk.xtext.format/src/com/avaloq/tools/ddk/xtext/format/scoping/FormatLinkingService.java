@@ -28,43 +28,44 @@ import org.eclipse.xtext.resource.SynchronizedXtextResourceSet;
 import com.avaloq.tools.ddk.xtext.format.format.Constant;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
-import com.avaloq.tools.ddk.xtext.linking.AbstractDdkLinkingService;
+import com.avaloq.tools.ddk.xtext.linking.AbstractFastLinkingService;
 
 
 /**
  * A linking service for the Format language.
  */
-public class FormatLinkingService extends AbstractDdkLinkingService {
+public class FormatLinkingService extends AbstractFastLinkingService {
 
   /**
    * {@inheritDoc}
    */
   @Override
   public List<EObject> getLinkedObjects(final EObject context, final EReference ref, final INode node) {
+    ResourceSet resourceSet = context.eResource().getResourceSet();
     if (ref == FormatPackage.Literals.FORMAT_CONFIGURATION__TARGET_GRAMMAR) {
-      List<EObject> usedGrammars = getUsedGrammar(context.eResource().getResourceSet(), node);
+      List<EObject> usedGrammars = getUsedGrammar(resourceSet, NodeModelUtils.getTokenText(node));
       if (!usedGrammars.isEmpty()) {
         return usedGrammars;
       } else {
         return super.getLinkedObjects(context, ref, node);
       }
     } else if (ref == FormatPackage.Literals.FORMAT_CONFIGURATION__EXTENDED_FORMAT_CONFIGURATION) {
-      List<EObject> extendedFormatConfigurations = getExtendedFormatConfiguration(context.eResource().getResourceSet(), node);
+      List<EObject> extendedFormatConfigurations = getExtendedFormatConfiguration(resourceSet, node);
       if (!extendedFormatConfigurations.isEmpty()) {
         return extendedFormatConfigurations;
       } else {
         return super.getLinkedObjects(context, ref, node);
       }
     } else if ((ref == FormatPackage.Literals.INT_VALUE__REFERENCE || ref == FormatPackage.Literals.STRING_VALUE__REFERENCE)
-        && !(context.eResource().getResourceSet() instanceof SynchronizedXtextResourceSet)) {
+        && !(resourceSet instanceof SynchronizedXtextResourceSet)) {
       List<EObject> res = super.getLinkedObjects(context, ref, node);
       if (res == null || res.isEmpty()) {
-        return getConstant(context.eResource().getResourceSet(), node);
+        return getConstant(resourceSet, node);
       } else {
         return res;
       }
     } else if (ref == FormatPackage.Literals.RULE__OVERRIDE) {
-      return getExtendedFormatConfiguration(context.eResource().getResourceSet(), node);
+      return getExtendedFormatConfiguration(resourceSet, node);
     }
 
     return super.getLinkedObjects(context, ref, node);
@@ -98,14 +99,6 @@ public class FormatLinkingService extends AbstractDdkLinkingService {
   }
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected String getGrammarName(final INode node) {
-    return NodeModelUtils.getTokenText(node);
-  }
-
-  /**
    * Tries to find {@link FormatConfiguration} for the base formatter ({@code with} clause).
    *
    * @param resourceSet
@@ -116,7 +109,6 @@ public class FormatLinkingService extends AbstractDdkLinkingService {
    */
   private List<EObject> getExtendedFormatConfiguration(final ResourceSet resourceSet, final INode node) {
     String formatName = NodeModelUtils.getTokenText(node);
-    registerKnownEPackages(formatName, resourceSet);
     if (formatName != null) {
       FormatConfiguration result = loadExtendedFormatConfiguration(formatName, resourceSet);
       if (result != null) {

@@ -25,7 +25,7 @@ import org.eclipse.xtext.xbase.XBlockExpression;
 
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.format.GrammarRule;
-import com.avaloq.tools.ddk.xtext.resource.AbstractDdkFingerprintComputer;
+import com.avaloq.tools.ddk.xtext.resource.AbstractFingerprintComputer;
 import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 
 
@@ -41,7 +41,7 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
   /**
    * A fingerprint computer that computes the hash using the content (text) and the parent container of the given {@link EObject}.
    */
-  private final IFingerprintComputer fingerprintComputer = new AbstractDdkFingerprintComputer() {
+  private final IFingerprintComputer fingerprintComputer = new AbstractFingerprintComputer() {
 
     @Override
     protected ExportItem fingerprint(final EObject obj) {

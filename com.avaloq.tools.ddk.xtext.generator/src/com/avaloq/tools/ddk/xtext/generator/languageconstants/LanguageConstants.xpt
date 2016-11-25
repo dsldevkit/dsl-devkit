@@ -28,8 +28,8 @@ public final class «getQualifiedName("").toSimpleName()» {
   private static final String ALL_«this.getName().toUpperCase()»_URI = "*."+FILE_EXTENSION;
 
   private «getQualifiedName("").toSimpleName()»() {}
-  
-  /** 
+
+  /**
    * An URI pattern that matches all files of the preferred file extension.
    *
    * @return this pattern

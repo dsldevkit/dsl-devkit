@@ -14,7 +14,7 @@ import org.eclipse.xtext.AbstractElement;
 import org.eclipse.xtext.formatting.impl.FormattingConfig.IndentationLocatorEnd;
 import org.eclipse.xtext.formatting.impl.FormattingConfig.IndentationLocatorStart;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 import com.avaloq.tools.ddk.xtext.formatting.locators.ColumnLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.FixedLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator;
@@ -38,7 +38,7 @@ public final class ParameterizedLocatorFactory {
    *          the calculator of the parameter
    * @return the new parameterized {@link ColumnLocator}
    */
-  public static ColumnLocator createParameterizedColumnLocator(final DdkFormattingConfig config, final LocatorParameterCalculator<?> calculator) {
+  public static ColumnLocator createParameterizedColumnLocator(final ExtendedFormattingConfig config, final LocatorParameterCalculator<?> calculator) {
     return new ParameterizedSingleLineColumnLocator(config, calculator);
   }
 
@@ -53,7 +53,7 @@ public final class ParameterizedLocatorFactory {
    *          the activator indicating when the conditional locator is active
    * @return the new parameterized {@link ColumnLocator}
    */
-  public static ColumnLocator createParameterizedConditionalColumnLocator(final DdkFormattingConfig config, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
+  public static ColumnLocator createParameterizedConditionalColumnLocator(final ExtendedFormattingConfig config, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
     return new ParameterizedConditionalSingleLineColumnLocator(config, calculator, activator);
   }
 
@@ -72,7 +72,7 @@ public final class ParameterizedLocatorFactory {
    *          the calculator of the parameter
    * @return the new parameterized {@link FixedLocator}
    */
-  public static FixedLocator createParameterizedColumnLocator(final DdkFormattingConfig config, final boolean fixed, final boolean relative, final boolean nobreak, final LocatorParameterCalculator<?> calculator) {
+  public static FixedLocator createParameterizedColumnLocator(final ExtendedFormattingConfig config, final boolean fixed, final boolean relative, final boolean nobreak, final LocatorParameterCalculator<?> calculator) {
     return new ParameterizedColumnLocator(config, fixed, relative, nobreak, calculator);
   }
 
@@ -93,7 +93,7 @@ public final class ParameterizedLocatorFactory {
    *          the activator indicating when the conditional locator is active
    * @return the new parameterized {@link FixedLocator}
    */
-  public static FixedLocator createParameterizedConditionalColumnLocator(final DdkFormattingConfig config, final boolean fixed, final boolean relative, final boolean nobreak, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
+  public static FixedLocator createParameterizedConditionalColumnLocator(final ExtendedFormattingConfig config, final boolean fixed, final boolean relative, final boolean nobreak, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
     return new ParameterizedConditionalColumnLocator(config, fixed, relative, nobreak, calculator, activator);
   }
 
@@ -106,7 +106,7 @@ public final class ParameterizedLocatorFactory {
    *          the calculator of the parameter
    * @return the new parameterized {@link IndentationLocatorStart}
    */
-  public static IndentationLocatorStart createParameterizedIndentationStartLocator(final DdkFormattingConfig config, final LocatorParameterCalculator<?> calculator) {
+  public static IndentationLocatorStart createParameterizedIndentationStartLocator(final ExtendedFormattingConfig config, final LocatorParameterCalculator<?> calculator) {
     return new ParameterizedIndentationStartLocator(config, calculator);
   }
 
@@ -121,7 +121,7 @@ public final class ParameterizedLocatorFactory {
    *          the activator indicating when the conditional locator is active
    * @return the new parameterized conditional {@link IndentationLocatorStart}
    */
-  public static IndentationLocatorStart createParameterizedConditionalIndentationStartLocator(final DdkFormattingConfig config, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
+  public static IndentationLocatorStart createParameterizedConditionalIndentationStartLocator(final ExtendedFormattingConfig config, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
     return new ParameterizedConditionalIndentationStartLocator(config, calculator, activator);
   }
 
@@ -136,7 +136,7 @@ public final class ParameterizedLocatorFactory {
    *          the calculator of the parameter
    * @return the new parameterized {@link IndentationLocatorStart}
    */
-  public static IndentationLocatorStart createParameterizedIndentationStartLocator(final DdkFormattingConfig config, final AbstractElement beginElement, final LocatorParameterCalculator<?> calculator) {
+  public static IndentationLocatorStart createParameterizedIndentationStartLocator(final ExtendedFormattingConfig config, final AbstractElement beginElement, final LocatorParameterCalculator<?> calculator) {
     return new ParameterizedIndentationStartLocator(config, beginElement, calculator);
   }
 
@@ -153,7 +153,7 @@ public final class ParameterizedLocatorFactory {
    *          the activator indicating when the conditional locator is active
    * @return the new parameterized conditional {@link IndentationLocatorStart}
    */
-  public static IndentationLocatorStart createParameterizedConditionalIndentationStartLocator(final DdkFormattingConfig config, final AbstractElement beginElement, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
+  public static IndentationLocatorStart createParameterizedConditionalIndentationStartLocator(final ExtendedFormattingConfig config, final AbstractElement beginElement, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
     return new ParameterizedConditionalIndentationStartLocator(config, beginElement, calculator, activator);
   }
 
@@ -166,7 +166,7 @@ public final class ParameterizedLocatorFactory {
    *          the calculator of the parameter
    * @return the new parameterized {@link IndentationLocatorEnd}
    */
-  public static IndentationLocatorEnd createParameterizedIndentationEndLocator(final DdkFormattingConfig config, final LocatorParameterCalculator<?> calculator) {
+  public static IndentationLocatorEnd createParameterizedIndentationEndLocator(final ExtendedFormattingConfig config, final LocatorParameterCalculator<?> calculator) {
     return new ParameterizedIndentationEndLocator(config, calculator);
   }
 
@@ -181,7 +181,7 @@ public final class ParameterizedLocatorFactory {
    *          the activator indicating when the conditional locator is active
    * @return the new parameterized conditional {@link IndentationLocatorEnd}
    */
-  public static IndentationLocatorEnd createParameterizedConditionalIndentationEndLocator(final DdkFormattingConfig config, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
+  public static IndentationLocatorEnd createParameterizedConditionalIndentationEndLocator(final ExtendedFormattingConfig config, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
     return new ParameterizedConditionalIndentationEndLocator(config, calculator, activator);
   }
 
@@ -196,7 +196,7 @@ public final class ParameterizedLocatorFactory {
    *          the calculator of the parameter
    * @return the new parameterized {@link IndentationLocatorEnd}
    */
-  public static IndentationLocatorEnd createParameterizedIndentationEndLocator(final DdkFormattingConfig config, final AbstractElement endElement, final LocatorParameterCalculator<?> calculator) {
+  public static IndentationLocatorEnd createParameterizedIndentationEndLocator(final ExtendedFormattingConfig config, final AbstractElement endElement, final LocatorParameterCalculator<?> calculator) {
     return new ParameterizedIndentationEndLocator(config, endElement, calculator);
   }
 
@@ -213,7 +213,7 @@ public final class ParameterizedLocatorFactory {
    *          the activator indicating when the conditional locator is active
    * @return the new parameterized conditional {@link IndentationLocatorEnd}
    */
-  public static IndentationLocatorEnd createParameterizedConditionalIndentationEndLocator(final DdkFormattingConfig config, final AbstractElement endElement, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
+  public static IndentationLocatorEnd createParameterizedConditionalIndentationEndLocator(final ExtendedFormattingConfig config, final AbstractElement endElement, final LocatorParameterCalculator<?> calculator, final LocatorActivator<?> activator) {
     return new ParameterizedConditionalIndentationEndLocator(config, endElement, calculator, activator);
   }
 

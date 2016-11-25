@@ -18,7 +18,7 @@ import com.google.inject.ImplementedBy;
 /**
  * Strategy to determine whether to process another resource in the builder.
  */
-@ImplementedBy(DdkBuilderResourceLoadStrategy.class)
+@ImplementedBy(DefaultBuilderResourceLoadStrategy.class)
 public interface IBuilderResourceLoadStrategy {
 
   /**

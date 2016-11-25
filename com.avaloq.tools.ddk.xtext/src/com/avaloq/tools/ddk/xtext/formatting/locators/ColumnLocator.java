@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 import org.eclipse.xtext.formatting.impl.AbstractFormattingConfig;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkLine;
-import com.avaloq.tools.ddk.xtext.formatting.DdkLineEntry;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLine;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;
 import com.avaloq.tools.ddk.xtext.formatting.SpaceEntry;
 
 
@@ -22,7 +22,7 @@ import com.avaloq.tools.ddk.xtext.formatting.SpaceEntry;
  * Column locator with column padding. The ColumnLocator is used to make elements occupy space
  * to the right of a specific character position on a line.
  * If the cursor of a line, to which an entry is to be added, is to the left of the specified column,
- * padding must be added. The method {@link #computeSpace(DdkLine, DdkLineEntry)} will calculate the
+ * padding must be added. The method {@link #computeSpace(ExtendedLine, ExtendedLineEntry)} will calculate the
  * necessary amount of padding required.
  */
 public class ColumnLocator extends AbstractFormattingConfig.ElementLocator implements ISpaceLocator {
@@ -56,7 +56,7 @@ public class ColumnLocator extends AbstractFormattingConfig.ElementLocator imple
    * @return the padding required to ensure entry will occupy space after the specified column
    */
   @Override
-  public String computeSpace(final DdkLine line, final DdkLineEntry entry) {
+  public String computeSpace(final ExtendedLine line, final ExtendedLineEntry entry) {
     int length = column - line.getAbsoluteLineLength(entry);
     if (length < 1 && column > 0) {
       // unless column is 0 always create at least one character of padding

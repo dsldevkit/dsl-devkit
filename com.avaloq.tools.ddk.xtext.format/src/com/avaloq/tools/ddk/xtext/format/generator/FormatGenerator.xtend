@@ -8,11 +8,8 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-
 package com.avaloq.tools.ddk.xtext.format.generator
 
-import com.avaloq.tools.ddk.xtext.format.FormatConstants
-import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
@@ -28,6 +25,8 @@ import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
 
 import static com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
 import static org.eclipse.xtext.xbase.lib.IteratorExtensions.*
+import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration
+import com.avaloq.tools.ddk.xtext.format.FormatConstants
 
 /**
  * Generates code from your model files on save.
@@ -76,22 +75,21 @@ class FormatGenerator extends JvmModelGenerator {
         super.doGenerate(resource, fsa); // Generate the abstract formatter from inferred Jvm models.
 
         for (model : toIterable(resource.allContents).filter(typeof(FormatConfiguration))) {
-            fsa.generateFile(getFormatterName(model.targetGrammar, "").asPath + ".java", FormatConstants.FORMATTER,
+            fsa.generateFile(getFormatterName(model, "").asPath + ".java", FormatConstants.FORMATTER,
                 model.generateSrc)
         }
     }
 
     def generateSrc(FormatConfiguration model) '''
-        package «getFormatterName(model.targetGrammar, "").toPackageName»;
+        package «getFormatterName(model, "").toPackageName»;
 
         /**
          * The formatting configuration for «model.targetGrammar.name.toSimpleName».
          */
-        public class «getFormatterName(model.targetGrammar, "").toSimpleName» extends «getFormatterName(
-            model.targetGrammar, "Abstract").toSimpleName» {
+        public class «getFormatterName(model, "").toSimpleName» extends «getFormatterName(
+            model, "Abstract").toSimpleName» {
           // TODO: Provide a correct implementation of getSLCommentRule() and getMLCommentRule() in this class
         }
     '''
 
 }
-

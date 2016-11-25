@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.formatting.locators.parameterized;
 
 import org.eclipse.xtext.AbstractElement;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IParametrizedLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.IndentationLocatorStartFacade;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator;
@@ -28,13 +28,13 @@ public class ParameterizedIndentationStartLocator extends IndentationLocatorStar
   private final LocatorParameterCalculator<?> calculator;
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ParameterizedIndentationStartLocator(final DdkFormattingConfig formattingConfig, final LocatorParameterCalculator<?> calculator) {
+  public ParameterizedIndentationStartLocator(final ExtendedFormattingConfig formattingConfig, final LocatorParameterCalculator<?> calculator) {
     super(formattingConfig);
     this.calculator = calculator;
   }
 
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  public ParameterizedIndentationStartLocator(final DdkFormattingConfig formattingConfig, final AbstractElement ele, final LocatorParameterCalculator<?> calculator) {
+  public ParameterizedIndentationStartLocator(final ExtendedFormattingConfig formattingConfig, final AbstractElement ele, final LocatorParameterCalculator<?> calculator) {
     super(formattingConfig, ele);
     this.calculator = calculator;
   }

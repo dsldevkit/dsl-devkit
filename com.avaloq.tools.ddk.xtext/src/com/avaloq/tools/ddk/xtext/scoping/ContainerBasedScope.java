@@ -18,8 +18,8 @@ import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 
-import com.avaloq.tools.ddk.xtext.caching.CacheManager;
-import com.avaloq.tools.ddk.xtext.caching.MapCache;
+import com.avaloq.tools.ddk.caching.CacheManager;
+import com.avaloq.tools.ddk.caching.MapCache;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -68,25 +68,26 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
   @Override
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) {
     if (nameFunctions != null && nameFunctions.contains(NameFunctions.exportNameFunction())) {
-      final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name;
-      final IEObjectDescription result = contentByNameCache.get(lookupName);
-      if (result != null) {
-        if (result != NULL_DESCRIPTION) {
-          return result;
+      final boolean ignoreCase = isIgnoreCase();
+      final QualifiedName lookupName = ignoreCase ? name.toLowerCase() : name;
+      final IEObjectDescription cachedResult = contentByNameCache.get(lookupName);
+      if (cachedResult != null) {
+        if (cachedResult != NULL_DESCRIPTION) {
+          return cachedResult;
         }
         // Otherwise check for aliasing and if yes revert to normal behavior or delegate or parent otherwise
       } else {
         QualifiedName namePattern = criteria.getNamePattern();
-        if (namePattern != null && isIgnoreCase()) {
+        if (namePattern != null && ignoreCase) {
           namePattern = namePattern.toLowerCase();
         }
         if (namePattern == null || namePattern.equals(lookupName)
             || (namePattern instanceof QualifiedNamePattern && ((QualifiedNamePattern) namePattern).matches(lookupName))) {
-          final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(lookupName).cache(false);
-          final Iterable<IEObjectDescription> res = copy.execute(container);
-          for (IEObjectDescription desc : res) {
-            contentByNameCache.put(lookupName, desc);
-            return desc;
+          final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(lookupName).ignoreCase(ignoreCase);
+          final Iterable<IEObjectDescription> queryResult = copy.execute(container);
+          for (IEObjectDescription description : queryResult) {
+            contentByNameCache.put(lookupName, description);
+            return description;
           }
           contentByNameCache.put(lookupName, NULL_DESCRIPTION);
         }
@@ -103,14 +104,15 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
   @Override
   protected Iterable<IEObjectDescription> getLocalElementsByName(final QualifiedName name) {
     if (nameFunctions != null && nameFunctions.size() == 1 && nameFunctions.contains(NameFunctions.exportNameFunction())) {
-      final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name;
+      final boolean ignoreCase = isIgnoreCase();
+      final QualifiedName lookupName = ignoreCase ? name.toLowerCase() : name;
       QualifiedName namePattern = criteria.getNamePattern();
-      if (namePattern != null && isIgnoreCase()) {
+      if (namePattern != null && ignoreCase) {
         namePattern = namePattern.toLowerCase();
       }
       if (namePattern == null || namePattern.equals(lookupName)
           || (namePattern instanceof QualifiedNamePattern && ((QualifiedNamePattern) namePattern).matches(lookupName))) {
-        final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(lookupName).cache(false);
+        final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(lookupName).ignoreCase(ignoreCase);
         return copy.execute(container);
       }
       return Collections.<IEObjectDescription> emptyList();

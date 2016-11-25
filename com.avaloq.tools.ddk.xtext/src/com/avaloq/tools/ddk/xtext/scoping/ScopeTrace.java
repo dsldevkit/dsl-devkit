@@ -32,7 +32,7 @@ public class ScopeTrace {
 
   /**
    * Adds a trace element to this scope trace.
-   *
+   * 
    * @param traceElement
    *          trace to add
    */
@@ -65,7 +65,7 @@ public class ScopeTrace {
 
   /**
    * Adds a trace element for the given {@link IEObjectDescription}.
-   *
+   * 
    * @param desc
    *          element to add trace for
    * @param traceElement
@@ -82,7 +82,7 @@ public class ScopeTrace {
 
   /**
    * Retrieves the trace for the given {@link IEObjectDescription}.
-   *
+   * 
    * @param desc
    *          description to get trace for
    * @return trace

@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.xtext.naming.QualifiedName;
 
-import com.avaloq.tools.ddk.xtext.caching.ICache;
+import com.avaloq.tools.ddk.caching.ICache;
 
 
 /**

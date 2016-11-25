@@ -10,14 +10,14 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.formatting.locators;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkLine;
-import com.avaloq.tools.ddk.xtext.formatting.DdkLineEntry;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLine;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;
 
 
 /**
- * Interface common to all space locators which are handled by DDK formatting.
+ * Interface common to all space locators which are handled by Acs formatting.
  */
-public interface ISpaceLocator extends IDdkLocator {
+public interface ISpaceLocator extends IExtendedLocator {
 
   /**
    * Compute the space string required by the locator.
@@ -28,5 +28,5 @@ public interface ISpaceLocator extends IDdkLocator {
    *          the entry for which to create padding
    * @return the space required
    */
-  String computeSpace(DdkLine line, DdkLineEntry entry);
+  String computeSpace(ExtendedLine line, ExtendedLineEntry entry);
 }

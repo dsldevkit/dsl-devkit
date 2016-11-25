@@ -12,9 +12,8 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 
 import org.eclipse.xtext.AbstractElement;
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
-import org.eclipse.xtext.formatting.impl.FormattingConfig.IndentationLocatorStart;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 
 
 /**
@@ -24,28 +23,28 @@ public class IndentationLocatorStartFacade extends FormattingConfig.IndentationL
 
   private int indentation;
 
-  public IndentationLocatorStartFacade(final DdkFormattingConfig formattingConfig) { // NOPMD CallSuperInConstructor - false positive by PMD
+  public IndentationLocatorStartFacade(final ExtendedFormattingConfig formattingConfig) { // NOPMD CallSuperInConstructor - false positive by PMD
     formattingConfig.super();
     indentation = formattingConfig.getDefaultIndentation();
   }
 
-  public IndentationLocatorStartFacade(final DdkFormattingConfig formattingConfig, final AbstractElement ele) { // NOPMD CallSuperInConstructor - false
+  public IndentationLocatorStartFacade(final ExtendedFormattingConfig formattingConfig, final AbstractElement ele) { // NOPMD CallSuperInConstructor - false
     // positive by PMD
     formattingConfig.super(ele);
     indentation = formattingConfig.getDefaultIndentation();
   }
 
-  public IndentationLocatorStartFacade(final DdkFormattingConfig formattingConfig, final int indentation) { // NOPMD CallSuperInConstructor - false
-                                                                                                            // positive by PMD
+  public IndentationLocatorStartFacade(final ExtendedFormattingConfig formattingConfig, final int indentation) { // NOPMD CallSuperInConstructor - false
+    // positive by PMD
     formattingConfig.super();
     this.indentation = indentation;
   }
 
-  public IndentationLocatorStartFacade(final DdkFormattingConfig formattingConfig, final int indentation, final AbstractElement ele) { // NOPMD
-                                                                                                                                       // CallSuperInConstructor
-                                                                                                                                       // - false
-                                                                                                                                       // positive by
-                                                                                                                                       // PMD
+  public IndentationLocatorStartFacade(final ExtendedFormattingConfig formattingConfig, final int indentation, final AbstractElement ele) { // NOPMD
+    // CallSuperInConstructor
+    // - false
+    // positive by
+    // PMD
     formattingConfig.super(ele);
     this.indentation = indentation;
   }

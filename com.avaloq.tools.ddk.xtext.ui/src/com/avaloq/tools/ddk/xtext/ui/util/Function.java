@@ -24,5 +24,3 @@ public interface Function<T> {
    */
   T run();
 }
-
-/* Copyright (c) Avaloq Evolution AG */

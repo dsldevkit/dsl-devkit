@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.modelcache;
 
-import com.avaloq.tools.ddk.xtext.linking.IDdkLazyLinkingResource;
+import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 
 
 /**
@@ -27,7 +27,7 @@ public class BinaryModelHandlerFactory {
    *          the resource associated with the model handler, must not be {@code null}
    * @return the model handler, never {@code null}
    */
-  public IBinaryModelHandler createHandler(final ResourceModelType model, final IDdkLazyLinkingResource resource) {
+  public IBinaryModelHandler createHandler(final ResourceModelType model, final ILazyLinkingResource2 resource) {
     switch (model) {
     case EMF:
       return new EMFModelHandler(resource);

@@ -19,7 +19,9 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 
@@ -73,12 +75,13 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
   @SuppressWarnings("PMD.UseLocaleWithCaseConversions")
   @Override
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) {
-    final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name;
+    final boolean ignoreCase = isIgnoreCase();
+    final QualifiedName lookupName = ignoreCase ? name.toLowerCase() : name;
     final IEObjectDescription result = contentByNameCache.get(lookupName);
     if (result != null && result != NULL_DESCRIPTION) {
       return result;
     } else if (result == null) {
-      final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(prefix.append(lookupName)).cache(false);
+      final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(prefix.append(lookupName)).ignoreCase(ignoreCase);
       final Iterable<IEObjectDescription> res = copy.execute(container);
       for (IEObjectDescription desc : res) {
         IEObjectDescription aliased = new AliasingEObjectDescription(name, desc);
@@ -100,11 +103,24 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
   @Override
   protected Iterable<IEObjectDescription> getLocalElementsByName(final QualifiedName name) {
     if (nameFunctions.size() == 1) {
-      final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name;
-      final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(prefix.append(lookupName)).cache(false);
+      final boolean ignoreCase = isIgnoreCase();
+      final QualifiedName lookupName = ignoreCase ? name.toLowerCase() : name;
+      final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(prefix.append(lookupName)).ignoreCase(ignoreCase);
       return copy.execute(container);
     }
     return super.getLocalElementsByName(name);
+  }
+
+  @Override
+  protected Iterable<IEObjectDescription> getAllLocalElements() {
+    final int prefixLength = prefix.getSegmentCount();
+    return Iterables.transform(super.getAllLocalElements(), new Function<IEObjectDescription, IEObjectDescription>() {
+      @Override
+      public IEObjectDescription apply(final IEObjectDescription input) {
+        QualifiedName prefixedName = input.getName();
+        return prefixedName.startsWith(prefix) ? new AliasingEObjectDescription(prefixedName.skipFirst(prefixLength), input) : input;
+      }
+    });
   }
 
   @SuppressWarnings("nls")

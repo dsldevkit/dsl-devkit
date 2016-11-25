@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.avaloq.tools.ddk.xtext.linking.IDdkLazyLinkingResource;
+import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -40,11 +40,11 @@ public class BinaryModelCacheManager implements IModelCacheManager {
 
   private final IModelCache modelCache;
 
-  private final IDdkLazyLinkingResource resource;
+  private final ILazyLinkingResource2 resource;
   private final Map<ResourceModelType, ModelStatus> modelStatus = Maps.newEnumMap(ResourceModelType.class);
   private final Map<ResourceModelType, IBinaryModelHandler> modelHandlers = Maps.newEnumMap(ResourceModelType.class);
 
-  public BinaryModelCacheManager(final IModelCache modelCache, final IDdkLazyLinkingResource resource) {
+  public BinaryModelCacheManager(final IModelCache modelCache, final ILazyLinkingResource2 resource) {
     this.modelCache = modelCache;
     this.resource = resource;
     initializeModelHandlers();

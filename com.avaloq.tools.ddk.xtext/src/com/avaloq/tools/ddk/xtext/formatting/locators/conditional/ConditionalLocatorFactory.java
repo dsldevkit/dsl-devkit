@@ -18,7 +18,7 @@ import org.eclipse.xtext.formatting.impl.FormattingConfig.NoLinewrapLocator;
 import org.eclipse.xtext.formatting.impl.FormattingConfig.NoSpaceLocator;
 import org.eclipse.xtext.formatting.impl.FormattingConfig.SpaceLocator;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkFormattingConfig;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig;
 import com.avaloq.tools.ddk.xtext.formatting.locators.ColumnLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.FixedLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator;
@@ -46,7 +46,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional linewrap locator
    */
-  public static LinewrapLocator createConditionalLinewrapLocator(final DdkFormattingConfig config, final int lines, final LocatorActivator<?> locatorActivator) {
+  public static LinewrapLocator createConditionalLinewrapLocator(final ExtendedFormattingConfig config, final int lines, final LocatorActivator<?> locatorActivator) {
     return new ConditionalLinewrapLocator(config, lines, locatorActivator);
   }
 
@@ -65,7 +65,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional linewrap locator
    */
-  public static LinewrapLocator createConditionalLinewrapLocator(final DdkFormattingConfig config, final int minWraps, final int defaultWraps, final int maxWraps, final LocatorActivator<?> locatorActivator) {
+  public static LinewrapLocator createConditionalLinewrapLocator(final ExtendedFormattingConfig config, final int minWraps, final int defaultWraps, final int maxWraps, final LocatorActivator<?> locatorActivator) {
     return new ConditionalLinewrapLocator(config, minWraps, defaultWraps, maxWraps, locatorActivator);
   }
 
@@ -78,7 +78,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional no-linewrap locator
    */
-  public static NoLinewrapLocator createConditionalNoLinewrapLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator) {
+  public static NoLinewrapLocator createConditionalNoLinewrapLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator) {
     return new ConditionalNoLinewrapLocator(config, locatorActivator);
   }
 
@@ -93,7 +93,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional space locator
    */
-  public static SpaceLocator createConditionalSpaceLocator(final DdkFormattingConfig config, final String space, final LocatorActivator<?> locatorActivator) {
+  public static SpaceLocator createConditionalSpaceLocator(final ExtendedFormattingConfig config, final String space, final LocatorActivator<?> locatorActivator) {
     return new ConditionalSpaceLocator(config, space, locatorActivator);
   }
 
@@ -106,7 +106,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional no-space locator
    */
-  public static NoSpaceLocator createConditionalNoSpaceLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator) {
+  public static NoSpaceLocator createConditionalNoSpaceLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator) {
     return new ConditionalNoSpaceLocator(config, locatorActivator);
   }
 
@@ -119,7 +119,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional locator
    */
-  public static NoFormatLocator createConditionalNoFormatLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator) {
+  public static NoFormatLocator createConditionalNoFormatLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator) {
     return new ConditionalNoFormatLocator(config, locatorActivator);
   }
 
@@ -134,7 +134,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional RightPaddingLocator
    */
-  public static RightPaddingLocator createConditionalRightPaddingLocator(final DdkFormattingConfig config, final int length, final LocatorActivator<?> locatorActivator) {
+  public static RightPaddingLocator createConditionalRightPaddingLocator(final ExtendedFormattingConfig config, final int length, final LocatorActivator<?> locatorActivator) {
     return new ConditionalRightPaddingLocator(config, length, locatorActivator);
   }
 
@@ -149,7 +149,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional column locator
    */
-  public static ColumnLocator createConditionalColumnLocator(final DdkFormattingConfig config, final int column, final LocatorActivator<?> locatorActivator) {
+  public static ColumnLocator createConditionalColumnLocator(final ExtendedFormattingConfig config, final int column, final LocatorActivator<?> locatorActivator) {
     return new ConditionalSingleLineColumnLocator(config, column, locatorActivator);
   }
 
@@ -170,7 +170,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional column locator
    */
-  public static FixedLocator createConditionalFixedLocator(final DdkFormattingConfig config, final int valueColumn, final boolean fixed, final boolean relative, final boolean nobreak, final LocatorActivator<?> locatorActivator) {
+  public static FixedLocator createConditionalFixedLocator(final ExtendedFormattingConfig config, final int valueColumn, final boolean fixed, final boolean relative, final boolean nobreak, final LocatorActivator<?> locatorActivator) {
     return new ConditionalColumnLocator(config, valueColumn, fixed, relative, nobreak, locatorActivator);
   }
 
@@ -185,7 +185,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional offset locator
    */
-  public static OffsetLocator createConditionalOffsetLocator(final DdkFormattingConfig config, final int offset, final LocatorActivator<?> locatorActivator) {
+  public static OffsetLocator createConditionalOffsetLocator(final ExtendedFormattingConfig config, final int offset, final LocatorActivator<?> locatorActivator) {
     return new ConditionalSingleLineOffsetLocator(config, offset, locatorActivator);
   }
 
@@ -200,7 +200,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional indentation end locator
    */
-  public static IndentationLocatorEnd createConditionalIndentationEndLocator(final DdkFormattingConfig config, final AbstractElement endElement, final LocatorActivator<?> locatorActivator) {
+  public static IndentationLocatorEnd createConditionalIndentationEndLocator(final ExtendedFormattingConfig config, final AbstractElement endElement, final LocatorActivator<?> locatorActivator) {
     return new ConditionalIndentationEndLocator(config, endElement, locatorActivator);
   }
 
@@ -215,7 +215,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional indentation start locator
    */
-  public static IndentationLocatorStart createConditionalIndentationStartLocator(final DdkFormattingConfig config, final AbstractElement beginElement, final LocatorActivator<?> locatorActivator) {
+  public static IndentationLocatorStart createConditionalIndentationStartLocator(final ExtendedFormattingConfig config, final AbstractElement beginElement, final LocatorActivator<?> locatorActivator) {
     return new ConditionalIndentationStartLocator(config, beginElement, locatorActivator);
   }
 
@@ -228,7 +228,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional indentation end locator
    */
-  public static IndentationLocatorEnd createConditionalIndentationEndLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator) {
+  public static IndentationLocatorEnd createConditionalIndentationEndLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator) {
     return new ConditionalIndentationEndLocator(config, locatorActivator);
   }
 
@@ -243,7 +243,7 @@ public final class ConditionalLocatorFactory {
    *          the indentation of the locator
    * @return new conditional indentation end locator
    */
-  public static IndentationLocatorEnd createConditionalIndentationEndLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator, final int indentation) {
+  public static IndentationLocatorEnd createConditionalIndentationEndLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator, final int indentation) {
     return new ConditionalIndentationEndLocator(config, locatorActivator, indentation);
   }
 
@@ -256,7 +256,7 @@ public final class ConditionalLocatorFactory {
    *          activator indicating when the conditional locator is active
    * @return new conditional indentation start locator
    */
-  public static IndentationLocatorStart createConditionalIndentationStartLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator) {
+  public static IndentationLocatorStart createConditionalIndentationStartLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator) {
     return new ConditionalIndentationStartLocator(config, locatorActivator);
   }
 
@@ -271,7 +271,7 @@ public final class ConditionalLocatorFactory {
    *          the indentation of the locator
    * @return new conditional indentation start locator
    */
-  public static IndentationLocatorStart createConditionalIndentationStartLocator(final DdkFormattingConfig config, final LocatorActivator<?> locatorActivator, final int indentation) {
+  public static IndentationLocatorStart createConditionalIndentationStartLocator(final ExtendedFormattingConfig config, final LocatorActivator<?> locatorActivator, final int indentation) {
     return new ConditionalIndentationStartLocator(config, locatorActivator, indentation);
   }
 }

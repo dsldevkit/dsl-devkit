@@ -8,7 +8,6 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-
 package com.avaloq.tools.ddk.xtext.format.scoping
 
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration

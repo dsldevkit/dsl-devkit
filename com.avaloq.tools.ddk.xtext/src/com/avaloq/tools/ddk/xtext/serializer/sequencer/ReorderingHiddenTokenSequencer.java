@@ -738,5 +738,4 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
       return NEW_LINE;
     }
   }
-
 }

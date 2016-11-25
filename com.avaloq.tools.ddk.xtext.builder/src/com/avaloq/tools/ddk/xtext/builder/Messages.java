@@ -16,15 +16,16 @@ import org.eclipse.osgi.util.NLS;
 //CHECKSTYLE:OFF
 public class Messages extends NLS {
   private static final String BUNDLE_NAME = "com.avaloq.tools.ddk.xtext.builder.messages"; //$NON-NLS-1$
-  public static String DdkClusteringBuilderState_CANNOT_LOAD_RESOURCE;
-  public static String DdkClusteringBuilderState_NO_MORE_RESOURCES;
-  public static String DdkClusteringBuilderState_PHASE_ONE_DONE;
-  public static String DdkClusteringBuilderState_TRY_AGAIN;
-  public static String DdkClusteringBuilderState_TRY_AGAIN_FAILED;
-  public static String DdkClusteringBuilderState_UPDATE_DESCRIPTIONS;
-  public static String DdkClusteringBuilderState_WRITE_DESCRIPTIONS;
-  public static String DdkClusteringBuilderState_WRITE_ONE_DESCRIPTION;
-  public static String DdkClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR;
+  public static String MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE;
+  public static String MonitoredClusteringBuilderState_NO_MORE_RESOURCES;
+  public static String MonitoredClusteringBuilderState_PHASE_ONE_DONE;
+  public static String MonitoredClusteringBuilderState_TRY_AGAIN;
+  public static String MonitoredClusteringBuilderState_TRY_AGAIN_FAILED;
+  public static String MonitoredClusteringBuilderState_UPDATE_DESCRIPTIONS;
+  public static String MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS;
+  public static String MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION;
+  public static String MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR;
+
   static {
     // initialize resource bundle
     NLS.initializeMessages(BUNDLE_NAME, Messages.class);
@@ -34,3 +35,4 @@ public class Messages extends NLS {
     super();
   }
 }
+

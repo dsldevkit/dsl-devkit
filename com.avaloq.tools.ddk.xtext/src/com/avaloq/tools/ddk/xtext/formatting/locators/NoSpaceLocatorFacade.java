@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 
 import org.eclipse.xtext.formatting.impl.FormattingConfig;
 
-import com.avaloq.tools.ddk.xtext.formatting.DdkLine;
-import com.avaloq.tools.ddk.xtext.formatting.DdkLineEntry;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLine;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;
 
 
 /**
@@ -47,7 +47,7 @@ public class NoSpaceLocatorFacade extends FormattingConfig.NoSpaceLocator implem
    * @return the empty string
    */
   @Override
-  public String computeSpace(final DdkLine line, final DdkLineEntry entry) {
+  public String computeSpace(final ExtendedLine line, final ExtendedLineEntry entry) {
     return super.getSpace();
   }
 }

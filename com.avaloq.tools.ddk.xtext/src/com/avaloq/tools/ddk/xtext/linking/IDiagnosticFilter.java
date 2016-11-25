@@ -24,12 +24,12 @@ import com.google.inject.ImplementedBy;
  * It is intended that this interface be used to suppress creation of linking
  * errors for optional cross references.
  */
-@ImplementedBy(DdkLazyLinkingResource.DefaultDiagnosticFilter.class)
+@ImplementedBy(LazyLinkingResource2.DefaultDiagnosticFilter.class)
 public interface IDiagnosticFilter {
 
   /**
-   * Suppress the creation of a diagnostic in {@link DdkLazyLinkingResource#createAndAddDiagnostic(Triple)}.
-   *
+   * Suppress the creation of a diagnostic in {@link LazyLinkingResource2#createAndAddDiagnostic(Triple)}.
+   * 
    * @param triple
    *          the triple
    * @return true, if the creation of diagnostic should be suppressed

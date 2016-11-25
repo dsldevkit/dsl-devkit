@@ -27,7 +27,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.OnChangeEvictingCache;
 
-import com.avaloq.tools.ddk.xtext.linking.IDdkLazyLinkingResource;
+import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.avaloq.tools.ddk.xtext.util.ZippedByteArrayInputStream;
 import com.avaloq.tools.ddk.xtext.util.ZippedByteArrayOutputStream;
 
@@ -42,9 +42,9 @@ public class NodeModelHandler implements IBinaryModelHandler {
   // Predicted model size based on the average model size computed over the entire set of sources
   private static final int PREDICTED_MODEL_SIZE = 20 * 1024;
 
-  private final IDdkLazyLinkingResource resource;
+  private final ILazyLinkingResource2 resource;
 
-  public NodeModelHandler(final IDdkLazyLinkingResource resource) {
+  public NodeModelHandler(final ILazyLinkingResource2 resource) {
     this.resource = resource;
   }
 
