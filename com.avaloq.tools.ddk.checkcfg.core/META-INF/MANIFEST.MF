@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.checkcfg.core
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.generator;resolution:=optional,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.osgi,
+ org.antlr.runtime,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.xtext.xbase;visibility:=reexport,
+ org.eclipse.xtext.common.types,
+ org.eclipse.jdt.core,
+ com.avaloq.tools.ddk.xtext,
+ com.avaloq.tools.ddk.check.core,
+ com.avaloq.tools.ddk.check.runtime.core,
+ com.avaloq.tools.ddk.xtext.generator;resolution:=optional,
+ org.eclipse.xtext.xbase.lib,
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
+Import-Package: org.apache.log4j,
+ org.apache.commons.logging
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.avaloq.tools.ddk.checkcfg,
+ com.avaloq.tools.ddk.checkcfg.checkcfg,
+ com.avaloq.tools.ddk.checkcfg.checkcfg.impl,
+ com.avaloq.tools.ddk.checkcfg.checkcfg.util,
+ com.avaloq.tools.ddk.checkcfg.formatting,
+ com.avaloq.tools.ddk.checkcfg.generator,
+ com.avaloq.tools.ddk.checkcfg.jvmmodel,
+ com.avaloq.tools.ddk.checkcfg.parser.antlr,
+ com.avaloq.tools.ddk.checkcfg.parser.antlr.internal,
+ com.avaloq.tools.ddk.checkcfg.services,
+ com.avaloq.tools.ddk.checkcfg.validation,
+ com.avaloq.tools.ddk.checkcfg.serializer
+

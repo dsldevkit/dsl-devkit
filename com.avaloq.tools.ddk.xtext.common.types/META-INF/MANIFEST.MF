@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.common.types
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.common.types;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.avaloq.tools.ddk.xtext,
+ org.eclipse.jdt.core,
+ org.eclipse.osgi,
+ org.eclipse.xtext,
+ org.eclipse.xtext.common.types
+Export-Package: com.avaloq.tools.ddk.xtext.common.types.access.jdt
+Import-Package: org.apache.log4j

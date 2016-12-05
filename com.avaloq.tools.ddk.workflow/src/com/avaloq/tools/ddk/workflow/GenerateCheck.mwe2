@@ -1,0 +1,136 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+module Check
+
+import org.eclipse.emf.mwe.utils.*
+import org.eclipse.xtext.generator.*
+import org.eclipse.xtext.ui.generator.*
+
+var grammarURI = "classpath:/com/avaloq/tools/ddk/check/Check.xtext"
+var file.extensions = "check"
+var baseName = "com.avaloq.tools.ddk.check"
+var runtimeProject = "../${baseName}.core"
+var uiProject = "../${baseName}.ui"
+var testProject = "../${baseName}.core.test"
+
+
+// NB: this is the same workflow as the domain model example
+Workflow {
+  bean = StandaloneSetup {
+    scanClassPath = true
+    platformUri = "${runtimeProject}/.."
+    registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
+    registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+    registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
+    registerGenModelFile = "platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel"
+    registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
+  }
+
+  component = DirectoryCleaner {
+    directory = "${runtimeProject}/src-gen"
+  }
+
+  component = DirectoryCleaner {
+    directory = "${uiProject}/src-gen"
+  }
+
+  component = DirectoryCleaner {
+    directory = "${testProject}/src-gen"
+  }
+
+  component = Generator {
+    pathRtProject = runtimeProject
+    pathUiProject = uiProject
+    pathTestProject = testProject
+    projectNameRt = "${baseName}.core"
+    projectNameUi = "${baseName}.ui"
+
+    language = {
+      uri = grammarURI
+      fileExtensions = file.extensions
+
+      // Java API to access grammar elements (required by several other fragments)
+      fragment = grammarAccess.GrammarAccessFragment {}
+
+      // Generate java classes for Ecore models
+      fragment = ecore.EcoreGeneratorFragment {}
+
+      // the serialization component
+      fragment = serializer.SerializerFragment {}
+
+      // a custom ResourceFactory for use with EMF
+      fragment = resourceFactory.ResourceFactoryFragment {
+        fileExtensions = file.extensions
+      }
+
+      // the following fragment generates an Antlr parser
+      fragment = parser.antlr.XtextAntlrGeneratorFragment {}
+
+      // java-based API for validation
+      fragment = validation.JavaValidatorFragment {}
+
+      // scoping API
+      fragment = scoping.ImportNamespacesScopingFragment {
+        generateStub = false
+      }
+      fragment = exporting.QualifiedNamesFragment {}
+
+      // testing API
+      fragment = junit.Junit4Fragment {}
+
+      // formatter API
+      fragment = formatting.FormatterFragment {}
+
+      // labeling API
+      fragment = labeling.LabelProviderFragment {}
+
+      // outline API
+      fragment = outline.OutlineTreeProviderFragment {}
+      fragment = outline.QuickOutlineFragment {}
+
+      // java-based API for content assistance
+      fragment = contentAssist.JavaBasedContentAssistFragment {}
+      fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
+
+      fragment = builder.BuilderIntegrationFragment {}
+
+      // quickfix API
+      fragment = quickfix.QuickfixProviderFragment {}
+
+      // rename refactoring
+      fragment = refactoring.RefactorElementNameFragment {
+        useJdtRefactoring = true
+      }
+
+      // provides a compare view
+      fragment = compare.CompareFragment {
+        fileExtensions = file.extensions
+      }
+
+      // Xbase support
+      fragment = types.TypesGeneratorFragment {}
+      fragment = xbase.XbaseGeneratorFragment {}
+
+      // Code generator
+      fragment = generator.GeneratorFragment {
+        generateJavaMain = false
+        generateMwe = false
+      }
+
+      fragment = templates.CodetemplatesGeneratorFragment {}
+    }
+  }
+
+  component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
+    genModel = "platform:/resource/${baseName}.core/src-gen/com/avaloq/tools/ddk/check/Check.genmodel"
+    srcPath  = "platform:/resource/${baseName}.core/src"
+  }
+}

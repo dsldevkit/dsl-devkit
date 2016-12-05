@@ -1,0 +1,53 @@
+body {
+	font-size: 11pt;
+	font-family: arial;
+	font-variant: normal;
+	margin-left: 1.0cm;
+}
+
+h1 {
+	font-size: 18pt;
+	font-weight: bolder;
+}
+
+h2 {
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+div#checklabel {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+div.description {
+	margin-left: 0.5cm;
+	font-size: 11pt;
+    border-top: solid thin black;
+}
+
+div.category {
+    border-top: solid 1px #000;
+}
+
+dt {
+	font-weight: normal;
+	font-style: italic;
+}
+
+dd {
+	margin-top: 2mm;
+}
+
+dl {
+	margin-top: 3mm;
+	margin-bottom: 0mm;
+}
+
+div#checkdescription {
+	margin-left: 1cm;
+}
+
+h3 span.thin {
+        font-weight: normal;
+}

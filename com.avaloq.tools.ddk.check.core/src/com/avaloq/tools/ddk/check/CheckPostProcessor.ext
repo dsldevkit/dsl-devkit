@@ -1,0 +1,51 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+import xtext;
+import ecore;
+
+extension com::avaloq::tools::ddk::xtext::generator::ecore::TransformUtil;
+
+// Post-processor for the Check language
+process(GeneratedMetamodel this):
+    let package = (EPackage) ePackage:
+    let grammar = (Grammar) eContainer:
+
+   // Perform other Model transformations
+   package.transform(grammar)
+;
+
+// transforms the given EMF Ecore model
+EPackage transform(ecore::EPackage this, Grammar grammar):
+   this.eAllContents.typeSelect(EClass).internalTransform(this, grammar) ->
+   this
+;
+
+private internalTransform(ecore::EClass this, ecore::EPackage package, Grammar grammar):
+    switch {
+        case (name == 'CheckCatalog') : {
+            this.addUnboundedOperation('getAllChecks', package.lookupClass('Check'))
+        }
+        case (name == 'Documented') : {
+            this.addDerivedAttribute('description', 'EString'.lookupEcoreDataType())
+        }
+        case (name == 'ImplicitlyNamed') : {
+            this.addDerivedAttribute('name', 'EString'.lookupEcoreDataType())
+        }
+        case (name == 'Check') : {
+            this.addDerivedAttribute('message', 'EString'.lookupEcoreDataType())
+        }
+        default: null
+    }
+;
+
+private internalTransform(ecore::EObject this, Grammar grammar):
+    null
+;

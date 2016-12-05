@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.check.runtime.core
+Bundle-SymbolicName: com.avaloq.tools.ddk.check.runtime.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.xtext,
+ com.avaloq.tools.ddk.xtext
+Export-Package: com.avaloq.tools.ddk.check.runtime.configuration,
+ com.avaloq.tools.ddk.check.runtime.context,
+ com.avaloq.tools.ddk.check.runtime.issue,
+ com.avaloq.tools.ddk.check.runtime.quickfix,
+ com.avaloq.tools.ddk.check.runtime.registry,
+ com.avaloq.tools.ddk.check.runtime.validation
+Import-Package: org.apache.log4j
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: com.avaloq.tools.ddk.check.runtime.internal.Activator

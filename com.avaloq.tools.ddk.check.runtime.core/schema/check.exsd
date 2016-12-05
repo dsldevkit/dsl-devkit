@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.avaloq.tools.ddk.check.runtime.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="com.avaloq.tools.ddk.check.runtime.core" id="check" name="Check extension point"/>
+      </appinfo>
+      <documentation>
+         Extension point to be used for registring static code analysis validators.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="validator" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="validator">
+      <annotation>
+         <documentation>
+            Describes check extensions which are queried at run-time. The pair language/target class is used to find suitable validators for a model being validated.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="language" type="string" use="required">
+            <annotation>
+               <documentation>
+                  This is the target language for which validations are defined. Corresponds to a grammar ID.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="targetClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class which is invoked at run-time. Must contain methods marked with appropriate annotations.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="catalog" type="string">
+            <annotation>
+               <documentation>
+                  Describes the path to the check model which was used to generate code, e.g. /myproject/src/org/eclipse/example/MyChecks.check. This attribute is optional.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+
+
+
+
+
+</schema>

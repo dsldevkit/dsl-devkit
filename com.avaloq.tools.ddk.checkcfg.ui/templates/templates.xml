@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- Note: Don't forget to provide an ID attribute to templates, without they will not be loaded! -->
+
+  <templates>
+    <template
+      id="com.avaloq.tools.ddk.checkcfg.CheckCfg.template.CheckConfiguration"
+      autoinsert="true"
+      context="com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_check"
+      deleted="false"
+      description="Creates a new empty check configuration"
+      enabled="true"
+      name="CheckConfiguration">check configuration ${name} {
+  ${cursor}
+}</template>
+    <template
+      id="com.avaloq.tools.ddk.checkcfg.CheckCfg.template.ConfiguredCatalog"
+      autoinsert="true"
+      context="com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog"
+      deleted="false"
+      description="Configures a given catalog"
+      enabled="true"
+      name="Add a catalog">catalog ${catalogName:CrossReference(ConfiguredCatalog.catalog)} {
+  ${cursor}
+}</template>
+
+  </templates>

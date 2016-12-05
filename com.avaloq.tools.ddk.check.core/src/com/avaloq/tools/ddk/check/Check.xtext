@@ -1,0 +1,159 @@
+grammar com.avaloq.tools.ddk.check.Check with org.eclipse.xtext.xbase.annotations.XbaseWithAnnotations
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
+import "http://www.eclipse.org/xtext/xbase/Xtype" as xtype
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
+import "http://www.eclipse.org/2008/Xtext" as xtext
+generate check "http://www.avaloq.com/tools/ddk/check/Check"
+
+CheckCatalog:
+  {CheckCatalog}
+  'package' packageName=QualifiedName
+  (imports=XImportSection)?
+  (final?='final')? 'catalog' name=ValidID
+  ('for' 'grammar' ^grammar=[xtext::Grammar|QualifiedName])?
+  ('with' includedCatalogs=[CheckCatalog|QualifiedName])?  //TODO a list of included catalogs ??
+  // TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
+  '{'
+  (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)*
+  '}';
+
+// Override (inherited via xbase->xtype) to restrict to our syntax. No static imports. (Backwards compatibility; would introduce a new keyword)
+XImportDeclaration returns xtype::XImportDeclaration :
+  'import' (
+      importedType=[types::JvmDeclaredType|QualifiedName]
+    | importedNamespace=QualifiedNameWithWildcard
+  ) ';'?
+;
+
+Documented:
+  CheckCatalog | Check | Category | Context | Implementation | Member
+;
+
+ImplicitlyNamed:
+  Check | Category
+;
+
+Category:
+  'category' (id=ValidID)? label=STRING '{'
+  (checks+=Check)*
+  '}';
+
+Check:
+  (severityRange=SeverityRange)?
+  (final?='final')?
+  (kind=TriggerKind)?
+  defaultSeverity=SeverityKind
+  (id=ValidID)? label=STRING
+  (=> '(' (formalParameters+=FormalParameter (',' formalParameters+=FormalParameter)*)? ')')?
+  ('message' givenMessage=STRING)? ((=> '{' (contexts+=Context)* '}') | contexts+=Context?);
+//TODO check duplicate names, qualified names don't include category
+
+SeverityRange:
+  '@' 'SeverityRange' '(' minSeverity=SeverityKind '..' maxSeverity=SeverityKind ')' //TODO  verification not allowed for final
+;
+
+Member :
+  annotations+=XAnnotation*
+  type=JvmTypeReference name=ValidID (OpSingleAssign value=XOrExpression)? ';' // TODO: check if semicolon necessary?
+;
+
+Implementation:
+  'def' name=ValidID context=Context;
+/*
+ *   Parameter Description (incl type and default values)
+ */
+// TODO how can formal parameters be referenced from within a 'def' Implementation clause?
+FormalParameter:
+  type=JvmTypeReference name=ValidID '=' right=XFormalParameterDefaultValueLiteral
+   (label=STRING)?;
+//TODO resolve the allowed types either in scopes or in validations
+//TODO validate the default values according to the type.
+
+XSimpleFormalParameterDefaultValueLiteral returns xbase::XExpression:
+  XBooleanLiteral |
+  XNumberLiteral |
+  XStringLiteral
+;
+
+XConstantUnaryOperation returns xbase::XExpression:
+  {xbase::XUnaryOperation} feature=[types::JvmIdentifiableElement|OpUnary] operand=XConstantUnaryOperation
+  | XSimpleFormalParameterDefaultValueLiteral
+;
+
+XFormalParameterDefaultValueLiteral returns xbase::XExpression:
+  XConstantUnaryOperation |
+  XConstantListLiteral
+  // todo add support for enumerations
+;
+
+XConstantListLiteral returns xbase::XListLiteral:
+  {xbase::XListLiteral} '#' '[' (elements+=XConstantUnaryOperation (',' elements+=XConstantUnaryOperation )*)? ']'
+;
+
+/*
+ *   Context Description (incl constraint?)
+ */
+Context:
+  'for' contextVariable=ContextVariable constraint=XBlockExpression;
+
+ContextVariable:
+  type=JvmTypeReference (name=ValidID)?
+;
+///* Adding Guards and Issues to the possible expressions */
+XGuardExpression returns xbase::XExpression:
+  {XGuardExpression} 'guard' guard=XExpression;
+
+XIssueExpression returns xbase::XExpression:
+  {XIssueExpression}
+  'issue'
+  (=> check=[Check|QualifiedName])?
+  (=> 'on'
+    // we list the possible choices to help antlr
+    ( (=> '#' markerFeature=[ecore::EStructuralFeature|ValidID] )|
+     (markerObject=XExpression (=> '#' markerFeature=[ecore::EStructuralFeature|FeatureCallID])?)
+    )
+    (=> '[' markerIndex=XExpression ']')?
+  )?
+  (=> 'message' message=XExpression)?
+  (=> 'bind' '('messageParameters+=XExpression (=> ',' messageParameters+=XExpression)* ')')?  //TODO rename as bindings
+  (=> 'data' (issueCode=ValidID)? '(' issueData+=XExpression (=> ',' issueData+=XExpression)* ')' )?
+  ;
+
+XPrimaryExpression returns xbase::XExpression:
+  XConstructorCall
+  | XBlockExpression
+  | XSwitchExpression
+  | XSynchronizedExpression
+  | XFeatureCall
+  | XLiteral
+  | XIfExpression
+  | XForLoopExpression
+  | XBasicForLoopExpression
+  | XWhileExpression
+  | XDoWhileExpression
+  | XThrowExpression
+  | XReturnExpression
+  | XTryCatchFinallyExpression
+  | XParenthesizedExpression
+  | XGuardExpression // <-new
+  | XIssueExpression // <-new
+;
+
+// We cannot add any identifier here that also starts an XPrimaryExpression. ('for', 'guard', 'issue'). Also, don't add the Java keywords
+// 'package' or 'final'. Let's at least allow all other keywords as member IDs in a chained feature call.
+FeatureCallID:
+  ValidID
+  | 'extends' | 'static' | 'import' | 'extension' // Inherited from xbase
+  | 'catalog' | 'grammar' | 'with' | 'category' | 'message'
+  | 'on' | 'bind' | 'data' | 'SeverityRange'
+  | 'error' | 'warning' | 'info' | 'ignore' // SeverityKind
+  | 'live' | 'onSave' | 'onDemand' // TriggerKind
+;
+
+enum SeverityKind:
+  error='error' | warning='warning' | info='info' | ignore='ignore';
+
+enum TriggerKind:  // we avoid using CheckKind to simplify writing expressions...
+  fast='live' | normal='onSave' | expensive='onDemand';

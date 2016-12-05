@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.check.lib
+Bundle-SymbolicName: com.avaloq.tools.ddk.check.lib
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.xtext,
+ com.avaloq.tools.ddk.xtext
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.avaloq.tools.ddk.check.lib
