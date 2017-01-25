@@ -1,5 +1,7 @@
 [DSL DevKit - A DSL developer kit and runtime library](https://github.com/dsldevkit/dsl-devkit)
 ===================================
+[![Build Status](https://travis-ci.org/dsldevkit/dsl-devkit.svg?branch=master)](https://travis-ci.org/dsldevkit/dsl-devkit)
+
 Copyright 2016 Avaloq Evolution AG
 
 #Documentation
