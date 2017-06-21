@@ -15,6 +15,7 @@ import org.eclipse.xtext.xtype.XImportSection;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getPackageName <em>Package Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getImports <em>Imports</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.xtext.xtype.XImportSection;
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getChecks <em>Checks</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getMembers <em>Members</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog()
  * @model

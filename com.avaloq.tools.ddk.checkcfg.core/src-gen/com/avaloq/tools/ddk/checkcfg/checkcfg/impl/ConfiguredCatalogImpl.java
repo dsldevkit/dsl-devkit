@@ -30,11 +30,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCatalogImpl#getCatalog <em>Catalog</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCatalogImpl#getCheckConfigurations <em>Check Configurations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

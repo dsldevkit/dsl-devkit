@@ -147,7 +147,7 @@ public class DeployJob extends Job {
 
     LOGGER.info(NLS.bind("Starting the bundle {0} generated from the project {1}", bundleLocation, project.getName())); //$NON-NLS-1$
     try {
-      managedBundle = bundleContext.installBundle(bundleLocation, Files.newInputStreamSupplier(jar).getInput());
+      managedBundle = bundleContext.installBundle(bundleLocation, Files.asByteSource(jar).openStream());
       managedBundle.start();
     } catch (BundleException e) {
       LOGGER.error(Messages.DeployJob_FailedToInstallAndStartBundle, e);
@@ -435,4 +435,3 @@ public class DeployJob extends Job {
   }
 
 }
-

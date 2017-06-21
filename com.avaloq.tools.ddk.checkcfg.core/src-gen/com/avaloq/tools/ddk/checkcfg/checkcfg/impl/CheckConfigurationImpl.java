@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getLanguageValidatorConfigurations <em>Language Validator Configurations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getLegacyCatalogConfigurations <em>Legacy Catalog Configurations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

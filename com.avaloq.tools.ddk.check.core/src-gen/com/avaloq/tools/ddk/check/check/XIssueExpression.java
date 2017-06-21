@@ -15,6 +15,7 @@ import org.eclipse.xtext.xbase.XExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getCheck <em>Check</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerFeature <em>Marker Feature</em>}</li>
@@ -25,7 +26,6 @@ import org.eclipse.xtext.xbase.XExpression;
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getIssueCode <em>Issue Code</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getIssueData <em>Issue Data</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXIssueExpression()
  * @model

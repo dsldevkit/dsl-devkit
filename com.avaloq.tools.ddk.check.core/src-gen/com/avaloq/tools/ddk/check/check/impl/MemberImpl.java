@@ -32,13 +32,13 @@ import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotation;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.MemberImpl#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.MemberImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.MemberImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.MemberImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -24,11 +24,11 @@ import org.eclipse.xtext.xbase.XExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredParameterImpl#getParameter <em>Parameter</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredParameterImpl#getNewValue <em>New Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

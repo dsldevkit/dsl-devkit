@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getSeverity <em>Severity</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getCheck <em>Check</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getParameterConfigurations <em>Parameter Configurations</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredCheck()
  * @model

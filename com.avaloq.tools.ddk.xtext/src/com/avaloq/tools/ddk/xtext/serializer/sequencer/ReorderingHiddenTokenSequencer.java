@@ -29,7 +29,6 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.parsetree.reconstr.IHiddenTokenHelper;
 import org.eclipse.xtext.parsetree.reconstr.impl.NodeIterator;
 import org.eclipse.xtext.parsetree.reconstr.impl.TokenUtil;
-import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.ISequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.ISyntacticSequenceAcceptor;
 import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
@@ -72,10 +71,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
 
   private int rootEndOffset;
 
-  @Override
-  public void init(final ISerializationContext context, final EObject semanticObject, final ISequenceAcceptor sequenceAcceptor, final Acceptor errorAcceptor) {
-    this.init((EObject) null, semanticObject, sequenceAcceptor, errorAcceptor);
-  }
+  // Implementation of the IHiddenTokenSequencer interface.
 
   @Override
   public void init(final EObject context, final EObject semanticObject, final ISequenceAcceptor sequenceAcceptor, final Acceptor errorAcceptor) {

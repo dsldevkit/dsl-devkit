@@ -11,11 +11,11 @@ import org.eclipse.xtext.xbase.XExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Context#getContextVariable <em>Context Variable</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Context#getConstraint <em>Constraint</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getContext()
  * @model

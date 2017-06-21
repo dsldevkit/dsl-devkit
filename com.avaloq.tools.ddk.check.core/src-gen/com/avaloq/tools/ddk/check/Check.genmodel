@@ -4,7 +4,7 @@
     editorDirectory="/com.avaloq.tools.ddk.check.core.editor/src" modelPluginID="com.avaloq.tools.ddk.check.core"
     forceOverwrite="true" modelName="Check" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.check.core.edit"
-    editorPluginID="com.avaloq.tools.ddk.check.core.editor" runtimeVersion="2.10"
+    editorPluginID="com.avaloq.tools.ddk.check.core.editor" runtimeVersion="2.12"
     usedGenPackages="platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel#//types platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xAnnotations platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xtype platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel#//xtext">
   <genPackages prefix="Check" basePackage="com.avaloq.tools.ddk.check" disposableProviderFactory="true"
       ecorePackage="Check.ecore#/">

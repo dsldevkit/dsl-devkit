@@ -4,7 +4,7 @@
     editorDirectory="/com.avaloq.tools.ddk.checkcfg.core.editor/src" modelPluginID="com.avaloq.tools.ddk.checkcfg"
     forceOverwrite="true" modelName="CheckCfg" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.checkcfg.edit"
-    editorPluginID="com.avaloq.tools.ddk.checkcfg.editor" runtimeVersion="2.10" usedGenPackages="platform:/resource/com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/Check.genmodel#//check platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
+    editorPluginID="com.avaloq.tools.ddk.checkcfg.editor" runtimeVersion="2.12" usedGenPackages="platform:/resource/com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/Check.genmodel#//check platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
   <genPackages prefix="Checkcfg" basePackage="com.avaloq.tools.ddk.checkcfg" disposableProviderFactory="true"
       ecorePackage="CheckCfg.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="CheckCfg.ecore#//SeverityKind">
