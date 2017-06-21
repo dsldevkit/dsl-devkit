@@ -72,6 +72,8 @@ import static com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.*
 import static org.eclipse.xtext.GrammarUtil.*
 
 import static extension com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
+import org.eclipse.emf.ecore.EClass
+import java.util.regex.Pattern
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -377,21 +379,28 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   // getGrammarElementNameFromSelf dispatch
   def dispatch String getGrammarElementNameFromSelf(GrammarRule rule) {
-    var ruleName = rule.getRuleName
+    val originalRuleName = rule.ruleName
+    var actualRuleName = originalRuleName
     if (rule.targetRule === null || rule.targetRule.type === null || rule.targetRule.type.classifier === null) {
-      return ruleName
-    } else if (ruleName != rule.targetRule?.type?.classifier?.name) {
-      ruleName = rule.targetRule.type.classifier.name
+      return actualRuleName
+    } else if (actualRuleName != rule.targetRule?.type?.classifier?.name) {
+      actualRuleName = rule.targetRule.type.classifier.name
     }
     var metamodel = rule.targetRule?.type?.metamodel
     if (metamodel == null) {
-      return ruleName
-    } else if (metamodel.alias == null) {
-      return EcoreUtil2::getContainerOfType(metamodel, typeof(Grammar))?.name?.toLowerCase + '.' + ruleName
+      return actualRuleName
     } else {
-      return 'com.avaloq.tools.dsl.' + metamodel.alias + '.' + metamodel.alias + '.' + ruleName
+      if (actualRuleName != originalRuleName) {
+        if (metamodel.EPackage.EClassifiers.stream.anyMatch[(it instanceof EClass) && (it.name.equalsIgnoreCase(originalRuleName))]){
+          actualRuleName = originalRuleName
+        }
+      }
+      if (metamodel.alias == null) {
+        return EcoreUtil2::getContainerOfType(metamodel, typeof(Grammar))?.name?.toLowerCase + '.' + actualRuleName
+      } else {
+        return 'com.avaloq.tools.dsl.' + metamodel.alias + '.' + metamodel.alias + '.' + actualRuleName
+      }
     }
-
   }
   def dispatch String getGrammarElementNameFromSelf(WildcardRule rule) {
     EObject.name
@@ -433,7 +442,14 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   def convertNonAlphaNumeric(String str) {
-    str.replaceAll("[\\W]|_", String.valueOf(str.hashCode))
+    val pattern = Pattern.compile("[\\W]");
+    val matcher = pattern.matcher(str);
+    val sb = new StringBuffer();
+    while(matcher.find) {
+      matcher.appendReplacement(sb, String.valueOf(Integer.toHexString(matcher.group.hashCode)))
+    }
+    matcher.appendTail(sb);
+    sb.toString;
   }
 
   // getDirectiveName dispatch
@@ -617,7 +633,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     config.«locator(matcher, matcher.locator, partialName)».«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
   '''
   def dispatch match(Matcher matcher, EObject element, NoFormatLocator locator, String partialName) '''
-    config.«locator(matcher, matcher.locator, partialName)».around(«elementAccess(element)»); // «locatorString(matcher)»
+    config.«locator(matcher, matcher.locator, partialName)».«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
   '''
   def dispatch match(Matcher matcher, EObject element, ColumnLocator locator, String partialName) '''
     «IF matcher.type.literal.compareTo("before") == 0»

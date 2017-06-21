@@ -5,7 +5,7 @@
     forceOverwrite="true" modelName="Format" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.format.edit"
     editorPluginID="com.avaloq.tools.ddk.xtext.format.editor" runtimeVersion="2.12"
-    usedGenPackages="platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel#//types platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel#//xtext">
+    usedGenPackages="platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel#//xtext platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel#//types platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
   <genPackages prefix="Format" basePackage="com.avaloq.tools.ddk.xtext.format" disposableProviderFactory="true"
       ecorePackage="Format.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="Format.ecore#//MatcherType">

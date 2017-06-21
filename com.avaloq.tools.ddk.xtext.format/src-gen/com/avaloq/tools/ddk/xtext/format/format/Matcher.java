@@ -35,12 +35,12 @@ public interface Matcher extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Locator</em>' containment reference.
-   * @see #setLocator(EObject)
+   * @see #setLocator(Locator)
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getMatcher_Locator()
    * @model containment="true"
    * @generated
    */
-  EObject getLocator();
+  Locator getLocator();
 
   /**
    * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.format.format.Matcher#getLocator <em>Locator</em>}' containment reference.
@@ -50,7 +50,7 @@ public interface Matcher extends EObject
    * @see #getLocator()
    * @generated
    */
-  void setLocator(EObject value);
+  void setLocator(Locator value);
 
   /**
    * Returns the value of the '<em><b>Type</b></em>' attribute.

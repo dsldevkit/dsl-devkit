@@ -1410,10 +1410,10 @@ ruleMatcher returns [EObject current=null]
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-((((
+((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMatcherAccess().getLocatorLocatorParserRuleCall_0_0_0_0()); 
+	        newCompositeNode(grammarAccess.getMatcherAccess().getLocatorLocatorParserRuleCall_0_0()); 
 	    }
 		lv_locator_0_0=ruleLocator		{
 	        if ($current==null) {
@@ -1431,7 +1431,7 @@ ruleMatcher returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMatcherAccess().getTypeMatcherTypeEnumRuleCall_0_0_1_0()); 
+	        newCompositeNode(grammarAccess.getMatcherAccess().getTypeMatcherTypeEnumRuleCall_1_0()); 
 	    }
 		lv_type_1_0=ruleMatcherType		{
 	        if ($current==null) {
@@ -1446,38 +1446,19 @@ ruleMatcher returns [EObject current=null]
 	    }
 
 )
-))
-    |(
+)(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMatcherAccess().getLocatorNoFormatLocatorParserRuleCall_0_1_0()); 
+	        newCompositeNode(grammarAccess.getMatcherAccess().getConditionXBlockExpressionParserRuleCall_2_0()); 
 	    }
-		lv_locator_2_0=ruleNoFormatLocator		{
-	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMatcherRule());
-	        }
-       		set(
-       			$current, 
-       			"locator",
-        		lv_locator_2_0, 
-        		"NoFormatLocator");
-	        afterParserOrEnumRuleCall();
-	    }
-
-)
-))(
-(
-		{ 
-	        newCompositeNode(grammarAccess.getMatcherAccess().getConditionXBlockExpressionParserRuleCall_1_0()); 
-	    }
-		lv_condition_3_0=ruleXBlockExpression		{
+		lv_condition_2_0=ruleXBlockExpression		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getMatcherRule());
 	        }
        		set(
        			$current, 
        			"condition",
-        		lv_condition_3_0, 
+        		lv_condition_2_0, 
         		"XBlockExpression");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -1561,6 +1542,16 @@ ruleLocator returns [EObject current=null]
     this_IndentLocator_5=ruleIndentLocator
     { 
         $current = $this_IndentLocator_5.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getLocatorAccess().getNoFormatLocatorParserRuleCall_6()); 
+    }
+    this_NoFormatLocator_6=ruleNoFormatLocator
+    { 
+        $current = $this_NoFormatLocator_6.current; 
         afterParserOrEnumRuleCall();
     }
 )

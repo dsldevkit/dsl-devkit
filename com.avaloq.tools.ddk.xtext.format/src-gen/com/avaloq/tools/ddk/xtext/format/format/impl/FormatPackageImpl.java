@@ -285,8 +285,8 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XbasePackage.eINSTANCE.eClass();
     XtextPackage.eINSTANCE.eClass();
+    XbasePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theFormatPackage.createPackageContents();
@@ -1349,6 +1349,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
     specificDirectiveEClass.getESuperTypes().add(this.getGrammarRuleDirective());
     keywordPairEClass.getESuperTypes().add(this.getGrammarRuleDirective());
     keywordPairEClass.getESuperTypes().add(this.getWildcardRuleDirective());
+    noFormatLocatorEClass.getESuperTypes().add(this.getLocator());
     spaceLocatorEClass.getESuperTypes().add(this.getLocator());
     rightPaddingLocatorEClass.getESuperTypes().add(this.getLocator());
     linewrapLocatorEClass.getESuperTypes().add(this.getLocator());
@@ -1428,7 +1429,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
     initEReference(getKeywordPair_RightMatchers(), this.getMatcher(), null, "rightMatchers", null, 0, -1, KeywordPair.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(matcherEClass, Matcher.class, "Matcher", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getMatcher_Locator(), theEcorePackage.getEObject(), null, "locator", null, 0, 1, Matcher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMatcher_Locator(), this.getLocator(), null, "locator", null, 0, 1, Matcher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMatcher_Type(), this.getMatcherType(), "type", null, 0, 1, Matcher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMatcher_Condition(), theXbasePackage.getXExpression(), null, "condition", null, 0, 1, Matcher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

@@ -4,10 +4,6 @@ package com.avaloq.tools.ddk.checkcfg.checkcfg;
 
 import com.avaloq.tools.ddk.check.check.Check;
 
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Configured Check</b></em>'.
@@ -19,14 +15,13 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getSeverity <em>Severity</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getCheck <em>Check</em>}</li>
- *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getParameterConfigurations <em>Parameter Configurations</em>}</li>
  * </ul>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredCheck()
  * @model
  * @generated
  */
-public interface ConfiguredCheck extends EObject
+public interface ConfiguredCheck extends ConfigurableSection
 {
 	/**
 	 * Returns the value of the '<em><b>Severity</b></em>' attribute.
@@ -82,21 +77,5 @@ public interface ConfiguredCheck extends EObject
 	 * @generated
 	 */
 	void setCheck(Check value);
-
-	/**
-	 * Returns the value of the '<em><b>Parameter Configurations</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredParameter}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameter Configurations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parameter Configurations</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredCheck_ParameterConfigurations()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<ConfiguredParameter> getParameterConfigurations();
 
 } // ConfiguredCheck

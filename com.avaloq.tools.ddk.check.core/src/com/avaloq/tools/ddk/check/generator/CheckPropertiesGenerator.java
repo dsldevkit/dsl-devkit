@@ -17,6 +17,8 @@ import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
 import com.avaloq.tools.ddk.check.check.SeverityKind;
+import com.avaloq.tools.ddk.check.check.XIssueExpression;
+import com.google.inject.Guice;
 
 
 /**
@@ -30,7 +32,7 @@ public final class CheckPropertiesGenerator {
 
   /**
    * Gets the numeric severity value for a given severity name.
-   * 
+   *
    * @param severityName
    *          the severity name
    * @return the numeric severity value
@@ -41,64 +43,65 @@ public final class CheckPropertiesGenerator {
 
   /**
    * Gets the severity key for a given check.
-   * 
+   *
    * @param check
    *          the check
    * @return the severity key
    */
   public static String checkSeverityKey(final Check check) {
-    return key(check).toUpperCase() + "$SEVERITY";
+    return issueCodeKeyPrefix(check).toUpperCase() + "$SEVERITY";
   }
 
   /**
    * Gets the parameter key for a given formal parameter.
-   * 
-   * @param param
+   *
+   * @param parameter
    *          the parameter
-   * @return the parameter severity key
-   */
-  public static String parameterSeverityKey(final FormalParameter param) {
-    return key(param).toUpperCase() + "$PARAMETER";
-  }
-
-  /**
-   * Gets the key for a given check.
-   * 
    * @param check
-   *          the check
-   * @return the key for given check
+   *          the check the parameter applies to
+   * @return the parameter key
    */
-  public static String key(final Check check) {
-    return keyPrefix(check) + '.' + check.getName();
+  public static String parameterKey(final FormalParameter parameter, final Check check) {
+    return parameterKey(parameter.getName(), issueCodeKeyPrefix(check));
   }
 
   /**
-   * Gets the key for a given parameter.
-   * 
-   * @param param
+   * Gets the parameter key for a given formal parameter.
+   *
+   * @param parameter
    *          the parameter
-   * @return the key
+   * @param issue
+   *          the issue expression the parameter applies to
+   * @return the parameter key
    */
-  public static String key(final FormalParameter param) {
-    Check check = (Check) param.eContainer();
-    return keyPrefix(param) + '.' + check.getName() + '.' + param.getName();
+  public static String parameterKey(final FormalParameter parameter, final XIssueExpression issue) {
+    return parameterKey(parameter.getName(), issueCodeKeyPrefix(issue));
   }
 
   /**
-   * Returns the key prefix for all object keys.
-   * 
-   * @param object
-   *          the object
-   * @return the key prefix
+   * Gets the parameter key for a parameter and issue code.
+   *
+   * @param parameterName
+   *          the parameter name
+   * @param issueCode
+   *          the issue code the parameter applies to
+   * @return the parameter key
    */
-  private static String keyPrefix(final EObject object) {
-    CheckCatalog catalog = EcoreUtil2.getContainerOfType(object, CheckCatalog.class);
-    if (catalog == null || catalog.eIsProxy()) {
-      return "UNDEFINED_CATALOG";
-    } else {
-      return catalog.getPackageName() + '.' + catalog.getName();
-    }
+  public static String parameterKey(final String parameterName, final String issueCode) {
+    return (issueCode + '.' + parameterName).toUpperCase() + "$PARAMETER";
+  }
+
+  /**
+   * Returns the the runtime issue code value as the key prefix for all object keys.
+   *
+   * @param object
+   *          the issue expression
+   * @return the key prefix, in this case the runtime issue code value
+   */
+  public static String issueCodeKeyPrefix(final EObject object) {
+    CheckGeneratorExtensions helper = Guice.createInjector(new com.avaloq.tools.ddk.check.CheckRuntimeModule()).getInstance(CheckGeneratorExtensions.class);
+    String issueName = helper.issueCode(object);
+    return helper.issueCodeValue(EcoreUtil2.getContainerOfType(object, CheckCatalog.class), issueName);
   }
 
 }
-

@@ -68,6 +68,15 @@ public interface CheckcfgFactory extends EFactory
 	ConfiguredParameter createConfiguredParameter();
 
 	/**
+	 * Returns a new object of class '<em>Configurable Section</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Configurable Section</em>'.
+	 * @generated
+	 */
+	ConfigurableSection createConfigurableSection();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

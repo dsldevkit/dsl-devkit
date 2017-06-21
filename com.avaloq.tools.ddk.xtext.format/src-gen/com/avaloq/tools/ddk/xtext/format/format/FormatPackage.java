@@ -803,7 +803,7 @@ public interface FormatPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NO_FORMAT_LOCATOR_FEATURE_COUNT = 0;
+  int NO_FORMAT_LOCATOR_FEATURE_COUNT = LOCATOR_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.format.format.impl.SpaceLocatorImpl <em>Space Locator</em>}' class.

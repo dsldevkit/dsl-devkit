@@ -81,7 +81,7 @@ public class CheckCfgParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1_0_3(), "rule__XImportDeclaration__Alternatives_1_0_3");
 					put(grammarAccess.getSeverityKindAccess().getAlternatives(), "rule__SeverityKind__Alternatives");
 					put(grammarAccess.getCheckConfigurationAccess().getGroup(), "rule__CheckConfiguration__Group__0");
-					put(grammarAccess.getCheckConfigurationAccess().getGroup_4(), "rule__CheckConfiguration__Group_4__0");
+					put(grammarAccess.getCheckConfigurationAccess().getGroup_5(), "rule__CheckConfiguration__Group_5__0");
 					put(grammarAccess.getConfiguredLanguageValidatorAccess().getGroup(), "rule__ConfiguredLanguageValidator__Group__0");
 					put(grammarAccess.getConfiguredCatalogAccess().getGroup(), "rule__ConfiguredCatalog__Group__0");
 					put(grammarAccess.getConfiguredCheckAccess().getGroup(), "rule__ConfiguredCheck__Group__0");
@@ -272,12 +272,15 @@ public class CheckCfgParser extends AbstractContentAssistParser {
 					put(grammarAccess.getXImportDeclarationAccess().getGroup_1_0(), "rule__XImportDeclaration__Group_1_0__0");
 					put(grammarAccess.getQualifiedNameInStaticImportAccess().getGroup(), "rule__QualifiedNameInStaticImport__Group__0");
 					put(grammarAccess.getCheckConfigurationAccess().getNameAssignment_2(), "rule__CheckConfiguration__NameAssignment_2");
-					put(grammarAccess.getCheckConfigurationAccess().getLanguageValidatorConfigurationsAssignment_3(), "rule__CheckConfiguration__LanguageValidatorConfigurationsAssignment_3");
-					put(grammarAccess.getCheckConfigurationAccess().getLegacyCatalogConfigurationsAssignment_4_1(), "rule__CheckConfiguration__LegacyCatalogConfigurationsAssignment_4_1");
+					put(grammarAccess.getCheckConfigurationAccess().getParameterConfigurationsAssignment_3(), "rule__CheckConfiguration__ParameterConfigurationsAssignment_3");
+					put(grammarAccess.getCheckConfigurationAccess().getLanguageValidatorConfigurationsAssignment_4(), "rule__CheckConfiguration__LanguageValidatorConfigurationsAssignment_4");
+					put(grammarAccess.getCheckConfigurationAccess().getLegacyCatalogConfigurationsAssignment_5_1(), "rule__CheckConfiguration__LegacyCatalogConfigurationsAssignment_5_1");
 					put(grammarAccess.getConfiguredLanguageValidatorAccess().getLanguageAssignment_1(), "rule__ConfiguredLanguageValidator__LanguageAssignment_1");
-					put(grammarAccess.getConfiguredLanguageValidatorAccess().getCatalogConfigurationsAssignment_3(), "rule__ConfiguredLanguageValidator__CatalogConfigurationsAssignment_3");
+					put(grammarAccess.getConfiguredLanguageValidatorAccess().getParameterConfigurationsAssignment_3(), "rule__ConfiguredLanguageValidator__ParameterConfigurationsAssignment_3");
+					put(grammarAccess.getConfiguredLanguageValidatorAccess().getCatalogConfigurationsAssignment_4(), "rule__ConfiguredLanguageValidator__CatalogConfigurationsAssignment_4");
 					put(grammarAccess.getConfiguredCatalogAccess().getCatalogAssignment_2(), "rule__ConfiguredCatalog__CatalogAssignment_2");
-					put(grammarAccess.getConfiguredCatalogAccess().getCheckConfigurationsAssignment_4(), "rule__ConfiguredCatalog__CheckConfigurationsAssignment_4");
+					put(grammarAccess.getConfiguredCatalogAccess().getParameterConfigurationsAssignment_4(), "rule__ConfiguredCatalog__ParameterConfigurationsAssignment_4");
+					put(grammarAccess.getConfiguredCatalogAccess().getCheckConfigurationsAssignment_5(), "rule__ConfiguredCatalog__CheckConfigurationsAssignment_5");
 					put(grammarAccess.getConfiguredCheckAccess().getSeverityAssignment_1(), "rule__ConfiguredCheck__SeverityAssignment_1");
 					put(grammarAccess.getConfiguredCheckAccess().getCheckAssignment_2(), "rule__ConfiguredCheck__CheckAssignment_2");
 					put(grammarAccess.getConfiguredCheckAccess().getParameterConfigurationsAssignment_3_1(), "rule__ConfiguredCheck__ParameterConfigurationsAssignment_3_1");

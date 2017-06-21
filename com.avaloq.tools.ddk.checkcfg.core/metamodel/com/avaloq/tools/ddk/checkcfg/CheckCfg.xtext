@@ -1,6 +1,6 @@
 grammar com.avaloq.tools.ddk.checkcfg.CheckCfg with org.eclipse.xtext.xbase.Xbase
 
-generate checkcfg "http://www.avaloq.com/tools/ddk/checkcfg/CheckCfg"
+import "http://www.avaloq.com/tools/ddk/checkcfg/CheckCfg"
 
 import "http://www.avaloq.com/tools/ddk/check/Check" as check
 import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
@@ -9,12 +9,14 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 CheckConfiguration:
   'check' 'configuration' name=ValidID
+  (parameterConfigurations+=ConfiguredParameter)*
   (languageValidatorConfigurations+=ConfiguredLanguageValidator)*
   ( '{' (legacyCatalogConfigurations+=ConfiguredCatalog)* '}' )?
 ;
 
 ConfiguredLanguageValidator:
   'for' language=QualifiedName '{'
+    (parameterConfigurations+=ConfiguredParameter)*
     (catalogConfigurations+=ConfiguredCatalog)*
   '}'
 ;
@@ -22,6 +24,7 @@ ConfiguredLanguageValidator:
 ConfiguredCatalog:
   {ConfiguredCatalog}
   'catalog' catalog=[check::CheckCatalog|QualifiedName] '{'
+  (parameterConfigurations+=ConfiguredParameter)*
   (checkConfigurations+=ConfiguredCheck)*
   '}'
 ;

@@ -50,33 +50,19 @@ class CheckGeneratorExtensions {
     context.parent(typeof(CheckCatalog)).issueCodesClassName + '.' + context.issueCode
   }
 
-  /* Gets the simple issue code name for an implementation. */
-  def dispatch String issueCode(Implementation implementation) {
-    implementation.name.splitCamelCase.toUpperCase + '_' +
-      implementation.context.contextVariable.type.simpleName.toUpperCase
-  }
-
-  /* Gets the simple issue code name for a context. */
-  def dispatch String issueCode(Context context) {
-    var String result
-    if (context.eContainer instanceof Check) {
-      val check = context.eContainer as Check
-      result =
-        check.name.splitCamelCase.toUpperCase + '_' +
-        context.contextVariable.type.simpleName.toUpperCase + '_' +
-        check.contexts.indexOf(context)
-    }
-    result
+  /* Gets the simple issue code name for a check. */
+  def dispatch String issueCode(Check check) {
+    check.name.splitCamelCase.toUpperCase
   }
 
   /* Gets the simple issue code name for an issue expression. */
   def dispatch String issueCode(XIssueExpression issue) {
     if (issue.issueCode != null) {
       issue.issueCode.splitCamelCase.toUpperCase
-    } else if (issue.parent(typeof(Check)) != null) {
-      issueCode(issue.parent(typeof(Context)))
-    } else if (issue.parent(typeof(Implementation)) != null) {
-      issueCode(issue.parent(typeof(Implementation)))
+    } else if (issue.check !== null && !issue.check.eIsProxy) {
+      issueCode(issue.check)
+    } else if (issue.parent(Check) != null) {
+      issueCode(issue.parent(Check))
     } else {
       "ERROR_ISSUE_CODE_NAME_XISSUEEXPRESSION" // should not happen
     }
@@ -97,8 +83,8 @@ class CheckGeneratorExtensions {
     string.replaceAll(
       String::format("%s|%s|%s",
         "(?<=[A-Z])(?=[A-Z][a-z])",
-        "(?<=[^A-Z])(?=[A-Z])",
-        "(?<=[A-Za-z])(?=[^A-Za-z])"
+        "(?<=[^A-Z_])(?=[A-Z])",
+        "(?<=[A-Za-z])(?=[^A-Za-z_])"
       ),
       "_"
     )

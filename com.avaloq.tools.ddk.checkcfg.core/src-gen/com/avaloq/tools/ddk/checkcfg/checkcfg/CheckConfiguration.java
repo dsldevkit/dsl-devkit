@@ -2,9 +2,9 @@
  */
 package com.avaloq.tools.ddk.checkcfg.checkcfg;
 
-import org.eclipse.emf.common.util.EList;
+import com.avaloq.tools.ddk.check.check.FormalParameter;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,13 +18,14 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getLanguageValidatorConfigurations <em>Language Validator Configurations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getLegacyCatalogConfigurations <em>Legacy Catalog Configurations</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getProperties <em>Properties</em>}</li>
  * </ul>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration()
  * @model
  * @generated
  */
-public interface CheckConfiguration extends EObject
+public interface CheckConfiguration extends ConfigurableSection
 {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
@@ -83,5 +84,29 @@ public interface CheckConfiguration extends EObject
 	 * @generated
 	 */
 	EList<ConfiguredCatalog> getLegacyCatalogConfigurations();
+
+	/**
+	 * Returns the value of the '<em><b>Properties</b></em>' reference list.
+	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.FormalParameter}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Properties</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Properties</em>' reference list.
+	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_Properties()
+	 * @model transient="true" volatile="true" derived="true"
+	 * @generated
+	 */
+	EList<FormalParameter> getProperties();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<ConfigurableSection> getConfigurableSections();
 
 } // CheckConfiguration

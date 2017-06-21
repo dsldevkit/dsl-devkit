@@ -6,24 +6,14 @@ import com.avaloq.tools.ddk.check.check.Check;
 
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
-import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredParameter;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,12 +25,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCheckImpl#getSeverity <em>Severity</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCheckImpl#getCheck <em>Check</em>}</li>
- *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCheckImpl#getParameterConfigurations <em>Parameter Configurations</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements ConfiguredCheck
+public class ConfiguredCheckImpl extends ConfigurableSectionImpl implements ConfiguredCheck
 {
 	/**
 	 * The default value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
@@ -71,16 +60,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 	 * @ordered
 	 */
 	protected Check check;
-
-	/**
-	 * The cached value of the '{@link #getParameterConfigurations() <em>Parameter Configurations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParameterConfigurations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ConfiguredParameter> parameterConfigurations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -174,36 +153,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ConfiguredParameter> getParameterConfigurations()
-	{
-		if (parameterConfigurations == null)
-		{
-			parameterConfigurations = new EObjectContainmentEList<ConfiguredParameter>(ConfiguredParameter.class, this, CheckcfgPackage.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS);
-		}
-		return parameterConfigurations;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case CheckcfgPackage.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS:
-				return ((InternalEList<?>)getParameterConfigurations()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
@@ -214,8 +163,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 			case CheckcfgPackage.CONFIGURED_CHECK__CHECK:
 				if (resolve) return getCheck();
 				return basicGetCheck();
-			case CheckcfgPackage.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS:
-				return getParameterConfigurations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -225,7 +172,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue)
 	{
@@ -236,10 +182,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 				return;
 			case CheckcfgPackage.CONFIGURED_CHECK__CHECK:
 				setCheck((Check)newValue);
-				return;
-			case CheckcfgPackage.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS:
-				getParameterConfigurations().clear();
-				getParameterConfigurations().addAll((Collection<? extends ConfiguredParameter>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -261,9 +203,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 			case CheckcfgPackage.CONFIGURED_CHECK__CHECK:
 				setCheck((Check)null);
 				return;
-			case CheckcfgPackage.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS:
-				getParameterConfigurations().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -282,8 +221,6 @@ public class ConfiguredCheckImpl extends MinimalEObjectImpl.Container implements
 				return severity != SEVERITY_EDEFAULT;
 			case CheckcfgPackage.CONFIGURED_CHECK__CHECK:
 				return check != null;
-			case CheckcfgPackage.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS:
-				return parameterConfigurations != null && !parameterConfigurations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

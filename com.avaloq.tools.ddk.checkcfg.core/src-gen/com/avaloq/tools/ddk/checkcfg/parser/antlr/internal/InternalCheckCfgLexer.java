@@ -1800,10 +1800,10 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_HEX;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:10: ( ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )? )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:12: ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:10: ( ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )? )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:12: ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
             {
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:12: ( '0x' | '0X' )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:12: ( '0x' | '0X' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -1831,7 +1831,7 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:13: '0x'
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:13: '0x'
                     {
                     match("0x"); 
 
@@ -1839,7 +1839,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:18: '0X'
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:18: '0X'
                     {
                     match("0X"); 
 
@@ -1849,7 +1849,7 @@ public class InternalCheckCfgLexer extends Lexer {
 
             }
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:24: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:24: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+
             int cnt2=0;
             loop2:
             do {
@@ -1887,7 +1887,7 @@ public class InternalCheckCfgLexer extends Lexer {
                 cnt2++;
             } while (true);
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:58: ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:58: ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -1896,10 +1896,10 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:59: '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:59: '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
                     {
                     match('#'); 
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:63: ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:63: ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
                     int alt3=2;
                     int LA3_0 = input.LA(1);
 
@@ -1917,7 +1917,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     switch (alt3) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:64: ( 'b' | 'B' ) ( 'i' | 'I' )
+                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:64: ( 'b' | 'B' ) ( 'i' | 'I' )
                             {
                             if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                                 input.consume();
@@ -1941,7 +1941,7 @@ public class InternalCheckCfgLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6703:84: ( 'l' | 'L' )
+                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6757:84: ( 'l' | 'L' )
                             {
                             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                                 input.consume();
@@ -1980,11 +1980,11 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6705:10: ( '0' .. '9' ( '0' .. '9' | '_' )* )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6705:12: '0' .. '9' ( '0' .. '9' | '_' )*
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6759:10: ( '0' .. '9' ( '0' .. '9' | '_' )* )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6759:12: '0' .. '9' ( '0' .. '9' | '_' )*
             {
             matchRange('0','9'); 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6705:21: ( '0' .. '9' | '_' )*
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6759:21: ( '0' .. '9' | '_' )*
             loop5:
             do {
                 int alt5=2;
@@ -2033,11 +2033,11 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_DECIMAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:14: ( RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )? )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:16: RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:14: ( RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )? )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:16: RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
             {
             mRULE_INT(); 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:25: ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:25: ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -2046,7 +2046,7 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:26: ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:26: ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT
                     {
                     if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                         input.consume();
@@ -2057,7 +2057,7 @@ public class InternalCheckCfgLexer extends Lexer {
                         recover(mse);
                         throw mse;}
 
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:36: ( '+' | '-' )?
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:36: ( '+' | '-' )?
                     int alt6=2;
                     int LA6_0 = input.LA(1);
 
@@ -2090,7 +2090,7 @@ public class InternalCheckCfgLexer extends Lexer {
 
             }
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:58: ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:58: ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
             int alt8=3;
             int LA8_0 = input.LA(1);
 
@@ -2102,7 +2102,7 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:59: ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' )
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:59: ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' )
                     {
                     if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                         input.consume();
@@ -2126,7 +2126,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6707:87: ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' )
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6761:87: ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' )
                     {
                     if ( input.LA(1)=='D'||input.LA(1)=='F'||input.LA(1)=='L'||input.LA(1)=='d'||input.LA(1)=='f'||input.LA(1)=='l' ) {
                         input.consume();
@@ -2159,10 +2159,10 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6709:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6709:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6763:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )* )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6763:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6709:11: ( '^' )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6763:11: ( '^' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -2171,7 +2171,7 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6709:11: '^'
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6763:11: '^'
                     {
                     match('^'); 
 
@@ -2189,7 +2189,7 @@ public class InternalCheckCfgLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6709:44: ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6763:44: ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
             loop10:
             do {
                 int alt10=2;
@@ -2238,10 +2238,10 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? ) )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? ) )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
             {
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
             int alt15=2;
             int LA15_0 = input.LA(1);
 
@@ -2259,10 +2259,10 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt15) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )?
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )?
                     {
                     match('\"'); 
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop11:
                     do {
                         int alt11=3;
@@ -2278,7 +2278,7 @@ public class InternalCheckCfgLexer extends Lexer {
 
                         switch (alt11) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:21: '\\\\' .
+                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -2286,7 +2286,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2306,7 +2306,7 @@ public class InternalCheckCfgLexer extends Lexer {
                         }
                     } while (true);
 
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:44: ( '\"' )?
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:44: ( '\"' )?
                     int alt12=2;
                     int LA12_0 = input.LA(1);
 
@@ -2315,7 +2315,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     switch (alt12) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:44: '\"'
+                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:44: '\"'
                             {
                             match('\"'); 
 
@@ -2328,10 +2328,10 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:49: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )?
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:49: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )?
                     {
                     match('\''); 
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:54: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:54: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop13:
                     do {
                         int alt13=3;
@@ -2347,7 +2347,7 @@ public class InternalCheckCfgLexer extends Lexer {
 
                         switch (alt13) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:55: '\\\\' .
+                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:55: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -2355,7 +2355,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:62: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:62: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2375,7 +2375,7 @@ public class InternalCheckCfgLexer extends Lexer {
                         }
                     } while (true);
 
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:79: ( '\\'' )?
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:79: ( '\\'' )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -2384,7 +2384,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     switch (alt14) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6711:79: '\\''
+                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6765:79: '\\''
                             {
                             match('\''); 
 
@@ -2415,12 +2415,12 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6713:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6713:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6767:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6767:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6713:24: ( options {greedy=false; } : . )*
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6767:24: ( options {greedy=false; } : . )*
             loop16:
             do {
                 int alt16=2;
@@ -2445,7 +2445,7 @@ public class InternalCheckCfgLexer extends Lexer {
 
                 switch (alt16) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6713:52: .
+            	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6767:52: .
             	    {
             	    matchAny(); 
 
@@ -2475,12 +2475,12 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop17:
             do {
                 int alt17=2;
@@ -2493,7 +2493,7 @@ public class InternalCheckCfgLexer extends Lexer {
 
                 switch (alt17) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -2513,7 +2513,7 @@ public class InternalCheckCfgLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:40: ( ( '\\r' )? '\\n' )?
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:40: ( ( '\\r' )? '\\n' )?
             int alt19=2;
             int LA19_0 = input.LA(1);
 
@@ -2522,9 +2522,9 @@ public class InternalCheckCfgLexer extends Lexer {
             }
             switch (alt19) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:41: ( '\\r' )? '\\n'
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:41: ( '\\r' )? '\\n'
                     {
-                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:41: ( '\\r' )?
+                    // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:41: ( '\\r' )?
                     int alt18=2;
                     int LA18_0 = input.LA(1);
 
@@ -2533,7 +2533,7 @@ public class InternalCheckCfgLexer extends Lexer {
                     }
                     switch (alt18) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6715:41: '\\r'
+                            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6769:41: '\\r'
                             {
                             match('\r'); 
 
@@ -2565,10 +2565,10 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6717:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6717:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6771:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6771:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6717:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6771:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt20=0;
             loop20:
             do {
@@ -2622,8 +2622,8 @@ public class InternalCheckCfgLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6719:16: ( . )
-            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6719:18: .
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6773:16: ( . )
+            // ../com.avaloq.tools.ddk.checkcfg.core/src-gen/com/avaloq/tools/ddk/checkcfg/parser/antlr/internal/InternalCheckCfg.g:6773:18: .
             {
             matchAny(); 
 

@@ -50,7 +50,6 @@ public class FormatParser extends AbstractContentAssistParser {
 					put(grammarAccess.getGroupBlockAccess().getAlternatives_2(), "rule__GroupBlock__Alternatives_2");
 					put(grammarAccess.getKeywordPairAccess().getAlternatives_5(), "rule__KeywordPair__Alternatives_5");
 					put(grammarAccess.getKeywordPairAccess().getAlternatives_6_1(), "rule__KeywordPair__Alternatives_6_1");
-					put(grammarAccess.getMatcherAccess().getAlternatives_0(), "rule__Matcher__Alternatives_0");
 					put(grammarAccess.getLocatorAccess().getAlternatives(), "rule__Locator__Alternatives");
 					put(grammarAccess.getSpaceLocatorAccess().getAlternatives(), "rule__SpaceLocator__Alternatives");
 					put(grammarAccess.getLinewrapLocatorAccess().getAlternatives(), "rule__LinewrapLocator__Alternatives");
@@ -129,7 +128,6 @@ public class FormatParser extends AbstractContentAssistParser {
 					put(grammarAccess.getKeywordPairAccess().getGroup_6_1_0(), "rule__KeywordPair__Group_6_1_0__0");
 					put(grammarAccess.getKeywordPairAccess().getGroup_6_1_1(), "rule__KeywordPair__Group_6_1_1__0");
 					put(grammarAccess.getMatcherAccess().getGroup(), "rule__Matcher__Group__0");
-					put(grammarAccess.getMatcherAccess().getGroup_0_0(), "rule__Matcher__Group_0_0__0");
 					put(grammarAccess.getNoFormatLocatorAccess().getGroup(), "rule__NoFormatLocator__Group__0");
 					put(grammarAccess.getSpaceLocatorAccess().getGroup_0(), "rule__SpaceLocator__Group_0__0");
 					put(grammarAccess.getRightPaddingLocatorAccess().getGroup(), "rule__RightPaddingLocator__Group__0");
@@ -389,10 +387,9 @@ public class FormatParser extends AbstractContentAssistParser {
 					put(grammarAccess.getKeywordPairAccess().getRightMatchersAssignment_5_1_2(), "rule__KeywordPair__RightMatchersAssignment_5_1_2");
 					put(grammarAccess.getKeywordPairAccess().getLeftMatchersAssignment_6_1_0_2(), "rule__KeywordPair__LeftMatchersAssignment_6_1_0_2");
 					put(grammarAccess.getKeywordPairAccess().getRightMatchersAssignment_6_1_1_2(), "rule__KeywordPair__RightMatchersAssignment_6_1_1_2");
-					put(grammarAccess.getMatcherAccess().getLocatorAssignment_0_0_0(), "rule__Matcher__LocatorAssignment_0_0_0");
-					put(grammarAccess.getMatcherAccess().getTypeAssignment_0_0_1(), "rule__Matcher__TypeAssignment_0_0_1");
-					put(grammarAccess.getMatcherAccess().getLocatorAssignment_0_1(), "rule__Matcher__LocatorAssignment_0_1");
-					put(grammarAccess.getMatcherAccess().getConditionAssignment_1(), "rule__Matcher__ConditionAssignment_1");
+					put(grammarAccess.getMatcherAccess().getLocatorAssignment_0(), "rule__Matcher__LocatorAssignment_0");
+					put(grammarAccess.getMatcherAccess().getTypeAssignment_1(), "rule__Matcher__TypeAssignment_1");
+					put(grammarAccess.getMatcherAccess().getConditionAssignment_2(), "rule__Matcher__ConditionAssignment_2");
 					put(grammarAccess.getSpaceLocatorAccess().getValueAssignment_0_1(), "rule__SpaceLocator__ValueAssignment_0_1");
 					put(grammarAccess.getSpaceLocatorAccess().getNoSpaceAssignment_1(), "rule__SpaceLocator__NoSpaceAssignment_1");
 					put(grammarAccess.getRightPaddingLocatorAccess().getValueAssignment_1(), "rule__RightPaddingLocator__ValueAssignment_1");

@@ -76,6 +76,7 @@ public class CheckcfgSwitch<T> extends Switch<T>
 			{
 				CheckConfiguration checkConfiguration = (CheckConfiguration)theEObject;
 				T result = caseCheckConfiguration(checkConfiguration);
+				if (result == null) result = caseConfigurableSection(checkConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -83,6 +84,7 @@ public class CheckcfgSwitch<T> extends Switch<T>
 			{
 				ConfiguredLanguageValidator configuredLanguageValidator = (ConfiguredLanguageValidator)theEObject;
 				T result = caseConfiguredLanguageValidator(configuredLanguageValidator);
+				if (result == null) result = caseConfigurableSection(configuredLanguageValidator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -90,6 +92,7 @@ public class CheckcfgSwitch<T> extends Switch<T>
 			{
 				ConfiguredCatalog configuredCatalog = (ConfiguredCatalog)theEObject;
 				T result = caseConfiguredCatalog(configuredCatalog);
+				if (result == null) result = caseConfigurableSection(configuredCatalog);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -97,6 +100,7 @@ public class CheckcfgSwitch<T> extends Switch<T>
 			{
 				ConfiguredCheck configuredCheck = (ConfiguredCheck)theEObject;
 				T result = caseConfiguredCheck(configuredCheck);
+				if (result == null) result = caseConfigurableSection(configuredCheck);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -104,6 +108,13 @@ public class CheckcfgSwitch<T> extends Switch<T>
 			{
 				ConfiguredParameter configuredParameter = (ConfiguredParameter)theEObject;
 				T result = caseConfiguredParameter(configuredParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case CheckcfgPackage.CONFIGURABLE_SECTION:
+			{
+				ConfigurableSection configurableSection = (ConfigurableSection)theEObject;
+				T result = caseConfigurableSection(configurableSection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -187,6 +198,22 @@ public class CheckcfgSwitch<T> extends Switch<T>
 	 * @generated
 	 */
 	public T caseConfiguredParameter(ConfiguredParameter object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Configurable Section</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Configurable Section</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConfigurableSection(ConfigurableSection object)
 	{
 		return null;
 	}

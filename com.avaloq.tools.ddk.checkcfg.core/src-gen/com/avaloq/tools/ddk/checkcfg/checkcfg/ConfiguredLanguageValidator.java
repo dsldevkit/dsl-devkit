@@ -4,8 +4,6 @@ package com.avaloq.tools.ddk.checkcfg.checkcfg;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Configured Language Validator</b></em>'.
@@ -23,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ConfiguredLanguageValidator extends EObject
+public interface ConfiguredLanguageValidator extends ConfigurableSection
 {
 	/**
 	 * Returns the value of the '<em><b>Language</b></em>' attribute.

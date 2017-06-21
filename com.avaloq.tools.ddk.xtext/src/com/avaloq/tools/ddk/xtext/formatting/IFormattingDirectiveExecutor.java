@@ -12,7 +12,6 @@ package com.avaloq.tools.ddk.xtext.formatting;
 
 import com.google.inject.ImplementedBy;
 
-
 /**
  * Interface describes a service that looks for formatting directives in the comments and executes them.
  */

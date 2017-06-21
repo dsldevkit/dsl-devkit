@@ -26,18 +26,16 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase.lib,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
 Import-Package: org.apache.log4j
-Export-Package: com.avaloq.tools.ddk.xtext.format.jvmmodel,
- com.avaloq.tools.ddk.xtext.format,
- com.avaloq.tools.ddk.xtext.format.formatting,
- com.avaloq.tools.ddk.xtext.format.generator,
- com.avaloq.tools.ddk.xtext.format.scoping,
- com.avaloq.tools.ddk.xtext.format.serializer,
- com.avaloq.tools.ddk.xtext.format.validation,
- com.avaloq.tools.ddk.xtext.format.services,
+Export-Package: com.avaloq.tools.ddk.xtext.format,
  com.avaloq.tools.ddk.xtext.format.format,
  com.avaloq.tools.ddk.xtext.format.format.impl,
  com.avaloq.tools.ddk.xtext.format.format.util,
+ com.avaloq.tools.ddk.xtext.format.formatting,
+ com.avaloq.tools.ddk.xtext.format.generator,
+ com.avaloq.tools.ddk.xtext.format.jvmmodel,
  com.avaloq.tools.ddk.xtext.format.parser.antlr,
  com.avaloq.tools.ddk.xtext.format.parser.antlr.internal,
- com.avaloq.tools.ddk.xtext.format.jvmmodel
+ com.avaloq.tools.ddk.xtext.format.serializer,
+ com.avaloq.tools.ddk.xtext.format.services,
+ com.avaloq.tools.ddk.xtext.format.validation
 

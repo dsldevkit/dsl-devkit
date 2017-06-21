@@ -223,7 +223,7 @@ public class ContainerQuery {
   @SuppressWarnings("nls")
   public Iterable<IEObjectDescription> execute(final EObject context, final Resource originalResource) {
     if (!(originalResource instanceof LazyLinkingResource)) {
-      throw new IllegalStateException("Resource is not a LazyLinkingResource.");
+      throw new IllegalStateException("Resource is not a LazyLinkingResource " + (originalResource != null ? originalResource.getURI() : ""));
     }
     final IScopeProvider scopeProvider = EObjectUtil.getScopeProviderByResource((LazyLinkingResource) originalResource);
     if (!(scopeProvider instanceof AbstractPolymorphicScopeProvider)) {

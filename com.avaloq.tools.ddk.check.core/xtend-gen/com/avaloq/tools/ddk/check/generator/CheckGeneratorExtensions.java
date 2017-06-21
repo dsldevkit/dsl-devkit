@@ -13,7 +13,6 @@ package com.avaloq.tools.ddk.check.generator;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.Context;
-import com.avaloq.tools.ddk.check.check.ContextVariable;
 import com.avaloq.tools.ddk.check.check.Implementation;
 import com.avaloq.tools.ddk.check.check.TriggerKind;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
@@ -45,7 +44,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.internal.ui.text.javadoc.JavaDoc2HTMLTextReader;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -90,50 +88,12 @@ public class CheckGeneratorExtensions {
   }
   
   /**
-   * Gets the simple issue code name for an implementation.
+   * Gets the simple issue code name for a check.
    */
-  protected String _issueCode(final Implementation implementation) {
-    String _name = implementation.getName();
+  protected String _issueCode(final Check check) {
+    String _name = check.getName();
     String _splitCamelCase = this.splitCamelCase(_name);
-    String _upperCase = _splitCamelCase.toUpperCase();
-    String _plus = (_upperCase + "_");
-    Context _context = implementation.getContext();
-    ContextVariable _contextVariable = _context.getContextVariable();
-    JvmTypeReference _type = _contextVariable.getType();
-    String _simpleName = _type.getSimpleName();
-    String _upperCase_1 = _simpleName.toUpperCase();
-    return (_plus + _upperCase_1);
-  }
-  
-  /**
-   * Gets the simple issue code name for a context.
-   */
-  protected String _issueCode(final Context context) {
-    String _xblockexpression = null;
-    {
-      String result = null;
-      EObject _eContainer = context.eContainer();
-      if ((_eContainer instanceof Check)) {
-        EObject _eContainer_1 = context.eContainer();
-        final Check check = ((Check) _eContainer_1);
-        String _name = check.getName();
-        String _splitCamelCase = this.splitCamelCase(_name);
-        String _upperCase = _splitCamelCase.toUpperCase();
-        String _plus = (_upperCase + "_");
-        ContextVariable _contextVariable = context.getContextVariable();
-        JvmTypeReference _type = _contextVariable.getType();
-        String _simpleName = _type.getSimpleName();
-        String _upperCase_1 = _simpleName.toUpperCase();
-        String _plus_1 = (_plus + _upperCase_1);
-        String _plus_2 = (_plus_1 + "_");
-        EList<Context> _contexts = check.getContexts();
-        int _indexOf = _contexts.indexOf(context);
-        String _plus_3 = (_plus_2 + Integer.valueOf(_indexOf));
-        result = _plus_3;
-      }
-      _xblockexpression = result;
-    }
-    return _xblockexpression;
+    return _splitCamelCase.toUpperCase();
   }
   
   /**
@@ -149,18 +109,27 @@ public class CheckGeneratorExtensions {
       _xifexpression = _splitCamelCase.toUpperCase();
     } else {
       String _xifexpression_1 = null;
-      Check _parent = this._checkGeneratorNaming.<Check>parent(issue, Check.class);
-      boolean _notEquals_1 = (!Objects.equal(_parent, null));
-      if (_notEquals_1) {
-        Context _parent_1 = this._checkGeneratorNaming.<Context>parent(issue, Context.class);
-        _xifexpression_1 = this.issueCode(_parent_1);
+      boolean _and = false;
+      Check _check = issue.getCheck();
+      boolean _tripleNotEquals = (_check != null);
+      if (!_tripleNotEquals) {
+        _and = false;
+      } else {
+        Check _check_1 = issue.getCheck();
+        boolean _eIsProxy = _check_1.eIsProxy();
+        boolean _not = (!_eIsProxy);
+        _and = _not;
+      }
+      if (_and) {
+        Check _check_2 = issue.getCheck();
+        _xifexpression_1 = this.issueCode(_check_2);
       } else {
         String _xifexpression_2 = null;
-        Implementation _parent_2 = this._checkGeneratorNaming.<Implementation>parent(issue, Implementation.class);
-        boolean _notEquals_2 = (!Objects.equal(_parent_2, null));
-        if (_notEquals_2) {
-          Implementation _parent_3 = this._checkGeneratorNaming.<Implementation>parent(issue, Implementation.class);
-          _xifexpression_2 = this.issueCode(_parent_3);
+        Check _parent = this._checkGeneratorNaming.<Check>parent(issue, Check.class);
+        boolean _notEquals_1 = (!Objects.equal(_parent, null));
+        if (_notEquals_1) {
+          Check _parent_1 = this._checkGeneratorNaming.<Check>parent(issue, Check.class);
+          _xifexpression_2 = this.issueCode(_parent_1);
         } else {
           _xifexpression_2 = "ERROR_ISSUE_CODE_NAME_XISSUEEXPRESSION";
         }
@@ -200,8 +169,8 @@ public class CheckGeneratorExtensions {
   public String splitCamelCase(final String string) {
     String _format = String.format("%s|%s|%s", 
       "(?<=[A-Z])(?=[A-Z][a-z])", 
-      "(?<=[^A-Z])(?=[A-Z])", 
-      "(?<=[A-Za-z])(?=[^A-Za-z])");
+      "(?<=[^A-Z_])(?=[A-Z])", 
+      "(?<=[A-Za-z])(?=[^A-Za-z_])");
     return string.replaceAll(_format, 
       "_");
   }
@@ -399,16 +368,14 @@ public class CheckGeneratorExtensions {
     }
   }
   
-  public String issueCode(final EObject context) {
-    if (context instanceof Context) {
-      return _issueCode((Context)context);
-    } else if (context instanceof Implementation) {
-      return _issueCode((Implementation)context);
-    } else if (context instanceof XIssueExpression) {
-      return _issueCode((XIssueExpression)context);
+  public String issueCode(final EObject check) {
+    if (check instanceof Check) {
+      return _issueCode((Check)check);
+    } else if (check instanceof XIssueExpression) {
+      return _issueCode((XIssueExpression)check);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(context).toString());
+        Arrays.<Object>asList(check).toString());
     }
   }
 }

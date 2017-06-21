@@ -107,46 +107,64 @@ ruleCheckConfiguration returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getCheckConfigurationAccess().getLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_3_0()); 
+	        newCompositeNode(grammarAccess.getCheckConfigurationAccess().getParameterConfigurationsConfiguredParameterParserRuleCall_3_0()); 
 	    }
-		lv_languageValidatorConfigurations_3_0=ruleConfiguredLanguageValidator		{
+		lv_parameterConfigurations_3_0=ruleConfiguredParameter		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getCheckConfigurationRule());
+	        }
+       		add(
+       			$current, 
+       			"parameterConfigurations",
+        		lv_parameterConfigurations_3_0, 
+        		"ConfiguredParameter");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getCheckConfigurationAccess().getLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_4_0()); 
+	    }
+		lv_languageValidatorConfigurations_4_0=ruleConfiguredLanguageValidator		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getCheckConfigurationRule());
 	        }
        		add(
        			$current, 
        			"languageValidatorConfigurations",
-        		lv_languageValidatorConfigurations_3_0, 
+        		lv_languageValidatorConfigurations_4_0, 
         		"ConfiguredLanguageValidator");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*(	otherlv_4='{' 
+)*(	otherlv_5='{' 
     {
-    	newLeafNode(otherlv_4, grammarAccess.getCheckConfigurationAccess().getLeftCurlyBracketKeyword_4_0());
+    	newLeafNode(otherlv_5, grammarAccess.getCheckConfigurationAccess().getLeftCurlyBracketKeyword_5_0());
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getCheckConfigurationAccess().getLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_4_1_0()); 
+	        newCompositeNode(grammarAccess.getCheckConfigurationAccess().getLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_5_1_0()); 
 	    }
-		lv_legacyCatalogConfigurations_5_0=ruleConfiguredCatalog		{
+		lv_legacyCatalogConfigurations_6_0=ruleConfiguredCatalog		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getCheckConfigurationRule());
 	        }
        		add(
        			$current, 
        			"legacyCatalogConfigurations",
-        		lv_legacyCatalogConfigurations_5_0, 
+        		lv_legacyCatalogConfigurations_6_0, 
         		"ConfiguredCatalog");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*	otherlv_6='}' 
+)*	otherlv_7='}' 
     {
-    	newLeafNode(otherlv_6, grammarAccess.getCheckConfigurationAccess().getRightCurlyBracketKeyword_4_2());
+    	newLeafNode(otherlv_7, grammarAccess.getCheckConfigurationAccess().getRightCurlyBracketKeyword_5_2());
     }
 )?)
 ;
@@ -198,24 +216,42 @@ ruleConfiguredLanguageValidator returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getConfiguredLanguageValidatorAccess().getCatalogConfigurationsConfiguredCatalogParserRuleCall_3_0()); 
+	        newCompositeNode(grammarAccess.getConfiguredLanguageValidatorAccess().getParameterConfigurationsConfiguredParameterParserRuleCall_3_0()); 
 	    }
-		lv_catalogConfigurations_3_0=ruleConfiguredCatalog		{
+		lv_parameterConfigurations_3_0=ruleConfiguredParameter		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getConfiguredLanguageValidatorRule());
+	        }
+       		add(
+       			$current, 
+       			"parameterConfigurations",
+        		lv_parameterConfigurations_3_0, 
+        		"ConfiguredParameter");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getConfiguredLanguageValidatorAccess().getCatalogConfigurationsConfiguredCatalogParserRuleCall_4_0()); 
+	    }
+		lv_catalogConfigurations_4_0=ruleConfiguredCatalog		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getConfiguredLanguageValidatorRule());
 	        }
        		add(
        			$current, 
        			"catalogConfigurations",
-        		lv_catalogConfigurations_3_0, 
+        		lv_catalogConfigurations_4_0, 
         		"ConfiguredCatalog");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*	otherlv_4='}' 
+)*	otherlv_5='}' 
     {
-    	newLeafNode(otherlv_4, grammarAccess.getConfiguredLanguageValidatorAccess().getRightCurlyBracketKeyword_4());
+    	newLeafNode(otherlv_5, grammarAccess.getConfiguredLanguageValidatorAccess().getRightCurlyBracketKeyword_5());
     }
 )
 ;
@@ -270,24 +306,42 @@ ruleConfiguredCatalog returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getConfiguredCatalogAccess().getCheckConfigurationsConfiguredCheckParserRuleCall_4_0()); 
+	        newCompositeNode(grammarAccess.getConfiguredCatalogAccess().getParameterConfigurationsConfiguredParameterParserRuleCall_4_0()); 
 	    }
-		lv_checkConfigurations_4_0=ruleConfiguredCheck		{
+		lv_parameterConfigurations_4_0=ruleConfiguredParameter		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getConfiguredCatalogRule());
+	        }
+       		add(
+       			$current, 
+       			"parameterConfigurations",
+        		lv_parameterConfigurations_4_0, 
+        		"ConfiguredParameter");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getConfiguredCatalogAccess().getCheckConfigurationsConfiguredCheckParserRuleCall_5_0()); 
+	    }
+		lv_checkConfigurations_5_0=ruleConfiguredCheck		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getConfiguredCatalogRule());
 	        }
        		add(
        			$current, 
        			"checkConfigurations",
-        		lv_checkConfigurations_4_0, 
+        		lv_checkConfigurations_5_0, 
         		"ConfiguredCheck");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*	otherlv_5='}' 
+)*	otherlv_6='}' 
     {
-    	newLeafNode(otherlv_5, grammarAccess.getConfiguredCatalogAccess().getRightCurlyBracketKeyword_5());
+    	newLeafNode(otherlv_6, grammarAccess.getConfiguredCatalogAccess().getRightCurlyBracketKeyword_6());
     }
 )
 ;

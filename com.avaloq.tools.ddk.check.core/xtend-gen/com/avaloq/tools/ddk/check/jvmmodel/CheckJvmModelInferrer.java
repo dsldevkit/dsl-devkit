@@ -715,7 +715,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
               break;
           }
           final String operation = _switchResult;
-          final String parameterKey = CheckPropertiesGenerator.parameterSeverityKey(parameter);
+          final String parameterKey = CheckPropertiesGenerator.parameterKey(parameter, check);
           String defaultName = "null";
           XExpression _right = parameter.getRight();
           boolean _notEquals_1 = (!Objects.equal(_right, null));
@@ -1015,7 +1015,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
               XExpression _right = parameter.getRight();
               boolean _notEquals_1 = (!Objects.equal(_right, null));
               if (_notEquals_1) {
-                final String key = CheckPropertiesGenerator.parameterSeverityKey(parameter);
+                final String key = CheckPropertiesGenerator.parameterKey(parameter, c);
                 String _formalParameterGetterName = this._checkGeneratorNaming.formalParameterGetterName(parameter);
                 String _splitCamelCase = this._checkGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
                 String _upperCase = _splitCamelCase.toUpperCase();

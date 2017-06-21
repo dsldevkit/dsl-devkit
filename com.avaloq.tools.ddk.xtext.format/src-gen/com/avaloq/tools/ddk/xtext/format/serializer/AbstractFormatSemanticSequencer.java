@@ -581,7 +581,7 @@ public abstract class AbstractFormatSemanticSequencer extends XbaseWithAnnotatio
 	
 	/**
 	 * Constraint:
-	 *     (((locator=Locator type=MatcherType) | locator=NoFormatLocator) condition=XBlockExpression?)
+	 *     (locator=Locator type=MatcherType condition=XBlockExpression?)
 	 */
 	protected void sequence_Matcher(EObject context, Matcher semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

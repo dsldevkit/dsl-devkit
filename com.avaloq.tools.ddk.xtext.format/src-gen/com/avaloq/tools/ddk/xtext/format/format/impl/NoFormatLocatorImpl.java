@@ -7,8 +7,6 @@ import com.avaloq.tools.ddk.xtext.format.format.NoFormatLocator;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>No Format Locator</b></em>'.
@@ -16,7 +14,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public class NoFormatLocatorImpl extends MinimalEObjectImpl.Container implements NoFormatLocator
+public class NoFormatLocatorImpl extends LocatorImpl implements NoFormatLocator
 {
   /**
    * <!-- begin-user-doc -->

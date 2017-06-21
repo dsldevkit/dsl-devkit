@@ -19,10 +19,12 @@ import org.eclipse.xtext.generator.OutputConfigurationProvider;
 /**
  * Configures various output configurations. Output configurations are used by the generator
  * when writing resources.
- * 
+ *
  * @see org.eclipse.xtext.generator.IFileSystemAccess
  */
 public class CheckOutputConfigurationProvider extends OutputConfigurationProvider {
+
+  public static final String DOCS_PATH = "docs/content";
 
   @Override
   public Set<OutputConfiguration> getOutputConfigurations() {
@@ -36,13 +38,13 @@ public class CheckOutputConfigurationProvider extends OutputConfigurationProvide
 
   /**
    * Gets the check documentation output configuration.
-   * 
+   *
    * @return the check documentation configuration
    */
   private OutputConfiguration getCheckDocumentationConfig() {
     OutputConfiguration config = new OutputConfiguration(CheckGeneratorConstants.CHECK_DOC_OUTPUT);
     config.setDescription("Output configuration for check documentation use");
-    config.setOutputDirectory("docs/content");
+    config.setOutputDirectory(DOCS_PATH);
     config.setCreateOutputDirectory(true);
     config.setCanClearOutputDirectory(true);
     return config;
@@ -50,7 +52,7 @@ public class CheckOutputConfigurationProvider extends OutputConfigurationProvide
 
   /**
    * Gets the service registry output configuration.
-   * 
+   *
    * @return the service registry configuration
    */
   private OutputConfiguration getServiceRegistryConfig() {
@@ -65,4 +67,3 @@ public class CheckOutputConfigurationProvider extends OutputConfigurationProvide
   }
 
 }
-

@@ -324,7 +324,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
           case 'java.util.List<java.lang.Integer>' : 'getIntegers'
           default                                  : 'getString'
         }
-        val String parameterKey  = CheckPropertiesGenerator::parameterSeverityKey(parameter);
+        val String parameterKey  = CheckPropertiesGenerator::parameterKey(parameter, check);
         var String defaultName = 'null';
         if (parameter.right != null) {
           defaultName = parameter.formalParameterGetterName.splitCamelCase.toUpperCase + '_DEFAULT';
@@ -454,7 +454,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
           for (Check c : allChecks) {
             for (FormalParameter parameter : c.formalParameters) {
               if (parameter.right != null) {
-                val String key = CheckPropertiesGenerator::parameterSeverityKey(parameter);
+                val String key = CheckPropertiesGenerator::parameterKey(parameter, c);
                 val String defaultFieldName = parameter.formalParameterGetterName.splitCamelCase.toUpperCase + '_DEFAULT';
                 val JvmTypeReference jvmType = parameter.type;
                 val String typeName = jvmType.qualifiedName;

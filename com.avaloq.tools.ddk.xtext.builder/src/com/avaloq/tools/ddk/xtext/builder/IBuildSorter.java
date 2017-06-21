@@ -11,11 +11,12 @@
 package com.avaloq.tools.ddk.xtext.builder;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.google.inject.ImplementedBy;
 
 
@@ -35,7 +36,8 @@ public interface IBuildSorter {
    * <p>
    * This operation is supposed to make a best-effort attempt to sort the uris. For instance, in some environments with a known set of languages, it may be
    * possible to know that resources of a language A may never have cross-links to some other language B, but B may reference A. In that case, an implementation
-   * might want to sort all type A resources before all type B resources.
+   * might want to sort all type A resources before all type B resources. Moreover, the uris can be further grouped into several separate groups, for example to
+   * allow for strict dependence/ordering between them (e.g. all sources of type are processed before sources of type B).
    * </p>
    * <p>
    * The sort operation might also want to use information available from the old build state to determine a sensible order.
@@ -48,9 +50,9 @@ public interface IBuildSorter {
    *          URIs of all physically changed or new resources to be considered in the build
    * @param oldState
    *          The old builder state
-   * @return A sorted collection of URIs, containing all the URIs from the input and no additional URIs.
+   * @return A list of sorted lists of URIs, containing all the URIs from the input and no additional URIs.
    */
-  Collection<URI> sort(Collection<URI> uris, IResourceDescriptions oldState);
+  List<List<URI>> sort(Collection<URI> uris, IResourceDescriptions oldState);
 
   /**
    * A null implementation of a build sorter.
@@ -59,8 +61,10 @@ public interface IBuildSorter {
 
     /** {@inheritDoc} */
     @Override
-    public Collection<URI> sort(final Collection<URI> uris, final IResourceDescriptions oldState) {
-      return Sets.newHashSet(uris); // Make a copy
+    public List<List<URI>> sort(final Collection<URI> uris, final IResourceDescriptions oldState) {
+      List<List<URI>> sortedCopy = Lists.newLinkedList();
+      sortedCopy.add(Lists.newLinkedList(uris));// Make a copy
+      return sortedCopy;
     }
 
   }

@@ -290,4 +290,3 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
   }
 
 }
-

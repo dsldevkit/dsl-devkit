@@ -102,6 +102,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   public static final long CANCELLATION_POLLING_TIMEOUT = 5000; // ms
   public static final long CANCELLATION_POLLING_DELAY = 200; // ms
 
+  public static final int STACK_TRACE_LIMIT = 10;
+
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(MonitoredClusteringBuilderState.class);
 
@@ -471,7 +473,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 newDelta = manager.createDelta(getSavedResourceDescription(oldDescriptions, changedURI), copiedDescription);
               } catch (StackOverflowError ex) {
                 queue.remove(changedURI);
-                LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR, changedURI));
+                logStackOverflowErrorStackTrace(ex, changedURI);
               }
             }
             // CHECKSTYLE:OFF guard against ill behaved implementations
@@ -510,7 +512,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               postProcess(newDelta, resourceSet, subProgress.newChild(1));
             } catch (StackOverflowError ex) {
               queue.remove(changedURI);
-              LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR, changedURI));
+              logStackOverflowErrorStackTrace(ex, changedURI);
             }
           } else {
             subProgress.worked(2);
@@ -562,6 +564,24 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     }
     return allDeltas;
     // CHECKSTYLE:CHECK-ON NestedTryDepth
+  }
+
+  /**
+   * Log the first and last 10 StackOverflowError Stack Trace.
+   *
+   * @param ex
+   *          the StackOverflowError
+   * @param binding
+   *          the object to be inserted into the message
+   */
+  protected void logStackOverflowErrorStackTrace(final StackOverflowError ex, final URI binding) {
+    int stackTraceLength = ex.getStackTrace().length;
+    StackTraceElement[] stackTraceElements = new StackTraceElement[(STACK_TRACE_LIMIT * 2) + 1];
+    System.arraycopy(ex.getStackTrace(), 0, stackTraceElements, 0, STACK_TRACE_LIMIT);
+    stackTraceElements[STACK_TRACE_LIMIT] = new StackTraceElement("", "\n\t\t\t <Skipped multiple lines> \n", null, -1); //$NON-NLS-1$ //$NON-NLS-2$
+    System.arraycopy(ex.getStackTrace(), stackTraceLength - STACK_TRACE_LIMIT, stackTraceElements, STACK_TRACE_LIMIT + 1, STACK_TRACE_LIMIT);
+    ex.setStackTrace(stackTraceElements);
+    LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR, binding), ex);
   }
 
   /**
@@ -683,131 +703,166 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return true;
   }
 
-  // NO-PMD'ed because of Npath complexity.
-  /** {@inheritDoc} */
-  protected void writeNewResourceDescriptions(final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final ResourceDescriptionsData newData, final IProgressMonitor monitor) { // NOPMD
-    int index = 1;
-    final Collection<URI> toWrite = phaseOneBuildSorter.sort(buildData.getToBeUpdated(), oldState);
-    final Collection<URI> toBuild = Lists.newLinkedList();
+  /**
+   * Writes a list of resources into the index given their {@link URI}s.
+   *
+   * @param toWrite
+   *          The {@link URI} of the resources to write
+   * @param buildData
+   *          The underlying data for the write operation.
+   * @param oldState
+   *          The old index
+   * @param newState
+   *          The new index
+   * @param monitor
+   *          The progress monitor used for user feedback
+   * @return a List with the list of loaded resources {@link URI} in the first position and a list of {@link URI}s of resources that could not be loaded in the
+   *         second position.
+   */
+  @SuppressWarnings("unchecked")
+  private List<List<URI>> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
     ResourceSet resourceSet = buildData.getResourceSet();
-    BuildPhases.setIndexing(resourceSet, true);
-    final List<URI> tryAgain = Lists.newLinkedList();
-    int nofRetries = 0;
-    int n = toWrite.size();
-    final SubMonitor subMonitor = SubMonitor.convert(monitor, Messages.MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS, n);
-
     IProject currentProject = getBuiltProject(buildData);
+    List<URI> toBuild = Lists.newLinkedList();
+    List<URI> toRetry = Lists.newLinkedList();
     IResourceLoader.LoadOperation loadOperation = null;
     try {
-      dataCollector.started(BuildIndexingEvent.class);
-      while (!toWrite.isEmpty()) {
-        n = toWrite.size();
-        index = 1;
+      int resourcesToWriteSize = toWrite.size();
+      int index = 1;
 
-        loadOperation = globalIndexResourceLoader.create(resourceSet, currentProject);
-        loadOperation.load(toWrite);
+      loadOperation = globalIndexResourceLoader.create(resourceSet, currentProject);
+      loadOperation.load(toWrite);
 
-        // Not using the loadingStrategy here; seems to work fine with a reasonable clusterSize (20 by default), even with
-        // large resources and "scarce" memory (say, about 500MB).
-        while (loadOperation.hasNext()) {
-          if (subMonitor.isCanceled()) {
-            loadOperation.cancel();
-            throw new OperationCanceledException();
-          }
-          URI uri = null;
-          Resource resource = null;
-          try {
-            resource = addResource(loadOperation.next().getResource(), resourceSet);
-            uri = resource.getURI();
-            final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(n), URI.decode(resource.getURI().lastSegment())};
-            subMonitor.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION, bindings));
-            dataCollector.started(ResourceIndexingEvent.class, uri);
+      // Not using the loadingStrategy here; seems to work fine with a reasonable clusterSize (20 by default), even with
+      // large resources and "scarce" memory (say, about 500MB).
+      while (loadOperation.hasNext()) {
+        if (monitor.isCanceled()) {
+          loadOperation.cancel();
+          throw new OperationCanceledException();
+        }
+        URI uri = null;
+        Resource resource = null;
+        try {
+          resource = addResource(loadOperation.next().getResource(), resourceSet);
+          uri = resource.getURI();
+          final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(resourcesToWriteSize), uri.fileExtension(), URI.decode(uri.lastSegment())};
+          monitor.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION, bindings));
+          dataCollector.started(ResourceIndexingEvent.class, uri);
 
-            final IResourceDescription.Manager manager = getResourceDescriptionManager(uri);
-            if (manager != null) {
-              final IResourceDescription description = manager.getResourceDescription(resource);
-              // We don't care here about links, we really just want the exported objects so that we can link in the next phase.
-              // Set flag to make unresolvable cross-references raise an error
-              resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
-              final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
+          final IResourceDescription.Manager manager = getResourceDescriptionManager(uri);
+          if (manager != null) {
+            final IResourceDescription description = manager.getResourceDescription(resource);
+            // We don't care here about links, we really just want the exported objects so that we can link in the next phase.
+            // Set flag to make unresolvable cross-references raise an error
+            resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
+            final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
 
-              final boolean hasUnresolvedLinks = resourceSet.getLoadOptions().get(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS) == Boolean.TRUE;
-              if (hasUnresolvedLinks) {
-                tryAgain.add(uri);
-                resourceSet.getResources().remove(resource);
-              } else {
-                final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
-                newState.register(intermediateDelta);
-                toBuild.add(uri);
-              }
-            }
-          } catch (final WrappedException ex) {
-            pollForCancellation(monitor);
-            if (uri == null && ex instanceof LoadOperationException) { // NOPMD
-              uri = ((LoadOperationException) ex).getUri();
-            }
-            LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri), ex);
-            if (resource != null) {
+            final boolean hasUnresolvedLinks = resourceSet.getLoadOptions().get(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS) == Boolean.TRUE;
+            if (hasUnresolvedLinks) {
+              toRetry.add(uri);
               resourceSet.getResources().remove(resource);
+            } else {
+              final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
+              newState.register(intermediateDelta);
+              toBuild.add(uri);
             }
-            if (uri != null) {
-              final IResourceDescription oldDescription = oldState.getResourceDescription(uri);
-              if (oldDescription != null) {
-                newState.register(new DefaultResourceDescriptionDelta(oldDescription, null));
-              }
-            }
-            // CHECKSTYLE:OFF
-            // If we couldn't load it, there's no use trying again: do not add it to the queue
-          } catch (final Throwable e) {
-            // unfortunately the parser sometimes crashes (yet unreported Xtext bug)
-            // CHECKSTYLE:ON
-            pollForCancellation(monitor);
-            LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri), e);
-            if (resource != null) {
-              resourceSet.getResources().remove(resource);
-            }
-          } finally {
-            // Clear caches of resource
-            if (resource instanceof XtextResource) {
-              ((XtextResource) resource).getCache().clear(resource);
-            }
-            dataCollector.ended(ResourceIndexingEvent.class);
-            subMonitor.worked(1);
           }
-
-          if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size())) {
-            clearResourceSet(resourceSet);
+        } catch (final WrappedException ex) {
+          pollForCancellation(monitor);
+          if (uri == null && ex instanceof LoadOperationException) { // NOPMD
+            uri = ((LoadOperationException) ex).getUri();
           }
-          index++;
+          LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri), ex);
+          if (resource != null) {
+            resourceSet.getResources().remove(resource);
+          }
+          if (uri != null) {
+            final IResourceDescription oldDescription = oldState.getResourceDescription(uri);
+            if (oldDescription != null) {
+              newState.register(new DefaultResourceDescriptionDelta(oldDescription, null));
+            }
+          }
+          // CHECKSTYLE:OFF
+          // If we couldn't load it, there's no use trying again: do not add it to the queue
+        } catch (final Throwable e) {
+          // unfortunately the parser sometimes crashes (yet unreported Xtext bug)
+          // CHECKSTYLE:ON
+          pollForCancellation(monitor);
+          LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri), e);
+          if (resource != null) {
+            resourceSet.getResources().remove(resource);
+          }
+        } finally {
+          // Clear caches of resource
+          if (resource instanceof XtextResource) {
+            ((XtextResource) resource).getCache().clear(resource);
+          }
+          dataCollector.ended(ResourceIndexingEvent.class);
+          monitor.worked(1);
         }
 
-        flushChanges(newData);
-        toWrite.clear();
-
-        if (!tryAgain.isEmpty()) {
-          if (tryAgain.size() != nofRetries) {
-            // We made some progress.
-            nofRetries = tryAgain.size();
-            LOGGER.info(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN, nofRetries, tryAgain));
-            toWrite.addAll(tryAgain);
-            tryAgain.clear();
-          } else {
-            LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN_FAILED, nofRetries, tryAgain));
-          }
+        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size())) {
+          clearResourceSet(resourceSet);
         }
+        index++;
       }
     } finally {
       if (loadOperation != null) {
         loadOperation.cancel();
       }
+    }
+    return Lists.newArrayList(toBuild, toRetry);
+  }
+
+  /** {@inheritDoc} */
+  protected void writeNewResourceDescriptions(final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final ResourceDescriptionsData newData, final IProgressMonitor monitor) {
+    final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated(), oldState);
+    final List<URI> toBuild = Lists.newLinkedList();
+    ResourceSet resourceSet = buildData.getResourceSet();
+    BuildPhases.setIndexing(resourceSet, true);
+    List<URI> tryAgain = Lists.newLinkedList();
+    int totalSize = 0;
+    for (List<URI> group : toWriteGroups) {
+      totalSize = totalSize + group.size();
+    }
+    final SubMonitor subMonitor = SubMonitor.convert(monitor, Messages.MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS, totalSize);
+    int nofRetries = 0;
+
+    try {
+      dataCollector.started(BuildIndexingEvent.class);
+      /*
+       * We handle one group at a time to enforce strict ordering between some specific source types.
+       * I.e. We start processing a source type (or a set of them) only after all occurrences of another source on which the depend has been written into the
+       * index.
+       * One list sorted by source type would not be enough to enforce such ordering in a parallel loading scenario.
+       * In fact, in this case we might start processing sources before the ones they depend on are still being handled.
+       */
+      for (Collection<URI> fileExtensionBuildGroup : toWriteGroups) {
+        List<List<URI>> result = writeResources(fileExtensionBuildGroup, buildData, oldState, newState, subMonitor);
+        toBuild.addAll(result.get(0));
+        tryAgain.addAll(result.get(1));
+      }
+      flushChanges(newData);
+
+      while (!tryAgain.isEmpty() && (tryAgain.size() != nofRetries)) {
+        // We made some progress.
+        nofRetries = tryAgain.size();
+        LOGGER.info(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN, nofRetries, tryAgain));
+        List<List<URI>> result = writeResources(tryAgain, buildData, oldState, newState, subMonitor);
+        toBuild.addAll(result.get(0));
+        tryAgain = result.get(1);
+      }
+      if (!tryAgain.isEmpty()) {
+        LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN_FAILED, nofRetries, tryAgain));
+      }
+    } finally {
       // Clear the flags
       BuildPhases.setIndexing(resourceSet, false);
       resourceSet.getLoadOptions().remove(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS);
-      for (final URI uri : phaseTwoBuildSorter.sort(toBuild, oldState)) {
-        buildData.queueURI(uri);
-      }
+      phaseTwoBuildSorter.sort(toBuild, oldState).stream().flatMap(List::stream).forEach(buildData::queueURI);
       dataCollector.ended(BuildIndexingEvent.class);
     }
+
   }
 
   /**

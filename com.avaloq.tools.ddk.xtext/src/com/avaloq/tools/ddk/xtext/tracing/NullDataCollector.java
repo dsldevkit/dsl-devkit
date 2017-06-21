@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.tracing;
 
+import java.util.function.Supplier;
+
 import com.google.inject.Singleton;
 
 
@@ -59,6 +61,16 @@ public class NullDataCollector implements IExecutionDataCollector {
   @Override
   public void printReport() {
     // Do nothing
+  }
+
+  @Override
+  public <T> T getIntermediateData(final Object key, final Supplier<T> initialValue) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public <T> T clearIntermediateData(final Object key) {
+    throw new UnsupportedOperationException();
   }
 
 }

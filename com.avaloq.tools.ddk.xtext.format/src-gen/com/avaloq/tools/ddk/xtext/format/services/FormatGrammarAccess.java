@@ -913,53 +913,37 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 	public class MatcherElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Matcher");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final Group cGroup_0_0 = (Group)cAlternatives_0.eContents().get(0);
-		private final Assignment cLocatorAssignment_0_0_0 = (Assignment)cGroup_0_0.eContents().get(0);
-		private final RuleCall cLocatorLocatorParserRuleCall_0_0_0_0 = (RuleCall)cLocatorAssignment_0_0_0.eContents().get(0);
-		private final Assignment cTypeAssignment_0_0_1 = (Assignment)cGroup_0_0.eContents().get(1);
-		private final RuleCall cTypeMatcherTypeEnumRuleCall_0_0_1_0 = (RuleCall)cTypeAssignment_0_0_1.eContents().get(0);
-		private final Assignment cLocatorAssignment_0_1 = (Assignment)cAlternatives_0.eContents().get(1);
-		private final RuleCall cLocatorNoFormatLocatorParserRuleCall_0_1_0 = (RuleCall)cLocatorAssignment_0_1.eContents().get(0);
-		private final Assignment cConditionAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cConditionXBlockExpressionParserRuleCall_1_0 = (RuleCall)cConditionAssignment_1.eContents().get(0);
+		private final Assignment cLocatorAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cLocatorLocatorParserRuleCall_0_0 = (RuleCall)cLocatorAssignment_0.eContents().get(0);
+		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cTypeMatcherTypeEnumRuleCall_1_0 = (RuleCall)cTypeAssignment_1.eContents().get(0);
+		private final Assignment cConditionAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cConditionXBlockExpressionParserRuleCall_2_0 = (RuleCall)cConditionAssignment_2.eContents().get(0);
 		
 		//Matcher:
-		//	(locator=Locator type=MatcherType | locator=NoFormatLocator) condition=XBlockExpression?;
+		//	locator=Locator type=MatcherType condition=XBlockExpression?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(locator=Locator type=MatcherType | locator=NoFormatLocator) condition=XBlockExpression?
+		//locator=Locator type=MatcherType condition=XBlockExpression?
 		public Group getGroup() { return cGroup; }
 
-		//locator=Locator type=MatcherType | locator=NoFormatLocator
-		public Alternatives getAlternatives_0() { return cAlternatives_0; }
-
-		//locator=Locator type=MatcherType
-		public Group getGroup_0_0() { return cGroup_0_0; }
-
 		//locator=Locator
-		public Assignment getLocatorAssignment_0_0_0() { return cLocatorAssignment_0_0_0; }
+		public Assignment getLocatorAssignment_0() { return cLocatorAssignment_0; }
 
 		//Locator
-		public RuleCall getLocatorLocatorParserRuleCall_0_0_0_0() { return cLocatorLocatorParserRuleCall_0_0_0_0; }
+		public RuleCall getLocatorLocatorParserRuleCall_0_0() { return cLocatorLocatorParserRuleCall_0_0; }
 
 		//type=MatcherType
-		public Assignment getTypeAssignment_0_0_1() { return cTypeAssignment_0_0_1; }
+		public Assignment getTypeAssignment_1() { return cTypeAssignment_1; }
 
 		//MatcherType
-		public RuleCall getTypeMatcherTypeEnumRuleCall_0_0_1_0() { return cTypeMatcherTypeEnumRuleCall_0_0_1_0; }
-
-		//locator=NoFormatLocator
-		public Assignment getLocatorAssignment_0_1() { return cLocatorAssignment_0_1; }
-
-		//NoFormatLocator
-		public RuleCall getLocatorNoFormatLocatorParserRuleCall_0_1_0() { return cLocatorNoFormatLocatorParserRuleCall_0_1_0; }
+		public RuleCall getTypeMatcherTypeEnumRuleCall_1_0() { return cTypeMatcherTypeEnumRuleCall_1_0; }
 
 		//condition=XBlockExpression?
-		public Assignment getConditionAssignment_1() { return cConditionAssignment_1; }
+		public Assignment getConditionAssignment_2() { return cConditionAssignment_2; }
 
 		//XBlockExpression
-		public RuleCall getConditionXBlockExpressionParserRuleCall_1_0() { return cConditionXBlockExpressionParserRuleCall_1_0; }
+		public RuleCall getConditionXBlockExpressionParserRuleCall_2_0() { return cConditionXBlockExpressionParserRuleCall_2_0; }
 	}
 
 	public class LocatorElements extends AbstractParserRuleElementFinder {
@@ -971,12 +955,14 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cColumnLocatorParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cOffsetLocatorParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
 		private final RuleCall cIndentLocatorParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
+		private final RuleCall cNoFormatLocatorParserRuleCall_6 = (RuleCall)cAlternatives.eContents().get(6);
 		
 		//Locator:
-		//	SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator;
+		//	SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator |
+		//	NoFormatLocator;
 		@Override public ParserRule getRule() { return rule; }
 
-		//SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator
+		//SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator | NoFormatLocator
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//SpaceLocator
@@ -996,6 +982,9 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 
 		//IndentLocator
 		public RuleCall getIndentLocatorParserRuleCall_5() { return cIndentLocatorParserRuleCall_5; }
+
+		//NoFormatLocator
+		public RuleCall getNoFormatLocatorParserRuleCall_6() { return cNoFormatLocatorParserRuleCall_6; }
 	}
 
 	public class NoFormatLocatorElements extends AbstractParserRuleElementFinder {
@@ -1830,7 +1819,7 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Matcher:
-	//	(locator=Locator type=MatcherType | locator=NoFormatLocator) condition=XBlockExpression?;
+	//	locator=Locator type=MatcherType condition=XBlockExpression?;
 	public MatcherElements getMatcherAccess() {
 		return pMatcher;
 	}
@@ -1850,7 +1839,8 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Locator:
-	//	SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator;
+	//	SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator |
+	//	NoFormatLocator;
 	public LocatorElements getLocatorAccess() {
 		return pLocator;
 	}
