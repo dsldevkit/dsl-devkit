@@ -78,20 +78,20 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   /**
    * Checks that a {@link com.avaloq.tools.ddk.check.check.Check Check} which has been disabled in the
    * configuration does not have any configured properties.
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    */
   @Check
   public void checkDisabledCheckIsNotConfigured(final ConfiguredCheck configuredCheck) {
     if (configuredCheck.getSeverity().equals(SeverityKind.IGNORE) && !configuredCheck.getParameterConfigurations().isEmpty()) {
-      warning(Messages.CheckCfgJavaValidator_DISABLED_CHECK_NOT_CONFIGURED, CheckcfgPackage.Literals.CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS, IssueCodes.DISABLED_CHECK_NOT_CONFIGURED);
+      warning(Messages.CheckCfgJavaValidator_DISABLED_CHECK_NOT_CONFIGURED, CheckcfgPackage.Literals.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS, IssueCodes.DISABLED_CHECK_NOT_CONFIGURED);
     }
   }
 
   /**
    * Checks if a {@link com.avaloq.tools.ddk.check.check.Check Check} is configured or if it is just referenced.
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    * @return {@code true}, if it is configured
@@ -102,7 +102,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
 
   /**
    * Checks that final catalogs are not configured.
-   * 
+   *
    * @see {@link com.avaloq.tools.ddk.check.check.CheckCatalog#isFinal()}
    * @param catalog
    *          the configured catalog
@@ -121,7 +121,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   /**
    * Checks that a {@link com.avaloq.tools.ddk.check.check.Check Check} which has been marked as {@link com.avaloq.tools.ddk.check.check.Check#isFinal()
    * final} is not configured.
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    */
@@ -135,7 +135,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   /**
    * Checks that a configured check's severity is allowed. If referenced check has a {@link SeverityRange severity range} defined, it must be checked that
    * configured value is within defined range.
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    */
@@ -173,7 +173,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
 
   /**
    * Checks whether a configured check's configuration equals the default. Emits an info if this is the case.
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    */
@@ -188,6 +188,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
     for (final ConfiguredParameter configParam : configuredCheck.getParameterConfigurations()) {
       try {
         FormalParameter param = Iterables.find(formalParameters, new Predicate<FormalParameter>() {
+          @Override
           public boolean apply(final FormalParameter input) {
             return input == configParam.getParameter();
           }
@@ -209,7 +210,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
    * <li>{@link org.eclipse.xtext.xbase.XIntLiteral int}
    * <li>{@link org.eclipse.xtext.xbase.XStringLiteral string}
    * </ul>
-   * 
+   *
    * @param e1
    *          the expression associated with the first parameter value
    * @param e2
@@ -227,7 +228,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   /**
    * Checks that within a Check Configuration all Catalog Configurations are unique, meaning that a referenced
    * Check Catalog can only be configured in one place.
-   * 
+   *
    * @param configuration
    *          the configuration
    */
@@ -237,12 +238,14 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
       return;
     }
     Predicate<ConfiguredCatalog> predicate = new Predicate<ConfiguredCatalog>() {
+      @Override
       public boolean apply(final ConfiguredCatalog configuredCatalog) {
         final CheckCatalog catalog = configuredCatalog.getCatalog();
         return catalog != null && !catalog.eIsProxy();
       }
     };
     Function<ConfiguredCatalog, String> function = new Function<ConfiguredCatalog, String>() {
+      @Override
       public String apply(final ConfiguredCatalog from) {
         return from.getCatalog().getName();
       }
@@ -255,7 +258,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
 
   /**
    * Checks that Check Configurations are unique. A Configured Catalog may only contain one configuration for each referenced Check.
-   * 
+   *
    * @param configuration
    *          the configuration
    */
@@ -265,11 +268,13 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
       return;
     }
     Predicate<ConfiguredCheck> predicate = new Predicate<ConfiguredCheck>() {
+      @Override
       public boolean apply(final ConfiguredCheck configuredCheck) {
         return configuredCheck.getCheck() != null && !configuredCheck.getCheck().eIsProxy();
       }
     };
     Function<ConfiguredCheck, String> function = new Function<ConfiguredCheck, String>() {
+      @Override
       public String apply(final ConfiguredCheck from) {
         return from.getCheck().getName();
       }
@@ -282,7 +287,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
 
   /**
    * Checks that language referenced in validator configuration exists.
-   * 
+   *
    * @param validator
    *          the configured language validator
    */
@@ -295,7 +300,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
 
   /**
    * Checks that a Configured Check has unique Configured Parameters.
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    */
@@ -305,11 +310,13 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
       return;
     }
     Predicate<ConfiguredParameter> predicate = new Predicate<ConfiguredParameter>() {
+      @Override
       public boolean apply(final ConfiguredParameter configuredParameter) {
         return configuredParameter.getParameter() != null && !configuredParameter.getParameter().eIsProxy();
       }
     };
     Function<ConfiguredParameter, String> function = new Function<ConfiguredParameter, String>() {
+      @Override
       public String apply(final ConfiguredParameter from) {
         return from.getParameter().getName();
       }
@@ -323,7 +330,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   /**
    * Gets duplicates of a given type based on a guard (predicate). A given function is used for converting an instance of type T
    * to a string which is used for checking for duplicates.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param predicate
@@ -337,6 +344,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   private <T extends EObject> Iterable<T> getDuplicates(final Predicate<T> predicate, final Function<T, String> function, final Iterable<T> elements) {
     List<T> result = Lists.newArrayList();
     Multimap<String, T> multiMap = Multimaps.newMultimap(Maps.<String, Collection<T>> newHashMap(), new Supplier<Collection<T>>() {
+      @Override
       public Collection<T> get() {
         return Lists.<T> newArrayList();
       }
@@ -356,4 +364,3 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
     return result;
   }
 }
-

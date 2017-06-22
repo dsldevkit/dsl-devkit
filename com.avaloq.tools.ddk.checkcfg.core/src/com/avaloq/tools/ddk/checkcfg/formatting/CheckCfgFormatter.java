@@ -36,7 +36,7 @@ public class CheckCfgFormatter extends XbaseFormatter {
 
   /**
    * Gets the Check grammar access.
-   * 
+   *
    * @return the check grammar access
    */
   protected CheckCfgGrammarAccess checkConfigGrammarAccess() {
@@ -45,7 +45,7 @@ public class CheckCfgFormatter extends XbaseFormatter {
 
   /**
    * Entry point for Check Configuration formatting.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param g
@@ -71,22 +71,22 @@ public class CheckCfgFormatter extends XbaseFormatter {
 
   /**
    * Configures formatting for Check Configuration.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
    *          the Check Configuration elements
    */
   private void configureCheckConfiguration(final FormattingConfig c, final CheckConfigurationElements elements) {
-    c.setIndentationIncrement().after(elements.getLeftCurlyBracketKeyword_4_0());
-    c.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_4_2());
-    c.setLinewrap(2).after(elements.getLeftCurlyBracketKeyword_4_0());
-    c.setLinewrap(2).before(elements.getRightCurlyBracketKeyword_4_2());
+    c.setIndentationIncrement().after(elements.getLeftCurlyBracketKeyword_5_0());
+    c.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_5_2());
+    c.setLinewrap(2).after(elements.getLeftCurlyBracketKeyword_5_0());
+    c.setLinewrap(2).before(elements.getRightCurlyBracketKeyword_5_2());
   }
 
   /**
    * Configures formatting for Check Configuration.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -94,15 +94,15 @@ public class CheckCfgFormatter extends XbaseFormatter {
    */
   private void configureLanguageValidatorConfiguration(final FormattingConfig c, final ConfiguredLanguageValidatorElements elements) {
     c.setIndentationIncrement().after(elements.getLeftCurlyBracketKeyword_2());
-    c.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_4());
+    c.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_5());
     c.setLinewrap(2).before(elements.getForKeyword_0());
     c.setLinewrap(2).after(elements.getLeftCurlyBracketKeyword_2());
-    c.setLinewrap(2).before(elements.getRightCurlyBracketKeyword_4());
+    c.setLinewrap(2).before(elements.getRightCurlyBracketKeyword_5());
   }
 
   /**
    * Configures formatting for Configured Catalog.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -111,16 +111,16 @@ public class CheckCfgFormatter extends XbaseFormatter {
   private void configureConfiguredCatalog(final FormattingConfig c, final ConfiguredCatalogElements elements) {
     c.setLinewrap(2).before(elements.getCatalogKeyword_1());
     c.setIndentationIncrement().after(elements.getLeftCurlyBracketKeyword_3());
-    c.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_5());
+    c.setIndentationDecrement().before(elements.getRightCurlyBracketKeyword_6());
     c.setLinewrap().before(elements.getCatalogKeyword_1());
 
     c.setLinewrap().after(elements.getLeftCurlyBracketKeyword_3());
-    c.setLinewrap().before(elements.getRightCurlyBracketKeyword_5());
+    c.setLinewrap().before(elements.getRightCurlyBracketKeyword_6());
   }
 
   /**
    * Configures formatting for Configured Check.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -146,4 +146,3 @@ public class CheckCfgFormatter extends XbaseFormatter {
   // */
   // private void configureConfiguredParameter(final FormattingConfig c, final ConfiguredParameterElements elements) {}
 }
-

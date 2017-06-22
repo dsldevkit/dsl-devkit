@@ -85,6 +85,34 @@ finally {
 
 
 
+// Entry rule entryRuleXImportSection
+entryRuleXImportSection 
+:
+{ before(grammarAccess.getXImportSectionRule()); }
+	 ruleXImportSection
+{ after(grammarAccess.getXImportSectionRule()); } 
+	 EOF 
+;
+
+// Rule XImportSection
+ruleXImportSection
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getXImportSectionAccess().getGroup()); }
+(rule__XImportSection__Group__0)
+{ after(grammarAccess.getXImportSectionAccess().getGroup()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
 // Entry rule entryRuleXImportDeclaration
 entryRuleXImportDeclaration 
 :
@@ -2711,41 +2739,6 @@ finally {
 
 
 
-// Entry rule entryRuleXImportSection
-entryRuleXImportSection 
-:
-{ before(grammarAccess.getXImportSectionRule()); }
-	 ruleXImportSection
-{ after(grammarAccess.getXImportSectionRule()); } 
-	 EOF 
-;
-
-// Rule XImportSection
-ruleXImportSection
-    @init {
-		int stackSize = keepStackSize();
-    }
-	:
-(
-(
-{ before(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment()); }
-(rule__XImportSection__ImportDeclarationsAssignment)
-{ after(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment()); }
-)
-(
-{ before(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment()); }
-(rule__XImportSection__ImportDeclarationsAssignment)*
-{ after(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment()); }
-)
-)
-
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-
 
 
 
@@ -4518,7 +4511,7 @@ rule__CheckCatalog__Group__3__Impl
 :
 (
 { before(grammarAccess.getCheckCatalogAccess().getImportsAssignment_3()); }
-(rule__CheckCatalog__ImportsAssignment_3)?
+(rule__CheckCatalog__ImportsAssignment_3)
 { after(grammarAccess.getCheckCatalogAccess().getImportsAssignment_3()); }
 )
 
@@ -4936,6 +4929,69 @@ rule__CheckCatalog__Group_8__1__Impl
 { before(grammarAccess.getCheckCatalogAccess().getIncludedCatalogsAssignment_8_1()); }
 (rule__CheckCatalog__IncludedCatalogsAssignment_8_1)
 { after(grammarAccess.getCheckCatalogAccess().getIncludedCatalogsAssignment_8_1()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
+
+
+
+rule__XImportSection__Group__0
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+	rule__XImportSection__Group__0__Impl
+	rule__XImportSection__Group__1
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__XImportSection__Group__0__Impl
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getXImportSectionAccess().getXImportSectionAction_0()); }
+(
+
+)
+{ after(grammarAccess.getXImportSectionAccess().getXImportSectionAction_0()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+rule__XImportSection__Group__1
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+	rule__XImportSection__Group__1__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__XImportSection__Group__1__Impl
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment_1()); }
+(rule__XImportSection__ImportDeclarationsAssignment_1)*
+{ after(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment_1()); }
 )
 
 ;
@@ -23159,6 +23215,21 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+rule__XImportSection__ImportDeclarationsAssignment_1
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getXImportSectionAccess().getImportDeclarationsXImportDeclarationParserRuleCall_1_0()); }
+	ruleXImportDeclaration{ after(grammarAccess.getXImportSectionAccess().getImportDeclarationsXImportDeclarationParserRuleCall_1_0()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
 rule__XImportDeclaration__ImportedTypeAssignment_1_0
     @init {
 		int stackSize = keepStackSize();
@@ -26237,21 +26308,6 @@ finally {
 
 
 
-
-rule__XImportSection__ImportDeclarationsAssignment
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-(
-{ before(grammarAccess.getXImportSectionAccess().getImportDeclarationsXImportDeclarationParserRuleCall_0()); }
-	ruleXImportDeclaration{ after(grammarAccess.getXImportSectionAccess().getImportDeclarationsXImportDeclarationParserRuleCall_0()); }
-)
-
-;
-finally {
-	restoreStackSize(stackSize);
-}
 
 
 RULE_HEX : ('0x'|'0X') ('0'..'9'|'a'..'f'|'A'..'F'|'_')+ ('#' (('b'|'B') ('i'|'I')|('l'|'L')))?;

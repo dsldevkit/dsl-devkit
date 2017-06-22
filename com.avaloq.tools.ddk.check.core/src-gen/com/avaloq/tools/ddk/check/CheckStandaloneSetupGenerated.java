@@ -30,9 +30,6 @@ public class CheckStandaloneSetupGenerated implements ISetup {
 	}
 	
 	public void register(Injector injector) {
-	if (!EPackage.Registry.INSTANCE.containsKey("http://www.avaloq.com/tools/ddk/check/Check")) {
-		EPackage.Registry.INSTANCE.put("http://www.avaloq.com/tools/ddk/check/Check", com.avaloq.tools.ddk.check.check.CheckPackage.eINSTANCE);
-	}
 
 		org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
 		org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);

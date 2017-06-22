@@ -6,8 +6,6 @@ import com.avaloq.tools.ddk.check.check.CheckCatalog;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Configured Catalog</b></em>'.
@@ -15,17 +13,17 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog#getCatalog <em>Catalog</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog#getCheckConfigurations <em>Check Configurations</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredCatalog()
  * @model
  * @generated
  */
-public interface ConfiguredCatalog extends EObject
+public interface ConfiguredCatalog extends ConfigurableSection
 {
 	/**
 	 * Returns the value of the '<em><b>Catalog</b></em>' reference.

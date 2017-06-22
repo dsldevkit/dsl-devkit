@@ -27,10 +27,10 @@ public final class IssueCodes {
   public static final String UNKNOWN_LANGUAGE = ISSUE_CODE_PREFIX + "unknown_language";
   public static final String DUPLICATE_PARAMETER_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_parameter_configuration";
   public static final String SEVERITY_NOT_ALLOWED = ISSUE_CODE_PREFIX + "severity_not_allowed";
+  public static final String PARAMETER_VALUE_NOT_ALLOWED = ISSUE_CODE_PREFIX + "parameter_value_not_allowed";
 
   private IssueCodes() {
     // No instantiation.
   }
 
 }
-

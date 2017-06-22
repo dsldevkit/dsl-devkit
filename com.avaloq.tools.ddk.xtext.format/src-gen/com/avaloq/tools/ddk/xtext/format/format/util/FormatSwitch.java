@@ -209,6 +209,7 @@ public class FormatSwitch<T> extends Switch<T>
       {
         NoFormatLocator noFormatLocator = (NoFormatLocator)theEObject;
         T result = caseNoFormatLocator(noFormatLocator);
+        if (result == null) result = caseLocator(noFormatLocator);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }

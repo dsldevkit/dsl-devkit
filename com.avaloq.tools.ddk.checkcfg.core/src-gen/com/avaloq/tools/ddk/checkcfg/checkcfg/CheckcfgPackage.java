@@ -58,6 +58,34 @@ public interface CheckcfgPackage extends EPackage
 	CheckcfgPackage eINSTANCE = com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckcfgPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfigurableSectionImpl <em>Configurable Section</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfigurableSectionImpl
+	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckcfgPackageImpl#getConfigurableSection()
+	 * @generated
+	 */
+	int CONFIGURABLE_SECTION = 5;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Configurable Section</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURABLE_SECTION_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl <em>Check Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -68,13 +96,22 @@ public interface CheckcfgPackage extends EPackage
 	int CHECK_CONFIGURATION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Parameter Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHECK_CONFIGURATION__PARAMETER_CONFIGURATIONS = CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CONFIGURATION__NAME = 0;
+	int CHECK_CONFIGURATION__NAME = CONFIGURABLE_SECTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Language Validator Configurations</b></em>' containment reference list.
@@ -83,7 +120,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CONFIGURATION__LANGUAGE_VALIDATOR_CONFIGURATIONS = 1;
+	int CHECK_CONFIGURATION__LANGUAGE_VALIDATOR_CONFIGURATIONS = CONFIGURABLE_SECTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Legacy Catalog Configurations</b></em>' containment reference list.
@@ -92,7 +129,16 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS = 2;
+	int CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS = CONFIGURABLE_SECTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHECK_CONFIGURATION__PROPERTIES = CONFIGURABLE_SECTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Check Configuration</em>' class.
@@ -101,7 +147,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CONFIGURATION_FEATURE_COUNT = 3;
+	int CHECK_CONFIGURATION_FEATURE_COUNT = CONFIGURABLE_SECTION_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredLanguageValidatorImpl <em>Configured Language Validator</em>}' class.
@@ -114,13 +160,22 @@ public interface CheckcfgPackage extends EPackage
 	int CONFIGURED_LANGUAGE_VALIDATOR = 1;
 
 	/**
+	 * The feature id for the '<em><b>Parameter Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURED_LANGUAGE_VALIDATOR__PARAMETER_CONFIGURATIONS = CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Language</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE = 0;
+	int CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE = CONFIGURABLE_SECTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Catalog Configurations</b></em>' containment reference list.
@@ -129,7 +184,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_LANGUAGE_VALIDATOR__CATALOG_CONFIGURATIONS = 1;
+	int CONFIGURED_LANGUAGE_VALIDATOR__CATALOG_CONFIGURATIONS = CONFIGURABLE_SECTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Configured Language Validator</em>' class.
@@ -138,7 +193,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_LANGUAGE_VALIDATOR_FEATURE_COUNT = 2;
+	int CONFIGURED_LANGUAGE_VALIDATOR_FEATURE_COUNT = CONFIGURABLE_SECTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCatalogImpl <em>Configured Catalog</em>}' class.
@@ -151,13 +206,22 @@ public interface CheckcfgPackage extends EPackage
 	int CONFIGURED_CATALOG = 2;
 
 	/**
+	 * The feature id for the '<em><b>Parameter Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURED_CATALOG__PARAMETER_CONFIGURATIONS = CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Catalog</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_CATALOG__CATALOG = 0;
+	int CONFIGURED_CATALOG__CATALOG = CONFIGURABLE_SECTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Check Configurations</b></em>' containment reference list.
@@ -166,7 +230,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_CATALOG__CHECK_CONFIGURATIONS = 1;
+	int CONFIGURED_CATALOG__CHECK_CONFIGURATIONS = CONFIGURABLE_SECTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Configured Catalog</em>' class.
@@ -175,7 +239,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_CATALOG_FEATURE_COUNT = 2;
+	int CONFIGURED_CATALOG_FEATURE_COUNT = CONFIGURABLE_SECTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredCheckImpl <em>Configured Check</em>}' class.
@@ -188,13 +252,22 @@ public interface CheckcfgPackage extends EPackage
 	int CONFIGURED_CHECK = 3;
 
 	/**
+	 * The feature id for the '<em><b>Parameter Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS = CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_CHECK__SEVERITY = 0;
+	int CONFIGURED_CHECK__SEVERITY = CONFIGURABLE_SECTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Check</b></em>' reference.
@@ -203,16 +276,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_CHECK__CHECK = 1;
-
-	/**
-	 * The feature id for the '<em><b>Parameter Configurations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS = 2;
+	int CONFIGURED_CHECK__CHECK = CONFIGURABLE_SECTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Configured Check</em>' class.
@@ -221,7 +285,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CONFIGURED_CHECK_FEATURE_COUNT = 3;
+	int CONFIGURED_CHECK_FEATURE_COUNT = CONFIGURABLE_SECTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredParameterImpl <em>Configured Parameter</em>}' class.
@@ -268,7 +332,7 @@ public interface CheckcfgPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckcfgPackageImpl#getSeverityKind()
 	 * @generated
 	 */
-	int SEVERITY_KIND = 5;
+	int SEVERITY_KIND = 6;
 
 
 	/**
@@ -313,6 +377,17 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 */
 	EReference getCheckConfiguration_LegacyCatalogConfigurations();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getProperties <em>Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Properties</em>'.
+	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getProperties()
+	 * @see #getCheckConfiguration()
+	 * @generated
+	 */
+	EReference getCheckConfiguration_Properties();
 
 	/**
 	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator <em>Configured Language Validator</em>}'.
@@ -411,17 +486,6 @@ public interface CheckcfgPackage extends EPackage
 	EReference getConfiguredCheck_Check();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getParameterConfigurations <em>Parameter Configurations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Parameter Configurations</em>'.
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck#getParameterConfigurations()
-	 * @see #getConfiguredCheck()
-	 * @generated
-	 */
-	EReference getConfiguredCheck_ParameterConfigurations();
-
-	/**
 	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredParameter <em>Configured Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -452,6 +516,27 @@ public interface CheckcfgPackage extends EPackage
 	 * @generated
 	 */
 	EReference getConfiguredParameter_NewValue();
+
+	/**
+	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection <em>Configurable Section</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Configurable Section</em>'.
+	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection
+	 * @generated
+	 */
+	EClass getConfigurableSection();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection#getParameterConfigurations <em>Parameter Configurations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameter Configurations</em>'.
+	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection#getParameterConfigurations()
+	 * @see #getConfigurableSection()
+	 * @generated
+	 */
+	EReference getConfigurableSection_ParameterConfigurations();
 
 	/**
 	 * Returns the meta object for enum '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind <em>Severity Kind</em>}'.
@@ -519,6 +604,14 @@ public interface CheckcfgPackage extends EPackage
 		 * @generated
 		 */
 		EReference CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS = eINSTANCE.getCheckConfiguration_LegacyCatalogConfigurations();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CHECK_CONFIGURATION__PROPERTIES = eINSTANCE.getCheckConfiguration_Properties();
 
 		/**
 		 * The meta object literal for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredLanguageValidatorImpl <em>Configured Language Validator</em>}' class.
@@ -599,14 +692,6 @@ public interface CheckcfgPackage extends EPackage
 		EReference CONFIGURED_CHECK__CHECK = eINSTANCE.getConfiguredCheck_Check();
 
 		/**
-		 * The meta object literal for the '<em><b>Parameter Configurations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS = eINSTANCE.getConfiguredCheck_ParameterConfigurations();
-
-		/**
 		 * The meta object literal for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredParameterImpl <em>Configured Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -631,6 +716,24 @@ public interface CheckcfgPackage extends EPackage
 		 * @generated
 		 */
 		EReference CONFIGURED_PARAMETER__NEW_VALUE = eINSTANCE.getConfiguredParameter_NewValue();
+
+		/**
+		 * The meta object literal for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfigurableSectionImpl <em>Configurable Section</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfigurableSectionImpl
+		 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckcfgPackageImpl#getConfigurableSection()
+		 * @generated
+		 */
+		EClass CONFIGURABLE_SECTION = eINSTANCE.getConfigurableSection();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Configurations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS = eINSTANCE.getConfigurableSection_ParameterConfigurations();
 
 		/**
 		 * The meta object literal for the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind <em>Severity Kind</em>}' enum.

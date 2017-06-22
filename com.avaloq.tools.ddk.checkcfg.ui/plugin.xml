@@ -17,18 +17,6 @@
         </editor>
     </extension>
     <extension
-            point="org.eclipse.ui.editors">
-        <editor
-              class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
-              contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-              default="false"
-              extensions="DPL FILE"
-              id="com.avaloq.tools.ddk.checkcfg.CheckCfg"
-              matchingStrategy="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.xbase.ui.editor.JavaEditorInputMatcher"
-              name="Check Configuration Editor">
-        </editor>
-    </extension>
-    <extension
         point="org.eclipse.ui.handlers">
         <handler
             class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"

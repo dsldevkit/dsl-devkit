@@ -22,7 +22,6 @@ import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
@@ -103,7 +102,7 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   /**
    * Adds the populated check configuration.
-   * 
+   *
    * @param templateContext
    *          the template context
    * @param context
@@ -123,7 +122,7 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
       StringBuilder builder = new StringBuilder();
       for (IEObjectDescription description : allElements) {
-        if (description instanceof EObjectDescription && description.getEObjectOrProxy() instanceof CheckCatalog) {
+        if (description.getEObjectOrProxy() instanceof CheckCatalog) {
           CheckCatalog catalog = (CheckCatalog) description.getEObjectOrProxy();
           if (catalog.eIsProxy()) {
             catalog = (CheckCatalog) EcoreUtil.resolve(catalog, conf);
@@ -157,7 +156,7 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   /**
    * Checks if is catalog configured.
-   * 
+   *
    * @param conf
    *          the check configuration
    * @param catalog
@@ -185,7 +184,7 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
   /**
    * Adds template proposals for all checks which may be referenced in current catalog configuration. Only proposals for checks
    * which have not yet been configured are provided.
-   * 
+   *
    * @param templateContext
    *          the template context
    * @param context
@@ -238,4 +237,3 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
   }
 
 }
-

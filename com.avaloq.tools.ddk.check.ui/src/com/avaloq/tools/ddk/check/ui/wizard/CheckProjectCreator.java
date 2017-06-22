@@ -64,12 +64,14 @@ public class CheckProjectCreator extends AbstractPluginProjectCreator { // exten
 
   /** Default set of required bundles. */
   private final List<String> requiredBundles = Lists.newArrayList("org.eclipse.emf.ecore", // EStructuralFeature scoping requires this
-      "org.eclipse.xtext", // required for code generation
-      "com.avaloq.tools.ddk.check.runtime.core", // Check runtime
-      "com.avaloq.tools.ddk.check.lib", // Check user library
-      "org.eclipse.core.runtime", //
-      "org.eclipse.xtend2.lib", // required for CheckGenerator operations, e.g. 'StringConcatenation()'
-      "org.eclipse.xtext.xbase.lib" // required for Xbase operations, e.g. '=='
+  "org.eclipse.xtext", // required for code generation
+  "com.avaloq.tools.ddk.check.runtime.core", // Check runtime
+  "com.avaloq.tools.ddk.check.lib", // Check user library
+  "com.avaloq.tools.targetdefinition.check.core;resolution:=optional", // Check configuration preferences, TODO should only be added for ASMD
+  "org.eclipse.core.runtime", //
+  "org.eclipse.xtend2.lib", // required for CheckGenerator operations, e.g. 'StringConcatenation()'
+  "org.eclipse.xtext.xbase.lib", // required for Xbase operations, e.g. '=='
+  "com.avaloq.tools.dsl.check.lib;resolution:=optional" // utility operations (ASMD specific)
   );
 
   /**
@@ -83,6 +85,8 @@ public class CheckProjectCreator extends AbstractPluginProjectCreator { // exten
     IPath projectPath = project.getLocation().makeAbsolute();
     generatorUtil.generateCheckFile(projectPath, getProjectInfo());
     generatorUtil.generateDefaultQuickfixProvider(projectPath, getProjectInfo());
+    // Create the docs directory to avoid the check compiler from creating it as a source folder later. This would prevent help from accessing the files.
+    generatorUtil.generateDocsDirectory(projectPath, getProjectInfo());
     project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
   }
 

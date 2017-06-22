@@ -19,14 +19,15 @@ import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
+import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.util.XExpressionHelper;
 
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.avaloq.tools.ddk.check.documentation.CheckEObjectDocumentationProvider;
 import com.avaloq.tools.ddk.check.generator.CheckCompiler;
 import com.avaloq.tools.ddk.check.generator.CheckOutputConfigurationProvider;
+import com.avaloq.tools.ddk.check.imports.CheckRewritableImportSectionFactory;
 import com.avaloq.tools.ddk.check.naming.CheckDeclarativeQualifiedNameProvider;
 import com.avaloq.tools.ddk.check.resource.CheckLocationInFileProvider;
 import com.avaloq.tools.ddk.check.resource.CheckResourceDescriptionStrategy;
@@ -35,6 +36,7 @@ import com.avaloq.tools.ddk.check.scoping.CheckScopeProvider;
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.check.typing.CheckExpressionHelper;
 import com.avaloq.tools.ddk.check.typing.CheckTypeComputer;
+import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
 
@@ -101,7 +103,7 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
 
   /**
    * Binds a custom output configuration provider.
-   * 
+   *
    * @return the check output configuration provider
    */
   public Class<? extends IOutputConfigurationProvider> bindIOutputConfigurationProvider() {
@@ -110,7 +112,7 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
 
   /**
    * Binds a custom expression helper.
-   * 
+   *
    * @return CheckExpressionHelper
    */
   public Class<? extends XExpressionHelper> bindXExpressionHelper() {
@@ -124,7 +126,7 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
 
   /**
    * Sets our own compiler.
-   * 
+   *
    * @return CheckCompiler.class
    */
   public Class<? extends XbaseCompiler> bindXbaseCompiler() {
@@ -133,12 +135,20 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
 
   /**
    * Workaround for Bug 416913. To be removed with DSL-596
-   * 
+   *
    * @return {@link FixedPartialParsingHelper}
    */
   @Override
   public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
     return FixedPartialParsingHelper.class;
   }
-}
 
+  /**
+   * Use our own override of {@link RewritableImportSection.Factory}, to create {@link RewritableImportSection}s which automatically sort import lines.
+   *
+   * @return {@link CheckRewritableImportSectionFactory}
+   */
+  public Class<? extends RewritableImportSection.Factory> bindRewritableImportSectionFactory() {
+    return CheckRewritableImportSectionFactory.class;
+  }
+}

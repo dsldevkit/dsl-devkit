@@ -92,6 +92,7 @@ public class CheckParser extends AbstractContentAssistParser {
 					put(grammarAccess.getCheckCatalogAccess().getGroup(), "rule__CheckCatalog__Group__0");
 					put(grammarAccess.getCheckCatalogAccess().getGroup_7(), "rule__CheckCatalog__Group_7__0");
 					put(grammarAccess.getCheckCatalogAccess().getGroup_8(), "rule__CheckCatalog__Group_8__0");
+					put(grammarAccess.getXImportSectionAccess().getGroup(), "rule__XImportSection__Group__0");
 					put(grammarAccess.getXImportDeclarationAccess().getGroup(), "rule__XImportDeclaration__Group__0");
 					put(grammarAccess.getCategoryAccess().getGroup(), "rule__Category__Group__0");
 					put(grammarAccess.getCheckAccess().getGroup(), "rule__Check__Group__0");
@@ -330,6 +331,7 @@ public class CheckParser extends AbstractContentAssistParser {
 					put(grammarAccess.getCheckCatalogAccess().getImplementationsAssignment_10_1(), "rule__CheckCatalog__ImplementationsAssignment_10_1");
 					put(grammarAccess.getCheckCatalogAccess().getChecksAssignment_10_2(), "rule__CheckCatalog__ChecksAssignment_10_2");
 					put(grammarAccess.getCheckCatalogAccess().getMembersAssignment_10_3(), "rule__CheckCatalog__MembersAssignment_10_3");
+					put(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment_1(), "rule__XImportSection__ImportDeclarationsAssignment_1");
 					put(grammarAccess.getXImportDeclarationAccess().getImportedTypeAssignment_1_0(), "rule__XImportDeclaration__ImportedTypeAssignment_1_0");
 					put(grammarAccess.getXImportDeclarationAccess().getImportedNamespaceAssignment_1_1(), "rule__XImportDeclaration__ImportedNamespaceAssignment_1_1");
 					put(grammarAccess.getCategoryAccess().getIdAssignment_1(), "rule__Category__IdAssignment_1");
@@ -525,7 +527,6 @@ public class CheckParser extends AbstractContentAssistParser {
 					put(grammarAccess.getJvmTypeParameterAccess().getNameAssignment_0(), "rule__JvmTypeParameter__NameAssignment_0");
 					put(grammarAccess.getJvmTypeParameterAccess().getConstraintsAssignment_1_0(), "rule__JvmTypeParameter__ConstraintsAssignment_1_0");
 					put(grammarAccess.getJvmTypeParameterAccess().getConstraintsAssignment_1_1(), "rule__JvmTypeParameter__ConstraintsAssignment_1_1");
-					put(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment(), "rule__XImportSection__ImportDeclarationsAssignment");
 				}
 			};
 		}

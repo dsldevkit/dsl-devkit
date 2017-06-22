@@ -12,8 +12,10 @@ package com.avaloq.tools.ddk.xtext.tracing;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 
 import com.avaloq.tools.ddk.xtext.tracing.TraceEvent.Trigger;
 import com.google.common.collect.Maps;
@@ -33,8 +35,12 @@ public class TraceSet implements ITraceSet {
 
   private final EventBus syncBus = new EventBus();
   private final EventBus asyncBus = new AsyncEventBus(Executors.newSingleThreadExecutor());
+
   private final ConcurrentMap<Class<?>, Constructor<?>> constructors = Maps.newConcurrentMap();
+
   private boolean enabled;
+
+  private final ThreadLocal<Map<Object, Object>> intermediateData = ThreadLocal.withInitial(() -> Maps.newHashMap());
 
   /**
    * Creates a new instance of {@link TraceSet}.
@@ -229,6 +235,25 @@ public class TraceSet implements ITraceSet {
   public void printReport() {
     // Trace set does not need this
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public <T> T getIntermediateData(final Object key, final Supplier<T> initialValue) {
+    @SuppressWarnings("unchecked")
+    Map<Object, T> intermediateDataMap = (Map<Object, T>) intermediateData.get();
+    T result = intermediateDataMap.get(key);
+    if (result == null) {
+      result = initialValue.get();
+      intermediateDataMap.put(key, result);
+    }
+    return result;
+  }
+
+  @Override
+  public <T> T clearIntermediateData(final Object key) {
+    @SuppressWarnings("unchecked")
+    Map<Object, T> intermediateDataMap = (Map<Object, T>) intermediateData.get();
+    return intermediateDataMap.remove(key);
   }
 
 }

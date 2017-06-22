@@ -31,10 +31,11 @@ import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Triple;
 
+import com.avaloq.tools.ddk.xtext.build.BuildPhases;
+import com.avaloq.tools.ddk.xtext.modelcache.BinaryModelCacheManager.ModelStatus;
 import com.avaloq.tools.ddk.xtext.modelcache.IModelCacheManager;
 import com.avaloq.tools.ddk.xtext.modelcache.ModelCacheManagerFactory;
 import com.avaloq.tools.ddk.xtext.modelcache.ResourceModelType;
-import com.avaloq.tools.ddk.xtext.modelcache.BinaryModelCacheManager.ModelStatus;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
 import com.avaloq.tools.ddk.xtext.tracing.IExecutionDataCollector;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
@@ -163,6 +164,17 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       RuntimeException cause = err.getCause();
       getErrors().add(new ExceptionDiagnostic(cause));
       throw new WrappedException(cause);
+    } catch (WrappedException ex) {
+      if (getEncoder().isCrossLinkFragment(this, uriFragment)) {
+        Triple<EObject, EReference, INode> triple = getEncoder().decode(this, uriFragment);
+        INode node = triple.getThird();
+        final String nodeName = getLinkingHelper().getCrossRefNodeAsString(node, true);
+        LOGGER.error("Resolution of uriFragment '" + uriFragment + "' in the resource '" + this.getURI() + "' node_name " + nodeName //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            + " line " + node.getStartLine() + " offset " + node.getOffset() + " failed.", ex); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      } else {
+        LOGGER.error("Resolution of uriFragment '" + uriFragment + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+      }
+      throw ex;
     }
   }
 
@@ -311,6 +323,21 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
         dataCollector.ended(ResourceInferenceEvent.class);
       }
     }
+  }
+
+  @Override
+  public synchronized EList<EObject> getContents() {
+    // CHECKSTYLE:OFF method copied from Xtext to adjust the value for 'installDerivedState' method's argument
+    if (isLoaded && !isLoading && !isInitializing && !isUpdating && !fullyInitialized && !isLoadedFromStorage()) {
+      // CHECKSTYLE:ON
+      try {
+        eSetDeliver(false);
+        installDerivedState(BuildPhases.isIndexing(this));
+      } finally {
+        eSetDeliver(true);
+      }
+    }
+    return doGetContents();
   }
 
   @Override

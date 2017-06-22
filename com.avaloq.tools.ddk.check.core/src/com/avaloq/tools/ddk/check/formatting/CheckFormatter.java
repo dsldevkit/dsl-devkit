@@ -23,9 +23,9 @@ import org.eclipse.xtext.xbase.services.XbaseGrammarAccess.XMemberFeatureCallEle
 
 import com.avaloq.tools.ddk.check.CheckConstants;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess;
-import com.avaloq.tools.ddk.check.services.CheckGrammarAccess.CategoryElements;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess.CheckCatalogElements;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess.CheckElements;
+import com.avaloq.tools.ddk.check.services.CheckGrammarAccess.ContextElements;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess.SeverityRangeElements;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess.XIssueExpressionElements;
 
@@ -40,7 +40,7 @@ public class CheckFormatter extends XbaseFormatter {
 
   /**
    * General formatting configuration. Delegates formatting configuration to individual grammar elements.
-   * 
+   *
    * @param configuration
    *          formating configuration
    * @param access
@@ -65,8 +65,8 @@ public class CheckFormatter extends XbaseFormatter {
 
     // Comments
     configuration.setLinewrap(0, 1, 2).before(access.getSL_COMMENTRule());
-    configuration.setLinewrap(0, 1, 2).before(access.getML_COMMENTRule());
-    configuration.setLinewrap(0, 1, 1).after(access.getML_COMMENTRule());
+    configuration.setLinewrap(1, 1, 2).before(access.getML_COMMENTRule());
+    configuration.setLinewrap(1, 1, 1).after(access.getML_COMMENTRule());
 
     // Rules
     configuration.setLinewrap(1, 1, 2).before(access.getXImportDeclarationRule());
@@ -81,10 +81,10 @@ public class CheckFormatter extends XbaseFormatter {
     // Rule elements
     configureFeatureCall(configuration, access.getXMemberFeatureCallAccess());
     configureCheckCatalog(configuration, access.getCheckCatalogAccess());
-    configureCategory(configuration, access.getCategoryAccess());
     configureSeverityRange(configuration, access.getSeverityRangeAccess());
     configureCheck(configuration, access.getCheckAccess());
     configureXIssueExpression(configuration, access.getXIssueExpressionAccess());
+    configureCheckContext(configuration, access.getContextAccess());
   }
 
   @Override
@@ -94,7 +94,7 @@ public class CheckFormatter extends XbaseFormatter {
 
   /**
    * (Re-) Configure feature call formatting.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param featureCallElements
@@ -117,14 +117,11 @@ public class CheckFormatter extends XbaseFormatter {
   public void configureXIfExpression(final FormattingConfig c, final XIfExpressionElements elements) {
     c.setNoSpace().after(elements.getLeftParenthesisKeyword_2());
     c.setNoSpace().before(elements.getRightParenthesisKeyword_4());
-    c.setLinewrap().after(elements.getLeftParenthesisKeyword_2()); // changed
-    c.setIndentationIncrement().after(elements.getLeftParenthesisKeyword_2()); // changed
-    c.setIndentationDecrement().before(elements.getRightParenthesisKeyword_4()); // changed
   }
 
   /**
    * Configure XIssueExpressions formatting.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -150,7 +147,7 @@ public class CheckFormatter extends XbaseFormatter {
 
   /**
    * Configure CheckCatalog formatting.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -163,28 +160,28 @@ public class CheckFormatter extends XbaseFormatter {
     c.setLinewrap(1, 2, 2).after(elements.getPackageNameAssignment_2());
 
     c.setLinewrap(0, 1, 2).before(elements.getCatalogKeyword_5());
-    c.setLinewrap(0, 1, 2).before(elements.getForKeyword_7_0());
+    c.setLinewrap(1, 1, 2).before(elements.getForKeyword_7_0());
     c.setLinewrap(0, 1, 2).before(elements.getWithKeyword_8_0());
   }
 
-  // TODO enhance formatting to take checks withtout categories and defs into account.
-
   /**
-   * Configure category.
-   * 
+   * Configure Context formatting.
+   *
    * @param c
    *          the formatting configuration
    * @param elements
    *          the accessible formattable parser elements
    */
-  private void configureCategory(final FormattingConfig c, final CategoryElements elements) {}// NOPMD
+  private void configureCheckContext(final FormattingConfig c, final ContextElements elements) {
+    c.setLinewrap(1, 2, 2).before(elements.getForKeyword_0());
+  }
 
   /**
    * Configures severity range elements. A default severity range should be configured as follows:
    * <p>
    * {@code @SeverityRange(error .. warning)}
    * </p>
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -199,7 +196,7 @@ public class CheckFormatter extends XbaseFormatter {
 
   /**
    * Configure check.
-   * 
+   *
    * @param c
    *          the formatting configuration
    * @param elements
@@ -218,11 +215,10 @@ public class CheckFormatter extends XbaseFormatter {
 
   /**
    * Gets the Check grammar access.
-   * 
+   *
    * @return the check grammar access
    */
   protected CheckGrammarAccess checkGrammarAccess() {
     return (CheckGrammarAccess) super.getGrammarAccess();
   }
 }
-

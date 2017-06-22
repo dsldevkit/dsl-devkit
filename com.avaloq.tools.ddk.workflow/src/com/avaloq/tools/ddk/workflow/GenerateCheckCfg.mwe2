@@ -8,128 +8,20 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-module CheckCfg
+module com.avaloq.tools.ddk.workflow.CheckCfg
 
-import org.eclipse.emf.mwe.utils.*
-import org.eclipse.xtext.generator.*
-import org.eclipse.xtext.ui.generator.*
+var check.genmodel = "platform:/plugin/com.avaloq.tools.ddk.check.core/metamodel/com/avaloq/tools/ddk/check/Check.genmodel"
 
-var grammarURI = "classpath:/com/avaloq/tools/ddk/checkcfg/CheckCfg.xtext"
-var file.extensions = "checkcfg"
-var projectName = "com.avaloq.tools.ddk.checkcfg"
-var runtimeProject = "../${projectName}"
+var grammar = "checkcfg"
+var baseName = "CheckCfg"
+var grammarUri = "classpath:/com/avaloq/tools/ddk/${grammar}/${baseName}.xtext"
+var modelDirectory = "metamodel/com/avaloq/tools/ddk/${grammar}"
+var metamodelPlugin = "com.avaloq.tools.ddk.${grammar}.core"
+var projectNameTest="com.avaloq.tools.ddk.${grammar}.core.test"
 
-Workflow {
-  bean = StandaloneSetup {
-    scanClassPath = true
-    platformUri = "${runtimeProject}/.."
-    registerGeneratedEPackage = "org.eclipse.xtext.xbase.XbasePackage"
-    registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
-    registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
-    registerGenModelFile = "platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel"
-    registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
-
-    registerGeneratedEPackage = "com.avaloq.tools.ddk.check.check.CheckPackage"
-    registerGenModelFile = "platform:/resource/com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/Check.genmodel"
-  }
-
-  component = DirectoryCleaner {
-    directory = "${runtimeProject}.core/src-gen"
-  }
-
-  component = DirectoryCleaner {
-    directory = "${runtimeProject}.ui/src-gen"
-  }
-
-  component = DirectoryCleaner {
-    directory = "${runtimeProject}.test/src-gen"
-  }
-
-  component = Generator {
-    pathRtProject = "${runtimeProject}.core"
-    pathUiProject = "${runtimeProject}.ui"
-    pathTestProject = "${runtimeProject}.core.test"
-    projectNameRt = projectName
-    projectNameUi = "${projectName}.ui"
-
-    language = {
-      uri = grammarURI
-      fileExtensions = file.extensions
-
-      // Java API to access grammar elements (required by several other fragments)
-      fragment = grammarAccess.GrammarAccessFragment {}
-
-      // Generate java classes for Ecore models
-      fragment = ecore.EcoreGeneratorFragment {}
-
-      // the serialization component
-      fragment = serializer.SerializerFragment  {}
-
-      // a custom ResourceFactory for use with EMF
-      fragment = resourceFactory.ResourceFactoryFragment {
-        fileExtensions = file.extensions
-      }
-
-      // the following fragment generates an Antlr parser
-      fragment = parser.antlr.XtextAntlrGeneratorFragment {}
-
-      // java-based API for validation
-      fragment = validation.JavaValidatorFragment {}
-
-      // scoping API
-      fragment = scoping.ImportNamespacesScopingFragment {
-        generateStub = false
-      }
-      fragment = exporting.QualifiedNamesFragment {}
-
-      // testing API
-      // fragment = junit.Junit4Fragment {}
-
-      // formatter API
-      fragment = formatting.FormatterFragment {}
-
-      // labeling API
-      fragment = labeling.LabelProviderFragment {}
-
-      // outline API
-      fragment = outline.OutlineTreeProviderFragment {}
-      fragment = outline.QuickOutlineFragment {}
-
-      // java-based API for content assistance
-      fragment = contentAssist.JavaBasedContentAssistFragment {}
-      fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
-
-      fragment = builder.BuilderIntegrationFragment {}
-
-      // quickfix API
-      fragment = quickfix.QuickfixProviderFragment {}
-
-      // rename refactoring
-      fragment = refactoring.RefactorElementNameFragment {
-        useJdtRefactoring = true
-      }
-
-      // provides a compare view
-      fragment = compare.CompareFragment {
-        fileExtensions = file.extensions
-      }
-
-      // Xbase support
-      fragment = types.TypesGeneratorFragment {}
-      fragment = xbase.XbaseGeneratorFragment {}
-
-      // Code generator
-      fragment = generator.GeneratorFragment {
-        generateJavaMain = false
-        generateMwe = false
-      }
-
-      fragment = templates.CodetemplatesGeneratorFragment {}
-    }
-  }
-
-  component = org.eclipse.emf.mwe2.ecore.EcoreGenerator {
-    genModel = "platform:/resource/${projectName}.core/src-gen/com/avaloq/tools/ddk/checkcfg/CheckCfg.genmodel"
-    srcPath  = "platform:/resource/${projectName}.core/src"
-  }
+@com.avaloq.tools.ddk.workflow.CommonXbase auto-inject {
+    languageName = "CheckCfg"
+    registerGenModelFiles = "${check.genmodel}"
+    editorFileExtensions = "checkcfg"
+    resourceFactoryFileExtensions = "checkcfg"
 }

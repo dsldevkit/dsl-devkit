@@ -99,13 +99,13 @@ KeywordPair:
   ';';
 
 Matcher:
-  ((locator=Locator type=MatcherType) | locator=NoFormatLocator) (condition = XBlockExpression)? ;
+  locator=Locator type=MatcherType (condition = XBlockExpression)? ;
 
 enum MatcherType:
   before | after | around | between | range ;
 
 Locator:
-  SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator;
+  SpaceLocator | RightPaddingLocator | LinewrapLocator | ColumnLocator | OffsetLocator | IndentLocator | NoFormatLocator;
 
 NoFormatLocator:
   {NoFormatLocator}

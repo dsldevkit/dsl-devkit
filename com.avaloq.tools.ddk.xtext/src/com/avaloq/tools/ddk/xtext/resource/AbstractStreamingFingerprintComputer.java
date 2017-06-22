@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -178,18 +179,18 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
    */
   private void fingerprintEObject(final EObject target, final EObject context, final Hasher hasher) {
     if (target == null) {
-      hasher.putString(NULL_STRING);
+      hasher.putString(NULL_STRING, Charset.defaultCharset());
     } else if (target.eIsProxy()) {
       if (context.eResource() instanceof LazyLinkingResource) {
         final URI proxyUri = ((InternalEObject) target).eProxyURI();
         if (!((LazyLinkingResource) context.eResource()).getEncoder().isCrossLinkFragment(context.eResource(), proxyUri.fragment())) {
-          hasher.putString(proxyUri.toString());
+          hasher.putString(proxyUri.toString(), Charset.defaultCharset());
           return;
         }
       }
-      hasher.putString(UNRESOLVED_STRING);
+      hasher.putString(UNRESOLVED_STRING, Charset.defaultCharset());
     } else {
-      hasher.putString(EcoreUtil.getURI(target).toString());
+      hasher.putString(EcoreUtil.getURI(target).toString(), Charset.defaultCharset());
     }
   }
 
@@ -206,7 +207,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
    */
   private void fingerprintEReferenceValue(final EObject target, final EObject context, final Hasher hasher) {
     if (target == null) {
-      hasher.putString(NULL_STRING);
+      hasher.putString(NULL_STRING, Charset.defaultCharset());
     } else {
       fingerprintEObject(target, context, hasher);
     }
@@ -242,12 +243,12 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
    */
   protected void fingerprintFeature(final EObject obj, final EReference ref, final FingerprintOrder order, final Hasher hasher) {
     if (obj == null) {
-      hasher.putString(NULL_STRING);
+      hasher.putString(NULL_STRING, Charset.defaultCharset());
       return;
     }
     final Iterable<? extends EObject> targets = featureIterable(obj, ref);
     if (targets == null) {
-      hasher.putString(NULL_STRING);
+      hasher.putString(NULL_STRING, Charset.defaultCharset());
       return;
     }
     hasher.putChar('[');
@@ -264,7 +265,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       }
       Collections.sort(profiles, Ordering.natural());
       for (final String s : profiles) {
-        hasher.putString(s).putChar(ITEM_SEP);
+        hasher.putString(s, Charset.defaultCharset()).putChar(ITEM_SEP);
       }
     }
     hasher.putChar(']');
@@ -299,18 +300,18 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
    */
   protected void fingerprintFeature(final EObject obj, final EAttribute attr, final FingerprintOrder order, final Hasher hasher) {
     if (obj == null) {
-      hasher.putString(NULL_STRING);
+      hasher.putString(NULL_STRING, Charset.defaultCharset());
       return;
     }
     final Iterable<? extends Object> values = featureIterable(obj, attr);
     if (values == null) {
-      hasher.putString(NULL_STRING);
+      hasher.putString(NULL_STRING, Charset.defaultCharset());
       return;
     }
     hasher.putChar('[');
     if (order == FingerprintOrder.ORDERED || !attr.isMany()) {
       for (final Object value : values) {
-        hasher.putString(String.valueOf(value)).putChar(ITEM_SEP);
+        hasher.putString(String.valueOf(value), Charset.defaultCharset()).putChar(ITEM_SEP);
       }
     } else {
       final List<String> profiles = Lists.newArrayList();
@@ -319,7 +320,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       }
       Collections.sort(profiles, Ordering.natural());
       for (final String s : profiles) {
-        hasher.putString(s).putChar(ITEM_SEP);
+        hasher.putString(s, Charset.defaultCharset()).putChar(ITEM_SEP);
       }
     }
     hasher.putChar(']');
@@ -424,7 +425,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       }
       Collections.sort(items, Ordering.natural());
       for (final String item : items) {
-        hasher.putString(item).putChar(ITEM_SEP);
+        hasher.putString(item, Charset.defaultCharset()).putChar(ITEM_SEP);
       }
     }
     hasher.putChar(']');
@@ -463,7 +464,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     } else if (obj instanceof Iterable) {
       fingerprintIterable((Iterable<? extends Object>) obj, context, order, indirection, hasher); // Unchecked
     } else {
-      hasher.putString(String.valueOf(obj));
+      hasher.putString(String.valueOf(obj), Charset.defaultCharset());
     }
   }
 
@@ -501,11 +502,10 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       }
       Collections.sort(items, Ordering.natural());
       for (final String item : items) {
-        hasher.putString(item).putChar(ITEM_SEP);
+        hasher.putString(item, Charset.defaultCharset()).putChar(ITEM_SEP);
       }
     }
     hasher.putChar(']');
   }
 
 }
-

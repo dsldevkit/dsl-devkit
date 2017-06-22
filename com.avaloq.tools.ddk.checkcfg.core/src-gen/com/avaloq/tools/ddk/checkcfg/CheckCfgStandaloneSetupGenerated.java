@@ -30,9 +30,6 @@ public class CheckCfgStandaloneSetupGenerated implements ISetup {
 	}
 	
 	public void register(Injector injector) {
-	if (!EPackage.Registry.INSTANCE.containsKey("http://www.avaloq.com/tools/ddk/checkcfg/CheckCfg")) {
-		EPackage.Registry.INSTANCE.put("http://www.avaloq.com/tools/ddk/checkcfg/CheckCfg", com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage.eINSTANCE);
-	}
 
 		org.eclipse.xtext.resource.IResourceFactory resourceFactory = injector.getInstance(org.eclipse.xtext.resource.IResourceFactory.class);
 		org.eclipse.xtext.resource.IResourceServiceProvider serviceProvider = injector.getInstance(org.eclipse.xtext.resource.IResourceServiceProvider.class);

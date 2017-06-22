@@ -26,21 +26,25 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cConfigurationKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cNameValidIDParserRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
-		private final Assignment cLanguageValidatorConfigurationsAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_3_0 = (RuleCall)cLanguageValidatorConfigurationsAssignment_3.eContents().get(0);
-		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Keyword cLeftCurlyBracketKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
-		private final Assignment cLegacyCatalogConfigurationsAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
-		private final RuleCall cLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_4_1_0 = (RuleCall)cLegacyCatalogConfigurationsAssignment_4_1.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_4_2 = (Keyword)cGroup_4.eContents().get(2);
+		private final Assignment cParameterConfigurationsAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cParameterConfigurationsConfiguredParameterParserRuleCall_3_0 = (RuleCall)cParameterConfigurationsAssignment_3.eContents().get(0);
+		private final Assignment cLanguageValidatorConfigurationsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_4_0 = (RuleCall)cLanguageValidatorConfigurationsAssignment_4.eContents().get(0);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cLeftCurlyBracketKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cLegacyCatalogConfigurationsAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final RuleCall cLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_5_1_0 = (RuleCall)cLegacyCatalogConfigurationsAssignment_5_1.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
 		
 		//CheckConfiguration:
-		//	"check" "configuration" name=ValidID languageValidatorConfigurations+=ConfiguredLanguageValidator* ("{"
-		//	legacyCatalogConfigurations+=ConfiguredCatalog* "}")?;
+		//	"check" "configuration" name=ValidID parameterConfigurations+=ConfiguredParameter*
+		//	languageValidatorConfigurations+=ConfiguredLanguageValidator* ("{" legacyCatalogConfigurations+=ConfiguredCatalog*
+		//	"}")?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"check" "configuration" name=ValidID languageValidatorConfigurations+=ConfiguredLanguageValidator* ("{"
-		//legacyCatalogConfigurations+=ConfiguredCatalog* "}")?
+		//"check" "configuration" name=ValidID parameterConfigurations+=ConfiguredParameter*
+		//languageValidatorConfigurations+=ConfiguredLanguageValidator* ("{" legacyCatalogConfigurations+=ConfiguredCatalog*
+		//"}")?
 		public Group getGroup() { return cGroup; }
 
 		//"check"
@@ -55,26 +59,32 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		//ValidID
 		public RuleCall getNameValidIDParserRuleCall_2_0() { return cNameValidIDParserRuleCall_2_0; }
 
+		//parameterConfigurations+=ConfiguredParameter*
+		public Assignment getParameterConfigurationsAssignment_3() { return cParameterConfigurationsAssignment_3; }
+
+		//ConfiguredParameter
+		public RuleCall getParameterConfigurationsConfiguredParameterParserRuleCall_3_0() { return cParameterConfigurationsConfiguredParameterParserRuleCall_3_0; }
+
 		//languageValidatorConfigurations+=ConfiguredLanguageValidator*
-		public Assignment getLanguageValidatorConfigurationsAssignment_3() { return cLanguageValidatorConfigurationsAssignment_3; }
+		public Assignment getLanguageValidatorConfigurationsAssignment_4() { return cLanguageValidatorConfigurationsAssignment_4; }
 
 		//ConfiguredLanguageValidator
-		public RuleCall getLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_3_0() { return cLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_3_0; }
+		public RuleCall getLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_4_0() { return cLanguageValidatorConfigurationsConfiguredLanguageValidatorParserRuleCall_4_0; }
 
 		//("{" legacyCatalogConfigurations+=ConfiguredCatalog* "}")?
-		public Group getGroup_4() { return cGroup_4; }
+		public Group getGroup_5() { return cGroup_5; }
 
 		//"{"
-		public Keyword getLeftCurlyBracketKeyword_4_0() { return cLeftCurlyBracketKeyword_4_0; }
+		public Keyword getLeftCurlyBracketKeyword_5_0() { return cLeftCurlyBracketKeyword_5_0; }
 
 		//legacyCatalogConfigurations+=ConfiguredCatalog*
-		public Assignment getLegacyCatalogConfigurationsAssignment_4_1() { return cLegacyCatalogConfigurationsAssignment_4_1; }
+		public Assignment getLegacyCatalogConfigurationsAssignment_5_1() { return cLegacyCatalogConfigurationsAssignment_5_1; }
 
 		//ConfiguredCatalog
-		public RuleCall getLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_4_1_0() { return cLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_4_1_0; }
+		public RuleCall getLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_5_1_0() { return cLegacyCatalogConfigurationsConfiguredCatalogParserRuleCall_5_1_0; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_4_2() { return cRightCurlyBracketKeyword_4_2; }
+		public Keyword getRightCurlyBracketKeyword_5_2() { return cRightCurlyBracketKeyword_5_2; }
 	}
 
 	public class ConfiguredLanguageValidatorElements extends AbstractParserRuleElementFinder {
@@ -84,15 +94,19 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cLanguageAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cLanguageQualifiedNameParserRuleCall_1_0 = (RuleCall)cLanguageAssignment_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cCatalogConfigurationsAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cCatalogConfigurationsConfiguredCatalogParserRuleCall_3_0 = (RuleCall)cCatalogConfigurationsAssignment_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cParameterConfigurationsAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cParameterConfigurationsConfiguredParameterParserRuleCall_3_0 = (RuleCall)cParameterConfigurationsAssignment_3.eContents().get(0);
+		private final Assignment cCatalogConfigurationsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cCatalogConfigurationsConfiguredCatalogParserRuleCall_4_0 = (RuleCall)cCatalogConfigurationsAssignment_4.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//ConfiguredLanguageValidator:
-		//	"for" language=QualifiedName "{" catalogConfigurations+=ConfiguredCatalog* "}";
+		//	"for" language=QualifiedName "{" parameterConfigurations+=ConfiguredParameter*
+		//	catalogConfigurations+=ConfiguredCatalog* "}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"for" language=QualifiedName "{" catalogConfigurations+=ConfiguredCatalog* "}"
+		//"for" language=QualifiedName "{" parameterConfigurations+=ConfiguredParameter* catalogConfigurations+=ConfiguredCatalog*
+		//"}"
 		public Group getGroup() { return cGroup; }
 
 		//"for"
@@ -107,14 +121,20 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
 
+		//parameterConfigurations+=ConfiguredParameter*
+		public Assignment getParameterConfigurationsAssignment_3() { return cParameterConfigurationsAssignment_3; }
+
+		//ConfiguredParameter
+		public RuleCall getParameterConfigurationsConfiguredParameterParserRuleCall_3_0() { return cParameterConfigurationsConfiguredParameterParserRuleCall_3_0; }
+
 		//catalogConfigurations+=ConfiguredCatalog*
-		public Assignment getCatalogConfigurationsAssignment_3() { return cCatalogConfigurationsAssignment_3; }
+		public Assignment getCatalogConfigurationsAssignment_4() { return cCatalogConfigurationsAssignment_4; }
 
 		//ConfiguredCatalog
-		public RuleCall getCatalogConfigurationsConfiguredCatalogParserRuleCall_3_0() { return cCatalogConfigurationsConfiguredCatalogParserRuleCall_3_0; }
+		public RuleCall getCatalogConfigurationsConfiguredCatalogParserRuleCall_4_0() { return cCatalogConfigurationsConfiguredCatalogParserRuleCall_4_0; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_4() { return cRightCurlyBracketKeyword_4; }
+		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
 	}
 
 	public class ConfiguredCatalogElements extends AbstractParserRuleElementFinder {
@@ -126,16 +146,19 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		private final CrossReference cCatalogCheckCatalogCrossReference_2_0 = (CrossReference)cCatalogAssignment_2.eContents().get(0);
 		private final RuleCall cCatalogCheckCatalogQualifiedNameParserRuleCall_2_0_1 = (RuleCall)cCatalogCheckCatalogCrossReference_2_0.eContents().get(1);
 		private final Keyword cLeftCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final Assignment cCheckConfigurationsAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cCheckConfigurationsConfiguredCheckParserRuleCall_4_0 = (RuleCall)cCheckConfigurationsAssignment_4.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cParameterConfigurationsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cParameterConfigurationsConfiguredParameterParserRuleCall_4_0 = (RuleCall)cParameterConfigurationsAssignment_4.eContents().get(0);
+		private final Assignment cCheckConfigurationsAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cCheckConfigurationsConfiguredCheckParserRuleCall_5_0 = (RuleCall)cCheckConfigurationsAssignment_5.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//ConfiguredCatalog:
-		//	{ConfiguredCatalog} "catalog" catalog=[check::CheckCatalog|QualifiedName] "{" checkConfigurations+=ConfiguredCheck*
-		//	"}";
+		//	{ConfiguredCatalog} "catalog" catalog=[check::CheckCatalog|QualifiedName] "{"
+		//	parameterConfigurations+=ConfiguredParameter* checkConfigurations+=ConfiguredCheck* "}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{ConfiguredCatalog} "catalog" catalog=[check::CheckCatalog|QualifiedName] "{" checkConfigurations+=ConfiguredCheck* "}"
+		//{ConfiguredCatalog} "catalog" catalog=[check::CheckCatalog|QualifiedName] "{"
+		//parameterConfigurations+=ConfiguredParameter* checkConfigurations+=ConfiguredCheck* "}"
 		public Group getGroup() { return cGroup; }
 
 		//{ConfiguredCatalog}
@@ -156,14 +179,20 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
 
+		//parameterConfigurations+=ConfiguredParameter*
+		public Assignment getParameterConfigurationsAssignment_4() { return cParameterConfigurationsAssignment_4; }
+
+		//ConfiguredParameter
+		public RuleCall getParameterConfigurationsConfiguredParameterParserRuleCall_4_0() { return cParameterConfigurationsConfiguredParameterParserRuleCall_4_0; }
+
 		//checkConfigurations+=ConfiguredCheck*
-		public Assignment getCheckConfigurationsAssignment_4() { return cCheckConfigurationsAssignment_4; }
+		public Assignment getCheckConfigurationsAssignment_5() { return cCheckConfigurationsAssignment_5; }
 
 		//ConfiguredCheck
-		public RuleCall getCheckConfigurationsConfiguredCheckParserRuleCall_4_0() { return cCheckConfigurationsConfiguredCheckParserRuleCall_4_0; }
+		public RuleCall getCheckConfigurationsConfiguredCheckParserRuleCall_5_0() { return cCheckConfigurationsConfiguredCheckParserRuleCall_5_0; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
+		public Keyword getRightCurlyBracketKeyword_6() { return cRightCurlyBracketKeyword_6; }
 	}
 
 	public class ConfiguredCheckElements extends AbstractParserRuleElementFinder {
@@ -548,8 +577,9 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//CheckConfiguration:
-	//	"check" "configuration" name=ValidID languageValidatorConfigurations+=ConfiguredLanguageValidator* ("{"
-	//	legacyCatalogConfigurations+=ConfiguredCatalog* "}")?;
+	//	"check" "configuration" name=ValidID parameterConfigurations+=ConfiguredParameter*
+	//	languageValidatorConfigurations+=ConfiguredLanguageValidator* ("{" legacyCatalogConfigurations+=ConfiguredCatalog*
+	//	"}")?;
 	public CheckConfigurationElements getCheckConfigurationAccess() {
 		return pCheckConfiguration;
 	}
@@ -559,7 +589,8 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ConfiguredLanguageValidator:
-	//	"for" language=QualifiedName "{" catalogConfigurations+=ConfiguredCatalog* "}";
+	//	"for" language=QualifiedName "{" parameterConfigurations+=ConfiguredParameter*
+	//	catalogConfigurations+=ConfiguredCatalog* "}";
 	public ConfiguredLanguageValidatorElements getConfiguredLanguageValidatorAccess() {
 		return pConfiguredLanguageValidator;
 	}
@@ -569,8 +600,8 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ConfiguredCatalog:
-	//	{ConfiguredCatalog} "catalog" catalog=[check::CheckCatalog|QualifiedName] "{" checkConfigurations+=ConfiguredCheck*
-	//	"}";
+	//	{ConfiguredCatalog} "catalog" catalog=[check::CheckCatalog|QualifiedName] "{"
+	//	parameterConfigurations+=ConfiguredParameter* checkConfigurations+=ConfiguredCheck* "}";
 	public ConfiguredCatalogElements getConfiguredCatalogAccess() {
 		return pConfiguredCatalog;
 	}
@@ -1312,7 +1343,7 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		return getStaticQualifierAccess().getRule();
 	}
 
-	//terminal HEX:
+	//terminal HEX returns ecore::EString:
 	//	("0x" | "0X") ("0".."9" | "a".."f" | "A".."F" | "_")+ ("#" (("b" | "B") ("i" | "I") | ("l" | "L")))?;
 	public TerminalRule getHEXRule() {
 		return gaXbase.getHEXRule();
@@ -1324,7 +1355,7 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		return gaXbase.getINTRule();
 	} 
 
-	//terminal DECIMAL:
+	//terminal DECIMAL returns ecore::EString:
 	//	INT (("e" | "E") ("+" | "-")? INT)? (("b" | "B") ("i" | "I" | "d" | "D") | ("l" | "L" | "d" | "D" | "f" | "F"))?;
 	public TerminalRule getDECIMALRule() {
 		return gaXbase.getDECIMALRule();
@@ -1496,38 +1527,38 @@ public class CheckCfgGrammarAccess extends AbstractGrammarElementFinder {
 		return getQualifiedNameInStaticImportAccess().getRule();
 	}
 
-	//terminal ID:
+	//terminal ID returns ecore::EString:
 	//	"^"? ("a".."z" | "A".."Z" | "$" | "_") ("a".."z" | "A".."Z" | "$" | "_" | "0".."9")*;
 	public TerminalRule getIDRule() {
 		return gaXbase.getIDRule();
 	} 
 
-	//terminal STRING:
+	//terminal STRING returns ecore::EString:
 	//	"\"" ("\\" . / * ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') * / | !("\\" | "\""))* "\""? | "\'" ("\\" .
 	//	/ * ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') * / | !("\\" | "\'"))* "\'"?;
 	public TerminalRule getSTRINGRule() {
 		return gaXbase.getSTRINGRule();
 	} 
 
-	//terminal ML_COMMENT:
+	//terminal ML_COMMENT returns ecore::EString:
 	//	"/ *"->"* /";
 	public TerminalRule getML_COMMENTRule() {
 		return gaXbase.getML_COMMENTRule();
 	} 
 
-	//terminal SL_COMMENT:
+	//terminal SL_COMMENT returns ecore::EString:
 	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaXbase.getSL_COMMENTRule();
 	} 
 
-	//terminal WS:
+	//terminal WS returns ecore::EString:
 	//	(" " | "\t" | "\r" | "\n")+;
 	public TerminalRule getWSRule() {
 		return gaXbase.getWSRule();
 	} 
 
-	//terminal ANY_OTHER:
+	//terminal ANY_OTHER returns ecore::EString:
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
 		return gaXbase.getANY_OTHERRule();

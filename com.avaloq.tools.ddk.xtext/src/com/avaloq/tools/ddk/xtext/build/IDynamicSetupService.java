@@ -28,8 +28,10 @@ public interface IDynamicSetupService extends Comparable<IDynamicSetupService> {
    *
    * @param overrideModule
    *          to use.
+   * @param additionalModules
+   *          additional optional modules to use to create the injector
    * @return the injector used to initialize the language
    */
-  Injector doSetup(Module overrideModule);
+  Injector doSetup(Module overrideModule, Module... additionalModules);
 
 }

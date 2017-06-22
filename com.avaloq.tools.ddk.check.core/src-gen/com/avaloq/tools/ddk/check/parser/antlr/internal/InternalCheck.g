@@ -124,7 +124,7 @@ ruleCheckCatalog returns [EObject current=null]
 	    }
 
 )
-)?(
+)(
 (
 		lv_final_4_0=	'final' 
     {
@@ -287,6 +287,51 @@ ruleCheckCatalog returns [EObject current=null]
     	newLeafNode(otherlv_17, grammarAccess.getCheckCatalogAccess().getRightCurlyBracketKeyword_11());
     }
 )
+;
+
+
+
+
+
+// Entry rule entryRuleXImportSection
+entryRuleXImportSection returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getXImportSectionRule()); }
+	 iv_ruleXImportSection=ruleXImportSection 
+	 { $current=$iv_ruleXImportSection.current; } 
+	 EOF 
+;
+
+// Rule XImportSection
+ruleXImportSection returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getXImportSectionAccess().getXImportSectionAction_0(),
+            $current);
+    }
+)(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getXImportSectionAccess().getImportDeclarationsXImportDeclarationParserRuleCall_1_0()); 
+	    }
+		lv_importDeclarations_1_0=ruleXImportDeclaration		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getXImportSectionRule());
+	        }
+       		add(
+       			$current, 
+       			"importDeclarations",
+        		lv_importDeclarations_1_0, 
+        		"XImportDeclaration");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*)
 ;
 
 
@@ -8083,45 +8128,6 @@ ruleValidID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
     }
 
     ;
-
-
-
-
-
-// Entry rule entryRuleXImportSection
-entryRuleXImportSection returns [EObject current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getXImportSectionRule()); }
-	 iv_ruleXImportSection=ruleXImportSection 
-	 { $current=$iv_ruleXImportSection.current; } 
-	 EOF 
-;
-
-// Rule XImportSection
-ruleXImportSection returns [EObject current=null] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-(
-(
-		{ 
-	        newCompositeNode(grammarAccess.getXImportSectionAccess().getImportDeclarationsXImportDeclarationParserRuleCall_0()); 
-	    }
-		lv_importDeclarations_0_0=ruleXImportDeclaration		{
-	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getXImportSectionRule());
-	        }
-       		add(
-       			$current, 
-       			"importDeclarations",
-        		lv_importDeclarations_0_0, 
-        		"XImportDeclaration");
-	        afterParserOrEnumRuleCall();
-	    }
-
-)
-)+
-;
 
 
 

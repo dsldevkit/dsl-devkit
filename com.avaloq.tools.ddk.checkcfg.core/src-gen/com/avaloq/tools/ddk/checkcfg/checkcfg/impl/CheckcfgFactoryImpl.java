@@ -70,6 +70,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 			case CheckcfgPackage.CONFIGURED_CATALOG: return createConfiguredCatalog();
 			case CheckcfgPackage.CONFIGURED_CHECK: return createConfiguredCheck();
 			case CheckcfgPackage.CONFIGURED_PARAMETER: return createConfiguredParameter();
+			case CheckcfgPackage.CONFIGURABLE_SECTION: return createConfigurableSection();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -116,7 +117,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 */
 	public CheckConfiguration createCheckConfiguration()
 	{
-		CheckConfigurationImpl checkConfiguration = new CheckConfigurationImpl();
+		CheckConfigurationImplCustom checkConfiguration = new CheckConfigurationImplCustom();
 		return checkConfiguration;
 	}
 
@@ -162,6 +163,17 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	{
 		ConfiguredParameterImpl configuredParameter = new ConfiguredParameterImpl();
 		return configuredParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ConfigurableSection createConfigurableSection()
+	{
+		ConfigurableSectionImpl configurableSection = new ConfigurableSectionImpl();
+		return configurableSection;
 	}
 
 	/**

@@ -24,13 +24,13 @@ import org.eclipse.xtext.xbase.XExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.FormalParameterImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.FormalParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.FormalParameterImpl#getRight <em>Right</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.FormalParameterImpl#getLabel <em>Label</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

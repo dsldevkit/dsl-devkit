@@ -14,9 +14,11 @@ package com.avaloq.tools.ddk.checkcfg;
  * Provides language specific constants for Check Configuration.
  */
 public final class CheckCfgConstants {
+
+  public static final String PROPERTY_EXTENSION_POINT = "com.avaloq.tools.ddk.checkcfg.core.property"; //$NON-NLS-1$
+  public static final String PROPERTY_EXECUTABLE_EXTENSION_ATTRIBUTE = "class"; //$NON-NLS-1$
   public static final String FILE_EXTENSION = "checkcfg"; //$NON-NLS-1$
   public static final String CHECK_CFG_VAR_NAME = "CHECK_CONFIGURATION_LOCATION"; //$NON-NLS-1$
 
   private CheckCfgConstants() {}
 }
-

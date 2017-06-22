@@ -2,8 +2,11 @@
  */
 package com.avaloq.tools.ddk.checkcfg.checkcfg.impl;
 
+import com.avaloq.tools.ddk.check.check.FormalParameter;
+
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
+import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator;
 
@@ -18,7 +21,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -29,16 +31,17 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getLanguageValidatorConfigurations <em>Language Validator Configurations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getLegacyCatalogConfigurations <em>Legacy Catalog Configurations</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.CheckConfigurationImpl#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class CheckConfigurationImpl extends MinimalEObjectImpl.Container implements CheckConfiguration
+public class CheckConfigurationImpl extends ConfigurableSectionImpl implements CheckConfiguration
 {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -157,6 +160,32 @@ public class CheckConfigurationImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<FormalParameter> getProperties()
+	{
+		// TODO: implement this method to return the 'Properties' reference list
+		// Ensure that you remove @generated or mark it @generated NOT
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<ConfigurableSection> getConfigurableSections()
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
@@ -186,6 +215,8 @@ public class CheckConfigurationImpl extends MinimalEObjectImpl.Container impleme
 				return getLanguageValidatorConfigurations();
 			case CheckcfgPackage.CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS:
 				return getLegacyCatalogConfigurations();
+			case CheckcfgPackage.CHECK_CONFIGURATION__PROPERTIES:
+				return getProperties();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -212,6 +243,10 @@ public class CheckConfigurationImpl extends MinimalEObjectImpl.Container impleme
 				getLegacyCatalogConfigurations().clear();
 				getLegacyCatalogConfigurations().addAll((Collection<? extends ConfiguredCatalog>)newValue);
 				return;
+			case CheckcfgPackage.CHECK_CONFIGURATION__PROPERTIES:
+				getProperties().clear();
+				getProperties().addAll((Collection<? extends FormalParameter>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -235,6 +270,9 @@ public class CheckConfigurationImpl extends MinimalEObjectImpl.Container impleme
 			case CheckcfgPackage.CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS:
 				getLegacyCatalogConfigurations().clear();
 				return;
+			case CheckcfgPackage.CHECK_CONFIGURATION__PROPERTIES:
+				getProperties().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -255,6 +293,8 @@ public class CheckConfigurationImpl extends MinimalEObjectImpl.Container impleme
 				return languageValidatorConfigurations != null && !languageValidatorConfigurations.isEmpty();
 			case CheckcfgPackage.CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS:
 				return legacyCatalogConfigurations != null && !legacyCatalogConfigurations.isEmpty();
+			case CheckcfgPackage.CHECK_CONFIGURATION__PROPERTIES:
+				return !getProperties().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

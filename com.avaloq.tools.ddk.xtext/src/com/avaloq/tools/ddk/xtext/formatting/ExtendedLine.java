@@ -20,6 +20,7 @@ import org.eclipse.xtext.parsetree.reconstr.ITokenStream;
 
 import com.avaloq.tools.ddk.xtext.formatting.locators.ILinewrapLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.LinewrapLocatorFacade;
+import com.avaloq.tools.ddk.xtext.formatting.locators.NoFormatLocator;
 import com.avaloq.tools.ddk.xtext.formatting.locators.SubtractingLinewrapLocatorFacade;
 import com.google.common.collect.Lists;
 
@@ -157,7 +158,35 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
    * @return {@code true} if the line can be ignored (i.e. it's a comment or a text field), otherwise {@code false}.
    */
   private boolean isIgnorableEntry(final ExtendedLineEntry lineEntry) {
-    return isCommentEntry(lineEntry) || isTextField(lineEntry);
+    boolean noFormat = lineEntry.getEntryLocators().stream().anyMatch(t -> t instanceof NoFormatLocator);
+    return isCommentEntry(lineEntry) || isTextField(lineEntry) || noFormat;
+  }
+
+  /**
+   * Checks whether a given {@link ExtendedLineEntry} is ignorable (i.e. text or comment) and is what makes a line length exceed the associated
+   * {@link ExtendedFormattingConfigBasedStream} limit.
+   *
+   * @param entry
+   *          the {@link ExtendedLineEntry} to check, must not be {@code null}
+   * @param totalLineLength
+   *          the line length
+   * @return {@code true} if the given entry is a text or a comment and makes the total line length exceed the limit, otherwise {@code false}
+   */
+  private boolean isIgnorableEntryExceedingLimit(final ExtendedLineEntry entry, final int totalLineLength) {
+    return isIgnorableEntry(entry) && totalLineLength > configBasedStream.getCharsPerLine()
+        && (totalLineLength - entry.getLength() < configBasedStream.getCharsPerLine());
+  }
+
+  /**
+   * Checks whether a line entry is not line breaking.
+   * I.e. the entry itself is explicitly non breakable or it can be ignored (it is a comment, a text field or it's a entry withe explicit no_format rules.
+   *
+   * @param lineEntry
+   *          the {@link ExtendedLineEntry} to check, must not be {@code null}
+   * @return {@code true} if the line entry is a non-linebreaking entry, {@code false} otherwise.
+   */
+  private boolean isNonLinebreakingEntry(final ExtendedLineEntry lineEntry) {
+    return !lineEntry.isBreakable() || isIgnorableEntry(lineEntry);
   }
 
   /**
@@ -186,10 +215,15 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
       getEntries().add(lineEntry);
     } else {
       final SpaceEntry spaceEntry = processSpaces(lineEntry);
-      final int len = getAbsoluteLineLength(lineEntry);
-      if (isIgnorableEntry(lineEntry) || len + spaceEntry.getLength() + lineEntry.countCharactersInFirstLine() <= (configBasedStream.getCharsPerLine())
-          || (getLastBreakableLineEntry() == null && !getEntries().get(getEntries().size() - 1).isFormattingDisabled())) {
-        lineEntry.setLeadingSpaceEntry(spaceEntry);
+      final int totalLineLength = getAbsoluteLineLength(lineEntry) + spaceEntry.getLength() + lineEntry.countCharactersInFirstLine();
+      ExtendedLineEntry previousEntry = getEntries().get(getEntries().size() - 1);
+      boolean isFirstFormattableEntry = getLastBreakableLineEntry() == null && !previousEntry.isFormattingDisabled();
+
+      if (isNonLinebreakingEntry(lineEntry) || totalLineLength <= (configBasedStream.getCharsPerLine()) || isFirstFormattableEntry
+          || isIgnorableEntryExceedingLimit(previousEntry, totalLineLength)) {
+        if (!lineEntry.isFormattingDisabled()) {
+          lineEntry.setLeadingSpaceEntry(spaceEntry);
+        }
         getEntries().add(lineEntry);
       } else {
         newLine = breakLine();
@@ -223,6 +257,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
       public String getValue() {
         return lineEntry.getPreservedWS();
       }
+
     });
     getEntries().add(lineEntry);
     return this;
@@ -264,7 +299,15 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
           if (lineEntry.isFormattingDisabled() && lineEntry.countExistingLeadingNewlines() > 0) {
             column = 0;
           }
-          column += (lineEntry.getLength() + lineEntry.getLeadingWS().length());
+          column += lineEntry.getLength();
+          if (lineEntry.isFormattingDisabled()) {
+            int newLineIndex = lineEntry.getLeadingWS().lastIndexOf("\n") + 1; //$NON-NLS-1$
+            if (newLineIndex > 0) {
+              column += lineEntry.getLeadingWS().substring(newLineIndex).length();
+            }
+          } else {
+            column += lineEntry.getLeadingWS().length();
+          }
         }
       }
     }
@@ -425,7 +468,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
   }
 
   /**
-   * Break a line before last brakeable entry.
+   * Break a line before last breakable entry.
    *
    * @return the line
    * @throws IOException

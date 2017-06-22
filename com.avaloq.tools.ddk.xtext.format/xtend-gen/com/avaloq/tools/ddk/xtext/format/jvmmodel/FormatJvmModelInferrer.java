@@ -52,10 +52,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.AbstractElement;
@@ -465,14 +470,14 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
             {
               if (((matcher.getLocator() instanceof ColumnLocator) && (!Objects.equal(((ColumnLocator) matcher.getLocator()).getParameter(), null)))) {
                 EList<JvmMember> _members = it.getMembers();
-                EObject _locator = matcher.getLocator();
+                Locator _locator = matcher.getLocator();
                 XExpression _parameter = ((ColumnLocator) _locator).getParameter();
                 JvmGenericType _createParameterCalculatorInnerClass = this.createParameterCalculatorInnerClass(format, rule, directive, matcher, _parameter, it);
                 this._jvmTypesBuilder.<JvmGenericType>operator_add(_members, _createParameterCalculatorInnerClass);
               }
               if (((matcher.getLocator() instanceof IndentLocator) && (!Objects.equal(((IndentLocator) matcher.getLocator()).getParameter(), null)))) {
                 EList<JvmMember> _members_1 = it.getMembers();
-                EObject _locator_1 = matcher.getLocator();
+                Locator _locator_1 = matcher.getLocator();
                 XExpression _parameter_1 = ((IndentLocator) _locator_1).getParameter();
                 JvmGenericType _createParameterCalculatorInnerClass_1 = this.createParameterCalculatorInnerClass(format, rule, directive, matcher, _parameter_1, it);
                 this._jvmTypesBuilder.<JvmGenericType>operator_add(_members_1, _createParameterCalculatorInnerClass_1);
@@ -821,9 +826,10 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
   
   protected String _getGrammarElementNameFromSelf(final GrammarRule rule) {
-    String ruleName = this.getRuleName(rule);
+    final String originalRuleName = this.getRuleName(rule);
+    String actualRuleName = originalRuleName;
     if ((((rule.getTargetRule() == null) || (rule.getTargetRule().getType() == null)) || (rule.getTargetRule().getType().getClassifier() == null))) {
-      return ruleName;
+      return actualRuleName;
     } else {
       AbstractRule _targetRule = rule.getTargetRule();
       TypeRef _type = null;
@@ -838,13 +844,13 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       if (_classifier!=null) {
         _name=_classifier.getName();
       }
-      boolean _notEquals = (!Objects.equal(ruleName, _name));
+      boolean _notEquals = (!Objects.equal(actualRuleName, _name));
       if (_notEquals) {
         AbstractRule _targetRule_1 = rule.getTargetRule();
         TypeRef _type_1 = _targetRule_1.getType();
         EClassifier _classifier_1 = _type_1.getClassifier();
         String _name_1 = _classifier_1.getName();
-        ruleName = _name_1;
+        actualRuleName = _name_1;
       }
     }
     AbstractRule _targetRule_2 = rule.getTargetRule();
@@ -859,8 +865,21 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     AbstractMetamodelDeclaration metamodel = _metamodel;
     boolean _equals = Objects.equal(metamodel, null);
     if (_equals) {
-      return ruleName;
+      return actualRuleName;
     } else {
+      boolean _notEquals_1 = (!Objects.equal(actualRuleName, originalRuleName));
+      if (_notEquals_1) {
+        EPackage _ePackage = metamodel.getEPackage();
+        EList<EClassifier> _eClassifiers = _ePackage.getEClassifiers();
+        Stream<EClassifier> _stream = _eClassifiers.stream();
+        final Predicate<EClassifier> _function = (EClassifier it) -> {
+          return ((it instanceof EClass) && it.getName().equalsIgnoreCase(originalRuleName));
+        };
+        boolean _anyMatch = _stream.anyMatch(_function);
+        if (_anyMatch) {
+          actualRuleName = originalRuleName;
+        }
+      }
       String _alias = metamodel.getAlias();
       boolean _equals_1 = Objects.equal(_alias, null);
       if (_equals_1) {
@@ -874,7 +893,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
           _lowerCase=_name_2.toLowerCase();
         }
         String _plus = (_lowerCase + ".");
-        return (_plus + ruleName);
+        return (_plus + actualRuleName);
       } else {
         String _alias_1 = metamodel.getAlias();
         String _plus_1 = ("com.avaloq.tools.dsl." + _alias_1);
@@ -882,7 +901,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         String _alias_2 = metamodel.getAlias();
         String _plus_3 = (_plus_2 + _alias_2);
         String _plus_4 = (_plus_3 + ".");
-        return (_plus_4 + ruleName);
+        return (_plus_4 + actualRuleName);
       }
     }
   }
@@ -908,7 +927,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   public String getLocatorActivatorName(final String partialName, final Matcher matcher) {
     int _matcherIndex = this.getMatcherIndex(matcher);
     String _plus = (("ActivatorFor" + partialName) + Integer.valueOf(_matcherIndex));
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     String _locatorName = this.getLocatorName(_locator);
     String _plus_1 = (_plus + _locatorName);
     MatcherType _type = matcher.getType();
@@ -930,7 +949,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   public String getParameterCalculatorName(final String partialName, final Matcher matcher) {
     int _matcherIndex = this.getMatcherIndex(matcher);
     String _plus = (("ParameterCalculatorFor" + partialName) + Integer.valueOf(_matcherIndex));
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     String _locatorName = this.getLocatorName(_locator);
     String _plus_1 = (_plus + _locatorName);
     MatcherType _type = matcher.getType();
@@ -962,7 +981,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     String _directiveName = this.getDirectiveName(directive);
     int _matcherIndex = this.getMatcherIndex(matcher);
     String _plus = (_directiveName + Integer.valueOf(_matcherIndex));
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     String _locatorName = this.getLocatorName(_locator);
     String _plus_1 = (_plus + _locatorName);
     MatcherType _type = matcher.getType();
@@ -988,9 +1007,22 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
   
   public String convertNonAlphaNumeric(final String str) {
-    int _hashCode = str.hashCode();
-    String _valueOf = String.valueOf(_hashCode);
-    return str.replaceAll("[\\W]|_", _valueOf);
+    String _xblockexpression = null;
+    {
+      final Pattern pattern = Pattern.compile("[\\W]");
+      final java.util.regex.Matcher matcher = pattern.matcher(str);
+      final StringBuffer sb = new StringBuffer();
+      while (matcher.find()) {
+        String _group = matcher.group();
+        int _hashCode = _group.hashCode();
+        String _hexString = Integer.toHexString(_hashCode);
+        String _valueOf = String.valueOf(_hexString);
+        matcher.appendReplacement(sb, _valueOf);
+      }
+      matcher.appendTail(sb);
+      _xblockexpression = sb.toString();
+    }
+    return _xblockexpression;
   }
   
   protected String _getDirectiveName(final GroupBlock directive) {
@@ -1312,7 +1344,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     {
       EList<Matcher> _leftMatchers = dir.getLeftMatchers();
       for(final Matcher matcher : _leftMatchers) {
-        EObject _locator = matcher.getLocator();
+        Locator _locator = matcher.getLocator();
         String _directiveName = this.getDirectiveName(dir);
         String _plus = (partialName + _directiveName);
         CharSequence _matchLookupPartial = this.matchLookupPartial(_locator, matcher, "pair.getFirst()", _plus);
@@ -1323,7 +1355,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     {
       EList<Matcher> _rightMatchers = dir.getRightMatchers();
       for(final Matcher matcher_1 : _rightMatchers) {
-        EObject _locator_1 = matcher_1.getLocator();
+        Locator _locator_1 = matcher_1.getLocator();
         String _directiveName_1 = this.getDirectiveName(dir);
         String _plus_1 = (partialName + _directiveName_1);
         CharSequence _matchLookupPartial_1 = this.matchLookupPartial(_locator_1, matcher_1, "pair.getSecond()", _plus_1);
@@ -1388,7 +1420,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
               EList<Matcher> _matchers = matcherList.getMatchers();
               for(final Matcher matcher : _matchers) {
                 _builder.append("  ");
-                EObject _locator = matcher.getLocator();
+                Locator _locator = matcher.getLocator();
                 CharSequence _matchLookupPartial = this.matchLookupPartial(_locator, matcher, "ruleCall", partialName);
                 _builder.append(_matchLookupPartial, "  ");
                 _builder.newLineIfNotEmpty();
@@ -1437,7 +1469,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
               EList<Matcher> _matchers_1 = matcherList.getMatchers();
               for(final Matcher matcher_1 : _matchers_1) {
                 _builder.append("  ");
-                EObject _locator_1 = matcher_1.getLocator();
+                Locator _locator_1 = matcher_1.getLocator();
                 CharSequence _matchLookupPartial_1 = this.matchLookupPartial(_locator_1, matcher_1, "keyword", partialName);
                 _builder.append(_matchLookupPartial_1, "  ");
                 _builder.newLineIfNotEmpty();
@@ -1641,7 +1673,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   protected CharSequence _matchLookupPartial(final EObject locator, final Matcher matcher, final String eobjectTypeName, final String partialName) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("config.");
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     CharSequence _locator_1 = this.locator(matcher, _locator, partialName);
     _builder.append(_locator_1, "");
     _builder.append(".");
@@ -1669,14 +1701,14 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
               if ((_isTwoArgumentMatcherType).booleanValue()) {
                 EObject _get = elements.get(0);
                 EObject _get_1 = elements.get(1);
-                EObject _locator = matcher.getLocator();
+                Locator _locator = matcher.getLocator();
                 CharSequence _match = this.match(matcher, _get, _get_1, _locator, partialName);
                 _builder.append(_match, "");
                 _builder.newLineIfNotEmpty();
               } else {
                 {
                   for(final EObject e : elements) {
-                    EObject _locator_1 = matcher.getLocator();
+                    Locator _locator_1 = matcher.getLocator();
                     CharSequence _match_1 = this.match(matcher, e, _locator_1, partialName);
                     _builder.append(_match_1, "");
                   }
@@ -1694,7 +1726,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   public CharSequence match(final Matcher matcher, final EObject element1, final EObject element2, final EObject locator, final String partialName) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("config.");
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     CharSequence _locator_1 = this.locator(matcher, _locator, partialName);
     _builder.append(_locator_1, "");
     _builder.append(".");
@@ -1717,7 +1749,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   protected CharSequence _match(final Matcher matcher, final EObject element, final Locator locator, final String partialName) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("config.");
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     CharSequence _locator_1 = this.locator(matcher, _locator, partialName);
     _builder.append(_locator_1, "");
     _builder.append(".");
@@ -1737,10 +1769,14 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   protected CharSequence _match(final Matcher matcher, final EObject element, final NoFormatLocator locator, final String partialName) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("config.");
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     CharSequence _locator_1 = this.locator(matcher, _locator, partialName);
     _builder.append(_locator_1, "");
-    _builder.append(".around(");
+    _builder.append(".");
+    MatcherType _type = matcher.getType();
+    String _matcherType = this.matcherType(_type);
+    _builder.append(_matcherType, "");
+    _builder.append("(");
     CharSequence _elementAccess = this.elementAccess(element);
     _builder.append(_elementAccess, "");
     _builder.append("); // ");
@@ -2044,7 +2080,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   protected CharSequence _match(final Matcher matcher, final EObject element, final IndentLocator locator, final String partialName) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("config.");
-    EObject _locator = matcher.getLocator();
+    Locator _locator = matcher.getLocator();
     CharSequence _locator_1 = this.locator(matcher, _locator, partialName);
     _builder.append(_locator_1, "");
     _builder.append(".");
@@ -2570,17 +2606,17 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     }
   }
   
-  public CharSequence match(final Matcher matcher, final EObject element, final EObject locator, final String partialName) {
+  public CharSequence match(final Matcher matcher, final EObject element, final Locator locator, final String partialName) {
     if (locator instanceof ColumnLocator) {
       return _match(matcher, element, (ColumnLocator)locator, partialName);
     } else if (locator instanceof IndentLocator) {
       return _match(matcher, element, (IndentLocator)locator, partialName);
-    } else if (locator instanceof OffsetLocator) {
-      return _match(matcher, element, (OffsetLocator)locator, partialName);
-    } else if (locator instanceof Locator) {
-      return _match(matcher, element, (Locator)locator, partialName);
     } else if (locator instanceof NoFormatLocator) {
       return _match(matcher, element, (NoFormatLocator)locator, partialName);
+    } else if (locator instanceof OffsetLocator) {
+      return _match(matcher, element, (OffsetLocator)locator, partialName);
+    } else if (locator != null) {
+      return _match(matcher, element, locator, partialName);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(matcher, element, locator, partialName).toString());
@@ -2604,23 +2640,23 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     }
   }
   
-  public CharSequence locator(final Matcher matcher, final EObject columnLocator, final String partialName) {
+  public CharSequence locator(final Matcher matcher, final Locator columnLocator, final String partialName) {
     if (columnLocator instanceof ColumnLocator) {
       return _locator(matcher, (ColumnLocator)columnLocator, partialName);
     } else if (columnLocator instanceof IndentLocator) {
       return _locator(matcher, (IndentLocator)columnLocator, partialName);
     } else if (columnLocator instanceof LinewrapLocator) {
       return _locator(matcher, (LinewrapLocator)columnLocator, partialName);
+    } else if (columnLocator instanceof NoFormatLocator) {
+      return _locator(matcher, (NoFormatLocator)columnLocator, partialName);
     } else if (columnLocator instanceof OffsetLocator) {
       return _locator(matcher, (OffsetLocator)columnLocator, partialName);
     } else if (columnLocator instanceof RightPaddingLocator) {
       return _locator(matcher, (RightPaddingLocator)columnLocator, partialName);
     } else if (columnLocator instanceof SpaceLocator) {
       return _locator(matcher, (SpaceLocator)columnLocator, partialName);
-    } else if (columnLocator instanceof Locator) {
-      return _locator(matcher, (Locator)columnLocator, partialName);
-    } else if (columnLocator instanceof NoFormatLocator) {
-      return _locator(matcher, (NoFormatLocator)columnLocator, partialName);
+    } else if (columnLocator != null) {
+      return _locator(matcher, columnLocator, partialName);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(matcher, columnLocator, partialName).toString());

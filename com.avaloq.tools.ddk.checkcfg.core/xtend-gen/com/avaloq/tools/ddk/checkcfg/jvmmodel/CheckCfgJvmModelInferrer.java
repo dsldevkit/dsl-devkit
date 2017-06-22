@@ -35,7 +35,7 @@ public class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
   public void _infer(final EObject element, final IJvmDeclaredTypeAcceptor acceptor, final boolean preIndexingPhase) {
     final Procedure1<JvmGenericType> _function = (JvmGenericType it) -> {
     };
-    JvmGenericType _class = this._jvmTypesBuilder.toClass(element, "com.avaloq.Dummy", _function);
+    JvmGenericType _class = this._jvmTypesBuilder.toClass(element, "xxxyyyzzz.dummy.class.name", _function);
     acceptor.<JvmGenericType>accept(_class);
   }
 }

@@ -58,13 +58,13 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
 		
 		//CheckCatalog:
-		//	{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection? final?="final"? "catalog" name=ValidID
+		//	{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection final?="final"? "catalog" name=ValidID
 		//	("for" "grammar" ^grammar=[xtext::Grammar|QualifiedName])? ("with" includedCatalogs=[CheckCatalog|QualifiedName])? //TODO a list of included catalogs ??
 		//	// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
 		//	"{" (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)* "}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection? final?="final"? "catalog" name=ValidID ("for"
+		//{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection final?="final"? "catalog" name=ValidID ("for"
 		//"grammar" ^grammar=[xtext::Grammar|QualifiedName])? ("with" includedCatalogs=[CheckCatalog|QualifiedName])? //TODO a list of included catalogs ??
 		//// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
 		//"{" (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)* "}"
@@ -82,7 +82,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedName
 		public RuleCall getPackageNameQualifiedNameParserRuleCall_2_0() { return cPackageNameQualifiedNameParserRuleCall_2_0; }
 
-		//imports=XImportSection?
+		//imports=XImportSection
 		public Assignment getImportsAssignment_3() { return cImportsAssignment_3; }
 
 		//XImportSection
@@ -169,6 +169,31 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"}"
 		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
+	}
+
+	public class XImportSectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "XImportSection");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cXImportSectionAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cImportDeclarationsAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cImportDeclarationsXImportDeclarationParserRuleCall_1_0 = (RuleCall)cImportDeclarationsAssignment_1.eContents().get(0);
+		
+		//// Override (inherited via xbase->xtype) to force creation of a (possibly empty) XImportSection
+		//XImportSection returns xtype::XImportSection:
+		//	{xtype::XImportSection} importDeclarations+=XImportDeclaration*;
+		@Override public ParserRule getRule() { return rule; }
+
+		//{xtype::XImportSection} importDeclarations+=XImportDeclaration*
+		public Group getGroup() { return cGroup; }
+
+		//{xtype::XImportSection}
+		public Action getXImportSectionAction_0() { return cXImportSectionAction_0; }
+
+		//importDeclarations+=XImportDeclaration*
+		public Assignment getImportDeclarationsAssignment_1() { return cImportDeclarationsAssignment_1; }
+
+		//XImportDeclaration
+		public RuleCall getImportDeclarationsXImportDeclarationParserRuleCall_1_0() { return cImportDeclarationsXImportDeclarationParserRuleCall_1_0; }
 	}
 
 	public class XImportDeclarationElements extends AbstractParserRuleElementFinder {
@@ -1420,6 +1445,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	private final CheckCatalogElements pCheckCatalog;
+	private final XImportSectionElements pXImportSection;
 	private final XImportDeclarationElements pXImportDeclaration;
 	private final DocumentedElements pDocumented;
 	private final ImplicitlyNamedElements pImplicitlyNamed;
@@ -1452,6 +1478,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaXbaseWithAnnotations = gaXbaseWithAnnotations;
 		this.pCheckCatalog = new CheckCatalogElements();
+		this.pXImportSection = new XImportSectionElements();
 		this.pXImportDeclaration = new XImportDeclarationElements();
 		this.pDocumented = new DocumentedElements();
 		this.pImplicitlyNamed = new ImplicitlyNamedElements();
@@ -1503,7 +1530,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//CheckCatalog:
-	//	{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection? final?="final"? "catalog" name=ValidID
+	//	{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection final?="final"? "catalog" name=ValidID
 	//	("for" "grammar" ^grammar=[xtext::Grammar|QualifiedName])? ("with" includedCatalogs=[CheckCatalog|QualifiedName])? //TODO a list of included catalogs ??
 	//	// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
 	//	"{" (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)* "}";
@@ -1513,6 +1540,17 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getCheckCatalogRule() {
 		return getCheckCatalogAccess().getRule();
+	}
+
+	//// Override (inherited via xbase->xtype) to force creation of a (possibly empty) XImportSection
+	//XImportSection returns xtype::XImportSection:
+	//	{xtype::XImportSection} importDeclarations+=XImportDeclaration*;
+	public XImportSectionElements getXImportSectionAccess() {
+		return pXImportSection;
+	}
+	
+	public ParserRule getXImportSectionRule() {
+		return getXImportSectionAccess().getRule();
 	}
 
 	//// Override (inherited via xbase->xtype) to restrict to our syntax. No static imports. (Backwards compatibility; would introduce a new keyword)
@@ -2444,7 +2482,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getStaticQualifierAccess().getRule();
 	}
 
-	//terminal HEX:
+	//terminal HEX returns ecore::EString:
 	//	("0x" | "0X") ("0".."9" | "a".."f" | "A".."F" | "_")+ ("#" (("b" | "B") ("i" | "I") | ("l" | "L")))?;
 	public TerminalRule getHEXRule() {
 		return gaXbaseWithAnnotations.getHEXRule();
@@ -2456,7 +2494,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return gaXbaseWithAnnotations.getINTRule();
 	} 
 
-	//terminal DECIMAL:
+	//terminal DECIMAL returns ecore::EString:
 	//	INT (("e" | "E") ("+" | "-")? INT)? (("b" | "B") ("i" | "I" | "d" | "D") | ("l" | "L" | "d" | "D" | "f" | "F"))?;
 	public TerminalRule getDECIMALRule() {
 		return gaXbaseWithAnnotations.getDECIMALRule();
@@ -2596,16 +2634,6 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getValidIDAccess().getRule();
 	}
 
-	//XImportSection:
-	//	importDeclarations+=XImportDeclaration+;
-	public XtypeGrammarAccess.XImportSectionElements getXImportSectionAccess() {
-		return gaXbaseWithAnnotations.getXImportSectionAccess();
-	}
-	
-	public ParserRule getXImportSectionRule() {
-		return getXImportSectionAccess().getRule();
-	}
-
 	//QualifiedNameInStaticImport:
 	//	(ValidID ".")+;
 	public XtypeGrammarAccess.QualifiedNameInStaticImportElements getQualifiedNameInStaticImportAccess() {
@@ -2616,38 +2644,38 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getQualifiedNameInStaticImportAccess().getRule();
 	}
 
-	//terminal ID:
+	//terminal ID returns ecore::EString:
 	//	"^"? ("a".."z" | "A".."Z" | "$" | "_") ("a".."z" | "A".."Z" | "$" | "_" | "0".."9")*;
 	public TerminalRule getIDRule() {
 		return gaXbaseWithAnnotations.getIDRule();
 	} 
 
-	//terminal STRING:
+	//terminal STRING returns ecore::EString:
 	//	"\"" ("\\" . / * ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') * / | !("\\" | "\""))* "\""? | "\'" ("\\" .
 	//	/ * ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') * / | !("\\" | "\'"))* "\'"?;
 	public TerminalRule getSTRINGRule() {
 		return gaXbaseWithAnnotations.getSTRINGRule();
 	} 
 
-	//terminal ML_COMMENT:
+	//terminal ML_COMMENT returns ecore::EString:
 	//	"/ *"->"* /";
 	public TerminalRule getML_COMMENTRule() {
 		return gaXbaseWithAnnotations.getML_COMMENTRule();
 	} 
 
-	//terminal SL_COMMENT:
+	//terminal SL_COMMENT returns ecore::EString:
 	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaXbaseWithAnnotations.getSL_COMMENTRule();
 	} 
 
-	//terminal WS:
+	//terminal WS returns ecore::EString:
 	//	(" " | "\t" | "\r" | "\n")+;
 	public TerminalRule getWSRule() {
 		return gaXbaseWithAnnotations.getWSRule();
 	} 
 
-	//terminal ANY_OTHER:
+	//terminal ANY_OTHER returns ecore::EString:
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
 		return gaXbaseWithAnnotations.getANY_OTHERRule();

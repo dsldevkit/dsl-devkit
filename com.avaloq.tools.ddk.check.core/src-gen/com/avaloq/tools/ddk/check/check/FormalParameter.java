@@ -15,13 +15,13 @@ import org.eclipse.xtext.xbase.XExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.FormalParameter#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.FormalParameter#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.FormalParameter#getRight <em>Right</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.FormalParameter#getLabel <em>Label</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter()
  * @model

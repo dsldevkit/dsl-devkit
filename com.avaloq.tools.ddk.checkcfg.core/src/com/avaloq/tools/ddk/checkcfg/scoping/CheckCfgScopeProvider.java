@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.scoping;
 
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.EcoreUtil2;
@@ -22,6 +24,7 @@ import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
+import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
@@ -33,6 +36,7 @@ import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
 public class CheckCfgScopeProvider extends XImportSectionNamespaceScopeProvider {
 
   private final IQualifiedNameProvider checkQualifiedNameProvider = new IQualifiedNameProvider.AbstractImpl() {
+    @Override
     public QualifiedName getFullyQualifiedName(final EObject obj) {
       if (obj instanceof Check) {
         return QualifiedName.create(((Check) obj).getName());
@@ -49,7 +53,6 @@ public class CheckCfgScopeProvider extends XImportSectionNamespaceScopeProvider 
       // Note that context object can be either a configured check (if 'optional' keyword has been provided
       // so that a new instance is created and the configured catalog does not contain any configured checks
       // yet) or a configured catalog (in all other cases)
-
       final ConfiguredCatalog configuredCatalog = EcoreUtil2.getContainerOfType(context, ConfiguredCatalog.class);
       if (configuredCatalog == null || configuredCatalog.getCatalog() == null) {
         return IScope.NULLSCOPE;
@@ -57,17 +60,18 @@ public class CheckCfgScopeProvider extends XImportSectionNamespaceScopeProvider 
       CheckCatalog catalog = configuredCatalog.getCatalog();
       return Scopes.scopeFor(catalog.getAllChecks(), checkQualifiedNameProvider, IScope.NULLSCOPE);
     } else if (reference == CheckcfgPackage.Literals.CONFIGURED_PARAMETER__PARAMETER) {
-      // Note that context object can be either a configured check or a configured parameter (same reasoning
-      // as above)
-
+      // a new list of FormalParameters to scope to
+      EList<FormalParameter> parameters = ECollections.newBasicEList();
       final ConfiguredCheck configuredCheck = EcoreUtil2.getContainerOfType(context, ConfiguredCheck.class);
-      if (configuredCheck == null || configuredCheck.getCheck() == null) {
-        return IScope.NULLSCOPE;
+      if (configuredCheck != null) {
+        // add FormalParameter definitions from linked check
+        parameters.addAll(configuredCheck.getCheck().getFormalParameters());
       }
-      Check check = configuredCheck.getCheck();
-      return Scopes.scopeFor(check.getFormalParameters(), checkQualifiedNameProvider, IScope.NULLSCOPE);
+      // add inferred FormalParameters (properties)
+      final CheckConfiguration checkConfiguration = EcoreUtil2.getContainerOfType(context, CheckConfiguration.class);
+      parameters.addAll(checkConfiguration.getProperties());
+      return Scopes.scopeFor(parameters, checkQualifiedNameProvider, IScope.NULLSCOPE);
     }
     return super.getScope(context, reference);
   }
 }
-

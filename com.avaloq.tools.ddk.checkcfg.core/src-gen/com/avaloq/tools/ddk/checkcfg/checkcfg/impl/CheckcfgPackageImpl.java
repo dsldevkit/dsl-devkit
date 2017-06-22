@@ -7,6 +7,7 @@ import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgFactory;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
+import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator;
@@ -66,6 +67,13 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * @generated
 	 */
 	private EClass configuredParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass configurableSectionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -185,6 +193,16 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getCheckConfiguration_Properties()
+	{
+		return (EReference)checkConfigurationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getConfiguredLanguageValidator()
 	{
 		return configuredLanguageValidatorEClass;
@@ -275,16 +293,6 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConfiguredCheck_ParameterConfigurations()
-	{
-		return (EReference)configuredCheckEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getConfiguredParameter()
 	{
 		return configuredParameterEClass;
@@ -308,6 +316,26 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	public EReference getConfiguredParameter_NewValue()
 	{
 		return (EReference)configuredParameterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getConfigurableSection()
+	{
+		return configurableSectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConfigurableSection_ParameterConfigurations()
+	{
+		return (EReference)configurableSectionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -354,6 +382,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 		createEAttribute(checkConfigurationEClass, CHECK_CONFIGURATION__NAME);
 		createEReference(checkConfigurationEClass, CHECK_CONFIGURATION__LANGUAGE_VALIDATOR_CONFIGURATIONS);
 		createEReference(checkConfigurationEClass, CHECK_CONFIGURATION__LEGACY_CATALOG_CONFIGURATIONS);
+		createEReference(checkConfigurationEClass, CHECK_CONFIGURATION__PROPERTIES);
 
 		configuredLanguageValidatorEClass = createEClass(CONFIGURED_LANGUAGE_VALIDATOR);
 		createEAttribute(configuredLanguageValidatorEClass, CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE);
@@ -366,11 +395,13 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 		configuredCheckEClass = createEClass(CONFIGURED_CHECK);
 		createEAttribute(configuredCheckEClass, CONFIGURED_CHECK__SEVERITY);
 		createEReference(configuredCheckEClass, CONFIGURED_CHECK__CHECK);
-		createEReference(configuredCheckEClass, CONFIGURED_CHECK__PARAMETER_CONFIGURATIONS);
 
 		configuredParameterEClass = createEClass(CONFIGURED_PARAMETER);
 		createEReference(configuredParameterEClass, CONFIGURED_PARAMETER__PARAMETER);
 		createEReference(configuredParameterEClass, CONFIGURED_PARAMETER__NEW_VALUE);
+
+		configurableSectionEClass = createEClass(CONFIGURABLE_SECTION);
+		createEReference(configurableSectionEClass, CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS);
 
 		// Create enums
 		severityKindEEnum = createEEnum(SEVERITY_KIND);
@@ -410,12 +441,19 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		checkConfigurationEClass.getESuperTypes().add(this.getConfigurableSection());
+		configuredLanguageValidatorEClass.getESuperTypes().add(this.getConfigurableSection());
+		configuredCatalogEClass.getESuperTypes().add(this.getConfigurableSection());
+		configuredCheckEClass.getESuperTypes().add(this.getConfigurableSection());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(checkConfigurationEClass, CheckConfiguration.class, "CheckConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCheckConfiguration_Name(), theEcorePackage.getEString(), "name", null, 0, 1, CheckConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCheckConfiguration_LanguageValidatorConfigurations(), this.getConfiguredLanguageValidator(), null, "languageValidatorConfigurations", null, 0, -1, CheckConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCheckConfiguration_LegacyCatalogConfigurations(), this.getConfiguredCatalog(), null, "legacyCatalogConfigurations", null, 0, -1, CheckConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCheckConfiguration_Properties(), theCheckPackage.getFormalParameter(), null, "properties", null, 0, -1, CheckConfiguration.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		addEOperation(checkConfigurationEClass, this.getConfigurableSection(), "getConfigurableSections", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(configuredLanguageValidatorEClass, ConfiguredLanguageValidator.class, "ConfiguredLanguageValidator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConfiguredLanguageValidator_Language(), theEcorePackage.getEString(), "language", null, 0, 1, ConfiguredLanguageValidator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -428,11 +466,13 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 		initEClass(configuredCheckEClass, ConfiguredCheck.class, "ConfiguredCheck", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConfiguredCheck_Severity(), this.getSeverityKind(), "severity", null, 0, 1, ConfiguredCheck.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getConfiguredCheck_Check(), theCheckPackage.getCheck(), null, "check", null, 0, 1, ConfiguredCheck.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConfiguredCheck_ParameterConfigurations(), this.getConfiguredParameter(), null, "parameterConfigurations", null, 0, -1, ConfiguredCheck.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(configuredParameterEClass, ConfiguredParameter.class, "ConfiguredParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConfiguredParameter_Parameter(), theCheckPackage.getFormalParameter(), null, "parameter", null, 0, 1, ConfiguredParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getConfiguredParameter_NewValue(), theXbasePackage.getXExpression(), null, "newValue", null, 0, 1, ConfiguredParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(configurableSectionEClass, ConfigurableSection.class, "ConfigurableSection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getConfigurableSection_ParameterConfigurations(), this.getConfiguredParameter(), null, "parameterConfigurations", null, 0, -1, ConfigurableSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(severityKindEEnum, SeverityKind.class, "SeverityKind");

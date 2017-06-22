@@ -20,7 +20,8 @@ import com.google.inject.Inject;
 
 
 /**
- * AbstractExtendedFormatter to access the AcsFormating Stream and config. Adds support for comment handling and number of additional parameterized and conditional
+ * AbstractExtendedFormatter to access the AcsFormating Stream and config. Adds support for comment handling and number of additional parameterized and
+ * conditional
  * locators.
  */
 public abstract class AbstractExtendedFormatter extends AbstractDeclarativeFormatter {
@@ -66,6 +67,15 @@ public abstract class AbstractExtendedFormatter extends AbstractDeclarativeForma
    *          - the ExtendedFormattingConfig provided by Guice
    */
   protected abstract void configureAcsFormatting(final ExtendedFormattingConfig config);
+
+  /**
+   * Checks whether the specific given content is not to be formatted.
+   *
+   * @param content
+   *          the content to check
+   * @return {@code true} if the content given should not be formatted, {@code false} otherwise
+   */
+  protected abstract boolean isUnformattedContent(final String content);
 
   /**
    * Get SL-comment rule.

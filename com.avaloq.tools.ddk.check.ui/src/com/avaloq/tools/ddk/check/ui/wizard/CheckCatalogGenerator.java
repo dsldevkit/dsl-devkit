@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.ui.wizard;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.xtext.generator.JavaIoFileSystemAccess;
 
+import com.avaloq.tools.ddk.check.generator.CheckOutputConfigurationProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -58,5 +59,20 @@ public class CheckCatalogGenerator {
     quickfixProvider.doGenerate(projectInfo, fsa);
   }
 
-}
+  /**
+   * Generates the docs directory.
+   *
+   * @param path
+   *          the path
+   * @param projectInfo
+   *          the project info
+   */
+  public void generateDocsDirectory(final IPath path, final CheckProjectInfo projectInfo) {
+    fsa.setOutputPath(path.toOSString());
+    // IFileSystemAccess doesn't support creating empty directories, so:
+    String dummyFile = CheckOutputConfigurationProvider.DOCS_PATH + "/dummy.dumb";
+    fsa.generateFile(dummyFile, "delete me");
+    fsa.deleteFile(dummyFile);
+  }
 
+}

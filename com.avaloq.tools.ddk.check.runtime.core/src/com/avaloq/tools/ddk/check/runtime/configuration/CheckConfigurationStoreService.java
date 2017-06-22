@@ -10,12 +10,17 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.configuration;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.resource.IResourceServiceProvider.Registry;
+import org.eclipse.xtext.validation.Issue;
 
 
 /**
@@ -26,6 +31,8 @@ import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
  * </p>
  */
 public class CheckConfigurationStoreService implements ICheckConfigurationStoreService {
+
+  private static final Logger LOGGER = Logger.getLogger(CheckConfigurationStoreService.class);
 
   // CHECKSTYLE:OFF
   protected IProject project;
@@ -59,15 +66,31 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
    *
    * @param context
    *          object
-   * @return the language the containing resource was parsed from, may be {@code null}
+   * @return the language the corresponding resource was parsed from, may be {@code null}
    */
   private String getLanguage(final Object context) {
+    Resource resource = null;
     if (context instanceof EObject) {
-      Resource resource = ((EObject) context).eResource();
-      if (resource instanceof LazyLinkingResource) {
-        return ((LazyLinkingResource) resource).getLanguageName();
+      resource = ((EObject) context).eResource();
+    } else if (context instanceof Issue) {
+      URI uri = ((Issue) context).getUriToProblem();
+      if (uri != null) {
+        Registry registry = IResourceServiceProvider.Registry.INSTANCE;
+        IResourceServiceProvider resourceServiceProvider = registry.getResourceServiceProvider(uri);
+        if (resourceServiceProvider != null) {
+          resource = resourceServiceProvider.get(LazyLinkingResource.class);
+        } else {
+          LOGGER.error("Could not fetch a ResourceServiceProvider for URI: " + uri); //$NON-NLS-1$
+        }
+      } else {
+        LOGGER.warn("Could not fetch eResource from issue: URI to problem is null"); //$NON-NLS-1$
       }
     }
+
+    if (resource instanceof LazyLinkingResource) {
+      return ((LazyLinkingResource) resource).getLanguageName();
+    }
+
     return null;
   }
 
@@ -100,13 +123,18 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
       this.project = (IProject) context;
     } else if (context instanceof IFile) {
       this.project = ((IFile) context).getProject();
-    } else if (context instanceof EObject && ((EObject) context).eResource() != null) {
-      final Resource resource = ((EObject) context).eResource();
-      if (resource.getURI().isPlatform()) {
-        final IFile file = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(resource.getURI().toPlatformString(true));
+    } else {
+      URI uri = null;
+      if (context instanceof EObject && ((EObject) context).eResource() != null) {
+        uri = ((EObject) context).eResource().getURI();
+      }
+      if (context instanceof Issue) {
+        uri = ((Issue) context).getUriToProblem();
+      }
+      if (uri != null && uri.isPlatform()) {
+        final IFile file = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
         this.project = file.getProject();
       }
     }
   }
 }
-

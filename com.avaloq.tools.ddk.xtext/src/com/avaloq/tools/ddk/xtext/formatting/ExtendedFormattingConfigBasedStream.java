@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
@@ -69,13 +68,11 @@ import com.google.common.collect.Sets;
 public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedStream implements IDelegatingTokenStream {
 
   private static final Logger LOGGER = Logger.getLogger(ExtendedFormattingConfigBasedStream.class);
-
   private final Stack<Integer> columnIndents = new Stack<Integer>();
   private final Stack<Integer> initialIndents = new Stack<Integer>();
-  private final Stack<NoFormatLocator> noFormatLocators = new Stack<NoFormatLocator>();
+  private final Set<NoFormatLocator> noFormatLocators = new HashSet<NoFormatLocator>();
 
   private INode currentNode;
-  private boolean isUnformattedElementSLComment;
 
   private final AbstractExtendedFormatter formatter;
 
@@ -85,6 +82,8 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   private boolean explicitFormattingOff;
   private Integer currentColumn;
   private final Map<EObject, Integer> columnMap = new HashMap<EObject, Integer>();
+  private final NoFormatLocator noFormatMemento;
+  private int formatDisablingDirectives;
 
   /**
    * Stores a value of 'preserveSpaces' preference. (defined in the superclass)
@@ -99,6 +98,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     super(out, indentation, cfg, matcher, hiddenTokenHelper, preserveSpaces);
     this.storedPreserveSpacesValue = preserveSpaces;
     this.formatter = formatter;
+    this.noFormatMemento = new NoFormatLocator(cfg);
   }
 
   protected void setCurrentColumn(final Integer columnOffset) {
@@ -118,41 +118,38 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   }
 
   /**
-   * Checks whether formatting is currently disabled by the given set of {@link ElementLocator}.
-   * I.e. if there is at least one {@link NoFormatLocator} in the given set.
+   * Disables or re-enables formatting based on the given set of {@link ElementLocator}s.
+   * I.e. if there is at least one {@link NoFormatLocator} in the given set, otherwise no action is taken.
    *
    * @param locators
    *          the {@link ElementLocator}s to check
    */
-  private void processNoFormatLocators(final Set<ElementLocator> locators) {
+  private void handleNoFormatLocators(final Set<ElementLocator> locators) {
+    if (this.noFormatLocators.remove(this.noFormatMemento) && this.noFormatLocators.isEmpty() && !this.explicitFormattingOff) {
+      // Removing the existing NoFormat memento and re-enabling formatting
+      this.preserveSpaces = this.storedPreserveSpacesValue;
+    }
     for (ElementLocator locator : locators) {
       if (locator instanceof NoFormatLocator) {
-        if (this.noFormatLocators.isEmpty() || this.noFormatLocators.peek() != locator) {
-          this.noFormatLocators.push((NoFormatLocator) locator);
-          if ((this.noFormatLocators.size() == 1) && !this.explicitFormattingOff) {
+        if (!this.noFormatLocators.remove(locator)) {
+          if (locator.getType().equals(LocatorType.BETWEEN)) {
+            // In case we are dealing with a 'between' locator we only need to add a NoFormat 'memento'.
+            // In this way we do not format anything until the following element
+            this.noFormatLocators.add(noFormatMemento);
+          } else {
+            this.noFormatLocators.add((NoFormatLocator) locator);
+          }
+          if (this.noFormatLocators.size() == 1 && !this.explicitFormattingOff) {
             this.storedPreserveSpacesValue = this.preserveSpaces;
             this.preserveSpaces = true;
           }
-        } else if (!this.noFormatLocators.isEmpty()) {
-          this.noFormatLocators.pop();
-          if (this.noFormatLocators.isEmpty() && !this.explicitFormattingOff) {
-            this.preserveSpaces = this.storedPreserveSpacesValue;
-          }
+        } else if (this.noFormatLocators.isEmpty() && !this.explicitFormattingOff) {
+          // In case the last NoFormat locator was dealt with, we add add a NoFormat 'memento'.
+          // So that we effectively don't format anything until the following element
+          this.noFormatLocators.add(noFormatMemento);
         }
-        break;
       }
     }
-  }
-
-  /**
-   * Checks whether the given {@link EObject} is a SL_COMMENT.
-   *
-   * @param grammarElement
-   *          the {@link EObject} to check, must not be {@code null}
-   * @return {@code true} if the given {@link EObject} is an SL_COMMENT, {@code false} otherwise
-   */
-  private boolean isSLComment(final EObject grammarElement) {
-    return grammarElement instanceof AbstractRule && "SL_COMMENT".equals(((AbstractRule) grammarElement).getName()); //$NON-NLS-1$
   }
 
   /**
@@ -165,34 +162,18 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   }
 
   @Override
-  public LineEntry createLineEntry(final EObject grammarElement, final String value, final boolean isHidden, final Set<ElementLocator> beforeLocators, final String leadingWS, final int indent, final ParserRule hiddenTokenDefition) {
+  public LineEntry createLineEntry(final EObject grammarElement, final String value, final boolean isHidden, final Set<ElementLocator> beforeLocators, final String leadingWS, final int indent, final ParserRule hiddenTokenDefinition) {
     Set<ElementLocator> activeLocators = null;
     String newValue = value;
     String newLeadingWS = leadingWS;
-    processNoFormatLocators(beforeLocators);
 
-    if (isFormattingDisabled()) {
+    if (isFormattingDisabled() || formatter.isUnformattedContent(value)) {
       activeLocators = Collections.emptySet();
     } else {
       activeLocators = beforeLocators;
     }
 
-    // If the last element for which formatting was disabled was a comment,
-    // the following element has to have a new line at the beginning of its leading whitespaces.
-    // Otherwise the indentation of the first element for which formatting is re-enabled will have incorrect indentation.
-    // The following two if statements take care of this.
-    if (isUnformattedElementSLComment) {
-      newLeadingWS = NEW_LINE + leadingWS;
-      isUnformattedElementSLComment = false;
-    }
-    if (!this.noFormatLocators.isEmpty()) {
-      isUnformattedElementSLComment = isSLComment(grammarElement);
-      if (isUnformattedElementSLComment) {
-        newValue = StringUtils.removeEnd(value, NEW_LINE);
-      }
-    }
-
-    ExtendedLineEntry lineEntry = new ExtendedLineEntry(this, grammarElement, newValue, isHidden, activeLocators, newLeadingWS, indent, hiddenTokenDefition);
+    ExtendedLineEntry lineEntry = new ExtendedLineEntry(this, grammarElement, newValue, isHidden, activeLocators, newLeadingWS, indent, hiddenTokenDefinition);
     lineEntry.setColumnIndent(emptySafeStackPeek(columnIndents), emptySafeStackPeek(initialIndents));
     lineEntry.setInitialIndent(emptySafeStackPeek(initialIndents));
 
@@ -235,7 +216,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   protected String getLineSeparator() {
     // TODO cleanup. this is required for the Xtext 2.3.1 migration due to commit
     // http://git.eclipse.org/c/tmf/org.eclipse.xtext.git/commit/?id=689e8b08fd3af5cd0dc7df48294cdb1f9b6cc4a8
-    return "\n"; //$NON-NLS-1$
+    return NEW_LINE;
   }
 
   /**
@@ -267,7 +248,9 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   protected Set<ElementLocator> collectLocators(final EObject grammarElement) {
     List<ElementLocator> result = Lists.newArrayList(activeRangeLocators);
     Collection<ElementLocator> locators = Sets.newHashSet();
+    Set<ElementLocator> noFormatBaseLocators = Sets.newHashSet();
     List<ElementLocator> conditionalLocators = Lists.newArrayList();
+    List<ElementLocator> conditionalNoFormatLocators = Lists.newArrayList();
     List<ElementLocator> parametrizedLocators = Lists.newArrayList();
 
     if (grammarElement instanceof AbstractElement) {
@@ -277,12 +260,22 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
         if (eloc instanceof IParametrizedLocator) {
           parametrizedLocators.add(eloc);
         } else if (eloc instanceof IConditionalLocator) {
-          conditionalLocators.add(eloc);
+          if (eloc instanceof NoFormatLocator) {
+            conditionalNoFormatLocators.add(eloc);
+          } else {
+            conditionalLocators.add(eloc);
+          }
+        } else if (eloc instanceof NoFormatLocator) {
+          noFormatBaseLocators.add(eloc);
         } else {
           locators.add(eloc);
         }
       }
     }
+
+    handleConditionalLocators(conditionalNoFormatLocators);
+    noFormatBaseLocators.addAll(conditionalNoFormatLocators);
+    handleNoFormatLocators(noFormatBaseLocators);
 
     if ((last instanceof AbstractRule && hiddenTokenHelper.isComment((AbstractRule) last))
         || (grammarElement instanceof AbstractRule && hiddenTokenHelper.isComment((AbstractRule) grammarElement))) {
@@ -300,12 +293,15 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
         activeRangeLocators.remove(locator);
       }
     }
-    result.addAll(conditionalLocators); // TODO perhaps handle first the conditional locators so that we don't need to calculate the parameter of inactive
-                                        // locators
-    result.addAll(handleParametrizedLocators(parametrizedLocators));
+    if (!isFormattingDisabled()) {
+      result.addAll(conditionalLocators);
+      result.addAll(handleParametrizedLocators(parametrizedLocators));
+    }
     result.addAll(locators);
 
-    handleConditionalLocators(result);
+    if (!isFormattingDisabled()) {
+      handleConditionalLocators(result);
+    }
 
     for (ElementLocator locator : result) {
       if (locator instanceof IndentationLocatorStartFacade) {
@@ -664,6 +660,28 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   }
 
   /**
+   * Increments the amount of directives that disable formatting that are currently active.
+   * If it is the first one formatting will be be switched off.
+   */
+  public void incrementFormatDisablingDirectiveCount() {
+    if (this.formatDisablingDirectives == 0) {
+      setFormattingActive(false);
+    }
+    this.formatDisablingDirectives++;
+  }
+
+  /**
+   * Decrements the amount of directives that disable formatting that are currently active.
+   * If no more directives are active formatting will be be switched on.
+   */
+  public void decrementFormatDisablingDirectiveCount() {
+    this.formatDisablingDirectives--;
+    if (this.formatDisablingDirectives == 0) {
+      setFormattingActive(true);
+    }
+  }
+
+  /**
    * Helper method that allows to switch on\off formatting of the stream.
    *
    * @param formattingActive
@@ -679,7 +697,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     } else {
       this.explicitFormattingOff = false;
       if (noFormatLocators.isEmpty()) {
-        this.preserveSpaces = this.storedPreserveSpacesValue;
+        this.noFormatLocators.add(noFormatMemento);
       }
     }
   }

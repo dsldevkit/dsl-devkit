@@ -99,7 +99,7 @@ public class CheckProjectFactory extends PluginProjectFactory {
     addToContent(content, exportedPackages, "Export-Package");
     addToContent(content, importedPackages, "Import-Package");
 
-    content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.8\n");
+    content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.7\n");
 
     final IFolder metaInf = project.getFolder("META-INF");
     SubMonitor subMonitor = SubMonitor.convert(progressMonitor, 2);

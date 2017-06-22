@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.tracing;
 
+import java.util.function.Supplier;
+
 import com.google.inject.ImplementedBy;
 
 
@@ -61,6 +63,33 @@ public interface IExecutionDataCollector {
    *          type of the event
    */
   <T extends TraceEvent> void trace(final Class<T> eventClass, final Object... data);
+
+  /**
+   * Used to collect intermediate data which will typically later be used as payload for a posted event. The intermediate data is maintained separately for each
+   * thread.
+   *
+   * @param key
+   *          arbitrary key to associate intermediate data with, must not be {@code null}
+   * @param initialValue
+   *          supplier for initial value in case this method is called for the first time or for the first time since {@link #clearIntermediateData(Object)} was
+   *          last called, must not be {@code null}
+   * @param <T>
+   *          type of intermediate data
+   * @return intermediate data as initialized by a previous call to this method on this thread or otherwise as computed by {@code supplier}
+   * @see #clearIntermediateData(Object)
+   */
+  <T> T getIntermediateData(Object key, Supplier<T> initialValue);
+
+  /**
+   * Returns the intermediate data associated with the current thread and given key and clears it from this collector.
+   *
+   * @param key
+   *          key with which intermediate data is associated, must not be {@code null}
+   * @param <T>
+   *          type of intermediate data
+   * @return intermediate data associated with current thread and given key or {@code null} if none
+   */
+  <T> T clearIntermediateData(Object key);
 
   /**
    * Checks if this collector is enabled.

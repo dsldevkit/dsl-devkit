@@ -12,11 +12,34 @@ package com.avaloq.tools.ddk.xtext.build;
 
 import java.util.List;
 
+import com.google.inject.Injector;
+import com.google.inject.Module;
+
 
 /**
  * Support for comparing dynamic setup services.
  */
 public abstract class AbstractDynamicSetupService implements IDynamicSetupService {
+
+  /**
+   * This method only exists for backward compatibility for langauges which have not yet been regenerated.
+   *
+   * @param overrideModule
+   *          override module for the runtime module
+   * @return created injector
+   */
+  @Deprecated
+  protected Injector doSetup(final Module overrideModule) {
+    // this method can be removed once all subclasses have been regenerated using DDK 4.0.0
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public Injector doSetup(final Module overrideModule, final Module... additionalModules) {
+    // this implementation can be removed once all subclasses have been regenerated using DDK 4.0.0
+    // until then it is required for backwards compatibility
+    return doSetup(overrideModule);
+  }
 
   /**
    * {@inheritDoc} Child languages are always > than their parent languages.

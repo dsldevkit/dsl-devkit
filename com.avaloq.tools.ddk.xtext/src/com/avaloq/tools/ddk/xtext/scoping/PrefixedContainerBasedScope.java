@@ -114,10 +114,14 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
   @Override
   protected Iterable<IEObjectDescription> getAllLocalElements() {
     final int prefixLength = prefix.getSegmentCount();
+    boolean ignoreCase = isIgnoreCase();
     return Iterables.transform(super.getAllLocalElements(), new Function<IEObjectDescription, IEObjectDescription>() {
       @Override
       public IEObjectDescription apply(final IEObjectDescription input) {
         QualifiedName prefixedName = input.getName();
+        if (ignoreCase) {
+          return prefixedName.startsWithIgnoreCase(prefix) ? new AliasingEObjectDescription(prefixedName.skipFirst(prefixLength), input) : input;
+        }
         return prefixedName.startsWith(prefix) ? new AliasingEObjectDescription(prefixedName.skipFirst(prefixLength), input) : input;
       }
     });

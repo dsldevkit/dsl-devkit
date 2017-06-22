@@ -3,6 +3,7 @@
 package com.avaloq.tools.ddk.xtext.format.format.impl;
 
 import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
+import com.avaloq.tools.ddk.xtext.format.format.Locator;
 import com.avaloq.tools.ddk.xtext.format.format.Matcher;
 import com.avaloq.tools.ddk.xtext.format.format.MatcherType;
 
@@ -10,7 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -43,7 +43,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * @generated
    * @ordered
    */
-  protected EObject locator;
+  protected Locator locator;
 
   /**
    * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -101,7 +101,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
-  public EObject getLocator()
+  public Locator getLocator()
   {
     return locator;
   }
@@ -111,9 +111,9 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetLocator(EObject newLocator, NotificationChain msgs)
+  public NotificationChain basicSetLocator(Locator newLocator, NotificationChain msgs)
   {
-    EObject oldLocator = locator;
+    Locator oldLocator = locator;
     locator = newLocator;
     if (eNotificationRequired())
     {
@@ -128,7 +128,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLocator(EObject newLocator)
+  public void setLocator(Locator newLocator)
   {
     if (newLocator != locator)
     {
@@ -264,7 +264,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
     switch (featureID)
     {
       case FormatPackage.MATCHER__LOCATOR:
-        setLocator((EObject)newValue);
+        setLocator((Locator)newValue);
         return;
       case FormatPackage.MATCHER__TYPE:
         setType((MatcherType)newValue);
@@ -287,7 +287,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
     switch (featureID)
     {
       case FormatPackage.MATCHER__LOCATOR:
-        setLocator((EObject)null);
+        setLocator((Locator)null);
         return;
       case FormatPackage.MATCHER__TYPE:
         setType(TYPE_EDEFAULT);

@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 
 <plugin>
+   <extension-point id="property" name="com.avaloq.tools.ddk.checkcfg.property" schema="schema/property.exsd"/>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package

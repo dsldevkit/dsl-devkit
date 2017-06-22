@@ -2,7 +2,6 @@
  */
 package com.avaloq.tools.ddk.xtext.format.format;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +13,6 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface NoFormatLocator extends EObject
+public interface NoFormatLocator extends Locator
 {
 } // NoFormatLocator

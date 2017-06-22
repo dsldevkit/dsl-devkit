@@ -421,7 +421,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
    *          object to check
    * @return {@code true} if the given object is foreign
    */
-  private boolean isForeignXtextObject(final EObject object) {
+  protected boolean isForeignXtextObject(final EObject object) {
     return object.eResource() instanceof XtextResource && !extensionProvider.getFileExtensions().contains(object.eResource().getURI().fileExtension());
   }
 
