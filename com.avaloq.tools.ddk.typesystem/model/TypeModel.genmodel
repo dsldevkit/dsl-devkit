@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/com.avaloq.tools.ddk.typesystem/src-gen" creationCommands="false"
+    creationIcons="false" editDirectory="/com.avaloq.tools.ddk.typesystem/src-gen"
+    editorDirectory="/com.avaloq.tools.ddk.typesystem.editor/src-gen" modelPluginID="com.avaloq.tools.ddk.typesystem"
+    modelName="TypeModel" editPluginClass="com.avaloq.tools.ddk.typesystem.typemodel.provider.TypeModelEditPlugin"
+    editorPluginClass="com.avaloq.tools.ddk.typesystem.typemodel.presentation.TypeModelEditorPlugin"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/com.avaloq.tools.ddk.typesystem.test/src-gen"
+    testSuiteClass="com.avaloq.tools.ddk.typesystem.typemodel.test.TypeModelAllTests"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="5.0"
+    copyrightFields="false" editPluginID="com.avaloq.tools.ddk.typesystem" testsPluginID="com.avaloq.tools.ddk.typesystem.test">
+  <foreignModel>TypeModel.ecore</foreignModel>
+  <genPackages prefix="TypeModel" basePackage="com.avaloq.tools.ddk.typesystem" disposableProviderFactory="true"
+      multipleEditorPages="false" generateModelWizard="false" fileExtensions="" ecorePackage="TypeModel.ecore#/">
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IExpression"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IType"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedElement">
+      <genOperations ecoreOperation="TypeModel.ecore#//INamedElement/getName"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//OverrideDeclaration">
+      <genOperations ecoreOperation="TypeModel.ecore#//OverrideDeclaration/getDefinition"/>
+      <genOperations ecoreOperation="TypeModel.ecore#//OverrideDeclaration/isOverride"/>
+    </genClasses>
+    <genClasses ecoreClass="TypeModel.ecore#//NamedElement"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedType"/>
+    <genClasses ecoreClass="TypeModel.ecore#//NamedType"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IFormalParameter">
+      <genOperations ecoreOperation="TypeModel.ecore#//IFormalParameter/isMandatory"/>
+      <genOperations ecoreOperation="TypeModel.ecore#//IFormalParameter/isMulti"/>
+      <genOperations ecoreOperation="TypeModel.ecore#//IFormalParameter/getType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IActualParameter">
+      <genOperations ecoreOperation="TypeModel.ecore#//IActualParameter/getValue"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedActualParameter">
+      <genOperations ecoreOperation="TypeModel.ecore#//INamedActualParameter/getName"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//ISubprogram">
+      <genOperations ecoreOperation="TypeModel.ecore#//ISubprogram/getParameters"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IProcedure"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IFunction">
+      <genOperations ecoreOperation="TypeModel.ecore#//IFunction/getReturnType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//IFormalParameterList"/>
+    <genClasses ecoreClass="TypeModel.ecore#//NamedFormalParameter"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedFormalParameter"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//ICallable"/>
+    <genClasses ecoreClass="TypeModel.ecore#//Callable"/>
+  </genPackages>
+</genmodel:GenModel>
