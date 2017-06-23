@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.expression
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.expression;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.generator;resolution:=optional,
+ org.apache.commons.logging;resolution:=optional,
+ org.eclipse.emf.codegen.ecore;resolution:=optional,
+ org.eclipse.emf.mwe.utils;resolution:=optional,
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ com.ibm.icu;resolution:=optional,
+ org.antlr.runtime,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ com.avaloq.tools.ddk.xtext
+Import-Package: org.apache.log4j
+Export-Package: com.avaloq.tools.ddk.xtext.expression,
+ com.avaloq.tools.ddk.xtext.expression.conversion,
+ com.avaloq.tools.ddk.xtext.expression.expression,
+ com.avaloq.tools.ddk.xtext.expression.expression.impl,
+ com.avaloq.tools.ddk.xtext.expression.expression.util,
+ com.avaloq.tools.ddk.xtext.expression.formatting,
+ com.avaloq.tools.ddk.xtext.expression.parser.antlr,
+ com.avaloq.tools.ddk.xtext.expression.parser.antlr.internal,
+ com.avaloq.tools.ddk.xtext.expression.scoping,
+ com.avaloq.tools.ddk.xtext.expression.services,
+ com.avaloq.tools.ddk.xtext.expression.validation,
+ com.avaloq.tools.ddk.xtext.expression.serializer
+

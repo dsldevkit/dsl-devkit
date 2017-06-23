@@ -1,0 +1,15 @@
+«IMPORT org::eclipse::xtext»
+«IMPORT com::avaloq::tools::ddk::xtext::scope::scope»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+
+«DEFINE generate(ScopeModel model) FOR Grammar»
+«EXPAND ScopeNameProvider::generate(model) FOR this»
+«EXPAND ScopeProvider::generate(model) FOR this»
+«ENDDEFINE»
+
+«DEFINE addToPluginXmlRt(ScopeModel model) FOR Grammar»«ENDDEFINE»
+
+«DEFINE addToPluginXmlUi(ScopeModel model) FOR Grammar»«ENDDEFINE»
+
+«DEFINE addToStandaloneSetup(ScopeModel model) FOR Grammar»«ENDDEFINE»

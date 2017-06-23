@@ -1,0 +1,69 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+«IMPORT com::avaloq::tools::ddk::xtext::scope::scope»
+«IMPORT com::avaloq::tools::ddk::xtext::expression::expression»
+«IMPORT com::avaloq::tools::ddk::xtext::generator::expression»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+«EXTENSION org::eclipse::xtext::generator::grammarAccess::GrammarAccess»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration»
+«EXTENSION com::avaloq::tools::ddk::xtext::scope::generator::ScopeProvider»
+
+
+«DEFINE generate FOR Grammar»
+«EXPAND generateSrcGen FOR this»
+«EXPAND generateSrc FOR this»
+«ENDDEFINE»
+
+«DEFINE generateSrcGen FOR Grammar»
+«FILE (name.toJavaPackage() + '.linking').asPath() + "/Abstract" + getName() + "LinkingTest.java" SRC_GEN_TEST-»
+package «name.toJavaPackage() + '.linking'»;
+
+import com.avaloq.tools.ddk.xtext.test.linking.AbstractLinkingTest;
+
+
+@SuppressWarnings("nls")
+public abstract class Abstract«getName()»LinkingTest extends AbstractLinkingTest {
+«FOREACH allCrossReferences() AS xRef-»
+
+  /**
+   * Test linking for cross reference declared in «xRef.location()».
+   * Reference type: «((CrossReference)xRef).type.classifier.instanceClassName()».
+   */
+  public abstract void «xRef.linkingTestMethodName()»();
+«ENDFOREACH-»
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE generateSrc FOR Grammar»
+«FILE (name.toJavaPackage() + '.linking').asPath() + "/" + getName() + "LinkingTest.java" SRC_TEST-»
+package «name.toJavaPackage() + '.linking'»;
+
+/**
+ * Tests all cross-reference linking in «getName()».
+ */
+public class «getName()»LinkingTest extends Abstract«getName()»LinkingTest {
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+

@@ -79,6 +79,14 @@
     <module>../com.avaloq.tools.ddk.check.ui</module>
     <module>../com.avaloq.tools.ddk.checkcfg.core</module>
     <module>../com.avaloq.tools.ddk.checkcfg.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.export</module>
+    <module>../com.avaloq.tools.ddk.xtext.export.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.export.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.expression</module>
+    <module>../com.avaloq.tools.ddk.xtext.expression.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.scope</module>
+    <module>../com.avaloq.tools.ddk.xtext.scope.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.scope.ui</module>
   </modules>
 
   <distributionManagement>

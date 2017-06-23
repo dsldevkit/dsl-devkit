@@ -1,0 +1,274 @@
+/*
+ * @TODO should be EPL
+ */
+
+grammar com.avaloq.tools.ddk.xtext.expression.Expression with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate expression "http://www.avaloq.com/tools/ddk/xtext/expression/Expression"
+
+  
+// this is a translation of the expression part of 
+// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g 
+// to Xtext
+  
+//expression returns [Expression e]:
+//	x=letExpression {$e=x;};
+  
+Expression:
+	 LetExpression | CastedExpression | ChainExpression;
+	 
+SyntaxElement:
+	Expression | Case | Type;
+
+
+//letExpression  returns [Expression e] :
+//   'let' v=identifier '=' varExpr=castedExpression ':' target=expression 
+//   {$e=factory.createLetExpression(v,varExpr,target);}
+//|  x=castedExpression {$e=x;};
+ 	
+LetExpression:
+	'let' identifier=Identifier '=' varExpr=Expression ':' target=Expression;
+
+
+//castedExpression returns [Expression e] :
+//   ('(' type ')' castedExpression)=>
+//	'(' t=type ')' x=chainExpression {$e = factory.createCast(t,x);}
+//	| x=chainExpression {$e=x;};
+	
+CastedExpression: 
+	'(' type=Type ')' target=Expression;
+	
+
+//chainExpression  returns [Expression e] :
+//	x=ifExpression {$e=x;} ( '->' right=ifExpression {$e=factory.createChainExpression($e,right);})*;
+
+ChainExpression returns Expression:
+	ChainedExpression ({ChainExpression.first=current} '->' next=ChainedExpression)*;
+	
+	
+ChainedExpression returns Expression:
+	IfExpressionKw | IfExpressionTri | SwitchExpression;
+	
+//ifExpression  returns [Expression e] :
+//	x=switchExpression {$e=x;}('?' thenPart=switchExpression ':' elsePart=switchExpression {$e=factory.createIf($e,thenPart,elsePart);})?
+//|	'if' condition=switchExpression 'then' thenPart=switchExpression ('else' elsePart=expression)? {$e=factory.createIf(condition,thenPart,elsePart);};
+ 
+IfExpressionTri returns Expression:
+	OrExpression ({IfExpression.condition=current} '?' thenPart=ChainedExpression ':' elsePart=ChainedExpression)?;
+		
+IfExpressionKw returns IfExpression:
+	'if' condition=ChainedExpression 'then' thenPart=ChainedExpression ('else' elsePart=ChainedExpression)?;
+  
+  
+//switchExpression  returns [Expression e=null] @init {List cases = new ArrayList();} :
+//   'switch' ('(' pred = orExpression ')')?
+//   '{'
+//   ( 
+//     'case' c=orExpression  ':'  v=orExpression
+//     {cases.add(factory.createCase(c, v));}
+//   )*
+//   'default' ':' def = orExpression
+//   '}'
+//   {$e = factory.createSwitchExpression(pred,cases,def);}
+//|  x=orExpression {$e=x;};  
+  
+SwitchExpression:
+	'switch' ('(' switchExpr=OrExpression ')' )?
+	'{' case+=Case* 'default' ':' defaultExpr=OrExpression '}';
+		
+Case:
+	'case' condition=OrExpression ':' thenPar=OrExpression;
+	
+
+//orExpression returns [Expression e] :
+//  	x=andExpression {$e=x;} (name='||' r=andExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
+	
+OrExpression returns Expression:
+	AndExpression ({BooleanOperation.left=current} operator='||' right=AndExpression)*;
+	
+	
+//andExpression 	returns [Expression e] :
+//	x=impliesExpression {$e=x;} (name='&&' r=impliesExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
+	
+AndExpression returns Expression:
+	ImpliesExpression ({BooleanOperation.left=current} operator='&&' right=ImpliesExpression)*;
+	
+
+//impliesExpression returns [Expression e] :
+//	x=relationalExpression {$e=x;} (name='implies' r=relationalExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
+
+ImpliesExpression returns Expression:
+	RelationalExpression ({BooleanOperation.left=current} operator='implies' right=RelationalExpression)*;
+	
+
+//relationalExpression returns [Expression e] :
+//	x=additiveExpression {$e=x;}
+//	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;	
+	
+RelationalExpression returns Expression:
+	AdditiveExpression ({BooleanOperation.left=current} operator=('==' | '!=' | '>=' | '<=' | '>' | '<') right=AdditiveExpression)*;
+	
+
+//additiveExpression returns [Expression e] :
+//	x=multiplicativeExpression {$e=x;}
+//   (name=('+'| '-') r=multiplicativeExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
+
+AdditiveExpression returns Expression:
+	MultiplicativeExpression ({OperationCall.params+=current} name=('+' | '-') params+=MultiplicativeExpression)*;
+
+	
+//multiplicativeExpression returns [Expression e]:
+//	x=unaryExpression {$e=x;}
+//	(name=('*' | '/') r=unaryExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
+	
+MultiplicativeExpression returns Expression:
+	UnaryOrInfixExpression ({OperationCall.params+=current} name=('*' | '/') params+=UnaryOrInfixExpression)*;
+
+	
+//unaryExpression returns [Expression e] :
+//	x=infixExpression {$e=x;}
+//|	name='!' x=infixExpression	{$e = factory.createOperationCall(id(name),x);}
+//|	name='-' x=infixExpression	{$e = factory.createOperationCall(id(name),x);};
+
+UnaryOrInfixExpression returns Expression:
+	UnaryExpression | InfixExpression; 
+
+UnaryExpression returns OperationCall:
+	name=('!' | '-') params+=InfixExpression;
+	
+
+//infixExpression returns [Expression e] :
+//	x=primaryExpression {$e=x;} ( '.' op=featureCall { if (op!=null) { op.setTarget($e);$e=op;}} )*;
+
+// having support for fragments could avoid the redundancy at this point
+InfixExpression returns Expression:
+	PrimaryExpression (
+		({OperationCall.target=current} '.' name=Identifier '(' (params+=Expression (',' params+=Expression)*)? ')') |
+		({FeatureCall.target=current} '.' type=Type) |
+		({TypeSelectExpression.target=current} '.' name='typeSelect' '(' type=Type ')') |
+		({CollectionExpression.target=current} '.' name=('collect'|'select'|'selectFirst'|'reject'|'exists'|'notExists'|'sortBy'|'forAll') '(' (var=Identifier '|')? exp=Expression ')')
+	)*;
+	
+
+//primaryExpression 	 returns [Expression e] :
+//   c=StringLiteral { $e = factory.createStringLiteral(id(c));}	
+//|   x=featureCall {$e=x;}
+//|   x=booleanLiteral {$e=x;}
+//|   x=numberLiteral {$e=x;}
+//|   x=nullLiteral {$e=x;}
+//|   x=listLiteral {$e=x;}
+//|   x=constructorCall {$e=x;}
+//|   x=globalVarExpression {$e=x;}
+//|   x=paranthesizedExpression {$e=x;};	
+	
+PrimaryExpression returns Expression:
+	Literal | 
+	FeatureCall |
+	ListLiteral |
+	ConstructorCallExpression |
+	GlobalVarExpression |
+	ParanthesizedExpression;
+
+Literal:
+	BooleanLiteral | IntegerLiteral | NullLiteral | RealLiteral | StringLiteral;
+	
+BooleanLiteral: val=('true' | 'false');
+IntegerLiteral: val=INT;
+NullLiteral:    val='null';
+RealLiteral:    val=REAL;
+StringLiteral:   val=STRING;
+
+terminal REAL: ('0'..'9')* '.' ('0'..'9')*;
+
+
+//paranthesizedExpression returns [Expression e] :
+//    '(' x=expression ')' {$e=factory.createParanthesizedExpression(x);};
+
+ParanthesizedExpression returns Expression:
+	'(' Expression ')';
+
+	
+//paranthesizedExpression returns [Expression e] :
+//    '(' x=expression ')' {$e=factory.createParanthesizedExpression(x);};
+
+GlobalVarExpression:
+	'GLOBALVAR' name=Identifier;
+	
+
+//featureCall  returns [FeatureCall e] :
+//	id1=identifier '(' (l=parameterList)? ')' {$e = factory.createOperationCall(id1,l);}
+//|   t=type {$e=factory.createFeatureCall(t,null);}	
+//|   x=collectionExpression {$e=x;};
+
+FeatureCall:
+	OperationCall |
+	(type=Type) |
+	CollectionExpression | 
+	TypeSelectExpression;
+	
+OperationCall:
+	name=Identifier '(' (params+=Expression (',' params+=Expression)*)? ')';
+
+//listLiteral  returns [Expression e] :
+//	'{' (l=parameterList)? '}' {$e=factory.createListLiteral(l);};
+
+ListLiteral:
+	{ListLiteral} '{' (elements+=Expression (',' elements+=Expression)*)? '}';
+
+	
+//constructorCall  returns [Expression e] :
+//	'new' t=simpleType
+//	{$e= factory.createConstructorCallExpression(t);};
+
+ConstructorCallExpression:
+	'new' type=SimpleType;
+	
+
+//collectionExpression  returns [FeatureCall e] :
+//  name='typeSelect'
+//  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}  
+//   |name=('collect'
+//  | 'select' 
+//  | 'selectFirst' 
+//  | 'reject' 
+//  | 'exists'
+//  | 'notExists'
+//  | 'sortBy' 
+//  | 'forAll') '(' (var=identifier '|')? x=expression ')' 
+// { $e = factory.createCollectionExpression(id(name),var,x);};
+	
+TypeSelectExpression:
+	name='typeSelect' '(' type =Type ')';
+
+CollectionExpression:
+	name=('collect'|'select'|'selectFirst'|'reject'|'exists'|'notExists'|'sortBy'|'forAll')
+	'(' (var=Identifier '|')? exp=Expression ')';
+  
+
+//type returns [Identifier id] : 
+//	a = collectionType {$id=a;}|
+//	b = simpleType {$id=b;};
+  
+Type returns Identifier:
+	CollectionType | SimpleType;
+ 
+ 	
+//collectionType  returns [Identifier id ] : 
+//  cl=( 'Collection' | 'List' | 'Set' ) {$id = id(cl);}
+//  (b='[' id1=simpleType c=']' { $id.append(id(b));$id.append(id1);$id.append(id(c));})?;
+  
+CollectionType returns Identifier:
+	cl=('Collection'|'List'|'Set') '[' id1=SimpleType ']';
+ 	
+
+//simpleType returns [Identifier id] :
+//	x=identifier {$id=x;}
+//	(d='::' end=identifier  {$id.append(id(d)); $id.append(end);})*;
+
+SimpleType returns Identifier:
+	id+=Identifier ('::' id+=Identifier)*;
+
+Identifier returns ecore::EString:
+	ID;

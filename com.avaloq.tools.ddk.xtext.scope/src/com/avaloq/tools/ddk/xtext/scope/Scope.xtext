@@ -1,0 +1,118 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+grammar com.avaloq.tools.ddk.xtext.scope.Scope with com.avaloq.tools.ddk.xtext.expression.Expression
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate scope "http://www.avaloq.com/tools/ddk/xtext/Scope"
+
+ScopeModel :
+  'scoping' name=DottedID ('with' includedScopes+=[ScopeModel|DottedID])?
+  (imports+=Import)*
+  (extensions+=Extension)*
+  (naming=NamingSection)?
+  (scopes+=ScopeDefinition)*
+;
+
+Import :
+  'import' package=[ecore::EPackage|STRING] ('as' name=Identifier)?
+;
+
+Extension :
+  'extension' extension=QualifiedID
+;
+
+enum Casing :
+    SENSITIVE = 'sensitive'
+  | INSENSITIVE = 'insensitive'
+;
+
+NamingSection :
+  {NamingSection}
+  ('case' casing=Casing)? 'naming' '{'
+    (namings+=NamingDefinition)*
+  '}'
+;
+
+NamingDefinition :
+  type=[ecore::EClass|QualifiedID] '=' naming=Naming ';'
+;
+
+ScopeDefinition :
+  'scope' ('(' name=Identifier ')')? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID] '#' reference=[ecore::EReference|Identifier]) '{'
+    (rules+=ScopeRule)+
+  '}'
+;
+
+ScopeRule :
+  'context' context=ScopeContext '=' (exprs+=ScopeExpression) ('>>' exprs+= ScopeExpression)* ';'
+;
+
+ScopeContext :
+  (global?='*' | contextType=[ecore::EClass|QualifiedID])
+  ('[' guard=Expression ']')?
+;
+
+ScopeExpression :
+  (ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?
+;
+
+FactoryExpression :
+  'factory' expr=Expression
+;
+
+ScopeDelegation :
+  'scopeof' '(' (delegate=Expression | external=GlobalScopeExpression) (',' scope=[ScopeDefinition|Identifier])? ')'
+;
+
+NamedScopeExpression :
+  (GlobalScopeExpression | SimpleScopeExpression) (caseDef?='case' casing=Casing)? ('as' naming=Naming)?
+;
+
+GlobalScopeExpression :
+  'find' '('
+    type=[ecore::EClass|QualifiedID]
+    ((',' 'key' '=' name=Expression) | (',' 'prefix' '=' prefix=Expression))?
+    (',' 'data' '=' '(' data+=DataExpression (',' data+=DataExpression)* ')')?
+    (',' 'domains' '=' (domains+='*' | domains+= Identifier | ('(' domains+=Identifier (',' domains+=Identifier)* ')')))?
+  ')'
+;
+
+DataExpression :
+  MatchDataExpression | LambdaDataExpression
+;
+
+MatchDataExpression :
+  key=Identifier '=' value=Expression
+;
+
+LambdaDataExpression :
+  '[' desc=Identifier '|' value=Expression ']'
+;
+
+SimpleScopeExpression :
+  expr=Expression;
+
+Naming :
+    (names+=NamingExpression | '(' names+=NamingExpression (',' names+=NamingExpression )* ')')
+;
+
+NamingExpression:
+    export?='export' | factory?='factory'? expression=Expression
+;
+
+QualifiedID returns ecore::EString :
+  Identifier ('::' Identifier)*
+;
+
+DottedID returns ecore::EString :
+  Identifier ('.' Identifier)*
+;

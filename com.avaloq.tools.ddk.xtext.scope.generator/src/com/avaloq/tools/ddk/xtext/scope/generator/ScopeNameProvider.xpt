@@ -1,0 +1,119 @@
+«IMPORT org::eclipse::xtext»
+«IMPORT com::avaloq::tools::ddk::xtext::scope::scope»
+«IMPORT com::avaloq::tools::ddk::xtext::expression::expression»
+«IMPORT com::avaloq::tools::ddk::xtext::generator::expression»
+«IMPORT org::eclipse::emf::ecore»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::ExpressionExtensions»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»
+«EXTENSION org::eclipse::xtext::generator::Naming»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::scope::generator::ScopeProvider»
+
+«DEFINE generate(ScopeModel model) FOR Grammar»
+«FILE getScopeNameProvider().asPath()+".java" SRC_GEN -»
+package «getScopeNameProvider().toJavaPackage()»;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.xtext.naming.QualifiedName;
+
+import com.avaloq.tools.ddk.xtext.scoping.AbstractNameFunction;
+import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider;
+import com.avaloq.tools.ddk.xtext.scoping.INameFunction;
+import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.inject.Singleton;
+
+@SuppressWarnings("all")
+@Singleton
+public class «getScopeNameProvider().toSimpleName()» extends AbstractScopeNameProvider {
+
+  /** {@inheritDoc} */
+  @Override
+  public Iterable<INameFunction> internalGetNameFunctions(final EClass eClass) {
+«IF model != null -»
+«FOREACH model.naming.namings.type.EPackage.toSet() AS p-»
+    if («p.qualifiedPackageInterfaceName()».eINSTANCE == eClass.getEPackage()) {
+      switch (eClass.getClassifierID()) {
+«FOREACH model.naming.namings.select(n|n.type.EPackage == p) AS n»
+        case «n.type.classifierIdLiteral()»:
+          «javaContributorComment(n.location())»
+          return «EXPAND nameFunctions(model) FOR n.naming»;
+«ENDFOREACH-»
+
+        default:
+          return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;
+      }
+    }
+«ENDFOREACH-»
+«ENDIF-»
+    return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;
+  }
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE nameFunctions(ScopeModel model) FOR Naming-»
+«EXPAND nameFunctions(model, null, null) FOR this-»«
+ENDDEFINE»
+
+«DEFINE nameFunctions(ScopeModel model, String contextName, EClass contextType) FOR Naming-»
+Lists.<INameFunction>newArrayList(«FOREACH names AS n SEPARATOR ", "»«EXPAND nameFunction(model, contextName, contextType) FOR n»«ENDFOREACH»)«
+ENDDEFINE»
+
+«DEFINE nameFunction(ScopeModel model, String contextName, EClass contextType) FOR NamingExpression-»
+«IF factory-»
+«IF contextName == null || contextType == null-»
+«expression.javaExpression(model.compilationContext().clone('UNEXPECTED_THIS'))»«
+ ELSE-»
+«expression.javaExpression(model.compilationContext().clone('UNEXPECTED_THIS', null, contextName, contextType))»«
+ ENDIF-»«
+ ELSEIF export-»
+NameFunctions.exportNameFunction()«
+ ELSE-»
+«EXPAND nameFunction(model, contextName, contextType) FOR this.expression -»
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE nameFunction(ScopeModel model, String contextName, EClass contextType) FOR Expression-»
+EXPRESSION_NOT_SUPPORTED("«serialize()»")
+«ENDDEFINE»
+
+«DEFINE nameFunction(ScopeModel model, String contextName, EClass contextType) FOR StringLiteral-
+»NameFunctions.fromConstant("«this.val»")«
+ENDDEFINE»
+
+«DEFINE nameFunction(ScopeModel model, String contextName, EClass contextType) FOR IntegerLiteral-
+»NameFunctions.fromConstant(String.valueOf(«this.val»))«
+ENDDEFINE»
+
+«DEFINE nameFunction(ScopeModel model, String contextName, EClass contextType) FOR FeatureCall-»«
+LET contextName == null ? model.compilationContext().clone('obj', scopeType()) : model.compilationContext().clone('obj', scopeType(), 'ctx', contextType) AS currentContext-»«
+IF (target == null || target.isThisCall()) && isSimpleFeatureCall(currentContext)»NameFunctions.fromFeature(«literalIdentifier(feature())»)«
+ELSEIF isSimpleNavigation(currentContext)-»new AbstractNameFunction() {
+            public QualifiedName apply(final EObject object) {
+              final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
+                return toQualifiedName(«javaExpression(currentContext)»);
+              }
+            }«
+ELSE»EXPRESSION_NOT_SUPPORTED("«serialize()»")«ENDIF-»«ENDLET-»«
+ENDDEFINE»
+
+«DEFINE nameFunction(ScopeModel model, String contextName, EClass contextType) FOR OperationCall-»«
+LET contextName == null ? model.compilationContext().clone('obj', scopeType()) : model.compilationContext().clone('obj', scopeType(), 'ctx', contextType) AS currentContext-»«
+IF isCompilable(currentContext)»new AbstractNameFunction() {
+            public QualifiedName apply(final EObject object) {
+              final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
+              return toQualifiedName(«javaExpression(currentContext)»);
+            }
+          }«
+ELSE»EXPRESSION_NOT_SUPPORTED("«serialize()»")«ENDIF-»«
+ENDLET-»«
+ENDDEFINE»

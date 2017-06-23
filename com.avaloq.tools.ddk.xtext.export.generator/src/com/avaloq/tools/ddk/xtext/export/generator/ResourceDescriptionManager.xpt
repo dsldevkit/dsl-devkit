@@ -1,0 +1,64 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+«IMPORT com::avaloq::tools::ddk::xtext::expression::expression»
+«IMPORT com::avaloq::tools::ddk::xtext::export::export»
+«IMPORT com::avaloq::tools::ddk::xtext::generator::expression» «REM»for CompilationContext«ENDREM»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::export::generator::ExportUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»«REM»for file extensions stuff«ENDREM»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»«REM»for instanceClassName«ENDREM»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration»«REM»for javaEncode«ENDREM»
+
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+«EXTENSION org::eclipse::xtext::generator::Naming»
+
+«DEFINE generate(ExportModel model) FOR Grammar»
+«EXPAND generateResourceDescriptionManager(model) FOR this-»
+«ENDDEFINE»
+
+«DEFINE generateResourceDescriptionManager(ExportModel model) FOR Grammar»
+«FILE this.getResourceDescriptionManager().asPath()+".java" SRC -»
+package «getResourceDescriptionManager().toJavaPackage()»;
+«LET usedGrammars.isEmpty || usedGrammars.first().name.endsWith('.Terminals') ? null : usedGrammars.first() AS extendedGrammar -»
+
+import java.util.Set;
+
+import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
+«IF extendedGrammar != null -»
+import «extendedGrammar.getResourceDescriptionManager()»;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+«ENDIF-»
+import com.google.inject.Singleton;
+
+
+/**
+ * Resource description manager for «this.getName()» resources.
+ */
+@Singleton
+public class «getResourceDescriptionManager().toSimpleName()» extends AbstractCachingResourceDescriptionManager {
+
+  public static final Set<String> INTERESTING_EXTS = «IF extendedGrammar != null»ImmutableSet.copyOf(Sets.union(«extendedGrammar.getResourceDescriptionManager().toSimpleName()».INTERESTING_EXTS, of(/*add extensions here*/)));«ELSE»all();«ENDIF»
+
+  @Override
+  protected Set<String> getInterestingExtensions() {
+    return INTERESTING_EXTS;
+  }
+
+}
+«ENDLET-»
+«ENDFILE-»
+«ENDDEFINE»

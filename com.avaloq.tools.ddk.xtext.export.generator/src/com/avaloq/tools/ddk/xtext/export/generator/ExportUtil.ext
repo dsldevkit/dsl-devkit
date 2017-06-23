@@ -1,0 +1,157 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+import com::avaloq::tools::ddk::xtext::export::export;
+import com::avaloq::tools::ddk::xtext::expression::expression;
+import com::avaloq::tools::ddk::xtext::generator::expression; // for CompilationContext
+import org::eclipse::emf::ecore; // for EObject
+
+import org::eclipse::xtext; // for Grammar
+
+extension org::eclipse::xtext::generator::Naming; // for toSimpleName
+extension com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil; // for location
+extension com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration; // for javaEncode
+extension com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2; // for format
+
+/**
+ * Return the fully qualified Java name of the ExportedNameProvider
+ */
+String getExportedNamesProvider(Grammar grammar) :
+    grammar.name.toJavaPackage() + ".naming." + grammar.name.toSimpleName() + "ExportedNamesProvider";
+
+/**
+ * Return the fully qualified Java name of the ResourceDescriptionXYZ classes
+ */
+String getResourceDescriptionStrategy(Grammar grammar) :
+    grammar.name.toJavaPackage() + ".resource." + grammar.name.toSimpleName() + "ResourceDescriptionStrategy";
+
+String getFingerprintComputer(Grammar grammar) :
+    grammar.name.toJavaPackage() + ".resource." + grammar.name.toSimpleName() + "FingerprintComputer";
+
+String getFragmentProvider(Grammar grammar) :
+    grammar.name.toJavaPackage() + ".resource." + grammar.name.toSimpleName() + "FragmentProvider";
+
+/**
+ * Return the fully qualified Java name of the ResourceDescriptionConstants interface
+ */
+String getResourceDescriptionConstants(Grammar grammar) :
+    grammar.name.toJavaPackage() + ".resource." + grammar.name.toSimpleName() + "ResourceDescriptionConstants";
+
+/**
+ * Return the fully qualified Java name of the ResourceDescriptionManager
+ */
+String getResourceDescriptionManager(Grammar grammar) :
+    grammar.name.toJavaPackage() + ".resource." + grammar.name.toSimpleName() + "ResourceDescriptionManager";
+
+/**
+ * Return the export specification for a type's supertype, if any, or null otherwise.
+ */
+Export superType(Export this) :
+    type.ESuperTypes.isEmpty ? null : ((ExportModel) eContainer()).exportForType(type.ESuperTypes.get(0))
+;
+
+/**
+ * Return the export specification for a given type.
+ */
+Export exportForType(ExportModel this, EClassifier type) :
+    exports.selectFirst(c|c.type.name == type.name && c.type.EPackage.nsURI == type.EPackage.nsURI)
+;
+
+
+/**
+ * Return the set of all exported attributes; including those from supertypes and the key, if it is an attribute.
+ */
+Set[EAttribute] allExportedAttributes(Export this) :
+   JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.getAllExportedEAttributes(com.avaloq.tools.ddk.xtext.export.export.Export)
+//    superType().allExportedAttributes().addAll(attributes == null ? {} : attributes.reject(f|!EAttribute.isInstance(f))).reject(a|a==null).addAll(this.attributesAsKey())
+;
+
+/**
+ * Sentinel for the above.
+ */
+Set[EAttribute] allExportedAttributes(Void this) : {};
+
+/**
+ * Return a combined list of all user data specifications; including those on supertypes.
+ */
+List[UserData] allUserData(Export this) : // What about duplicates?
+    superType().allUserData().addAll(this.userData)
+;
+
+/**
+ * Sentinel for the above.
+ */
+List[UserData] allUserData(Void this) : {};
+
+
+/**
+ * Return all the interface specification for the supertypes of a type.
+ */
+List[Interface] getSuperInterfaces(Interface this, EClass type) :
+    type.ESuperTypes.isEmpty ? {} : ((ExportModel) eContainer()).getInterfacesForType(type.ESuperTypes.get(0))
+;
+
+/**
+ * Return all interface specifications that apply to a certain type; including those that are defined for supertypes.
+ */
+List[Interface] getInterfacesForType(ExportModel this, EClass type) :
+    (let f = interfaces.select(f|f.type == type) :
+        (f.isEmpty ? {} : {}.add(f.get(0))).addAll(type.ESuperTypes.isEmpty ? {} : getInterfacesForType(type.ESuperTypes.get(0)))
+    )
+;
+
+/**
+ * Return a string that starts with a dot. Used to make sure file extensions do start with a dot.
+ */
+cached String makeExtension(String this) :
+    this.startsWith(".") ? this : "." + this
+;
+
+/**
+ * Returns a new compilation context
+ */
+CompilationContext compilationContext(ExportModel this) :
+    JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.getCompilationContext(com.avaloq.tools.ddk.xtext.export.export.ExportModel)
+;
+
+List[Export] sortedExports(Collection[Export] this) :
+	JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.sortedExports(java.util.Collection)
+;
+
+com::google::common::^collect::ListMultimap sortedExportsByEPackage(Collection[Export] this) :
+	JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.sortedExportsByEPackage(java.util.Collection)
+;
+
+java::util::Map typeMap(Collection[Export] this, Grammar grammar) :
+    JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.typeMap(java.util.Collection, org.eclipse.xtext.Grammar)
+;
+
+Export get(java::util::Map this, EClass key) :
+    JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.get(java.util.Map, java.lang.Object)
+;
+
+List[Export] get(com::google::common::^collect::ListMultimap this, Object key) :
+    JAVA com.avaloq.tools.ddk.xtext.export.generator.ExportUtil.get(com.google.common.^collect.ListMultimap, java.lang.Object)
+;
+
+/**
+ * Returns a constant name for an Attribute field
+ */
+cached String constantName(EAttribute attribute, EClass exportType) :
+   (exportType.name.format()+"__"+attribute.name.format()).toUpperCase()
+;
+
+
+/**
+ * Returns a constant name for a UserData field
+ */
+cached String constantName(UserData data, EClass exportType) :
+  (exportType.name.format()+"__"+data.name.format()).toUpperCase()
+;
