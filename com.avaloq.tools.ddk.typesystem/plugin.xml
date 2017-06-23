@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="http://www.avaloq.com/tools/ddk/typesystem/typemodel"
+            class="com.avaloq.tools.ddk.typesystem.typemodel.provider.TypeModelItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.avaloq.com/tools/ddk/typesystem/typemodel"
+            class="com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage"
+            genModel="model/TypeModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.avaloq.com/tools/ddk/typesystem/typemodel/builtintypemodel"
+            class="com.avaloq.tools.ddk.typesystem.builtintypemodel.BuiltInTypeModelPackage"
+            genModel="model/BuiltInTypeModel.genmodel"/>
+   </extension>
+
+</plugin>

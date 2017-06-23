@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="builtintypemodel" nsURI="http://www.avaloq.com/tools/ddk/typesystem/typemodel/builtintypemodel"
+    nsPrefix="builtintypemodel">
+  <eClassifiers xsi:type="ecore:EClass" name="BuiltInTypeModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalTypes" upperBound="-1"
+        eType="#//InternalType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalType" eSuperTypes="TypeModel.ecore#//INamedType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=" Internal types are used by the type system to handle certain cases such as errors, referenced elements that&#xD;&#xA; may (incorrectly) appear in an expression but have no type (e.g., procedures) and situations in which it &#xD;&#xA; cannot infer the type of an expression because of incomplete information. These types may not be used as &#xD;&#xA; the type of any element. That is, languages may not allow users to declare an element having one of these types."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

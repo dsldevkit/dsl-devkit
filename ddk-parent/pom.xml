@@ -68,6 +68,7 @@
     <module>../com.avaloq.tools.ddk.xtext.format.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.ui</module>
+    <module>../com.avaloq.tools.ddk.typesystem</module>
     <module>../com.avaloq.tools.ddk.xtext.common.types</module>
     <module>../com.avaloq.tools.ddk.xtext.common.types.ui</module>
     <module>../com.avaloq.tools.ddk.check.core</module>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<builtintypemodel:BuiltInTypeModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:builtintypemodel="http://www.avaloq.com/tools/ddk/typesystem/typemodel/builtintypemodel"
+    xsi:schemaLocation="http://www.avaloq.com/tools/ddk/typesystem/typemodel/builtintypemodel BuiltInTypeModel.ecore">
+  <internalTypes
+      name="void"/>
+  <internalTypes
+      name="*"/>
+  <internalTypes
+      name="error"/>
+  <internalTypes
+      name="undetermined"/>
+</builtintypemodel:BuiltInTypeModel>

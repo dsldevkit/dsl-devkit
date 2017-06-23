@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.typesystem
+Bundle-SymbolicName: com.avaloq.tools.ddk.typesystem;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.apache.log4j
+Require-Bundle: org.eclipse.emf.mwe.core;resolution:=optional,
+ org.eclipse.emf.mwe.utils;resolution:=optional,
+ org.eclipse.emf.mwe2.lib;resolution:=optional,
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.edit
+Export-Package: com.avaloq.tools.ddk.typesystem,
+ com.avaloq.tools.ddk.typesystem.builtintypemodel,
+ com.avaloq.tools.ddk.typesystem.builtintypemodel.impl,
+ com.avaloq.tools.ddk.typesystem.builtintypemodel.util,
+ com.avaloq.tools.ddk.typesystem.typemodel,
+ com.avaloq.tools.ddk.typesystem.typemodel.impl,
+ com.avaloq.tools.ddk.typesystem.typemodel.provider,
+ com.avaloq.tools.ddk.typesystem.typemodel.util
+Eclipse-ExtensibleAPI: true
