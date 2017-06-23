@@ -14,14 +14,17 @@ You can find more detailed documentation and examples at [dsldevkit.github.io](h
 #Repository Structure
 
 
-| Plugin                                 | Description                                              | 
+| Plugin                                 | Description                                              |
 |----------------------------------------|----------------------------------------------------------|
 | com.avaloq.tools.ddk.workflow          | Mwe2 workflows to regenerate DSL DevKit languages        |
 | com.avaloq.tools.ddk.xtext             | Extensions to Xtext runtime library                      |
 | com.avaloq.tools.ddk.xtext.ui          | Eclipse UI part of runtime library extensions            |
 | com.avaloq.tools.ddk.xtext.builder     | Extensions to Xtext builder                              |
 | com.avaloq.tools.ddk.xtext.format.\*   | Format DSL                                               |
-
+| com.avaloq.tools.ddk.xtext.check.\*    | Check DSL                                                |
+| com.avaloq.tools.ddk.xtext.scope.\*    | Scope DSL                                                |
+| com.avaloq.tools.ddk.xtext.export.\*   | Export DSL                                               |
+| com.avaloq.tools.ddk.typesystem        | Basics for building a typesystem for a DSL               |
 
 
 #Overview

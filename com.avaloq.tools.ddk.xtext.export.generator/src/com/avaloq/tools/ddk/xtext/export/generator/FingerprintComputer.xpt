@@ -1,0 +1,143 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+«IMPORT com::avaloq::tools::ddk::xtext::expression::expression»
+«IMPORT com::avaloq::tools::ddk::xtext::export::export»
+«IMPORT com::avaloq::tools::ddk::xtext::generator::expression» «REM»for CompilationContext«ENDREM»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::export::generator::ExportUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»«REM»for file extensions stuff«ENDREM»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»«REM»for instanceClassName«ENDREM»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration»«REM»for javaEncode«ENDREM»
+
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+«EXTENSION org::eclipse::xtext::generator::Naming»
+
+«DEFINE generate(ExportModel model) FOR Grammar»
+«IF model != null -»
+«EXPAND generateFingerprintComputer(model) FOR this-»
+«ENDIF-»
+«ENDDEFINE»
+
+
+«DEFINE generateFingerprintComputer(ExportModel model) FOR Grammar»
+«FILE getFingerprintComputer().asPath()+".java" SRC_GEN -»
+package «getFingerprintComputer().toJavaPackage()»;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+
+import com.avaloq.tools.ddk.xtext.resource.AbstractStreamingFingerprintComputer;
+
+import com.google.common.hash.Hasher;
+
+
+public class «getFingerprintComputer().toSimpleName()» extends AbstractStreamingFingerprintComputer {
+
+«LET model.interfaces AS interfaces-»
+«IF interfaces.isEmpty-»
+  // no fingerprint defined
+  @Override
+  public String computeFingerprint(final org.eclipse.emf.ecore.resource.Resource resource) {
+    return null;
+  }
+
+«ENDIF-»
+«LET model.compilationContext() AS ctx-»
+  private ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();
+
+«FOREACH interfaces.type.EPackage.toSet().sortBy(p|p.nsURI) AS p -»
+  private final Switch<Hasher> «p.name»Switch = new «p.qualifiedSwitchClassName()»<Hasher>() {
+«FOREACH interfaces.select(i|i.type.EPackage == p) AS f -»
+
+    «javaContributorComment(f.location())»
+    @Override
+    public Hasher case«f.type.name»(final «f.type.instanceClassName()» obj) {
+      final Hasher hasher = hasherAccess.get();
+      «IF f.guard != null-»
+      if (!(«f.guard.javaExpression(ctx.clone('obj', f.type))»)) {
+        return hasher;
+      }
+      «ENDIF-»
+      hasher.putString(obj.eClass().getName()).putChar(ITEM_SEP);
+  «LET f.getSuperInterfaces(f.type) AS superFPs-»
+  «LET superFPs.items.flatten().addAll(f.items) AS allItems -»
+  «LET allItems.selectFirst(i|InterfaceNavigation.isInstance(i) || InterfaceExpression.isInstance(i) && ((InterfaceExpression)i).ref == true) AS aRef -»
+  «LET allItems.selectFirst(i|InterfaceExpression.isInstance(i)) AS anExpr -»
+  «FOREACH superFPs AS superFingerprint-»
+  «FOREACH superFingerprint.items AS superItem-»
+  «EXPAND doProfile(ctx, superFingerprint.type) FOR superItem-»
+  «ENDFOREACH-»
+  «ENDFOREACH-»
+  «FOREACH f.items AS item-»
+  «EXPAND doProfile(ctx, f.type) FOR item-»
+  «ENDFOREACH-»
+  «ENDLET-»
+  «ENDLET-»
+  «ENDLET-»
+  «ENDLET-»
+      return hasher;
+    }
+«ENDFOREACH-»
+  };
+
+«ENDFOREACH-»
+  @Override
+  protected void fingerprint(final EObject object, Hasher hasher) {
+    hasherAccess.set(hasher);
+«IF !interfaces.isEmpty-»
+    final EPackage ePackage = object.eClass().getEPackage();
+«FOREACH interfaces.type.EPackage.toSet().sortBy(p|p.nsURI) AS p -»
+    if (ePackage == «p.qualifiedPackageInterfaceName()».eINSTANCE) {
+      «p.name»Switch.doSwitch(object);
+    }
+«ENDFOREACH-»
+«ENDIF-»
+    hasherAccess.set(null);
+  }
+«ENDLET-»
+«ENDLET-»
+}
+«ENDFILE-»
+«ENDDEFINE»
+
+
+«DEFINE doProfile(CompilationContext ctx, EClass type) FOR InterfaceItem-»
+«ERROR "Xpand called the wrong definition." + this.toString() + javaContributorComment(this.location())»
+«ENDDEFINE»
+
+«DEFINE doProfile(CompilationContext ctx, EClass type) FOR InterfaceField-»
+  «IF field.many && (unordered == true) -»
+      fingerprintFeature(obj, «field.literalIdentifier()», FingerprintOrder.UNORDERED, hasher);
+  «ELSE-»
+      fingerprintFeature(obj, «field.literalIdentifier()», hasher);
+  «ENDIF-»
+      hasher.putChar(ITEM_SEP);
+«ENDDEFINE»
+
+«DEFINE doProfile(CompilationContext ctx, EClass type) FOR InterfaceNavigation-»
+  «IF ref.many && (unordered == true) -»
+      fingerprintRef(obj, «ref.literalIdentifier()», FingerprintOrder.UNORDERED, hasher);
+  «ELSE-»
+      fingerprintRef(obj, «ref.literalIdentifier()», hasher);
+  «ENDIF-»
+      hasher.putChar(ITEM_SEP);
+«ENDDEFINE»
+
+«DEFINE doProfile(CompilationContext ctx, EClass type) FOR InterfaceExpression-»
+      fingerprintExpr(«expr.javaExpression(ctx.clone('obj', type))», obj, FingerprintOrder.«unordered == true ? "UNORDERED" : "ORDERED"», FingerprintIndirection.«ref == true ? "INDIRECT" : "DIRECT"», hasher);
+      hasher.putChar(ITEM_SEP);
+«ENDDEFINE»

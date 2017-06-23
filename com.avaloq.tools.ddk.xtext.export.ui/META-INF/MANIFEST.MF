@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.export.ui
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.export.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Activator: com.avaloq.tools.ddk.xtext.export.ui.internal.ExportActivator
+Bundle-ActivationPolicy: lazy
+Eclipse-ExtensibleAPI: true
+Require-Bundle: org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui.editors,
+ org.eclipse.ui,
+ org.eclipse.xtext.builder,
+ org.antlr.runtime,
+ com.avaloq.tools.ddk.xtext.expression.ui,
+ com.avaloq.tools.ddk.xtext.export,
+ com.avaloq.tools.ddk.xtext.expression,
+ org.eclipse.compare,
+ org.eclipse.jdt.ui
+Import-Package: org.apache.log4j
+Export-Package: com.avaloq.tools.ddk.xtext.export.ui.contentassist.antlr,
+ com.avaloq.tools.ddk.xtext.export.ui.contentassist,
+ com.avaloq.tools.ddk.xtext.export.ui.quickfix

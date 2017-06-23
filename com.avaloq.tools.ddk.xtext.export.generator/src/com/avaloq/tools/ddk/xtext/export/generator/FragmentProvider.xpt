@@ -1,0 +1,96 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+«IMPORT com::avaloq::tools::ddk::xtext::expression::expression»
+«IMPORT com::avaloq::tools::ddk::xtext::export::export»
+«IMPORT com::avaloq::tools::ddk::xtext::generator::expression» «REM»for CompilationContext«ENDREM»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::export::generator::ExportUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»«REM»for file extensions stuff«ENDREM»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»«REM»for instanceClassName«ENDREM»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration»«REM»for javaEncode«ENDREM»
+
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+«EXTENSION org::eclipse::xtext::generator::Naming»
+
+«DEFINE generate(ExportModel model) FOR Grammar»
+«IF model != null -»
+«EXPAND generateFragmentProvider(model) FOR this-»
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE generateFragmentProvider(ExportModel model) FOR Grammar»
+«IF model.exports.exists(e|e.fingerprint && e.fragmentAttribute != null)-»
+«FILE getFragmentProvider().asPath()+".java" SRC_GEN -»
+«LET model.compilationContext() AS ctx-»
+«LET model.exports.select(e|e.fingerprint && e.fragmentAttribute != null) AS fingerprintedExports-»
+package «getFragmentProvider().toJavaPackage()»;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider;
+
+
+public class «getFragmentProvider().toSimpleName()» extends AbstractSelectorFragmentProvider {
+
+  @Override
+  public CharSequence getFragmentSegment(final EObject object) {
+    EClass eClass = object.eClass();
+    EPackage ePackage = eClass.getEPackage();
+«LET fingerprintedExports.typeMap(this) AS typeMap-»
+«LET fingerprintedExports.sortedExportsByEPackage() AS sortedExportsMap-»
+«FOREACH sortedExportsMap.keySet() AS p-»
+    if (ePackage == «((EPackage) p).qualifiedPackageInterfaceName()».eINSTANCE) {
+      int classifierID = eClass.getClassifierID();
+      switch (classifierID) {
+«FOREACH ((EPackage) p).EClassifiers.typeSelect(EClass).select(c|fingerprintedExports.type.exists(e|e.isSuperTypeOf(c))) AS c-»
+«LET typeMap.get(c) AS e-»
+      «javaContributorComment(((Export) e).location())»
+      case «c.classifierIdLiteral()»: {
+        return getFragmentSegment((«c.instanceClassName()») object);
+      }
+«ENDLET-»
+«ENDFOREACH-»
+      default:
+        return super.getFragmentSegment(object);
+      }
+    }
+«ENDFOREACH-»
+«ENDLET-»
+«ENDLET-»
+    return super.getFragmentSegment(object);
+  }
+
+«FOREACH fingerprintedExports AS e-»
+  protected CharSequence getFragmentSegment(final «e.type.instanceClassName()» obj) {
+  «IF e.guard != null-»
+    if («e.guard.javaExpression(ctx.clone('obj', e.type))») {
+      return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique ? 'true' : 'false'»);
+    }
+    return super.getFragmentSegment(obj);
+  «ELSE-»
+    return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique ? 'true' : 'false'»);
+  «ENDIF-»
+  }
+
+«ENDFOREACH-»
+}
+«ENDLET-»
+«ENDLET-»
+«ENDFILE-»
+«ENDIF-»
+«ENDDEFINE»

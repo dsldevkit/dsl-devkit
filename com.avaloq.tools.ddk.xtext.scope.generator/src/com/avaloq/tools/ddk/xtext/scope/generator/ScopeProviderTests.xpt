@@ -1,0 +1,86 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+«IMPORT com::avaloq::tools::ddk::xtext::scope::scope»
+«IMPORT com::avaloq::tools::ddk::xtext::expression::expression»
+«IMPORT com::avaloq::tools::ddk::xtext::generator::expression»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::expression::CodeGeneration»
+«EXTENSION com::avaloq::tools::ddk::xtext::scope::generator::ScopeProvider»
+
+
+«DEFINE generate(ScopeModel model) FOR Grammar»
+«EXPAND generateSrcGen(model) FOR this»
+«EXPAND generateSrc(model) FOR this»
+«ENDDEFINE»
+
+«DEFINE generateSrcGen(ScopeModel model) FOR Grammar»
+«FILE getScopeProvider().toJavaPackage().asPath() + "/Abstract" +getName() + "ScopingTest.java" SRC_GEN_TEST-»
+package «getScopeProvider().toJavaPackage()»;
+
+import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest;
+
+
+@SuppressWarnings("nls")
+public abstract class Abstract«getName()»ScopingTest extends AbstractScopingTest {
+«IF model != null -»
+«EXPAND scopeMethods(getScopeProvider().toSimpleName()) FOR model-»
+«ENDIF-»
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE generateSrc(ScopeModel model) FOR Grammar»
+«FILE getScopeProvider().toJavaPackage().asPath() + "/" +getName() + "ScopingTest.java" SRC_TEST-»
+package «getScopeProvider().toJavaPackage()»;
+
+
+@SuppressWarnings("nls")
+public class «getName()»ScopingTest extends Abstract«getName()»ScopingTest {
+
+}
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE scopeMethods(String packageName) FOR ScopeModel-»
+  «LET this.scopes.select(s|"scope" == s.getScopeName()).rules.flatten() AS rules-»
+  «FOREACH rules.filterUniqueRules() AS uniqueRule-»
+  «LET ((ScopeDefinition)uniqueRule.eContainer()) AS scopeDefinition-»
+
+  /**
+   * Test scope for<BR>
+   «LET rules.select(d2|d2.hasSameContext(uniqueRule)) AS rulesForTypeAndContext-»
+   «FOREACH rulesForTypeAndContext AS rule-»
+   *  «rule.location()».<BR>
+   * «IF rule.context.guard != null» Guarded by: «rule.context.guard.javaExpression(compilationContext().clone('Context', rule.scopeType()))».<BR>«ENDIF»
+   «ENDFOREACH-»
+   «ENDLET-»
+   * «IF scopeDefinition.targetType == null»Reference: «scopeDefinition.contextType.instanceClassSimpleName()»#«scopeDefinition.reference.name»«
+   ELSE» Target type: «scopeDefinition.targetType.instanceClassSimpleName()»«ENDIF»
+   * Context: «IF uniqueRule.context.global-»Resource«ELSE»«uniqueRule.context.contextType.instanceClassSimpleName()»«ENDIF».
+   */
+  public abstract void «uniqueRule.scopeTestMethodName()»();
+  «ENDLET-»
+  «ENDFOREACH-»
+  «ENDLET-»
+«ENDDEFINE»
+
+
