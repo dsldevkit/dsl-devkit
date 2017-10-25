@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.ui.test
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ui.test;singleton:=true
+Bundle-Version: 1.1.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.xtext.ui,
+ org.junit,
+ org.mockito,
+ com.avaloq.tools.ddk.xtext.ui,
+ com.avaloq.tools.ddk.test.core,
+ org.eclipse.ui.ide
+Export-Package: com.avaloq.tools.ddk.xtext.ui.test

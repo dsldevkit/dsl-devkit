@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
  org.eclipse.search,
  org.eclipse.ui.ide,
  org.apache.commons.lang,

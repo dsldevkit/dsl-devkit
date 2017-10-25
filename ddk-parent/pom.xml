@@ -91,6 +91,7 @@
     <module>../com.avaloq.tools.ddk.xtext.test</module>
     <module>../com.avaloq.tools.ddk.xtext.test.core</module>
     <module>../com.avaloq.tools.ddk.xtext.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.ui.test</module>
     <module>../com.avaloq.tools.ddk.xtext.valid</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.test</module>

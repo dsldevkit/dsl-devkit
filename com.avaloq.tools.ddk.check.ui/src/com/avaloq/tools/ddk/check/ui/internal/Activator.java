@@ -10,14 +10,27 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.internal;
 
+import com.avaloq.tools.ddk.xtext.ui.SharedUiModule;
+import com.google.inject.Module;
+
+
 /**
  * Plug-in Activator.
  */
 public class Activator extends CheckActivator {
 
+  @Override
+  protected Module getSharedStateModule() {
+    return new SharedUiModule();
+  }
+
+  /**
+   * Gets the Check plug-in ID.
+   *
+   * @return the plugin ID
+   */
   public static String getPluginId() {
     return CheckActivator.getInstance().getBundle().getSymbolicName();
   }
 
 }
-

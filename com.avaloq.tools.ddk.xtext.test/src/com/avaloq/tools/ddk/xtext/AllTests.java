@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.xtext.test.TargetDefinitionSetup;
 import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
 import com.avaloq.tools.ddk.xtext.test.format.FormatTestSuite;
 import com.avaloq.tools.ddk.xtext.test.valid.ValidTestSuite;
+import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
 
 
@@ -41,6 +42,7 @@ import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
   XtextTestSuite.class,
+  XtextUiTestSuite.class,
   GeneratorTestSuite.class,
   ValidTestSuite.class,
   FormatTestSuite.class,
@@ -62,14 +64,14 @@ public class AllTests {
 
   @BeforeClass
   public static void setUp() throws IOException {
-    if (Boolean.getBoolean("tychotest")) {
+    if (Boolean.getBoolean("tychotest")) { //$NON-NLS-1$
       // This system property is set in ddk-parent/pom.xml, tycho-surefire section.
-      System.err.println("Running on tycho; setting target platform.");
+      System.err.println("Running on tycho; setting target platform."); //$NON-NLS-1$
       // Make sure PDE can deal with plugin projects we may create in our tests.
       TargetDefinitionSetup.initializeTargetPlatform();
-      System.err.println("Target platform set.");
+      System.err.println("Target platform set."); //$NON-NLS-1$
     } else {
-      System.err.println("Not running on tycho; target platform unchanged.");
+      System.err.println("Not running on tycho; target platform unchanged."); //$NON-NLS-1$
     }
   }
 }
