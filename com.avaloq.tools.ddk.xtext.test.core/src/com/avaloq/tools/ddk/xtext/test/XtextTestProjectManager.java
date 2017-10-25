@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * Copyright (c) 2016-2018 Avaloq Evolution AG and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,7 +35,7 @@ import com.google.common.collect.Maps;
  */
 @SuppressWarnings("restriction")
 public class XtextTestProjectManager implements ITestProjectManager {
-  protected static final String TEST_PROJECT_NAME = "TEST";
+  protected static final String TEST_PROJECT_NAME = "TEST"; //$NON-NLS-1$
   private final Map<String, TestSource> testSources = Maps.newHashMap();
   private final Object autoBuildMutex = new Object();
 
@@ -78,6 +78,15 @@ public class XtextTestProjectManager implements ITestProjectManager {
     IResourcesSetupUtil.waitForAutoBuild();
   }
 
+  @Override
+  public void fullBuild() {
+    try {
+      IResourcesSetupUtil.fullBuild();
+    } catch (final CoreException exception) {
+      throw new WrappedException(exception);
+    }
+  }
+
   /** {@inheritDoc} */
   @Override
   public boolean setAutobuild(final boolean autoBuildStatus) {
@@ -90,7 +99,7 @@ public class XtextTestProjectManager implements ITestProjectManager {
         try {
           workspace.setDescription(description);
         } catch (CoreException e) {
-          throw new WrappedException("Failed to set workspace description", e);
+          throw new WrappedException("Failed to set workspace description", e); //$NON-NLS-1$
         }
       }
       return oldAutoBuildStatus;
@@ -157,8 +166,7 @@ public class XtextTestProjectManager implements ITestProjectManager {
    * @return the {@link URI} for the given file name
    */
   public URI createPlatformUri(final String encodedFileName) {
-    return URI.createPlatformResourceURI('/' + TEST_PROJECT_NAME + "/" + encodedFileName, true);
+    return URI.createPlatformResourceURI('/' + TEST_PROJECT_NAME + "/" + encodedFileName, true); //$NON-NLS-1$
   }
 
 }
-
