@@ -108,6 +108,9 @@ Workflow {
             // rename refactoring
             // fragment = refactoring.RefactorElementNameFragment {}
 
+            // Code generator
+            fragment = generator.GeneratorFragment {}
+
             // provides a compare view
             fragment = compare.CompareFragment {
                 fileExtensions = file.extensions

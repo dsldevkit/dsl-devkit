@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.generator.util;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -74,7 +75,7 @@ public class EClassComparator implements Comparator<EClass> {
     final Iterable<T> eObjectObjects = Iterables.filter(objects, new Predicate<T>() {
       @Override
       public boolean apply(final T input) {
-        return mapping.apply(input) == EcorePackage.Literals.EOBJECT;
+        return isEObjectType(mapping.apply(input));
       }
     });
     final Map<EClass, T> typeMap = Maps.newHashMap();
@@ -87,7 +88,7 @@ public class EClassComparator implements Comparator<EClass> {
     for (T o : objects) {
       EClass type = mapping.apply(o);
       typeMap.put(type, o);
-      if (type != EcorePackage.Literals.EOBJECT) {
+      if (!isEObjectType(type)) {
         addType(graph, type);
       }
     }
@@ -125,12 +126,29 @@ public class EClassComparator implements Comparator<EClass> {
     } else if (o2 == null) {
       return -1;
     } else {
-      if (o1 == EcorePackage.Literals.EOBJECT || o1.isSuperTypeOf(o2)) {
+      if (isEObjectType(o1) || o1.isSuperTypeOf(o2)) {
         return 1;
-      } else if (o2 == EcorePackage.Literals.EOBJECT || o2.isSuperTypeOf(o1)) {
+      } else if (isEObjectType(o2) || o2.isSuperTypeOf(o1)) {
         return -1;
       }
     }
     return 0;
+  }
+
+  /**
+   * Tests whether the given EClass corresponds to the {@link EcorePackage.Literals#EOBJECT EObject type}. This will work regardless of whether the type was
+   * loaded from some Ecore.ecore file or from the EPackage registered in the registry.
+   *
+   * @param eClass
+   *          EClass, can also be {@code null}
+   * @return {@code true} if type is EObject
+   */
+  public static boolean isEObjectType(final EClass eClass) {
+    if (eClass == null || eClass.eIsProxy()) {
+      return false;
+    }
+    return eClass == EcorePackage.Literals.EOBJECT || Objects.equals(eClass.getInstanceClassName(), EcorePackage.Literals.EOBJECT.getInstanceClassName())
+        || (Objects.equals(eClass.getName(), EcorePackage.Literals.EOBJECT.getName())
+            && Objects.equals(eClass.getEPackage().getNsURI(), EcorePackage.Literals.EOBJECT.getEPackage().getNsURI()));
   }
 }

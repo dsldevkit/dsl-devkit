@@ -17,7 +17,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xpand2.XpandExecutionContext;
-import org.eclipse.xpand2.XpandFacade;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.generator.AbstractGeneratorFragment;
@@ -34,7 +33,6 @@ import com.google.common.collect.Lists;
 /**
  * MWE fragment for the scoping language.
  */
-@SuppressWarnings("nls")
 public class ScopingFragment extends AbstractGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";
@@ -44,19 +42,6 @@ public class ScopingFragment extends AbstractGeneratorFragment {
 
   /** The model for the scope resource. */
   private Object model;
-
-  private boolean generateTests;
-
-  /**
-   * Sets whether validation tests should be generated - default is not / false.
-   * Optional.
-   *
-   * @param generateTests
-   *          the new generate tests
-   */
-  public void setGenerateTests(final boolean generateTests) {
-    this.generateTests = generateTests;
-  }
 
   /** {@inheritDoc} */
   @Override
@@ -75,14 +60,6 @@ public class ScopingFragment extends AbstractGeneratorFragment {
     }
 
     super.generate(grammar, ctx);
-
-    if (generateTests) {
-      XpandFacade.create(ctx).evaluate("com::avaloq::tools::ddk::xtext::scope::generator::ScopeProviderTests::generate", // template
-      grammar, // this (the grammar)
-      model); // model
-      XpandFacade.create(ctx).evaluate("com::avaloq::tools::ddk::xtext::scope::generator::LinkingTests::generate", // template
-      grammar); // this (the grammar)
-    }
   }
 
   /** {@inheritDoc} */

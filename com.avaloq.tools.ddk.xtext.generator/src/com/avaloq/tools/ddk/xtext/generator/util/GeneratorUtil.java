@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -60,7 +61,11 @@ public class GeneratorUtil {
       return ""; //$NON-NLS-1$
     }
 
-    StringBuilder result = new StringBuilder(object.eResource().getURI().path() + ":"); //$NON-NLS-1$
+    URI uri = object.eResource().getURI();
+    // CHECKSTYLE:CHECK-OFF MagicNumber
+    String path = uri.isPlatform() ? '/' + String.join("/", uri.segmentsList().subList(3, uri.segmentCount())) : uri.path();
+    // CHECKSTYLE:CHECK-ON MagicNumber
+    StringBuilder result = new StringBuilder(path + ":"); //$NON-NLS-1$
     final ICompositeNode nodeAdapter = NodeModelUtils.getNode(object);
     result.append(nodeAdapter.getStartLine());
 

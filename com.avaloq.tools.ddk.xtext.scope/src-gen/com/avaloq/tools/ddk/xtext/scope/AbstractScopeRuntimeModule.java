@@ -148,4 +148,9 @@ public abstract class AbstractScopeRuntimeModule extends org.eclipse.xtext.servi
 		return com.avaloq.tools.ddk.xtext.scope.formatting.ScopeFormatter.class;
 	}
 
+	// contributed by org.eclipse.xtext.generator.generator.GeneratorFragment
+	public Class<? extends org.eclipse.xtext.generator.IGenerator> bindIGenerator() {
+		return com.avaloq.tools.ddk.xtext.scope.generator.ScopeGenerator.class;
+	}
+
 }

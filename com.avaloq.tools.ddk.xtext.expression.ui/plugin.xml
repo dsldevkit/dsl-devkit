@@ -275,4 +275,11 @@
         </markerResolutionGenerator>
     </extension>
 
+  <extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="com.avaloq.tools.ddk.xtext.expression.ui.GenModelExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceServiceProvider"
+            uriExtension="genmodel">
+        </resourceServiceProvider>
+    </extension>
+
 </plugin>

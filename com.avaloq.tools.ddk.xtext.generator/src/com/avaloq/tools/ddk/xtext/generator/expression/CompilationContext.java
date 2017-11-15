@@ -51,18 +51,8 @@ public class CompilationContext {
   private Type implicitContextType;
 
   /**
-   * Creates a new compilation context for the given Xtend context.
-   * 
-   * @param context
-   *          xtend context to wrap
-   */
-  public CompilationContext(final ExecutionContext context) {
-    this.context = context;
-  }
-
-  /**
    * Analyzes the given expression and returns the type of it.
-   * 
+   *
    * @param expression
    *          expression to analyze
    * @return type of expression
@@ -73,7 +63,7 @@ public class CompilationContext {
 
   /**
    * Analyzes the given expression and returns the type of it.
-   * 
+   *
    * @param expression
    *          expression to analyze
    * @return type of expression
@@ -84,21 +74,18 @@ public class CompilationContext {
   }
 
   /**
-   * Creates a new compilation context for the given Xtend context and implicit variable name. The context type is set to
-   * "Object".
-   * 
+   * Creates a new compilation context for the given Xtend context.
+   *
    * @param context
    *          xtend context to wrap
-   * @param implicitVar
-   *          name of the Java variable to bind "this" to
    */
-  public CompilationContext(final ExecutionContext context, final String implicitVar) {
-    this(context, implicitVar, context.getObjectType());
+  public CompilationContext(final ExecutionContext context) {
+    this.context = context;
   }
 
   /**
    * Creates a new compilation context for the given Xtend context, implicit variable name, and context type.
-   * 
+   *
    * @param context
    *          xtend context to wrap
    * @param implicitVar
@@ -114,7 +101,7 @@ public class CompilationContext {
 
   /**
    * Returns the execution context used by this compilation context.
-   * 
+   *
    * @return execution context
    */
   public ExecutionContext getExecutionContext() {
@@ -123,7 +110,7 @@ public class CompilationContext {
 
   /**
    * Creates a new compilation context for the given Xtend context, implicit variable name, and context type.
-   * 
+   *
    * @param implicitVar
    *          name of the Java variable to bind "this" to
    * @param contextType
@@ -139,7 +126,7 @@ public class CompilationContext {
 
   /**
    * Creates a new compilation context for the given Xtend context, implicit variable name, and context type.
-   * 
+   *
    * @param implicitVar
    *          name of the Java variable to bind "this" to
    * @param contextType
@@ -157,7 +144,7 @@ public class CompilationContext {
 
   /**
    * Returns the name of the Java variable to bind "this" to.
-   * 
+   *
    * @return {@link #implicitVariable}
    */
   public String getImplicitVariable() {
@@ -166,7 +153,7 @@ public class CompilationContext {
 
   /**
    * Returns the generic type to use for List expressions mapped to java.util.List<>.
-   * 
+   *
    * @return currently always returns "org.eclipse.emf.ecore.EObject"
    */
   public Type getRequiredType() {
@@ -175,7 +162,7 @@ public class CompilationContext {
 
   /**
    * Checks whether the given string corresponds to a variable in this context.
-   * 
+   *
    * @param var
    *          string to check
    * @return true if the given string corresponds to a variable
@@ -186,7 +173,7 @@ public class CompilationContext {
 
   /**
    * Returns the Xtend type for the given EClass.
-   * 
+   *
    * @param eClass
    *          EClass to get corresponding Xtend type for
    * @return corresponding Xtend type
@@ -197,7 +184,7 @@ public class CompilationContext {
 
   /**
    * Returns the Xtend type with the given name.
-   * 
+   *
    * @param name
    *          (qualified) name of type to find
    * @return corresponding Xtend type
@@ -207,21 +194,37 @@ public class CompilationContext {
   }
 
   /**
-   * Returns the Java class name corresponding to the given Xtend type. This works both for builtin types, EMF types, and Java
-   * types.
-   * 
+   * Returns the Xtend type with the given name.
+   *
    * @param name
-   *          the name of the Xtend type (qualified or not)
-   * @return the qualified Java class name
+   *          (qualified) name of type to find
+   * @return corresponding Xtend type
    */
-  public String javaType(final String name) {
-    return javaType(findType(name));
+  public boolean isType(final String name) {
+    return findType(name) != null;
   }
 
   /**
    * Returns the Java class name corresponding to the given Xtend type. This works both for builtin types, EMF types, and Java
    * types.
-   * 
+   *
+   * @param name
+   *          the name of the Xtend type (qualified or not)
+   * @return the qualified Java class name
+   */
+  public String javaType(final String name) {
+    Type type = findType(name);
+    if (type == null) {
+      LOGGER.warn("No type found for " + name);
+      return name;
+    }
+    return javaType(type);
+  }
+
+  /**
+   * Returns the Java class name corresponding to the given Xtend type. This works both for builtin types, EMF types, and Java
+   * types.
+   *
    * @param type
    *          the Xtend type (qualified or not)
    * @return the qualified Java class name
@@ -237,7 +240,7 @@ public class CompilationContext {
 
   /**
    * Creates a new equivalent compilation context with the given implicit variable name.
-   * 
+   *
    * @param implicitVar
    *          name of implicit variable
    * @return new derived compilation context
@@ -248,7 +251,7 @@ public class CompilationContext {
 
   /**
    * Creates a new equivalent compilation context with the given implicit variable name and context type.
-   * 
+   *
    * @param implicitVar
    *          name of implicit variable
    * @param contextType
@@ -261,7 +264,7 @@ public class CompilationContext {
 
   /**
    * Creates a new equivalent compilation context with the given implicit variable name and context type and additional variable.
-   * 
+   *
    * @param implicitVar
    *          name of implicit variable
    * @param contextType
@@ -276,7 +279,7 @@ public class CompilationContext {
 
   /**
    * Creates a new equivalent compilation context with the given implicit variable name and context type and additional variable.
-   * 
+   *
    * @param implicitVar
    *          name of implicit variable
    * @param contextType
@@ -288,13 +291,13 @@ public class CompilationContext {
    * @return new derived compilation context
    */
   public CompilationContext clone(final String implicitVar, final EClass contextType, final String variable, final EClass variableType) {
-    return new CompilationContext(context.cloneWithVariable(new Variable(variable, variableType == null ? new Object() : findType(variableType))), implicitVar, contextType != null ? findType(contextType)
-        : this.implicitContextType);
+    return new CompilationContext(context.cloneWithVariable(new Variable(variable, variableType == null ? new Object()
+        : findType(variableType))), implicitVar, contextType != null ? findType(contextType) : this.implicitContextType);
   }
 
   /**
    * Returns the qualified type name for the given unqualified type name.
-   * 
+   *
    * @param typeName
    *          unqualified (or qualified) type name
    * @return qualified type name of given type
@@ -318,7 +321,7 @@ public class CompilationContext {
 
   /**
    * Gets the eClass.
-   * 
+   *
    * @param type
    *          the type
    * @return the eClass or NULL
@@ -340,7 +343,7 @@ public class CompilationContext {
 
   /**
    * Gets the eClass.
-   * 
+   *
    * @param type
    *          the type
    * @return the eClass or NULL
@@ -354,7 +357,7 @@ public class CompilationContext {
 
   /**
    * Heuristically test if name of extension.
-   * 
+   *
    * @param name
    *          the name to test
    * @return true if name is an extension name
@@ -371,7 +374,7 @@ public class CompilationContext {
 
   /**
    * Gets the called java method.
-   * 
+   *
    * @param expression
    *          the expression
    * @return the called java method or NULL
@@ -398,7 +401,7 @@ public class CompilationContext {
 
   /**
    * Heuristically test if target has an operation.
-   * 
+   *
    * @param expression
    *          the operation
    * @return true if the implicit context has this operation

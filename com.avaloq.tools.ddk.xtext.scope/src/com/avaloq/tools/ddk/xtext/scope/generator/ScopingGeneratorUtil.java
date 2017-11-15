@@ -12,24 +12,39 @@ package com.avaloq.tools.ddk.xtext.scope.generator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.mwe.core.WorkflowInterruptedException;
+import org.eclipse.emf.mwe.core.resources.ResourceLoader;
+import org.eclipse.emf.mwe.core.resources.ResourceLoaderFactory;
+import org.eclipse.emf.mwe.core.resources.ResourceLoaderImpl;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtend.expression.ExecutionContextImpl;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtend.expression.TypeSystemImpl;
 import org.eclipse.xtend.expression.Variable;
-import org.eclipse.xtend.type.impl.java.JavaBeansMetaModel;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.Assignment;
@@ -67,7 +82,9 @@ import com.google.inject.Injector;
 /**
  * Various utility functions for the scoping generator.
  */
+// CHECKSTYLE:COUPLING-OFF
 public final class ScopingGeneratorUtil {
+  // CHECKSTYLE:COUPLING-ON
 
   /** Class-wide logger. */
   private static final Logger LOG = Logger.getLogger(ScopingGeneratorUtil.class);
@@ -227,7 +244,7 @@ public final class ScopingGeneratorUtil {
     private void registerMetaModels(final ScopeModel model) {
       // First, create one meta model that has all the packages that are visible. Use the scope provider to get that list,
       // then convert to a list of EPackages.
-      final EPackage[] ePackages = Lists.newArrayList(Iterables.transform(EObjectUtil.getScopeProviderByEObject(model).getScope(model, ScopePackage.Literals.IMPORT__PACKAGE).getAllElements(), d -> (EPackage) d.getEObjectOrProxy())).toArray(new EPackage[0]);
+      final EPackage[] ePackages = Lists.newArrayList(Iterables.transform(EObjectUtil.getScopeProviderByEObject(model).getScope(model, ScopePackage.Literals.IMPORT__PACKAGE).getAllElements(), d -> (EPackage) EcoreUtil.resolve(d.getEObjectOrProxy(), model))).toArray(new EPackage[0]);
       registerMetaModel(new EmfRegistryMetaModel() {
         @Override
         public EPackage[] allPackages() {
@@ -235,8 +252,8 @@ public final class ScopingGeneratorUtil {
         }
       });
       // Finally, add the default meta models
-      registerMetaModel(new EmfRegistryMetaModel());
-      registerMetaModel(new JavaBeansMetaModel());
+      // registerMetaModel(new EmfRegistryMetaModel());
+      // registerMetaModel(new JavaBeansMetaModel());
     }
   }
 
@@ -356,6 +373,91 @@ public final class ScopingGeneratorUtil {
         getAllScopeModelsInternal(included, result);
       }
     }
+  }
+
+  /**
+   * Executes a given operation using a custom resource loader which will load resources using the classpath of the given project, provided that it is a Java
+   * project.
+   *
+   * @param project
+   *          context project, can also be {@code null}
+   * @param runnable
+   *          operation to run
+   */
+  public static void executeWithProjectResourceLoader(final IProject project, final Runnable runnable) {
+    ResourceLoader oldResourceLoader = ResourceLoaderFactory.getCurrentThreadResourceLoader();
+    ResourceLoader resourceLoader = createResourceLoader(project);
+    try {
+      ResourceLoaderFactory.setCurrentThreadResourceLoader(resourceLoader);
+      runnable.run();
+    } finally {
+      ResourceLoaderFactory.setCurrentThreadResourceLoader(oldResourceLoader);
+      if (resourceLoader instanceof CustomResourceLoader) {
+        ((CustomResourceLoader) resourceLoader).close();
+      }
+    }
+  }
+
+  /**
+   * Custom resource loader which declares a {@link #close()} method to {@link URLClassLoader#close() close} the underlying class loader.
+   */
+  private static class CustomResourceLoader extends ResourceLoaderImpl {
+
+    private final URLClassLoader loader;
+
+    CustomResourceLoader(final URLClassLoader l) {
+      super(l);
+      this.loader = l;
+    }
+
+    public void close() {
+      try {
+        loader.close();
+      } catch (IOException e) {
+        LOG.warn("Error closing class loader or resource loader", e);
+      }
+    }
+
+  }
+
+  private static ResourceLoader createResourceLoader(final IProject project) {
+    if (project != null) {
+      IJavaProject javaProject = JavaCore.create(project);
+      if (javaProject != null) {
+        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+        try {
+          IClasspathEntry[] classPathEntries = javaProject.getResolvedClasspath(true);
+          URL[] urls = new URL[classPathEntries.length];
+          for (int i = 0; i < classPathEntries.length; i++) {
+            IClasspathEntry entry = classPathEntries[i];
+            IPath path = null;
+            switch (entry.getEntryKind()) {
+            case IClasspathEntry.CPE_PROJECT:
+              IJavaProject requiredProject = JavaCore.create((IProject) workspaceRoot.findMember(entry.getPath()));
+              if (requiredProject != null) {
+                path = workspaceRoot.findMember(requiredProject.getOutputLocation()).getLocation();
+              }
+              break;
+            case IClasspathEntry.CPE_SOURCE:
+              path = workspaceRoot.findMember(entry.getPath()).getLocation();
+              break;
+            default:
+              path = entry.getPath();
+              break;
+            }
+            if (path != null) {
+              urls[i] = path.toFile().toURI().toURL();
+            }
+          }
+          ClassLoader parentClassLoader = javaProject.getClass().getClassLoader();
+          URLClassLoader classLoader = new URLClassLoader(urls, parentClassLoader);
+          return new CustomResourceLoader(classLoader);
+        } catch (MalformedURLException | CoreException e) {
+          LOG.warn("Failed to create class loader for project " + project.getName(), e);
+        }
+      }
+    }
+    return new ResourceLoaderImpl(ScopingGeneratorUtil.class.getClassLoader());
   }
 
 }
