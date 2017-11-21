@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.avaloq.tools.ddk.builder.feature"
+      label="com.avaloq.tools.ddk.builder.feature"
+      version="5.0.0.qualifier"
+      provider-name="Avaloq License AG">
+
+   <description>
+      Avaloq Customisation Suite SDK builder components
+   </description>
+
+   <requires>
+      <import feature="com.avaloq.tools.ddk.runtime.feature" version="5.0.0.qualifier"/>
+   </requires>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.builder"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
