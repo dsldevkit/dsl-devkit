@@ -13,6 +13,7 @@
   <properties>
 
     <!-- build parameter -->
+    <maven.deploy.skip>true</maven.deploy.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <target.platform>ddk</target.platform>
     <workspace>${env.WORKSPACE}</workspace>
@@ -61,6 +62,11 @@
 
   <modules>
     <module>../ddk-target</module>
+    <module>../ddk-repository</module>
+    <module>../com.avaloq.tools.ddk.runtime.feature</module>
+    <module>../com.avaloq.tools.ddk.feature</module>
+    <module>../com.avaloq.tools.ddk.runtime.source.feature</module>
+    <module>../com.avaloq.tools.ddk.source.feature</module>
     <module>../com.avaloq.tools.ddk.xtext</module>
     <module>../com.avaloq.tools.ddk.xtext.builder</module>
     <module>../com.avaloq.tools.ddk.xtext.format</module>
@@ -110,7 +116,7 @@
         <version>${deploy.version}</version>
         <configuration>
           <deployAtEnd>true</deployAtEnd>
-          <skip>true</skip>
+          <skip>${maven.deploy.skip}</skip>
         </configuration>
       </plugin>
       <plugin>
