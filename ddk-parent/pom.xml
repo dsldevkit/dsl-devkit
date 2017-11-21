@@ -13,6 +13,7 @@
   <properties>
 
     <!-- build parameter -->
+    <maven.deploy.skip>true</maven.deploy.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <target.platform>ddk</target.platform>
     <workspace>${env.WORKSPACE}</workspace>
@@ -110,7 +111,7 @@
         <version>${deploy.version}</version>
         <configuration>
           <deployAtEnd>true</deployAtEnd>
-          <skip>true</skip>
+          <skip>${maven.deploy.skip}</skip>
         </configuration>
       </plugin>
       <plugin>
