@@ -10,12 +10,12 @@ package com.avaloq.tools.ddk.xtext.expression.expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.LetExpression#getIdentifier <em>Identifier</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.LetExpression#getVarExpr <em>Var Expr</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.LetExpression#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getLetExpression()
  * @model

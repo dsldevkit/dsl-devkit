@@ -1038,57 +1038,61 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	public class NamingElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Naming");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Assignment cNamesAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
-		private final RuleCall cNamesNamingExpressionParserRuleCall_0_0 = (RuleCall)cNamesAssignment_0.eContents().get(0);
-		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final Assignment cNamesAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final RuleCall cNamesNamingExpressionParserRuleCall_1_1_0 = (RuleCall)cNamesAssignment_1_1.eContents().get(0);
-		private final Group cGroup_1_2 = (Group)cGroup_1.eContents().get(2);
-		private final Keyword cCommaKeyword_1_2_0 = (Keyword)cGroup_1_2.eContents().get(0);
-		private final Assignment cNamesAssignment_1_2_1 = (Assignment)cGroup_1_2.eContents().get(1);
-		private final RuleCall cNamesNamingExpressionParserRuleCall_1_2_1_0 = (RuleCall)cNamesAssignment_1_2_1.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Group cGroup_0_0 = (Group)cGroup_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_0_0_0 = (Keyword)cGroup_0_0.eContents().get(0);
+		private final Assignment cNamesAssignment_0_0_1 = (Assignment)cGroup_0_0.eContents().get(1);
+		private final RuleCall cNamesNamingExpressionParserRuleCall_0_0_1_0 = (RuleCall)cNamesAssignment_0_0_1.eContents().get(0);
+		private final Group cGroup_0_0_2 = (Group)cGroup_0_0.eContents().get(2);
+		private final Keyword cCommaKeyword_0_0_2_0 = (Keyword)cGroup_0_0_2.eContents().get(0);
+		private final Assignment cNamesAssignment_0_0_2_1 = (Assignment)cGroup_0_0_2.eContents().get(1);
+		private final RuleCall cNamesNamingExpressionParserRuleCall_0_0_2_1_0 = (RuleCall)cNamesAssignment_0_0_2_1.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_0_0_3 = (Keyword)cGroup_0_0.eContents().get(3);
+		private final Assignment cNamesAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cNamesNamingExpressionParserRuleCall_1_0 = (RuleCall)cNamesAssignment_1.eContents().get(0);
 		
 		//Naming:
-		//	names+=NamingExpression | "(" names+=NamingExpression ("," names+=NamingExpression)* ")";
+		//	-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")") | names+=NamingExpression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//names+=NamingExpression | "(" names+=NamingExpression ("," names+=NamingExpression)* ")"
+		//-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")") | names+=NamingExpression
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//names+=NamingExpression
-		public Assignment getNamesAssignment_0() { return cNamesAssignment_0; }
-
-		//NamingExpression
-		public RuleCall getNamesNamingExpressionParserRuleCall_0_0() { return cNamesNamingExpressionParserRuleCall_0_0; }
+		//-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")")
+		public Group getGroup_0() { return cGroup_0; }
 
 		//"(" names+=NamingExpression ("," names+=NamingExpression)* ")"
-		public Group getGroup_1() { return cGroup_1; }
+		public Group getGroup_0_0() { return cGroup_0_0; }
 
 		//"("
-		public Keyword getLeftParenthesisKeyword_1_0() { return cLeftParenthesisKeyword_1_0; }
+		public Keyword getLeftParenthesisKeyword_0_0_0() { return cLeftParenthesisKeyword_0_0_0; }
 
 		//names+=NamingExpression
-		public Assignment getNamesAssignment_1_1() { return cNamesAssignment_1_1; }
+		public Assignment getNamesAssignment_0_0_1() { return cNamesAssignment_0_0_1; }
 
 		//NamingExpression
-		public RuleCall getNamesNamingExpressionParserRuleCall_1_1_0() { return cNamesNamingExpressionParserRuleCall_1_1_0; }
+		public RuleCall getNamesNamingExpressionParserRuleCall_0_0_1_0() { return cNamesNamingExpressionParserRuleCall_0_0_1_0; }
 
 		//("," names+=NamingExpression)*
-		public Group getGroup_1_2() { return cGroup_1_2; }
+		public Group getGroup_0_0_2() { return cGroup_0_0_2; }
 
 		//","
-		public Keyword getCommaKeyword_1_2_0() { return cCommaKeyword_1_2_0; }
+		public Keyword getCommaKeyword_0_0_2_0() { return cCommaKeyword_0_0_2_0; }
 
 		//names+=NamingExpression
-		public Assignment getNamesAssignment_1_2_1() { return cNamesAssignment_1_2_1; }
+		public Assignment getNamesAssignment_0_0_2_1() { return cNamesAssignment_0_0_2_1; }
 
 		//NamingExpression
-		public RuleCall getNamesNamingExpressionParserRuleCall_1_2_1_0() { return cNamesNamingExpressionParserRuleCall_1_2_1_0; }
+		public RuleCall getNamesNamingExpressionParserRuleCall_0_0_2_1_0() { return cNamesNamingExpressionParserRuleCall_0_0_2_1_0; }
 
 		//")"
-		public Keyword getRightParenthesisKeyword_1_3() { return cRightParenthesisKeyword_1_3; }
+		public Keyword getRightParenthesisKeyword_0_0_3() { return cRightParenthesisKeyword_0_0_3; }
+
+		//names+=NamingExpression
+		public Assignment getNamesAssignment_1() { return cNamesAssignment_1; }
+
+		//NamingExpression
+		public RuleCall getNamesNamingExpressionParserRuleCall_1_0() { return cNamesNamingExpressionParserRuleCall_1_0; }
 	}
 
 	public class NamingExpressionElements extends AbstractParserRuleElementFinder {
@@ -1496,7 +1500,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Naming:
-	//	names+=NamingExpression | "(" names+=NamingExpression ("," names+=NamingExpression)* ")";
+	//	-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")") | names+=NamingExpression;
 	public NamingElements getNamingAccess() {
 		return pNaming;
 	}
@@ -1535,15 +1539,15 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getDottedIDAccess().getRule();
 	}
 
-	//// this is a translation of the expression part of 
+	//// this is a translation of the expression part of
 	//
-	//// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g 
+	//// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g
 	// // to Xtext
 	//
 	////expression returns [Expression e]:
 	// //	x=letExpression {$e=x;};
 	// Expression:
-	//	LetExpression | CastedExpression | ChainExpression;
+	//	LetExpression | => CastedExpression | ChainExpression;
 	public ExpressionGrammarAccess.ExpressionElements getExpressionAccess() {
 		return gaExpression.getExpressionAccess();
 	}
@@ -1563,7 +1567,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	////letExpression  returns [Expression e] :
-	// //   'let' v=identifier '=' varExpr=castedExpression ':' target=expression 
+	// //   'let' v=identifier '=' varExpr=castedExpression ':' target=expression
 	//
 	////   {$e=factory.createLetExpression(v,varExpr,target);}
 	// //|  x=castedExpression {$e=x;};
@@ -1634,7 +1638,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//IfExpressionKw returns IfExpression:
-	//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression ("else" elsePart=ChainedExpression)?;
+	//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression -> ("else" elsePart=ChainedExpression)?;
 	public ExpressionGrammarAccess.IfExpressionKwElements getIfExpressionKwAccess() {
 		return gaExpression.getIfExpressionKwAccess();
 	}
@@ -1647,7 +1651,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////   'switch' ('(' pred = orExpression ')')?
 	// //   '{'
-	// //   ( 
+	// //   (
 	// //     'case' c=orExpression  ':'  v=orExpression
 	//
 	////     {cases.add(factory.createCase(c, v));}
@@ -1656,7 +1660,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	// //   '}'
 	//
 	////   {$e = factory.createSwitchExpression(pred,cases,def);}
-	// //|  x=orExpression {$e=x;};  
+	// //|  x=orExpression {$e=x;};
 	// SwitchExpression:
 	//	"switch" ("(" switchExpr=OrExpression ")")? "{" case+=Case* "default" ":" defaultExpr=OrExpression "}";
 	public ExpressionGrammarAccess.SwitchExpressionElements getSwitchExpressionAccess() {
@@ -1722,7 +1726,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////relationalExpression returns [Expression e] :
 	// //	x=additiveExpression {$e=x;}
 	//
-	////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;	
+	////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
 	//RelationalExpression returns Expression:
 	//	AdditiveExpression ({BooleanOperation.left=current} operator=("==" | "!=" | ">=" | "<=" | ">" | "<")
@@ -1812,7 +1816,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	////primaryExpression 	 returns [Expression e] :
-	// //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}	
+	// //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}
 	//
 	////|   x=featureCall {$e=x;}
 	// //|   x=booleanLiteral {$e=x;}
@@ -1823,7 +1827,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	// //|   x=constructorCall {$e=x;}
 	//
 	////|   x=globalVarExpression {$e=x;}
-	// //|   x=paranthesizedExpression {$e=x;};	
+	// //|   x=paranthesizedExpression {$e=x;};
 	// PrimaryExpression returns Expression:
 	//	Literal | FeatureCall | ListLiteral | ConstructorCallExpression | GlobalVarExpression | ParanthesizedExpression;
 	public ExpressionGrammarAccess.PrimaryExpressionElements getPrimaryExpressionAccess() {
@@ -1931,7 +1935,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	id1=identifier '(' (l=parameterList)? ')' {$e = factory.createOperationCall(id1,l);}
 	//
-	////|   t=type {$e=factory.createFeatureCall(t,null);}	
+	////|   t=type {$e=factory.createFeatureCall(t,null);}
 	// //|   x=collectionExpression {$e=x;};
 	// FeatureCall:
 	//	OperationCall | type=Type | CollectionExpression | TypeSelectExpression;
@@ -1982,17 +1986,17 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////collectionExpression  returns [FeatureCall e] :
 	// //  name='typeSelect'
 	//
-	////  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}  
+	////  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}
 	// //   |name=('collect'
-	// //  | 'select' 
+	// //  | 'select'
 	//
-	////  | 'selectFirst' 
-	// //  | 'reject' 
+	////  | 'selectFirst'
+	// //  | 'reject'
 	// //  | 'exists'
 	// //  | 'notExists'
-	// //  | 'sortBy' 
+	// //  | 'sortBy'
 	//
-	////  | 'forAll') '(' (var=identifier '|')? x=expression ')' 
+	////  | 'forAll') '(' (var=identifier '|')? x=expression ')'
 	//
 	//// { $e = factory.createCollectionExpression(id(name),var,x);};
 	// TypeSelectExpression:
@@ -2016,11 +2020,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getCollectionExpressionAccess().getRule();
 	}
 
-	////type returns [Identifier id] : 
+	////type returns [Identifier id] :
 	// //	a = collectionType {$id=a;}|
 	// //	b = simpleType {$id=b;};
-	// Type returns
-	//Identifier:
+	// Type returns Identifier:
 	//	CollectionType | SimpleType;
 	public ExpressionGrammarAccess.TypeElements getTypeAccess() {
 		return gaExpression.getTypeAccess();
@@ -2030,7 +2033,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getTypeAccess().getRule();
 	}
 
-	////collectionType  returns [Identifier id ] : 
+	////collectionType  returns [Identifier id ] :
 	// //  cl=( 'Collection' | 'List' | 'Set' ) {$id = id(cl);}
 	//
 	////  (b='[' id1=simpleType c=']' { $id.append(id(b));$id.append(id1);$id.append(id(c));})?;

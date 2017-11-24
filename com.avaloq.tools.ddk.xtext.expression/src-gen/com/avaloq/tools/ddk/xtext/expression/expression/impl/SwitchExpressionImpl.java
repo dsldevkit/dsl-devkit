@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.SwitchExpressionImpl#getSwitchExpr <em>Switch Expr</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.SwitchExpressionImpl#getCase <em>Case</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.SwitchExpressionImpl#getDefaultExpr <em>Default Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

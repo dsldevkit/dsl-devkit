@@ -10,10 +10,10 @@ package com.avaloq.tools.ddk.xtext.expression.expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.IntegerLiteral#getVal <em>Val</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getIntegerLiteral()
  * @model

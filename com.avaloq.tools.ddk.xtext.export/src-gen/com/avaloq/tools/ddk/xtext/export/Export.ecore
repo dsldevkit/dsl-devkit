@@ -13,15 +13,15 @@
         eType="#//Export" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Import">
-    <eOperations name="getPackageName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getPackageName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Extension">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DeclarationForType">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
@@ -30,37 +30,37 @@
         eType="#//InterfaceItem" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceItem">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unordered" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceField" eSuperTypes="#//InterfaceItem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="field" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="field" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceNavigation" eSuperTypes="#//InterfaceItem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceExpression" eSuperTypes="#//InterfaceItem">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Export" eSuperTypes="#//DeclarationForType">
-    <eOperations name="getEAttributes" upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
-    <eOperations name="getAllEAttributes" upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
-    <eOperations name="getNamingAttribute" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowLookup" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eOperations name="getEAttributes" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eOperations name="getAllEAttributes" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eOperations name="getNamingAttribute" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowLookup" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="naming" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fragmentUnique" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fragmentUnique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fragmentAttribute" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fingerprint" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fragmentAttribute" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fingerprint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceFingerprint" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceFingerprint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//Attribute" containment="true"/>
@@ -68,11 +68,11 @@
         eType="#//UserData" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserData">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -148,4 +148,9 @@ public abstract class AbstractExportRuntimeModule extends org.eclipse.xtext.serv
 		return com.avaloq.tools.ddk.xtext.export.formatting.ExportFormatter.class;
 	}
 
+	// contributed by org.eclipse.xtext.generator.generator.GeneratorFragment
+	public Class<? extends org.eclipse.xtext.generator.IGenerator> bindIGenerator() {
+		return com.avaloq.tools.ddk.xtext.export.generator.ExportGenerator.class;
+	}
+
 }

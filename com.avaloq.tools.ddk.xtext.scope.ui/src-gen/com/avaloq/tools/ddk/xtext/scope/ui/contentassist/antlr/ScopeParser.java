@@ -99,8 +99,9 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getGlobalScopeExpressionAccess().getGroup_5_3_2_2(), "rule__GlobalScopeExpression__Group_5_3_2_2__0");
 					put(grammarAccess.getMatchDataExpressionAccess().getGroup(), "rule__MatchDataExpression__Group__0");
 					put(grammarAccess.getLambdaDataExpressionAccess().getGroup(), "rule__LambdaDataExpression__Group__0");
-					put(grammarAccess.getNamingAccess().getGroup_1(), "rule__Naming__Group_1__0");
-					put(grammarAccess.getNamingAccess().getGroup_1_2(), "rule__Naming__Group_1_2__0");
+					put(grammarAccess.getNamingAccess().getGroup_0(), "rule__Naming__Group_0__0");
+					put(grammarAccess.getNamingAccess().getGroup_0_0(), "rule__Naming__Group_0_0__0");
+					put(grammarAccess.getNamingAccess().getGroup_0_0_2(), "rule__Naming__Group_0_0_2__0");
 					put(grammarAccess.getNamingExpressionAccess().getGroup_1(), "rule__NamingExpression__Group_1__0");
 					put(grammarAccess.getQualifiedIDAccess().getGroup(), "rule__QualifiedID__Group__0");
 					put(grammarAccess.getQualifiedIDAccess().getGroup_1(), "rule__QualifiedID__Group_1__0");
@@ -114,6 +115,7 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getIfExpressionTriAccess().getGroup_1(), "rule__IfExpressionTri__Group_1__0");
 					put(grammarAccess.getIfExpressionKwAccess().getGroup(), "rule__IfExpressionKw__Group__0");
 					put(grammarAccess.getIfExpressionKwAccess().getGroup_4(), "rule__IfExpressionKw__Group_4__0");
+					put(grammarAccess.getIfExpressionKwAccess().getGroup_4_0(), "rule__IfExpressionKw__Group_4_0__0");
 					put(grammarAccess.getSwitchExpressionAccess().getGroup(), "rule__SwitchExpression__Group__0");
 					put(grammarAccess.getSwitchExpressionAccess().getGroup_1(), "rule__SwitchExpression__Group_1__0");
 					put(grammarAccess.getCaseAccess().getGroup(), "rule__Case__Group__0");
@@ -203,9 +205,9 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getLambdaDataExpressionAccess().getDescAssignment_1(), "rule__LambdaDataExpression__DescAssignment_1");
 					put(grammarAccess.getLambdaDataExpressionAccess().getValueAssignment_3(), "rule__LambdaDataExpression__ValueAssignment_3");
 					put(grammarAccess.getSimpleScopeExpressionAccess().getExprAssignment(), "rule__SimpleScopeExpression__ExprAssignment");
-					put(grammarAccess.getNamingAccess().getNamesAssignment_0(), "rule__Naming__NamesAssignment_0");
-					put(grammarAccess.getNamingAccess().getNamesAssignment_1_1(), "rule__Naming__NamesAssignment_1_1");
-					put(grammarAccess.getNamingAccess().getNamesAssignment_1_2_1(), "rule__Naming__NamesAssignment_1_2_1");
+					put(grammarAccess.getNamingAccess().getNamesAssignment_0_0_1(), "rule__Naming__NamesAssignment_0_0_1");
+					put(grammarAccess.getNamingAccess().getNamesAssignment_0_0_2_1(), "rule__Naming__NamesAssignment_0_0_2_1");
+					put(grammarAccess.getNamingAccess().getNamesAssignment_1(), "rule__Naming__NamesAssignment_1");
 					put(grammarAccess.getNamingExpressionAccess().getExportAssignment_0(), "rule__NamingExpression__ExportAssignment_0");
 					put(grammarAccess.getNamingExpressionAccess().getFactoryAssignment_1_0(), "rule__NamingExpression__FactoryAssignment_1_0");
 					put(grammarAccess.getNamingExpressionAccess().getExpressionAssignment_1_1(), "rule__NamingExpression__ExpressionAssignment_1_1");
@@ -219,7 +221,7 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getIfExpressionTriAccess().getElsePartAssignment_1_4(), "rule__IfExpressionTri__ElsePartAssignment_1_4");
 					put(grammarAccess.getIfExpressionKwAccess().getConditionAssignment_1(), "rule__IfExpressionKw__ConditionAssignment_1");
 					put(grammarAccess.getIfExpressionKwAccess().getThenPartAssignment_3(), "rule__IfExpressionKw__ThenPartAssignment_3");
-					put(grammarAccess.getIfExpressionKwAccess().getElsePartAssignment_4_1(), "rule__IfExpressionKw__ElsePartAssignment_4_1");
+					put(grammarAccess.getIfExpressionKwAccess().getElsePartAssignment_4_0_1(), "rule__IfExpressionKw__ElsePartAssignment_4_0_1");
 					put(grammarAccess.getSwitchExpressionAccess().getSwitchExprAssignment_1_1(), "rule__SwitchExpression__SwitchExprAssignment_1_1");
 					put(grammarAccess.getSwitchExpressionAccess().getCaseAssignment_3(), "rule__SwitchExpression__CaseAssignment_3");
 					put(grammarAccess.getSwitchExpressionAccess().getDefaultExprAssignment_6(), "rule__SwitchExpression__DefaultExprAssignment_6");

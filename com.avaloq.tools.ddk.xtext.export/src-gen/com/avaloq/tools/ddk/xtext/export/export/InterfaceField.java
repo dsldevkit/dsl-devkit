@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.InterfaceField#getField <em>Field</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getInterfaceField()
  * @model

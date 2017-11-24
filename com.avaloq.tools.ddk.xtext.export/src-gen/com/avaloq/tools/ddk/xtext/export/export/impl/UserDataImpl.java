@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.UserDataImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.UserDataImpl#getExpr <em>Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

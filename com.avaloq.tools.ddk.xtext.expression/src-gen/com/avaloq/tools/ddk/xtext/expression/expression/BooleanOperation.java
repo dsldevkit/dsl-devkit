@@ -10,12 +10,12 @@ package com.avaloq.tools.ddk.xtext.expression.expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation#getLeft <em>Left</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation#getOperator <em>Operator</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getBooleanOperation()
  * @model

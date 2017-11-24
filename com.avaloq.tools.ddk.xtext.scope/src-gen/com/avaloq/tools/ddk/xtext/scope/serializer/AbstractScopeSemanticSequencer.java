@@ -607,7 +607,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	/**
 	 * Constraint:
-	 *     (names+=NamingExpression | (names+=NamingExpression names+=NamingExpression*))
+	 *     ((names+=NamingExpression names+=NamingExpression*) | names+=NamingExpression)
 	 */
 	protected void sequence_Naming(EObject context, Naming semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

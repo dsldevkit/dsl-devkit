@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.OperationCallImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.OperationCallImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.OperationCallImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.OperationCallImpl#getParams <em>Params</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

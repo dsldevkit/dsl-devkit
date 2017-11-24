@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.InterfaceNavigationImpl#getRef <em>Ref</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

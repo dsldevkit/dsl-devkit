@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.Identifier#getCl <em>Cl</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.Identifier#getId1 <em>Id1</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.Identifier#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getIdentifier()
  * @model

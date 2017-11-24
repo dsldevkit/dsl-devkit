@@ -5,7 +5,6 @@ grammar InternalExpression;
 
 options {
 	superClass=AbstractInternalAntlrParser;
-	backtrack=true;
 	
 }
 
@@ -35,11 +34,6 @@ import com.avaloq.tools.ddk.xtext.expression.services.ExpressionGrammarAccess;
 
 @parser::members {
 
-/*
-  This grammar contains a lot of empty actions to work around a bug in ANTLR.
-  Otherwise the ANTLR tool will create synpreds that cannot be compiled in some rare cases.
-*/
- 
  	private ExpressionGrammarAccess grammarAccess;
  	
     public InternalExpressionParser(TokenStream input, ExpressionGrammarAccess grammarAccess) {
@@ -84,9 +78,6 @@ ruleExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getExpressionAccess().getLetExpressionParserRuleCall_0()); 
     }
@@ -96,10 +87,7 @@ ruleExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 
-    |
-	{ 
-	  /* */ 
-	}
+    |((	ruleCastedExpression)=>
     { 
         newCompositeNode(grammarAccess.getExpressionAccess().getCastedExpressionParserRuleCall_1()); 
     }
@@ -108,11 +96,8 @@ ruleExpression returns [EObject current=null]
         $current = $this_CastedExpression_1.current; 
         afterParserOrEnumRuleCall();
     }
-
+)
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getExpressionAccess().getChainExpressionParserRuleCall_2()); 
     }
@@ -297,9 +282,6 @@ ruleChainExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getChainExpressionAccess().getChainedExpressionParserRuleCall_0()); 
     }
@@ -309,9 +291,6 @@ ruleChainExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0(),
@@ -361,9 +340,6 @@ ruleChainedExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getChainedExpressionAccess().getIfExpressionKwParserRuleCall_0()); 
     }
@@ -374,9 +350,6 @@ ruleChainedExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getChainedExpressionAccess().getIfExpressionTriParserRuleCall_1()); 
     }
@@ -387,9 +360,6 @@ ruleChainedExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getChainedExpressionAccess().getSwitchExpressionParserRuleCall_2()); 
     }
@@ -420,9 +390,6 @@ ruleIfExpressionTri returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getIfExpressionTriAccess().getOrExpressionParserRuleCall_0()); 
     }
@@ -432,9 +399,6 @@ ruleIfExpressionTri returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0(),
@@ -549,14 +513,15 @@ ruleIfExpressionKw returns [EObject current=null]
 	    }
 
 )
-)(	otherlv_4='else' 
+)((	'else' 
+)=>(	otherlv_4='else' 
     {
-    	newLeafNode(otherlv_4, grammarAccess.getIfExpressionKwAccess().getElseKeyword_4_0());
+    	newLeafNode(otherlv_4, grammarAccess.getIfExpressionKwAccess().getElseKeyword_4_0_0());
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getIfExpressionKwAccess().getElsePartChainedExpressionParserRuleCall_4_1_0()); 
+	        newCompositeNode(grammarAccess.getIfExpressionKwAccess().getElsePartChainedExpressionParserRuleCall_4_0_1_0()); 
 	    }
 		lv_elsePart_5_0=ruleChainedExpression		{
 	        if ($current==null) {
@@ -571,7 +536,7 @@ ruleIfExpressionKw returns [EObject current=null]
 	    }
 
 )
-))?)
+)))?)
 ;
 
 
@@ -761,9 +726,6 @@ ruleOrExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getOrExpressionAccess().getAndExpressionParserRuleCall_0()); 
     }
@@ -773,9 +735,6 @@ ruleOrExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0(),
@@ -836,9 +795,6 @@ ruleAndExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getAndExpressionAccess().getImpliesExpressionParserRuleCall_0()); 
     }
@@ -848,9 +804,6 @@ ruleAndExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0(),
@@ -911,9 +864,6 @@ ruleImpliesExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getImpliesExpressionAccess().getRelationalExpressionParserRuleCall_0()); 
     }
@@ -923,9 +873,6 @@ ruleImpliesExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0(),
@@ -986,9 +933,6 @@ ruleRelationalExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getRelationalExpressionAccess().getAdditiveExpressionParserRuleCall_0()); 
     }
@@ -998,9 +942,6 @@ ruleRelationalExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0(),
@@ -1124,9 +1065,6 @@ ruleAdditiveExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getAdditiveExpressionAccess().getMultiplicativeExpressionParserRuleCall_0()); 
     }
@@ -1136,9 +1074,6 @@ ruleAdditiveExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndAdd(
             grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0(),
@@ -1214,9 +1149,6 @@ ruleMultiplicativeExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getMultiplicativeExpressionAccess().getUnaryOrInfixExpressionParserRuleCall_0()); 
     }
@@ -1226,9 +1158,6 @@ ruleMultiplicativeExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndAdd(
             grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0(),
@@ -1304,9 +1233,6 @@ ruleUnaryOrInfixExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getUnaryOrInfixExpressionAccess().getUnaryExpressionParserRuleCall_0()); 
     }
@@ -1317,9 +1243,6 @@ ruleUnaryOrInfixExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getUnaryOrInfixExpressionAccess().getInfixExpressionParserRuleCall_1()); 
     }
@@ -1419,9 +1342,6 @@ ruleInfixExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getInfixExpressionAccess().getPrimaryExpressionParserRuleCall_0()); 
     }
@@ -1431,9 +1351,6 @@ ruleInfixExpression returns [EObject current=null]
         afterParserOrEnumRuleCall();
     }
 (((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0(),
@@ -1511,9 +1428,6 @@ ruleInfixExpression returns [EObject current=null]
     }
 )
     |((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0(),
@@ -1543,9 +1457,6 @@ ruleInfixExpression returns [EObject current=null]
 )
 ))
     |((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0(),
@@ -1598,9 +1509,6 @@ ruleInfixExpression returns [EObject current=null]
     }
 )
     |((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElementAndSet(
             grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0(),
@@ -1782,9 +1690,6 @@ rulePrimaryExpression returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getLiteralParserRuleCall_0()); 
     }
@@ -1795,9 +1700,6 @@ rulePrimaryExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getFeatureCallParserRuleCall_1()); 
     }
@@ -1808,9 +1710,6 @@ rulePrimaryExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getListLiteralParserRuleCall_2()); 
     }
@@ -1821,9 +1720,6 @@ rulePrimaryExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getConstructorCallExpressionParserRuleCall_3()); 
     }
@@ -1834,9 +1730,6 @@ rulePrimaryExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getGlobalVarExpressionParserRuleCall_4()); 
     }
@@ -1847,9 +1740,6 @@ rulePrimaryExpression returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getParanthesizedExpressionParserRuleCall_5()); 
     }
@@ -1880,9 +1770,6 @@ ruleLiteral returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getLiteralAccess().getBooleanLiteralParserRuleCall_0()); 
     }
@@ -1893,9 +1780,6 @@ ruleLiteral returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getLiteralAccess().getIntegerLiteralParserRuleCall_1()); 
     }
@@ -1906,9 +1790,6 @@ ruleLiteral returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getLiteralAccess().getNullLiteralParserRuleCall_2()); 
     }
@@ -1919,9 +1800,6 @@ ruleLiteral returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getLiteralAccess().getRealLiteralParserRuleCall_3()); 
     }
@@ -1932,9 +1810,6 @@ ruleLiteral returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getLiteralAccess().getStringLiteralParserRuleCall_4()); 
     }
@@ -2173,9 +2048,6 @@ ruleParanthesizedExpression returns [EObject current=null]
     	newLeafNode(otherlv_0, grammarAccess.getParanthesizedExpressionAccess().getLeftParenthesisKeyword_0());
     }
 
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getParanthesizedExpressionAccess().getExpressionParserRuleCall_1()); 
     }
@@ -2253,9 +2125,6 @@ ruleFeatureCall returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getFeatureCallAccess().getOperationCallParserRuleCall_0()); 
     }
@@ -2285,9 +2154,6 @@ ruleFeatureCall returns [EObject current=null]
 )
 )
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getFeatureCallAccess().getCollectionExpressionParserRuleCall_2()); 
     }
@@ -2298,9 +2164,6 @@ ruleFeatureCall returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getFeatureCallAccess().getTypeSelectExpressionParserRuleCall_3()); 
     }
@@ -2418,9 +2281,6 @@ ruleListLiteral returns [EObject current=null]
     }
     @after { leaveRule(); }:
 ((
-	{ 
-	  /* */ 
-	}
     {
         $current = forceCreateModelElement(
             grammarAccess.getListLiteralAccess().getListLiteralAction_0(),
@@ -2772,9 +2632,6 @@ ruleType returns [EObject current=null]
     }
     @after { leaveRule(); }:
 (
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getTypeAccess().getCollectionTypeParserRuleCall_0()); 
     }
@@ -2785,9 +2642,6 @@ ruleType returns [EObject current=null]
     }
 
     |
-	{ 
-	  /* */ 
-	}
     { 
         newCompositeNode(grammarAccess.getTypeAccess().getSimpleTypeParserRuleCall_1()); 
     }

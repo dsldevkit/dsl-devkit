@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.InterfaceExpressionImpl#isRef <em>Ref</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.InterfaceExpressionImpl#getExpr <em>Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

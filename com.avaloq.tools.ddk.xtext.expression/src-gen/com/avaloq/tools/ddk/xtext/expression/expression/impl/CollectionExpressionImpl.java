@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.CollectionExpressionImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.CollectionExpressionImpl#getType <em>Type</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.CollectionExpressionImpl#getVar <em>Var</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.CollectionExpressionImpl#getExp <em>Exp</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

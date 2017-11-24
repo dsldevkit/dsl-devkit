@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#isAllowLookup <em>Allow Lookup</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#isQualifiedName <em>Qualified Name</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#getUserData <em>User Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

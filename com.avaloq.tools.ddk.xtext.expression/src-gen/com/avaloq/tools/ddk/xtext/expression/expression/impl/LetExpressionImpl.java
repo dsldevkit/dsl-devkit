@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.LetExpressionImpl#getIdentifier <em>Identifier</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.LetExpressionImpl#getVarExpr <em>Var Expr</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.LetExpressionImpl#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

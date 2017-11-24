@@ -5,8 +5,7 @@
     modelPluginID="com.avaloq.tools.ddk.xtext.expression" forceOverwrite="true" modelName="Expression"
     updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.expression.edit"
-    editorPluginID="com.avaloq.tools.ddk.xtext.expression.editor" runtimeVersion="2.12"
-    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    editorPluginID="com.avaloq.tools.ddk.xtext.expression.editor" runtimeVersion="2.12">
   <genPackages prefix="Expression" basePackage="com.avaloq.tools.ddk.xtext.expression"
       disposableProviderFactory="true" ecorePackage="Expression.ecore#/">
     <genClasses ecoreClass="Expression.ecore#//Expression"/>

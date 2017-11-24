@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.AttributeImpl#getAttribute <em>Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

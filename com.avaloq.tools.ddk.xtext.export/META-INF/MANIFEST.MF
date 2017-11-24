@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.xtend.shared.ui;resolution:=optional,
- org.eclipse.xtext.ui.codetemplates;resolution:=optional
+ org.eclipse.xtext.ui.codetemplates;resolution:=optional,
+ org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.export.export,
@@ -35,5 +36,6 @@ Export-Package: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.export.services,
  com.avaloq.tools.ddk.xtext.export.validation,
  com.avaloq.tools.ddk.xtext.export.formatting,
- com.avaloq.tools.ddk.xtext.export.serializer
+ com.avaloq.tools.ddk.xtext.export.serializer,
+ com.avaloq.tools.ddk.xtext.export.generator
 

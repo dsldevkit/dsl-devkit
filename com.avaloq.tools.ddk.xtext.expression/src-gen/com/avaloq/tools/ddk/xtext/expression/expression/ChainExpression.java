@@ -10,11 +10,11 @@ package com.avaloq.tools.ddk.xtext.expression.expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.ChainExpression#getFirst <em>First</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.ChainExpression#getNext <em>Next</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getChainExpression()
  * @model
