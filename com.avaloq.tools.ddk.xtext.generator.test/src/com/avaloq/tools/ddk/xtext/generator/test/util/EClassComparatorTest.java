@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.xtext.XtextPackage;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.generator.util.EClassComparator;
+import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.ListMultimap;
@@ -76,4 +76,3 @@ public class EClassComparatorTest {
   }
 
 }
-

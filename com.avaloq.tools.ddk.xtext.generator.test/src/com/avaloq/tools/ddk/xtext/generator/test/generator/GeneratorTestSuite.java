@@ -13,13 +13,11 @@ package com.avaloq.tools.ddk.xtext.generator.test.generator;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationXTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContextTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionsExtentionsTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.EClassComparatorTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GraphTest;
-import com.avaloq.tools.ddk.xtext.generator.test.util.XpandExecutionContextUtilTest;
 import com.avaloq.tools.ddk.xtext.generator.xbase.test.FixedXbaseGeneratorFragmentTest;
 
 
@@ -31,11 +29,9 @@ import com.avaloq.tools.ddk.xtext.generator.xbase.test.FixedXbaseGeneratorFragme
 // @Format-Off
   GraphTest.class,
   EClassComparatorTest.class,
-  CodeGenerationTest.class,
   CodeGenerationXTest.class,
   CompilationContextTest.class,
   ExpressionsExtentionsTest.class,
-  XpandExecutionContextUtilTest.class,
   FixedXbaseGeneratorFragmentTest.class
 // @Format-On
 })

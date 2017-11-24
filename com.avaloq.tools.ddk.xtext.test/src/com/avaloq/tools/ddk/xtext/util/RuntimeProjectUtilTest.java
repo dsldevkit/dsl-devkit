@@ -83,14 +83,6 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
   }
 
   /**
-   * Tests when passed {@link IStorage2UriMapper} is broken then null instead of execution context expected.
-   */
-  @Test
-  public void createExecutionContextInCorrectTest() {
-    assertNull("When passed IStorage2UriMapper is broken then null instead of execution context expected", XpandExecutionContextUtil.createExecutionContext(resource, delta, mapperInCorrect));
-  }
-
-  /**
    * Tests extracting project path from a {@link Resource}.
    */
   @Test

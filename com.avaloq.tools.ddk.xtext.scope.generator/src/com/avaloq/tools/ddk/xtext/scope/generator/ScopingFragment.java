@@ -10,13 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scope.generator;
 
-import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.eclipse.osgi.util.NLS;
-import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.generator.AbstractGeneratorFragment;
@@ -25,9 +20,7 @@ import org.eclipse.xtext.generator.Binding;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
-import com.avaloq.tools.ddk.xtext.scope.ScopeStandaloneSetup;
 import com.avaloq.tools.ddk.xtext.scoping.IScopeNameProvider;
-import com.google.common.collect.Lists;
 
 
 /**
@@ -36,31 +29,6 @@ import com.google.common.collect.Lists;
 public class ScopingFragment extends AbstractGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";
-
-  /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(ScopingFragment.class);
-
-  /** The model for the scope resource. */
-  private Object model;
-
-  /** {@inheritDoc} */
-  @Override
-  public void generate(final Grammar grammar, final XpandExecutionContext ctx) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(NLS.bind("executing generate for {0}", getClass().getName()));
-    }
-    ScopeStandaloneSetup.doSetup();
-
-    try {
-      model = ScopingGeneratorUtil.getScopeModel(grammar, ctx);
-    } catch (final FileNotFoundException e) {
-      if (LOGGER.isInfoEnabled()) {
-        LOGGER.info(NLS.bind("  No scope file found for grammar {0}.", grammar.getName()));
-      }
-    }
-
-    super.generate(grammar, ctx);
-  }
 
   /** {@inheritDoc} */
   @Override
@@ -91,12 +59,6 @@ public class ScopingFragment extends AbstractGeneratorFragment {
   @Override
   public String[] getExportedPackagesRt(final Grammar grammar) {
     return new String[] {GrammarUtil.getNamespace(grammar) + ".scoping"};
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  protected List<Object> getParameters(final Grammar grammar) {
-    return Lists.newArrayList(model);
   }
 
 }

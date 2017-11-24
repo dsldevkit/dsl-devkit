@@ -40,7 +40,6 @@ import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
 import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 
 /**
@@ -147,8 +146,6 @@ public class ExportFragment extends AbstractGeneratorFragment {
     }
     ExportStandaloneSetup.doSetup();
     model = getModel(grammar);
-
-    super.generate(grammar, ctx);
   }
 
   /** {@inheritDoc} */
@@ -205,11 +202,4 @@ public class ExportFragment extends AbstractGeneratorFragment {
     }
   }
 
-  /** {@inheritDoc} */
-  @Override
-  protected List<Object> getParameters(final Grammar grammar) {
-    return Lists.<Object> newArrayList(getModel(grammar));
-  }
-
 }
-

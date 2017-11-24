@@ -18,8 +18,6 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.xtend.shared.ui;resolution:=optional,
- com.avaloq.tools.ddk.xtext.generator,
- org.eclipse.jdt.core,
  org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.scope,

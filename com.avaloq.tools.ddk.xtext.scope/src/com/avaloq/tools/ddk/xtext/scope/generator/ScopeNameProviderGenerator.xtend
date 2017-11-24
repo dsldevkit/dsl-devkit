@@ -5,11 +5,11 @@ import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
 import com.avaloq.tools.ddk.xtext.expression.expression.IntegerLiteral
 import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall
 import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral
-import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationX
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContext
-import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionExtensionsX
-import com.avaloq.tools.ddk.xtext.generator.util.GenModelUtilX
-import com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtilX
+import com.avaloq.tools.ddk.xtext.expression.generator.CodeGenerationX
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensionsX
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
 import com.avaloq.tools.ddk.xtext.scope.scope.Naming
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingExpression
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel
@@ -20,7 +20,7 @@ class ScopeNameProviderGenerator {
 
   @Inject extension CodeGenerationX
   @Inject extension ExpressionExtensionsX
-  @Inject extension com.avaloq.tools.ddk.xtext.generator.util.Naming
+  @Inject extension com.avaloq.tools.ddk.xtext.expression.generator.Naming
   @Inject extension GeneratorUtilX
   @Inject extension ScopeProviderX
 

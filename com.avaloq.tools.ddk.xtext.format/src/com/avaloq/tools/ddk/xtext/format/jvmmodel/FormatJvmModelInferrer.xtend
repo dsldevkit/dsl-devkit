@@ -68,7 +68,7 @@ import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 
-import static com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.*
+import static com.avaloq.tools.ddk.xtext.util.EObjectUtil.getFileLocation
 import static org.eclipse.xtext.GrammarUtil.*
 
 import static extension com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
@@ -743,7 +743,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   def locatorString(EObject object) {
-    getLocation(object).split('/').last()
+    getFileLocation(object).split('/').last()
   }
 
 }

@@ -13,11 +13,10 @@ package com.avaloq.tools.ddk.xtext.scope.generator
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression
 import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
-import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationX
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContext
-import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionExtensionsX
-import com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtilX
-import com.avaloq.tools.ddk.xtext.generator.util.Naming
+import com.avaloq.tools.ddk.xtext.expression.generator.CodeGenerationX
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensionsX
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
+import com.avaloq.tools.ddk.xtext.expression.generator.Naming
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil
 import com.avaloq.tools.ddk.xtext.scope.scope.Injection
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression
@@ -62,10 +61,6 @@ class ScopeProviderX {
     getScopeName() + '_' + (if (targetType != null) targetType.EPackage.name + '_' + targetType.name else contextType.EPackage.name + '_' + contextType.name + '_' + reference.name)
   }
 
-  def /*cached*/ CompilationContext compilationContext(ScopeModel it) {
-    ScopingGeneratorUtil.getCompilationContext(it)
-  }
-
   def String locatorString(EObject it) {
     location().split('/').last().javaEncode()
   }
@@ -81,11 +76,11 @@ class ScopeProviderX {
   /*
    * SCOPE RULES
    */
-  def List<ScopeRule> allScopeRules(Void it) {
+  def dispatch List<ScopeRule> allScopeRules(Void it) {
     newArrayList()
   }
 
-  def List<ScopeRule> allScopeRules(ScopeDefinition it) {
+  def dispatch List<ScopeRule> allScopeRules(ScopeDefinition it) {
     getModel().collectAllScopeRules(it)
   }
 
@@ -128,7 +123,7 @@ class ScopeProviderX {
    * SCOPE DEFINITIONS
    */
   // returns the list of all local and inherited scope definition (skipping any shadowed or extended scope definitions)
-  def List<ScopeDefinition> allScopes(ScopeModel it) {
+  def dispatch List<ScopeDefinition> allScopes(ScopeModel it) {
     val myScopes = it.scopes
     val result = if (it.includedScopes.isEmpty) newArrayList else it.includedScopes.map[allScopes()].flatten.toList
     result.removeIf(s|myScopes.hasScope(s))
@@ -136,7 +131,7 @@ class ScopeProviderX {
     result
   }
 
-  def List<ScopeDefinition> allScopes(Void it) {
+  def dispatch List<ScopeDefinition> allScopes(Void it) {
     newArrayList
   }
 
@@ -155,15 +150,15 @@ class ScopeProviderX {
   /*
    * SCOPE TYPE
    */
-  def EClass scopeType(ScopeDefinition it) {
+  def dispatch EClass scopeType(ScopeDefinition it) {
     if (reference != null) reference.EReferenceType else targetType
   }
 
-  def EClass scopeType(ScopeRule it) {
+  def dispatch EClass scopeType(ScopeRule it) {
     getScope().scopeType()
   }
 
-  def EClass scopeType(Expression it) {
+  def dispatch EClass scopeType(Expression it) {
     if (getScope() != null) getScope().scopeType() else getNamingDef().type
   }
 
@@ -179,7 +174,7 @@ class ScopeProviderX {
    * Injections
    */
   // returns the list of all local and inherited injections (skipping any shadowed injections)
-  def List<Injection> allInjections(ScopeModel it) {
+  def dispatch List<Injection> allInjections(ScopeModel it) {
     val myInjections = it.injections
     val result = if (it.includedScopes.isEmpty) newArrayList else it.includedScopes.map[allInjections()].flatten.toList
     result.removeIf(i|myInjections.hasInjection(i))
@@ -187,7 +182,7 @@ class ScopeProviderX {
     result
   }
 
-  def List<Injection> allInjections(Void it) {
+  def dispatch List<Injection> allInjections(Void it) {
     newArrayList
   }
 

@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
-import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionExtensions;
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GeneratorTestUtil;
+import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 
 
 public class ExpressionsExtentionsTest extends AbstractXtextTest {
@@ -41,4 +41,3 @@ public class ExpressionsExtentionsTest extends AbstractXtextTest {
     assertEquals("Simple serialization works", "let x = 1 : 0", ExpressionExtensions.serialize(e));
   }
 }
-

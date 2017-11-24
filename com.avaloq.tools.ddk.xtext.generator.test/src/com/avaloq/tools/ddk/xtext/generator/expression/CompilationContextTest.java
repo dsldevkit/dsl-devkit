@@ -22,6 +22,8 @@ import org.eclipse.xtend.type.impl.java.JavaBeansMetaModel;
 import org.eclipse.xtend.typesystem.Type;
 import org.junit.Test;
 
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
+
 
 public class CompilationContextTest {
 
@@ -31,7 +33,7 @@ public class CompilationContextTest {
     executionContext.registerMetaModel(new JavaBeansMetaModel());
     ExtensionFile extensionFile = ParseFacade.file(new InputStreamReader(getClass().getResourceAsStream("/com/avaloq/tools/ddk/xtext/generator/expression/TestExtensions.ext")), "TestExtensions.ext");
     executionContext = (ExecutionContextImpl) executionContext.cloneWithResource(extensionFile);
-    final CompilationContext context = new CompilationContext(executionContext);
+    final CompilationContext context = new CompilationContext(executionContext, null);
 
     assertTrue("test extension not identified", context.isExtension("test"));
   }
@@ -40,7 +42,7 @@ public class CompilationContextTest {
   public void analyze() throws Exception {
     ExecutionContextImpl executionContext = new ExecutionContextImpl();
     executionContext.registerMetaModel(new JavaBeansMetaModel());
-    final CompilationContext context = new CompilationContext(executionContext);
+    final CompilationContext context = new CompilationContext(executionContext, null);
 
     Type expectedType = executionContext.getTypeForName("Integer");
     assertSame("Cannot analyze Integer", expectedType, context.analyze("1 + 3"));
@@ -55,4 +57,3 @@ public class CompilationContextTest {
   }
 
 }
-

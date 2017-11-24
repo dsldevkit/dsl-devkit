@@ -7,7 +7,6 @@ Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.generator;resolution:=optional,
- org.apache.commons.logging;resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
  org.eclipse.emf.mwe2.launch;resolution:=optional,
@@ -20,7 +19,6 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.generator,
  com.avaloq.tools.ddk.xtext.expression;visibility:=reexport,
- com.avaloq.tools.ddk.xtext.export;visibility:=reexport,
- org.eclipse.jdt.core
+ com.avaloq.tools.ddk.xtext.export;visibility:=reexport
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export.generator

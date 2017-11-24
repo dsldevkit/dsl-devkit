@@ -16,7 +16,11 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
- com.avaloq.tools.ddk.xtext
+ com.avaloq.tools.ddk.xtext,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.expression.conversion,
@@ -24,10 +28,11 @@ Export-Package: com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.expression.expression.impl,
  com.avaloq.tools.ddk.xtext.expression.expression.util,
  com.avaloq.tools.ddk.xtext.expression.formatting,
+ com.avaloq.tools.ddk.xtext.expression.generator,
  com.avaloq.tools.ddk.xtext.expression.parser.antlr,
  com.avaloq.tools.ddk.xtext.expression.parser.antlr.internal,
  com.avaloq.tools.ddk.xtext.expression.scoping,
+ com.avaloq.tools.ddk.xtext.expression.serializer,
  com.avaloq.tools.ddk.xtext.expression.services,
- com.avaloq.tools.ddk.xtext.expression.validation,
- com.avaloq.tools.ddk.xtext.expression.serializer
+ com.avaloq.tools.ddk.xtext.expression.validation
 
