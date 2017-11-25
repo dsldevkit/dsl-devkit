@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.linking;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.INode;
 
 import com.google.inject.ImplementedBy;
@@ -51,4 +52,16 @@ public interface ICrossReferenceHelper {
    * @return <code>true</code> if the given reference instance should be exported
    */
   boolean exportReference(final EObject context, final EReference reference, EObject target);
+
+  /**
+   * Creates an unresolved name for the given qualified name (last segment taken only).
+   * <p>
+   * Assumes a canonical String representation of qualified names using '.' as namespace delimiter.
+   * Languages that do not use a canonical namespace delimiter, must override this method.
+   *
+   * @param name
+   *          potentially qualified name for an unresolved reference
+   * @return an unresolved qualified name
+   */
+  QualifiedName toUnresolvedReferenceName(final String name);
 }

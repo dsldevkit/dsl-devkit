@@ -15,9 +15,10 @@ import java.util.Set;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.parsetree.reconstr.IHiddenTokenHelper;
 
-import com.avaloq.tools.ddk.xtext.formatting.locators.ILinewrapLocator;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+
+import com.avaloq.tools.ddk.xtext.formatting.locators.ILinewrapLocator;
 
 
 /**
@@ -160,9 +161,9 @@ public class WrapEntry {
         maxLinewrap += locator.getMaxWrap();
         break;
       case COMBINED_MAXIMUM:
-        minLinewrap = Math.max(defaultLinewrap, locator.getMinWrap());
+        minLinewrap = Math.max(minLinewrap, locator.getMinWrap());
         defaultLinewrap = Math.max(defaultLinewrap, locator.getDefaultWrap());
-        maxLinewrap = Math.max(defaultLinewrap, locator.getMaxWrap());
+        maxLinewrap = Math.max(maxLinewrap, locator.getMaxWrap());
         break;
       default:
         break;

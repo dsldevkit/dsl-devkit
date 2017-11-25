@@ -14,19 +14,32 @@ import java.util.Collection;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 import com.avaloq.tools.ddk.check.runtime.registry.impl.CheckValidatorRegistryImpl;
+import com.google.inject.ProvidedBy;
+import com.google.inject.Provider;
 
 
 /**
  * Registry used for collecting all validators in a non-OSGi environment.
  */
+@ProvidedBy(ICheckValidatorRegistry.CheckValidatorRegistryProvider.class)
 public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
+
+  /**
+   * {link Provider} implementation enabling {link ICheckValidatorRegistry.INSTANCE} to be injected.
+   */
+  class CheckValidatorRegistryProvider implements Provider<ICheckValidatorRegistry> {
+    @Override
+    public ICheckValidatorRegistry get() {
+      return INSTANCE;
+    }
+  }
 
   /** The Constant INSTANCE. */
   ICheckValidatorRegistry INSTANCE = new CheckValidatorRegistryImpl();
 
   /**
    * Get validators for a given language.
-   * 
+   *
    * @param language
    *          language name
    * @return
@@ -36,7 +49,7 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
 
   /**
    * Get validators for a given language.
-   * 
+   *
    * @return
    *         collection of registered validators
    */
@@ -44,7 +57,7 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
 
   /**
    * Add a validator. Multiple validators can be registered. Duplicates are not checked.
-   * 
+   *
    * @param language
    *          Language name to add validator for.
    * @param validator
@@ -59,11 +72,10 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
 
   /**
    * Check if there are any validators registered.
-   * 
+   *
    * @return
    *         {@code TRUE} if there are any validators registered, {@code FALSE} otherwise.
    */
   boolean isEmpty();
 
 }
-

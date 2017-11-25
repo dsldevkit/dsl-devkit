@@ -54,7 +54,8 @@ import com.google.inject.name.Named;
 /**
  * Resource description manager; with some caching.
  */
-public abstract class AbstractCachingResourceDescriptionManager extends DerivedStateAwareResourceDescriptionManager implements IResourceDescriptionDeltaFactory {
+public abstract class AbstractCachingResourceDescriptionManager extends DerivedStateAwareResourceDescriptionManager
+    implements IResourceDescriptionDeltaFactory {
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(AbstractCachingResourceDescriptionManager.class);
@@ -71,12 +72,15 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
   @Inject
   private IDefaultResourceDescriptionStrategy descriptionStrategy;
 
+  @Inject
+  private IFileExtensionResolver fileExtensionResolver;
+
   /** The file extensions of the DSL this resource description manager is for. */
   private ImmutableSet<String> fileExtensions;
 
   /**
    * Set the file extensions of our own language.
-   * 
+   *
    * @param fileExtensions
    *          The file extensions
    */
@@ -96,18 +100,19 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Checks whether this manager manages resources with the given URI.
-   * 
+   *
    * @param uri
    *          URI
    * @return true if managed
    */
   protected boolean isManagerFor(final URI uri) {
-    return fileExtensions.contains(uri.fileExtension());
+    return fileExtensions.contains(fileExtensionResolver.resolveExtension(uri));
   }
 
   @Override
   protected IResourceDescription internalGetResourceDescription(final Resource resource, final IDefaultResourceDescriptionStrategy strategy) {
     IResourceDescription result = getCache().get(CACHE_KEY, resource, new Provider<IResourceDescription>() {
+      @Override
       public IResourceDescription get() {
         return createResourceDescription(resource, descriptionStrategy);
       }
@@ -122,7 +127,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Given a resource delta, tell whether resources managed by this manager may be affected by it.
-   * 
+   *
    * @param delta
    *          The resource delta
    * @return true if the delta potentially affects this resource, false otherwise
@@ -134,7 +139,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Returns the set of file extensions which can cause a managed resource to become invalidated.
-   * 
+   *
    * @return a set of file extensions or <code>null</code> if all resources are interesting
    */
   protected Set<String> getInterestingExtensions() { // NOPMD
@@ -176,7 +181,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Filters the set of deltas to those which are of {@link #isInterestedIn(Delta) interest} to resources managed by this manager.
-   * 
+   *
    * @param deltas
    *          deltas to filter
    * @return filtered deltas
@@ -193,7 +198,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Bulk method to return all resources (managed by this manager) which are affected by the given set of deltas.
-   * 
+   *
    * @param deltas
    *          deltas
    * @param candidates
@@ -216,6 +221,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
       return ImmutableSet.of();
     }
     return getAffectedResources(deltas, new Predicate<URI>() {
+      @Override
       public boolean apply(final URI input) {
         return candidates.contains(input) && isManagerFor(input);
       }
@@ -224,7 +230,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Bulk method to return all resources (managed by this manager) which are affected by the given set of deltas.
-   * 
+   *
    * @param deltas
    *          deltas
    * @param filter
@@ -262,6 +268,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
     // find all resources matching provided filter with physical references to changed-or-deleted resources and objects
     Set<URI> references = Sets.newHashSet(Iterables.filter(Iterables.transform(Iterables.concat(context.findAllReferencingResources(changedOrDeletedResources, ReferenceMatchPolicy.REFERENCES), context.findExactReferencingResources(changedOrDeletedObjects, ReferenceMatchPolicy.REFERENCES)), new Function<IResourceDescription, URI>() {
+      @Override
       public URI apply(final IResourceDescription from) {
         return from.getURI();
       }
@@ -294,7 +301,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Determines if a given candidate is affected by a given delta.
-   * 
+   *
    * @param delta
    *          delta
    * @param candidate
@@ -386,7 +393,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Returns all resolved imported names from a given resource description.
-   * 
+   *
    * @param candidate
    *          the resource description
    * @return a collection of names
@@ -433,7 +440,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * All extensions.
-   * 
+   *
    * @return all extensions ({@code null})
    */
   protected static ImmutableSet<String> all() { // NOPMD
@@ -442,13 +449,14 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /**
    * Returns an immutable set for the given list of extensions. The returned extensions are properly encoded.
-   * 
+   *
    * @param exts
    *          list of extensions
    * @return immutable set of extensions
    */
   protected static ImmutableSet<String> of(final String... exts) { // NOPMD
     return ImmutableSet.copyOf(Iterables.transform(Sets.newHashSet(exts), new Function<String, String>() {
+      @Override
       public String apply(final String input) {
         return URI.encodeSegment(input, true);
       }
@@ -456,4 +464,3 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
   }
 
 }
-

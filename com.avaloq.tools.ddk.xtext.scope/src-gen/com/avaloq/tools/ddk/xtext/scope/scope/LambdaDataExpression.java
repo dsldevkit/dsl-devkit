@@ -10,10 +10,10 @@ package com.avaloq.tools.ddk.xtext.scope.scope;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.LambdaDataExpression#getDesc <em>Desc</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getLambdaDataExpression()
  * @model

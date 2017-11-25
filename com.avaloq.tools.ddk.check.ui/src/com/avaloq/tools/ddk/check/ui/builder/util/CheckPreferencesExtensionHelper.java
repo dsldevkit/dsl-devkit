@@ -28,6 +28,8 @@ import com.google.common.collect.Lists;
  */
 public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensionHelper implements ICheckExtensionHelper {
 
+  public static final String GENERATE_PREFERENCES_EXTENSION_PREFERENCE = "generatePreferencesExtension";
+
   private static final String CHECK_CONFIGURATION_PREFS = "com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences";
   // See also com.avaloq.tools.targetdefinition.ui.check.preferences.CheckConfigurationProjectScope.SCOPE
   private static final String CHECK_CONFIGURATION_SCOPE = "checkcfgproject";
@@ -40,9 +42,14 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
   private static final String CLASS_ATTRIBUTE_TAG = "class";
   private static final String NAME_ATTRIBUTE_TAG = "name";
 
+  @Override
+  protected String getExtensionEnablementPreferenceName() {
+    return GENERATE_PREFERENCES_EXTENSION_PREFERENCE;
+  }
+
   /**
    * Updates the preferences extension with current values as provided by given check catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    * @param extension
@@ -64,7 +71,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
 
   /**
    * Updates the initializer plug-in element.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param element
@@ -81,7 +88,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
 
   /**
    * Updates the scope plug-in element.
-   * 
+   *
    * @param element
    *          the element
    * @return the i plugin element
@@ -97,7 +104,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
 
   /**
    * Checks if the initializer class value of given plugin extension element matches with that calculated using given check catalog.
-   * 
+   *
    * @param element
    *          the plugin extension element
    * @param initializerClassName
@@ -110,7 +117,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
 
   /**
    * Checks if the name of given plugin extension matches with that calculated using given check catalog.
-   * 
+   *
    * @param extension
    *          the plugin extension
    * @param catalog
@@ -122,7 +129,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
     return Strings.equal(extension.getName(), EXTENSION_NAME_PREFIX + catalog.getName());
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     List<IPluginElement> result = Lists.newArrayList();
     result.add(updateInitializerElement(catalog, extension.getModel().getFactory().createElement(extension)));
@@ -135,19 +142,19 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
     return result;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointId() {
     return PREFERENCES_EXTENSION_POINT_ID;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointName(final CheckCatalog catalog) {
     return EXTENSION_NAME_PREFIX + catalog.getName();
   }
 
   /**
    * Gets the target class name based on the package path of given check catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    * @return the target class FQN
@@ -158,7 +165,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
 
   /**
    * Gets the initializer element.
-   * 
+   *
    * @param elements
    *          the elements
    * @return the initializer element
@@ -176,7 +183,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // @Format-Off
     final boolean result = extension.getPoint().equals(PREFERENCES_EXTENSION_POINT_ID)
-        && (!extensionNameMatches(extension, catalog) 
+        && (!extensionNameMatches(extension, catalog)
         || Iterables.size(elements) != 2
         || !initializerClassMatches(getInitializerElement(elements), getTargetClassName(catalog)));
     return result;
@@ -184,4 +191,3 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
   }
 
 }
-

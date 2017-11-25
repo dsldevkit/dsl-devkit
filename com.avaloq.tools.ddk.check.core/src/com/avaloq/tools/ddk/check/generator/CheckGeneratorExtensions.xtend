@@ -16,9 +16,9 @@ import com.avaloq.tools.ddk.check.check.Context
 import com.avaloq.tools.ddk.check.check.Implementation
 import com.avaloq.tools.ddk.check.check.TriggerKind
 import com.avaloq.tools.ddk.check.check.XIssueExpression
+import com.google.common.collect.Iterables
 import com.google.common.collect.Sets
 import com.google.common.io.CharStreams
-import com.google.inject.Inject
 import java.io.InputStreamReader
 import java.io.StringReader
 import java.util.Set
@@ -32,9 +32,15 @@ import org.eclipse.jdt.internal.ui.text.javadoc.JavaDoc2HTMLTextReader
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.CheckType
 
+import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.*
+
 class CheckGeneratorExtensions {
 
-  @Inject extension CheckGeneratorNaming
+  /* Returns whether a CheckCatalog has any included CheckCatalogs. */
+  def boolean hasIncludedCatalogs(CheckCatalog catalog) {
+    val included = catalog.includedCatalogs
+    return (null != included && !included.eIsProxy)
+  }
 
   def dispatch String qualifiedIssueCodeName(XIssueExpression issue) {
     val result = issue.issueCode()
@@ -45,18 +51,22 @@ class CheckGeneratorExtensions {
     }
   }
 
- /* Returns the qualified Java name for an issue code. */
+  /* Returns the qualified Java name for an issue code. */
   def dispatch String qualifiedIssueCodeName(Context context) {
     context.parent(typeof(CheckCatalog)).issueCodesClassName + '.' + context.issueCode
   }
 
   /* Gets the simple issue code name for a check. */
-  def dispatch String issueCode(Check check) {
-    check.name.splitCamelCase.toUpperCase
+  def static dispatch String issueCode(Check check) {
+    if (null != check.name) {
+      check.name.splitCamelCase.toUpperCase
+    } else {
+      "ERROR_ISSUE_CODE_NAME_CHECK" // should only happen if the ID is missing, which will fail a validation
+    }
   }
 
   /* Gets the simple issue code name for an issue expression. */
-  def dispatch String issueCode(XIssueExpression issue) {
+  def static dispatch String issueCode(XIssueExpression issue) {
     if (issue.issueCode != null) {
       issue.issueCode.splitCamelCase.toUpperCase
     } else if (issue.check !== null && !issue.check.eIsProxy) {
@@ -68,20 +78,37 @@ class CheckGeneratorExtensions {
     }
   }
 
-  def issueCodePrefix(CheckCatalog catalog){
+  def static issueCodePrefix(CheckCatalog catalog) {
     catalog.packageName + "." + catalog.issueCodesClassName + "."
   }
 
   /* Returns the <b>value</b> of an issue code. */
-  def issueCodeValue(EObject object, String issueCode){
+  def static issueCodeValue(EObject object, String issueCode) {
     val catalog = object.parent(typeof(CheckCatalog))
     catalog.issueCodePrefix + issueCode.replaceAll("_", ".").toLowerCase
   }
 
+  /* Gets the issue label for a Check. */
+  def dispatch String issueLabel(Check check) {
+    check.label
+  }
+
+  /* Gets the issue label for an issue expression. */
+  def dispatch String issueLabel(XIssueExpression issue) {
+    if (issue.check !== null && !issue.check.eIsProxy) {
+      issueLabel(issue.check)
+    } else if (issue.parent(Check) != null) {
+      issueLabel(issue.parent(Check))
+    } else {
+      "ERROR_ISSUE_LABEL_XISSUEEXPRESSION" // should not happen
+    }
+  }
+
   /* Converts a string such as "AbcDef" to "ABC_DEF". */
-  def String splitCamelCase(String string) {
+  def static String splitCamelCase(String string) {
     string.replaceAll(
-      String::format("%s|%s|%s",
+      String::format(
+        "%s|%s|%s",
         "(?<=[A-Z])(?=[A-Z][a-z])",
         "(?<=[^A-Z_])(?=[A-Z])",
         "(?<=[A-Za-z])(?=[^A-Za-z_])"
@@ -92,16 +119,16 @@ class CheckGeneratorExtensions {
 
   def checkType(Context context) {
     val kind = if (context.eContainer instanceof Check) {
-       (context.eContainer as Check).kind
-    } else {
-      TriggerKind::FAST  //TODO handle the case of independent check implementations
-    }
+        (context.eContainer as Check).kind
+      } else {
+        TriggerKind::FAST // TODO handle the case of independent check implementations
+      }
 
-    return "CheckType."+switch (kind) {
-      case TriggerKind::EXPENSIVE : CheckType::EXPENSIVE
+    return "CheckType." + switch (kind) {
+      case TriggerKind::EXPENSIVE: CheckType::EXPENSIVE
       case TriggerKind::NORMAL: CheckType::NORMAL
       case TriggerKind::FAST: CheckType::FAST
-      }.toString
+    }.toString
   }
 
   def issues(EObject object) {
@@ -116,7 +143,14 @@ class CheckGeneratorExtensions {
     implementation.context.issues
   }
 
-  def issuedCheck (XIssueExpression expression) {
+  /* Returns all Check and Implementation Issues for a CheckCatalog. Issues are not necessarily unique. */
+  def checkAndImplementationIssues(CheckCatalog catalog) {
+    val checkIssues = catalog.issues // Issues for all Checks
+    val implIssues = catalog.implementations.map(impl|impl.issues).flatten // Issues for all Implementations
+    return Iterables::concat(checkIssues, implIssues) // all Issue instances
+  }
+
+  def issuedCheck(XIssueExpression expression) {
     if (expression.check != null) {
       expression.check
     } else {
@@ -178,7 +212,7 @@ class CheckGeneratorExtensions {
     try {
       val reader = new JavaDoc2HTMLTextReader(new StringReader(comment))
       return reader.string
-    } catch(Exception e) {
+    } catch (Exception e) {
       return null
     }
   }
@@ -191,7 +225,7 @@ class CheckGeneratorExtensions {
         val reader = new InputStreamReader(file.getContents())
         try {
           val content = CharStreams::readLines(reader)
-          return Sets::newLinkedHashSet(content)
+          return Sets.<String>newTreeSet(content)
         } finally {
           reader.close
         }

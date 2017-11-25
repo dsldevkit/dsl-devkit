@@ -90,6 +90,11 @@ public class ScopeAdapterFactory extends AdapterFactoryImpl
         return createExtensionAdapter();
       }
       @Override
+      public Adapter caseInjection(Injection object)
+      {
+        return createInjectionAdapter();
+      }
+      @Override
       public Adapter caseNamingSection(NamingSection object)
       {
         return createNamingSectionAdapter();
@@ -232,6 +237,21 @@ public class ScopeAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createExtensionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.avaloq.tools.ddk.xtext.scope.scope.Injection <em>Injection</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.Injection
+   * @generated
+   */
+  public Adapter createInjectionAdapter()
   {
     return null;
   }

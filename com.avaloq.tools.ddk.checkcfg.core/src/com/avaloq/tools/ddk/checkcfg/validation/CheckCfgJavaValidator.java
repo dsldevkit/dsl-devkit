@@ -84,24 +84,35 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
    */
   @Check
   public void checkDisabledCheckIsNotConfigured(final ConfiguredCheck configuredCheck) {
-    if (configuredCheck.getSeverity().equals(SeverityKind.IGNORE) && !configuredCheck.getParameterConfigurations().isEmpty()) {
+    if (configuredCheck.getSeverity().equals(SeverityKind.IGNORE) && isParameterConfigured(configuredCheck)) {
       warning(Messages.CheckCfgJavaValidator_DISABLED_CHECK_NOT_CONFIGURED, CheckcfgPackage.Literals.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS, IssueCodes.DISABLED_CHECK_NOT_CONFIGURED);
     }
   }
 
   /**
-   * Checks if a {@link com.avaloq.tools.ddk.check.check.Check Check} is configured or if it is just referenced.
+   * Checks if a {@link com.avaloq.tools.ddk.check.check.Check Check} is configured for a different severity than default.
    *
    * @param configuredCheck
-   *          the configured check
+   *          the configured check, must not be {@code null}
    * @return {@code true}, if it is configured
    */
-  private boolean isConfigured(final ConfiguredCheck configuredCheck) {
-    return configuredCheck.getSeverity() != SeverityKind.DEFAULT || !configuredCheck.getParameterConfigurations().isEmpty();
+  private boolean isSeverityConfigured(final ConfiguredCheck configuredCheck) {
+    return configuredCheck.getSeverity() != SeverityKind.DEFAULT;
   }
 
   /**
-   * Checks that final catalogs are not configured.
+   * Checks if a {@link com.avaloq.tools.ddk.check.check.Check Check} has any configured parameters.
+   *
+   * @param configuredCheck
+   *          the configured check, must not be {@code null}
+   * @return {@code true}, if it is configured
+   */
+  private boolean isParameterConfigured(final ConfiguredCheck configuredCheck) {
+    return !configuredCheck.getParameterConfigurations().isEmpty();
+  }
+
+  /**
+   * Checks that final catalogs are not configured for severity.
    *
    * @see {@link com.avaloq.tools.ddk.check.check.CheckCatalog#isFinal()}
    * @param catalog
@@ -111,7 +122,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   public void checkFinalCatalogNotConfigurable(final ConfiguredCatalog catalog) {
     if (catalog.getCatalog() != null && !catalog.getCatalog().eIsProxy() && catalog.getCatalog().isFinal()) {
       for (final ConfiguredCheck check : catalog.getCheckConfigurations()) {
-        if (isConfigured(check)) {
+        if (isSeverityConfigured(check)) {
           error(Messages.CheckCfgJavaValidator_FINAL_CATALOG_NOT_CONFIGURABLE, check, null, IssueCodes.FINAL_CATALOG_NOT_CONFIGURABLE);
         }
       }
@@ -120,14 +131,15 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
 
   /**
    * Checks that a {@link com.avaloq.tools.ddk.check.check.Check Check} which has been marked as {@link com.avaloq.tools.ddk.check.check.Check#isFinal()
-   * final} is not configured.
+   * final} is not configured for severity.
    *
    * @param configuredCheck
    *          the configured check
    */
   @Check
   public void checkFinalCheckNotConfigurable(final ConfiguredCheck configuredCheck) {
-    if (isConfigured(configuredCheck) && configuredCheck.getCheck() != null && !configuredCheck.getCheck().eIsProxy() && configuredCheck.getCheck().isFinal()) {
+    if (isSeverityConfigured(configuredCheck) && configuredCheck.getCheck() != null && !configuredCheck.getCheck().eIsProxy()
+        && configuredCheck.getCheck().isFinal()) {
       error(Messages.CheckCfgJavaValidator_FINAL_CHECK_NOT_CONFIGURABLE, CheckcfgPackage.Literals.CONFIGURED_CHECK__CHECK, IssueCodes.FINAL_CHECK_NOT_CONFIGURABLE);
     }
   }
@@ -142,7 +154,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   @Check
   public void checkConfiguredSeverityAllowed(final ConfiguredCheck configuredCheck) {
     // @Format-Off
-    if (isConfigured(configuredCheck) && configuredCheck.getCheck() != null
+    if (isSeverityConfigured(configuredCheck) && configuredCheck.getCheck() != null
         && !configuredCheck.getCheck().eIsProxy() && configuredCheck.getCheck().getSeverityRange() != null) {
       final SeverityRange range = configuredCheck.getCheck().getSeverityRange();
       final com.avaloq.tools.ddk.check.check.SeverityKind configuredSeverity =
@@ -180,7 +192,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   @Check
   public void checkConfigurationEqualsDefault(final ConfiguredCheck configuredCheck) {
     final com.avaloq.tools.ddk.check.check.Check check = configuredCheck.getCheck();
-    if (!isConfigured(configuredCheck) || check == null || check.eIsProxy()) {
+    if (!isParameterConfigured(configuredCheck) || check == null || check.eIsProxy()) {
       return; // only interesting if check configured and resolvable
     }
 

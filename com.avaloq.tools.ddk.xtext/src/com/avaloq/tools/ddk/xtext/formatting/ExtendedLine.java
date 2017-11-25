@@ -56,6 +56,15 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
   }
 
   /**
+   * Gets the associated {@link ExtendedFormattingConfigBasedStream}.
+   *
+   * @return the {@link ExtendedFormattingConfigBasedStream}.
+   */
+  public ExtendedFormattingConfigBasedStream getConfigBasedStream() {
+    return configBasedStream;
+  }
+
+  /**
    * Check if line is empty.
    * A line is considered empty if it does not contain any non-white space entries.
    *
@@ -224,6 +233,11 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
         if (!lineEntry.isFormattingDisabled()) {
           lineEntry.setLeadingSpaceEntry(spaceEntry);
         }
+        String postProcessedValue = getConfigBasedStream().getFormatter().executeCustomPostFormatAction(lineEntry, getEntries());
+        if (postProcessedValue != null) {
+          lineEntry.setValue(postProcessedValue);
+        }
+
         getEntries().add(lineEntry);
       } else {
         newLine = breakLine();
@@ -544,6 +558,13 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
    */
   public List<ExtendedLineEntry> getEntries() {
     return lineEntries;
+  }
+
+  /**
+   * Clears all the line entries.
+   */
+  public void emptyEntries() {
+    this.lineEntries.clear();
   }
 
   /**

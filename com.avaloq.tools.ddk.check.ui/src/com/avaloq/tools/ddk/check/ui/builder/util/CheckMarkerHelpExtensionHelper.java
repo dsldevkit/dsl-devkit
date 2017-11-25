@@ -50,7 +50,7 @@ import com.google.common.collect.Sets;
 /**
  * The extension point utility class for Check marker help. Intended to be used by the Check builder participant.
  */
-public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper implements ICheckExtensionHelper {
+public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationExtensionHelper {
 
   public static final String MARKERHELP_EXTENSION_POINT_ID = "org.eclipse.ui.ide.markerHelp";
   private static final String MARKERHELP_ELEMENT = "markerHelp";
@@ -63,7 +63,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Creates the marker help element.
-   * 
+   *
    * @param extension
    *          the extension
    * @param check
@@ -84,7 +84,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Creates the attribute element and adds it to the give marker help element.
-   * 
+   *
    * @param markerHelpElement
    *          the marker help element
    * @param issueCode
@@ -103,7 +103,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Gets the issue codes for a given check.
-   * 
+   *
    * @param check
    *          the check
    * @return the issue codes
@@ -111,16 +111,17 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
   private Iterable<String> getIssueCodeValues(final Check check) {
     final CheckGeneratorExtensions generatorExtension = getFromServiceProvider(CheckGeneratorExtensions.class, check);
     return Iterables.transform(generatorExtension.issues(check), new Function<XIssueExpression, String>() {
+      @Override
       public String apply(final XIssueExpression input) {
-        String issueCode = generatorExtension.issueCode(input);
-        return generatorExtension.issueCodeValue(input, issueCode);
+        String issueCode = CheckGeneratorExtensions.issueCode(input);
+        return CheckGeneratorExtensions.issueCodeValue(input, issueCode);
       }
     });
   }
 
   /**
    * Gets all issue code values from given catalog.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @return all issue code values
@@ -128,9 +129,10 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
   private Iterable<String> getAllIssueCodeValues(final CheckCatalog catalog) {
     final CheckGeneratorExtensions generatorExtension = getFromServiceProvider(CheckGeneratorExtensions.class, catalog);
     return Iterables.transform(generatorExtension.issues(catalog), new Function<XIssueExpression, String>() {
+      @Override
       public String apply(final XIssueExpression input) {
-        String issueCode = generatorExtension.issueCode(input);
-        return generatorExtension.issueCodeValue(input, issueCode);
+        String issueCode = CheckGeneratorExtensions.issueCode(input);
+        return CheckGeneratorExtensions.issueCodeValue(input, issueCode);
       }
     });
   }
@@ -163,6 +165,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
     // check that the real model and the extension model have the same number of issue codes
     Iterable<String> allExtensionIssueCodes = Iterables.transform(contextToValue.values(), new Function<Pair<String, String>, String>() {
+      @Override
       public String apply(final Pair<String, String> input) {
         return input.getSecond();
       }
@@ -180,6 +183,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
           Set<Pair<String, String>> modeToValues = contextToValue.get(contextId);
           try {
             Iterables.find(modeToValues, new Predicate<Pair<String, String>>() {
+              @Override
               public boolean apply(final Pair<String, String> input) {
                 return input.getFirst().equals(getCheckType(check)) && input.getSecond().equals(issueCode);
               }
@@ -197,7 +201,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Gets the plugin id of the project.
-   * 
+   *
    * @param extension
    *          the extension
    * @return the plugin id
@@ -216,7 +220,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Gets the value for the helpContextId field.
-   * 
+   *
    * @param extension
    *          the extension
    * @param check
@@ -232,7 +236,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Checks if is catalog context id.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param uri
@@ -251,7 +255,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Gets the check type.
-   * 
+   *
    * @param check
    *          the check
    * @return the check type
@@ -299,7 +303,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
 
   /**
    * Creates a marker help element for every check in the catalog. The new elements are added to the given extension.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param extension
@@ -308,6 +312,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
    * @throws CoreException
    *           the core exception
    */
+  @Override
   public Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     List<IPluginElement> result = Lists.newArrayList();
 
@@ -331,7 +336,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
    * Gets the plugin elements based on an object description. This will be called when a check catalog is
    * deleted. The build delta contains object descriptions which are passed to this class in order to delete
    * obsolete extensions.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param uri
@@ -343,6 +348,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
   private Iterable<IPluginElement> getElements(final QualifiedName catalog, final URI uri, final IPluginExtension extension) {
     try {
       return Iterables.filter(Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class), new Predicate<IPluginElement>() {
+        @Override
         public boolean apply(final IPluginElement input) {
           final IPluginAttribute attribute = input.getAttribute(CONTEXT_ID_ATTRIBUTE_TAG);
           return attribute != null && isCatalogContextId(catalog, uri, extension, attribute.getValue());
@@ -353,12 +359,12 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
     }
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointId() {
     return MARKERHELP_EXTENSION_POINT_ID;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointName(final CheckCatalog catalog) {
     return "Extension for Marker Help";
   }
@@ -391,4 +397,3 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckExtensionHelper
   }
 
 }
-

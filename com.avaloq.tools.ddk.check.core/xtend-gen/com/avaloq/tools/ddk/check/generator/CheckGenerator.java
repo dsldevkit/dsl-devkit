@@ -14,7 +14,6 @@ import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
-import com.avaloq.tools.ddk.check.check.Implementation;
 import com.avaloq.tools.ddk.check.check.SeverityKind;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
 import com.avaloq.tools.ddk.check.generator.CheckCompiler;
@@ -46,7 +45,6 @@ import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
@@ -273,31 +271,12 @@ public class CheckGenerator extends JvmModelGenerator {
   public CharSequence compileIssueCodes(final CheckCatalog catalog) {
     CharSequence _xblockexpression = null;
     {
-      EList<Check> _allChecks = catalog.getAllChecks();
-      final Function1<Check, Iterable<XIssueExpression>> _function = (Check check) -> {
-        return this.generatorExtensions.issues(check);
+      final Iterable<XIssueExpression> allIssues = this.generatorExtensions.checkAndImplementationIssues(catalog);
+      final Function1<XIssueExpression, String> _function = (XIssueExpression issue) -> {
+        return CheckGeneratorExtensions.issueCode(issue);
       };
-      List<Iterable<XIssueExpression>> _map = ListExtensions.<Check, Iterable<XIssueExpression>>map(_allChecks, _function);
-      final Iterable<XIssueExpression> checkIssues = Iterables.<XIssueExpression>concat(_map);
-      EList<Implementation> _implementations = catalog.getImplementations();
-      final Function1<Implementation, Iterable<XIssueExpression>> _function_1 = (Implementation impl) -> {
-        return this.generatorExtensions.issues(impl);
-      };
-      List<Iterable<XIssueExpression>> _map_1 = ListExtensions.<Implementation, Iterable<XIssueExpression>>map(_implementations, _function_1);
-      final Iterable<XIssueExpression> implIssues = Iterables.<XIssueExpression>concat(_map_1);
-      Iterable<XIssueExpression> _concat = Iterables.<XIssueExpression>concat(checkIssues, implIssues);
-      final Iterable<XIssueExpression> allIssues = IterableExtensions.<XIssueExpression>filterNull(_concat);
-      final Function1<XIssueExpression, String> _function_2 = (XIssueExpression issue) -> {
-        return this.generatorExtensions.issueCode(issue);
-      };
-      final Iterable<String> issueNames = IterableExtensions.<XIssueExpression, String>map(allIssues, _function_2);
-      final Function1<XIssueExpression, String> _function_3 = (XIssueExpression impl) -> {
-        return this.generatorExtensions.issueCode(impl);
-      };
-      final Iterable<String> implIssueNames = IterableExtensions.<XIssueExpression, String>map(implIssues, _function_3);
-      Iterable<String> _concat_1 = Iterables.<String>concat(issueNames, implIssueNames);
-      Set<String> _set = IterableExtensions.<String>toSet(_concat_1);
-      final Iterable<String> allIssueNames = IterableExtensions.<String>filterNull(_set);
+      Iterable<String> _map = IterableExtensions.<XIssueExpression, String>map(allIssues, _function);
+      final Set<String> allIssueNames = IterableExtensions.<String>toSet(_map);
       StringConcatenation _builder = new StringConcatenation();
       {
         String _packageName = catalog.getPackageName();
@@ -323,7 +302,7 @@ public class CheckGenerator extends JvmModelGenerator {
       _builder.append("@SuppressWarnings(\"all\")");
       _builder.newLine();
       _builder.append("public final class ");
-      String _issueCodesClassName = this._checkGeneratorNaming.issueCodesClassName(catalog);
+      String _issueCodesClassName = CheckGeneratorNaming.issueCodesClassName(catalog);
       _builder.append(_issueCodesClassName, "");
       _builder.append(" {");
       _builder.newLineIfNotEmpty();
@@ -335,7 +314,7 @@ public class CheckGenerator extends JvmModelGenerator {
           _builder.append("public static final String ");
           _builder.append(name, "  ");
           _builder.append(" = \"");
-          String _issueCodeValue = this.generatorExtensions.issueCodeValue(catalog, name);
+          String _issueCodeValue = CheckGeneratorExtensions.issueCodeValue(catalog, name);
           _builder.append(_issueCodeValue, "  ");
           _builder.append("\";");
           _builder.newLineIfNotEmpty();
@@ -344,7 +323,7 @@ public class CheckGenerator extends JvmModelGenerator {
       _builder.newLine();
       _builder.append("  ");
       _builder.append("private ");
-      String _issueCodesClassName_1 = this._checkGeneratorNaming.issueCodesClassName(catalog);
+      String _issueCodesClassName_1 = CheckGeneratorNaming.issueCodesClassName(catalog);
       _builder.append(_issueCodesClassName_1, "  ");
       _builder.append("() {");
       _builder.newLineIfNotEmpty();
@@ -511,16 +490,7 @@ public class CheckGenerator extends JvmModelGenerator {
   
   @Override
   public ITreeAppendable _generateMember(final JvmField field, final ITreeAppendable appendable, final GeneratorConfig config) {
-    boolean _and = false;
-    boolean _isFinal = field.isFinal();
-    if (!_isFinal) {
-      _and = false;
-    } else {
-      boolean _isStatic = field.isStatic();
-      boolean _not = (!_isStatic);
-      _and = _not;
-    }
-    if (_and) {
+    if ((field.isFinal() && (!field.isStatic()))) {
       final FormalParameter parameter = this.compiler.getFormalParameter(field);
       boolean _notEquals = (!Objects.equal(parameter, null));
       if (_notEquals) {

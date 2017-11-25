@@ -11,5 +11,9 @@
     name="Check Quickfix extension point"
     schema="schema/checkquickfix.exsd"
   />
-
+  <extension-point
+    id="checkapi"
+    name="Check API specification extension point"
+    schema="schema/checkapi.exsd"
+  />
 </plugin>

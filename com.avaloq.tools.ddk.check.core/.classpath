@@ -19,6 +19,5 @@
       <accessrule kind="accessible" pattern="org/eclipse/jdt/internal/ui/text/javadoc/**"/>
     </accessrules>
   </classpathentry>
-  <classpathentry kind="lib" path="/ddk-parent/antlr-generator-3.2.0-patch.jar"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

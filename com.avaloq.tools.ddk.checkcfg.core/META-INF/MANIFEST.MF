@@ -5,6 +5,7 @@ Bundle-Vendor: Avaloq Evolution AG
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core; singleton:=true
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
@@ -20,10 +21,8 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.check.core,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.xtext.xbase.lib,
- org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
-Import-Package: org.apache.log4j,
- org.apache.commons.logging
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
+ org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.checkcfg,
  com.avaloq.tools.ddk.checkcfg.checkcfg,
  com.avaloq.tools.ddk.checkcfg.checkcfg.impl,
@@ -36,4 +35,4 @@ Export-Package: com.avaloq.tools.ddk.checkcfg,
  com.avaloq.tools.ddk.checkcfg.services,
  com.avaloq.tools.ddk.checkcfg.validation,
  com.avaloq.tools.ddk.checkcfg.serializer
-
+Import-Package: org.apache.log4j

@@ -15,6 +15,7 @@ import java.util.Set;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IReferenceDescription;
 
@@ -70,7 +71,8 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
     return Iterables.transform(implicitReferences, new Function<URI, IReferenceDescription>() {
       @Override
       public IReferenceDescription apply(final URI target) {
-        return new ReferenceDescription(contextURI, target.hasFragment() ? target : target.appendFragment(IMPLICIT_FRAGMENT), null, null, -1);
+        return new ReferenceDescription(contextURI, target.hasFragment() ? target
+            : target.appendFragment(IMPLICIT_FRAGMENT), EcorePackage.Literals.EFACTORY__EPACKAGE, null, -1);
       }
     });
   }

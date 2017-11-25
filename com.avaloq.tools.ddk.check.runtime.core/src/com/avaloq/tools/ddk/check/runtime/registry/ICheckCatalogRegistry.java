@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.registry;
 
+import java.util.NavigableSet;
+
 import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
 import com.avaloq.tools.ddk.check.runtime.registry.impl.CheckCatalogRegistryImpl;
 
@@ -23,15 +25,15 @@ public interface ICheckCatalogRegistry extends ICheckImplDescriptorRegistry {
   ICheckCatalogRegistry INSTANCE = new CheckCatalogRegistryImpl();
 
   /**
-   * Gets all model location instances used by the global plugin extension aware scope provider.
-   * 
-   * @return the all model location instances
+   * Gets all check model locations from the registry.
+   *
+   * @return the check model locations as a {@link NavigableSet}, never {@code null}
    */
-  Iterable<IModelLocation> getAllCheckModelLocations();
+  NavigableSet<IModelLocation> getAllCheckModelLocations();
 
   /**
    * Add model location instance for a given language.
-   * 
+   *
    * @param language
    *          language to add model location instance for
    * @param modelLocation
@@ -40,4 +42,3 @@ public interface ICheckCatalogRegistry extends ICheckImplDescriptorRegistry {
   void registerCatalog(final String language, final IModelLocation modelLocation);
 
 }
-

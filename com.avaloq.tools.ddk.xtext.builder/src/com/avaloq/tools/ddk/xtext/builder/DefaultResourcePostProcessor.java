@@ -19,7 +19,7 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com.avaloq.tools.ddk.xtext.build.ILanguageSpecificResourcePostProcessor;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourcePostProcessingEvent;
-import com.avaloq.tools.ddk.xtext.tracing.IExecutionDataCollector;
+import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -32,7 +32,7 @@ import com.google.inject.Singleton;
 public class DefaultResourcePostProcessor implements IResourcePostProcessor {
 
   @Inject
-  private IExecutionDataCollector dataCollector;
+  private ITraceSet traceSet;
 
   @Inject
   private IResourceServiceProvider.Registry resourceServiceProviderRegistry;
@@ -44,7 +44,7 @@ public class DefaultResourcePostProcessor implements IResourcePostProcessor {
     ILanguageSpecificResourcePostProcessor postProcessor = getPostProcessor(uri);
     if (postProcessor != null) {
       try {
-        dataCollector.started(ResourcePostProcessingEvent.class, uri);
+        traceSet.started(ResourcePostProcessingEvent.class, uri);
         SubMonitor subMonitor = SubMonitor.convert(monitor, 1);
         if (delta.getNew() != null) {
           if (resourceSet == null) {
@@ -55,7 +55,7 @@ public class DefaultResourcePostProcessor implements IResourcePostProcessor {
           postProcessor.processDeleted(uri, resourceSet, subMonitor.newChild(1));
         }
       } finally {
-        dataCollector.ended(ResourcePostProcessingEvent.class);
+        traceSet.ended(ResourcePostProcessingEvent.class);
       }
     }
   }
@@ -75,4 +75,3 @@ public class DefaultResourcePostProcessor implements IResourcePostProcessor {
     return null;
   }
 }
-

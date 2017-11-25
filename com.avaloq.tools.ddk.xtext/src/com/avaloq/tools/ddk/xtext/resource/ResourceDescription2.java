@@ -44,7 +44,6 @@ import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescription2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.inject.Provider;
 
 
 /**
@@ -90,71 +89,76 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
         resource.eSetDeliver(false);
         ((ILazyLinkingResource2) resource).installDerivedState(BuildPhases.isIndexing(resource));
         // Make sure we have at least this resource description itself in the resource cache.
-        resource.getCache().get(AbstractCachingResourceDescriptionManager.CACHE_KEY, resource, new Provider<ResourceDescription2>() {
-          @Override
-          public ResourceDescription2 get() {
-            return self;
-          }
-        });
+        resource.getCache().get(AbstractCachingResourceDescriptionManager.CACHE_KEY, resource, () -> self);
       }
-      final ImmutableList.Builder<IEObjectDescription> exportedEObjects = ImmutableList.builder();
-      IAcceptor<IEObjectDescription> acceptor = new IAcceptor<IEObjectDescription>() {
-        @Override
-        public void accept(final IEObjectDescription eObjectDescription) {
-          exportedEObjects.add(eObjectDescription);
-        }
-      };
-      TreeIterator<EObject> allProperContents = EcoreUtil.getAllProperContents(resource, false);
-      while (allProperContents.hasNext()) {
-        EObject content = allProperContents.next();
-        if (!strategy.createEObjectDescriptions(content, acceptor)) {
-          allProperContents.prune();
-        }
-      }
-      return exportedEObjects.build();
+      return createDecriptions(resource);
+
     } finally {
       if (doInitialize) {
         // DerivedStateAwareResourceManager does discard the state. Should we do so, too?
         resource.eSetDeliver(true);
         // Make sure we have at least this resource description itself in the resource cache.
-        resource.getCache().get(AbstractCachingResourceDescriptionManager.CACHE_KEY, resource, new Provider<ResourceDescription2>() {
-          @Override
-          public ResourceDescription2 get() {
-            return self; // NOPMD (ReturnFromFinallyBlock). PMD thinks this was a return from the finally block. It isn't.
-          }
-        });
+        resource.getCache().get(AbstractCachingResourceDescriptionManager.CACHE_KEY, resource, () -> self);
       }
     }
+  }
+
+  /**
+   * Create EObjectDescriptions for exported objects.
+   *
+   * @param resource
+   *          LazyLinkingResource
+   * @return list of object descriptions
+   */
+  protected List<IEObjectDescription> createDecriptions(final LazyLinkingResource resource) {
+    final ImmutableList.Builder<IEObjectDescription> exportedEObjects = ImmutableList.builder();
+    IAcceptor<IEObjectDescription> acceptor = decorateExportedObjectsAcceptor(exportedEObjects::add);
+    TreeIterator<EObject> allProperContents = EcoreUtil.getAllProperContents(resource, false);
+    while (allProperContents.hasNext()) {
+      EObject content = allProperContents.next();
+      if (!strategy.createEObjectDescriptions(content, acceptor)) {
+        allProperContents.prune();
+      }
+    }
+    return exportedEObjects.build();
+  }
+
+  /**
+   * Returns the acceptor to be used to accept the exported objects to be added to this resource description. The returned acceptor must call
+   * {@link IAcceptor#accept(Object)} on the given {@code acceptor} for each object to be added.
+   * <p>
+   * The default implementation just returns {@code acceptor} itself.
+   *
+   * @param acceptor
+   *          acceptor to be decorated, must not be {@code null}
+   * @return acceptor, never {@code null}
+   */
+  protected IAcceptor<IEObjectDescription> decorateExportedObjectsAcceptor(final IAcceptor<IEObjectDescription> acceptor) {
+    return acceptor;
   }
 
   @Override
   protected List<IReferenceDescription> computeReferenceDescriptions() {
     final ImmutableList.Builder<IReferenceDescription> referenceDescriptions = ImmutableList.builder();
-    IAcceptor<IReferenceDescription> acceptor = new IAcceptor<IReferenceDescription>() {
-      @Override
-      public void accept(final IReferenceDescription referenceDescription) {
-        referenceDescriptions.add(referenceDescription);
-      }
-    };
     EcoreUtil2.resolveLazyCrossReferences(getResource(), CancelIndicator.NullImpl);
     Map<EObject, IEObjectDescription> eObject2exportedEObjects = createEObject2ExportedEObjectsMap(getExportedObjects());
     TreeIterator<EObject> contents = EcoreUtil.getAllProperContents(getResource(), true);
     while (contents.hasNext()) {
       EObject eObject = contents.next();
       URI exportedContainerURI = findExportedContainerURI(eObject, eObject2exportedEObjects);
-      if (!strategy.createReferenceDescriptions(eObject, exportedContainerURI, acceptor)) {
+      if (!strategy.createReferenceDescriptions(eObject, exportedContainerURI, referenceDescriptions::add)) {
         contents.prune();
       }
     }
     if (strategy instanceof AbstractResourceDescriptionStrategy) {
-      ((AbstractResourceDescriptionStrategy) strategy).createImplicitReferenceDescriptions(getResource(), acceptor);
+      ((AbstractResourceDescriptionStrategy) strategy).createImplicitReferenceDescriptions(getResource(), referenceDescriptions::add);
     }
     return referenceDescriptions.build();
   }
 
   /**
    * Figure out whether we do export objects of the given type at all.
-   * 
+   *
    * @param type
    *          to check
    * @return {@code true} if this resource description can basically export objects of the given type; {@code false} otherwise.
@@ -204,7 +208,6 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
    */
   @Override
   public Map<QualifiedName, Set<EClass>> getImportedNamesTypes() {
-    EcoreUtil2.resolveLazyCrossReferences(getResource(), CancelIndicator.NullImpl);
     ImportedNamesAdapter adapter = ImportedNamesAdapter.find(getResource());
     if (adapter instanceof ImportedNamesTypesAdapter) {
       return ImmutableMap.copyOf(((ImportedNamesTypesAdapter) adapter).getImportedNamesTypes());
@@ -212,4 +215,3 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
     return Maps.newHashMap();
   }
 }
-

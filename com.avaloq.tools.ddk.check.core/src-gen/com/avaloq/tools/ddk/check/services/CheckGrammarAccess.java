@@ -644,7 +644,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "FormalParameter");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cTypeJvmTypeReferenceParserRuleCall_0_0 = (RuleCall)cTypeAssignment_0.eContents().get(0);
+		private final RuleCall cTypeJvmParameterizedTypeReferenceParserRuleCall_0_0 = (RuleCall)cTypeAssignment_0.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameValidIDParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
@@ -657,17 +657,17 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		// *   Parameter Description (incl type and default values)
 		// * / // TODO how can formal parameters be referenced from within a 'def' Implementation clause?
 		//FormalParameter:
-		//	type=JvmTypeReference name=ValidID "=" right=XFormalParameterDefaultValueLiteral label=STRING?;
+		//	type=JvmParameterizedTypeReference name=ValidID "=" right=XFormalParameterDefaultValueLiteral label=STRING?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//type=JvmTypeReference name=ValidID "=" right=XFormalParameterDefaultValueLiteral label=STRING?
+		//type=JvmParameterizedTypeReference name=ValidID "=" right=XFormalParameterDefaultValueLiteral label=STRING?
 		public Group getGroup() { return cGroup; }
 
-		//type=JvmTypeReference
+		//type=JvmParameterizedTypeReference
 		public Assignment getTypeAssignment_0() { return cTypeAssignment_0; }
 
-		//JvmTypeReference
-		public RuleCall getTypeJvmTypeReferenceParserRuleCall_0_0() { return cTypeJvmTypeReferenceParserRuleCall_0_0; }
+		//JvmParameterizedTypeReference
+		public RuleCall getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0() { return cTypeJvmParameterizedTypeReferenceParserRuleCall_0_0; }
 
 		//name=ValidID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
@@ -1643,7 +1643,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 	// *   Parameter Description (incl type and default values)
 	// * / // TODO how can formal parameters be referenced from within a 'def' Implementation clause?
 	//FormalParameter:
-	//	type=JvmTypeReference name=ValidID "=" right=XFormalParameterDefaultValueLiteral label=STRING?;
+	//	type=JvmParameterizedTypeReference name=ValidID "=" right=XFormalParameterDefaultValueLiteral label=STRING?;
 	public FormalParameterElements getFormalParameterAccess() {
 		return pFormalParameter;
 	}

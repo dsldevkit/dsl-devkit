@@ -24,6 +24,7 @@ import org.eclipse.xtext.util.Strings;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 
 /**
@@ -34,9 +35,12 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
   protected static final String LANGUAGE_ELEMENT_TAG = "language";
   protected static final String TARGET_CLASS_ELEMENT_TAG = "targetClass";
 
+  @Inject
+  private CheckProjectHelper projectHelper;
+
   /**
    * Creates the extension. Note that the <code>id</code> attribute is optional and thus not created.
-   * 
+   *
    * @param catalog
    *          the catalog for which to crate the extension content.
    * @param extensionId
@@ -68,7 +72,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Checks if the language name defined in given plugin extension element matches with given language.
-   * 
+   *
    * @param element
    *          the plugin extension element
    * @param expectedLanguageName
@@ -81,7 +85,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Checks if the target class name defined in given plugin extension element matches with given target class name.
-   * 
+   *
    * @param element
    *          the plugin extension element
    * @param expectedTargetClassName
@@ -94,7 +98,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Gets an instance from the service provider.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param type
@@ -110,7 +114,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Gets an instance from the service provider with a given URI.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param type
@@ -126,7 +130,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Checks if is extension update required.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param extension
@@ -143,7 +147,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Updates a given extension to values calculated using given check catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    * @param extension
@@ -157,7 +161,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Updates a given extension to values calculated using given check catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    * @param extension
@@ -165,6 +169,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
    * @throws CoreException
    *           a core exception
    */
+  @Override
   public void updateExtension(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
     if (isExtensionUpdateRequired(catalog, extension, elements)) {
@@ -174,7 +179,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
 
   /**
    * Checks if the name of given plugin extension extension matches with that calculated based on given check catalog.
-   * 
+   *
    * @param extension
    *          the plugin extension
    * @param catalog
@@ -185,25 +190,52 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
     return Strings.equal(extension.getName(), getExtensionPointName(catalog));
   }
 
-  /** {@inheritDoc} */
+  @Override
   public IPluginExtension addExtensionToPluginBase(final IPluginModelBase base, final CheckCatalog catalog, final ExtensionType type, final String extensionId) throws CoreException {
-    if (type == ExtensionType.MARKERHELP) {
-      return null; // disabled until https://bugs.eclipse.org/bugs/show_bug.cgi?id=369534 is fixed
+    if (isExtensionEnabled(base, catalog, type, extensionId)) {
+      IPluginExtension newExtension = createExtension(catalog, extensionId, base);
+      base.getPluginBase().add(newExtension);
+      return newExtension;
     }
-    IPluginExtension newExtension = createExtension(catalog, extensionId, base);
-    base.getPluginBase().add(newExtension);
-    return newExtension;
+    return null;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Determines if the extension point should be enabled.
+   *
+   * @param base
+   *          the base
+   * @param catalog
+   *          the catalog
+   * @param type
+   *          the type
+   * @param extensionId
+   *          the extension id
+   * @return true, if the extension should be enabled
+   */
+  protected boolean isExtensionEnabled(final IPluginModelBase base, final CheckCatalog catalog, final ExtensionType type, final String extensionId) {
+    if (type == ExtensionType.MARKERHELP) {
+      return false; // disabled until https://bugs.eclipse.org/bugs/show_bug.cgi?id=369534 is fixed
+    }
+    String projectSetting = projectHelper.getProjectPreference(base.getUnderlyingResource().getProject(), getExtensionEnablementPreferenceName());
+    return projectSetting == null || Boolean.valueOf(projectSetting);
+  }
+
+  /**
+   * Must be implemented by subclasses to provide the name of the preference that enables or disables the extension point.
+   *
+   * @return the preference name, never {@code null}
+   */
+  protected abstract String getExtensionEnablementPreferenceName();
+
+  @Override
   public void removeExtensionFromPluginBase(final IPluginModelBase base, final IPluginExtension extension, final CheckCatalog catalog, final ExtensionType type) throws CoreException {
     base.getPluginBase().remove(extension); // remove the extension
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void removeExtensionFromPluginBase(final IPluginModelBase base, final IPluginExtension extension, final IEObjectDescription obj, final ExtensionType type) throws CoreException {
     base.getPluginBase().remove(extension); // remove the extension
   }
 
 }
-

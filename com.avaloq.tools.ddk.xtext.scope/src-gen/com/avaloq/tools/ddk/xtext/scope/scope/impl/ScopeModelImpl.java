@@ -4,6 +4,7 @@ package com.avaloq.tools.ddk.xtext.scope.scope.impl;
 
 import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
 import com.avaloq.tools.ddk.xtext.scope.scope.Import;
+import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingSection;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
@@ -32,15 +33,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getIncludedScopes <em>Included Scopes</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getInjections <em>Injections</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getNaming <em>Naming</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeModelImpl#getScopes <em>Scopes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -95,6 +97,16 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * @ordered
    */
   protected EList<Extension> extensions;
+
+  /**
+   * The cached value of the '{@link #getInjections() <em>Injections</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInjections()
+   * @generated
+   * @ordered
+   */
+  protected EList<Injection> injections;
 
   /**
    * The cached value of the '{@link #getNaming() <em>Naming</em>}' containment reference.
@@ -207,6 +219,20 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<Injection> getInjections()
+  {
+    if (injections == null)
+    {
+      injections = new EObjectContainmentEList<Injection>(Injection.class, this, ScopePackage.SCOPE_MODEL__INJECTIONS);
+    }
+    return injections;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public NamingSection getNaming()
   {
     return naming;
@@ -278,6 +304,8 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
         return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
       case ScopePackage.SCOPE_MODEL__EXTENSIONS:
         return ((InternalEList<?>)getExtensions()).basicRemove(otherEnd, msgs);
+      case ScopePackage.SCOPE_MODEL__INJECTIONS:
+        return ((InternalEList<?>)getInjections()).basicRemove(otherEnd, msgs);
       case ScopePackage.SCOPE_MODEL__NAMING:
         return basicSetNaming(null, msgs);
       case ScopePackage.SCOPE_MODEL__SCOPES:
@@ -304,6 +332,8 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
         return getImports();
       case ScopePackage.SCOPE_MODEL__EXTENSIONS:
         return getExtensions();
+      case ScopePackage.SCOPE_MODEL__INJECTIONS:
+        return getInjections();
       case ScopePackage.SCOPE_MODEL__NAMING:
         return getNaming();
       case ScopePackage.SCOPE_MODEL__SCOPES:
@@ -338,6 +368,10 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
         getExtensions().clear();
         getExtensions().addAll((Collection<? extends Extension>)newValue);
         return;
+      case ScopePackage.SCOPE_MODEL__INJECTIONS:
+        getInjections().clear();
+        getInjections().addAll((Collection<? extends Injection>)newValue);
+        return;
       case ScopePackage.SCOPE_MODEL__NAMING:
         setNaming((NamingSection)newValue);
         return;
@@ -371,6 +405,9 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
       case ScopePackage.SCOPE_MODEL__EXTENSIONS:
         getExtensions().clear();
         return;
+      case ScopePackage.SCOPE_MODEL__INJECTIONS:
+        getInjections().clear();
+        return;
       case ScopePackage.SCOPE_MODEL__NAMING:
         setNaming((NamingSection)null);
         return;
@@ -399,6 +436,8 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
         return imports != null && !imports.isEmpty();
       case ScopePackage.SCOPE_MODEL__EXTENSIONS:
         return extensions != null && !extensions.isEmpty();
+      case ScopePackage.SCOPE_MODEL__INJECTIONS:
+        return injections != null && !injections.isEmpty();
       case ScopePackage.SCOPE_MODEL__NAMING:
         return naming != null;
       case ScopePackage.SCOPE_MODEL__SCOPES:

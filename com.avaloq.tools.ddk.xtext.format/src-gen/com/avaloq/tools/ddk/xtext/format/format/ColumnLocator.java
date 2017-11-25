@@ -11,7 +11,6 @@ import org.eclipse.xtext.xbase.XExpression;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.ColumnLocator#isFixed <em>Fixed</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.ColumnLocator#getValue <em>Value</em>}</li>
@@ -19,6 +18,7 @@ import org.eclipse.xtext.xbase.XExpression;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.ColumnLocator#isRelative <em>Relative</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.ColumnLocator#isNobreak <em>Nobreak</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getColumnLocator()
  * @model

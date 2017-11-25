@@ -70,6 +70,7 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getImportAccess().getGroup(), "rule__Import__Group__0");
 					put(grammarAccess.getImportAccess().getGroup_2(), "rule__Import__Group_2__0");
 					put(grammarAccess.getExtensionAccess().getGroup(), "rule__Extension__Group__0");
+					put(grammarAccess.getInjectionAccess().getGroup(), "rule__Injection__Group__0");
 					put(grammarAccess.getNamingSectionAccess().getGroup(), "rule__NamingSection__Group__0");
 					put(grammarAccess.getNamingSectionAccess().getGroup_1(), "rule__NamingSection__Group_1__0");
 					put(grammarAccess.getNamingDefinitionAccess().getGroup(), "rule__NamingDefinition__Group__0");
@@ -156,11 +157,14 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getScopeModelAccess().getIncludedScopesAssignment_2_1(), "rule__ScopeModel__IncludedScopesAssignment_2_1");
 					put(grammarAccess.getScopeModelAccess().getImportsAssignment_3(), "rule__ScopeModel__ImportsAssignment_3");
 					put(grammarAccess.getScopeModelAccess().getExtensionsAssignment_4(), "rule__ScopeModel__ExtensionsAssignment_4");
-					put(grammarAccess.getScopeModelAccess().getNamingAssignment_5(), "rule__ScopeModel__NamingAssignment_5");
-					put(grammarAccess.getScopeModelAccess().getScopesAssignment_6(), "rule__ScopeModel__ScopesAssignment_6");
+					put(grammarAccess.getScopeModelAccess().getInjectionsAssignment_5(), "rule__ScopeModel__InjectionsAssignment_5");
+					put(grammarAccess.getScopeModelAccess().getNamingAssignment_6(), "rule__ScopeModel__NamingAssignment_6");
+					put(grammarAccess.getScopeModelAccess().getScopesAssignment_7(), "rule__ScopeModel__ScopesAssignment_7");
 					put(grammarAccess.getImportAccess().getPackageAssignment_1(), "rule__Import__PackageAssignment_1");
 					put(grammarAccess.getImportAccess().getNameAssignment_2_1(), "rule__Import__NameAssignment_2_1");
 					put(grammarAccess.getExtensionAccess().getExtensionAssignment_1(), "rule__Extension__ExtensionAssignment_1");
+					put(grammarAccess.getInjectionAccess().getTypeAssignment_1(), "rule__Injection__TypeAssignment_1");
+					put(grammarAccess.getInjectionAccess().getNameAssignment_3(), "rule__Injection__NameAssignment_3");
 					put(grammarAccess.getNamingSectionAccess().getCasingAssignment_1_1(), "rule__NamingSection__CasingAssignment_1_1");
 					put(grammarAccess.getNamingSectionAccess().getNamingsAssignment_4(), "rule__NamingSection__NamingsAssignment_4");
 					put(grammarAccess.getNamingDefinitionAccess().getTypeAssignment_0(), "rule__NamingDefinition__TypeAssignment_0");
@@ -186,7 +190,8 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getNamedScopeExpressionAccess().getNamingAssignment_2_1(), "rule__NamedScopeExpression__NamingAssignment_2_1");
 					put(grammarAccess.getGlobalScopeExpressionAccess().getTypeAssignment_2(), "rule__GlobalScopeExpression__TypeAssignment_2");
 					put(grammarAccess.getGlobalScopeExpressionAccess().getNameAssignment_3_0_3(), "rule__GlobalScopeExpression__NameAssignment_3_0_3");
-					put(grammarAccess.getGlobalScopeExpressionAccess().getPrefixAssignment_3_1_3(), "rule__GlobalScopeExpression__PrefixAssignment_3_1_3");
+					put(grammarAccess.getGlobalScopeExpressionAccess().getRecursivePrefixAssignment_3_1_1(), "rule__GlobalScopeExpression__RecursivePrefixAssignment_3_1_1");
+					put(grammarAccess.getGlobalScopeExpressionAccess().getPrefixAssignment_3_1_4(), "rule__GlobalScopeExpression__PrefixAssignment_3_1_4");
 					put(grammarAccess.getGlobalScopeExpressionAccess().getDataAssignment_4_4(), "rule__GlobalScopeExpression__DataAssignment_4_4");
 					put(grammarAccess.getGlobalScopeExpressionAccess().getDataAssignment_4_5_1(), "rule__GlobalScopeExpression__DataAssignment_4_5_1");
 					put(grammarAccess.getGlobalScopeExpressionAccess().getDomainsAssignment_5_3_0(), "rule__GlobalScopeExpression__DomainsAssignment_5_3_0");

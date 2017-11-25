@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EPackage;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.Import#getPackage <em>Package</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.Import#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getImport()
  * @model

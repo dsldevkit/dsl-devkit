@@ -21,11 +21,11 @@ import org.eclipse.xtext.AbstractRule;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GrammarElementLookupImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GrammarElementLookupImpl#getKeyword <em>Keyword</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

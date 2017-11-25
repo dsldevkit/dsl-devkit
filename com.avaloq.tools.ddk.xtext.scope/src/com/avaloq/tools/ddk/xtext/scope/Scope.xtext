@@ -18,6 +18,7 @@ ScopeModel :
   'scoping' name=DottedID ('with' includedScopes+=[ScopeModel|DottedID])?
   (imports+=Import)*
   (extensions+=Extension)*
+  (injections+=Injection)*
   (naming=NamingSection)?
   (scopes+=ScopeDefinition)*
 ;
@@ -28,6 +29,10 @@ Import :
 
 Extension :
   'extension' extension=QualifiedID
+;
+
+Injection :
+  'inject' type=DottedID 'as' name=Identifier
 ;
 
 enum Casing :
@@ -80,7 +85,7 @@ NamedScopeExpression :
 GlobalScopeExpression :
   'find' '('
     type=[ecore::EClass|QualifiedID]
-    ((',' 'key' '=' name=Expression) | (',' 'prefix' '=' prefix=Expression))?
+    ((',' 'key' '=' name=Expression) | (',' recursivePrefix?='recursive'? 'prefix' '=' prefix=Expression))?
     (',' 'data' '=' '(' data+=DataExpression (',' data+=DataExpression)* ')')?
     (',' 'domains' '=' (domains+='*' | domains+= Identifier | ('(' domains+=Identifier (',' domains+=Identifier)* ')')))?
   ')'

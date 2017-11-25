@@ -106,4 +106,10 @@ public class ProxyFactoryEObjectDescription implements IEObjectDescription {
   public EClass getEClass() {
     return delegate.getEClass();
   }
+
+  @Override
+  public String toString() {
+    return delegate.toString();
+  }
+
 }

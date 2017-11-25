@@ -19,6 +19,7 @@ import com.avaloq.tools.ddk.check.check.ContextVariable;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
 import com.avaloq.tools.ddk.check.check.Implementation;
 import com.avaloq.tools.ddk.check.check.Member;
+import com.avaloq.tools.ddk.check.check.XIssueExpression;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorExtensions;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
 import com.avaloq.tools.ddk.check.generator.CheckPropertiesGenerator;
@@ -30,6 +31,7 @@ import com.avaloq.tools.ddk.check.runtime.issue.SeverityKind;
 import com.avaloq.tools.ddk.check.runtime.validation.ComposedCheckValidator;
 import com.avaloq.tools.ddk.check.validation.IssueCodes;
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -37,6 +39,10 @@ import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.emf.common.util.EList;
@@ -44,6 +50,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtend2.lib.StringConcatenationClient;
 import org.eclipse.xtext.common.types.JvmAnnotationReference;
 import org.eclipse.xtext.common.types.JvmAnnotationType;
 import org.eclipse.xtext.common.types.JvmAnnotationValue;
@@ -110,6 +117,9 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   protected void _infer(final CheckCatalog catalog, final IJvmDeclaredTypeAcceptor acceptor, final boolean preIndexingPhase) {
     String _qualifiedCatalogClassName = this._checkGeneratorNaming.qualifiedCatalogClassName(catalog);
     final JvmGenericType catalogClass = this._jvmTypesBuilder.toClass(catalog, _qualifiedCatalogClassName);
+    JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef(String.class);
+    JvmTypeReference _typeRef_1 = this._typeReferenceBuilder.typeRef(String.class);
+    final JvmTypeReference issueCodeToLabelMapTypeRef = this._typeReferenceBuilder.typeRef(ImmutableMap.class, _typeRef, _typeRef_1);
     final Procedure1<JvmGenericType> _function = (JvmGenericType it) -> {
       final JvmTypeReference parentType = this.checkedTypeRef(catalog, AbstractIssue.class);
       boolean _notEquals = (!Objects.equal(parentType, null));
@@ -117,15 +127,12 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         EList<JvmTypeReference> _superTypes = it.getSuperTypes();
         this._jvmTypesBuilder.<JvmTypeReference>operator_add(_superTypes, parentType);
       }
-      final JvmTypeReference singletonTypeRef = this.checkedTypeRef(catalog, Singleton.class);
-      boolean _notEquals_1 = (!Objects.equal(singletonTypeRef, null));
-      if (_notEquals_1) {
-        final JvmAnnotationReference singleton = this.typesFactory.createJvmAnnotationReference();
-        final JvmType annotationType = singletonTypeRef.getType();
-        singleton.setAnnotation(((JvmAnnotationType) annotationType));
-        EList<JvmAnnotationReference> _annotations = it.getAnnotations();
-        this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, singleton);
-      }
+      EList<JvmAnnotationReference> _annotations = it.getAnnotations();
+      JvmTypeReference _checkedTypeRef = this.checkedTypeRef(catalog, Singleton.class);
+      final Procedure1<JvmAnnotationReference> _function_1 = (JvmAnnotationReference it_1) -> {
+      };
+      Iterable<JvmAnnotationReference> _createAnnotation = this.createAnnotation(_checkedTypeRef, _function_1);
+      this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, _createAnnotation);
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Issues for ");
       String _name = catalog.getName();
@@ -133,18 +140,106 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       _builder.append(".");
       this._jvmTypesBuilder.setDocumentation(it, _builder.toString());
       EList<JvmMember> _members = it.getMembers();
-      JvmTypeReference _checkedTypeRef = this.checkedTypeRef(catalog, ICheckConfigurationStoreService.class);
-      Iterable<JvmField> _createInjectedField = this.createInjectedField(catalog, "checkConfigurationStoreService", _checkedTypeRef);
+      JvmTypeReference _checkedTypeRef_1 = this.checkedTypeRef(catalog, ICheckConfigurationStoreService.class);
+      Iterable<JvmField> _createInjectedField = this.createInjectedField(catalog, "checkConfigurationStoreService", _checkedTypeRef_1);
       this._jvmTypesBuilder.<JvmMember>operator_add(_members, _createInjectedField);
       EList<JvmMember> _members_1 = it.getMembers();
+      String _issueCodeToLabelMapFieldName = this._checkGeneratorNaming.issueCodeToLabelMapFieldName();
+      final Procedure1<JvmField> _function_2 = (JvmField it_1) -> {
+        it_1.setStatic(true);
+        it_1.setFinal(true);
+        final Iterable<XIssueExpression> issues = this._checkGeneratorExtensions.checkAndImplementationIssues(catalog);
+        final TreeMap<String, String> sortedUniqueQualifiedIssueCodeNamesAndLabels = new TreeMap<String, String>();
+        for (final XIssueExpression issue : issues) {
+          {
+            final String qualifiedIssueCodeName = this._checkGeneratorExtensions.qualifiedIssueCodeName(issue);
+            String _issueLabel = this._checkGeneratorExtensions.issueLabel(issue);
+            final String issueLabel = StringEscapeUtils.escapeJava(_issueLabel);
+            final String existingIssueLabel = sortedUniqueQualifiedIssueCodeNamesAndLabels.putIfAbsent(qualifiedIssueCodeName, issueLabel);
+            if (((!Objects.equal(null, existingIssueLabel)) && (!Objects.equal(issueLabel, existingIssueLabel)))) {
+              StringConcatenation _builder_1 = new StringConcatenation();
+              _builder_1.append("Multiple issues found with qualified issue code name: ");
+              _builder_1.append(qualifiedIssueCodeName, "");
+              throw new IllegalArgumentException(_builder_1.toString());
+            }
+          }
+        }
+        final Procedure1<ITreeAppendable> _function_3 = (ITreeAppendable it_2) -> {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          String _simpleName = ImmutableMap.class.getSimpleName();
+          _builder_1.append(_simpleName, "");
+          _builder_1.append(".<");
+          String _simpleName_1 = String.class.getSimpleName();
+          _builder_1.append(_simpleName_1, "");
+          _builder_1.append(", ");
+          String _simpleName_2 = String.class.getSimpleName();
+          _builder_1.append(_simpleName_2, "");
+          _builder_1.append(">builder()");
+          _builder_1.newLineIfNotEmpty();
+          {
+            Set<Map.Entry<String, String>> _entrySet = sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet();
+            for(final Map.Entry<String, String> qualifiedIssueCodeNameAndLabel : _entrySet) {
+              _builder_1.append("  ");
+              _builder_1.append(".put(");
+              String _key = qualifiedIssueCodeNameAndLabel.getKey();
+              _builder_1.append(_key, "  ");
+              _builder_1.append(", \"");
+              String _value = qualifiedIssueCodeNameAndLabel.getValue();
+              _builder_1.append(_value, "  ");
+              _builder_1.append("\")");
+              _builder_1.newLineIfNotEmpty();
+            }
+          }
+          _builder_1.append("  ");
+          _builder_1.append(".build()");
+          _builder_1.newLine();
+          it_2.append(_builder_1);
+        };
+        this._jvmTypesBuilder.setInitializer(it_1, _function_3);
+      };
+      JvmField _field = this._jvmTypesBuilder.toField(catalog, _issueCodeToLabelMapFieldName, issueCodeToLabelMapTypeRef, _function_2);
+      this._jvmTypesBuilder.<JvmField>operator_add(_members_1, _field);
+      EList<JvmMember> _members_2 = it.getMembers();
+      String _issueCodeToLabelMapFieldName_1 = this._checkGeneratorNaming.issueCodeToLabelMapFieldName();
+      String _fieldGetterName = this._checkGeneratorNaming.fieldGetterName(_issueCodeToLabelMapFieldName_1);
+      final Procedure1<JvmOperation> _function_3 = (JvmOperation it_1) -> {
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("Get map of issue code to label for ");
+        String _name_1 = catalog.getName();
+        _builder_1.append(_name_1, "");
+        _builder_1.append(".");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.newLine();
+        _builder_1.append("@returns Map of issue code to label for ");
+        String _name_2 = catalog.getName();
+        _builder_1.append(_name_2, "");
+        _builder_1.append(".");
+        _builder_1.newLineIfNotEmpty();
+        this._jvmTypesBuilder.setDocumentation(it_1, _builder_1.toString());
+        it_1.setStatic(true);
+        it_1.setFinal(true);
+        StringConcatenationClient _client = new StringConcatenationClient() {
+          @Override
+          protected void appendTo(StringConcatenationClient.TargetStringConcatenation _builder) {
+            _builder.append("return ");
+            String _issueCodeToLabelMapFieldName = CheckJvmModelInferrer.this._checkGeneratorNaming.issueCodeToLabelMapFieldName();
+            _builder.append(_issueCodeToLabelMapFieldName, "");
+            _builder.append(";");
+          }
+        };
+        this._jvmTypesBuilder.setBody(it_1, _client);
+      };
+      JvmOperation _method = this._jvmTypesBuilder.toMethod(catalog, _fieldGetterName, issueCodeToLabelMapTypeRef, _function_3);
+      this._jvmTypesBuilder.<JvmOperation>operator_add(_members_2, _method);
+      EList<JvmMember> _members_3 = it.getMembers();
       EList<Check> _allChecks = catalog.getAllChecks();
-      final Function1<Check, Iterable<JvmMember>> _function_1 = (Check c) -> {
+      final Function1<Check, Iterable<JvmMember>> _function_4 = (Check c) -> {
         return this.createIssue(catalog, c);
       };
-      List<Iterable<JvmMember>> _map = ListExtensions.<Check, Iterable<JvmMember>>map(_allChecks, _function_1);
+      List<Iterable<JvmMember>> _map = ListExtensions.<Check, Iterable<JvmMember>>map(_allChecks, _function_4);
       Iterable<JvmMember> _flatten = Iterables.<JvmMember>concat(_map);
       Iterable<JvmMember> _filterNull = IterableExtensions.<JvmMember>filterNull(_flatten);
-      this._jvmTypesBuilder.<JvmMember>operator_add(_members_1, _filterNull);
+      this._jvmTypesBuilder.<JvmMember>operator_add(_members_3, _filterNull);
     };
     acceptor.<JvmGenericType>accept(catalogClass, _function);
     String _qualifiedValidatorClassName = this._checkGeneratorNaming.qualifiedValidatorClassName(catalog);
@@ -157,50 +252,36 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         this._jvmTypesBuilder.<JvmTypeReference>operator_add(_superTypes, parentType);
       }
       this.setCheckComposition(catalog, it);
-      final CheckCatalog included = catalog.getIncludedCatalogs();
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Validator for ");
       String _name = catalog.getName();
       _builder.append(_name, "");
       _builder.append(".");
       {
-        boolean _and = false;
-        boolean _notEquals_1 = (!Objects.equal(included, null));
-        if (!_notEquals_1) {
-          _and = false;
-        } else {
-          boolean _eIsProxy = included.eIsProxy();
-          boolean _not = (!_eIsProxy);
-          _and = _not;
-        }
-        if (_and) {
+        boolean _hasIncludedCatalogs = this._checkGeneratorExtensions.hasIncludedCatalogs(catalog);
+        if (_hasIncludedCatalogs) {
           _builder.append(" Includes validations from its parent catalog.");
           _builder.newLineIfNotEmpty();
           _builder.newLine();
           _builder.append("@see ");
-          String _validatorClassName = this._checkGeneratorNaming.validatorClassName(included);
+          CheckCatalog _includedCatalogs = catalog.getIncludedCatalogs();
+          String _validatorClassName = this._checkGeneratorNaming.validatorClassName(_includedCatalogs);
           _builder.append(_validatorClassName, "");
         }
       }
       this._jvmTypesBuilder.setDocumentation(it, _builder.toString());
       EList<JvmMember> _members = it.getMembers();
       String _catalogInstanceName = this._checkGeneratorNaming.catalogInstanceName(catalog);
-      JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef(catalogClass);
-      Iterable<JvmField> _createInjectedField = this.createInjectedField(catalog, _catalogInstanceName, _typeRef);
+      JvmTypeReference _typeRef_2 = this._typeReferenceBuilder.typeRef(catalogClass);
+      Iterable<JvmField> _createInjectedField = this.createInjectedField(catalog, _catalogInstanceName, _typeRef_2);
       this._jvmTypesBuilder.<JvmMember>operator_add(_members, _createInjectedField);
-      boolean _and_1 = false;
-      boolean _notEquals_2 = (!Objects.equal(included, null));
-      if (!_notEquals_2) {
-        _and_1 = false;
-      } else {
-        boolean _eIsProxy_1 = included.eIsProxy();
-        boolean _not_1 = (!_eIsProxy_1);
-        _and_1 = _not_1;
-      }
-      if (_and_1) {
+      boolean _hasIncludedCatalogs_1 = this._checkGeneratorExtensions.hasIncludedCatalogs(catalog);
+      if (_hasIncludedCatalogs_1) {
         EList<JvmMember> _members_1 = it.getMembers();
-        String _catalogInstanceName_1 = this._checkGeneratorNaming.catalogInstanceName(included);
-        String _qualifiedCatalogClassName_1 = this._checkGeneratorNaming.qualifiedCatalogClassName(included);
+        CheckCatalog _includedCatalogs_1 = catalog.getIncludedCatalogs();
+        String _catalogInstanceName_1 = this._checkGeneratorNaming.catalogInstanceName(_includedCatalogs_1);
+        CheckCatalog _includedCatalogs_2 = catalog.getIncludedCatalogs();
+        String _qualifiedCatalogClassName_1 = this._checkGeneratorNaming.qualifiedCatalogClassName(_includedCatalogs_2);
         JvmTypeReference _checkedTypeRef = this.checkedTypeRef(catalog, _qualifiedCatalogClassName_1);
         Iterable<JvmField> _createInjectedField_1 = this.createInjectedField(catalog, _catalogInstanceName_1, _checkedTypeRef);
         this._jvmTypesBuilder.<JvmMember>operator_add(_members_1, _createInjectedField_1);
@@ -221,7 +302,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       List<JvmField> _map = ListExtensions.<Member, JvmField>map(_members_3, _function_2);
       this._jvmTypesBuilder.<JvmMember>operator_add(_members_2, _map);
       EList<JvmMember> _members_4 = it.getMembers();
-      JvmTypeReference _typeRef_1 = this._typeReferenceBuilder.typeRef(String.class);
+      JvmTypeReference _typeRef_3 = this._typeReferenceBuilder.typeRef(String.class);
       final Procedure1<JvmOperation> _function_3 = (JvmOperation it_1) -> {
         final Procedure1<ITreeAppendable> _function_4 = (ITreeAppendable it_2) -> {
           StringConcatenation _builder_1 = new StringConcatenation();
@@ -236,32 +317,54 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         };
         this._jvmTypesBuilder.setBody(it_1, _function_4);
       };
-      JvmOperation _method = this._jvmTypesBuilder.toMethod(catalog, "getQualifiedCatalogName", _typeRef_1, _function_3);
+      JvmOperation _method = this._jvmTypesBuilder.toMethod(catalog, "getQualifiedCatalogName", _typeRef_3, _function_3);
       this._jvmTypesBuilder.<JvmOperation>operator_add(_members_4, _method);
+      EList<JvmMember> _members_5 = it.getMembers();
+      String _issueCodeToLabelMapFieldName = this._checkGeneratorNaming.issueCodeToLabelMapFieldName();
+      String _fieldGetterName = this._checkGeneratorNaming.fieldGetterName(_issueCodeToLabelMapFieldName);
+      final Procedure1<JvmOperation> _function_4 = (JvmOperation it_1) -> {
+        it_1.setFinal(true);
+        StringConcatenationClient _client = new StringConcatenationClient() {
+          @Override
+          protected void appendTo(StringConcatenationClient.TargetStringConcatenation _builder) {
+            _builder.append("return ");
+            String _catalogClassName = CheckJvmModelInferrer.this._checkGeneratorNaming.catalogClassName(catalog);
+            _builder.append(_catalogClassName, "");
+            _builder.append(".");
+            String _issueCodeToLabelMapFieldName = CheckJvmModelInferrer.this._checkGeneratorNaming.issueCodeToLabelMapFieldName();
+            String _fieldGetterName = CheckJvmModelInferrer.this._checkGeneratorNaming.fieldGetterName(_issueCodeToLabelMapFieldName);
+            _builder.append(_fieldGetterName, "");
+            _builder.append("();");
+          }
+        };
+        this._jvmTypesBuilder.setBody(it_1, _client);
+      };
+      JvmOperation _method_1 = this._jvmTypesBuilder.toMethod(catalog, _fieldGetterName, issueCodeToLabelMapTypeRef, _function_4);
+      this._jvmTypesBuilder.<JvmOperation>operator_add(_members_5, _method_1);
       EList<Check> _checks = catalog.getChecks();
       EList<Category> _categories = catalog.getCategories();
-      final Function1<Category, EList<Check>> _function_4 = (Category cat) -> {
+      final Function1<Category, EList<Check>> _function_5 = (Category cat) -> {
         return cat.getChecks();
       };
-      List<EList<Check>> _map_1 = ListExtensions.<Category, EList<Check>>map(_categories, _function_4);
+      List<EList<Check>> _map_1 = ListExtensions.<Category, EList<Check>>map(_categories, _function_5);
       Iterable<Check> _flatten = Iterables.<Check>concat(_map_1);
       final Iterable<Check> allChecks = Iterables.<Check>concat(_checks, _flatten);
-      EList<JvmMember> _members_5 = it.getMembers();
-      final Function1<Check, Iterable<JvmMember>> _function_5 = (Check chk) -> {
+      EList<JvmMember> _members_6 = it.getMembers();
+      final Function1<Check, Iterable<JvmMember>> _function_6 = (Check chk) -> {
         return this.createCheck(chk);
       };
-      Iterable<Iterable<JvmMember>> _map_2 = IterableExtensions.<Check, Iterable<JvmMember>>map(allChecks, _function_5);
+      Iterable<Iterable<JvmMember>> _map_2 = IterableExtensions.<Check, Iterable<JvmMember>>map(allChecks, _function_6);
       Iterable<JvmMember> _flatten_1 = Iterables.<JvmMember>concat(_map_2);
-      this._jvmTypesBuilder.<JvmMember>operator_add(_members_5, _flatten_1);
-      EList<JvmMember> _members_6 = it.getMembers();
+      this._jvmTypesBuilder.<JvmMember>operator_add(_members_6, _flatten_1);
+      EList<JvmMember> _members_7 = it.getMembers();
       EList<Implementation> _implementations = catalog.getImplementations();
-      final Function1<Implementation, JvmOperation> _function_6 = (Implementation impl) -> {
+      final Function1<Implementation, JvmOperation> _function_7 = (Implementation impl) -> {
         Context _context = impl.getContext();
         return this.createCheckMethod(_context);
       };
-      List<JvmOperation> _map_3 = ListExtensions.<Implementation, JvmOperation>map(_implementations, _function_6);
+      List<JvmOperation> _map_3 = ListExtensions.<Implementation, JvmOperation>map(_implementations, _function_7);
       Iterable<JvmOperation> _filterNull = IterableExtensions.<JvmOperation>filterNull(_map_3);
-      this._jvmTypesBuilder.<JvmMember>operator_add(_members_6, _filterNull);
+      this._jvmTypesBuilder.<JvmMember>operator_add(_members_7, _filterNull);
     };
     acceptor.<JvmGenericType>accept(_class, _function_1);
     String _qualifiedPreferenceInitializerClassName = this._checkGeneratorNaming.qualifiedPreferenceInitializerClassName(catalog);
@@ -274,7 +377,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         this._jvmTypesBuilder.<JvmTypeReference>operator_add(_superTypes, parentType);
       }
       EList<JvmMember> _members = it.getMembers();
-      JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef(String.class);
+      JvmTypeReference _typeRef_2 = this._typeReferenceBuilder.typeRef(String.class);
       final Procedure1<JvmField> _function_3 = (JvmField it_1) -> {
         it_1.setStatic(true);
         it_1.setFinal(true);
@@ -286,7 +389,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         };
         this._jvmTypesBuilder.setInitializer(it_1, _function_4);
       };
-      JvmField _field = this._jvmTypesBuilder.toField(catalog, "RUNTIME_NODE_NAME", _typeRef, _function_3);
+      JvmField _field = this._jvmTypesBuilder.toField(catalog, "RUNTIME_NODE_NAME", _typeRef_2, _function_3);
       this._jvmTypesBuilder.<JvmField>operator_add(_members, _field);
       EList<JvmMember> _members_1 = it.getMembers();
       Iterable<JvmMember> _createFormalParameterFields = this.createFormalParameterFields(catalog);
@@ -299,46 +402,37 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
   
   private void setCheckComposition(final CheckCatalog catalog, final JvmGenericType jvmType) {
-    final CheckCatalog included = catalog.getIncludedCatalogs();
-    boolean _or = false;
-    boolean _equals = Objects.equal(included, null);
-    if (_equals) {
-      _or = true;
-    } else {
-      boolean _eIsProxy = included.eIsProxy();
-      _or = _eIsProxy;
-    }
-    if (_or) {
+    boolean _hasIncludedCatalogs = this._checkGeneratorExtensions.hasIncludedCatalogs(catalog);
+    boolean _not = (!_hasIncludedCatalogs);
+    if (_not) {
       return;
     }
-    final JvmAnnotationReference composedCheck = this.typesFactory.createJvmAnnotationReference();
-    final JvmTypeReference annoTypeRef = this.checkedTypeRef(catalog, ComposedCheckValidator.class);
-    boolean _equals_1 = Objects.equal(annoTypeRef, null);
-    if (_equals_1) {
-      return;
-    }
-    final JvmType annotationType = annoTypeRef.getType();
-    composedCheck.setAnnotation(((JvmAnnotationType) annotationType));
     final XListLiteral rhs = XbaseFactory.eINSTANCE.createXListLiteral();
     final XTypeLiteral containedType = XbaseFactory.eINSTANCE.createXTypeLiteral();
-    String _qualifiedValidatorClassName = this._checkGeneratorNaming.qualifiedValidatorClassName(included);
+    CheckCatalog _includedCatalogs = catalog.getIncludedCatalogs();
+    String _qualifiedValidatorClassName = this._checkGeneratorNaming.qualifiedValidatorClassName(_includedCatalogs);
     final JvmTypeReference typeRef = this.checkedTypeRef(catalog, _qualifiedValidatorClassName);
-    boolean _equals_2 = Objects.equal(typeRef, null);
-    if (_equals_2) {
+    boolean _equals = Objects.equal(typeRef, null);
+    if (_equals) {
       return;
     }
     JvmType _type = typeRef.getType();
     containedType.setType(_type);
     EList<XExpression> _elements = rhs.getElements();
     this._jvmTypesBuilder.<XTypeLiteral>operator_add(_elements, containedType);
-    final JvmAnnotationValue annotationValue = this._jvmTypesBuilder.toJvmAnnotationValue(rhs);
-    Iterable<JvmFeature> _findAllFeaturesByName = ((JvmDeclaredType) annotationType).findAllFeaturesByName("validators");
-    JvmFeature _head = IterableExtensions.<JvmFeature>head(_findAllFeaturesByName);
-    annotationValue.setOperation(((JvmOperation) _head));
-    EList<JvmAnnotationValue> _values = composedCheck.getValues();
-    this._jvmTypesBuilder.<JvmAnnotationValue>operator_add(_values, annotationValue);
     EList<JvmAnnotationReference> _annotations = jvmType.getAnnotations();
-    this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, composedCheck);
+    JvmTypeReference _checkedTypeRef = this.checkedTypeRef(catalog, ComposedCheckValidator.class);
+    final Procedure1<JvmAnnotationReference> _function = (JvmAnnotationReference it) -> {
+      final JvmAnnotationValue annotationValue = this._jvmTypesBuilder.toJvmAnnotationValue(rhs);
+      JvmAnnotationType _annotation = it.getAnnotation();
+      Iterable<JvmFeature> _findAllFeaturesByName = ((JvmDeclaredType) _annotation).findAllFeaturesByName("validators");
+      JvmFeature _head = IterableExtensions.<JvmFeature>head(_findAllFeaturesByName);
+      annotationValue.setOperation(((JvmOperation) _head));
+      EList<JvmAnnotationValue> _values = it.getValues();
+      this._jvmTypesBuilder.<JvmAnnotationValue>operator_add(_values, annotationValue);
+    };
+    Iterable<JvmAnnotationReference> _createAnnotation = this.createAnnotation(_checkedTypeRef, _function);
+    this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, _createAnnotation);
   }
   
   private Iterable<JvmField> createInjectedField(final CheckCatalog context, final String fieldName, final JvmTypeReference type) {
@@ -351,15 +445,12 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     field.setVisibility(JvmVisibility.PRIVATE);
     JvmTypeReference _cloneWithProxies = this._jvmTypesBuilder.cloneWithProxies(type);
     field.setType(_cloneWithProxies);
-    final JvmAnnotationReference injection = this.typesFactory.createJvmAnnotationReference();
-    final JvmTypeReference annotationTypeRef = this.checkedTypeRef(context, Inject.class);
-    boolean _notEquals = (!Objects.equal(annotationTypeRef, null));
-    if (_notEquals) {
-      final JvmType annotationType = annotationTypeRef.getType();
-      injection.setAnnotation(((JvmAnnotationType) annotationType));
-      EList<JvmAnnotationReference> _annotations = field.getAnnotations();
-      this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, injection);
-    }
+    EList<JvmAnnotationReference> _annotations = field.getAnnotations();
+    JvmTypeReference _checkedTypeRef = this.checkedTypeRef(context, Inject.class);
+    final Procedure1<JvmAnnotationReference> _function = (JvmAnnotationReference it) -> {
+    };
+    Iterable<JvmAnnotationReference> _createAnnotation = this.createAnnotation(_checkedTypeRef, _function);
+    this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, _createAnnotation);
     return Collections.<JvmField>singleton(field);
   }
   
@@ -391,17 +482,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       EList<JvmMember> _members = it.getMembers();
       EList<FormalParameter> _formalParameters = chk.getFormalParameters();
       final Function1<FormalParameter, Boolean> _function_1 = (FormalParameter f) -> {
-        boolean _and = false;
-        JvmTypeReference _type = f.getType();
-        boolean _notEquals = (!Objects.equal(_type, null));
-        if (!_notEquals) {
-          _and = false;
-        } else {
-          String _name_1 = f.getName();
-          boolean _notEquals_1 = (!Objects.equal(_name_1, null));
-          _and = _notEquals_1;
-        }
-        return Boolean.valueOf(_and);
+        return Boolean.valueOf(((!Objects.equal(f.getType(), null)) && (!Objects.equal(f.getName(), null))));
       };
       Iterable<FormalParameter> _filter = IterableExtensions.<FormalParameter>filter(_formalParameters, _function_1);
       final Function1<FormalParameter, JvmField> _function_2 = (FormalParameter f) -> {
@@ -455,20 +536,11 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   private JvmOperation createCheckExecution(final Context ctx) {
     JvmOperation _xblockexpression = null;
     {
-      boolean _or = false;
-      boolean _equals = Objects.equal(ctx, null);
-      if (_equals) {
-        _or = true;
-      } else {
-        ContextVariable _contextVariable = ctx.getContextVariable();
-        boolean _equals_1 = Objects.equal(_contextVariable, null);
-        _or = _equals_1;
-      }
-      if (_or) {
+      if ((Objects.equal(ctx, null) || Objects.equal(ctx.getContextVariable(), null))) {
         return null;
       }
-      ContextVariable _contextVariable_1 = ctx.getContextVariable();
-      JvmTypeReference _type = _contextVariable_1.getType();
+      ContextVariable _contextVariable = ctx.getContextVariable();
+      JvmTypeReference _type = _contextVariable.getType();
       String _simpleName = null;
       if (_type!=null) {
         _simpleName=_type.getSimpleName();
@@ -478,20 +550,20 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef("void");
       final Procedure1<JvmOperation> _function = (JvmOperation it) -> {
         EList<JvmFormalParameter> _parameters = it.getParameters();
-        ContextVariable _contextVariable_2 = ctx.getContextVariable();
+        ContextVariable _contextVariable_1 = ctx.getContextVariable();
         String _xifexpression = null;
-        ContextVariable _contextVariable_3 = ctx.getContextVariable();
-        String _name = _contextVariable_3.getName();
-        boolean _equals_2 = Objects.equal(_name, null);
-        if (_equals_2) {
+        ContextVariable _contextVariable_2 = ctx.getContextVariable();
+        String _name = _contextVariable_2.getName();
+        boolean _equals = Objects.equal(_name, null);
+        if (_equals) {
           _xifexpression = CheckConstants.IT;
         } else {
-          ContextVariable _contextVariable_4 = ctx.getContextVariable();
-          _xifexpression = _contextVariable_4.getName();
+          ContextVariable _contextVariable_3 = ctx.getContextVariable();
+          _xifexpression = _contextVariable_3.getName();
         }
-        ContextVariable _contextVariable_5 = ctx.getContextVariable();
-        JvmTypeReference _type_1 = _contextVariable_5.getType();
-        JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(_contextVariable_2, _xifexpression, _type_1);
+        ContextVariable _contextVariable_4 = ctx.getContextVariable();
+        JvmTypeReference _type_1 = _contextVariable_4.getType();
+        JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(_contextVariable_1, _xifexpression, _type_1);
         this._jvmTypesBuilder.<JvmFormalParameter>operator_add(_parameters, _parameter);
         XExpression _constraint = ctx.getConstraint();
         this._jvmTypesBuilder.setBody(it, _constraint);
@@ -502,19 +574,11 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
   
   private Iterable<JvmAnnotationReference> createCheckAnnotation(final Context ctx) {
-    final JvmAnnotationReference check = this.typesFactory.createJvmAnnotationReference();
-    final JvmTypeReference annotationTypeRef = this.checkedTypeRef(ctx, org.eclipse.xtext.validation.Check.class);
-    boolean _equals = Objects.equal(annotationTypeRef, null);
+    final JvmTypeReference checkTypeTypeRef = this.checkedTypeRef(ctx, CheckType.class);
+    boolean _equals = Objects.equal(checkTypeTypeRef, null);
     if (_equals) {
       return Collections.<JvmAnnotationReference>emptyList();
     }
-    final JvmTypeReference checkTypeTypeRef = this.checkedTypeRef(ctx, CheckType.class);
-    boolean _equals_1 = Objects.equal(checkTypeTypeRef, null);
-    if (_equals_1) {
-      return Collections.<JvmAnnotationReference>emptyList();
-    }
-    final JvmType annotationType = annotationTypeRef.getType();
-    check.setAnnotation(((JvmAnnotationType) annotationType));
     final XFeatureCall featureCall = XbaseFactory.eINSTANCE.createXFeatureCall();
     JvmType _type = checkTypeTypeRef.getType();
     featureCall.setFeature(_type);
@@ -534,31 +598,25 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     Resource _eResource = ctx.eResource();
     EList<EObject> _contents = _eResource.getContents();
     _contents.add(memberCall);
-    EList<JvmAnnotationValue> _explicitValues = check.getExplicitValues();
-    JvmAnnotationValue _jvmAnnotationValue = this._jvmTypesBuilder.toJvmAnnotationValue(memberCall);
-    this._jvmTypesBuilder.<JvmAnnotationValue>operator_add(_explicitValues, _jvmAnnotationValue);
-    return Collections.<JvmAnnotationReference>singletonList(check);
+    JvmTypeReference _checkedTypeRef = this.checkedTypeRef(ctx, org.eclipse.xtext.validation.Check.class);
+    final Procedure1<JvmAnnotationReference> _function = (JvmAnnotationReference it) -> {
+      EList<JvmAnnotationValue> _explicitValues = it.getExplicitValues();
+      JvmAnnotationValue _jvmAnnotationValue = this._jvmTypesBuilder.toJvmAnnotationValue(memberCall);
+      this._jvmTypesBuilder.<JvmAnnotationValue>operator_add(_explicitValues, _jvmAnnotationValue);
+    };
+    return this.createAnnotation(_checkedTypeRef, _function);
   }
   
   private JvmOperation createCheckCaller(final Context ctx, final Check chk) {
     JvmOperation _xblockexpression = null;
     {
-      boolean _or = false;
-      boolean _equals = Objects.equal(ctx, null);
-      if (_equals) {
-        _or = true;
-      } else {
-        ContextVariable _contextVariable = ctx.getContextVariable();
-        boolean _equals_1 = Objects.equal(_contextVariable, null);
-        _or = _equals_1;
-      }
-      if (_or) {
+      if ((Objects.equal(ctx, null) || Objects.equal(ctx.getContextVariable(), null))) {
         return null;
       }
       String _name = chk.getName();
       String _firstLower = StringExtensions.toFirstLower(_name);
-      ContextVariable _contextVariable_1 = ctx.getContextVariable();
-      JvmTypeReference _type = _contextVariable_1.getType();
+      ContextVariable _contextVariable = ctx.getContextVariable();
+      JvmTypeReference _type = _contextVariable.getType();
       String _simpleName = null;
       if (_type!=null) {
         _simpleName=_type.getSimpleName();
@@ -567,10 +625,10 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef("void");
       final Procedure1<JvmOperation> _function = (JvmOperation it) -> {
         EList<JvmFormalParameter> _parameters = it.getParameters();
+        ContextVariable _contextVariable_1 = ctx.getContextVariable();
         ContextVariable _contextVariable_2 = ctx.getContextVariable();
-        ContextVariable _contextVariable_3 = ctx.getContextVariable();
-        JvmTypeReference _type_1 = _contextVariable_3.getType();
-        JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(_contextVariable_2, "context", _type_1);
+        JvmTypeReference _type_1 = _contextVariable_2.getType();
+        JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(_contextVariable_1, "context", _type_1);
         this._jvmTypesBuilder.<JvmFormalParameter>operator_add(_parameters, _parameter);
         EList<JvmAnnotationReference> _annotations = it.getAnnotations();
         Iterable<JvmAnnotationReference> _createCheckAnnotation = this.createCheckAnnotation(ctx);
@@ -583,8 +641,8 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           String _plus = (_firstLower_1 + "Impl");
           _builder.append(_plus, "");
           _builder.append(".run");
-          ContextVariable _contextVariable_4 = ctx.getContextVariable();
-          JvmTypeReference _type_2 = _contextVariable_4.getType();
+          ContextVariable _contextVariable_3 = ctx.getContextVariable();
+          JvmTypeReference _type_2 = _contextVariable_3.getType();
           String _simpleName_1 = null;
           if (_type_2!=null) {
             _simpleName_1=_type_2.getSimpleName();
@@ -604,27 +662,16 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   private JvmOperation createCheckMethod(final Context ctx) {
     JvmOperation _xblockexpression = null;
     {
-      boolean _or = false;
-      boolean _equals = Objects.equal(ctx, null);
-      if (_equals) {
-        _or = true;
-      } else {
-        ContextVariable _contextVariable = ctx.getContextVariable();
-        boolean _equals_1 = Objects.equal(_contextVariable, null);
-        _or = _equals_1;
-      }
-      if (_or) {
+      if ((Objects.equal(ctx, null) || Objects.equal(ctx.getContextVariable(), null))) {
         return null;
       }
       String _switchResult = null;
       EObject _eContainer = ctx.eContainer();
       final EObject container = _eContainer;
       boolean _matched = false;
-      if (!_matched) {
-        if (container instanceof Check) {
-          _matched=true;
-          _switchResult = ((Check)container).getName();
-        }
+      if (container instanceof Check) {
+        _matched=true;
+        _switchResult = ((Check)container).getName();
       }
       if (!_matched) {
         if (container instanceof Implementation) {
@@ -633,8 +680,8 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         }
       }
       String _firstLower = StringExtensions.toFirstLower(_switchResult);
-      ContextVariable _contextVariable_1 = ctx.getContextVariable();
-      JvmTypeReference _type = _contextVariable_1.getType();
+      ContextVariable _contextVariable = ctx.getContextVariable();
+      JvmTypeReference _type = _contextVariable.getType();
       String _simpleName = null;
       if (_type!=null) {
         _simpleName=_type.getSimpleName();
@@ -643,20 +690,20 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef("void");
       final Procedure1<JvmOperation> _function = (JvmOperation it) -> {
         EList<JvmFormalParameter> _parameters = it.getParameters();
-        ContextVariable _contextVariable_2 = ctx.getContextVariable();
+        ContextVariable _contextVariable_1 = ctx.getContextVariable();
         String _xifexpression = null;
-        ContextVariable _contextVariable_3 = ctx.getContextVariable();
-        String _name = _contextVariable_3.getName();
-        boolean _equals_2 = Objects.equal(_name, null);
-        if (_equals_2) {
+        ContextVariable _contextVariable_2 = ctx.getContextVariable();
+        String _name = _contextVariable_2.getName();
+        boolean _equals = Objects.equal(_name, null);
+        if (_equals) {
           _xifexpression = CheckConstants.IT;
         } else {
-          ContextVariable _contextVariable_4 = ctx.getContextVariable();
-          _xifexpression = _contextVariable_4.getName();
+          ContextVariable _contextVariable_3 = ctx.getContextVariable();
+          _xifexpression = _contextVariable_3.getName();
         }
-        ContextVariable _contextVariable_5 = ctx.getContextVariable();
-        JvmTypeReference _type_1 = _contextVariable_5.getType();
-        JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(_contextVariable_2, _xifexpression, _type_1);
+        ContextVariable _contextVariable_4 = ctx.getContextVariable();
+        JvmTypeReference _type_1 = _contextVariable_4.getType();
+        JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(_contextVariable_1, _xifexpression, _type_1);
         this._jvmTypesBuilder.<JvmFormalParameter>operator_add(_parameters, _parameter);
         EList<JvmAnnotationReference> _annotations = it.getAnnotations();
         Iterable<JvmAnnotationReference> _createCheckAnnotation = this.createCheckAnnotation(ctx);
@@ -676,16 +723,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     for (final FormalParameter parameter : _formalParameters) {
       {
         final JvmTypeReference returnType = parameter.getType();
-        boolean _and = false;
-        boolean _notEquals = (!Objects.equal(returnType, null));
-        if (!_notEquals) {
-          _and = false;
-        } else {
-          boolean _eIsProxy = returnType.eIsProxy();
-          boolean _not = (!_eIsProxy);
-          _and = _not;
-        }
-        if (_and) {
+        if (((!Objects.equal(returnType, null)) && (!returnType.eIsProxy()))) {
           final String returnName = returnType.getQualifiedName();
           String _switchResult = null;
           switch (returnName) {
@@ -718,10 +756,10 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           final String parameterKey = CheckPropertiesGenerator.parameterKey(parameter, check);
           String defaultName = "null";
           XExpression _right = parameter.getRight();
-          boolean _notEquals_1 = (!Objects.equal(_right, null));
-          if (_notEquals_1) {
+          boolean _notEquals = (!Objects.equal(_right, null));
+          if (_notEquals) {
             String _formalParameterGetterName = this._checkGeneratorNaming.formalParameterGetterName(parameter);
-            String _splitCamelCase = this._checkGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
+            String _splitCamelCase = CheckGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
             String _upperCase = _splitCamelCase.toUpperCase();
             String _plus = (_upperCase + "_DEFAULT");
             defaultName = _plus;
@@ -756,8 +794,8 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
             _builder.append("</em>");
             this._jvmTypesBuilder.setDocumentation(it, _builder.toString());
             final JvmTypeReference eObjectTypeRef = this.checkedTypeRef(parameter, EObject.class);
-            boolean _notEquals_2 = (!Objects.equal(eObjectTypeRef, null));
-            if (_notEquals_2) {
+            boolean _notEquals_1 = (!Objects.equal(eObjectTypeRef, null));
+            if (_notEquals_1) {
               EList<JvmFormalParameter> _parameters = it.getParameters();
               JvmFormalParameter _parameter = this._jvmTypesBuilder.toParameter(parameter, "context", eObjectTypeRef);
               this._jvmTypesBuilder.<JvmFormalParameter>operator_add(_parameters, _parameter);
@@ -903,30 +941,20 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     for (final Check c : allChecks) {
       EList<FormalParameter> _formalParameters = c.getFormalParameters();
       for (final FormalParameter parameter : _formalParameters) {
-        boolean _and = false;
-        JvmTypeReference _type = parameter.getType();
-        boolean _notEquals = (!Objects.equal(_type, null));
-        if (!_notEquals) {
-          _and = false;
-        } else {
-          XExpression _right = parameter.getRight();
-          boolean _notEquals_1 = (!Objects.equal(_right, null));
-          _and = _notEquals_1;
-        }
-        if (_and) {
+        if (((!Objects.equal(parameter.getType(), null)) && (!Objects.equal(parameter.getRight(), null)))) {
           String _formalParameterGetterName = this._checkGeneratorNaming.formalParameterGetterName(parameter);
-          String _splitCamelCase = this._checkGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
+          String _splitCamelCase = CheckGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
           String _upperCase = _splitCamelCase.toUpperCase();
           final String defaultName = (_upperCase + "_DEFAULT");
-          JvmTypeReference _type_1 = parameter.getType();
+          JvmTypeReference _type = parameter.getType();
           final Procedure1<JvmField> _function_1 = (JvmField it) -> {
             it.setVisibility(JvmVisibility.PUBLIC);
             it.setFinal(true);
             it.setStatic(true);
-            XExpression _right_1 = parameter.getRight();
-            this._jvmTypesBuilder.setInitializer(it, _right_1);
+            XExpression _right = parameter.getRight();
+            this._jvmTypesBuilder.setInitializer(it, _right);
           };
-          JvmField _field = this._jvmTypesBuilder.toField(parameter, defaultName, _type_1, _function_1);
+          JvmField _field = this._jvmTypesBuilder.toField(parameter, defaultName, _type, _function_1);
           result.add(_field);
         }
       }
@@ -941,17 +969,14 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     if (_notEquals) {
       JvmTypeReference _typeRef = this._typeReferenceBuilder.typeRef("void");
       final Procedure1<JvmOperation> _function = (JvmOperation it) -> {
-        final JvmTypeReference annotationTypeRef = this.checkedTypeRef(catalog, Override.class);
-        boolean _notEquals_1 = (!Objects.equal(annotationTypeRef, null));
-        if (_notEquals_1) {
-          final JvmType annotationType = annotationTypeRef.getType();
-          final JvmAnnotationReference overrideAnnotation = this.typesFactory.createJvmAnnotationReference();
-          overrideAnnotation.setAnnotation(((JvmAnnotationType) annotationType));
-          EList<JvmAnnotationReference> _annotations = it.getAnnotations();
-          this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, overrideAnnotation);
-        }
+        EList<JvmAnnotationReference> _annotations = it.getAnnotations();
+        JvmTypeReference _checkedTypeRef = this.checkedTypeRef(catalog, Override.class);
+        final Procedure1<JvmAnnotationReference> _function_1 = (JvmAnnotationReference it_1) -> {
+        };
+        Iterable<JvmAnnotationReference> _createAnnotation = this.createAnnotation(_checkedTypeRef, _function_1);
+        this._jvmTypesBuilder.<JvmAnnotationReference>operator_add(_annotations, _createAnnotation);
         it.setVisibility(JvmVisibility.PUBLIC);
-        final Procedure1<ITreeAppendable> _function_1 = (ITreeAppendable it_1) -> {
+        final Procedure1<ITreeAppendable> _function_2 = (ITreeAppendable it_1) -> {
           StringConcatenation _builder = new StringConcatenation();
           _builder.append("IEclipsePreferences preferences = org.eclipse.core.runtime.preferences.InstanceScope.INSTANCE.getNode(RUNTIME_NODE_NAME);");
           _builder.newLine();
@@ -961,7 +986,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           _builder.append("initializeFormalParameters(preferences);");
           it_1.append(_builder);
         };
-        this._jvmTypesBuilder.setBody(it, _function_1);
+        this._jvmTypesBuilder.setBody(it, _function_2);
       };
       JvmOperation _method = this._jvmTypesBuilder.toMethod(catalog, "initializeDefaultPreferences", _typeRef, _function);
       result.add(_method);
@@ -1017,31 +1042,14 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
               if (_notEquals_1) {
                 final String key = CheckPropertiesGenerator.parameterKey(parameter, c);
                 String _formalParameterGetterName = this._checkGeneratorNaming.formalParameterGetterName(parameter);
-                String _splitCamelCase = this._checkGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
+                String _splitCamelCase = CheckGeneratorExtensions.splitCamelCase(_formalParameterGetterName);
                 String _upperCase = _splitCamelCase.toUpperCase();
                 final String defaultFieldName = (_upperCase + "_DEFAULT");
                 final JvmTypeReference jvmType = parameter.getType();
                 final String typeName = jvmType.getQualifiedName();
-                boolean _and = false;
-                boolean _notEquals_2 = (!Objects.equal(typeName, null));
-                if (!_notEquals_2) {
-                  _and = false;
-                } else {
-                  boolean _startsWith = typeName.startsWith("java.util.List<");
-                  _and = _startsWith;
-                }
-                if (_and) {
+                if (((!Objects.equal(typeName, null)) && typeName.startsWith("java.util.List<"))) {
                   final EList<JvmTypeReference> args = ((JvmParameterizedTypeReference) jvmType).getArguments();
-                  boolean _and_1 = false;
-                  boolean _notEquals_3 = (!Objects.equal(args, null));
-                  if (!_notEquals_3) {
-                    _and_1 = false;
-                  } else {
-                    int _size = args.size();
-                    boolean _equals = (_size == 1);
-                    _and_1 = _equals;
-                  }
-                  if (_and_1) {
+                  if (((!Objects.equal(args, null)) && (args.size() == 1))) {
                     JvmTypeReference _head = IterableExtensions.<JvmTypeReference>head(args);
                     final String baseTypeName = _head.getSimpleName();
                     StringConcatenation _builder = new StringConcatenation();
@@ -1106,6 +1114,19 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     return result;
   }
   
+  private Iterable<JvmAnnotationReference> createAnnotation(final JvmTypeReference typeRef, final Procedure1<JvmAnnotationReference> initializer) {
+    boolean _equals = Objects.equal(typeRef, null);
+    if (_equals) {
+      return Collections.<JvmAnnotationReference>emptyList();
+    }
+    final JvmAnnotationReference annotation = this.typesFactory.createJvmAnnotationReference();
+    JvmType _type = typeRef.getType();
+    annotation.setAnnotation(((JvmAnnotationType) _type));
+    Procedure1<JvmAnnotationReference> _requireNonNull = java.util.Objects.<Procedure1<JvmAnnotationReference>>requireNonNull(initializer, "Initializer is null");
+    _requireNonNull.apply(annotation);
+    return Collections.<JvmAnnotationReference>singletonList(annotation);
+  }
+  
   private boolean createError(final String message, final EObject context, final EStructuralFeature feature) {
     boolean _xblockexpression = false;
     {
@@ -1143,16 +1164,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       return null;
     }
     final JvmTypeReference result = this._typeReferenceBuilder.typeRef(clazz);
-    boolean _or = false;
-    boolean _equals_1 = Objects.equal(result, null);
-    if (_equals_1) {
-      _or = true;
-    } else {
-      JvmType _type = result.getType();
-      boolean _equals_2 = Objects.equal(_type, null);
-      _or = _equals_2;
-    }
-    if (_or) {
+    if ((Objects.equal(result, null) || Objects.equal(result.getType(), null))) {
       String _name = clazz.getName();
       this.createTypeNotFoundError(_name, context);
       return null;
@@ -1162,16 +1174,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   
   private JvmTypeReference checkedTypeRef(final EObject context, final String className) {
     final JvmTypeReference result = this._typeReferenceBuilder.typeRef(className);
-    boolean _or = false;
-    boolean _equals = Objects.equal(result, null);
-    if (_equals) {
-      _or = true;
-    } else {
-      JvmType _type = result.getType();
-      boolean _equals_1 = Objects.equal(_type, null);
-      _or = _equals_1;
-    }
-    if (_or) {
+    if ((Objects.equal(result, null) || Objects.equal(result.getType(), null))) {
       this.createTypeNotFoundError(className, context);
       return null;
     }

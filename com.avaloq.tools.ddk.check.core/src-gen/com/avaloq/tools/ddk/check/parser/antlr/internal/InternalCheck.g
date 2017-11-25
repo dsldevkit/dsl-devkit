@@ -995,9 +995,9 @@ ruleFormalParameter returns [EObject current=null]
 ((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getFormalParameterAccess().getTypeJvmTypeReferenceParserRuleCall_0_0()); 
+	        newCompositeNode(grammarAccess.getFormalParameterAccess().getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0()); 
 	    }
-		lv_type_0_0=ruleJvmTypeReference		{
+		lv_type_0_0=ruleJvmParameterizedTypeReference		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getFormalParameterRule());
 	        }
@@ -1005,7 +1005,7 @@ ruleFormalParameter returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_0_0, 
-        		"JvmTypeReference");
+        		"JvmParameterizedTypeReference");
 	        afterParserOrEnumRuleCall();
 	    }
 

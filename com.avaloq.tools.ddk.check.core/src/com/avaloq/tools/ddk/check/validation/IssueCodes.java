@@ -41,6 +41,7 @@ public final class IssueCodes {
   public static final String MARKER_INDEX_MANY = ISSUE_CODE_PREFIX + "marker_index_for_many";
   public static final String MISSING_DOCUMENTATION_ON_CHECK = ISSUE_CODE_PREFIX + "missing_documentation_on_check";
   public static final String MISSING_DOCUMENTATION_ON_IMPLEMENTATION = ISSUE_CODE_PREFIX + "missing_documentation_on_implementation";
+  public static final String MISSING_ID_ON_CHECK = ISSUE_CODE_PREFIX + "missing_id_on_check";
   public static final String MISSING_ISSUE_EXPRESSION = ISSUE_CODE_PREFIX + "missing_issue_expression";
   public static final String NAMES_MUST_BE_UNIQUE = ISSUE_CODE_PREFIX + "names_must_be_unique";
   public static final String RETURN_IN_IMPL = ISSUE_CODE_PREFIX + "return_in_implementation";
@@ -56,6 +57,7 @@ public final class IssueCodes {
   public static final String WRONG_FILE = ISSUE_CODE_PREFIX + "wrong_file";
   public static final String WRONG_PACKAGE = ISSUE_CODE_PREFIX + "wrong_package";
   public static final String DUPLICATE_PARAMETER_DEFINITION = ISSUE_CODE_PREFIX + "duplicate_parameter_definition";
+  public static final String NON_API_IMPORTED = ISSUE_CODE_PREFIX + "api_restriction";
 
   public static final String INFERRER_ERROR = ISSUE_CODE_PREFIX + "inferrer_error";
 
@@ -64,4 +66,3 @@ public final class IssueCodes {
   }
 
 }
-

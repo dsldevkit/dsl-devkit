@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeContextImpl#isGlobal <em>Global</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeContextImpl#getContextType <em>Context Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeContextImpl#getGuard <em>Guard</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

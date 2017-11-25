@@ -31,13 +31,13 @@ import org.eclipse.xtext.CompoundElement;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GroupBlockImpl#getGrammarElement <em>Grammar Element</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GroupBlockImpl#getMatcherList <em>Matcher List</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GroupBlockImpl#getSubGroup <em>Sub Group</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GroupBlockImpl#getDirectives <em>Directives</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

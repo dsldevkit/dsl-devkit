@@ -10,7 +10,6 @@ package com.avaloq.tools.ddk.xtext.format.format;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.LinewrapLocator#getValue <em>Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.LinewrapLocator#getMinimum <em>Minimum</em>}</li>
@@ -18,6 +17,7 @@ package com.avaloq.tools.ddk.xtext.format.format;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.LinewrapLocator#getMaximum <em>Maximum</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.LinewrapLocator#isNoLinewrap <em>No Linewrap</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getLinewrapLocator()
  * @model

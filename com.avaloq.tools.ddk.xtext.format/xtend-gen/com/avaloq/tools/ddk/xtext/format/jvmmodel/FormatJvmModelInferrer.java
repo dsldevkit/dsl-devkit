@@ -57,6 +57,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -895,13 +896,24 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         String _plus = (_lowerCase + ".");
         return (_plus + actualRuleName);
       } else {
-        String _alias_1 = metamodel.getAlias();
-        String _plus_1 = ("com.avaloq.tools.dsl." + _alias_1);
-        String _plus_2 = (_plus_1 + ".");
-        String _alias_2 = metamodel.getAlias();
-        String _plus_3 = (_plus_2 + _alias_2);
-        String _plus_4 = (_plus_3 + ".");
-        return (_plus_4 + actualRuleName);
+        EPackage _ePackage_1 = metamodel.getEPackage();
+        URI _uRI = EcoreUtil2.getURI(_ePackage_1);
+        String _segment = null;
+        if (_uRI!=null) {
+          _segment=_uRI.segment(1);
+        }
+        final String metamodelPackage = _segment;
+        int _lastIndexOf = metamodelPackage.lastIndexOf(".core");
+        String _substring = metamodelPackage.substring(0, _lastIndexOf);
+        String _plus_1 = (_substring + ".");
+        EPackage _ePackage_2 = metamodel.getEPackage();
+        String _name_3 = null;
+        if (_ePackage_2!=null) {
+          _name_3=_ePackage_2.getName();
+        }
+        String _plus_2 = (_plus_1 + _name_3);
+        String _plus_3 = (_plus_2 + ".");
+        return (_plus_3 + actualRuleName);
       }
     }
   }

@@ -33,18 +33,20 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cImportsImportParserRuleCall_3_0 = (RuleCall)cImportsAssignment_3.eContents().get(0);
 		private final Assignment cExtensionsAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final RuleCall cExtensionsExtensionParserRuleCall_4_0 = (RuleCall)cExtensionsAssignment_4.eContents().get(0);
-		private final Assignment cNamingAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cNamingNamingSectionParserRuleCall_5_0 = (RuleCall)cNamingAssignment_5.eContents().get(0);
-		private final Assignment cScopesAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cScopesScopeDefinitionParserRuleCall_6_0 = (RuleCall)cScopesAssignment_6.eContents().get(0);
+		private final Assignment cInjectionsAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cInjectionsInjectionParserRuleCall_5_0 = (RuleCall)cInjectionsAssignment_5.eContents().get(0);
+		private final Assignment cNamingAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cNamingNamingSectionParserRuleCall_6_0 = (RuleCall)cNamingAssignment_6.eContents().get(0);
+		private final Assignment cScopesAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cScopesScopeDefinitionParserRuleCall_7_0 = (RuleCall)cScopesAssignment_7.eContents().get(0);
 		
 		//ScopeModel:
 		//	"scoping" name=DottedID ("with" includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
-		//	naming=NamingSection? scopes+=ScopeDefinition*;
+		//	injections+=Injection* naming=NamingSection? scopes+=ScopeDefinition*;
 		@Override public ParserRule getRule() { return rule; }
 
 		//"scoping" name=DottedID ("with" includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
-		//naming=NamingSection? scopes+=ScopeDefinition*
+		//injections+=Injection* naming=NamingSection? scopes+=ScopeDefinition*
 		public Group getGroup() { return cGroup; }
 
 		//"scoping"
@@ -83,17 +85,23 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Extension
 		public RuleCall getExtensionsExtensionParserRuleCall_4_0() { return cExtensionsExtensionParserRuleCall_4_0; }
 
+		//injections+=Injection*
+		public Assignment getInjectionsAssignment_5() { return cInjectionsAssignment_5; }
+
+		//Injection
+		public RuleCall getInjectionsInjectionParserRuleCall_5_0() { return cInjectionsInjectionParserRuleCall_5_0; }
+
 		//naming=NamingSection?
-		public Assignment getNamingAssignment_5() { return cNamingAssignment_5; }
+		public Assignment getNamingAssignment_6() { return cNamingAssignment_6; }
 
 		//NamingSection
-		public RuleCall getNamingNamingSectionParserRuleCall_5_0() { return cNamingNamingSectionParserRuleCall_5_0; }
+		public RuleCall getNamingNamingSectionParserRuleCall_6_0() { return cNamingNamingSectionParserRuleCall_6_0; }
 
 		//scopes+=ScopeDefinition*
-		public Assignment getScopesAssignment_6() { return cScopesAssignment_6; }
+		public Assignment getScopesAssignment_7() { return cScopesAssignment_7; }
 
 		//ScopeDefinition
-		public RuleCall getScopesScopeDefinitionParserRuleCall_6_0() { return cScopesScopeDefinitionParserRuleCall_6_0; }
+		public RuleCall getScopesScopeDefinitionParserRuleCall_7_0() { return cScopesScopeDefinitionParserRuleCall_7_0; }
 	}
 
 	public class ImportElements extends AbstractParserRuleElementFinder {
@@ -162,6 +170,42 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 
 		//QualifiedID
 		public RuleCall getExtensionQualifiedIDParserRuleCall_1_0() { return cExtensionQualifiedIDParserRuleCall_1_0; }
+	}
+
+	public class InjectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Injection");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cInjectKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cTypeDottedIDParserRuleCall_1_0 = (RuleCall)cTypeAssignment_1.eContents().get(0);
+		private final Keyword cAsKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cNameIdentifierParserRuleCall_3_0 = (RuleCall)cNameAssignment_3.eContents().get(0);
+		
+		//Injection:
+		//	"inject" type=DottedID "as" name=Identifier;
+		@Override public ParserRule getRule() { return rule; }
+
+		//"inject" type=DottedID "as" name=Identifier
+		public Group getGroup() { return cGroup; }
+
+		//"inject"
+		public Keyword getInjectKeyword_0() { return cInjectKeyword_0; }
+
+		//type=DottedID
+		public Assignment getTypeAssignment_1() { return cTypeAssignment_1; }
+
+		//DottedID
+		public RuleCall getTypeDottedIDParserRuleCall_1_0() { return cTypeDottedIDParserRuleCall_1_0; }
+
+		//"as"
+		public Keyword getAsKeyword_2() { return cAsKeyword_2; }
+
+		//name=Identifier
+		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
+
+		//Identifier
+		public RuleCall getNameIdentifierParserRuleCall_3_0() { return cNameIdentifierParserRuleCall_3_0; }
 	}
 
 	public class NamingSectionElements extends AbstractParserRuleElementFinder {
@@ -680,10 +724,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameExpressionParserRuleCall_3_0_3_0 = (RuleCall)cNameAssignment_3_0_3.eContents().get(0);
 		private final Group cGroup_3_1 = (Group)cAlternatives_3.eContents().get(1);
 		private final Keyword cCommaKeyword_3_1_0 = (Keyword)cGroup_3_1.eContents().get(0);
-		private final Keyword cPrefixKeyword_3_1_1 = (Keyword)cGroup_3_1.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_3_1_2 = (Keyword)cGroup_3_1.eContents().get(2);
-		private final Assignment cPrefixAssignment_3_1_3 = (Assignment)cGroup_3_1.eContents().get(3);
-		private final RuleCall cPrefixExpressionParserRuleCall_3_1_3_0 = (RuleCall)cPrefixAssignment_3_1_3.eContents().get(0);
+		private final Assignment cRecursivePrefixAssignment_3_1_1 = (Assignment)cGroup_3_1.eContents().get(1);
+		private final Keyword cRecursivePrefixRecursiveKeyword_3_1_1_0 = (Keyword)cRecursivePrefixAssignment_3_1_1.eContents().get(0);
+		private final Keyword cPrefixKeyword_3_1_2 = (Keyword)cGroup_3_1.eContents().get(2);
+		private final Keyword cEqualsSignKeyword_3_1_3 = (Keyword)cGroup_3_1.eContents().get(3);
+		private final Assignment cPrefixAssignment_3_1_4 = (Assignment)cGroup_3_1.eContents().get(4);
+		private final RuleCall cPrefixExpressionParserRuleCall_3_1_4_0 = (RuleCall)cPrefixAssignment_3_1_4.eContents().get(0);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
 		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
 		private final Keyword cDataKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
@@ -717,14 +763,14 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//GlobalScopeExpression:
-		//	"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," "prefix" "=" prefix=Expression)?
-		//	("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? ("," "domains" "=" (domains+="*" |
-		//	domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")";
+		//	"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," recursivePrefix?="recursive"?
+		//	"prefix" "=" prefix=Expression)? ("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? (","
+		//	"domains" "=" (domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," "prefix" "=" prefix=Expression)? (","
-		//"data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? ("," "domains" "=" (domains+="*" |
-		//domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")"
+		//"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," recursivePrefix?="recursive"? "prefix"
+		//"=" prefix=Expression)? ("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? ("," "domains" "="
+		//(domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")"
 		public Group getGroup() { return cGroup; }
 
 		//"find"
@@ -742,7 +788,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getTypeEClassQualifiedIDParserRuleCall_2_0_1() { return cTypeEClassQualifiedIDParserRuleCall_2_0_1; }
 
-		//("," "key" "=" name=Expression | "," "prefix" "=" prefix=Expression)?
+		//("," "key" "=" name=Expression | "," recursivePrefix?="recursive"? "prefix" "=" prefix=Expression)?
 		public Alternatives getAlternatives_3() { return cAlternatives_3; }
 
 		//"," "key" "=" name=Expression
@@ -763,23 +809,29 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getNameExpressionParserRuleCall_3_0_3_0() { return cNameExpressionParserRuleCall_3_0_3_0; }
 
-		//"," "prefix" "=" prefix=Expression
+		//"," recursivePrefix?="recursive"? "prefix" "=" prefix=Expression
 		public Group getGroup_3_1() { return cGroup_3_1; }
 
 		//","
 		public Keyword getCommaKeyword_3_1_0() { return cCommaKeyword_3_1_0; }
 
+		//recursivePrefix?="recursive"?
+		public Assignment getRecursivePrefixAssignment_3_1_1() { return cRecursivePrefixAssignment_3_1_1; }
+
+		//"recursive"
+		public Keyword getRecursivePrefixRecursiveKeyword_3_1_1_0() { return cRecursivePrefixRecursiveKeyword_3_1_1_0; }
+
 		//"prefix"
-		public Keyword getPrefixKeyword_3_1_1() { return cPrefixKeyword_3_1_1; }
+		public Keyword getPrefixKeyword_3_1_2() { return cPrefixKeyword_3_1_2; }
 
 		//"="
-		public Keyword getEqualsSignKeyword_3_1_2() { return cEqualsSignKeyword_3_1_2; }
+		public Keyword getEqualsSignKeyword_3_1_3() { return cEqualsSignKeyword_3_1_3; }
 
 		//prefix=Expression
-		public Assignment getPrefixAssignment_3_1_3() { return cPrefixAssignment_3_1_3; }
+		public Assignment getPrefixAssignment_3_1_4() { return cPrefixAssignment_3_1_4; }
 
 		//Expression
-		public RuleCall getPrefixExpressionParserRuleCall_3_1_3_0() { return cPrefixExpressionParserRuleCall_3_1_3_0; }
+		public RuleCall getPrefixExpressionParserRuleCall_3_1_4_0() { return cPrefixExpressionParserRuleCall_3_1_4_0; }
 
 		//("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")?
 		public Group getGroup_4() { return cGroup_4; }
@@ -1167,6 +1219,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	private final ScopeModelElements pScopeModel;
 	private final ImportElements pImport;
 	private final ExtensionElements pExtension;
+	private final InjectionElements pInjection;
 	private final CasingElements unknownRuleCasing;
 	private final NamingSectionElements pNamingSection;
 	private final NamingDefinitionElements pNamingDefinition;
@@ -1199,6 +1252,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		this.pScopeModel = new ScopeModelElements();
 		this.pImport = new ImportElements();
 		this.pExtension = new ExtensionElements();
+		this.pInjection = new InjectionElements();
 		this.unknownRuleCasing = new CasingElements();
 		this.pNamingSection = new NamingSectionElements();
 		this.pNamingDefinition = new NamingDefinitionElements();
@@ -1249,7 +1303,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//ScopeModel:
 	//	"scoping" name=DottedID ("with" includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
-	//	naming=NamingSection? scopes+=ScopeDefinition*;
+	//	injections+=Injection* naming=NamingSection? scopes+=ScopeDefinition*;
 	public ScopeModelElements getScopeModelAccess() {
 		return pScopeModel;
 	}
@@ -1276,6 +1330,16 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getExtensionRule() {
 		return getExtensionAccess().getRule();
+	}
+
+	//Injection:
+	//	"inject" type=DottedID "as" name=Identifier;
+	public InjectionElements getInjectionAccess() {
+		return pInjection;
+	}
+	
+	public ParserRule getInjectionRule() {
+		return getInjectionAccess().getRule();
 	}
 
 	//enum Casing:
@@ -1380,9 +1444,9 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//GlobalScopeExpression:
-	//	"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," "prefix" "=" prefix=Expression)?
-	//	("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? ("," "domains" "=" (domains+="*" |
-	//	domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")";
+	//	"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," recursivePrefix?="recursive"?
+	//	"prefix" "=" prefix=Expression)? ("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? (","
+	//	"domains" "=" (domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")";
 	public GlobalScopeExpressionElements getGlobalScopeExpressionAccess() {
 		return pGlobalScopeExpression;
 	}

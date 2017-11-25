@@ -17985,7 +17985,7 @@ public class InternalCheckParser extends AbstractInternalContentAssistParser {
             int alt66=2;
             int LA66_0 = input.LA(1);
 
-            if ( (LA66_0==RULE_ID||LA66_0==51||LA66_0==72) ) {
+            if ( (LA66_0==RULE_ID) ) {
                 alt66=1;
             }
             switch (alt66) {
@@ -67317,28 +67317,28 @@ public class InternalCheckParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__FormalParameter__TypeAssignment_0"
-    // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23605:1: rule__FormalParameter__TypeAssignment_0 : ( ruleJvmTypeReference ) ;
+    // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23605:1: rule__FormalParameter__TypeAssignment_0 : ( ruleJvmParameterizedTypeReference ) ;
     public final void rule__FormalParameter__TypeAssignment_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23609:1: ( ( ruleJvmTypeReference ) )
-            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23610:1: ( ruleJvmTypeReference )
+            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23609:1: ( ( ruleJvmParameterizedTypeReference ) )
+            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23610:1: ( ruleJvmParameterizedTypeReference )
             {
-            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23610:1: ( ruleJvmTypeReference )
-            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23611:1: ruleJvmTypeReference
+            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23610:1: ( ruleJvmParameterizedTypeReference )
+            // ../com.avaloq.tools.ddk.check.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalCheck.g:23611:1: ruleJvmParameterizedTypeReference
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getFormalParameterAccess().getTypeJvmTypeReferenceParserRuleCall_0_0()); 
+               before(grammarAccess.getFormalParameterAccess().getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0()); 
             }
-            pushFollow(FOLLOW_ruleJvmTypeReference_in_rule__FormalParameter__TypeAssignment_047523);
-            ruleJvmTypeReference();
+            pushFollow(FOLLOW_ruleJvmParameterizedTypeReference_in_rule__FormalParameter__TypeAssignment_047523);
+            ruleJvmParameterizedTypeReference();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getFormalParameterAccess().getTypeJvmTypeReferenceParserRuleCall_0_0()); 
+               after(grammarAccess.getFormalParameterAccess().getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0()); 
             }
 
             }
@@ -82304,10 +82304,10 @@ public class InternalCheckParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_rule__Check__Group_7__0_in_rule__Check__Group__7__Impl11912 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Group__8__Impl_in_rule__Check__Group__811943 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Alternatives_8_in_rule__Check__Group__8__Impl11970 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Check__Group_6__0__Impl_in_rule__Check__Group_6__012018 = new BitSet(new long[]{0x0008000FE0800010L,0x0000008000001B00L});
+    public static final BitSet FOLLOW_rule__Check__Group_6__0__Impl_in_rule__Check__Group_6__012018 = new BitSet(new long[]{0x0000000000000010L,0x0000000000000200L});
     public static final BitSet FOLLOW_rule__Check__Group_6__1_in_rule__Check__Group_6__012021 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_72_in_rule__Check__Group_6__0__Impl12050 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Check__Group_6__1__Impl_in_rule__Check__Group_6__112082 = new BitSet(new long[]{0x0008000FE0800010L,0x0000008000001B00L});
+    public static final BitSet FOLLOW_rule__Check__Group_6__1__Impl_in_rule__Check__Group_6__112082 = new BitSet(new long[]{0x0000000000000010L,0x0000000000000200L});
     public static final BitSet FOLLOW_rule__Check__Group_6__2_in_rule__Check__Group_6__112085 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Group_6_1__0_in_rule__Check__Group_6__1__Impl12112 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Group_6__2__Impl_in_rule__Check__Group_6__212143 = new BitSet(new long[]{0x0000000000000002L});
@@ -82317,7 +82317,7 @@ public class InternalCheckParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_rule__Check__FormalParametersAssignment_6_1_0_in_rule__Check__Group_6_1__0__Impl12238 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Group_6_1__1__Impl_in_rule__Check__Group_6_1__112268 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Group_6_1_1__0_in_rule__Check__Group_6_1__1__Impl12295 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000400L});
-    public static final BitSet FOLLOW_rule__Check__Group_6_1_1__0__Impl_in_rule__Check__Group_6_1_1__012330 = new BitSet(new long[]{0x0008000FE0800010L,0x0000008000001900L});
+    public static final BitSet FOLLOW_rule__Check__Group_6_1_1__0__Impl_in_rule__Check__Group_6_1_1__012330 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_rule__Check__Group_6_1_1__1_in_rule__Check__Group_6_1_1__012333 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_74_in_rule__Check__Group_6_1_1__0__Impl12361 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Check__Group_6_1_1__1__Impl_in_rule__Check__Group_6_1_1__112392 = new BitSet(new long[]{0x0000000000000002L});
@@ -83737,7 +83737,7 @@ public class InternalCheckParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_ruleXOrExpression_in_rule__Member__ValueAssignment_3_147430 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleValidID_in_rule__Implementation__NameAssignment_147461 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleContext_in_rule__Implementation__ContextAssignment_247492 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleJvmTypeReference_in_rule__FormalParameter__TypeAssignment_047523 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleJvmParameterizedTypeReference_in_rule__FormalParameter__TypeAssignment_047523 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleValidID_in_rule__FormalParameter__NameAssignment_147554 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleXFormalParameterDefaultValueLiteral_in_rule__FormalParameter__RightAssignment_347585 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_STRING_in_rule__FormalParameter__LabelAssignment_447616 = new BitSet(new long[]{0x0000000000000002L});

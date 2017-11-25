@@ -37,7 +37,7 @@ import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckContextsExtensionHelper;
-import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectUtil;
+import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -53,7 +53,7 @@ import com.google.inject.Inject;
 public class CheckContextsGenerator {
 
   @Inject
-  private CheckProjectUtil projectUtil;
+  private CheckProjectHelper projectHelper;
 
   @Inject
   private CheckGeneratorNaming generatorNaming;
@@ -72,7 +72,7 @@ public class CheckContextsGenerator {
    *           the core exception
    */
   public void updateContextsFile(final URI uri, final IBuildContext buildContext) throws CoreException {
-    IFile file = projectUtil.getHelpFile(uri, CheckContextsExtensionHelper.CONTEXTS_FILE_NAME);
+    IFile file = projectHelper.getHelpFile(uri, CheckContextsExtensionHelper.CONTEXTS_FILE_NAME);
 
     CtxHelpModel model = new CtxHelpModel(CoreUtility.getTextDocument(file.getContents()), false);
     model.setUnderlyingResource(file);
@@ -85,7 +85,7 @@ public class CheckContextsGenerator {
 
     // all context ids belonging to the catalog
     Set<String> ids = Sets.newHashSet();
-    String contextIdPrefix = projectUtil.getCatalog(buildContext, uri).getName().toLowerCase() + "_";
+    String contextIdPrefix = projectHelper.getCatalog(buildContext, uri).getName().toLowerCase() + "_";
     for (CtxHelpContext context : contexts) {
       if (context.getId().startsWith(contextIdPrefix)) {
         ids.add(context.getId());
@@ -94,7 +94,7 @@ public class CheckContextsGenerator {
     Set<String> checkIds = Sets.newHashSet();
 
     // Add context for all checks which have been added
-    for (Check check : projectUtil.getCatalog(buildContext, uri).getAllChecks()) {
+    for (Check check : projectHelper.getCatalog(buildContext, uri).getAllChecks()) {
       if (!ids.contains(generatorNaming.getContextId(check))) {
         root.addChild(createContextForCheck(factory, check));
       }
@@ -176,7 +176,7 @@ public class CheckContextsGenerator {
   public void removeContexts(final Delta delta) throws CoreException {
     final IProject project = RuntimeProjectUtil.getProject(delta.getUri(), mapper);
     if (project != null) {
-      IFile file = projectUtil.getHelpFile(project, CheckContextsExtensionHelper.CONTEXTS_FILE_NAME);
+      IFile file = projectHelper.getHelpFile(project, CheckContextsExtensionHelper.CONTEXTS_FILE_NAME);
 
       CtxHelpModel model = new CtxHelpModel(CoreUtility.getTextDocument(file.getContents()), false);
       model.setUnderlyingResource(file);

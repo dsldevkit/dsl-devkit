@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="overridingGuiceModule" name="com.avaloq.tools.ddk.xtext.builder.ui.overridingGuiceModule" schema="schema/overridingGuiceModule.exsd"/>
+
+  <extension
+        point="org.eclipse.xtext.ui.shared.overridingGuiceModule">
+     <module
+           class="com.avaloq.tools.ddk.xtext.builder.ui.shared.OverridingGuiceModule">
+     </module>
+  </extension>
+  <extension
+        point="com.avaloq.tools.ddk.xtext.builder.ui.overridingGuiceModule">
+     <module
+           class="com.avaloq.tools.ddk.xtext.builder.ui.eclipse.EclipseBuilderModule"
+           priority="0">
+     </module>
+  </extension>
+
+</plugin>

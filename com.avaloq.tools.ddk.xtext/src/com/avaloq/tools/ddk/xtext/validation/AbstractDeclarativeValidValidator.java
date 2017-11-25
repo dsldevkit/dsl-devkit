@@ -19,9 +19,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.AbstractDeclarativeValidator;
 
+import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent.Collector;
-import com.avaloq.tools.ddk.xtext.tracing.TraceSetUtil;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 
@@ -43,7 +43,7 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
   private static final ValidGuardException VALID_GUARD_EXCEPTION = new ValidGuardException();
 
   @Inject
-  private TraceSetUtil traceSetUtil;
+  private ITraceSet traceSet;
 
   /**
    * Message Parameters.
@@ -80,7 +80,7 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
    * @see #traceEnd(String)
    */
   protected void traceStart(final String rule) {
-    if (traceSetUtil.isTracingEnabled()) {
+    if (traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class)) {
       EObject object = getCurrentObject();
       ResourceValidationRuleSummaryEvent.Collector collector = getTraceCollector(object);
       if (collector != null) {
@@ -97,7 +97,7 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
    * @see #traceStart(String)
    */
   protected void traceEnd(final String rule) {
-    if (traceSetUtil.isTracingEnabled()) {
+    if (traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class)) {
       EObject object = getCurrentObject();
       ResourceValidationRuleSummaryEvent.Collector collector = getTraceCollector(object);
       if (collector != null) {

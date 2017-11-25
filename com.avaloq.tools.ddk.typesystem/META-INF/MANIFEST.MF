@@ -6,12 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.log4j
-Require-Bundle: org.eclipse.emf.mwe.core;resolution:=optional,
- org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.lib;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional,
+Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.runtime,
- org.eclipse.emf.edit
+ org.eclipse.emf.edit,
+ com.avaloq.tools.ddk.xtext
 Export-Package: com.avaloq.tools.ddk.typesystem,
  com.avaloq.tools.ddk.typesystem.builtintypemodel,
  com.avaloq.tools.ddk.typesystem.builtintypemodel.impl,

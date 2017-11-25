@@ -50,6 +50,15 @@ public interface ScopeFactory extends EFactory
   Extension createExtension();
 
   /**
+   * Returns a new object of class '<em>Injection</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Injection</em>'.
+   * @generated
+   */
+  Injection createInjection();
+
+  /**
    * Returns a new object of class '<em>Naming Section</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

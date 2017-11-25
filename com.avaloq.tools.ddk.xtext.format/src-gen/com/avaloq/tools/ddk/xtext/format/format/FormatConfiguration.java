@@ -17,7 +17,6 @@ import org.eclipse.xtext.common.types.JvmDeclaredType;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration#getTargetGrammar <em>Target Grammar</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration#getExtendedFormatConfiguration <em>Extended Format Configuration</em>}</li>
@@ -25,6 +24,7 @@ import org.eclipse.xtext.common.types.JvmDeclaredType;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration#getConstants <em>Constants</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration#getRules <em>Rules</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getFormatConfiguration()
  * @model

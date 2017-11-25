@@ -27,13 +27,15 @@ import com.google.common.collect.Lists;
  */
 public final class CheckPreferencesHelper {
 
+  private static final String SEPARATOR = new String(new byte[] {Ascii.SUB});
+
   private CheckPreferencesHelper() {
     // No instantiation
   }
 
   /**
    * Internal operation to marshal a list of strings.
-   * 
+   *
    * @param typeId
    *          identifying the real element type
    * @param values
@@ -45,9 +47,9 @@ public final class CheckPreferencesHelper {
     for (String value : values) {
       if (value != null) {
         if (builder == null) {
-          builder = new StringBuilder(typeId);
+          builder = new StringBuilder().append(typeId);
         } else {
-          builder.append(Ascii.SUB);
+          builder.append(SEPARATOR);
         }
         // Here, we *do* have to encode ourselves. We must escape embedded Ascii.SUBs, otherwise unmarshaling won't work.
         // If we replaced then by "\\u001A"; we'd then get back a string containing exactly that, but we couldn't reliably
@@ -65,7 +67,7 @@ public final class CheckPreferencesHelper {
 
   /**
    * Internal operation to unmarshal a single string into a string array.
-   * 
+   *
    * @param marshaled
    *          as read from preferences
    * @param typeId
@@ -76,7 +78,7 @@ public final class CheckPreferencesHelper {
     if (marshaled == null) {
       return new String[0];
     }
-    String[] values = marshaled.split(String.valueOf(Ascii.SUB));
+    String[] values = marshaled.split(SEPARATOR);
     if (values.length == 0) {
       return values;
     }
@@ -95,7 +97,7 @@ public final class CheckPreferencesHelper {
 
   /**
    * Marshals an iterable of strings into a single string.
-   * 
+   *
    * @param values
    *          to marshal
    * @return marshaled value
@@ -106,13 +108,14 @@ public final class CheckPreferencesHelper {
 
   /**
    * Marshals an iterable of booleans into a single string.
-   * 
+   *
    * @param values
    *          to marshal
    * @return marshaled value
    */
   public static String marshalBooleans(final Iterable<Boolean> values) {
     return marshal('B', Iterables.transform(values, new Function<Boolean, String>() {
+      @Override
       public String apply(final Boolean input) {
         return input.toString();
       }
@@ -121,13 +124,14 @@ public final class CheckPreferencesHelper {
 
   /**
    * Marshals an iterable of integers into a single string.
-   * 
+   *
    * @param values
    *          to marshal
    * @return marshaled value
    */
   public static String marshalIntegers(final Iterable<Integer> values) {
     return marshal('I', Iterables.transform(values, new Function<Integer, String>() {
+      @Override
       public String apply(final Integer input) {
         return input.toString();
       }
@@ -136,7 +140,7 @@ public final class CheckPreferencesHelper {
 
   /**
    * Unmarshals a single string into a list of of strings.
-   * 
+   *
    * @param marshaled
    *          to umarshal
    * @return list of values
@@ -151,7 +155,7 @@ public final class CheckPreferencesHelper {
 
   /**
    * Unmarshals a single string into a list of of integers.
-   * 
+   *
    * @param marshaled
    *          to umarshal
    * @return list of values
@@ -170,7 +174,7 @@ public final class CheckPreferencesHelper {
 
   /**
    * Unmarshals a single string into a list of of booleans.
-   * 
+   *
    * @param marshaled
    *          to umarshal
    * @return list of values
@@ -188,4 +192,3 @@ public final class CheckPreferencesHelper {
   }
 
 }
-

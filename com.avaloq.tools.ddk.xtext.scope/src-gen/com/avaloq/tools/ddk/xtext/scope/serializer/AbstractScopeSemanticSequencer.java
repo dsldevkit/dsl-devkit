@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
 import com.avaloq.tools.ddk.xtext.scope.scope.FactoryExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.Import;
+import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.LambdaDataExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.MatchDataExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.Naming;
@@ -341,6 +342,9 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 			case ScopePackage.IMPORT:
 				sequence_Import(context, (Import) semanticObject); 
 				return; 
+			case ScopePackage.INJECTION:
+				sequence_Injection(context, (Injection) semanticObject); 
+				return; 
 			case ScopePackage.LAMBDA_DATA_EXPRESSION:
 				sequence_LambdaDataExpression(context, (LambdaDataExpression) semanticObject); 
 				return; 
@@ -437,7 +441,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 * Constraint:
 	 *     (
 	 *         type=[EClass|QualifiedID] 
-	 *         (name=Expression | prefix=Expression)? 
+	 *         (name=Expression | (recursivePrefix?='recursive'? prefix=Expression))? 
 	 *         (data+=DataExpression data+=DataExpression*)? 
 	 *         (domains+='*' | domains+=Identifier | (domains+=Identifier domains+=Identifier*))?
 	 *     )
@@ -451,7 +455,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 * Constraint:
 	 *     (
 	 *         type=[EClass|QualifiedID] 
-	 *         (name=Expression | prefix=Expression)? 
+	 *         (name=Expression | (recursivePrefix?='recursive'? prefix=Expression))? 
 	 *         (data+=DataExpression data+=DataExpression*)? 
 	 *         (domains+='*' | domains+=Identifier | (domains+=Identifier domains+=Identifier*))? 
 	 *         (caseDef?='case' casing=Casing)? 
@@ -467,7 +471,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 * Constraint:
 	 *     (
 	 *         type=[EClass|QualifiedID] 
-	 *         (name=Expression | prefix=Expression)? 
+	 *         (name=Expression | (recursivePrefix?='recursive'? prefix=Expression))? 
 	 *         (data+=DataExpression data+=DataExpression*)? 
 	 *         (domains+='*' | domains+=Identifier | (domains+=Identifier domains+=Identifier*))? 
 	 *         (caseDef?='case' casing=Casing)? 
@@ -486,6 +490,25 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 */
 	protected void sequence_Import(EObject context, Import semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (type=DottedID name=Identifier)
+	 */
+	protected void sequence_Injection(EObject context, Injection semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.INJECTION__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.INJECTION__TYPE));
+			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.INJECTION__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.INJECTION__NAME));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getInjectionAccess().getTypeDottedIDParserRuleCall_1_0(), semanticObject.getType());
+		feeder.accept(grammarAccess.getInjectionAccess().getNameIdentifierParserRuleCall_3_0(), semanticObject.getName());
+		feeder.finish();
 	}
 	
 	
@@ -634,6 +657,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 *         includedScopes+=[ScopeModel|DottedID]? 
 	 *         imports+=Import* 
 	 *         extensions+=Extension* 
+	 *         injections+=Injection* 
 	 *         naming=NamingSection? 
 	 *         scopes+=ScopeDefinition*
 	 *     )

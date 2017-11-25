@@ -67,7 +67,6 @@ public class FixedXtextSourceViewer extends XtextSourceViewer {
    */
   @Override
   protected void updateTextListeners(final WidgetCommand cmd) {
-    @SuppressWarnings("unchecked")
     List<ITextListener> textListeners = fTextListeners;
     if (textListeners != null) {
       textListeners = new ArrayList<ITextListener>(textListeners);

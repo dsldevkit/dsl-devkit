@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.formatting;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;
@@ -101,4 +103,15 @@ public abstract class AbstractExtendedFormatter extends AbstractDeclarativeForma
     return new ExtendedFormattingConfig(getGrammarAccess(), getHiddenTokenHelper(), getIndentInfo(), null);
   }
 
+  /**
+   * Executes any custom post format action on the {@link String} value of the given {@link ExtendedLineEntry}.
+   * To be implemented by any extension of this class that needs any additional custom action on the formatted value of an {@link ExtendedLineEntry}.
+   *
+   * @param lineEntry
+   *          The {@link ExtendedLineEntry} to process
+   * @param previousEntries
+   *          all the entries preceding the entry to process
+   * @return the new {@link String} value of the given {@link ExtendedLineEntry}, {@code null} if no custom action was executed.
+   */
+  public abstract String executeCustomPostFormatAction(final ExtendedLineEntry lineEntry, final List<ExtendedLineEntry> previousEntries);
 }

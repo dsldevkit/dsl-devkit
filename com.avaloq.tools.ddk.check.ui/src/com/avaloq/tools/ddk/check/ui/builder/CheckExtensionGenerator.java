@@ -25,7 +25,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -60,8 +59,6 @@ import org.eclipse.pde.internal.ui.util.ModelModification;
 import org.eclipse.pde.internal.ui.util.PDEModelUtility;
 import org.eclipse.swt.SWTException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant.IBuildContext;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
@@ -75,7 +72,7 @@ import org.xml.sax.SAXException;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckExtensionHelperManager;
-import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectUtil;
+import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
 import com.avaloq.tools.ddk.check.ui.internal.Activator;
 import com.avaloq.tools.ddk.check.util.GrammarHelper;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
@@ -83,7 +80,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 
 /**
@@ -96,36 +92,18 @@ class CheckExtensionGenerator {
   // CHECKSTYLE:ON
   private static final Logger LOGGER = Logger.getLogger(CheckExtensionGenerator.class);
 
-  public static final String PREFERENCE_PLUGIN_FILENAME = "PluginXmlFilename";
+  public static final String PREFERENCE_PLUGIN_XML_FILENAME = "PluginXmlFilename";
   public static final String STANDARD_PLUGIN_FILENAME = ICoreConstants.PLUGIN_FILENAME_DESCRIPTOR;
   public static final String STANDARD_FRAGMENT_FILENAME = ICoreConstants.FRAGMENT_FILENAME_DESCRIPTOR;
 
   @Inject
-  private CheckProjectUtil projectUtil;
+  private CheckProjectHelper projectHelper;
 
   @Inject
   private CheckExtensionHelperManager manager;
 
   @Inject
   private IStorage2UriMapper mapper;
-
-  @Inject
-  @Named(Constants.LANGUAGE_NAME)
-  private String languageName;
-
-  private String preferenceFileQualifier;
-
-  /**
-   * Gets the preference file qualifier.
-   *
-   * @return the preference file qualifier
-   */
-  String getPreferenceFileQualifier() {
-    if (preferenceFileQualifier == null) {
-      preferenceFileQualifier = languageName + ".pluginxml";
-    }
-    return preferenceFileQualifier;
-  }
 
   /**
    * A plug-in model that can be loaded/saved from a file.
@@ -357,7 +335,7 @@ class CheckExtensionGenerator {
    */
   public void changePluginXmlFile(final IBuildContext context, final Delta delta, final IProgressMonitor monitor) throws CoreException {
     URI uri = delta.getUri();
-    CheckCatalog catalog = projectUtil.getCatalog(context, uri);
+    CheckCatalog catalog = projectHelper.getCatalog(context, uri);
     if (catalog == null) {
       throw new CoreException(new Status(IStatus.ERROR, Activator.getPluginId(), IStatus.ERROR, "No Catalog found", null)); //$NON-NLS-1$
     }
@@ -610,9 +588,9 @@ class CheckExtensionGenerator {
     if (project == null) {
       return null;
     }
-    ScopedPreferenceStore preferenceStore = new ScopedPreferenceStore(new ProjectScope(RuntimeProjectUtil.getProject(catalogUri, mapper)), getPreferenceFileQualifier());
-    if (preferenceStore.contains(PREFERENCE_PLUGIN_FILENAME)) {
-      return project.getFile(preferenceStore.getString(PREFERENCE_PLUGIN_FILENAME));
+    String pluginXmlFilename = projectHelper.getProjectPreference(project, PREFERENCE_PLUGIN_XML_FILENAME);
+    if (pluginXmlFilename != null) {
+      return project.getFile(pluginXmlFilename);
     } else {
       return PluginRegistry.findModel(project) instanceof IFragmentModel ? PDEProject.getFragmentXml(project) : PDEProject.getPluginXml(project);
     }
@@ -677,4 +655,3 @@ class CheckExtensionGenerator {
   }
 
 }
-

@@ -1,0 +1,109 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+module Expression
+
+import org.eclipse.emf.mwe.utils.*
+import org.eclipse.xtext.generator.*
+import org.eclipse.xtext.ui.generator.*
+
+var grammarURI = "classpath:/com/avaloq/tools/ddk/xtext/expression/Expression.xtext"
+var file.extensions = "expression"
+var projectName = "com.avaloq.tools.ddk.xtext.expression"
+var runtimeProject = "../${projectName}"
+
+Workflow {
+    bean = StandaloneSetup {
+        scanClassPath = true
+        platformUri = "${runtimeProject}/.."
+    }
+
+    component = DirectoryCleaner {
+        directory = "${runtimeProject}/src-gen"
+    }
+
+    component = DirectoryCleaner {
+        directory = "${runtimeProject}.ui/src-gen"
+    }
+
+    component = Generator {
+        pathRtProject = runtimeProject
+        pathUiProject = "${runtimeProject}.ui"
+        projectNameRt = projectName
+        projectNameUi = "${projectName}.ui"
+        language = {
+            uri = grammarURI
+            fileExtensions = file.extensions
+
+            // Java API to access grammar elements (required by several other fragments)
+            fragment = grammarAccess.GrammarAccessFragment {}
+
+            // generates Java API for the generated EPackages
+            fragment = ecore.EcoreGeneratorFragment {
+            // referencedGenModels = "uri to genmodel, uri to next genmodel"
+            }
+
+            // the serialization component
+            fragment = serializer.SerializerFragment  {}
+
+            // a custom ResourceFactory for use with EMF
+            fragment = resourceFactory.ResourceFactoryFragment {
+                fileExtensions = file.extensions
+            }
+
+            // The antlr parser generator fragment.
+            fragment = parser.antlr.XtextAntlrGeneratorFragment {
+                options = {
+                    backtrack = true
+                }
+            }
+
+            // java-based API for validation
+            fragment = validation.JavaValidatorFragment {
+            // composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
+            // composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+            // registerForImportedPackages = true
+            }
+
+            // scoping and exporting API
+            // fragment = scoping.ImportURIScopingFragment {}
+            // fragment = exporting.SimpleNamesFragment {}
+
+            // scoping and exporting API
+            fragment = scoping.ImportNamespacesScopingFragment {}
+            fragment = exporting.QualifiedNamesFragment {}
+            fragment = builder.BuilderIntegrationFragment {}
+
+            // formatter API
+            fragment = formatting.FormatterFragment {}
+
+            // labeling API
+            //          fragment = labeling.LabelProviderFragment {}
+
+            // outline API
+            //          fragment = outline.TransformerFragment {}
+            //          fragment = outline.OutlineNodeAdapterFactoryFragment {}
+            //          fragment = outline.QuickOutlineFragment {}
+
+            // quickfix API
+            fragment = quickfix.QuickfixProviderFragment {}
+
+            // content assist API
+            fragment = contentAssist.JavaBasedContentAssistFragment {}
+
+            // generates a more lightweight Antlr parser and lexer tailored for content assist
+            fragment = parser.antlr.XtextAntlrUiGeneratorFragment {
+                options = {
+                    backtrack = true
+                }
+            }
+        }
+    }
+}

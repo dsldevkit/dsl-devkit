@@ -58,7 +58,7 @@ public class CheckExtensionHelperManager {
   private IQualifiedNameConverter nameConverter;
 
   @Inject
-  private CheckProjectUtil projectUtil;
+  private CheckProjectHelper projectUtil;
 
   @Inject
   public CheckExtensionHelperManager(final Injector injector) {
@@ -86,7 +86,7 @@ public class CheckExtensionHelperManager {
     helpers.put(ExtensionType.VALIDATOR, validatorHelper);
   }
 
-  private Iterable<ICheckExtensionHelper> getExtensionHelper() {
+  private Iterable<ICheckExtensionHelper> getExtensionHelpers() {
     return helpers.values();
   }
 
@@ -213,7 +213,7 @@ public class CheckExtensionHelperManager {
 
   /**
    * Returns all Check extensions in the given plug-in model.
-   * 
+   *
    * @param pluginModel
    *          plug-in model, must not be {@code null}
    * @return all Check extensions
@@ -237,7 +237,7 @@ public class CheckExtensionHelperManager {
    * @return all extension point IDs
    */
   private Set<String> getAllExtensionPointIds() {
-    return Sets.newHashSet(Iterables.transform(getExtensionHelper(), new Function<ICheckExtensionHelper, String>() {
+    return Sets.newHashSet(Iterables.transform(getExtensionHelpers(), new Function<ICheckExtensionHelper, String>() {
       @Override
       public String apply(final ICheckExtensionHelper input) {
         return input.getExtensionPointId();
@@ -295,7 +295,7 @@ public class CheckExtensionHelperManager {
         pluginModel.getPluginBase().remove(extension); // no extensions for Catalogs without valid grammar
         continue; // nothing more to do if no grammar is available
       } else {
-        for (ICheckExtensionHelper helper : getExtensionHelper()) { // TODO getExtensionHelper using extension.getPoint() would make this more efficient
+        for (ICheckExtensionHelper helper : getExtensionHelpers()) { // TODO getExtensionHelper using extension.getPoint() would make this more efficient
           helper.updateExtension(catalog, extension);
         }
       }
@@ -407,4 +407,3 @@ public class CheckExtensionHelperManager {
   }
 
 }
-

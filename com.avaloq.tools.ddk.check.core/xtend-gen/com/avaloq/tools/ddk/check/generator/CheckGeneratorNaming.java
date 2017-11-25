@@ -14,6 +14,7 @@ import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
+import com.avaloq.tools.ddk.check.runtime.CheckRuntimeConstants;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import org.eclipse.emf.ecore.EObject;
@@ -27,7 +28,7 @@ public class CheckGeneratorNaming {
   @Inject
   private IQualifiedNameProvider nameProvider;
   
-  public <T extends EObject> T parent(final EObject object, final Class<T> c) {
+  public static <T extends EObject> T parent(final EObject object, final Class<T> c) {
     return EcoreUtil2.<T>getContainerOfType(object, c);
   }
   
@@ -148,9 +149,9 @@ public class CheckGeneratorNaming {
   /**
    * Gets the issue codes class name.
    */
-  public String issueCodesClassName(final CheckCatalog c) {
+  public static String issueCodesClassName(final CheckCatalog c) {
     String _name = c.getName();
-    return (_name + "IssueCodes");
+    return (_name + CheckRuntimeConstants.ISSUE_CODES_CLASS_NAME_SUFFIX);
   }
   
   /**
@@ -159,7 +160,7 @@ public class CheckGeneratorNaming {
   public String issueCodesFilePath(final CheckCatalog c) {
     String _packageName = c.getPackageName();
     String _asPath = this.asPath(_packageName);
-    String _issueCodesClassName = this.issueCodesClassName(c);
+    String _issueCodesClassName = CheckGeneratorNaming.issueCodesClassName(c);
     String _plus = (_asPath + _issueCodesClassName);
     return (_plus + ".java");
   }
@@ -220,6 +221,14 @@ public class CheckGeneratorNaming {
   }
   
   /**
+   * Gets the name of the getter method generated for a field.
+   */
+  public String fieldGetterName(final String fieldName) {
+    String _firstUpper = StringExtensions.toFirstUpper(fieldName);
+    return ("get" + _firstUpper);
+  }
+  
+  /**
    * Check catalog instance name in the validator
    */
   public String catalogInstanceName(final EObject object) {
@@ -227,6 +236,13 @@ public class CheckGeneratorNaming {
     String _name = _containerOfType.getName();
     String _firstLower = StringExtensions.toFirstLower(_name);
     return (_firstLower + "Catalog");
+  }
+  
+  /**
+   * Check issue code to label map field name in the catalog
+   */
+  public String issueCodeToLabelMapFieldName() {
+    return "issueCodeToLabelMap";
   }
   
   /**
@@ -260,7 +276,7 @@ public class CheckGeneratorNaming {
   public String getContextId(final Check check) {
     String _xblockexpression = null;
     {
-      final CheckCatalog catalog = this.<CheckCatalog>parent(check, CheckCatalog.class);
+      final CheckCatalog catalog = CheckGeneratorNaming.<CheckCatalog>parent(check, CheckCatalog.class);
       QualifiedName _apply = this.nameProvider.apply(catalog);
       String _contextIdPrefix = this.getContextIdPrefix(_apply);
       String _label = check.getLabel();
@@ -279,7 +295,7 @@ public class CheckGeneratorNaming {
   public String getContextId(final Category category) {
     String _xblockexpression = null;
     {
-      final CheckCatalog catalog = this.<CheckCatalog>parent(category, CheckCatalog.class);
+      final CheckCatalog catalog = CheckGeneratorNaming.<CheckCatalog>parent(category, CheckCatalog.class);
       QualifiedName _apply = this.nameProvider.apply(catalog);
       String _contextIdPrefix = this.getContextIdPrefix(_apply);
       String _label = category.getLabel();

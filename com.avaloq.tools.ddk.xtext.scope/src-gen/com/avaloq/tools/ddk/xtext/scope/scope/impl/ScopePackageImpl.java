@@ -10,6 +10,7 @@ import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
 import com.avaloq.tools.ddk.xtext.scope.scope.FactoryExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.Import;
+import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.LambdaDataExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.MatchDataExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
@@ -64,6 +65,13 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * @generated
    */
   private EClass extensionEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass injectionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -305,7 +313,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getScopeModel_Naming()
+  public EReference getScopeModel_Injections()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(4);
   }
@@ -315,9 +323,19 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getScopeModel_Scopes()
+  public EReference getScopeModel_Naming()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getScopeModel_Scopes()
+  {
+    return (EReference)scopeModelEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -368,6 +386,36 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
   public EAttribute getExtension_Extension()
   {
     return (EAttribute)extensionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getInjection()
+  {
+    return injectionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getInjection_Type()
+  {
+    return (EAttribute)injectionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getInjection_Name()
+  {
+    return (EAttribute)injectionEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -715,9 +763,9 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGlobalScopeExpression_Prefix()
+  public EAttribute getGlobalScopeExpression_RecursivePrefix()
   {
-    return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)globalScopeExpressionEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -725,7 +773,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGlobalScopeExpression_Data()
+  public EReference getGlobalScopeExpression_Prefix()
   {
     return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(3);
   }
@@ -735,9 +783,19 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getGlobalScopeExpression_Data()
+  {
+    return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EAttribute getGlobalScopeExpression_Domains()
   {
-    return (EAttribute)globalScopeExpressionEClass.getEStructuralFeatures().get(4);
+    return (EAttribute)globalScopeExpressionEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -925,6 +983,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     createEReference(scopeModelEClass, SCOPE_MODEL__INCLUDED_SCOPES);
     createEReference(scopeModelEClass, SCOPE_MODEL__IMPORTS);
     createEReference(scopeModelEClass, SCOPE_MODEL__EXTENSIONS);
+    createEReference(scopeModelEClass, SCOPE_MODEL__INJECTIONS);
     createEReference(scopeModelEClass, SCOPE_MODEL__NAMING);
     createEReference(scopeModelEClass, SCOPE_MODEL__SCOPES);
 
@@ -934,6 +993,10 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
 
     extensionEClass = createEClass(EXTENSION);
     createEAttribute(extensionEClass, EXTENSION__EXTENSION);
+
+    injectionEClass = createEClass(INJECTION);
+    createEAttribute(injectionEClass, INJECTION__TYPE);
+    createEAttribute(injectionEClass, INJECTION__NAME);
 
     namingSectionEClass = createEClass(NAMING_SECTION);
     createEAttribute(namingSectionEClass, NAMING_SECTION__CASING);
@@ -978,6 +1041,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     globalScopeExpressionEClass = createEClass(GLOBAL_SCOPE_EXPRESSION);
     createEReference(globalScopeExpressionEClass, GLOBAL_SCOPE_EXPRESSION__TYPE);
     createEReference(globalScopeExpressionEClass, GLOBAL_SCOPE_EXPRESSION__NAME);
+    createEAttribute(globalScopeExpressionEClass, GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX);
     createEReference(globalScopeExpressionEClass, GLOBAL_SCOPE_EXPRESSION__PREFIX);
     createEReference(globalScopeExpressionEClass, GLOBAL_SCOPE_EXPRESSION__DATA);
     createEAttribute(globalScopeExpressionEClass, GLOBAL_SCOPE_EXPRESSION__DOMAINS);
@@ -1053,6 +1117,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     initEReference(getScopeModel_IncludedScopes(), this.getScopeModel(), null, "includedScopes", null, 0, -1, ScopeModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getScopeModel_Imports(), this.getImport(), null, "imports", null, 0, -1, ScopeModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getScopeModel_Extensions(), this.getExtension(), null, "extensions", null, 0, -1, ScopeModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getScopeModel_Injections(), this.getInjection(), null, "injections", null, 0, -1, ScopeModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getScopeModel_Naming(), this.getNamingSection(), null, "naming", null, 0, 1, ScopeModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getScopeModel_Scopes(), this.getScopeDefinition(), null, "scopes", null, 0, -1, ScopeModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1062,6 +1127,10 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
 
     initEClass(extensionEClass, Extension.class, "Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getExtension_Extension(), theEcorePackage.getEString(), "extension", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(injectionEClass, Injection.class, "Injection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getInjection_Type(), theEcorePackage.getEString(), "type", null, 0, 1, Injection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getInjection_Name(), theEcorePackage.getEString(), "name", null, 0, 1, Injection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(namingSectionEClass, NamingSection.class, "NamingSection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getNamingSection_Casing(), this.getCasing(), "casing", null, 0, 1, NamingSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1106,6 +1175,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     initEClass(globalScopeExpressionEClass, GlobalScopeExpression.class, "GlobalScopeExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getGlobalScopeExpression_Type(), theEcorePackage.getEClass(), null, "type", null, 0, 1, GlobalScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGlobalScopeExpression_Name(), theExpressionPackage.getExpression(), null, "name", null, 0, 1, GlobalScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGlobalScopeExpression_RecursivePrefix(), theEcorePackage.getEBoolean(), "recursivePrefix", null, 0, 1, GlobalScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGlobalScopeExpression_Prefix(), theExpressionPackage.getExpression(), null, "prefix", null, 0, 1, GlobalScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGlobalScopeExpression_Data(), this.getDataExpression(), null, "data", null, 0, -1, GlobalScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGlobalScopeExpression_Domains(), theEcorePackage.getEString(), "domains", null, 0, -1, GlobalScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -12,7 +12,6 @@ package com.avaloq.tools.ddk.check.generator
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog
 import com.avaloq.tools.ddk.check.util.CheckUtil
-import com.google.common.collect.Iterables
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractFileSystemAccess
@@ -24,6 +23,9 @@ import com.avaloq.tools.ddk.check.check.FormalParameter
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
 import org.eclipse.xtext.common.types.JvmField
 import org.eclipse.xtext.xbase.compiler.GeneratorConfig
+
+import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorExtensions.*
+import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.*
 
 class CheckGenerator extends JvmModelGenerator {
 
@@ -107,14 +109,8 @@ class CheckGenerator extends JvmModelGenerator {
     * of issue codes.
     */
   def compileIssueCodes(CheckCatalog catalog) {
-    val checkIssues = catalog.allChecks.map(check|check.issues()).flatten    // issues for all checks
-    val implIssues = catalog.implementations.map(impl|impl.issues()).flatten // issues for all implementations
-    val allIssues = Iterables::concat(checkIssues, implIssues).filterNull    // all Issue instances
-
-    val issueNames = allIssues.map(issue|issue.issueCode())        // unique issue code names of all issues
-    val implIssueNames = implIssues.map(impl|impl.issueCode())     // issue names of implementations
-
-    val allIssueNames = Iterables::concat(issueNames, implIssueNames).toSet.filterNull // *all* issue names, unordered
+    val allIssues = catalog.checkAndImplementationIssues // all Issue instances
+    val allIssueNames = allIssues.map(issue|issue.issueCode()).toSet // *all* issue names, unordered
 
     '''
     «IF !(catalog.packageName.isNullOrEmpty)»

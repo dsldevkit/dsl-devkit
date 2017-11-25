@@ -10,11 +10,15 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.generator;
 
-import java.util.HashSet;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
@@ -38,6 +42,7 @@ import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredParameter;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -91,7 +96,7 @@ public final class CheckConfigurationPropertiesGenerator {
         LOG.error("Could not configure parameter " + NodeModelUtils.getTokenText(NodeModelUtils.getNode(parameter)));
         continue;
       }
-      putProperty(properties, language, configuredCheck, parameter, propertyValue);
+      putProperty(properties, language, configuredCheck.getCheck(), parameter, propertyValue);
     }
     putCheckSeverity(properties, language, configuredCheck);
     putInheritedProperties(properties, language, configuredCheck);
@@ -108,26 +113,43 @@ public final class CheckConfigurationPropertiesGenerator {
    *          the configured check
    */
   private void putInheritedProperties(final Properties properties, final String language, final ConfiguredCheck configuredCheck) {
+    putInheritedProperties(properties, language, configuredCheck.getCheck(), (ConfiguredCatalog) configuredCheck.eContainer(), configuredCheck.getParameterConfigurations());
+  }
+
+  /**
+   * Adds the inherited properties.
+   *
+   * @param properties
+   *          the properties
+   * @param language
+   *          the language
+   * @param check
+   *          the check to configure
+   * @param parentCatalog
+   *          the parent catalog configuration
+   * @param configuredProperties
+   *          the properties already configured for this check
+   */
+  private void putInheritedProperties(final Properties properties, final String language, final Check check, final ConfiguredCatalog parentCatalog, final EList<ConfiguredParameter> configuredProperties) {
     // this check needs to inherit any parameters defined in one of its parent levels (ConfigurableSections).
     // the values of the inferred parameters are taken from the innermost level.
 
-    HashSet<String> configuredPropertyNames = new HashSet<String>();
-    for (ConfiguredParameter property : configuredCheck.getParameterConfigurations()) {
-      FormalParameter formalParameter = property.getParameter();
-      if (formalParameter == null) {
-        continue;
-      }
-      configuredPropertyNames.add(formalParameter.getName());
-    }
+    // @Format-Off
+    Set<String> configuredPropertyNames = configuredProperties.stream()
+                                          .map(property->property.getParameter())
+                                          .filter(Objects::nonNull)
+                                          .map(formalParameter->formalParameter.getName())
+                                          .collect(Collectors.toSet());
+    // @Format-On
 
-    EObject parentSection = configuredCheck.eContainer();
+    EObject parentSection = parentCatalog;
     while (parentSection != null) {
       if (parentSection instanceof ConfigurableSection) {
         EList<ConfiguredParameter> sectionProperties = ((ConfigurableSection) parentSection).getParameterConfigurations();
         for (ConfiguredParameter property : sectionProperties) {
           if (!configuredPropertyNames.contains(property.getParameter().getName())) {
             configuredPropertyNames.add(property.getParameter().getName());
-            putProperty(properties, language, configuredCheck, property, evaluateParameterValue(property.getNewValue()));
+            putProperty(properties, language, check, property, evaluateParameterValue(property.getNewValue()));
           }
         }
       }
@@ -142,22 +164,22 @@ public final class CheckConfigurationPropertiesGenerator {
    *          the properties
    * @param language
    *          the language
-   * @param configuredCheck
+   * @param check
    *          the check
    * @param parameter
    *          the parameter
    * @param preferenceValue
    *          the preference value
    */
-  private void putProperty(final Properties properties, final String language, final ConfiguredCheck configuredCheck, final ConfiguredParameter parameter, final String preferenceValue) {
+  private void putProperty(final Properties properties, final String language, final Check check, final ConfiguredParameter parameter, final String preferenceValue) {
     // Make property values accessible via the generated accessor methods in check:
     if (language != null) {
-      properties.put(LanguageSpecificCheckConfigurationStore.getLanguageSpecificKey(language, CheckPropertiesGenerator.parameterKey(parameter.getParameter(), configuredCheck.getCheck())), preferenceValue);
+      properties.put(LanguageSpecificCheckConfigurationStore.getLanguageSpecificKey(language, CheckPropertiesGenerator.parameterKey(parameter.getParameter(), check)), preferenceValue);
     } else {
-      properties.put(CheckPropertiesGenerator.parameterKey(parameter.getParameter(), configuredCheck.getCheck()), preferenceValue);
+      properties.put(CheckPropertiesGenerator.parameterKey(parameter.getParameter(), check), preferenceValue);
     }
     // Make property values accessible via issue code for everywhere else:
-    putIssueProperties(properties, language, configuredCheck.getCheck(), parameter.getParameter(), preferenceValue);
+    putIssueProperties(properties, language, check, parameter.getParameter(), preferenceValue);
   }
 
   /**
@@ -195,11 +217,19 @@ public final class CheckConfigurationPropertiesGenerator {
    *          the check
    */
   private void putCheckSeverity(final Properties properties, final String language, final ConfiguredCheck configuredCheck) {
-    if (language != null) {
-      properties.put(LanguageSpecificCheckConfigurationStore.getLanguageSpecificKey(language, CheckPropertiesGenerator.checkSeverityKey(configuredCheck.getCheck())), String.valueOf(severityValue(configuredCheck)));
-      return;
+    SeverityKind severity = configuredCheck.getSeverity();
+
+    if (severity == SeverityKind.DEFAULT) {
+      return; // Default value doesn't need to be stored.
     }
-    properties.put(CheckPropertiesGenerator.checkSeverityKey(configuredCheck.getCheck()), String.valueOf(severityValue(configuredCheck))); // Severity
+
+    String severityValue = String.valueOf(com.avaloq.tools.ddk.check.check.SeverityKind.getByName(configuredCheck.getSeverity().getName().toLowerCase(Locale.ENGLISH)).getValue());
+
+    if (language != null) {
+      properties.put(LanguageSpecificCheckConfigurationStore.getLanguageSpecificKey(language, CheckPropertiesGenerator.checkSeverityKey(configuredCheck.getCheck())), severityValue);
+    } else {
+      properties.put(CheckPropertiesGenerator.checkSeverityKey(configuredCheck.getCheck()), severityValue);
+    }
   }
 
   /**
@@ -211,11 +241,7 @@ public final class CheckConfigurationPropertiesGenerator {
    *          the properties
    */
   private void generatePropertiesForLegacyCatalog(final CheckConfiguration configuration, final Properties properties) {
-    for (ConfiguredCatalog catalog : configuration.getLegacyCatalogConfigurations()) {
-      for (ConfiguredCheck configuredCheck : catalog.getCheckConfigurations()) {
-        generatePropertiesForConfiguredCheck(properties, null, configuredCheck);
-      }
-    }
+    generatePropertiesForCatalogsInConfigurableSection(configuration, properties);
   }
 
   /**
@@ -228,30 +254,38 @@ public final class CheckConfigurationPropertiesGenerator {
    */
   private void generatePropertiesForLanguageValidator(final CheckConfiguration configuration, final Properties properties) {
     for (ConfiguredLanguageValidator languageValidatorConfig : configuration.getLanguageValidatorConfigurations()) {
-      final String language = languageValidatorConfig.getLanguage();
-      for (ConfiguredCatalog catalog : languageValidatorConfig.getCatalogConfigurations()) {
-        for (ConfiguredCheck configuredCheck : catalog.getCheckConfigurations()) {
-          generatePropertiesForConfiguredCheck(properties, language, configuredCheck);
-        }
-      }
+      generatePropertiesForCatalogsInConfigurableSection(languageValidatorConfig, properties);
     }
   }
 
   /**
-   * Returns the severity of a configured check, or that of the initial check if the default
-   * severity is inherited. Care is taken of returning an integer value that is consistent with that of the Check.
+   * Generate properties for languages or legacy catalogs.
    *
-   * @param configuredCheck
-   *          the configured check
-   * @return the numeric value corresponding to the configured severity.
+   * @param section
+   *          the section
+   * @param properties
+   *          the properties
    */
-  public static int severityValue(final ConfiguredCheck configuredCheck) {
-    SeverityKind severity = configuredCheck.getSeverity();
-    if (severity == SeverityKind.DEFAULT) {
-      return configuredCheck.getCheck().getDefaultSeverity().getValue();
-    } else {
-      return com.avaloq.tools.ddk.check.check.SeverityKind.getByName(configuredCheck.getSeverity().getName().toLowerCase()).getValue();
+  private void generatePropertiesForCatalogsInConfigurableSection(final ConfigurableSection section, final Properties properties) {
+    String language = null;
+    EList<ConfiguredCatalog> configuredCatalogs = ECollections.emptyEList();
 
+    if (section instanceof CheckConfiguration) {
+      configuredCatalogs = ((CheckConfiguration) section).getLegacyCatalogConfigurations();
+    } else if (section instanceof ConfiguredLanguageValidator) {
+      language = ((ConfiguredLanguageValidator) section).getLanguage();
+      configuredCatalogs = ((ConfiguredLanguageValidator) section).getCatalogConfigurations();
+    }
+
+    for (ConfiguredCatalog catalog : configuredCatalogs) {
+      Set<Check> configuredChecks = Sets.newHashSet();
+      for (ConfiguredCheck configuredCheck : catalog.getCheckConfigurations()) {
+        generatePropertiesForConfiguredCheck(properties, language, configuredCheck);
+        configuredChecks.add(configuredCheck.getCheck());
+      }
+      for (Check unconfiguredCheck : Sets.difference(Sets.newHashSet(catalog.getCatalog().getAllChecks()), configuredChecks)) {
+        putInheritedProperties(properties, language, unconfiguredCheck, catalog, ECollections.emptyEList());
+      }
     }
   }
 

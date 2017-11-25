@@ -58,13 +58,16 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
    *          The name functions to apply.
    * @param prefix
    *          The prefix to apply for single element lookups.
+   * @param recursive
+   *          whether the qualified name pattern used to search the index should be {@link QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT recursive}
    * @param caseInsensitive
    *          The scope's case-sensitivity.
    */
   // Using QualifiedName#toLowerCase() not String#toLowerCase()
   @SuppressWarnings("PMD.UseLocaleWithCaseConversions")
-  public PrefixedContainerBasedScope(final String id, final IScope parent, final IContainer container, final ContainerQuery.Builder query, final Iterable<INameFunction> nameFunctions, final QualifiedName prefix, final boolean caseInsensitive) {
-    super(id, parent, container, query.name(QualifiedNamePattern.create(prefix.append("*"))), nameFunctions, caseInsensitive); //$NON-NLS-1$
+  public PrefixedContainerBasedScope(final String id, final IScope parent, final IContainer container, final ContainerQuery.Builder query, final Iterable<INameFunction> nameFunctions, final QualifiedName prefix, final boolean recursive, final boolean caseInsensitive) {
+    super(id, parent, container, query.name(QualifiedNamePattern.create(prefix.append(recursive ? QualifiedNamePattern.RECURSIVE_WILDCARD_SEGMENT
+        : "*"))), nameFunctions, caseInsensitive); //$NON-NLS-1$
     this.container = container;
     this.criteria = query;
     this.nameFunctions = nameFunctions instanceof Collection ? (Collection<INameFunction>) nameFunctions : ImmutableList.copyOf(nameFunctions);

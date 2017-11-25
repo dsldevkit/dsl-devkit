@@ -21,7 +21,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.TextStyle;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
@@ -57,6 +60,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
   public static final String NAME_SEPARATOR = " : "; //$NON-NLS-1$
   public static final String CONTINUED = " ..."; //$NON-NLS-1$
   private static final String ANNOTATION_SEPARATOR = " - "; //$NON-NLS-1$
+  private static final RGB GREY_COLOR = new RGB(105, 105, 105);
 
   @Inject
   private FileExtensionProvider extensionProvider;
@@ -69,6 +73,17 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
     @Override
     public void applyStyles(final TextStyle textStyle) {
       textStyle.strikeout = true;
+    }
+  };
+
+  /**
+   * A {@link StyledString.Styler} with a grey foreground color.
+   */
+  public static final StyledString.Styler GREY_FOREGROUND_STYLER = new StyledString.Styler() {
+
+    @Override
+    public void applyStyles(final TextStyle textStyle) {
+      textStyle.foreground = new Color(PlatformUI.getWorkbench().getDisplay(), GREY_COLOR);
     }
   };
 
@@ -339,7 +354,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
    * @return styled label of the form
    *         <name><qualifierPrefix><qualifier><qualifierPostfix>
    */
-  protected final StyledString qualifiedStyledString(final String name, final String qualifier, final String qualifierPrefix, final String qualifierPostfix) {
+  protected StyledString qualifiedStyledString(final String name, final String qualifier, final String qualifierPrefix, final String qualifierPostfix) {
     String safeName = name != null ? name : Messages.AbstractAcfLabelProvider_NAME_FALLBACK;
     StyledString styledString = new StyledString(safeName);
     styledString.append(qualifierPrefix, StyledString.QUALIFIER_STYLER);

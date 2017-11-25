@@ -16,9 +16,7 @@ import org.eclipse.xtext.EcoreUtil2;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
-import com.avaloq.tools.ddk.check.check.SeverityKind;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
-import com.google.inject.Guice;
 
 
 /**
@@ -28,17 +26,6 @@ public final class CheckPropertiesGenerator {
 
   private CheckPropertiesGenerator() {
     // no instantiation
-  }
-
-  /**
-   * Gets the numeric severity value for a given severity name.
-   *
-   * @param severityName
-   *          the severity name
-   * @return the numeric severity value
-   */
-  public static int severityValue(final String severityName) {
-    return SeverityKind.getByName(severityName.toLowerCase()).getValue(); // NOPMD
   }
 
   /**
@@ -99,9 +86,8 @@ public final class CheckPropertiesGenerator {
    * @return the key prefix, in this case the runtime issue code value
    */
   public static String issueCodeKeyPrefix(final EObject object) {
-    CheckGeneratorExtensions helper = Guice.createInjector(new com.avaloq.tools.ddk.check.CheckRuntimeModule()).getInstance(CheckGeneratorExtensions.class);
-    String issueName = helper.issueCode(object);
-    return helper.issueCodeValue(EcoreUtil2.getContainerOfType(object, CheckCatalog.class), issueName);
+    String issueName = CheckGeneratorExtensions.issueCode(object);
+    return CheckGeneratorExtensions.issueCodeValue(EcoreUtil2.getContainerOfType(object, CheckCatalog.class), issueName);
   }
 
 }

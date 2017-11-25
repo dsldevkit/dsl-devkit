@@ -4,7 +4,7 @@
     editorDirectory="/com.avaloq.tools.ddk.xtext.export.editor/src" modelPluginID="com.avaloq.tools.ddk.xtext.export"
     forceOverwrite="true" modelName="Export" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.export.edit"
-    editorPluginID="com.avaloq.tools.ddk.xtext.export.editor" runtimeVersion="2.10"
+    editorPluginID="com.avaloq.tools.ddk.xtext.export.editor" runtimeVersion="2.12"
     usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel#//expression">
   <genPackages prefix="Export" basePackage="com.avaloq.tools.ddk.xtext.export" disposableProviderFactory="true"
       ecorePackage="Export.ecore#/">

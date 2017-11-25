@@ -60,6 +60,7 @@ Workflow {
     platformUri = "${runtimeProject}/.."
     scanClassPath = true
     uriMap = {from = "platform:/plugin/" to = "platform:/resource/"}
+    registerGenModelFile = "platform:/resource/com.avaloq.tools.ddk.typesystem/model/TypeModel.genmodel"
     registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
     registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
     registerGenModelFiles = "${registerGenModelFiles}"

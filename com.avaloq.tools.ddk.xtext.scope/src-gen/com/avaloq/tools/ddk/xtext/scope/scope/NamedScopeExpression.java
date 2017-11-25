@@ -10,12 +10,12 @@ package com.avaloq.tools.ddk.xtext.scope.scope;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression#isCaseDef <em>Case Def</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression#getCasing <em>Casing</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression#getNaming <em>Naming</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getNamedScopeExpression()
  * @model

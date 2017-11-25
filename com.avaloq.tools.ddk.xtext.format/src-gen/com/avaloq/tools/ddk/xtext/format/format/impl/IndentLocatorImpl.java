@@ -22,12 +22,12 @@ import org.eclipse.xtext.xbase.XExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.IndentLocatorImpl#isIncrement <em>Increment</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.IndentLocatorImpl#getValue <em>Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.IndentLocatorImpl#getParameter <em>Parameter</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

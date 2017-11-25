@@ -25,6 +25,7 @@ import com.avaloq.tools.ddk.typesystem.builtintypemodel.BuiltInTypeModel;
 import com.avaloq.tools.ddk.typesystem.builtintypemodel.BuiltInTypeModelPackage;
 import com.avaloq.tools.ddk.typesystem.builtintypemodel.InternalType;
 import com.avaloq.tools.ddk.typesystem.typemodel.INamedType;
+import com.avaloq.tools.ddk.xtext.resource.GlobalResources;
 import com.google.common.collect.Maps;
 
 
@@ -118,6 +119,7 @@ public final class BuiltInTypeModelAccess {
         model = BuiltInTypeModelPackage.eINSTANCE.getBuiltInTypeModelFactory().createBuiltInTypeModel();
       }
     }
+    GlobalResources.INSTANCE.addResource(model.eResource());
     for (InternalType type : model.getInternalTypes()) {
       String typeName = type.getName();
       if (!Strings.isEmpty(typeName)) {
@@ -160,4 +162,3 @@ public final class BuiltInTypeModelAccess {
   }
 
 }
-

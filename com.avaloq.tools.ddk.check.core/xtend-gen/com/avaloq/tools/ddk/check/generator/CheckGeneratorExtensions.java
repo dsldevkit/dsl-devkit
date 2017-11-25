@@ -21,7 +21,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.io.CharStreams;
-import com.google.inject.Inject;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -47,27 +46,30 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 
 @SuppressWarnings("all")
 public class CheckGeneratorExtensions {
-  @Inject
-  @Extension
-  private CheckGeneratorNaming _checkGeneratorNaming;
+  /**
+   * Returns whether a CheckCatalog has any included CheckCatalogs.
+   */
+  public boolean hasIncludedCatalogs(final CheckCatalog catalog) {
+    final CheckCatalog included = catalog.getIncludedCatalogs();
+    return ((!Objects.equal(null, included)) && (!included.eIsProxy()));
+  }
   
   protected String _qualifiedIssueCodeName(final XIssueExpression issue) {
     String _xblockexpression = null;
     {
-      final String result = this.issueCode(issue);
+      final String result = CheckGeneratorExtensions.issueCode(issue);
       String _xifexpression = null;
       boolean _equals = Objects.equal(result, null);
       if (_equals) {
         _xifexpression = null;
       } else {
-        CheckCatalog _parent = this._checkGeneratorNaming.<CheckCatalog>parent(issue, CheckCatalog.class);
-        String _issueCodesClassName = this._checkGeneratorNaming.issueCodesClassName(_parent);
+        CheckCatalog _parent = CheckGeneratorNaming.<CheckCatalog>parent(issue, CheckCatalog.class);
+        String _issueCodesClassName = CheckGeneratorNaming.issueCodesClassName(_parent);
         String _plus = (_issueCodesClassName + ".");
         _xifexpression = (_plus + result);
       }
@@ -80,56 +82,53 @@ public class CheckGeneratorExtensions {
    * Returns the qualified Java name for an issue code.
    */
   protected String _qualifiedIssueCodeName(final Context context) {
-    CheckCatalog _parent = this._checkGeneratorNaming.<CheckCatalog>parent(context, CheckCatalog.class);
-    String _issueCodesClassName = this._checkGeneratorNaming.issueCodesClassName(_parent);
+    CheckCatalog _parent = CheckGeneratorNaming.<CheckCatalog>parent(context, CheckCatalog.class);
+    String _issueCodesClassName = CheckGeneratorNaming.issueCodesClassName(_parent);
     String _plus = (_issueCodesClassName + ".");
-    String _issueCode = this.issueCode(context);
+    String _issueCode = CheckGeneratorExtensions.issueCode(context);
     return (_plus + _issueCode);
   }
   
   /**
    * Gets the simple issue code name for a check.
    */
-  protected String _issueCode(final Check check) {
+  protected static String _issueCode(final Check check) {
+    String _xifexpression = null;
     String _name = check.getName();
-    String _splitCamelCase = this.splitCamelCase(_name);
-    return _splitCamelCase.toUpperCase();
+    boolean _notEquals = (!Objects.equal(null, _name));
+    if (_notEquals) {
+      String _name_1 = check.getName();
+      String _splitCamelCase = CheckGeneratorExtensions.splitCamelCase(_name_1);
+      _xifexpression = _splitCamelCase.toUpperCase();
+    } else {
+      _xifexpression = "ERROR_ISSUE_CODE_NAME_CHECK";
+    }
+    return _xifexpression;
   }
   
   /**
    * Gets the simple issue code name for an issue expression.
    */
-  protected String _issueCode(final XIssueExpression issue) {
+  protected static String _issueCode(final XIssueExpression issue) {
     String _xifexpression = null;
     String _issueCode = issue.getIssueCode();
     boolean _notEquals = (!Objects.equal(_issueCode, null));
     if (_notEquals) {
       String _issueCode_1 = issue.getIssueCode();
-      String _splitCamelCase = this.splitCamelCase(_issueCode_1);
+      String _splitCamelCase = CheckGeneratorExtensions.splitCamelCase(_issueCode_1);
       _xifexpression = _splitCamelCase.toUpperCase();
     } else {
       String _xifexpression_1 = null;
-      boolean _and = false;
-      Check _check = issue.getCheck();
-      boolean _tripleNotEquals = (_check != null);
-      if (!_tripleNotEquals) {
-        _and = false;
-      } else {
-        Check _check_1 = issue.getCheck();
-        boolean _eIsProxy = _check_1.eIsProxy();
-        boolean _not = (!_eIsProxy);
-        _and = _not;
-      }
-      if (_and) {
-        Check _check_2 = issue.getCheck();
-        _xifexpression_1 = this.issueCode(_check_2);
+      if (((issue.getCheck() != null) && (!issue.getCheck().eIsProxy()))) {
+        Check _check = issue.getCheck();
+        _xifexpression_1 = CheckGeneratorExtensions.issueCode(_check);
       } else {
         String _xifexpression_2 = null;
-        Check _parent = this._checkGeneratorNaming.<Check>parent(issue, Check.class);
+        Check _parent = CheckGeneratorNaming.<Check>parent(issue, Check.class);
         boolean _notEquals_1 = (!Objects.equal(_parent, null));
         if (_notEquals_1) {
-          Check _parent_1 = this._checkGeneratorNaming.<Check>parent(issue, Check.class);
-          _xifexpression_2 = this.issueCode(_parent_1);
+          Check _parent_1 = CheckGeneratorNaming.<Check>parent(issue, Check.class);
+          _xifexpression_2 = CheckGeneratorExtensions.issueCode(_parent_1);
         } else {
           _xifexpression_2 = "ERROR_ISSUE_CODE_NAME_XISSUEEXPRESSION";
         }
@@ -140,10 +139,10 @@ public class CheckGeneratorExtensions {
     return _xifexpression;
   }
   
-  public String issueCodePrefix(final CheckCatalog catalog) {
+  public static String issueCodePrefix(final CheckCatalog catalog) {
     String _packageName = catalog.getPackageName();
     String _plus = (_packageName + ".");
-    String _issueCodesClassName = this._checkGeneratorNaming.issueCodesClassName(catalog);
+    String _issueCodesClassName = CheckGeneratorNaming.issueCodesClassName(catalog);
     String _plus_1 = (_plus + _issueCodesClassName);
     return (_plus_1 + ".");
   }
@@ -151,11 +150,11 @@ public class CheckGeneratorExtensions {
   /**
    * Returns the <b>value</b> of an issue code.
    */
-  public String issueCodeValue(final EObject object, final String issueCode) {
+  public static String issueCodeValue(final EObject object, final String issueCode) {
     String _xblockexpression = null;
     {
-      final CheckCatalog catalog = this._checkGeneratorNaming.<CheckCatalog>parent(object, CheckCatalog.class);
-      String _issueCodePrefix = this.issueCodePrefix(catalog);
+      final CheckCatalog catalog = CheckGeneratorNaming.<CheckCatalog>parent(object, CheckCatalog.class);
+      String _issueCodePrefix = CheckGeneratorExtensions.issueCodePrefix(catalog);
       String _replaceAll = issueCode.replaceAll("_", ".");
       String _lowerCase = _replaceAll.toLowerCase();
       _xblockexpression = (_issueCodePrefix + _lowerCase);
@@ -164,10 +163,41 @@ public class CheckGeneratorExtensions {
   }
   
   /**
+   * Gets the issue label for a Check.
+   */
+  protected String _issueLabel(final Check check) {
+    return check.getLabel();
+  }
+  
+  /**
+   * Gets the issue label for an issue expression.
+   */
+  protected String _issueLabel(final XIssueExpression issue) {
+    String _xifexpression = null;
+    if (((issue.getCheck() != null) && (!issue.getCheck().eIsProxy()))) {
+      Check _check = issue.getCheck();
+      _xifexpression = this.issueLabel(_check);
+    } else {
+      String _xifexpression_1 = null;
+      Check _parent = CheckGeneratorNaming.<Check>parent(issue, Check.class);
+      boolean _notEquals = (!Objects.equal(_parent, null));
+      if (_notEquals) {
+        Check _parent_1 = CheckGeneratorNaming.<Check>parent(issue, Check.class);
+        _xifexpression_1 = this.issueLabel(_parent_1);
+      } else {
+        _xifexpression_1 = "ERROR_ISSUE_LABEL_XISSUEEXPRESSION";
+      }
+      _xifexpression = _xifexpression_1;
+    }
+    return _xifexpression;
+  }
+  
+  /**
    * Converts a string such as "AbcDef" to "ABC_DEF".
    */
-  public String splitCamelCase(final String string) {
-    String _format = String.format("%s|%s|%s", 
+  public static String splitCamelCase(final String string) {
+    String _format = String.format(
+      "%s|%s|%s", 
       "(?<=[A-Z])(?=[A-Z][a-z])", 
       "(?<=[^A-Z_])(?=[A-Z])", 
       "(?<=[A-Za-z])(?=[^A-Za-z_])");
@@ -222,6 +252,20 @@ public class CheckGeneratorExtensions {
   public Iterable<XIssueExpression> issues(final Implementation implementation) {
     Context _context = implementation.getContext();
     return this.issues(_context);
+  }
+  
+  /**
+   * Returns all Check and Implementation Issues for a CheckCatalog. Issues are not necessarily unique.
+   */
+  public Iterable<XIssueExpression> checkAndImplementationIssues(final CheckCatalog catalog) {
+    final Iterable<XIssueExpression> checkIssues = this.issues(catalog);
+    EList<Implementation> _implementations = catalog.getImplementations();
+    final Function1<Implementation, Iterable<XIssueExpression>> _function = (Implementation impl) -> {
+      return this.issues(impl);
+    };
+    List<Iterable<XIssueExpression>> _map = ListExtensions.<Implementation, Iterable<XIssueExpression>>map(_implementations, _function);
+    final Iterable<XIssueExpression> implIssues = Iterables.<XIssueExpression>concat(_map);
+    return Iterables.<XIssueExpression>concat(checkIssues, implIssues);
   }
   
   public Check issuedCheck(final XIssueExpression expression) {
@@ -343,7 +387,7 @@ public class CheckGeneratorExtensions {
             final InputStreamReader reader = new InputStreamReader(_contents);
             try {
               final List<String> content = CharStreams.readLines(reader);
-              return Sets.<String>newLinkedHashSet(content);
+              return Sets.<String>newTreeSet(content);
             } finally {
               reader.close();
             }
@@ -368,11 +412,22 @@ public class CheckGeneratorExtensions {
     }
   }
   
-  public String issueCode(final EObject check) {
+  public static String issueCode(final EObject check) {
     if (check instanceof Check) {
       return _issueCode((Check)check);
     } else if (check instanceof XIssueExpression) {
       return _issueCode((XIssueExpression)check);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(check).toString());
+    }
+  }
+  
+  public String issueLabel(final EObject check) {
+    if (check instanceof Check) {
+      return _issueLabel((Check)check);
+    } else if (check instanceof XIssueExpression) {
+      return _issueLabel((XIssueExpression)check);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(check).toString());

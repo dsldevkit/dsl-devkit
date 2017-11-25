@@ -103,6 +103,6 @@ public abstract class TraceEvent {
   @SuppressWarnings("nls")
   @Override
   public String toString() {
-    return getClass().getSimpleName() + "(" + trigger + ", " + time + ", " + Arrays.toString(data) + ')';
+    return getClass().getSimpleName() + "(" + trigger + ", " + thread.getName() + ", " + time + ", " + Arrays.toString(data) + ')';
   }
 }

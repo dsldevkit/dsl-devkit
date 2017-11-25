@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamedScopeExpressionImpl#isCaseDef <em>Case Def</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamedScopeExpressionImpl#getCasing <em>Casing</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamedScopeExpressionImpl#getNaming <em>Naming</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

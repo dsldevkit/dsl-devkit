@@ -17,8 +17,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.INode;
 
+import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.google.inject.Inject;
 
 
@@ -74,6 +76,14 @@ public class DefaultCrossReferenceHelper implements ICrossReferenceHelper {
       URI proxyURI = ((InternalEObject) target).eProxyURI();
       return !getLazyURIEncoder().isCrossLinkFragment(context.eResource(), proxyURI.fragment());
     }
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public QualifiedName toUnresolvedReferenceName(final String name) {
+    int lastSegment = name.lastIndexOf('.');
+    String simpleName = lastSegment > 0 && lastSegment < name.length() - 1 ? name.substring(lastSegment + 1) : name;
+    return QualifiedNames.toUnresolvedName(simpleName);
   }
 
   /**

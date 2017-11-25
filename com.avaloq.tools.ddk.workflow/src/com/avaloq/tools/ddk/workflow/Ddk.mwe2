@@ -11,7 +11,12 @@
 module com.avaloq.tools.ddk.workflow.Ddk
 
 Workflow {
+    component = @ Expression {}
+    component = @ Export {}
     component = @ Format {}
+    component = @ Scope {}
     component = @ Check {}
     component = @ CheckCfg {}
+    component = @ TypeModel {}
+    component = @ ModelInference {}
 }

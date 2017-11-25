@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 /**
  * The extension point utility class for Eclipse help contribution. Intended to be used by the Check builder participant.
  */
-public class CheckTocExtensionHelper extends AbstractCheckExtensionHelper implements ICheckExtensionHelper {
+public class CheckTocExtensionHelper extends AbstractCheckDocumentationExtensionHelper {
 
   public static final String TOC_FILE_NAME = "docs/toc.xml";
   public static final String TOC_EXTENSION_POINT_ID = "org.eclipse.help.toc";
@@ -35,19 +35,20 @@ public class CheckTocExtensionHelper extends AbstractCheckExtensionHelper implem
   private static final String PRIMARY_ATTRIBUTE_TAG = "primary";
   private static final String TOC_ELEMENT_TAG = "toc";
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     List<IPluginElement> result = Lists.newArrayList();
     result.add(updateTocElement(extension.getModel().getFactory().createElement(extension)));
     return result;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointId() {
     return TOC_EXTENSION_POINT_ID;
   }
 
   /** {@inheritDoc} */
+  @Override
   public String getExtensionPointName(final CheckCatalog catalog) {
     return "Help extension for Check";
   }
@@ -61,7 +62,7 @@ public class CheckTocExtensionHelper extends AbstractCheckExtensionHelper implem
 
   /**
    * Update TOC element.
-   * 
+   *
    * @param element
    *          the plugin element
    * @return the the updated plugin element
@@ -98,4 +99,3 @@ public class CheckTocExtensionHelper extends AbstractCheckExtensionHelper implem
     // do nothing, the extension must not be removed
   }
 }
-
