@@ -1,0 +1,42 @@
+package bugdsl281
+
+import com.avaloq.tools.ddk.check.check.Check
+import com.avaloq.tools.ddk.check.check.Context
+import com.avaloq.tools.ddk.check.check.Documented
+
+import java.util.List
+
+/**
+ * Test check catalog for com.avaloq.tools.ddk.check.Check. Never executed, but the test builds it and then
+ * verifies that the generated code exists and has no errors, which also verifies implicitly that the catalog
+ * itself didn't have any errors.
+ */
+catalog BugDsl281
+for grammar com.avaloq.tools.ddk.check.Check {
+
+  /**
+   * Test that empty list literals are generated correctly.
+   */
+  live error TestThatEmptyListLiteralsAreGeneratedCorrectly "Test that empty list literals are generated correctly"
+  (List<String> listParam = #[])
+  message "Test that empty list literals are generated correctly." {
+    for Documented elem {
+      if (!listParam.empty) {
+        issue;
+      }
+    }
+  }
+
+  /**
+   * Test that non-empty list literals are generated correctly.
+   */
+  live error TestThatNonEmptyListLiteralsAreGeneratedCorrectly "Test that non-empty list literals are generated correctly"
+  (List<String> listParam = #["foo, fie"])
+  message "Test that non-empty list literals are generated correctly." {
+    for Documented elem {
+      if (listParam.empty) {
+        issue;
+      }
+    }
+  }
+}

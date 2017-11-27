@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="XtextSpy View"
+            icon="icons/sample.gif"
+            class="com.avaloq.tools.xtextspy.XtextSpyExecutableExtensionFactory:com.avaloq.tools.xtextspy.SpyViewPart"
+            id="com.avaloq.tools.xtextspy.SpyView">
+      </view>
+   </extension>
+
+</plugin>

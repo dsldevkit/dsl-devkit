@@ -70,30 +70,54 @@
     <module>../com.avaloq.tools.ddk.xtext</module>
     <module>../com.avaloq.tools.ddk.xtext.builder</module>
     <module>../com.avaloq.tools.ddk.xtext.builder.ui</module>
-    <module>../com.avaloq.tools.ddk.xtext.format</module>
-    <module>../com.avaloq.tools.ddk.xtext.format.generator</module>
-    <module>../com.avaloq.tools.ddk.xtext.format.ui</module>
-    <module>../com.avaloq.tools.ddk.xtext.generator</module>
-    <module>../com.avaloq.tools.ddk.xtext.ui</module>
-    <module>../com.avaloq.tools.ddk.typesystem</module>
     <module>../com.avaloq.tools.ddk.xtext.common.types</module>
     <module>../com.avaloq.tools.ddk.xtext.common.types.ui</module>
-    <module>../com.avaloq.tools.ddk.check.core</module>
-    <module>../com.avaloq.tools.ddk.check.generator</module>
-    <module>../com.avaloq.tools.ddk.check.lib</module>
-    <module>../com.avaloq.tools.ddk.check.runtime.core</module>
-    <module>../com.avaloq.tools.ddk.check.runtime.ui</module>
-    <module>../com.avaloq.tools.ddk.check.ui</module>
-    <module>../com.avaloq.tools.ddk.checkcfg.core</module>
-    <module>../com.avaloq.tools.ddk.checkcfg.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.common.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.export</module>
     <module>../com.avaloq.tools.ddk.xtext.export.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.export.test</module>
     <module>../com.avaloq.tools.ddk.xtext.export.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.expression</module>
     <module>../com.avaloq.tools.ddk.xtext.expression.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.format</module>
+    <module>../com.avaloq.tools.ddk.xtext.format.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.format.test</module>
+    <module>../com.avaloq.tools.ddk.xtext.format.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.generator.test</module>
     <module>../com.avaloq.tools.ddk.xtext.scope</module>
     <module>../com.avaloq.tools.ddk.xtext.scope.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.scope.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.test</module>
+    <module>../com.avaloq.tools.ddk.xtext.test.core</module>
+    <module>../com.avaloq.tools.ddk.xtext.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.valid</module>
+    <module>../com.avaloq.tools.ddk.xtext.valid.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.valid.test</module>
+    <module>../com.avaloq.tools.ddk.xtext.valid.ui</module>
+    <module>../com.avaloq.tools.ddk.test.core</module>
+    <module>../com.avaloq.tools.ddk.test.ui</module>
+    <module>../com.avaloq.tools.ddk.test.ui.test</module>
+    <module>../com.avaloq.tools.ddk.check.core</module>
+    <module>../com.avaloq.tools.ddk.check.generator</module>
+    <module>../com.avaloq.tools.ddk.check.lib</module>
+    <module>../com.avaloq.tools.ddk.check.ui</module>
+    <module>../com.avaloq.tools.ddk.check.runtime.core</module>
+    <module>../com.avaloq.tools.ddk.check.runtime.ui</module>
+    <module>../com.avaloq.tools.ddk.check.core.test</module>
+    <module>../com.avaloq.tools.ddk.check.runtime.core.test</module>
+    <module>../com.avaloq.tools.ddk.check.ui.test</module>
+    <module>../com.avaloq.tools.ddk.check.test.runtime</module>
+    <module>../com.avaloq.tools.ddk.check.test.runtime.tests</module>
+    <module>../com.avaloq.tools.ddk.check.test.runtime.ui</module>
+    <module>../com.avaloq.tools.ddk.checkcfg.core</module>
+    <module>../com.avaloq.tools.ddk.checkcfg.core.test</module>
+    <module>../com.avaloq.tools.ddk.checkcfg.ui</module>
+    <module>../com.avaloq.tools.ddk.checkcfg.ui.test</module>
+    <module>../com.avaloq.tools.ddk.typesystem</module>
+    <module>../com.avaloq.tools.ddk.typesystem.test</module>
+    <module>../com.avaloq.tools.ddk.xtextspy</module>
+    <module>../com.avaloq.tools.ddk.xtextspy.test</module>
   </modules>
 
   <distributionManagement>

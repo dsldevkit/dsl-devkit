@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_ETFdQCNMEeG7sof5LWpDVA" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_ETOnMCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETOnMyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETOnNCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETOnNSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETOnNiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETOnNyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETOnOCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETOnOSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETOnOiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETOnOyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETOnMSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//ValidModel"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETOnMiNMEeG7sof5LWpDVA" x="92" y="346"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETYYMCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETYYMyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETYYNCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYNSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYNiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYNyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETYYOCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYOSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYOiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYOyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETYYMSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Import"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETYYMiNMEeG7sof5LWpDVA" y="205"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETYYPCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETYYPyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETYYQCNMEeG7sof5LWpDVA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ETYYSCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Category/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYSSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYSiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Category/label"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYSyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYTCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Category/description"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYTSNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYQSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYQiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYQyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETYYRCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYRSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYRiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYRyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETYYPSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Category"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETYYPiNMEeG7sof5LWpDVA" x="162" y="205"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETYYTiNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETYYUSNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETYYUiNMEeG7sof5LWpDVA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ETYYWiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/optional"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYWyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYXCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/checkKind"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYXSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYXiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/severity"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYXyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYYCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYYSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYYiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/label"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYYyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYZCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/description"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYZSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETYYZiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule/message"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETYYZyNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYUyNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYVCNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYVSNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETYYViNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYVyNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYWCNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYWSNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETYYTyNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Rule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETYYUCNMEeG7sof5LWpDVA" x="508"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETYYaCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETYYayNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETYYbCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYbSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYbiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYbyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETYYcCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYcSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYciNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYcyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETYYaSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//PredefinedRule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETYYaiNMEeG7sof5LWpDVA" x="534" y="205"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETYYdCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETYYdyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETYYeCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYeSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYeiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYeyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETYYfCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETYYfSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETYYfiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETYYfyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETYYdSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//NativeRule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETYYdiNMEeG7sof5LWpDVA" x="857" y="346"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJMCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJMyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJNCNMEeG7sof5LWpDVA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ETiJPCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SizeRule/min"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETiJPSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETiJPiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SizeRule/max"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETiJPyNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJNSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJNiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJNyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETiJOCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJOSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJOiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJOyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJMSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SizeRule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJMiNMEeG7sof5LWpDVA" x="533" y="346"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJQCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJQyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJRCNMEeG7sof5LWpDVA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ETiJTCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//RangeRule/min"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETiJTSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETiJTiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//RangeRule/max"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETiJTyNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJRSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJRiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJRyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETiJSCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJSSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJSiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJSyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJQSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//RangeRule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJQiNMEeG7sof5LWpDVA" x="371" y="346"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJUCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJUyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJVCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJVSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJViNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJVyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETiJWCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJWSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJWiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJWyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJUSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//UniqueRule"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJUiNMEeG7sof5LWpDVA" x="695" y="346"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJXCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJXyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJYCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJYSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJYiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJYyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETiJZCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJZSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJZiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJZyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJXSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Context"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJXiNMEeG7sof5LWpDVA" x="727"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJaCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJayNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJbCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJbSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJbiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJbyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETiJcCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJcSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJciNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJcyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJaSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SimpleContext"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJaiNMEeG7sof5LWpDVA" x="370" y="205"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJdCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJdyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJeCNMEeG7sof5LWpDVA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJeSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJeiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJeyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETiJfCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJfSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJfiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJfyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJdSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//DuplicateContext"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJdiNMEeG7sof5LWpDVA" x="732" y="205"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETiJgCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETiJgyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETiJhCNMEeG7sof5LWpDVA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ETrTJCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//NativeContext/named"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTJSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTJiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//NativeContext/givenName"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTJyNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETiJhSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETiJhiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETiJhyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETrTICNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETrTISNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETrTIiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETrTIyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETiJgSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//NativeContext"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETiJgiNMEeG7sof5LWpDVA" x="909" y="205"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETrTKCNMEeG7sof5LWpDVA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ETrTKyNMEeG7sof5LWpDVA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ETrTLCNMEeG7sof5LWpDVA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ETrTNCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFix/quickFixKind"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTNSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTNiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFix/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTNyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTOCNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFix/label"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTOSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTOiNMEeG7sof5LWpDVA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFix/message"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTOyNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETrTLSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETrTLiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETrTLyNMEeG7sof5LWpDVA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETrTMCNMEeG7sof5LWpDVA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETrTMSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETrTMiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETrTMyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETrTKSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFix"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETrTKiNMEeG7sof5LWpDVA" x="1231"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETrTPCNMEeG7sof5LWpDVA" type="1005">
+    <children xmi:type="notation:Node" xmi:id="_ETrTPyNMEeG7sof5LWpDVA" type="4010"/>
+    <children xmi:type="notation:Node" xmi:id="_ETrTQCNMEeG7sof5LWpDVA" type="5008">
+      <children xmi:type="notation:Node" xmi:id="_ETrTRCNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//CheckKind/fast"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTRSNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTRiNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//CheckKind/normal"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTRyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTSCNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//CheckKind/expensive"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTSSNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETrTQSNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETrTQiNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETrTQyNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETrTPSNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EEnum" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//CheckKind"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETrTPiNMEeG7sof5LWpDVA" x="889"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETrTSiNMEeG7sof5LWpDVA" type="1005">
+    <children xmi:type="notation:Node" xmi:id="_ETrTTSNMEeG7sof5LWpDVA" type="4010"/>
+    <children xmi:type="notation:Node" xmi:id="_ETrTTiNMEeG7sof5LWpDVA" type="5008">
+      <children xmi:type="notation:Node" xmi:id="_ETrTUiNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SeverityKind/error"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTUyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTVCNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SeverityKind/warning"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTVSNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETrTTyNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETrTUCNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETrTUSNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETrTSyNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EEnum" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SeverityKind"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETrTTCNMEeG7sof5LWpDVA" x="1060"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ETrTViNMEeG7sof5LWpDVA" type="1005">
+    <children xmi:type="notation:Node" xmi:id="_ETrTWSNMEeG7sof5LWpDVA" type="4010"/>
+    <children xmi:type="notation:Node" xmi:id="_ETrTWiNMEeG7sof5LWpDVA" type="5008">
+      <children xmi:type="notation:Node" xmi:id="_ETrTXiNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFixKind/semantic"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTXyNMEeG7sof5LWpDVA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_ETrTYCNMEeG7sof5LWpDVA" type="2006">
+        <element xmi:type="ecore:EEnumLiteral" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFixKind/textual"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTYSNMEeG7sof5LWpDVA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ETrTWyNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ETrTXCNMEeG7sof5LWpDVA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ETrTXSNMEeG7sof5LWpDVA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ETrTVyNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EEnum" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//QuickFixKind"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ETrTWCNMEeG7sof5LWpDVA" x="1476"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_ETFdQSNMEeG7sof5LWpDVA"/>
+  <element xmi:type="ecore:EPackage" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_ETrTYiNMEeG7sof5LWpDVA" type="3002" source="_ETOnMCNMEeG7sof5LWpDVA" target="_ETYYMCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ETrTZiNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTZyNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ETrTaCNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ETrTaSNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ETrTYyNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ETrTZCNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//ValidModel/imports"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ETrTZSNMEeG7sof5LWpDVA" points="[0, 0, 75, 99]$[-75, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3iiNMEeG7sof5LWpDVA" id="(0.3333333333333333,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3iyNMEeG7sof5LWpDVA" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EICNMEeG7sof5LWpDVA" type="3002" source="_ETOnMCNMEeG7sof5LWpDVA" target="_ETYYPCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1EJCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EJSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET1EJiNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EJyNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EISNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EIiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//ValidModel/categories"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EIyNMEeG7sof5LWpDVA" points="[0, 0, -76, 60]$[76, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3jCNMEeG7sof5LWpDVA" id="(0.6666666666666666,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3jSNMEeG7sof5LWpDVA" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EKCNMEeG7sof5LWpDVA" type="3002" source="_ETYYPCNMEeG7sof5LWpDVA" target="_ETYYTiNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1ELCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1ELSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET1ELiNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1ELyNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EKSNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EKiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//Category/rules"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EKyNMEeG7sof5LWpDVA" points="[0, 0, -311, 60]$[311, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3kiNMEeG7sof5LWpDVA" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3kyNMEeG7sof5LWpDVA" id="(0.24528301886792453,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EMCNMEeG7sof5LWpDVA" type="3003" source="_ETYYaCNMEeG7sof5LWpDVA" target="_ETYYTiNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EMSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EMiNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EMyNMEeG7sof5LWpDVA" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3jiNMEeG7sof5LWpDVA" id="(0.4953271028037383,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3jyNMEeG7sof5LWpDVA" id="(0.4968553459119497,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1ENCNMEeG7sof5LWpDVA" type="3002" source="_ETYYdCNMEeG7sof5LWpDVA" target="_ETiJgCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1EOCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EOSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET1EOiNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EOyNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1ENSNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1ENiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//NativeRule/contexts"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1ENyNMEeG7sof5LWpDVA" points="[0, 0, 0, 76]$[0, -76, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ogyNMEeG7sof5LWpDVA" id="(0.6666666666666666,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ohCNMEeG7sof5LWpDVA" id="(0.10738255033557047,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EPCNMEeG7sof5LWpDVA" type="3003" source="_ETYYdCNMEeG7sof5LWpDVA" target="_ETYYTiNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EPSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EPiNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EPyNMEeG7sof5LWpDVA" points="[0, 0, 264, 201]$[0, -30, 264, 171]$[-205, -30, 59, 171]$[-205, -171, 59, 30]$[-264, -171, 0, 30]$[-264, -201, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ohSNMEeG7sof5LWpDVA" id="(0.3333333333333333,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ohiNMEeG7sof5LWpDVA" id="(0.7484276729559748,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EQCNMEeG7sof5LWpDVA" type="3002" source="_ETiJMCNMEeG7sof5LWpDVA" target="_ETiJaCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1ERCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1ERSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET1ERiNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1ERyNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EQSNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EQiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//SizeRule/contexts"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EQyNMEeG7sof5LWpDVA" points="[0, 0, 110, 99]$[-95, -61, 15, 38]$[-110, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3lCNMEeG7sof5LWpDVA" id="(0.24509803921568626,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3lSNMEeG7sof5LWpDVA" id="(0.75,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1ESCNMEeG7sof5LWpDVA" type="3003" source="_ETiJMCNMEeG7sof5LWpDVA" target="_ETYYaCNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1ESSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1ESiNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1ESyNMEeG7sof5LWpDVA" points="[0, 0, 0, 99]$[0, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3liNMEeG7sof5LWpDVA" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3lyNMEeG7sof5LWpDVA" id="(0.4672897196261682,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1ETCNMEeG7sof5LWpDVA" type="3002" source="_ETiJQCNMEeG7sof5LWpDVA" target="_ETiJaCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1EUCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EUSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET1EUiNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EUyNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1ETSNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1ETiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//RangeRule/contexts"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1ETyNMEeG7sof5LWpDVA" points="[0, 0, 0, 99]$[0, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ogSNMEeG7sof5LWpDVA" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ogiNMEeG7sof5LWpDVA" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EVCNMEeG7sof5LWpDVA" type="3003" source="_ETiJQCNMEeG7sof5LWpDVA" target="_ETYYaCNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EVSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EViNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EVyNMEeG7sof5LWpDVA" points="[0, 0, -112, 99]$[0, -30, -112, 69]$[112, -30, 0, 69]$[112, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3mCNMEeG7sof5LWpDVA" id="(0.7450980392156863,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EX2ogCNMEeG7sof5LWpDVA" id="(0.2336448598130841,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EWCNMEeG7sof5LWpDVA" type="3002" source="_ETiJUCNMEeG7sof5LWpDVA" target="_ETiJdCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1EXCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EXSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET1EXiNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EXyNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EWSNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EWiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//UniqueRule/contexts"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EWyNMEeG7sof5LWpDVA" points="[0, 0, 0, 99]$[0, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3giNMEeG7sof5LWpDVA" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3gyNMEeG7sof5LWpDVA" id="(0.11965811965811966,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EYCNMEeG7sof5LWpDVA" type="3003" source="_ETiJUCNMEeG7sof5LWpDVA" target="_ETYYaCNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EYSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EYiNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EYyNMEeG7sof5LWpDVA" points="[0, 0, 108, 99]$[0, -30, 108, 69]$[-108, -30, 0, 69]$[-108, -99, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3hCNMEeG7sof5LWpDVA" id="(0.24509803921568626,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3hSNMEeG7sof5LWpDVA" id="(0.7289719626168224,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EZCNMEeG7sof5LWpDVA" type="3003" source="_ETiJaCNMEeG7sof5LWpDVA" target="_ETiJXCNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EZSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EZiNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EZyNMEeG7sof5LWpDVA" points="[0, 0, -330, 163]$[0, -30, -330, 133]$[330, -30, 0, 133]$[330, -163, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3kCNMEeG7sof5LWpDVA" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3kSNMEeG7sof5LWpDVA" id="(0.24509803921568626,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EaCNMEeG7sof5LWpDVA" type="3003" source="_ETiJdCNMEeG7sof5LWpDVA" target="_ETiJXCNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EaSNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EaiNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EayNMEeG7sof5LWpDVA" points="[0, 0, 0, 163]$[0, -163, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3gCNMEeG7sof5LWpDVA" id="(0.39316239316239315,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3gSNMEeG7sof5LWpDVA" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET1EbCNMEeG7sof5LWpDVA" type="3002" source="_ETiJgCNMEeG7sof5LWpDVA" target="_ETrTKCNMEeG7sof5LWpDVA">
+    <children xmi:type="notation:Node" xmi:id="_ET1EcCNMEeG7sof5LWpDVA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET1EcSNMEeG7sof5LWpDVA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ET-OECNMEeG7sof5LWpDVA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ET-OESNMEeG7sof5LWpDVA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET1EbSNMEeG7sof5LWpDVA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET1EbiNMEeG7sof5LWpDVA" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="../../../../../../src-gen/com/avaloq/tools/ddk/xtext/valid/Valid.ecore#//NativeContext/quickFixes"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET1EbyNMEeG7sof5LWpDVA" points="[0, 0, -315, 108]$[253, -61, -62, 47]$[315, -108, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3hiNMEeG7sof5LWpDVA" id="(0.6644295302013423,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3hyNMEeG7sof5LWpDVA" id="(0.4972972972972973,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ET-OEiNMEeG7sof5LWpDVA" type="3003" source="_ETiJgCNMEeG7sof5LWpDVA" target="_ETiJXCNMEeG7sof5LWpDVA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ET-OEyNMEeG7sof5LWpDVA" routing="Rectilinear" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ET-OFCNMEeG7sof5LWpDVA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ET-OFSNMEeG7sof5LWpDVA" points="[0, 0, 155, 163]$[0, -30, 155, 133]$[-155, -30, 0, 133]$[-155, -163, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3iCNMEeG7sof5LWpDVA" id="(0.3288590604026846,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EXs3iSNMEeG7sof5LWpDVA" id="(0.7450980392156863,1.0)"/>
+  </edges>
+</notation:Diagram>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.avaloq.tools.ddk.xtext.valid/src-gen" editDirectory="/com.avaloq.tools.ddk.xtext.valid.edit/src"
+    editorDirectory="/com.avaloq.tools.ddk.xtext.valid.editor/src" modelPluginID="com.avaloq.tools.ddk.xtext.valid"
+    forceOverwrite="true" modelName="Valid" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.valid.edit"
+    editorPluginID="com.avaloq.tools.ddk.xtext.valid.editor" runtimeVersion="2.12"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <genPackages prefix="Valid" basePackage="com.avaloq.tools.ddk.xtext.valid" disposableProviderFactory="true"
+      ecorePackage="Valid.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Valid.ecore#//CheckKind">
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//CheckKind/fast"/>
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//CheckKind/normal"/>
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//CheckKind/expensive"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Valid.ecore#//SeverityKind">
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//SeverityKind/error"/>
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//SeverityKind/warning"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Valid.ecore#//QuickFixKind">
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//QuickFixKind/semantic"/>
+      <genEnumLiterals ecoreEnumLiteral="Valid.ecore#//QuickFixKind/textual"/>
+    </genEnums>
+    <genClasses ecoreClass="Valid.ecore#//ValidModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//ValidModel/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//ValidModel/categories"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//Import">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//Import/package"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//Category">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Category/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Category/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Category/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//Category/rules"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//Rule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/optional"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/checkKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//Rule/message"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//PredefinedRule"/>
+    <genClasses ecoreClass="Valid.ecore#//NativeRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//NativeRule/contexts"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//SizeRule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//SizeRule/min"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//SizeRule/max"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//SizeRule/contexts"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//RangeRule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//RangeRule/min"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//RangeRule/max"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//RangeRule/contexts"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//UniqueRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//UniqueRule/contexts"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//Context">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//Context/contextType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//Context/contextFeature"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//SimpleContext"/>
+    <genClasses ecoreClass="Valid.ecore#//DuplicateContext">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//DuplicateContext/markerType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//DuplicateContext/markerFeature"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//NativeContext">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//NativeContext/named"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//NativeContext/givenName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//NativeContext/markerType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Valid.ecore#//NativeContext/markerFeature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Valid.ecore#//NativeContext/quickFixes"/>
+    </genClasses>
+    <genClasses ecoreClass="Valid.ecore#//QuickFix">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//QuickFix/quickFixKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//QuickFix/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//QuickFix/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Valid.ecore#//QuickFix/message"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

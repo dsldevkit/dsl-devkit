@@ -1,0 +1,14 @@
+package com.avaloq.example.codetabdef.checks
+
+import com.avaloq.tools.ddk.check.check.*
+
+catalog SampleCodeTabDef
+for grammar com.avaloq.tools.ddk.check.Check
+with CommonChecks
+{
+
+  def LegalIssueReference for Category c {
+      issue CommonChecks.ColumnNamedW on c#name
+  }
+
+}

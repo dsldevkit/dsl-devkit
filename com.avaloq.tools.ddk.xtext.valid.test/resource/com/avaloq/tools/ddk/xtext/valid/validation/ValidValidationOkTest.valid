@@ -1,0 +1,145 @@
+
+import "http://www.avaloq.com/tools/ddk/acf/codetabdef"
+
+category CodeTabDef
+	label "Code table definition checks"
+{
+/*
+  // Checks the model name based on the given resource name
+  fast error ModelName
+    label "Invalid code table definition name"
+    description "The code table definition name must be equal to the resource name (excluding extension)."
+    message "Invalid code table definition name \"{0}\": expecting \"{1}\""
+  context {
+    CodeTabDef#name quickfixes {
+      textual fix ModelName label "Correct model name" message "code table {0} definition";
+    };
+  };
+*/
+	fast warning InvalidHeader
+		label "Invalid header"
+		description "Checks the format of the file header."
+		message "Header should be ''{0}''"
+	context {
+		VersionTag#tag quickfixes {
+			textual fix InvalidHeader label "Change header" message "Change header to {0}";
+		};
+	}
+
+}
+
+category Ranges
+	label "Range checks"
+{
+
+	fast warning RangeOrder
+		label "Range order"
+		description "Checks order of Range keywords."
+		message "Keyword order should be {0}"
+	context {
+		Range quickfixes {
+			semantic fix RangeOrder label "Change keyword order" message "Rearrange the keywords in the correct order.";
+		};
+	}
+
+	fast error EmptyRange
+		label "Empty range"
+		description "Checks that a range is not empty."
+		message "Lower bound of range must be <= upper bound. Syntax: min .. max"
+	context {
+		SubRange;
+	}
+
+	fast error PrivateRangeMandatoryKeyColumn
+		label "Key column mandatory"
+		description "Checks for mandatory key column."
+		message "Range key types other than number force the definition of a key column"
+	context {
+		PrivateRange;
+	}
+
+	fast error PublicRangeMandatoryKeyColumn
+		label "Key column mandatory"
+		description "Checks for mandatory key column."
+		message "Range key types other than number force the definition of a key column"
+	context {
+		PublicRange;
+	}
+
+}
+
+category Syntax
+	label "Syntax checks"
+{
+
+	fast error VarrayPrecision
+		label "Precision range not for varray"
+		description "Checks that varrays have no precision."
+		message "Precision is not supported for varray references"
+	context {
+		ReferenceColumnType#precision;
+	}
+
+	fast warning SingleCheckClause
+		label "Number of column checks"
+		description "Warns about multiple column checks."
+		message "A column should have at most ONE check. Column ''{0}'' has several checks; all but the last one will be discarded!"
+	context {
+		Column#checks;
+	}
+
+}
+
+category Columns
+	label "Column checks"
+{
+
+	fast error SQLBoundVars
+		label "SQL bound variables"
+		description "Verifies that all columns referenced in checks exist."
+		message "Reference to unknown column names: {0}"
+	context {
+		ColumnCheck;
+	}
+
+	fast warning IntlIDCheck
+		label "intl_id check"
+		description "Warns about the check on intl_id columns."
+		message "Column intl_id should have a check of the form \":intl_id = lower(:intl_id)\""
+	context {
+		Column;
+	}
+
+	fast warning UserIDCheck
+		label "user_id check"
+		description "Warns about the check on user_id columns."
+		message "Column user_id should have a check of the form \":user_id = upper(:user_id)\""
+	context {
+		Column;
+	}
+
+	fast error ColumnName
+		label "Column names"
+		description "Check for illegal column names."
+		message "Column name ''{0}'' is not allowed"
+	context {
+		Column;
+	}
+
+	fast warning ProblematicColumnName
+		label "Problematic column names"
+		description "Some column names may cause problems in code tables."
+		message "It may be difficult to set a column named ''{0}'' in a CODE_TABLE source; possibly needs to use a tabdef/row tab construct"
+	context {
+		Column;
+	}
+
+	fast error NoDuplicateColumnNames
+		label "Duplicate columns"
+		description "Verifies that no two columns have the same name."
+		message "Columns in a code table must have unique names. Column name ''{0}'' appears more than once."
+	context {
+		Column#name;
+	}
+
+}

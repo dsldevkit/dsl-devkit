@@ -1,0 +1,89 @@
+grammar com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage with org.eclipse.xtext.common.Terminals
+
+generate formatterTestLanguage "http://www.avaloq.com/tools/ddk/xtext/formatter/FormatterTestLanguage"
+
+Root:
+	"test" (TestLinewrap | TestIndentation | TestLinewrapMinMax | TestColumn | TestOffset | TestRightPadding);
+
+Line:
+	(Decl | Assign | Meth | FqnObj | FqnRef | Enumeration | SuppressedHidden "post" | Space | Datatypes) ";";
+
+Decl:
+	type+=ID name+=ID;
+
+Assign:
+	var=ID op=("=" | "+=") "[" (val+=INT ("," val+=INT)*)? "]";
+
+Meth:
+	"void" name=ID "(" (param+=Param ("," param+=Param)*)? ")";
+
+Param:
+	name+=ID ":" type+=ID;
+
+Space:
+	"space" val=ID;
+
+TestLinewrap:
+	{TestLinewrap}
+	"linewrap" items+=Line*;
+
+TestLinewrapMinMax:
+	{TestLinewrapMinMax}
+	"wrapminmax" items+=Line*;
+
+TestIndentation:
+	{TestIndentation}
+	"indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?;
+
+TestColumn:
+	{TestColumn}
+	"column" (name=ID)?
+	("item" items+=Line)*;
+
+TestOffset:
+	{TestOffset}
+	"offset"
+	"value" value=ID
+	"pair" first=ID second=ID;
+
+TestRightPadding:
+	"padding" p1=ID p2=ID ";";
+
+FqnObj:
+	"fqn" name=FQN;
+
+FQN:
+	ID ("." ID)*;
+
+FqnRef:
+	"fqnref" ref=[FqnObj|FQN];
+
+Enumeration:
+	"enum" val+=Enum1+ (',' val+=Enum1)*;
+
+enum Enum1:
+	lit1 | lit2 | lit3;
+
+SuppressedHidden hidden():
+	{SuppressedHidden} "`" (vals+=SuppressedHiddenSub ('%' vals+=SuppressedHiddenSub)*)? "`";
+
+SuppressedHiddenSub:
+	SuppressedHiddenSubSub | SuppressedHiddenSubID;
+
+SuppressedHiddenSubSub hidden(WS):
+	'<' idval=ID '>';
+
+SuppressedHiddenSubID:
+	idval=ID;
+
+Datatype1:
+	FQN;
+
+Datatype2:
+	FQN;
+
+Datatype3:
+	FQN;
+
+Datatypes:
+	"datatypes" val1=Datatype1 "kw1" val2=Datatype2 val3=Datatype3 "kw3";

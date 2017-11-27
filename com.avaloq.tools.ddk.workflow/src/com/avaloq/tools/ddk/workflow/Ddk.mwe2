@@ -14,9 +14,11 @@ Workflow {
     component = @ Expression {}
     component = @ Export {}
     component = @ Format {}
+    component = @ FormatterTestLanguage {}
     component = @ Scope {}
     component = @ Check {}
     component = @ CheckCfg {}
+    component = @ Valid {}
     component = @ TypeModel {}
     component = @ ModelInference {}
 }

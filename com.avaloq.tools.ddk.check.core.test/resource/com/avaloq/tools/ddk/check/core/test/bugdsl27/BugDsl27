@@ -1,0 +1,25 @@
+package bugdsl27
+
+import com.avaloq.tools.ddk.check.check.Check
+import com.avaloq.tools.ddk.check.check.Context
+import com.avaloq.tools.ddk.check.check.Documented
+
+/**
+ *  Check catalog for com.avaloq.tools.ddk.check.Check
+ */
+catalog BugDsl27
+for grammar com.avaloq.tools.ddk.check.Check {
+
+  /**
+   * Just a test.
+   */
+  live error JustATest "Just a test"
+  message "Just a test." {
+    for Documented elem {
+      switch elem {
+        Context : issue on elem
+        Check : issue on elem
+      }
+    }
+  }
+}

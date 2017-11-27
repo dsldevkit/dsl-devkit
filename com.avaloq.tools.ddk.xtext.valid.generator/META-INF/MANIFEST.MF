@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.valid.generator
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.valid.generator;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.avaloq.tools.ddk.xtext.valid;visibility:=reexport,
+ com.avaloq.tools.ddk.xtext,
+ com.avaloq.tools.ddk.xtext.ui,
+ org.eclipse.xpand,
+ org.eclipse.xtend,
+ org.eclipse.xtext,
+ org.eclipse.xtext.generator,
+ org.eclipse.emf.codegen,
+ org.eclipse.emf.codegen.ecore,
+ org.eclipse.xtext.ui,
+ org.apache.commons.lang,
+ com.avaloq.tools.ddk.xtext.generator
+Import-Package: org.apache.log4j
+Export-Package: com.avaloq.tools.ddk.xtext.valid.generator

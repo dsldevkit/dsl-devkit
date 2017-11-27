@@ -1,0 +1,118 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+grammar com.avaloq.tools.ddk.xtext.valid.Valid with org.eclipse.xtext.common.Terminals
+
+generate valid 'http://www.paranor.ch/au/xtext/valid/Valid'
+
+import 'http://www.eclipse.org/emf/2002/Ecore' as ecore
+
+ValidModel:
+  (imports+=Import)*
+  (categories+=Category)*
+;
+
+Import:
+    'import' package=[ecore::EPackage|STRING]
+;
+Category:
+    'category' name=ID 'label' label=STRING ('description' description=STRING)? '{' (rules+=Rule)* '}'
+;
+
+Rule:
+     NativeRule | PredefinedRule
+;
+
+PredefinedRule:
+SizeRule | RangeRule | UniqueRule //TODO | CapitalizationRule
+;
+
+NativeRule:
+  ((optional?='optional')? & (checkKind=CheckKind)?) severity=SeverityKind name=ID
+  'label' label=STRING
+  ('description' description=STRING)?
+  'message' message=STRING
+  'context' '{'
+    (contexts+=NativeContext)+
+  '}'
+;
+
+SizeRule:
+  ((optional?='optional')? & (checkKind=CheckKind)?) 'size' severity=SeverityKind name=ID
+  'label' label=STRING
+  ('description' description=STRING)?
+  ('message' message=STRING)?
+  'size' (min=INT '..')? max=INT
+  'context' '{'
+    (contexts+=SimpleContext)+
+  '}'
+;
+
+RangeRule:
+  ((optional?='optional')? & (checkKind=CheckKind)?) 'range' severity=SeverityKind name=ID
+  'label' label=STRING
+  ('description' description=STRING)?
+  ('message' message=STRING)?
+  'range' (min=INT '..')? max=INT
+  'context' '{'
+    (contexts+=SimpleContext)+
+  '}'
+;
+
+UniqueRule:
+  ((optional?='optional')? & (checkKind=CheckKind)?) 'unique' severity=SeverityKind name=ID
+  'label' label=STRING
+  ('description' description=STRING)?
+  ('message' message=STRING)?
+  'context' '{'
+    (contexts+=DuplicateContext)+
+  '}'
+;
+
+Context:
+  NativeContext | DuplicateContext | SimpleContext
+;
+
+SimpleContext:
+  contextType=[ecore::EClass|QualifiedID]('#'contextFeature=[ecore::EStructuralFeature|ID])? ";"
+;
+
+DuplicateContext:
+  contextType=[ecore::EClass|QualifiedID]('#'contextFeature=[ecore::EStructuralFeature|ID])?  'marker' markerType=[ecore::EClass|QualifiedID]'#'markerFeature=[ecore::EStructuralFeature|ID]?";"
+;
+
+NativeContext:
+  contextType=[ecore::EClass|QualifiedID]('#'contextFeature=[ecore::EStructuralFeature|ID])? (named?='as' givenName=ID)? ('marker' markerType=[ecore::EClass|QualifiedID]('#'markerFeature=[ecore::EStructuralFeature|ID]))?
+    ('quickfixes' '{'
+      (quickFixes+=QuickFix)+
+    '}')?
+    ";"
+;
+
+QuickFix:
+  ((quickFixKind=QuickFixKind)?) 'fix' name=ID 'label' label=STRING  'message' message=STRING ';'
+;
+
+enum CheckKind:
+   fast='fast' | normal='normal' | expensive='expensive'
+;
+
+enum SeverityKind:
+  error='error' | warning='warning'
+;
+
+enum QuickFixKind:
+  semantic='semantic' | textual='textual'
+;
+
+QualifiedID returns ecore::EString :
+    (ID '::')* ID
+;
+

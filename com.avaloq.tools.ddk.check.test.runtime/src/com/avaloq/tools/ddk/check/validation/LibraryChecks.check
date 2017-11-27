@@ -1,0 +1,99 @@
+package com.avaloq.tools.ddk.check.validation
+
+import com.avaloq.tools.ddk.check.lib.IResourceCache
+import com.avaloq.tools.ddk.check.testLanguage.Greeting
+import com.google.inject.Inject
+import java.util.List
+import com.google.common.collect.ImmutableList
+
+/**
+ *  Check catalog for com.avaloq.tools.ddk.check.TestLanguage
+ */
+catalog LibraryChecks
+for grammar com.avaloq.tools.ddk.check.TestLanguage {
+
+  @Inject IResourceCache cache;
+
+
+  category InjectionChecks "Checks on injections in check catalogs." {
+
+    /** Warning to indicate that this catalog is active. */
+    live warning CheckCatalogIsActive "Check catalog is active"
+    message "Catalog is active" {
+      for Greeting {
+        issue;
+      }
+    }
+
+    /** Error if the injection didn't work. */
+    live error CacheInjectionFailed "Cache injection failed"
+    message "Cache was not injected" {
+      for Greeting g {
+        if (cache == null) {
+          issue;
+        }
+      }
+    }
+
+    /** Error if values cannot be read from cache. */
+    live error CacheDoesntWork "Cache doesn't work"
+    message "{0}" {
+      for Greeting {
+        val String key = this.qualifiedCatalogName + ".testValue";
+        try {
+          cache.put(it, key, new Boolean(true));
+          val Boolean value = cache.get(it, key);
+          if (value == null || !value) {
+            issue bind ("Could not read value from cache: " + value);
+          }
+        } catch (Throwable t) {
+          issue bind ("Exception in cache access: " + t.getMessage());
+        }
+      }
+    }
+  }
+
+  category FormalParameterChecks "Checks on formal parameters" {
+
+    /** Test formal parameter access. */
+    live error FormalParameters "Formal Parameters"
+    (String param1 = "param1", boolean param2 = !!true, Boolean param3 = false, List<String> names = #['foo', 'bar', 'ba\u0001\nz'], List<Integer> ints = #[5, -42, 7])
+    message "{0}" {
+      for Greeting {
+        val String p1 = param1;
+        val boolean p2 = false;
+        val List<String> expectedNames = ImmutableList::of('foo', 'bar', 'ba\u0001\nz');
+        val expectedInts = #[5, -42, 7];
+        if (!"param1".equals(p1)) {
+          issue bind ('String parameter wrong (expected "param1"): ' + p1);
+        }
+        if (p2 != param3 || !p2 != param2) {
+          issue bind ("Boolean parameter wrong.");
+        }
+        var int i = 0;
+        val List<String> names = names; // Whoa!
+        if (names.size != expectedNames.size) {
+          issue bind ("Expected three names, got " + names.size);
+        } else {
+          while (i < names.size) {
+            if (!expectedNames.get(i).equals(names.get(i))) {
+              issue bind ('String mismatch in list, expected "' + expectedNames.get(i) + '" but got "' + names.get(i) + '"')
+            }
+            i = i + 1;
+          }
+        }
+        val INTS = ints;
+        if (INTS.size != expectedInts.size) {
+          issue bind('Expected three ints, got ' + INTS.size);
+        }
+        i = 0;
+        while (i < INTS.size) {
+          if (expectedInts.get(i).intValue != INTS.get(i).intValue) {
+            issue bind ('Integer mismatch at index ' + i + ':' + expectedInts.get(i) + ' != ' + INTS.get(i));
+          }
+          i = i + 1;
+        }
+      }
+    }
+  }
+}

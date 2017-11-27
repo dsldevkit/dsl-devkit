@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="com.avaloq.tools.ddk.check.validation.executionenvironment.validator"
+         name="Check extension for ExecutionEnvironment"
+         point="com.avaloq.tools.ddk.check.runtime.core.check">
+      <validator
+            catalog="com/avaloq/tools/ddk/check/validation/ExecutionEnvironment.check"
+            targetClass="com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentCheckImpl"
+            language="com.avaloq.tools.ddk.check.TestLanguage">
+      </validator>
+   </extension>
+   <extension
+         id="com.avaloq.tools.ddk.check.validation.librarychecks.validator"
+         name="Check extension for LibraryChecks"
+         point="com.avaloq.tools.ddk.check.runtime.core.check">
+      <validator
+            catalog="com/avaloq/tools/ddk/check/validation/LibraryChecks.check"
+            targetClass="com.avaloq.tools.ddk.check.validation.LibraryChecksCheckImpl"
+            language="com.avaloq.tools.ddk.check.TestLanguage">
+      </validator>
+   </extension>
+   <extension
+         id="com.avaloq.tools.ddk.check.validation.executionenvironment.quickfix"
+         name="Check quickfix extension for ExecutionEnvironment"
+         point="com.avaloq.tools.ddk.check.runtime.core.checkquickfix">
+      <provider
+            targetClass="com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentQuickfixProvider"
+            language="com.avaloq.tools.ddk.check.TestLanguage">
+      </provider>
+   </extension>
+   <extension
+         id="com.avaloq.tools.ddk.check.validation.librarychecks.quickfix"
+         name="Check quickfix extension for LibraryChecks"
+         point="com.avaloq.tools.ddk.check.runtime.core.checkquickfix">
+      <provider
+            targetClass="com.avaloq.tools.ddk.check.validation.LibraryChecksQuickfixProvider"
+            language="com.avaloq.tools.ddk.check.TestLanguage">
+      </provider>
+   </extension>
+   <extension
+         id="com.avaloq.tools.ddk.check.validation.executionenvironment.preference"
+         name="Preferences extension for ExecutionEnvironment"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentPreferenceInitializer">
+      </initializer>
+      <scope
+            name="checkcfgproject"
+            class="com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences">
+      </scope>
+   </extension>
+   <extension
+         id="com.avaloq.tools.ddk.check.validation.librarychecks.preference"
+         name="Preferences extension for LibraryChecks"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.avaloq.tools.ddk.check.validation.LibraryChecksPreferenceInitializer">
+      </initializer>
+      <scope
+            name="checkcfgproject"
+            class="com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences">
+      </scope>
+   </extension>
+   <extension
+         name="Context sensitive help for check"
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="docs/contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         name="Help extension for Check"
+         point="org.eclipse.help.toc">
+      <toc
+            file="docs/toc.xml"
+            primary="false">
+      </toc>
+   </extension>
+
+</plugin>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="com.avaloq.tools.ddk.check.runtime.core.test"
+         point="com.avaloq.tools.ddk.check.runtime.core.check">
+      <validator
+            language="com.avaloq.tools.ddk.check.extensionpoint.tests.language"
+            targetClass="com.avaloq.tools.ddk.check.runtime.core.test.validation.DummyValidator">
+      </validator>
+   </extension>
+
+</plugin>

@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.check.ui.test
+Bundle-SymbolicName: com.avaloq.tools.ddk.check.ui.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.junit,
+ com.avaloq.tools.ddk.check.ui,
+ com.avaloq.tools.ddk.xtext.test.core,
+ com.avaloq.tools.ddk.check.ui,
+ com.avaloq.tools.ddk.test.core,
+ com.avaloq.tools.ddk.test.ui,
+ com.avaloq.tools.ddk.check.core.test,
+ com.avaloq.tools.ddk.check.core,
+ org.eclipse.pde.core,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.jdt.core,
+ org.eclipse.ui.ide,
+ com.avaloq.tools.ddk.xtext.test.core,
+ org.apache.log4j
+Export-Package: com.avaloq.tools.ddk.check.ui.test,
+ com.avaloq.tools.ddk.check.ui.test.util
+Import-Package: org.junit.runner;version="4.5.0",
+ org.junit.runners;version="4.5.0"

@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.valid.ui
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.valid.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.avaloq.tools.ddk.xtext.valid;visibility:=reexport,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui,
+ org.antlr.runtime,
+ org.eclipse.xtext.builder,
+ org.eclipse.ui.editors,
+ org.eclipse.compare,
+ org.eclipse.jdt.ui
+Export-Package: com.avaloq.tools.ddk.xtext.valid.ui.contentassist.antlr,
+ com.avaloq.tools.ddk.xtext.valid.ui.internal;x-friends:="com.avaloq.tools.ddk.xtext.valid.test",
+ com.avaloq.tools.ddk.xtext.valid.ui.contentassist,
+ com.avaloq.tools.ddk.xtext.valid.ui.quickfix
+Import-Package: org.apache.log4j
+Bundle-Activator: com.avaloq.tools.ddk.xtext.valid.ui.internal.ValidActivator
+Eclipse-ExtensibleAPI: true
