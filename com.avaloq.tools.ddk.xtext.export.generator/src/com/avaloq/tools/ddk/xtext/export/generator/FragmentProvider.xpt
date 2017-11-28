@@ -77,14 +77,7 @@ public class «getFragmentProvider().toSimpleName()» extends AbstractSelectorFrag
 
 «FOREACH fingerprintedExports AS e-»
   protected CharSequence getFragmentSegment(final «e.type.instanceClassName()» obj) {
-  «IF e.guard != null-»
-    if («e.guard.javaExpression(ctx.clone('obj', e.type))») {
-      return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique ? 'true' : 'false'»);
-    }
-    return super.getFragmentSegment(obj);
-  «ELSE-»
     return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique ? 'true' : 'false'»);
-  «ENDIF-»
   }
 
 «ENDFOREACH-»
