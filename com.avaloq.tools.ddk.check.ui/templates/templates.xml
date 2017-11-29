@@ -31,12 +31,12 @@ category "${Label}" {
     id="com.avaloq.tools.ddk.check.Check.template.check"
     context="com.avaloq.tools.ddk.check.Check.Check"
     description="Creates a new check"
-	  enabled="true"
-	  name="Check">
+    enabled="true"
+    name="Check">
 /**
  * @todo Document check.
  */
-${live:Enum('TriggerKind')} ${error:Enum('SeverityKind')} "${Label}"
+${live:Enum('TriggerKind')} ${error:Enum('SeverityKind')} ${UniqueID} "${Label}"
 message "${message}" {
   ${cursor}
 }
@@ -45,7 +45,7 @@ message "${message}" {
     id="com.avaloq.tools.ddk.check.Check.template.severityrange"
     context="com.avaloq.tools.ddk.check.Check.Check"
     description="Define severity range"
-	  enabled="true"
-	  name="Severity range">@SeverityRange(${warning:Enum('SeverityKind')} .. ${error:Enum('SeverityKind')})
+    enabled="true"
+    name="Severity range">@SeverityRange(${warning:Enum('SeverityKind')} .. ${error:Enum('SeverityKind')})
 </template>
 </templates>

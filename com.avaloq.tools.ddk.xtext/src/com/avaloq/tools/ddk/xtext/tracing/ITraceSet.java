@@ -10,6 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.tracing;
 
+import java.util.function.Supplier;
+
+import com.google.inject.ImplementedBy;
+
+
 /**
  * A TraceSet is used to collect trace data in the form of {@link TraceEvent trace events}. The events are posted by <i>producers</i> using the
  * {@link #post(Object) post()} method or any of the convenience methods {@link #started(Class, Object...) started()}, {@link #ended(Class, Object...) ended()},
@@ -24,7 +29,90 @@ package com.avaloq.tools.ddk.xtext.tracing;
  * By default the TraceSet is {@link #disable() disabled} and will until explicitly {@link #enable() enabled} ignore all posted events. These events will thus
  * <em>not</em> be queued until the TraceSet is enabled.
  */
-public interface ITraceSet extends IExecutionDataCollector {
+@ImplementedBy(NullTraceSet.class)
+public interface ITraceSet {
+
+  /**
+   * Signifies the trace set that the event of the given type has started.
+   *
+   * @param eventClass
+   *          event class
+   * @param data
+   *          data that the event holds
+   * @param <T>
+   *          type of the event
+   */
+  <T extends TraceEvent> void started(final Class<T> eventClass, final Object... data);
+
+  /**
+   * Signifies the trace set that the event of the given type has ended.
+   *
+   * @param eventClass
+   *          event class
+   * @param data
+   *          data that the event holds
+   * @param <T>
+   *          type of the event
+   */
+  <T extends TraceEvent> void ended(final Class<T> eventClass, final Object... data);
+
+  /**
+   * Signifies the trace set that the instantaneous event of the given type has happened.
+   *
+   * @param eventClass
+   *          event class
+   * @param data
+   *          data that the event holds
+   * @param <T>
+   *          type of the event
+   */
+  <T extends TraceEvent> void trace(final Class<T> eventClass, final Object... data);
+
+  /**
+   * Used to collect intermediate data which will typically later be used as payload for a posted event. The intermediate data is maintained separately for each
+   * thread.
+   *
+   * @param key
+   *          arbitrary key to associate intermediate data with, must not be {@code null}
+   * @param initialValue
+   *          supplier for initial value in case this method is called for the first time or for the first time since {@link #clearIntermediateData(Object)} was
+   *          last called, must not be {@code null}
+   * @param <T>
+   *          type of intermediate data
+   * @return intermediate data as initialized by a previous call to this method on this thread or otherwise as computed by {@code supplier}
+   * @see #clearIntermediateData(Object)
+   */
+  <T> T getIntermediateData(Object key, Supplier<T> initialValue);
+
+  /**
+   * Returns the intermediate data associated with the current thread and given key and clears it from this collector.
+   *
+   * @param key
+   *          key with which intermediate data is associated, must not be {@code null}
+   * @param <T>
+   *          type of intermediate data
+   * @return intermediate data associated with current thread and given key or {@code null} if none
+   */
+  <T> T clearIntermediateData(Object key);
+
+  /**
+   * Checks if tracing is enabled for a given event type.
+   *
+   * @param <T>
+   *          generic event type
+   * @param eventClass
+   *          event type, must not be {@code null}
+   * @return {@code true} if tracing is enabled for the given event type
+   */
+  <T extends TraceEvent> boolean isEnabled(Class<T> eventClass);
+
+  /**
+   * Configures this trace set to trace according to the given {@link TraceConfiguration}.
+   * 
+   * @param configuration
+   *          trace configuration, must not be {@code null}
+   */
+  void configure(TraceConfiguration configuration);
 
   /**
    * Registers a trace event handler for asynchronous notification. This means that the event producer will already have continued its processing at the time
@@ -71,6 +159,6 @@ public interface ITraceSet extends IExecutionDataCollector {
    * @param event
    *          event to post
    */
-  <T> void post(final T event);
+  <T extends TraceEvent> void post(final T event);
 
 }

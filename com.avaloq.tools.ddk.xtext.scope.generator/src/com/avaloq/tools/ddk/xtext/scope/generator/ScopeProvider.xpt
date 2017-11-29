@@ -39,6 +39,9 @@ import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+«IF model != null && !model.allInjections().isEmpty-»
+import com.google.inject.Inject;
+«ENDIF-»
 
 @SuppressWarnings("all")
 public class «getScopeProvider().toSimpleName()» extends AbstractPolymorphicScopeProvider {
@@ -47,6 +50,13 @@ public class «getScopeProvider().toSimpleName()» extends AbstractPolymorphicScop
   private static final Logger LOGGER = Logger.getLogger(«getScopeProvider().toSimpleName()».class);
 «IF model != null -»
 
+«IF !model.allInjections().isEmpty-»
+«FOREACH model.allInjections() AS i -»
+  @Inject
+  private «i.type» «i.name»;
+«ENDFOREACH-»
+
+«ENDIF-»
 «EXPAND scopeMethods(name.toSimpleName()) FOR model-»
 «ENDIF-»
 
@@ -284,7 +294,7 @@ IF !matchData.isEmpty», //
 «indent(indent)»    }«
 ENDLET»«
 ENDFOREACH»)«
-ELSEIF prefix != null», «EXPAND doExpression (model, 'ctx', ((ScopeRule) eContainer(ScopeRule)).context.contextType) FOR prefix»«
+ELSEIF prefix != null», «EXPAND doExpression (model, 'ctx', ((ScopeRule) eContainer(ScopeRule)).context.contextType) FOR prefix», «recursivePrefix»«
 ENDIF»«ENDLET»«
 ENDDEFINE»
 

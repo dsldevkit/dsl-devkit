@@ -17,15 +17,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IContainer;
@@ -45,10 +44,12 @@ import com.avaloq.tools.ddk.xtext.scoping.impl.BranchingScope;
 import com.avaloq.tools.ddk.xtext.scoping.impl.DataFilteringScope;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 
 /**
@@ -58,16 +59,16 @@ import com.google.inject.Inject;
 @SuppressWarnings("PMD.ExcessiveClassLength")
 public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProvider {
   // CHECKSTYLE:COUPLING-ON
-  private static final String CACHE_KEY_TYPE = "T"; //$NON-NLS-1$
-  private static final String CACHE_KEY_REFERENCE = "R"; //$NON-NLS-1$
-  private static final char CACHE_KEY_SEPARATOR = '#';
-  private static final String NO_DOMAIN = "<no_domain>"; //$NON-NLS-1$
   private static final String SCOPE_STRING = "scope"; //$NON-NLS-1$
   private static final String NAMED_ELEMENT_MUST_BE_OF_TYPE_E_REFERENCE_OR_E_CLASS = "Named element must be of type EReference or EClass."; //$NON-NLS-1$
   private static final String DELEGATE_SCOPE_RESOURCE_ERR_MSG = "Delegate scope cannot delegate to another resource"; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(AbstractPolymorphicScopeProvider.class);
+
+  @Inject
+  @Named(Constants.LANGUAGE_NAME)
+  private String languageName;
 
   /** Guice injected name provider to determine names for a given type. */
   @Inject
@@ -206,6 +207,131 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
+   * Cache key object for the caching of {@link IScope scopes}.
+   */
+  protected static final class CacheKey {
+    private final EObject context;
+    private final ENamedElement referenceOrType;
+    private final String scopeName;
+
+    private CacheKey(final EObject context, final ENamedElement referenceOrType, final String scopeName) {
+      this.context = context;
+      this.referenceOrType = referenceOrType;
+      this.scopeName = scopeName;
+    }
+
+    /**
+     * Factory method for reference-specific scopes.
+     *
+     * @param context
+     *          context object, must not be {@code null}
+     * @param reference
+     *          cross-reference, must not be {@code null}
+     * @param scopeName
+     *          scope name, must not be {@code null}
+     * @return new {@link CacheKey}, never {@code null}
+     */
+    public static CacheKey of(final EObject context, final EReference reference, final String scopeName) {
+      return new CacheKey(context, reference, scopeName);
+    }
+
+    /**
+     * Factory method for type-specific scopes.
+     *
+     * @param context
+     *          context object, must not be {@code null}
+     * @param type
+     *          scope element type, must not be {@code null}
+     * @param scopeName
+     *          scope name, must not be {@code null}
+     * @return new {@link CacheKey}, never {@code null}
+     */
+    public static CacheKey of(final EObject context, final EClass type, final String scopeName) {
+      return new CacheKey(context, type, scopeName);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(context, referenceOrType, scopeName);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (!(obj instanceof CacheKey)) {
+        return false;
+      }
+      CacheKey other = (CacheKey) obj;
+      return context.equals(other.context) && referenceOrType.equals(other.referenceOrType) && scopeName.equals(other.scopeName);
+    }
+  }
+
+  /**
+   * Cache key object for the caching of global {@link IScope scopes}.
+   */
+  protected static final class GlobalCacheKey {
+    private final IDomain domain;
+    private final ENamedElement referenceOrType;
+    private final String scopeName;
+    private final String languageName;
+
+    private GlobalCacheKey(final IDomain domain, final ENamedElement referenceOrType, final String scopeName, final String languageName) {
+      this.domain = domain;
+      this.referenceOrType = referenceOrType;
+      this.scopeName = scopeName;
+      this.languageName = languageName;
+    }
+
+    /**
+     * Factory method for reference-specific scopes.
+     *
+     * @param domain
+     *          {@link IDomain domain} of context resource, must not be {@code null}
+     * @param languageName
+     *          language name of context resource, must not be {@code null}
+     * @param reference
+     *          cross-reference, must not be {@code null}
+     * @param scopeName
+     *          scope name, must not be {@code null}
+     * @return new {@link CacheKey}, never {@code null}
+     */
+    public static GlobalCacheKey of(final IDomain domain, final String languageName, final EReference reference, final String scopeName) {
+      return new GlobalCacheKey(domain, reference, scopeName, languageName);
+    }
+
+    /**
+     * Factory method for type-specific scopes.
+     *
+     * @param domain
+     *          {@link IDomain domain} of context resource, must not be {@code null}
+     * @param languageName
+     *          language name of context resource, must not be {@code null}
+     * @param type
+     *          scope element type, must not be {@code null}
+     * @param scopeName
+     *          scope name, must not be {@code null}
+     * @return new {@link CacheKey}, never {@code null}
+     */
+    public static GlobalCacheKey of(final IDomain domain, final String languageName, final EClass type, final String scopeName) {
+      return new GlobalCacheKey(domain, type, scopeName, languageName);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(domain, referenceOrType, scopeName, languageName);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (!(obj instanceof GlobalCacheKey)) {
+        return false;
+      }
+      GlobalCacheKey other = (GlobalCacheKey) obj;
+      return domain.equals(other.domain) && referenceOrType.equals(other.referenceOrType) && scopeName.equals(other.scopeName)
+          && languageName.equals(other.languageName);
+    }
+  }
+
+  /**
    * Returns a pooled string used as key when caching dispatchers and scope results.
    *
    * @param context
@@ -217,19 +343,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @return pooled cache key, never {@code null}
    */
   protected Object getCacheKey(final EObject context, final EReference reference, final String scopeName) {
-    StringBuilder dispatchKey = new StringBuilder(CACHE_KEY_REFERENCE).append(scopeName).append(reference.getContainerClass().getName()).append(reference.getName());
-    URI proxyURI = ((InternalEObject) context).eProxyURI();
-    if (proxyURI != null) {
-      dispatchKey.append(proxyURI);
-    } else {
-      Resource resource = context.eResource();
-      if (resource == null) {
-        throw new IllegalArgumentException("The context object is not contained in any resource: " + context); //$NON-NLS-1$
-      }
-      dispatchKey.append(resource.getURI());
-      dispatchKey.append(resource.getURIFragment(context));
-    }
-    return dispatchKey.toString();
+    return CacheKey.of(context, reference, scopeName);
   }
 
   /**
@@ -244,7 +358,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @return global scope cache key, never {@code null}
    */
   protected Object getGlobalCacheKey(final EObject context, final EReference reference, final String scopeName) {
-    return new StringBuilder(CACHE_KEY_REFERENCE).append(CACHE_KEY_SEPARATOR).append(getDomainName(context)).append(CACHE_KEY_SEPARATOR).append(scopeName).append(CACHE_KEY_SEPARATOR).append(reference.getContainerClass().getName()).append(CACHE_KEY_SEPARATOR).append(reference.getName()).toString();
+    return GlobalCacheKey.of(getDomain(context), languageName, reference, scopeName);
   }
 
   /**
@@ -342,19 +456,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @return pooled cache key
    */
   protected Object getCacheKey(final EObject context, final EClass type, final String scopeName) {
-    StringBuilder dispatchKey = new StringBuilder(CACHE_KEY_TYPE).append(scopeName).append(type.getInstanceClass().getName());
-    URI proxyURI = ((InternalEObject) context).eProxyURI();
-    if (proxyURI != null) {
-      dispatchKey.append(proxyURI);
-    } else {
-      Resource resource = context.eResource();
-      if (resource == null) {
-        throw new IllegalArgumentException("The context object is not contained in any resource: " + context); //$NON-NLS-1$
-      }
-      dispatchKey.append(resource.getURI());
-      dispatchKey.append(resource.getURIFragment(context));
-    }
-    return dispatchKey.toString();
+    return CacheKey.of(context, type, scopeName);
   }
 
   /**
@@ -369,7 +471,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @return global scope cache key, never {@code null}
    */
   protected Object getGlobalCacheKey(final EObject context, final EClass type, final String scopeName) {
-    return new StringBuilder(CACHE_KEY_TYPE).append(CACHE_KEY_SEPARATOR).append(getDomainName(context)).append(CACHE_KEY_SEPARATOR).append(scopeName).append(CACHE_KEY_SEPARATOR).append(context.getClass().getName()).append(CACHE_KEY_SEPARATOR).append(type.getInstanceClass().getName()).toString();
+    return GlobalCacheKey.of(getDomain(context), languageName, type, scopeName);
   }
 
   /**
@@ -436,14 +538,10 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *
    * @param context
    *          the context, must not be {@code null}
-   * @return the domain name, never {@code null}
+   * @return the domain, never {@code null}
    */
-  protected String getDomainName(final EObject context) {
-    final Resource resource = context.eResource();
-    if (resource != null) {
-      return domainMapper.map(resource.getURI()).getName();
-    }
-    return NO_DOMAIN;
+  private IDomain getDomain(final EObject context) {
+    return domainMapper.map(context.eResource().getURI());
   }
 
   /**
@@ -523,10 +621,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the scope name, must not be {@code null}
    * @param originalResource
    *          the original resource, must not be {@code null}
-   * @return true if it should be cached
+   * @return {@code true} if {@code context} is contained in a resource and the scope should be cached
    */
-  protected boolean doCache(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
-    if (namedElement instanceof EReference) {
+  private boolean doCache(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
+    if (context.eResource() == null) {
+      return false;
+    } else if (namedElement instanceof EReference) {
       return doCache(context, (EReference) namedElement, scopeName, originalResource);
     } else if (namedElement instanceof EClass) {
       return doCache(context, (EClass) namedElement, scopeName, originalResource);
@@ -545,10 +645,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the scope name, must not be {@code null}
    * @param originalResource
    *          the original resource, must not be {@code null}
-   * @return true if it should be globally cached
+   * @return {@code true} if {@code context} is contained in a resource and the scope should be globally cached
    */
-  protected boolean doGlobalCache(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
-    if (namedElement instanceof EReference) {
+  private boolean doGlobalCache(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
+    if (context.eResource() == null) {
+      return false;
+    } else if (namedElement instanceof EReference) {
       return doGlobalCache(context, (EReference) namedElement, scopeName, originalResource);
     } else if (namedElement instanceof EClass) {
       return doGlobalCache(context, (EClass) namedElement, scopeName, originalResource);
@@ -567,7 +669,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          name of scope, must not be {@code null}
    * @return global scope cache key, never {@code null}
    */
-  protected Object getGlobalCacheKey(final EObject context, final ENamedElement namedElement, final String scopeName) {
+  private Object getGlobalCacheKey(final EObject context, final ENamedElement namedElement, final String scopeName) {
     if (namedElement instanceof EReference) {
       return getGlobalCacheKey(context, (EReference) namedElement, scopeName);
     } else if (namedElement instanceof EClass) {
@@ -587,7 +689,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          name of scope, must not be {@code null}
    * @return pooled cache key, never {@code null}
    */
-  protected Object getCacheKey(final EObject context, final ENamedElement namedElement, final String scopeName) {
+  private Object getCacheKey(final EObject context, final ENamedElement namedElement, final String scopeName) {
     if (namedElement instanceof EReference) {
       return getCacheKey(context, (EReference) namedElement, scopeName);
     } else if (namedElement instanceof EClass) {
@@ -809,13 +911,16 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          The original resource
    * @param prefix
    *          prefix to apply for single element lookups
+   * @param recursive
+   *          whether the qualified name pattern used to search the index should be
+   *          {@link com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT recursive}
    * @param nameFunctions
    *          The name functions to apply
    * @param caseInsensitive
    *          indicates whether the new scope shall be case insensitive
    * @return The new scope
    */
-  protected IScope newPrefixedContainerScope(final String id, final IScope outer, final EObject context, final ContainerQuery.Builder query, final Resource originalResource, final String prefix, final Iterable<INameFunction> nameFunctions, final boolean caseInsensitive) {
+  protected IScope newPrefixedContainerScope(final String id, final IScope outer, final EObject context, final ContainerQuery.Builder query, final Resource originalResource, final String prefix, final boolean recursive, final Iterable<INameFunction> nameFunctions, final boolean caseInsensitive) {
     IScope result = outer;
     final List<String> domains = query.getDomains();
     for (final IContainer container : Lists.reverse(getVisibleContainers(context, originalResource))) {
@@ -825,7 +930,69 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
           continue; // Query not applicable to this container.
         }
       }
-      result = new PrefixedContainerBasedScope(id, result, container, query, nameFunctions, QualifiedNames.safeQualifiedName(prefix), caseInsensitive);
+      result = new PrefixedContainerBasedScope(id, result, container, query, nameFunctions, QualifiedNames.safeQualifiedName(prefix), recursive, caseInsensitive);
+    }
+    return result;
+  }
+
+  /**
+   * Create a new prefixed container scope using the results of a given query as its contents.
+   * <p>
+   * TODO: This method only exists for backwards compatibility. Delete this method once all scope providers in downstream projects have been deleted.
+   *
+   * @param id
+   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   * @param outer
+   *          The outer scope of the new scope.
+   * @param context
+   *          The context
+   * @param query
+   *          The query that defines the scope's contents
+   * @param originalResource
+   *          The original resource
+   * @param prefix
+   *          prefix to apply for single element lookups
+   * @param nameFunctions
+   *          The name functions to apply
+   * @param caseInsensitive
+   *          indicates whether the new scope shall be case insensitive
+   * @return The new scope
+   */
+  protected IScope newPrefixedContainerScope(final String id, final IScope outer, final EObject context, final ContainerQuery.Builder query, final Resource originalResource, final String prefix, final Iterable<INameFunction> nameFunctions, final boolean caseInsensitive) {
+    return newPrefixedContainerScope(id, outer, context, query, originalResource, prefix, false, nameFunctions, caseInsensitive);
+  }
+
+  /**
+   * Create a new prefix container scope using the results of a given query as its contents, using the root object of the given resource
+   * as its context.
+   *
+   * @param id
+   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   * @param outer
+   *          The outer scope of the new scope.
+   * @param rsc
+   *          The context resource
+   * @param query
+   *          The query that defines the scope's contents
+   * @param originalResource
+   *          The original resource
+   * @param prefix
+   *          prefix to apply for single element lookups
+   * @param recursive
+   *          whether the qualified name pattern used to search the index should be
+   *          {@link com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT recursive}
+   * @param nameFunctions
+   *          The name functions to apply
+   * @param caseInsensitive
+   *          indicates whether the new scope shall be case insensitive
+   * @return The new scope
+   */
+  protected IScope newPrefixedContainerScope(final String id, final IScope outer, final Resource rsc, final ContainerQuery.Builder query, final Resource originalResource, final String prefix, final boolean recursive, final Iterable<INameFunction> nameFunctions, final boolean caseInsensitive) {
+    IScope result = outer;
+    // We always need a context. Default to the top element of the resource.
+    final EList<EObject> contents = rsc.getContents();
+    if (contents.size() > 0) {
+      result = newPrefixedContainerScope(id, result, contents.get(0), query, originalResource, prefix, recursive, nameFunctions, caseInsensitive);
     }
     return result;
   }
@@ -833,6 +1000,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   /**
    * Create a new prefix container scope using the results of a given query as its contents, using the root object of the given resource
    * as its context.
+   * <p>
+   * TODO: This method only exists for backwards compatibility. Delete this method once all scope providers in downstream projects have been deleted.
    *
    * @param id
    *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
@@ -853,13 +1022,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @return The new scope
    */
   protected IScope newPrefixedContainerScope(final String id, final IScope outer, final Resource rsc, final ContainerQuery.Builder query, final Resource originalResource, final String prefix, final Iterable<INameFunction> nameFunctions, final boolean caseInsensitive) {
-    IScope result = outer;
-    // We always need a context. Default to the top element of the resource.
-    final EList<EObject> contents = rsc.getContents();
-    if (contents.size() > 0) {
-      result = newPrefixedContainerScope(id, result, contents.get(0), query, originalResource, prefix, nameFunctions, caseInsensitive);
-    }
-    return result;
+    return newPrefixedContainerScope(id, outer, rsc, query, originalResource, prefix, false, nameFunctions, caseInsensitive);
   }
 
   /**

@@ -15,14 +15,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#getName <em>Name</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#isRecursivePrefix <em>Recursive Prefix</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#getData <em>Data</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#getDomains <em>Domains</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getGlobalScopeExpression()
  * @model
@@ -81,6 +82,32 @@ public interface GlobalScopeExpression extends NamedScopeExpression
    * @generated
    */
   void setName(Expression value);
+
+  /**
+   * Returns the value of the '<em><b>Recursive Prefix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Recursive Prefix</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Recursive Prefix</em>' attribute.
+   * @see #setRecursivePrefix(boolean)
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getGlobalScopeExpression_RecursivePrefix()
+   * @model
+   * @generated
+   */
+  boolean isRecursivePrefix();
+
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#isRecursivePrefix <em>Recursive Prefix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Recursive Prefix</em>' attribute.
+   * @see #isRecursivePrefix()
+   * @generated
+   */
+  void setRecursivePrefix(boolean value);
 
   /**
    * Returns the value of the '<em><b>Prefix</b></em>' containment reference.

@@ -25,7 +25,7 @@ import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
-import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectUtil;
+import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckTocExtensionHelper;
 import com.google.inject.Inject;
 
@@ -37,7 +37,7 @@ import com.google.inject.Inject;
 public class CheckTocGenerator {
 
   @Inject
-  private CheckProjectUtil projectUtil;
+  private CheckProjectHelper projectHelper;
 
   @Inject
   private IStorage2UriMapper mapper;
@@ -152,7 +152,7 @@ public class CheckTocGenerator {
     TocTopic categoryTopic;
     TocTopic checkTopic;
 
-    for (Category category : projectUtil.getCatalog(buildContext, uri).getCategories()) {
+    for (Category category : projectHelper.getCatalog(buildContext, uri).getCategories()) {
       categoryTopic = model.getFactory().createTocTopic();
       categoryTopic.setFieldLabel(category.getLabel());
       categoryTopic.setFieldRef(reference + '#' + generatorNaming.getContextId(category));
@@ -166,7 +166,7 @@ public class CheckTocGenerator {
       topic.addChild(categoryTopic);
     }
 
-    for (Check check : projectUtil.getCatalog(buildContext, uri).getChecks()) {
+    for (Check check : projectHelper.getCatalog(buildContext, uri).getChecks()) {
       checkTopic = model.getFactory().createTocTopic();
       checkTopic.setFieldLabel(check.getLabel());
       checkTopic.setFieldRef(reference + '#' + generatorNaming.getContextId(check));
@@ -221,7 +221,7 @@ public class CheckTocGenerator {
    *           the core exception if model could not be loaded
    */
   private TocModel loadTocModel(final URI uri) throws CoreException {
-    IFile file = projectUtil.getHelpFile(uri, CheckTocExtensionHelper.TOC_FILE_NAME);
+    IFile file = projectHelper.getHelpFile(uri, CheckTocExtensionHelper.TOC_FILE_NAME);
     TocModel model = new TocModel(CoreUtility.getTextDocument(file.getContents()), false);
     model.setUnderlyingResource(file);
     model.load(file.getContents(), false);

@@ -1,0 +1,10 @@
+grammar org.example.A with org.eclipse.xtext.common.Terminals
+
+generate a "http://www.example.org/A"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+RuleA:
+	a=INT ('-' b=STRING | ('-'c=ID ('-'d=INT | '-'e=STRING)))? ';';
+
+RuleAA:
+	a=RuleA ';';

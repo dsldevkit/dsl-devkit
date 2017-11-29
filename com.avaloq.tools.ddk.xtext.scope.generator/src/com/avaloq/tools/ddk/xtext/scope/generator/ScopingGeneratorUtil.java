@@ -14,11 +14,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -38,7 +39,6 @@ import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.diagnostics.Severity;
 import org.eclipse.xtext.generator.Generator;
 import org.eclipse.xtext.resource.ClasspathUriResolutionException;
-import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.validation.Issue;
 
 import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContext;
@@ -46,20 +46,21 @@ import com.avaloq.tools.ddk.xtext.generator.util.EClassComparator;
 import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
 import com.avaloq.tools.ddk.xtext.scope.ScopeStandaloneSetup;
 import com.avaloq.tools.ddk.xtext.scope.scope.Casing;
-import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
-import com.avaloq.tools.ddk.xtext.scope.scope.Import;
+import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingSection;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.inject.Injector;
 
 
@@ -196,8 +197,26 @@ public final class ScopingGeneratorUtil {
     private static final String VAR_ORIGINAL_RESOURCE = "originalResource";
 
     ScopeExecutionContext(final ScopeModel model) {
-      super(new ResourceManagerDefaultImpl(), new ScopeResource(model), new TypeSystemImpl(), ImmutableMap.of(VAR_ORIGINAL_RESOURCE, new Variable(VAR_ORIGINAL_RESOURCE, null)), null, null, null, null, null, null, null, null, null);
+      super(new ResourceManagerDefaultImpl(), new ScopeResource(model), new TypeSystemImpl(), getVariables(model), null, null, null, null, null, null, null, null, null);
       registerMetaModels(model);
+    }
+
+    /**
+     * Returns the variables which should be visible to the Xtend expressions.
+     *
+     * @param model
+     *          context scope model, must not be {@code null}
+     * @return map of variables, never {@code null}
+     */
+    private static Map<String, Variable> getVariables(final ScopeModel model) {
+      Map<String, Variable> result = Maps.newLinkedHashMap();
+      result.put(VAR_ORIGINAL_RESOURCE, new Variable(VAR_ORIGINAL_RESOURCE, null));
+      for (ScopeModel scopeModel : getAllScopeModels(model)) {
+        for (Injection injection : scopeModel.getInjections()) {
+          result.putIfAbsent(injection.getName(), new Variable(injection.getName(), null));
+        }
+      }
+      return ImmutableMap.copyOf(result);
     }
 
     /**
@@ -209,12 +228,7 @@ public final class ScopingGeneratorUtil {
     private void registerMetaModels(final ScopeModel model) {
       // First, create one meta model that has all the packages that are visible. Use the scope provider to get that list,
       // then convert to a list of EPackages.
-      final EPackage[] ePackages = Lists.newArrayList(Iterables.transform(EObjectUtil.getScopeProviderByEObject(model).getScope(model, ScopePackage.Literals.IMPORT__PACKAGE).getAllElements(), new Function<IEObjectDescription, EPackage>() {
-        @Override
-        public EPackage apply(final IEObjectDescription from) {
-          return (EPackage) from.getEObjectOrProxy();
-        }
-      })).toArray(new EPackage[0]);
+      final EPackage[] ePackages = Lists.newArrayList(Iterables.transform(EObjectUtil.getScopeProviderByEObject(model).getScope(model, ScopePackage.Literals.IMPORT__PACKAGE).getAllElements(), d -> (EPackage) d.getEObjectOrProxy())).toArray(new EPackage[0]);
       registerMetaModel(new EmfRegistryMetaModel() {
         @Override
         public EPackage[] allPackages() {
@@ -235,8 +249,8 @@ public final class ScopingGeneratorUtil {
 
     private final ScopeModel model;
     private String qualifiedName;
-    private List<String> importedExtensions;
-    private Iterable<String> importedNamespaces;
+    private Set<String> importedExtensions;
+    private Set<String> importedNamespaces;
 
     ScopeResource(final ScopeModel model) {
       this.model = model;
@@ -255,12 +269,10 @@ public final class ScopingGeneratorUtil {
     @Override
     public String[] getImportedExtensions() {
       if (importedExtensions == null) {
-        importedExtensions = Lists.transform(model.getExtensions(), new Function<Extension, String>() {
-          @Override
-          public String apply(final Extension from) {
-            return from.getExtension();
-          }
-        });
+        importedExtensions = Sets.newLinkedHashSet();
+        for (ScopeModel included : getAllScopeModels(model)) {
+          importedExtensions.addAll(Lists.transform(included.getExtensions(), e -> e.getExtension()));
+        }
       }
       return importedExtensions.toArray(new String[importedExtensions.size()]);
     }
@@ -269,17 +281,17 @@ public final class ScopingGeneratorUtil {
     @Override
     public String[] getImportedNamespaces() {
       if (importedNamespaces == null) {
-        importedNamespaces = Iterables.filter(Iterables.transform(model.getImports(), new Function<Import, String>() {
-          @Override
-          public String apply(final Import from) {
-            if (from.getPackage() != null) {
-              return from.getPackage().getName();
+        importedNamespaces = Sets.newLinkedHashSet();
+        for (ScopeModel included : getAllScopeModels(model)) {
+          importedNamespaces.addAll(Collections2.filter(Lists.transform(included.getImports(), i -> {
+            if (i.getPackage() != null) {
+              return i.getPackage().getName();
             }
             return null;
-          }
-        }), Predicates.notNull());
+          }), Predicates.notNull()));
+        }
       }
-      return Lists.newArrayList(importedNamespaces).toArray(new String[0]);
+      return importedNamespaces.toArray(new String[0]);
     }
 
     @Override
@@ -315,12 +327,36 @@ public final class ScopingGeneratorUtil {
    * @return sorted list of all rules
    */
   public static List<ScopeRule> sortedRules(final Collection<ScopeRule> rules) {
-    return EClassComparator.sortedGroups(rules, new Function<ScopeRule, EClass>() {
-      @Override
-      public EClass apply(final ScopeRule from) {
-        return from.getContext().getContextType();
+    return EClassComparator.sortedGroups(rules, r -> r.getContext().getContextType());
+  }
+
+  /**
+   * Returns a set containing the given model plus all (transitively) {@link ScopeModel#getIncludedScopes() included} models.
+   *
+   * @param model
+   *          scope model, must not be {@code null}
+   * @return set, never {@code null}
+   */
+  private static Set<ScopeModel> getAllScopeModels(final ScopeModel model) {
+    Set<ScopeModel> result = Sets.newLinkedHashSet();
+    getAllScopeModelsInternal(model, result);
+    return result;
+  }
+
+  /**
+   * Adds the given model plus all (transitively) {@link ScopeModel#getIncludedScopes() included} models to the given set.
+   *
+   * @param model
+   *          scope model, must not be {@code null}
+   * @param result
+   *          set to add to, must not be {@code null}
+   */
+  private static void getAllScopeModelsInternal(final ScopeModel model, final Set<ScopeModel> result) {
+    if (result.add(model)) {
+      for (ScopeModel included : model.getIncludedScopes()) {
+        getAllScopeModelsInternal(included, result);
       }
-    });
+    }
   }
 
 }

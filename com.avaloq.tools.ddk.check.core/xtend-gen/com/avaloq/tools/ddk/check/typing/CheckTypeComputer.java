@@ -34,15 +34,7 @@ public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
       if ((expression instanceof XGuardExpression)) {
         this._computeTypes(((XGuardExpression) expression), state);
       } else {
-        boolean _and = false;
-        if (!((expression.eContainer() instanceof FormalParameter) && (expression instanceof XListLiteral))) {
-          _and = false;
-        } else {
-          EList<XExpression> _elements = ((XListLiteral) expression).getElements();
-          boolean _isEmpty = _elements.isEmpty();
-          _and = _isEmpty;
-        }
-        if (_and) {
+        if ((((expression.eContainer() instanceof FormalParameter) && (expression instanceof XListLiteral)) && ((XListLiteral) expression).getElements().isEmpty())) {
           ITypeReferenceOwner _referenceOwner = state.getReferenceOwner();
           EObject _eContainer = expression.eContainer();
           JvmTypeReference _type = ((FormalParameter) _eContainer).getType();

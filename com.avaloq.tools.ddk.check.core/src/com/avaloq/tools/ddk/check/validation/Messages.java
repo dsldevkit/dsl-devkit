@@ -31,6 +31,7 @@ public class Messages extends NLS {
   public static String CheckJavaValidator_EMPTY_PROJECT_NAME;
   public static String CheckJavaValidator_GUARDS_COME_FIRST;
   public static String CheckJavaValidator_GUARDS_DEPRECATED;
+  public static String CheckJavaValidator_ID_MISSING;
   public static String CheckJavaValidator_ILLEGAL_PACKAGE_NAME;
   public static String CheckJavaValidator_ILLEGAL_PROJECT_NAME;
   public static String CheckJavaValidator_ILLEGAL_SEVERITY_RANGE_ORDER;
@@ -73,6 +74,8 @@ public class Messages extends NLS {
 
   public static String CheckJavaValidator_FormalParameterType_Incompatibility;
 
+  public static String ApiAccessChecks_IMPORT_NON_PUBLIC_API;
+
   static {
     // initialize resource bundle
     NLS.initializeMessages(BUNDLE_NAME, Messages.class);
@@ -82,4 +85,3 @@ public class Messages extends NLS {
     super();
   }
 }
-

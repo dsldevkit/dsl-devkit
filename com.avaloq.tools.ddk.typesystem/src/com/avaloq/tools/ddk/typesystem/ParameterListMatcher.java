@@ -11,8 +11,10 @@
 package com.avaloq.tools.ddk.typesystem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +24,6 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.Strings;
-
-import com.google.common.collect.ImmutableList;
 
 import com.avaloq.tools.ddk.typesystem.IParameterMatchChecker.IMatchResult;
 import com.avaloq.tools.ddk.typesystem.typemodel.IActualParameter;
@@ -56,7 +56,7 @@ public class ParameterListMatcher {
 
     /**
      * Gets the match's actual parameter.
-     * 
+     *
      * @return the match's actual parameter, may be {@code null}
      */
     public IActualParameter getActualParameter() {
@@ -65,7 +65,7 @@ public class ParameterListMatcher {
 
     /**
      * Gets the match's formal parameter.
-     * 
+     *
      * @return the match's formal parameter, may be {@code null}
      */
     public IFormalParameter getFormalParameter() {
@@ -74,7 +74,7 @@ public class ParameterListMatcher {
 
     /**
      * Gets the match's result.
-     * 
+     *
      * @return the match's result, never {@code null}
      */
     public IParameterMatchChecker.IMatchResult getMatchResult() {
@@ -144,7 +144,7 @@ public class ParameterListMatcher {
      * <p>
      * Only the most severe status is reported.
      * </p>
-     * 
+     *
      * @param listMatchStatus
      *          the parameter list match status to set, must not be {@code null}
      */
@@ -160,7 +160,7 @@ public class ParameterListMatcher {
      * In the case where there was more than one error during the match, only the most severe error is reported. Errors for individual matches can be examined
      * via {@link #getMatches}.
      * </p>
-     * 
+     *
      * @return the status of the match
      */
     public ParameterListMatchStatus getStatus() {
@@ -169,16 +169,16 @@ public class ParameterListMatcher {
 
     /**
      * Gets the list of matches between actual and formal parameters, along with their match result.
-     * 
+     *
      * @return a list containing the matching of actual to formal parameters and the result of each match, never {@code null}
      */
-    public ImmutableList<ParameterMatch> getMatches() {
-      return ImmutableList.copyOf(getParameterMatches());
+    public List<ParameterMatch> getMatches() {
+      return Collections.unmodifiableList(getParameterMatches());
     }
 
     /**
      * Gets the number of parameters that matched successfully.
-     * 
+     *
      * @return the number of parameters that matched successfully
      */
     public int getNumberMatched() {
@@ -196,7 +196,7 @@ public class ParameterListMatcher {
      * <p>
      * If the status of the parameter match is not {@link IParameterMatchChecker.MatchStatus#MATCH}, i.e., the match is not successful, then the status of
      * {@code this} is set to {@link ParameterListMatchStatus#PARAMETER_MISMATCH}.
-     * 
+     *
      * @see #setStatus
      * @param match
      *          the parameter match to add, must not be {@code null}
@@ -222,7 +222,7 @@ public class ParameterListMatcher {
 
     /**
      * Updates the match result with both a status and a parameter match.
-     * 
+     *
      * @param listMatchStatus
      *          the parameter list match status to set
      * @param match
@@ -237,7 +237,7 @@ public class ParameterListMatcher {
 
     /**
      * Gets the set of formal parameters that have been consumed so far during the matching process.
-     * 
+     *
      * @return the set of formal parameters that have been consumed so far during the matching process, never {@code null}
      */
     protected Set<IFormalParameter> getConsumedFormals() {
@@ -253,7 +253,7 @@ public class ParameterListMatcher {
      * Checks if {@code formal} is a duplicate named formal and, if so, adds it to the list of duplicate formals.<br>
      * The result status is updated if {@code formal} is an invalid formal parameter.
      * </p>
-     * 
+     *
      * @param formal
      *          the formal parameter to add, may be {@code null}
      */
@@ -280,7 +280,7 @@ public class ParameterListMatcher {
 
     /**
      * Gets the set of parameters consumed by name so far during the matching process.
-     * 
+     *
      * @return the set of parameters consumed by name so far during the matching process, never {@code null}
      */
     protected Map<String, INamedFormalParameter> getConsumedNamedFormals() {
@@ -292,7 +292,7 @@ public class ParameterListMatcher {
 
     /**
      * Adds a formal parameter to the set of unmatched formal parameters.
-     * 
+     *
      * @param formal
      *          the formal parameter to add, must not be {@code null}
      */
@@ -310,20 +310,20 @@ public class ParameterListMatcher {
      * <p>
      * The order of the parameters in the result is the order in which they occur in the formal parameter list.
      * </p>
-     * 
+     *
      * @return the list of unmatched formal parameters, never {@code null}
      */
-    public ImmutableList<IFormalParameter> getUnmatchedMandatoryFormalParameters() {
+    public List<IFormalParameter> getUnmatchedMandatoryFormalParameters() {
       if (unmatchedMandatoryFormals != null) {
-        return ImmutableList.copyOf(unmatchedMandatoryFormals);
+        return Collections.unmodifiableList(unmatchedMandatoryFormals);
       } else {
-        return ImmutableList.of();
+        return Collections.emptyList();
       }
     }
 
     /**
      * Add named formal parameter to the list of duplicate named formal parameters.
-     * 
+     *
      * @param formal
      *          the named formal parameter to add
      */
@@ -336,14 +336,14 @@ public class ParameterListMatcher {
 
     /**
      * Gets the list of duplicate named formal parameters, if any.
-     * 
+     *
      * @return a list containing all named formal parameters having the same name as a preceding named formal parameter.
      */
-    public ImmutableList<INamedFormalParameter> getDuplicateNamedFormals() {
+    public List<INamedFormalParameter> getDuplicateNamedFormals() {
       if (duplicateNamedFormals != null) {
-        return ImmutableList.copyOf(duplicateNamedFormals);
+        return Collections.unmodifiableList(duplicateNamedFormals);
       } else {
-        return ImmutableList.of();
+        return Collections.emptyList();
       }
     }
 
@@ -352,7 +352,7 @@ public class ParameterListMatcher {
      * <p>
      * Updates status with {@link ParameterListMatchStatus#INVALID_FORMAL}; Note - ignores {@code formal} if it is a named formal parameter.
      * </p>
-     * 
+     *
      * @param formal
      *          the formal parameter to add
      */
@@ -368,18 +368,39 @@ public class ParameterListMatcher {
 
     /**
      * Gets the (possibly empty) list of unnamed formal parameters that occurred after a named formal parameter.
-     * 
+     *
      * @return the list of unnamed formal parameters that occurred after a named formal parameter, never {@code null}
      */
-    public ImmutableList<IFormalParameter> getUnnamedFormalsAfterNamed() {
+    public List<IFormalParameter> getUnnamedFormalsAfterNamed() {
       if (unnamedFormalsAfterNamedFormal != null) {
-        return ImmutableList.copyOf(unnamedFormalsAfterNamedFormal);
+        return Collections.unmodifiableList(unnamedFormalsAfterNamedFormal);
       } else {
-        return ImmutableList.of();
+        return Collections.emptyList();
       }
 
     }
 
+  }
+
+  /**
+   * Convenience method which calls {@link #match(Iterable, Iterable, IParameterMatchChecker, boolean, boolean)} with the last argument
+   * ({@code forceMatchPositional}) as {@code false}.
+   *
+   * @param actualParameters
+   *          the actual parameters to match, must not be {@code null}
+   * @param formalParameters
+   *          the formal parameters to match against, must not be {@code null}. Must also be idempotent, that is, if you traverse this iterator more than once
+   *          then it must yield exactly the same elements each time.
+   * @param parameterMatchChecker
+   *          a parameter match checker to perform additional checks between an actual and formal parameter that have already matched
+   *          by position or name, must not be {@code null}
+   * @param caseSensitiveNames
+   *          true if actual and formal parameter name matching should be case sensitive
+   * @return a parameter list match result containing the details of the match, never {@code null}
+   * @see #match(Iterable, Iterable, IParameterMatchChecker, boolean, boolean)
+   */
+  public ParameterListMatchResult match(final Iterable<? extends IActualParameter> actualParameters, final Iterable<? extends IFormalParameter> formalParameters, final IParameterMatchChecker parameterMatchChecker, final boolean caseSensitiveNames) {
+    return match(actualParameters, formalParameters, parameterMatchChecker, caseSensitiveNames, false);
   }
 
   /**
@@ -398,7 +419,7 @@ public class ParameterListMatcher {
    * including null actual parameters. Each entry contains the actual parameter, the formal parameter it matched, if any, and the {@link IMatchResult} of
    * matching that actual parameter to that formal parameter.
    * </p>
-   * 
+   *
    * @param actualParameters
    *          the actual parameters to match, must not be {@code null}
    * @param formalParameters
@@ -409,9 +430,11 @@ public class ParameterListMatcher {
    *          by position or name, must not be {@code null}
    * @param caseSensitiveNames
    *          true if actual and formal parameter name matching should be case sensitive
+   * @param forceMatchPositional
+   *          true if also named parameters should be matched by position
    * @return a parameter list match result containing the details of the match, never {@code null}
    */
-  public ParameterListMatchResult match(final Iterable<? extends IActualParameter> actualParameters, final Iterable<? extends IFormalParameter> formalParameters, final IParameterMatchChecker parameterMatchChecker, final boolean caseSensitiveNames) {
+  public ParameterListMatchResult match(final Iterable<? extends IActualParameter> actualParameters, final Iterable<? extends IFormalParameter> formalParameters, final IParameterMatchChecker parameterMatchChecker, final boolean caseSensitiveNames, final boolean forceMatchPositional) {
     ParameterListMatchResult listMatchResult = new ParameterListMatchResult();
     listMatchResult.setMatchChecker(parameterMatchChecker);
     Iterator<? extends IActualParameter> actuals = actualParameters.iterator();
@@ -419,7 +442,7 @@ public class ParameterListMatcher {
     if (!actuals.hasNext() && !formals.hasNext()) {
       return listMatchResult; // note - ParameterListMatchResult is initialized with status success as default.
     }
-    IActualParameter nextActual = matchPositionalActuals(listMatchResult, actuals, formals);
+    IActualParameter nextActual = matchPositionalActuals(listMatchResult, actuals, formals, forceMatchPositional);
     if (nextActual != null) { // != null means there is at least one named actual
       // only the remaining formals can be correctly matched by name.
       Map<String, IFormalParameter> formalsToMatchByName = initFormalsToMatchByName(formals, listMatchResult, caseSensitiveNames);
@@ -453,7 +476,7 @@ public class ParameterListMatcher {
 
   /**
    * Initializes the formals-to-match-by-name from the remaining formal parameters.
-   * 
+   *
    * @param remainingFormals
    *          an iterator listing the remaining formal parameters, must not be {@code null}
    * @param listMatchResult
@@ -490,27 +513,29 @@ public class ParameterListMatcher {
    * Matches the positional part of an actual parameter list.
    * <p>
    * Marches down the actual parameter list and the formal parameter list in lock step and matches corresponding parameters until it encounters a named actual
-   * parameter. While doing so it:
+   * parameter and {@code forceMatchPositional} is {@code false}. While doing so it:
    * <ul>
    * <li>Adds these matched parameters to the list of matched parameters in {@code listMatchResult}.
    * <li>Updates the status in {@code listMatchResult} if an error is encountered.
    * <li>adds the matched formal parameters to the {@code usedFormals} map.
    * </ul>
    * </p>
-   * 
+   *
    * @param listMatchResult
    *          a parameter list match result that can be updated with an error status and a list of matched parameters, must not be {@code null}
    * @param actuals
    *          the actual parameters to match, must not be {@code null}
    * @param formals
    *          the formal parameters to match against, must not be {@code null}
+   * @param forceMatchPositional
+   *          true if also named parameters should be matched by position
    * @return the first named actual parameter or {@code null} if the actual parameter list has been exhausted
    */
-  private IActualParameter matchPositionalActuals(final ParameterListMatchResult listMatchResult, final Iterator<? extends IActualParameter> actuals, final Iterator<? extends IFormalParameter> formals) {
+  private IActualParameter matchPositionalActuals(final ParameterListMatchResult listMatchResult, final Iterator<? extends IActualParameter> actuals, final Iterator<? extends IFormalParameter> formals, final boolean forceMatchPositional) {
     IFormalParameter currentFormal = null;
     while (actuals.hasNext()) {
       IActualParameter actual = actuals.next();
-      if (actual instanceof INamedActualParameter) {
+      if (!forceMatchPositional && actual instanceof INamedActualParameter) {
         return actual;
       }
       if (currentFormal == null || !currentFormal.isMulti()) {
@@ -545,7 +570,7 @@ public class ParameterListMatcher {
    * <li>adds the matched formal parameters to the {@code usedFormals} map.
    * </ul>
    * </p>
-   * 
+   *
    * @param listMatchResult
    *          a parameter list match result that can be updated with an error status and a list of matched parameters, must not be {@code null}
    * @param firstActual
@@ -559,7 +584,7 @@ public class ParameterListMatcher {
    */
   private void matchNamedActuals(final ParameterListMatchResult listMatchResult, final IActualParameter firstActual, final Iterator<? extends IActualParameter> remainingActuals, final Map<String, IFormalParameter> formalsToMatchByName, final boolean caseSensitiveNames) {
     Set<String> usedActualNames = new HashSet<String>(); // keeps track of used actual names for detecting duplicates
-    Set<EObject> containers = new HashSet<EObject>(); // keeps track to which parameter list an argument belongs
+    Set<EObject> containers = Collections.newSetFromMap(new IdentityHashMap<>()); // keeps track to which parameter list an argument belongs
     // process firstActual
     ParameterMatch parameterResult = matchNamedActual(firstActual, formalsToMatchByName, usedActualNames, listMatchResult, caseSensitiveNames, containers);
     listMatchResult.updateResult(translateMatchResult(parameterResult.getMatchResult().getStatus()), parameterResult);
@@ -572,7 +597,7 @@ public class ParameterListMatcher {
 
   /**
    * Matches a named actual parameter against a set of formal parameters.
-   * 
+   *
    * @param actual
    *          the actual parameter to match, may be {@code null}
    * @param formalsToMatchByName
@@ -622,7 +647,7 @@ public class ParameterListMatcher {
 
   /**
    * Matches a positional parameter encountered after one or more named parameters.
-   * 
+   *
    * @param actual
    *          the actual parameter to match, may be {@code null}
    * @param containers
@@ -643,7 +668,7 @@ public class ParameterListMatcher {
 
   /**
    * Translates a parameter match result status for a single parameter into a parameter list match status for the the list.
-   * 
+   *
    * @param status
    *          the parameter match status to translate
    * @return the translated parameter match status
@@ -667,4 +692,3 @@ public class ParameterListMatcher {
   }
 
 }
-

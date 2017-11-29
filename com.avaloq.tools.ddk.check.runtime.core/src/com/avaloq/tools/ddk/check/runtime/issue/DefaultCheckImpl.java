@@ -35,8 +35,8 @@ import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.FeatureBasedDiagnostic;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 
+import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
-import com.avaloq.tools.ddk.xtext.tracing.TraceSetUtil;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent.Collector;
 import com.google.common.base.Function;
 import com.google.common.collect.Sets;
@@ -61,7 +61,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   private final ValidationMessageAcceptor messageAcceptor;
 
   @Inject
-  private TraceSetUtil traceSetUtil;
+  private ITraceSet traceSet;
 
   public DefaultCheckImpl() {
     this.state = new ThreadLocal<State>();
@@ -121,14 +121,15 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
     internalState.currentObject = object;
     internalState.checkMode = checkMode;
     internalState.context = context;
-    ResourceValidationRuleSummaryEvent.Collector collector = traceSetUtil.isTracingEnabled()
-        ? ResourceValidationRuleSummaryEvent.Collector.extractFromLoadOptions(object.eResource().getResourceSet()) : null;
+    ResourceValidationRuleSummaryEvent.Collector collector = traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class)
+        ? ResourceValidationRuleSummaryEvent.Collector.extractFromLoadOptions(object.eResource().getResourceSet())
+        : null;
 
     Iterator<MethodWrapper> methods = methodsForType.get(object.getClass()).iterator();
     while (methods.hasNext()) {
       final MethodWrapper method = methods.next();
       // FIXME the method name is actually not the real issue code
-      String ruleName = traceSetUtil.isTracingEnabled() ? method.instance.getClass().getSimpleName() + '.' + method.method.getName() : null;
+      String ruleName = collector != null ? method.instance.getClass().getSimpleName() + '.' + method.method.getName() : null;
       try {
         traceStart(ruleName, object, collector);
         method.invoke(internalState);
@@ -525,4 +526,3 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   }
 
 }
-

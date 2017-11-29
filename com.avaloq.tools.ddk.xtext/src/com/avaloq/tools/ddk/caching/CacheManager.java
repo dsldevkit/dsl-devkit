@@ -49,10 +49,9 @@ public final class CacheManager {
   private final boolean monitoringEnabled;
 
   private CacheManager() {
-    threadPool.scheduleWithFixedDelay(referenceCleaner, CLEANUP_DELAY, CLEANUP_DELAY, TimeUnit.SECONDS);
-
-    monitoringEnabled = Boolean.parseBoolean(System.getProperty("com.avaloq.tools.ddk.caching.EnableMonitor", "false")); //$NON-NLS-1$ //$NON-NLS-2$
+    monitoringEnabled = Boolean.getBoolean("com.avaloq.tools.ddk.caching.EnableMonitor"); //$NON-NLS-1$
     if (monitoringEnabled) {
+      threadPool.scheduleWithFixedDelay(referenceCleaner, CLEANUP_DELAY, CLEANUP_DELAY, TimeUnit.SECONDS);
       threadPool.scheduleWithFixedDelay(reportPrinter, REPORT_DELAY, REPORT_DELAY, TimeUnit.SECONDS);
     }
   }
@@ -95,8 +94,10 @@ public final class CacheManager {
     }
 
     MapCache<K, V> cache = new MapCache<K, V>(name, configuration);
-    synchronized (caches) {
-      caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+    if (monitoringEnabled) {
+      synchronized (caches) {
+        caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+      }
     }
     return cache;
   }
@@ -116,6 +117,10 @@ public final class CacheManager {
    */
   @SuppressWarnings("unchecked")
   public <K, V> ResourceCache<K, V> getOrCreateResourceCache(final String name, final Resource resource) {
+    if (!monitoringEnabled) {
+      return new ResourceCache<K, V>(resource, false);
+    }
+
     // Encode the resource object hash into the multimap key, so that caches with the same name coming from different resources
     // are much less likely to collide (since the hash is not guaranteed to be unique per object, collisions are still possible)
     final String key = name + KEY_SEPARATOR + Integer.toHexString(resource.hashCode());
@@ -126,7 +131,7 @@ public final class CacheManager {
           return (ResourceCache<K, V>) match;
         }
       }
-      ResourceCache<K, V> cache = new ResourceCache<K, V>(resource);
+      ResourceCache<K, V> cache = new ResourceCache<K, V>(resource, true);
       caches.put(key, new WeakReference<ICache<?, ?>>(cache));
       return cache;
     }
@@ -149,8 +154,10 @@ public final class CacheManager {
    */
   public <K, V> QualifiedNameLookup<V> createNameLookupCache(final String name, final Class<V> clazz, final boolean shareValues) {
     QualifiedNameLookup<V> cache = new QualifiedNameSegmentTreeLookup<V>(clazz, shareValues);
-    synchronized (caches) {
-      caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+    if (monitoringEnabled) {
+      synchronized (caches) {
+        caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+      }
     }
     return cache;
   }
@@ -164,11 +171,13 @@ public final class CacheManager {
    */
   public CacheStatistics getStatistics(final String name) {
     CacheStatistics result = new MultiCacheStatistics();
-    synchronized (caches) {
-      for (WeakReference<ICache<?, ?>> reference : caches.get(name)) {
-        ICache<?, ?> value = reference.get();
-        if (value != null) {
-          result.aggregate(value.getStatistics());
+    if (monitoringEnabled) {
+      synchronized (caches) {
+        for (WeakReference<ICache<?, ?>> reference : caches.get(name)) {
+          ICache<?, ?> value = reference.get();
+          if (value != null) {
+            result.aggregate(value.getStatistics());
+          }
         }
       }
     }
@@ -262,4 +271,3 @@ public final class CacheManager {
     }
   }
 }
-

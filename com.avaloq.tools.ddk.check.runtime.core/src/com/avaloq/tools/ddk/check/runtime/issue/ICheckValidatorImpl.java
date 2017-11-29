@@ -16,6 +16,8 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import com.google.common.collect.ImmutableMap;
+
 
 /**
  * Defines operations required for validating models.
@@ -25,14 +27,21 @@ public interface ICheckValidatorImpl {
   /**
    * Gets the qualified catalog name, consisting of its package name followed by the catalog name,
    * e.g. <code>my.example.DummyCatalog</code>.
-   * 
+   *
    * @return the check catalog's qualified name
    */
   String getQualifiedCatalogName();
 
   /**
+   * Get map of issue code to label.
+   *
+   * @return Map of issue code to label.
+   */
+  ImmutableMap<String, String> getIssueCodeToLabelMap();
+
+  /**
    * Validate given object of given class. Return {@code true} if the object validates without issues.
-   * 
+   *
    * @param eClass
    *          the e class
    * @param eObject
@@ -46,4 +55,3 @@ public interface ICheckValidatorImpl {
   boolean validate(final EClass eClass, final EObject eObject, final DiagnosticChain diagnostics, final Map<Object, Object> context);
 
 }
-

@@ -26,31 +26,30 @@ import com.google.common.collect.Lists;
 /**
  * The extension point utility class for context sensitive help. Intended to be used by the Check builder participant.
  */
-public class CheckContextsExtensionHelper extends AbstractCheckExtensionHelper implements ICheckExtensionHelper {
+public class CheckContextsExtensionHelper extends AbstractCheckDocumentationExtensionHelper {
 
   public static final String FILE_ATTRIBUTE_TAG = "file";
   public static final String CONTEXTS_FILE_NAME = "docs/contexts.xml";
   public static final String CONTEXTS_EXTENSION_POINT_ID = "org.eclipse.help.contexts";
   public static final String CONTEXT_ELEMENT = "contexts";
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     List<IPluginElement> result = Lists.newArrayList();
     result.add(updateContextsElement(extension.getModel().getFactory().createElement(extension)));
     return result;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointId() {
     return CONTEXTS_EXTENSION_POINT_ID;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointName(final CheckCatalog catalog) {
     return "Context sensitive help for check";
   }
 
-  /** {@inheritDoc} */
   @Override
   public void doUpdateExtension(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) throws CoreException {
     if (Iterables.size(elements) == 1) {
@@ -58,14 +57,21 @@ public class CheckContextsExtensionHelper extends AbstractCheckExtensionHelper i
     }
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Updates the contexts element.
+   *
+   * @param element
+   *          the element
+   * @return the element
+   * @throws CoreException
+   *           the core exception
+   */
   public IPluginElement updateContextsElement(final IPluginElement element) throws CoreException {
     element.setName(CONTEXT_ELEMENT);
     element.setAttribute(FILE_ATTRIBUTE_TAG, CONTEXTS_FILE_NAME);
     return element;
   }
 
-  /** {@inheritDoc} */
   @Override
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     if (extension.getPoint().equals(CONTEXTS_EXTENSION_POINT_ID) && extension.getName().equals(getExtensionPointName(catalog))) {
@@ -90,4 +96,3 @@ public class CheckContextsExtensionHelper extends AbstractCheckExtensionHelper i
   }
 
 }
-

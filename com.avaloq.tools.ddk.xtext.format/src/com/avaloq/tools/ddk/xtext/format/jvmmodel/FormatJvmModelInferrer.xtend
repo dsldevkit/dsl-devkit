@@ -398,7 +398,8 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       if (metamodel.alias == null) {
         return EcoreUtil2::getContainerOfType(metamodel, typeof(Grammar))?.name?.toLowerCase + '.' + actualRuleName
       } else {
-        return 'com.avaloq.tools.dsl.' + metamodel.alias + '.' + metamodel.alias + '.' + actualRuleName
+        val metamodelPackage = EcoreUtil2::getURI(metamodel.EPackage)?.segment(1)
+        return metamodelPackage.substring(0,metamodelPackage.lastIndexOf('.core')) + '.' + metamodel.EPackage?.name + '.' + actualRuleName
       }
     }
   }

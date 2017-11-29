@@ -59,7 +59,7 @@ EStructuralFeature feature(FeatureCall this) :
 List[ScopeRule] allScopeRules(Void this) : {};
 
 List[ScopeRule] allScopeRules(ScopeDefinition this) :
-	getModel().collectAllScopeRules(this)
+  getModel().collectAllScopeRules(this)
 ;
 
 private List[ScopeRule] collectAllScopeRules(ScopeModel this, ScopeDefinition def) :
@@ -72,7 +72,7 @@ private List[ScopeRule] collectAllScopeRules(ScopeModel this, ScopeDefinition de
 ;
 
 List[ScopeRule] sortedRules(Collection[ScopeRule] this) :
-	JAVA com.avaloq.tools.ddk.xtext.scope.generator.ScopingGeneratorUtil.sortedRules(java.util.Collection)
+  JAVA com.avaloq.tools.ddk.xtext.scope.generator.ScopingGeneratorUtil.sortedRules(java.util.Collection)
 ;
 
 Set[ScopeRule] filterUniqueRules(List[ScopeRule] this) :
@@ -134,11 +134,31 @@ EClass scopeType(Expression this) :
 ;
 
 ENamedElement typeOrRef(ScopeDefinition this) :
-	reference != null ? reference : targetType
+  reference != null ? reference : targetType
 ;
 
 EReference contextRef(ScopeRule this) :
     this.getScope().reference
+;
+
+/*
+ * Injections
+ */
+// returns the list of all local and inherited injections (skipping any shadowed injections)
+List[Injection] allInjections(ScopeModel this) :
+    (let myInjections = this.injections :
+        (this.includedScopes.isEmpty ? {} : this.includedScopes.allInjections()).reject(i|myInjections.hasInjection(i)).addAll(myInjections)
+    )
+;
+
+List[Injection] allInjections(Void this) : {};
+
+Boolean hasInjection(List[Injection] list, Injection injection) :
+    list.isEmpty ? false : !(list.select(i|i.isEqual(injection)).isEmpty)
+;
+
+Boolean isEqual(Injection a, Injection b) :
+    a.type == b.type && a.name.isEqual(b.name)
 ;
 
 /*
@@ -188,7 +208,7 @@ Boolean isEqual(EReference a, EReference b) :
  * TESTING
  */
 String scopeTestMethodName(ScopeRule this) :
-	scopeTestMethodNamePrefix() + '_' + (this.^context.global ? 'Resource' : this.^context.contextType.instanceClassSimpleName())
+  scopeTestMethodNamePrefix() + '_' + (this.^context.global ? 'Resource' : this.^context.contextType.instanceClassSimpleName())
 ;
 
 private String scopeTestMethodNamePrefix(ScopeRule this) :
@@ -199,13 +219,13 @@ private String scopeTestMethodNamePrefix(ScopeRule this) :
 ;
 
 cached Set[CrossReference] allCrossReferences(Grammar this) :
-	this.rules.containedAbstractElements().select(e|CrossReference.isInstance(e))
+  this.rules.containedAbstractElements().select(e|CrossReference.isInstance(e))
 ;
 
 String linkingTestMethodName(CrossReference this) :
-	'link_' + containingRule().name + '_' + getUniqueFeatureName()
+  'link_' + containingRule().name + '_' + getUniqueFeatureName()
 ;
 
 private String getUniqueFeatureName(CrossReference this) :
-	JAVA com.avaloq.tools.ddk.xtext.scope.generator.ScopingGeneratorUtil.getUniqueFeatureName(org.eclipse.xtext.CrossReference)
+  JAVA com.avaloq.tools.ddk.xtext.scope.generator.ScopingGeneratorUtil.getUniqueFeatureName(org.eclipse.xtext.CrossReference)
 ;

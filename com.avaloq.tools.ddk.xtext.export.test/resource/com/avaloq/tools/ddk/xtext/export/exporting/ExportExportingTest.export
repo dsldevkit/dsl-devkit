@@ -1,0 +1,14 @@
+import "http://www.avaloq.com/tools/ddk/acf/ddic" as ddic
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "http://www.avaloq.com/tools/ddk/acf/common/referables"
+
+export ddic::Ddic as name
+with {
+    fields name;
+}
+
+export ddic::Field as name
+with {
+    fields name;
+}

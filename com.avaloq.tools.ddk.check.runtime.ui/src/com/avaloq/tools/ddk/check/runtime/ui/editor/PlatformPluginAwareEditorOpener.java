@@ -130,7 +130,7 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
 
     /** {@inheritDoc} */
     @Override
-    public Object getAdapter(@SuppressWarnings("rawtypes") final Class adapter) {
+    public <T> T getAdapter(final Class<T> adapter) {
       return null;
     }
 
@@ -216,4 +216,3 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
   }
 
 }
-

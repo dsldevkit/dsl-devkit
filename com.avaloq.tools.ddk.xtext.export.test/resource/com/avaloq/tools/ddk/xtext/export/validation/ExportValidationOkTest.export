@@ -1,0 +1,8 @@
+import "http://www.avaloq.com/tools/ddk/acf/codetabdata" as codetabdata
+
+export codetabdata::Row as idOrKey  // Export row id or symbolic row key
+{
+    field includeDdic;
+    data intl_id = this.getIntlId();
+    // TODO add more data, e.g. intl2_id, user_id(?), ...
+}

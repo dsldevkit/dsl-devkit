@@ -559,11 +559,11 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                     {
                     int LA4_4 = input.LA(2);
 
-                    if ( (LA4_4==RULE_ID) ) {
-                        alt4=4;
-                    }
-                    else if ( (LA4_4==29) ) {
+                    if ( (LA4_4==29) ) {
                         alt4=3;
+                    }
+                    else if ( (LA4_4==RULE_ID) ) {
+                        alt4=4;
                     }
 
 
@@ -1708,7 +1708,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
-                    if ( (LA15_0==RULE_ID||LA15_0==24||LA15_0==68) ) {
+                    if ( (LA15_0==RULE_ID) ) {
                         alt15=1;
                     }
                     switch (alt15) {
@@ -2731,7 +2731,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleFormalParameter"
-    // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:991:1: ruleFormalParameter returns [EObject current=null] : ( ( (lv_type_0_0= ruleJvmTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? ) ;
+    // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:991:1: ruleFormalParameter returns [EObject current=null] : ( ( (lv_type_0_0= ruleJvmParameterizedTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? ) ;
     public final EObject ruleFormalParameter() throws RecognitionException {
         EObject current = null;
 
@@ -2747,25 +2747,25 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:994:28: ( ( ( (lv_type_0_0= ruleJvmTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? ) )
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:1: ( ( (lv_type_0_0= ruleJvmTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? )
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:994:28: ( ( ( (lv_type_0_0= ruleJvmParameterizedTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? ) )
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:1: ( ( (lv_type_0_0= ruleJvmParameterizedTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? )
             {
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:1: ( ( (lv_type_0_0= ruleJvmTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? )
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:2: ( (lv_type_0_0= ruleJvmTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )?
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:1: ( ( (lv_type_0_0= ruleJvmParameterizedTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )? )
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:2: ( (lv_type_0_0= ruleJvmParameterizedTypeReference ) ) ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '=' ( (lv_right_3_0= ruleXFormalParameterDefaultValueLiteral ) ) ( (lv_label_4_0= RULE_STRING ) )?
             {
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:2: ( (lv_type_0_0= ruleJvmTypeReference ) )
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:996:1: (lv_type_0_0= ruleJvmTypeReference )
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:995:2: ( (lv_type_0_0= ruleJvmParameterizedTypeReference ) )
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:996:1: (lv_type_0_0= ruleJvmParameterizedTypeReference )
             {
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:996:1: (lv_type_0_0= ruleJvmTypeReference )
-            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:997:3: lv_type_0_0= ruleJvmTypeReference
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:996:1: (lv_type_0_0= ruleJvmParameterizedTypeReference )
+            // ../com.avaloq.tools.ddk.check.core/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalCheck.g:997:3: lv_type_0_0= ruleJvmParameterizedTypeReference
             {
             if ( state.backtracking==0 ) {
                
-              	        newCompositeNode(grammarAccess.getFormalParameterAccess().getTypeJvmTypeReferenceParserRuleCall_0_0()); 
+              	        newCompositeNode(grammarAccess.getFormalParameterAccess().getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0()); 
               	    
             }
-            pushFollow(FOLLOW_ruleJvmTypeReference_in_ruleFormalParameter1892);
-            lv_type_0_0=ruleJvmTypeReference();
+            pushFollow(FOLLOW_ruleJvmParameterizedTypeReference_in_ruleFormalParameter1892);
+            lv_type_0_0=ruleJvmParameterizedTypeReference();
 
             state._fsp--;
             if (state.failed) return current;
@@ -2778,7 +2778,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                      			current, 
                      			"type",
                       		lv_type_0_0, 
-                      		"JvmTypeReference");
+                      		"JvmParameterizedTypeReference");
               	        afterParserOrEnumRuleCall();
               	    
             }
@@ -27153,7 +27153,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
     static final String DFA55_acceptS =
         "\10\uffff\1\2\1\1";
     static final String DFA55_specialS =
-        "\1\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\0\2\uffff}>";
+        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\6\1\5\2\uffff}>";
     static final String[] DFA55_transitionS = {
             "\5\10\6\uffff\15\10\1\uffff\2\10\2\uffff\22\10\1\1\1\2\1\3"+
             "\1\4\1\5\1\6\1\7\32\10\1\uffff\26\10",
@@ -27205,21 +27205,6 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA55_7 = input.LA(1);
-
-                         
-                        int index55_7 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred21_InternalCheck()) ) {s = 9;}
-
-                        else if ( (true) ) {s = 8;}
-
-                         
-                        input.seek(index55_7);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
                         int LA55_1 = input.LA(1);
 
                          
@@ -27234,7 +27219,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index55_1);
                         if ( s>=0 ) return s;
                         break;
-                    case 2 : 
+                    case 1 : 
                         int LA55_2 = input.LA(1);
 
                          
@@ -27249,7 +27234,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index55_2);
                         if ( s>=0 ) return s;
                         break;
-                    case 3 : 
+                    case 2 : 
                         int LA55_3 = input.LA(1);
 
                          
@@ -27264,7 +27249,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index55_3);
                         if ( s>=0 ) return s;
                         break;
-                    case 4 : 
+                    case 3 : 
                         int LA55_4 = input.LA(1);
 
                          
@@ -27279,7 +27264,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index55_4);
                         if ( s>=0 ) return s;
                         break;
-                    case 5 : 
+                    case 4 : 
                         int LA55_5 = input.LA(1);
 
                          
@@ -27292,6 +27277,21 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index55_5);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
+                        int LA55_7 = input.LA(1);
+
+                         
+                        int index55_7 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred21_InternalCheck()) ) {s = 9;}
+
+                        else if ( (true) ) {s = 8;}
+
+                         
+                        input.seek(index55_7);
                         if ( s>=0 ) return s;
                         break;
                     case 6 : 
@@ -27328,7 +27328,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
     static final String DFA65_acceptS =
         "\1\uffff\1\2\10\uffff\1\1";
     static final String DFA65_specialS =
-        "\2\uffff\1\2\1\1\1\6\1\7\1\0\1\5\1\3\1\4\1\uffff}>";
+        "\2\uffff\1\3\1\4\1\5\1\6\1\7\1\2\1\0\1\1\1\uffff}>";
     static final String[] DFA65_transitionS = {
             "\5\1\6\uffff\15\1\1\uffff\1\1\1\6\2\uffff\27\1\1\2\1\3\10\1"+
             "\1\4\1\5\1\7\1\10\1\11\15\1\1\uffff\26\1",
@@ -27381,51 +27381,6 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA65_6 = input.LA(1);
-
-                         
-                        int index65_6 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred27_InternalCheck()) ) {s = 10;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index65_6);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
-                        int LA65_3 = input.LA(1);
-
-                         
-                        int index65_3 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred27_InternalCheck()) ) {s = 10;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index65_3);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
-                        int LA65_2 = input.LA(1);
-
-                         
-                        int index65_2 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred27_InternalCheck()) ) {s = 10;}
-
-                        else if ( (true) ) {s = 1;}
-
-                         
-                        input.seek(index65_2);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 3 : 
                         int LA65_8 = input.LA(1);
 
                          
@@ -27440,7 +27395,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index65_8);
                         if ( s>=0 ) return s;
                         break;
-                    case 4 : 
+                    case 1 : 
                         int LA65_9 = input.LA(1);
 
                          
@@ -27455,7 +27410,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index65_9);
                         if ( s>=0 ) return s;
                         break;
-                    case 5 : 
+                    case 2 : 
                         int LA65_7 = input.LA(1);
 
                          
@@ -27470,7 +27425,37 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index65_7);
                         if ( s>=0 ) return s;
                         break;
-                    case 6 : 
+                    case 3 : 
+                        int LA65_2 = input.LA(1);
+
+                         
+                        int index65_2 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred27_InternalCheck()) ) {s = 10;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index65_2);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 4 : 
+                        int LA65_3 = input.LA(1);
+
+                         
+                        int index65_3 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred27_InternalCheck()) ) {s = 10;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index65_3);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
                         int LA65_4 = input.LA(1);
 
                          
@@ -27485,7 +27470,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
                         input.seek(index65_4);
                         if ( s>=0 ) return s;
                         break;
-                    case 7 : 
+                    case 6 : 
                         int LA65_5 = input.LA(1);
 
                          
@@ -27498,6 +27483,21 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
 
                          
                         input.seek(index65_5);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 7 : 
+                        int LA65_6 = input.LA(1);
+
+                         
+                        int index65_6 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred27_InternalCheck()) ) {s = 10;}
+
+                        else if ( (true) ) {s = 1;}
+
+                         
+                        input.seek(index65_6);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -31037,9 +31037,9 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleSeverityKind_in_ruleCheck1052 = new BitSet(new long[]{0x0000000000000110L});
     public static final BitSet FOLLOW_ruleValidID_in_ruleCheck1073 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_RULE_STRING_in_ruleCheck1091 = new BitSet(new long[]{0x0000000009090002L});
-    public static final BitSet FOLLOW_24_in_ruleCheck1117 = new BitSet(new long[]{0x0007F00095804100L,0x0000000000000010L});
+    public static final BitSet FOLLOW_24_in_ruleCheck1117 = new BitSet(new long[]{0x0000000004000100L});
     public static final BitSet FOLLOW_ruleFormalParameter_in_ruleCheck1140 = new BitSet(new long[]{0x0000000006000000L});
-    public static final BitSet FOLLOW_25_in_ruleCheck1153 = new BitSet(new long[]{0x0007F00091804100L,0x0000000000000010L});
+    public static final BitSet FOLLOW_25_in_ruleCheck1153 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_ruleFormalParameter_in_ruleCheck1174 = new BitSet(new long[]{0x0000000006000000L});
     public static final BitSet FOLLOW_26_in_ruleCheck1190 = new BitSet(new long[]{0x0000000008090002L});
     public static final BitSet FOLLOW_27_in_ruleCheck1205 = new BitSet(new long[]{0x0000000000000010L});
@@ -31072,7 +31072,7 @@ public class InternalCheckParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleContext_in_ruleImplementation1800 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleFormalParameter_in_entryRuleFormalParameter1836 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleFormalParameter1846 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleJvmTypeReference_in_ruleFormalParameter1892 = new BitSet(new long[]{0x0000000000000100L});
+    public static final BitSet FOLLOW_ruleJvmParameterizedTypeReference_in_ruleFormalParameter1892 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_ruleValidID_in_ruleFormalParameter1913 = new BitSet(new long[]{0x0000000100000000L});
     public static final BitSet FOLLOW_32_in_ruleFormalParameter1925 = new BitSet(new long[]{0x00000002000000F0L,0x0000000600002180L});
     public static final BitSet FOLLOW_ruleXFormalParameterDefaultValueLiteral_in_ruleFormalParameter1946 = new BitSet(new long[]{0x0000000000000012L});

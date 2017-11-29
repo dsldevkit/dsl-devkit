@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 import com.avaloq.tools.ddk.xtext.tracing.TraceEvent.Trigger;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
@@ -38,39 +39,25 @@ public class TraceSet implements ITraceSet {
 
   private final ConcurrentMap<Class<?>, Constructor<?>> constructors = Maps.newConcurrentMap();
 
-  private boolean enabled;
+  private TraceConfiguration configuration = TraceConfiguration.disableAll();
 
   private final ThreadLocal<Map<Object, Object>> intermediateData = ThreadLocal.withInitial(() -> Maps.newHashMap());
 
-  /**
-   * Creates a new instance of {@link TraceSet}.
-   */
-  public TraceSet() {
-    this.enabled = false;
+  @Override
+  public void configure(final TraceConfiguration newConfiguration) {
+    Preconditions.checkArgument(newConfiguration != null);
+    this.configuration = newConfiguration;
   }
 
-  /** {@inheritDoc} */
   @Override
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void enable() {
-    this.enabled = true;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void disable() {
-    this.enabled = false;
+  public <T extends TraceEvent> boolean isEnabled(final Class<T> eventClass) {
+    return configuration.isEnabled(eventClass);
   }
 
   /**
    * Posts a new {@link TraceEvent.Trigger#STARTED STARTED} event of the given type and the given data. The actual event being posted will be created using
-   * {@link #newEvent(Class, Trigger, Object...)}. Note that this TraceSet must be {@link #enable() enabled} for the event to be dispatched to registered
-   * handlers.
+   * {@link #newEvent(Class, Trigger, Object...)}. Note that the tracing for the given event must be {@link #isEnabled(Class) enabled} for the event to be
+   * dispatched to registered handlers.
    *
    * @param <T>
    *          event type
@@ -81,16 +68,16 @@ public class TraceSet implements ITraceSet {
    */
   @Override
   public <T extends TraceEvent> void started(final Class<T> eventClass, final Object... data) {
-    if (enabled) {
+    if (isEnabled(eventClass)) {
       T event = newEvent(eventClass, Trigger.STARTED, data);
-      post(event);
+      doPost(event);
     }
   }
 
   /**
    * Posts a new {@link TraceEvent.Trigger#TRACE TRACE} event of the given type and the given data. The actual event being posted will be created using
-   * {@link #newEvent(Class, Trigger, Object...)}. Note that this TraceSet must be {@link #enable() enabled} for the event to be dispatched to registered
-   * handlers.
+   * {@link #newEvent(Class, Trigger, Object...)}. Note that the tracing for the given event must be {@link #isEnabled(Class) enabled} for the event to be
+   * dispatched to registered handlers.
    *
    * @param <T>
    *          event type
@@ -101,16 +88,16 @@ public class TraceSet implements ITraceSet {
    */
   @Override
   public <T extends TraceEvent> void trace(final Class<T> eventClass, final Object... data) {
-    if (enabled) {
+    if (isEnabled(eventClass)) {
       T event = newEvent(eventClass, Trigger.TRACE, data);
-      post(event);
+      doPost(event);
     }
   }
 
   /**
    * Posts a new {@link TraceEvent.Trigger#ENDED ENDED} event of the given type and the given data. The actual event being posted will be created using
-   * {@link #newEvent(Class, Trigger, Object...)}. Note that this TraceSet must be {@link #enable() enabled} for the event to be dispatched to registered
-   * handlers.
+   * {@link #newEvent(Class, Trigger, Object...)}. Note that the tracing for the given event must be {@link #isEnabled(Class) enabled} for the event to be
+   * dispatched to registered handlers.
    *
    * @param <T>
    *          event type
@@ -121,15 +108,15 @@ public class TraceSet implements ITraceSet {
    */
   @Override
   public <T extends TraceEvent> void ended(final Class<T> eventClass, final Object... data) {
-    if (enabled) {
+    if (isEnabled(eventClass)) {
       T event = newEvent(eventClass, Trigger.ENDED, data);
-      post(event);
+      doPost(event);
     }
   }
 
   /**
-   * Posts the given event to all registered handlers. Note that this TraceSet must be {@link #enable() enabled} for the event to be dispatched to registered
-   * handlers.
+   * Posts the given event to all registered handlers. Note that the tracing for the given event must be {@link #isEnabled(Class) enabled} for the event to be
+   * dispatched to registered handlers.
    *
    * @param <T>
    *          event type
@@ -137,11 +124,24 @@ public class TraceSet implements ITraceSet {
    *          event to post
    */
   @Override
-  public <T> void post(final T event) {
-    if (enabled) {
-      syncBus.post(event);
-      asyncBus.post(event);
+  public <T extends TraceEvent> void post(final T event) {
+    if (isEnabled(event.getClass())) {
+      doPost(event);
     }
+  }
+
+  /**
+   * Implementation method called by {@link #started(Class, Object...)}, {@link #trace(Class, Object...)}, {@link #ended(Class, Object...)}, and
+   * {@link #post(TraceEvent)}.
+   *
+   * @param <T>
+   *          event type
+   * @param event
+   *          event to post, must not be {@code null}
+   */
+  protected <T extends TraceEvent> void doPost(final T event) {
+    syncBus.post(event);
+    asyncBus.post(event);
   }
 
   /**
@@ -226,15 +226,6 @@ public class TraceSet implements ITraceSet {
   @Override
   public void unregisterSync(final Object handler) {
     syncBus.unregister(handler);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void printReport() {
-    // Trace set does not need this
-    throw new UnsupportedOperationException();
   }
 
   @Override

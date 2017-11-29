@@ -160,20 +160,9 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
         };
         final Collection<IEObjectDescription> descriptions_1 = Collections2.<Check, IEObjectDescription>transform(checks, _function_2);
         IScope _xifexpression_1 = null;
-        boolean _and = false;
-        CheckCatalog _includedCatalogs = catalog.getIncludedCatalogs();
-        boolean _notEquals_3 = (!Objects.equal(_includedCatalogs, null));
-        if (!_notEquals_3) {
-          _and = false;
-        } else {
-          CheckCatalog _includedCatalogs_1 = catalog.getIncludedCatalogs();
-          boolean _eIsProxy = _includedCatalogs_1.eIsProxy();
-          boolean _not = (!_eIsProxy);
-          _and = _not;
-        }
-        if (_and) {
-          CheckCatalog _includedCatalogs_2 = catalog.getIncludedCatalogs();
-          _xifexpression_1 = this.getScope(_includedCatalogs_2, reference);
+        if (((!Objects.equal(catalog.getIncludedCatalogs(), null)) && (!catalog.getIncludedCatalogs().eIsProxy()))) {
+          CheckCatalog _includedCatalogs = catalog.getIncludedCatalogs();
+          _xifexpression_1 = this.getScope(_includedCatalogs, reference);
         } else {
           _xifexpression_1 = IScope.NULLSCOPE;
         }
@@ -242,16 +231,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   }
   
   public EClass classForJvmType(final EObject context, final JvmType jvmType) {
-    boolean _and = false;
-    boolean _notEquals = (!Objects.equal(jvmType, null));
-    if (!_notEquals) {
-      _and = false;
-    } else {
-      boolean _eIsProxy = jvmType.eIsProxy();
-      boolean _not = (!_eIsProxy);
-      _and = _not;
-    }
-    if (_and) {
+    if (((!Objects.equal(jvmType, null)) && (!jvmType.eIsProxy()))) {
       final String qualifiedName = jvmType.getQualifiedName();
       int _lastIndexOf = qualifiedName.lastIndexOf(".");
       final String qualifiedPackageName = qualifiedName.substring(0, _lastIndexOf);
@@ -260,8 +240,8 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       final String packageName = qualifiedPackageName.substring(_plus);
       Resource _eResource = context.eResource();
       final EPackage ePackage = this.getEPackage(_eResource, packageName);
-      boolean _notEquals_1 = (!Objects.equal(ePackage, null));
-      if (_notEquals_1) {
+      boolean _notEquals = (!Objects.equal(ePackage, null));
+      if (_notEquals) {
         EObject _resolve = EcoreUtil.resolve(ePackage, context);
         String _simpleName = jvmType.getSimpleName();
         final EClassifier eClassifier = ((EPackage) _resolve).getEClassifier(_simpleName);
@@ -281,15 +261,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
         final Resource resource = resources.get(i);
         EList<EObject> _contents = resource.getContents();
         for (final EObject obj : _contents) {
-          boolean _and = false;
-          if (!(obj instanceof EPackage)) {
-            _and = false;
-          } else {
-            String _name = ((EPackage) obj).getName();
-            boolean _equals = Objects.equal(_name, name);
-            _and = _equals;
-          }
-          if (_and) {
+          if (((obj instanceof EPackage) && Objects.equal(((EPackage) obj).getName(), name))) {
             return ((EPackage) obj);
           }
         }

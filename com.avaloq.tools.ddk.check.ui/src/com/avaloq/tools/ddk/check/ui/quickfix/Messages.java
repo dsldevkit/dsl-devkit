@@ -20,6 +20,8 @@ public class Messages extends NLS {
 
   public static String CheckQuickfixProvider_ADD_DOCUMENTATION_DESCN;
   public static String CheckQuickfixProvider_ADD_DOCUMENTATION_LABEL;
+  public static String CheckQuickfixProvider_ADD_ID_DESCN;
+  public static String CheckQuickfixProvider_ADD_ID_LABEL;
   public static String CheckQuickfixProvider_ADD_ISSUE_EXPR_DESCN;
   public static String CheckQuickfixProvider_ADD_ISSUE_EXPR_LABEL;
   public static String CheckQuickfixProvider_CORRECT_CATALOG_NAME_DESCN;
@@ -54,4 +56,3 @@ public class Messages extends NLS {
     super();
   }
 }
-

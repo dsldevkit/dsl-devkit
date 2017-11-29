@@ -37,7 +37,7 @@ import com.avaloq.tools.ddk.xtext.modelcache.IModelCacheManager;
 import com.avaloq.tools.ddk.xtext.modelcache.ModelCacheManagerFactory;
 import com.avaloq.tools.ddk.xtext.modelcache.ResourceModelType;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
-import com.avaloq.tools.ddk.xtext.tracing.IExecutionDataCollector;
+import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -49,7 +49,6 @@ import com.google.inject.Provider;
  * be intercepted by {@link IDiagnosticFilter}.
  * It also overrides getEObject in order to mark unresolvable cross-references.
  */
-@SuppressWarnings("restriction")
 // Node Model serialization is a restricted API of Xtext. Until Xtext provides a proper serialization API, we need to access its internal components.
 public class LazyLinkingResource2 extends DerivedStateAwareResource implements ILazyLinkingResource2 {
 
@@ -57,7 +56,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   private static final Logger LOGGER = Logger.getLogger(LazyLinkingResource2.class);
 
   @Inject
-  private IExecutionDataCollector dataCollector;
+  private ITraceSet traceSet;
 
   /**
    * Global key that can be used to set a flag in a resource set's load options to tell the linker whether it should raise an
@@ -164,17 +163,26 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       RuntimeException cause = err.getCause();
       getErrors().add(new ExceptionDiagnostic(cause));
       throw new WrappedException(cause);
-    } catch (WrappedException ex) {
-      if (getEncoder().isCrossLinkFragment(this, uriFragment)) {
-        Triple<EObject, EReference, INode> triple = getEncoder().decode(this, uriFragment);
-        INode node = triple.getThird();
-        final String nodeName = getLinkingHelper().getCrossRefNodeAsString(node, true);
-        LOGGER.error("Resolution of uriFragment '" + uriFragment + "' in the resource '" + this.getURI() + "' node_name " + nodeName //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            + " line " + node.getStartLine() + " offset " + node.getOffset() + " failed.", ex); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      } else {
-        LOGGER.error("Resolution of uriFragment '" + uriFragment + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+    } catch (WrappedException e) {
+      boolean logged = false;
+      try {
+        if (getEncoder().isCrossLinkFragment(this, uriFragment)) {
+          Triple<EObject, EReference, INode> triple = getEncoder().decode(this, uriFragment);
+          INode node = triple.getThird();
+          final String nodeName = getLinkingHelper().getCrossRefNodeAsString(node, true);
+          LOGGER.error("Resolution of uriFragment '" + uriFragment + "' in the resource '" + this.getURI() + "' node_name " + nodeName //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+              + " line " + node.getStartLine() + " offset " + node.getOffset() + " failed.", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          logged = true;
+        }
+        // CHECKSTYLE:OFF
+      } catch (RuntimeException e1) {
+        // CHECKSTYLE:ON
+        // ignore
       }
-      throw ex;
+      if (!logged) {
+        LOGGER.error("Resolution of uriFragment '" + uriFragment + "' in the resource '" + this.getURI() + "' failed.", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      }
+      throw e;
     }
   }
 
@@ -313,14 +321,14 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   public void installDerivedState(final boolean isPrelinkingPhase) {
     if (derivedStateComputer != null && !fullyInitialized && !isInitializing) {
       try {
-        dataCollector.started(ResourceInferenceEvent.class, getURI());
+        traceSet.started(ResourceInferenceEvent.class, getURI());
         isInitializing = true;
         derivedStateComputer.installDerivedState(this, isPrelinkingPhase);
         fullyInitialized = true;
       } finally {
         isInitializing = false;
         getCache().clear(this); // Why?
-        dataCollector.ended(ResourceInferenceEvent.class);
+        traceSet.ended(ResourceInferenceEvent.class);
       }
     }
   }

@@ -1,0 +1,8 @@
+formatter for Domainmodel
+
+const int VALUE_COLUMN = 30;
+const int COMMENT_COLUMN = 88;
+DomainModel {
+  =importSection : linewrap 2 after, increment before;
+  =elements :  linewrap 2 before, increment after , decrement after;
+}

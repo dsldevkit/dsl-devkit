@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IFragmentProvider;
 
+import com.avaloq.tools.ddk.xtext.modelinference.InferenceContainer;
 import com.google.common.base.CharMatcher;
 
 
@@ -116,28 +117,47 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
     }
     final StringBuilder fragment = new StringBuilder(containingObjects.size() * 16);
     CharSequence previousSegment = null;
-    CharSequence segment = getFragmentSegment(containingObjects.pop());
+    CharSequence segment = internalGetFragmentSegment(containingObjects.pop());
     int reps = 1;
     fragment.append(SEGMENT_SEPARATOR);
     fragment.append(segment);
     while (!containingObjects.isEmpty()) {
       previousSegment = segment;
-      segment = getFragmentSegment(containingObjects.pop());
+      segment = internalGetFragmentSegment(containingObjects.pop());
       if (equal(previousSegment, segment)) {
         reps++;
       } else {
-        if (reps > 1) {
+        if (reps == 2 && previousSegment.length() == 1) {
+          fragment.append(SEGMENT_SEPARATOR).append(previousSegment);
+          reps = 1;
+        } else if (reps > 1) {
           fragment.append(REP_SEPARATOR).append(reps);
           reps = 1;
         }
-        fragment.append(ShortFragmentProvider.SEGMENT_SEPARATOR).append(segment);
+        fragment.append(SEGMENT_SEPARATOR).append(segment);
       }
     }
-    if (reps > 1) {
+    if (reps == 2 && previousSegment.length() == 1) {
+      fragment.append(SEGMENT_SEPARATOR).append(previousSegment);
+    } else if (reps > 1) {
       fragment.append(REP_SEPARATOR).append(reps);
-      reps = 1;
     }
     return fragment.toString();
+  }
+
+  /**
+   * Internal method which calls {@link InferenceContainer#getFragmentSegment(EObject)} if {@code object}'s container is an {@link InferenceContainer} and
+   * otherwise calls {@link #getFragmentSegment(EObject)}.
+   *
+   * @param object
+   *          the {@link EObject} for which to calculate the fragment segment, must not be {@code null}
+   * @return the calculated fragment segment for the given object, never {@code null} or empty
+   */
+  private CharSequence internalGetFragmentSegment(final EObject object) {
+    if (object.eContainer() instanceof InferenceContainer) {
+      return ((InferenceContainer) object.eContainer()).getFragmentSegment(object);
+    }
+    return getFragmentSegment(object);
   }
 
   /**
@@ -192,7 +212,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
           segment = iterator.next();
           reps = iterator.repetitions();
         }
-        final EObject nextEObject = getEObjectFromSegment(container, segment);
+        final EObject nextEObject = internalGetEObjectFromSegment(segment, container);
         if (nextEObject == null || nextEObject.equals(container)) {
           return null;
         }
@@ -202,6 +222,23 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
     } catch (NumberFormatException e) {
       return fallback.getEObject(fragment);
     }
+  }
+
+  /**
+   * Internal method which calls {@link InferenceContainer#getEObject(String)} if {@code container} is an {@link InferenceContainer} and otherwise calls
+   * {@link #getEObjectFromSegment(EObject, String)}.
+   *
+   * @param container
+   *          the container {@link EObject}, must not be {@code null}
+   * @param segment
+   *          the URI fragment segment, must not be {@code null}
+   * @return the contained object, or {@code null} if none
+   */
+  private EObject internalGetEObjectFromSegment(final String segment, final EObject container) {
+    if (container instanceof InferenceContainer) {
+      return ((InferenceContainer) container).getEObject(segment);
+    }
+    return getEObjectFromSegment(container, segment);
   }
 
   /**

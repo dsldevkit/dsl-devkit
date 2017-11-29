@@ -30,14 +30,15 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.GlobalScopeExpressionImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.GlobalScopeExpressionImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.GlobalScopeExpressionImpl#isRecursivePrefix <em>Recursive Prefix</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.GlobalScopeExpressionImpl#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.GlobalScopeExpressionImpl#getData <em>Data</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.GlobalScopeExpressionImpl#getDomains <em>Domains</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -62,6 +63,26 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * @ordered
    */
   protected Expression name;
+
+  /**
+   * The default value of the '{@link #isRecursivePrefix() <em>Recursive Prefix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRecursivePrefix()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean RECURSIVE_PREFIX_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isRecursivePrefix() <em>Recursive Prefix</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRecursivePrefix()
+   * @generated
+   * @ordered
+   */
+  protected boolean recursivePrefix = RECURSIVE_PREFIX_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' containment reference.
@@ -210,6 +231,29 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isRecursivePrefix()
+  {
+    return recursivePrefix;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRecursivePrefix(boolean newRecursivePrefix)
+  {
+    boolean oldRecursivePrefix = recursivePrefix;
+    recursivePrefix = newRecursivePrefix;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ScopePackage.GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX, oldRecursivePrefix, recursivePrefix));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Expression getPrefix()
   {
     return prefix;
@@ -316,6 +360,8 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
         return basicGetType();
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__NAME:
         return getName();
+      case ScopePackage.GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX:
+        return isRecursivePrefix();
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__PREFIX:
         return getPrefix();
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__DATA:
@@ -342,6 +388,9 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
         return;
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__NAME:
         setName((Expression)newValue);
+        return;
+      case ScopePackage.GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX:
+        setRecursivePrefix((Boolean)newValue);
         return;
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__PREFIX:
         setPrefix((Expression)newValue);
@@ -374,6 +423,9 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__NAME:
         setName((Expression)null);
         return;
+      case ScopePackage.GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX:
+        setRecursivePrefix(RECURSIVE_PREFIX_EDEFAULT);
+        return;
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__PREFIX:
         setPrefix((Expression)null);
         return;
@@ -401,6 +453,8 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
         return type != null;
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__NAME:
         return name != null;
+      case ScopePackage.GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX:
+        return recursivePrefix != RECURSIVE_PREFIX_EDEFAULT;
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__PREFIX:
         return prefix != null;
       case ScopePackage.GLOBAL_SCOPE_EXPRESSION__DATA:
@@ -422,7 +476,9 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (domains: ");
+    result.append(" (recursivePrefix: ");
+    result.append(recursivePrefix);
+    result.append(", domains: ");
     result.append(domains);
     result.append(')');
     return result.toString();

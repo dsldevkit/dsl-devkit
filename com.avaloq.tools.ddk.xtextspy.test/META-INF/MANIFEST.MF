@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtextspy.test
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtextspy.test;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Fragment-Host: com.avaloq.tools.ddk.xtextspy
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.xtext,
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.junit,
+ org.mockito
+Import-Package: org.apache.log4j
+Export-Package: com.avaloq.tools.ddk.xtextspy.test

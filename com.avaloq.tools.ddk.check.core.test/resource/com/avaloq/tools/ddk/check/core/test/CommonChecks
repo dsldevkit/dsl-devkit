@@ -1,0 +1,26 @@
+package com.avaloq.example.codetabdef.checks
+
+import com.avaloq.tools.ddk.check.check.*
+
+catalog CommonChecks
+for grammar com.avaloq.tools.ddk.check.Check
+{
+  category "Cat"
+  {
+    /** This check is javadoc-like commented. */
+    warning ColumnNamedW "Column named W" ()
+    message "No column named 'w'" {
+      for Category c {
+          issue
+      }
+    }
+  }
+
+  def DefWithIllegalReference for Category c {
+      issue SampleCodeTabDef.Apa on c#name // This reference is illegal, error marker expected
+  }
+
+  def Y for Category c {
+      issue ColumnNamedW on c#name
+  }
+}

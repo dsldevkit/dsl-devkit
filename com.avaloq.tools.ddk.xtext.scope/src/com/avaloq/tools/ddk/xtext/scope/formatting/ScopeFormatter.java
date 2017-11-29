@@ -81,8 +81,10 @@ public class ScopeFormatter extends AbstractDeclarativeFormatter {
     cfg.setLinewrap(1).before(sm.getImportsAssignment_3());
     cfg.setLinewrap(2).between(sm.getImportsAssignment_3(), sm.getExtensionsAssignment_4());
     cfg.setLinewrap(1).before(sm.getExtensionsAssignment_4());
-    cfg.setLinewrap(2).before(sm.getNamingAssignment_5());
-    cfg.setLinewrap(2).before(sm.getScopesAssignment_6());
+    cfg.setLinewrap(2).between(sm.getExtensionsAssignment_4(), sm.getInjectionsAssignment_5());
+    cfg.setLinewrap(1).before(sm.getInjectionsAssignment_5());
+    cfg.setLinewrap(2).before(sm.getNamingAssignment_6());
+    cfg.setLinewrap(2).before(sm.getScopesAssignment_7());
 
     // ScopeDefinition
     final ScopeDefinitionElements sd = g.getScopeDefinitionAccess();

@@ -14,6 +14,8 @@ package com.avaloq.tools.ddk.checkcfg;
 /** Provides metadata for check configuration properties specified via the extension point "property". */
 public interface ICheckCfgPropertySpecification {
 
+  String[] NOTHING = new String[] {};
+
   /** The property type. */
   enum PropertyType {
     NUMBER,
@@ -47,7 +49,7 @@ public interface ICheckCfgPropertySpecification {
 
   /**
    * Specifies the expected meaningful values for the property in {@link String} form. CheckCfg will offer these as suggestions for Content Assist and enforce
-   * usage in validations. If noting is specified, no suggestions will be provided in Content Assist, and any value will be permitted.
+   * usage in validations. If {@link #NOTHING NOTHING} is specified, no suggestions will be provided in Content Assist, and any value will be permitted.
    *
    * @return the expected values as a {@link String} array, never {@code null}
    */

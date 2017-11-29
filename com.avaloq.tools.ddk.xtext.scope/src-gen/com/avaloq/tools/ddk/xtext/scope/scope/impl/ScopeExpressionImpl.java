@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeExpressionImpl#getPrune <em>Prune</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

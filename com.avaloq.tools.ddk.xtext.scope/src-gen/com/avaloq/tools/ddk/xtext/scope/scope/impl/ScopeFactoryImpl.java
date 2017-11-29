@@ -68,6 +68,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
       case ScopePackage.SCOPE_MODEL: return createScopeModel();
       case ScopePackage.IMPORT: return createImport();
       case ScopePackage.EXTENSION: return createExtension();
+      case ScopePackage.INJECTION: return createInjection();
       case ScopePackage.NAMING_SECTION: return createNamingSection();
       case ScopePackage.NAMING_DEFINITION: return createNamingDefinition();
       case ScopePackage.SCOPE_DEFINITION: return createScopeDefinition();
@@ -154,6 +155,17 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
   {
     ExtensionImpl extension = new ExtensionImpl();
     return extension;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Injection createInjection()
+  {
+    InjectionImpl injection = new InjectionImpl();
+    return injection;
   }
 
   /**

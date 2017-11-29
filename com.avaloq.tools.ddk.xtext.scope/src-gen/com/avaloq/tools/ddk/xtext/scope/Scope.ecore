@@ -9,6 +9,8 @@
         eType="#//Import" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extensions" upperBound="-1"
         eType="#//Extension" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="injections" upperBound="-1"
+        eType="#//Injection" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="naming" eType="#//NamingSection"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scopes" upperBound="-1"
@@ -20,6 +22,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Extension">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="extension" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Injection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Casing">
     <eLiterals name="SENSITIVE" literal="sensitive"/>
@@ -80,6 +86,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recursivePrefix" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="prefix" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="#//DataExpression"

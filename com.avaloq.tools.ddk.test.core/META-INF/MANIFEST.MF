@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.test.core
+Bundle-SymbolicName: com.avaloq.tools.ddk.test.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.hamcrest,
+ org.junit,
+ org.mockito,
+ com.google.guava,
+ org.apache.commons.lang,
+ org.eclipse.emf.common
+Export-Package: com.avaloq.tools.ddk.test.core,
+ com.avaloq.tools.ddk.test.core.data,
+ com.avaloq.tools.ddk.test.core.junit.runners,
+ com.avaloq.tools.ddk.test.core.mock,
+ com.avaloq.tools.ddk.test.core.util
+Import-Package: org.apache.log4j

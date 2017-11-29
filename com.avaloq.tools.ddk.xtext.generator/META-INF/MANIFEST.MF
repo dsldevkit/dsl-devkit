@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.jface,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.expression.ui,
  org.eclipse.xtend.util.stdlib,
- com.google.guava,
+ com.google.guava;bundle-version="[10.0.0,19.0.0)",
  com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.xtend.lib
 Export-Package: com.avaloq.tools.ddk.xtext.generator.serializer,
@@ -27,6 +27,7 @@ Export-Package: com.avaloq.tools.ddk.xtext.generator.serializer,
  com.avaloq.tools.ddk.xtext.generator.formatting,
  com.avaloq.tools.ddk.xtext.generator.languageconstants,
  com.avaloq.tools.ddk.xtext.generator.modelinference,
- com.avaloq.tools.ddk.xtext.generator.util
+ com.avaloq.tools.ddk.xtext.generator.util,
+ com.avaloq.tools.ddk.xtext.generator.xbase
 Import-Package: org.apache.log4j
 Eclipse-ExtensibleAPI: true

@@ -246,6 +246,10 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
     return value;
   }
 
+  public void setValue(final String newValue) {
+    value = newValue;
+  }
+
   /**
    * Gets the length of the value of the entry.
    *
@@ -287,6 +291,10 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
    */
   public void setInitialIndent(final int initialIndent) {
     this.initialIndent = initialIndent;
+  }
+
+  public int getInitialIndent() {
+    return initialIndent;
   }
 
 }

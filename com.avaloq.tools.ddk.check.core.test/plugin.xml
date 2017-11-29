@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.avaloq.tools.ddk.check.runtime.core.checkapi">
+      <api
+            package="com.avaloq.tools.ddk.check.check">
+      </api>
+   </extension>
+
+</plugin>

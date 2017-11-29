@@ -207,11 +207,11 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
     for (final Check check : catalog.getAllChecks()) {
       // create a template on the fly
       final String checkName = check.getName();
-      if (!check.isFinal() && !Iterables.contains(alreadyConfiguredCheckNames, checkName)) {
+      if (!Iterables.contains(alreadyConfiguredCheckNames, checkName)) {
 
         // check if referenced check has configurable parameters
         String paramString = "";
-        if (!catalog.isFinal() && !check.isFinal() && !check.getFormalParameters().isEmpty()) {
+        if (!check.getFormalParameters().isEmpty()) {
           StringBuilder params = new StringBuilder("(");
           for (final FormalParameter p : check.getFormalParameters()) {
             final String paramName = p.getName();

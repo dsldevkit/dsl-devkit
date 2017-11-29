@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamingExpressionImpl#isExport <em>Export</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamingExpressionImpl#isFactory <em>Factory</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamingExpressionImpl#getExpression <em>Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

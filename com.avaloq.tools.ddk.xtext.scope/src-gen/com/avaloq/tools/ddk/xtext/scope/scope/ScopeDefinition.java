@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition#getTargetType <em>Target Type</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition#getReference <em>Reference</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeDefinition()
  * @model

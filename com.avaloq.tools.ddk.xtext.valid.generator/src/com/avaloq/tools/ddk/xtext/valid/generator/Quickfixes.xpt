@@ -1,0 +1,208 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+
+«IMPORT com::avaloq::tools::ddk::xtext::valid::valid»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::valid::generator::ValidExtensions»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»
+
+
+«DEFINE generateQuickfixes(ValidModel validModel) FOR Grammar»
+«IF !validModel.getAllNativeRules().contexts.quickFixes.isEmpty-»
+«FILE getQuickfixPackage().asPath() + "/Abstract" +getName() + "QuickfixProvider.java" SRC_GEN_UI-»
+package «getQuickfixPackage()»;
+
+import org.eclipse.osgi.util.NLS;
+«IF validModel.hasTextualQuickfixes() -»
+import org.eclipse.jface.text.BadLocationException;
+import com.avaloq.tools.ddk.xtext.ui.editor.model.edit.IBulkModification;
+«ENDIF -»
+«IF validModel.hasSemanticQuickfixes() -»
+import org.eclipse.emf.ecore.EObject;
+import com.avaloq.tools.ddk.xtext.ui.editor.model.edit.IBulkSemanticModification;
+«ENDIF -»
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
+import org.eclipse.xtext.ui.editor.quickfix.Fix;
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor;
+import org.eclipse.xtext.validation.Issue;
+import «getJavaValidatorName('')»;
+«FOREACH validModel.getAllNativeRules().select(r|r.hasSemanticQuickfixes()).contexts.getQuickfixElementType().toSet() AS type -»
+import «type.instanceClassName()»;
+«ENDFOREACH -»
+
+«IF usedGrammars.isEmpty || usedGrammars.get(0).name == "com.avaloq.tools.dsl.terminals.Terminals" -»
+import com.avaloq.tools.ddk.xtext.ui.quickfix.AbstractValidQuickfixProvider;
+«ENDIF-»
+
+/**
+ * Quickfix Provider for grammar «this.name».
+ */
+@SuppressWarnings("nls")
+public abstract class Abstract«getName()»QuickfixProvider extends «IF usedGrammars.isEmpty || usedGrammars.get(0).name == "com.avaloq.tools.dsl.terminals.Terminals" »AbstractValid«ELSE»«usedGrammars.get(0).getQuickfixPackage()».«usedGrammars.get(0).getName()»«ENDIF»QuickfixProvider {
+«FOREACH validModel.categories AS category -»
+«FOREACH category.rules.typeSelect(NativeRule) AS rule -»
+«FOREACH rule.contexts AS context -»
+«FOREACH context.quickFixes AS quickfix -»
+
+    /**
+     * «quickfix.name» («quickfix.quickFixKind.toString().toLowerCase()») - «quickfix.message».
+     *
+     * «quickfix.label»
+     *
+     * @param issue the issue to which a quick fix is applied
+     * @param acceptor the acceptor which implements the fix in an <code>apply</code> method
+     */
+    @Fix(«getJavaValidatorName("").toSimpleName()».«context.name().toUpperCase()»_«context.contextType.name.toUpperCase()»)
+    public void fix«quickfix.name»(final Issue issue, IssueResolutionAcceptor acceptor) {
+      acceptor.accept(issue, get«quickfix.name»Label(issue, "«quickfix.label»"), get«quickfix.name»Message(issue, "«quickfix.message»"), get«quickfix.name»Image(issue),
+«IF quickfix.quickFixKind == QuickFixKind::SEMANTIC-»
+        new IBulkSemanticModification() {
+          public void apply(EObject element, IModificationContext context) throws Exception {
+            doFix«quickfix.name»(context, («context.getQuickfixElementType().name») element, issue);
+          }
+
+«ELSEIF quickfix.quickFixKind == QuickFixKind::TEXTUAL -»
+        new IBulkModification() {
+          public void apply(IModificationContext context) throws BadLocationException {
+            doFix«quickfix.name»(context, issue);
+          }
+«ENDIF -»
+          public boolean isMultiFix() {
+            return is«quickfix.name»MultiFix();
+          }
+          public boolean isBulkApplicable() {
+            return is«quickfix.name»BulkApplicable();
+          }
+      });
+    }
+
+    /**
+     * Get the image for the «quickfix.quickFixKind.toString().toLowerCase()» quick fix «quickfix.name».
+     *
+     * @param issue the issue to which a quick fix is applied
+     * @return null, override this method if another result (image path) is required.
+     *
+     */
+    public String get«quickfix.name»Image(final Issue issue) {
+       return null;
+    }
+
+    /**
+     * Get the message for the «quickfix.quickFixKind.toString().toLowerCase()» quick fix «quickfix.name».
+     *
+     * @param issue the issue to which a quick fix is applied
+     * @param label the default label specified in the valid language
+     *              («quickfix.label»)
+     * @return the given label, override this method if another result is required.
+     *
+     */
+    public String get«quickfix.name»Label(final Issue issue, final String label) {
+       return label;
+    }
+
+    /**
+     * Get the message for the «quickfix.quickFixKind.toString().toLowerCase()» quick fix «quickfix.name».
+     *
+     * @param issue the issue to which a quick fix is applied
+     * @param label the default message specified in the valid language
+     *              («quickfix.message»)
+     * @return the given message, bound with the values found in issue.getData(), override this if another result is required.
+     */
+    public String get«quickfix.name»Message(final Issue issue, final String message) {
+       return NLS.bind(message, issue.getData());
+    }
+
+   /**
+     * Is the «quickfix.quickFixKind.toString().toLowerCase()» quick fix «quickfix.name» a multi-fix?
+     *
+     * @return true, override this method if another result is required.
+     *
+     */
+    public boolean is«quickfix.name»MultiFix() {
+       return false;
+    }
+
+   /**
+     * Is the «quickfix.quickFixKind.toString().toLowerCase()» quick fix «quickfix.name» bulk applicable?
+     *
+     * @return true, override this method if another result is required.
+     *
+     */
+    public boolean is«quickfix.name»BulkApplicable() {
+       return true;
+    }
+
+
+    /**
+     * Performs the «quickfix.quickFixKind.toString().toLowerCase()» quick fix «quickfix.name» on a «context.contextType.name» object.
+     *
+     * @param issue the issue to which a quick fix is applied
+     * @param acceptor the acceptor which implements the fix in an <code>apply</code> method
+     */
+«IF quickfix.quickFixKind == QuickFixKind::SEMANTIC-»
+    abstract public void doFix«quickfix.name»(IModificationContext context, «context.getQuickfixElementType().name» element, final Issue issue) throws Exception;
+«ELSEIF quickfix.quickFixKind == QuickFixKind::TEXTUAL -»
+    abstract public void doFix«quickfix.name»(IModificationContext context, final Issue issue) throws BadLocationException;
+«ENDIF -»
+«ENDFOREACH -»
+«ENDFOREACH -»
+«ENDFOREACH -»
+«ENDFOREACH -»
+}
+«ENDFILE»
+
+«FILE getQuickfixPackage().asPath() + "/" +getName() + "QuickfixProvider.java" SRC_UI-»
+package «getQuickfixPackage()»;
+
+import org.eclipse.xtext.validation.Issue;
+import org.eclipse.xtext.ui.editor.model.edit.IModificationContext;
+«IF validModel.hasTextualQuickfixes() -»
+import org.eclipse.jface.text.BadLocationException;
+«ENDIF -»
+«FOREACH validModel.getAllNativeRules().select(r|r.hasSemanticQuickfixes()).contexts.getQuickfixElementType().toSet() AS type -»
+import «type.instanceClassName()»;
+«ENDFOREACH -»
+
+/**
+ * Quickfix Provider for grammar «this.name».
+ */
+public class «getName()»QuickfixProvider extends Abstract«getName()»QuickfixProvider {
+«FOREACH validModel.getAllNativeRules() AS rule -»
+«FOREACH rule.contexts AS context -»
+«FOREACH context.quickFixes AS quickfix -»
+
+    /** {@inheritDoc} */
+    @Override
+«IF quickfix.quickFixKind == QuickFixKind::SEMANTIC -»
+    public void doFix«quickfix.name»(IModificationContext context, «context.getQuickfixElementType().name» element, Issue issue) {
+«ELSEIF quickfix.quickFixKind == QuickFixKind::TEXTUAL -»
+    public void doFix«quickfix.name»(IModificationContext context, Issue issue) throws BadLocationException {
+«ENDIF -»
+        // TODO implement the «quickfix.quickFixKind.toString().toLowerCase()» quickfix.
+    }
+
+«ENDFOREACH -»
+«ENDFOREACH -»
+«ENDFOREACH -»
+}
+«ENDFILE»
+«ENDIF»
+«ENDDEFINE»
+
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.avaloq.tools.ddk.check.test.runtime/src-gen"
+    editDirectory="/com.avaloq.tools.ddk.check.test.runtime.edit/src" editorDirectory="/com.avaloq.tools.ddk.check.test.runtime.editor/src"
+    modelPluginID="com.avaloq.tools.ddk.check.test.runtime" forceOverwrite="true"
+    modelName="TestLanguage" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.check.test.runtime.edit"
+    editorPluginID="com.avaloq.tools.ddk.check.test.runtime.editor" runtimeVersion="2.10">
+  <genPackages prefix="TestLanguage" basePackage="com.avaloq.tools.ddk.check" disposableProviderFactory="true"
+      ecorePackage="TestLanguage.ecore#/">
+    <genClasses ecoreClass="TestLanguage.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TestLanguage.ecore#//Model/greetings"/>
+    </genClasses>
+    <genClasses ecoreClass="TestLanguage.ecore#//Greeting">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TestLanguage.ecore#//Greeting/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

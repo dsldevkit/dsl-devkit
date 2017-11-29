@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +33,7 @@ import org.eclipse.xtext.util.IAcceptor;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 
@@ -42,16 +44,18 @@ import com.google.inject.Singleton;
 @Singleton
 public class InferredModelAssociator implements IInferredModelAssociations, IInferredModelAssociator, IDerivedStateComputer {
 
+  private static final Logger LOGGER = Logger.getLogger(InferredModelAssociator.class);
+
   @Inject
   private IReferableElementsUnloader.GenericUnloader unloader;
 
   @Inject
-  private IModelInferrer inferrer;
+  private Provider<IModelInferrer> inferrerProvider;
 
   /**
    * An adapter that holds the mapping between source- and inferred-model elements.
    */
-  protected static class Adapter extends AdapterImpl {
+  public static class Adapter extends AdapterImpl {
     private final ListMultimap<EObject, EObject> sourceToInferredModelMap = LinkedListMultimap.create();
 
     @Override
@@ -59,6 +63,9 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       return Adapter.class == type;
     }
 
+    public ListMultimap<EObject, EObject> getSourceToInferredModelMap() {
+      return sourceToInferredModelMap;
+    }
   }
 
   /**
@@ -91,7 +98,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    * @return the map
    */
   protected ListMultimap<EObject, EObject> getSourceToInferredModelMap(final Resource resource) {
-    return getOrInstall(resource).sourceToInferredModelMap;
+    return getOrInstall(resource).getSourceToInferredModelMap();
   }
 
   /** {@inheritDoc} */
@@ -166,14 +173,38 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       return;
     }
     EObject eObject = resource.getContents().get(0);
-    inferrer.inferTargetModel(eObject, new IAcceptor<EObject>() {
+    try {
+      IModelInferrer inferrer = inferrerProvider.get();
+      inferrer.inferTargetModel(eObject, createAcceptor(resource), isPreLinkingPhase);
+      // CHECKSTYLE:OFF
+    } catch (RuntimeException e) {
+      // CHECKSTYLE:ON
+      LOGGER.error("Failed to install derived state for resource " + resource.getURI(), e); //$NON-NLS-1$
+    }
+  }
+
+  /**
+   * Creates a new acceptor for the given resource.
+   *
+   * @param resource
+   *          resource, must not be {@code null}
+   * @return new acceptor, never {@code null}
+   */
+  protected IAcceptor<EObject> createAcceptor(final DerivedStateAwareResource resource) {
+    return new IAcceptor<EObject>() {
+      private InferenceContainer container;
+
       @Override
       public void accept(final EObject t) {
         if (t != null) {
-          resource.getContents().add(t);
+          if (container == null) {
+            container = ModelInferenceFactory.eINSTANCE.createInferenceContainer();
+            resource.getContents().add(container);
+          }
+          container.getContents().add(t);
         }
       }
-    }, isPreLinkingPhase);
+    };
   }
 
   /** {@inheritDoc} */

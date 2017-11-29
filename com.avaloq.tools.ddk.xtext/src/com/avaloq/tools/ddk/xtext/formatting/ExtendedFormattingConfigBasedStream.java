@@ -101,6 +101,15 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     this.noFormatMemento = new NoFormatLocator(cfg);
   }
 
+  /**
+   * Gets the associated {@link AbstractExtendedFormatter}.
+   *
+   * @return the {@link AbstractExtendedFormatter}
+   */
+  public AbstractExtendedFormatter getFormatter() {
+    return formatter;
+  }
+
   protected void setCurrentColumn(final Integer columnOffset) {
     this.currentColumn = columnOffset;
   }

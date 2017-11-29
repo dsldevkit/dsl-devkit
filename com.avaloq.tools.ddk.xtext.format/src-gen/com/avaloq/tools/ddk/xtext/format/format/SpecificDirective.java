@@ -11,11 +11,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.SpecificDirective#getGrammarElements <em>Grammar Elements</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.SpecificDirective#getMatcherList <em>Matcher List</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getSpecificDirective()
  * @model

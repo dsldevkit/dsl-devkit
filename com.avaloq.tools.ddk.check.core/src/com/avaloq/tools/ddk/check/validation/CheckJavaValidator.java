@@ -69,8 +69,10 @@ import com.google.inject.Inject;
 /**
  * The Java validator for Check model.
  */
-@ComposedChecks(validators = {ClasspathBasedChecks.class, FormalParameterChecks.class})
+@ComposedChecks(validators = {ClasspathBasedChecks.class, FormalParameterChecks.class, ApiAccessChecks.class})
 public class CheckJavaValidator extends AbstractCheckJavaValidator {
+
+  private static final String CHECK = "Check";
 
   @Inject
   private CheckGeneratorExtensions generatorExtensions;
@@ -83,11 +85,11 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   private CheckLocationInFileProvider locationInFileProvider;
 
   private final Set<EReference> checkTypeConformanceCheckedReferences = //
-  ImmutableSet.of(CheckPackage.Literals.XGUARD_EXPRESSION__GUARD, //
-      CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_OBJECT, //
-      CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_INDEX, //
-      CheckPackage.Literals.XISSUE_EXPRESSION__MESSAGE_PARAMETERS, //
-      CheckPackage.Literals.XISSUE_EXPRESSION__ISSUE_DATA);
+      ImmutableSet.of(CheckPackage.Literals.XGUARD_EXPRESSION__GUARD, //
+          CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_OBJECT, //
+          CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_INDEX, //
+          CheckPackage.Literals.XISSUE_EXPRESSION__MESSAGE_PARAMETERS, //
+          CheckPackage.Literals.XISSUE_EXPRESSION__ISSUE_DATA);
 
   @Override
   protected boolean isValueExpectedRecursive(final XExpression expr) {
@@ -100,7 +102,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that type of a default expression of a formal parameter actually matches the declared type.
-   * 
+   *
    * @param parameter
    *          to check
    */
@@ -120,19 +122,20 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   private static final Set<String> BASE_TYPE_NAMES = ImmutableSet.of("java.lang.String", "java.lang.Integer", "java.lang.Boolean"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
   private static final Set<String> ALLOWED_TYPE_NAMES = ImmutableSet.<String> builder() //
-  .addAll(BASE_TYPE_NAMES) //
-  .add("boolean", "int") //
-  .addAll(Iterables.transform(BASE_TYPE_NAMES, new Function<String, String>() {
-    public String apply(final String base) {
-      return "java.util.List<" + base + '>';
-    }
-  })) //
-  .build();
+      .addAll(BASE_TYPE_NAMES) //
+      .add("boolean", "int") //
+      .addAll(Iterables.transform(BASE_TYPE_NAMES, new Function<String, String>() {
+        @Override
+        public String apply(final String base) {
+          return "java.util.List<" + base + '>';
+        }
+      })) //
+      .build();
 
   /**
    * Checks that the declared type of a formal parameter is one of: String, Boolean, Integer, boolean, int, or
    * a List type with String, Boolean, or Integer element type.
-   * 
+   *
    * @param parameter
    *          to check
    */
@@ -151,7 +154,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   /**
    * Gets duplicates of a given type based on a guard (predicate). A given function is used for converting an instance of type T
    * to a string which is used for checking for duplicates.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param predicate
@@ -165,6 +168,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   private <T extends EObject> Iterable<T> getDuplicates(final Predicate<T> predicate, final Function<T, String> function, final Iterable<T> elements) {
     List<T> result = Lists.newArrayList();
     Multimap<String, T> multiMap = Multimaps.newMultimap(Maps.<String, Collection<T>> newHashMap(), new Supplier<Collection<T>>() {
+      @Override
       public Collection<T> get() {
         return Lists.<T> newArrayList();
       }
@@ -188,7 +192,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
    * Creates an error or a warning depending on the severity of given status. Delegates to
    * {@link #warning(String, EObject, EStructuralFeature, String, String...)
    * warning} or {@link #error(String, EObject, EStructuralFeature, String, String...) error}.
-   * 
+   *
    * @param status
    *          a status with severity ERROR or WARNING
    * @param message
@@ -216,45 +220,46 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that Check names are unique. A Check name may only occur once in a Check Catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    */
   @Check
   public void checkCheckNamesAreUnique(final CheckCatalog catalog) {
     Function<com.avaloq.tools.ddk.check.check.Check, QualifiedName> function = new Function<com.avaloq.tools.ddk.check.check.Check, QualifiedName>() {
+      @Override
       public QualifiedName apply(final com.avaloq.tools.ddk.check.check.Check from) {
         return QualifiedName.create(from.getName()); // no need to create a fully qualified name with check catalog here, it is only used for
                                                      // comparing check instances
       }
     };
     UniquenessJavaValidationHelper<com.avaloq.tools.ddk.check.check.Check> helper = //
-    new UniquenessJavaValidationHelper<com.avaloq.tools.ddk.check.check.Check>(function, getMessageAcceptor()) {
-      @Override
-      public String getMessage(final com.avaloq.tools.ddk.check.check.Check duplicate) {
-        return NLS.bind("Duplicate Check name: {0}", duplicate.getName()); //$NON-NLS-1$
-      }
-    };
+        new UniquenessJavaValidationHelper<com.avaloq.tools.ddk.check.check.Check>(function, getMessageAcceptor()) {
+          @Override
+          public String getMessage(final com.avaloq.tools.ddk.check.check.Check duplicate) {
+            return NLS.bind("Duplicate Check name: {0}", duplicate.getName()); //$NON-NLS-1$
+          }
+        };
 
     final Iterable<com.avaloq.tools.ddk.check.check.Check> allChecksWithName = Iterables.filter(catalog.getAllChecks(), new Predicate<com.avaloq.tools.ddk.check.check.Check>() {
+      @Override
       public boolean apply(final com.avaloq.tools.ddk.check.check.Check input) {
         return input.getName() != null;
       }
     });
-    helper.errorOnDuplicates(allChecksWithName, CheckPackage.Literals.CHECK__LABEL, IssueCodes.DUPLICATE_CHECK);
-    // TODO: the duplicate validation helper could also provide an interface that accepts a Function that calculates the feature
-    // (in our case id or label) instead of a static feature
+    helper.errorOnDuplicates(allChecksWithName, locationInFileProvider::getIdentifierFeature, IssueCodes.DUPLICATE_CHECK);
   }
 
   /**
    * Checks that Category names are unique across the Check Catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    */
   @Check
   public void checkCategoryNamesAreUnique(final CheckCatalog catalog) {
     Function<Category, QualifiedName> function = new Function<Category, QualifiedName>() {
+      @Override
       public QualifiedName apply(final Category from) {
         return QualifiedName.create(from.getName());
       }
@@ -266,12 +271,12 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
       }
     };
 
-    helper.errorOnDuplicates(catalog.getCategories(), CheckPackage.Literals.CATEGORY__LABEL, IssueCodes.DUPLICATE_CATEGORY);
+    helper.errorOnDuplicates(catalog.getCategories(), locationInFileProvider::getIdentifierFeature, IssueCodes.DUPLICATE_CATEGORY);
   }
 
   /**
    * Checks that return expressions do not occur in check implementations.
-   * 
+   *
    * @param expression
    *          the expression
    */
@@ -284,7 +289,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Check that a marker index in an issue statement is only provided for multi-valued features.
-   * 
+   *
    * @param expression
    *          the issue expression
    */
@@ -299,7 +304,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that a final check does not allow defining a severity range.
-   * 
+   *
    * @param check
    *          the check to be checked
    */
@@ -312,7 +317,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that checks are documented.
-   * 
+   *
    * @param check
    *          the check
    */
@@ -321,14 +326,14 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
     if (check.getName() != null) {
       final String documentation = check.getDescription();
       if (Strings.isEmpty(documentation)) {
-        warning(NLS.bind(Messages.CheckJavaValidator_DOCUMENTATION_MISSING, "Check", check.getName()), locationInFileProvider.getIdentifierFeature(check), IssueCodes.MISSING_DOCUMENTATION_ON_CHECK); //$NON-NLS-1$
+        warning(NLS.bind(Messages.CheckJavaValidator_DOCUMENTATION_MISSING, CHECK, check.getName()), locationInFileProvider.getIdentifierFeature(check), IssueCodes.MISSING_DOCUMENTATION_ON_CHECK);
       }
     }
   }
 
   /**
    * Checks that implementations are documented.
-   * 
+   *
    * @param implementation
    *          the implementation
    */
@@ -344,7 +349,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Verifies that the given catalog can be interpreted as Java identifier.
-   * 
+   *
    * @param catalog
    *          the catalog to validate
    */
@@ -360,7 +365,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Verifies that the given category can be interpreted as Java identifier.
-   * 
+   *
    * @param category
    *          the category to validate
    */
@@ -376,7 +381,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that given package name is a valid fully qualified name.
-   * 
+   *
    * @see {@link CheckJavaValidatorUtil#isValidFullyQualifiedName(String)}
    * @param catalog
    *          the catalog
@@ -391,22 +396,28 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Verifies that the given check can be interpreted as Java identifier.
-   * 
+   *
    * @param check
    *          the check to validate
    */
   @Check
   public void checkCheckName(final com.avaloq.tools.ddk.check.check.Check check) {
-    IStatus status = javaValidatorUtil.checkCheckName(check.getName());
-    if (!status.isOK()) {
-      issue(status, status.getMessage(), check, locationInFileProvider.getIdentifierFeature(check), IssueCodes.INVALID_CHECK_NAME);
+    final String name = check.getName();
+    if (Strings.isEmpty(name)) {
+      error(NLS.bind(Messages.CheckJavaValidator_ID_MISSING, CHECK, check.getLabel()), check, locationInFileProvider.getIdentifierFeature(check), IssueCodes.MISSING_ID_ON_CHECK, check.getLabel());
+
+    } else {
+      final IStatus status = javaValidatorUtil.checkCheckName(name);
+      if (!status.isOK()) {
+        issue(status, status.getMessage(), check, locationInFileProvider.getIdentifierFeature(check), IssueCodes.INVALID_CHECK_NAME);
+      }
     }
   }
 
   /**
    * Checks catalogs for circular dependencies in included catalogs. A catalog cannot include itself and may not include another catalog which includes the
    * current one.
-   * 
+   *
    * @param catalog
    *          the catalog to be checked
    */
@@ -429,13 +440,14 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Recursively gets all included grammar names.
-   * 
+   *
    * @param grammar
    *          the grammar to start the search with
    * @return the set of all grammar names
    */
   private Set<String> getAllUsedGrammarNames(final Grammar grammar) {
     return Sets.newHashSet(Iterables.transform(GrammarUtil.allUsedGrammars(grammar), new Function<Grammar, String>() {
+      @Override
       public String apply(final Grammar grammar) {
         return grammar.getName();
       }
@@ -444,7 +456,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that an included catalog is configured for the same grammar as given catalog.
-   * 
+   *
    * @param catalog
    *          the catalog to be checked
    */
@@ -466,7 +478,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   /**
    * Checks that an issue expression refers to check.
    * This check is either implicit (inside a context) or explicit (inside an independent implementation)
-   * 
+   *
    * @param expression
    *          the expression
    */
@@ -479,7 +491,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that an issue expression provides all required bindings.
-   * 
+   *
    * @param expression
    *          the expression
    */
@@ -510,7 +522,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   /**
    * Checks that no explicit .
    * This check is either implicit (inside a context) or explicit (inside an independent implementation)
-   * 
+   *
    * @param expression
    *          the expression
    */
@@ -536,7 +548,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
    * <p>
    * To be executed on save only as the error will otherwise be distracting.
    * </p>
-   * 
+   *
    * @param context
    *          the context to be checked
    */
@@ -553,7 +565,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Issues a warning that guard statements are deprecated.
-   * 
+   *
    * @param context
    *          the guard expression
    */
@@ -565,7 +577,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   /**
    * Checks that if guards have been provided as part of a context's constraint, they appear in the
    * beginning of a block expression.
-   * 
+   *
    * @param context
    *          the context for which the constraint is checked
    */
@@ -607,7 +619,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that a context's context type is an EClass.
-   * 
+   *
    * @param context
    *          the context
    */
@@ -631,7 +643,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that a check's context types are all unique.
-   * 
+   *
    * @param check
    *          the check
    */
@@ -642,6 +654,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
       return;
     }
     Multimap<String, Context> mm = Multimaps.newMultimap(Maps.<String, Collection<Context>> newHashMap(), new Supplier<Collection<Context>>() {
+      @Override
       public Collection<Context> get() {
         return Lists.newArrayList();
       }
@@ -668,7 +681,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Checks that a Check defines parameters with unique names.
-   * 
+   *
    * @param check
    *          the check to be checked
    */
@@ -678,6 +691,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
       return;
     }
     Function<FormalParameter, String> function = new Function<FormalParameter, String>() {
+      @Override
       public String apply(final FormalParameter from) {
         return from.getName();
       }
@@ -690,7 +704,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
   /**
    * Check severity range order.
-   * 
+   *
    * @param check
    *          the check
    */
@@ -711,7 +725,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
    * <p>
    * Note that this check works even if {@link #checkSeverityRangeOrder(com.avaloq.tools.ddk.check.check.Check)} is violated.
    * </p>
-   * 
+   *
    * @param check
    *          the check
    */
@@ -732,7 +746,8 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
       }
 
       String[] codes = issueCodes.toArray(new String[issueCodes.size()]);
-      error(Messages.CheckJavaValidator_DEFAULT_SEVERITY_NOT_IN_RANGE, check, CheckPackage.Literals.CHECK__DEFAULT_SEVERITY, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE, issueCodes.isEmpty() ? null // NOPMD
+      error(Messages.CheckJavaValidator_DEFAULT_SEVERITY_NOT_IN_RANGE, check, CheckPackage.Literals.CHECK__DEFAULT_SEVERITY, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE, issueCodes.isEmpty()
+          ? null // NOPMD
           : codes);
     }
   }
@@ -740,7 +755,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   /**
    * Checks that checks in <em>final</em> catalogs have no redundant properties. For instance, a check is
    * implicitly final if the container catalog is final.
-   * 
+   *
    * @param catalog
    *          the catalog
    */
@@ -758,4 +773,3 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   }
 
 }
-

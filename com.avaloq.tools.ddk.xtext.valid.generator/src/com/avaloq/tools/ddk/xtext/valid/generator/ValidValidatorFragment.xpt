@@ -1,0 +1,98 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+«ENDREM»
+
+«IMPORT org::eclipse::xtext»
+«IMPORT org::eclipse::emf::ecore»
+
+«IMPORT com::avaloq::tools::ddk::xtext::valid::valid»
+
+«EXTENSION org::eclipse::xtext::generator::Naming»
+«EXTENSION org::eclipse::xtext::GrammarUtil»
+
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»
+«EXTENSION com::avaloq::tools::ddk::xtext::valid::generator::ValidExtensions»
+
+
+«DEFINE generate(List[String] packageQNames, List[String] composedChecks, ValidModel validModel) FOR Grammar»
+  «EXPAND JavaValidators::generateJavaValidators(packageQNames, composedChecks, validModel) FOR this»
+  «EXPAND Messages::generateMessages(validModel) FOR this»
+  «EXPAND Quickfixes::generateQuickfixes(validModel) FOR this»
+  «EXPAND Documentation::generateDocumentation(validModel) FOR this»
+  «EXPAND PreferencePage::generatePreferencePage(validModel) FOR this»
+«ENDDEFINE»
+
+
+«DEFINE addToPluginXmlRt(List[String] packageQNames) FOR Grammar»
+«ENDDEFINE»
+
+
+«DEFINE addToPluginXmlUi(List[String] packageQNames, ValidModel validModel) FOR Grammar»
+   «xmlContributorComment("com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment")»
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+         category="«name»"
+         class="«executableExtensionFactory()»:«getPreferencePageName(this)»"
+         id="«name».rules"
+         name="Validation Rules">
+            <keywordReference id="«name.toJavaPackage() + ".ui.keyword_"+name.toSimpleName()»"/>
+      </page>
+   </extension>
+
+   «xmlContributorComment("com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment")»
+   <extension
+         id="«name»"
+         point="com.avaloq.tools.ddk.xtext.ui.valid">
+      <valid
+         language="«name»">
+«FOREACH validModel.categories AS category-»
+         <category
+            name="«category.name»"
+            label="«category.label.escapeXml()»"
+            description="«category.description.escapeXml()»">
+«FOREACH category.rules AS rule-»
+            <rule
+                optional=«IF rule.optional»"true"«ELSE»"false"«ENDIF»
+                name="«rule.name»"
+                label="«rule.label.escapeXml()»"
+                description="«rule.description.escapeXml()»"
+                message="«rule.message.escapeXml()»"
+                severity="«rule.severity»"
+                evaluationMode="«rule.checkKind»"
+            />
+«ENDFOREACH-»
+         </category>
+«ENDFOREACH-»
+      </valid>
+   </extension>
+
+   «xmlContributorComment("com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment")»
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="«executableExtensionFactory()»:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator">
+      </markerResolutionGenerator>
+   </extension>
+
+«ENDDEFINE»
+
+«DEFINE addToPluginXmlRt(List[String] packageQNames, List[String] composedChecks, String validatorSuperClassName) FOR Grammar»
+«ENDDEFINE»
+
+
+«DEFINE addToPluginXmlUi(List[String] packageQNames, List[String] composedChecks, String validatorSuperClassName) FOR Grammar»
+«ENDDEFINE»
+
+
+«DEFINE addToStandaloneSetup(List[String] packageQNames, List[String] composedChecks, String validatorSuperClassName) FOR Grammar»
+«ENDDEFINE»

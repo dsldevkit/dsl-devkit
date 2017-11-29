@@ -11,8 +11,10 @@
 package com.avaloq.tools.ddk.xtext.builder.resourceloader;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -20,6 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -35,9 +38,11 @@ import org.eclipse.xtext.util.Tuples;
 
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLoadEvent;
-import com.avaloq.tools.ddk.xtext.tracing.IExecutionDataCollector;
+import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -52,7 +57,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   private static final Logger LOGGER = Logger.getLogger(ParallelResourceLoader.class);
 
   @Inject
-  private IExecutionDataCollector dataCollector;
+  private ITraceSet traceSet;
 
   private final int nThreads;
   private final int queueSize;
@@ -97,7 +102,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     Resource resource = super.loadResource(uri, localResourceSet, parentResourceSet);
     if (localResourceSet.getResources().size() > 1) {
       for (Resource loadedResource : Lists.newArrayList(localResourceSet.getResources())) {
-        if (loadedResource != resource) {
+        if (!loadedResource.equals(resource)) {
           loadedResource.unload();
         }
       }
@@ -112,10 +117,12 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   protected class ParallelLoadOperation implements LoadOperation {
 
     private final BlockingQueue<Triple<URI, Resource, Throwable>> resourceQueue;
+    private final Set<URI> currentlyProcessedUris = Collections.synchronizedSet(Sets.newHashSetWithExpectedSize(getNThreads() * 2));
     private final ThreadLocal<ResourceSet> resourceSetProvider;
     private final ExecutorService executor;
     private final ResourceSet parent;
     private final long waitTime;
+
     private int toProcess;
     private Collection<URI> workload;
 
@@ -172,7 +179,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     @Override
     public LoadResult next() {
       try {
-        dataCollector.started(LoaderDequeueEvent.class);
+        traceSet.started(LoaderDequeueEvent.class);
         if (!hasNext()) {
           throw new NoSuchElementException("The resource queue is empty or the execution was cancelled."); //$NON-NLS-1$
         }
@@ -184,11 +191,15 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           Thread.currentThread().interrupt();
         }
         if (result == null) {
-          throw new IllegalStateException("Resource load job didn't return a result after " + waitTime + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
+          String currentUris = null;
+          synchronized (currentlyProcessedUris) {
+            currentUris = Joiner.on(", ").join(currentlyProcessedUris); //$NON-NLS-1$
+          }
+          throw new LoadOperationException(null, new TimeoutException("Resource load job didn't return a result after " + waitTime //$NON-NLS-1$
+              + " ms. Resources being currently loaded: " + currentUris)); //$NON-NLS-1$
         }
 
         URI uri = result.getFirst();
-        Resource resource = result.getSecond();
         Throwable throwable = result.getThird();
 
         if (throwable != null) { // rethrow errors in the main thread
@@ -200,9 +211,9 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
             throw (Error) throwable;
           }
         }
-        return new LoadResult(resource, uri);
+        return new LoadResult(result.getSecond(), uri);
       } finally {
-        dataCollector.ended(LoaderDequeueEvent.class);
+        traceSet.ended(LoaderDequeueEvent.class);
       }
     }
 
@@ -253,6 +264,8 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     protected void loadResource(final URI uri) {
       Throwable exception = null;
       Resource resource = null;
+      currentlyProcessedUris.add(uri);
+
       try {
         resource = doLoadResource(uri);
         // CHECKSTYLE:OFF
@@ -261,6 +274,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         exception = t;
       }
 
+      currentlyProcessedUris.remove(uri);
       publishLoadResult(Tuples.create(uri, resource, exception));
     }
 
@@ -274,11 +288,11 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     private Resource doLoadResource(final URI uri) {
       final long startElapsed = System.currentTimeMillis();
       try {
-        dataCollector.started(ResourceLoadEvent.class, uri);
+        traceSet.started(ResourceLoadEvent.class, uri);
         ResourceSet localResourceSet = resourceSetProvider.get();
         return ParallelResourceLoader.this.loadResource(uri, localResourceSet, parent);
       } finally {
-        dataCollector.ended(ResourceLoadEvent.class);
+        traceSet.ended(ResourceLoadEvent.class);
         final long elapsedTime = System.currentTimeMillis() - startElapsed;
         if (elapsedTime > SLOW_LOADING_TIME) {
           LOGGER.warn("Slow loading of source " + uri + ": " + elapsedTime + " ms"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

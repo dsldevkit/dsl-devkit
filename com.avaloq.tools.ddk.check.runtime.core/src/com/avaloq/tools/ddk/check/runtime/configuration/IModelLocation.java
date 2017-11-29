@@ -22,35 +22,39 @@ import java.net.URL;
  * retrieved as an
  * input stream ({@link #getCatalogStream()}).
  */
-public interface IModelLocation {
+public interface IModelLocation extends Comparable<IModelLocation> {
 
   /**
    * Gets the catalog stream.
-   * 
+   *
    * @return the catalog stream
    */
   InputStream getCatalogStream();
 
   /**
    * Gets the catalog path.
-   * 
+   *
    * @return the catalog path
    */
   String getCatalogPath();
 
   /**
    * Gets the catalog URL.
-   * 
+   *
    * @return the catalog URL
    */
   URL getCatalogUrl();
 
   /**
    * Gets the catalog URI.
-   * 
+   *
    * @return the catalog URI
    */
   URI getCatalogUri();
 
-}
+  @Override
+  default int compareTo(final IModelLocation o) {
+    return getCatalogPath().compareTo(o.getCatalogPath());
+  }
 
+}

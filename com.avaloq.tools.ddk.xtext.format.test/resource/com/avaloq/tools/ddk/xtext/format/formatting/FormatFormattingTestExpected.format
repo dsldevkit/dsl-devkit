@@ -1,0 +1,44 @@
+formatter for MyDsl
+
+const String SOME_STRING = "";
+const int SOME_INT = 2;
+
+Greeting {
+	rule : column 10 before, column 0 after;
+	"Hello" : linewrap 1 2 3 before;
+	["hello", "HELLO", "you"] : increment before, decrement after;
+	("Hello" "!") : right.no_space before, left.no_linewrap around;
+	"Hello" : right_padding 5 after;
+}
+
+Person {
+}
+
+Person {
+	"," : no_space before;
+	group 1 => group 1 : linewrap before;
+	=firstName(2,2) : linewrap before;
+	=^left : linewrap before;
+	group 1 => group 1 {
+		@ID(1,2) : linewrap before;
+		=firstName : increment 3 before;
+		=lastName : decrement 2 before;
+		"," : no_space before;
+	}
+	=age : space "   " before;
+	@ID(3,3) : increment before;
+}
+
+Days {
+	rule : linewrap before;
+	"Monday" : space " " after, offset 2 after;
+}
+
+STRING {
+	rule : no_space around;
+}
+
+* {
+	["Keywords"] : no_linewrap before;
+	[ID, INT] : space " " around;
+}

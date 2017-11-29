@@ -13,15 +13,16 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getIncludedScopes <em>Included Scopes</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getImports <em>Imports</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getExtensions <em>Extensions</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getInjections <em>Injections</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getNaming <em>Naming</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getScopes <em>Scopes</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel()
  * @model
@@ -102,6 +103,22 @@ public interface ScopeModel extends EObject
    * @generated
    */
   EList<Extension> getExtensions();
+
+  /**
+   * Returns the value of the '<em><b>Injections</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.Injection}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Injections</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Injections</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel_Injections()
+   * @model containment="true"
+   * @generated
+   */
+  EList<Injection> getInjections();
 
   /**
    * Returns the value of the '<em><b>Naming</b></em>' containment reference.

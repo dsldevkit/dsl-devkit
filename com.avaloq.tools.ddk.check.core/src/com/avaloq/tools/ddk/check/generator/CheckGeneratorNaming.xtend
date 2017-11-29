@@ -20,11 +20,13 @@ import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.naming.QualifiedName
 
+import static com.avaloq.tools.ddk.check.runtime.CheckRuntimeConstants.ISSUE_CODES_CLASS_NAME_SUFFIX
+
 class CheckGeneratorNaming {
 
   @Inject IQualifiedNameProvider nameProvider
 
-  def <T extends EObject> T parent(EObject object, Class<T> c) {
+  def static <T extends EObject> T parent(EObject object, Class<T> c) {
     EcoreUtil2::getContainerOfType(object, c)
   }
 
@@ -89,8 +91,8 @@ class CheckGeneratorNaming {
   }
 
   /* Gets the issue codes class name. */
-  def String issueCodesClassName(CheckCatalog c) {
-    c.name + "IssueCodes"
+  def static String issueCodesClassName(CheckCatalog c) {
+    c.name + ISSUE_CODES_CLASS_NAME_SUFFIX
   }
 
   /* Gets the issue codes file path. */
@@ -127,9 +129,19 @@ class CheckGeneratorNaming {
       + p.name.toFirstUpper
   }
 
+  /* Gets the name of the getter method generated for a field. */
+  def String fieldGetterName(String fieldName) {
+    "get" + fieldName.toFirstUpper
+  }
+
   /* Check catalog instance name in the validator */
   def String catalogInstanceName(EObject object) {
     EcoreUtil2::getContainerOfType(object, typeof(CheckCatalog)).name.toFirstLower + "Catalog"
+  }
+
+  /* Check issue code to label map field name in the catalog */
+  def String issueCodeToLabelMapFieldName() {
+    "issueCodeToLabelMap"
   }
 
   /* Gets the name of the default validator class. */

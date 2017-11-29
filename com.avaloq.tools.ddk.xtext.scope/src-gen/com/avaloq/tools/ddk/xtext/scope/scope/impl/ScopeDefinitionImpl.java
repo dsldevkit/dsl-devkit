@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeDefinitionImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeDefinitionImpl#getTargetType <em>Target Type</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeDefinitionImpl#getReference <em>Reference</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopeDefinitionImpl#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

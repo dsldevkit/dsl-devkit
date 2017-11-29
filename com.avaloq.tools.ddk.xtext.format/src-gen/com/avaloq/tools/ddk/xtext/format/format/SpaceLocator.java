@@ -10,11 +10,11 @@ package com.avaloq.tools.ddk.xtext.format.format;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.SpaceLocator#getValue <em>Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.SpaceLocator#isNoSpace <em>No Space</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getSpaceLocator()
  * @model

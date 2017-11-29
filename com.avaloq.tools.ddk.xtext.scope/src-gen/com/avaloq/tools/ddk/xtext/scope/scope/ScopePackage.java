@@ -104,13 +104,22 @@ public interface ScopePackage extends EPackage
   int SCOPE_MODEL__EXTENSIONS = 3;
 
   /**
+   * The feature id for the '<em><b>Injections</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SCOPE_MODEL__INJECTIONS = 4;
+
+  /**
    * The feature id for the '<em><b>Naming</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SCOPE_MODEL__NAMING = 4;
+  int SCOPE_MODEL__NAMING = 5;
 
   /**
    * The feature id for the '<em><b>Scopes</b></em>' containment reference list.
@@ -119,7 +128,7 @@ public interface ScopePackage extends EPackage
    * @generated
    * @ordered
    */
-  int SCOPE_MODEL__SCOPES = 5;
+  int SCOPE_MODEL__SCOPES = 6;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -128,7 +137,7 @@ public interface ScopePackage extends EPackage
    * @generated
    * @ordered
    */
-  int SCOPE_MODEL_FEATURE_COUNT = 6;
+  int SCOPE_MODEL_FEATURE_COUNT = 7;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.ImportImpl <em>Import</em>}' class.
@@ -196,6 +205,43 @@ public interface ScopePackage extends EPackage
   int EXTENSION_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.InjectionImpl <em>Injection</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.InjectionImpl
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getInjection()
+   * @generated
+   */
+  int INJECTION = 3;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int INJECTION__TYPE = 0;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int INJECTION__NAME = 1;
+
+  /**
+   * The number of structural features of the '<em>Injection</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int INJECTION_FEATURE_COUNT = 2;
+
+  /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamingSectionImpl <em>Naming Section</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -203,7 +249,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getNamingSection()
    * @generated
    */
-  int NAMING_SECTION = 3;
+  int NAMING_SECTION = 4;
 
   /**
    * The feature id for the '<em><b>Casing</b></em>' attribute.
@@ -240,7 +286,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getNamingDefinition()
    * @generated
    */
-  int NAMING_DEFINITION = 4;
+  int NAMING_DEFINITION = 5;
 
   /**
    * The feature id for the '<em><b>Type</b></em>' reference.
@@ -277,7 +323,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getScopeDefinition()
    * @generated
    */
-  int SCOPE_DEFINITION = 5;
+  int SCOPE_DEFINITION = 6;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -341,7 +387,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getScopeRule()
    * @generated
    */
-  int SCOPE_RULE = 6;
+  int SCOPE_RULE = 7;
 
   /**
    * The feature id for the '<em><b>Context</b></em>' containment reference.
@@ -378,7 +424,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getScopeContext()
    * @generated
    */
-  int SCOPE_CONTEXT = 7;
+  int SCOPE_CONTEXT = 8;
 
   /**
    * The feature id for the '<em><b>Global</b></em>' attribute.
@@ -424,7 +470,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getScopeExpression()
    * @generated
    */
-  int SCOPE_EXPRESSION = 8;
+  int SCOPE_EXPRESSION = 9;
 
   /**
    * The feature id for the '<em><b>Prune</b></em>' containment reference.
@@ -452,7 +498,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getFactoryExpression()
    * @generated
    */
-  int FACTORY_EXPRESSION = 9;
+  int FACTORY_EXPRESSION = 10;
 
   /**
    * The feature id for the '<em><b>Prune</b></em>' containment reference.
@@ -489,7 +535,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getScopeDelegation()
    * @generated
    */
-  int SCOPE_DELEGATION = 10;
+  int SCOPE_DELEGATION = 11;
 
   /**
    * The feature id for the '<em><b>Prune</b></em>' containment reference.
@@ -544,7 +590,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getNamedScopeExpression()
    * @generated
    */
-  int NAMED_SCOPE_EXPRESSION = 11;
+  int NAMED_SCOPE_EXPRESSION = 12;
 
   /**
    * The feature id for the '<em><b>Prune</b></em>' containment reference.
@@ -599,7 +645,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getGlobalScopeExpression()
    * @generated
    */
-  int GLOBAL_SCOPE_EXPRESSION = 12;
+  int GLOBAL_SCOPE_EXPRESSION = 13;
 
   /**
    * The feature id for the '<em><b>Prune</b></em>' containment reference.
@@ -656,13 +702,22 @@ public interface ScopePackage extends EPackage
   int GLOBAL_SCOPE_EXPRESSION__NAME = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Recursive Prefix</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 2;
+
+  /**
    * The feature id for the '<em><b>Prefix</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GLOBAL_SCOPE_EXPRESSION__PREFIX = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 2;
+  int GLOBAL_SCOPE_EXPRESSION__PREFIX = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Data</b></em>' containment reference list.
@@ -671,7 +726,7 @@ public interface ScopePackage extends EPackage
    * @generated
    * @ordered
    */
-  int GLOBAL_SCOPE_EXPRESSION__DATA = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 3;
+  int GLOBAL_SCOPE_EXPRESSION__DATA = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Domains</b></em>' attribute list.
@@ -680,7 +735,7 @@ public interface ScopePackage extends EPackage
    * @generated
    * @ordered
    */
-  int GLOBAL_SCOPE_EXPRESSION__DOMAINS = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 4;
+  int GLOBAL_SCOPE_EXPRESSION__DOMAINS = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 5;
 
   /**
    * The number of structural features of the '<em>Global Scope Expression</em>' class.
@@ -689,7 +744,7 @@ public interface ScopePackage extends EPackage
    * @generated
    * @ordered
    */
-  int GLOBAL_SCOPE_EXPRESSION_FEATURE_COUNT = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 5;
+  int GLOBAL_SCOPE_EXPRESSION_FEATURE_COUNT = NAMED_SCOPE_EXPRESSION_FEATURE_COUNT + 6;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.DataExpressionImpl <em>Data Expression</em>}' class.
@@ -699,7 +754,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getDataExpression()
    * @generated
    */
-  int DATA_EXPRESSION = 13;
+  int DATA_EXPRESSION = 14;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -727,7 +782,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getMatchDataExpression()
    * @generated
    */
-  int MATCH_DATA_EXPRESSION = 14;
+  int MATCH_DATA_EXPRESSION = 15;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -764,7 +819,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getLambdaDataExpression()
    * @generated
    */
-  int LAMBDA_DATA_EXPRESSION = 15;
+  int LAMBDA_DATA_EXPRESSION = 16;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -801,7 +856,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getSimpleScopeExpression()
    * @generated
    */
-  int SIMPLE_SCOPE_EXPRESSION = 16;
+  int SIMPLE_SCOPE_EXPRESSION = 17;
 
   /**
    * The feature id for the '<em><b>Prune</b></em>' containment reference.
@@ -865,7 +920,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getNaming()
    * @generated
    */
-  int NAMING = 17;
+  int NAMING = 18;
 
   /**
    * The feature id for the '<em><b>Names</b></em>' containment reference list.
@@ -893,7 +948,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getNamingExpression()
    * @generated
    */
-  int NAMING_EXPRESSION = 18;
+  int NAMING_EXPRESSION = 19;
 
   /**
    * The feature id for the '<em><b>Export</b></em>' attribute.
@@ -939,7 +994,7 @@ public interface ScopePackage extends EPackage
    * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getCasing()
    * @generated
    */
-  int CASING = 19;
+  int CASING = 20;
 
 
   /**
@@ -995,6 +1050,17 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   EReference getScopeModel_Extensions();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getInjections <em>Injections</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Injections</em>'.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getInjections()
+   * @see #getScopeModel()
+   * @generated
+   */
+  EReference getScopeModel_Injections();
 
   /**
    * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel#getNaming <em>Naming</em>}'.
@@ -1070,6 +1136,38 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   EAttribute getExtension_Extension();
+
+  /**
+   * Returns the meta object for class '{@link com.avaloq.tools.ddk.xtext.scope.scope.Injection <em>Injection</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Injection</em>'.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.Injection
+   * @generated
+   */
+  EClass getInjection();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.scope.scope.Injection#getType <em>Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Type</em>'.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.Injection#getType()
+   * @see #getInjection()
+   * @generated
+   */
+  EAttribute getInjection_Type();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.scope.scope.Injection#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.Injection#getName()
+   * @see #getInjection()
+   * @generated
+   */
+  EAttribute getInjection_Name();
 
   /**
    * Returns the meta object for class '{@link com.avaloq.tools.ddk.xtext.scope.scope.NamingSection <em>Naming Section</em>}'.
@@ -1436,6 +1534,17 @@ public interface ScopePackage extends EPackage
   EReference getGlobalScopeExpression_Name();
 
   /**
+   * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#isRecursivePrefix <em>Recursive Prefix</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Recursive Prefix</em>'.
+   * @see com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#isRecursivePrefix()
+   * @see #getGlobalScopeExpression()
+   * @generated
+   */
+  EAttribute getGlobalScopeExpression_RecursivePrefix();
+
+  /**
    * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression#getPrefix <em>Prefix</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1692,6 +1801,14 @@ public interface ScopePackage extends EPackage
     EReference SCOPE_MODEL__EXTENSIONS = eINSTANCE.getScopeModel_Extensions();
 
     /**
+     * The meta object literal for the '<em><b>Injections</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SCOPE_MODEL__INJECTIONS = eINSTANCE.getScopeModel_Injections();
+
+    /**
      * The meta object literal for the '<em><b>Naming</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1750,6 +1867,32 @@ public interface ScopePackage extends EPackage
      * @generated
      */
     EAttribute EXTENSION__EXTENSION = eINSTANCE.getExtension_Extension();
+
+    /**
+     * The meta object literal for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.InjectionImpl <em>Injection</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.InjectionImpl
+     * @see com.avaloq.tools.ddk.xtext.scope.scope.impl.ScopePackageImpl#getInjection()
+     * @generated
+     */
+    EClass INJECTION = eINSTANCE.getInjection();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute INJECTION__TYPE = eINSTANCE.getInjection_Type();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute INJECTION__NAME = eINSTANCE.getInjection_Name();
 
     /**
      * The meta object literal for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.NamingSectionImpl <em>Naming Section</em>}' class.
@@ -2042,6 +2185,14 @@ public interface ScopePackage extends EPackage
      * @generated
      */
     EReference GLOBAL_SCOPE_EXPRESSION__NAME = eINSTANCE.getGlobalScopeExpression_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Recursive Prefix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GLOBAL_SCOPE_EXPRESSION__RECURSIVE_PREFIX = eINSTANCE.getGlobalScopeExpression_RecursivePrefix();
 
     /**
      * The meta object literal for the '<em><b>Prefix</b></em>' containment reference feature.

@@ -137,11 +137,9 @@ public class PropertiesInferenceHelper {
       EList<XExpression> _elements_1 = newValue.getElements();
       XExpression _get = _elements_1.get(0);
       boolean _matched = false;
-      if (!_matched) {
-        if (_get instanceof XBooleanLiteral) {
-          _matched=true;
-          _switchResult = referenceBuilder.typeRef(PropertiesInferenceHelper.BOOLEAN_LIST);
-        }
+      if (_get instanceof XBooleanLiteral) {
+        _matched=true;
+        _switchResult = referenceBuilder.typeRef(PropertiesInferenceHelper.BOOLEAN_LIST);
       }
       if (!_matched) {
         if (_get instanceof XNumberLiteral) {
@@ -169,11 +167,9 @@ public class PropertiesInferenceHelper {
       final XExpression newValue = parameter.getNewValue();
       JvmTypeReference _switchResult = null;
       boolean _matched = false;
-      if (!_matched) {
-        if (newValue instanceof XBooleanLiteral) {
-          _matched=true;
-          _switchResult = referenceBuilder.typeRef(PropertiesInferenceHelper.BOOLEAN);
-        }
+      if (newValue instanceof XBooleanLiteral) {
+        _matched=true;
+        _switchResult = referenceBuilder.typeRef(PropertiesInferenceHelper.BOOLEAN);
       }
       if (!_matched) {
         if (newValue instanceof XNumberLiteral) {

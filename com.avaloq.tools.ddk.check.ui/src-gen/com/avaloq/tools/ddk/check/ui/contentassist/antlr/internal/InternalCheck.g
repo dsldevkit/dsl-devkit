@@ -23608,8 +23608,8 @@ rule__FormalParameter__TypeAssignment_0
     }
 :
 (
-{ before(grammarAccess.getFormalParameterAccess().getTypeJvmTypeReferenceParserRuleCall_0_0()); }
-	ruleJvmTypeReference{ after(grammarAccess.getFormalParameterAccess().getTypeJvmTypeReferenceParserRuleCall_0_0()); }
+{ before(grammarAccess.getFormalParameterAccess().getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0()); }
+	ruleJvmParameterizedTypeReference{ after(grammarAccess.getFormalParameterAccess().getTypeJvmParameterizedTypeReferenceParserRuleCall_0_0()); }
 )
 
 ;

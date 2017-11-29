@@ -126,7 +126,10 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
       String matchedValue = isNull ? null
           : unescape(segment.substring(eqOffset + EQ_OP_LENGTH + 1, uniqueMatch ? selectorEndOffset - 2 : selectorEndOffset - 1));
       int index = 0;
-      for (EObject object : ((EList<? extends EObject>) container.eGet(containmentFeature))) {
+      EList<? extends EObject> containmentList = (EList<? extends EObject>) container.eGet(containmentFeature);
+      int containmentListSize = containmentList.size();
+      for (int i = 0; i < containmentListSize; i++) {
+        EObject object = containmentList.get(i);
         Object value = object.eGet(object.eClass().getEStructuralFeature(selectorFeatureId));
         if ((value == null ? matchedValue == null : value.toString().equals(matchedValue)) && index++ == matchedIndex) {
           return object;

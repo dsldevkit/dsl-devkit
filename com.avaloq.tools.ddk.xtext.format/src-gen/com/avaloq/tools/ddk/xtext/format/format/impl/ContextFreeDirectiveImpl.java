@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ContextFreeDirectiveImpl#getGrammarElements <em>Grammar Elements</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ContextFreeDirectiveImpl#getMatcherList <em>Matcher List</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

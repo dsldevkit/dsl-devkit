@@ -12,8 +12,6 @@ package com.avaloq.tools.ddk.check.check.impl;
 
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
-import com.avaloq.tools.ddk.check.util.CheckUtil;
-
 
 /**
  * Provides custom behavior for {@link CheckImpl}.
@@ -22,11 +20,7 @@ public class CheckImplCustom extends CheckImpl {
 
   @Override
   public String getName() {
-    if (!StringExtensions.isNullOrEmpty(getId())) {
-      return getId();
-    } else {
-      return CheckUtil.toIdentifier(getLabel());
-    }
+    return getId();
   }
 
   @Override
@@ -38,4 +32,3 @@ public class CheckImplCustom extends CheckImpl {
     }
   }
 }
-

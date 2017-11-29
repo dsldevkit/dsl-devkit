@@ -25,4 +25,3 @@ public final class CheckConstants {
 
   private CheckConstants() {}
 }
-

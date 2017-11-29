@@ -18,6 +18,5 @@
       <accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/**"/>
     </accessrules>
   </classpathentry>
-  <classpathentry kind="lib" path="/ddk-parent/antlr-generator-3.2.0-patch.jar"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ConstantImpl#isIntType <em>Int Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ConstantImpl#isStringType <em>String Type</em>}</li>
@@ -26,6 +25,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ConstantImpl#getIntValue <em>Int Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ConstantImpl#getStringValue <em>String Value</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

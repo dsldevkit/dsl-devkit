@@ -84,15 +84,7 @@ public class ConfiguredParameterChecks extends FormalParameterCheckBase {
         ConfiguredParameterChecks.allowedPropertyValues.put(propertyName, permitted);
       }
       final XExpression value = parameter.getNewValue();
-      boolean _and = false;
-      boolean _isNullOrEmpty = IterableExtensions.isNullOrEmpty(permitted);
-      boolean _not = (!_isNullOrEmpty);
-      if (!_not) {
-        _and = false;
-      } else {
-        _and = (value != null);
-      }
-      if (_and) {
+      if (((!IterableExtensions.isNullOrEmpty(permitted)) && (value != null))) {
         List<XExpression> _xifexpression = null;
         if ((value instanceof XListLiteral)) {
           _xifexpression = ((XListLiteral)value).getElements();
@@ -101,17 +93,7 @@ public class ConfiguredParameterChecks extends FormalParameterCheckBase {
         }
         final List<XExpression> expressions = _xifexpression;
         for (final XExpression expression : expressions) {
-          boolean _or = false;
-          if ((!(expression instanceof XStringLiteral))) {
-            _or = true;
-          } else {
-            String _value = ((XStringLiteral) expression).getValue();
-            String _lowerCase_1 = _value.toLowerCase(Locale.ENGLISH);
-            boolean _contains = permitted.contains(_lowerCase_1);
-            boolean _not_1 = (!_contains);
-            _or = _not_1;
-          }
-          if (_or) {
+          if (((!(expression instanceof XStringLiteral)) || (!permitted.contains(((XStringLiteral) expression).getValue().toLowerCase(Locale.ENGLISH))))) {
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("Not a meaningful value for ");
             _builder.append(propertyName, "");

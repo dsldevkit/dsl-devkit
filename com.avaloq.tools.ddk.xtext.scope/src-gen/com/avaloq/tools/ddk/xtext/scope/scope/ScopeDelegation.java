@@ -11,12 +11,12 @@ import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDelegation#getDelegate <em>Delegate</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDelegation#getExternal <em>External</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDelegation#getScope <em>Scope</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeDelegation()
  * @model

@@ -73,7 +73,7 @@ Implementation:
  */
 // TODO how can formal parameters be referenced from within a 'def' Implementation clause?
 FormalParameter:
-  type=JvmTypeReference name=ValidID '=' right=XFormalParameterDefaultValueLiteral
+  type=JvmParameterizedTypeReference name=ValidID '=' right=XFormalParameterDefaultValueLiteral
    (label=STRING)?;
 //TODO resolve the allowed types either in scopes or in validations
 //TODO validate the default values according to the type.

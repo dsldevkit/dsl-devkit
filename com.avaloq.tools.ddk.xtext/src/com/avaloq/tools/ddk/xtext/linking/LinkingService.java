@@ -28,7 +28,6 @@ import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.scoping.IScope;
 
 import com.avaloq.tools.ddk.xtext.linking.ImportedNamesTypesAdapter.WrappingTypedScope;
-import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -95,7 +94,7 @@ public class LinkingService extends DefaultLinkingService {
         }
       }
     } else if (name != null && name.length() > 0) { // import parsed string for unresolved references
-      QualifiedName unresolvedName = QualifiedNames.toUnresolvedName(name);
+      QualifiedName unresolvedName = crossRefHelper.toUnresolvedReferenceName(name);
       adapter.getImportedNames().add(unresolvedName);
       if (adapter.getImportedNamesTypes().containsKey(unresolvedName)) {
         adapter.getImportedNamesTypes().get(unresolvedName).add(type);

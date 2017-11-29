@@ -23,7 +23,7 @@ import com.google.common.base.Function;
 // TODO move to the runtime plug-in
 /**
  * Defines utility methods for validating different flavors of uniqueness in an ECore Model.
- * 
+ *
  * @param <T>
  *          type of the objects that can be duplicated in the context, subtype of EObject
  */
@@ -41,15 +41,15 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
   /**
    * Find duplicates in the given objects and mark them (on the given feature) as
    * warnings.
-   * 
+   *
    * @param possiblyDuplicateObjects
    *          an Iterable into which to look for duplicates
-   * @param feature
-   *          the feature of the duplicate object on which to anchor the marker
+   * @param featureProvider
+   *          provides the feature of the duplicate object on which to anchor the marker
    * @param issueCode
    *          the issue code
    */
-  public void warnOnDuplicates(final Iterable<T> possiblyDuplicateObjects, final EStructuralFeature feature, final String issueCode) {
+  public void warnOnDuplicates(final Iterable<T> possiblyDuplicateObjects, final Function<T, EStructuralFeature> featureProvider, final String issueCode) {
     if (acceptor == null) {
       throw new IllegalArgumentException(ACCEPTOR_CAN_T_BE_NULL);
     }
@@ -60,6 +60,7 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
     Set<T> duplicateEObjects = findDuplicates(possiblyDuplicateObjects);
 
     for (final T duplicate : duplicateEObjects) {
+      final EStructuralFeature feature = featureProvider.apply(duplicate);
       acceptor.acceptWarning(getMessage(duplicate), duplicate, feature, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, issueCode);
     }
   }
@@ -67,15 +68,15 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
   /**
    * Find duplicates in the given objects and mark them (on the given feature) as
    * errors.
-   * 
+   *
    * @param possiblyDuplicateObjects
    *          an Iterable into which to look for duplicates
-   * @param feature
-   *          the feature of the duplicate object on which to anchor the marker
+   * @param featureProvider
+   *          provides the feature of the duplicate object on which to anchor the marker
    * @param issueCode
    *          the issue code
    */
-  public void errorOnDuplicates(final Iterable<T> possiblyDuplicateObjects, final EStructuralFeature feature, final String issueCode) {
+  public void errorOnDuplicates(final Iterable<T> possiblyDuplicateObjects, final Function<T, EStructuralFeature> featureProvider, final String issueCode) {
     if (acceptor == null) {
       throw new IllegalArgumentException(ACCEPTOR_CAN_T_BE_NULL);
     }
@@ -86,13 +87,14 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
     Set<T> duplicateEObjects = findDuplicates(possiblyDuplicateObjects);
 
     for (final T duplicate : duplicateEObjects) {
+      final EStructuralFeature feature = featureProvider.apply(duplicate);
       acceptor.acceptError(getMessage(duplicate), duplicate, feature, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, issueCode);
     }
   }
 
   /**
    * Hook to override the standard error/warning message provided by {@link #errorOnDuplicates(Iterable, int)} and {@link #warnOnDuplicates(Iterable, int)}.
-   * 
+   *
    * @param duplicate
    *          the duplicate object
    * @return the marker's message
@@ -102,4 +104,3 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
   }
 
 }
-

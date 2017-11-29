@@ -25,27 +25,34 @@ import com.google.inject.Inject;
 /**
  * The extension point utility class for Check validators. Intended to be used by the Check builder participant.
  */
-public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionHelper implements ICheckExtensionHelper {
+public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionHelper {
+
+  public static final String GENERATE_VALIDATOR_EXTENSION_PREFERENCE = "generateValidatorExtension";
 
   @Inject
-  private CheckProjectUtil projectUtil;
+  private CheckProjectHelper projectHelper;
 
   public static final String CHECK_EXTENSION_POINT_ID = "com.avaloq.tools.ddk.check.runtime.core.check";
 
   private static final String VALIDATOR_ELEMENT_TAG = "validator";
   private static final String CATALOG_ELEMENT_TAG = "catalog";
 
-  /** {@inheritDoc} */
+  @Override
+  protected String getExtensionEnablementPreferenceName() {
+    return GENERATE_VALIDATOR_EXTENSION_PREFERENCE;
+  }
+
+  @Override
   public String getExtensionPointId() {
     return CHECK_EXTENSION_POINT_ID;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getExtensionPointName(final CheckCatalog catalog) {
     return "Check extension for " + catalog.getName();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     IPluginElement element = extension.getModel().getFactory().createElement(extension);
     return Collections.singletonList(updateOnlyPluginElement(catalog, element));
@@ -53,7 +60,7 @@ public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionH
 
   /**
    * Updates the plugin element.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param element
@@ -84,18 +91,18 @@ public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionH
    * <p>
    * Must return a resource path, e.g. <code>ch/paranor/bank/DdicCatalog.check</code>.
    * </p>
-   * 
+   *
    * @param catalog
    *          the catalog
    * @return the catalog resource name
    */
   private String getCatalogResourceName(final CheckCatalog catalog) {
-    return projectUtil.getCatalogPluginPath(catalog);
+    return projectHelper.getCatalogPluginPath(catalog);
   }
 
   /**
    * Gets the target class name based on the package path of given check catalog.
-   * 
+   *
    * @param catalog
    *          the check catalog
    * @return the target class FQN
@@ -108,7 +115,7 @@ public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionH
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // CHECKSTYLE:OFF
     // @Format-Off
-    final boolean result = extension.getPoint().equals(CHECK_EXTENSION_POINT_ID) 
+    final boolean result = extension.getPoint().equals(CHECK_EXTENSION_POINT_ID)
         && (!extensionNameMatches(extension, catalog)
         || Iterables.size(elements) != 1
         || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
@@ -120,4 +127,3 @@ public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionH
   }
 
 }
-

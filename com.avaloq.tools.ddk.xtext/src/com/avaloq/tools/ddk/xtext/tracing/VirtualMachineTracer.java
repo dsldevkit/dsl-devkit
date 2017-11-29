@@ -28,19 +28,19 @@ import com.google.inject.Inject;
 
 
 /**
- * {@link IExecutionDataCollector Tracing} for the Java virtual machine using JMX extensions.
+ * {@link ITraceSet Tracing} for the Java virtual machine using JMX extensions.
  * <p>
  * Currently only support for the Oracle HotSpot VM, where events of types {@link FullGarbageCollectionEvent} and {@link MinorGarbageCollectionEvent}
  * representing full or minor garbage collections will be posted. For other VMs nothing will be traced.
  */
 public class VirtualMachineTracer {
 
-  private final IExecutionDataCollector dataCollector;
+  private final ITraceSet traceSet;
   private final Map<NotificationEmitter, NotificationListener> gcListenerMap = Maps.newHashMap();
 
   @Inject
-  public VirtualMachineTracer(final IExecutionDataCollector dataCollector) {
-    this.dataCollector = dataCollector;
+  public VirtualMachineTracer(final ITraceSet traceSet) {
+    this.traceSet = traceSet;
   }
 
   @SuppressWarnings("nls")
@@ -50,7 +50,7 @@ public class VirtualMachineTracer {
 
   /**
    * Determines the approximate VM start time using {@link java.lang.management.RuntimeMXBean#getStartTime()} in the base of {@link System#nanoTime()}. This is
-   * necessary because {@link IExecutionDataCollector} uses {@link System#nanoTime()}-based timestamps.
+   * necessary because {@link ITraceSet} uses {@link System#nanoTime()}-based timestamps.
    *
    * @return VM start time in the base of {@link System#nanoTime()}
    */
@@ -74,7 +74,8 @@ public class VirtualMachineTracer {
 
     for (GarbageCollectorMXBean gcBean : ManagementFactory.getGarbageCollectorMXBeans()) {
       Class<? extends TraceEvent> eventType = gcBean.getName().equals("ConcurrentMarkSweep") || gcBean.getName().equals("MarkSweepCompact") //$NON-NLS-1$ //$NON-NLS-2$
-          ? FullGarbageCollectionEvent.class : MinorGarbageCollectionEvent.class;
+          ? FullGarbageCollectionEvent.class
+          : MinorGarbageCollectionEvent.class;
       NotificationEmitter emitter = (NotificationEmitter) gcBean;
       NotificationListener listener = new NotificationListener() {
 
@@ -91,8 +92,8 @@ public class VirtualMachineTracer {
               long duration = TimeUnit.NANOSECONDS.convert((Long) gcInfo.get("duration"), TimeUnit.MILLISECONDS); //$NON-NLS-1$
               if (duration > 0) {
                 // "startTime" and "duration" are relative to VM start time
-                dataCollector.started(eventType, vmStartTime + startTime, gcAction, gcCause);
-                dataCollector.ended(eventType, vmStartTime + startTime + duration);
+                traceSet.started(eventType, vmStartTime + startTime, gcAction, gcCause);
+                traceSet.ended(eventType, vmStartTime + startTime + duration);
               }
             }
           } catch (InvalidKeyException e) {

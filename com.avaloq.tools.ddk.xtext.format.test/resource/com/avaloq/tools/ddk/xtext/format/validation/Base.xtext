@@ -1,0 +1,10 @@
+grammar com.avaloq.tools.ddk.xtext.format.validation.Base with org.eclipse.xtext.common.Terminals
+
+generate base "http://www.avaloq.com/tools/ddk/xtext/format/Base"
+
+Rule:
+  name='name';
+
+// Terminal rule to test ACF-1000
+terminal INT_EXP:
+  INT 'e' INT;

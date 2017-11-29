@@ -1,0 +1,187 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+import org::eclipse::emf::ecore;
+import org::eclipse::xtext;
+import org::eclipse::xtext::generator;
+import com::avaloq::tools::ddk::xtext::valid::valid;
+
+extension org::eclipse::xtext::generator::Naming;
+extension org::eclipse::xtext::GrammarUtil;
+
+String name(NativeContext this) :
+    named ? givenName : ((NativeRule)this.eContainer()).name
+;
+
+Rule rule(NativeContext this) :
+    this.eContainer()
+;
+
+Category category(Rule this) :
+    this.eContainer()
+;
+
+// This method is used to generate a name for a unit test for a NativeContext
+String nativeContextTestName(NativeContext this) :
+    named
+        ? givenName
+        : (
+            ((NativeRule)this.eContainer()).contexts.size > 1
+            ? ((NativeRule)this.eContainer()).name + this.contextType.name
+            : ((NativeRule)this.eContainer()).name
+        )
+;
+
+String quickfixTestClassName(Category this, Grammar grammar) :
+  this.name.toFirstUpper() + grammar.getName()
+;
+
+
+// Copied from /org.eclipse.xtext.generator/src/org/eclipse/xtext/generator/validation/JavaValidatorFragment.ext
+private String getValidatorName(Grammar this, String prefix) :
+    getValidatorName(this,prefix,getNaming())
+;
+
+
+private String getValidatorName(Grammar this, String prefix, Naming naming) :
+    JAVA org.eclipse.xtext.generator.validation.JavaValidatorFragment.getValidatorName(org.eclipse.xtext.Grammar, java.lang.String, org.eclipse.xtext.generator.Naming);
+
+private String validationPackage(Grammar this) :
+    validationPackage(this,getNaming())
+;
+
+private String validationPackage(Grammar this, Naming n) :
+    JAVA org.eclipse.xtext.generator.validation.JavaValidatorFragment.getValidationPackage(org.eclipse.xtext.Grammar, org.eclipse.xtext.generator.Naming)
+;
+
+String validationCodeLiteral(NativeContext ctx) :
+    ctx.name().toUpperCase() + '_' + ctx.contextType.name.toUpperCase()
+;
+
+// Public Interface
+String getCheckValidatorName(Grammar this) :
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getCheckValidatorName(org.eclipse.xtext.Grammar, org.eclipse.xtext.generator.Naming)
+;
+
+String getJavaValidatorName(Grammar this, String prefix):
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getJavaValidatorName(org.eclipse.xtext.Grammar, java.lang.String)
+;
+
+/*
+String getActivatorName(Grammar this):
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getActivatorName(org.eclipse.xtext.Grammar)
+;
+*/
+
+private String internalGetPreferencePageName(Grammar this, Naming naming) :
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getPreferencePageName(org.eclipse.xtext.Grammar, org.eclipse.xtext.generator.Naming)
+;
+
+String getPreferencePageName(Grammar this) :
+    this.internalGetPreferencePageName(getNaming())
+;
+
+String getValidationPackage(Grammar this) :
+    validationPackage(this)
+;
+
+private String internalGetQuickfixPackage(Grammar this, Naming naming):
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getQuickfixPackage(org.eclipse.xtext.Grammar, org.eclipse.xtext.generator.Naming)
+;
+
+String getQuickfixPackage(Grammar this):
+    this.internalGetQuickfixPackage(getNaming())
+;
+
+
+private String internalgetQuickfixProviderName(Grammar this, Naming naming):
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getQuickfixProviderName(org.eclipse.xtext.Grammar, org.eclipse.xtext.generator.Naming)
+;
+
+String getQuickfixProviderName(Grammar this):
+    this.internalgetQuickfixProviderName(getNaming())
+;
+
+
+List[Rule] getAllRules (ValidModel this):
+    this.categories.collect(r|r.rules).flatten()
+;
+
+List[NativeRule] getAllNativeRules(Category this):
+    this.rules.typeSelect(NativeRule)
+;
+
+List[NativeRule] getAllNativeRules(ValidModel this):
+    this.getAllRules().typeSelect(NativeRule)
+;
+
+List[NativeRule] getAllNativeRules(ValidModel this, CheckKind kind):
+    this.getAllRules().typeSelect(NativeRule).select(r|r.checkKind == kind)
+;
+
+List[NativeRule] getAllNativeErrors(ValidModel this):
+     this.getAllRules().typeSelect(NativeRule).select(r|r.severity == SeverityKind::^ERROR)
+;
+
+List[NativeRule] getAllNativeWarnings(ValidModel this):
+    this.getAllRules().typeSelect(NativeRule).select(r|r.severity == SeverityKind::^WARNING)
+;
+
+// delete
+List[QuickFix] getAllQuickfixes(ValidModel this):
+    this.getAllNativeRules().collect(f|f.contexts.quickFixes).flatten()
+;
+
+Boolean hasTextualQuickfixes(ValidModel this):
+   !this.getAllQuickfixes().select(f|f.quickFixKind == QuickFixKind::TEXTUAL).isEmpty
+;
+
+Boolean hasSemanticQuickfixes(ValidModel this):
+   !this.getAllQuickfixes().select(f|f.quickFixKind == QuickFixKind::SEMANTIC).isEmpty
+;
+
+Boolean hasSemanticQuickfixes(NativeRule this):
+   !this.contexts.quickFixes.select(f|f.quickFixKind == QuickFixKind::SEMANTIC).isEmpty
+;
+
+List[QuickFix] getAllQuickfixes(Category this):
+    this.getAllNativeRules().collect(f|f.contexts.quickFixes).flatten()
+;
+
+// return the type of the element onto which a semantic quickfix is applied.
+EClass getQuickfixElementType(NativeContext this):
+    (this.markerType != null) ? this.markerType : this.contextType
+;
+
+Boolean hasQuickfixes(Category this):
+   !this.getAllQuickfixes().isEmpty
+;
+
+String getPreferenceKey(Grammar this, Rule rule):
+    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getPreferenceKey(org.eclipse.xtext.Grammar, com.avaloq.tools.ddk.xtext.valid.valid.Rule)
+;
+
+String escapeXml(String this):
+    JAVA org.apache.commons.lang.StringEscapeUtils.escapeXml(java.lang.String)
+;
+
+String unescapeXml(String this):
+    JAVA org.apache.commons.lang.StringEscapeUtils.unescapeXml(java.lang.String)
+;
+
+String toPrintable(String this):
+    JAVA  com.avaloq.tools.ddk.xtext.valid.generator.DocumentationUtil.toPrintableMessage(java.lang.String)
+;
+
+/* /// TODO ///
+cached String literalIdentifier(EStructuralFeature this) :
+    EPackage.genPackage().packageInterfaceName +EContainingClass.literalIdentifier() + "__" + name.format().toUpperCase()
+;
+*/

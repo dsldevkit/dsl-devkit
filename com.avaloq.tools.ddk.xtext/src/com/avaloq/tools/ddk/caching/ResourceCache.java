@@ -31,10 +31,12 @@ public class ResourceCache<K, V> implements ICache<K, V>, OnChangeEvictingCache.
   private final OnChangeEvictingCache.CacheAdapter backend;
   private final Resource resource;
 
-  ResourceCache(final Resource resource) {
+  ResourceCache(final Resource resource, final boolean addAsListener) {
     this.resource = resource;
     backend = new OnChangeEvictingCache().getOrCreate(resource);
-    backend.addCacheListener(this);
+    if (addAsListener) {
+      backend.addCacheListener(this);
+    }
   }
 
   /**
@@ -100,4 +102,3 @@ public class ResourceCache<K, V> implements ICache<K, V>, OnChangeEvictingCache.
     return resource.equals(newResource);
   }
 }
-
