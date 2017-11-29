@@ -13,18 +13,17 @@ package com.avaloq.tools.ddk.check.test.runtime
 import com.avaloq.tools.ddk.check.TestLanguageUiInjectorProvider
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase
 import com.avaloq.tools.ddk.check.testLanguage.Model
-import com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage$Literals
+import com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage
+import com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator
 import com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentIssueCodes
+import com.avaloq.tools.ddk.check.validation.LibraryChecksIssueCodes
 import com.google.inject.Inject
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.util.ParseHelper
-import com.avaloq.tools.ddk.check.validation.IssueCodes
-import com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator
-import com.avaloq.tools.ddk.check.validation.LibraryChecksIssueCodes
 
 @InjectWith(typeof(TestLanguageUiInjectorProvider))
 @RunWith(typeof(XtextRunner))
@@ -43,7 +42,7 @@ class CheckExecutionEnvironmentProjectTest extends AbstractCheckTestCase {
   @Test
   def void testFranz() {
     val model = parser.parse("Hello Franz!")
-    helper.assertError(model, TestLanguagePackage$Literals::GREETING, ExecutionEnvironmentIssueCodes::FRANZNAME)
+    helper.assertError(model, TestLanguagePackage.Literals::GREETING, ExecutionEnvironmentIssueCodes::FRANZNAME)
   }
 
   @Test
@@ -56,7 +55,7 @@ class CheckExecutionEnvironmentProjectTest extends AbstractCheckTestCase {
   @Test
   def void testGreetingNameIssue() {
     val model = parser.parse("Hello GreetingNameTooLong!")
-    helper.assertError(model, TestLanguagePackage$Literals::GREETING, ExecutionEnvironmentIssueCodes::NAMELENGTH)
+    helper.assertError(model, TestLanguagePackage.Literals::GREETING, ExecutionEnvironmentIssueCodes::NAMELENGTH)
   }
 
   /*
@@ -67,14 +66,14 @@ class CheckExecutionEnvironmentProjectTest extends AbstractCheckTestCase {
   //@BugTest("AIG-709") // this plugin should be ACF independent
   def void testBugAig709() {
     val model = parser.parse("Hello GreetingNameTooLong!")
-    helper.assertError(model, TestLanguagePackage$Literals::GREETING, ExecutionEnvironmentIssueCodes::NAMELENGTH)
-    helper.assertWarning(model, TestLanguagePackage$Literals::GREETING, IssueCodes::GREETING_NAME_PREFIX)
+    helper.assertError(model, TestLanguagePackage.Literals::GREETING, ExecutionEnvironmentIssueCodes::NAMELENGTH)
+    helper.assertWarning(model, TestLanguagePackage.Literals::GREETING, IssueCodesConstants::GREETING_NAME_PREFIX)
   }
 
   @Test
   def void testLibraryInjection() {
     val model = parser.parse("Hello Peter!");
-    helper.assertWarning(model, TestLanguagePackage$Literals::GREETING, LibraryChecksIssueCodes::CHECK_CATALOG_IS_ACTIVE);
+    helper.assertWarning(model, TestLanguagePackage.Literals::GREETING, LibraryChecksIssueCodes::CHECK_CATALOG_IS_ACTIVE);
     helper.assertNoError(model, LibraryChecksIssueCodes::CACHE_DOESNT_WORK);
     helper.assertNoError(model, LibraryChecksIssueCodes::CACHE_INJECTION_FAILED);
     helper.assertNoError(model, LibraryChecksIssueCodes::FORMAL_PARAMETERS);
