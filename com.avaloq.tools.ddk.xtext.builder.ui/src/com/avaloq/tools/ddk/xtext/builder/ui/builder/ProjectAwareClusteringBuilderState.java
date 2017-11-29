@@ -11,6 +11,8 @@
 
 package com.avaloq.tools.ddk.xtext.builder.ui.builder;
 
+import java.util.stream.StreamSupport;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
@@ -20,9 +22,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.builder.clustering.ClusteringBuilderState;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
-import org.eclipse.xtext.util.Pair;
 
-import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -42,10 +42,11 @@ public class ProjectAwareClusteringBuilderState extends ClusteringBuilderState {
 
   @Override
   protected void updateMarkers(final Delta delta, final ResourceSet resourceSet, final IProgressMonitor monitor) throws OperationCanceledException {
-    Pair<IStorage, IProject> pair = Iterables.getFirst(mapper.getStorages(delta.getUri()), null);
-    IStorage storage = pair.getFirst();
-    IProject project = pair.getSecond();
-    if (project.getFullPath().isPrefixOf(storage.getFullPath())) {
+    if (StreamSupport.stream(mapper.getStorages(delta.getUri()).spliterator(), true).anyMatch(pair -> {
+      IStorage storage = pair.getFirst();
+      IProject project = pair.getSecond();
+      return project.getFullPath().isPrefixOf(storage.getFullPath());
+    })) {
       LOGGER.debug("Processed " + delta.getUri()); //$NON-NLS-1$
       super.updateMarkers(delta, resourceSet, monitor);
     } else {
