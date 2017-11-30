@@ -68,7 +68,7 @@ package «getQuickfixPackage()»;
 
 import org.junit.runner.RunWith;
 
-import com.avaloq.test.junit.runners.DiscerningSuite;
+import com.avaloq.tools.ddk.test.core.junit.runners.DiscerningSuite;
 
 
 /**

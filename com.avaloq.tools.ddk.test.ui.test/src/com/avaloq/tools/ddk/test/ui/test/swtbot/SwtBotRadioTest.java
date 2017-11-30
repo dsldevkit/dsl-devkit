@@ -55,7 +55,7 @@ public class SwtBotRadioTest {
   }
 
   /**
-   * Test if the method {@link com.avaloq.test.swtbot.SwtBotRadio#click()} works correctly.
+   * Test if the method {@link com.avaloq.tools.ddk.test.ui.swtbot.SwtBotRadio#click()} works correctly.
    */
   @Test
   public void testSwtRadioButtonClick() {
