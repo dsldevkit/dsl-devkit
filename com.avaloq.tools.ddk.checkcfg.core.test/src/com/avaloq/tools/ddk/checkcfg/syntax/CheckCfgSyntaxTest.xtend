@@ -39,7 +39,7 @@ class CheckCfgSyntaxTest extends AbstractValidationTest {
         /**
          * Test Error Documentation
          */
-        live error "Test Error"
+        live error TestError "Test Error"
         message "Test Error message." {
           for Check c {
             issue on c#name;

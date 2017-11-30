@@ -39,7 +39,10 @@ public class CheckCfgScopeProvider extends XImportSectionNamespaceScopeProvider 
     @Override
     public QualifiedName getFullyQualifiedName(final EObject obj) {
       if (obj instanceof Check) {
-        return QualifiedName.create(((Check) obj).getName());
+        String name = ((Check) obj).getName();
+        if (name != null) {
+          return QualifiedName.create(name);
+        }
       } else if (obj instanceof FormalParameter) {
         return QualifiedName.create(((FormalParameter) obj).getName());
       }

@@ -24,7 +24,7 @@ public class BundleClassFinder extends BinaryClassFinder {
 
   /**
    * Creates a new instance of {@link BundleClassFinder}.
-   * 
+   *
    * @param classLoader
    *          the {@link ClassLoader} to use, must not be {@code null}
    * @param bundle
@@ -38,7 +38,13 @@ public class BundleClassFinder extends BinaryClassFinder {
   /** {@inheritDoc} */
   @Override
   public BinaryClass forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException {
-    return super.forName(name, bundle.loadClass(name).getClassLoader());
+    // getClassLoader may return null for bootstrap class loader
+    ClassLoader loader = bundle.loadClass(name).getClassLoader();
+    if (loader != null) {
+      return super.forName(name, loader);
+    } else {
+      return super.forName(name, classLoader);
+    }
   }
 }
 

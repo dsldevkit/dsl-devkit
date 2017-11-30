@@ -28,9 +28,9 @@ import org.eclipse.xtext.ui.resource.Storage2UriMapperImpl;
 import org.eclipse.xtext.util.Pair;
 import org.junit.Test;
 
+import com.avaloq.tools.ddk.xtext.generator.util.XpandExecutionContextUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractUtilTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
-import com.avaloq.tools.ddk.xtext.generator.util.XpandExecutionContextUtil;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
@@ -42,9 +42,7 @@ import com.google.inject.Injector;
  */
 public class RuntimeProjectUtilTest extends AbstractUtilTest {
 
-  private static final String WORKSPACE_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
-
-  private static final String TEST_PROJECT_NAME = "resource";
+  private static final String WORKSPACE_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().getPath();
 
   public static final ImmutableList<String> SOURCE_NAMES = ImmutableList.of("FormatBuilderParticipantInput.format", "FormatBuilderParticipantOutput.format");
 
@@ -97,8 +95,8 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    */
   @Test
   public void getPathProjectTest() {
-    assertEquals("Check if the correct project path has been returned", RuntimeProjectUtil.getPathProject(resource, mapperCorrect), "/" + WORKSPACE_PATH + "/"
-        + TEST_PROJECT_NAME);
+    assertEquals("Check if the correct project path has been returned", WORKSPACE_PATH + "/"
+        + TEST_PROJECT_NAME, RuntimeProjectUtil.getPathProject(resource, mapperCorrect));
   }
 
   /**
@@ -109,7 +107,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
     IProject iproject = RuntimeProjectUtil.getProject(uriCorrect, mapperCorrect);
     assumeNotNull(iproject);
-    assertEquals("Check if the correct project name has been returned", iproject.getName(), TEST_PROJECT_NAME);
+    assertEquals("Check if the correct project name has been returned", TEST_PROJECT_NAME, iproject.getName());
   }
 
   /**
@@ -141,4 +139,3 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
   }
 
 }
-
