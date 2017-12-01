@@ -14,11 +14,10 @@ package com.avaloq.tools.ddk.xtext.resource.persistence;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
@@ -51,7 +50,6 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 
 
@@ -88,13 +86,8 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
       if (storeNodeModel) {
         zipOut.putNextEntry(new ZipEntry("source")); //$NON-NLS-1$
         try {
-          InputStream stream = resource.getResourceSet().getURIConverter().createInputStream(resource.getURI());
-          String encoding = resource.getEncoding();
-          if (StandardCharsets.UTF_8.name().equals(encoding)) {
-            ByteStreams.copy(stream, bufferedOutput);
-            stream.close();
-          } else {
-            InputStreamReader in = new InputStreamReader(stream, encoding);
+          if (resource.getParseResult() != null) {
+            StringReader in = new StringReader(resource.getParseResult().getRootNode().getText());
             OutputStreamWriter out = new OutputStreamWriter(bufferedOutput, StandardCharsets.UTF_8);
             CharStreams.copy(in, out);
             in.close();
