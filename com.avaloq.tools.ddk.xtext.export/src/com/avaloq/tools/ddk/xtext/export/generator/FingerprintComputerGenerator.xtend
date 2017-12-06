@@ -69,7 +69,7 @@ class FingerprintComputerGenerator {
                     return hasher;
                   }
                 «ENDIF»
-                hasher.putString(obj.eClass().getName()).putChar(ITEM_SEP);
+                hasher.putUnencodedChars(obj.eClass().getName()).putChar(ITEM_SEP);
                 «val superFPs = f.getSuperInterfaces(f.type)»
                 «FOR superFingerprint : superFPs»
                   «FOR superItem : superFingerprint.items»
