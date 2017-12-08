@@ -10,11 +10,11 @@ package com.avaloq.tools.ddk.check.check;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Implementation#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Implementation#getContext <em>Context</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getImplementation()
  * @model

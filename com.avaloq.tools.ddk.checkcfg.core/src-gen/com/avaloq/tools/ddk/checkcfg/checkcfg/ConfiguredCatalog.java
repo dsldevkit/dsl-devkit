@@ -13,11 +13,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog#getCatalog <em>Catalog</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog#getCheckConfigurations <em>Check Configurations</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredCatalog()
  * @model

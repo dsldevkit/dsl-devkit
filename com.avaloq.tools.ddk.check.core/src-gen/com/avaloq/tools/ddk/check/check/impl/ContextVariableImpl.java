@@ -22,11 +22,11 @@ import org.eclipse.xtext.common.types.JvmTypeReference;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.ContextVariableImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.ContextVariableImpl#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

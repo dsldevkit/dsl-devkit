@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.SeverityRangeImpl#getMinSeverity <em>Min Severity</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.SeverityRangeImpl#getMaxSeverity <em>Max Severity</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

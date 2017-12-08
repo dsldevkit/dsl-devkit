@@ -32,7 +32,6 @@ import org.eclipse.xtext.xbase.impl.XExpressionImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getCheck <em>Check</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMarkerFeature <em>Marker Feature</em>}</li>
@@ -43,6 +42,7 @@ import org.eclipse.xtext.xbase.impl.XExpressionImpl;
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getIssueCode <em>Issue Code</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getIssueData <em>Issue Data</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

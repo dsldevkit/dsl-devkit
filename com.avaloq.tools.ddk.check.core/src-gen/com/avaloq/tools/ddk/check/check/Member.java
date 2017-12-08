@@ -17,13 +17,13 @@ import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotation;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Member#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Member#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Member#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Member#getValue <em>Value</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getMember()
  * @model

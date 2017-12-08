@@ -7,8 +7,8 @@
       <view
             name="XtextSpy View"
             icon="icons/sample.gif"
-            class="com.avaloq.tools.xtextspy.XtextSpyExecutableExtensionFactory:com.avaloq.tools.xtextspy.SpyViewPart"
-            id="com.avaloq.tools.xtextspy.SpyView">
+            class="com.avaloq.tools.ddk.xtextspy.XtextSpyExecutableExtensionFactory:com.avaloq.tools.ddk.xtextspy.SpyViewPart"
+            id="com.avaloq.tools.ddk.xtextspy.SpyView">
       </view>
    </extension>
 

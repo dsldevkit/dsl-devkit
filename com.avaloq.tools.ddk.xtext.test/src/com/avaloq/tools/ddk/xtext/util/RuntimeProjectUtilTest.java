@@ -28,7 +28,6 @@ import org.eclipse.xtext.ui.resource.Storage2UriMapperImpl;
 import org.eclipse.xtext.util.Pair;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.generator.util.XpandExecutionContextUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractUtilTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;

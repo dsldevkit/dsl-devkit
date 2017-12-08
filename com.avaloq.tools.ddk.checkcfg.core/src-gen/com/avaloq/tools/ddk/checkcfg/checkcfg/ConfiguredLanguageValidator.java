@@ -11,11 +11,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator#getLanguage <em>Language</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator#getCatalogConfigurations <em>Catalog Configurations</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredLanguageValidator()
  * @model

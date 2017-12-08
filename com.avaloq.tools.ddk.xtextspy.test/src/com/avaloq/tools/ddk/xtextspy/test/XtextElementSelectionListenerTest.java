@@ -35,10 +35,10 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtextspy.internal.Activator;
 import com.avaloq.tools.ddk.xtextspy.IEditorUtils;
 import com.avaloq.tools.ddk.xtextspy.XtextElementSelectionListener;
 import com.avaloq.tools.ddk.xtextspy.XtextSpyModule;
+import com.avaloq.tools.ddk.xtextspy.internal.Activator;
 import com.google.inject.AbstractModule;
 
 

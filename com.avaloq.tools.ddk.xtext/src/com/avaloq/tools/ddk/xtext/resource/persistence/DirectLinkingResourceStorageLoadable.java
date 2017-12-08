@@ -39,6 +39,7 @@ import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator.Adapter;
+import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedDeserializationConversionContext;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceLoadStorageEvent;
 import com.google.common.base.Splitter;
@@ -125,7 +126,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         LOG.info("Skipping loading node model for synthetic resource " + resource.getURI()); //$NON-NLS-1$
         return;
       }
-      DeserializationConversionContext deserializationContext = new DeserializationConversionContext(resource, content);
+      DeserializationConversionContext deserializationContext = new FixedDeserializationConversionContext(resource, content);
       DataInputStream dataIn = new DataInputStream(inputStream);
       SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
       serializableNodeModel.readObjectData(dataIn, deserializationContext);

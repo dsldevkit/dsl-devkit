@@ -16,11 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.serialization.SerializationConversionContext;
 import org.eclipse.xtext.resource.XtextResource;
 
@@ -63,12 +60,9 @@ public class FixedSerializationConversionContext extends SerializationConversion
    * @param map
    *          map
    */
-  private static void fillIdToEObjectMap(final Resource resource, final List<EObject> map) {
-    TreeIterator<EObject> allContents = EcoreUtil.getAllContents(resource, false);
-
-    if (allContents.hasNext()) {
-      EObject root = allContents.next();
-      fillIdToEObjectMap(root, map);
+  static void fillIdToEObjectMap(final Resource resource, final List<EObject> map) {
+    if (!resource.getContents().isEmpty()) {
+      fillIdToEObjectMap(resource.getContents().get(0), map);
     }
   }
 
@@ -80,14 +74,14 @@ public class FixedSerializationConversionContext extends SerializationConversion
    * @param map
    *          map
    */
-  private static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
+  static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
     if (eObject.eContainingFeature() == null || !eObject.eContainingFeature().isTransient()) {
       map.add(eObject);
-      EList<EObject> eContents = eObject.eContents();
 
-      for (EObject child : eContents) {
+      for (EObject child : eObject.eContents()) {
         fillIdToEObjectMap(child, map);
       }
     }
   }
+
 }
