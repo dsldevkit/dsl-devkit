@@ -52,7 +52,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the qualified package interface name for the given epackage (model).
-   * 
+   *
    * @param ePackage
    *          the model
    * @return the package interface name
@@ -62,34 +62,37 @@ public final class GenModelUtil2 {
         : ePackage.getClass().getInterfaces()[0].getName();
   }
 
-/**
-     * Formats a name by parsing it into words separated by underscores and/or mixed-casing and then
-     * recombining them using the specified separator.
-     *
-     * {@see CodeGenUtil#format(String, char, String, boolean, boolean)
-     *
-     * @param name the name to format
-     * @return the formatted name
-     */
+  /**
+   * Formats a name by parsing it into words separated by underscores and/or mixed-casing and then
+   * recombining them using the specified separator.
+   * {@see CodeGenUtil#format(String, char, String, boolean, boolean)
+   *
+   * @param name
+   *          the name to format
+   * @return the formatted name
+   */
   public static String format(final String name) {
     return CodeGenUtil.format(name, '_', null, false, false);
   }
 
   /**
    * Returns the genmodel for the given model element.
-   * 
+   *
    * @param eModelElement
    *          the model element
    * @return the genmodel
    */
   public static GenModel findGenModel(final EModelElement eModelElement) {
-    return findGenModel(eModelElement, eModelElement.eResource() != null ? eModelElement.eResource().getResourceSet() : new ResourceSetImpl());
+    ResourceSet resourceSet = eModelElement.eResource() != null && eModelElement.eResource().getResourceSet() != null
+        ? eModelElement.eResource().getResourceSet()
+        : new ResourceSetImpl();
+    return findGenModel(eModelElement, resourceSet);
   }
 
   /**
    * Finds the GenPackage for a given EModelElement and ResourceSet. If the EPackage of given model element
    * is the EcorePackage.eINSTANCE, <code>null</code> is returned.
-   * 
+   *
    * @param eModelElement
    *          the e model element
    * @param resourceSet
@@ -103,27 +106,36 @@ public final class GenModelUtil2 {
       return null;
     }
 
-    GenPackage genPackage = GenModelAccess.getGenPackage(ePackage, resourceSet);
-    GenModel result = genPackage.getGenModel();
-    if (result != null) {
-      return result;
-    }
-
     try {
       final Resource res = getGenModelResource(eModelElement);
       if (res != null) {
-        result = (GenModel) res.getContents().get(0);
+        Object result = res.getContents().get(0);
+        if (result instanceof GenModel) {
+          return (GenModel) result;
+        }
       }
     } catch (final IllegalStateException e) {
+      // empty
+    }
+
+    try {
+      GenPackage genPackage = GenModelAccess.getGenPackage(ePackage, resourceSet);
+      GenModel result = genPackage.getGenModel();
+      if (result != null) {
+        return result;
+      }
+      // CHECKSTYLE:CHECK-OFF IllegalCatch
+    } catch (RuntimeException e) {
+      // CHECKSTYLE:CHECK-ON IllegalCatch
       LOGGER.error(NLS.bind("Exception in findGenModel ({0})", eModelElement), e);
     }
 
-    return result;
+    return null;
   }
 
   /**
    * Returns the genpackage for the given epackage.
-   * 
+   *
    * @param ePackage
    *          the model
    * @return the genpackage
@@ -136,7 +148,7 @@ public final class GenModelUtil2 {
 
   /**
    * Finds the GenPackage for a given EPackage and ResourceSet. If the GenModel is <code>null</code>, <code>null</code> is returned.
-   * 
+   *
    * @param ePackage
    *          the e package
    * @param resourceSet
@@ -151,7 +163,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the Java package for the edit plug-in.
-   * 
+   *
    * @param ePackage
    *          the model
    * @return the edit plugin package name or null
@@ -164,7 +176,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the genclass for the given eclass.
-   * 
+   *
    * @param eClass
    *          the eclass
    * @return the genclass
@@ -177,7 +189,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the name for the given eclass instance.
-   * 
+   *
    * @param eClass
    *          the eclass
    * @return the class name as a string
@@ -189,7 +201,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the gendatatype for the given edatatype.
-   * 
+   *
    * @param eDataType
    *          the edatatype
    * @return the gendatatype
@@ -202,7 +214,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the name for the given eclass instance.
-   * 
+   *
    * @param eDataType
    *          the data type
    * @return the class name as a string
@@ -214,7 +226,7 @@ public final class GenModelUtil2 {
 
   /**
    * Returns the genmodel resource for the given model element.
-   * 
+   *
    * @param eModelElement
    *          the model element
    * @return the genmodel resource
@@ -243,7 +255,8 @@ public final class GenModelUtil2 {
       try {
         genModelResource = resourceSet.getResource(uri, true);
       } catch (final WrappedException we) {
-        throw new IllegalStateException("could not retrieve resource for URI " + uri + " please add URI maps for all relevant Ecore models to the workflow.", we); //$NON-NLS-1$ //$NON-NLS-2$
+        throw new IllegalStateException("could not retrieve resource for URI " + uri //$NON-NLS-1$
+            + " please add URI maps for all relevant Ecore models to the workflow.", we); //$NON-NLS-1$
       }
       return genModelResource;
     } else {

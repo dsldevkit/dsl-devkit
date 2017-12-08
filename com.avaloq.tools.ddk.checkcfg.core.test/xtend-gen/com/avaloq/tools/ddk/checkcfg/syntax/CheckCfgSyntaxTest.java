@@ -54,7 +54,7 @@ public class CheckCfgSyntaxTest extends AbstractValidationTest {
     _builder.append("*/");
     _builder.newLine();
     _builder.append("  ");
-    _builder.append("live error \"Test Error\"");
+    _builder.append("live error TestError \"Test Error\"");
     _builder.newLine();
     _builder.append("  ");
     _builder.append("message \"Test Error message.\" {");

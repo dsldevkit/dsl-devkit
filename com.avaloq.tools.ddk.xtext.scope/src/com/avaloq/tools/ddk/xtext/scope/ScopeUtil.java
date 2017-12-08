@@ -37,7 +37,7 @@ public final class ScopeUtil {
 
   /**
    * Return the root object of a scope language resource.
-   * 
+   *
    * @param obj
    *          Some object in the resource
    * @return The containing root object, which is a BuildDescription.
@@ -52,7 +52,7 @@ public final class ScopeUtil {
 
   /**
    * Get the name to use for an Import. This is the defined alias, or the EPackages namespace prefix, if there is no alias.
-   * 
+   *
    * @param importedPackage
    *          The Import.
    * @return The name, or null if none found.
@@ -71,12 +71,11 @@ public final class ScopeUtil {
 
   /**
    * Computes a signature string representation which must be unique for the given rule.
-   * 
+   *
    * @param rule
    *          rule to calculate signature for
    * @return string signature
    */
-  @SuppressWarnings("nls")
   public static String getSignature(final ScopeRule rule) { // NOPMD NPathComplexity
     StringBuffer result = new StringBuffer();
     final ScopeDefinition def = EObjectUtil.eContainer(rule, ScopeDefinition.class);

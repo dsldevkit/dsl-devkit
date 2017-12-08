@@ -111,7 +111,6 @@ public final class ScopingGeneratorUtil {
    * @throws FileNotFoundException
    *           thrown if the scope file could not be found
    */
-  @SuppressWarnings("nls")
   public static ScopeModel getScopeModel(final Grammar grammar, final XpandExecutionContext ctx) throws FileNotFoundException {
     final Resource grammarResource = grammar.eResource();
     if (grammarResource == null) {

@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.xtend.util.stdlib,
  com.google.guava;bundle-version="[10.0.0,19.0.0)",
  com.avaloq.tools.ddk.xtext.ui,
- org.eclipse.xtend.lib
+ org.eclipse.xtend.lib,
+ org.eclipse.jdt.core
 Export-Package: com.avaloq.tools.ddk.xtext.generator.serializer,
  com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.ecore,

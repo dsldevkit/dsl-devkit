@@ -12,7 +12,7 @@ import com::avaloq::tools::ddk::xtext::expression::expression;
 import com::avaloq::tools::ddk::xtext::generator::expression;
 
 String serialize(Expression this) :
-  JAVA com.avaloq.tools.ddk.xtext.generator.expression.ExpressionExtensions.serialize(com.avaloq.tools.ddk.xtext.expression.expression.Expression)
+  JAVA com.avaloq.tools.ddk.xtext.generator.expression.ExpressionExtensions.serialize(org.eclipse.emf.ecore.EObject)
 ;
 
 String serialize(Void this) :
@@ -28,7 +28,7 @@ boolean isEmptyList(ListLiteral this) :
 ;
 
 boolean isSimpleConcatCall(OperationCall this) :
-	name == '+' && type == null && target == null && !params.isEmpty
+  name == '+' && type == null && target == null && !params.isEmpty
 ;
 
 boolean isNumber(Expression this, CompilationContext ctx) :
@@ -72,5 +72,5 @@ boolean isInfixExpression(BooleanOperation this, CompilationContext ctx) :
 ;
 
 String calledFeature(FeatureCall this) :
-	type.id.first()
+  type.id.first()
 ;

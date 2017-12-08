@@ -32,7 +32,6 @@ public class ScopeFormatter extends AbstractDeclarativeFormatter {
 
   private static final int MAX_LINE_LENGTH = 140;
 
-  @SuppressWarnings("nls")
   @Override
   protected void configureFormatting(final FormattingConfig cfg) {
     final ScopeGrammarAccess g = (ScopeGrammarAccess) getGrammarAccess();

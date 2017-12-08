@@ -34,7 +34,8 @@ import org.eclipse.xtext.util.Tuples;
  */
 public abstract class AbstractUtilTest extends AbstractXtextTest {
 
-  private static final String DUMMY_PATH = "platform:/resource/TEST/";
+  public static final String TEST_PROJECT_NAME = "TestProjectName";
+  private static final String DUMMY_PATH = TEST_PROJECT_NAME + "/TEST/";
 
   // CHECKSTYLE:CHECK-OFF VisibilityModifierCheck
   protected static Delta delta;

@@ -10,12 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.generator.expression;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.serializer.ISerializer;
 
 import com.avaloq.tools.ddk.xtext.expression.ExpressionStandaloneSetup;
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 
 
 /**
@@ -34,22 +34,21 @@ public final class ExpressionExtensions {
   }
 
   /**
-   * Serialize an expression into a String.
-   * 
-   * @param expression
-   *          the expression
+   * Serialize an object into a String.
+   *
+   * @param obj
+   *          the object
    * @return the string representation
    */
-  public static String serialize(final Expression expression) {
-    if (expression == null) {
+  public static String serialize(final EObject obj) {
+    if (obj == null) {
       return ""; //$NON-NLS-1$
     }
-    final ICompositeNode node = NodeModelUtils.getNode(expression);
+    final ICompositeNode node = NodeModelUtils.getNode(obj);
     if (node != null) {
       return node.getText().trim();
     }
 
-    return SERIALIZER.serialize(expression).trim();
+    return SERIALIZER.serialize(obj).trim();
   }
 }
-

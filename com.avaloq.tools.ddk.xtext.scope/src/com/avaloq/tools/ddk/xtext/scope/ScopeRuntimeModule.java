@@ -14,13 +14,15 @@ import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
+import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 
+import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeLocationInFileProvider;
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
+import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionStrategy;
 
 
 /**
@@ -40,7 +42,7 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
 
   /**
    * Binds a class loader required by the resource manager.
-   * 
+   *
    * @return bound class loader instance
    */
   @Override
@@ -50,7 +52,7 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
 
   /**
    * binds custom qualified name converter.
-   * 
+   *
    * @return implementation
    */
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
@@ -64,11 +66,21 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
 
   /**
    * Workaround for Bug 416913. To be removed with DSL-596
-   * 
+   *
    * @return {@link FixedPartialParsingHelper}
    */
   @Override
   public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
     return FixedPartialParsingHelper.class;
   }
+
+  /**
+   * Binds {@link IDefaultResourceDescriptionStrategy}.
+   *
+   * @return {@link ScopeResourceDescriptionStrategy}
+   */
+  public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
+    return ScopeResourceDescriptionStrategy.class;
+  }
+
 }

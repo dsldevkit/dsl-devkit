@@ -60,7 +60,6 @@ public final class RuntimeProjectUtil {
           return false;
         }
       });
-
       return (IFile) fileStorage.getFirst();
     } catch (NoSuchElementException e) {
       LOGGER.debug("Cannot find file storage for " + uri); //$NON-NLS-1$
