@@ -34,6 +34,13 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.xtext.common.ui.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.check.runtime.core.source"
          download-size="0"
          install-size="0"
@@ -70,6 +77,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.builder.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.builder.ui.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
