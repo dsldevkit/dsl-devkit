@@ -18,12 +18,15 @@ import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 import org.junit.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilerX;
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GeneratorTestUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 
 
 /**
- * Tests the code generation as implemented by the CodeGeneration.ext extension wrapped by {@link Compiler}.
+ * Tests the code generation as implemented by CodeGenerationX wrapped by {@link CompilerX}.
  */
 public class CodeGenerationXTest extends AbstractXtextTest {
 
@@ -42,7 +45,7 @@ public class CodeGenerationXTest extends AbstractXtextTest {
     final ExecutionContextImpl executionContext = new ExecutionContextImpl();
     executionContext.registerMetaModel(new JavaBeansMetaModel());
     executionContext.registerMetaModel(new EmfRegistryMetaModel());
-    final CompilationContext context = new CompilationContext(executionContext);
+    final CompilationContext context = new CompilationContext(executionContext, new GenModelUtilX());
     getTestInformation().putTestObject(CompilerX.class, new CompilerX(context));
   }
 

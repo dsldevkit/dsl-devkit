@@ -31,6 +31,9 @@ public class CheckJavaValidatorUtil {
   /** Two dots in a row. */
   private static final String DOUBLEDOT = ".."; //$NON-NLS-1$
 
+  /** Dollar sign. */
+  private static final String DOLLAR = "$"; //$NON-NLS-1$
+
   /** The plugin ID. */
   private static final String PLUGIN_ID = "com.avaloq.tools.ddk.check.core";
 
@@ -41,7 +44,7 @@ public class CheckJavaValidatorUtil {
    * <li>no "double dots" occur in the package name
    * <li>all segments of a fully qualified name fulfill conditions as defined by {@link java.lang.Character#isJavaIdentifierPart(char)}
    * </ul>
-   * 
+   *
    * @param fullyQualifiedName
    *          the package name
    * @return <code>true</code> if given FQN is valid
@@ -58,6 +61,10 @@ public class CheckJavaValidatorUtil {
       return new Status(IStatus.ERROR, PLUGIN_ID, NLS.bind(Messages.CheckJavaValidator_ILLEGAL_START, fullyQualifiedName.charAt(0)));
     }
 
+    if (fullyQualifiedName.contains(DOLLAR)) {
+      return new Status(IStatus.ERROR, PLUGIN_ID, NLS.bind(Messages.CheckJavaValidator_ILLEGAL_CHARACTER, DOLLAR));
+    }
+
     if (fullyQualifiedName.endsWith(".")) {
       return new Status(IStatus.ERROR, PLUGIN_ID, Messages.CheckJavaValidator_ENDS_WITH_DOT);
     }
@@ -65,6 +72,7 @@ public class CheckJavaValidatorUtil {
     if (fullyQualifiedName.contains(DOUBLEDOT)) {
       return new Status(IStatus.ERROR, PLUGIN_ID, NLS.bind(Messages.CheckJavaValidator_ILLEGAL_CHARACTER, DOUBLEDOT));
     }
+
     String[] sequences = fullyQualifiedName.split("\\.");
     for (String sequence : sequences) {
       if (!isValidName(sequence).isOK()) {
@@ -80,9 +88,9 @@ public class CheckJavaValidatorUtil {
    * <ul>
    * <li>must not be empty
    * <li>must not start or end with a white space
-   * <li>fulfills conditions as defined by {@link java.lang.Character#isJavaIdentifierPart(char)}
+   * <li>fulfils conditions as defined by {@link java.lang.Character#isJavaIdentifierPart(char)}
    * </ul>
-   * 
+   *
    * @param name
    *          the name
    * @return true, if successful
@@ -98,6 +106,11 @@ public class CheckJavaValidatorUtil {
       }
       return new Status(IStatus.ERROR, PLUGIN_ID, NLS.bind(Messages.CheckJavaValidator_ILLEGAL_START, name.charAt(0)));
     }
+
+    if (name.contains(DOLLAR)) {
+      return new Status(IStatus.ERROR, PLUGIN_ID, NLS.bind(Messages.CheckJavaValidator_ILLEGAL_CHARACTER, DOLLAR));
+    }
+
     for (int i = 1; i < name.length(); i++) {
       if (!Character.isJavaIdentifierPart(name.charAt(i))) {
         if (name.charAt(i) == ' ') {
@@ -107,12 +120,13 @@ public class CheckJavaValidatorUtil {
 
       }
     }
+
     return Status.OK_STATUS;
   }
 
   /**
    * Controls if the name contains an uppercase letter.
-   * 
+   *
    * @param name
    *          the name
    * @return true if name contains uppercase letters
@@ -128,7 +142,7 @@ public class CheckJavaValidatorUtil {
 
   /**
    * Gets the workspace member.
-   * 
+   *
    * @param name
    *          the name
    * @return the workspace member
@@ -143,7 +157,7 @@ public class CheckJavaValidatorUtil {
 
   /**
    * Check project name.
-   * 
+   *
    * @param projectName
    *          the name
    * @return true, if successful
@@ -167,7 +181,7 @@ public class CheckJavaValidatorUtil {
 
   /**
    * Check package name.
-   * 
+   *
    * @param packageName
    *          the name
    * @return OK_STATUS, if successful, an error status otherwise
@@ -185,7 +199,7 @@ public class CheckJavaValidatorUtil {
 
   /**
    * Check catalog name.
-   * 
+   *
    * @param name
    *          the name
    * @return OK_STATUS, if successful, an error status otherwise
@@ -206,7 +220,7 @@ public class CheckJavaValidatorUtil {
 
   /**
    * Check category name.
-   * 
+   *
    * @param categoryName
    *          the name
    * @return OK_STATUS, if successful, an error status otherwise
@@ -224,7 +238,7 @@ public class CheckJavaValidatorUtil {
 
   /**
    * Checks the name of a Check.
-   * 
+   *
    * @param checkName
    *          the name
    * @return OK_STATUS, if successful, an error status otherwise
@@ -241,4 +255,3 @@ public class CheckJavaValidatorUtil {
   }
 
 }
-

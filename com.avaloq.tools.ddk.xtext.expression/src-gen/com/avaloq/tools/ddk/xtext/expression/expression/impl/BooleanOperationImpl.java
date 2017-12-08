@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.BooleanOperationImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.BooleanOperationImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.BooleanOperationImpl#getRight <em>Right</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

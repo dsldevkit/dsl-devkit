@@ -25,24 +25,24 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cCastedExpressionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cChainExpressionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
-		//// this is a translation of the expression part of 
+		//// this is a translation of the expression part of
 		//
-		//// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g 
+		//// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g
 		// // to Xtext
 		//
 		////expression returns [Expression e]:
 		// //	x=letExpression {$e=x;};
 		// Expression:
-		//	LetExpression | CastedExpression | ChainExpression;
+		//	LetExpression | => CastedExpression | ChainExpression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//LetExpression | CastedExpression | ChainExpression
+		//LetExpression | => CastedExpression | ChainExpression
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//LetExpression
 		public RuleCall getLetExpressionParserRuleCall_0() { return cLetExpressionParserRuleCall_0; }
 
-		//CastedExpression
+		//=> CastedExpression
 		public RuleCall getCastedExpressionParserRuleCall_1() { return cCastedExpressionParserRuleCall_1; }
 
 		//ChainExpression
@@ -87,7 +87,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTargetExpressionParserRuleCall_5_0 = (RuleCall)cTargetAssignment_5.eContents().get(0);
 		
 		////letExpression  returns [Expression e] :
-		// //   'let' v=identifier '=' varExpr=castedExpression ':' target=expression 
+		// //   'let' v=identifier '=' varExpr=castedExpression ':' target=expression
 		//
 		////   {$e=factory.createLetExpression(v,varExpr,target);}
 		// //|  x=castedExpression {$e=x;};
@@ -296,15 +296,16 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cThenPartAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cThenPartChainedExpressionParserRuleCall_3_0 = (RuleCall)cThenPartAssignment_3.eContents().get(0);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Keyword cElseKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
-		private final Assignment cElsePartAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
-		private final RuleCall cElsePartChainedExpressionParserRuleCall_4_1_0 = (RuleCall)cElsePartAssignment_4_1.eContents().get(0);
+		private final Group cGroup_4_0 = (Group)cGroup_4.eContents().get(0);
+		private final Keyword cElseKeyword_4_0_0 = (Keyword)cGroup_4_0.eContents().get(0);
+		private final Assignment cElsePartAssignment_4_0_1 = (Assignment)cGroup_4_0.eContents().get(1);
+		private final RuleCall cElsePartChainedExpressionParserRuleCall_4_0_1_0 = (RuleCall)cElsePartAssignment_4_0_1.eContents().get(0);
 		
 		//IfExpressionKw returns IfExpression:
-		//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression ("else" elsePart=ChainedExpression)?;
+		//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression -> ("else" elsePart=ChainedExpression)?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"if" condition=ChainedExpression "then" thenPart=ChainedExpression ("else" elsePart=ChainedExpression)?
+		//"if" condition=ChainedExpression "then" thenPart=ChainedExpression -> ("else" elsePart=ChainedExpression)?
 		public Group getGroup() { return cGroup; }
 
 		//"if"
@@ -325,17 +326,20 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		//ChainedExpression
 		public RuleCall getThenPartChainedExpressionParserRuleCall_3_0() { return cThenPartChainedExpressionParserRuleCall_3_0; }
 
-		//("else" elsePart=ChainedExpression)?
+		//-> ("else" elsePart=ChainedExpression)?
 		public Group getGroup_4() { return cGroup_4; }
 
+		//"else" elsePart=ChainedExpression
+		public Group getGroup_4_0() { return cGroup_4_0; }
+
 		//"else"
-		public Keyword getElseKeyword_4_0() { return cElseKeyword_4_0; }
+		public Keyword getElseKeyword_4_0_0() { return cElseKeyword_4_0_0; }
 
 		//elsePart=ChainedExpression
-		public Assignment getElsePartAssignment_4_1() { return cElsePartAssignment_4_1; }
+		public Assignment getElsePartAssignment_4_0_1() { return cElsePartAssignment_4_0_1; }
 
 		//ChainedExpression
-		public RuleCall getElsePartChainedExpressionParserRuleCall_4_1_0() { return cElsePartChainedExpressionParserRuleCall_4_1_0; }
+		public RuleCall getElsePartChainedExpressionParserRuleCall_4_0_1_0() { return cElsePartChainedExpressionParserRuleCall_4_0_1_0; }
 	}
 
 	public class SwitchExpressionElements extends AbstractParserRuleElementFinder {
@@ -360,7 +364,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		//
 		////   'switch' ('(' pred = orExpression ')')?
 		// //   '{'
-		// //   ( 
+		// //   (
 		// //     'case' c=orExpression  ':'  v=orExpression
 		//
 		////     {cases.add(factory.createCase(c, v));}
@@ -369,7 +373,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		// //   '}'
 		//
 		////   {$e = factory.createSwitchExpression(pred,cases,def);}
-		// //|  x=orExpression {$e=x;};  
+		// //|  x=orExpression {$e=x;};
 		// SwitchExpression:
 		//	"switch" ("(" switchExpr=OrExpression ")")? "{" case+=Case* "default" ":" defaultExpr=OrExpression "}";
 		@Override public ParserRule getRule() { return rule; }
@@ -608,7 +612,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		////relationalExpression returns [Expression e] :
 		// //	x=additiveExpression {$e=x;}
 		//
-		////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;	
+		////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 		//
 		//RelationalExpression returns Expression:
 		//	AdditiveExpression ({BooleanOperation.left=current} operator=("==" | "!=" | ">=" | "<=" | ">" | "<")
@@ -1072,7 +1076,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cParanthesizedExpressionParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		////primaryExpression 	 returns [Expression e] :
-		// //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}	
+		// //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}
 		//
 		////|   x=featureCall {$e=x;}
 		// //|   x=booleanLiteral {$e=x;}
@@ -1083,7 +1087,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		// //|   x=constructorCall {$e=x;}
 		//
 		////|   x=globalVarExpression {$e=x;}
-		// //|   x=paranthesizedExpression {$e=x;};	
+		// //|   x=paranthesizedExpression {$e=x;};
 		// PrimaryExpression returns Expression:
 		//	Literal | FeatureCall | ListLiteral | ConstructorCallExpression | GlobalVarExpression | ParanthesizedExpression;
 		@Override public ParserRule getRule() { return rule; }
@@ -1298,7 +1302,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		//
 		////	id1=identifier '(' (l=parameterList)? ')' {$e = factory.createOperationCall(id1,l);}
 		//
-		////|   t=type {$e=factory.createFeatureCall(t,null);}	
+		////|   t=type {$e=factory.createFeatureCall(t,null);}
 		// //|   x=collectionExpression {$e=x;};
 		// FeatureCall:
 		//	OperationCall | type=Type | CollectionExpression | TypeSelectExpression;
@@ -1474,17 +1478,17 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		////collectionExpression  returns [FeatureCall e] :
 		// //  name='typeSelect'
 		//
-		////  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}  
+		////  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}
 		// //   |name=('collect'
-		// //  | 'select' 
+		// //  | 'select'
 		//
-		////  | 'selectFirst' 
-		// //  | 'reject' 
+		////  | 'selectFirst'
+		// //  | 'reject'
 		// //  | 'exists'
 		// //  | 'notExists'
-		// //  | 'sortBy' 
+		// //  | 'sortBy'
 		//
-		////  | 'forAll') '(' (var=identifier '|')? x=expression ')' 
+		////  | 'forAll') '(' (var=identifier '|')? x=expression ')'
 		//
 		//// { $e = factory.createCollectionExpression(id(name),var,x);};
 		// TypeSelectExpression:
@@ -1605,11 +1609,10 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cCollectionTypeParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cSimpleTypeParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		////type returns [Identifier id] : 
+		////type returns [Identifier id] :
 		// //	a = collectionType {$id=a;}|
 		// //	b = simpleType {$id=b;};
-		// Type returns
-		//Identifier:
+		// Type returns Identifier:
 		//	CollectionType | SimpleType;
 		@Override public ParserRule getRule() { return rule; }
 
@@ -1636,7 +1639,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cId1SimpleTypeParserRuleCall_2_0 = (RuleCall)cId1Assignment_2.eContents().get(0);
 		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
-		////collectionType  returns [Identifier id ] : 
+		////collectionType  returns [Identifier id ] :
 		// //  cl=( 'Collection' | 'List' | 'Set' ) {$id = id(cl);}
 		//
 		////  (b='[' id1=simpleType c=']' { $id.append(id(b));$id.append(id1);$id.append(id(c));})?;
@@ -1846,15 +1849,15 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	
-	//// this is a translation of the expression part of 
+	//// this is a translation of the expression part of
 	//
-	//// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g 
+	//// /org.eclipse.xtend/src/org/eclipse/internal/xtend/xtend/parser/Xtend.g
 	// // to Xtext
 	//
 	////expression returns [Expression e]:
 	// //	x=letExpression {$e=x;};
 	// Expression:
-	//	LetExpression | CastedExpression | ChainExpression;
+	//	LetExpression | => CastedExpression | ChainExpression;
 	public ExpressionElements getExpressionAccess() {
 		return pExpression;
 	}
@@ -1874,7 +1877,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	////letExpression  returns [Expression e] :
-	// //   'let' v=identifier '=' varExpr=castedExpression ':' target=expression 
+	// //   'let' v=identifier '=' varExpr=castedExpression ':' target=expression
 	//
 	////   {$e=factory.createLetExpression(v,varExpr,target);}
 	// //|  x=castedExpression {$e=x;};
@@ -1945,7 +1948,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//IfExpressionKw returns IfExpression:
-	//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression ("else" elsePart=ChainedExpression)?;
+	//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression -> ("else" elsePart=ChainedExpression)?;
 	public IfExpressionKwElements getIfExpressionKwAccess() {
 		return pIfExpressionKw;
 	}
@@ -1958,7 +1961,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////   'switch' ('(' pred = orExpression ')')?
 	// //   '{'
-	// //   ( 
+	// //   (
 	// //     'case' c=orExpression  ':'  v=orExpression
 	//
 	////     {cases.add(factory.createCase(c, v));}
@@ -1967,7 +1970,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	// //   '}'
 	//
 	////   {$e = factory.createSwitchExpression(pred,cases,def);}
-	// //|  x=orExpression {$e=x;};  
+	// //|  x=orExpression {$e=x;};
 	// SwitchExpression:
 	//	"switch" ("(" switchExpr=OrExpression ")")? "{" case+=Case* "default" ":" defaultExpr=OrExpression "}";
 	public SwitchExpressionElements getSwitchExpressionAccess() {
@@ -2033,7 +2036,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	////relationalExpression returns [Expression e] :
 	// //	x=additiveExpression {$e=x;}
 	//
-	////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;	
+	////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
 	//RelationalExpression returns Expression:
 	//	AdditiveExpression ({BooleanOperation.left=current} operator=("==" | "!=" | ">=" | "<=" | ">" | "<")
@@ -2123,7 +2126,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	////primaryExpression 	 returns [Expression e] :
-	// //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}	
+	// //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}
 	//
 	////|   x=featureCall {$e=x;}
 	// //|   x=booleanLiteral {$e=x;}
@@ -2134,7 +2137,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	// //|   x=constructorCall {$e=x;}
 	//
 	////|   x=globalVarExpression {$e=x;}
-	// //|   x=paranthesizedExpression {$e=x;};	
+	// //|   x=paranthesizedExpression {$e=x;};
 	// PrimaryExpression returns Expression:
 	//	Literal | FeatureCall | ListLiteral | ConstructorCallExpression | GlobalVarExpression | ParanthesizedExpression;
 	public PrimaryExpressionElements getPrimaryExpressionAccess() {
@@ -2242,7 +2245,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	id1=identifier '(' (l=parameterList)? ')' {$e = factory.createOperationCall(id1,l);}
 	//
-	////|   t=type {$e=factory.createFeatureCall(t,null);}	
+	////|   t=type {$e=factory.createFeatureCall(t,null);}
 	// //|   x=collectionExpression {$e=x;};
 	// FeatureCall:
 	//	OperationCall | type=Type | CollectionExpression | TypeSelectExpression;
@@ -2293,17 +2296,17 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 	////collectionExpression  returns [FeatureCall e] :
 	// //  name='typeSelect'
 	//
-	////  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}  
+	////  '(' t=type ')' { $e = factory.createTypeSelectExpression(id(name),t);}
 	// //   |name=('collect'
-	// //  | 'select' 
+	// //  | 'select'
 	//
-	////  | 'selectFirst' 
-	// //  | 'reject' 
+	////  | 'selectFirst'
+	// //  | 'reject'
 	// //  | 'exists'
 	// //  | 'notExists'
-	// //  | 'sortBy' 
+	// //  | 'sortBy'
 	//
-	////  | 'forAll') '(' (var=identifier '|')? x=expression ')' 
+	////  | 'forAll') '(' (var=identifier '|')? x=expression ')'
 	//
 	//// { $e = factory.createCollectionExpression(id(name),var,x);};
 	// TypeSelectExpression:
@@ -2327,11 +2330,10 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		return getCollectionExpressionAccess().getRule();
 	}
 
-	////type returns [Identifier id] : 
+	////type returns [Identifier id] :
 	// //	a = collectionType {$id=a;}|
 	// //	b = simpleType {$id=b;};
-	// Type returns
-	//Identifier:
+	// Type returns Identifier:
 	//	CollectionType | SimpleType;
 	public TypeElements getTypeAccess() {
 		return pType;
@@ -2341,7 +2343,7 @@ public class ExpressionGrammarAccess extends AbstractGrammarElementFinder {
 		return getTypeAccess().getRule();
 	}
 
-	////collectionType  returns [Identifier id ] : 
+	////collectionType  returns [Identifier id ] :
 	// //  cl=( 'Collection' | 'List' | 'Set' ) {$id = id(cl);}
 	//
 	////  (b='[' id1=simpleType c=']' { $id.append(id(b));$id.append(id1);$id.append(id(c));})?;

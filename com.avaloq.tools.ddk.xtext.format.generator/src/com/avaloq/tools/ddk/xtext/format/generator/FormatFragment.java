@@ -35,7 +35,6 @@ import com.google.common.collect.Lists;
 /**
  * MWE fragment for the format language.
  */
-@SuppressWarnings("nls")
 public class FormatFragment extends AbstractGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";
@@ -66,7 +65,7 @@ public class FormatFragment extends AbstractGeneratorFragment {
     }
 
     try {
-      model = FormatGeneratorUtil.getFormatModel(grammar, ctx);
+      model = FormatFragmentUtil.getFormatModel(grammar, ctx);
     } catch (final FileNotFoundException e) {
       if (LOGGER.isInfoEnabled()) {
         LOGGER.info("  No format file found for grammar " + grammar.getName());

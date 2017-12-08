@@ -10,11 +10,11 @@ package com.avaloq.tools.ddk.xtext.expression.expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.CollectionExpression#getVar <em>Var</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.CollectionExpression#getExp <em>Exp</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getCollectionExpression()
  * @model

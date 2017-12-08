@@ -10,11 +10,11 @@ package com.avaloq.tools.ddk.xtext.expression.expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.CastedExpression#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.CastedExpression#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getCastedExpression()
  * @model

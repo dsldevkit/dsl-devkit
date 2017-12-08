@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.FeatureCallImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.FeatureCallImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.FeatureCallImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

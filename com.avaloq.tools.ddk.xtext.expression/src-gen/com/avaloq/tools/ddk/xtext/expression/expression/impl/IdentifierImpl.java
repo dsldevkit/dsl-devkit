@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.IdentifierImpl#getCl <em>Cl</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.IdentifierImpl#getId1 <em>Id1</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.IdentifierImpl#getId <em>Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

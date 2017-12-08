@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Category#getId <em>Id</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Category#getLabel <em>Label</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Category#getChecks <em>Checks</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCategory()
  * @model

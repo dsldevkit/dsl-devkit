@@ -11,11 +11,11 @@ import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.InterfaceExpression#isRef <em>Ref</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.InterfaceExpression#getExpr <em>Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getInterfaceExpression()
  * @model

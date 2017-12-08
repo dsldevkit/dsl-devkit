@@ -10,10 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.export;
 
+import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 
 import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
+import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 
@@ -33,7 +35,7 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
 
   /**
    * binds custom qualified name converter.
-   * 
+   *
    * @return implementation
    */
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
@@ -42,12 +44,21 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
 
   /**
    * Workaround for Bug 416913. To be removed with DSL-596
-   * 
+   *
    * @return {@link FixedPartialParsingHelper}
    */
   @Override
   public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
     return FixedPartialParsingHelper.class;
   }
-}
 
+  /**
+   * Binds a custom output configuration provider.
+   *
+   * @return the format output configuration provider
+   */
+  public Class<? extends IOutputConfigurationProvider> bindIOutputConfigurationProvider() {
+    return ExportOutputConfigurationProvider.class;
+  }
+
+}

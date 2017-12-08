@@ -28,7 +28,6 @@ import org.eclipse.xtext.ui.resource.Storage2UriMapperImpl;
 import org.eclipse.xtext.util.Pair;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.generator.util.XpandExecutionContextUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractUtilTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
@@ -80,14 +79,6 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
     mapperInCorrect = mock(Storage2UriMapperImpl.class);
     when(mapperInCorrect.getStorages(uriInCorrect)).thenReturn(Collections.<Pair<IStorage, IProject>> emptySet());
     when(mapperInCorrect.getStorages(uriCorrect)).thenReturn(Collections.<Pair<IStorage, IProject>> emptySet());
-  }
-
-  /**
-   * Tests when passed {@link IStorage2UriMapper} is broken then null instead of execution context expected.
-   */
-  @Test
-  public void createExecutionContextInCorrectTest() {
-    assertNull("When passed IStorage2UriMapper is broken then null instead of execution context expected", XpandExecutionContextUtil.createExecutionContext(resource, delta, mapperInCorrect));
   }
 
   /**

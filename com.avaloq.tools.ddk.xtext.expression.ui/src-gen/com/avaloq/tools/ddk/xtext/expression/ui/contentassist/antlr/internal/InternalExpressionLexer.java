@@ -1165,10 +1165,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_REAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7340:11: ( ( '0' .. '9' )* '.' ( '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7340:13: ( '0' .. '9' )* '.' ( '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7370:11: ( ( '0' .. '9' )* '.' ( '0' .. '9' )* )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7370:13: ( '0' .. '9' )* '.' ( '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7340:13: ( '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7370:13: ( '0' .. '9' )*
             loop1:
             do {
                 int alt1=2;
@@ -1181,7 +1181,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7340:14: '0' .. '9'
+            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7370:14: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1194,7 +1194,7 @@ public class InternalExpressionLexer extends Lexer {
             } while (true);
 
             match('.'); 
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7340:29: ( '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7370:29: ( '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -1207,7 +1207,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7340:30: '0' .. '9'
+            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7370:30: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1235,10 +1235,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7342:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7342:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7372:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7372:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7342:11: ( '^' )?
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7372:11: ( '^' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1247,7 +1247,7 @@ public class InternalExpressionLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7342:11: '^'
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7372:11: '^'
                     {
                     match('^'); 
 
@@ -1265,7 +1265,7 @@ public class InternalExpressionLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7342:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7372:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -1314,10 +1314,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7344:10: ( ( '0' .. '9' )+ )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7344:12: ( '0' .. '9' )+
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7374:10: ( ( '0' .. '9' )+ )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7374:12: ( '0' .. '9' )+
             {
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7344:12: ( '0' .. '9' )+
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7374:12: ( '0' .. '9' )+
             int cnt5=0;
             loop5:
             do {
@@ -1331,7 +1331,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7344:13: '0' .. '9'
+            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7374:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1363,10 +1363,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1384,10 +1384,10 @@ public class InternalExpressionLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop6:
                     do {
                         int alt6=3;
@@ -1403,7 +1403,7 @@ public class InternalExpressionLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:21: '\\\\' .
+                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1411,7 +1411,7 @@ public class InternalExpressionLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1436,10 +1436,10 @@ public class InternalExpressionLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop7:
                     do {
                         int alt7=3;
@@ -1455,7 +1455,7 @@ public class InternalExpressionLexer extends Lexer {
 
                         switch (alt7) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:54: '\\\\' .
+                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1463,7 +1463,7 @@ public class InternalExpressionLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7346:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7376:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1506,12 +1506,12 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7348:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7348:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7378:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7378:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7348:24: ( options {greedy=false; } : . )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7378:24: ( options {greedy=false; } : . )*
             loop9:
             do {
                 int alt9=2;
@@ -1536,7 +1536,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7348:52: .
+            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7378:52: .
             	    {
             	    matchAny(); 
 
@@ -1566,12 +1566,12 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop10:
             do {
                 int alt10=2;
@@ -1584,7 +1584,7 @@ public class InternalExpressionLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1604,7 +1604,7 @@ public class InternalExpressionLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:40: ( ( '\\r' )? '\\n' )?
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:40: ( ( '\\r' )? '\\n' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1613,9 +1613,9 @@ public class InternalExpressionLexer extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:41: ( '\\r' )? '\\n'
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:41: ( '\\r' )? '\\n'
                     {
-                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:41: ( '\\r' )?
+                    // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:41: ( '\\r' )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -1624,7 +1624,7 @@ public class InternalExpressionLexer extends Lexer {
                     }
                     switch (alt11) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7350:41: '\\r'
+                            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7380:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1656,10 +1656,10 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7352:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7352:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7382:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7382:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7352:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7382:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt13=0;
             loop13:
             do {
@@ -1713,8 +1713,8 @@ public class InternalExpressionLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7354:16: ( . )
-            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7354:18: .
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7384:16: ( . )
+            // ../com.avaloq.tools.ddk.xtext.expression.ui/src-gen/com/avaloq/tools/ddk/xtext/expression/ui/contentassist/antlr/internal/InternalExpression.g:7384:18: .
             {
             matchAny(); 
 

@@ -32,11 +32,11 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtextspy.internal.Activator;
 import com.avaloq.tools.ddk.xtextspy.EObjectContentProvider;
 import com.avaloq.tools.ddk.xtextspy.EObjectContentProvider.AttributeValuePair;
 import com.avaloq.tools.ddk.xtextspy.XtextElementSelectionListener;
 import com.avaloq.tools.ddk.xtextspy.XtextSpyModule;
+import com.avaloq.tools.ddk.xtextspy.internal.Activator;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.inject.AbstractModule;

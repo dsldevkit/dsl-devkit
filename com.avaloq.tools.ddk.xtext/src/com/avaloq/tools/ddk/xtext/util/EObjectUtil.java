@@ -173,4 +173,31 @@ public final class EObjectUtil {
     return uri.toString() + " (" + obj + ")"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
+  /**
+   * Return the fie location of a given object in a text resource as the path to the file and the line number.
+   * <p>
+   * This is very similar to {@link #getLocationString(EObject)} but it will not include the {@link Object#toString()} representation of the object.
+   *
+   * @param object
+   *          any EObject
+   * @return a string representation of the location of this object in its file, never {@code null}
+   */
+  public static String getFileLocation(final EObject object) {
+    if (object == null || object.eResource() == null) {
+      return ""; //$NON-NLS-1$
+    }
+
+    URI uri = object.eResource().getURI();
+    // CHECKSTYLE:CHECK-OFF MagicNumber
+    String path = uri.isPlatform() ? '/' + String.join("/", uri.segmentsList().subList(3, uri.segmentCount())) : uri.path(); //$NON-NLS-1$
+    // CHECKSTYLE:CHECK-ON MagicNumber
+    StringBuilder result = new StringBuilder(path);
+    final ICompositeNode node = NodeModelUtils.getNode(object);
+    if (node != null) {
+      result.append(':').append(node.getStartLine());
+    }
+
+    return result.toString();
+  }
+
 }

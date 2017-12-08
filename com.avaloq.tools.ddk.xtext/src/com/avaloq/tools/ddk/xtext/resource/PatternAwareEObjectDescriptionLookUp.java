@@ -13,11 +13,13 @@ package com.avaloq.tools.ddk.xtext.resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.RandomAccess;
-import java.util.SortedMap;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -26,7 +28,6 @@ import org.eclipse.xtext.resource.impl.EObjectDescriptionLookUp;
 import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
@@ -82,22 +83,8 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
 
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByObject(final EObject object) {
-    if (isEmpty()) {
-      return Collections.emptyList();
-    }
-    final String uriFragment = EObjectUtil.getURIFragment(object);
-    return Iterables.filter(getExportedObjects(), new Predicate<IEObjectDescription>() {
-      @Override
-      public boolean apply(final IEObjectDescription input) {
-        if (input.getEObjectOrProxy() == object) {
-          return true;
-        }
-        if (uriFragment.equals(input.getEObjectURI().fragment())) {
-          return true;
-        }
-        return false;
-      }
-    });
+    final URI objectUri = EcoreUtil.getURI(object);
+    return Iterables.filter(getExportedObjects(), input -> objectUri.equals(input.getEObjectURI()));
   }
 
   @Override
@@ -109,7 +96,7 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
   }
 
   @Override
-  protected SortedMap<QualifiedName, List<IEObjectDescription>> getNameToObjects() {
+  protected Map<QualifiedName, List<IEObjectDescription>> getNameToObjects() {
     throw new UnsupportedOperationException();
   }
 

@@ -1,33 +1,13 @@
 import org::eclipse::emf::ecore;
-import org::eclipse::xtext;
 
-extension org::eclipse::xtext::generator::Naming;
-extension org::eclipse::xtext::GrammarUtil;
-
-String indent(Integer this) :
-    indent("  ", this)
+String location(EObject this) :
+    JAVA com.avaloq.tools.ddk.xtext.util.EObjectUtil.getFileLocation(org.eclipse.emf.ecore.EObject)
 ;
 
-String indent(String this, Integer times) :
-    times == 1 ? this : this + indent(this, times - 1)
+String xmlContributorComment(String this) :
+    '<!-- contributed by ' + this + ' -->'
 ;
 
-String xmlContributorComment(String source) :
-    '<!-- contributed by ' + source + ' -->'
-;
-
-String javaContributorComment(String source) :
-    '// contributed by ' + source
-;
-
-String location(EObject obj) :
-    JAVA com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.getLocation(org.eclipse.emf.ecore.EObject)
-;
-
-Set[EClass] allInstantiatedTypes(Grammar this) :
-    JAVA com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.allInstantiatedTypes(org.eclipse.xtext.Grammar)
-;
-
-boolean canContain(EClass this, Set[EClass] others, Grammar g) :
-  JAVA com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.canContain(org.eclipse.emf.ecore.EClass, java.util.Set, org.eclipse.xtext.Grammar)
+String javaContributorComment(String this) :
+    '// contributed by ' + this
 ;

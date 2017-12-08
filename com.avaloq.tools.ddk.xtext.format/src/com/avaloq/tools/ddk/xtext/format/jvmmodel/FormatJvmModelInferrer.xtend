@@ -49,7 +49,6 @@ import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.EnumRule
-import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.TerminalRule
 import org.eclipse.xtext.common.types.JvmAnnotationReference
@@ -68,7 +67,7 @@ import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 
-import static com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.*
+import static com.avaloq.tools.ddk.xtext.util.EObjectUtil.getFileLocation
 import static org.eclipse.xtext.GrammarUtil.*
 
 import static extension com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
@@ -395,12 +394,8 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
           actualRuleName = originalRuleName
         }
       }
-      if (metamodel.alias == null) {
-        return EcoreUtil2::getContainerOfType(metamodel, typeof(Grammar))?.name?.toLowerCase + '.' + actualRuleName
-      } else {
-        val metamodelPackage = EcoreUtil2::getURI(metamodel.EPackage)?.segment(1)
-        return metamodelPackage.substring(0,metamodelPackage.lastIndexOf('.core')) + '.' + metamodel.EPackage?.name + '.' + actualRuleName
-      }
+      val metamodelPackage = EcoreUtil2::getURI(metamodel.EPackage)?.segment(1)
+      return metamodelPackage.substring(0,metamodelPackage.lastIndexOf('.core')) + '.' + metamodel.EPackage?.name + '.' + actualRuleName
     }
   }
   def dispatch String getGrammarElementNameFromSelf(WildcardRule rule) {
@@ -463,7 +458,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     var directiveName = ''
     for (grammarElementReference : directive.grammarElements) {
       if(grammarElementReference.assignment != null) {
-        directiveName = directiveName + grammarElementReference.assignment.feature.toFirstUpper
+        directiveName = directiveName + grammarElementReference.assignment.gaElementAccessMethodeName.replaceFirst("get","").replaceFirst("(?s)(.*)" + "Assignment","$1" + "")
       }
       if(grammarElementReference.ruleCall != null) {
         directiveName = directiveName + grammarElementReference.ruleCall.rule.name.toFirstUpper
@@ -743,7 +738,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   def locatorString(EObject object) {
-    getLocation(object).split('/').last()
+    getFileLocation(object).split('/').last()
   }
 
 }

@@ -26,6 +26,7 @@ Workflow {
     bean = StandaloneSetup {
         scanClassPath = true
         platformUri = "${runtimeProject}/.."
+        uriMap = {from = "platform:/plugin/" to = "platform:/resource/"}
         registerGenModelFile =
         "platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel"
     }
@@ -63,9 +64,6 @@ Workflow {
 
             // the following fragment generates an Antlr parser -->
             fragment = parser.antlr.XtextAntlrGeneratorFragment {
-                options = {
-                    backtrack = true // backtrack is true because of the expression language
-                }
             }
 
             // java-based API for validation
@@ -105,6 +103,9 @@ Workflow {
 
             // rename refactoring
             // fragment = refactoring.RefactorElementNameFragment {}
+
+            // Code generator
+            fragment = generator.GeneratorFragment {}
 
             // provides a compare view
             fragment = compare.CompareFragment {

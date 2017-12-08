@@ -3,10 +3,10 @@
 
 «EXTENSION org::eclipse::xtext::generator::Naming»
 
-«DEFINE generate(ScopeModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE generate FOR Grammar»«ENDDEFINE»
 
-«DEFINE addToPluginXmlRt(ScopeModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE addToPluginXmlRt FOR Grammar»«ENDDEFINE»
 
-«DEFINE addToPluginXmlUi(ScopeModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE addToPluginXmlUi FOR Grammar»«ENDDEFINE»
 
-«DEFINE addToStandaloneSetup(ScopeModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE addToStandaloneSetup FOR Grammar»«ENDDEFINE»

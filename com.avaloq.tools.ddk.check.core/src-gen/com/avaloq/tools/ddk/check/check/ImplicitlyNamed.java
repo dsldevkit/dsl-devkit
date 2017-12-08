@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.ImplicitlyNamed#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getImplicitlyNamed()
  * @model

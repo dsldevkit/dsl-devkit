@@ -22,11 +22,11 @@ import org.eclipse.xtext.xbase.XExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.ContextImpl#getContextVariable <em>Context Variable</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.ContextImpl#getConstraint <em>Constraint</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

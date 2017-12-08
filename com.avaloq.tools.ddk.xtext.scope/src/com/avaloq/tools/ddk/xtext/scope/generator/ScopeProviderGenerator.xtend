@@ -13,13 +13,13 @@ package com.avaloq.tools.ddk.xtext.scope.generator
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression
 import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall
-import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationX
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContext
-import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionExtensionsX
-import com.avaloq.tools.ddk.xtext.generator.util.EClassComparator
-import com.avaloq.tools.ddk.xtext.generator.util.GenModelUtilX
-import com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtilX
-import com.avaloq.tools.ddk.xtext.generator.util.Naming
+import com.avaloq.tools.ddk.xtext.expression.generator.CodeGenerationX
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext
+import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensionsX
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
+import com.avaloq.tools.ddk.xtext.expression.generator.Naming
 import com.avaloq.tools.ddk.xtext.scope.scope.FactoryExpression
 import com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression
 import com.avaloq.tools.ddk.xtext.scope.scope.LambdaDataExpression

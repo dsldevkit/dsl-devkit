@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.IfExpressionImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.IfExpressionImpl#getThenPart <em>Then Part</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.impl.IfExpressionImpl#getElsePart <em>Else Part</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

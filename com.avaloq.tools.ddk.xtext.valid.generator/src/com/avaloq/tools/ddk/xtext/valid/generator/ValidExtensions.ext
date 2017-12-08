@@ -180,8 +180,10 @@ String toPrintable(String this):
     JAVA  com.avaloq.tools.ddk.xtext.valid.generator.DocumentationUtil.toPrintableMessage(java.lang.String)
 ;
 
-/* /// TODO ///
-cached String literalIdentifier(EStructuralFeature this) :
-    EPackage.genPackage().packageInterfaceName +EContainingClass.literalIdentifier() + "__" + name.format().toUpperCase()
+String instanceClassName(EClassifier this) :
+    JAVA com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX.instanceClassName(org.eclipse.emf.ecore.EClassifier)
 ;
-*/
+
+String literalIdentifier(ENamedElement this) :
+    JAVA com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX.literalIdentifier(org.eclipse.emf.ecore.ENamedElement)
+;

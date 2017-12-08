@@ -13,11 +13,11 @@ import org.eclipse.xtext.common.types.JvmTypeReference;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.ContextVariable#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.ContextVariable#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getContextVariable()
  * @model

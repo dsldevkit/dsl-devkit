@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EAttribute;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup <em>Allow Lookup</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}</li>
@@ -26,7 +27,6 @@ import org.eclipse.emf.ecore.EAttribute;
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#getUserData <em>User Data</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport()
  * @model

@@ -3,3 +3,5 @@
 *.java._trace
 *.smap
 *.xtendbin
+/*/xtend-gen/*
+!/*/xtend-gen/.gitignore

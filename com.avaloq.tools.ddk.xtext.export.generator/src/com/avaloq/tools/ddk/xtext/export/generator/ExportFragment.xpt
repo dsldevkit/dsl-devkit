@@ -13,16 +13,10 @@
 «IMPORT org::eclipse::xtext»
 «IMPORT com::avaloq::tools::ddk::xtext::export::export»
 
-«DEFINE generate(ExportModel model) FOR Grammar»
-«EXPAND ExportedNamesProvider::generate(model) FOR this»
-«EXPAND ResourceDescriptionManager::generate(model) FOR this»
-«EXPAND ResourceDescription::generate(model) FOR this»
-«EXPAND FingerprintComputer::generate(model) FOR this»
-«EXPAND FragmentProvider::generate(model) FOR this»
-«ENDDEFINE»
+«DEFINE generate FOR Grammar»«ENDDEFINE»
 
-«DEFINE addToPluginXmlRt(ExportModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE addToPluginXmlRt FOR Grammar»«ENDDEFINE»
 
-«DEFINE addToPluginXmlUi(ExportModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE addToPluginXmlUi FOR Grammar»«ENDDEFINE»
 
-«DEFINE addToStandaloneSetup(ExportModel model) FOR Grammar»«ENDDEFINE»
+«DEFINE addToStandaloneSetup FOR Grammar»«ENDDEFINE»

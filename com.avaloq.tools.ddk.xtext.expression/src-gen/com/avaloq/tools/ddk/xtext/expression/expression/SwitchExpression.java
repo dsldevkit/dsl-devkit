@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.SwitchExpression#getSwitchExpr <em>Switch Expr</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.SwitchExpression#getCase <em>Case</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.expression.expression.SwitchExpression#getDefaultExpr <em>Default Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getSwitchExpression()
  * @model

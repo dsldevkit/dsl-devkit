@@ -18,7 +18,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.generator.util.Graph;
+import com.avaloq.tools.ddk.xtext.expression.generator.Graph;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -65,4 +65,3 @@ public class GraphTest {
   }
 
 }
-

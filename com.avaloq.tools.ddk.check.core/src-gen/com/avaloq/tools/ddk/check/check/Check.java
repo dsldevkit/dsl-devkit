@@ -11,7 +11,6 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getSeverityRange <em>Severity Range</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#isFinal <em>Final</em>}</li>
@@ -24,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getContexts <em>Contexts</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getMessage <em>Message</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheck()
  * @model

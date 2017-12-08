@@ -11,9 +11,10 @@
 
 package com.avaloq.tools.ddk.xtext.scope.generator
 
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContext
-import com.avaloq.tools.ddk.xtext.generator.util.GenModelUtilX
-import com.avaloq.tools.ddk.xtext.generator.util.Naming
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport
+import com.avaloq.tools.ddk.xtext.expression.generator.Naming
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel
 import com.google.inject.Inject
 import org.eclipse.core.resources.IProject
@@ -37,7 +38,7 @@ class ScopeGenerator implements IGenerator {
   @Inject
   GenModelUtilX genModelUtil
   @Inject
-  ScopeProviderX scopeProviderExtensions
+  GeneratorSupport generatorSupport
 
   CompilationContext compilationContext
 
@@ -55,8 +56,8 @@ class ScopeGenerator implements IGenerator {
       }
     }
 
-    ScopingGeneratorUtil.executeWithProjectResourceLoader(project, [
-      compilationContext = scopeProviderExtensions.compilationContext(model)
+    generatorSupport.executeWithProjectResourceLoader(project, [
+      compilationContext = ScopingGeneratorUtil.getCompilationContext(model, genModelUtil)
 
       generateScopeNameProvider(model, fsa)
       generateScopeProvider(model, fsa)

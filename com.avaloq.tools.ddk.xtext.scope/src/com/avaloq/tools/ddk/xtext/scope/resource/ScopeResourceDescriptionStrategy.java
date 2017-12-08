@@ -15,6 +15,7 @@ import java.util.Collections;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -63,6 +64,10 @@ public class ScopeResourceDescriptionStrategy extends DefaultResourceDescription
   }
 
   private String getSourceText(final EObject obj) {
+    if (obj.eIsProxy()) {
+      LOG.warn("Could not resolve scope model " + EcoreUtil.getURI(obj));
+      return "";
+    }
     return ((XtextResource) obj.eResource()).getParseResult().getRootNode().getText();
   }
 }

@@ -107,7 +107,7 @@ SimpleScopeExpression :
   expr=Expression;
 
 Naming :
-    (names+=NamingExpression | '(' names+=NamingExpression (',' names+=NamingExpression )* ')')
+  ->('(' names+=NamingExpression (',' names+=NamingExpression )* ')') | names+=NamingExpression
 ;
 
 NamingExpression:

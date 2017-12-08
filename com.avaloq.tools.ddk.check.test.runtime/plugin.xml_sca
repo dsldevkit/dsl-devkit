@@ -23,24 +23,6 @@
       </validator>
    </extension>
    <extension
-         id="com.avaloq.tools.ddk.check.validation.executionenvironment.quickfix"
-         name="Check quickfix extension for ExecutionEnvironment"
-         point="com.avaloq.tools.ddk.check.runtime.core.checkquickfix">
-      <provider
-            targetClass="com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentQuickfixProvider"
-            language="com.avaloq.tools.ddk.check.TestLanguage">
-      </provider>
-   </extension>
-   <extension
-         id="com.avaloq.tools.ddk.check.validation.librarychecks.quickfix"
-         name="Check quickfix extension for LibraryChecks"
-         point="com.avaloq.tools.ddk.check.runtime.core.checkquickfix">
-      <provider
-            targetClass="com.avaloq.tools.ddk.check.validation.LibraryChecksQuickfixProvider"
-            language="com.avaloq.tools.ddk.check.TestLanguage">
-      </provider>
-   </extension>
-   <extension
          id="com.avaloq.tools.ddk.check.validation.executionenvironment.preference"
          name="Preferences extension for ExecutionEnvironment"
          point="org.eclipse.core.runtime.preferences">

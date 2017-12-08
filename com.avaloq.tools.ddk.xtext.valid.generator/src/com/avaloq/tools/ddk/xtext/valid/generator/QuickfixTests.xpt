@@ -20,7 +20,7 @@
 «EXTENSION org::eclipse::xtext::GrammarUtil»
 
 «EXTENSION com::avaloq::tools::ddk::xtext::valid::generator::ValidExtensions»
-«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GenModelUtil2»
+«EXTENSION com::avaloq::tools::ddk::xtext::generator::util::GeneratorUtil»
 
 
 «DEFINE generate(ValidModel validModel) FOR Grammar -»
@@ -68,7 +68,7 @@ package «getQuickfixPackage()»;
 
 import org.junit.runner.RunWith;
 
-import com.avaloq.test.junit.runners.DiscerningSuite;
+import com.avaloq.tools.ddk.test.core.junit.runners.DiscerningSuite;
 
 
 /**

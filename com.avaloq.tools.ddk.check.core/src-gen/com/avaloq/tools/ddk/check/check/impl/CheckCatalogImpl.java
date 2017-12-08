@@ -34,7 +34,6 @@ import org.eclipse.xtext.xtype.XImportSection;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getPackageName <em>Package Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getImports <em>Imports</em>}</li>
@@ -47,6 +46,7 @@ import org.eclipse.xtext.xtype.XImportSection;
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getChecks <em>Checks</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getMembers <em>Members</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

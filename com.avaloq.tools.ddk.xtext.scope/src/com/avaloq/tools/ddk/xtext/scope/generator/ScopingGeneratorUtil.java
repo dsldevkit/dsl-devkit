@@ -10,56 +10,22 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scope.generator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.mwe.core.WorkflowInterruptedException;
-import org.eclipse.emf.mwe.core.resources.ResourceLoader;
-import org.eclipse.emf.mwe.core.resources.ResourceLoaderFactory;
-import org.eclipse.emf.mwe.core.resources.ResourceLoaderImpl;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtend.expression.ExecutionContextImpl;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtend.expression.TypeSystemImpl;
 import org.eclipse.xtend.expression.Variable;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
-import org.eclipse.xtext.AbstractRule;
-import org.eclipse.xtext.Assignment;
-import org.eclipse.xtext.CrossReference;
-import org.eclipse.xtext.Grammar;
-import org.eclipse.xtext.GrammarUtil;
-import org.eclipse.xtext.diagnostics.Severity;
-import org.eclipse.xtext.generator.Generator;
-import org.eclipse.xtext.resource.ClasspathUriResolutionException;
-import org.eclipse.xtext.validation.Issue;
 
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContext;
-import com.avaloq.tools.ddk.xtext.generator.util.EClassComparator;
-import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
-import com.avaloq.tools.ddk.xtext.scope.ScopeStandaloneSetup;
+import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator;
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
 import com.avaloq.tools.ddk.xtext.scope.scope.Casing;
 import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
@@ -68,7 +34,6 @@ import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
@@ -76,7 +41,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.inject.Injector;
 
 
 /**
@@ -86,15 +50,6 @@ import com.google.inject.Injector;
 public final class ScopingGeneratorUtil {
   // CHECKSTYLE:COUPLING-ON
 
-  /** Class-wide logger. */
-  private static final Logger LOG = Logger.getLogger(ScopingGeneratorUtil.class);
-
-  /** Guice injector for scope DSL. */
-  private static final Injector INJECTOR = new ScopeStandaloneSetup().createInjector();
-
-  /** Resource checker used to validate loaded model. */
-  private static final ModelValidator VALIDATOR = INJECTOR.getInstance(ModelValidator.class);
-
   /**
    * Inhibit public instantiation.
    */
@@ -103,105 +58,16 @@ public final class ScopingGeneratorUtil {
   }
 
   /**
-   * Returns a URI corresponding to the default location for scope files. This is in the SRC outlet where the Xtext grammar file usually is.
-   *
-   * @param grammar
-   *          Xtext grammar to get scope file URI for
-   * @param ctx
-   *          xpand execution context (defines required SRC outlet)
-   * @return the file URI to the default scope file location
-   */
-  public static URI getDefaultScopeLocation(final Grammar grammar, final XpandExecutionContext ctx) {
-    final String xmiPath = GrammarUtil.getClasspathRelativePathToXmi(grammar);
-    return URI.createFileURI(new File(ctx.getOutput().getOutlet(Generator.SRC).getPath(), xmiPath).getAbsolutePath()).trimFileExtension().appendFileExtension("scope"); //$NON-NLS-1$
-  }
-
-  /**
-   * Retrieve the scope model associated with a given grammar. Expected to either be in same folder with the same name (except for the extension) or in the SRC
-   * outlet.
-   *
-   * @param grammar
-   *          the grammar
-   * @param ctx
-   *          xpand execution context
-   * @return the scope model
-   * @throws FileNotFoundException
-   *           thrown if the scope file could not be found
-   */
-  public static ScopeModel getScopeModel(final Grammar grammar, final XpandExecutionContext ctx) throws FileNotFoundException {
-    final Resource grammarResource = grammar.eResource();
-    if (grammarResource == null) {
-      return null;
-    }
-
-    final ResourceSet resourceSet = grammarResource.getResourceSet();
-    URI uri = grammarResource.getURI().trimFileExtension().appendFileExtension("scope");
-
-    Resource scopeResource = null;
-    try {
-      scopeResource = resourceSet.getResource(uri, true);
-    } catch (final ClasspathUriResolutionException e) {
-      // make another attempt
-      uri = getDefaultScopeLocation(grammar, ctx);
-      try {
-        scopeResource = resourceSet.getResource(uri, true);
-      } catch (WrappedException e1) {
-        scopeResource = resourceSet.getResource(uri, false);
-        if (scopeResource != null) {
-          resourceSet.getResources().remove(scopeResource);
-        }
-        throw new FileNotFoundException(uri.toString()); // NOPMD
-      }
-    }
-
-    if (scopeResource == null) {
-      throw new FileNotFoundException(uri.toString());
-    }
-    final List<Issue> issues = VALIDATOR.validate(scopeResource, LOG);
-
-    for (final Issue issue : issues) {
-      if (issue.isSyntaxError() || issue.getSeverity() == Severity.ERROR) {
-        throw new WorkflowInterruptedException("Errors found in " + uri.toString());
-      }
-    }
-
-    return scopeResource.getContents().size() == 0 ? null : (ScopeModel) scopeResource.getContents().get(0);
-  }
-
-  /**
    * Return a compilation context for Xtend executions during the generator run.
    *
    * @param model
    *          the ScopeModel for which we generate
+   * @param genModelUtil
+   *          GenModel util, must not be {@code null}
    * @return the {@link CompilationContext}
    */
-  public static CompilationContext getCompilationContext(final ScopeModel model) {
-    return new CompilationContext(new ScopeExecutionContext(model));
-  }
-
-  /**
-   * Naming function for a cross reference feature.
-   * If there are multiple assignments within the containing rule having the same feature name,
-   * the returned name will be suffixed by a number, e.g. type1.
-   *
-   * @param ele
-   *          the assigned cross reference
-   * @return unique feature name of the assignment
-   */
-  public static String getUniqueFeatureName(final CrossReference ele) {
-    final Assignment assignment = GrammarUtil.containingAssignment(ele);
-    final AbstractRule rule = GrammarUtil.containingRule(ele);
-    final String featureName = assignment.getFeature();
-    List<Assignment> identicalFeatureNameAssignments = Lists.newArrayList(Iterables.filter(GrammarUtil.containedAssignments(rule), new Predicate<Assignment>() {
-      @Override
-      public boolean apply(final Assignment input) {
-        return featureName.equals(input.getFeature());
-      }
-    }));
-    if (identicalFeatureNameAssignments.size() > 1) {
-      return featureName + identicalFeatureNameAssignments.indexOf(assignment);
-    }
-    return featureName;
+  public static CompilationContext getCompilationContext(final ScopeModel model, final GenModelUtilX genModelUtil) {
+    return new CompilationContext(new ScopeExecutionContext(model), genModelUtil);
   }
 
   /**
@@ -373,91 +239,6 @@ public final class ScopingGeneratorUtil {
         getAllScopeModelsInternal(included, result);
       }
     }
-  }
-
-  /**
-   * Executes a given operation using a custom resource loader which will load resources using the classpath of the given project, provided that it is a Java
-   * project.
-   *
-   * @param project
-   *          context project, can also be {@code null}
-   * @param runnable
-   *          operation to run
-   */
-  public static void executeWithProjectResourceLoader(final IProject project, final Runnable runnable) {
-    ResourceLoader oldResourceLoader = ResourceLoaderFactory.getCurrentThreadResourceLoader();
-    ResourceLoader resourceLoader = createResourceLoader(project);
-    try {
-      ResourceLoaderFactory.setCurrentThreadResourceLoader(resourceLoader);
-      runnable.run();
-    } finally {
-      ResourceLoaderFactory.setCurrentThreadResourceLoader(oldResourceLoader);
-      if (resourceLoader instanceof CustomResourceLoader) {
-        ((CustomResourceLoader) resourceLoader).close();
-      }
-    }
-  }
-
-  /**
-   * Custom resource loader which declares a {@link #close()} method to {@link URLClassLoader#close() close} the underlying class loader.
-   */
-  private static class CustomResourceLoader extends ResourceLoaderImpl {
-
-    private final URLClassLoader loader;
-
-    CustomResourceLoader(final URLClassLoader l) {
-      super(l);
-      this.loader = l;
-    }
-
-    public void close() {
-      try {
-        loader.close();
-      } catch (IOException e) {
-        LOG.warn("Error closing class loader or resource loader", e);
-      }
-    }
-
-  }
-
-  private static ResourceLoader createResourceLoader(final IProject project) {
-    if (project != null) {
-      IJavaProject javaProject = JavaCore.create(project);
-      if (javaProject != null) {
-        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        try {
-          IClasspathEntry[] classPathEntries = javaProject.getResolvedClasspath(true);
-          URL[] urls = new URL[classPathEntries.length];
-          for (int i = 0; i < classPathEntries.length; i++) {
-            IClasspathEntry entry = classPathEntries[i];
-            IPath path = null;
-            switch (entry.getEntryKind()) {
-            case IClasspathEntry.CPE_PROJECT:
-              IJavaProject requiredProject = JavaCore.create((IProject) workspaceRoot.findMember(entry.getPath()));
-              if (requiredProject != null) {
-                path = workspaceRoot.findMember(requiredProject.getOutputLocation()).getLocation();
-              }
-              break;
-            case IClasspathEntry.CPE_SOURCE:
-              path = workspaceRoot.findMember(entry.getPath()).getLocation();
-              break;
-            default:
-              path = entry.getPath();
-              break;
-            }
-            if (path != null) {
-              urls[i] = path.toFile().toURI().toURL();
-            }
-          }
-          ClassLoader parentClassLoader = javaProject.getClass().getClassLoader();
-          URLClassLoader classLoader = new URLClassLoader(urls, parentClassLoader);
-          return new CustomResourceLoader(classLoader);
-        } catch (MalformedURLException | CoreException e) {
-          LOG.warn("Failed to create class loader for project " + project.getName(), e);
-        }
-      }
-    }
-    return new ResourceLoaderImpl(ScopingGeneratorUtil.class.getClassLoader());
   }
 
 }

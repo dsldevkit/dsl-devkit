@@ -10,8 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.validation;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.xtext.junit4.InjectWith;
 import org.eclipse.xtext.junit4.XtextRunner;
@@ -20,6 +18,8 @@ import org.junit.runner.RunWith;
 
 import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
 import com.google.inject.Inject;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -42,6 +42,8 @@ public class CheckJavaValidatorUtilTest extends TestCase {
   private static final String CONTAINS_UPPERCASE_LETTER = "Contains uppercase letter";
 
   private static final String CONTAINS_ILLEGAL_CHARACTER_WHITESPACE = "Contains illegal character. (whitespace)";
+
+  private static final String CONTAINS_ILLEGAL_CHARACTER_DOLLAR = "Contains illegal character. (dollar)";
 
   private static final String STARTS_WITH_ILLEGAL_CHARACTER_DOT = "Starts with illegal character. (dot)";
 
@@ -75,6 +77,7 @@ public class CheckJavaValidatorUtilTest extends TestCase {
     assertTrue(NAME_IS_EMPTY, util.checkProjectName(EMPTY_STRING).matches(IStatus.ERROR));
     assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkProjectName("Project.name").matches(IStatus.ERROR));
     assertTrue(STARTS_WITH_ILLEGAL_CHARACTER_DOT, util.checkProjectName(".projectname").matches(IStatus.ERROR));
+    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("client$project").matches(IStatus.ERROR));
     assertTrue(CONTAINS_ILLEGAL_CHARACTER_WHITESPACE, util.checkProjectName("project.name ").matches(IStatus.ERROR));
     assertTrue(CONTAINS_UPPERCASE_LETTER, util.checkProjectName("proJect.Name").matches(IStatus.ERROR));
     assertTrue(CONTAINS_DOUBLE_DOT, util.checkProjectName("project..name").matches(IStatus.ERROR));
@@ -100,6 +103,7 @@ public class CheckJavaValidatorUtilTest extends TestCase {
     assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkPackageName("Package.name").matches(IStatus.ERROR));
     assertTrue(STARTS_WITH_ILLEGAL_CHARACTER_DOT, util.checkPackageName(".packagename").matches(IStatus.ERROR));
     assertTrue(CONTAINS_ILLEGAL_CHARACTER_WHITESPACE, util.checkPackageName("packagename ").matches(IStatus.ERROR));
+    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("client$package").matches(IStatus.ERROR));
     assertTrue(CONTAINS_UPPERCASE_LETTER, util.checkPackageName("package.Name").matches(IStatus.ERROR));
     assertTrue(CONTAINS_DOUBLE_DOT, util.checkPackageName("package..name").matches(IStatus.ERROR));
   }
@@ -121,6 +125,7 @@ public class CheckJavaValidatorUtilTest extends TestCase {
     assertTrue(NAME_IS_EMPTY, util.checkCatalogName(EMPTY_STRING).matches(IStatus.ERROR));
     assertTrue(QUALIFIED_NAME, util.checkCatalogName("Catalog.Name").matches(IStatus.ERROR));
     assertTrue(CONTAINS_ILLEGAL_CHARACTER, util.checkCatalogName(",Catalogname").matches(IStatus.ERROR));
+    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("Client$Catalog").matches(IStatus.ERROR));
   }
 
   /**
@@ -149,6 +154,7 @@ public class CheckJavaValidatorUtilTest extends TestCase {
     assertTrue(NAME_IS_EMPTY, util.checkCheckName(EMPTY_STRING).matches(IStatus.ERROR));
     assertTrue(QUALIFIED_NAME, util.checkCheckName("Check.name").matches(IStatus.ERROR));
     assertTrue(CONTAINS_ILLEGAL_CHARACTER, util.checkCheckName(",checkname").matches(IStatus.ERROR));
+    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("client$check").matches(IStatus.ERROR));
   }
 
   /**
@@ -178,6 +184,7 @@ public class CheckJavaValidatorUtilTest extends TestCase {
     assertTrue(NAME_IS_EMPTY, util.checkCategoryName(EMPTY_STRING).matches(IStatus.ERROR));
     assertTrue(QUALIFIED_NAME, util.checkCategoryName("Category.name").matches(IStatus.ERROR));
     assertTrue(CONTAINS_ILLEGAL_CHARACTER, util.checkCategoryName("%categoryname").matches(IStatus.ERROR));
+    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("Client$Category").matches(IStatus.ERROR));
   }
 
   /**
@@ -189,4 +196,3 @@ public class CheckJavaValidatorUtilTest extends TestCase {
     assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCategoryName("categoryName").matches(IStatus.WARNING));
   }
 }
-

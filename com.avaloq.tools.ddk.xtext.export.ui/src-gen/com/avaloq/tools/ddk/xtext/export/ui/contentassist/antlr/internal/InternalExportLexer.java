@@ -1537,10 +1537,10 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_REAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11003:11: ( ( '0' .. '9' )* '.' ( '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11003:13: ( '0' .. '9' )* '.' ( '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11033:11: ( ( '0' .. '9' )* '.' ( '0' .. '9' )* )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11033:13: ( '0' .. '9' )* '.' ( '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11003:13: ( '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11033:13: ( '0' .. '9' )*
             loop1:
             do {
                 int alt1=2;
@@ -1553,7 +1553,7 @@ public class InternalExportLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11003:14: '0' .. '9'
+            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11033:14: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1566,7 +1566,7 @@ public class InternalExportLexer extends Lexer {
             } while (true);
 
             match('.'); 
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11003:29: ( '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11033:29: ( '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -1579,7 +1579,7 @@ public class InternalExportLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11003:30: '0' .. '9'
+            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11033:30: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1607,10 +1607,10 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11005:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11005:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11035:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11035:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11005:11: ( '^' )?
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11035:11: ( '^' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1619,7 +1619,7 @@ public class InternalExportLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11005:11: '^'
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11035:11: '^'
                     {
                     match('^'); 
 
@@ -1637,7 +1637,7 @@ public class InternalExportLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11005:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11035:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -1686,10 +1686,10 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11007:10: ( ( '0' .. '9' )+ )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11007:12: ( '0' .. '9' )+
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11037:10: ( ( '0' .. '9' )+ )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11037:12: ( '0' .. '9' )+
             {
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11007:12: ( '0' .. '9' )+
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11037:12: ( '0' .. '9' )+
             int cnt5=0;
             loop5:
             do {
@@ -1703,7 +1703,7 @@ public class InternalExportLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11007:13: '0' .. '9'
+            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11037:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1735,10 +1735,10 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1756,10 +1756,10 @@ public class InternalExportLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop6:
                     do {
                         int alt6=3;
@@ -1775,7 +1775,7 @@ public class InternalExportLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:21: '\\\\' .
+                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1783,7 +1783,7 @@ public class InternalExportLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1808,10 +1808,10 @@ public class InternalExportLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop7:
                     do {
                         int alt7=3;
@@ -1827,7 +1827,7 @@ public class InternalExportLexer extends Lexer {
 
                         switch (alt7) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:54: '\\\\' .
+                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1835,7 +1835,7 @@ public class InternalExportLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11009:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11039:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1878,12 +1878,12 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11011:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11011:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11041:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11041:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11011:24: ( options {greedy=false; } : . )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11041:24: ( options {greedy=false; } : . )*
             loop9:
             do {
                 int alt9=2;
@@ -1908,7 +1908,7 @@ public class InternalExportLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11011:52: .
+            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11041:52: .
             	    {
             	    matchAny(); 
 
@@ -1938,12 +1938,12 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop10:
             do {
                 int alt10=2;
@@ -1956,7 +1956,7 @@ public class InternalExportLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1976,7 +1976,7 @@ public class InternalExportLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:40: ( ( '\\r' )? '\\n' )?
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:40: ( ( '\\r' )? '\\n' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1985,9 +1985,9 @@ public class InternalExportLexer extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:41: ( '\\r' )? '\\n'
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:41: ( '\\r' )? '\\n'
                     {
-                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:41: ( '\\r' )?
+                    // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:41: ( '\\r' )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -1996,7 +1996,7 @@ public class InternalExportLexer extends Lexer {
                     }
                     switch (alt11) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11013:41: '\\r'
+                            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11043:41: '\\r'
                             {
                             match('\r'); 
 
@@ -2028,10 +2028,10 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11015:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11015:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11045:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11045:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11015:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11045:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt13=0;
             loop13:
             do {
@@ -2085,8 +2085,8 @@ public class InternalExportLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11017:16: ( . )
-            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11017:18: .
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11047:16: ( . )
+            // ../com.avaloq.tools.ddk.xtext.export.ui/src-gen/com/avaloq/tools/ddk/xtext/export/ui/contentassist/antlr/internal/InternalExport.g:11047:18: .
             {
             matchAny(); 
 

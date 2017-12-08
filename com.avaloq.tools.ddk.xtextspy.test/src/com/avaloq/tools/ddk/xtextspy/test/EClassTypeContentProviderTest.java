@@ -20,10 +20,10 @@ import org.eclipse.xtext.junit4.AbstractXtextTests;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtextspy.internal.Activator;
 import com.avaloq.tools.ddk.xtextspy.EClassNode;
 import com.avaloq.tools.ddk.xtextspy.EClassTypeContentProvider;
 import com.avaloq.tools.ddk.xtextspy.XtextSpyModule;
+import com.avaloq.tools.ddk.xtextspy.internal.Activator;
 import com.google.common.collect.Lists;
 
 
