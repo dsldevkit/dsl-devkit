@@ -49,6 +49,27 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.xtext.valid"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.valid.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.valid.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.xtext.scope.generator"
          download-size="0"
          install-size="0"
@@ -98,6 +119,27 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.xtext.test.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.test.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.test.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.check.core"
          download-size="0"
          install-size="0"
@@ -127,6 +169,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.check.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtextspy"
          download-size="0"
          install-size="0"
          version="0.0.0"
