@@ -2,7 +2,7 @@
 <feature
       id="com.avaloq.tools.ddk.runtime.feature"
       label="com.avaloq.tools.ddk.runtime.feature"
-      version="1.0.0.v20171219-1316-REL"
+      version="1.0.1.qualifier"
       provider-name="Avaloq Evolution AG">
 
    <description>
