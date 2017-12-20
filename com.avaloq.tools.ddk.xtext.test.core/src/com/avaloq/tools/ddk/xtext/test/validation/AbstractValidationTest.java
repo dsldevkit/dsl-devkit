@@ -698,7 +698,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the message
    * @return true, if given list of errors contains an error with given message
    */
-  public static boolean containsError(final EList<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors, final String message) {
+  public static boolean containsError(final EList<Resource.Diagnostic> errors, final String message) {
     return !Iterables.isEmpty(errors) && Iterables.contains(Iterables.transform(errors, new Function<Resource.Diagnostic, String>() {
       @Override
       public String apply(final Resource.Diagnostic d) {
@@ -727,7 +727,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   public static void assertNoErrorsOnResource(final EObject object, final String... messages) {
     List<String> messageList = Lists.newArrayList(messages);
-    final EList<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors = object.eResource().getErrors();
+    final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     for (String errorMessage : HELPER.getErrorMessages(errors)) {
       assertFalse(NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + " with message '" + errorMessage + "'.", messageList.contains(errorMessage));
     }
@@ -778,7 +778,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the error strings
    */
   public static void assertErrorsOnResourceExist(final EObject object, final String... errorStrings) {
-    final EList<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors = object.eResource().getErrors();
+    final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     final List<String> errorMessages = HELPER.getErrorMessages(errors);
     for (final String s : errorStrings) {
       assertTrue(NLS.bind("Expected error \"{0}\" but could not find it", s), errorMessages.contains(s));
