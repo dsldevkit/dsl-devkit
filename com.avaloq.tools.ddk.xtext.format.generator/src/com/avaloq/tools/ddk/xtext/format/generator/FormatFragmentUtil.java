@@ -81,6 +81,7 @@ public final class FormatFragmentUtil {
    * @throws FileNotFoundException
    *           thrown if the format file could not be found
    */
+  @SuppressWarnings("PMD.NPathComplexity")
   public static FormatConfiguration getFormatModel(final Grammar grammar, final XpandExecutionContext context) throws FileNotFoundException {
     Variable resourceUriVariable = context.getVariable("resourceUri");
     if (resourceUriVariable == null) {
