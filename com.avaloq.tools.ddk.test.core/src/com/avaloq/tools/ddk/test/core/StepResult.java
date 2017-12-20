@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.test.core;
 
 /**
  * Representation of a step result.
- * 
+ *
  * @param <T>
  *          the type of the result value
  */
@@ -22,7 +22,7 @@ public final class StepResult<T> implements IStepData<T> {
 
   /**
    * Creates and returns a {@link StepResult}.
-   * 
+   *
    * @param <T>
    *          the type of the step result value
    * @return the newly created {@link StepResult}
@@ -39,17 +39,18 @@ public final class StepResult<T> implements IStepData<T> {
   }
 
   /** {@inheritDoc} */
+  @Override
   public T getValue() {
     return value;
   }
 
   /**
    * Sets the value of this {@link StepResult}. This can only be done by the test framework.
-   * 
+   *
    * @param value
    *          the new value for this {@link StepResult}
    */
-  protected void setValue(final T value) {
+  void setValue(final T value) {
     // currently we set the result multiple time until the postconditions succeed. Hence we cannot enforce this anymore.
     // XXX : think about refactoring so that we can check the following assertion again, or decide to remove it for good.
     // Assert.assertFalse("Step result value must not have been set yet.", valueSet);
@@ -58,6 +59,7 @@ public final class StepResult<T> implements IStepData<T> {
   }
 
   /** {@inheritDoc} */
+  @Override
   public boolean isValueSet() {
     return valueSet;
   }
@@ -72,4 +74,3 @@ public final class StepResult<T> implements IStepData<T> {
     }
   }
 }
-

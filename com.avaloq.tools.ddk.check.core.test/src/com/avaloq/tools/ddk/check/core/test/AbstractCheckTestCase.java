@@ -394,6 +394,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
    * @param project
    *          to list
    */
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   protected void enumerateContents(final IProject project) {
     try {
       final StringBuilder b = new StringBuilder();
@@ -403,7 +404,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
         @SuppressWarnings("deprecation")
         public boolean visit(final IResource rsc) throws CoreException {
           String filePath = rsc.getFullPath().toString();
-          b.append(filePath + (rsc instanceof IFolder ? "/" : "") + '\n');
+          b.append(filePath).append(rsc instanceof IFolder ? "/" : "").append('\n');
           if (rsc instanceof IFile && !filePath.contains("/bin/") && !filePath.endsWith("._trace")) {
             IFile file = (IFile) rsc;
             b.append("---- Content:\n");
@@ -412,7 +413,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
               s = new InputStreamReader(file.getContents());
               b.append(CharStreams.toString(s));
             } catch (IOException e) {
-              b.append("**** ERROR:" + e.getMessage());
+              b.append("**** ERROR:").append(e.getMessage());
             } finally {
               Closeables.closeQuietly(s);
             }

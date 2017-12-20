@@ -341,6 +341,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    *
    * @return the call stack with test status information, never {@code null}
    */
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   private String captureCallStack() {
     StringBuilder trace = new StringBuilder();
     // Same info as on the screenshot
@@ -398,8 +399,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    * @return the owned lock information
    */
   private static String getOwnedLockInfo(final ThreadInfo info) {
-    StringBuilder trace = new StringBuilder();
-    trace.append("  Holding locks for:\r\n");
+    StringBuilder trace = new StringBuilder("  Holding locks for:\r\n");
     for (LockInfo lock : info.getLockedSynchronizers()) {
       trace.append("    " + lock.toString() + "\r\n");
     }
@@ -416,9 +416,9 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    *          the {@code:ThreadInfo} for the thread in question, must not be {@code:null}
    * @return the thread stack trace
    */
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   private static String getCallStackTrace(final ThreadInfo info) {
-    StringBuilder trace = new StringBuilder();
-    trace.append("  Stack:\r\n");
+    StringBuilder trace = new StringBuilder("  Stack:\r\n");
     int frameCount = 0;
     for (StackTraceElement frame : info.getStackTrace()) {
       trace.append("    " + frame.toString() + "\r\n");
@@ -437,18 +437,17 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    * @return the thread info
    */
   private static String getThreadInfo() {
-    StringBuilder trace = new StringBuilder();
     boolean contention = THREAD_BEAN.isThreadContentionMonitoringEnabled();
     Set<Long> deadlockedThreads = getDeadlockThreadIds();
     ThreadInfo[] threadInfos = THREAD_BEAN.dumpAllThreads(true, true);
-    trace.append(threadInfos.length + " active threads\r\n");
+    StringBuilder trace = new StringBuilder(threadInfos.length).append(" active threads\r\n");
     for (ThreadInfo info : threadInfos) {
       if (info == null) {
         trace.append("  Inactive\r\n");
         continue;
       }
       boolean isDeadlocked = deadlockedThreads.contains(Long.valueOf(info.getThreadId()));
-      trace.append("Thread " + getTaskName(info.getThreadId(), info.getThreadName()));
+      trace.append("Thread ").append(getTaskName(info.getThreadId(), info.getThreadName()));
       if (isDeadlocked) {
         trace.append(" <<DEADLOCK>>");
       }

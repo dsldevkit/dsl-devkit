@@ -144,8 +144,7 @@ public class MultipleTestProblems extends AssertionError {
         throw (Error) problem;
       }
     }
-    printStackTrace();
+    printStackTrace(); // NOPMD
     throw this;
   }
 }
-

@@ -44,11 +44,11 @@ public class DynamicSuite extends Suite {
     this(clazz, builder.runners(clazz, getSuiteClasses(clazz)));
   }
 
-  public DynamicSuite(final RunnerBuilder builder, final Class<?>[] classes) throws InitializationError {
+  public DynamicSuite(final RunnerBuilder builder, final Class<?>... classes) throws InitializationError {
     super(builder, classes);
   }
 
-  public DynamicSuite(final Class<?> clazz, final Class<?>[] suiteClasses) throws InitializationError {
+  public DynamicSuite(final Class<?> clazz, final Class<?>... suiteClasses) throws InitializationError {
     super(clazz, suiteClasses);
   }
 
@@ -56,13 +56,13 @@ public class DynamicSuite extends Suite {
     super(clazz, runners);
   }
 
-  public DynamicSuite(final RunnerBuilder builder, final Class<?> clazz, final Class<?>[] suiteClasses) throws InitializationError {
+  public DynamicSuite(final RunnerBuilder builder, final Class<?> clazz, final Class<?>... suiteClasses) throws InitializationError {
     super(builder, clazz, suiteClasses);
   }
 
   /**
    * Collect suite classes from annotation.
-   * 
+   *
    * @param clazz
    *          main suite to get suite classes annotation from
    * @return list of suite classes
@@ -90,4 +90,3 @@ public class DynamicSuite extends Suite {
     return suiteClasses.toArray(new Class<?>[suiteClasses.size()]);
   }
 }
-

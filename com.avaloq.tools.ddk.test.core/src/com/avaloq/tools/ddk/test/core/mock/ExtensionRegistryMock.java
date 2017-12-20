@@ -50,7 +50,7 @@ public final class ExtensionRegistryMock {
    * @throws CoreException
    */
   @SuppressWarnings("restriction") // for accessing RegistryProviderFactory
-  public static void mockRegistry() {
+  public static synchronized void mockRegistry() {
     if (registrySpy == null) {
       registry = RegistryFactory.getRegistry();
       registrySpy = spy(registry);

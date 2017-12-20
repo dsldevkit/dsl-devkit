@@ -68,10 +68,10 @@ public class EClassComparatorTest {
     assertEquals(1, sorted.keySet().size());
     assertEquals(Lists.newArrayList(ECLASS, EOBJECT), sorted.get(EcorePackage.eINSTANCE));
 
-    sorted = EClassComparator.sortedEPackageGroups(Lists.newArrayList(XtextPackage.Literals.ABSTRACT_ELEMENT, XtextPackage.Literals.ACTION, EcorePackage.Literals.ECLASS), mapping);
+    sorted = EClassComparator.sortedEPackageGroups(Lists.newArrayList(XtextPackage.Literals.ABSTRACT_ELEMENT, XtextPackage.Literals.ACTION, ECLASS), mapping);
     assertEquals(3, sorted.size());
     assertEquals(2, sorted.keySet().size());
-    assertEquals(Lists.newArrayList(EcorePackage.Literals.ECLASS), sorted.get(EcorePackage.eINSTANCE));
+    assertEquals(Lists.newArrayList(ECLASS), sorted.get(EcorePackage.eINSTANCE));
     assertEquals(Lists.newArrayList(XtextPackage.Literals.ACTION, XtextPackage.Literals.ABSTRACT_ELEMENT), sorted.get(XtextPackage.eINSTANCE));
   }
 

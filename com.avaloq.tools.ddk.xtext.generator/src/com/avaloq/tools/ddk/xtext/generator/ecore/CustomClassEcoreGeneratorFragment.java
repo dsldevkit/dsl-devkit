@@ -324,7 +324,7 @@ public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
    * @param path
    *          URI for resource to generate into
    */
-  @SuppressWarnings("nls")
+  @SuppressWarnings({"nls", "PMD.InsufficientStringBufferDeclaration"})
   protected void generateCustomClassStub(final String from, final String customClassName, final URI path) {
     StringBuilder sb = new StringBuilder();
     // sb.append(copyright()).append("\n");

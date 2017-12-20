@@ -17,9 +17,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.test.format.util.FormatTestUtil;
+import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest;
 import com.google.common.collect.Lists;
 
 
@@ -68,7 +68,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    * @param baseRules
    *          the base rules
    */
-  private void setFormattingRules(final String[] extendRules, final String[] baseRules) {
+  private void setFormattingRules(final String[] extendRules, final String... baseRules) {
     parentFormat = createModel(PARENT_MODEL_NAME, null, baseRules);
     extendingFormat = createModel(EXTENDING_MODEL_NAME, PARENT_MODEL_NAME, extendRules);
   }
@@ -84,7 +84,8 @@ public class FormatValidationTest extends AbstractValidationTest {
    *          the rules
    * @return the FormatConfiguration
    */
-  private FormatConfiguration createModel(final String formatName, final String extendedFormatName, final String[] rules) {
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
+  private FormatConfiguration createModel(final String formatName, final String extendedFormatName, final String... rules) {
     StringBuilder modelContent = new StringBuilder("formatter for ");
     modelContent.append("com.avaloq.tools.ddk.xtext.format.validation.");
     modelContent.append(formatName);
@@ -207,4 +208,3 @@ public class FormatValidationTest extends AbstractValidationTest {
     assertDiagnostic(extendingFormat, FormatJavaValidator.GRAMMAR_RULE_MISSING_CODE);
   }
 }
-

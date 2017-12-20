@@ -207,7 +207,6 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
       final MultipleTestProblems problems = new MultipleTestProblems();
       final Collection<AssertionError> failures = Lists.newArrayList();
       final Collection<Throwable> errors = Lists.newArrayList();
-      final String testCase = getTestClass().getJavaClass().getSimpleName() + "." + method.getName();
       int run = 0;
       int succeeded = 0;
       while (run < testRuns || (testRuns == 1 && succeeded == 0 && run < testRetries + 1)) {
@@ -227,6 +226,7 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
           problems.addProblem(throwable);
         }
       }
+      final String testCase = getTestClass().getJavaClass().getSimpleName() + '.' + method.getName();
       if (run > 1) {
         logRepeatedTestResult(testCase, run, succeeded, failures.size(), errors.size());
       }
@@ -283,7 +283,7 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
     if (errors > 0) {
       testResult.append(", ").append(errors).append(" errored");
     }
-    testResult.append(")");
+    testResult.append(')');
     LOGGER.info(testResult.toString());
   }
 
