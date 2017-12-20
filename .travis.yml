@@ -6,4 +6,5 @@ env:
   - DISPLAY=:99.0
 before_install:
   - sh -e /etc/init.d/xvfb start
-script: mvn clean verify -f ./ddk-parent/pom.xml
+  - export WORKSPACE=${PWD}
+script: mvn clean verify checkstyle:check pmd:check pmd:cpd-check findbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end

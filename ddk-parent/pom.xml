@@ -34,11 +34,9 @@
     <compiler.showWarnings>true</compiler.showWarnings>
     <pmd.ruleset>${workspace}/ddk-configuration/pmd/ruleset.xml</pmd.ruleset>
     <pmd.test.ruleset>${workspace}/ddk-configuration/pmd/ruleset-test.xml</pmd.test.ruleset>
-    <checkstyle.skip>false</checkstyle.skip>
     <checkstyle.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq.xml</checkstyle.configLocation>
     <checkstyle.test.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq-test.xml</checkstyle.test.configLocation>
     <findbugs.excludeFilterFile>${workspace}/ddk-configuration/findbugs/exclusion-filter.xml</findbugs.excludeFilterFile>
-    <findbugs.skip>false</findbugs.skip>
     <findbugs.maxHeap>2048</findbugs.maxHeap>
 
     <!-- test parameter-->
@@ -279,10 +277,13 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${pmd.plugin.version}</version>
         <configuration>
+          <skip>true</skip><!-- Remove this once all PMD violations have been fixed -->
           <targetJdk>1.8</targetJdk>
           <minimumTokens>100</minimumTokens>
-          <format>xml</format>
-          <failOnViolation>false</failOnViolation>
+          <aggregate>true</aggregate>
+          <failOnViolation>true</failOnViolation>
+          <printFailingErrors>true</printFailingErrors>
+          <verbose>true</verbose>
           <linkXRef>false</linkXRef>
           <rulesets>
             <ruleset>${pmd.ruleset}</ruleset>
@@ -306,7 +307,10 @@
           </dependency>
         </dependencies>
         <configuration>
-          <skip>${checkstyle.skip}</skip>
+          <violationSeverity>warning</violationSeverity>
+          <failOnViolation>true</failOnViolation>
+          <logViolationsToConsole>true</logViolationsToConsole>
+          <consoleOutput>true</consoleOutput>
           <linkXRef>false</linkXRef>
           <sourceDirectory>src</sourceDirectory>
           <configLocation>${checkstyle.configLocation}</configLocation>
@@ -318,13 +322,13 @@
         <artifactId>findbugs-maven-plugin</artifactId>
         <version>${findbugs.plugin.version}</version>
         <configuration>
-          <findbugsXmlOutput>true</findbugsXmlOutput>
-          <failOnError>false</failOnError>
+          <skip>true</skip><!-- Remove this once all Findbugs violations have been fixed -->
+          <findbugsXmlOutput>false</findbugsXmlOutput>
+          <failOnError>true</failOnError>
           <maxHeap>${findbugs.maxHeap}</maxHeap>
           <maxRank>15</maxRank>
           <threshold>Low</threshold>
           <excludeFilterFile>${findbugs.excludeFilterFile}</excludeFilterFile>
-          <skip>${findbugs.skip}</skip>
           <maxHeap>1024</maxHeap>
         </configuration>
       </plugin>

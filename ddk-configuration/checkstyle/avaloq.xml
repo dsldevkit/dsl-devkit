@@ -54,8 +54,10 @@
     <module name="IllegalThrows"/>
     <module name="InterfaceIsType"/>
     <module name="JavadocMethod">
+      <property name="allowedAnnotations" value="Override,Inject"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="logLoadErrors" value="true"/>
+      <property name="scope" value="package"/>
       <property name="suppressLoadErrors" value="true"/>
       <property name="tokens" value="METHOD_DEF"/>
     </module>
