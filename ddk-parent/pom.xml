@@ -277,7 +277,6 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${pmd.plugin.version}</version>
         <configuration>
-          <skip>true</skip><!-- Remove this once all PMD violations have been fixed -->
           <targetJdk>1.8</targetJdk>
           <minimumTokens>100</minimumTokens>
           <aggregate>true</aggregate>
@@ -335,7 +334,7 @@
     </plugins>
     <pluginManagement>
       <plugins>
-		<plugin>
+    <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>${clean.version}</version>
           <configuration>
