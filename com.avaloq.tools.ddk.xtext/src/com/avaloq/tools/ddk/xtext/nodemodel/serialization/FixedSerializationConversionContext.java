@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
 import org.eclipse.xtext.nodemodel.serialization.SerializationConversionContext;
 import org.eclipse.xtext.resource.XtextResource;
 
@@ -47,7 +48,7 @@ public class FixedSerializationConversionContext extends SerializationConversion
       throw new IllegalStateException("Could not read 'eObjectToIdMap' field", e); //$NON-NLS-1$
     }
 
-    for (int id = 0; id < idToEObjectMap.size(); ++id) {
+    for (int id = 0, size = idToEObjectMap.size(); id < size; ++id) {
       eObjectToIdMap.put(idToEObjectMap.get(id), id);
     }
   }
@@ -75,10 +76,11 @@ public class FixedSerializationConversionContext extends SerializationConversion
    *          map
    */
   static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
-    if (eObject.eContainingFeature() == null || !eObject.eContainingFeature().isTransient()) {
-      map.add(eObject);
+    map.add(eObject);
 
-      for (EObject child : eObject.eContents()) {
+    for (FeatureIterator<EObject> it = (FeatureIterator<EObject>) eObject.eContents().iterator(); it.hasNext();) {
+      EObject child = it.next();
+      if (!it.feature().isTransient()) {
         fillIdToEObjectMap(child, map);
       }
     }
