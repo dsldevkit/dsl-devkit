@@ -61,6 +61,7 @@ public final class ResourceDescriptionsUtil {
    *          match policy
    * @return An {@link Iterable} of all {@link IResourceDescription}s that reference any of the objects.
    */
+  @SuppressWarnings("PMD.NPathComplexity")
   public static Iterable<IResourceDescription> findReferencesToResources(final IResourceDescriptions descriptions, final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     if (targetResources.isEmpty()) {
       return ImmutableSet.of();
@@ -84,25 +85,22 @@ public final class ResourceDescriptionsUtil {
       }
     }
 
-    return Iterables.filter(descriptions.getAllResourceDescriptions(), new Predicate<IResourceDescription>() {
-      @Override
-      public boolean apply(final IResourceDescription input) {
-        if (matchNames) {
-          for (QualifiedName name : input.getImportedNames()) {
-            if (exportedNames.contains(name.toLowerCase())) { // NOPMD
-              return true;
-            }
+    return Iterables.filter(descriptions.getAllResourceDescriptions(), input -> {
+      if (matchNames) {
+        for (QualifiedName name : input.getImportedNames()) {
+          if (exportedNames.contains(name.toLowerCase())) { // NOPMD
+            return true;
           }
         }
-        if (matchPolicy.includes(ReferenceMatchPolicy.REFERENCES)) {
-          for (IReferenceDescription ref : input.getReferenceDescriptions()) {
-            if (targetUris.contains(ref.getTargetEObjectUri().trimFragment())) {
-              return true;
-            }
-          }
-        }
-        return false;
       }
+      if (matchPolicy.includes(ReferenceMatchPolicy.REFERENCES)) {
+        for (IReferenceDescription ref : input.getReferenceDescriptions()) {
+          if (targetUris.contains(ref.getTargetEObjectUri().trimFragment())) {
+            return true;
+          }
+        }
+      }
+      return false;
     });
   }
 
@@ -117,6 +115,7 @@ public final class ResourceDescriptionsUtil {
    *          match policy
    * @return all resources containing outgoing references to one of the objects
    */
+  @SuppressWarnings("PMD.NPathComplexity")
   public static Iterable<IResourceDescription> findExactReferencingResources(final IResourceDescriptions descriptions, final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     if (targetObjects.isEmpty()) {
       return ImmutableSet.of();
@@ -134,25 +133,22 @@ public final class ResourceDescriptionsUtil {
       }
     }
 
-    return Iterables.filter(descriptions.getAllResourceDescriptions(), new Predicate<IResourceDescription>() {
-      @Override
-      public boolean apply(final IResourceDescription input) {
-        if (matchPolicy.includes(ReferenceMatchPolicy.IMPORTED_NAMES) || matchPolicy.includes(ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES)) {
-          for (QualifiedName name : input.getImportedNames()) {
-            if (exportedNames.contains(name)) {
-              return true;
-            }
+    return Iterables.filter(descriptions.getAllResourceDescriptions(), input -> {
+      if (matchPolicy.includes(ReferenceMatchPolicy.IMPORTED_NAMES) || matchPolicy.includes(ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES)) {
+        for (QualifiedName name : input.getImportedNames()) {
+          if (exportedNames.contains(name)) {
+            return true;
           }
         }
-        if (matchPolicy.includes(ReferenceMatchPolicy.REFERENCES)) {
-          for (IReferenceDescription ref : input.getReferenceDescriptions()) {
-            if (targetUris.contains(ref.getTargetEObjectUri())) {
-              return true;
-            }
-          }
-        }
-        return false;
       }
+      if (matchPolicy.includes(ReferenceMatchPolicy.REFERENCES)) {
+        for (IReferenceDescription ref : input.getReferenceDescriptions()) {
+          if (targetUris.contains(ref.getTargetEObjectUri())) {
+            return true;
+          }
+        }
+      }
+      return false;
     });
   }
 

@@ -138,7 +138,8 @@ public final class ParseTreeUtil {
    * @return the parsed string from the node model
    */
   public static String getParsedStringUnchecked(final EObject object, final EStructuralFeature feature, final boolean convert) {
-    for (INode node : NodeModelUtils.findNodesForFeature(object, feature)) {
+    INode node = Iterables.getFirst(NodeModelUtils.findNodesForFeature(object, feature), null);
+    if (node != null) {
       if (convert) {
         final LazyLinkingResource res = (LazyLinkingResource) object.eResource();
         EObject grammarElement = node.getGrammarElement();

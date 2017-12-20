@@ -64,7 +64,7 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
   }
 
   // Using QualifiedName#toLowerCase() not String#toLowerCase()
-  @SuppressWarnings("PMD.UseLocaleWithCaseConversions")
+  @SuppressWarnings({"PMD.UseLocaleWithCaseConversions", "PMD.NPathComplexity"})
   @Override
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) {
     if (nameFunctions != null && nameFunctions.contains(NameFunctions.exportNameFunction())) {
