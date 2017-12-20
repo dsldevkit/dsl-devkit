@@ -85,7 +85,8 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
             || (namePattern instanceof QualifiedNamePattern && ((QualifiedNamePattern) namePattern).matches(lookupName))) {
           final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(lookupName).ignoreCase(ignoreCase);
           final Iterable<IEObjectDescription> queryResult = copy.execute(container);
-          for (IEObjectDescription description : queryResult) {
+          IEObjectDescription description = Iterables.getFirst(queryResult, null);
+          if (description != null) {
             contentByNameCache.put(lookupName, description);
             return description;
           }

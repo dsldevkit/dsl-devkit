@@ -343,11 +343,7 @@ public class DeployJob extends Job {
     if (IGNORED_RESOURCES.contains(resource.getName())) {
       return true;
     }
-    if (getJavaOutputDirectory().toOSString().equals(resource.getLocation().toOSString())) {
-      return true;
-    }
-    return false;
-
+    return getJavaOutputDirectory().toOSString().equals(resource.getLocation().toOSString());
   }
 
   /**

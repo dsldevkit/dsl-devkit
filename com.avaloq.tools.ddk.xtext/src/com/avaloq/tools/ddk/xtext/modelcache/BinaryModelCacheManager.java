@@ -113,7 +113,7 @@ public class BinaryModelCacheManager implements IModelCacheManager {
    *          a list of models to be loaded, must not be {@code null}
    * @return the filtered modelsToLoad, without any models that are already loaded, never {@code null}
    */
-  private ResourceModelType[] filterLoadedModels(final ResourceModelType[] modelsToLoad) {
+  private ResourceModelType[] filterLoadedModels(final ResourceModelType... modelsToLoad) {
     List<ResourceModelType> filteredModels = Lists.newArrayList();
     for (ResourceModelType model : modelsToLoad) {
       if (modelStatus.get(model) != ModelStatus.LOADED) {

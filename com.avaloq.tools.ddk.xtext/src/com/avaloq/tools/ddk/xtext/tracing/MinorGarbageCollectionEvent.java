@@ -11,6 +11,9 @@
 
 package com.avaloq.tools.ddk.xtext.tracing;
 
+import java.util.Arrays;
+
+
 /**
  * An event representing the occurrence of a minor GC in the JVM. As this event is already delivered asynchronously from the JVM it cannot reliably be
  * correlated with other events.
@@ -20,7 +23,7 @@ public class MinorGarbageCollectionEvent extends TraceEvent {
   private final long time;
   private final Object[] data;
 
-  public MinorGarbageCollectionEvent(final Trigger trigger, final Object[] data) {
+  public MinorGarbageCollectionEvent(final Trigger trigger, final Object... data) {
     super(trigger);
     this.time = (Long) data[0];
     this.data = new Object[data.length - 1];
@@ -34,7 +37,7 @@ public class MinorGarbageCollectionEvent extends TraceEvent {
 
   @Override
   public Object[] getData() {
-    return data;
+    return Arrays.copyOf(data, data.length);
   }
 
 }

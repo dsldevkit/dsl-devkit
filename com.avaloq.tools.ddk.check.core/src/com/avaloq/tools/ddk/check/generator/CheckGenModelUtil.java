@@ -44,7 +44,7 @@ import com.google.common.collect.Iterables;
  */
 public final class CheckGenModelUtil {
 
-  private static final String GENMODEL_EXTENSION = "genmodel";
+  private static final String GENMODEL_EXTENSION = "genmodel"; //$NON-NLS-1$
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(CheckGenModelUtil.class);
 
@@ -57,7 +57,7 @@ public final class CheckGenModelUtil {
 
   /**
    * Returns the qualified package interface name for the given epackage (model).
-   * 
+   *
    * @param ePackage
    *          the model
    * @return the package interface name
@@ -81,7 +81,7 @@ public final class CheckGenModelUtil {
 
   /**
    * Returns the genmodel for the given model element.
-   * 
+   *
    * @param eModelElement
    *          the model element
    * @return the genmodel
@@ -93,7 +93,7 @@ public final class CheckGenModelUtil {
   /**
    * Finds the GenPackage for a given EModelElement and ResourceSet. If the EPackage of given model element
    * is the EcorePackage.eINSTANCE, <code>null</code> is returned.
-   * 
+   *
    * @param eModelElement
    *          the e model element
    * @param resourceSet
@@ -121,7 +121,7 @@ public final class CheckGenModelUtil {
     try {
       resultGenModel = getGenModelUsingHeuristics(ePackage);
     } catch (final IllegalStateException e) {
-      LOGGER.error(NLS.bind("Exception in findGenModel ({0})", eModelElement), e);
+      LOGGER.error(NLS.bind("Exception in findGenModel ({0})", eModelElement), e); //$NON-NLS-1$
     }
 
     return resultGenModel;
@@ -129,7 +129,7 @@ public final class CheckGenModelUtil {
 
   /**
    * Returns the genpackage for the given epackage.
-   * 
+   *
    * @param ePackage
    *          the model
    * @return the genpackage
@@ -142,7 +142,7 @@ public final class CheckGenModelUtil {
 
   /**
    * Loads the given resource, and if it contains a GenModel for the given ePackage, resturns that.
-   * 
+   *
    * @param uri
    *          to load resource from
    * @param ePackage
@@ -168,7 +168,7 @@ public final class CheckGenModelUtil {
 
   /**
    * Returns the genmodel for the given EPackage.
-   * 
+   *
    * @param ePackage
    *          the model element
    * @return the genmodel
@@ -183,7 +183,7 @@ public final class CheckGenModelUtil {
 
     final URIConverter uriConverter = resourceSet.getURIConverter();
     URI uri = uriConverter.normalize(res.getURI());
-    final URI originalURI = uri;
+    final URI originalURI = uri; // NOPMD - We want the value before reassignment
     URI baseURI = uri.trimFileExtension();
     uri = baseURI.appendFileExtension(GENMODEL_EXTENSION);
     uri = uriConverter.normalize(uri);
@@ -208,14 +208,14 @@ public final class CheckGenModelUtil {
       }
     }
     if (result == null) {
-      throw new IllegalStateException("No genmodel found for " + originalURI);
+      throw new IllegalStateException("No genmodel found for " + originalURI); //$NON-NLS-1$
     }
     return result;
   }
 
   /**
    * Given a base URI, figure out which {@link IFolder}, if any, it refers to.
-   * 
+   *
    * @param baseURI
    *          to find the folder(s) for; must not be {@code null}
    * @return an array of all folders mapping to that URI, or an empty array if none do.
@@ -244,7 +244,7 @@ public final class CheckGenModelUtil {
   /**
    * Given an array of {@link IContainers}, searches through all *.genmodel files in all {@link IFolders}, ignoring nested folders, trying to find a
    * {@link GenModel} for the given {@link EPackage}.
-   * 
+   *
    * @param containers
    *          To search, may be empty, but must not be {@code null}
    * @param baseURI

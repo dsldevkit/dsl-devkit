@@ -59,7 +59,7 @@ public class FormatQualifiedNameConverter extends IQualifiedNameConverter.Defaul
    *          the tail
    * @return String[]
    */
-  private String[] join(final String[] head, final String[] tail) {
+  private String[] join(final String[] head, final String... tail) {
     if (tail.length == 0) {
       return head;
     } else if (head.length == 0) {

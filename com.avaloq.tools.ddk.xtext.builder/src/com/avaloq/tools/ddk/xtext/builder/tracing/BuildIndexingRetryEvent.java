@@ -23,7 +23,7 @@ public class BuildIndexingRetryEvent extends BuildPhaseEvent {
    * @param data
    *          event data
    */
-  public BuildIndexingRetryEvent(final Trigger trigger, final Object[] data) {
+  public BuildIndexingRetryEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

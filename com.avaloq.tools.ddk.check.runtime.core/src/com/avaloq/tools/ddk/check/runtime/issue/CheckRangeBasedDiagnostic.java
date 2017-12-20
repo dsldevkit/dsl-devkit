@@ -20,9 +20,8 @@ import org.eclipse.xtext.validation.RangeBasedDiagnostic;
  */
 public class CheckRangeBasedDiagnostic extends RangeBasedDiagnostic {
 
-  protected CheckRangeBasedDiagnostic(final int severity, final String message, final EObject source, final int offset, final int length, final CheckType checkType, final String issueCode, final String[] issueData) {
+  protected CheckRangeBasedDiagnostic(final int severity, final String message, final EObject source, final int offset, final int length, final CheckType checkType, final String issueCode, final String... issueData) {
     super(severity, message, source, offset, length, checkType, issueCode, issueData);
   }
 
 }
-

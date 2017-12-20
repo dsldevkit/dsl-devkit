@@ -23,7 +23,7 @@ public class BuildLinkingEvent extends BuildPhaseEvent {
    * @param data
    *          event data
    */
-  public BuildLinkingEvent(final Trigger trigger, final Object[] data) {
+  public BuildLinkingEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

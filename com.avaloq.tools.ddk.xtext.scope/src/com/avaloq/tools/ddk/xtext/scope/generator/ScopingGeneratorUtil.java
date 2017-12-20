@@ -173,7 +173,7 @@ public final class ScopingGeneratorUtil {
           }), Predicates.notNull()));
         }
       }
-      return importedNamespaces.toArray(new String[0]);
+      return importedNamespaces.toArray(new String[importedNamespaces.size()]);
     }
 
     @Override

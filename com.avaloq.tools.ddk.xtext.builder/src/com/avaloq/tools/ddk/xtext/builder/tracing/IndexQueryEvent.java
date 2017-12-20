@@ -62,7 +62,7 @@ public class IndexQueryEvent extends TraceEvent {
    * @param data
    *          event data
    */
-  public IndexQueryEvent(final Trigger trigger, final Object[] data) {
+  public IndexQueryEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

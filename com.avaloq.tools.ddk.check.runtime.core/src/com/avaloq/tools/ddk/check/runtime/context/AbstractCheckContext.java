@@ -111,9 +111,8 @@ public class AbstractCheckContext implements ICheckContext {
    * @return
    *         Set of constants defining issue codes
    */
-  private Set<String> getIssueCodes(final String[] ids) {
+  private Set<String> getIssueCodes(final String... ids) {
     return Sets.newHashSet(ids);
   }
 
 }
-

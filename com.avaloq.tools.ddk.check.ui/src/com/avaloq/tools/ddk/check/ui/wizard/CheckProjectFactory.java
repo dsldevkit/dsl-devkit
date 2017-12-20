@@ -69,7 +69,7 @@ public class CheckProjectFactory extends PluginProjectFactory {
         content.append("          ");
       }
     }
-    content.append("\n");
+    content.append('\n');
     content.append("bin.includes = META-INF/,\\\n");
     content.append("               .,\\\n");
     content.append("               plugin.xml,\\\n");
@@ -114,4 +114,3 @@ public class CheckProjectFactory extends PluginProjectFactory {
     }
   }
 }
-

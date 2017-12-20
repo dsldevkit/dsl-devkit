@@ -125,7 +125,7 @@ public final class FormatFragmentUtil {
    *
    * @return the {@link ModelValidator}, never {@code null}
    */
-  private static ModelValidator getModelValidator() {
+  private static synchronized ModelValidator getModelValidator() {
     if (modelValidator == null) {
       modelValidator = new FormatStandaloneSetup().createInjector().getInstance(ModelValidator.class);
     }

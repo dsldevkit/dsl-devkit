@@ -86,7 +86,8 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
     } else if (result == null) {
       final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(prefix.append(lookupName)).ignoreCase(ignoreCase);
       final Iterable<IEObjectDescription> res = copy.execute(container);
-      for (IEObjectDescription desc : res) {
+      IEObjectDescription desc = Iterables.getFirst(res, null);
+      if (desc != null) {
         IEObjectDescription aliased = new AliasingEObjectDescription(name, desc);
         contentByNameCache.put(lookupName, aliased);
         return aliased;
