@@ -50,21 +50,21 @@
 		<nature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</nature>
 	</natures>
 	<linkedResources>
-	  <link>
-      <name>.checkstyle</name>
-      <type>1</type>
-      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.checkstyle</locationURI>
-    </link>
-    <link>
-      <name>.fbprefs</name>
-      <type>1</type>
-      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.fbprefs-test</locationURI>
-    </link>
-    <link>
-      <name>.pmd</name>
-      <type>1</type>
-      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.pmd</locationURI>
-    </link>
+		<link>
+			<name>.checkstyle</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.checkstyle</locationURI>
+		</link>
+		<link>
+			<name>.fbprefs</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.fbprefs-test</locationURI>
+		</link>
+		<link>
+			<name>.pmd</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.pmd</locationURI>
+		</link>
 		<link>
 			<name>.checkstyle</name>
 			<type>1</type>
