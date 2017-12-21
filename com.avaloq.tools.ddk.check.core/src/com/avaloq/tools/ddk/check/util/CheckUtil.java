@@ -36,7 +36,8 @@ public final class CheckUtil {
     } else if (source.length() == 0 || !Character.isJavaIdentifierStart(source.charAt(0))) {
       return ""; //$NON-NLS-1$
     }
-    StringBuilder result = new StringBuilder(source.charAt(0));
+    StringBuilder result = new StringBuilder();
+    result.append(source.charAt(0));
     boolean space = false;
     for (Character c : source.substring(1).toCharArray()) {
       if (Character.isJavaIdentifierPart(c)) {
