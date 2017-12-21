@@ -53,7 +53,7 @@
 	  <link>
       <name>.checkstyle</name>
       <type>1</type>
-      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.checkstyle-test</locationURI>
+      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.checkstyle</locationURI>
     </link>
     <link>
       <name>.fbprefs</name>
@@ -63,7 +63,7 @@
     <link>
       <name>.pmd</name>
       <type>1</type>
-      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.pmd-test</locationURI>
+      <locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.pmd</locationURI>
     </link>
 		<link>
 			<name>.checkstyle</name>

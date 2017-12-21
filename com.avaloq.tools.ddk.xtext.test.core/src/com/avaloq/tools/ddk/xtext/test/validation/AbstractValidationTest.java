@@ -685,8 +685,8 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the diagnostic to check for issues
    */
   private void assertNoDiagnostics(final Diagnostic diagnostics) {
-    assertTrue(diagnostics.getCode() == Diagnostic.OK);
-    assertTrue(diagnostics.getChildren().isEmpty());
+    assertTrue("Diagnostics should be in OK state.", diagnostics.getCode() == Diagnostic.OK);
+    assertTrue("There should be no diagnostics. Instead found " + diagnostics.getChildren().size(), diagnostics.getChildren().isEmpty());
   }
 
   /**

@@ -9,8 +9,4 @@
 
   <artifactId>com.avaloq.tools.ddk.checkcfg.ui.test</artifactId>
   <packaging>eclipse-plugin</packaging>
-  <properties>
-    <pmd.ruleset>${pmd.test.ruleset}</pmd.ruleset>
-    <checkstyle.configLocation>${checkstyle.test.configLocation}</checkstyle.configLocation>
-  </properties>
 </project>

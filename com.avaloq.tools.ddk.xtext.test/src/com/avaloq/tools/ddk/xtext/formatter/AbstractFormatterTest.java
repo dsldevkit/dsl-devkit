@@ -51,20 +51,20 @@ public abstract class AbstractFormatterTest extends AbstractXtextTest {
   }
 
   // test formatting based on the ParseTreeConstructorin
-  protected void assertFormattedPTC(final String expected, final String model) throws Exception {
+  protected void assertFormattedPTC(final String expected, final String model) throws IOException {
     EObject m = getModel(model);
     String res = getSerializer().serialize(m, SaveOptions.newBuilder().format().getOptions());
     Assert.assertEquals(expected, res);
   }
 
-  protected void assertPreserved(final String model) throws Exception {
+  protected void assertPreserved(final String model) throws IOException {
     EObject m = getModel(model);
     String res = getSerializer().serialize(m, SaveOptions.newBuilder().getOptions());
     Assert.assertEquals(model, res);
   }
 
   // test formatting based on the NodeModel
-  protected void assertFormattedNM(final String expected, final String model, final int offset, final int length) throws Exception {
+  protected void assertFormattedNM(final String expected, final String model, final int offset, final int length) throws IOException {
     ICompositeNode node = NodeModelUtils.getNode(getModel(model)).getRootNode();
     IFormattedRegion r = getXtextTestUtil().get(INodeModelFormatter.class).format(node, offset, length);
     String actual = model.substring(0, r.getOffset()) + r.getFormattedText() + model.substring(r.getLength() + r.getOffset());

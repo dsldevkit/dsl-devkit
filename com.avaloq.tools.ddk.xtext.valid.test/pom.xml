@@ -10,8 +10,4 @@
   <artifactId>com.avaloq.tools.ddk.xtext.valid.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
 
-  <properties>
-    <pmd.ruleset>${pmd.test.ruleset}</pmd.ruleset>
-    <checkstyle.configLocation>${checkstyle.test.configLocation}</checkstyle.configLocation>
-  </properties>
 </project>
