@@ -5,6 +5,8 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress files="Messages.java"
+    <suppress files="Messages\.java"
               checks=".*"/>
+    <suppress files=".*Test.*\.java|.*Bug.*\.java"
+              checks="AvoidStarImport|EmptyBlock|IllegalCatch|JavadocMethod|JavadocType|JavadocStyle|MagicNumber|MethodName"/>
 </suppressions>

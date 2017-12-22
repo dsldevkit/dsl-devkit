@@ -73,7 +73,7 @@ public final class ValidExtension {
    *          the extension to parse
    * @return <i>null</i> on failure to parse
    */
-  protected static ValidExtension parseExtension(final IExtension extension) {
+  static ValidExtension parseExtension(final IExtension extension) {
     String sid = extension.getSimpleIdentifier();
     String name = extension.getLabel();
     String id = !Strings.isNullOrEmpty(sid.trim()) ? sid : (!Strings.isNullOrEmpty(name.trim()) ? name : "Unknown"); //$NON-NLS-1$

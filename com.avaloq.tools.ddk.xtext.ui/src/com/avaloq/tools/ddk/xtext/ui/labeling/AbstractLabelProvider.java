@@ -354,6 +354,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
    * @return styled label of the form
    *         <name><qualifierPrefix><qualifier><qualifierPostfix>
    */
+  @SuppressWarnings(value = "PMD.UseObjectForClearerAPI")
   protected StyledString qualifiedStyledString(final String name, final String qualifier, final String qualifierPrefix, final String qualifierPostfix) {
     String safeName = name != null ? name : Messages.AbstractAcfLabelProvider_NAME_FALLBACK;
     StyledString styledString = new StyledString(safeName);

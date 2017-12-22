@@ -48,7 +48,7 @@ public class FixedSerializationConversionContext extends SerializationConversion
       throw new IllegalStateException("Could not read 'eObjectToIdMap' field", e); //$NON-NLS-1$
     }
 
-    for (int id = 0, size = idToEObjectMap.size(); id < size; ++id) {
+    for (int id = 0; id < idToEObjectMap.size(); ++id) {
       eObjectToIdMap.put(idToEObjectMap.get(id), id);
     }
   }

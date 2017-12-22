@@ -165,9 +165,10 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
     if (context.eResource() != originalResource && context.eResource() instanceof XtextResource) {
       registerForeignObject(context, (XtextResource) context.eResource(), originalResource);
     }
-    IScope scope = internalGetScope(context, reference, scopeName == null ? SCOPE_STRING : scopeName, originalResource);
+    String nameToFind = scopeName == null ? SCOPE_STRING : scopeName;
+    IScope scope = internalGetScope(context, reference, nameToFind, originalResource);
     if (scope == null) {
-      scope = internalGetScope(context, reference.getEReferenceType(), scopeName == null ? SCOPE_STRING : scopeName, originalResource);
+      scope = internalGetScope(context, reference.getEReferenceType(), nameToFind, originalResource);
     }
     return (scope == null) ? IScope.NULLSCOPE : scope;
   }
@@ -231,7 +232,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
      *          scope name, must not be {@code null}
      * @return new {@link CacheKey}, never {@code null}
      */
-    public static CacheKey of(final EObject context, final EReference reference, final String scopeName) {
+    public static CacheKey of(final EObject context, final EReference reference, final String scopeName) { // NOPMD - Short name 'of'
       return new CacheKey(context, reference, scopeName);
     }
 
@@ -246,7 +247,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
      *          scope name, must not be {@code null}
      * @return new {@link CacheKey}, never {@code null}
      */
-    public static CacheKey of(final EObject context, final EClass type, final String scopeName) {
+    public static CacheKey of(final EObject context, final EClass type, final String scopeName) { // NOPMD - Short name 'of'
       return new CacheKey(context, type, scopeName);
     }
 
@@ -294,6 +295,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
      *          scope name, must not be {@code null}
      * @return new {@link CacheKey}, never {@code null}
      */
+    @SuppressWarnings(value = "PMD.ShortMethodName")
     public static GlobalCacheKey of(final IDomain domain, final String languageName, final EReference reference, final String scopeName) {
       return new GlobalCacheKey(domain, reference, scopeName, languageName);
     }
@@ -311,6 +313,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
      *          scope name, must not be {@code null}
      * @return new {@link CacheKey}, never {@code null}
      */
+    @SuppressWarnings(value = "PMD.ShortMethodName")
     public static GlobalCacheKey of(final IDomain domain, final String languageName, final EClass type, final String scopeName) {
       return new GlobalCacheKey(domain, type, scopeName, languageName);
     }
@@ -501,7 +504,6 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   protected List<IContainer> getVisibleContainers(final EObject context, final Resource originalResource) { // NOPMD by WTH on 26.01.11 09:26 (NPath
                                                                                                             // complexity...)
     final Resource ctxRsc = originalResource == null ? context.eResource() : originalResource;
-    final EObject ctx = ctxRsc != context.eResource() ? ctxRsc.getContents().get(0) : context;
     if (!(ctxRsc instanceof XtextResource)) {
       LOGGER.error(MessageFormat.format("Context {0} is not in an Xtext resource: {1}", context, ctxRsc != null ? ctxRsc.getURI() : "null")); //$NON-NLS-1$ //$NON-NLS-2$
       throw new IllegalStateException();
@@ -518,6 +520,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
       }
     }
 
+    final EObject ctx = ctxRsc != context.eResource() ? ctxRsc.getContents().get(0) : context;
     // We need to get the container manager dynamically, otherwise we may end up using the wrong ResourceDescriptions if
     // the context object in actually from another resource.
     final IResourceServiceProvider resourceServiceProvider = rsc.getResourceServiceProvider();

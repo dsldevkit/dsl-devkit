@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.formatting;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.AbstractRule;
@@ -298,7 +299,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
   public int getOffset(final ExtendedLineEntry entry) {
     int column = 0;
     for (ExtendedLineEntry lineEntry : getEntries()) {
-      if (entry == lineEntry) {
+      if (Objects.equals(entry, lineEntry)) {
         break;
       }
       int charactersInLastLine = lineEntry.countCharactersInLastLine();
@@ -393,7 +394,8 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
    */
   private boolean existsIndirectColumnAlignedPredecessor(final ExtendedLineEntry entry, final ExtendedLineEntry previousEntry) {
     for (ExtendedLineEntry lineEntry : lineEntries) {
-      if (lineEntry != previousEntry && lineEntry != entry && (lineEntry.isFixedLocatorClosing() || lineEntry.isFixedLocatorOpening())) {
+      if (!Objects.equals(lineEntry, previousEntry) && !Objects.equals(lineEntry, entry)
+          && (lineEntry.isFixedLocatorClosing() || lineEntry.isFixedLocatorOpening())) {
         return true;
       }
     }
@@ -596,7 +598,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
   public ExtendedLineEntry getPrecedingLineEntry(final ExtendedLineEntry entry) {
     ExtendedLineEntry result = null;
     for (ExtendedLineEntry le : getEntries()) {
-      if (le != entry) {
+      if (!Objects.equals(le, entry)) {
         result = le;
       } else {
         return result;

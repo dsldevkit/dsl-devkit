@@ -25,6 +25,7 @@ import org.eclipse.xtext.ui.util.PluginProjectFactory;
  * A factory for creating CustomCheckProject objects.
  */
 // CHECKSTYLE:OFF
+@SuppressWarnings("nls")
 public class CheckProjectFactory extends PluginProjectFactory {
   // CHECKSTYLE:ON
 
@@ -45,7 +46,7 @@ public class CheckProjectFactory extends PluginProjectFactory {
    * @throws CoreException
    *           the core exception
    */
-  @SuppressWarnings("nls")
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   private void createPluginXML(final IProject project, final IProgressMonitor monitor) throws CoreException {
     final StringBuilder content = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?eclipse version=\"3.4\"?>\n");
     content.append("<plugin>\n</plugin>\n");
@@ -59,6 +60,7 @@ public class CheckProjectFactory extends PluginProjectFactory {
   }
 
   @Override
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   protected void createBuildProperties(final IProject project, final IProgressMonitor progressMonitor) {
     final StringBuilder content = new StringBuilder("source.. = ");
     for (final Iterator<String> iterator = folders.iterator(); iterator.hasNext();) {
@@ -69,7 +71,7 @@ public class CheckProjectFactory extends PluginProjectFactory {
         content.append("          ");
       }
     }
-    content.append("\n");
+    content.append('\n');
     content.append("bin.includes = META-INF/,\\\n");
     content.append("               .,\\\n");
     content.append("               plugin.xml,\\\n");
@@ -81,7 +83,7 @@ public class CheckProjectFactory extends PluginProjectFactory {
   /**
    * Overridden in order to change BundleVendor. {@inheritDoc}
    */
-  @SuppressWarnings("nls")
+  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   @Override
   protected void createManifest(final IProject project, final IProgressMonitor progressMonitor) throws CoreException {
     final StringBuilder content = new StringBuilder("Manifest-Version: 1.0\n");
@@ -114,4 +116,3 @@ public class CheckProjectFactory extends PluginProjectFactory {
     }
   }
 }
-

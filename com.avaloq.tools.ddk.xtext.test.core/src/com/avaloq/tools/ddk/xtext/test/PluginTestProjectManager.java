@@ -33,7 +33,6 @@ import org.eclipse.xtext.ui.util.IProjectFactoryContributor;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
 import org.junit.Assert;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Injector;
 
 
@@ -62,7 +61,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
 
   /**
    * Creates a plugin Project.
-   * 
+   *
    * @param injector
    *          the injector
    * @param name
@@ -74,7 +73,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
   public static IProject createPluginProject(final Injector injector, final String name) throws CoreException {
     final PluginProjectFactory projectFactory = injector.getInstance(PluginProjectFactory.class);
     projectFactory.setProjectName(name);
-    projectFactory.addFolders(Lists.newArrayList(DEFAULT_SOURCE_FOLDER, DEFAULT_SOURCE_GEN_FOLDER));
+    projectFactory.addFolders(newArrayList(DEFAULT_SOURCE_FOLDER, DEFAULT_SOURCE_GEN_FOLDER));
     projectFactory.addBuilderIds(JavaCore.BUILDER_ID, "org.eclipse.pde.ManifestBuilder", "org.eclipse.pde.SchemaBuilder", XtextProjectHelper.BUILDER_ID);
     projectFactory.addProjectNatures(JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID);
     projectFactory.addRequiredBundles(REQUIRED_BUNDLES);
@@ -160,4 +159,3 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     return URI.createPlatformResourceURI('/' + TEST_PROJECT_NAME + "/" + DEFAULT_SOURCE_FOLDER + "/" + encodedFileName, true);
   }
 }
-

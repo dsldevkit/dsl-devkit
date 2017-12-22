@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -392,7 +393,7 @@ public class CheckExtensionHelperManager {
     for (int i = 0; i < orderedExtensions.size(); i++) {
       IPluginExtension expected = orderedExtensions.get(i);
       IPluginExtension actual = catalogExtensions.get(i);
-      if (actual != expected) {
+      if (!Objects.equals(actual, expected)) {
         // IExtensions#swap() doesn't work; see https://bugs.eclipse.org/bugs/show_bug.cgi?id=506831
         // pluginModel.getExtensions().swap(expected, actual);
         for (int j = i; j < catalogExtensions.size(); j++) {

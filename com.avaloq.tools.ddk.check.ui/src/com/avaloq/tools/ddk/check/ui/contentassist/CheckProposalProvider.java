@@ -183,7 +183,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
   /** {@inheritDoc} */
   @Override
   // CHECKSTYLE:OFF
-  public void completeContextVariable_Type(final EObject model, final org.eclipse.xtext.Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
+  public void completeContextVariable_Type(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
     // CHECKSTYLE:ON
     completeJavaTypes(context, TypesPackage.Literals.JVM_PARAMETERIZED_TYPE_REFERENCE__TYPE, true, qualifiedNameValueConverter, new Filter() {
       // @Format-Off

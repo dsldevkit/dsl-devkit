@@ -9,6 +9,8 @@
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
     <filter-data value="src-gen"/>
+    <filter-data value="src-model"/>
+    <filter-data value="xtend-gen"/>
     <filter-data value="build"/>
   </filter>
 </fileset-config>

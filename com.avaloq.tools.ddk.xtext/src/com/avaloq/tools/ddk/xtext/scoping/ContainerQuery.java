@@ -310,7 +310,7 @@ public class ContainerQuery {
     result.append(Integer.toHexString(hashCode()));
 
     result.append(" (type: ");
-    result.append(getType().getEPackage().getName() + "::" + getType().getName());
+    result.append(getType().getEPackage().getName()).append("::").append(getType().getName());
 
     if (getNamePattern() != null) {
       result.append(", name: ");

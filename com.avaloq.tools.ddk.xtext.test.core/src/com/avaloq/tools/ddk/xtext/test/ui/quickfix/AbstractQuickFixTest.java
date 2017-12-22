@@ -25,11 +25,11 @@ import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
 import org.eclipse.xtext.validation.Issue;
 import org.junit.Assert;
 
-import com.avaloq.tools.ddk.xtext.test.ui.AbstractXtextEditorTest;
-import com.avaloq.tools.ddk.xtext.ui.util.UiThreadDispatcher;
 import com.avaloq.tools.ddk.check.runtime.quickfix.ICoreModificationContext;
 import com.avaloq.tools.ddk.check.runtime.ui.quickfix.CoreIssueModificationContext;
 import com.avaloq.tools.ddk.check.runtime.ui.quickfix.IssueResolutionWrapper;
+import com.avaloq.tools.ddk.xtext.test.ui.AbstractXtextEditorTest;
+import com.avaloq.tools.ddk.xtext.ui.util.UiThreadDispatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -43,6 +43,7 @@ import com.google.common.collect.Ordering;
  * Besides overriding the abstract method getQuickFixFileName(), subclasses have to implement
  * the test method itself which tests for existence and resolutions of the diagnostic issues.
  */
+@SuppressWarnings("PMD.UseObjectForClearerAPI")
 public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
 
   private IssueResolutionProvider getIssueResolutionProvider() {
@@ -455,4 +456,3 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
     return resolutions;
   }
 }
-

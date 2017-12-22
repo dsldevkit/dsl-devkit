@@ -80,7 +80,7 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
 
   @Override
   public void configureIScopeProviderDelegate(final com.google.inject.Binder binder) {
-    binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
+    binder.bind(IScopeProvider.class).annotatedWith(Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
   }
 
   /** @return a strategy for selecting the objects to export in Index */
@@ -121,7 +121,7 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
 
   @Override
   public void configureLinkingIScopeProvider(final com.google.inject.Binder binder) {
-    binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(org.eclipse.xtext.linking.LinkingScopeProviderBinding.class).to(CheckScopeProvider.class);
+    binder.bind(IScopeProvider.class).annotatedWith(org.eclipse.xtext.linking.LinkingScopeProviderBinding.class).to(CheckScopeProvider.class);
   }
 
   /**

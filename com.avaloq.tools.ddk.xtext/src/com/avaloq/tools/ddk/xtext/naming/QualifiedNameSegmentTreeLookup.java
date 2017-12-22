@@ -218,7 +218,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
         return true;
       }
       for (SegmentNode child : children) {
-        if (child == stopOn) {
+        if (stopOn.equals(child)) {
           return false;
         }
         visitor.visit(child);
@@ -242,7 +242,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @param newValues
      *          new values to associate qualified name with; if mappings already exist any missing mapping will be added
      */
-    public void merge(final QualifiedName name, int segIdx, final T[] newValues) {
+    public void merge(final QualifiedName name, int segIdx, final T[] newValues) { // NOPMD - varargs doesn't make sense here
       if (children == null) {
         children = new ArrayList<SegmentNode>(DEFAULT_CHILD_CAPACITY);
       }

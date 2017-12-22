@@ -28,7 +28,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 public class CompilationContextTest {
 
   @Test
-  public void isExtension() throws Exception {
+  public void isExtension() {
     ExecutionContextImpl executionContext = new ExecutionContextImpl();
     executionContext.registerMetaModel(new JavaBeansMetaModel());
     ExtensionFile extensionFile = ParseFacade.file(new InputStreamReader(getClass().getResourceAsStream("/com/avaloq/tools/ddk/xtext/generator/expression/TestExtensions.ext")), "TestExtensions.ext");
@@ -39,7 +39,7 @@ public class CompilationContextTest {
   }
 
   @Test
-  public void analyze() throws Exception {
+  public void analyze() {
     ExecutionContextImpl executionContext = new ExecutionContextImpl();
     executionContext.registerMetaModel(new JavaBeansMetaModel());
     final CompilationContext context = new CompilationContext(executionContext, null);

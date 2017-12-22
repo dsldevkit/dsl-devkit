@@ -25,20 +25,19 @@ public final class CheckUtil {
   /**
    * Converts a string into an identifier by removing all characters that are not
    * allowed.
-   * 
+   *
    * @param source
    *          any string
    * @return a string stripped from illegal characters
    */
   public static String toIdentifier(final String source) {
-    StringBuilder result = new StringBuilder();
     if (source == null) {
       return null;
     } else if (source.length() == 0 || !Character.isJavaIdentifierStart(source.charAt(0))) {
-      return "";
+      return ""; //$NON-NLS-1$
     }
+    StringBuilder result = new StringBuilder();
     result.append(source.charAt(0));
-
     boolean space = false;
     for (Character c : source.substring(1).toCharArray()) {
       if (Character.isJavaIdentifierPart(c)) {
@@ -51,11 +50,10 @@ public final class CheckUtil {
 
   /**
    * Gets the service registry class name used to create a text file in META-INF/services.
-   * 
+   *
    * @return the service registry class name
    */
   public static String serviceRegistryClassName() {
     return ICheckValidatorStandaloneSetup.class.getName();
   }
 }
-

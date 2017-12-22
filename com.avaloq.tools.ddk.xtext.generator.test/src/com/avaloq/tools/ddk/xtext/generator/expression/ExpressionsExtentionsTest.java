@@ -12,6 +12,8 @@ package com.avaloq.tools.ddk.xtext.generator.expression;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
@@ -36,7 +38,7 @@ public class ExpressionsExtentionsTest extends AbstractXtextTest {
   }
 
   @Test
-  public final void serialize() throws Exception {
+  public final void serialize() throws IOException {
     Expression e = (Expression) getXtextTestUtil().getModel("test.expression." + getXtextTestUtil().getFileExtension(), "let x = 1 : 0");
     assertEquals("Simple serialization works", "let x = 1 : 0", ExpressionExtensions.serialize(e));
   }

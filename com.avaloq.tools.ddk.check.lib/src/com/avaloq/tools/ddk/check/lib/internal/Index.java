@@ -20,9 +20,9 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 
+import com.avaloq.tools.ddk.check.lib.IIndex;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQuery;
 import com.avaloq.tools.ddk.xtext.scoping.IDomain;
-import com.avaloq.tools.ddk.check.lib.IIndex;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
@@ -46,6 +46,7 @@ public final class Index implements IIndex {
   }
 
   /** {@inheritDoc} */
+  @Override
   public IIndex.Query newQuery(final EClass type, final String namePattern) {
     if (type == null || namePattern == null || namePattern.length() == 0) {
       throw new IllegalArgumentException(Messages.Index_NullArgumentInQuery);
@@ -54,6 +55,7 @@ public final class Index implements IIndex {
   }
 
   /** {@inheritDoc} */
+  @Override
   public IIndex.Query newQuery(final EClass type, final QualifiedName namePattern) {
     if (type == null || namePattern == null || namePattern.isEmpty()) {
       throw new IllegalArgumentException(Messages.Index_NullArgumentInQuery);
@@ -71,7 +73,7 @@ public final class Index implements IIndex {
 
     /**
      * Creates a new query for a type, using a given domain mapper and name converter.
-     * 
+     *
      * @param mapper
      *          to use
      * @param nameConverter
@@ -90,29 +92,30 @@ public final class Index implements IIndex {
      * <p>
      * <em>Note:</em> throws {@link IllegalArgumentException} if the name pattern has a wildcard, but not at the end.
      * </p>
-     * 
+     *
      * @param namePattern
      *          to look for, may end in a wildcard "*".
      * @return the query.
      */
-    protected Query withName(final String namePattern) {
+    private Query withName(final String namePattern) {
       realQuery.name(namePattern);
       return this;
     }
 
     /**
      * Restricts the query to match only index entries with a given name pattern.
-     * 
+     *
      * @param namePattern
      *          to look for.
      * @return the query.
      */
-    protected Query withName(final QualifiedName namePattern) {
+    private Query withName(final QualifiedName namePattern) {
       realQuery.name(namePattern);
       return this;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Query withData(final String key, final String value) {
       if (key == null || value == null) {
         throw new IllegalArgumentException(Messages.Index_NullQueryData);
@@ -122,11 +125,13 @@ public final class Index implements IIndex {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Iterable<IIndex.Entry> run(final EObject context) {
       if (context == null) {
         throw new IllegalArgumentException(Messages.Index_NullQueryContext);
       }
       return Iterables.transform(realQuery.execute(context), new Function<IEObjectDescription, IIndex.Entry>() {
+        @Override
         public IIndex.Entry apply(final IEObjectDescription desc) {
           return new Entry(context, nameConverter, desc);
         }
@@ -146,7 +151,7 @@ public final class Index implements IIndex {
     /**
      * Creates a new wrapper for an IEObjectDescription, using the given name converter and query context object. The context object is used to resolve the
      * EObject, if needed.
-     * 
+     *
      * @param context
      *          of the query that produced this result
      * @param nameConverter
@@ -161,21 +166,25 @@ public final class Index implements IIndex {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getName() {
       return nameConverter.toString(getQualifiedName());
     }
 
     /** {@inheritDoc} */
+    @Override
     public QualifiedName getQualifiedName() {
       return delegate.getQualifiedName();
     }
 
     /** {@inheritDoc} */
+    @Override
     public EClass getType() {
       return delegate.getEClass();
     }
 
     /** {@inheritDoc} */
+    @Override
     public EObject getModelObject() {
       EObject result = delegate.getEObjectOrProxy();
       if (result != null && result.eIsProxy()) {
@@ -185,6 +194,7 @@ public final class Index implements IIndex {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String[] getDataKeys() {
       String[] result = delegate.getUserDataKeys();
       if (result == null) {
@@ -194,6 +204,7 @@ public final class Index implements IIndex {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getData(final String key) {
       if (key == null) {
         throw new IllegalArgumentException(Messages.Index_NullKeyInEntry);
@@ -202,6 +213,7 @@ public final class Index implements IIndex {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getSourceName() {
       final URI uri = delegate.getEObjectURI().trimFragment();
       final String name = uri.lastSegment();
@@ -215,4 +227,3 @@ public final class Index implements IIndex {
 
   }
 }
-

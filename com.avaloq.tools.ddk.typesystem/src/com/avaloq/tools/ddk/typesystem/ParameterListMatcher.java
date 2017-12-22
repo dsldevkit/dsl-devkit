@@ -626,8 +626,8 @@ public class ParameterListMatcher {
     if (!caseSensitiveNames) {
       actualName = actualName.toLowerCase(Locale.getDefault());
     }
-    boolean actualNameAlreadyUsed = usedActualNames.contains(actualName);
-    usedActualNames.add(actualName);
+    boolean actualNameAlreadyUsed = // NOPMD - Result may change before usage
+        !usedActualNames.add(actualName);
     IFormalParameter formal = formalsToMatchByName.get(actualName);
     if (formal == null) {
       formal = listMatchResult.getConsumedNamedFormals().get(actualName);

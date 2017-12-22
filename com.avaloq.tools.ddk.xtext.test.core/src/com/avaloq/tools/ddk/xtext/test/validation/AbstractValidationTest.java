@@ -685,8 +685,8 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the diagnostic to check for issues
    */
   private void assertNoDiagnostics(final Diagnostic diagnostics) {
-    Assert.assertTrue(diagnostics.getCode() == Diagnostic.OK);
-    Assert.assertTrue(diagnostics.getChildren().isEmpty());
+    assertTrue("Diagnostics should be in OK state.", diagnostics.getCode() == Diagnostic.OK);
+    assertTrue("There should be no diagnostics. Instead found " + diagnostics.getChildren().size(), diagnostics.getChildren().isEmpty());
   }
 
   /**
@@ -698,14 +698,13 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the message
    * @return true, if given list of errors contains an error with given message
    */
-  public static boolean containsError(final EList<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors, final String message) {
-    return !Iterables.isEmpty(errors)
-        && Iterables.contains(Iterables.transform(errors, new Function<org.eclipse.emf.ecore.resource.Resource.Diagnostic, String>() {
-          @Override
-          public String apply(final org.eclipse.emf.ecore.resource.Resource.Diagnostic d) {
-            return d.getMessage();
-          }
-        }), message);
+  public static boolean containsError(final EList<Resource.Diagnostic> errors, final String message) {
+    return !Iterables.isEmpty(errors) && Iterables.contains(Iterables.transform(errors, new Function<Resource.Diagnostic, String>() {
+      @Override
+      public String apply(final Resource.Diagnostic d) {
+        return d.getMessage();
+      }
+    }), message);
   }
 
   /**
@@ -728,7 +727,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   public static void assertNoErrorsOnResource(final EObject object, final String... messages) {
     List<String> messageList = Lists.newArrayList(messages);
-    final EList<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors = object.eResource().getErrors();
+    final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     for (String errorMessage : HELPER.getErrorMessages(errors)) {
       assertFalse(NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + " with message '" + errorMessage + "'.", messageList.contains(errorMessage));
     }
@@ -779,7 +778,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the error strings
    */
   public static void assertErrorsOnResourceExist(final EObject object, final String... errorStrings) {
-    final EList<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors = object.eResource().getErrors();
+    final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     final List<String> errorMessages = HELPER.getErrorMessages(errors);
     for (final String s : errorStrings) {
       assertTrue(NLS.bind("Expected error \"{0}\" but could not find it", s), errorMessages.contains(s));
@@ -798,9 +797,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     final XtextTestSource testSource = createTestSource(sourceFileName, sourceContent.toString());
     final List<Resource.Diagnostic> errors = testSource.getModel().eResource().getErrors().stream().filter(error -> error instanceof XtextSyntaxDiagnostic).collect(Collectors.toList());
     if (!errors.isEmpty()) {
-      StringBuilder sb = new StringBuilder();
-      sb.append("Syntax error is present in the test source.\n");
-      sb.append("List of all found syntax errors:");
+      StringBuilder sb = new StringBuilder("Syntax error is present in the test source.\nList of all found syntax errors:");
       errors.forEach(err -> sb.append("\n\t " + err.getMessage()));
       Assert.fail(sb.toString());
     }
@@ -814,8 +811,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   private void memorizeResourceErrors(final EObject root) {
     for (AbstractDiagnostic ad : Iterables.filter(root.eResource().getErrors(), AbstractDiagnostic.class)) {
-      StringBuilder sb = new StringBuilder();
-      sb.append("Unexpected error: '");
+      StringBuilder sb = new StringBuilder("Unexpected error: '");
       sb.append(ad.getMessage());
       sb.append(DOT_AND_LINEBREAK);
       memorizeErrorOnPosition(ad.getOffset(), sb.toString());

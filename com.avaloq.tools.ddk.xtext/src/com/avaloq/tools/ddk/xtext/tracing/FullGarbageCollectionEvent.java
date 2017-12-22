@@ -11,6 +11,9 @@
 
 package com.avaloq.tools.ddk.xtext.tracing;
 
+import java.util.Arrays;
+
+
 /**
  * An event representing the occurrence of a full GC in the JVM. As this event is already delivered asynchronously from the JVM it cannot reliably be correlated
  * with other events.
@@ -20,7 +23,7 @@ public class FullGarbageCollectionEvent extends TraceEvent {
   private final long time;
   private final Object[] data;
 
-  public FullGarbageCollectionEvent(final Trigger trigger, final Object[] data) {
+  public FullGarbageCollectionEvent(final Trigger trigger, final Object... data) {
     super(trigger);
     this.time = (Long) data[0];
     this.data = new Object[data.length - 1];
@@ -34,7 +37,7 @@ public class FullGarbageCollectionEvent extends TraceEvent {
 
   @Override
   public Object[] getData() {
-    return data;
+    return Arrays.copyOf(data, data.length);
   }
 
 }

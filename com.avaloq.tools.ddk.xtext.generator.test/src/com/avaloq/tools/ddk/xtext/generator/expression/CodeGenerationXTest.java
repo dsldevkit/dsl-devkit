@@ -12,6 +12,8 @@ package com.avaloq.tools.ddk.xtext.generator.expression;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.eclipse.xtend.expression.ExecutionContextImpl;
 import org.eclipse.xtend.type.impl.java.JavaBeansMetaModel;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
@@ -197,7 +199,7 @@ public class CodeGenerationXTest extends AbstractXtextTest {
         "com.google.common.collect.Iterables.filter(obj.eContainer(), org.eclipse.emf.ecore.EObject.class)", compile("this.eContainer.typeSelect(ecore::EObject)"));
   }
 
-  private String compile(final String str) throws Exception {
+  private String compile(final String str) throws IOException {
     return getCompiler().compile((Expression) getXtextTestUtil().getModel("test.expression", str));
   }
 

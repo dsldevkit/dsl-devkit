@@ -33,7 +33,7 @@ public class DiscerningSuite extends Suite {
 
   /**
    * Creates a new instance of {@link DiscerningSuite}.
-   * 
+   *
    * @param klass
    *          root of the suite
    * @param runners
@@ -48,7 +48,7 @@ public class DiscerningSuite extends Suite {
 
   /**
    * Creates a new instance of {@link DiscerningSwtBotNonSwtBotSuite}.
-   * 
+   *
    * @param klass
    *          the root of the suite
    * @param suiteClasses
@@ -56,14 +56,14 @@ public class DiscerningSuite extends Suite {
    * @throws InitializationError
    *           if an error occurred during the initialization
    */
-  public DiscerningSuite(final Class<?> klass, final Class<?>[] suiteClasses) throws InitializationError {
+  public DiscerningSuite(final Class<?> klass, final Class<?>... suiteClasses) throws InitializationError {
     super(klass, suiteClasses);
     initialize();
   }
 
   /**
    * Creates a new instance of {@link DiscerningSwtBotNonSwtBotSuite}.
-   * 
+   *
    * @param klass
    *          the root class
    * @param builder
@@ -78,7 +78,7 @@ public class DiscerningSuite extends Suite {
 
   /**
    * Creates a new instance of {@link DiscerningSwtBotNonSwtBotSuite}.
-   * 
+   *
    * @param builder
    *          builds runners for classes in the suite
    * @param klass
@@ -88,14 +88,14 @@ public class DiscerningSuite extends Suite {
    * @throws InitializationError
    *           if an error occurred during the initialization
    */
-  public DiscerningSuite(final RunnerBuilder builder, final Class<?> klass, final Class<?>[] suiteClasses) throws InitializationError {
+  public DiscerningSuite(final RunnerBuilder builder, final Class<?> klass, final Class<?>... suiteClasses) throws InitializationError {
     super(builder, klass, suiteClasses);
     initialize();
   }
 
   /**
    * Creates a new instance of {@link DiscerningSwtBotNonSwtBotSuite}.
-   * 
+   *
    * @param builder
    *          builds runners for classes in the suite
    * @param classes
@@ -103,7 +103,7 @@ public class DiscerningSuite extends Suite {
    * @throws InitializationError
    *           if an error occurred during the initialization
    */
-  public DiscerningSuite(final RunnerBuilder builder, final Class<?>[] classes) throws InitializationError {
+  public DiscerningSuite(final RunnerBuilder builder, final Class<?>... classes) throws InitializationError {
     super(builder, classes);
     initialize();
   }
@@ -141,4 +141,3 @@ public class DiscerningSuite extends Suite {
     }
   }
 }
-

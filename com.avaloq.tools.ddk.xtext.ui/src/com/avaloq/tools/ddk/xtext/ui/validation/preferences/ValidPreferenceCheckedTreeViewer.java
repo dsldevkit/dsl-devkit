@@ -241,6 +241,7 @@ public class ValidPreferenceCheckedTreeViewer extends CheckboxTreeViewer impleme
 
   /** {@inheritDoc} */
   @Override
+  @SuppressWarnings(value = "PMD.UseVarargs") // Super doesn't use varargs.
   public void setCheckedElements(final Object[] elements) {
     super.setCheckedElements(elements);
     for (final Object element : elements) {
@@ -434,7 +435,7 @@ public class ValidPreferenceCheckedTreeViewer extends CheckboxTreeViewer impleme
      * @return the model element
      */
     protected Object getModelElement(final Event event) {
-      final org.eclipse.swt.widgets.TreeItem treeItem = tree.getItem(new Point(event.x, event.y));
+      final TreeItem treeItem = tree.getItem(new Point(event.x, event.y));
       if (treeItem == null) {
         return null;
       }

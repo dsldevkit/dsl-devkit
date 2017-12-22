@@ -216,11 +216,11 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
           for (final FormalParameter p : check.getFormalParameters()) {
             final String paramName = p.getName();
             final String defaultValue = String.valueOf(interpreter.evaluate(p.getRight()).getResult());
-            params.append(paramName).append(" = ").append("${").append(defaultValue).append("}");
+            params.append(paramName).append(" = ").append("${").append(defaultValue).append('}');
             params.append(", ");
           }
           if (params.length() > 2) {
-            paramString = params.substring(0, params.length() - 2) + ")";
+            paramString = params.substring(0, params.length() - 2) + ')';
           }
         }
 

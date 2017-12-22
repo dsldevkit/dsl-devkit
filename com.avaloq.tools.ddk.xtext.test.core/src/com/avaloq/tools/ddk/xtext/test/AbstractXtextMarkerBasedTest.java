@@ -196,7 +196,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
         getMarkerTagsInfo().registerLocalTag(tag.getKey(), context, crossReference);
       }
     } catch (IOException e) {
-      Assert.fail("Exception while creating model from input string: " + e.getMessage()); //$NON-NLS-1$
+      fail("Exception while creating model from input string: " + e.getMessage()); //$NON-NLS-1$
     }
     return root;
   }

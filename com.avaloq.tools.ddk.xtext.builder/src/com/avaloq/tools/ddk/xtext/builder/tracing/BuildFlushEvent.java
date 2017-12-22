@@ -23,7 +23,7 @@ public class BuildFlushEvent extends BuildPhaseEvent {
    * @param data
    *          event data
    */
-  public BuildFlushEvent(final Trigger trigger, final Object[] data) {
+  public BuildFlushEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

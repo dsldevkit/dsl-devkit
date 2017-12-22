@@ -33,7 +33,7 @@ public abstract class ResourceEvent extends TraceEvent {
    * @param data
    *          event data, where the first data object is expected to be the resource's {@link URI} this event pertains to, must not be {@code null}
    */
-  public ResourceEvent(final Trigger trigger, final Object[] data) {
+  public ResourceEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
     if (data.length > 0) {
       uri = (URI) data[0];

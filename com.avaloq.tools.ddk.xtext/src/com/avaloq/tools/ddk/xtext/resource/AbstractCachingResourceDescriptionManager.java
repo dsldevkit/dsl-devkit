@@ -156,7 +156,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
     final List<IContainer> containers = getContainerManager().getVisibleContainers(candidate, context);
     for (final Delta delta : filteredDeltas) {
-      final URI deltaURI = delta.getUri();
+      final URI deltaURI = delta.getUri();// NOPMD - potentially could be lost due to call on getNew() after
       // deleted resources are no longer visible resources so we test them, too.
       if (delta.getNew() == null && isReferencedBy(delta, candidate, context)) {
         if (LOGGER.isDebugEnabled()) {

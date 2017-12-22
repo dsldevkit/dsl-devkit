@@ -124,7 +124,7 @@ public class ResourceValidationRuleSummaryEvent extends ResourceEvent {
    *          event data, where the first data object is expected to be the resource's {@link org.eclipse.emf.common.util.URI} this event pertains to, the
    *          second object the validation rule's name, and the third object the total execution time in nanoseconds
    */
-  public ResourceValidationRuleSummaryEvent(final Trigger trigger, final Object[] data) {
+  public ResourceValidationRuleSummaryEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

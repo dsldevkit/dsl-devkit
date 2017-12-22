@@ -62,7 +62,7 @@ public class CheckCfgUiModule extends com.avaloq.tools.ddk.checkcfg.ui.AbstractC
    * @return IXtextEditorCallback.NullImpl
    */
   @Override
-  public Class<? extends org.eclipse.xtext.ui.editor.IXtextEditorCallback> bindIXtextEditorCallback() {
+  public Class<? extends IXtextEditorCallback> bindIXtextEditorCallback() {
     return IXtextEditorCallback.NullImpl.class;
   }
 }

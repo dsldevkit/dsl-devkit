@@ -321,7 +321,7 @@ public final class CoreSwtbotTools {
    *          to look for items in, must not be {@code null}
    * @return list of tree items, never {@code null}
    */
-  public static java.util.List<SWTBotTreeItem> treeItems(final SWTWorkbenchBot bot, final SWTBotTree tree) {
+  public static List<SWTBotTreeItem> treeItems(final SWTWorkbenchBot bot, final SWTBotTree tree) {
     Assert.isNotNull(bot, ARGUMENT_BOT);
     Assert.isNotNull(tree, ARGUMENT_TREE);
     waitForTreeItem(bot, tree);

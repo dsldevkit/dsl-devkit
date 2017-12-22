@@ -148,7 +148,7 @@ public class Graph<T> {
     // S <- Set of all nodes with no incoming edges
     Set<Node<T>> s = Sets.newLinkedHashSet();
     for (Node<T> n : nodes.values()) {
-      if (n.inEdges.size() == 0) {
+      if (n.inEdges.isEmpty()) {
         s.add(n);
       }
     }

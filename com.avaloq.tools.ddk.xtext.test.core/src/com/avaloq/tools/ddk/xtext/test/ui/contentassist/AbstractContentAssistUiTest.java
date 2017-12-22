@@ -28,8 +28,8 @@ import org.eclipse.xtext.ui.editor.contentassist.CompletionProposalComputer.Stat
 import org.junit.Assert;
 
 import com.avaloq.tools.ddk.xtext.common.ui.contentassist.TemplatesFirstCompletionProposalComparator;
-import com.avaloq.tools.ddk.xtext.test.ui.AbstractXtextEditorTest;
 import com.avaloq.tools.ddk.xtext.resource.Messages;
+import com.avaloq.tools.ddk.xtext.test.ui.AbstractXtextEditorTest;
 import com.avaloq.tools.ddk.xtext.ui.util.UiThreadDispatcher;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -92,7 +92,7 @@ public abstract class AbstractContentAssistUiTest extends AbstractXtextEditorTes
    *          the proposals
    * @return the completion proposal display strings
    */
-  private List<String> getCompletionProposalDisplayStrings(final ICompletionProposal[] proposals) {
+  private List<String> getCompletionProposalDisplayStrings(final ICompletionProposal... proposals) {
     return Lists.newArrayList(Iterables.transform(Arrays.asList(proposals), new Function<ICompletionProposal, String>() {
       @Override
       public String apply(final ICompletionProposal from) {
@@ -149,6 +149,7 @@ public abstract class AbstractContentAssistUiTest extends AbstractXtextEditorTes
    * @param offset
    *          offset in test file
    */
+  @SuppressWarnings("PMD.UseObjectForClearerAPI")
   protected void assertTemplateProposalExistsAndSuccessful(final String sourceFileName, final String sourceContent, final String contentassistProposal, final String expectedContent, final int offset) {
     if (sourceContent == null) {
       Assert.assertNotNull(String.format("There must be an existing test source with the file name '%s'.", sourceFileName), getTestSource(sourceFileName));
@@ -258,4 +259,3 @@ public abstract class AbstractContentAssistUiTest extends AbstractXtextEditorTes
   }
 
 }
-
