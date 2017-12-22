@@ -51,7 +51,8 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
   @Override
   protected synchronized IContainer createContainer(final String handle, final IResourceDescriptions resourceDescriptions) {
     final IResourceDescriptions descriptionsKey = resourceDescriptions instanceof CurrentDescriptions2.ResourceSetAware
-        ? ((CurrentDescriptions2.ResourceSetAware) resourceDescriptions).getDelegate() : resourceDescriptions;
+        ? ((CurrentDescriptions2.ResourceSetAware) resourceDescriptions).getDelegate()
+        : resourceDescriptions;
 
     Map<String, WeakReference<IContainer>> containersMap = descriptionsContainersCache.get(descriptionsKey);
     if (containersMap == null) {
@@ -126,11 +127,26 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
       return Collections.emptyList();
     }
     List<String> handles = getState(resourceDescriptions).getVisibleContainerHandles(root);
+    return getContainersForHandlesAndResource(handles, desc, resourceDescriptions);
+  }
+
+  /**
+   * Returns the containers for the given handles, where one of the containers will also include {@code desc} when appropriate.
+   * 
+   * @param handles
+   *          handles to get containers for, must not be {@code null}
+   * @param desc
+   *          description to add, must not be {@code null}
+   * @param resourceDescriptions
+   *          resource descriptions, must not be {@code null}
+   * @return list of containers, never {@code null}
+   */
+  protected List<IContainer> getContainersForHandlesAndResource(final List<String> handles, final IResourceDescription desc, final IResourceDescriptions resourceDescriptions) {
     List<IContainer> result = getVisibleContainers(handles, resourceDescriptions);
     if (!result.isEmpty()) {
       URI descURI = desc.getURI();
-      for (IContainer container : result) {
-        if (container.getResourceDescription(descURI) != null) {
+      for (int i = 0; i < result.size(); i++) {
+        if (result.get(i).getResourceDescription(descURI) != null) {
           return result;
         }
       }
@@ -147,7 +163,8 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
       IDomain descDomain = mapper.map(descURI);
       IContainer wrappedContainer = null;
       int index = 0;
-      for (IContainer container : result) {
+      for (int i = 0; i < result.size(); i++) {
+        IContainer container = result.get(i);
         IDomain containerDomain = mapper.map(container);
         if (containerDomain != null && containerDomain.equals(descDomain)) {
           wrappedContainer = new DescriptionAddingContainer(desc, container);
@@ -165,4 +182,3 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
   }
 
 }
-
