@@ -58,7 +58,7 @@
 		<link>
 			<name>.fbprefs</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.fbprefs-test</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.fbprefs</locationURI>
 		</link>
 		<link>
 			<name>.pmd</name>
