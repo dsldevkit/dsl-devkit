@@ -33,6 +33,8 @@ class ScopeNameProviderGenerator {
     '''
       package «getScopeNameProvider().toJavaPackage()»;
 
+      import java.util.Arrays;
+
       import org.eclipse.emf.ecore.EClass;
       import org.eclipse.emf.ecore.EObject;
 
@@ -44,7 +46,6 @@ class ScopeNameProviderGenerator {
       import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
 
       import com.google.common.base.Function;
-      import com.google.common.collect.Lists;
       import com.google.inject.Singleton;
 
       @SuppressWarnings("all")
@@ -83,7 +84,7 @@ class ScopeNameProviderGenerator {
   }
 
   def nameFunctions(Naming it, ScopeModel model, String contextName, EClass contextType) {
-    '''Lists.<INameFunction> newArrayList(«FOR n : names SEPARATOR ", "»«nameFunction(n, model, contextName, contextType)»«ENDFOR»)'''
+    '''Arrays.<INameFunction> asList(«FOR n : names SEPARATOR ", "»«nameFunction(n, model, contextName, contextType)»«ENDFOR»)'''
   }
 
   def dispatch String nameFunction(NamingExpression it, ScopeModel model, String contextName, EClass contextType) {
