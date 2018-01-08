@@ -52,6 +52,9 @@ import com.google.inject.Inject;
  */
 public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalProvider {
 
+  // Make template proposals appear at the head of the autocomplete list
+  private static final int RELEVANCE = 10000;
+
   @Inject
   private CheckCfgImages images;
 
@@ -71,20 +74,26 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   @Override
   public Image getImage(final Template template) {
-    if (Strings.equal("CheckConfiguration", template.getName())) { // see templates.xml
+    if (Strings.equal("CheckConfiguration", template.getName())) { // see templates.xml //$NON-NLS-1$
       return images.forCheckConfiguration();
-    } else if (Strings.equal("Add a catalog", template.getName())) { // see templates.xml
+    } else if (Strings.equal("Add a catalog", template.getName())) { // see templates.xml //$NON-NLS-1$
       return images.forConfiguredCatalog();
     }
     return super.getImage(template);
   }
 
   @Override
+  public int getRelevance(final Template template) {
+    // Make template proposals appear at the head of the autocomplete list
+    return RELEVANCE;
+  }
+
+  @Override
   protected void createTemplates(final TemplateContext templateContext, final ContentAssistContext context, final ITemplateAcceptor acceptor) {
-    if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck")) {
+    if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck")) { //$NON-NLS-1$
       addConfiguredCheckTemplates(templateContext, context, acceptor);
       return;
-    } else if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog")) {
+    } else if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog")) { //$NON-NLS-1$
       addCatalogConfigurations(templateContext, context, acceptor);
     }
     TemplateContextType contextType = templateContext.getContextType();
@@ -210,24 +219,24 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
       if (!Iterables.contains(alreadyConfiguredCheckNames, checkName)) {
 
         // check if referenced check has configurable parameters
-        String paramString = "";
+        String paramString = ""; //$NON-NLS-1$
         if (!check.getFormalParameters().isEmpty()) {
-          StringBuilder params = new StringBuilder("(");
+          StringBuilder params = new StringBuilder("("); //$NON-NLS-1$
           for (final FormalParameter p : check.getFormalParameters()) {
             final String paramName = p.getName();
             final String defaultValue = String.valueOf(interpreter.evaluate(p.getRight()).getResult());
-            params.append(paramName).append(" = ").append("${").append(defaultValue).append('}');
-            params.append(", ");
+            params.append(paramName).append(" = ").append("${").append(defaultValue).append('}'); //$NON-NLS-1$ //$NON-NLS-2$
+            params.append(", "); //$NON-NLS-1$
           }
           if (params.length() > 2) {
             paramString = params.substring(0, params.length() - 2) + ')';
           }
         }
 
-        final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : "${default:Enum('SeverityKind')} ";
-        final String description = "Configures the check \"" + check.getLabel() + "\"";
-        final String contextTypeId = "com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck." + checkName;
-        final String pattern = severity + checkName + (paramString.length() == 0 ? "${cursor}" : " " + paramString + "${cursor}");
+        final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : "${default:Enum('SeverityKind')} "; //$NON-NLS-1$ //$NON-NLS-2$
+        final String description = "Configures the check \"" + check.getLabel() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+        final String contextTypeId = "com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck." + checkName; //$NON-NLS-1$
+        final String pattern = severity + checkName + (paramString.length() == 0 ? "${cursor}" : " " + paramString + "${cursor}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         Template t = new Template(checkName, description, contextTypeId, pattern, true);
         TemplateProposal tp = createProposal(t, templateContext, context, images.forConfiguredCheck(check.getDefaultSeverity()), getRelevance(t));
