@@ -18,4 +18,4 @@ import com.avaloq.tools.ddk.xtext.resource.IResourceSetCache;
 /**
  * A cache for {@link IScope}s.
  */
-public interface IScopeCache extends IResourceSetCache<IScope> {}
+public interface IResourceSetScopeCache extends IResourceSetCache<IScope> {}
