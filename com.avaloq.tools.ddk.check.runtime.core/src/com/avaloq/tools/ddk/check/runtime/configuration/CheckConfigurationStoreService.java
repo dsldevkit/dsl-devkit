@@ -17,10 +17,15 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.IResourceServiceProvider.Registry;
 import org.eclipse.xtext.validation.Issue;
+
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 
 
 /**
@@ -69,26 +74,24 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
    * @return the language the corresponding resource was parsed from, may be {@code null}
    */
   private String getLanguage(final Object context) {
-    Resource resource = null;
     if (context instanceof EObject) {
-      resource = ((EObject) context).eResource();
+      Resource resource = ((EObject) context).eResource();
+      if (resource instanceof LazyLinkingResource) {
+        return ((LazyLinkingResource) resource).getLanguageName();
+      }
     } else if (context instanceof Issue) {
       URI uri = ((Issue) context).getUriToProblem();
       if (uri != null) {
         Registry registry = IResourceServiceProvider.Registry.INSTANCE;
         IResourceServiceProvider resourceServiceProvider = registry.getResourceServiceProvider(uri);
         if (resourceServiceProvider != null) {
-          resource = resourceServiceProvider.get(LazyLinkingResource.class);
+          return resourceServiceProvider.get(Injector.class).getInstance(Key.get(String.class, Names.named(Constants.LANGUAGE_NAME)));
         } else {
           LOGGER.error("Could not fetch a ResourceServiceProvider for URI: " + uri); //$NON-NLS-1$
         }
       } else {
         LOGGER.warn("Could not fetch eResource from issue: URI to problem is null"); //$NON-NLS-1$
       }
-    }
-
-    if (resource instanceof LazyLinkingResource) {
-      return ((LazyLinkingResource) resource).getLanguageName();
     }
 
     return null;
