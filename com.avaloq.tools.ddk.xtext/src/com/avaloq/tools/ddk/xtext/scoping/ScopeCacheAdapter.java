@@ -18,4 +18,4 @@ import com.avaloq.tools.ddk.xtext.resource.CacheAdapter;
 /**
  * A cache adapter for {@link IScope}s.
  */
-public class ScopeCacheAdapter extends CacheAdapter<IScope> implements IScopeCache {}
+public class ScopeCacheAdapter extends CacheAdapter<IScope> implements IResourceSetScopeCache {}
