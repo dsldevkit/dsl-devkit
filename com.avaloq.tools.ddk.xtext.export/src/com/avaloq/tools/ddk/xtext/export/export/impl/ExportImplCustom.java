@@ -13,13 +13,10 @@ package com.avaloq.tools.ddk.xtext.export.export.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 
 import com.avaloq.tools.ddk.xtext.export.export.Attribute;
 import com.avaloq.tools.ddk.xtext.export.export.Export;
 import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
-import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall;
 
 
 /**
@@ -28,41 +25,12 @@ import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall;
 public class ExportImplCustom extends ExportImpl {
 
   @Override
-  public EAttribute getNamingAttribute() {
-    Expression expression = getNaming();
-    if (expression instanceof FeatureCall && ((FeatureCall) expression).getType() != null) {
-      StringBuilder name = new StringBuilder();
-      for (String identifier : ((FeatureCall) expression).getType().getId()) {
-        name.append(name.length() > 0 ? "::" : ""); //$NON-NLS-1$ //$NON-NLS-2$
-        name.append(identifier);
-      }
-      String qualifiedName = name.toString();
-      final EClass type = getType();
-      if (type != null) {
-        EList<EAttribute> attributes = type.getEAllAttributes();
-        for (EAttribute attribute : attributes) {
-          if (attribute.getName().equals(qualifiedName)) { // NOPMD: AvoidDeeplyNestedIfStmts
-            return attribute;
-          }
-        }
-      }
-    }
-    return null;
-
-  }
-
-  @Override
   public EList<EAttribute> getEAttributes() {
     EList<EAttribute> result = new UniqueEList<EAttribute>();
 
     // First iterate through the field clause
     for (Attribute attribute : getAttributes()) {
       result.add(attribute.getAttribute());
-    }
-
-    // then add the naming clause
-    if (getNamingAttribute() != null) {
-      result.add(getNamingAttribute());
     }
 
     return result;

@@ -70,6 +70,7 @@ import com.google.common.collect.Sets;
 /**
  * Base class for scoping tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   private static final String PARAMETER_EXPECTED_OBJECTS = "expectedObjects";
   private static final String PARAMETER_REFERENCE = "reference";

@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -196,24 +195,6 @@ public class ExportJavaValidator extends AbstractExportJavaValidator {
             error(data.getName() + " has the same name as an existing feature", data, ExportPackage.Literals.USER_DATA__NAME, null);
           }
 
-        }
-      }
-    }
-  }
-
-  /**
-   * Check that the export name (alias) is not used as field.
-   *
-   * @param context
-   *          export section to check
-   */
-  @Check
-  public void checkNameAsField(final Export context) {
-    EAttribute namingAttribute = context.getNamingAttribute();
-    if (namingAttribute != null) {
-      for (Attribute attribute : context.getAttributes()) {
-        if (attribute.getAttribute() == namingAttribute) {
-          error(attribute.getAttribute().getName() + " is already used as export key", attribute, ExportPackage.Literals.ATTRIBUTE__ATTRIBUTE, null);
         }
       }
     }
