@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.checkcfg;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
@@ -27,6 +28,7 @@ import com.avaloq.tools.ddk.checkcfg.naming.CheckCfgDeclarativeQualifiedNameProv
 import com.avaloq.tools.ddk.checkcfg.resource.CheckCfgLocationInFileProvider;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgBatchLinkingService;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProvider;
+import com.avaloq.tools.ddk.xtext.naming.EscapingQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
@@ -68,6 +70,11 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
   }
 
   @Override
+  public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
+    return EscapingQualifiedNameConverter.class;
+  }
+
+  @Override
   public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
     return CheckCfgDeclarativeQualifiedNameProvider.class;
   }
@@ -106,4 +113,5 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
   public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
     return FixedPartialParsingHelper.class;
   }
+
 }

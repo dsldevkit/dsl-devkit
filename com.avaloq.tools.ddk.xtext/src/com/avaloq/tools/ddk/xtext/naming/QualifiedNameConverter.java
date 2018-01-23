@@ -19,7 +19,7 @@ import org.eclipse.xtext.util.Strings;
 
 
 /**
- * AcsQualifiedNamesConverter overrides {@link DefaultImpl} in order to use custom segment splitter.
+ * QualifiedNamesConverter overrides {@link DefaultImpl} in order to use custom segment splitter.
  * This implementation is about 3 times faster than the (uncompiled) regexp splitter.
  */
 public class QualifiedNameConverter extends DefaultImpl implements IQualifiedNameConverter {
@@ -36,9 +36,8 @@ public class QualifiedNameConverter extends DefaultImpl implements IQualifiedNam
   }
 
   @Override
-  public final String getDelimiter() {
+  public String getDelimiter() {
     return DELIMITER;
   }
 
 }
-

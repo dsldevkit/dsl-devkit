@@ -10,18 +10,17 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scope.naming;
 
-import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import com.avaloq.tools.ddk.xtext.naming.EscapingQualifiedNameConverter;
 
 
 /**
  * ScopeQualifiedNameConverter.
  */
-public class ScopeQualifiedNameConverter extends IQualifiedNameConverter.DefaultImpl {
+public class ScopeQualifiedNameConverter extends EscapingQualifiedNameConverter {
 
   @Override
   public String getDelimiter() {
-    return "::";
+    return "::"; //$NON-NLS-1$
   }
 
 }
-

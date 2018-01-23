@@ -24,7 +24,7 @@ public final class QualifiedNames {
   private static final String EMPTY_STRING = ""; //$NON-NLS-1$
   private static final String UNRESOLVED_PREFIX = "unresolved "; //$NON-NLS-1$
 
-  private static final IQualifiedNameConverter CONVERTER = new QualifiedNameConverter() {
+  private static final IQualifiedNameConverter CONVERTER = new EscapingQualifiedNameConverter() {
     @Override
     public QualifiedName toQualifiedName(final String str) {
       if (str == null || str.length() == 0) {

@@ -13,26 +13,27 @@ package com.avaloq.tools.ddk.xtext.format.naming;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.Strings;
+
+import com.avaloq.tools.ddk.xtext.naming.EscapingQualifiedNameConverter;
 
 
 /**
  * Extension of the default implementation of the qualified name converter.
  */
-public class FormatQualifiedNameConverter extends IQualifiedNameConverter.DefaultImpl {
+public class FormatQualifiedNameConverter extends EscapingQualifiedNameConverter {
 
-  private static final Pattern STRING_PATTERN = Pattern.compile("\".*\"");
+  private static final Pattern STRING_PATTERN = Pattern.compile("\".*\""); //$NON-NLS-1$
 
   @Override
   public String getDelimiter() {
-    return ".";
+    return "."; //$NON-NLS-1$
   }
 
   @Override
   public QualifiedName toQualifiedName(final String qualifiedNameAsString) {
-    if (qualifiedNameAsString == null || qualifiedNameAsString.equals("") || Strings.isEmpty(getDelimiter())) {
+    if (qualifiedNameAsString == null || qualifiedNameAsString.equals("") || Strings.isEmpty(getDelimiter())) { //$NON-NLS-1$
       return super.toQualifiedName(qualifiedNameAsString);
     }
     Matcher m = STRING_PATTERN.matcher(qualifiedNameAsString);
