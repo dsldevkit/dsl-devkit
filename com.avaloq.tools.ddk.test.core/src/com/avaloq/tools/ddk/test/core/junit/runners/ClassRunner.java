@@ -43,6 +43,7 @@ import com.avaloq.tools.ddk.test.core.IntegrationTest;
 import com.avaloq.tools.ddk.test.core.ModuleTest;
 import com.avaloq.tools.ddk.test.core.MultipleTestProblems;
 import com.avaloq.tools.ddk.test.core.PerformanceTest;
+import com.avaloq.tools.ddk.test.core.Retry;
 import com.avaloq.tools.ddk.test.core.SystemTest;
 import com.avaloq.tools.ddk.test.core.UnitTest;
 import com.google.common.base.Predicate;
@@ -91,11 +92,11 @@ import com.google.common.collect.Sets;
 @SuppressWarnings({"restriction", "deprecation"})
 public class ClassRunner extends BlockJUnit4ClassRunner {
   /** The system property for the number of test runs. */
-  public static final String PROPERTY_TEST_RUNS = "com.avaloq.test.runs";
+  public static final String PROPERTY_TEST_RUNS = "com.avaloq.test.runs"; //$NON-NLS-1$
   /** The system property for the number of times a failing test shall be retried. */
-  public static final String PROPERTY_TEST_RETRIES = "com.avaloq.test.retries";
+  public static final String PROPERTY_TEST_RETRIES = "com.avaloq.test.retries"; //$NON-NLS-1$
   /** The system property to specify whether unstable tests shall fail. */
-  public static final String PROPERTY_UNSTABLE_FAIL = "com.avaloq.test.unstablefail";
+  public static final String PROPERTY_UNSTABLE_FAIL = "com.avaloq.test.unstablefail"; //$NON-NLS-1$
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(ClassRunner.class);
   @SuppressWarnings("unchecked")
@@ -119,9 +120,9 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
   public ClassRunner(final Class<?> klass) throws InitializationError {
     super(klass);
     SorterUtil.getInstance().initializeSorter(this);
-    testRuns = Integer.valueOf(System.getProperty(PROPERTY_TEST_RUNS, "1"));
-    testRetries = Integer.valueOf(System.getProperty(PROPERTY_TEST_RETRIES, "0"));
-    unstableFail = Boolean.valueOf(System.getProperty(PROPERTY_UNSTABLE_FAIL, "false"));
+    testRuns = Integer.valueOf(System.getProperty(PROPERTY_TEST_RUNS, "1")); //$NON-NLS-1$
+    testRetries = Integer.valueOf(System.getProperty(PROPERTY_TEST_RETRIES, "0")); //$NON-NLS-1$
+    unstableFail = Boolean.valueOf(System.getProperty(PROPERTY_UNSTABLE_FAIL, "false")); //$NON-NLS-1$
   }
 
   /**
@@ -186,7 +187,7 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
     if (!ignored) {
       Assert.assertEquals(expectedMethods.get(currentMethodIndex++), method);
     }
-    if (ignored || testRuns == 1 && testRetries == 0) {
+    if (ignored || testRuns == 1 && testRetries == 0 && method.getAnnotation(Retry.class) == null) {
       super.runChild(method, notifier);
     } else {
       runRepeatedly(method, createNotifier(method, notifier));
@@ -201,7 +202,13 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
    * @param eachNotifier
    *          the {@link EachTestNotifier}, must not be {@code null}
    */
+  @SuppressWarnings("PMD.NPathComplexity")
   private void runRepeatedly(final FrameworkMethod method, final EachTestNotifier eachNotifier) {
+
+    final Retry retryAnnotation = method.getAnnotation(Retry.class);
+    final int retryAnnotationValue = retryAnnotation != null ? retryAnnotation.value() : 0;
+    final int thisTestRetries = Math.max(retryAnnotationValue, testRetries);
+
     eachNotifier.fireTestStarted();
     try {
       final MultipleTestProblems problems = new MultipleTestProblems();
@@ -209,7 +216,7 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
       final Collection<Throwable> errors = Lists.newArrayList();
       int run = 0;
       int succeeded = 0;
-      while (run < testRuns || (testRuns == 1 && succeeded == 0 && run < testRetries + 1)) {
+      while (run < testRuns || (testRuns == 1 && succeeded == 0 && run < thisTestRetries + 1)) {
         try {
           run++;
           methodBlock(method).evaluate();
@@ -268,20 +275,20 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
    *          the number of errored runs
    */
   public void logRepeatedTestResult(final String testCase, final int runs, final int succeeded, final int failures, final int errors) {
-    final StringBuilder testResult = new StringBuilder(testCase).append(" Repeated Test Result: ");
+    final StringBuilder testResult = new StringBuilder(testCase).append(" Repeated Test Result: "); //$NON-NLS-1$
     if (succeeded == runs) {
-      testResult.append("SUCCESS");
+      testResult.append("SUCCESS"); //$NON-NLS-1$
     } else if (succeeded == 0) {
-      testResult.append("FAILURE");
+      testResult.append("FAILURE"); //$NON-NLS-1$
     } else {
-      testResult.append("UNSTABLE");
+      testResult.append("UNSTABLE"); //$NON-NLS-1$
     }
-    testResult.append(" (").append(succeeded).append(" of ").append(runs).append(" succeeded");
+    testResult.append(" (").append(succeeded).append(" of ").append(runs).append(" succeeded"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     if (failures > 0) {
-      testResult.append(", ").append(failures).append(" failed");
+      testResult.append(", ").append(failures).append(" failed"); //$NON-NLS-1$ //$NON-NLS-2$
     }
     if (errors > 0) {
-      testResult.append(", ").append(errors).append(" errored");
+      testResult.append(", ").append(errors).append(" errored"); //$NON-NLS-1$ //$NON-NLS-2$
     }
     testResult.append(')');
     LOGGER.info(testResult.toString());
