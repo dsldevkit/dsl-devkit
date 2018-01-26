@@ -43,7 +43,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//InterfaceExpression/expr"/>
     </genClasses>
     <genClasses ecoreClass="Export.ecore#//Export">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//Export/allowLookup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//Export/lookup"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//Export/lookupPredicate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//Export/qualifiedName"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//Export/naming"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//Export/fragmentUnique"/>

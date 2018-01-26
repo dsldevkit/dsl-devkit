@@ -439,7 +439,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExport_AllowLookup()
+	public EAttribute getExport_Lookup()
 	{
 		return (EAttribute)exportEClass.getEStructuralFeatures().get(0);
 	}
@@ -449,9 +449,19 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getExport_LookupPredicate()
+	{
+		return (EReference)exportEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getExport_QualifiedName()
 	{
-		return (EAttribute)exportEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)exportEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -461,7 +471,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EReference getExport_Naming()
 	{
-		return (EReference)exportEClass.getEStructuralFeatures().get(2);
+		return (EReference)exportEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -471,7 +481,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EAttribute getExport_FragmentUnique()
 	{
-		return (EAttribute)exportEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)exportEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -481,7 +491,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EReference getExport_FragmentAttribute()
 	{
-		return (EReference)exportEClass.getEStructuralFeatures().get(4);
+		return (EReference)exportEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -491,7 +501,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EAttribute getExport_Fingerprint()
 	{
-		return (EAttribute)exportEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)exportEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -501,7 +511,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EAttribute getExport_ResourceFingerprint()
 	{
-		return (EAttribute)exportEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)exportEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -511,7 +521,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EReference getExport_Attributes()
 	{
-		return (EReference)exportEClass.getEStructuralFeatures().get(7);
+		return (EReference)exportEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -521,7 +531,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 */
 	public EReference getExport_UserData()
 	{
-		return (EReference)exportEClass.getEStructuralFeatures().get(8);
+		return (EReference)exportEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -638,7 +648,8 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 		createEReference(interfaceExpressionEClass, INTERFACE_EXPRESSION__EXPR);
 
 		exportEClass = createEClass(EXPORT);
-		createEAttribute(exportEClass, EXPORT__ALLOW_LOOKUP);
+		createEAttribute(exportEClass, EXPORT__LOOKUP);
+		createEReference(exportEClass, EXPORT__LOOKUP_PREDICATE);
 		createEAttribute(exportEClass, EXPORT__QUALIFIED_NAME);
 		createEReference(exportEClass, EXPORT__NAMING);
 		createEAttribute(exportEClass, EXPORT__FRAGMENT_UNIQUE);
@@ -731,7 +742,8 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 		initEReference(getInterfaceExpression_Expr(), theExpressionPackage.getExpression(), null, "expr", null, 0, 1, InterfaceExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(exportEClass, Export.class, "Export", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExport_AllowLookup(), ecorePackage.getEBoolean(), "allowLookup", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExport_Lookup(), ecorePackage.getEBoolean(), "lookup", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExport_LookupPredicate(), theExpressionPackage.getExpression(), null, "lookupPredicate", null, 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExport_QualifiedName(), ecorePackage.getEBoolean(), "qualifiedName", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExport_Naming(), theExpressionPackage.getExpression(), null, "naming", null, 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExport_FragmentUnique(), ecorePackage.getEBoolean(), "fragmentUnique", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
