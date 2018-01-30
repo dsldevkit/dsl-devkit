@@ -23,7 +23,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class ExtendableInferredModelAssociator extends InferredModelAssociator {
 
-  @Inject(optional = true)
+  @Inject
   private IAdditionalInferrersService additionalInferrers;
 
   @Override

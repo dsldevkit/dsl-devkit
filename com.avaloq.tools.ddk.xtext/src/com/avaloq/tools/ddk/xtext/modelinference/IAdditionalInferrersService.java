@@ -10,9 +10,13 @@
 
 package com.avaloq.tools.ddk.xtext.modelinference;
 
+import com.google.inject.ImplementedBy;
+
+
 /**
  * This service allows additional inference for a given DSL to be executed outside of its plugin.
  */
+@ImplementedBy(DefaultAdditionalInferrersService.class)
 public interface IAdditionalInferrersService extends IModelInferrer {
 
 }

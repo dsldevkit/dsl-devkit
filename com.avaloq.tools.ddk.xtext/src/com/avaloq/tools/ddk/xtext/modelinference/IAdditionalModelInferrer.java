@@ -17,13 +17,6 @@ package com.avaloq.tools.ddk.xtext.modelinference;
 public interface IAdditionalModelInferrer extends IModelInferrer, Comparable<IAdditionalModelInferrer> {
 
   /**
-   * Gets the full qualified name of the language supported.
-   *
-   * @return the language name
-   */
-  String getTargetLanguageName();
-
-  /**
    * Compares this {@link IAdditionalModelInferrer} with the specified Compares this object with the specified object for order.
    * The name of the class implementing this interface is used for the comparison.
    * With this method implementations of {@link IAdditionalModelInferrer} can be always ordered alphabetically in a stable manner.

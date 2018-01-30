@@ -91,6 +91,17 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   }
 
   /**
+   * Allows override for delegation to extensions.
+   *
+   * @param object
+   *          object to compute fragment for
+   * @return fragment, never {@code null}
+   */
+  protected CharSequence getFragmentSegmentFallback(final EObject object) {
+    return shortFragmentProvider.getFragmentSegment(object);
+  }
+
+  /**
    * {@inheritDoc}
    * <p>
    * By default, this method delegates to {@link ShortFragmentProvider#getFragmentSegment(EObject)}. Sub classes have to override this method in order to
@@ -100,7 +111,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   // TODO DSL-348: change generator for fragment providers to implement getFragmentSegment instead of getFragment
   @Override
   public CharSequence getFragmentSegment(final EObject object) {
-    return shortFragmentProvider.getFragmentSegment(object);
+    return getFragmentSegmentFallback(object);
   }
 
   /** {@inheritDoc} */
