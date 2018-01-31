@@ -431,12 +431,4 @@ public interface Export extends DeclarationForType
 	 */
 	EList<EAttribute> getAllEAttributes();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EAttribute getNamingAttribute();
-
 } // Export

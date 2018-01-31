@@ -48,7 +48,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Export" eSuperTypes="#//DeclarationForType">
     <eOperations name="getEAttributes" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eOperations name="getAllEAttributes" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
-    <eOperations name="getNamingAttribute" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lookup" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false" unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lookupPredicate" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"

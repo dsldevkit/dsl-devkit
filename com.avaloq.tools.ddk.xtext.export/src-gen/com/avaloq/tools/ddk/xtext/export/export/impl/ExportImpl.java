@@ -711,18 +711,6 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamingAttribute()
-	{
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{

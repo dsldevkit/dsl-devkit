@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
+import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 
@@ -18,6 +20,8 @@ import org.eclipse.xtext.resource.IEObjectDescription;
  * A name function maps IEObjectDescriptions or EObjects to names.
  */
 public abstract class AbstractNameFunction implements INameFunction {
+
+  private static final Logger LOG = Logger.getLogger(AbstractNameFunction.class);
 
   /**
    * String value used in {@link #toString()} representation and {@link #hashCode()}. Used to support comparing NameFunctions when
@@ -45,7 +49,8 @@ public abstract class AbstractNameFunction implements INameFunction {
   /** {@inheritDoc} */
   @Override
   public QualifiedName apply(final IEObjectDescription from) {
-    return apply(from.getEObjectOrProxy());
+    LOG.warn("No explicit name function for description " + from.getEObjectURI() + " of type " + EcoreUtil.getURI(from.getEClass())); //$NON-NLS-1$ //$NON-NLS-2$
+    return from.getName();
   }
 
   @Override

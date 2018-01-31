@@ -55,7 +55,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//Export/userData"/>
       <genOperations ecoreOperation="Export.ecore#//Export/getEAttributes"/>
       <genOperations ecoreOperation="Export.ecore#//Export/getAllEAttributes"/>
-      <genOperations ecoreOperation="Export.ecore#//Export/getNamingAttribute"/>
     </genClasses>
     <genClasses ecoreClass="Export.ecore#//UserData">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//UserData/name"/>
