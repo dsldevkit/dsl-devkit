@@ -129,6 +129,11 @@ public final class NameFunctions {
       public QualifiedName apply(final EObject from) {
         return QualifiedNames.safeQualifiedName(value);
       }
+
+      @Override
+      public QualifiedName apply(final IEObjectDescription from) {
+        return QualifiedNames.safeQualifiedName(value);
+      }
     };
   }
 
