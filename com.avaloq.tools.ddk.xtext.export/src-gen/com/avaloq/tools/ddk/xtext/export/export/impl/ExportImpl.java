@@ -33,7 +33,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#isAllowLookup <em>Allow Lookup</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#isLookup <em>Lookup</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#getLookupPredicate <em>Lookup Predicate</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#isQualifiedName <em>Qualified Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#getNaming <em>Naming</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.impl.ExportImpl#isFragmentUnique <em>Fragment Unique</em>}</li>
@@ -49,33 +50,43 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ExportImpl extends DeclarationForTypeImpl implements Export
 {
 	/**
-	 * The default value of the '{@link #isAllowLookup() <em>Allow Lookup</em>}' attribute.
+	 * The default value of the '{@link #isLookup() <em>Lookup</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isAllowLookup()
+	 * @see #isLookup()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean ALLOW_LOOKUP_EDEFAULT = false;
+	protected static final boolean LOOKUP_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isAllowLookup() <em>Allow Lookup</em>}' attribute.
+	 * The cached value of the '{@link #isLookup() <em>Lookup</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isAllowLookup()
+	 * @see #isLookup()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean allowLookup = ALLOW_LOOKUP_EDEFAULT;
+	protected boolean lookup = LOOKUP_EDEFAULT;
 
 	/**
-	 * This is true if the Allow Lookup attribute has been set.
+	 * This is true if the Lookup attribute has been set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean allowLookupESet;
+	protected boolean lookupESet;
+
+	/**
+	 * The cached value of the '{@link #getLookupPredicate() <em>Lookup Predicate</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLookupPredicate()
+	 * @generated
+	 * @ordered
+	 */
+	protected Expression lookupPredicate;
 
 	/**
 	 * The default value of the '{@link #isQualifiedName() <em>Qualified Name</em>}' attribute.
@@ -259,9 +270,9 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isAllowLookup()
+	public boolean isLookup()
 	{
-		return allowLookup;
+		return lookup;
 	}
 
 	/**
@@ -269,14 +280,14 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAllowLookup(boolean newAllowLookup)
+	public void setLookup(boolean newLookup)
 	{
-		boolean oldAllowLookup = allowLookup;
-		allowLookup = newAllowLookup;
-		boolean oldAllowLookupESet = allowLookupESet;
-		allowLookupESet = true;
+		boolean oldLookup = lookup;
+		lookup = newLookup;
+		boolean oldLookupESet = lookupESet;
+		lookupESet = true;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__ALLOW_LOOKUP, oldAllowLookup, allowLookup, !oldAllowLookupESet));
+			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP, oldLookup, lookup, !oldLookupESet));
 	}
 
 	/**
@@ -284,14 +295,14 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void unsetAllowLookup()
+	public void unsetLookup()
 	{
-		boolean oldAllowLookup = allowLookup;
-		boolean oldAllowLookupESet = allowLookupESet;
-		allowLookup = ALLOW_LOOKUP_EDEFAULT;
-		allowLookupESet = false;
+		boolean oldLookup = lookup;
+		boolean oldLookupESet = lookupESet;
+		lookup = LOOKUP_EDEFAULT;
+		lookupESet = false;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__ALLOW_LOOKUP, oldAllowLookup, ALLOW_LOOKUP_EDEFAULT, oldAllowLookupESet));
+			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__LOOKUP, oldLookup, LOOKUP_EDEFAULT, oldLookupESet));
 	}
 
 	/**
@@ -299,9 +310,57 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isSetAllowLookup()
+	public boolean isSetLookup()
 	{
-		return allowLookupESet;
+		return lookupESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getLookupPredicate()
+	{
+		return lookupPredicate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLookupPredicate(Expression newLookupPredicate, NotificationChain msgs)
+	{
+		Expression oldLookupPredicate = lookupPredicate;
+		lookupPredicate = newLookupPredicate;
+		if (eNotificationRequired())
+		{
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP_PREDICATE, oldLookupPredicate, newLookupPredicate);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLookupPredicate(Expression newLookupPredicate)
+	{
+		if (newLookupPredicate != lookupPredicate)
+		{
+			NotificationChain msgs = null;
+			if (lookupPredicate != null)
+				msgs = ((InternalEObject)lookupPredicate).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__LOOKUP_PREDICATE, null, msgs);
+			if (newLookupPredicate != null)
+				msgs = ((InternalEObject)newLookupPredicate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__LOOKUP_PREDICATE, null, msgs);
+			msgs = basicSetLookupPredicate(newLookupPredicate, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP_PREDICATE, newLookupPredicate, newLookupPredicate));
 	}
 
 	/**
@@ -669,6 +728,8 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	{
 		switch (featureID)
 		{
+			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+				return basicSetLookupPredicate(null, msgs);
 			case ExportPackage.EXPORT__NAMING:
 				return basicSetNaming(null, msgs);
 			case ExportPackage.EXPORT__ATTRIBUTES:
@@ -689,8 +750,10 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	{
 		switch (featureID)
 		{
-			case ExportPackage.EXPORT__ALLOW_LOOKUP:
-				return isAllowLookup();
+			case ExportPackage.EXPORT__LOOKUP:
+				return isLookup();
+			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+				return getLookupPredicate();
 			case ExportPackage.EXPORT__QUALIFIED_NAME:
 				return isQualifiedName();
 			case ExportPackage.EXPORT__NAMING:
@@ -723,8 +786,11 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	{
 		switch (featureID)
 		{
-			case ExportPackage.EXPORT__ALLOW_LOOKUP:
-				setAllowLookup((Boolean)newValue);
+			case ExportPackage.EXPORT__LOOKUP:
+				setLookup((Boolean)newValue);
+				return;
+			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+				setLookupPredicate((Expression)newValue);
 				return;
 			case ExportPackage.EXPORT__QUALIFIED_NAME:
 				setQualifiedName((Boolean)newValue);
@@ -766,8 +832,11 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	{
 		switch (featureID)
 		{
-			case ExportPackage.EXPORT__ALLOW_LOOKUP:
-				unsetAllowLookup();
+			case ExportPackage.EXPORT__LOOKUP:
+				unsetLookup();
+				return;
+			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+				setLookupPredicate((Expression)null);
 				return;
 			case ExportPackage.EXPORT__QUALIFIED_NAME:
 				unsetQualifiedName();
@@ -807,8 +876,10 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	{
 		switch (featureID)
 		{
-			case ExportPackage.EXPORT__ALLOW_LOOKUP:
-				return isSetAllowLookup();
+			case ExportPackage.EXPORT__LOOKUP:
+				return isSetLookup();
+			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+				return lookupPredicate != null;
 			case ExportPackage.EXPORT__QUALIFIED_NAME:
 				return isSetQualifiedName();
 			case ExportPackage.EXPORT__NAMING:
@@ -840,8 +911,8 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (allowLookup: ");
-		if (allowLookupESet) result.append(allowLookup); else result.append("<unset>");
+		result.append(" (lookup: ");
+		if (lookupESet) result.append(lookup); else result.append("<unset>");
 		result.append(", qualifiedName: ");
 		if (qualifiedNameESet) result.append(qualifiedName); else result.append("<unset>");
 		result.append(", fragmentUnique: ");

@@ -396,8 +396,14 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Export");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cExportKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cAllowLookupAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final Keyword cAllowLookupLookupKeyword_1_0 = (Keyword)cAllowLookupAssignment_1.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Assignment cLookupAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final Keyword cLookupLookupKeyword_1_0_0 = (Keyword)cLookupAssignment_1_0.eContents().get(0);
+		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
+		private final Assignment cLookupPredicateAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cLookupPredicateExpressionParserRuleCall_1_1_1_0 = (RuleCall)cLookupPredicateAssignment_1_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_1_1_2 = (Keyword)cGroup_1_1.eContents().get(2);
 		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
 		private final RuleCall cTypeEClassQualifiedIDParserRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
@@ -454,31 +460,49 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
 		
 		//Export:
-		//	"export" allowLookup?="lookup"? type=[ecore::EClass|QualifiedID] ("as" qualifiedName?="qualified"?
-		//	naming=Expression)? // Only one name for now
-		// ("[" guard=Expression "]")? "{" ("uri-fragment" "="
-		//	fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+		//	"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
+		//	qualifiedName?="qualified"? naming=Expression)? // Only one name for now
+		// ("[" guard=Expression "]")? "{"
+		//	("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
 		//	((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
 		//	attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")*
 		//	"}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"export" allowLookup?="lookup"? type=[ecore::EClass|QualifiedID] ("as" qualifiedName?="qualified"? naming=Expression)?
-		//// Only one name for now
-		// ("[" guard=Expression "]")? "{" ("uri-fragment" "=" fragmentUnique?="unique"? "attribute"
-		//"(" fragmentAttribute=[ecore::EAttribute] ")" ";")? ((fingerprint?="object-fingerprint" |
-		//resourceFingerprint?="resource-fingerprint") ";")? ("field" attributes+=Attribute ("," attributes+=Attribute)* ";" |
-		//"data" userData+=UserData ("," userData+=UserData)* ";")* "}"
+		//"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
+		//qualifiedName?="qualified"? naming=Expression)? // Only one name for now
+		// ("[" guard=Expression "]")? "{"
+		//("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+		//((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
+		//attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")* "}"
 		public Group getGroup() { return cGroup; }
 
 		//"export"
 		public Keyword getExportKeyword_0() { return cExportKeyword_0; }
 
-		//allowLookup?="lookup"?
-		public Assignment getAllowLookupAssignment_1() { return cAllowLookupAssignment_1; }
+		//(lookup?="lookup" ("[" lookupPredicate=Expression "]")?)?
+		public Group getGroup_1() { return cGroup_1; }
+
+		//lookup?="lookup"
+		public Assignment getLookupAssignment_1_0() { return cLookupAssignment_1_0; }
 
 		//"lookup"
-		public Keyword getAllowLookupLookupKeyword_1_0() { return cAllowLookupLookupKeyword_1_0; }
+		public Keyword getLookupLookupKeyword_1_0_0() { return cLookupLookupKeyword_1_0_0; }
+
+		//("[" lookupPredicate=Expression "]")?
+		public Group getGroup_1_1() { return cGroup_1_1; }
+
+		//"["
+		public Keyword getLeftSquareBracketKeyword_1_1_0() { return cLeftSquareBracketKeyword_1_1_0; }
+
+		//lookupPredicate=Expression
+		public Assignment getLookupPredicateAssignment_1_1_1() { return cLookupPredicateAssignment_1_1_1; }
+
+		//Expression
+		public RuleCall getLookupPredicateExpressionParserRuleCall_1_1_1_0() { return cLookupPredicateExpressionParserRuleCall_1_1_1_0; }
+
+		//"]"
+		public Keyword getRightSquareBracketKeyword_1_1_2() { return cRightSquareBracketKeyword_1_1_2; }
 
 		//type=[ecore::EClass|QualifiedID]
 		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
@@ -884,10 +908,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Export:
-	//	"export" allowLookup?="lookup"? type=[ecore::EClass|QualifiedID] ("as" qualifiedName?="qualified"?
-	//	naming=Expression)? // Only one name for now
-	// ("[" guard=Expression "]")? "{" ("uri-fragment" "="
-	//	fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+	//	"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
+	//	qualifiedName?="qualified"? naming=Expression)? // Only one name for now
+	// ("[" guard=Expression "]")? "{"
+	//	("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
 	//	((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
 	//	attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")*
 	//	"}";

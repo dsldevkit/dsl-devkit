@@ -71,6 +71,8 @@ public class ExportParser extends AbstractContentAssistParser {
 					put(grammarAccess.getInterfaceNavigationAccess().getGroup(), "rule__InterfaceNavigation__Group__0");
 					put(grammarAccess.getInterfaceExpressionAccess().getGroup(), "rule__InterfaceExpression__Group__0");
 					put(grammarAccess.getExportAccess().getGroup(), "rule__Export__Group__0");
+					put(grammarAccess.getExportAccess().getGroup_1(), "rule__Export__Group_1__0");
+					put(grammarAccess.getExportAccess().getGroup_1_1(), "rule__Export__Group_1_1__0");
 					put(grammarAccess.getExportAccess().getGroup_3(), "rule__Export__Group_3__0");
 					put(grammarAccess.getExportAccess().getGroup_4(), "rule__Export__Group_4__0");
 					put(grammarAccess.getExportAccess().getGroup_6(), "rule__Export__Group_6__0");
@@ -148,7 +150,8 @@ public class ExportParser extends AbstractContentAssistParser {
 					put(grammarAccess.getInterfaceExpressionAccess().getRefAssignment_1(), "rule__InterfaceExpression__RefAssignment_1");
 					put(grammarAccess.getInterfaceExpressionAccess().getUnorderedAssignment_2(), "rule__InterfaceExpression__UnorderedAssignment_2");
 					put(grammarAccess.getInterfaceExpressionAccess().getExprAssignment_4(), "rule__InterfaceExpression__ExprAssignment_4");
-					put(grammarAccess.getExportAccess().getAllowLookupAssignment_1(), "rule__Export__AllowLookupAssignment_1");
+					put(grammarAccess.getExportAccess().getLookupAssignment_1_0(), "rule__Export__LookupAssignment_1_0");
+					put(grammarAccess.getExportAccess().getLookupPredicateAssignment_1_1_1(), "rule__Export__LookupPredicateAssignment_1_1_1");
 					put(grammarAccess.getExportAccess().getTypeAssignment_2(), "rule__Export__TypeAssignment_2");
 					put(grammarAccess.getExportAccess().getQualifiedNameAssignment_3_1(), "rule__Export__QualifiedNameAssignment_3_1");
 					put(grammarAccess.getExportAccess().getNamingAssignment_3_2(), "rule__Export__NamingAssignment_3_2");

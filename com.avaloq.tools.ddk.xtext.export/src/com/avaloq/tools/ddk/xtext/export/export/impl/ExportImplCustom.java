@@ -33,7 +33,7 @@ public class ExportImplCustom extends ExportImpl {
     if (expression instanceof FeatureCall && ((FeatureCall) expression).getType() != null) {
       StringBuilder name = new StringBuilder();
       for (String identifier : ((FeatureCall) expression).getType().getId()) {
-        name.append(name.length() > 0 ? "::" : "");
+        name.append(name.length() > 0 ? "::" : ""); //$NON-NLS-1$ //$NON-NLS-2$
         name.append(identifier);
       }
       String qualifiedName = name.toString();
@@ -79,4 +79,3 @@ public class ExportImplCustom extends ExportImpl {
     return result;
   }
 }
-

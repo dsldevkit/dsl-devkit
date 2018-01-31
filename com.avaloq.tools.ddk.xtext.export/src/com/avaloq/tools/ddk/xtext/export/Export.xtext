@@ -57,7 +57,7 @@ InterfaceExpression:
 
 Export:
     'export'
-    (allowLookup?='lookup')?
+    (lookup?='lookup' ('[' lookupPredicate=Expression ']')?)?
     type=[ecore::EClass|QualifiedID]
     ('as' qualifiedName?='qualified'? naming=Expression)? // Only one name for now
     ('[' guard=Expression ']')?

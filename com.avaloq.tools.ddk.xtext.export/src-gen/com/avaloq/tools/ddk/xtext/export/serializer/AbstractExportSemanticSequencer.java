@@ -367,7 +367,7 @@ public abstract class AbstractExportSemanticSequencer extends ExpressionSemantic
   /**
    * Constraint:
    *     (
-   *         allowLookup?='lookup'? 
+   *         (lookup?='lookup' lookupPredicate=Expression?)? 
    *         type=[EClass|QualifiedID] 
    *         (qualifiedName?='qualified'? naming=Expression)? 
    *         guard=Expression? 

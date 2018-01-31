@@ -112,7 +112,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
 
   /**
    * Factory method to create an object description.
-   * 
+   *
    * @param qualifiedName
    *          name of object
    * @param element
@@ -127,7 +127,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
 
   /**
    * Factory method to create an object description.
-   * 
+   *
    * @param qualifiedName
    *          name of object
    * @param element
@@ -146,4 +146,3 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
   }
 
 }
-

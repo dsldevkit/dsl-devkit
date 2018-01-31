@@ -22,8 +22,7 @@ public class ExportQualifiedNameConverter extends IQualifiedNameConverter.Defaul
 
   @Override
   public String getDelimiter() {
-    return "::";
+    return "::"; //$NON-NLS-1$
   }
 
 }
-

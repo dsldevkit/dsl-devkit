@@ -436,13 +436,22 @@ public interface ExportPackage extends EPackage
 	int EXPORT__GUARD = DECLARATION_FOR_TYPE__GUARD;
 
 	/**
-	 * The feature id for the '<em><b>Allow Lookup</b></em>' attribute.
+	 * The feature id for the '<em><b>Lookup</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__ALLOW_LOOKUP = DECLARATION_FOR_TYPE_FEATURE_COUNT + 0;
+	int EXPORT__LOOKUP = DECLARATION_FOR_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Lookup Predicate</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPORT__LOOKUP_PREDICATE = DECLARATION_FOR_TYPE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -451,7 +460,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__QUALIFIED_NAME = DECLARATION_FOR_TYPE_FEATURE_COUNT + 1;
+	int EXPORT__QUALIFIED_NAME = DECLARATION_FOR_TYPE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Naming</b></em>' containment reference.
@@ -460,7 +469,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__NAMING = DECLARATION_FOR_TYPE_FEATURE_COUNT + 2;
+	int EXPORT__NAMING = DECLARATION_FOR_TYPE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Fragment Unique</b></em>' attribute.
@@ -469,7 +478,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__FRAGMENT_UNIQUE = DECLARATION_FOR_TYPE_FEATURE_COUNT + 3;
+	int EXPORT__FRAGMENT_UNIQUE = DECLARATION_FOR_TYPE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Fragment Attribute</b></em>' reference.
@@ -478,7 +487,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__FRAGMENT_ATTRIBUTE = DECLARATION_FOR_TYPE_FEATURE_COUNT + 4;
+	int EXPORT__FRAGMENT_ATTRIBUTE = DECLARATION_FOR_TYPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Fingerprint</b></em>' attribute.
@@ -487,7 +496,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__FINGERPRINT = DECLARATION_FOR_TYPE_FEATURE_COUNT + 5;
+	int EXPORT__FINGERPRINT = DECLARATION_FOR_TYPE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Resource Fingerprint</b></em>' attribute.
@@ -496,7 +505,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__RESOURCE_FINGERPRINT = DECLARATION_FOR_TYPE_FEATURE_COUNT + 6;
+	int EXPORT__RESOURCE_FINGERPRINT = DECLARATION_FOR_TYPE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
@@ -505,7 +514,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__ATTRIBUTES = DECLARATION_FOR_TYPE_FEATURE_COUNT + 7;
+	int EXPORT__ATTRIBUTES = DECLARATION_FOR_TYPE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>User Data</b></em>' containment reference list.
@@ -514,7 +523,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT__USER_DATA = DECLARATION_FOR_TYPE_FEATURE_COUNT + 8;
+	int EXPORT__USER_DATA = DECLARATION_FOR_TYPE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Export</em>' class.
@@ -523,7 +532,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT_FEATURE_COUNT = DECLARATION_FOR_TYPE_FEATURE_COUNT + 9;
+	int EXPORT_FEATURE_COUNT = DECLARATION_FOR_TYPE_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.export.export.impl.UserDataImpl <em>User Data</em>}' class.
@@ -857,15 +866,26 @@ public interface ExportPackage extends EPackage
 	EClass getExport();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup <em>Allow Lookup</em>}'.
+	 * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Allow Lookup</em>'.
-	 * @see com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup()
+	 * @return the meta object for the attribute '<em>Lookup</em>'.
+	 * @see com.avaloq.tools.ddk.xtext.export.export.Export#isLookup()
 	 * @see #getExport()
 	 * @generated
 	 */
-	EAttribute getExport_AllowLookup();
+	EAttribute getExport_Lookup();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getLookupPredicate <em>Lookup Predicate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Lookup Predicate</em>'.
+	 * @see com.avaloq.tools.ddk.xtext.export.export.Export#getLookupPredicate()
+	 * @see #getExport()
+	 * @generated
+	 */
+	EReference getExport_LookupPredicate();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}'.
@@ -1252,12 +1272,20 @@ public interface ExportPackage extends EPackage
 		EClass EXPORT = eINSTANCE.getExport();
 
 		/**
-		 * The meta object literal for the '<em><b>Allow Lookup</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Lookup</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPORT__ALLOW_LOOKUP = eINSTANCE.getExport_AllowLookup();
+		EAttribute EXPORT__LOOKUP = eINSTANCE.getExport_Lookup();
+
+		/**
+		 * The meta object literal for the '<em><b>Lookup Predicate</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPORT__LOOKUP_PREDICATE = eINSTANCE.getExport_LookupPredicate();
 
 		/**
 		 * The meta object literal for the '<em><b>Qualified Name</b></em>' attribute feature.
