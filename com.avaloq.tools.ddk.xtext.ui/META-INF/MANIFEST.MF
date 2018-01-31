@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.ui,
+ org.eclipse.xtext.xbase,
  org.eclipse.search,
  org.eclipse.ui.ide,
  org.apache.commons.lang,
@@ -23,6 +24,7 @@ Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.outline,
  com.avaloq.tools.ddk.xtext.ui.quickfix,
  com.avaloq.tools.ddk.xtext.ui.syntaxcoloring,
+ com.avaloq.tools.ddk.xtext.ui.templates,
  com.avaloq.tools.ddk.xtext.ui.util,
  com.avaloq.tools.ddk.xtext.ui.validation,
  com.avaloq.tools.ddk.xtext.ui.validation.preferences

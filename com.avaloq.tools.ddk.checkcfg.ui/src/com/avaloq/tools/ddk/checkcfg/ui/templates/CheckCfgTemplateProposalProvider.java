@@ -22,6 +22,7 @@ import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
@@ -63,6 +64,9 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   @Inject
   private XbaseInterpreter interpreter;
+
+  @Inject
+  private QualifiedNameValueConverter qualifiedNameValueConverter;
 
   private final TemplateStore templateStore;
 
@@ -141,10 +145,9 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
           } else if (allElements.indexOf(description) > 0) {
             builder.append(Strings.newLine());
           }
-
-          builder.append("catalog ").append(description.getQualifiedName()).append(" {").append(Strings.newLine());
+          builder.append("catalog ").append(qualifiedNameValueConverter.toString(description.getQualifiedName().toString())).append(" {").append(Strings.newLine());
           for (Check check : catalog.getAllChecks()) {
-            builder.append("  default ").append(check.getName()).append(Strings.newLine());
+            builder.append("  default ").append(qualifiedNameValueConverter.toString(check.getName())).append(Strings.newLine());
           }
           // CHECKSTYLE:OFF
           builder.append("}");
@@ -236,7 +239,8 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
         final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : "${default:Enum('SeverityKind')} "; //$NON-NLS-1$ //$NON-NLS-2$
         final String description = "Configures the check \"" + check.getLabel() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
         final String contextTypeId = "com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck." + checkName; //$NON-NLS-1$
-        final String pattern = severity + checkName + (paramString.length() == 0 ? "${cursor}" : " " + paramString + "${cursor}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        final String pattern = severity + qualifiedNameValueConverter.toString(checkName)
+            + (paramString.length() == 0 ? "${cursor}" : " " + paramString + "${cursor}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         Template t = new Template(checkName, description, contextTypeId, pattern, true);
         TemplateProposal tp = createProposal(t, templateContext, context, images.forConfiguredCheck(check.getDefaultSeverity()), getRelevance(t));

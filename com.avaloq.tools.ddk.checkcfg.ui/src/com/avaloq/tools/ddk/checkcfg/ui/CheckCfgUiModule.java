@@ -14,11 +14,13 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.editor.DirtyStateEditorSupport;
 import org.eclipse.xtext.ui.editor.IXtextEditorCallback;
 import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider;
+import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
 import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
 import com.avaloq.tools.ddk.checkcfg.ui.templates.CheckCfgTemplateProposalProvider;
 import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
+import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
 
 /**
@@ -33,6 +35,15 @@ public class CheckCfgUiModule extends com.avaloq.tools.ddk.checkcfg.ui.AbstractC
   @Override
   public Class<? extends ITemplateProposalProvider> bindITemplateProposalProvider() {
     return CheckCfgTemplateProposalProvider.class;
+  }
+
+  /**
+   * Binds a {@link CrossReferenceTemplateVariableResolver} which prefixes keywords with escape characters.
+   *
+   * @return {@link KeywordAwareCrossReferenceTemplateVariableResolver}
+   */
+  public Class<? extends CrossReferenceTemplateVariableResolver> bindCrossReferenceTemplateVariableResolver() {
+    return KeywordAwareCrossReferenceTemplateVariableResolver.class;
   }
 
   /**
