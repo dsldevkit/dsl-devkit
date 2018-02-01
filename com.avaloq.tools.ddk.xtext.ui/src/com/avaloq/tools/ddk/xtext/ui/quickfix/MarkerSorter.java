@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 
 
@@ -24,6 +23,10 @@ import com.google.common.collect.Ordering;
  * Aggregates methods to sort a collection of {@link IMarker}s.
  */
 public final class MarkerSorter {
+
+  private static final Ordering<IMarker> NAME_ORDERING = Ordering.natural().onResultOf((final IMarker from) -> from != null
+      ? from.getAttribute(IMarker.CHAR_START, Integer.MIN_VALUE)
+      : Integer.MIN_VALUE).reverse();
 
   private MarkerSorter() {
     // Utility classes should not have a public or default constructor
@@ -39,13 +42,6 @@ public final class MarkerSorter {
    * @return the list
    */
   public static List<IMarker> sortByLineNumber(final Collection<IMarker> markers) {
-    final Function<IMarker, Integer> getLineNumberFunction = new Function<IMarker, Integer>() {
-      @Override
-      public Integer apply(final IMarker from) {
-        return from != null ? from.getAttribute(IMarker.CHAR_START, Integer.MIN_VALUE) : Integer.MIN_VALUE;
-      }
-    };
-    final Ordering<IMarker> nameOrdering = Ordering.natural().onResultOf(getLineNumberFunction).reverse();
-    return nameOrdering.sortedCopy(markers);
+    return NAME_ORDERING.sortedCopy(markers);
   }
 }

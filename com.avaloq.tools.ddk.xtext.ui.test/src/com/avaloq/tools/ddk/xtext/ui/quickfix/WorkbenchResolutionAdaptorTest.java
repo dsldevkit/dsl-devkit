@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolution;
 import org.eclipse.xtext.ui.util.IssueUtil;
 import org.eclipse.xtext.validation.Issue;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,9 +41,6 @@ public class WorkbenchResolutionAdaptorTest {
   public void setUp() throws Exception {
     when(mockWmrg.getIssueUtil()).thenReturn(new IssueUtil());
   }
-
-  @After
-  public void tearDown() throws Exception {}
 
   @Test
   public void testGetLabel() {
