@@ -341,7 +341,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     SegmentNode result = root.find(name, 0, true);
     if (result != null && result.values != null) {
       hits++;
-      return Lists.newArrayList(result.values);
+      return Arrays.asList(result.values);
     } else {
       misses++;
       return null;
