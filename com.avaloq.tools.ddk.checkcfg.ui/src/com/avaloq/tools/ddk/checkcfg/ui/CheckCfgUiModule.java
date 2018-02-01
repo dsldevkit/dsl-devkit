@@ -15,12 +15,15 @@ import org.eclipse.xtext.ui.editor.DirtyStateEditorSupport;
 import org.eclipse.xtext.ui.editor.IXtextEditorCallback;
 import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
+import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
 import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
+import com.avaloq.tools.ddk.checkcfg.ui.templates.CheckCfgTemplateContextType;
 import com.avaloq.tools.ddk.checkcfg.ui.templates.CheckCfgTemplateProposalProvider;
 import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
+import com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolver;
 
 
 /**
@@ -29,6 +32,15 @@ import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplat
 public class CheckCfgUiModule extends com.avaloq.tools.ddk.checkcfg.ui.AbstractCheckCfgUiModule {
   public CheckCfgUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
+  }
+
+  /**
+   * Binds a {@link XtextTemplateContextType} which adds {@link SimpleEnumTemplateVariableResolver}.
+   *
+   * @return {@link CheckCfgTemplateContextType}
+   */
+  public Class<? extends XtextTemplateContextType> bindXtextTemplateContextType() {
+    return CheckCfgTemplateContextType.class;
   }
 
   /** Binds a proposal provider for check configuration templates. {@inheritDoc} */

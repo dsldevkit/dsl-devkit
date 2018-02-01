@@ -12,6 +12,8 @@ package com.avaloq.tools.ddk.checkcfg.ui.templates;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
@@ -22,6 +24,7 @@ import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -31,6 +34,7 @@ import org.eclipse.xtext.ui.editor.templates.ContextTypeIdHelper;
 import org.eclipse.xtext.ui.editor.templates.DefaultTemplateProposalProvider;
 import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.xbase.interpreter.impl.XbaseInterpreter;
+import org.eclipse.xtext.xbase.jvmmodel.JvmTypeReferenceBuilder;
 
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
@@ -69,6 +73,9 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
   private QualifiedNameValueConverter qualifiedNameValueConverter;
 
   private final TemplateStore templateStore;
+
+  @Inject
+  private JvmTypeReferenceBuilder.Factory typeRefBuilderFactory;
 
   @Inject
   public CheckCfgTemplateProposalProvider(final TemplateStore templateStore, final ContextTypeRegistry registry, final ContextTypeIdHelper helper) {
@@ -125,8 +132,8 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
    */
   @SuppressWarnings("all")
   private void addCatalogConfigurations(final TemplateContext templateContext, final ContentAssistContext context, final ITemplateAcceptor acceptor) {
-    final String templateName = "Add all registered catalogs";
-    final String templateDescription = "configures all missing catalogs";
+    final String templateName = "Add all registered catalogs"; //$NON-NLS-1$
+    final String templateDescription = "configures all missing catalogs"; //$NON-NLS-1$
 
     final String contextTypeId = templateContext.getContextType().getId();
     if (context.getRootModel() instanceof CheckConfiguration) {
@@ -145,20 +152,15 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
           } else if (allElements.indexOf(description) > 0) {
             builder.append(Strings.newLine());
           }
-          builder.append("catalog ").append(qualifiedNameValueConverter.toString(description.getQualifiedName().toString())).append(" {").append(Strings.newLine());
-          for (Check check : catalog.getAllChecks()) {
-            builder.append("  default ").append(qualifiedNameValueConverter.toString(check.getName())).append(Strings.newLine());
-          }
-          // CHECKSTYLE:OFF
-          builder.append("}");
-          builder.append(Strings.newLine());
-          // CHECKSTYLE:ON
+          final String catalogName = qualifiedNameValueConverter.toString(description.getQualifiedName().toString());
+          builder.append("catalog ").append(catalogName).append(" {").append(Strings.newLine()); //$NON-NLS-1$ //$NON-NLS-2$
+          builder.append('}').append(Strings.newLine());
         }
 
       }
 
       if (builder.length() > 0) {
-        builder.append("${cursor}");
+        builder.append("${cursor}"); //$NON-NLS-1$
         Template t = new Template(templateName, templateDescription, contextTypeId, builder.toString(), true);
         TemplateProposal tp = createProposal(t, templateContext, context, images.forConfiguredCatalog(), getRelevance(t));
         acceptor.accept(tp);
@@ -216,31 +218,29 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
       }
     }), Predicates.notNull());
     final CheckCatalog catalog = configuredCatalog.getCatalog();
+    final JvmType stringType = typeRefBuilderFactory.create(context.getResource().getResourceSet()).typeRef(String.class).getType();
     for (final Check check : catalog.getAllChecks()) {
       // create a template on the fly
       final String checkName = check.getName();
       if (!Iterables.contains(alreadyConfiguredCheckNames, checkName)) {
 
         // check if referenced check has configurable parameters
-        String paramString = ""; //$NON-NLS-1$
-        if (!check.getFormalParameters().isEmpty()) {
-          StringBuilder params = new StringBuilder("("); //$NON-NLS-1$
-          for (final FormalParameter p : check.getFormalParameters()) {
-            final String paramName = p.getName();
-            final String defaultValue = String.valueOf(interpreter.evaluate(p.getRight()).getResult());
-            params.append(paramName).append(" = ").append("${").append(defaultValue).append('}'); //$NON-NLS-1$ //$NON-NLS-2$
-            params.append(", "); //$NON-NLS-1$
-          }
-          if (params.length() > 2) {
-            paramString = params.substring(0, params.length() - 2) + ')';
-          }
+        final StringJoiner paramsJoiner = new StringJoiner(", ", " ( ", ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        paramsJoiner.setEmptyValue(""); //$NON-NLS-1$
+        for (final FormalParameter param : check.getFormalParameters()) {
+          final JvmType paramType = param.getType().getType();
+          final String paramName = param.getName();
+          final String defaultValue = String.valueOf(interpreter.evaluate(param.getRight()).getResult());
+
+          // Use SimpleEnumTemplateVariableResolver with strings because otherwise TemplateTranslator can't cope with whitespace
+          paramsJoiner.add(paramName + " = " + (Objects.equals(stringType, paramType) ? "\"${defaultValue:SimpleEnum('" + defaultValue + "')}\"" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+              : "${" + defaultValue + '}')); //$NON-NLS-1$
         }
 
         final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : "${default:Enum('SeverityKind')} "; //$NON-NLS-1$ //$NON-NLS-2$
         final String description = "Configures the check \"" + check.getLabel() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
         final String contextTypeId = "com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck." + checkName; //$NON-NLS-1$
-        final String pattern = severity + qualifiedNameValueConverter.toString(checkName)
-            + (paramString.length() == 0 ? "${cursor}" : " " + paramString + "${cursor}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        final String pattern = severity + qualifiedNameValueConverter.toString(checkName) + paramsJoiner + "${cursor}"; //$NON-NLS-1$
 
         Template t = new Template(checkName, description, contextTypeId, pattern, true);
         TemplateProposal tp = createProposal(t, templateContext, context, images.forConfiguredCheck(check.getDefaultSeverity()), getRelevance(t));
