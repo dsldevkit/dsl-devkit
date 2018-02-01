@@ -10,18 +10,17 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.valid.naming;
 
-import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import com.avaloq.tools.ddk.xtext.naming.EscapingQualifiedNameConverter;
 
 
 /**
  * ValidQualifiedNameConverter.
  */
-public class ValidQualifiedNameConverter extends IQualifiedNameConverter.DefaultImpl {
+public class ValidQualifiedNameConverter extends EscapingQualifiedNameConverter {
 
   @Override
   public String getDelimiter() {
-    return "::";
+    return "::"; //$NON-NLS-1$
   }
 
 }
-

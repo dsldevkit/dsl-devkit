@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check;
 import org.eclipse.xtext.documentation.IEObjectDocumentationProvider;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.linking.ILinkingService;
+import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
@@ -36,6 +37,7 @@ import com.avaloq.tools.ddk.check.scoping.CheckScopeProvider;
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.check.typing.CheckExpressionHelper;
 import com.avaloq.tools.ddk.check.typing.CheckTypeComputer;
+import com.avaloq.tools.ddk.xtext.naming.EscapingQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
@@ -59,6 +61,11 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
   @Override
   public Class<? extends IScopeProvider> bindIScopeProvider() {
     return CheckScopeProvider.class;
+  }
+
+  @Override
+  public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
+    return EscapingQualifiedNameConverter.class;
   }
 
   @Override

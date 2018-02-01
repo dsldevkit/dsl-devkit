@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.export.naming;
 
-import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import com.avaloq.tools.ddk.xtext.naming.EscapingQualifiedNameConverter;
 
 
 /**
@@ -18,7 +18,7 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter;
  * <p>
  * FIXME[XTEXT2] check if we use the wrong naming fragment
  */
-public class ExportQualifiedNameConverter extends IQualifiedNameConverter.DefaultImpl {
+public class ExportQualifiedNameConverter extends EscapingQualifiedNameConverter {
 
   @Override
   public String getDelimiter() {
