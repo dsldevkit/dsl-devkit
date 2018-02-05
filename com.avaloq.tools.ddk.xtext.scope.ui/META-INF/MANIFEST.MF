@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext.expression.ui,
  com.avaloq.tools.ddk.xtext.scope,
  com.avaloq.tools.ddk.xtext.expression,
+ com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.compare,
  org.eclipse.jdt.ui
 Export-Package: com.avaloq.tools.ddk.xtext.scope.ui,

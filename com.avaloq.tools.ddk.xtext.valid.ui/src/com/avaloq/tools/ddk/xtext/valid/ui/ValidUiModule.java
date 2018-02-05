@@ -12,7 +12,9 @@ package com.avaloq.tools.ddk.xtext.valid.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.editor.outline.impl.OutlineFilterAndSorter.IComparator;
+import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 
+import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 import com.avaloq.tools.ddk.xtext.valid.ui.outline.ValidOutlineNodeComparator;
 
 
@@ -22,6 +24,15 @@ import com.avaloq.tools.ddk.xtext.valid.ui.outline.ValidOutlineNodeComparator;
 public class ValidUiModule extends com.avaloq.tools.ddk.xtext.valid.ui.AbstractValidUiModule {
   public ValidUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
+  }
+
+  /**
+   * Binds a {@link CrossReferenceTemplateVariableResolver} which prefixes keywords with escape characters.
+   *
+   * @return {@link KeywordAwareCrossReferenceTemplateVariableResolver}
+   */
+  public Class<? extends CrossReferenceTemplateVariableResolver> bindCrossReferenceTemplateVariableResolver() {
+    return KeywordAwareCrossReferenceTemplateVariableResolver.class;
   }
 
   @Override

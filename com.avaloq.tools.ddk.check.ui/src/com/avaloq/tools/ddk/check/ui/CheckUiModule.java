@@ -19,13 +19,12 @@ import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider;
 import org.eclipse.xtext.ui.editor.handler.ValidateActionHandler;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
+import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
 import org.eclipse.xtext.ui.wizard.IProjectCreator;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
 import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
-import com.avaloq.tools.ddk.xtext.common.types.ui.access.jdt.JdtFallbackTypeProviderFactory;
-import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
 import com.avaloq.tools.ddk.check.runtime.ui.editor.PlatformPluginAwareEditorOpener;
 import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderParticipant;
 import com.avaloq.tools.ddk.check.ui.editor.handler.CheckValidateActionHandler;
@@ -39,6 +38,9 @@ import com.avaloq.tools.ddk.check.ui.templates.CheckTemplateProposalProvider;
 import com.avaloq.tools.ddk.check.ui.wizard.CheckCatalogCreator;
 import com.avaloq.tools.ddk.check.ui.wizard.CheckProjectCreator;
 import com.avaloq.tools.ddk.check.ui.wizard.ICheckCatalogCreator;
+import com.avaloq.tools.ddk.xtext.common.types.ui.access.jdt.JdtFallbackTypeProviderFactory;
+import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
+import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
 
 /**
@@ -51,7 +53,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Binds a project creator. Used for the wizards.
-   * 
+   *
    * @return project creator
    */
   public Class<? extends IProjectCreator> bindIProjectCreator() {
@@ -60,7 +62,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Bind ICheckCatalogCreator.
-   * 
+   *
    * @return CheckCatalogCreator.class which creates a new Check catalog in an existing Check plugin project
    */
   public Class<? extends ICheckCatalogCreator> bindICheckCatalogCreator() {
@@ -80,6 +82,15 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
   @Override
   public Class<? extends ITemplateProposalProvider> bindITemplateProposalProvider() {
     return CheckTemplateProposalProvider.class;
+  }
+
+  /**
+   * Binds a {@link CrossReferenceTemplateVariableResolver} which prefixes keywords with escape characters.
+   *
+   * @return {@link KeywordAwareCrossReferenceTemplateVariableResolver}
+   */
+  public Class<? extends CrossReferenceTemplateVariableResolver> bindCrossReferenceTemplateVariableResolver() {
+    return KeywordAwareCrossReferenceTemplateVariableResolver.class;
   }
 
   /**
@@ -104,7 +115,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Binds a semantic highlighting calculator.
-   * 
+   *
    * @return the semantic highlighting calculator>
    */
   @Override
@@ -114,7 +125,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Binds a lexical highlighting calculator (Token to Attribute ID mapper).
-   * 
+   *
    * @return the lexical highlighting calculator>
    */
   @Override
@@ -124,7 +135,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Binds a editor opener for platform plugin URIs.
-   * 
+   *
    * @param binder
    *          the binder
    */
@@ -135,7 +146,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Binds a JDT type provider factory capable of creating bundle aware type providers.
-   * 
+   *
    * @return the JDT type provider factory
    */
   public Class<? extends JdtTypeProviderFactory> bindJdtTypeProviderFactory() {
@@ -150,7 +161,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=383919 (honor container visibility).
-   * 
+   *
    * @return FixedDirtyStateEditorSupport
    */
   @Override
@@ -160,7 +171,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Binds a ValidateActionHandler instance.
-   * 
+   *
    * @return custom ValidateActionHandler
    */
   public Class<? extends ValidateActionHandler> bindValidateActionHandler() {
@@ -169,7 +180,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
 
   /**
    * Fix for NPE in EclipseGeneratorConfigProvider.
-   * 
+   *
    * @return GeneratorConfigProvider
    */
   @Override
@@ -177,4 +188,3 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
     return GeneratorConfigProvider.class;
   }
 }
-
