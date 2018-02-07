@@ -11,13 +11,12 @@
 
 package com.avaloq.tools.ddk.xtext.resource;
 
-import com.google.inject.ImplementedBy;
+import com.avaloq.tools.ddk.xtext.extension.ILanguageFeatureExtension;
 
 
 /**
- * This service allows additional export rules for a given DSL to be defined outside of its plug-in.
+ * Interface to be implemented by extensions of export feature of a DSL.
  */
-@ImplementedBy(DefaultAdditionalExportService.class)
-public interface IAdditionalExportService extends IAdditionalExport {
+public interface IExportFeatureExtension extends IExportComputer, ILanguageFeatureExtension {
 
 }

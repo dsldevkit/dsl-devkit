@@ -22,9 +22,13 @@ import org.eclipse.xtext.util.IAcceptor;
 
 
 /**
- * Extensions for export.
+ * An aggregation of API for export into Xtext index.
+ * <p>
+ * Common API for extension implementation (actual extension) and extensions service
+ * (aggregation of all extensions which is used by a DSL to consume extensions).
+ * </p>
  */
-public interface IAdditionalExport {
+public interface IExportComputer {
   /**
    * Abstract method which computes the qualified name for a given object.
    *
@@ -77,5 +81,6 @@ public interface IAdditionalExport {
    *          Acceptor to store retrieved qualified names
    * @return true if this object's content should be processed
    */
-  boolean doCreateEObjectDescriptions(final EObject object, final IAcceptor<IEObjectDescription> acceptor);
+  boolean createEObjectDescriptions(final EObject object, final IAcceptor<IEObjectDescription> acceptor);
+
 }

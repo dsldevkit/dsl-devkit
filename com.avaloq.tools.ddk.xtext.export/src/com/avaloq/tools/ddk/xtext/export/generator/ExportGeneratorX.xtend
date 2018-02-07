@@ -42,6 +42,10 @@ class ExportGeneratorX {
 
   def Grammar getGrammar(ExportModel model) {
     val uri = model.eResource.URI
+    // Grammar should be set correctly for export extensions, not yet for normal export sources
+    if(model.targetGrammar != null) {
+      return model.targetGrammar;
+    }
     val grammarResource = model.eResource.resourceSet.getResource(uri.trimSegments(1).appendSegment(uri.trimFileExtension.lastSegment + '.xtext'), true)
     return grammarResource?.contents.head as Grammar
   }
@@ -84,6 +88,12 @@ class ExportGeneratorX {
     val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
     return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "FragmentProvider";
+  }
+
+  def String getExportFeatureExtension(ExportModel model) {
+    val uri = model.eResource().getURI();
+    // TODO we still need to add a package to the models. Extension models already have a name in contrast to cases above
+    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + model.name + "ExportFeatureExtension";
   }
 
   /**

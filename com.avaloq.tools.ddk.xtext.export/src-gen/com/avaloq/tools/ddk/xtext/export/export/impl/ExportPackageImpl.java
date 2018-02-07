@@ -23,8 +23,11 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import org.eclipse.xtext.XtextPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -168,6 +171,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 
 		// Initialize simple dependencies
 		ExpressionPackage.eINSTANCE.eClass();
+		XtextPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theExportPackage.createPackageContents();
@@ -199,9 +203,9 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExportModel_Imports()
+	public EAttribute getExportModel_Extension()
 	{
-		return (EReference)exportModelEClass.getEStructuralFeatures().get(0);
+		return (EAttribute)exportModelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -209,9 +213,9 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExportModel_Extensions()
+	public EAttribute getExportModel_Name()
 	{
-		return (EReference)exportModelEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)exportModelEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -219,7 +223,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExportModel_Interfaces()
+	public EReference getExportModel_TargetGrammar()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(2);
 	}
@@ -229,9 +233,39 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExportModel_Exports()
+	public EReference getExportModel_Imports()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExportModel_Extensions()
+	{
+		return (EReference)exportModelEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExportModel_Interfaces()
+	{
+		return (EReference)exportModelEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExportModel_Exports()
+	{
+		return (EReference)exportModelEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -615,6 +649,9 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 
 		// Create classes and their features
 		exportModelEClass = createEClass(EXPORT_MODEL);
+		createEAttribute(exportModelEClass, EXPORT_MODEL__EXTENSION);
+		createEAttribute(exportModelEClass, EXPORT_MODEL__NAME);
+		createEReference(exportModelEClass, EXPORT_MODEL__TARGET_GRAMMAR);
 		createEReference(exportModelEClass, EXPORT_MODEL__IMPORTS);
 		createEReference(exportModelEClass, EXPORT_MODEL__EXTENSIONS);
 		createEReference(exportModelEClass, EXPORT_MODEL__INTERFACES);
@@ -692,6 +729,8 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		XtextPackage theXtextPackage = (XtextPackage)EPackage.Registry.INSTANCE.getEPackage(XtextPackage.eNS_URI);
 		ExpressionPackage theExpressionPackage = (ExpressionPackage)EPackage.Registry.INSTANCE.getEPackage(ExpressionPackage.eNS_URI);
 
 		// Create type parameters
@@ -707,62 +746,65 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(exportModelEClass, ExportModel.class, "ExportModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getExportModel_Extension(), theEcorePackage.getEBoolean(), "extension", "false", 0, 1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExportModel_Name(), theEcorePackage.getEString(), "name", null, 0, 1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExportModel_TargetGrammar(), theXtextPackage.getGrammar(), null, "targetGrammar", null, 0, 1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExportModel_Imports(), this.getImport(), null, "imports", null, 0, -1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExportModel_Extensions(), this.getExtension(), null, "extensions", null, 0, -1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExportModel_Interfaces(), this.getInterface(), null, "interfaces", null, 0, -1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExportModel_Exports(), this.getExport(), null, "exports", null, 0, -1, ExportModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getImport_Package(), ecorePackage.getEPackage(), null, "package", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getImport_Name(), ecorePackage.getEString(), "name", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getImport_Package(), theEcorePackage.getEPackage(), null, "package", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getImport_Name(), theEcorePackage.getEString(), "name", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(importEClass, ecorePackage.getEString(), "getPackageName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(importEClass, theEcorePackage.getEString(), "getPackageName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(extensionEClass, Extension.class, "Extension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExtension_Extension(), ecorePackage.getEString(), "extension", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExtension_Extension(), theEcorePackage.getEString(), "extension", null, 0, 1, Extension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(declarationForTypeEClass, DeclarationForType.class, "DeclarationForType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDeclarationForType_Type(), ecorePackage.getEClass(), null, "type", null, 0, 1, DeclarationForType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDeclarationForType_Type(), theEcorePackage.getEClass(), null, "type", null, 0, 1, DeclarationForType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDeclarationForType_Guard(), theExpressionPackage.getExpression(), null, "guard", null, 0, 1, DeclarationForType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(interfaceEClass, Interface.class, "Interface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInterface_Items(), this.getInterfaceItem(), null, "items", null, 0, -1, Interface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(interfaceItemEClass, InterfaceItem.class, "InterfaceItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getInterfaceItem_Unordered(), ecorePackage.getEBoolean(), "unordered", "false", 0, 1, InterfaceItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInterfaceItem_Unordered(), theEcorePackage.getEBoolean(), "unordered", "false", 0, 1, InterfaceItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(interfaceFieldEClass, InterfaceField.class, "InterfaceField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInterfaceField_Field(), ecorePackage.getEStructuralFeature(), null, "field", null, 0, 1, InterfaceField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInterfaceField_Field(), theEcorePackage.getEStructuralFeature(), null, "field", null, 0, 1, InterfaceField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(interfaceNavigationEClass, InterfaceNavigation.class, "InterfaceNavigation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInterfaceNavigation_Ref(), ecorePackage.getEReference(), null, "ref", null, 0, 1, InterfaceNavigation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInterfaceNavigation_Ref(), theEcorePackage.getEReference(), null, "ref", null, 0, 1, InterfaceNavigation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(interfaceExpressionEClass, InterfaceExpression.class, "InterfaceExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getInterfaceExpression_Ref(), ecorePackage.getEBoolean(), "ref", "false", 0, 1, InterfaceExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInterfaceExpression_Ref(), theEcorePackage.getEBoolean(), "ref", "false", 0, 1, InterfaceExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInterfaceExpression_Expr(), theExpressionPackage.getExpression(), null, "expr", null, 0, 1, InterfaceExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(exportEClass, Export.class, "Export", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExport_Lookup(), ecorePackage.getEBoolean(), "lookup", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExport_Lookup(), theEcorePackage.getEBoolean(), "lookup", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExport_LookupPredicate(), theExpressionPackage.getExpression(), null, "lookupPredicate", null, 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExport_QualifiedName(), ecorePackage.getEBoolean(), "qualifiedName", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExport_QualifiedName(), theEcorePackage.getEBoolean(), "qualifiedName", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExport_Naming(), theExpressionPackage.getExpression(), null, "naming", null, 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExport_FragmentUnique(), ecorePackage.getEBoolean(), "fragmentUnique", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExport_FragmentAttribute(), ecorePackage.getEAttribute(), null, "fragmentAttribute", null, 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExport_Fingerprint(), ecorePackage.getEBoolean(), "fingerprint", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExport_ResourceFingerprint(), ecorePackage.getEBoolean(), "resourceFingerprint", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExport_FragmentUnique(), theEcorePackage.getEBoolean(), "fragmentUnique", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExport_FragmentAttribute(), theEcorePackage.getEAttribute(), null, "fragmentAttribute", null, 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExport_Fingerprint(), theEcorePackage.getEBoolean(), "fingerprint", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExport_ResourceFingerprint(), theEcorePackage.getEBoolean(), "resourceFingerprint", "false", 0, 1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExport_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExport_UserData(), this.getUserData(), null, "userData", null, 0, -1, Export.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(exportEClass, ecorePackage.getEAttribute(), "getEAttributes", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(exportEClass, theEcorePackage.getEAttribute(), "getEAttributes", 0, -1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(exportEClass, ecorePackage.getEAttribute(), "getAllEAttributes", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(exportEClass, theEcorePackage.getEAttribute(), "getAllEAttributes", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(userDataEClass, UserData.class, "UserData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUserData_Name(), ecorePackage.getEString(), "name", null, 0, 1, UserData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUserData_Name(), theEcorePackage.getEString(), "name", null, 0, 1, UserData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserData_Expr(), theExpressionPackage.getExpression(), null, "expr", null, 0, 1, UserData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAttribute_Attribute(), ecorePackage.getEAttribute(), null, "attribute", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAttribute_Attribute(), theEcorePackage.getEAttribute(), null, "attribute", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

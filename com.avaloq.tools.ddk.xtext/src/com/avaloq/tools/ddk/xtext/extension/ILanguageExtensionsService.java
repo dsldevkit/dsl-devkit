@@ -9,26 +9,30 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.contribution;
+package com.avaloq.tools.ddk.xtext.extension;
 
 import java.util.Collection;
 
+import com.google.inject.Injector;
+
 
 /**
- * Global service that manages contributions to all languages.
+ * Global service that manages all extensions to all languages.
  * <p>
  * This service is implemented as a global singleton, one instance for all DSLs.
+ * Intended for use by feature extension services to discover extensions
+ * for specific feature of the given language.
  * </p>
  */
-public interface ILanguageContributionService {
+public interface ILanguageExtensionsService {
 
   /**
-   * Gets all contributions for the given language.
+   * Gets all extensions for the given language using the injector of the language.
    *
-   * @param languageName
-   *          the language name
-   * @return the collection of contributions, may be empty, never {@code null}
+   * @param injector
+   *          the injector of the language for which the contributions are queried
+   * @return the collection of language extensions, may be empty, never {@code null}
    */
-  Collection<ILanguageContribution> getContributions(String languageName);
+  Collection<ILanguageExtensions> getExtensions(Injector injector);
 
 }

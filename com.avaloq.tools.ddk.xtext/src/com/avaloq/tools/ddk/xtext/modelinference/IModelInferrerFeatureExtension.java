@@ -11,19 +11,26 @@
 
 package com.avaloq.tools.ddk.xtext.modelinference;
 
+import com.avaloq.tools.ddk.xtext.extension.ILanguageFeatureExtension;
+
+
 /**
  * A model inferrer to run additional inference for a specific language outside of the basic inference offered in its core plugin.
+ * <p>
+ * Note that {@link IModelInferrer} is a common API for extension implementation (actual extension) and extensions service
+ * (aggregation of all extensions which is used by a DSL to consume extensions).
+ * </p>
  */
-public interface IAdditionalModelInferrer extends IModelInferrer, Comparable<IAdditionalModelInferrer> {
+public interface IModelInferrerFeatureExtension extends IModelInferrer, Comparable<IModelInferrerFeatureExtension>, ILanguageFeatureExtension {
 
   /**
-   * Compares this {@link IAdditionalModelInferrer} with the specified Compares this object with the specified object for order.
+   * Compares this {@link IModelInferrerFeatureExtension} with the specified Compares this object with the specified object for order.
    * The name of the class implementing this interface is used for the comparison.
-   * With this method implementations of {@link IAdditionalModelInferrer} can be always ordered alphabetically in a stable manner.
+   * With this method implementations of {@link IModelInferrerFeatureExtension} can be always ordered alphabetically in a stable manner.
    * This is necessary to achieve a stable inference across build phases.
    **/
   @Override
-  default int compareTo(final IAdditionalModelInferrer otherInferrer) {
+  default int compareTo(final IModelInferrerFeatureExtension otherInferrer) {
     return this.getClass().getName().compareTo(otherInferrer.getClass().getName());
   }
 }

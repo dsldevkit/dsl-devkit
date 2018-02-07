@@ -20,37 +20,35 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.IAcceptor;
 
-import com.avaloq.tools.ddk.xtext.contribution.ILanguageContribution;
-import com.avaloq.tools.ddk.xtext.contribution.ILanguageContributionService;
+import com.avaloq.tools.ddk.xtext.extension.ILanguageExtensionsService;
+import com.avaloq.tools.ddk.xtext.extension.ILanguageExtensions;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 
 /**
- * Default implementation relying on {@link ILanguageContribution}.
+ * Default implementation relying on {@link ILanguageExtensions}.
  */
 @Singleton
-public class DefaultAdditionalExportService implements IAdditionalExportService {
+public class DefaultExportFeatureExtensionService implements IExportFeatureExtensionService {
+
+  private final List<IExportFeatureExtension> exportFeatureExtensions = Lists.newArrayList();
 
   @Inject
-  @Named(Constants.LANGUAGE_NAME)
-  private String languageName;
-
-  @Inject
-  private ILanguageContributionService contributionService;
-
-  @Inject
-  private Injector injector;
-
-  private List<IAdditionalExport> exportContributions;
+  public DefaultExportFeatureExtensionService(final ILanguageExtensionsService contributionService, final Injector injector) {
+    for (ILanguageExtensions contribution : contributionService.getExtensions(injector)) {
+      IExportFeatureExtension export = contribution.get(IExportFeatureExtension.class);
+      if (export != null) {
+        exportFeatureExtensions.add(export);
+      }
+    }
+  }
 
   @Override
   public QualifiedName qualifiedName(final EObject object) {
@@ -69,35 +67,20 @@ public class DefaultAdditionalExportService implements IAdditionalExportService 
 
   @Override
   public Set<EClass> getExportedEClasses(final Resource resource) {
-    ensureInitilaized();
-    return exportContributions.stream().flatMap(c -> c.getExportedEClasses(resource).stream()).collect(Collectors.toSet());
+    return exportFeatureExtensions.stream().flatMap(c -> c.getExportedEClasses(resource).stream()).collect(Collectors.toSet());
   }
 
   @Override
-  public boolean doCreateEObjectDescriptions(final EObject object, final IAcceptor<IEObjectDescription> acceptor) {
+  public boolean createEObjectDescriptions(final EObject object, final IAcceptor<IEObjectDescription> acceptor) {
     boolean traverse = false;
-    for (IAdditionalExport contribution : exportContributions) {
-      traverse |= contribution.doCreateEObjectDescriptions(object, acceptor);
+    for (IExportFeatureExtension contribution : exportFeatureExtensions) {
+      traverse |= contribution.createEObjectDescriptions(object, acceptor);
     }
     return traverse;
   }
 
-  private <T> T returnFirst(final Function<IAdditionalExport, T> mapper) {
-    ensureInitilaized();
-    return exportContributions.stream().map(mapper).filter(Objects::nonNull).findFirst().orElse(null);
-  }
-
-  private void ensureInitilaized() {
-    if (exportContributions == null) {
-      exportContributions = Lists.newArrayList();
-      for (ILanguageContribution contribution : contributionService.getContributions(languageName)) {
-        IAdditionalExport export = contribution.getAdditionalExport();
-        if (export != null) {
-          injector.injectMembers(export);
-          exportContributions.add(export);
-        }
-      }
-    }
+  private <T> T returnFirst(final Function<IExportFeatureExtension, T> mapper) {
+    return exportFeatureExtensions.stream().map(mapper).filter(Objects::nonNull).findFirst().orElse(null);
   }
 
 }

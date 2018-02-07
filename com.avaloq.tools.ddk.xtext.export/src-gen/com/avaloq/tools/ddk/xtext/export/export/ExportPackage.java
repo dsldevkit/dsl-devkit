@@ -67,13 +67,40 @@ public interface ExportPackage extends EPackage
 	int EXPORT_MODEL = 0;
 
 	/**
+	 * The feature id for the '<em><b>Extension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPORT_MODEL__EXTENSION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPORT_MODEL__NAME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Target Grammar</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPORT_MODEL__TARGET_GRAMMAR = 2;
+
+	/**
 	 * The feature id for the '<em><b>Imports</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT_MODEL__IMPORTS = 0;
+	int EXPORT_MODEL__IMPORTS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Extensions</b></em>' containment reference list.
@@ -82,7 +109,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT_MODEL__EXTENSIONS = 1;
+	int EXPORT_MODEL__EXTENSIONS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Interfaces</b></em>' containment reference list.
@@ -91,7 +118,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT_MODEL__INTERFACES = 2;
+	int EXPORT_MODEL__INTERFACES = 5;
 
 	/**
 	 * The feature id for the '<em><b>Exports</b></em>' containment reference list.
@@ -100,7 +127,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT_MODEL__EXPORTS = 3;
+	int EXPORT_MODEL__EXPORTS = 6;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -109,7 +136,7 @@ public interface ExportPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int EXPORT_MODEL_FEATURE_COUNT = 4;
+	int EXPORT_MODEL_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.export.export.impl.ImportImpl <em>Import</em>}' class.
@@ -611,6 +638,39 @@ public interface ExportPackage extends EPackage
 	EClass getExportModel();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.export.export.ExportModel#isExtension <em>Extension</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Extension</em>'.
+	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportModel#isExtension()
+	 * @see #getExportModel()
+	 * @generated
+	 */
+	EAttribute getExportModel_Extension();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.xtext.export.export.ExportModel#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportModel#getName()
+	 * @see #getExportModel()
+	 * @generated
+	 */
+	EAttribute getExportModel_Name();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.avaloq.tools.ddk.xtext.export.export.ExportModel#getTargetGrammar <em>Target Grammar</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Grammar</em>'.
+	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportModel#getTargetGrammar()
+	 * @see #getExportModel()
+	 * @generated
+	 */
+	EReference getExportModel_TargetGrammar();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link com.avaloq.tools.ddk.xtext.export.export.ExportModel#getImports <em>Imports</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1060,6 +1120,30 @@ public interface ExportPackage extends EPackage
 		 * @generated
 		 */
 		EClass EXPORT_MODEL = eINSTANCE.getExportModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Extension</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPORT_MODEL__EXTENSION = eINSTANCE.getExportModel_Extension();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPORT_MODEL__NAME = eINSTANCE.getExportModel_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Grammar</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPORT_MODEL__TARGET_GRAMMAR = eINSTANCE.getExportModel_TargetGrammar();
 
 		/**
 		 * The meta object literal for the '<em><b>Imports</b></em>' containment reference list feature.

@@ -5,10 +5,13 @@
     forceOverwrite="true" modelName="Export" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.export.edit"
     editorPluginID="com.avaloq.tools.ddk.xtext.export.editor" runtimeVersion="2.12"
-    usedGenPackages="platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel#//expression">
+    usedGenPackages="platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel#//expression platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel#//xtext">
   <genPackages prefix="Export" basePackage="com.avaloq.tools.ddk.xtext.export" disposableProviderFactory="true"
       ecorePackage="Export.ecore#/">
     <genClasses ecoreClass="Export.ecore#//ExportModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//ExportModel/extension"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Export.ecore#//ExportModel/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Export.ecore#//ExportModel/targetGrammar"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//ExportModel/imports"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//ExportModel/extensions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Export.ecore#//ExportModel/interfaces"/>

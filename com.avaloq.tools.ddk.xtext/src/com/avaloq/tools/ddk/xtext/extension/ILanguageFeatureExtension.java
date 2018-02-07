@@ -9,25 +9,13 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.contribution;
-
-import com.avaloq.tools.ddk.xtext.modelinference.IAdditionalModelInferrer;
-import com.avaloq.tools.ddk.xtext.resource.IAdditionalExport;
-
+package com.avaloq.tools.ddk.xtext.extension;
 
 /**
- * Default implementation providing no contribution.
+ * A marker interface for feature extensions for a DSL. A class that implements this interface
+ * is an extension for a service of a DSL implementation or a group of services.
+ * Examples are: extend inference, extend export to index.
  */
-public abstract class AbstractLanguageContribution implements ILanguageContribution {
-
-  @Override
-  public IAdditionalModelInferrer getAdditionalModelInferrer() {
-    return null;
-  }
-
-  @Override
-  public IAdditionalExport getAdditionalExport() {
-    return null;
-  }
+public interface ILanguageFeatureExtension {
 
 }
