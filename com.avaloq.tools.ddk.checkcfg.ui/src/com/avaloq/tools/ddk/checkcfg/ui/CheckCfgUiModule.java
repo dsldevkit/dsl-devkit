@@ -23,6 +23,7 @@ import com.avaloq.tools.ddk.checkcfg.ui.templates.CheckCfgTemplateContextType;
 import com.avaloq.tools.ddk.checkcfg.ui.templates.CheckCfgTemplateProposalProvider;
 import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
+import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolver;
 import com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolver;
 
 
@@ -35,7 +36,7 @@ public class CheckCfgUiModule extends com.avaloq.tools.ddk.checkcfg.ui.AbstractC
   }
 
   /**
-   * Binds a {@link XtextTemplateContextType} which adds {@link SimpleEnumTemplateVariableResolver}.
+   * Binds a {@link XtextTemplateContextType} which adds {@link ResourceNameTemplateVariableResolver} and {@link SimpleEnumTemplateVariableResolver}.
    *
    * @return {@link CheckCfgTemplateContextType}
    */

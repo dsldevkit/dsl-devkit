@@ -16,6 +16,9 @@ import org.junit.runner.RunWith;
 import com.avaloq.tools.ddk.test.core.junit.runners.DiscerningSuite;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorRunTest;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorTest;
+import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolverTest;
+import com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolverTest;
+import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelperTest;
 
 
 /**
@@ -25,7 +28,10 @@ import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorTest;
 @DiscerningSuite.SuiteClasses({
   // @Format-Off
   WorkbenchResolutionAdaptorTest.class,
-  WorkbenchResolutionAdaptorRunTest.class
+  WorkbenchResolutionAdaptorRunTest.class,
+  SimpleEnumTemplateVariableResolverTest.class,
+  ResourceNameTemplateVariableResolverTest.class,
+  TemplateProposalProviderHelperTest.class
   // @Format-On
 })
 public class XtextUiTestSuite {}

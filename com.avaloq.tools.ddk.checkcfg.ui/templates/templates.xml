@@ -10,7 +10,7 @@
       deleted="false"
       description="Creates a new empty check configuration"
       enabled="true"
-      name="CheckConfiguration">check configuration ${name} {
+      name="CheckConfiguration">check configuration ${name:ResourceName('file')} {
   ${cursor}
 }</template>
     <template

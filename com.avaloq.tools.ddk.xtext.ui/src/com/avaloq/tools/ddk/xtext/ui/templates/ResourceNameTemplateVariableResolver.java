@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.ui.templates;
+package com.avaloq.tools.ddk.xtext.ui.templates;
 
 import java.util.List;
 
@@ -31,37 +31,39 @@ import com.google.common.collect.Lists;
 
 
 /**
- * The Class PackageNameResolver.
+ * Resolves a resource name.
  */
 public class ResourceNameTemplateVariableResolver extends AbstractTemplateVariableResolver {
 
   private static final Logger LOGGER = Logger.getLogger(ResourceNameTemplateVariableResolver.class);
 
   public ResourceNameTemplateVariableResolver() {
-    super("ResourceName", "Resolves the current package name");
+    super("ResourceName", "Resolves a resource name"); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   @Override
   public List<String> resolveValues(final TemplateVariable variable, final XtextTemplateContext templateContext) {
     final List<String> result = Lists.newArrayList();
-    IDocument document = templateContext.getDocument();
+    final IDocument document = templateContext.getDocument();
     final Object obj = variable.getVariableType().getParams().iterator().next();
     if (obj instanceof String) {
       final String variableName = (String) obj;
       final IXtextDocument xtextDocument = (IXtextDocument) document;
-      IFile file = xtextDocument.getAdapter(IFile.class);
+      final IFile file = xtextDocument.getAdapter(IFile.class);
 
-      if ("package".equals(variableName) && document instanceof IXtextDocument) {
-        if (file != null && file.getParent() instanceof IFolder) {
-          IJavaProject javaProject = JavaCore.create(file.getProject());
+      switch (variableName) {
+      case "package": //$NON-NLS-1$
+        if (document instanceof IXtextDocument && file != null && file.getParent() instanceof IFolder) {
+          final IJavaProject javaProject = JavaCore.create(file.getProject());
           try {
-            IPackageFragment packageFragment = javaProject.findPackageFragment(file.getParent().getFullPath());
+            final IPackageFragment packageFragment = javaProject.findPackageFragment(file.getParent().getFullPath());
             result.add(packageFragment.getElementName());
-          } catch (JavaModelException e) {
-            LOGGER.error("Could not determine package for file of given document");
+          } catch (final JavaModelException e) {
+            LOGGER.error("Could not determine package for file of given document"); //$NON-NLS-1$
           }
         }
-      } else if ("catalog".equals(variableName)) {
+        break;
+      case "file": //$NON-NLS-1$
         final String fileName = file.getName();
         result.add(fileName.indexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName);
       }
@@ -69,4 +71,3 @@ public class ResourceNameTemplateVariableResolver extends AbstractTemplateVariab
     return Lists.newArrayList(Iterables.filter(result, Predicates.notNull()));
   }
 }
-
