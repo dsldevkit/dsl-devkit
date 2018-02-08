@@ -66,13 +66,13 @@ class FragmentProviderGenerator {
         }
 
         «IF it.extension»
-        @Override
-        protected CharSequence getFragmentSegmentFallback(final EObject object) {
-          // For export extension we must return null, so the logic will try other extensions
-          return null;
-        }
-        «ENDIF»
+          @Override
+          protected CharSequence getFragmentSegmentFallback(final EObject object) {
+            // For export extension we must return null, so the logic will try other extensions
+            return null;
+          }
 
+        «ENDIF»
         «FOR e : fingerprintedExports»
           protected CharSequence getFragmentSegment(final «e.type.instanceClassName()» obj) {
             return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique»);

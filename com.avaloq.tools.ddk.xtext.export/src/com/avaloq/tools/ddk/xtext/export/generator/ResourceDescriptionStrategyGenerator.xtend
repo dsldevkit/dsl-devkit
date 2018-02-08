@@ -109,11 +109,11 @@ class ResourceDescriptionStrategyGenerator {
                 }
               «ENDFOR»
               «IF it.extension»
-              // Extension does not have to cover all EPackages of the language
-              return false;
+                // Extension does not have to cover all EPackages of the language
+                return false;
               «ELSE»
-              // TODO: generate code for other possible epackages (as defined by grammar)
-              return true;
+                // TODO: generate code for other possible epackages (as defined by grammar)
+                return true;
               «ENDIF»
             } finally {
               this.acceptor.set(null);
