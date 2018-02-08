@@ -115,11 +115,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   public void associatePrimary(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
       ListMultimap<EObject, EObject> map = getSourceToInferredModelMap(sourceModelElement.eResource());
-      if (map.containsKey(sourceModelElement)) {
-        map.get(sourceModelElement).add(0, inferredModelElement);
-      } else {
-        map.put(sourceModelElement, inferredModelElement);
-      }
+      map.get(sourceModelElement).add(0, inferredModelElement);
     }
   }
 
