@@ -59,7 +59,8 @@ public class ExportParser extends AbstractContentAssistParser {
 					put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
 					put(grammarAccess.getCollectionTypeAccess().getClAlternatives_0_0(), "rule__CollectionType__ClAlternatives_0_0");
 					put(grammarAccess.getExportModelAccess().getGroup(), "rule__ExportModel__Group__0");
-					put(grammarAccess.getExportModelAccess().getGroup_2(), "rule__ExportModel__Group_2__0");
+					put(grammarAccess.getExportModelAccess().getGroup_0(), "rule__ExportModel__Group_0__0");
+					put(grammarAccess.getExportModelAccess().getGroup_3(), "rule__ExportModel__Group_3__0");
 					put(grammarAccess.getImportAccess().getGroup(), "rule__Import__Group__0");
 					put(grammarAccess.getImportAccess().getGroup_2(), "rule__Import__Group_2__0");
 					put(grammarAccess.getExtensionAccess().getGroup(), "rule__Extension__Group__0");
@@ -132,10 +133,13 @@ public class ExportParser extends AbstractContentAssistParser {
 					put(grammarAccess.getCollectionTypeAccess().getGroup(), "rule__CollectionType__Group__0");
 					put(grammarAccess.getSimpleTypeAccess().getGroup(), "rule__SimpleType__Group__0");
 					put(grammarAccess.getSimpleTypeAccess().getGroup_1(), "rule__SimpleType__Group_1__0");
-					put(grammarAccess.getExportModelAccess().getImportsAssignment_0(), "rule__ExportModel__ImportsAssignment_0");
-					put(grammarAccess.getExportModelAccess().getExtensionsAssignment_1(), "rule__ExportModel__ExtensionsAssignment_1");
-					put(grammarAccess.getExportModelAccess().getInterfacesAssignment_2_2(), "rule__ExportModel__InterfacesAssignment_2_2");
-					put(grammarAccess.getExportModelAccess().getExportsAssignment_3(), "rule__ExportModel__ExportsAssignment_3");
+					put(grammarAccess.getExportModelAccess().getExtensionAssignment_0_1(), "rule__ExportModel__ExtensionAssignment_0_1");
+					put(grammarAccess.getExportModelAccess().getNameAssignment_0_2(), "rule__ExportModel__NameAssignment_0_2");
+					put(grammarAccess.getExportModelAccess().getTargetGrammarAssignment_0_4(), "rule__ExportModel__TargetGrammarAssignment_0_4");
+					put(grammarAccess.getExportModelAccess().getImportsAssignment_1(), "rule__ExportModel__ImportsAssignment_1");
+					put(grammarAccess.getExportModelAccess().getExtensionsAssignment_2(), "rule__ExportModel__ExtensionsAssignment_2");
+					put(grammarAccess.getExportModelAccess().getInterfacesAssignment_3_2(), "rule__ExportModel__InterfacesAssignment_3_2");
+					put(grammarAccess.getExportModelAccess().getExportsAssignment_4(), "rule__ExportModel__ExportsAssignment_4");
 					put(grammarAccess.getImportAccess().getPackageAssignment_1(), "rule__Import__PackageAssignment_1");
 					put(grammarAccess.getImportAccess().getNameAssignment_2_1(), "rule__Import__NameAssignment_2_1");
 					put(grammarAccess.getExtensionAccess().getExtensionAssignment_1(), "rule__Extension__ExtensionAssignment_1");

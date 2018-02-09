@@ -77,17 +77,17 @@ public class ExportFormatter extends AbstractDeclarativeFormatter {
       config.setNoSpace().before(delimiter);
       config.setLinewrap().after(delimiter);
     }
-    for (final Keyword delimiter : grammar.findKeywords("#", "::", ".")) { //$NON-NLS-1$ //$NON-NLS-2$
+    for (final Keyword delimiter : grammar.findKeywords("#", "::", ".")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       config.setNoSpace().around(delimiter);
     }
 
     // ExportSection
     final ExportModelElements exportModelElements = grammar.getExportModelAccess();
-    config.setLinewrap(1).after(exportModelElements.getImportsAssignment_0());
-    config.setLinewrap(2).between(exportModelElements.getImportsAssignment_0(), exportModelElements.getExtensionsAssignment_1());
-    config.setLinewrap(1).before(exportModelElements.getExtensionsAssignment_1());
-    config.setLinewrap(2).before(exportModelElements.getExportsAssignment_3());
-    config.setLinewrap(2).before(exportModelElements.getGroup_2());
+    config.setLinewrap(1).after(exportModelElements.getImportsAssignment_1());
+    config.setLinewrap(2).between(exportModelElements.getImportsAssignment_1(), exportModelElements.getExtensionsAssignment_2());
+    config.setLinewrap(1).before(exportModelElements.getExtensionsAssignment_2());
+    config.setLinewrap(2).before(exportModelElements.getExportsAssignment_4());
+    config.setLinewrap(2).before(exportModelElements.getGroup_3());
 
     // Extension
     final ExtensionElements extensionsElements = grammar.getExtensionAccess();
@@ -100,4 +100,3 @@ public class ExportFormatter extends AbstractDeclarativeFormatter {
   }
 
 }
-

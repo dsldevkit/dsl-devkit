@@ -357,7 +357,13 @@ public abstract class AbstractExportSemanticSequencer extends ExpressionSemantic
   
   /**
    * Constraint:
-   *     (imports+=Import+ extensions+=Extension* interfaces+=Interface* exports+=Export+)
+   *     (
+   *         (extension?='extension'? name=ID targetGrammar=[Grammar|QualifiedID])? 
+   *         imports+=Import+ 
+   *         extensions+=Extension* 
+   *         interfaces+=Interface* 
+   *         exports+=Export+
+   *     )
    */
   protected void sequence_ExportModel(EObject context, ExportModel semanticObject) {
   	genericSequencer.createSequence(context, semanticObject);
