@@ -40,7 +40,7 @@ public abstract class AbstractExportedNameProvider extends IQualifiedNameProvide
    */
   @Override
   public QualifiedName getFullyQualifiedName(final EObject obj) {
-    return cache.get(Tuples.pair(obj, "fqn"), obj.eResource(), new Provider<QualifiedName>() { //$NON-NLS-1$
+    return cache.get(Tuples.pair(obj, this.getClass()), obj.eResource(), new Provider<QualifiedName>() {
       @Override
       public QualifiedName get() {
         return qualifiedName(obj);
