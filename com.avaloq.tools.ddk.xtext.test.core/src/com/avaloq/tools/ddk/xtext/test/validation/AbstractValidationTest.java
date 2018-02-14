@@ -34,6 +34,7 @@ import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
 import org.eclipse.xtext.validation.FeatureBasedDiagnostic;
 import org.eclipse.xtext.validation.RangeBasedDiagnostic;
+import org.eclipse.xtext.xbase.lib.Pair;
 import org.junit.Assert;
 
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextMarkerBasedTest;
@@ -878,13 +879,35 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   }
 
   /**
+   * Strictly validate a kernel source given by a {@link Pair} of file name and content.
+   * All not expected diagnostics are considered as an error.
+   *
+   * @param sourceFileNameAndContent
+   *          the file name and content, given as the key and value of the pair, respectively, must not be {@code null}
+   */
+  protected void validateKernelSourceStrictly(final Pair<String, String> sourceFileNameAndContent) {
+    validateKernelSourceStrictly(sourceFileNameAndContent.getKey(), sourceFileNameAndContent.getValue());
+  }
+
+  /**
+   * Strictly validate a customer source given by a {@link Pair} of file name and content.
+   * All not expected diagnostics are considered as an error.
+   *
+   * @param sourceFileNameAndContent
+   *          the file name and content, given as the key and value of the pair, respectively, must not be {@code null}
+   */
+  protected void validateCustomerSourceStrictly(final Pair<String, String> sourceFileNameAndContent) {
+    validateCustomerSourceStrictly(sourceFileNameAndContent.getKey(), sourceFileNameAndContent.getValue());
+  }
+
+  /**
    * Strictly validate a kernel source given by a file name and content.
    * All not expected diagnostics are considered as an error.
    *
    * @param sourceFileName
-   *          the file name that should be associated with the parsed content, not {@code null}
+   *          the file name that should be associated with the parsed content, must not be {@code null}
    * @param sourceContent
-   *          source, not {@code null}
+   *          source, must not be {@code null}
    */
   protected void validateKernelSourceStrictly(final String sourceFileName, final CharSequence sourceContent) {
     validateStrictly(sourceFileName, TestSourceType.CLIENT_ALL, sourceContent);
@@ -895,9 +918,9 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * All not expected diagnostics are considered as an error.
    *
    * @param sourceFileName
-   *          the file name that should be associated with the parsed content, not {@code null}
+   *          the file name that should be associated with the parsed content, must not be {@code null}
    * @param sourceContent
-   *          source, not {@code null}
+   *          source, must not be {@code null}
    */
   protected void validateCustomerSourceStrictly(final String sourceFileName, final CharSequence sourceContent) {
     validateStrictly(sourceFileName, TestSourceType.CLIENT_CUSTOMER, sourceContent);
