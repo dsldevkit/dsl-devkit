@@ -34,8 +34,9 @@ public class CheckCfgUiModule extends com.avaloq.tools.ddk.checkcfg.ui.AbstractC
   }
 
   /**
-   * Binds a {@link XtextTemplateContextType} which adds {@link com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolver} and
-   * {@link com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolver}.
+   * Binds a {@link XtextTemplateContextType} which adds
+   * {@link com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolver ResourceNameTemplateVariableResolver} and
+   * {@link com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolver SimpleEnumTemplateVariableResolver}.
    *
    * @return {@link CheckCfgTemplateContextType}
    */
