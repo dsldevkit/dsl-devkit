@@ -11,6 +11,9 @@
 
 package com.avaloq.tools.ddk.xtext.ui.templates
 
+import com.avaloq.tools.ddk.test.core.AfterAll
+import com.avaloq.tools.ddk.test.core.BeforeAll
+import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner
 import com.google.inject.Guice
 import org.eclipse.jface.text.IDocument
 import org.eclipse.jface.text.IRegion
@@ -19,9 +22,8 @@ import org.eclipse.jface.text.templates.Template
 import org.eclipse.xtext.XtextRuntimeModule
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContext
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType
-import org.junit.AfterClass
-import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertArrayEquals
 import static org.junit.Assert.assertEquals
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
+@RunWith(ClassRunner)
 public class TemplateProposalProviderHelperTest {
 
   static val SIMPLE_ENUM_VARIABLE_TYPE = new SimpleEnumTemplateVariableResolver().type
@@ -50,8 +53,8 @@ public class TemplateProposalProviderHelperTest {
 
   static var TemplateProposalProviderHelper helper
 
-  @BeforeClass
-  def static void beforeClass() {
+  @BeforeAll
+  def void beforeAll() {
     mockDocument = mock(IDocument)
     mockPosition = mock(Position)
     mockRegion = mock(IRegion)
@@ -66,8 +69,8 @@ public class TemplateProposalProviderHelperTest {
     when(mockDocument.get(anyInt, anyInt)).thenReturn("")
   }
 
-  @AfterClass
-  def static void afterClass() {
+  @AfterAll
+  def void afterAll() {
     mockDocument = null
     mockPosition = null
     mockRegion = null
@@ -87,6 +90,7 @@ public class TemplateProposalProviderHelperTest {
     helper.createLiteralValuePattern("Contains whitespace", 42)
   }
 
+  @Test
   def void testCreateLiteralValuePatternWithNullDefaultValue() {
     testCreateLiteralValuePattern(null, RETURNED_PATTERN, RETURNED_PATTERN)
   }

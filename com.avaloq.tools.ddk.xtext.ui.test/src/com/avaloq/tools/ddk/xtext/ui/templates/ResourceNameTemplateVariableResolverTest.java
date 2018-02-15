@@ -17,16 +17,19 @@ import org.eclipse.jface.text.templates.TemplateVariable;
 import org.eclipse.xtext.XtextRuntimeModule;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContext;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
+import com.avaloq.tools.ddk.test.core.AfterAll;
+import com.avaloq.tools.ddk.test.core.BeforeAll;
+import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 import com.google.common.collect.Iterables;
 import com.google.inject.Guice;
 
 
+@RunWith(ClassRunner.class)
 public class ResourceNameTemplateVariableResolverTest {
 
   private static final Object[] FILE = new Object[] {"file"}; //$NON-NLS-1$
@@ -40,8 +43,8 @@ public class ResourceNameTemplateVariableResolverTest {
 
   private static ResourceNameTemplateVariableResolver resolver;
 
-  @BeforeClass
-  public static void beforeClass() {
+  @BeforeAll
+  public void beforeAll() {
     mockContext = Mockito.mock(XtextTemplateContext.class);
     mockDocument = Mockito.mock(IXtextDocument.class);
     mockFile = Mockito.mock(IFile.class);
@@ -54,8 +57,8 @@ public class ResourceNameTemplateVariableResolverTest {
     Mockito.when(mockDocument.getAdapter(IFile.class)).thenReturn(mockFile);
   }
 
-  @AfterClass
-  public static void afterClass() {
+  @AfterAll
+  public void afterAll() {
     mockContext = null;
     mockDocument = null;
     mockFile = null;

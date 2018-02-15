@@ -41,10 +41,15 @@ public class TemplateVariableResolverTestHelper {
    * @param values
    *          the values available at this variable, non-empty, may not be {@code null}
    * @return a {@link TemplateVariable}
-   * @throws TemplateException
+   * @throws {@link
+   *           NullPointerException} if resolver.getType(), name or values is null
+   * @throws {@link
+   *           IllegalArgumentException} if resolver.getType() or name contains whitespace or values is empty
+   * @throws {@link
+   *           TemplateException}
    *           if translation failed
    */
-  public TemplateVariable createTemplateVariable(final TemplateVariableResolver resolver, final String name, final Object... values) throws TemplateException {
+  public TemplateVariable createTemplateVariable(final TemplateVariableResolver resolver, final String name, final Object... values) throws NullPointerException, IllegalArgumentException, TemplateException {
 
     // Jump through hoops to create a real TemplateVariable because TemplateVariableType is final thus cannot be mocked,
     // and has protected constructors thus cannot be directly instantiated
