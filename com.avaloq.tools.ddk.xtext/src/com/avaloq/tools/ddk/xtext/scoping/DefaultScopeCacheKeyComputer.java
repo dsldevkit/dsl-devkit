@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.Constants;
-import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.util.Tuples;
 
 import com.google.common.base.Objects;
@@ -30,7 +29,7 @@ import com.google.inject.name.Named;
 public class DefaultScopeCacheKeyComputer implements IScopeCacheKeyComputer {
 
   /**
-   * Cache key object for the caching of {@link IScope scopes}.
+   * Cache key object for the caching of {@link org.eclipse.xtext.scoping.IScope scopes}.
    */
   protected static final class CacheKey {
     private final Object context;
