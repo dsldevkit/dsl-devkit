@@ -8,23 +8,24 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.ui.templates;
+package com.avaloq.tools.ddk.checkcfg.ui.templates;
 
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
 
 import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolver;
+import com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolver;
 
 
 /**
  * Used for adding custom template variable resolvers.
  */
-public class CheckTemplateContextType extends XtextTemplateContextType {
+public class CheckCfgTemplateContextType extends XtextTemplateContextType {
 
-  /** {@inheritDoc} */
   @Override
   protected void addDefaultTemplateVariables() {
     super.addDefaultTemplateVariables();
     addResolver(new ResourceNameTemplateVariableResolver());
+    addResolver(new SimpleEnumTemplateVariableResolver());
   }
 
 }

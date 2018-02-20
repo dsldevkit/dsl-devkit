@@ -7,12 +7,15 @@ Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.xtext,
+ org.eclipse.jdt.core,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.xbase.lib,
  org.eclipse.search,
  org.eclipse.ui.ide,
  org.apache.commons.lang,
- com.avaloq.tools.ddk.check.runtime.ui;visibility:=reexport
+ com.avaloq.tools.ddk.check.runtime.ui;visibility:=reexport,
+ com.google.guava
 Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.editor,
  com.avaloq.tools.ddk.xtext.ui.editor.findrefs,
