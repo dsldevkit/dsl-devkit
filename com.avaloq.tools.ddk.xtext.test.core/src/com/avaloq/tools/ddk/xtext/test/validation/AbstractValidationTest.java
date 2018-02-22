@@ -13,7 +13,9 @@ package com.avaloq.tools.ddk.xtext.test.validation;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,24 +27,22 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.diagnostics.AbstractDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextSyntaxDiagnostic;
-import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
 import org.eclipse.xtext.validation.FeatureBasedDiagnostic;
 import org.eclipse.xtext.validation.RangeBasedDiagnostic;
 import org.eclipse.xtext.xbase.lib.Pair;
-import org.junit.Assert;
 
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextMarkerBasedTest;
 import com.avaloq.tools.ddk.xtext.test.XtextTestSource;
-import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Provider;
 
@@ -50,22 +50,18 @@ import com.google.inject.Provider;
 /**
  * Base class for validation tests.
  */
+@SuppressWarnings({"nls", "PMD.ExcessiveClassLength"})
+// CHECKSTYLE:CHECK-OFF MultipleStringLiterals
 public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTest {
-  private static final String COULD_NOT_RESOLVE_REFERENCE_TO = "Couldn''t resolve reference to {0} ''{1}''.";
+
   public static final int NO_ERRORS = 0;
-  public static final String FOUND_ERROR_ON_RESOURCE_MESSAGE = "Expecting error on resource";
+
   static final String NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE = "Expecting no errors on resource";
 
-  private static final ValidationHelper HELPER = new ValidationHelper();
+  private static final String COULD_NOT_RESOLVE_REFERENCE_TO = "Couldn''t resolve reference to {0} ''{1}''.";
 
   private static final int SEVERITY_UNDEFINED = -1;
-  private static final Map<Integer, String> CODE_TO_NAME = Maps.newHashMap();
-
-  static {
-    CODE_TO_NAME.put(Diagnostic.INFO, "INFO");
-    CODE_TO_NAME.put(Diagnostic.WARNING, "WARNING");
-    CODE_TO_NAME.put(Diagnostic.ERROR, "ERROR");
-  }
+  private static final Map<Integer, String> CODE_TO_NAME = ImmutableMap.of(Diagnostic.INFO, "INFO", Diagnostic.WARNING, "WARNING", Diagnostic.ERROR, "ERROR");
 
   private static final String LINE_BREAK = "\n";
   private static final String DOT_AND_LINEBREAK = "'." + LINE_BREAK;
@@ -79,7 +75,8 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * During validation of a source we monitor diagnostics, that are found in the source but were not expected by the test.
    * If the validation test is strict, then we will display these unexpected diagnostics as test error.
    */
-  private final Set<Diagnostic> unexpectedDiagnostics = Sets.newHashSet();
+  private final Set<Diagnostic> unexpectedDiagnostics = Sets.newLinkedHashSet();
+  private final Set<Resource.Diagnostic> unexpectedResourceDiagnostics = Sets.newLinkedHashSet();
 
   /**
    * validation results calculated during test setUp.
@@ -97,18 +94,23 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *
    * @return the unexpectedDiagnostics
    */
-  public Set<Diagnostic> getUnexpectedDiagnostics() {
+  protected Set<Diagnostic> getUnexpectedDiagnostics() {
     return unexpectedDiagnostics;
   }
 
-  // --------------------------------------------------------------------------
-  // AbstractValidationAssertion
-  // --------------------------------------------------------------------------
+  /**
+   * Returns the unexpectedDiagnostics.
+   *
+   * @return the unexpectedDiagnostics
+   */
+  protected Set<Resource.Diagnostic> getUnexpectedResourceDiagnostics() {
+    return unexpectedResourceDiagnostics;
+  }
 
   /**
-   * Abstract interface for testing validation assertions on a given source position.
+   * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
    */
-  private class AbstractValidationAssertion extends AbstractModelAssertion {
+  private class XtextDiagnosticAssertion extends AbstractModelAssertion {
 
     private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
 
@@ -124,11 +126,11 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
 
     private final int expectedSeverity;
 
-    protected AbstractValidationAssertion(final String issueCode, final boolean issueMustBeFound) {
+    protected XtextDiagnosticAssertion(final String issueCode, final boolean issueMustBeFound) {
       this(issueCode, issueMustBeFound, SEVERITY_UNDEFINED, null);
     }
 
-    protected AbstractValidationAssertion(final String issueCode, final boolean issueMustBeFound, final int severity, final String message) {
+    protected XtextDiagnosticAssertion(final String issueCode, final boolean issueMustBeFound, final int severity, final String message) {
       this.issueCode = issueCode;
       this.issueMustBeFound = issueMustBeFound;
       this.expectedSeverity = severity;
@@ -161,10 +163,10 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
             issueFound = true;
             actualSeverity = avd.getSeverity();
             // True if the expected severity is not set, or if matches with the actual one
-            expectedSeverityMatches = expectedSeverity == SEVERITY_UNDEFINED || (expectedSeverity != SEVERITY_UNDEFINED && expectedSeverity == actualSeverity);
+            expectedSeverityMatches = expectedSeverity == SEVERITY_UNDEFINED || expectedSeverity == actualSeverity;
             actualMessage = avd.getMessage();
             // True if message matches with actual message or message is null
-            expectedMessageMatches = (message == null) || (actualMessage.equals(message));
+            expectedMessageMatches = message == null || actualMessage.equals(message);
             if (issueMustBeFound) {
               // Remove the diagnostic from the list of non-expected diagnostics
               getUnexpectedDiagnostics().remove(avd);
@@ -265,6 +267,147 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   }
 
   /**
+   * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
+   */
+  private class ResourceDiagnosticAssertion extends AbstractModelAssertion {
+
+    private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
+
+    /** Issue code of the diagnostic. */
+    private final String issueCode;
+    /** Issue message of the diagnostic. */
+    private final String message;
+    /**
+     * Indicates whether the assertion must find the issue.
+     * Assertion creates an error if the existence of issue code for the target eobject doesn't correspond to the value of issueMustBeFound.
+     */
+    private final boolean issueMustBeFound;
+
+    private final int expectedSeverity;
+
+    protected ResourceDiagnosticAssertion(final String issueCode, final boolean issueMustBeFound, final int severity, final String message) {
+      this.issueCode = issueCode;
+      this.issueMustBeFound = issueMustBeFound;
+      this.expectedSeverity = severity;
+      this.message = message;
+    }
+
+    /**
+     * Check if the given issue code is found among issue codes for the object, located at the given position.
+     *
+     * @param root
+     *          root object of the document
+     * @param pos
+     *          position to locate the target object
+     */
+    @Override
+    public void apply(final EObject root, final Integer pos) {
+      Iterable<Resource.Diagnostic> diagnostics = null;
+      switch (expectedSeverity) {
+      case Diagnostic.ERROR:
+        diagnostics = root.eResource().getErrors();
+        break;
+      case Diagnostic.WARNING:
+        diagnostics = root.eResource().getWarnings();
+        break;
+      case SEVERITY_UNDEFINED:
+        diagnostics = Iterables.concat(root.eResource().getErrors(), root.eResource().getWarnings());
+        break;
+      }
+      final List<Resource.Diagnostic> diagnosticsOnTargetPosition = Lists.newArrayList();
+      boolean issueFound = false;
+      int actualSeverity = expectedSeverity;
+      boolean expectedMessageMatches = false;
+      String actualMessage = "";
+
+      for (AbstractDiagnostic diag : Iterables.filter(diagnostics, AbstractDiagnostic.class)) {
+        if (diagnosticPositionEquals(pos, diag)) {
+          // Add issue to the list of issues at the given position
+          diagnosticsOnTargetPosition.add(diag);
+          if (diag.getCode().equals(issueCode)) {
+            issueFound = true;
+            if (expectedSeverity == SEVERITY_UNDEFINED) {
+              actualSeverity = root.eResource().getErrors().contains(diag) ? Diagnostic.ERROR : Diagnostic.WARNING;
+            }
+            actualMessage = diag.getMessage();
+            // True if message matches with actual message or message is null
+            expectedMessageMatches = message == null || actualMessage.equals(message);
+            // Don't need to display error messages
+            if (issueMustBeFound) {
+              // Remove the diagnostic from the list of non-expected diagnostics
+              getUnexpectedResourceDiagnostics().remove(diag);
+              // Don't need to display error messages
+              if (expectedMessageMatches) {
+                return;
+              }
+            }
+          }
+        }
+      }
+
+      // Create error message
+      createErrorMessage(pos, diagnosticsOnTargetPosition, issueFound, true, actualSeverity, expectedMessageMatches, actualMessage);
+    }
+
+    /**
+     * Create an error message (if needed) based on the given input parameters.
+     *
+     * @param pos
+     *          position in the source to associate the message with
+     * @param diagnosticsOnTargetPosition
+     *          diagnostics on the specifies position
+     * @param issueFound
+     *          specifies whether an issue has been found at the given position
+     * @param expectedSeverityMatches
+     *          true if expected severity equals actual one, false otherwise
+     * @param actualSeverity
+     *          actual severity
+     * @param expectedMessageMatches
+     *          expected message matches
+     * @param actualMessage
+     *          actual message
+     */
+    private void createErrorMessage(final Integer pos, final List<Resource.Diagnostic> diagnosticsOnTargetPosition, final boolean issueFound, final boolean expectedSeverityMatches, final int actualSeverity, final boolean expectedMessageMatches, final String actualMessage) {
+      StringBuilder errorMessage = new StringBuilder(MINIMAL_STRINGBUILDER_CAPACITY);
+      if (issueMustBeFound && !issueFound) {
+        errorMessage.append("Expected issue not found. Code '" + issueCode + "'\n");
+      } else if (!issueMustBeFound && issueFound) {
+        errorMessage.append("There should be no issue with the code '" + issueCode + DOT_AND_LINEBREAK);
+      }
+      if (issueFound && !expectedMessageMatches) {
+        errorMessage.append("Expected message does not match. Expected: '" + message + "', Actual: '" + actualMessage + "'\n");
+      }
+      // If the expected issue has been found, but the actual severity does not match with expected one
+      if (issueMustBeFound && issueFound && !expectedSeverityMatches) {
+        errorMessage.append("Severity does not match. Expected: " + CODE_TO_NAME.get(expectedSeverity) + ". Actual: " + CODE_TO_NAME.get(actualSeverity)
+            + ".\n");
+      }
+      // Memorize error message
+      if (errorMessage.length() > 0) {
+        if (!diagnosticsOnTargetPosition.isEmpty()) {
+          errorMessage.append("  All issues at this position:\n");
+          errorMessage.append(diagnosticsToString(diagnosticsOnTargetPosition, false));
+        }
+        memorizeErrorOnPosition(pos, errorMessage.toString());
+      }
+    }
+
+    /**
+     * Compare if the position of the given diagnostic equals to the given position in text.
+     *
+     * @param pos
+     *          position in text
+     * @param diagnostic
+     *          diagnostic that we check, if it has the same position as the given position in text
+     * @return
+     *         {@code true} if diagnostic has the same position as the given one, {@code false} otherwise.
+     */
+    private boolean diagnosticPositionEquals(final Integer pos, final AbstractDiagnostic diagnostic) {
+      return diagnostic.getOffset() == pos.intValue();
+    }
+  }
+
+  /**
    * Get a cached version of an object associated with the root object for a given key.
    *
    * @param <T>
@@ -278,7 +421,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * @return
    *         cached version of the associated object
    */
-  public <T> T getCached(final EObject root, final String key, final Provider<T> provider) {
+  protected <T> T getCached(final EObject root, final String key, final Provider<T> provider) {
     XtextResource res = (XtextResource) root.eResource();
     return res.getCache().get(key, res, provider);
   }
@@ -292,12 +435,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         validation results
    */
   protected Diagnostic validate(final EObject root) {
-    return getCached(root, "DIAGNOSTIC", new Provider<Diagnostic>() {
-      @Override
-      public Diagnostic get() {
-        return getXtextTestUtil().getDiagnostician().validate(root);
-      }
-    });
+    return getCached(root, "DIAGNOSTIC", () -> getXtextTestUtil().getDiagnostician().validate(root));
   }
 
   /**
@@ -311,15 +449,15 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         object hierarchy as string (each object on a single line)
    */
   private String pathFromRootAsString(final EObject eObject, final String offset) {
-    List<String> hierarchy = Lists.newArrayList();
+    List<String> hierarchy = Lists.newLinkedList();
 
     EObject currentObject = eObject;
     while (currentObject != null) {
-      hierarchy.add(0, offset.concat(currentObject.toString()));
+      hierarchy.add(0, offset + currentObject.toString());
       currentObject = currentObject.eContainer();
     }
 
-    return Strings.concat("\n", hierarchy);
+    return String.join("\n", hierarchy);
   }
 
   /**
@@ -345,6 +483,37 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
           sb.append(NodeModelUtils.findActualNodeFor(avd.getSourceEObject()).getStartLine());
           sb.append(" on \n");
           sb.append(pathFromRootAsString(avd.getSourceEObject(), "      "));
+        }
+        sb.append(LINE_BREAK);
+      }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Persist list diagnostics into string to display the list of issue codes.
+   *
+   * @param diagnostics
+   *          list of diagnostics
+   * @param displayPathToTargetObject
+   *          if true, the path through the object hierarchy is printed out up to the root node
+   * @return
+   *         string with list of issue codes, separated with a line break
+   */
+  // TODO (ACF-4153) generalize for all kinds of errors and move to AbstractXtextTest
+  private String diagnosticsToString(final List<Resource.Diagnostic> diagnostics, final boolean displayPathToTargetObject) {
+    StringBuilder sb = new StringBuilder();
+    for (Resource.Diagnostic diagnostic : diagnostics) {
+      if (diagnostic instanceof AbstractDiagnostic) {
+        AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
+        sb.append("    ");
+        sb.append(diag.getCode());
+        if (displayPathToTargetObject) {
+          sb.append(" at line: ");
+          sb.append(diag.getLine());
+          sb.append(" on \n");
+          sb.append("      ");
+          sb.append(diag.getUriToProblem());
         }
         sb.append(LINE_BREAK);
       }
@@ -384,7 +553,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         unique marker that can be used in the input string to mark a position that should be validated
    */
   protected String info(final String issueCode, final String message) {
-    return addAssertion(new AbstractValidationAssertion(issueCode, true, Diagnostic.INFO, message));
+    return addAssertion(new XtextDiagnosticAssertion(issueCode, true, Diagnostic.INFO, message));
   }
 
   /**
@@ -410,7 +579,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         unique marker that can be used in the input string to mark a position that should be validated
    */
   protected String warning(final String issueCode, final String message) {
-    return addAssertion(new AbstractValidationAssertion(issueCode, true, Diagnostic.WARNING, message));
+    return addAssertion(new XtextDiagnosticAssertion(issueCode, true, Diagnostic.WARNING, message));
   }
 
   /**
@@ -436,7 +605,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         unique marker that can be used in the input string to mark a position that should be validated
    */
   protected String error(final String issueCode, final String message) {
-    return addAssertion(new AbstractValidationAssertion(issueCode, true, Diagnostic.ERROR, message));
+    return addAssertion(new XtextDiagnosticAssertion(issueCode, true, Diagnostic.ERROR, message));
   }
 
   /**
@@ -464,7 +633,46 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         unique marker that can be used in the input string to mark a position that should be validated
    */
   protected String diagnostic(final String issueCode, final String message) {
-    return addAssertion(new AbstractValidationAssertion(issueCode, true, SEVERITY_UNDEFINED, message));
+    return addAssertion(new XtextDiagnosticAssertion(issueCode, true, SEVERITY_UNDEFINED, message));
+  }
+
+  /**
+   * Register a new linking error validation marker.
+   * The issue is expected to be found in the test file.
+   *
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String linkingError() {
+    return linkingError(null);
+  }
+
+  /**
+   * Register a new linking error validation marker with the given message.
+   * The issue is expected to be found in the test file.
+   *
+   * @param message
+   *          issuethe expected issue message
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String linkingError(final String message) {
+    return addAssertion(new ResourceDiagnosticAssertion(org.eclipse.xtext.diagnostics.Diagnostic.LINKING_DIAGNOSTIC, true, Diagnostic.ERROR, message));
+  }
+
+  /**
+   * Register a new resource validation marker with the given issue code and message.
+   * The issue is expected to be found in the test file.
+   *
+   * @param issueCode
+   *          issue code (usually found as static constant of the JavaValidator class of the DSL being tested)
+   * @param message
+   *          the expected issue message
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String resourceDiagnostic(final String issueCode, final String message) {
+    return addAssertion(new ResourceDiagnosticAssertion(issueCode, true, Diagnostic.ERROR, message));
   }
 
   /**
@@ -477,7 +685,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *         unique marker that can be used in the input string to mark a position that should be validated
    */
   protected String noDiagnostic(final String issueCode) {
-    return addAssertion(new AbstractValidationAssertion(issueCode, false));
+    return addAssertion(new XtextDiagnosticAssertion(issueCode, false));
   }
 
   @Override
@@ -485,8 +693,11 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     super.beforeApplyAssertions(testSource);
     EObject root = testSource.getModel();
     // Get all diagnostics of the current testing file
+    EcoreUtil2.resolveLazyCrossReferences(root.eResource(), null);
     fileDiagnostics = validate(root);
     getUnexpectedDiagnostics().addAll(fileDiagnostics.getChildren());
+    getUnexpectedResourceDiagnostics().addAll(root.eResource().getErrors());
+    getUnexpectedResourceDiagnostics().addAll(root.eResource().getWarnings());
   }
 
   @Override
@@ -499,6 +710,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     super.afterValidate();
     // Garbage collection
     getUnexpectedDiagnostics().clear();
+    getUnexpectedResourceDiagnostics().clear();
   }
 
   /**
@@ -598,7 +810,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         return;
       }
     }
-    Assert.fail("Issue with message ' " + message + "' not found");
+    fail("Issue with message ' " + message + "' not found");
   }
 
   /**
@@ -615,7 +827,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         return;
       }
     }
-    Assert.fail("Issue with code '" + issueCode + "' not found");
+    fail("Issue with code '" + issueCode + "' not found");
   }
 
   /**
@@ -639,7 +851,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         }
       }
     }
-    Assert.fail("Issue with code '" + issueCode + "' not found");
+    fail("Issue with code '" + issueCode + "' not found");
   }
 
   /**
@@ -653,27 +865,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   private void assertNoDiagnostic(final Diagnostic diagnostics, final String issueCode) {
     for (Diagnostic diagnostic : diagnostics.getChildren()) {
       if (((AbstractValidationDiagnostic) diagnostic).getIssueCode().equals(issueCode)) {
-        Assert.fail("Issue with code '" + issueCode + "' found");
-        return;
-      }
-    }
-  }
-
-  /**
-   * Assert that diagnosticList does not contain a diagnostic of the given issueCode.
-   *
-   * @param diagnostics
-   *          the diagnostic to check for issues
-   * @param targetObject
-   *          the object that should not have the target validation
-   * @param issueCode
-   *          the code of the issue to look for
-   */
-  protected void assertNoDiagnosticOnObject(final Diagnostic diagnostics, final EObject targetObject, final String issueCode) {
-    for (Diagnostic diagnostic : diagnostics.getChildren()) {
-      AbstractValidationDiagnostic validationDiagnostic = (AbstractValidationDiagnostic) diagnostic;
-      if (validationDiagnostic.getSourceEObject() == targetObject && validationDiagnostic.getIssueCode().equals(issueCode)) {
-        Assert.fail("Issue with code '" + issueCode + "' found");
+        fail("Issue with code '" + issueCode + "' found");
         return;
       }
     }
@@ -691,31 +883,16 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   }
 
   /**
-   * Tests whether given list of diagnostics contains an error with given message.
-   *
-   * @param errors
-   *          the errors
-   * @param message
-   *          the message
-   * @return true, if given list of errors contains an error with given message
-   */
-  public static boolean containsError(final EList<Resource.Diagnostic> errors, final String message) {
-    return !Iterables.isEmpty(errors) && Iterables.contains(Iterables.transform(errors, new Function<Resource.Diagnostic, String>() {
-      @Override
-      public String apply(final Resource.Diagnostic d) {
-        return d.getMessage();
-      }
-    }), message);
-  }
-
-  /**
    * Assert no errors on resource exist.
    *
    * @param object
    *          the object
    */
   public static void assertNoErrorsOnResource(final EObject object) {
-    HELPER.assertNoSyntaxOrLinkingErrors(object);
+    final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
+    if (!errors.isEmpty()) {
+      fail(AbstractValidationTest.NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + "; found " + Lists.transform(errors, Resource.Diagnostic::getMessage)); //$NON-NLS-1$
+    }
   }
 
   /**
@@ -727,9 +904,9 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the messages
    */
   public static void assertNoErrorsOnResource(final EObject object, final String... messages) {
-    List<String> messageList = Lists.newArrayList(messages);
+    List<String> messageList = Arrays.asList(messages);
     final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
-    for (String errorMessage : HELPER.getErrorMessages(errors)) {
+    for (String errorMessage : Lists.transform(errors, Resource.Diagnostic::getMessage)) {
       assertFalse(NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + " with message '" + errorMessage + "'.", messageList.contains(errorMessage));
     }
   }
@@ -745,11 +922,11 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the names of the referenced elements
    */
   public static void assertNoLinkingErrorsOnResource(final EObject object, final String referenceType, final String... referenceNames) {
-    List<String> messages = Lists.newArrayList();
-    for (String referenceName : referenceNames) {
-      messages.add(NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceName));
+    String[] messages = new String[referenceNames.length];
+    for (int i = 0; i < referenceNames.length; i++) {
+      messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
     }
-    assertNoErrorsOnResource(object, messages.toArray(new String[] {}));
+    assertNoErrorsOnResource(object, messages);
   }
 
   /**
@@ -763,11 +940,11 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the names of the referenced elements
    */
   public static void assertLinkingErrorsOnResourceExist(final EObject object, final String referenceType, final String... referenceNames) {
-    List<String> messages = Lists.newArrayList();
-    for (String referenceName : referenceNames) {
-      messages.add(NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceName));
+    String[] messages = new String[referenceNames.length];
+    for (int i = 0; i < referenceNames.length; i++) {
+      messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
     }
-    assertErrorsOnResourceExist(object, messages.toArray(new String[] {}));
+    assertErrorsOnResourceExist(object, messages);
   }
 
   /**
@@ -780,7 +957,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   public static void assertErrorsOnResourceExist(final EObject object, final String... errorStrings) {
     final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
-    final List<String> errorMessages = HELPER.getErrorMessages(errors);
+    final List<String> errorMessages = Lists.transform(errors, Resource.Diagnostic::getMessage);
     for (final String s : errorStrings) {
       assertTrue(NLS.bind("Expected error \"{0}\" but could not find it", s), errorMessages.contains(s));
     }
@@ -800,7 +977,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     if (!errors.isEmpty()) {
       StringBuilder sb = new StringBuilder("Syntax error is present in the test source.\nList of all found syntax errors:");
       errors.forEach(err -> sb.append("\n\t " + err.getMessage()));
-      Assert.fail(sb.toString());
+      fail(sb.toString());
     }
   }
 
@@ -810,12 +987,26 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * @param root
    *          root node of the model to be analyzed
    */
-  private void memorizeResourceErrors(final EObject root) {
-    for (AbstractDiagnostic ad : Iterables.filter(root.eResource().getErrors(), AbstractDiagnostic.class)) {
-      StringBuilder sb = new StringBuilder("Unexpected error: '");
-      sb.append(ad.getMessage());
-      sb.append(DOT_AND_LINEBREAK);
-      memorizeErrorOnPosition(ad.getOffset(), sb.toString());
+  private void memorizeUnexpectedResourceErrors() {
+    for (Resource.Diagnostic diagnostic : getUnexpectedResourceDiagnostics()) {
+      if (diagnostic instanceof AbstractDiagnostic) {
+        AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
+        // Create error message
+        StringBuilder sb = new StringBuilder();
+        sb.append("Unexpected diagnostic found. Code '");
+        sb.append(diag.getCode());
+        sb.append(DOT_AND_LINEBREAK);
+        // Retrieve the position and add the error
+        memorizeErrorOnPosition(diag.getOffset(), sb.toString());
+      } else {
+        // Create error message
+        StringBuilder sb = new StringBuilder();
+        sb.append("Unexpected diagnostic found. '");
+        sb.append(diagnostic.toString());
+        sb.append(DOT_AND_LINEBREAK);
+        // Add error message
+        memorizeErrorOnPosition(0, sb.toString());
+      }
     }
   }
 
@@ -824,7 +1015,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * A diagnostic is considered as expected if a marker with the issue code in the test file was set.
    */
   private void memorizeUnexpectedErrors() {
-    for (Diagnostic diagnostic : unexpectedDiagnostics) {
+    for (Diagnostic diagnostic : getUnexpectedDiagnostics()) {
       if (diagnostic instanceof AbstractValidationDiagnostic) {
         AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;
         // Create error message
@@ -873,7 +1064,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   protected void validateStrictly(final String sourceFileName, final TestSourceType sourceType, final CharSequence sourceContent) {
     XtextTestSource testSource = processMarkers(sourceFileName, sourceType, sourceContent);
     memorizeUnexpectedErrors();
-    memorizeResourceErrors(testSource.getModel());
+    memorizeUnexpectedResourceErrors();
     processErrorsFound(testSource.getContent());
     afterValidate();
   }
