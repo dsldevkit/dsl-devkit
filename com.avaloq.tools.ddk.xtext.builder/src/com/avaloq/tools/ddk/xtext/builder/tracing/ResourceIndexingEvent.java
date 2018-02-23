@@ -26,7 +26,7 @@ public class ResourceIndexingEvent extends ResourceEvent {
    * @param data
    *          event data, where the first data object is expected to be the resource's {@link org.eclipse.emf.common.util.URI} this event pertains to
    */
-  public ResourceIndexingEvent(final Trigger trigger, final Object[] data) {
+  public ResourceIndexingEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

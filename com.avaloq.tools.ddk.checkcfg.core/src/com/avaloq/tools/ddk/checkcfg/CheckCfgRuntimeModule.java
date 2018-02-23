@@ -20,7 +20,6 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.xbase.resource.BatchLinkingService;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.checkcfg.conversion.CheckCfgValueConverterService;
 import com.avaloq.tools.ddk.checkcfg.generator.CheckCfgGenerator;
@@ -28,6 +27,7 @@ import com.avaloq.tools.ddk.checkcfg.naming.CheckCfgDeclarativeQualifiedNameProv
 import com.avaloq.tools.ddk.checkcfg.resource.CheckCfgLocationInFileProvider;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgBatchLinkingService;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProvider;
+import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
 
@@ -80,17 +80,17 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
 
   @Override
   public void configureIScopeProviderDelegate(final com.google.inject.Binder binder) {
-    binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
+    binder.bind(IScopeProvider.class).annotatedWith(Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
   }
 
   @Override
   public void configureLinkingIScopeProvider(final com.google.inject.Binder binder) {
-    binder.bind(org.eclipse.xtext.scoping.IScopeProvider.class).annotatedWith(org.eclipse.xtext.linking.LinkingScopeProviderBinding.class).to(CheckCfgScopeProvider.class);
+    binder.bind(IScopeProvider.class).annotatedWith(org.eclipse.xtext.linking.LinkingScopeProviderBinding.class).to(CheckCfgScopeProvider.class);
   }
 
   /**
    * Switches off batch linking.
-   * 
+   *
    * @return CheckBatchLinkingService.class
    */
   public Class<? extends BatchLinkingService> bindBatchLinkingService() {
@@ -99,7 +99,7 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
 
   /**
    * Workaround for Bug 416913. To be removed with DSL-596
-   * 
+   *
    * @return {@link FixedPartialParsingHelper}
    */
   @Override
@@ -107,4 +107,3 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
     return FixedPartialParsingHelper.class;
   }
 }
-

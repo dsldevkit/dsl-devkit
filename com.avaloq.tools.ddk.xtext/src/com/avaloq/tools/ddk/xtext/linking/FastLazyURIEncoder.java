@@ -47,12 +47,12 @@ public class FastLazyURIEncoder extends LazyURIEncoder {
 
       idx = idx2 + 2;
       idx2 = uriFragment.indexOf(SEP, idx);
-      EReference ref = fromShortExternalForm(source.eClass(), uriFragment.substring(idx, idx2));
       INode node = NodeModelUtils.getNode(source);
       if (node == null) {
         throw new IllegalStateException("Couldn't resolve lazy link, because no node model is attached."); //$NON-NLS-1$
       }
 
+      EReference ref = fromShortExternalForm(source.eClass(), uriFragment.substring(idx, idx2));
       idx = idx2 + 2;
       INode text = getNode(node, uriFragment.substring(idx));
       return Tuples.create(source, ref, text);
@@ -130,4 +130,3 @@ public class FastLazyURIEncoder extends LazyURIEncoder {
   }
 
 }
-

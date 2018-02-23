@@ -297,7 +297,6 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
    */
   public void validateSource(final String sourceFileName, final CharSequence sourceContent) {
     String sourceContentAsString = sourceContent.toString();
-    StringBuilder sourceContentWithErrors = new StringBuilder(sourceContent);
     EObject root = null;
     try {
       root = getModel(sourceFileName, sourceContentAsString);
@@ -306,6 +305,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
       return;
     }
 
+    StringBuilder sourceContentWithErrors = new StringBuilder(sourceContent);
     // Store all the validation errors
     Set<Diagnostic> errors = Sets.newHashSet();
     errors.addAll(Collections2.filter(getDiagnostician().validate(root).getChildren(), new Predicate<Diagnostic>() {
@@ -338,7 +338,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
     while (offsetIterator.hasNext()) {
       sourceContentWithErrors.append(SPLITTER);
       sourceContentWithErrors.append(String.format(ERROR, errorNumber++));
-      sourceContentWithErrors.append(errorMessages.get(offsetIterator.next()) + "\n");
+      sourceContentWithErrors.append(errorMessages.get(offsetIterator.next())).append('\n');
     }
     if (errorNumber > 1) {
       sourceContentWithErrors.append(SPLITTER);
@@ -366,7 +366,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
     if (diagnostic instanceof AbstractValidationDiagnostic) {
       AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;
       errorMessage.append("Unexpected issue found. Code '");
-      errorMessage.append(avd.getIssueCode() + "'\n");
+      errorMessage.append(avd.getIssueCode()).append("'\n");
       errorMessage.append(avd.getMessage());
       if (avd instanceof FeatureBasedDiagnostic && ((FeatureBasedDiagnostic) avd).getFeature() != null) {
         List<INode> nodes = NodeModelUtils.findNodesForFeature(avd.getSourceEObject(), ((FeatureBasedDiagnostic) avd).getFeature());
@@ -403,4 +403,3 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
     return node;
   }
 }
-

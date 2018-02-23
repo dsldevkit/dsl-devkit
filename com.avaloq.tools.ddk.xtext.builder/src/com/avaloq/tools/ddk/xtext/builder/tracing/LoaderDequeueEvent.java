@@ -26,7 +26,7 @@ public class LoaderDequeueEvent extends TraceEvent {
    * @param data
    *          event data, must not be {@code null}
    */
-  public LoaderDequeueEvent(final Trigger trigger, final Object[] data) {
+  public LoaderDequeueEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 }

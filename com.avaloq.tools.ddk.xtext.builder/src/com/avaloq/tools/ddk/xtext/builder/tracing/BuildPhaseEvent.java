@@ -28,7 +28,7 @@ public abstract class BuildPhaseEvent extends TraceEvent {
    * @param data
    *          event data
    */
-  public BuildPhaseEvent(final Trigger trigger, final Object[] data) {
+  public BuildPhaseEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

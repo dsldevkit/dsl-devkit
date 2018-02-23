@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.builder.resourceloader.AbstractResourceLoader;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.Triple;
@@ -38,12 +39,17 @@ import org.eclipse.xtext.util.Tuples;
 
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLoadEvent;
+import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.inject.Binding;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 
 
 /**
@@ -56,8 +62,13 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
 
   private static final Logger LOGGER = Logger.getLogger(ParallelResourceLoader.class);
 
+  private static final Key<Boolean> PARALLEL_LOADING_SUPPORT_KEY = Key.get(Boolean.class, Names.named(ILazyLinkingResource2.PARALLEL_LOADING_SUPPORT));
+
   @Inject
   private ITraceSet traceSet;
+
+  @Inject
+  private IResourceServiceProvider.Registry resourceServiceProviderRegistry;
 
   private final int nThreads;
   private final int queueSize;
@@ -211,7 +222,12 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
             throw (Error) throwable;
           }
         }
-        return new LoadResult(result.getSecond(), uri);
+        Resource resource = result.getSecond();
+        if (resource == null) {
+          // null when parallel loading is not supported
+          resource = parent.getResource(uri, true);
+        }
+        return new LoadResult(resource, uri);
       } finally {
         traceSet.ended(LoaderDequeueEvent.class);
       }
@@ -266,16 +282,29 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
       Resource resource = null;
       currentlyProcessedUris.add(uri);
 
-      try {
-        resource = doLoadResource(uri);
-        // CHECKSTYLE:OFF
-      } catch (Throwable t) {
-        // CHECKSTYLE:ON
-        exception = t;
+      if (parallelLoadingSupported(uri)) {
+        try {
+          resource = doLoadResource(uri);
+          // CHECKSTYLE:OFF
+        } catch (Throwable t) {
+          // CHECKSTYLE:ON
+          exception = t;
+        }
       }
 
       currentlyProcessedUris.remove(uri);
       publishLoadResult(Tuples.create(uri, resource, exception));
+    }
+
+    private boolean parallelLoadingSupported(final URI uri) {
+      IResourceServiceProvider resourceServiceProvider = resourceServiceProviderRegistry.getResourceServiceProvider(uri);
+      if (resourceServiceProvider != null) {
+        Binding<Boolean> supportBinding = resourceServiceProvider.get(Injector.class).getExistingBinding(PARALLEL_LOADING_SUPPORT_KEY);
+        if (supportBinding != null) {
+          return supportBinding.getProvider().get();
+        }
+      }
+      return true;
     }
 
     /**

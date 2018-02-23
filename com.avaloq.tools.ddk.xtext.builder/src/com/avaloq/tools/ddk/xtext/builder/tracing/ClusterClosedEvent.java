@@ -27,7 +27,7 @@ public class ClusterClosedEvent extends TraceEvent {
    * @param data
    *          the first and only item is expected to represent the size of the cluster
    */
-  public ClusterClosedEvent(final Trigger trigger, final Object[] data) {
+  public ClusterClosedEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

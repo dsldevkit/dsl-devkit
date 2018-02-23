@@ -79,7 +79,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       // CHECKSTYLE:OFF
     } catch (RuntimeException e) {
       // CHECKSTYLE:ON
-      LOG.error("Error loading " + resource.getURI(), e); //$NON-NLS-1$
+      LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
       throw e instanceof WrappedException ? e : new WrappedException(e); // NOPMD
     } finally {
       traceSet.ended(ResourceLoadStorageEvent.class);
@@ -132,7 +132,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       serializableNodeModel.readObjectData(dataIn, deserializationContext);
       resource.setParseResult(new ParseResult(resource.getContents().get(0), serializableNodeModel.root, deserializationContext.hasErrors()));
     } catch (IOException e) {
-      LOG.error(e.getMessage(), e);
+      LOG.warn(e.getMessage(), e);
     }
   }
 

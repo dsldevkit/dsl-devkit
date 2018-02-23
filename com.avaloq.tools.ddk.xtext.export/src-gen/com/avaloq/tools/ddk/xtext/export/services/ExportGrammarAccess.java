@@ -21,61 +21,103 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	public class ExportModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ExportModel");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cImportsAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cImportsImportParserRuleCall_0_0 = (RuleCall)cImportsAssignment_0.eContents().get(0);
-		private final Assignment cExtensionsAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cExtensionsExtensionParserRuleCall_1_0 = (RuleCall)cExtensionsAssignment_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cInterfaceKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cInterfacesAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
-		private final RuleCall cInterfacesInterfaceParserRuleCall_2_2_0 = (RuleCall)cInterfacesAssignment_2_2.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
-		private final Assignment cExportsAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cExportsExportParserRuleCall_3_0 = (RuleCall)cExportsAssignment_3.eContents().get(0);
+		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
+		private final Keyword cExportKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Assignment cExtensionAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
+		private final Keyword cExtensionExtensionKeyword_0_1_0 = (Keyword)cExtensionAssignment_0_1.eContents().get(0);
+		private final Assignment cNameAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
+		private final RuleCall cNameIDTerminalRuleCall_0_2_0 = (RuleCall)cNameAssignment_0_2.eContents().get(0);
+		private final Keyword cForKeyword_0_3 = (Keyword)cGroup_0.eContents().get(3);
+		private final Assignment cTargetGrammarAssignment_0_4 = (Assignment)cGroup_0.eContents().get(4);
+		private final CrossReference cTargetGrammarGrammarCrossReference_0_4_0 = (CrossReference)cTargetGrammarAssignment_0_4.eContents().get(0);
+		private final RuleCall cTargetGrammarGrammarQualifiedIDParserRuleCall_0_4_0_1 = (RuleCall)cTargetGrammarGrammarCrossReference_0_4_0.eContents().get(1);
+		private final Assignment cImportsAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cImportsImportParserRuleCall_1_0 = (RuleCall)cImportsAssignment_1.eContents().get(0);
+		private final Assignment cExtensionsAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cExtensionsExtensionParserRuleCall_2_0 = (RuleCall)cExtensionsAssignment_2.eContents().get(0);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cInterfaceKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
+		private final Assignment cInterfacesAssignment_3_2 = (Assignment)cGroup_3.eContents().get(2);
+		private final RuleCall cInterfacesInterfaceParserRuleCall_3_2_0 = (RuleCall)cInterfacesAssignment_3_2.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_3_3 = (Keyword)cGroup_3.eContents().get(3);
+		private final Assignment cExportsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cExportsExportParserRuleCall_4_0 = (RuleCall)cExportsAssignment_4.eContents().get(0);
 		
 		//ExportModel:
-		//	imports+=Import+ extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+;
+		//	("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
+		//	extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+;
 		@Override public ParserRule getRule() { return rule; }
 
-		//imports+=Import+ extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+
+		//("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
+		//extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+
 		public Group getGroup() { return cGroup; }
 
+		//("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])?
+		public Group getGroup_0() { return cGroup_0; }
+
+		//"export"
+		public Keyword getExportKeyword_0_0() { return cExportKeyword_0_0; }
+
+		//extension?="extension"?
+		public Assignment getExtensionAssignment_0_1() { return cExtensionAssignment_0_1; }
+
+		//"extension"
+		public Keyword getExtensionExtensionKeyword_0_1_0() { return cExtensionExtensionKeyword_0_1_0; }
+
+		//name=ID
+		public Assignment getNameAssignment_0_2() { return cNameAssignment_0_2; }
+
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_0_2_0() { return cNameIDTerminalRuleCall_0_2_0; }
+
+		//"for"
+		public Keyword getForKeyword_0_3() { return cForKeyword_0_3; }
+
+		//targetGrammar=[xtext::Grammar|QualifiedID]
+		public Assignment getTargetGrammarAssignment_0_4() { return cTargetGrammarAssignment_0_4; }
+
+		//[xtext::Grammar|QualifiedID]
+		public CrossReference getTargetGrammarGrammarCrossReference_0_4_0() { return cTargetGrammarGrammarCrossReference_0_4_0; }
+
+		//QualifiedID
+		public RuleCall getTargetGrammarGrammarQualifiedIDParserRuleCall_0_4_0_1() { return cTargetGrammarGrammarQualifiedIDParserRuleCall_0_4_0_1; }
+
 		//imports+=Import+
-		public Assignment getImportsAssignment_0() { return cImportsAssignment_0; }
+		public Assignment getImportsAssignment_1() { return cImportsAssignment_1; }
 
 		//Import
-		public RuleCall getImportsImportParserRuleCall_0_0() { return cImportsImportParserRuleCall_0_0; }
+		public RuleCall getImportsImportParserRuleCall_1_0() { return cImportsImportParserRuleCall_1_0; }
 
 		//extensions+=Extension*
-		public Assignment getExtensionsAssignment_1() { return cExtensionsAssignment_1; }
+		public Assignment getExtensionsAssignment_2() { return cExtensionsAssignment_2; }
 
 		//Extension
-		public RuleCall getExtensionsExtensionParserRuleCall_1_0() { return cExtensionsExtensionParserRuleCall_1_0; }
+		public RuleCall getExtensionsExtensionParserRuleCall_2_0() { return cExtensionsExtensionParserRuleCall_2_0; }
 
 		//("interface" "{" interfaces+=Interface+ "}")?
-		public Group getGroup_2() { return cGroup_2; }
+		public Group getGroup_3() { return cGroup_3; }
 
 		//"interface"
-		public Keyword getInterfaceKeyword_2_0() { return cInterfaceKeyword_2_0; }
+		public Keyword getInterfaceKeyword_3_0() { return cInterfaceKeyword_3_0; }
 
 		//"{"
-		public Keyword getLeftCurlyBracketKeyword_2_1() { return cLeftCurlyBracketKeyword_2_1; }
+		public Keyword getLeftCurlyBracketKeyword_3_1() { return cLeftCurlyBracketKeyword_3_1; }
 
 		//interfaces+=Interface+
-		public Assignment getInterfacesAssignment_2_2() { return cInterfacesAssignment_2_2; }
+		public Assignment getInterfacesAssignment_3_2() { return cInterfacesAssignment_3_2; }
 
 		//Interface
-		public RuleCall getInterfacesInterfaceParserRuleCall_2_2_0() { return cInterfacesInterfaceParserRuleCall_2_2_0; }
+		public RuleCall getInterfacesInterfaceParserRuleCall_3_2_0() { return cInterfacesInterfaceParserRuleCall_3_2_0; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_2_3() { return cRightCurlyBracketKeyword_2_3; }
+		public Keyword getRightCurlyBracketKeyword_3_3() { return cRightCurlyBracketKeyword_3_3; }
 
 		//exports+=Export+
-		public Assignment getExportsAssignment_3() { return cExportsAssignment_3; }
+		public Assignment getExportsAssignment_4() { return cExportsAssignment_4; }
 
 		//Export
-		public RuleCall getExportsExportParserRuleCall_3_0() { return cExportsExportParserRuleCall_3_0; }
+		public RuleCall getExportsExportParserRuleCall_4_0() { return cExportsExportParserRuleCall_4_0; }
 	}
 
 	public class ImportElements extends AbstractParserRuleElementFinder {
@@ -396,8 +438,14 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Export");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cExportKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cAllowLookupAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final Keyword cAllowLookupLookupKeyword_1_0 = (Keyword)cAllowLookupAssignment_1.eContents().get(0);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Assignment cLookupAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final Keyword cLookupLookupKeyword_1_0_0 = (Keyword)cLookupAssignment_1_0.eContents().get(0);
+		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
+		private final Keyword cLeftSquareBracketKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
+		private final Assignment cLookupPredicateAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
+		private final RuleCall cLookupPredicateExpressionParserRuleCall_1_1_1_0 = (RuleCall)cLookupPredicateAssignment_1_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_1_1_2 = (Keyword)cGroup_1_1.eContents().get(2);
 		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cTypeEClassCrossReference_2_0 = (CrossReference)cTypeAssignment_2.eContents().get(0);
 		private final RuleCall cTypeEClassQualifiedIDParserRuleCall_2_0_1 = (RuleCall)cTypeEClassCrossReference_2_0.eContents().get(1);
@@ -454,31 +502,49 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
 		
 		//Export:
-		//	"export" allowLookup?="lookup"? type=[ecore::EClass|QualifiedID] ("as" qualifiedName?="qualified"?
-		//	naming=Expression)? // Only one name for now
-		// ("[" guard=Expression "]")? "{" ("uri-fragment" "="
-		//	fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+		//	"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
+		//	qualifiedName?="qualified"? naming=Expression)? // Only one name for now
+		// ("[" guard=Expression "]")? "{"
+		//	("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
 		//	((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
 		//	attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")*
 		//	"}";
 		@Override public ParserRule getRule() { return rule; }
 
-		//"export" allowLookup?="lookup"? type=[ecore::EClass|QualifiedID] ("as" qualifiedName?="qualified"? naming=Expression)?
-		//// Only one name for now
-		// ("[" guard=Expression "]")? "{" ("uri-fragment" "=" fragmentUnique?="unique"? "attribute"
-		//"(" fragmentAttribute=[ecore::EAttribute] ")" ";")? ((fingerprint?="object-fingerprint" |
-		//resourceFingerprint?="resource-fingerprint") ";")? ("field" attributes+=Attribute ("," attributes+=Attribute)* ";" |
-		//"data" userData+=UserData ("," userData+=UserData)* ";")* "}"
+		//"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
+		//qualifiedName?="qualified"? naming=Expression)? // Only one name for now
+		// ("[" guard=Expression "]")? "{"
+		//("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+		//((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
+		//attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")* "}"
 		public Group getGroup() { return cGroup; }
 
 		//"export"
 		public Keyword getExportKeyword_0() { return cExportKeyword_0; }
 
-		//allowLookup?="lookup"?
-		public Assignment getAllowLookupAssignment_1() { return cAllowLookupAssignment_1; }
+		//(lookup?="lookup" ("[" lookupPredicate=Expression "]")?)?
+		public Group getGroup_1() { return cGroup_1; }
+
+		//lookup?="lookup"
+		public Assignment getLookupAssignment_1_0() { return cLookupAssignment_1_0; }
 
 		//"lookup"
-		public Keyword getAllowLookupLookupKeyword_1_0() { return cAllowLookupLookupKeyword_1_0; }
+		public Keyword getLookupLookupKeyword_1_0_0() { return cLookupLookupKeyword_1_0_0; }
+
+		//("[" lookupPredicate=Expression "]")?
+		public Group getGroup_1_1() { return cGroup_1_1; }
+
+		//"["
+		public Keyword getLeftSquareBracketKeyword_1_1_0() { return cLeftSquareBracketKeyword_1_1_0; }
+
+		//lookupPredicate=Expression
+		public Assignment getLookupPredicateAssignment_1_1_1() { return cLookupPredicateAssignment_1_1_1; }
+
+		//Expression
+		public RuleCall getLookupPredicateExpressionParserRuleCall_1_1_1_0() { return cLookupPredicateExpressionParserRuleCall_1_1_1_0; }
+
+		//"]"
+		public Keyword getRightSquareBracketKeyword_1_1_2() { return cRightSquareBracketKeyword_1_1_2; }
 
 		//type=[ecore::EClass|QualifiedID]
 		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
@@ -791,7 +857,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//ExportModel:
-	//	imports+=Import+ extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+;
+	//	("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
+	//	extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+;
 	public ExportModelElements getExportModelAccess() {
 		return pExportModel;
 	}
@@ -884,10 +951,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Export:
-	//	"export" allowLookup?="lookup"? type=[ecore::EClass|QualifiedID] ("as" qualifiedName?="qualified"?
-	//	naming=Expression)? // Only one name for now
-	// ("[" guard=Expression "]")? "{" ("uri-fragment" "="
-	//	fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+	//	"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
+	//	qualifiedName?="qualified"? naming=Expression)? // Only one name for now
+	// ("[" guard=Expression "]")? "{"
+	//	("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
 	//	((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
 	//	attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")*
 	//	"}";

@@ -23,7 +23,7 @@ import org.eclipse.xtext.ui.util.IssueUtil;
  */
 public class FixedXtextResourceMarkerAnnotationModel extends XtextResourceMarkerAnnotationModel {
 
-  private boolean connected;
+  private boolean isConnected;
 
   /**
    * Creates a new instance of {@link FixedXtextResourceMarkerAnnotationModel}.
@@ -42,21 +42,20 @@ public class FixedXtextResourceMarkerAnnotationModel extends XtextResourceMarker
   @Override
   protected void connected() {
     super.connected();
-    connected = true;
+    isConnected = true;
   }
 
   @Override
   protected void disconnected() {
     super.disconnected();
-    connected = false;
+    isConnected = false;
   }
 
   @Override
   public void updateMarkers(final IDocument document) throws CoreException {
-    if (!this.connected) {
+    if (!this.isConnected) {
       return;
     }
     super.updateMarkers(document);
   }
 }
-

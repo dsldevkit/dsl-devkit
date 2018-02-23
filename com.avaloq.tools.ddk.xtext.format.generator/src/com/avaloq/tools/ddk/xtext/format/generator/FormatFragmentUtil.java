@@ -81,6 +81,7 @@ public final class FormatFragmentUtil {
    * @throws FileNotFoundException
    *           thrown if the format file could not be found
    */
+  @SuppressWarnings("PMD.NPathComplexity")
   public static FormatConfiguration getFormatModel(final Grammar grammar, final XpandExecutionContext context) throws FileNotFoundException {
     Variable resourceUriVariable = context.getVariable("resourceUri");
     if (resourceUriVariable == null) {
@@ -125,7 +126,7 @@ public final class FormatFragmentUtil {
    *
    * @return the {@link ModelValidator}, never {@code null}
    */
-  private static ModelValidator getModelValidator() {
+  private static synchronized ModelValidator getModelValidator() {
     if (modelValidator == null) {
       modelValidator = new FormatStandaloneSetup().createInjector().getInstance(ModelValidator.class);
     }

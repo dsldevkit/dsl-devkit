@@ -128,7 +128,7 @@ public class CheckRuleLabelProviderTest {
   @Test
   public void testBinding() {
     // ASSERT
-    assertSame(CheckRuleLabelProvider.class, checkRuleLabelProvider.getClass());
+    assertSame("Binding of label provider incorrect.", CheckRuleLabelProvider.class, checkRuleLabelProvider.getClass());
   }
 
   /**
@@ -143,7 +143,7 @@ public class CheckRuleLabelProviderTest {
     final String label = checkRuleLabelProvider.getLabel(ISSUE_CODE);
 
     // ASSERT
-    assertEquals(LABEL, label);
+    assertEquals("Label should be " + LABEL + " but was " + label, LABEL, label);
   }
 
   /**
@@ -157,7 +157,7 @@ public class CheckRuleLabelProviderTest {
     final String label = checkRuleLabelProvider.getLabel("some.package.SomeCheckCatalogIssueCodes.no.such.issue.code");
 
     // ASSERT
-    assertNull(label);
+    assertNull("Label should be null but was " + label, label);
   }
 
   /**
@@ -172,7 +172,7 @@ public class CheckRuleLabelProviderTest {
     final String label = checkRuleLabelProvider.getLabel(null);
 
     // ASSERT
-    assertNull(label);
+    assertNull("Label should be null but was " + label, label);
   }
 
   /**
@@ -187,7 +187,7 @@ public class CheckRuleLabelProviderTest {
     final String label = checkRuleLabelProvider.getLabel(ISSUE_CODE);
 
     // ASSERT
-    assertNull(label);
+    assertNull("Label should be null but was " + label, label);
   }
 
   /**
@@ -205,7 +205,7 @@ public class CheckRuleLabelProviderTest {
     final String label = checkRuleLabelProvider.getLabel(ISSUE_CODE);
 
     // ASSERT
-    assertNull(label);
+    assertNull("Label should be null but was " + label, label);
   }
 
   /**
@@ -225,7 +225,7 @@ public class CheckRuleLabelProviderTest {
     final String label = checkRuleLabelProvider.getLabel(notACheckIssueCode);
 
     // ASSERT
-    assertNull(label);
+    assertNull("Label should be null but was " + label, label);
   }
 
   /**
@@ -246,7 +246,7 @@ public class CheckRuleLabelProviderTest {
       verify(mockValidator, times(1)).getIssueCodeToLabelMap();
     }
 
-    assertEquals(label1, label2);
+    assertEquals(label1 + " not equal to " + label2 + " . Equality expected", label1, label2);
   }
 
   /**
@@ -283,7 +283,7 @@ public class CheckRuleLabelProviderTest {
       verify(mockValidator, times(2)).getIssueCodeToLabelMap();
     }
 
-    assertEquals(label1, label2);
+    assertEquals(label1 + " not equal to " + label2 + " . Equality expected", label1, label2);
   }
 
   /**
@@ -295,7 +295,7 @@ public class CheckRuleLabelProviderTest {
     final ICheckRuleLabelProvider otherCheckRuleLabelProvider = injector.getInstance(CheckRuleLabelProvider.class);
 
     // ASSERT
-    assertSame(checkRuleLabelProvider, otherCheckRuleLabelProvider);
+    assertSame("Only one instance of CheckRuleLabelProvider expected", checkRuleLabelProvider, otherCheckRuleLabelProvider);
   }
 
 }

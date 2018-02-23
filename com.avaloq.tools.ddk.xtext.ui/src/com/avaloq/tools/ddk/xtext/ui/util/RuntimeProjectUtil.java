@@ -105,7 +105,7 @@ public final class RuntimeProjectUtil {
         String workspacePath = absolutePath.replace(relativePath, StringUtils.EMPTY);
         builder.append(workspacePath);
       }
-      builder.append("/"); //$NON-NLS-1$
+      builder.append('/');
       builder.append(storage.getProject().getName());
       return builder.toString();
     } else {

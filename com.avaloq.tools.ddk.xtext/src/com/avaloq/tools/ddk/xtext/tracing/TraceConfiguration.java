@@ -11,9 +11,9 @@
 
 package com.avaloq.tools.ddk.xtext.tracing;
 
-import java.util.Arrays;
+import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 
 /**
@@ -58,7 +58,7 @@ public interface TraceConfiguration {
    */
   @SafeVarargs
   static TraceConfiguration enableAllExcept(final Class<? extends TraceEvent>... excludedTraceClasses) {
-    ImmutableSet<Class<? extends TraceEvent>> excludedTraceClassSet = ImmutableSet.copyOf(Arrays.asList(excludedTraceClasses));
+    Set<Class<? extends TraceEvent>> excludedTraceClassSet = Sets.newHashSet(excludedTraceClasses);
     return c -> !excludedTraceClassSet.contains(c);
   }
 
@@ -71,7 +71,7 @@ public interface TraceConfiguration {
    */
   @SafeVarargs
   static TraceConfiguration enableOnly(final Class<? extends TraceEvent>... includedTraceClasses) {
-    ImmutableSet<Class<? extends TraceEvent>> includedTraceClassSet = ImmutableSet.copyOf(Arrays.asList(includedTraceClasses));
+    Set<Class<? extends TraceEvent>> includedTraceClassSet = Sets.newHashSet(includedTraceClasses);
     return c -> includedTraceClassSet.contains(c);
   }
 }

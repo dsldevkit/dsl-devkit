@@ -36,8 +36,7 @@ private internalTransform(ecore::EClass this, Grammar grammar):
         }
         case (name == 'Export') : {
             addUnboundedOperation('getEAttributes', lookupClass(grammar, 'ecore', 'EAttribute')) ->
-            addUnboundedOperation('getAllEAttributes', lookupClass(grammar, 'ecore', 'EAttribute')) ->
-            addOperation ('getNamingAttribute', lookupClass(grammar, 'ecore', 'EAttribute'))
+            addUnboundedOperation('getAllEAttributes', lookupClass(grammar, 'ecore', 'EAttribute'))
         }
         default: null
     }

@@ -253,12 +253,12 @@ public class ScopeJavaValidator extends AbstractScopeJavaValidator {
    */
   @Check
   public void checkScopeRuleOverriding(final ScopeModel context) {
-    final Map<String, ScopeRule> profileMap = Maps.newHashMap();
     final Set<ScopeDefinition> inheritedDefinitions = getAllInheritedScopeDefinitions(context);
     if (inheritedDefinitions.isEmpty()) {
       return;
     }
 
+    final Map<String, ScopeRule> profileMap = Maps.newHashMap();
     for (ScopeDefinition def : inheritedDefinitions) {
       for (ScopeRule rule : def.getRules()) {
         final String profile = ScopeUtil.getSignature(rule);

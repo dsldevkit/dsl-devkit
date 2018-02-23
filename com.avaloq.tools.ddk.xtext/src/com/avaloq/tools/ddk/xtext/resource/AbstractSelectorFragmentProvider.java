@@ -91,6 +91,17 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   }
 
   /**
+   * Allows override for delegation to extensions.
+   *
+   * @param object
+   *          object to compute fragment for
+   * @return fragment, never {@code null}
+   */
+  protected CharSequence getFragmentSegmentFallback(final EObject object) {
+    return shortFragmentProvider.getFragmentSegment(object);
+  }
+
+  /**
    * {@inheritDoc}
    * <p>
    * By default, this method delegates to {@link ShortFragmentProvider#getFragmentSegment(EObject)}. Sub classes have to override this method in order to
@@ -100,7 +111,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   // TODO DSL-348: change generator for fragment providers to implement getFragmentSegment instead of getFragment
   @Override
   public CharSequence getFragmentSegment(final EObject object) {
-    return shortFragmentProvider.getFragmentSegment(object);
+    return getFragmentSegmentFallback(object);
   }
 
   /** {@inheritDoc} */
@@ -111,8 +122,6 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     if (selectorEndOffset != -1) {
       final int selectorOffset = segment.indexOf(SELECTOR_START);
       final int containmentFeatureId = Integer.parseInt(segment.substring(0, selectorOffset));
-      final int eqOffset = segment.indexOf(EQ_OP, selectorOffset);
-      final int selectorFeatureId = Integer.parseInt(segment.substring(selectorOffset + 1, eqOffset));
       final EStructuralFeature containmentFeature = container.eClass().getEStructuralFeature(containmentFeatureId);
       if (containmentFeature == null) {
         return null;
@@ -120,6 +129,8 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
       if (!containmentFeature.isMany()) {
         return (EObject) container.eGet(containmentFeature);
       }
+      final int eqOffset = segment.indexOf(EQ_OP, selectorOffset);
+      final int selectorFeatureId = Integer.parseInt(segment.substring(selectorOffset + 1, eqOffset));
       boolean uniqueMatch = segment.charAt(selectorEndOffset - 1) == UNIQUE;
       int matchedIndex = uniqueMatch ? 0 : Integer.parseInt(segment.substring(selectorEndOffset + 2));
       boolean isNull = segment.startsWith(NULL_VALUE, eqOffset + EQ_OP_LENGTH);

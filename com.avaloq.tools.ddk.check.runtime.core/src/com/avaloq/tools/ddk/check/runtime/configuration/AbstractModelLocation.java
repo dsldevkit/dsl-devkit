@@ -25,7 +25,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public abstract class AbstractModelLocation implements IModelLocation {
 
-  private static final Logger LOG = org.apache.log4j.Logger.getLogger(AbstractModelLocation.class);
+  private static final Logger LOG = Logger.getLogger(AbstractModelLocation.class);
 
   private final URL catalogUrl;
 
@@ -37,6 +37,7 @@ public abstract class AbstractModelLocation implements IModelLocation {
   }
 
   /** {@inheritDoc} */
+  @Override
   public InputStream getCatalogStream() {
     InputStream stream = null;
     try {
@@ -48,16 +49,19 @@ public abstract class AbstractModelLocation implements IModelLocation {
   }
 
   /** {@inheritDoc} */
+  @Override
   public String getCatalogPath() {
     return catalogUrl.getPath();
   }
 
   /** {@inheritDoc} */
+  @Override
   public URL getCatalogUrl() {
     return catalogUrl;
   }
 
   /** {@inheritDoc} */
+  @Override
   public URI getCatalogUri() {
     try {
       return catalogUrl.toURI();
@@ -67,4 +71,3 @@ public abstract class AbstractModelLocation implements IModelLocation {
   }
 
 }
-

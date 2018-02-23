@@ -7,7 +7,7 @@
 
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>ddk-parent</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -34,11 +34,10 @@
     <compiler.showWarnings>true</compiler.showWarnings>
     <pmd.ruleset>${workspace}/ddk-configuration/pmd/ruleset.xml</pmd.ruleset>
     <pmd.test.ruleset>${workspace}/ddk-configuration/pmd/ruleset-test.xml</pmd.test.ruleset>
-    <checkstyle.skip>false</checkstyle.skip>
+    <pmd.cpd.min>100000</pmd.cpd.min>
     <checkstyle.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq.xml</checkstyle.configLocation>
     <checkstyle.test.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq-test.xml</checkstyle.test.configLocation>
     <findbugs.excludeFilterFile>${workspace}/ddk-configuration/findbugs/exclusion-filter.xml</findbugs.excludeFilterFile>
-    <findbugs.skip>false</findbugs.skip>
     <findbugs.maxHeap>2048</findbugs.maxHeap>
 
     <!-- test parameter-->
@@ -92,6 +91,7 @@
     <module>../com.avaloq.tools.ddk.xtext.test</module>
     <module>../com.avaloq.tools.ddk.xtext.test.core</module>
     <module>../com.avaloq.tools.ddk.xtext.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.ui.test</module>
     <module>../com.avaloq.tools.ddk.xtext.valid</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.test</module>
@@ -280,9 +280,11 @@
         <version>${pmd.plugin.version}</version>
         <configuration>
           <targetJdk>1.8</targetJdk>
-          <minimumTokens>100</minimumTokens>
-          <format>xml</format>
-          <failOnViolation>false</failOnViolation>
+          <minimumTokens>${pmd.cpd.min}</minimumTokens>
+          <aggregate>true</aggregate>
+          <failOnViolation>true</failOnViolation>
+          <printFailingErrors>true</printFailingErrors>
+          <verbose>true</verbose>
           <linkXRef>false</linkXRef>
           <rulesets>
             <ruleset>${pmd.ruleset}</ruleset>
@@ -306,7 +308,10 @@
           </dependency>
         </dependencies>
         <configuration>
-          <skip>${checkstyle.skip}</skip>
+          <violationSeverity>warning</violationSeverity>
+          <failOnViolation>true</failOnViolation>
+          <logViolationsToConsole>true</logViolationsToConsole>
+          <consoleOutput>true</consoleOutput>
           <linkXRef>false</linkXRef>
           <sourceDirectory>src</sourceDirectory>
           <configLocation>${checkstyle.configLocation}</configLocation>
@@ -318,20 +323,20 @@
         <artifactId>findbugs-maven-plugin</artifactId>
         <version>${findbugs.plugin.version}</version>
         <configuration>
-          <findbugsXmlOutput>true</findbugsXmlOutput>
-          <failOnError>false</failOnError>
+          <skip>true</skip><!-- Remove this once all Findbugs violations have been fixed -->
+          <findbugsXmlOutput>false</findbugsXmlOutput>
+          <failOnError>true</failOnError>
           <maxHeap>${findbugs.maxHeap}</maxHeap>
           <maxRank>15</maxRank>
           <threshold>Low</threshold>
           <excludeFilterFile>${findbugs.excludeFilterFile}</excludeFilterFile>
-          <skip>${findbugs.skip}</skip>
           <maxHeap>1024</maxHeap>
         </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
-		<plugin>
+    <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>${clean.version}</version>
           <configuration>

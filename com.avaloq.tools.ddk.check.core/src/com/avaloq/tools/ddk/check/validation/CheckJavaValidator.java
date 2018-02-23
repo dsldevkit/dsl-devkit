@@ -72,7 +72,7 @@ import com.google.inject.Inject;
 @ComposedChecks(validators = {ClasspathBasedChecks.class, FormalParameterChecks.class, ApiAccessChecks.class})
 public class CheckJavaValidator extends AbstractCheckJavaValidator {
 
-  private static final String CHECK = "Check";
+  private static final String CHECK = "Check"; //$NON-NLS-1$
 
   @Inject
   private CheckGeneratorExtensions generatorExtensions;
@@ -123,11 +123,11 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
   private static final Set<String> BASE_TYPE_NAMES = ImmutableSet.of("java.lang.String", "java.lang.Integer", "java.lang.Boolean"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
   private static final Set<String> ALLOWED_TYPE_NAMES = ImmutableSet.<String> builder() //
       .addAll(BASE_TYPE_NAMES) //
-      .add("boolean", "int") //
+      .add("boolean", "int") // //$NON-NLS-1$ //$NON-NLS-2$
       .addAll(Iterables.transform(BASE_TYPE_NAMES, new Function<String, String>() {
         @Override
         public String apply(final String base) {
-          return "java.util.List<" + base + '>';
+          return "java.util.List<" + base + '>'; //$NON-NLS-1$
         }
       })) //
       .build();
@@ -500,12 +500,12 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
     if (generatorExtensions.issuedCheck(expression) == null) {
       return;
     }
-    int boundParameters = expression.getMessageParameters().size();
     String message = generatorExtensions.issuedCheck(expression).getMessage();
     if (Strings.isEmpty(message)) {
       return;
     }
     try {
+      int boundParameters = expression.getMessageParameters().size();
       int requiredBindings = new MessageFormat(message).getFormatsByArgumentIndex().length;
 
       if (boundParameters != requiredBindings) {
@@ -742,7 +742,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
       SeverityKind temp = minSeverity;
       while (temp != null && temp.compareTo(maxSeverity) <= 0) {
         issueCodes.add(temp.getName());
-        temp = com.avaloq.tools.ddk.check.check.SeverityKind.get(temp.getValue() + 1);
+        temp = SeverityKind.get(temp.getValue() + 1);
       }
 
       String[] codes = issueCodes.toArray(new String[issueCodes.size()]);

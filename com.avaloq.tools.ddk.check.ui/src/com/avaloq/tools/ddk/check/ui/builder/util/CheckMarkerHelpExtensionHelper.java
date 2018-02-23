@@ -139,13 +139,12 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
 
   @Override
   protected boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
-    final IQualifiedNameProvider nameProvider = getFromServiceProvider(IQualifiedNameProvider.class, catalog);
-
     // TODO should check if this check is too expensive; consider rewriting contents instead
     if (!super.isExtensionUpdateRequired(catalog, extension, elements)) {
       return false;
     }
 
+    final IQualifiedNameProvider nameProvider = getFromServiceProvider(IQualifiedNameProvider.class, catalog);
     // collect all data in the extension model: mapping<context id, pair<execution mode, issue code>>
     HashMultimap<String, Pair<String, String>> contextToValue = HashMultimap.<String, Pair<String, String>> create();
     for (IPluginElement e : elements) {

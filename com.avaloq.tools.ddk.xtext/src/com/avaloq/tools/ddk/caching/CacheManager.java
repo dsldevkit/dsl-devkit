@@ -224,8 +224,7 @@ public final class CacheManager {
     }
 
     private void printStatistics(final Map<String, MultiCacheStatistics> allStatistics) {
-      StringBuilder builder = new StringBuilder();
-      builder.append("Active caches:\n");
+      StringBuilder builder = new StringBuilder("Active caches:\n");
       builder.append(String.format("%70s | %6s | %9s | %9s | %9s | %4s\n", "name", "caches", "items", "hit", "miss", "rate"));
 
       for (Entry<String, MultiCacheStatistics> entry : allStatistics.entrySet()) {

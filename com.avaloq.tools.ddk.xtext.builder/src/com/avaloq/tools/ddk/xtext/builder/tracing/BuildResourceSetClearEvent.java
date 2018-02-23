@@ -24,7 +24,7 @@ public class BuildResourceSetClearEvent extends BuildPhaseEvent {
    * @param data
    *          event data
    */
-  public BuildResourceSetClearEvent(final Trigger trigger, final Object[] data) {
+  public BuildResourceSetClearEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

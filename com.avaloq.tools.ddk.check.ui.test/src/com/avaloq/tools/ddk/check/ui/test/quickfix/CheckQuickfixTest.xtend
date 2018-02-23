@@ -10,22 +10,78 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.quickfix
 
-import com.avaloq.tools.ddk.test.core.BugTest
 import com.avaloq.tools.ddk.check.ui.quickfix.Messages
 import com.avaloq.tools.ddk.check.validation.IssueCodes
+import com.avaloq.tools.ddk.test.core.BugTest
+import com.avaloq.tools.ddk.test.core.Retry
+import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot
+import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals
+import com.avaloq.tools.ddk.test.ui.swtbot.util.ProblemsViewTestUtil
+import org.eclipse.swtbot.swt.finder.widgets.TimeoutException
 import org.eclipse.xtext.diagnostics.Diagnostic
 import org.junit.Assert
 import org.junit.Test
 
-class CheckQuickfixTest extends AbstractCheckQuickfixTest {
-  override protected registerRequiredSources() {
-    addKernelSourceToWorkspace(testSourceFileName, '''
-      package com.avaloq.test
+import static org.junit.Assert.fail
 
-      catalog TestCatalog for grammar org.eclipse.xtext.Xtext
+/**
+ * Test quickfixes for Check files.
+ */
+class CheckQuickfixTest extends AbstractCheckQuickfixTest {
+
+  static val PACKAGE_NAME = "com.avaloq.test"
+
+  val SwtWorkbenchBot bot = new SwtWorkbenchBot
+  var boolean oldAutoBuildState
+
+  def private String getTestSourceFileName(String catalogName) {
+    return '''«PACKAGE_NAME.replace(".", "/")»/«catalogName».«xtextTestUtil.getFileExtension»'''
+  }
+
+  override protected getTestSourceFileName() {
+    return getTestSourceFileName(testSourceModelName)
+  }
+
+  override protected registerRequiredSources() {
+  }
+
+  override protected getTestSource() {
+    return null
+  }
+
+  override protected beforeEachTest() {
+    super.beforeEachTest
+    oldAutoBuildState = testProjectManager.setAutobuild(true)
+    cleanUp
+  }
+
+  override protected afterEachTest() {
+    testProjectManager.autobuild = oldAutoBuildState
+    cleanUp
+    super.afterEachTest
+  }
+
+  /**
+   * Close all shells and editors and remove all sources.
+   */
+  def private void cleanUp() {
+    bot.closeAllShells
+    bot.closeAllEditors
+    for (testSource : testProjectManager.testSources) {
+      testProjectManager.removeTestSource(testSource)
+    }
+  }
+
+  @Test
+  @BugTest(value="DSL-244")
+  def testImportFix() {
+    createTestSource(testSourceFileName, '''
+      package «PACKAGE_NAME»
+
+      catalog «testSourceModelName» for grammar org.eclipse.xtext.Xtext
       {
         /** Missing import test */
-        warning TestWarning "Test Warning" ()
+        warning TestWarning "Test Warning"
         message "This is a Test Warning" {
           for AbstractRule c {
             issue
@@ -33,15 +89,7 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
         }
       }
     ''')
-  }
-
-  override protected getTestSourceFileName() {
-    return "com/avaloq/test/TestCatalog.check";
-  }
-
-  @Test
-  @BugTest(value="DSL-244")
-  def testImportFix() {
+    openEditor(testSourceFileName)
     val quickfixLabel = "Import 'AbstractRule' (org.eclipse.xtext)"
     val beforeIssues = getXtextTestUtil().getIssues(getDocument());
     assertHasQuickFix(Diagnostic::LINKING_DIAGNOSTIC, quickfixLabel);
@@ -58,9 +106,9 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
 
     // ARRANGE
     val sourceContent = '''
-      package com.avaloq.test
+      package «PACKAGE_NAME»
 
-      catalog TestCatalog
+      catalog «testSourceModelName»
       for grammar org.eclipse.xtext.Xtext {
 
         warning "Test Warning"
@@ -69,9 +117,9 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
       }
     '''
     val expectedContent = '''
-      package com.avaloq.test
+      package «PACKAGE_NAME»
 
-      catalog TestCatalog
+      catalog «testSourceModelName»
       for grammar org.eclipse.xtext.Xtext {
 
         warning TestWarning "Test Warning"
@@ -84,5 +132,70 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
     assertQuickFixExistsAndSuccessfulInCustomerSource(IssueCodes::MISSING_ID_ON_CHECK,
       Messages.CheckQuickfixProvider_ADD_ID_LABEL, testSourceFileName, sourceContent, expectedContent)
   }
+
+  /**
+   * Test bulk-applying a quickfix.
+   * Tolerate up to ten timeouts, because occasionally new markers don't appear or not all markers are fixed;
+   * the problems appears to be in Eclipse.
+   */
+  @Test
+  @Retry(10)
+  def void testBulkApplyingQuickfix() {
+
+    // ARRANGE
+    val catalogNames = #[testSourceModelName, testSourceModelName + "2"]
+    val checkLabels = #["Check with no explicit ID", "Another check with no explicit ID"]
+    val expectedMarkers = catalogNames.length * checkLabels.length
+
+    // Show all error markers
+    ProblemsViewTestUtil.showProblemsView(bot)
+    ProblemsViewTestUtil.showAllErrors(bot)
+    ProblemsViewTestUtil.groupByNone(bot)
+
+    // Add catalogs containing multiple instances of the same quickfixable marker
+    for (catalogName : catalogNames) {
+      createTestSource(getTestSourceFileName(catalogName), '''
+        package «PACKAGE_NAME»
+
+        catalog «catalogName»
+        for grammar org.eclipse.xtext.Xtext {
+          «FOR checkLabel : checkLabels»
+
+          live error "«checkLabel»"
+          message "«checkLabel»" {
+          }
+          «ENDFOR»
+        }
+      ''')
+    }
+
+    // Build the catalogs, and wait for the expected markers to appear
+    testProjectManager.build
+    val markersTreeBot = ProblemsViewTestUtil.getMarkersTree(bot)
+    bot.waitUntil(new WaitForEquals("Not all expected markers appeared.", [expectedMarkers], [markersTreeBot.allItems.length]))
+
+    // ACT
+    // Disable autobuilding, to avoid losing focus while selecting markers
+    testProjectManager.autobuild = false
+    testProjectManager.build
+
+    // Bulk-apply quickfixes on all markers, ensuring that all markers remain selected
+    ProblemsViewTestUtil.bulkApplyQuickfix(bot, Messages.CheckQuickfixProvider_ADD_ID_LABEL, markersTreeBot.allItems)
+    bot.waitUntil(new WaitForEquals("Not all markers are still selected.", [expectedMarkers], [markersTreeBot.selectionCount]))
+
+    // Save all modified files and build the catalogs
+    bot.editors.forEach[save]
+    testProjectManager.autobuild = true
+    testProjectManager.build
+
+    // ASSERT
+    // Check that all markers are fixed
+    try {
+      bot.waitUntil(new WaitForEquals("Some markers were not quickfixed.", [0], [markersTreeBot.allItems.length]))
+    } catch (TimeoutException exception) {
+      fail(exception.message)
+    }
+   }
+
 }
 

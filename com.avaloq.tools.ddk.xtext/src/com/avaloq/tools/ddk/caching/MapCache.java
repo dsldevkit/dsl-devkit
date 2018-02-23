@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.Weigher;
@@ -32,12 +33,9 @@ import com.google.common.cache.Weigher;
  */
 public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
 
-  private final com.google.common.cache.Cache<K, V> backend;
+  private final Cache<K, V> backend;
   private final String name;
 
-  /**
-   * New instances should be created through {@link CacheManager}.
-   */
   MapCache(final String name, final CacheConfiguration config) {
     this.name = name;
 
@@ -84,15 +82,7 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
     backend.invalidateAll();
   }
 
-  /**
-   * Stores an entry if it does not yet exist in the cache.
-   *
-   * @param key
-   *          the key, must not be {@code null}
-   * @param value
-   *          the value, must not be {@code null}
-   * @return the previous value associated with the specified key, or {@code null} if there was no mapping for the key
-   */
+  @Override
   public V putIfAbsent(final K key, final V value) {
     V oldValue = get(key);
     if (oldValue == null) {
@@ -152,8 +142,8 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
   }
 
   @Override
-  public Set<java.util.Map.Entry<K, V>> entrySet() {
+  public Set<Map.Entry<K, V>> entrySet() {
     return backend.asMap().entrySet();
   }
-}
 
+}

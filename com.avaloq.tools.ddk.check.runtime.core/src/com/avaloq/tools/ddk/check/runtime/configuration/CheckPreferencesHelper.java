@@ -89,7 +89,7 @@ public final class CheckPreferencesHelper {
     if (typeId != values[0].charAt(0)) {
       throw new IllegalStateException();
     }
-    for (int i = 0, l = values.length; i < l; i++) {
+    for (int i = 0; i < values.length; i++) {
       values[i] = URI.decode(i == 0 ? values[i].substring(1) : values[i]);
     }
     return values;

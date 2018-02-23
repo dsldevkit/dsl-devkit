@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.checkcfg.ui.templates;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.StringJoiner;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
@@ -22,6 +23,7 @@ import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
@@ -39,6 +41,7 @@ import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
 import com.avaloq.tools.ddk.checkcfg.ui.labeling.CheckCfgImages;
+import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelper;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -52,6 +55,9 @@ import com.google.inject.Inject;
  */
 public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalProvider {
 
+  // Make template proposals appear at the head of the autocomplete list
+  private static final int RELEVANCE = 10000;
+
   @Inject
   private CheckCfgImages images;
 
@@ -60,6 +66,12 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   @Inject
   private XbaseInterpreter interpreter;
+
+  @Inject
+  private QualifiedNameValueConverter qualifiedNameValueConverter;
+
+  @Inject
+  private TemplateProposalProviderHelper helper;
 
   private final TemplateStore templateStore;
 
@@ -71,20 +83,26 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   @Override
   public Image getImage(final Template template) {
-    if (Strings.equal("CheckConfiguration", template.getName())) { // see templates.xml
+    if (Strings.equal("CheckConfiguration", template.getName())) { // see templates.xml //$NON-NLS-1$
       return images.forCheckConfiguration();
-    } else if (Strings.equal("Add a catalog", template.getName())) { // see templates.xml
+    } else if (Strings.equal("Add a catalog", template.getName())) { // see templates.xml //$NON-NLS-1$
       return images.forConfiguredCatalog();
     }
     return super.getImage(template);
   }
 
   @Override
+  public int getRelevance(final Template template) {
+    // Make template proposals appear at the head of the autocomplete list
+    return RELEVANCE;
+  }
+
+  @Override
   protected void createTemplates(final TemplateContext templateContext, final ContentAssistContext context, final ITemplateAcceptor acceptor) {
-    if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck")) {
+    if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck")) { //$NON-NLS-1$
       addConfiguredCheckTemplates(templateContext, context, acceptor);
       return;
-    } else if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog")) {
+    } else if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog")) { //$NON-NLS-1$
       addCatalogConfigurations(templateContext, context, acceptor);
     }
     TemplateContextType contextType = templateContext.getContextType();
@@ -112,8 +130,8 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
    */
   @SuppressWarnings("all")
   private void addCatalogConfigurations(final TemplateContext templateContext, final ContentAssistContext context, final ITemplateAcceptor acceptor) {
-    final String templateName = "Add all registered catalogs";
-    final String templateDescription = "configures all missing catalogs";
+    final String templateName = "Add all registered catalogs"; //$NON-NLS-1$
+    final String templateDescription = "configures all missing catalogs"; //$NON-NLS-1$
 
     final String contextTypeId = templateContext.getContextType().getId();
     if (context.getRootModel() instanceof CheckConfiguration) {
@@ -132,21 +150,14 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
           } else if (allElements.indexOf(description) > 0) {
             builder.append(Strings.newLine());
           }
-
-          builder.append("catalog ").append(description.getQualifiedName()).append(" {").append(Strings.newLine());
-          for (Check check : catalog.getAllChecks()) {
-            builder.append("  default ").append(check.getName()).append(Strings.newLine());
-          }
-          // CHECKSTYLE:OFF
-          builder.append("}");
-          builder.append(Strings.newLine());
-          // CHECKSTYLE:ON
+          final String catalogName = qualifiedNameValueConverter.toString(description.getQualifiedName().toString());
+          builder.append("catalog ").append(catalogName).append(" {}").append(Strings.newLine()); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
       }
 
       if (builder.length() > 0) {
-        builder.append("${cursor}");
+        builder.append("${cursor}"); //$NON-NLS-1$
         Template t = new Template(templateName, templateDescription, contextTypeId, builder.toString(), true);
         TemplateProposal tp = createProposal(t, templateContext, context, images.forConfiguredCatalog(), getRelevance(t));
         acceptor.accept(tp);
@@ -210,24 +221,20 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
       if (!Iterables.contains(alreadyConfiguredCheckNames, checkName)) {
 
         // check if referenced check has configurable parameters
-        String paramString = "";
-        if (!check.getFormalParameters().isEmpty()) {
-          StringBuilder params = new StringBuilder("(");
-          for (final FormalParameter p : check.getFormalParameters()) {
-            final String paramName = p.getName();
-            final String defaultValue = String.valueOf(interpreter.evaluate(p.getRight()).getResult());
-            params.append(paramName).append(" = ").append("${").append(defaultValue).append("}");
-            params.append(", ");
-          }
-          if (params.length() > 2) {
-            paramString = params.substring(0, params.length() - 2) + ")";
-          }
+        final StringJoiner paramsJoiner = new StringJoiner(", ", " (", ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        paramsJoiner.setEmptyValue(""); //$NON-NLS-1$
+        for (final FormalParameter param : check.getFormalParameters()) {
+          final String paramName = param.getName();
+          final Object defaultValue = interpreter.evaluate(param.getRight()).getResult();
+
+          final String valuePlaceholder = helper.createLiteralValuePattern(paramName, defaultValue);
+          paramsJoiner.add(paramName + " = " + valuePlaceholder); //$NON-NLS-1$
         }
 
-        final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : "${default:Enum('SeverityKind')} ";
-        final String description = "Configures the check \"" + check.getLabel() + "\"";
-        final String contextTypeId = "com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck." + checkName;
-        final String pattern = severity + checkName + (paramString.length() == 0 ? "${cursor}" : " " + paramString + "${cursor}");
+        final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : "${default:Enum('SeverityKind')} "; //$NON-NLS-1$ //$NON-NLS-2$
+        final String description = "Configures the check \"" + check.getLabel() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+        final String contextTypeId = "com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck." + checkName; //$NON-NLS-1$
+        final String pattern = severity + qualifiedNameValueConverter.toString(checkName) + paramsJoiner + "${cursor}"; //$NON-NLS-1$
 
         Template t = new Template(checkName, description, contextTypeId, pattern, true);
         TemplateProposal tp = createProposal(t, templateContext, context, images.forConfiguredCheck(check.getDefaultSeverity()), getRelevance(t));

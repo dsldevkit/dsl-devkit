@@ -71,11 +71,12 @@ public final class CoreUtilTools {
    * @return the random string
    */
   public static String randomAlphanumericString(final int count) {
-    String string = RandomStringUtils.randomAlphabetic(1);
+    StringBuilder stringBuilder = new StringBuilder(RandomStringUtils.randomAlphabetic(1));
     if (count > 1) {
-      string = string + RandomStringUtils.randomAlphanumeric(count - 1);
+      stringBuilder.append(RandomStringUtils.randomAlphanumeric(count - 1));
 
     }
+    String string = stringBuilder.toString();
     Assert.isNotNull(string, "string"); //$NON-NLS-1$
     return string.toUpperCase(Locale.ENGLISH);
   }

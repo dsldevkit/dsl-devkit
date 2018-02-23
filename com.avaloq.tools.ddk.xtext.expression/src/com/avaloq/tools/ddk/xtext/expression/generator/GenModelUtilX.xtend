@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.impl.EPackageImpl
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.naming.QualifiedName
-import org.eclipse.xtext.scoping.IGlobalScopeProvider
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.xtext.scoping.IGlobalScopeProvider
 
 class GenModelUtilX {
 
@@ -119,9 +119,18 @@ class GenModelUtilX {
         if (desc != null) {
           return EcoreUtil.resolve(desc.EObjectOrProxy, context) as GenPackage
         } else {
-          val descs = resourceDescriptionsProvider.getResourceDescriptions(context).getExportedObjects(GenModelPackage.Literals.GEN_PACKAGE, QualifiedName.create(ePackage.nsURI), false).iterator
-          if (descs.hasNext)
+          val resourceDescriptions = resourceDescriptionsProvider.getResourceDescriptions(context)
+          val descs = resourceDescriptions.getExportedObjects(GenModelPackage.Literals.GEN_PACKAGE, QualifiedName.create(ePackage.nsURI), false).iterator
+          if (descs.hasNext) {
             return EcoreUtil.resolve(descs.next.EObjectOrProxy, context) as GenPackage
+          }
+          // In case Xcore is installed GenPackages will be indexed using GenPackage#getQualifiedPackageName()
+          for (candidate : resourceDescriptions.getExportedObjectsByType(GenModelPackage.Literals.GEN_PACKAGE).filter[name.lastSegment == ePackage.name]) {
+            val resolvedCanidate = EcoreUtil.resolve(candidate.EObjectOrProxy, context) as GenPackage
+            if (!resolvedCanidate.eIsProxy && resolvedCanidate.getEcorePackage == ePackage) {
+              return resolvedCanidate
+            }
+          }
         }
       }
     }

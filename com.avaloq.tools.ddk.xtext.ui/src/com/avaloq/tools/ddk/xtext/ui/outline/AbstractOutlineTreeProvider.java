@@ -160,7 +160,7 @@ public abstract class AbstractOutlineTreeProvider extends BackgroundOutlineTreeP
    * @param modelElement
    *          a valid {@link EObject}
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "PMD.NPathComplexity"})
   @Override
   protected void internalCreateChildren(final IOutlineNode parentNode, final EObject modelElement) {
     // from all structural features, select only those which are set and retrieve the text location

@@ -59,7 +59,7 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
   private static final int DELAY_WIZARD_PAGE = 1000;
   private static final String TIMEOUT_MSG = "Timeout of {0} ms reached while waiting for Button {1} to become active";
 
-  private ImpatientSwtWorkbenchBot fastBot;
+  private ImpatientSwtWorkbenchBot impatientBot;
 
   @Override
   public void closeAllShells() {
@@ -593,10 +593,10 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
    * @return the fast bot, never {@code null}
    */
   public SWTWorkbenchBot fastBot() {
-    if (fastBot == null) {
-      fastBot = new ImpatientSwtWorkbenchBot();
+    if (impatientBot == null) {
+      impatientBot = new ImpatientSwtWorkbenchBot();
     }
-    return fastBot;
+    return impatientBot;
   }
 
   /**

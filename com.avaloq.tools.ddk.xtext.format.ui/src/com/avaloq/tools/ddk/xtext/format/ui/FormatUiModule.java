@@ -13,9 +13,11 @@ package com.avaloq.tools.ddk.xtext.format.ui;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 
 import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.format.ui.hyperlinking.FormatHyperlinkHelper;
+import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
 
 /**
@@ -24,6 +26,15 @@ import com.avaloq.tools.ddk.xtext.format.ui.hyperlinking.FormatHyperlinkHelper;
 public class FormatUiModule extends AbstractFormatUiModule {
   public FormatUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
+  }
+
+  /**
+   * Binds a {@link CrossReferenceTemplateVariableResolver} which prefixes keywords with escape characters.
+   *
+   * @return {@link KeywordAwareCrossReferenceTemplateVariableResolver}
+   */
+  public Class<? extends CrossReferenceTemplateVariableResolver> bindCrossReferenceTemplateVariableResolver() {
+    return KeywordAwareCrossReferenceTemplateVariableResolver.class;
   }
 
   /**

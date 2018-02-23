@@ -23,7 +23,7 @@ public class BuildIndexingEvent extends BuildPhaseEvent {
    * @param data
    *          event data
    */
-  public BuildIndexingEvent(final Trigger trigger, final Object[] data) {
+  public BuildIndexingEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

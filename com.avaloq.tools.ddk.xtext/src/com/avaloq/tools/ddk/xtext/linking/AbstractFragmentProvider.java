@@ -77,7 +77,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
      * @return the next segment
      */
     @Override
-    public String next() {
+    public String next() { // NOPMD - this isn't actually complex, and I much prefer a ternary to a if-else
       startIdx = endIdx + 1;
       int idx = indexOfUnescapedChar(fragment, END_MATCHER, startIdx);
       int repIdx = idx < length && fragment.charAt(idx) == REP_SEPARATOR ? idx : -1;

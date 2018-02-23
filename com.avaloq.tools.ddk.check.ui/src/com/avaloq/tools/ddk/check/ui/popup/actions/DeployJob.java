@@ -226,7 +226,7 @@ public class DeployJob extends Job {
           if (resource instanceof IProject) {
             return true;
           }
-          if (resource instanceof IFile && CheckCfgConstants.FILE_EXTENSION.equals(((IFile) resource).getFileExtension())) {
+          if (resource instanceof IFile && CheckCfgConstants.FILE_EXTENSION.equalsIgnoreCase(((IFile) resource).getFileExtension())) {
             checkCfgFiles.add((IFile) resource);
             return false;
           }
@@ -343,11 +343,7 @@ public class DeployJob extends Job {
     if (IGNORED_RESOURCES.contains(resource.getName())) {
       return true;
     }
-    if (getJavaOutputDirectory().toOSString().equals(resource.getLocation().toOSString())) {
-      return true;
-    }
-    return false;
-
+    return getJavaOutputDirectory().toOSString().equals(resource.getLocation().toOSString());
   }
 
   /**

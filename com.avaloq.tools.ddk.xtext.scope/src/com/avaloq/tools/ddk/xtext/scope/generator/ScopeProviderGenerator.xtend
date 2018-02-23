@@ -55,6 +55,8 @@ class ScopeProviderGenerator {
     '''
       package «getScopeProvider().toJavaPackage()»;
 
+      import java.util.Arrays;
+
       import org.apache.log4j.Logger;
       import org.eclipse.emf.ecore.EClass;
       import org.eclipse.emf.ecore.EObject;
@@ -73,7 +75,6 @@ class ScopeProviderGenerator {
       import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
 
       import com.google.common.base.Predicate;
-      import com.google.common.collect.Lists;
       «IF it != null && !allInjections().isEmpty»
       import com.google.inject.Inject;
       «ENDIF»
@@ -312,7 +313,7 @@ class ScopeProviderGenerator {
     «val matchData = data.filter(LambdaDataExpression)»
     «IF matchData.isEmpty && prefix == null»newContainerScope(«ELSEIF matchData.isEmpty && prefix != null»newPrefixedContainerScope(«ELSE»newDataMatchScope(«ENDIF»"«it.locatorString()»", scope, ctx, «query (it, model, typeOrRef, scope)», originalResource«
     IF !matchData.isEmpty», //
-      Lists.<Predicate<IEObjectDescription>> newArrayList(
+      Arrays.<Predicate<IEObjectDescription>> asList(
     «FOR d : matchData SEPARATOR ","»
     «val CompilationContext cc = compilationContext.cloneWithVariable('ctx', eContainer(ScopeRule).context.contextType, d.desc, 'org::eclipse::xtext::resource::IEObjectDescription')»
         new Predicate<IEObjectDescription>() {

@@ -64,7 +64,7 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
   }
 
   // Using QualifiedName#toLowerCase() not String#toLowerCase()
-  @SuppressWarnings("PMD.UseLocaleWithCaseConversions")
+  @SuppressWarnings({"PMD.UseLocaleWithCaseConversions", "PMD.NPathComplexity"})
   @Override
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) {
     if (nameFunctions != null && nameFunctions.contains(NameFunctions.exportNameFunction())) {
@@ -85,7 +85,8 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
             || (namePattern instanceof QualifiedNamePattern && ((QualifiedNamePattern) namePattern).matches(lookupName))) {
           final ContainerQuery copy = ((ContainerQuery.Builder) criteria).copy().name(lookupName).ignoreCase(ignoreCase);
           final Iterable<IEObjectDescription> queryResult = copy.execute(container);
-          for (IEObjectDescription description : queryResult) {
+          IEObjectDescription description = Iterables.getFirst(queryResult, null);
+          if (description != null) {
             contentByNameCache.put(lookupName, description);
             return description;
           }

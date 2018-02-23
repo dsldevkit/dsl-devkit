@@ -46,7 +46,7 @@ public class FormatScopeNameProvider {
 
       @Override
       public String caseKeyword(final Keyword object) {
-        return "\"" + object.getValue() + "\"";
+        return '"' + object.getValue() + '"';
       }
 
       @Override
@@ -128,11 +128,11 @@ public class FormatScopeNameProvider {
           return baseName;
         } else {
           StringBuilder name = new StringBuilder(baseName.toString());
-          name.append("(");
+          name.append('(');
           name.append(getIndexNameFunction(Lists.newArrayList(nameTwins)).apply(from));
-          name.append(",");
+          name.append(',');
           name.append(Iterables.size(nameTwins));
-          name.append(")");
+          name.append(')');
           return QualifiedName.create(name.toString());
         }
       }

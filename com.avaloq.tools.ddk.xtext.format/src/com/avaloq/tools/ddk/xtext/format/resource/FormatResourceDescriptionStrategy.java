@@ -62,15 +62,13 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
   @Override
   public boolean createEObjectDescriptions(final EObject eObject, final IAcceptor<IEObjectDescription> acceptor) {
 
-    boolean indexObject = false;
-    boolean indexDefault = false;
-
-    String objectFingerprint = null;
-
     if (eObject instanceof XBlockExpression || isXbaseLocalVariableName(eObject)) {
       return false;
     }
 
+    boolean indexObject = false;
+    boolean indexDefault = false;
+    String objectFingerprint = null;
     if (fingerprintComputer != null && eObject.eContainer() instanceof FormatConfiguration && NodeModelUtils.getNode(eObject) != null) {
       objectFingerprint = fingerprintComputer.computeFingerprint(eObject);
     }

@@ -95,6 +95,7 @@ public final class ArrayUtils<T> {
    *         If the array already contained the new value, the return value is == identical
    *         to the array passed in.
    */
+  @SuppressWarnings(value="PMD.UseVarargs")
   public T[] addAll(final T[] array, final T[] values) {
     if (array == null || array.length == 0) {
       return values;

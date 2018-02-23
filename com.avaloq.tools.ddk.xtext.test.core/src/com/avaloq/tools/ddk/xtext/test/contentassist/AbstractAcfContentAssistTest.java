@@ -63,7 +63,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    *          the computed proposals
    * @return the completion proposal display strings
    */
-  private String getCompletionProposalDisplayStrings(final ICompletionProposal[] computedProposals) {
+  private String getCompletionProposalDisplayStrings(final ICompletionProposal... computedProposals) {
     String result = "";
     for (ICompletionProposal p : computedProposals) {
       result += p.getDisplayString() + SEPARATOR; // NOPMD

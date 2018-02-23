@@ -255,11 +255,10 @@ public final class FilterRegistry extends Filter {
     if (!filters.isEmpty()) {
       description.append(" (").append(title).append(" filters:");
       for (final Filter filter : filters) {
-        description.append(" ").append(filter.describe());
+        description.append(' ').append(filter.describe());
       }
-      description.append(")");
+      description.append(')');
     }
     return description.toString();
   }
 }
-

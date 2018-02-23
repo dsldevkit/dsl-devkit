@@ -52,12 +52,12 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Triple;
 
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextMarkerBasedTest;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQuery;
 import com.avaloq.tools.ddk.xtext.scoping.IDomain;
+import com.avaloq.tools.ddk.xtext.test.AbstractXtextMarkerBasedTest;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.avaloq.tools.ddk.xtext.util.Regexps;
 import com.google.common.base.Function;
@@ -70,6 +70,7 @@ import com.google.common.collect.Sets;
 /**
  * Base class for scoping tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   private static final String PARAMETER_EXPECTED_OBJECTS = "expectedObjects";
   private static final String PARAMETER_REFERENCE = "reference";
@@ -79,7 +80,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   public static final String INFERRED_DATA_DICTIONARY_FRAGMENT = SEGMENT_SEPARATOR + "1";
 
   private static final String NUMBER_OF_ELEMENTS_MESSAGE = "Incorrect number of elements in scope.";
-  private static final Splitter FRAGMENT_SEGMENT_SPLITTER = Splitter.onPattern("(?<!\\\\)\\" + AbstractFragmentProvider.SEGMENT_SEPARATOR);
+  private static final Splitter FRAGMENT_SEGMENT_SPLITTER = Splitter.onPattern("(?<!\\\\)\\" + SEGMENT_SEPARATOR);
   /** The Constant NO_NODE_MODEL_COULD_BE_A_DERIVED_OBJECT. */
   private static final String NO_NODE_MODEL_COULD_BE_A_DERIVED_OBJECT = "No node model. Could be a derived object."; //$NON-NLS-1$
   /** The Constant UNRESOLVED_REFERENCE. */
@@ -177,9 +178,10 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    * @param referenceElementType
    *          the type of the referenced element
    */
+  @SuppressWarnings("PMD.UseObjectForClearerAPI")
   protected void assertScopeForElement(final EObject context, final EReference reference, final String expectedElementName, final String expectedSourceName, final String expectedSourceType, final String referenceElementType) {
     assertScope(context, reference, QualifiedNames.safeQualifiedName(expectedElementName), getTargetSourceUri(expectedSourceName + '.'
-        + expectedSourceType).appendFragment(TOP_LEVEL_OBJECT_FRAGMENT + AbstractFragmentProvider.SEGMENT_SEPARATOR + referenceElementType));
+        + expectedSourceType).appendFragment(TOP_LEVEL_OBJECT_FRAGMENT + SEGMENT_SEPARATOR + referenceElementType));
   }
 
   /**
@@ -345,7 +347,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    * @param elementNames
    *          array of tuples with the name and uri of each element
    */
-  protected void assertScopeForElements(final EObject context, final EReference reference, final String expectedSourceName, final String expectedSourceType, final String[][] elementNames) {
+  protected void assertScopeForElements(final EObject context, final EReference reference, final String expectedSourceName, final String expectedSourceType, final String[]... elementNames) {
     for (String[] elementName : elementNames) {
       assertScopeForElement(context, reference, elementName[0], expectedSourceName, expectedSourceType, elementName[1]);
     }
@@ -393,7 +395,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    * @param sources
    *          the array of sources
    */
-  protected void assertScopeForSources(final EObject scopeContext, final EReference reference, final EClass modelElementClass, final String[] sources) {
+  protected void assertScopeForSources(final EObject scopeContext, final EReference reference, final EClass modelElementClass, final String... sources) {
     assertScope(scopeContext, reference, getExpectedURIs(scopeContext, modelElementClass, sources));
     int actualScopeSize = Iterables.size(getScopeProvider().getScope(scopeContext, reference).getAllElements());
     assertEquals(NUMBER_OF_ELEMENTS_MESSAGE, sources.length, actualScopeSize);
@@ -410,7 +412,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          the sources to get the uris for
    * @return the expected uris for the given sources in the given context
    */
-  private Set<URI> getExpectedURIs(final EObject context, final EClass modelElementClass, final String[] sources) {
+  private Set<URI> getExpectedURIs(final EObject context, final EClass modelElementClass, final String... sources) {
     HashSet<URI> expectedURIs = new HashSet<URI>();
     for (String source : sources) {
       expectedURIs.add(Iterables.get(getExportedObjects(context, modelElementClass, source), 0).getEObjectURI());
@@ -554,6 +556,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          list of feature IDs, indexes (for multi valued features), and other fragment segments
    * @return URI fragment
    */
+  @SuppressWarnings("PMD.UnusedPrivateMethod")
   private static String createURIFragment(final boolean topLevel, final Object... segments) {
     StringBuilder b = new StringBuilder();
     if (segments.length == 0) {
@@ -576,15 +579,15 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       }
       b.append(lastSegment);
       if (reps > 1) {
-        b.append(AbstractFragmentProvider.REP_SEPARATOR).append(reps);
+        b.append(REP_SEPARATOR).append(reps);
         reps = 1;
       }
-      b.append(AbstractFragmentProvider.SEGMENT_SEPARATOR);
+      b.append(SEGMENT_SEPARATOR);
       lastSegment = parsedSegments.get(i);
     }
     b.append(lastSegment);
     if (reps > 1) {
-      b.append(AbstractFragmentProvider.REP_SEPARATOR).append(reps);
+      b.append(REP_SEPARATOR).append(reps);
     }
     return b.toString();
   }
@@ -774,12 +777,12 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    */
   protected EObject getCrossReferencedObject(final int sourceTag, final boolean traverseImplicitItems, final CrossReference crossReference) {
     EObject context = getObjectForTag(sourceTag);
-    EObject sourceObject = null;
     if (crossReference == null) {
       throw new IllegalArgumentException(NLS.bind("Cross reference on object ''{0}'' could not be resolved.", context.toString())); //$NON-NLS-1$
     }
     // We only handle references in assignments
     Assignment assignment = EObjectUtil.eContainer(crossReference, Assignment.class);
+    EObject sourceObject = null;
     String featureName = assignment.getFeature();
     EReference reference = (EReference) context.eClass().getEStructuralFeature(featureName);
     if (reference.isMany()) {
@@ -800,4 +803,3 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     return sourceObject;
   }
 }
-
