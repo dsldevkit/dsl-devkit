@@ -51,8 +51,13 @@ public class RightPaddingLocator extends ElementLocator implements ISpaceLocator
    */
   @Override
   public String computeSpace(final ExtendedLine line, final ExtendedLineEntry entry) {
-    final int entryLength = entry == null ? 0 : line.getPrecedingLineEntry(entry).getValue().length();
-    return SpaceEntry.createPadding(Math.max(length - entryLength, 1));
+    if (entry != null) {
+      ExtendedLineEntry precedingLineEntry = line.getPrecedingLineEntry(entry);
+      if (precedingLineEntry != null) {
+        return SpaceEntry.createPadding(Math.max(length - precedingLineEntry.getValue().length(), 1));
+      }
+    }
+    return SpaceEntry.createPadding(Math.max(length, 1));
   }
 
   /** {@inheritDoc} */
