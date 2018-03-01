@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtextspy.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtextspy.test;singleton:=true
-Bundle-Version: 1.0.0.v20180108-1457-REL
+Bundle-Version: 1.0.1.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
