@@ -10,18 +10,21 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
+import java.util.Collections;
+
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 
 
@@ -32,6 +35,101 @@ import com.google.common.collect.Iterables;
 public class DelegatingScope extends AbstractRecursiveScope {
 
   private static final Logger LOGGER = Logger.getLogger(DelegatingScope.class);
+
+  /**
+   * Stores the scope ID to be logged by {@link #STACK_OVERFLOW_EOBJECT_DESCRIPTION}.
+   * <p>
+   * If multiple threads were to concurrently run into {@link StackOverflowError} it is possible that the threads would log the wrong scope IDs. But this is
+   * very unlikely to happen and the scope ID is only logged to assist the developer in addressing the programming error.
+   */
+  private static String stackOverflowScopeId;
+
+  /**
+   * @see #STACK_OVERFLOW_SCOPE
+   */
+  private static final IEObjectDescription STACK_OVERFLOW_EOBJECT_DESCRIPTION = new IEObjectDescription() {
+    @Override
+    public QualifiedName getName() {
+      logError();
+      return QualifiedName.create("##stackoverflow##"); //$NON-NLS-1$
+    }
+
+    @Override
+    public QualifiedName getQualifiedName() {
+      logError();
+      return getName();
+    }
+
+    @Override
+    public EObject getEObjectOrProxy() {
+      logError();
+      return EcorePackage.Literals.EOBJECT;
+    }
+
+    @Override
+    public URI getEObjectURI() {
+      logError();
+      return EcoreUtil.getURI(getEObjectOrProxy());
+    }
+
+    @Override
+    public EClass getEClass() {
+      logError();
+      return EcorePackage.Literals.ECLASS;
+    }
+
+    @Override
+    public String getUserData(final String key) {
+      logError();
+      return null;
+    }
+
+    @Override
+    public String[] getUserDataKeys() {
+      logError();
+      return new String[0];
+    }
+
+    private void logError() {
+      LOGGER.error("Cyclic delegate detected in scope \"" + stackOverflowScopeId + "\"."); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+  };
+
+  /**
+   * This object will be returned by the transformation in {@link #getDelegates()} whenever a {@link StackOverflowError} is detected.
+   * <p>
+   * Because the stack overflow will occur in that method itself or only very few stack frames deeper, it is unfortunately not possible to simply log an error
+   * directly in the exception handler, as that would again result in a {@link StackOverflowError}!. To solve this problem this instance will be returned and it
+   * in turn will return the {@link #STACK_OVERFLOW_EOBJECT_DESCRIPTION} object in its method. The error will then get logged when calling a method on that
+   * object. At this point the stack has been "unwound" so far that the error logging won't be an issue anymore.
+   */
+  private static final IScope STACK_OVERFLOW_SCOPE = new IScope() {
+    @Override
+    public IEObjectDescription getSingleElement(final EObject object) {
+      return STACK_OVERFLOW_EOBJECT_DESCRIPTION;
+    }
+
+    @Override
+    public IEObjectDescription getSingleElement(final QualifiedName name) {
+      return STACK_OVERFLOW_EOBJECT_DESCRIPTION;
+    }
+
+    @Override
+    public Iterable<IEObjectDescription> getElements(final EObject object) {
+      return Collections.singleton(STACK_OVERFLOW_EOBJECT_DESCRIPTION);
+    }
+
+    @Override
+    public Iterable<IEObjectDescription> getElements(final QualifiedName name) {
+      return Collections.singleton(STACK_OVERFLOW_EOBJECT_DESCRIPTION);
+    }
+
+    @Override
+    public Iterable<IEObjectDescription> getAllElements() {
+      return Collections.singleton(STACK_OVERFLOW_EOBJECT_DESCRIPTION);
+    }
+  };
+
   private final AbstractPolymorphicScopeProvider scopeProvider;
 
   private final IContextSupplier contexts;
@@ -110,16 +208,13 @@ public class DelegatingScope extends AbstractRecursiveScope {
    */
   protected Iterable<IScope> getDelegates() {
     if (delegates == null) {
-      delegates = Iterables.transform(contexts.get(), new Function<EObject, IScope>() {
-        @Override
-        public IScope apply(final EObject from) {
-          IScope scope = eReference != null ? scopeProvider.getScope(from, eReference, scopeName, originalResource)
-              : scopeProvider.getScope(from, eClass, scopeName, originalResource);
-          if (scope == DelegatingScope.this) { // NOPMD
-            LOGGER.error("Cyclic delegate detected in scope \"" + getId() + "\" while computing scope for " + EObjectUtil.getLocationString(from)); //$NON-NLS-1$ //$NON-NLS-2$
-            return IScope.NULLSCOPE;
-          }
-          return scope;
+      delegates = Iterables.transform(contexts.get(), o -> {
+        try {
+          return eReference != null ? scopeProvider.getScope(o, eReference, scopeName, originalResource)
+              : scopeProvider.getScope(o, eClass, scopeName, originalResource);
+        } catch (StackOverflowError e) {
+          stackOverflowScopeId = DelegatingScope.this.getId();
+          return STACK_OVERFLOW_SCOPE;
         }
       });
     }
@@ -129,12 +224,7 @@ public class DelegatingScope extends AbstractRecursiveScope {
   /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getAllLocalElements() {
-    return Iterables.concat(Iterables.transform(getDelegates(), new Function<IScope, Iterable<IEObjectDescription>>() {
-      @Override
-      public Iterable<IEObjectDescription> apply(final IScope from) {
-        return from.getAllElements();
-      }
-    }));
+    return Iterables.concat(Iterables.transform(getDelegates(), IScope::getAllElements));
   }
 
   /** {@inheritDoc} */
@@ -157,12 +247,7 @@ public class DelegatingScope extends AbstractRecursiveScope {
 
   @Override
   protected Iterable<IEObjectDescription> getLocalElementsByName(final QualifiedName name) {
-    return Iterables.concat(Iterables.transform(getDelegates(), new Function<IScope, Iterable<IEObjectDescription>>() {
-      @Override
-      public Iterable<IEObjectDescription> apply(final IScope from) {
-        return from.getElements(name);
-      }
-    }));
+    return Iterables.concat(Iterables.transform(getDelegates(), s -> s.getElements(name)));
   }
 
   @SuppressWarnings("nls")
