@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.internal.xtend.xtend.XtendFile;
 import org.eclipse.osgi.util.NLS;
@@ -36,6 +37,7 @@ import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil;
 import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
 import com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression;
+import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeContext;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDelegation;
@@ -337,6 +339,23 @@ public class ScopeJavaValidator extends AbstractScopeJavaValidator {
 
     if (!defaultFound) {
       warning("No matching default scope rule defined", ScopePackage.Literals.SCOPE_RULE__CONTEXT);
+    }
+  }
+
+  /**
+   * Check that naming functions are used when referencing a feature type with no name feature.
+   *
+   * @param scope
+   *          the scope definition to check
+   */
+  @Check
+  public void checkNamingFunctionPresentNoNameFeature(final ScopeDefinition scope) {
+    EReference ref = scope.getReference();
+    if (ref != null && ref.getEReferenceType().getEStructuralFeature("name") == null //$NON-NLS-1$
+        && scope.getRules().stream().flatMap(rule -> rule.getExprs().stream()).anyMatch(expr -> !(expr instanceof NamedScopeExpression)
+            || ((NamedScopeExpression) expr).getNaming() == null)) {
+      error("The referenced type " + ref.getEReferenceType().getName() //$NON-NLS-1$
+          + " has no feature 'name'. A naming function must be specified on all scoping rules.", scope, ScopePackage.Literals.SCOPE_DEFINITION__REFERENCE); //$NON-NLS-1$
     }
   }
 

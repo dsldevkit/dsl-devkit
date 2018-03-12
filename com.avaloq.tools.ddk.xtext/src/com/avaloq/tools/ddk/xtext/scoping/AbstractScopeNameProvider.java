@@ -81,7 +81,7 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
       return NameFunctions.fromFeatures(nameFeature);
     }
 
-    throw new IllegalArgumentException("unknown type: " + type); //$NON-NLS-1$
+    throw new IllegalArgumentException("EStructuralFeature 'name' undefined for type: " + type); //$NON-NLS-1$
   }
 
   /**
