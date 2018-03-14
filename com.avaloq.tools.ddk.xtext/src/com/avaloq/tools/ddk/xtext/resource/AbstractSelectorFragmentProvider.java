@@ -61,7 +61,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     result.append(container.eClass().getFeatureID(containmentFeature));
     // selector
     final Object selectorValue = obj.eGet(selectorFeature);
-    result.append(SELECTOR_START).append(selectorFeature.getFeatureID()).append(EQ_OP);
+    result.append(SELECTOR_START).append(obj.eClass().getFeatureID(selectorFeature)).append(EQ_OP);
     if (selectorValue != null) {
       result.append(VALUE_SEP).append(escape(selectorValue.toString())).append(VALUE_SEP);
     } else {
