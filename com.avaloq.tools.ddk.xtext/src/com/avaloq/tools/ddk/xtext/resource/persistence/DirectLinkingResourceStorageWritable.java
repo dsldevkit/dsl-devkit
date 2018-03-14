@@ -138,7 +138,8 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
   }
 
   /**
-   * Serializes the {@link InferredModelAssociator.Adapter#getSourceToTargetMap() source-to-inferred-element map} for the given resource.
+   * Serializes the {@link InferredModelAssociator.Adapter#getSourceToInferredModelMap() source-to-inferred-element map} and the
+   * {@link InferredModelAssociator.Adapter#getInferredModelToSourceMap() inferred-element-to-source map} for the given resource.
    *
    * @param resource
    *          resource, must not be {@code null}
@@ -154,7 +155,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
       // sourceToTarget
       Map<String, Set<String>> sourceToTarget = Maps.newHashMap();
       if (adapter != null) {
-        for (Entry<EObject, Set<EObject>> entry : adapter.getSourceToTargetMap().entrySet()) {
+        for (Entry<EObject, Set<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
           sourceToTarget.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
         }
       }
@@ -163,7 +164,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
       // targetToSource
       Map<String, Set<String>> targetToSource = Maps.newHashMap();
       if (adapter != null) {
-        for (Entry<EObject, Set<EObject>> entry : adapter.getTargetToSourceMap().entrySet()) {
+        for (Entry<EObject, Set<EObject>> entry : adapter.getInferredModelToSourceMap().entrySet()) {
           targetToSource.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
         }
       }
