@@ -103,7 +103,7 @@ class ExportGenerator implements IGenerator {
   }
 
   def generateFragmentProvider(ExportModel model, IFileSystemAccess fsa) {
-    if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute != null)) {
+    if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute != null) || model.isExtension) {
       val fileName = model.fragmentProvider.toFileName
       fsa.generateFile(fileName, fragmentProviderGenerator.generate(model, compilationContext, genModelUtil))
     }
