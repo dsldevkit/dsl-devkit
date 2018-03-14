@@ -18,9 +18,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
@@ -43,8 +43,8 @@ import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedDeserializationCo
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceLoadStorageEvent;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.io.CharStreams;
 
 
@@ -137,7 +137,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   }
 
   /**
-   * Reads the {@link InferredModelAssociator.Adapter#getSourceToInferredModelMap()} map.
+   * Reads the {@link InferredModelAssociator.Adapter#getSourceToInferredModelMap()} map and the
+   * {@link InferredModelAssociator.Adapter#getInferredModelToSourceMap()} map.
    *
    * @param resource
    *          resource being deserialized, must not be {@code null}
@@ -152,12 +153,22 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         adapter = new InferredModelAssociator.Adapter();
         resource.eAdapters().add(adapter);
       }
-      ListMultimap<EObject, EObject> destinationMap = adapter.getSourceToInferredModelMap();
+      Map<EObject, Set<EObject>> destinationMap = adapter.getSourceToInferredModelMap();
       ObjectInputStream objIn = new ObjectInputStream(stream);
       @SuppressWarnings("unchecked")
-      Map<String, Collection<String>> sourceToTargetMap = (Map<String, Collection<String>>) objIn.readObject();
-      for (Map.Entry<String, Collection<String>> entry : sourceToTargetMap.entrySet()) {
-        destinationMap.putAll(getEObject(entry.getKey(), resource), Collections2.transform(entry.getValue(), v -> getEObject(v, resource)));
+      Map<String, Set<String>> sourceToTargetMap = (Map<String, Set<String>>) objIn.readObject();
+      for (Map.Entry<String, Set<String>> entry : sourceToTargetMap.entrySet()) {
+        Builder<EObject> setBuilder = ImmutableSet.builder();
+        entry.getValue().forEach(v -> setBuilder.add(getEObject(v, resource)));
+        destinationMap.put(getEObject(entry.getKey(), resource), setBuilder.build());
+      }
+      destinationMap = adapter.getInferredModelToSourceMap();
+      @SuppressWarnings("unchecked")
+      Map<String, Set<String>> targetToSourceMap = (Map<String, Set<String>>) objIn.readObject();
+      for (Map.Entry<String, Set<String>> entry : targetToSourceMap.entrySet()) {
+        Builder<EObject> setBuilder = ImmutableSet.builder();
+        entry.getValue().forEach(v -> setBuilder.add(getEObject(v, resource)));
+        destinationMap.put(getEObject(entry.getKey(), resource), setBuilder.build());
       }
     } catch (ClassNotFoundException | IOException e) {
       throw new WrappedException(e);

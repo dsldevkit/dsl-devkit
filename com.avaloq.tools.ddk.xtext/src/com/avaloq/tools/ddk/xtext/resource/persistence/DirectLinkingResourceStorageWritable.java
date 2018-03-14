@@ -19,11 +19,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -138,7 +138,8 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
   }
 
   /**
-   * Serializes the {@link InferredModelAssociator.Adapter#getSourceToInferredModelMap() source-to-inferred-element map} for the given resource.
+   * Serializes the {@link InferredModelAssociator.Adapter#getSourceToInferredModelMap() source-to-inferred-element map} and the
+   * {@link InferredModelAssociator.Adapter#getInferredModelToSourceMap() inferred-element-to-source map} for the given resource.
    *
    * @param resource
    *          resource, must not be {@code null}
@@ -152,13 +153,22 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     ObjectOutputStream objOut = new ObjectOutputStream(zipOut);
     try {
       // sourceToTarget
-      Map<String, Collection<String>> sourceToTarget = Maps.newHashMap();
+      Map<String, Set<String>> sourceToTarget = Maps.newHashMap();
       if (adapter != null) {
-        for (Entry<EObject, Collection<EObject>> entry : adapter.getSourceToInferredModelMap().asMap().entrySet()) {
+        for (Entry<EObject, Set<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
           sourceToTarget.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
         }
       }
       objOut.writeObject(sourceToTarget);
+
+      // targetToSource
+      Map<String, Set<String>> targetToSource = Maps.newHashMap();
+      if (adapter != null) {
+        for (Entry<EObject, Set<EObject>> entry : adapter.getInferredModelToSourceMap().entrySet()) {
+          targetToSource.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
+        }
+      }
+      objOut.writeObject(targetToSource);
     } finally {
       objOut.flush();
     }
@@ -207,7 +217,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer()) {
       EStructuralFeature feature = internalEObject.eContainingFeature();
       StringBuilder b = new StringBuilder();
-      b.append(feature.getFeatureID());
+      b.append(container.eClass().getFeatureID(feature));
       if (feature.isMany()) {
         b.append('.').append(((EList<EObject>) container.eGet(feature, false)).indexOf(internalEObject));
       }
