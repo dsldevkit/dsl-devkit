@@ -207,7 +207,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer()) {
       EStructuralFeature feature = internalEObject.eContainingFeature();
       StringBuilder b = new StringBuilder();
-      b.append(feature.getFeatureID());
+      b.append(container.eClass().getFeatureID(feature));
       if (feature.isMany()) {
         b.append('.').append(((EList<EObject>) container.eGet(feature, false)).indexOf(internalEObject));
       }
