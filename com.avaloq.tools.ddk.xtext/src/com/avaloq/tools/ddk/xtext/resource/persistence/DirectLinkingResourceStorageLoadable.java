@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipInputStream;
@@ -43,8 +44,7 @@ import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedDeserializationCo
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceLoadStorageEvent;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSet.Builder;
+import com.google.common.collect.ImmutableList;
 import com.google.common.io.CharStreams;
 
 
@@ -153,22 +153,22 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         adapter = new InferredModelAssociator.Adapter();
         resource.eAdapters().add(adapter);
       }
-      Map<EObject, Set<EObject>> destinationMap = adapter.getSourceToInferredModelMap();
+      Map<EObject, List<EObject>> destinationMap = adapter.getSourceToInferredModelMap();
       ObjectInputStream objIn = new ObjectInputStream(stream);
       @SuppressWarnings("unchecked")
       Map<String, Set<String>> sourceToTargetMap = (Map<String, Set<String>>) objIn.readObject();
       for (Map.Entry<String, Set<String>> entry : sourceToTargetMap.entrySet()) {
-        Builder<EObject> setBuilder = ImmutableSet.builder();
-        entry.getValue().forEach(v -> setBuilder.add(getEObject(v, resource)));
-        destinationMap.put(getEObject(entry.getKey(), resource), setBuilder.build());
+        ImmutableList.Builder<EObject> listBuilder = ImmutableList.builder();
+        entry.getValue().forEach(v -> listBuilder.add(getEObject(v, resource)));
+        destinationMap.put(getEObject(entry.getKey(), resource), listBuilder.build());
       }
       destinationMap = adapter.getInferredModelToSourceMap();
       @SuppressWarnings("unchecked")
       Map<String, Set<String>> targetToSourceMap = (Map<String, Set<String>>) objIn.readObject();
       for (Map.Entry<String, Set<String>> entry : targetToSourceMap.entrySet()) {
-        Builder<EObject> setBuilder = ImmutableSet.builder();
-        entry.getValue().forEach(v -> setBuilder.add(getEObject(v, resource)));
-        destinationMap.put(getEObject(entry.getKey(), resource), setBuilder.build());
+        ImmutableList.Builder<EObject> listBuilder = ImmutableList.builder();
+        entry.getValue().forEach(v -> listBuilder.add(getEObject(v, resource)));
+        destinationMap.put(getEObject(entry.getKey(), resource), listBuilder.build());
       }
     } catch (ClassNotFoundException | IOException e) {
       throw new WrappedException(e);

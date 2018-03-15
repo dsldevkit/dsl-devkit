@@ -20,7 +20,6 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
@@ -47,9 +46,9 @@ import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator.Adapter
 import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedSerializationConversionContext;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.io.CharStreams;
 
 
@@ -153,22 +152,22 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     ObjectOutputStream objOut = new ObjectOutputStream(zipOut);
     try {
       // sourceToTarget
-      Map<String, Set<String>> sourceToTarget = Maps.newHashMap();
+      ImmutableMap.Builder<String, Set<String>> sourceToTarget = ImmutableMap.builder();
       if (adapter != null) {
-        for (Entry<EObject, Set<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
-          sourceToTarget.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
+        for (Entry<EObject, List<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
+          sourceToTarget.put(getURIString(entry.getKey(), resource), ImmutableSet.copyOf(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
         }
       }
-      objOut.writeObject(sourceToTarget);
+      objOut.writeObject(sourceToTarget.build());
 
       // targetToSource
-      Map<String, Set<String>> targetToSource = Maps.newHashMap();
+      ImmutableMap.Builder<String, Set<String>> targetToSource = ImmutableMap.builder();
       if (adapter != null) {
-        for (Entry<EObject, Set<EObject>> entry : adapter.getInferredModelToSourceMap().entrySet()) {
-          targetToSource.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
+        for (Entry<EObject, List<EObject>> entry : adapter.getInferredModelToSourceMap().entrySet()) {
+          targetToSource.put(getURIString(entry.getKey(), resource), ImmutableSet.copyOf(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
         }
       }
-      objOut.writeObject(targetToSource);
+      objOut.writeObject(targetToSource.build());
     } finally {
       objOut.flush();
     }
