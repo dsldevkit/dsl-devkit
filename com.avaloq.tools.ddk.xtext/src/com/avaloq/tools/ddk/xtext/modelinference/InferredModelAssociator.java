@@ -12,12 +12,8 @@ package com.avaloq.tools.ddk.xtext.modelinference;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-import java.util.AbstractSet;
 import java.util.Collections;
-import java.util.Deque;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,8 +30,8 @@ import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.IAcceptor;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -50,8 +46,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
 
   private static final Logger LOGGER = Logger.getLogger(InferredModelAssociator.class);
 
-  private static final int EXPECTED_INFERRED_ELEMENTS_PER_SOURCE = 4;
-
   @Inject
   private IReferableElementsUnloader.GenericUnloader unloader;
 
@@ -62,19 +56,19 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    * An adapter that holds the mapping between source- and inferred-model elements.
    */
   public static class Adapter extends AdapterImpl {
-    private final Map<EObject, Set<EObject>> sourceToInferredModelMap = newLinkedHashMapWithCapacity(40);
-    private final Map<EObject, Set<EObject>> inferredModelToSourceMap = newLinkedHashMapWithCapacity(40);
+    private final Map<EObject, List<EObject>> sourceToInferredModelMap = newLinkedHashMapWithCapacity(40);
+    private final Map<EObject, List<EObject>> inferredModelToSourceMap = newLinkedHashMapWithCapacity(40);
 
     @Override
     public boolean isAdapterForType(final Object type) {
       return Adapter.class == type;
     }
 
-    public Map<EObject, Set<EObject>> getSourceToInferredModelMap() {
+    public Map<EObject, List<EObject>> getSourceToInferredModelMap() {
       return sourceToInferredModelMap;
     }
 
-    public Map<EObject, Set<EObject>> getInferredModelToSourceMap() {
+    public Map<EObject, List<EObject>> getInferredModelToSourceMap() {
       return inferredModelToSourceMap;
     }
   }
@@ -108,7 +102,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    *          the resource
    * @return the map
    */
-  protected Map<EObject, Set<EObject>> getSourceToInferredModelMap(final Resource resource) {
+  protected Map<EObject, List<EObject>> getSourceToInferredModelMap(final Resource resource) {
     return getOrInstall(resource).getSourceToInferredModelMap();
   }
 
@@ -119,7 +113,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    *          the resource
    * @return the map
    */
-  protected Map<EObject, Set<EObject>> getInferredModelToSourceMap(final Resource resource) {
+  protected Map<EObject, List<EObject>> getInferredModelToSourceMap(final Resource resource) {
     return getOrInstall(resource).getInferredModelToSourceMap();
   }
 
@@ -128,10 +122,10 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   public void associate(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
       Resource resource = sourceModelElement.eResource();
-      Map<EObject, Set<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
-      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> Sets.newHashSetWithExpectedSize(EXPECTED_INFERRED_ELEMENTS_PER_SOURCE)).add(inferredModelElement);
-      Map<EObject, Set<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
-      putIntoSmallSetMap(inferredModelElement, sourceModelElement, inferredModelToSourceMap, false);
+      Map<EObject, List<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
+      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> Lists.newLinkedList()).add(inferredModelElement);
+      Map<EObject, List<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
+      inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> Lists.newLinkedList()).add(sourceModelElement);
     }
   }
 
@@ -140,10 +134,10 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   public void associatePrimary(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
       Resource resource = sourceModelElement.eResource();
-      Map<EObject, Set<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
-      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> Sets.newHashSetWithExpectedSize(EXPECTED_INFERRED_ELEMENTS_PER_SOURCE)).add(inferredModelElement);
-      Map<EObject, Set<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
-      putIntoSmallSetMap(inferredModelElement, sourceModelElement, inferredModelToSourceMap, true);
+      Map<EObject, List<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
+      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> Lists.newLinkedList()).add(0, inferredModelElement);
+      Map<EObject, List<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
+      inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> Lists.newLinkedList()).add(0, sourceModelElement);
     }
   }
 
@@ -153,9 +147,9 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (sourceModelElement == null) {
       return Collections.emptySet();
     }
-    Map<EObject, Set<EObject>> map = getSourceToInferredModelMap(sourceModelElement.eResource());
-    Set<EObject> result = map.get(sourceModelElement);
-    return result != null ? result : Collections.emptySet();
+    Map<EObject, List<EObject>> map = getSourceToInferredModelMap(sourceModelElement.eResource());
+    List<EObject> result = map.get(sourceModelElement);
+    return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
   /** {@inheritDoc} */
@@ -164,9 +158,9 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (inferredModelElement == null) {
       return Collections.emptySet();
     }
-    Map<EObject, Set<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
-    Set<EObject> result = map.get(inferredModelElement);
-    return result != null ? result : Collections.emptySet();
+    Map<EObject, List<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
+    List<EObject> result = map.get(inferredModelElement);
+    return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
   /** {@inheritDoc} */
@@ -175,9 +169,9 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (inferredModelElement == null) {
       return null;
     }
-    Map<EObject, Set<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
-    Set<EObject> result = map.get(inferredModelElement);
-    return result != null ? result.iterator().next() : null;
+    Map<EObject, List<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
+    List<EObject> result = map.get(inferredModelElement);
+    return result != null && !result.isEmpty() ? result.get(0) : null;
   }
 
   /** {@inheritDoc} */
@@ -248,54 +242,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
         super.clear();
       }
     };
-  }
-
-  private static <K, V> void putIntoSmallSetMap(final K key, final V value, final Map<? super K, Set<V>> map, final boolean head) {
-    Set<V> set = map.get(key);
-    if (head) {
-      if (set == null) {
-        set = new LinkedListBasedSet<V>();
-        map.put(key, set);
-      }
-      set.remove(value);
-      ((LinkedListBasedSet<V>) set).elements.addFirst(value);
-    } else {
-      if (set == null) {
-        set = new LinkedListBasedSet<V>();
-        map.put(key, set);
-      }
-      set.add(value);
-    }
-  }
-
-  /**
-   * Set implementation based on {@link LinkedList}.
-   *
-   * @param <E>
-   *          generic element type
-   */
-  private static class LinkedListBasedSet<E> extends AbstractSet<E> {
-
-    private final Deque<E> elements = Lists.newLinkedList();
-
-    @Override
-    public boolean add(final E e) {
-      if (elements.contains(e)) {
-        return false;
-      }
-      return elements.add(e);
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-      return elements.iterator();
-    }
-
-    @Override
-    public int size() {
-      return elements.size();
-    }
-
   }
 
 }
