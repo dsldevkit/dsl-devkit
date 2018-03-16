@@ -12,7 +12,9 @@ package com.avaloq.tools.ddk.xtext.modelinference;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.IAcceptor;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -56,19 +57,19 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    * An adapter that holds the mapping between source- and inferred-model elements.
    */
   public static class Adapter extends AdapterImpl {
-    private final Map<EObject, List<EObject>> sourceToInferredModelMap = newLinkedHashMapWithCapacity(40);
-    private final Map<EObject, List<EObject>> inferredModelToSourceMap = newLinkedHashMapWithCapacity(40);
+    private final Map<EObject, Deque<EObject>> sourceToInferredModelMap = newLinkedHashMapWithCapacity(40);
+    private final Map<EObject, Deque<EObject>> inferredModelToSourceMap = newLinkedHashMapWithCapacity(40);
 
     @Override
     public boolean isAdapterForType(final Object type) {
       return Adapter.class == type;
     }
 
-    public Map<EObject, List<EObject>> getSourceToInferredModelMap() {
+    public Map<EObject, Deque<EObject>> getSourceToInferredModelMap() {
       return sourceToInferredModelMap;
     }
 
-    public Map<EObject, List<EObject>> getInferredModelToSourceMap() {
+    public Map<EObject, Deque<EObject>> getInferredModelToSourceMap() {
       return inferredModelToSourceMap;
     }
   }
@@ -102,7 +103,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    *          the resource
    * @return the map
    */
-  protected Map<EObject, List<EObject>> getSourceToInferredModelMap(final Resource resource) {
+  protected Map<EObject, Deque<EObject>> getSourceToInferredModelMap(final Resource resource) {
     return getOrInstall(resource).getSourceToInferredModelMap();
   }
 
@@ -113,7 +114,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    *          the resource
    * @return the map
    */
-  protected Map<EObject, List<EObject>> getInferredModelToSourceMap(final Resource resource) {
+  protected Map<EObject, Deque<EObject>> getInferredModelToSourceMap(final Resource resource) {
     return getOrInstall(resource).getInferredModelToSourceMap();
   }
 
@@ -122,10 +123,10 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   public void associate(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
       Resource resource = sourceModelElement.eResource();
-      Map<EObject, List<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
-      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> Lists.newLinkedList()).add(inferredModelElement);
-      Map<EObject, List<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
-      inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> Lists.newLinkedList()).add(sourceModelElement);
+      Map<EObject, Deque<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
+      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> new ArrayDeque<>()).add(inferredModelElement);
+      Map<EObject, Deque<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
+      inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> new ArrayDeque<>()).add(sourceModelElement);
     }
   }
 
@@ -134,10 +135,10 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   public void associatePrimary(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
       Resource resource = sourceModelElement.eResource();
-      Map<EObject, List<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
-      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> Lists.newLinkedList()).add(0, inferredModelElement);
-      Map<EObject, List<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
-      inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> Lists.newLinkedList()).add(0, sourceModelElement);
+      Map<EObject, Deque<EObject>> sourceToInferredModelMap = getSourceToInferredModelMap(resource);
+      sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> new ArrayDeque<>()).addFirst(inferredModelElement);
+      Map<EObject, Deque<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
+      inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> new ArrayDeque<>()).addFirst(sourceModelElement);
     }
   }
 
@@ -147,8 +148,8 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (sourceModelElement == null) {
       return Collections.emptySet();
     }
-    Map<EObject, List<EObject>> map = getSourceToInferredModelMap(sourceModelElement.eResource());
-    List<EObject> result = map.get(sourceModelElement);
+    Map<EObject, Deque<EObject>> map = getSourceToInferredModelMap(sourceModelElement.eResource());
+    Deque<EObject> result = map.get(sourceModelElement);
     return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
@@ -158,8 +159,8 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (inferredModelElement == null) {
       return Collections.emptySet();
     }
-    Map<EObject, List<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
-    List<EObject> result = map.get(inferredModelElement);
+    Map<EObject, Deque<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
+    Deque<EObject> result = map.get(inferredModelElement);
     return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
@@ -169,9 +170,9 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (inferredModelElement == null) {
       return null;
     }
-    Map<EObject, List<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
-    List<EObject> result = map.get(inferredModelElement);
-    return result != null && !result.isEmpty() ? result.get(0) : null;
+    Map<EObject, Deque<EObject>> map = getInferredModelToSourceMap(inferredModelElement.eResource());
+    Deque<EObject> result = map.get(inferredModelElement);
+    return result != null && !result.isEmpty() ? result.getFirst() : null;
   }
 
   /** {@inheritDoc} */
