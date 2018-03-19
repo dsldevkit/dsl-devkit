@@ -77,7 +77,7 @@ public class CheckMarkerUpdateJob extends Job {
   /**
    * Gets an {@link IFile} from the {@link IStorage2UriMapper} corresponding to given {@link URI}. If none
    * could be found, <code>null</code> is returned.
-   * 
+   *
    * @param storage2UriMapper
    *          the storage to URI mapper
    * @param fileUri
@@ -102,7 +102,7 @@ public class CheckMarkerUpdateJob extends Job {
 
   /**
    * Gets the resource set. Note that not all sources must be part of the same resource set.
-   * 
+   *
    * @param storage2UriMapper
    *          the storage2 uri mapper
    * @param uri
@@ -178,7 +178,7 @@ public class CheckMarkerUpdateJob extends Job {
           LOGGER.error(MessageFormat.format("{0} could not be validated.", iFile.getName()), e); //$NON-NLS-1$
         } finally {
           if (eResource != null) {
-            validate(resourceValidator, markerCreator, iFile, eResource, monitor);
+            validateAndCreateMarkers(resourceValidator, markerCreator, iFile, eResource, monitor);
             LOGGER.debug("Validated " + uri); //$NON-NLS-1$
             if (loaded) { // NOPMD
               // unload any resource that was previously loaded as part of this loop.
@@ -197,7 +197,7 @@ public class CheckMarkerUpdateJob extends Job {
   /**
    * Validate the given resource and create the corresponding markers. The CheckMode is a constant calculated from the constructor
    * parameters.
-   * 
+   *
    * @param resourceValidator
    *          the resource validator (not null)
    * @param markerCreator
@@ -208,44 +208,77 @@ public class CheckMarkerUpdateJob extends Job {
    *          the EMF resource (not null)
    * @param monitor
    *          the monitor (not null)
+   * @return
    */
-  protected void validate(final IResourceValidator resourceValidator, final MarkerCreator markerCreator, final IFile file, final Resource resource, final IProgressMonitor monitor) {
+  private void validateAndCreateMarkers(final IResourceValidator resourceValidator, final MarkerCreator markerCreator, final IFile file, final Resource resource, final IProgressMonitor monitor) {
     try {
       monitor.subTask("validating " + file.getName()); //$NON-NLS-1$
-
-      final List<Issue> list = resourceValidator.validate(resource, checkMode, getCancelIndicator(monitor));
-      if (list != null) {
-        // resourceValidator.validate returns null if canceled (and not an empty list)
-        file.deleteMarkers(MarkerTypes.FAST_VALIDATION, true, IResource.DEPTH_ZERO);
-        file.deleteMarkers(MarkerTypes.NORMAL_VALIDATION, true, IResource.DEPTH_ZERO);
-        file.deleteMarkers(MarkerTypes.EXPENSIVE_VALIDATION, true, IResource.DEPTH_ZERO);
-
-        if (markerCreator != null) {
-          for (final Issue issue : list) {
-            markerCreator.createMarker(issue, file, MarkerTypes.forCheckType(issue.getType()));
-          }
-        } else {
-          if (LOGGER.isDebugEnabled()) {
-            LOGGER.error("Could not create markers. The marker creator is null."); //$NON-NLS-1$
-          }
-        }
-      }
+      final List<Issue> issueList = validate(resource, resourceValidator, monitor);
+      createMarkers(markerCreator, file, issueList);
     } catch (final CoreException e) {
       LOGGER.error(e.getMessage(), e);
     } finally {
       monitor.worked(1);
     }
+
+  }
+
+  /**
+   * Creates the markers from the given {@link IFile} and list of {@link Issue}.
+   *
+   * @param markerCreator
+   *          the marker creator
+   * @param file
+   *          the EFS file (not null)
+   * @param list
+   *          the list of Issue
+   * @throws CoreException
+   */
+  private void createMarkers(final MarkerCreator markerCreator, final IFile file, final List<Issue> list) throws CoreException {
+    if (list != null) {
+      // resourceValidator.validate returns null if canceled (and not an empty list)
+      file.deleteMarkers(MarkerTypes.FAST_VALIDATION, true, IResource.DEPTH_ZERO);
+      file.deleteMarkers(MarkerTypes.NORMAL_VALIDATION, true, IResource.DEPTH_ZERO);
+      file.deleteMarkers(MarkerTypes.EXPENSIVE_VALIDATION, true, IResource.DEPTH_ZERO);
+
+      if (markerCreator != null) {
+        for (final Issue issue : list) {
+          markerCreator.createMarker(issue, file, MarkerTypes.forCheckType(issue.getType()));
+        }
+      } else {
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.error("Could not create markers. The marker creator is null."); //$NON-NLS-1$
+        }
+      }
+    }
+  }
+
+  /**
+   * Validates the given {@link Resource}.
+   *
+   * @param resource
+   *          the EMF resource (not null)
+   * @param resourceValidator
+   *          the resource validator
+   * @param monitor
+   *          the progress monitor
+   * @return
+   *         the issues of the underlying resource
+   */
+  protected List<Issue> validate(final Resource resource, final IResourceValidator resourceValidator, final IProgressMonitor monitor) {
+    return resourceValidator.validate(resource, checkMode, getCancelIndicator(monitor));
   }
 
   /**
    * Obtain a new cancel indicator for the given monitor.
-   * 
+   *
    * @param monitor
    *          the monitor, not null
    * @return a new cancel indicator
    */
   private CancelIndicator getCancelIndicator(final IProgressMonitor monitor) {
     return new CancelIndicator() {
+      @Override
       public boolean isCanceled() {
         return monitor.isCanceled();
       }
