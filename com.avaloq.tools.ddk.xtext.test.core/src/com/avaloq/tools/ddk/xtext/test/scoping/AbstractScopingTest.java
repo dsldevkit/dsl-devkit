@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -102,20 +103,20 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
      * Creates a new instance of {@link ExpectedLink}.
      *
      * @param sourceTag
-     *          Tag with which the cross reference is marked
+     *          Tag pointing to cross reference
      * @param getEObject
      *          Function to get the target object using its tag, may not be {@code null}
      * @param targetTag
-     *          Tag with which the target object is marked
+     *          Tag pointing to the destination object
      */
     ExpectedLink(final int sourceTag, final Function<Integer, EObject> getEObject, final int targetTag) {
       this.sourceTag = sourceTag;
-      this.getEObject = getEObject;
+      this.getEObject = Objects.requireNonNull(getEObject);
       this.targetTag = targetTag;
     }
 
     /**
-     * Test the expectation.
+     * Test expectation.
      */
     public void test() {
       testLinking(sourceTag, getEObject.apply(targetTag));
@@ -168,14 +169,9 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     getTestInformation().putTestObject(Iterable.class, allContents);
   }
 
-  /**
-   * Test linking.
-   */
   @Override
   protected void afterEachTest() {
-    expectedLinks.forEach(ExpectedLink::test);
     expectedLinks.clear();
-
     super.afterEachTest();
   }
 
@@ -685,13 +681,13 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   }
 
   /**
-   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object marked with
-   * {@link targetTag}. Expectations are tested after each test by {@link afterEachTest}. Implicit items will be traversed.
+   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object tagged by the
+   * target tag. Expectations can be tested by calling {@link #testExpectedLinking()}. Implicit items will be traversed.
    *
    * @see #mark(int)
-   * @see #testLinking(int, int)
+   * @see #testExpectedLinking()
    * @param targetTag
-   *          Tag with which the target object is marked
+   *          Tag pointing to the destination object
    * @return Mark text to be inserted in the source file, never {@code null}
    */
   protected String link(final int targetTag) {
@@ -699,21 +695,33 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   }
 
   /**
-   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object marked with
-   * {@link targetTag. Expectations are tested after each test by {@link afterEachTest}. Implicit items will be traversed.
+   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object tagged by the
+   * target tag. Expectations can be tested by calling {@link #testExpectedLinking()}. Implicit items will be traversed.
    *
    * @see #mark(int)
-   * @see #testLinking(int, EObject)
+   * @see #testExpectedLinking()
    * @param getEObject
    *          Function to get the target object using its tag, may not be {@code null}
    * @param targetTag
-   *          Tag with which the target object is marked
+   *          Tag pointing to the destination object
    * @return Mark text to be inserted in the source file, never {@code null}
    */
   protected String link(final Function<Integer, EObject> getEObject, final int targetTag) {
     final int sourceTag = getTag();
     expectedLinks.add(new ExpectedLink(sourceTag, getEObject, targetTag));
     return mark(sourceTag);
+  }
+
+  /**
+   * Performs linking test. Checks expectations which were set using {@link #link(int)} or {@link #link(Function, int).
+   *
+   * @see #link(int)
+   * @see #link(Function<Integer, EObject>, int)
+   * @see #testLinking(int, EObject)
+   */
+  protected void testExpectedLinks() {
+    expectedLinks.forEach(ExpectedLink::test);
+    expectedLinks.clear();
   }
 
   /**
