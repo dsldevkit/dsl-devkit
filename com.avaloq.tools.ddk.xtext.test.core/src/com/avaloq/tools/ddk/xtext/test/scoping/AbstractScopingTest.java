@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -92,6 +93,37 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
 
   private final IDomain.Mapper domainMapper;
 
+  private class ExpectedLink {
+    private final int sourceTag;
+    private final Function<Integer, EObject> getEObject;
+    private final int targetTag;
+
+    /**
+     * Creates a new instance of {@link ExpectedLink}.
+     *
+     * @param sourceTag
+     *          Tag with which the cross reference is marked
+     * @param getEObject
+     *          Function to get the target object using its tag, may not be {@code null}
+     * @param targetTag
+     *          Tag with which the target object is marked
+     */
+    ExpectedLink(final int sourceTag, final Function<Integer, EObject> getEObject, final int targetTag) {
+      this.sourceTag = sourceTag;
+      this.getEObject = getEObject;
+      this.targetTag = targetTag;
+    }
+
+    /**
+     * Test the expectation.
+     */
+    public void test() {
+      testLinking(sourceTag, getEObject.apply(targetTag));
+    }
+  }
+
+  private final Collection<ExpectedLink> expectedLinks = new ArrayList<ExpectedLink>();
+
   /**
    * Creates a new instance of {@link AbstractScopingTest}.
    */
@@ -134,6 +166,17 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       }
     };
     getTestInformation().putTestObject(Iterable.class, allContents);
+  }
+
+  /**
+   * Test linking.
+   */
+  @Override
+  protected void afterEachTest() {
+    expectedLinks.forEach(ExpectedLink::test);
+    expectedLinks.clear();
+
+    super.afterEachTest();
   }
 
   /**
@@ -639,6 +682,38 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     }
     builder.append(SELECTOR_END);
     return builder.toString();
+  }
+
+  /**
+   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object marked with
+   * {@link targetTag}. Expectations are tested after each test by {@link afterEachTest}. Implicit items will be traversed.
+   *
+   * @see #mark(int)
+   * @see #testLinking(int, int)
+   * @param targetTag
+   *          Tag with which the target object is marked
+   * @return Mark text to be inserted in the source file, never {@code null}
+   */
+  protected String link(final int targetTag) {
+    return link(tag -> getObjectForTag(tag), targetTag);
+  }
+
+  /**
+   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object marked with
+   * {@link targetTag. Expectations are tested after each test by {@link afterEachTest}. Implicit items will be traversed.
+   *
+   * @see #mark(int)
+   * @see #testLinking(int, EObject)
+   * @param getEObject
+   *          Function to get the target object using its tag, may not be {@code null}
+   * @param targetTag
+   *          Tag with which the target object is marked
+   * @return Mark text to be inserted in the source file, never {@code null}
+   */
+  protected String link(final Function<Integer, EObject> getEObject, final int targetTag) {
+    final int sourceTag = getTag();
+    expectedLinks.add(new ExpectedLink(sourceTag, getEObject, targetTag));
+    return mark(sourceTag);
   }
 
   /**
