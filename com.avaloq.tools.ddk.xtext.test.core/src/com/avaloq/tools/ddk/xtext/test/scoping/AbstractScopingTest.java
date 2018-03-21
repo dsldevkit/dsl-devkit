@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Assert;
@@ -94,36 +94,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
 
   private final IDomain.Mapper domainMapper;
 
-  private class ExpectedLink {
-    private final int sourceTag;
-    private final Function<Integer, EObject> getEObject;
-    private final int targetTag;
-
-    /**
-     * Creates a new instance of {@link ExpectedLink}.
-     *
-     * @param sourceTag
-     *          Tag pointing to cross reference
-     * @param getEObject
-     *          Function to get the target object using its tag, may not be {@code null}
-     * @param targetTag
-     *          Tag pointing to the destination object
-     */
-    ExpectedLink(final int sourceTag, final Function<Integer, EObject> getEObject, final int targetTag) {
-      this.sourceTag = sourceTag;
-      this.getEObject = Objects.requireNonNull(getEObject);
-      this.targetTag = targetTag;
-    }
-
-    /**
-     * Test expectation.
-     */
-    public void test() {
-      testLinking(sourceTag, getEObject.apply(targetTag));
-    }
-  }
-
-  private final Collection<ExpectedLink> expectedLinks = new ArrayList<ExpectedLink>();
+  private final Collection<Runnable> expectedLinkAssertions = new ArrayList<Runnable>();
 
   /**
    * Creates a new instance of {@link AbstractScopingTest}.
@@ -171,7 +142,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
 
   @Override
   protected void afterEachTest() {
-    expectedLinks.clear();
+    assertTrue("Expected links were set with link(int) but testLinking(String, CharSequence) was never called", expectedLinkAssertions.isEmpty());
     super.afterEachTest();
   }
 
@@ -685,13 +656,13 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    * target tag. Expectations can be tested by calling {@link #testExpectedLinking()}. Implicit items will be traversed.
    *
    * @see #mark(int)
-   * @see #testExpectedLinking()
+   * @see #testLinking(String, CharSequence)
    * @param targetTag
    *          Tag pointing to the destination object
    * @return Mark text to be inserted in the source file, never {@code null}
    */
   protected String link(final int targetTag) {
-    return link(tag -> getObjectForTag(tag), targetTag);
+    return link(() -> getObjectForTag(targetTag));
   }
 
   /**
@@ -699,29 +670,32 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    * target tag. Expectations can be tested by calling {@link #testExpectedLinking()}. Implicit items will be traversed.
    *
    * @see #mark(int)
-   * @see #testExpectedLinking()
-   * @param getEObject
-   *          Function to get the target object using its tag, may not be {@code null}
-   * @param targetTag
-   *          Tag pointing to the destination object
+   * @see #testLinking(String, CharSequence)
+   * @param getTargetObject
+   *          supplier to get the destination object, must not be {@code null}
    * @return Mark text to be inserted in the source file, never {@code null}
    */
-  protected String link(final Function<Integer, EObject> getEObject, final int targetTag) {
+  protected String link(final Supplier<EObject> getTargetObject) {
     final int sourceTag = getTag();
-    expectedLinks.add(new ExpectedLink(sourceTag, getEObject, targetTag));
+    expectedLinkAssertions.add(() -> testLinking(sourceTag, getTargetObject.get()));
     return mark(sourceTag);
   }
 
   /**
-   * Performs linking test. Checks expectations which were set using {@link #link(int)} or {@link #link(Function, int).
+   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int).
    *
    * @see #link(int)
-   * @see #link(Function<Integer, EObject>, int)
+   * @see #link(Supplier)
    * @see #testLinking(int, EObject)
+   * @param sourceFileName
+   *          the file name that should be associated with the parsed content, must not be {@code null}
+   * @param sourceContent
+   *          source, must not be {@code null}
    */
-  protected void testExpectedLinks() {
-    expectedLinks.forEach(ExpectedLink::test);
-    expectedLinks.clear();
+  protected void testLinking(final String sourceFileName, final CharSequence sourceContent) {
+    registerModel(sourceFileName, sourceContent);
+    expectedLinkAssertions.forEach(Runnable::run);
+    expectedLinkAssertions.clear();
   }
 
   /**
