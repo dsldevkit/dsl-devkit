@@ -16,21 +16,15 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
-import java.util.Set;
 import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
 import org.eclipse.xtext.nodemodel.serialization.DeserializationConversionContext;
@@ -43,8 +37,7 @@ import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator.Adapter
 import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedDeserializationConversionContext;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceLoadStorageEvent;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Ascii;
 import com.google.common.io.CharStreams;
 
 
@@ -59,7 +52,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
   private static final Logger LOG = Logger.getLogger(DirectLinkingResourceStorageLoadable.class);
 
-  private static final Splitter FRAGMENT_SEGMENT_SPLITTER = Splitter.on('/');
   private static final int SOURCE_BUFFER_CAPACITY = 0x10000; // 64 KiB
 
   private final boolean storeNodeModel;
@@ -144,62 +136,60 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    *          resource being deserialized, must not be {@code null}
    * @param stream
    *          zip input stream, never {@code null}
+   * @throws IOException
+   *           if an I/O exception occurred
    * @see DirectLinkingResourceStorageWritable#writeAssociationsAdapter(StorageAwareResource, java.io.OutputStream)
    */
-  protected void readAssociationsAdapter(final StorageAwareResource resource, final InputStream stream) {
-    try {
-      InferredModelAssociator.Adapter adapter = (Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class);
-      if (adapter == null) {
-        adapter = new InferredModelAssociator.Adapter();
-        resource.eAdapters().add(adapter);
+  protected void readAssociationsAdapter(final StorageAwareResource resource, final InputStream stream) throws IOException {
+    DirectLinkingEObjectInputStream objIn = new DirectLinkingEObjectInputStream(stream, null);
+    int size = objIn.readCompressedInt();
+    if (size == 0) {
+      return;
+    }
+
+    InferredModelAssociator.Adapter adapter = (Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class);
+    if (adapter == null) {
+      adapter = new InferredModelAssociator.Adapter();
+      resource.eAdapters().add(adapter);
+    }
+
+    Map<EObject, Deque<EObject>> destinationMap = adapter.getSourceToInferredModelMap();
+    for (int i = 0; i < size; i++) {
+      destinationMap.put(objIn.readEObject(resource), readMappedEObjects(objIn, resource));
+    }
+    if (objIn.readByte() != Ascii.GS) {
+      LOG.warn("Encountered unexpected data while loading " + resource.getURI()); //$NON-NLS-1$
+      return;
+    }
+
+    destinationMap = adapter.getInferredModelToSourceMap();
+    if (objIn.readBoolean()) {
+      size = objIn.readCompressedInt();
+      for (int i = 0; i < size; i++) {
+        destinationMap.put(objIn.readEObject(resource), readMappedEObjects(objIn, resource));
       }
-      Map<EObject, List<EObject>> destinationMap = adapter.getSourceToInferredModelMap();
-      ObjectInputStream objIn = new ObjectInputStream(stream);
-      @SuppressWarnings("unchecked")
-      Map<String, Set<String>> sourceToTargetMap = (Map<String, Set<String>>) objIn.readObject();
-      for (Map.Entry<String, Set<String>> entry : sourceToTargetMap.entrySet()) {
-        ImmutableList.Builder<EObject> listBuilder = ImmutableList.builder();
-        entry.getValue().forEach(v -> listBuilder.add(getEObject(v, resource)));
-        destinationMap.put(getEObject(entry.getKey(), resource), listBuilder.build());
+    } else {
+      for (Map.Entry<EObject, Deque<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
+        EObject source = entry.getKey();
+        for (EObject target : entry.getValue()) {
+          Deque<EObject> singleton = new ArrayDeque<>(1);
+          singleton.add(source);
+          destinationMap.put(target, singleton);
+        }
       }
-      destinationMap = adapter.getInferredModelToSourceMap();
-      @SuppressWarnings("unchecked")
-      Map<String, Set<String>> targetToSourceMap = (Map<String, Set<String>>) objIn.readObject();
-      for (Map.Entry<String, Set<String>> entry : targetToSourceMap.entrySet()) {
-        ImmutableList.Builder<EObject> listBuilder = ImmutableList.builder();
-        entry.getValue().forEach(v -> listBuilder.add(getEObject(v, resource)));
-        destinationMap.put(getEObject(entry.getKey(), resource), listBuilder.build());
-      }
-    } catch (ClassNotFoundException | IOException e) {
-      throw new WrappedException(e);
     }
   }
 
-  /**
-   * Returns the EObject for the given URI string.
-   *
-   * @param str
-   *          URI string, must not be {@code null}
-   * @param context
-   *          resource being deserialized, must not be {@code null}
-   * @return corresponding EObject, never {@code null}
-   * @see DirectLinkingResourceStorageWritable#getURIString(EObject, Resource)
-   */
-  @SuppressWarnings("unchecked")
-  private static EObject getEObject(final String str, final Resource context) {
-    if (str.charAt(0) == '!') {
-      return context.getResourceSet().getEObject(URI.createURI(str.substring(1)), true);
+  private Deque<EObject> readMappedEObjects(final DirectLinkingEObjectInputStream objIn, final StorageAwareResource resource) throws IOException {
+    int collectionSize = objIn.readCompressedInt();
+    Deque<EObject> deque = new ArrayDeque<>(collectionSize);
+    for (int j = 0; j < collectionSize; j++) {
+      EObject target = objIn.readEObject(resource);
+      if (target != null) {
+        deque.add(target);
+      }
     }
-    Iterator<String> it = FRAGMENT_SEGMENT_SPLITTER.split(str).iterator();
-    EObject eObject = context.getContents().get(Integer.parseInt(it.next()));
-    while (it.hasNext()) {
-      String segment = it.next();
-      int dotIdx = segment.indexOf('.');
-      EStructuralFeature feature = eObject.eClass().getEStructuralFeature(Integer.parseInt(dotIdx == -1 ? segment : segment.substring(0, dotIdx)));
-      eObject = dotIdx == -1 ? (EObject) eObject.eGet(feature, false)
-          : ((EList<EObject>) eObject.eGet(feature, false)).get(Integer.parseInt(segment.substring(dotIdx + 1)));
-    }
-    return eObject;
+    return deque;
   }
 
 }
