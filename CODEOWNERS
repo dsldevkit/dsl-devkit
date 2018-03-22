@@ -1,0 +1,70 @@
+# Default owners for everything in the repo. 
+#
+# See https://help.github.com/articles/about-codeowners/
+# for more info about CODEOWNERS file
+
+# Team of all compo owners is the default owner.
+*                                                      @dsldevkit/codeowners
+
+# SCA
+/com.avaloq.tools.ddk.check.*/**                       @dsldevkit/sca
+/com.avaloq.tools.ddk.checkcfg.*/**                    @dsldevkit/sca
+
+# Valid DSL (obsolete SCA)
+/com.avaloq.tools.ddk.xtext.valid*/**                  @dsldevkit/sca
+
+# Generating workflow
+/com.avaloq.tools.ddk.workflow/**                      @dsldevkit/codeowners
+
+# Testing base
+/com.avaloq.tools.ddk.test.core/**                     @dsldevkit/testing-base
+/com.avaloq.tools.ddk.test.ui/**                       @dsldevkit/testing-base
+/com.avaloq.tools.ddk.test.ui.test/**                  @dsldevkit/testing-base
+
+# Test suite for DDK
+/com.avaloq.tools.ddk.xtext.test/**                    @dsldevkit/codeowners
+
+# Foundation
+/com.avaloq.tools.ddk.typesystem/**                    @dsldevkit/base
+/com.avaloq.tools.ddk.typesystem.test/**               @dsldevkit/base
+/com.avaloq.tools.ddk.xtext/**                         @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.ui/**                      @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.ui.test/**                 @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.common.types/**            @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.common.types.ui/**         @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.common.ui/**               @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.generator/**               @dsldevkit/base
+/com.avaloq.tools.ddk.xtext.generator.test/**          @dsldevkit/base
+
+# Builder
+/com.avaloq.tools.ddk.xtext.builder/**                 @dsldevkit/builder
+/com.avaloq.tools.ddk.xtext.builder.ui/**              @dsldevkit/builder
+
+# Expression (helper DSL used by Export and Scope)
+/com.avaloq.tools.ddk.xtext.expression*/**             @dsldevkit/scoping
+
+# Export DSL
+/com.avaloq.tools.ddk.xtext.export*/**                 @dsldevkit/scoping
+
+# Scope DSL
+/com.avaloq.tools.ddk.xtext.scope*/**                  @dsldevkit/scoping
+
+# Format DSL
+/com.avaloq.tools.ddk.xtext.format*/**                 @dsldevkit/formatting
+
+# Test DSL
+/com.avaloq.tools.ddk.xtext.test.core/**               @dsldevkit/codeowners
+
+
+# Xtext spy tool
+/com.avaloq.tools.ddk.xtextspy*/**                     @dsldevkit/codeowners
+
+# Build and packaging
+/com.avaloq.tools.ddk.feature/**                       @dsldevkit/build
+/com.avaloq.tools.ddk.runtime.feature/**               @dsldevkit/build
+/com.avaloq.tools.ddk.runtime.source.feature/**        @dsldevkit/build
+/com.avaloq.tools.ddk.source.feature/**                @dsldevkit/build
+/ddk-configuration/**                                  @dsldevkit/build
+/ddk-parent/**                                         @dsldevkit/build
+/ddk-repository/**                                     @dsldevkit/build
+/ddk-target/**                                         @dsldevkit/build
