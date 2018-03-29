@@ -36,12 +36,15 @@ import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil;
 import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
 import com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression;
+import com.avaloq.tools.ddk.xtext.scope.scope.NamingDefinition;
+import com.avaloq.tools.ddk.xtext.scope.scope.NamingSection;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeContext;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDelegation;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
+import com.avaloq.tools.ddk.xtext.scope.scope.SimpleScopeExpression;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -51,6 +54,7 @@ import com.google.inject.Inject;
 /**
  * Validations for the build language.
  */
+@SuppressWarnings("nls")
 public class ScopeJavaValidator extends AbstractScopeJavaValidator {
 
   private static final String DEFAULT_SCOPE_NAME = "scope";
@@ -275,6 +279,45 @@ public class ScopeJavaValidator extends AbstractScopeJavaValidator {
         }
       }
     }
+  }
+
+  /**
+   * Verifies that a matching default name function exists for scope expressions without explicit name functions.
+   *
+   * @param expr
+   *          scope expression to check
+   */
+  @Check
+  public void checkNameFunctionExists(final SimpleScopeExpression expr) {
+    if (expr.getNaming() != null && !expr.getNaming().getNames().isEmpty()) {
+      return;
+    }
+    ScopeDefinition def = EObjectUtil.eContainer(expr, ScopeDefinition.class);
+    ScopeModel model = EObjectUtil.eContainer(expr, ScopeModel.class);
+    if (def != null && model != null) {
+      EClass scopeType = getType(def);
+      NamingSection namingSection = model.getNaming();
+      if (namingSection != null) {
+        for (NamingDefinition naming : namingSection.getNamings()) {
+          if (naming.getType() != null && isLeftMostSuperType(naming.getType(), scopeType)) {
+            return;
+          }
+        }
+      }
+      error(NLS.bind(Messages.missingNameFunction, scopeType.getName()), ScopePackage.Literals.SIMPLE_SCOPE_EXPRESSION__EXPR);
+    }
+  }
+
+  /**
+   * Check if {@code someClass} is equal to {@code otherClass} or is one of the (recursively) left-most supertypes of {@code otherClass}.
+   */
+  private boolean isLeftMostSuperType(final EClass someClass, final EClass otherClass) {
+    if (someClass == otherClass) { // NOPMD
+      return true;
+    } else if (otherClass != null && !otherClass.getESuperTypes().isEmpty()) {
+      return isLeftMostSuperType(someClass, otherClass.getESuperTypes().get(0));
+    }
+    return false;
   }
 
   /**

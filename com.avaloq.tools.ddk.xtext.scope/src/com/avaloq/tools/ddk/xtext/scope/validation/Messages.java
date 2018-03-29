@@ -25,6 +25,7 @@ public class Messages extends NLS {
   public static String overriddenInheritedScopeRule;
   public static String uriPatternFound;
   public static String typeMismatch;
+  public static String missingNameFunction;
   static {
     // initialize resource bundle
     NLS.initializeMessages(BUNDLE_NAME, Messages.class);
@@ -35,4 +36,3 @@ public class Messages extends NLS {
   }
 }
 // CHECKSTYLE:ON
-
