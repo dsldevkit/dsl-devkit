@@ -14,7 +14,6 @@ import java.util.Collection;
 
 import org.eclipse.xtext.resource.IResourceDescription;
 
-import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.google.inject.ImplementedBy;
 
 
@@ -55,14 +54,14 @@ public interface IXtextTargetPlatformManager {
     /**
      * Invoked on registered listeners when the platform has changed.
      *
-     * @param newData
+     * @param newPlatform
      *          is the platform that will be used from now on
      * @param deltas
      *          The list of deltas that the switch generated, if known.
      * @param mustRebuild
      *          true if a rebuild is needed in any case.
      */
-    void platformChanged(IResourceDescriptionsData newData, Collection<IResourceDescription.Delta> deltas, boolean mustRebuild);
+    void platformChanged(IXtextTargetPlatform newPlatform, Collection<IResourceDescription.Delta> deltas, boolean mustRebuild);
 
   }
 
