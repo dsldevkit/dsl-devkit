@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -33,6 +34,8 @@ import com.google.common.collect.Lists;
  * {@link EObjectOutputStream} subclass which provides {@link #writeEObjectURI(EObject, Resource)} to serialize an EObject's URI using a compact representation.
  */
 class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
+
+  private static final Logger LOG = Logger.getLogger(DirectLinkingEObjectOutputStream.class);
 
   static final boolean LOCAL_EOBJECT = true;
 
@@ -64,8 +67,10 @@ class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
       if (obj.eIsProxy()) {
         URI proxyURI = ((InternalEObject) obj).eProxyURI();
         uriString = proxyURI.fragment().startsWith(LazyURIEncoder.XTEXT_LINK) ? null : proxyURI.toString();
-      } else {
+      } else if (resource != null) {
         uriString = resource.getURI().toString() + '#' + resource.getURIFragment(obj);
+      } else {
+        LOG.warn("Encountered dangling object while serializing " + context.getURI() + ": " + obj); //$NON-NLS-1$ //$NON-NLS-2$
       }
       writeBoolean(!LOCAL_EOBJECT);
       writeString(uriString);

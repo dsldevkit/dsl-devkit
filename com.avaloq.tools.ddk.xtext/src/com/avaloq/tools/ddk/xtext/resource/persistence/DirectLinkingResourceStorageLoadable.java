@@ -155,7 +155,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
     Map<EObject, Deque<EObject>> destinationMap = adapter.getSourceToInferredModelMap();
     for (int i = 0; i < size; i++) {
-      destinationMap.put(objIn.readEObject(resource), readMappedEObjects(objIn, resource));
+      mapListOfObjects(objIn, destinationMap, resource);
     }
     if (objIn.readByte() != Ascii.GS) {
       LOG.warn("Encountered unexpected data while loading " + resource.getURI()); //$NON-NLS-1$
@@ -166,7 +166,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     if (objIn.readBoolean()) {
       size = objIn.readCompressedInt();
       for (int i = 0; i < size; i++) {
-        destinationMap.put(objIn.readEObject(resource), readMappedEObjects(objIn, resource));
+        mapListOfObjects(objIn, destinationMap, resource);
       }
     } else {
       for (Map.Entry<EObject, Deque<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
@@ -177,6 +177,14 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
           destinationMap.put(target, singleton);
         }
       }
+    }
+  }
+
+  private void mapListOfObjects(final DirectLinkingEObjectInputStream objIn, final Map<EObject, Deque<EObject>> destinationMap, final StorageAwareResource resource) throws IOException {
+    EObject from = objIn.readEObject(resource);
+    Deque<EObject> to = readMappedEObjects(objIn, resource);
+    if (from != null && !to.isEmpty()) {
+      destinationMap.put(from, to);
     }
   }
 
