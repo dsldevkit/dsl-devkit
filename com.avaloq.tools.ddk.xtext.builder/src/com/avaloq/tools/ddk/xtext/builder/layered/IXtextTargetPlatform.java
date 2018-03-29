@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.google.inject.ImplementedBy;
 
@@ -97,6 +98,16 @@ public interface IXtextTargetPlatform {
    * @return the platform's issue store, or {@code null} if none.
    */
   IIssueStore getIssueStore();
+
+  /**
+   * Gets the association store for resources in Xtext index.
+   * <p>
+   * If a platform does not manage the associations, it shall return {@code null}.
+   * </p>
+   *
+   * @return the association store, or {@code null} if not supported
+   */
+  IDerivedObjectAssociationsStore getAssociationsStore();
 
   /**
    * Platforms are supposed to be closed when no longer in use. At any time, there must be only one open platform.

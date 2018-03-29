@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.builder;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -55,6 +56,7 @@ import org.eclipse.xtext.util.Tuples;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.layered.ILayeredResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.builder.layered.IXtextBuildTrigger;
+import com.avaloq.tools.ddk.xtext.builder.layered.IXtextTargetPlatform;
 import com.avaloq.tools.ddk.xtext.builder.layered.IXtextTargetPlatformManager;
 import com.avaloq.tools.ddk.xtext.builder.layered.NullResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.builder.tracing.BuildFlushEvent;
@@ -72,6 +74,7 @@ import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.ResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
+import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionDelta;
 import com.avaloq.tools.ddk.xtext.resource.extensions.ForwardingResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
@@ -165,6 +168,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   private IResourceDescriptions2 myData;
 
   /**
+   * Handle to index extension storing associations to derived objects.
+   */
+  private IDerivedObjectAssociationsStore derivedObjectAssociationsStore;
+
+  /**
    * Copied handle to the plain ResourceDescriptionsData.
    */
   private ResourceDescriptionsData rawData;
@@ -207,7 +215,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Override
   public synchronized void load() {
     if (!isLoaded) {
-      setResourceDescriptionsData((ResourceDescriptionsData) targetPlatformManager.getPlatform().getIResourceDescriptionsData());
+      IXtextTargetPlatform platform = targetPlatformManager.getPlatform();
+      setDerivedObjectAssociationsStore(platform.getAssociationsStore());
+      setResourceDescriptionsData((ResourceDescriptionsData) platform.getIResourceDescriptionsData());
       isLoaded = true;
     }
   }
@@ -227,6 +237,10 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    */
   protected boolean isLoaded() {
     return this.isLoaded;
+  }
+
+  protected void setDerivedObjectAssociationsStore(final IDerivedObjectAssociationsStore associationsStore) {
+    derivedObjectAssociationsStore = associationsStore;
   }
 
   @Override
@@ -366,6 +380,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
     final Map<URI, IResourceDescription> oldDescriptions = saveOldDescriptions(buildData);
 
+    final Map<URI, DerivedObjectAssociations> oldDerivedObjectAssociations = saveOldDerivedObjectAssociations(buildData);
+
     buildData.getSourceLevelURICache().cacheAsSourceURIs(toBeDeleted);
     installSourceLevelURIs(buildData);
 
@@ -400,7 +416,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
     // Step 5: Put all resources depending on a deleted resource into the queue. Also register the deltas in allDeltas.
     if (!toBeDeleted.isEmpty()) {
-      addDeletedURIsToDeltas(toBeDeleted, allDeltas, oldDescriptions);
+      addDeletedURIsToDeltas(toBeDeleted, allDeltas, oldDescriptions, oldDerivedObjectAssociations);
       // Here, we have only the deltas for deleted resources in allDeltas. Make sure that all markers are removed.
       // Normally, resources in toBeDeleted will have their storage(s) deleted, so Eclipse will automatically
       // remove the markers. However, if the ToBeBuiltComputer adds resources to the tobeDeleted set that are not or
@@ -481,6 +497,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 final IResourceDescription description = manager.getResourceDescription(resource);
                 final IResourceDescription copiedDescription = descriptionCopier.copy(description);
                 newDelta = manager.createDelta(getSavedResourceDescription(oldDescriptions, changedURI), copiedDescription);
+                if (newDelta instanceof AbstractResourceDescriptionDelta) {
+                  // For languages that support extended delta, pass generated object info to builder participants using delta
+                  // All languages that manage life cycle of generated objects must support extended delta
+                  ((AbstractResourceDescriptionDelta) newDelta).addExtensionData(getSavedDerivedObjectAssociations(oldDerivedObjectAssociations, changedURI));
+                }
               } catch (StackOverflowError ex) {
                 queue.remove(changedURI);
                 logStackOverflowErrorStackTrace(ex, changedURI);
@@ -714,6 +735,46 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       }
     }
     return cache;
+  }
+
+  /**
+   * Save copies of existing associations for derived objects (which will be cleared in the first build phase as resource descriptions will be overwritten).
+   *
+   * @param buildData
+   *          The build data
+   * @return a map containing associations for objects derived from resources identified by their URIs
+   */
+  protected Map<URI, DerivedObjectAssociations> saveOldDerivedObjectAssociations(final BuildData buildData) {
+    if (derivedObjectAssociationsStore != null) {
+      Map<URI, DerivedObjectAssociations> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
+      for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
+        if (cache.containsKey(uri)) {
+          continue;
+        }
+        cache.put(uri, derivedObjectAssociationsStore.getAssociations(uri));
+      }
+      return cache;
+    }
+    return Collections.emptyMap();
+  }
+
+  /**
+   * Returns saved associations for derived objects either from the map passed to the method
+   * or from the persisted index if the information is not present in the given map.
+   *
+   * @param oldDerivedObjectAssociations
+   *          generated objects info saved before indexing phase for sources processed in the indexing phase
+   * @param uri
+   *          the uri of the source for which information is requested
+   * @return the saved generated objects info
+   */
+  protected DerivedObjectAssociations getSavedDerivedObjectAssociations(final Map<URI, DerivedObjectAssociations> oldDerivedObjectAssociations, final URI uri) {
+    DerivedObjectAssociations associations = oldDerivedObjectAssociations.get(uri);
+    if (associations == null && derivedObjectAssociationsStore != null) {
+      // Resource was not processed by the indexing phase, so we should still have the old state in the Index
+      associations = derivedObjectAssociationsStore.getAssociations(uri);
+    }
+    return associations;
   }
 
   /**
@@ -1114,14 +1175,23 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          Deltas
    * @param savedDescriptions
    *          previously saved old resource descriptions
+   * @param savedGeneratedObjectsInfo
+   *          previously saved old generated objects info
    */
-  protected void addDeletedURIsToDeltas(final Set<URI> deletedUris, final Set<Delta> deltas, final Map<URI, IResourceDescription> savedDescriptions) {
+  protected void addDeletedURIsToDeltas(final Set<URI> deletedUris, final Set<Delta> deltas, final Map<URI, IResourceDescription> savedDescriptions, final Map<URI, DerivedObjectAssociations> savedGeneratedObjectsInfo) {
     for (final URI uri : deletedUris) {
       final IResourceDescription oldDescription = getSavedResourceDescription(savedDescriptions, uri);
       if (oldDescription != null) {
         final IResourceDescription.Manager manager = getResourceDescriptionManager(uri);
         if (manager != null) {
-          deltas.add(manager.createDelta(oldDescription, null));
+          Delta delta = manager.createDelta(oldDescription, null);
+          if (delta instanceof AbstractResourceDescriptionDelta) {
+            // For languages that support extended delta, pass generated object info to builder participants using delta
+            // All languages that manage life cycle of generated objects must support extended delta
+            final DerivedObjectAssociations generatedObjectsInfo = getSavedDerivedObjectAssociations(savedGeneratedObjectsInfo, delta.getUri());
+            ((AbstractResourceDescriptionDelta) delta).addExtensionData(generatedObjectsInfo);
+          }
+          deltas.add(delta);
         }
       }
     }
@@ -1172,10 +1242,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * {@inheritDoc} Schedules a full clean build if the target platform changes.
    */
   @Override
-  public void platformChanged(final IResourceDescriptionsData newPlatform, final Collection<Delta> deltas, final boolean mustRebuild) {
+  public void platformChanged(final IXtextTargetPlatform newPlatform, final Collection<Delta> deltas, final boolean mustRebuild) {
     if (newPlatform == null) {
       // Hmmm... context deactivated. Events for removing the project from the index will be generated anyway, so no build necessary.
       // TODO: check!
+      setDerivedObjectAssociationsStore(null);
       setResourceDescriptionsData(new NullResourceDescriptionsData());
       return;
     }
@@ -1185,10 +1256,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       // we are in a build anyway, aren't we?
       // TODO: this is pretty convoluted. We should try to disentangle this OO spaghetti code. Is it good enough to simply not notify listeners in
       // AbstractXtextTargetPlatformManager if it was the initial load?
-      if (newPlatform instanceof AbstractResourceDescriptionsData) {
-        ((AbstractResourceDescriptionsData) newPlatform).beginChanges();
+      ResourceDescriptionsData data = (ResourceDescriptionsData) newPlatform.getIResourceDescriptionsData();
+      if (data instanceof AbstractResourceDescriptionsData) {
+        ((AbstractResourceDescriptionsData) data).beginChanges();
       }
-      setResourceDescriptionsData((ResourceDescriptionsData) newPlatform);
+      setDerivedObjectAssociationsStore(newPlatform.getAssociationsStore());
+      setResourceDescriptionsData(data);
       ResourceDescriptionChangeEvent event = new ResourceDescriptionChangeEvent(deltas);
       notifyListeners(event);
     }
