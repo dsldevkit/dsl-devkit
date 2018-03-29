@@ -291,9 +291,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       result = doUpdate(buildData, newData, subMonitor.newChild(1));
       // update the reference
       setResourceDescriptionsData(newData, monitor);
-      // CHECKSTYLE:OFF
+      // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (Throwable t) {
-      // CHECKSTYLE:ON
+      // CHECKSTYLE:CHECK-ON IllegalCatch
       if (!operationCanceledManager.isOperationCanceledException(t)) {
         LOGGER.error("Failed to update index. Executing rollback.", t); //$NON-NLS-1$
       }
@@ -333,9 +333,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       updateDeltas(event.getDeltas(), null, subMonitor.newChild(1));
       // update the reference
       setResourceDescriptionsData(newData, monitor);
-      // CHECKSTYLE:OFF
+      // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (Throwable t) {
-      // CHECKSTYLE:ON
+      // CHECKSTYLE:CHEKC-ON IllegalCatch
       if (newData instanceof AbstractResourceDescriptionsData) {
         ((AbstractResourceDescriptionsData) newData).rollbackChanges();
       }
@@ -486,9 +486,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 logStackOverflowErrorStackTrace(ex, changedURI);
               }
             }
-            // CHECKSTYLE:OFF guard against ill behaved implementations
+            // CHECKSTYLE:CHECK-OFF IllegalCatch - guard against ill behaved implementations
           } catch (final Exception ex) {
-            // CHECKSTYLE:ON
+            // CHECKSTYLE:CHECK-ON IllegalCatch
             pollForCancellation(monitor);
             if (ex instanceof LoadOperationException) { // NOPMD
               LoadOperationException loadException = (LoadOperationException) ex;
@@ -807,11 +807,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               newState.register(new DefaultResourceDescriptionDelta(oldDescription, null));
             }
           }
-          // CHECKSTYLE:OFF
+          // CHECKSTYLE:CHECK-OFF IllegalCatch
           // If we couldn't load it, there's no use trying again: do not add it to the queue
         } catch (final Throwable e) {
           // unfortunately the parser sometimes crashes (yet unreported Xtext bug)
-          // CHECKSTYLE:ON
+          // CHECKSTYLE:CHECK-ON IllegalCatch
           pollForCancellation(monitor);
           LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri), e);
           if (resource != null) {
@@ -1017,9 +1017,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             }
           }
         }
-        // // CHECKSTYLE:OFF - Failing here means the build fails completely
+      } catch (OperationCanceledException e) {
+        throw e;
+        // CHECKSTYLE:CHECK-OFF IllegalCatch - Failing here means the build fails completely
       } catch (Throwable t) {
-        // // CHECKSTYLE:OFF
+        // CHECKSTYLE:CHECK-ON IllegalCatch
         LOGGER.warn(manager.getClass().getSimpleName() + " failed to enqueue the affected resources", t); //$NON-NLS-1$
       }
       progressMonitor.worked(1);
