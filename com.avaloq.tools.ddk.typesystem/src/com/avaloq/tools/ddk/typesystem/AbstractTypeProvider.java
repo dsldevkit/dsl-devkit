@@ -12,7 +12,9 @@ package com.avaloq.tools.ddk.typesystem;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
@@ -26,7 +28,12 @@ import org.eclipse.xtext.util.Tuples;
 import com.avaloq.tools.ddk.typesystem.typemodel.IExpression;
 import com.avaloq.tools.ddk.typesystem.typemodel.INamedElement;
 import com.avaloq.tools.ddk.typesystem.typemodel.IType;
+import com.avaloq.tools.ddk.xtext.extension.ILanguageExtensionsService;
+import com.avaloq.tools.ddk.xtext.extension.ILanguageFeatureExtension;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 
@@ -38,11 +45,19 @@ import com.google.inject.Provider;
  *
  * @see org.eclipse.xtext.xbase.typing.AbstractTypeProvider
  */
-public abstract class AbstractTypeProvider implements ITypeProvider {
+public abstract class AbstractTypeProvider implements ITypeProvider, ILanguageFeatureExtension {
 
   // CHECKSTYL:OFF - code copied (with modifications) from org.eclipse.xtext.common.types.access.AbstractTypeProviderFactory
 
   private static final Logger LOGGER = Logger.getLogger(AbstractTypeProvider.class);
+
+  private final List<AbstractTypeProvider> typeProviderExtensions = Lists.newArrayList();
+
+  @Inject
+  @SuppressWarnings("PMD.UnusedPrivateMethod") // It's used by the injector.
+  private void initExtensions(final ILanguageExtensionsService contributionService, final Injector injector) {
+    contributionService.getExtensions(injector).stream().map(extension -> extension.get(AbstractTypeProvider.class)).filter(Objects::nonNull).forEach(typeProviderExtensions::add);
+  }
 
   /**
    * A linked list item whose hash depends on both the content and previous linked items.
@@ -499,7 +514,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    */
   @Override
   public IType getExpectedType(final IExpression expression) {
-    if (providesExpectedTypeFor(expression)) {
+    if (providesTypeFor(expression)) {
       return computeType("getExpectedType", expression, expectedTypeComputer); //$NON-NLS-1$
     }
     ITypeProvider provider = getTypeProviderFor(expression);
@@ -594,22 +609,13 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    */
 
   /**
-   * Determines if this type provider provides a type for the given expression.
+   * Determines if this type provider provides a type and expected type for the given expression.
    *
    * @param expression
    *          the expression to provide the type for
    * @return true if this type provider provides a type for <code>expression</code>
    */
   protected abstract boolean providesTypeFor(IExpression expression);
-
-  /**
-   * Determines if this type provider provides an expected type for the given expression.
-   *
-   * @param expression
-   *          the expression to provide the expected type for
-   * @return true if this type provider provides an expected type for <code>expression</code>
-   */
-  protected abstract boolean providesExpectedTypeFor(IExpression expression);
 
   /**
    * Determines if this type provider provides a type for the given named element.
@@ -628,8 +634,16 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    * @return the type provider for {@code eObject} or {@code null} if it is not known.
    */
   protected ITypeProvider getTypeProviderFor(final EObject eObject) {
-    return null;
+    Predicate<AbstractTypeProvider> providesFor;
+    if (eObject instanceof IExpression) {
+      providesFor = it -> it.providesTypeFor((IExpression) eObject);
+    } else if (eObject instanceof INamedElement) {
+      providesFor = it -> it.providesTypeForNamedElement((INamedElement) eObject);
+    } else {
+      providesFor = it -> false;
+    }
+
+    return typeProviderExtensions.stream().filter(providesFor).findFirst().orElse(null);
   }
 
 }
-
