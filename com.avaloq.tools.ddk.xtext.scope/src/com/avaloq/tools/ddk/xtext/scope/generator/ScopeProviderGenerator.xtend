@@ -240,9 +240,12 @@ class ScopeProviderGenerator {
     val b = new StringBuilder
     val ctx = compilationContext.clone('ctx', eContainer(ScopeRule).context.contextType)
     b.append('scope = ').append(javaCall(it.expr, ctx)).append('(scope, ctx, ').append(typeOrRef).append(', originalResource');
-    if (expr instanceof OperationCall && !(expr as OperationCall).params.isEmpty) {
-      b.append(', ').append(', '.join((expr as OperationCall).params.map[javaExpression(ctx)])).append(');')
+    if (expr instanceof OperationCall) {
+      for (param : (expr as OperationCall).params) {
+        b.append(', ').append(javaExpression(param, ctx))
+      }
     }
+    b.append(');\n')
     return b
   }
 
