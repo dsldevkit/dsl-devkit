@@ -176,11 +176,6 @@ public class AbstractTypeProviderTest {
     }
 
     @Override
-    protected boolean providesExpectedTypeFor(final IExpression expression) {
-      return true;
-    }
-
-    @Override
     protected boolean providesTypeForNamedElement(final INamedElement element) {
       return true;
     }
@@ -224,11 +219,6 @@ public class AbstractTypeProviderTest {
 
     @Override
     protected boolean providesTypeFor(final IExpression expression) {
-      return true;
-    }
-
-    @Override
-    protected boolean providesExpectedTypeFor(final IExpression expression) {
       return true;
     }
 
@@ -334,11 +324,6 @@ public class AbstractTypeProviderTest {
     }
 
     @Override
-    protected boolean providesExpectedTypeFor(final IExpression expression) {
-      return false;
-    }
-
-    @Override
     protected boolean providesTypeForNamedElement(final INamedElement element) {
       return false;
     }
@@ -359,11 +344,6 @@ public class AbstractTypeProviderTest {
     }
 
     @Override
-    protected boolean providesExpectedTypeFor(final IExpression expression) {
-      return false;
-    }
-
-    @Override
     protected boolean providesTypeForNamedElement(final INamedElement element) {
       return false;
     }
@@ -371,4 +351,3 @@ public class AbstractTypeProviderTest {
   }
 
 }
-
