@@ -81,6 +81,7 @@ import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelU
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -724,15 +725,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   protected Map<URI, IResourceDescription> saveOldDescriptions(final BuildData buildData) {
     Map<URI, IResourceDescription> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
     for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
-      if (cache.containsKey(uri)) {
-        continue;
-      }
-      IResourceDescription desc = getResourceDescription(uri);
-      if (desc == null) {
-        cache.put(uri, NULL_DESCRIPTION);
-      } else {
-        cache.put(uri, new FixedCopiedResourceDescription(desc)); // Do *not* use descriptionCopier here, we just want the EObjectDescriptions!
-      }
+      cache.computeIfAbsent(uri, u -> Optional.fromNullable(getResourceDescription(u))
+          // Do *not* use descriptionCopier here, we just want the EObjectDescriptions!
+          .<IResourceDescription> transform(FixedCopiedResourceDescription::new).or(NULL_DESCRIPTION));
     }
     return cache;
   }
@@ -748,10 +743,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (derivedObjectAssociationsStore != null) {
       Map<URI, DerivedObjectAssociations> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
       for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
-        if (cache.containsKey(uri)) {
-          continue;
-        }
-        cache.put(uri, derivedObjectAssociationsStore.getAssociations(uri));
+        cache.computeIfAbsent(uri, derivedObjectAssociationsStore::getAssociations);
       }
       return cache;
     }
