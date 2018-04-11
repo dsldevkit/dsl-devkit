@@ -23,16 +23,25 @@ import com.google.common.collect.Maps;
  */
 public abstract class AbstractResourceDescriptionDelta implements Delta {
 
-  private final Map<Class<? extends Object>, Object> extensions = Maps.newHashMap();
+  private Map<Class<? extends Object>, Object> extensions;
 
   /**
    * Adds the extension data.
    *
+   * @param <T>
+   *          the generic type
+   * @param clazz
+   *          the interface defining an extension
    * @param data
-   *          the data
+   *          the data to store, {@code null} will be ignored
    */
-  public void addExtensionData(final Object data) {
-    extensions.put(data.getClass(), data);
+  public <T> void addExtensionData(final Class<T> clazz, final T data) {
+    if (data != null) {
+      if (extensions == null) {
+        extensions = Maps.newHashMap();
+      }
+      extensions.put(clazz, data);
+    }
   }
 
   /**
@@ -46,6 +55,9 @@ public abstract class AbstractResourceDescriptionDelta implements Delta {
    */
   @SuppressWarnings("unchecked")
   public <T> T getExtensionData(final Class<T> clazz) {
+    if (extensions == null) {
+      return null;
+    }
     return (T) extensions.get(clazz);
   }
 

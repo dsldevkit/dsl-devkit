@@ -501,7 +501,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 if (newDelta instanceof AbstractResourceDescriptionDelta) {
                   // For languages that support extended delta, pass generated object info to builder participants using delta
                   // All languages that manage life cycle of generated objects must support extended delta
-                  ((AbstractResourceDescriptionDelta) newDelta).addExtensionData(getSavedDerivedObjectAssociations(oldDerivedObjectAssociations, changedURI));
+                  ((AbstractResourceDescriptionDelta) newDelta).addExtensionData(DerivedObjectAssociations.class, getSavedDerivedObjectAssociations(oldDerivedObjectAssociations, changedURI));
                 }
               } catch (StackOverflowError ex) {
                 queue.remove(changedURI);
@@ -1181,7 +1181,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             // For languages that support extended delta, pass generated object info to builder participants using delta
             // All languages that manage life cycle of generated objects must support extended delta
             final DerivedObjectAssociations generatedObjectsInfo = getSavedDerivedObjectAssociations(savedGeneratedObjectsInfo, delta.getUri());
-            ((AbstractResourceDescriptionDelta) delta).addExtensionData(generatedObjectsInfo);
+            ((AbstractResourceDescriptionDelta) delta).addExtensionData(DerivedObjectAssociations.class, generatedObjectsInfo);
           }
           deltas.add(delta);
         }
