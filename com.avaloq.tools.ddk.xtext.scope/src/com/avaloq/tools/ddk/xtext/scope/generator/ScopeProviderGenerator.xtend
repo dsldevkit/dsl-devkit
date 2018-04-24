@@ -73,6 +73,7 @@ class ScopeProviderGenerator {
       import com.avaloq.tools.ddk.xtext.scoping.IContextSupplier;
       import com.avaloq.tools.ddk.xtext.scoping.INameFunction;
       import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
+      import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
       import com.google.common.base.Predicate;
       «IF it != null && !allInjections().isEmpty»
@@ -219,7 +220,7 @@ class ScopeProviderGenerator {
         «error('scope context not unique for definitions: ' + ', '.join(it.map(r|r.location())))»
       «ENDIF»
     } catch (Exception e) {
-      LOGGER.error("Error calculating scope for «if (isGlobal) "Resource" else contextType.name» («it.get(0).locatorString()»)", e);
+      LOGGER.error("Error calculating scope for «if (isGlobal) "Resource. Context:" else contextType.name» " + EObjectUtil.getLocationString(context) + " («it.get(0).locatorString()»)", e);
     }
     return scope;
   '''
