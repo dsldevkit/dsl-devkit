@@ -10,6 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.configuration;
 
+import static org.eclipse.xtext.diagnostics.Diagnostic.LINKING_DIAGNOSTIC;
+import static org.eclipse.xtext.diagnostics.Diagnostic.SYNTAX_DIAGNOSTIC;
+
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -23,6 +28,7 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.IResourceServiceProvider.Registry;
 import org.eclipse.xtext.validation.Issue;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
@@ -38,6 +44,8 @@ import com.google.inject.name.Names;
 public class CheckConfigurationStoreService implements ICheckConfigurationStoreService {
 
   private static final Logger LOGGER = Logger.getLogger(CheckConfigurationStoreService.class);
+
+  protected static final Set<String> LANGUAGE_AGNOSTIC_DIAGNOSTICS = ImmutableSet.of(SYNTAX_DIAGNOSTIC, LINKING_DIAGNOSTIC);
 
   // CHECKSTYLE:OFF
   protected IProject project;
@@ -79,7 +87,7 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
       if (resource instanceof LazyLinkingResource) {
         return ((LazyLinkingResource) resource).getLanguageName();
       }
-    } else if (context instanceof Issue) {
+    } else if (context instanceof Issue && !LANGUAGE_AGNOSTIC_DIAGNOSTICS.contains(((Issue) context).getCode())) {
       URI uri = ((Issue) context).getUriToProblem();
       if (uri != null) {
         Registry registry = IResourceServiceProvider.Registry.INSTANCE;
