@@ -58,7 +58,8 @@ import com.google.inject.name.Names;
 public class ParallelResourceLoader extends AbstractResourceLoader {
 
   private static final long MAX_WAIT_TIME = TimeUnit.SECONDS.toMillis(300);
-  private static final long SLOW_LOADING_TIME = TimeUnit.SECONDS.toMillis(20);
+  private static final long SLOW_LOADING_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(30);
+  private static final String SLOW_LOADING_TIME_PROPERTY = "resourceloader.slowloadingtime"; //$NON-NLS-1$
 
   private static final Logger LOGGER = Logger.getLogger(ParallelResourceLoader.class);
 
@@ -73,12 +74,22 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   private final int nThreads;
   private final int queueSize;
   private long timeout;
+  private long slowLoadingTime;
 
   public ParallelResourceLoader(final IResourceSetProvider resourceSetProvider, final Sorter sorter, final int nThreads, final int queueSize) {
     super(resourceSetProvider, sorter);
     this.nThreads = nThreads;
     this.queueSize = queueSize;
     this.timeout = MAX_WAIT_TIME;
+    String slowLoadingTimeString = System.getProperty(SLOW_LOADING_TIME_PROPERTY);
+    try {
+      slowLoadingTime = Long.parseLong(slowLoadingTimeString);
+    } catch (NumberFormatException e) {
+      if (slowLoadingTimeString != null) {
+        LOGGER.warn(String.format("Slow loading timeout property '%s' is set to invalid value '%s'. Using default value of %d ms instead.", SLOW_LOADING_TIME_PROPERTY, slowLoadingTimeString, SLOW_LOADING_TIME_DEFAULT)); //$NON-NLS-1$
+      }
+      slowLoadingTime = SLOW_LOADING_TIME_DEFAULT;
+    }
   }
 
   public long getTimeout() {
@@ -206,8 +217,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           synchronized (currentlyProcessedUris) {
             currentUris = Joiner.on(", ").join(currentlyProcessedUris); //$NON-NLS-1$
           }
-          throw new LoadOperationException(null, new TimeoutException("Resource load job didn't return a result after " + waitTime //$NON-NLS-1$
-              + " ms. Resources being currently loaded: " + currentUris)); //$NON-NLS-1$
+          throw new LoadOperationException(null, new TimeoutException(String.format("Resource load job didn't return a result after %d ms. Resources being currently loaded: %s", waitTime, currentUris))); //$NON-NLS-1$
         }
 
         URI uri = result.getFirst();
@@ -323,8 +333,8 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
       } finally {
         traceSet.ended(ResourceLoadEvent.class);
         final long elapsedTime = System.currentTimeMillis() - startElapsed;
-        if (elapsedTime > SLOW_LOADING_TIME) {
-          LOGGER.warn("Slow loading of source " + uri + ": " + elapsedTime + " ms"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        if (elapsedTime > slowLoadingTime) {
+          LOGGER.warn(String.format("Slow loading of source %s: %d ms", uri, elapsedTime)); //$NON-NLS-1$
         }
       }
     }
