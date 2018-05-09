@@ -72,7 +72,7 @@ public class IndentingSerializer extends Serializer implements IIndentingSeriali
       formatterTokenStream = formatter.createFormatterStream(initialIndentation, tokenStream, !options.isFormatting());
     }
     EObject context = getContext(obj);
-    ISequenceAcceptor acceptor = new TokenStreamSequenceAdapter(formatterTokenStream, errors);
+    ISequenceAcceptor acceptor = new TokenStreamSequenceAdapter(formatterTokenStream, grammar.getGrammar(), errors);
     serialize(obj, context, acceptor, errors);
     formatterTokenStream.flush();
   }
