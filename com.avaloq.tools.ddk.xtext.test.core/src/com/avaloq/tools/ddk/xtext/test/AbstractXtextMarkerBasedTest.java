@@ -44,7 +44,7 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
 
-  private static final String INVALID_TEST_CONFIGURATION = "Invalid test configuration. Missing org.eclipse.xtend2.lib in MANIFEST.MF in this plugin?"; //$NON-NLS-1$
+  private static final String INVALID_TEST_CONFIGURATION = "Invalid test configuration. Missing org.eclipse.xtend.lib in MANIFEST.MF in this plugin?"; //$NON-NLS-1$
   private static final String LINE_BREAK = "\n";
   private static final String MARKER_START_GUARD = "##";
   private static final String MARKER_END_GUARD = "#";
@@ -264,7 +264,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    * global ids start with {@value com.avaloq.tools.asmd.testbase.scoping.TagCompilationParticipant#COUNTER_BASE}. Since it is unlikely to get local ids wrong,
    * the most common reason for global ids to be wrong is that they were not initialized. Global ids get initialized with active annotation
    * {@link com.avaloq.tools.asmd.testbase.scoping.Tag} that executes {@link com.avaloq.tools.asmd.testbase.scoping.TagCompilationParticipant}. Active
-   * annotations do not get executed if {@code org.eclipse.xtend2.lib} is missing in {@code MANIFEST.MF}. Thus we report this common mistake to the user via an
+   * annotations do not get executed if {@code org.eclipse.xtend.lib} is missing in {@code MANIFEST.MF}. Thus we report this common mistake to the user via an
    * assertion.
    * </p>
    *
