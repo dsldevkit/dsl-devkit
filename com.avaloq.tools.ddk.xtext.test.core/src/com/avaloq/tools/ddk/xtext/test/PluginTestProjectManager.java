@@ -49,7 +49,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
 
   // org.eclipse.osgi needed for NLS
   // org.apache.log4j needed for logging in generated StandaloneSetup
-  private static final List<String> REQUIRED_BUNDLES = newArrayList("org.eclipse.xtext.xbase.lib", "org.eclipse.xtend2.lib", //
+  private static final List<String> REQUIRED_BUNDLES = newArrayList("org.eclipse.xtext.xbase.lib", "org.eclipse.xtend.lib", //
       "org.eclipse.emf.ecore", "com.avaloq.tools.ddk.check.core", "com.avaloq.tools.ddk.check.runtime.core", "com.avaloq.tools.ddk.check.lib", //
       "org.eclipse.xtext", "org.eclipse.osgi", "org.eclipse.xtend", "org.eclipse.core.runtime", "org.eclipse.xtext.xbase", "org.apache.log4j");
 
