@@ -61,9 +61,9 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
    */
   @Override
   public void saveResource(final StorageAwareResource resource, final IFileSystemAccessExtension3 fsa) {
-    if (!resource.getErrors().isEmpty()) {
-      deleteStorage(resource.getURI(), (IFileSystemAccess) fsa);
-    } else {
+    // delete storage first in case saving fails
+    deleteStorage(resource.getURI(), (IFileSystemAccess) fsa);
+    if (resource.getErrors().isEmpty()) {
       super.saveResource(resource, fsa);
     }
   }

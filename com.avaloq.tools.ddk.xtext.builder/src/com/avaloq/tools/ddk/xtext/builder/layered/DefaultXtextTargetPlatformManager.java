@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.xtext.resource.IResourceDescription;
 
-import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -125,19 +124,19 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
   /**
    * Send out notifications when the target platform changes.
    *
-   * @param newData
+   * @param newPlatform
    *          used from now on
    * @param deltas
    *          The list of deltas that the switch generated, if known.
    * @param mustRebuild
    *          whether a rebuild is required in any case
    */
-  private void notifyListeners(final IResourceDescriptionsData newData, final Collection<IResourceDescription.Delta> deltas, final boolean mustRebuild) {
+  private void notifyListeners(final IXtextTargetPlatform newPlatform, final Collection<IResourceDescription.Delta> deltas, final boolean mustRebuild) {
     if (isShuttingDown()) {
       return;
     }
     for (IXtextTargetPlatformManager.Listener listener : listeners) {
-      listener.platformChanged(newData, deltas, mustRebuild);
+      listener.platformChanged(newPlatform, deltas, mustRebuild);
     }
   }
 
@@ -173,7 +172,7 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
     } else {
       this.platform = newPlatform;
     }
-    notifyListeners(platform.getIResourceDescriptionsData(), deltas, mustRebuild);
+    notifyListeners(platform, deltas, mustRebuild);
   }
 
 }

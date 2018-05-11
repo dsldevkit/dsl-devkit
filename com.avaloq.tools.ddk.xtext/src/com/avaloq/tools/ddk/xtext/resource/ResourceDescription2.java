@@ -91,7 +91,7 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
         // Make sure we have at least this resource description itself in the resource cache.
         resource.getCache().get(AbstractCachingResourceDescriptionManager.CACHE_KEY, resource, () -> self);
       }
-      return createDecriptions(resource);
+      return createDescriptions(resource);
 
     } finally {
       if (doInitialize) {
@@ -110,7 +110,7 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
    *          LazyLinkingResource
    * @return list of object descriptions
    */
-  protected List<IEObjectDescription> createDecriptions(final LazyLinkingResource resource) {
+  protected List<IEObjectDescription> createDescriptions(final LazyLinkingResource resource) {
     final ImmutableList.Builder<IEObjectDescription> exportedEObjects = ImmutableList.builder();
     IAcceptor<IEObjectDescription> acceptor = decorateExportedObjectsAcceptor(exportedEObjects::add);
     TreeIterator<EObject> allProperContents = EcoreUtil.getAllProperContents(resource, false);

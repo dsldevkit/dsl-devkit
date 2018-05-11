@@ -14,29 +14,19 @@ package com.avaloq.tools.ddk.xtext.resource.persistence;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
+import java.util.Deque;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
 import org.eclipse.xtext.nodemodel.serialization.SerializationConversionContext;
 import org.eclipse.xtext.resource.persistence.ResourceStorageWritable;
@@ -45,11 +35,7 @@ import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator.Adapter;
 import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedSerializationConversionContext;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.base.Ascii;
 import com.google.common.io.CharStreams;
 
 
@@ -82,7 +68,6 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
         bufferedOutput.flush();
         zipOut.closeEntry();
       }
-
       if (storeNodeModel) {
         zipOut.putNextEntry(new ZipEntry("source")); //$NON-NLS-1$
         try {
@@ -150,83 +135,39 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
    */
   protected void writeAssociationsAdapter(final StorageAwareResource resource, final OutputStream zipOut) throws IOException {
     InferredModelAssociator.Adapter adapter = (Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class);
-    ObjectOutputStream objOut = new ObjectOutputStream(zipOut);
+    DirectLinkingEObjectOutputStream objOut = new DirectLinkingEObjectOutputStream(zipOut, null);
     try {
       // sourceToTarget
-      Map<String, Set<String>> sourceToTarget = Maps.newHashMap();
       if (adapter != null) {
-        for (Entry<EObject, Set<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
-          sourceToTarget.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
+        objOut.writeCompressedInt(adapter.getSourceToInferredModelMap().size());
+        for (Entry<EObject, Deque<EObject>> entry : adapter.getSourceToInferredModelMap().entrySet()) {
+          writeMapping(entry, objOut, resource);
         }
-      }
-      objOut.writeObject(sourceToTarget);
+        objOut.writeByte(Ascii.GS);
 
-      // targetToSource
-      Map<String, Set<String>> targetToSource = Maps.newHashMap();
-      if (adapter != null) {
-        for (Entry<EObject, Set<EObject>> entry : adapter.getInferredModelToSourceMap().entrySet()) {
-          targetToSource.put(getURIString(entry.getKey(), resource), Sets.newHashSet(Collections2.filter(Collections2.transform(entry.getValue(), v -> getURIString(v, resource)), Objects::nonNull)));
+        // targetToSource
+        boolean anyTargetWithMultipleSources = adapter.getInferredModelToSourceMap().values().stream().anyMatch(c -> c.size() > 1);
+        objOut.writeBoolean(anyTargetWithMultipleSources);
+        if (anyTargetWithMultipleSources) {
+          objOut.writeCompressedInt(adapter.getInferredModelToSourceMap().size());
+          for (Entry<EObject, Deque<EObject>> entry : adapter.getInferredModelToSourceMap().entrySet()) {
+            writeMapping(entry, objOut, resource);
+          }
         }
+      } else {
+        objOut.writeCompressedInt(0);
       }
-      objOut.writeObject(targetToSource);
     } finally {
       objOut.flush();
     }
   }
 
-  /**
-   * Returns a string representation of the given object's URI. For objects contained by the given resource the object's {@link Resource#getURIFragment(EObject)
-   * URI fragment} will be returned. For objects in other resources the {@link EcoreUtil#getURI(EObject) full URI} will be returned with an exclamation mark as
-   * prefix.
-   *
-   * @param obj
-   *          object to get URI string for
-   * @param context
-   *          resource being serialized, must not be {@code null}
-   * @return URI string or {@code null} if the object is {@code null}, a lazy-linking proxy, or not a proxy but contained in a resource
-   */
-  protected static String getURIString(final EObject obj, final Resource context) {
-    if (obj == null) {
-      return null;
+  private void writeMapping(final Entry<EObject, Deque<EObject>> entry, final DirectLinkingEObjectOutputStream objOut, final StorageAwareResource resource) throws IOException {
+    objOut.writeEObjectURI(entry.getKey(), resource);
+    objOut.writeCompressedInt(entry.getValue().size());
+    for (EObject target : entry.getValue()) {
+      objOut.writeEObjectURI(target, resource);
     }
-    Resource resource = obj.eResource();
-    if (resource == null) {
-      if (obj.eIsProxy()) {
-        URI proxyURI = ((InternalEObject) obj).eProxyURI();
-        return proxyURI.fragment().startsWith(LazyURIEncoder.XTEXT_LINK) ? null : '!' + proxyURI.toString();
-      }
-      return null;
-    }
-    return resource == context ? getURIFragmentPath(obj, context) : '!' + resource.getURI().toString() + '#' + resource.getURIFragment(obj); // NOPMD
-  }
-
-  /**
-   * Computes a short positional URI fragment path. These are more efficient than fragments returned by {@link org.eclipse.xtext.resource.IFragmentProvider}, as
-   * the latter may contain name-based segments, which require a lookup to resolve.
-   *
-   * @param obj
-   *          object to get URI fragment for, must not be {@code null}
-   * @param resource
-   *          resource containing object, must not be {@code null}
-   * @return URI fragment path, where the segments encode the feature IDs and position in case of multi-valued features, never {@code null}
-   */
-  @SuppressWarnings("unchecked")
-  private static String getURIFragmentPath(final EObject obj, final Resource resource) {
-    List<CharSequence> segments = Lists.newArrayList();
-    InternalEObject internalEObject = (InternalEObject) obj;
-    for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer()) {
-      EStructuralFeature feature = internalEObject.eContainingFeature();
-      StringBuilder b = new StringBuilder();
-      b.append(container.eClass().getFeatureID(feature));
-      if (feature.isMany()) {
-        b.append('.').append(((EList<EObject>) container.eGet(feature, false)).indexOf(internalEObject));
-      }
-      segments.add(b);
-      internalEObject = container;
-    }
-
-    segments.add(Integer.toString(resource.getContents().indexOf(internalEObject)));
-    return Joiner.on('/').join(Lists.reverse(segments));
   }
 
 }
