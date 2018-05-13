@@ -73,7 +73,7 @@ public abstract class AbstractGeneratorTest {
   private final Set<IFile> files = newHashSet();
   protected static final List<String> REQUIRED_BUNDLES = newArrayList(//
   "org.eclipse.xtext.xbase.lib", //$NON-NLS-1$
-  "org.eclipse.xtend2.lib", // //$NON-NLS-1$
+  "org.eclipse.xtend.lib", // //$NON-NLS-1$
   "org.eclipse.emf.ecore", //$NON-NLS-1$
   "org.eclipse.xtext", // //$NON-NLS-1$
   "org.eclipse.osgi", //$NON-NLS-1$

@@ -12,6 +12,8 @@ package com.avaloq.tools.ddk.check.ui.templates;
 
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
 
+import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolver;
+
 
 /**
  * Used for adding custom template variable resolvers.
@@ -26,4 +28,3 @@ public class CheckTemplateContextType extends XtextTemplateContextType {
   }
 
 }
-

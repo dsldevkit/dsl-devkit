@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.xtext.builder.builderState.PersistedStateProvider;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
+import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.google.common.collect.ImmutableMap;
@@ -60,6 +61,12 @@ public class DefaultXtextTargetPlatform implements IXtextTargetPlatform {
   @Override
   public IIssueStore getIssueStore() {
     // No issue store needed; Eclipse stores markers by itself.
+    return null;
+  }
+
+  @Override
+  public IDerivedObjectAssociationsStore getAssociationsStore() {
+    // Association store for default platform is not implemented yet
     return null;
   }
 

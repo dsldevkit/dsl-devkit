@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 
 
@@ -44,6 +45,11 @@ public class NullXtextTargetPlatform implements IXtextTargetPlatform {
   /** {@inheritDoc} */
   @Override
   public IIssueStore getIssueStore() {
+    return null;
+  }
+
+  @Override
+  public IDerivedObjectAssociationsStore getAssociationsStore() {
     return null;
   }
 

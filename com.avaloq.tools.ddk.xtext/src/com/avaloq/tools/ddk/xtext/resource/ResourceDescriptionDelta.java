@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
-import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Triple;
@@ -37,12 +36,13 @@ import com.google.common.collect.Sets;
  * A resource description delta, with a "hasChanges" operation optimized for fingerprints. Additionally the new resource description is only soft referenced.
  */
 @SuppressWarnings({"PMD.CompareObjectsWithEquals", "PMD.NPathComplexity"})
-public class ResourceDescriptionDelta implements Delta {
+public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(ResourceDescriptionDelta.class);
 
   private static final Ordering<IEObjectDescription> URI_ORDERING = Ordering.natural().onResultOf(new Function<IEObjectDescription, String>() {
+    @Override
     public String apply(final IEObjectDescription from) {
       return from.getEObjectURI().fragment();
     }
@@ -59,7 +59,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Create a new delta from an old and a new resource description.
-   * 
+   *
    * @param oldDesc
    *          The old description
    * @param newDesc
@@ -88,11 +88,13 @@ public class ResourceDescriptionDelta implements Delta {
   }
 
   /** {@inheritDoc} */
+  @Override
   public URI getUri() {
     return uri;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IResourceDescription getNew() {
     if (newDesc == null) {
       return null;
@@ -102,6 +104,7 @@ public class ResourceDescriptionDelta implements Delta {
   }
 
   /** {@inheritDoc} */
+  @Override
   public IResourceDescription getOld() {
     if (oldDesc != null) {
       return oldDesc;
@@ -116,6 +119,7 @@ public class ResourceDescriptionDelta implements Delta {
   }
 
   /** {@inheritDoc} */
+  @Override
   public boolean haveEObjectDescriptionsChanged() {
     if (hasChanges == null) {
       hasChanges = internalHasChanges();
@@ -128,7 +132,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Discards the old descriptions as it's either equivalent to the new or can be computed from a diff against the new.
-   * 
+   *
    * @see #recomputeOldObjects()
    */
   private void discardOld() {
@@ -187,7 +191,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Checks if two EObjectDescriptions are equal.
-   * 
+   *
    * @param oldObj
    *          old object
    * @param newObj
@@ -230,7 +234,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Checks if the delta contains object fingerprints.
-   * 
+   *
    * @return true if object fingerprints are available
    */
   public boolean hasObjectFingerprints() {
@@ -242,7 +246,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Internal helper method to initialize {@link #objectFingerprints}.
-   * 
+   *
    * @return {@code true} if this delta has object fingerprints
    */
   private boolean internalHasObjectFingerprints() {
@@ -262,7 +266,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Returns a collection of all changed objects.
-   * 
+   *
    * @return changed objects
    */
   public Collection<IEObjectDescription> getChangedObjects() {
@@ -280,7 +284,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Computes a detailed diff for this delta.
-   * 
+   *
    * @return triple containing collections of deleted objects, changed objects, and added objects (in that order)
    */
   public Triple<Collection<IEObjectDescription>, Collection<Pair<IEObjectDescription, IEObjectDescription>>, Collection<IEObjectDescription>> computeDetailedDiff() {
@@ -294,7 +298,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Computes a detailed diff for the given resource descriptions.
-   * 
+   *
    * @param oldRes
    *          old description
    * @param newRes
@@ -352,7 +356,7 @@ public class ResourceDescriptionDelta implements Delta {
 
   /**
    * Recomputes the set of old objects based on the diff and the new description. This can be expensive but should be unusual.
-   * 
+   *
    * @return set of old objects
    */
   private List<IEObjectDescription> recomputeOldObjects() {
@@ -382,4 +386,3 @@ public class ResourceDescriptionDelta implements Delta {
   }
 
 }
-

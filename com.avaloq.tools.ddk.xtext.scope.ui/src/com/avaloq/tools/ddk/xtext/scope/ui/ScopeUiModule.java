@@ -11,6 +11,9 @@
 package com.avaloq.tools.ddk.xtext.scope.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
+
+import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
 
 /**
@@ -20,4 +23,14 @@ public class ScopeUiModule extends com.avaloq.tools.ddk.xtext.scope.ui.AbstractS
   public ScopeUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
   }
+
+  /**
+   * Binds a {@link CrossReferenceTemplateVariableResolver} which prefixes keywords with escape characters.
+   *
+   * @return {@link KeywordAwareCrossReferenceTemplateVariableResolver}
+   */
+  public Class<? extends CrossReferenceTemplateVariableResolver> bindCrossReferenceTemplateVariableResolver() {
+    return KeywordAwareCrossReferenceTemplateVariableResolver.class;
+  }
+
 }

@@ -34,7 +34,6 @@ import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionManager;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
-import com.avaloq.tools.ddk.xtext.build.IResourceDescriptionDeltaFactory;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2.ReferenceMatchPolicy;
@@ -54,8 +53,7 @@ import com.google.inject.name.Named;
 /**
  * Resource description manager; with some caching.
  */
-public abstract class AbstractCachingResourceDescriptionManager extends DerivedStateAwareResourceDescriptionManager
-    implements IResourceDescriptionDeltaFactory {
+public abstract class AbstractCachingResourceDescriptionManager extends DerivedStateAwareResourceDescriptionManager {
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(AbstractCachingResourceDescriptionManager.class);
@@ -434,7 +432,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   /** {@inheritDoc} */
   @Override
-  public IResourceDescription.Delta createDelta(final IResourceDescription oldState, final IResourceDescription newState) {
+  public ResourceDescriptionDelta createDelta(final IResourceDescription oldState, final IResourceDescription newState) {
     return new ResourceDescriptionDelta(oldState, newState, index);
   }
 

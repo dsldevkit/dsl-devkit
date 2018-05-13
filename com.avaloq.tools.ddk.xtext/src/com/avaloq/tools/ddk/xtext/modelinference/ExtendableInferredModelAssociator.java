@@ -23,14 +23,13 @@ import com.google.inject.Singleton;
 @Singleton
 public class ExtendableInferredModelAssociator extends InferredModelAssociator {
 
-  @Inject(optional = true)
-  private IAdditionalInferrersService additionalInferrers;
+  @Inject
+  private IModelInferrerFeatureExtensionService additionalInferrers;
 
   @Override
   public void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
     super.installDerivedState(resource, isPreLinkingPhase);
-    if (additionalInferrers != null) {
-      additionalInferrers.inferTargetModel(resource.getContents().get(0), createAcceptor(resource), isPreLinkingPhase);
-    }
+    additionalInferrers.inferTargetModel(resource.getContents().get(0), createAcceptor(resource), isPreLinkingPhase);
   }
+
 }

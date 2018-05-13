@@ -50,6 +50,7 @@ public interface IResourceDescriptions2 extends IResourceDescriptions {
         return policy == IMPORTED_NAMES || policy == UNRESOLVED_IMPORTED_NAMES;
       }
       return false;
+
     }
   }
 
@@ -114,19 +115,13 @@ public interface IResourceDescriptions2 extends IResourceDescriptions {
    */
   Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, ReferenceMatchPolicy matchPolicy);
 
-  // CHECKSTYLE:OFF Catch-22: checkstyle complains about the @throws JavaDoc ("unused @throws"), but if we add the throws declaration
-  // to the method, it complains that it was unnecessary, because IllegalArgumentException is an unchecked exception.
   /**
    * Find all {@link IReferenceDescription}s of cross-references to a set of {@link org.eclipse.emf.ecore.EObject EObjects} identified by {@link URI}.
    *
    * @param targetObjects
    *          {@link URI} of the target objects
    * @return An {@link Iterable} of all {@link IReferenceDescription}s of all cross-references that reference the given objects.
-   * @throws {@link
-   *           IllegalArgumentException} if the given {@link URI} does not contain a fragment.
    */
   Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects);
-
-  // CHECKSTYLE:ON
 
 }

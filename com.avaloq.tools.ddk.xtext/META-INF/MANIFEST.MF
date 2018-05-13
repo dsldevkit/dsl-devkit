@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
@@ -17,6 +17,7 @@ Require-Bundle: com.google.guava;bundle-version="[10.0.0,19.0.0)",
 Export-Package: com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.xtext.build,
  com.avaloq.tools.ddk.xtext.documentation,
+ com.avaloq.tools.ddk.xtext.extension,
  com.avaloq.tools.ddk.xtext.formatting,
  com.avaloq.tools.ddk.xtext.formatting.locators,
  com.avaloq.tools.ddk.xtext.formatting.locators.conditional,

@@ -23,11 +23,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.Assert;
@@ -70,6 +72,7 @@ import com.google.common.collect.Sets;
 /**
  * Base class for scoping tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   private static final String PARAMETER_EXPECTED_OBJECTS = "expectedObjects";
   private static final String PARAMETER_REFERENCE = "reference";
@@ -90,6 +93,8 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   private static final String LINKS_TO = "Links to:\n"; //$NON-NLS-1$
 
   private final IDomain.Mapper domainMapper;
+
+  private final Collection<Runnable> expectedLinkAssertions = new ArrayList<Runnable>();
 
   /**
    * Creates a new instance of {@link AbstractScopingTest}.
@@ -133,6 +138,12 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       }
     };
     getTestInformation().putTestObject(Iterable.class, allContents);
+  }
+
+  @Override
+  protected void afterEachTest() {
+    assertTrue("Expected links were set with link(int) but testLinking(String, CharSequence) was never called", expectedLinkAssertions.isEmpty());
+    super.afterEachTest();
   }
 
   /**
@@ -638,6 +649,53 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     }
     builder.append(SELECTOR_END);
     return builder.toString();
+  }
+
+  /**
+   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object tagged by the
+   * target tag. Expectations can be tested by calling {@link #testExpectedLinking()}. Implicit items will be traversed.
+   *
+   * @see #mark(int)
+   * @see #testLinking(String, CharSequence)
+   * @param targetTag
+   *          Tag pointing to the destination object
+   * @return Mark text to be inserted in the source file, never {@code null}
+   */
+  protected String link(final int targetTag) {
+    return link(() -> getObjectForTag(targetTag));
+  }
+
+  /**
+   * Creates an expectation of a link. Use this method in tests to insert an expectation that a cross reference does actually point to the object tagged by the
+   * target tag. Expectations can be tested by calling {@link #testExpectedLinking()}. Implicit items will be traversed.
+   *
+   * @see #mark(int)
+   * @see #testLinking(String, CharSequence)
+   * @param getTargetObject
+   *          supplier to get the destination object, must not be {@code null}
+   * @return Mark text to be inserted in the source file, never {@code null}
+   */
+  protected String link(final Supplier<EObject> getTargetObject) {
+    final int sourceTag = getTag();
+    expectedLinkAssertions.add(() -> testLinking(sourceTag, getTargetObject.get()));
+    return mark(sourceTag);
+  }
+
+  /**
+   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int).
+   *
+   * @see #link(int)
+   * @see #link(Supplier)
+   * @see #testLinking(int, EObject)
+   * @param sourceFileName
+   *          the file name that should be associated with the parsed content, must not be {@code null}
+   * @param sourceContent
+   *          source, must not be {@code null}
+   */
+  protected void testLinking(final String sourceFileName, final CharSequence sourceContent) {
+    registerModel(sourceFileName, sourceContent);
+    expectedLinkAssertions.forEach(Runnable::run);
+    expectedLinkAssertions.clear();
   }
 
   /**

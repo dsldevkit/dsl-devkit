@@ -11,9 +11,9 @@
 
 package com.avaloq.tools.ddk.xtext.tracing;
 
-import java.util.Arrays;
+import java.util.Map;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 
 
 /**
@@ -58,8 +58,11 @@ public interface TraceConfiguration {
    */
   @SafeVarargs
   static TraceConfiguration enableAllExcept(final Class<? extends TraceEvent>... excludedTraceClasses) {
-    ImmutableSet<Class<? extends TraceEvent>> excludedTraceClassSet = ImmutableSet.copyOf(Arrays.asList(excludedTraceClasses));
-    return c -> !excludedTraceClassSet.contains(c);
+    Map<Class<? extends TraceEvent>, Boolean> excludedTraceClassMap = Maps.newIdentityHashMap();
+    for (Class<? extends TraceEvent> traceClass : excludedTraceClasses) {
+      excludedTraceClassMap.put(traceClass, Boolean.TRUE);
+    }
+    return c -> !excludedTraceClassMap.containsKey(c);
   }
 
   /**
@@ -71,7 +74,10 @@ public interface TraceConfiguration {
    */
   @SafeVarargs
   static TraceConfiguration enableOnly(final Class<? extends TraceEvent>... includedTraceClasses) {
-    ImmutableSet<Class<? extends TraceEvent>> includedTraceClassSet = ImmutableSet.copyOf(Arrays.asList(includedTraceClasses));
-    return c -> includedTraceClassSet.contains(c);
+    Map<Class<? extends TraceEvent>, Boolean> includedTraceClassMap = Maps.newIdentityHashMap();
+    for (Class<? extends TraceEvent> traceClass : includedTraceClasses) {
+      includedTraceClassMap.put(traceClass, Boolean.TRUE);
+    }
+    return includedTraceClassMap::containsKey;
   }
 }

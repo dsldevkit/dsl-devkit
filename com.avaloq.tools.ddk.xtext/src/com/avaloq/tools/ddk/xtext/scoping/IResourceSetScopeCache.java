@@ -8,16 +8,14 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.generator.serializer
+package com.avaloq.tools.ddk.xtext.scoping;
 
-import com.google.inject.Binder
-import org.eclipse.xtext.generator.serializer.AbstractSemanticSequencer
+import org.eclipse.xtext.scoping.IScope;
 
-class SerializerFragment extends org.eclipse.xtext.generator.serializer.SerializerFragment {
+import com.avaloq.tools.ddk.xtext.resource.IResourceSetCache;
 
-    override protected addLocalBindings(Binder binder) {
-        super.addLocalBindings(binder)
-        binder.bind(AbstractSemanticSequencer).to(AbstractFixedSemanticSequencer)
-    }
 
-}
+/**
+ * A cache for {@link IScope}s.
+ */
+public interface IResourceSetScopeCache extends IResourceSetCache<IScope> {}

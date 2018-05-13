@@ -61,7 +61,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     result.append(container.eClass().getFeatureID(containmentFeature));
     // selector
     final Object selectorValue = obj.eGet(selectorFeature);
-    result.append(SELECTOR_START).append(selectorFeature.getFeatureID()).append(EQ_OP);
+    result.append(SELECTOR_START).append(obj.eClass().getFeatureID(selectorFeature)).append(EQ_OP);
     if (selectorValue != null) {
       result.append(VALUE_SEP).append(escape(selectorValue.toString())).append(VALUE_SEP);
     } else {
@@ -91,6 +91,17 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   }
 
   /**
+   * Allows override for delegation to extensions.
+   *
+   * @param object
+   *          object to compute fragment for
+   * @return fragment, never {@code null}
+   */
+  protected CharSequence getFragmentSegmentFallback(final EObject object) {
+    return shortFragmentProvider.getFragmentSegment(object);
+  }
+
+  /**
    * {@inheritDoc}
    * <p>
    * By default, this method delegates to {@link ShortFragmentProvider#getFragmentSegment(EObject)}. Sub classes have to override this method in order to
@@ -100,7 +111,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   // TODO DSL-348: change generator for fragment providers to implement getFragmentSegment instead of getFragment
   @Override
   public CharSequence getFragmentSegment(final EObject object) {
-    return shortFragmentProvider.getFragmentSegment(object);
+    return getFragmentSegmentFallback(object);
   }
 
   /** {@inheritDoc} */

@@ -170,7 +170,7 @@ public class ExportFragment extends AbstractGeneratorFragment {
           return input.isFingerprint() && input.getFragmentAttribute() != null;
         }
       })) {
-        bindFactory.addTypeToType(IFragmentProvider.class.getName(), resourcePrefix + "FragmentProvider");
+        bindFactory.addTypeToType(IFragmentProvider.class.getName(), resourcePrefix + "FragmentProvider"); //$NON-NLS-1$
       }
     }
     bindFactory.addTypeToType(IResourceDescription.Manager.class.getName(), resourcePrefix + "ResourceDescriptionManager"); //$NON-NLS-1$

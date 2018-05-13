@@ -8,14 +8,12 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.scoping;
 
-import org.eclipse.xtext.scoping.IScope;
-
-import com.avaloq.tools.ddk.xtext.resource.IResourceSetCache;
-
+package com.avaloq.tools.ddk.xtext.builder;
 
 /**
- * A cache for {@link IScope}s.
+ * Store API for associations used as an extension for platform.
  */
-public interface IScopeCache extends IResourceSetCache<IScope> {}
+public interface IDerivedObjectAssociationsStore extends IDerivedObjectAssociationsAccess {
+
+}

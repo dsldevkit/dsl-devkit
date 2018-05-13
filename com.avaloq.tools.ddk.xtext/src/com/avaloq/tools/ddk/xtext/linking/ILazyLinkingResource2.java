@@ -32,15 +32,21 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
   String MARK_UNRESOLVABLE_XREFS = ILazyLinkingResource2.class.getName() + ".MARK_UNRESOLVABLE_XREFS"; //$NON-NLS-1$
 
   /**
+   * Use as the value for a {@link com.google.inject.name.Named} annotation on a {@link Boolean} value bound in the language injector to explicitly enable or
+   * disable parallel loading. By default parallel loading is enabled.
+   */
+  String PARALLEL_LOADING_SUPPORT = ILazyLinkingResource2.class.getName() + ".PARALLEL_LOADING_SUPPORT"; //$NON-NLS-1$
+
+  /**
    * Gets the model manager for this resource or creates one if it does not exist.
-   * 
+   *
    * @return the model manager, never {@code null}
    */
   IModelCacheManager getModelManager();
 
   /**
    * Creates diagnostics for given triple.
-   * 
+   *
    * @param triple
    *          triple <EObject, EReference, INode>, must not be {@code null}
    */
@@ -48,7 +54,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
   /**
    * Fetches the source text for this resource.
-   * 
+   *
    * @return a copy of the source text, never {@code null}
    * @throws IOException
    *           when loading the source text fails
@@ -60,7 +66,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    * <p>
    * Enabling this prevents model inference from ocurring when calling {@link #getContents()}.
    * </p>
-   * 
+   *
    * @param loading
    *          whether the resource is being loaded
    */
@@ -68,7 +74,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
   /**
    * Sets the parse result for this resource.
-   * 
+   *
    * @param parseResult
    *          the parse result containing the EMF and Node model, must not be {@code null}
    * @param refreshSyntaxErrors
@@ -78,7 +84,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
   /**
    * Sets the parse result for this resource.
-   * 
+   *
    * @param parseResult
    *          the parse result containing the EMF and Node model, must not be {@code null}
    */
@@ -86,21 +92,21 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
   /**
    * Checks whether this resource is fully initialized.
-   * 
+   *
    * @return true if this resource is initializing or fully initialized
    */
   boolean isInitialized();
 
   /**
    * Returns the scope cache for this resource.
-   * 
+   *
    * @return The IResourceScopeCache object, never {@code null}
    */
   IResourceScopeCache getCache();
 
   /**
    * Installs this derived state.
-   * 
+   *
    * @param isPrelinkingPhase
    *          indicates that this resource is in prelinking phase
    */
@@ -108,7 +114,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
   /**
    * Returns an instance from the {@link #injector Guice injector} for the given key (class).
-   * 
+   *
    * @param <T>
    *          type of object to return
    * @param key
@@ -119,9 +125,8 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
   /**
    * Gets the parse result containing the EMF and Node model.
-   * 
+   *
    * @return the parse result containing the EMF and Node model, must not be {@code null}
    */
   IParseResult getParseResult();
 }
-

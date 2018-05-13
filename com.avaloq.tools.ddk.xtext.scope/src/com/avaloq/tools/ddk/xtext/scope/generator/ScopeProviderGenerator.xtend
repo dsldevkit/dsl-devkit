@@ -55,6 +55,8 @@ class ScopeProviderGenerator {
     '''
       package «getScopeProvider().toJavaPackage()»;
 
+      import java.util.Arrays;
+
       import org.apache.log4j.Logger;
       import org.eclipse.emf.ecore.EClass;
       import org.eclipse.emf.ecore.EObject;
@@ -71,9 +73,9 @@ class ScopeProviderGenerator {
       import com.avaloq.tools.ddk.xtext.scoping.IContextSupplier;
       import com.avaloq.tools.ddk.xtext.scoping.INameFunction;
       import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
+      import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
       import com.google.common.base.Predicate;
-      import com.google.common.collect.Lists;
       «IF it != null && !allInjections().isEmpty»
       import com.google.inject.Inject;
       «ENDIF»
@@ -218,7 +220,7 @@ class ScopeProviderGenerator {
         «error('scope context not unique for definitions: ' + ', '.join(it.map(r|r.location())))»
       «ENDIF»
     } catch (Exception e) {
-      LOGGER.error("Error calculating scope for «if (isGlobal) "Resource" else contextType.name» («it.get(0).locatorString()»)", e);
+      LOGGER.error("Error calculating scope for «if (isGlobal) "Resource. Context:" else contextType.name» " + EObjectUtil.getLocationString(context) + " («it.get(0).locatorString()»)", e);
     }
     return scope;
   '''
@@ -239,9 +241,12 @@ class ScopeProviderGenerator {
     val b = new StringBuilder
     val ctx = compilationContext.clone('ctx', eContainer(ScopeRule).context.contextType)
     b.append('scope = ').append(javaCall(it.expr, ctx)).append('(scope, ctx, ').append(typeOrRef).append(', originalResource');
-    if (expr instanceof OperationCall && !(expr as OperationCall).params.isEmpty) {
-      b.append(', ').append(', '.join((expr as OperationCall).params.map[javaExpression(ctx)])).append(');')
+    if (expr instanceof OperationCall) {
+      for (param : (expr as OperationCall).params) {
+        b.append(', ').append(javaExpression(param, ctx))
+      }
     }
+    b.append(');\n')
     return b
   }
 
@@ -312,7 +317,7 @@ class ScopeProviderGenerator {
     «val matchData = data.filter(LambdaDataExpression)»
     «IF matchData.isEmpty && prefix == null»newContainerScope(«ELSEIF matchData.isEmpty && prefix != null»newPrefixedContainerScope(«ELSE»newDataMatchScope(«ENDIF»"«it.locatorString()»", scope, ctx, «query (it, model, typeOrRef, scope)», originalResource«
     IF !matchData.isEmpty», //
-      Lists.<Predicate<IEObjectDescription>> newArrayList(
+      Arrays.<Predicate<IEObjectDescription>> asList(
     «FOR d : matchData SEPARATOR ","»
     «val CompilationContext cc = compilationContext.cloneWithVariable('ctx', eContainer(ScopeRule).context.contextType, d.desc, 'org::eclipse::xtext::resource::IEObjectDescription')»
         new Predicate<IEObjectDescription>() {
