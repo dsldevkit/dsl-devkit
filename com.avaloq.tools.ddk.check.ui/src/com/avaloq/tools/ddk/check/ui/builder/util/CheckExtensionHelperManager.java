@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
-import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -263,18 +262,6 @@ public class CheckExtensionHelperManager {
   }
 
   /**
-   * Checks if a check catalog instance has an associated grammar.
-   *
-   * @param catalog
-   *          the catalog
-   * @return {@code true} if a resolvable grammar was found
-   */
-  private boolean hasGrammar(final CheckCatalog catalog) {
-    Grammar grammar = catalog.getGrammar();
-    return grammar != null && !grammar.eIsProxy();
-  }
-
-  /**
    * Update check catalog extensions if necessary.
    *
    * @param catalog
@@ -292,13 +279,8 @@ public class CheckExtensionHelperManager {
 
     // Update extensions as appropriate
     for (IPluginExtension extension : catalogExtensions) {
-      if (!hasGrammar(catalog)) {
-        pluginModel.getPluginBase().remove(extension); // no extensions for Catalogs without valid grammar
-        continue; // nothing more to do if no grammar is available
-      } else {
-        for (ICheckExtensionHelper helper : getExtensionHelpers()) { // TODO getExtensionHelper using extension.getPoint() would make this more efficient
-          helper.updateExtension(catalog, extension);
-        }
+      for (ICheckExtensionHelper helper : getExtensionHelpers()) { // TODO getExtensionHelper using extension.getPoint() would make this more efficient
+        helper.updateExtension(catalog, extension);
       }
     }
   }
@@ -320,15 +302,13 @@ public class CheckExtensionHelperManager {
     Collection<IPluginExtension> catalogExtensions = findExtensions(pluginModel, catalogName, ExtensionType.ALL);
     Iterable<ExtensionType> registeredExtensionTypes = findExtensionTypes(catalogExtensions);
 
-    if (hasGrammar(catalog)) {
-      for (ExtensionType type : ExtensionType.values()) {
-        ICheckExtensionHelper helper = getExtensionHelper(type);
-        if (helper == null) {
-          continue;
-        }
-        if (!Iterables.contains(registeredExtensionTypes, type)) {
-          helper.addExtensionToPluginBase(pluginModel, catalog, type, getExtensionId(nameProvider.apply(catalog), type));
-        }
+    for (ExtensionType type : ExtensionType.values()) {
+      ICheckExtensionHelper helper = getExtensionHelper(type);
+      if (helper == null) {
+        continue;
+      }
+      if (!Iterables.contains(registeredExtensionTypes, type)) {
+        helper.addExtensionToPluginBase(pluginModel, catalog, type, getExtensionId(nameProvider.apply(catalog), type));
       }
     }
   }

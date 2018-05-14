@@ -32,6 +32,7 @@ public class CheckValidatorRegistryImpl extends AbstractCheckImplDescriptorRegis
   private final Multimap<String, ICheckValidatorImpl> concreteValidators = HashMultimap.create();
 
   /** {@inheritDoc} */
+  @Override
   public Collection<ICheckValidatorImpl> getValidators(final String language) {
     Collection<ICheckValidatorImpl> validators = Lists.newArrayList(concreteValidators.get(language));
     for (ICheckImplDescriptor v : Sets.newHashSet(getDescriptors(language))) {
@@ -48,6 +49,7 @@ public class CheckValidatorRegistryImpl extends AbstractCheckImplDescriptorRegis
   }
 
   /** {@inheritDoc} */
+  @Override
   public Collection<ICheckValidatorImpl> getValidators() {
     Collection<ICheckValidatorImpl> validators = Lists.newArrayList(concreteValidators.values());
     for (ICheckImplDescriptor v : Sets.newHashSet(getDescriptors())) {
@@ -66,19 +68,26 @@ public class CheckValidatorRegistryImpl extends AbstractCheckImplDescriptorRegis
   }
 
   /** {@inheritDoc} */
+  @Override
   public void registerValidator(final String language, final ICheckValidatorImpl validator) {
     concreteValidators.put(language, validator);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void removeAllValidators() {
     concreteValidators.clear();
   }
 
   /** {@inheritDoc} */
+  @Override
   public boolean isEmpty() {
     return concreteValidators.isEmpty();
   }
 
-}
+  @Override
+  public void registerValidator(final ICheckValidatorImpl validator) {
+    concreteValidators.put(null, validator);
+  }
 
+}
