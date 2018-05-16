@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectOutputStream;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 
 import com.google.common.collect.Lists;
@@ -47,8 +46,8 @@ class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
 
   /**
    * Writes a binary representation of the given object's URI to this output stream. For objects contained by the given resource the object's
-   * {@link Resource#getURIFragment(EObject) URI fragment} will be used. For objects in other resources the {@link EcoreUtil#getURI(EObject) full URI} will be
-   * written.
+   * {@link Resource#getURIFragment(EObject) URI fragment} will be used. For objects in other resources the
+   * {@link org.eclipse.emf.ecore.util.EcoreUtil#getURI(EObject) full URI} will be written.
    *
    * @param obj
    *          object to write, must not be {@code null}
