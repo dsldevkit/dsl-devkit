@@ -495,7 +495,7 @@ class CheckExtensionGenerator {
     final IProject project = RuntimeProjectUtil.getProject(catalog.eResource().getURI(), mapper);
     final IFile file = PDEProject.getManifest(project);
 
-    if (file.exists() && catalog != null) {
+    if (file.exists() && catalog != null && catalog.getGrammar() != null) {
       InputStream fileContents = null;
       try {
         fileContents = file.getContents();

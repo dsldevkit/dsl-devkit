@@ -41,4 +41,12 @@ public interface ICheckCatalogRegistry extends ICheckImplDescriptorRegistry {
    */
   void registerCatalog(final String language, final IModelLocation modelLocation);
 
+  /**
+   * Add model location instance.
+   *
+   * @param modelLocation
+   *          model location instance
+   */
+  void registerCatalog(final IModelLocation modelLocation);
+
 }

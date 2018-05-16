@@ -82,7 +82,11 @@ public final class CheckQuickfixExtensionHelper extends AbstractCheckExtensionHe
   private IPluginElement updateOnlyPluginElement(final CheckCatalog catalog, final IPluginElement element) throws CoreException {
     element.setName(PROVIDER_ELEMENT_TAG);
     element.setAttribute(TARGET_CLASS_ELEMENT_TAG, getTargetClassName(catalog));
-    element.setAttribute(LANGUAGE_ELEMENT_TAG, catalog.getGrammar().getName());
+    if (catalog.getGrammar() != null) {
+      element.setAttribute(LANGUAGE_ELEMENT_TAG, catalog.getGrammar().getName());
+    } else if (element.getAttribute(LANGUAGE_ELEMENT_TAG) != null) {
+      element.setAttribute(LANGUAGE_ELEMENT_TAG, null);
+    }
     return element;
   }
 
@@ -127,7 +131,8 @@ public final class CheckQuickfixExtensionHelper extends AbstractCheckExtensionHe
         && (!extensionNameMatches(extension, catalog)
         || Iterables.size(elements) != 1
         || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
-        || !languageNameMatches(Iterables.get(elements, 0), catalog.getGrammar().getName()));
+        || catalog.getGrammar() == null && Iterables.get(elements, 0).getAttribute(LANGUAGE_ELEMENT_TAG) != null
+        || catalog.getGrammar() != null && !languageNameMatches(Iterables.get(elements, 0), catalog.getGrammar().getName()));
     return result;
     // @Format-On
     // CHECKSTYLE:ON

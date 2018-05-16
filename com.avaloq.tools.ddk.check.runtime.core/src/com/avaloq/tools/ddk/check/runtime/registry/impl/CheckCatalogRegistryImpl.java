@@ -59,4 +59,9 @@ public class CheckCatalogRegistryImpl extends AbstractCheckImplDescriptorRegistr
     concreteModelLocations.put(language, modelLocation);
   }
 
+  @Override
+  public void registerCatalog(final IModelLocation modelLocation) {
+    concreteModelLocations.put(null, modelLocation);
+  }
+
 }
