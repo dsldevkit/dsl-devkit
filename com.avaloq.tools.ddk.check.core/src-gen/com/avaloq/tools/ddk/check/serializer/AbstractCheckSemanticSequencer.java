@@ -472,7 +472,6 @@ public abstract class AbstractCheckSemanticSequencer extends XbaseWithAnnotation
    *         final?='final'? 
    *         name=ValidID 
    *         grammar=[Grammar|QualifiedName]? 
-   *         includedCatalogs=[CheckCatalog|QualifiedName]? 
    *         (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)*
    *     )
    */

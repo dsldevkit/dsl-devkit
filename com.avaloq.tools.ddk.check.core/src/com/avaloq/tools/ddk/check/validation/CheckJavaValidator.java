@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.Grammar;
-import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -62,7 +60,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -411,67 +408,6 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
       if (!status.isOK()) {
         issue(status, status.getMessage(), check, locationInFileProvider.getIdentifierFeature(check), IssueCodes.INVALID_CHECK_NAME);
       }
-    }
-  }
-
-  /**
-   * Checks catalogs for circular dependencies in included catalogs. A catalog cannot include itself and may not include another catalog which includes the
-   * current one.
-   *
-   * @param catalog
-   *          the catalog to be checked
-   */
-  @Check
-  public void checkCircularDependency(final CheckCatalog catalog) {
-    if (catalog.getIncludedCatalogs() == null) {
-      return;
-    }
-    final Set<CheckCatalog> visitedCatalogs = Sets.newHashSet(catalog);
-    CheckCatalog current = catalog.getIncludedCatalogs();
-    while (current != null) {
-      if (visitedCatalogs.add(current)) {
-        current = current.getIncludedCatalogs();
-      } else {
-        error(Messages.CheckJavaValidator_CIRCULAR_DEPENDENCY_IN_INCLUDED_CATALOGS, catalog, CheckPackage.Literals.CHECK_CATALOG__INCLUDED_CATALOGS, IssueCodes.INCLUDED_CATALOGS_WITH_CIRCULAR_DEPENDENCIES);
-        break;
-      }
-    }
-  }
-
-  /**
-   * Recursively gets all included grammar names.
-   *
-   * @param grammar
-   *          the grammar to start the search with
-   * @return the set of all grammar names
-   */
-  private Set<String> getAllUsedGrammarNames(final Grammar grammar) {
-    return Sets.newHashSet(Iterables.transform(GrammarUtil.allUsedGrammars(grammar), new Function<Grammar, String>() {
-      @Override
-      public String apply(final Grammar grammar) {
-        return grammar.getName();
-      }
-    }));
-  }
-
-  /**
-   * Checks that an included catalog is configured for the same grammar as given catalog.
-   *
-   * @param catalog
-   *          the catalog to be checked
-   */
-  @Check
-  public void checkLanguageOfIncludedCatalog(final CheckCatalog catalog) {
-    if (catalog.getIncludedCatalogs() == null || catalog.getIncludedCatalogs().getGrammar() == null || catalog.getGrammar() == null) {
-      return;
-    }
-    final Grammar grammar = catalog.getGrammar();
-
-    Set<String> allUsedGrammarNames = getAllUsedGrammarNames(grammar);
-
-    final Grammar includedGrammar = catalog.getIncludedCatalogs().getGrammar();
-    if (!includedGrammar.getName().equals(grammar.getName()) && !(allUsedGrammarNames.contains(includedGrammar.getName()))) {
-      error(NLS.bind(Messages.CheckJavaValidator_INVALID_GRAMMAR_OF_INCLUDED_CATALOG, includedGrammar.getName(), grammar.getName()), catalog, CheckPackage.Literals.CHECK_CATALOG__INCLUDED_CATALOGS, IssueCodes.INCLUDED_CATALOG_GRAMMAR_MISMATCH);
     }
   }
 

@@ -34,19 +34,18 @@ import org.eclipse.xtext.xtype.XImportSection;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getPackageName <em>Package Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#isFinal <em>Final</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getGrammar <em>Grammar</em>}</li>
- *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getIncludedCatalogs <em>Included Catalogs</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getCategories <em>Categories</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getImplementations <em>Implementations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getChecks <em>Checks</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckCatalogImpl#getMembers <em>Members</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -131,16 +130,6 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * @ordered
 	 */
 	protected Grammar grammar;
-
-	/**
-	 * The cached value of the '{@link #getIncludedCatalogs() <em>Included Catalogs</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIncludedCatalogs()
-	 * @generated
-	 * @ordered
-	 */
-	protected CheckCatalog includedCatalogs;
 
 	/**
 	 * The cached value of the '{@link #getCategories() <em>Categories</em>}' containment reference list.
@@ -368,49 +357,6 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CheckCatalog getIncludedCatalogs()
-	{
-		if (includedCatalogs != null && includedCatalogs.eIsProxy())
-		{
-			InternalEObject oldIncludedCatalogs = (InternalEObject)includedCatalogs;
-			includedCatalogs = (CheckCatalog)eResolveProxy(oldIncludedCatalogs);
-			if (includedCatalogs != oldIncludedCatalogs)
-			{
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, CheckPackage.CHECK_CATALOG__INCLUDED_CATALOGS, oldIncludedCatalogs, includedCatalogs));
-			}
-		}
-		return includedCatalogs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CheckCatalog basicGetIncludedCatalogs()
-	{
-		return includedCatalogs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIncludedCatalogs(CheckCatalog newIncludedCatalogs)
-	{
-		CheckCatalog oldIncludedCatalogs = includedCatalogs;
-		includedCatalogs = newIncludedCatalogs;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CheckPackage.CHECK_CATALOG__INCLUDED_CATALOGS, oldIncludedCatalogs, includedCatalogs));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Category> getCategories()
 	{
 		if (categories == null)
@@ -519,9 +465,6 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 			case CheckPackage.CHECK_CATALOG__GRAMMAR:
 				if (resolve) return getGrammar();
 				return basicGetGrammar();
-			case CheckPackage.CHECK_CATALOG__INCLUDED_CATALOGS:
-				if (resolve) return getIncludedCatalogs();
-				return basicGetIncludedCatalogs();
 			case CheckPackage.CHECK_CATALOG__CATEGORIES:
 				return getCategories();
 			case CheckPackage.CHECK_CATALOG__IMPLEMENTATIONS:
@@ -559,9 +502,6 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 				return;
 			case CheckPackage.CHECK_CATALOG__GRAMMAR:
 				setGrammar((Grammar)newValue);
-				return;
-			case CheckPackage.CHECK_CATALOG__INCLUDED_CATALOGS:
-				setIncludedCatalogs((CheckCatalog)newValue);
 				return;
 			case CheckPackage.CHECK_CATALOG__CATEGORIES:
 				getCategories().clear();
@@ -608,9 +548,6 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 			case CheckPackage.CHECK_CATALOG__GRAMMAR:
 				setGrammar((Grammar)null);
 				return;
-			case CheckPackage.CHECK_CATALOG__INCLUDED_CATALOGS:
-				setIncludedCatalogs((CheckCatalog)null);
-				return;
 			case CheckPackage.CHECK_CATALOG__CATEGORIES:
 				getCategories().clear();
 				return;
@@ -647,8 +584,6 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case CheckPackage.CHECK_CATALOG__GRAMMAR:
 				return grammar != null;
-			case CheckPackage.CHECK_CATALOG__INCLUDED_CATALOGS:
-				return includedCatalogs != null;
 			case CheckPackage.CHECK_CATALOG__CATEGORIES:
 				return categories != null && !categories.isEmpty();
 			case CheckPackage.CHECK_CATALOG__IMPLEMENTATIONS:

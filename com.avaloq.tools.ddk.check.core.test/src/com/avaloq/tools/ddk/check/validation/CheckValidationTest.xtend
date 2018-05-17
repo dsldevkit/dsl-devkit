@@ -115,13 +115,6 @@ class CheckValidationTest {
     helper.assertNoError(model, IssueCodes::CONTEXT_TYPES_NOT_UNIQUE)
   }
 
-  /* Tests checkCircularDependency(CheckCatalog) */
-  @Test
-  def void testCatalogMayNotIncludeItself() {
-    val model = parser.parse("package p catalog c for grammar g with c ")
-    helper.assertError(model, CheckPackage$Literals::CHECK_CATALOG, IssueCodes::INCLUDED_CATALOGS_WITH_CIRCULAR_DEPENDENCIES)
-  }
-
   /* Tests checkGuardsFirstInBlockExpression(Context) */
   @Test
   def void testGuardsPrecedeIssues() {
