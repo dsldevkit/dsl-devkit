@@ -164,7 +164,6 @@ class CheckGenerator extends JvmModelGenerator {
 
       /** {@inheritDoc} */
       public void doSetup() {
-
         ICheckValidatorRegistry.INSTANCE.registerValidator(«IF catalog.grammar !== null»GRAMMAR_NAME,«ENDIF» new «catalog.validatorClassName»());
         ICheckCatalogRegistry.INSTANCE.registerCatalog(«IF catalog.grammar !== null»GRAMMAR_NAME,«ENDIF» new ModelLocation(
           «catalog.standaloneSetupClassName».class.getClassLoader().getResource(CATALOG_FILE_PATH), CATALOG_FILE_PATH));
