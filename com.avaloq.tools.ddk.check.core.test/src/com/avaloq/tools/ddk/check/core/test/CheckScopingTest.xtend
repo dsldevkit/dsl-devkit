@@ -50,22 +50,6 @@ class CheckScopingTest extends AbstractCheckTestCase {
   }
 
   /*
-   * Tests that Catalogs can be included in one another.
-   */
-  @Test
-  def void testResolutionOfIncludedCatalog() {
-    initializeTestProject
-
-    // test that our model is available
-    val sampleCheckModel = getModel("SampleChecks") as CheckCatalog
-
-    // test that the included catalog exists and is resolved
-    val includedCategory = sampleCheckModel.includedCatalogs
-    assertNotNull("The included Category is not null", includedCategory)
-    assertFalse("The included Category could be resolved", includedCategory.eIsProxy)
-  }
-
-  /*
    * Tests that a catalog may not reference checks (in implementations, 'def') which are
    * neither local nor included.
    */
