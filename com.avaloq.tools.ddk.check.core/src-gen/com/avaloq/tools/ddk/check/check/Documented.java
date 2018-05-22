@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Documented#getDescription <em>Description</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getDocumented()
  * @model

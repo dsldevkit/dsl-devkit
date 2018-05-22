@@ -23,14 +23,14 @@
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
                <appinfo>
                   <meta.attribute kind="identifier"/>
@@ -40,7 +40,7 @@
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
@@ -54,7 +54,7 @@
          </documentation>
       </annotation>
       <complexType>
-         <attribute name="language" type="string" use="required">
+         <attribute name="language" type="string">
             <annotation>
                <documentation>
                   This is the target language for which validations are defined. Corresponds to a grammar ID.

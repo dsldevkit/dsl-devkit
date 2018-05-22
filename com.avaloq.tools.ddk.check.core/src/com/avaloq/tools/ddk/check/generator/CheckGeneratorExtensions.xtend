@@ -36,15 +36,9 @@ import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorNamin
 
 class CheckGeneratorExtensions {
 
-  /* Returns whether a CheckCatalog has any included CheckCatalogs. */
-  def boolean hasIncludedCatalogs(CheckCatalog catalog) {
-    val included = catalog.includedCatalogs
-    return (null != included && !included.eIsProxy)
-  }
-
   def dispatch String qualifiedIssueCodeName(XIssueExpression issue) {
     val result = issue.issueCode()
-    if (result == null) {
+    if (result === null) {
       null
     } else {
       issue.parent(typeof(CheckCatalog)).issueCodesClassName + '.' + result
@@ -58,7 +52,7 @@ class CheckGeneratorExtensions {
 
   /* Gets the simple issue code name for a check. */
   def static dispatch String issueCode(Check check) {
-    if (null != check.name) {
+    if (null !== check.name) {
       check.name.splitCamelCase.toUpperCase
     } else {
       "ERROR_ISSUE_CODE_NAME_CHECK" // should only happen if the ID is missing, which will fail a validation
@@ -67,11 +61,11 @@ class CheckGeneratorExtensions {
 
   /* Gets the simple issue code name for an issue expression. */
   def static dispatch String issueCode(XIssueExpression issue) {
-    if (issue.issueCode != null) {
+    if (issue.issueCode !== null) {
       issue.issueCode.splitCamelCase.toUpperCase
     } else if (issue.check !== null && !issue.check.eIsProxy) {
       issueCode(issue.check)
-    } else if (issue.parent(Check) != null) {
+    } else if (issue.parent(Check) !== null) {
       issueCode(issue.parent(Check))
     } else {
       "ERROR_ISSUE_CODE_NAME_XISSUEEXPRESSION" // should not happen
@@ -97,7 +91,7 @@ class CheckGeneratorExtensions {
   def dispatch String issueLabel(XIssueExpression issue) {
     if (issue.check !== null && !issue.check.eIsProxy) {
       issueLabel(issue.check)
-    } else if (issue.parent(Check) != null) {
+    } else if (issue.parent(Check) !== null) {
       issueLabel(issue.parent(Check))
     } else {
       "ERROR_ISSUE_LABEL_XISSUEEXPRESSION" // should not happen
@@ -151,11 +145,11 @@ class CheckGeneratorExtensions {
   }
 
   def issuedCheck(XIssueExpression expression) {
-    if (expression.check != null) {
+    if (expression.check !== null) {
       expression.check
     } else {
       val containerCheck = EcoreUtil2::getContainerOfType(expression, typeof(Check))
-      if (containerCheck != null) {
+      if (containerCheck !== null) {
         containerCheck
         //TODO we obviously need a validation in the language so that there is always a value here!
       }
@@ -187,7 +181,7 @@ class CheckGeneratorExtensions {
    */
   def String bundleName(EObject object) {
     val proj = object.projectForObject
-    if (proj != null) {
+    if (proj !== null) {
       return proj.name
     }
     return null
@@ -206,7 +200,7 @@ class CheckGeneratorExtensions {
    *  Format the Check description for Eclipse Help
    */
   def String formatDescription(String comment) {
-    if (comment == null) {
+    if (comment === null) {
       return null
     }
     try {
@@ -219,7 +213,7 @@ class CheckGeneratorExtensions {
 
   def Set<String> getContents(CheckCatalog catalog, String path) {
     val project = catalog.projectForObject
-    if (project != null) { // In some compiler tests we may not have a project.
+    if (project !== null) { // In some compiler tests we may not have a project.
       val file = project.getFile(new Path(path))
       if (file.exists) {
         val reader = new InputStreamReader(file.getContents())

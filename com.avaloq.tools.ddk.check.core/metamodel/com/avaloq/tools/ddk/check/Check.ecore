@@ -9,7 +9,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grammar" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Grammar"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="includedCatalogs" eType="#//CheckCatalog"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="categories" upperBound="-1"
         eType="#//Category" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementations" upperBound="-1"

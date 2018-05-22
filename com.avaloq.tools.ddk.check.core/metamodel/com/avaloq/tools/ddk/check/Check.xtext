@@ -14,8 +14,6 @@ CheckCatalog:
   imports=XImportSection
   (final?='final')? 'catalog' name=ValidID
   ('for' 'grammar' ^grammar=[xtext::Grammar|QualifiedName])?
-  ('with' includedCatalogs=[CheckCatalog|QualifiedName])?  //TODO a list of included catalogs ??
-  // TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
   '{'
   (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)*
   '}';
