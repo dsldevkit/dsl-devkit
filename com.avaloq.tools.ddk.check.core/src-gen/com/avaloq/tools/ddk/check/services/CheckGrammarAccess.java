@@ -40,34 +40,27 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cGrammarAssignment_7_2 = (Assignment)cGroup_7.eContents().get(2);
 		private final CrossReference cGrammarGrammarCrossReference_7_2_0 = (CrossReference)cGrammarAssignment_7_2.eContents().get(0);
 		private final RuleCall cGrammarGrammarQualifiedNameParserRuleCall_7_2_0_1 = (RuleCall)cGrammarGrammarCrossReference_7_2_0.eContents().get(1);
-		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
-		private final Keyword cWithKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
-		private final Assignment cIncludedCatalogsAssignment_8_1 = (Assignment)cGroup_8.eContents().get(1);
-		private final CrossReference cIncludedCatalogsCheckCatalogCrossReference_8_1_0 = (CrossReference)cIncludedCatalogsAssignment_8_1.eContents().get(0);
-		private final RuleCall cIncludedCatalogsCheckCatalogQualifiedNameParserRuleCall_8_1_0_1 = (RuleCall)cIncludedCatalogsCheckCatalogCrossReference_8_1_0.eContents().get(1);
-		private final Keyword cLeftCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
-		private final Alternatives cAlternatives_10 = (Alternatives)cGroup.eContents().get(10);
-		private final Assignment cCategoriesAssignment_10_0 = (Assignment)cAlternatives_10.eContents().get(0);
-		private final RuleCall cCategoriesCategoryParserRuleCall_10_0_0 = (RuleCall)cCategoriesAssignment_10_0.eContents().get(0);
-		private final Assignment cImplementationsAssignment_10_1 = (Assignment)cAlternatives_10.eContents().get(1);
-		private final RuleCall cImplementationsImplementationParserRuleCall_10_1_0 = (RuleCall)cImplementationsAssignment_10_1.eContents().get(0);
-		private final Assignment cChecksAssignment_10_2 = (Assignment)cAlternatives_10.eContents().get(2);
-		private final RuleCall cChecksCheckParserRuleCall_10_2_0 = (RuleCall)cChecksAssignment_10_2.eContents().get(0);
-		private final Assignment cMembersAssignment_10_3 = (Assignment)cAlternatives_10.eContents().get(3);
-		private final RuleCall cMembersMemberParserRuleCall_10_3_0 = (RuleCall)cMembersAssignment_10_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
+		private final Keyword cLeftCurlyBracketKeyword_8 = (Keyword)cGroup.eContents().get(8);
+		private final Alternatives cAlternatives_9 = (Alternatives)cGroup.eContents().get(9);
+		private final Assignment cCategoriesAssignment_9_0 = (Assignment)cAlternatives_9.eContents().get(0);
+		private final RuleCall cCategoriesCategoryParserRuleCall_9_0_0 = (RuleCall)cCategoriesAssignment_9_0.eContents().get(0);
+		private final Assignment cImplementationsAssignment_9_1 = (Assignment)cAlternatives_9.eContents().get(1);
+		private final RuleCall cImplementationsImplementationParserRuleCall_9_1_0 = (RuleCall)cImplementationsAssignment_9_1.eContents().get(0);
+		private final Assignment cChecksAssignment_9_2 = (Assignment)cAlternatives_9.eContents().get(2);
+		private final RuleCall cChecksCheckParserRuleCall_9_2_0 = (RuleCall)cChecksAssignment_9_2.eContents().get(0);
+		private final Assignment cMembersAssignment_9_3 = (Assignment)cAlternatives_9.eContents().get(3);
+		private final RuleCall cMembersMemberParserRuleCall_9_3_0 = (RuleCall)cMembersAssignment_9_3.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_10 = (Keyword)cGroup.eContents().get(10);
 		
 		//CheckCatalog:
 		//	{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection final?="final"? "catalog" name=ValidID
-		//	("for" "grammar" ^grammar=[xtext::Grammar|QualifiedName])? ("with" includedCatalogs=[CheckCatalog|QualifiedName])? //TODO a list of included catalogs ??
-		//	// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
-		//	"{" (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)* "}";
+		//	("for" "grammar" ^grammar=[xtext::Grammar|QualifiedName])? "{" (categories+=Category |
+		//	implementations+=Implementation | checks+=Check | members+=Member)* "}";
 		@Override public ParserRule getRule() { return rule; }
 
 		//{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection final?="final"? "catalog" name=ValidID ("for"
-		//"grammar" ^grammar=[xtext::Grammar|QualifiedName])? ("with" includedCatalogs=[CheckCatalog|QualifiedName])? //TODO a list of included catalogs ??
-		//// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
-		//"{" (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)* "}"
+		//"grammar" ^grammar=[xtext::Grammar|QualifiedName])? "{" (categories+=Category | implementations+=Implementation |
+		//checks+=Check | members+=Member)* "}"
 		public Group getGroup() { return cGroup; }
 
 		//{CheckCatalog}
@@ -121,54 +114,38 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedName
 		public RuleCall getGrammarGrammarQualifiedNameParserRuleCall_7_2_0_1() { return cGrammarGrammarQualifiedNameParserRuleCall_7_2_0_1; }
 
-		//("with" includedCatalogs=[CheckCatalog|QualifiedName])?
-		public Group getGroup_8() { return cGroup_8; }
-
-		//"with"
-		public Keyword getWithKeyword_8_0() { return cWithKeyword_8_0; }
-
-		//includedCatalogs=[CheckCatalog|QualifiedName]
-		public Assignment getIncludedCatalogsAssignment_8_1() { return cIncludedCatalogsAssignment_8_1; }
-
-		//[CheckCatalog|QualifiedName]
-		public CrossReference getIncludedCatalogsCheckCatalogCrossReference_8_1_0() { return cIncludedCatalogsCheckCatalogCrossReference_8_1_0; }
-
-		//QualifiedName
-		public RuleCall getIncludedCatalogsCheckCatalogQualifiedNameParserRuleCall_8_1_0_1() { return cIncludedCatalogsCheckCatalogQualifiedNameParserRuleCall_8_1_0_1; }
-
-		//// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
 		//"{"
-		public Keyword getLeftCurlyBracketKeyword_9() { return cLeftCurlyBracketKeyword_9; }
+		public Keyword getLeftCurlyBracketKeyword_8() { return cLeftCurlyBracketKeyword_8; }
 
 		//(categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)*
-		public Alternatives getAlternatives_10() { return cAlternatives_10; }
+		public Alternatives getAlternatives_9() { return cAlternatives_9; }
 
 		//categories+=Category
-		public Assignment getCategoriesAssignment_10_0() { return cCategoriesAssignment_10_0; }
+		public Assignment getCategoriesAssignment_9_0() { return cCategoriesAssignment_9_0; }
 
 		//Category
-		public RuleCall getCategoriesCategoryParserRuleCall_10_0_0() { return cCategoriesCategoryParserRuleCall_10_0_0; }
+		public RuleCall getCategoriesCategoryParserRuleCall_9_0_0() { return cCategoriesCategoryParserRuleCall_9_0_0; }
 
 		//implementations+=Implementation
-		public Assignment getImplementationsAssignment_10_1() { return cImplementationsAssignment_10_1; }
+		public Assignment getImplementationsAssignment_9_1() { return cImplementationsAssignment_9_1; }
 
 		//Implementation
-		public RuleCall getImplementationsImplementationParserRuleCall_10_1_0() { return cImplementationsImplementationParserRuleCall_10_1_0; }
+		public RuleCall getImplementationsImplementationParserRuleCall_9_1_0() { return cImplementationsImplementationParserRuleCall_9_1_0; }
 
 		//checks+=Check
-		public Assignment getChecksAssignment_10_2() { return cChecksAssignment_10_2; }
+		public Assignment getChecksAssignment_9_2() { return cChecksAssignment_9_2; }
 
 		//Check
-		public RuleCall getChecksCheckParserRuleCall_10_2_0() { return cChecksCheckParserRuleCall_10_2_0; }
+		public RuleCall getChecksCheckParserRuleCall_9_2_0() { return cChecksCheckParserRuleCall_9_2_0; }
 
 		//members+=Member
-		public Assignment getMembersAssignment_10_3() { return cMembersAssignment_10_3; }
+		public Assignment getMembersAssignment_9_3() { return cMembersAssignment_9_3; }
 
 		//Member
-		public RuleCall getMembersMemberParserRuleCall_10_3_0() { return cMembersMemberParserRuleCall_10_3_0; }
+		public RuleCall getMembersMemberParserRuleCall_9_3_0() { return cMembersMemberParserRuleCall_9_3_0; }
 
 		//"}"
-		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
+		public Keyword getRightCurlyBracketKeyword_10() { return cRightCurlyBracketKeyword_10; }
 	}
 
 	public class XImportSectionElements extends AbstractParserRuleElementFinder {
@@ -1531,9 +1508,8 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//CheckCatalog:
 	//	{CheckCatalog} "package" packageName=QualifiedName imports=XImportSection final?="final"? "catalog" name=ValidID
-	//	("for" "grammar" ^grammar=[xtext::Grammar|QualifiedName])? ("with" includedCatalogs=[CheckCatalog|QualifiedName])? //TODO a list of included catalogs ??
-	//	// TODO only allow including a check catalog if the languages match. (matching rule are defined by the "with" clause of the grammar definition.) '{'
-	//	"{" (categories+=Category | implementations+=Implementation | checks+=Check | members+=Member)* "}";
+	//	("for" "grammar" ^grammar=[xtext::Grammar|QualifiedName])? "{" (categories+=Category |
+	//	implementations+=Implementation | checks+=Check | members+=Member)* "}";
 	public CheckCatalogElements getCheckCatalogAccess() {
 		return pCheckCatalog;
 	}

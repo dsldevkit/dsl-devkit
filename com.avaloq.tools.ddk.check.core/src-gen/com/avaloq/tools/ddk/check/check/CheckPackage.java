@@ -152,22 +152,13 @@ public interface CheckPackage extends EPackage
 	int CHECK_CATALOG__GRAMMAR = DOCUMENTED_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Included Catalogs</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CHECK_CATALOG__INCLUDED_CATALOGS = DOCUMENTED_FEATURE_COUNT + 5;
-
-	/**
 	 * The feature id for the '<em><b>Categories</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CATALOG__CATEGORIES = DOCUMENTED_FEATURE_COUNT + 6;
+	int CHECK_CATALOG__CATEGORIES = DOCUMENTED_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Implementations</b></em>' containment reference list.
@@ -176,7 +167,7 @@ public interface CheckPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CATALOG__IMPLEMENTATIONS = DOCUMENTED_FEATURE_COUNT + 7;
+	int CHECK_CATALOG__IMPLEMENTATIONS = DOCUMENTED_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Checks</b></em>' containment reference list.
@@ -185,7 +176,7 @@ public interface CheckPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CATALOG__CHECKS = DOCUMENTED_FEATURE_COUNT + 8;
+	int CHECK_CATALOG__CHECKS = DOCUMENTED_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Members</b></em>' containment reference list.
@@ -194,7 +185,7 @@ public interface CheckPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CATALOG__MEMBERS = DOCUMENTED_FEATURE_COUNT + 9;
+	int CHECK_CATALOG__MEMBERS = DOCUMENTED_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Catalog</em>' class.
@@ -203,7 +194,7 @@ public interface CheckPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int CHECK_CATALOG_FEATURE_COUNT = DOCUMENTED_FEATURE_COUNT + 10;
+	int CHECK_CATALOG_FEATURE_COUNT = DOCUMENTED_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.check.check.impl.ImplicitlyNamedImpl <em>Implicitly Named</em>}' class.
@@ -915,17 +906,6 @@ public interface CheckPackage extends EPackage
 	EReference getCheckCatalog_Grammar();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getIncludedCatalogs <em>Included Catalogs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Included Catalogs</em>'.
-	 * @see com.avaloq.tools.ddk.check.check.CheckCatalog#getIncludedCatalogs()
-	 * @see #getCheckCatalog()
-	 * @generated
-	 */
-	EReference getCheckCatalog_IncludedCatalogs();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getCategories <em>Categories</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1621,14 +1601,6 @@ public interface CheckPackage extends EPackage
 		 * @generated
 		 */
 		EReference CHECK_CATALOG__GRAMMAR = eINSTANCE.getCheckCatalog_Grammar();
-
-		/**
-		 * The meta object literal for the '<em><b>Included Catalogs</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CHECK_CATALOG__INCLUDED_CATALOGS = eINSTANCE.getCheckCatalog_IncludedCatalogs();
 
 		/**
 		 * The meta object literal for the '<em><b>Categories</b></em>' containment reference list feature.

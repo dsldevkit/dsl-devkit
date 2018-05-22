@@ -37,7 +37,7 @@ public class CheckParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
-					put(grammarAccess.getCheckCatalogAccess().getAlternatives_10(), "rule__CheckCatalog__Alternatives_10");
+					put(grammarAccess.getCheckCatalogAccess().getAlternatives_9(), "rule__CheckCatalog__Alternatives_9");
 					put(grammarAccess.getXImportDeclarationAccess().getAlternatives_1(), "rule__XImportDeclaration__Alternatives_1");
 					put(grammarAccess.getDocumentedAccess().getAlternatives(), "rule__Documented__Alternatives");
 					put(grammarAccess.getImplicitlyNamedAccess().getAlternatives(), "rule__ImplicitlyNamed__Alternatives");
@@ -91,7 +91,6 @@ public class CheckParser extends AbstractContentAssistParser {
 					put(grammarAccess.getTriggerKindAccess().getAlternatives(), "rule__TriggerKind__Alternatives");
 					put(grammarAccess.getCheckCatalogAccess().getGroup(), "rule__CheckCatalog__Group__0");
 					put(grammarAccess.getCheckCatalogAccess().getGroup_7(), "rule__CheckCatalog__Group_7__0");
-					put(grammarAccess.getCheckCatalogAccess().getGroup_8(), "rule__CheckCatalog__Group_8__0");
 					put(grammarAccess.getXImportSectionAccess().getGroup(), "rule__XImportSection__Group__0");
 					put(grammarAccess.getXImportDeclarationAccess().getGroup(), "rule__XImportDeclaration__Group__0");
 					put(grammarAccess.getCategoryAccess().getGroup(), "rule__Category__Group__0");
@@ -326,11 +325,10 @@ public class CheckParser extends AbstractContentAssistParser {
 					put(grammarAccess.getCheckCatalogAccess().getFinalAssignment_4(), "rule__CheckCatalog__FinalAssignment_4");
 					put(grammarAccess.getCheckCatalogAccess().getNameAssignment_6(), "rule__CheckCatalog__NameAssignment_6");
 					put(grammarAccess.getCheckCatalogAccess().getGrammarAssignment_7_2(), "rule__CheckCatalog__GrammarAssignment_7_2");
-					put(grammarAccess.getCheckCatalogAccess().getIncludedCatalogsAssignment_8_1(), "rule__CheckCatalog__IncludedCatalogsAssignment_8_1");
-					put(grammarAccess.getCheckCatalogAccess().getCategoriesAssignment_10_0(), "rule__CheckCatalog__CategoriesAssignment_10_0");
-					put(grammarAccess.getCheckCatalogAccess().getImplementationsAssignment_10_1(), "rule__CheckCatalog__ImplementationsAssignment_10_1");
-					put(grammarAccess.getCheckCatalogAccess().getChecksAssignment_10_2(), "rule__CheckCatalog__ChecksAssignment_10_2");
-					put(grammarAccess.getCheckCatalogAccess().getMembersAssignment_10_3(), "rule__CheckCatalog__MembersAssignment_10_3");
+					put(grammarAccess.getCheckCatalogAccess().getCategoriesAssignment_9_0(), "rule__CheckCatalog__CategoriesAssignment_9_0");
+					put(grammarAccess.getCheckCatalogAccess().getImplementationsAssignment_9_1(), "rule__CheckCatalog__ImplementationsAssignment_9_1");
+					put(grammarAccess.getCheckCatalogAccess().getChecksAssignment_9_2(), "rule__CheckCatalog__ChecksAssignment_9_2");
+					put(grammarAccess.getCheckCatalogAccess().getMembersAssignment_9_3(), "rule__CheckCatalog__MembersAssignment_9_3");
 					put(grammarAccess.getXImportSectionAccess().getImportDeclarationsAssignment_1(), "rule__XImportSection__ImportDeclarationsAssignment_1");
 					put(grammarAccess.getXImportDeclarationAccess().getImportedTypeAssignment_1_0(), "rule__XImportDeclaration__ImportedTypeAssignment_1_0");
 					put(grammarAccess.getXImportDeclarationAccess().getImportedNamespaceAssignment_1_1(), "rule__XImportDeclaration__ImportedNamespaceAssignment_1_1");
