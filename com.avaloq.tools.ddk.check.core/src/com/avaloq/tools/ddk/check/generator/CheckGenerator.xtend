@@ -170,7 +170,6 @@ class CheckGenerator extends JvmModelGenerator {
         LOG.info("Standalone setup done for «catalog.checkFilePath»");
       }
 
-
       @Override
       public String toString() {
         return "CheckValidatorSetup(«catalog.eResource.URI.path»)";
