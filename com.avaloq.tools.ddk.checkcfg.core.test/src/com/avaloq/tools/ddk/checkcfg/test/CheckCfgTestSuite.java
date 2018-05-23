@@ -17,6 +17,7 @@ import com.avaloq.tools.ddk.checkcfg.contentassist.CheckCfgContentAssistTest;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProviderTest;
 import com.avaloq.tools.ddk.checkcfg.syntax.CheckCfgSyntaxTest;
 import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgConfiguredParameterValidationsTest;
+import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgDuplicateChecksTest;
 import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgTest;
 import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgValidationTest;
 
@@ -32,7 +33,8 @@ import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgValidationTest;
   CheckCfgScopeProviderTest.class,
   CheckCfgSyntaxTest.class,
   CheckCfgTest.class,
-  CheckCfgValidationTest.class
+  CheckCfgValidationTest.class,
+  CheckCfgDuplicateChecksTest.class
 // @Format-On
 })
 

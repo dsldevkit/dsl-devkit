@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.checkcfg.validation;
 /**
  * Issue codes used for the Check Configuration Java validator.
  */
+@SuppressWarnings("nls") // Issue codes only.
 public final class IssueCodes {
   private static final String ISSUE_CODE_PREFIX = "com.avaloq.tools.ddk.checkcfg.validation.IssueCodes.";
 
@@ -24,6 +25,7 @@ public final class IssueCodes {
   public static final String CONFIGURED_PARAM_EQUALS_DEFAULT = ISSUE_CODE_PREFIX + "configured_param_equals_default";
   public static final String DUPLICATE_CATALOG_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_catalog_configuration";
   public static final String DUPLICATE_CHECK_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_check_configuration";
+  public static final String DUPLICATE_LANGUAGE_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_language_configuration";
   public static final String UNKNOWN_LANGUAGE = ISSUE_CODE_PREFIX + "unknown_language";
   public static final String DUPLICATE_PARAMETER_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_parameter_configuration";
   public static final String SEVERITY_NOT_ALLOWED = ISSUE_CODE_PREFIX + "severity_not_allowed";

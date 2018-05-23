@@ -25,6 +25,7 @@ public class Messages extends NLS {
   public static String CheckCfgJavaValidator_CONFIGURED_PARAM_EQUALS_DEFAULT;
   public static String CheckCfgJavaValidator_DUPLICATE_CATALOG_CONFIGURATION;
   public static String CheckCfgJavaValidator_DUPLICATE_CHECK_CONFIGURATION;
+  public static String CheckCfgJavaValidator_DUPLICATE_LANGUAGE_CONFIGURATION;
   public static String CheckCfgJavaValidator_DUPLICATE_PARAMETER_CONFIGURATION;
   public static String CheckCfgJavaValidator_SEVERITY_NOT_ALLOWED;
 
@@ -37,4 +38,3 @@ public class Messages extends NLS {
     super();
   }
 }
-
