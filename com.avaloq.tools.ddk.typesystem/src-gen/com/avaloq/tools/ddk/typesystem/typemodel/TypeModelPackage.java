@@ -396,6 +396,25 @@ public interface TypeModelPackage extends EPackage
 	 */
 	int CALLABLE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.impl.ObsoleteElementImpl <em>Obsolete Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.ObsoleteElementImpl
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getObsoleteElement()
+	 * @generated
+	 */
+	int OBSOLETE_ELEMENT = 18;
+
+	/**
+	 * The number of structural features of the '<em>Obsolete Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSOLETE_ELEMENT_FEATURE_COUNT = INAMED_ELEMENT_FEATURE_COUNT + 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.IExpression <em>IExpression</em>}'.
@@ -577,6 +596,16 @@ public interface TypeModelPackage extends EPackage
 	 * @generated
 	 */
 	EClass getCallable();
+
+	/**
+	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.ObsoleteElement <em>Obsolete Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Obsolete Element</em>'.
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.ObsoleteElement
+	 * @generated
+	 */
+	EClass getObsoleteElement();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -780,6 +809,16 @@ public interface TypeModelPackage extends EPackage
 		 * @generated
 		 */
 		EClass CALLABLE = eINSTANCE.getCallable();
+
+		/**
+		 * The meta object literal for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.impl.ObsoleteElementImpl <em>Obsolete Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.ObsoleteElementImpl
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getObsoleteElement()
+		 * @generated
+		 */
+		EClass OBSOLETE_ELEMENT = eINSTANCE.getObsoleteElement();
 
 	}
 

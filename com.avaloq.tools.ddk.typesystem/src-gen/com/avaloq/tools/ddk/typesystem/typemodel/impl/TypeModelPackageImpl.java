@@ -18,6 +18,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.IType;
 import com.avaloq.tools.ddk.typesystem.typemodel.NamedElement;
 import com.avaloq.tools.ddk.typesystem.typemodel.NamedFormalParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.NamedType;
+import com.avaloq.tools.ddk.typesystem.typemodel.ObsoleteElement;
 import com.avaloq.tools.ddk.typesystem.typemodel.OverrideDeclaration;
 import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelFactory;
 import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage;
@@ -160,6 +161,13 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * @generated
 	 */
 	private EClass callableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass obsoleteElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -409,6 +417,16 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getObsoleteElement()
+	{
+		return obsoleteElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public TypeModelFactory getTypeModelFactory()
 	{
 		return (TypeModelFactory)getEFactoryInstance();
@@ -469,6 +487,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		iCallableEClass = createEClass(ICALLABLE);
 
 		callableEClass = createEClass(CALLABLE);
+
+		obsoleteElementEClass = createEClass(OBSOLETE_ELEMENT);
 	}
 
 	/**
@@ -517,6 +537,7 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		iCallableEClass.getESuperTypes().add(this.getINamedElement());
 		callableEClass.getESuperTypes().add(this.getNamedElement());
 		callableEClass.getESuperTypes().add(this.getICallable());
+		obsoleteElementEClass.getESuperTypes().add(this.getINamedElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(iExpressionEClass, IExpression.class, "IExpression", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -574,6 +595,14 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		initEClass(iCallableEClass, ICallable.class, "ICallable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(callableEClass, Callable.class, "Callable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(obsoleteElementEClass, ObsoleteElement.class, "ObsoleteElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(obsoleteElementEClass, ecorePackage.getEBoolean(), "isObsolete", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(obsoleteElementEClass, ecorePackage.getEString(), "getSubstitute", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(obsoleteElementEClass, this.getINamedElement(), "getElement", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

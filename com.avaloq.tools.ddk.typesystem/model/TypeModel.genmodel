@@ -47,5 +47,10 @@
     <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedFormalParameter"/>
     <genClasses image="false" ecoreClass="TypeModel.ecore#//ICallable"/>
     <genClasses ecoreClass="TypeModel.ecore#//Callable"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//ObsoleteElement">
+      <genOperations ecoreOperation="TypeModel.ecore#//ObsoleteElement/isObsolete"/>
+      <genOperations ecoreOperation="TypeModel.ecore#//ObsoleteElement/getSubstitute"/>
+      <genOperations ecoreOperation="TypeModel.ecore#//ObsoleteElement/getElement"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
