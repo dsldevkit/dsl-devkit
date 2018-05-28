@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.DuplicateContextImpl#getMarkerType <em>Marker Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.DuplicateContextImpl#getMarkerFeature <em>Marker Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

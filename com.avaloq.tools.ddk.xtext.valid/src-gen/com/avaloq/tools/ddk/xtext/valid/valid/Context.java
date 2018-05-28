@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Context#getContextType <em>Context Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Context#getContextFeature <em>Context Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getContext()
  * @model

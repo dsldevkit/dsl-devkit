@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.LinewrapLocatorImpl#getValue <em>Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.LinewrapLocatorImpl#getMinimum <em>Minimum</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.LinewrapLocatorImpl#getMaximum <em>Maximum</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.LinewrapLocatorImpl#isNoLinewrap <em>No Linewrap</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

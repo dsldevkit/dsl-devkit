@@ -299,7 +299,4 @@ public class AbstractFormatProposalProvider extends org.eclipse.xtext.xbase.anno
 	public void complete_RuleSelfIdentifier(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		// subclasses may override
 	}
-	public void complete_ValidID(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
 }

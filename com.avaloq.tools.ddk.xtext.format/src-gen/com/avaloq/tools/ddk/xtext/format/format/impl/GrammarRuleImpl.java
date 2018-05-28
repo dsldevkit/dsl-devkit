@@ -29,11 +29,11 @@ import org.eclipse.xtext.AbstractRule;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GrammarRuleImpl#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.GrammarRuleImpl#getDirectives <em>Directives</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

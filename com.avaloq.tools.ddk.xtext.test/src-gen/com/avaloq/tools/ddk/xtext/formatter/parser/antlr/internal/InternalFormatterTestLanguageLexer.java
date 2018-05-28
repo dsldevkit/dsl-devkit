@@ -70,15 +70,15 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g"; }
+    public String getGrammarFileName() { return "InternalFormatterTestLanguage.g"; }
 
     // $ANTLR start "T__11"
     public final void mT__11() throws RecognitionException {
         try {
             int _type = T__11;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:11:7: ( 'test' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:11:9: 'test'
+            // InternalFormatterTestLanguage.g:11:7: ( 'test' )
+            // InternalFormatterTestLanguage.g:11:9: 'test'
             {
             match("test"); 
 
@@ -98,8 +98,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__12;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:12:7: ( 'post' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:12:9: 'post'
+            // InternalFormatterTestLanguage.g:12:7: ( 'post' )
+            // InternalFormatterTestLanguage.g:12:9: 'post'
             {
             match("post"); 
 
@@ -119,8 +119,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__13;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:13:7: ( ';' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:13:9: ';'
+            // InternalFormatterTestLanguage.g:13:7: ( ';' )
+            // InternalFormatterTestLanguage.g:13:9: ';'
             {
             match(';'); 
 
@@ -139,8 +139,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__14;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:14:7: ( '=' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:14:9: '='
+            // InternalFormatterTestLanguage.g:14:7: ( '=' )
+            // InternalFormatterTestLanguage.g:14:9: '='
             {
             match('='); 
 
@@ -159,8 +159,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__15;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:15:7: ( '+=' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:15:9: '+='
+            // InternalFormatterTestLanguage.g:15:7: ( '+=' )
+            // InternalFormatterTestLanguage.g:15:9: '+='
             {
             match("+="); 
 
@@ -180,8 +180,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__16;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:16:7: ( '[' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:16:9: '['
+            // InternalFormatterTestLanguage.g:16:7: ( '[' )
+            // InternalFormatterTestLanguage.g:16:9: '['
             {
             match('['); 
 
@@ -200,8 +200,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__17;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:17:7: ( ',' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:17:9: ','
+            // InternalFormatterTestLanguage.g:17:7: ( ',' )
+            // InternalFormatterTestLanguage.g:17:9: ','
             {
             match(','); 
 
@@ -220,8 +220,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__18;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:18:7: ( ']' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:18:9: ']'
+            // InternalFormatterTestLanguage.g:18:7: ( ']' )
+            // InternalFormatterTestLanguage.g:18:9: ']'
             {
             match(']'); 
 
@@ -240,8 +240,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__19;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:19:7: ( 'void' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:19:9: 'void'
+            // InternalFormatterTestLanguage.g:19:7: ( 'void' )
+            // InternalFormatterTestLanguage.g:19:9: 'void'
             {
             match("void"); 
 
@@ -261,8 +261,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__20;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:20:7: ( '(' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:20:9: '('
+            // InternalFormatterTestLanguage.g:20:7: ( '(' )
+            // InternalFormatterTestLanguage.g:20:9: '('
             {
             match('('); 
 
@@ -281,8 +281,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__21;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:21:7: ( ')' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:21:9: ')'
+            // InternalFormatterTestLanguage.g:21:7: ( ')' )
+            // InternalFormatterTestLanguage.g:21:9: ')'
             {
             match(')'); 
 
@@ -301,8 +301,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__22;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:22:7: ( ':' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:22:9: ':'
+            // InternalFormatterTestLanguage.g:22:7: ( ':' )
+            // InternalFormatterTestLanguage.g:22:9: ':'
             {
             match(':'); 
 
@@ -321,8 +321,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__23;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:23:7: ( 'space' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:23:9: 'space'
+            // InternalFormatterTestLanguage.g:23:7: ( 'space' )
+            // InternalFormatterTestLanguage.g:23:9: 'space'
             {
             match("space"); 
 
@@ -342,8 +342,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__24;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:24:7: ( 'linewrap' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:24:9: 'linewrap'
+            // InternalFormatterTestLanguage.g:24:7: ( 'linewrap' )
+            // InternalFormatterTestLanguage.g:24:9: 'linewrap'
             {
             match("linewrap"); 
 
@@ -363,8 +363,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__25;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:25:7: ( 'wrapminmax' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:25:9: 'wrapminmax'
+            // InternalFormatterTestLanguage.g:25:7: ( 'wrapminmax' )
+            // InternalFormatterTestLanguage.g:25:9: 'wrapminmax'
             {
             match("wrapminmax"); 
 
@@ -384,8 +384,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__26;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:26:7: ( 'indentation' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:26:9: 'indentation'
+            // InternalFormatterTestLanguage.g:26:7: ( 'indentation' )
+            // InternalFormatterTestLanguage.g:26:9: 'indentation'
             {
             match("indentation"); 
 
@@ -405,8 +405,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__27;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:27:7: ( '{' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:27:9: '{'
+            // InternalFormatterTestLanguage.g:27:7: ( '{' )
+            // InternalFormatterTestLanguage.g:27:9: '{'
             {
             match('{'); 
 
@@ -425,8 +425,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__28;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:28:7: ( '}' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:28:9: '}'
+            // InternalFormatterTestLanguage.g:28:7: ( '}' )
+            // InternalFormatterTestLanguage.g:28:9: '}'
             {
             match('}'); 
 
@@ -445,8 +445,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__29;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:29:7: ( 'column' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:29:9: 'column'
+            // InternalFormatterTestLanguage.g:29:7: ( 'column' )
+            // InternalFormatterTestLanguage.g:29:9: 'column'
             {
             match("column"); 
 
@@ -466,8 +466,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__30;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:30:7: ( 'item' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:30:9: 'item'
+            // InternalFormatterTestLanguage.g:30:7: ( 'item' )
+            // InternalFormatterTestLanguage.g:30:9: 'item'
             {
             match("item"); 
 
@@ -487,8 +487,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:31:7: ( 'offset' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:31:9: 'offset'
+            // InternalFormatterTestLanguage.g:31:7: ( 'offset' )
+            // InternalFormatterTestLanguage.g:31:9: 'offset'
             {
             match("offset"); 
 
@@ -508,8 +508,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:32:7: ( 'value' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:32:9: 'value'
+            // InternalFormatterTestLanguage.g:32:7: ( 'value' )
+            // InternalFormatterTestLanguage.g:32:9: 'value'
             {
             match("value"); 
 
@@ -529,8 +529,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:33:7: ( 'pair' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:33:9: 'pair'
+            // InternalFormatterTestLanguage.g:33:7: ( 'pair' )
+            // InternalFormatterTestLanguage.g:33:9: 'pair'
             {
             match("pair"); 
 
@@ -550,8 +550,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:34:7: ( 'padding' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:34:9: 'padding'
+            // InternalFormatterTestLanguage.g:34:7: ( 'padding' )
+            // InternalFormatterTestLanguage.g:34:9: 'padding'
             {
             match("padding"); 
 
@@ -571,8 +571,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:35:7: ( 'fqn' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:35:9: 'fqn'
+            // InternalFormatterTestLanguage.g:35:7: ( 'fqn' )
+            // InternalFormatterTestLanguage.g:35:9: 'fqn'
             {
             match("fqn"); 
 
@@ -592,8 +592,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:36:7: ( '.' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:36:9: '.'
+            // InternalFormatterTestLanguage.g:36:7: ( '.' )
+            // InternalFormatterTestLanguage.g:36:9: '.'
             {
             match('.'); 
 
@@ -612,8 +612,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:37:7: ( 'fqnref' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:37:9: 'fqnref'
+            // InternalFormatterTestLanguage.g:37:7: ( 'fqnref' )
+            // InternalFormatterTestLanguage.g:37:9: 'fqnref'
             {
             match("fqnref"); 
 
@@ -633,8 +633,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:38:7: ( 'enum' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:38:9: 'enum'
+            // InternalFormatterTestLanguage.g:38:7: ( 'enum' )
+            // InternalFormatterTestLanguage.g:38:9: 'enum'
             {
             match("enum"); 
 
@@ -654,8 +654,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:39:7: ( '`' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:39:9: '`'
+            // InternalFormatterTestLanguage.g:39:7: ( '`' )
+            // InternalFormatterTestLanguage.g:39:9: '`'
             {
             match('`'); 
 
@@ -674,8 +674,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:40:7: ( '%' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:40:9: '%'
+            // InternalFormatterTestLanguage.g:40:7: ( '%' )
+            // InternalFormatterTestLanguage.g:40:9: '%'
             {
             match('%'); 
 
@@ -694,8 +694,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__41;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:41:7: ( '<' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:41:9: '<'
+            // InternalFormatterTestLanguage.g:41:7: ( '<' )
+            // InternalFormatterTestLanguage.g:41:9: '<'
             {
             match('<'); 
 
@@ -714,8 +714,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__42;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:42:7: ( '>' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:42:9: '>'
+            // InternalFormatterTestLanguage.g:42:7: ( '>' )
+            // InternalFormatterTestLanguage.g:42:9: '>'
             {
             match('>'); 
 
@@ -734,8 +734,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__43;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:43:7: ( 'datatypes' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:43:9: 'datatypes'
+            // InternalFormatterTestLanguage.g:43:7: ( 'datatypes' )
+            // InternalFormatterTestLanguage.g:43:9: 'datatypes'
             {
             match("datatypes"); 
 
@@ -755,8 +755,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__44;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:44:7: ( 'kw1' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:44:9: 'kw1'
+            // InternalFormatterTestLanguage.g:44:7: ( 'kw1' )
+            // InternalFormatterTestLanguage.g:44:9: 'kw1'
             {
             match("kw1"); 
 
@@ -776,8 +776,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__45;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:45:7: ( 'kw3' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:45:9: 'kw3'
+            // InternalFormatterTestLanguage.g:45:7: ( 'kw3' )
+            // InternalFormatterTestLanguage.g:45:9: 'kw3'
             {
             match("kw3"); 
 
@@ -797,8 +797,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__46;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:46:7: ( 'lit1' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:46:9: 'lit1'
+            // InternalFormatterTestLanguage.g:46:7: ( 'lit1' )
+            // InternalFormatterTestLanguage.g:46:9: 'lit1'
             {
             match("lit1"); 
 
@@ -818,8 +818,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__47;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:47:7: ( 'lit2' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:47:9: 'lit2'
+            // InternalFormatterTestLanguage.g:47:7: ( 'lit2' )
+            // InternalFormatterTestLanguage.g:47:9: 'lit2'
             {
             match("lit2"); 
 
@@ -839,8 +839,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = T__48;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:48:7: ( 'lit3' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:48:9: 'lit3'
+            // InternalFormatterTestLanguage.g:48:7: ( 'lit3' )
+            // InternalFormatterTestLanguage.g:48:9: 'lit3'
             {
             match("lit3"); 
 
@@ -860,10 +860,10 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1674:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1674:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalFormatterTestLanguage.g:1674:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalFormatterTestLanguage.g:1674:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1674:11: ( '^' )?
+            // InternalFormatterTestLanguage.g:1674:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -872,7 +872,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1674:11: '^'
+                    // InternalFormatterTestLanguage.g:1674:11: '^'
                     {
                     match('^'); 
 
@@ -890,7 +890,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1674:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalFormatterTestLanguage.g:1674:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -903,7 +903,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:
+            	    // InternalFormatterTestLanguage.g:
             	    {
             	    if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
@@ -939,10 +939,10 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1676:10: ( ( '0' .. '9' )+ )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1676:12: ( '0' .. '9' )+
+            // InternalFormatterTestLanguage.g:1676:10: ( ( '0' .. '9' )+ )
+            // InternalFormatterTestLanguage.g:1676:12: ( '0' .. '9' )+
             {
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1676:12: ( '0' .. '9' )+
+            // InternalFormatterTestLanguage.g:1676:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -956,7 +956,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1676:13: '0' .. '9'
+            	    // InternalFormatterTestLanguage.g:1676:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -988,10 +988,10 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalFormatterTestLanguage.g:1678:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalFormatterTestLanguage.g:1678:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalFormatterTestLanguage.g:1678:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1009,10 +1009,10 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalFormatterTestLanguage.g:1678:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalFormatterTestLanguage.g:1678:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -1028,7 +1028,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:21: '\\\\' .
+                    	    // InternalFormatterTestLanguage.g:1678:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1036,7 +1036,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalFormatterTestLanguage.g:1678:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1061,10 +1061,10 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalFormatterTestLanguage.g:1678:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalFormatterTestLanguage.g:1678:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -1080,7 +1080,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:54: '\\\\' .
+                    	    // InternalFormatterTestLanguage.g:1678:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1088,7 +1088,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1678:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalFormatterTestLanguage.g:1678:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1131,12 +1131,12 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1680:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1680:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalFormatterTestLanguage.g:1680:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalFormatterTestLanguage.g:1680:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1680:24: ( options {greedy=false; } : . )*
+            // InternalFormatterTestLanguage.g:1680:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -1161,7 +1161,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1680:52: .
+            	    // InternalFormatterTestLanguage.g:1680:52: .
             	    {
             	    matchAny(); 
 
@@ -1191,12 +1191,12 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalFormatterTestLanguage.g:1682:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalFormatterTestLanguage.g:1682:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalFormatterTestLanguage.g:1682:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -1209,7 +1209,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalFormatterTestLanguage.g:1682:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1229,7 +1229,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:40: ( ( '\\r' )? '\\n' )?
+            // InternalFormatterTestLanguage.g:1682:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1238,9 +1238,9 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:41: ( '\\r' )? '\\n'
+                    // InternalFormatterTestLanguage.g:1682:41: ( '\\r' )? '\\n'
                     {
-                    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:41: ( '\\r' )?
+                    // InternalFormatterTestLanguage.g:1682:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -1249,7 +1249,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1682:41: '\\r'
+                            // InternalFormatterTestLanguage.g:1682:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1281,10 +1281,10 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1684:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1684:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalFormatterTestLanguage.g:1684:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalFormatterTestLanguage.g:1684:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1684:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalFormatterTestLanguage.g:1684:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -1298,7 +1298,7 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:
+            	    // InternalFormatterTestLanguage.g:
             	    {
             	    if ( (input.LA(1)>='\t' && input.LA(1)<='\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -1338,8 +1338,8 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1686:16: ( . )
-            // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1686:18: .
+            // InternalFormatterTestLanguage.g:1686:16: ( . )
+            // InternalFormatterTestLanguage.g:1686:18: .
             {
             matchAny(); 
 
@@ -1354,320 +1354,320 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:8: ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        // InternalFormatterTestLanguage.g:1:8: ( T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
         int alt12=45;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:10: T__11
+                // InternalFormatterTestLanguage.g:1:10: T__11
                 {
                 mT__11(); 
 
                 }
                 break;
             case 2 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:16: T__12
+                // InternalFormatterTestLanguage.g:1:16: T__12
                 {
                 mT__12(); 
 
                 }
                 break;
             case 3 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:22: T__13
+                // InternalFormatterTestLanguage.g:1:22: T__13
                 {
                 mT__13(); 
 
                 }
                 break;
             case 4 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:28: T__14
+                // InternalFormatterTestLanguage.g:1:28: T__14
                 {
                 mT__14(); 
 
                 }
                 break;
             case 5 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:34: T__15
+                // InternalFormatterTestLanguage.g:1:34: T__15
                 {
                 mT__15(); 
 
                 }
                 break;
             case 6 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:40: T__16
+                // InternalFormatterTestLanguage.g:1:40: T__16
                 {
                 mT__16(); 
 
                 }
                 break;
             case 7 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:46: T__17
+                // InternalFormatterTestLanguage.g:1:46: T__17
                 {
                 mT__17(); 
 
                 }
                 break;
             case 8 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:52: T__18
+                // InternalFormatterTestLanguage.g:1:52: T__18
                 {
                 mT__18(); 
 
                 }
                 break;
             case 9 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:58: T__19
+                // InternalFormatterTestLanguage.g:1:58: T__19
                 {
                 mT__19(); 
 
                 }
                 break;
             case 10 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:64: T__20
+                // InternalFormatterTestLanguage.g:1:64: T__20
                 {
                 mT__20(); 
 
                 }
                 break;
             case 11 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:70: T__21
+                // InternalFormatterTestLanguage.g:1:70: T__21
                 {
                 mT__21(); 
 
                 }
                 break;
             case 12 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:76: T__22
+                // InternalFormatterTestLanguage.g:1:76: T__22
                 {
                 mT__22(); 
 
                 }
                 break;
             case 13 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:82: T__23
+                // InternalFormatterTestLanguage.g:1:82: T__23
                 {
                 mT__23(); 
 
                 }
                 break;
             case 14 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:88: T__24
+                // InternalFormatterTestLanguage.g:1:88: T__24
                 {
                 mT__24(); 
 
                 }
                 break;
             case 15 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:94: T__25
+                // InternalFormatterTestLanguage.g:1:94: T__25
                 {
                 mT__25(); 
 
                 }
                 break;
             case 16 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:100: T__26
+                // InternalFormatterTestLanguage.g:1:100: T__26
                 {
                 mT__26(); 
 
                 }
                 break;
             case 17 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:106: T__27
+                // InternalFormatterTestLanguage.g:1:106: T__27
                 {
                 mT__27(); 
 
                 }
                 break;
             case 18 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:112: T__28
+                // InternalFormatterTestLanguage.g:1:112: T__28
                 {
                 mT__28(); 
 
                 }
                 break;
             case 19 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:118: T__29
+                // InternalFormatterTestLanguage.g:1:118: T__29
                 {
                 mT__29(); 
 
                 }
                 break;
             case 20 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:124: T__30
+                // InternalFormatterTestLanguage.g:1:124: T__30
                 {
                 mT__30(); 
 
                 }
                 break;
             case 21 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:130: T__31
+                // InternalFormatterTestLanguage.g:1:130: T__31
                 {
                 mT__31(); 
 
                 }
                 break;
             case 22 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:136: T__32
+                // InternalFormatterTestLanguage.g:1:136: T__32
                 {
                 mT__32(); 
 
                 }
                 break;
             case 23 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:142: T__33
+                // InternalFormatterTestLanguage.g:1:142: T__33
                 {
                 mT__33(); 
 
                 }
                 break;
             case 24 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:148: T__34
+                // InternalFormatterTestLanguage.g:1:148: T__34
                 {
                 mT__34(); 
 
                 }
                 break;
             case 25 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:154: T__35
+                // InternalFormatterTestLanguage.g:1:154: T__35
                 {
                 mT__35(); 
 
                 }
                 break;
             case 26 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:160: T__36
+                // InternalFormatterTestLanguage.g:1:160: T__36
                 {
                 mT__36(); 
 
                 }
                 break;
             case 27 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:166: T__37
+                // InternalFormatterTestLanguage.g:1:166: T__37
                 {
                 mT__37(); 
 
                 }
                 break;
             case 28 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:172: T__38
+                // InternalFormatterTestLanguage.g:1:172: T__38
                 {
                 mT__38(); 
 
                 }
                 break;
             case 29 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:178: T__39
+                // InternalFormatterTestLanguage.g:1:178: T__39
                 {
                 mT__39(); 
 
                 }
                 break;
             case 30 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:184: T__40
+                // InternalFormatterTestLanguage.g:1:184: T__40
                 {
                 mT__40(); 
 
                 }
                 break;
             case 31 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:190: T__41
+                // InternalFormatterTestLanguage.g:1:190: T__41
                 {
                 mT__41(); 
 
                 }
                 break;
             case 32 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:196: T__42
+                // InternalFormatterTestLanguage.g:1:196: T__42
                 {
                 mT__42(); 
 
                 }
                 break;
             case 33 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:202: T__43
+                // InternalFormatterTestLanguage.g:1:202: T__43
                 {
                 mT__43(); 
 
                 }
                 break;
             case 34 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:208: T__44
+                // InternalFormatterTestLanguage.g:1:208: T__44
                 {
                 mT__44(); 
 
                 }
                 break;
             case 35 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:214: T__45
+                // InternalFormatterTestLanguage.g:1:214: T__45
                 {
                 mT__45(); 
 
                 }
                 break;
             case 36 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:220: T__46
+                // InternalFormatterTestLanguage.g:1:220: T__46
                 {
                 mT__46(); 
 
                 }
                 break;
             case 37 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:226: T__47
+                // InternalFormatterTestLanguage.g:1:226: T__47
                 {
                 mT__47(); 
 
                 }
                 break;
             case 38 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:232: T__48
+                // InternalFormatterTestLanguage.g:1:232: T__48
                 {
                 mT__48(); 
 
                 }
                 break;
             case 39 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:238: RULE_ID
+                // InternalFormatterTestLanguage.g:1:238: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
             case 40 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:246: RULE_INT
+                // InternalFormatterTestLanguage.g:1:246: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
             case 41 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:255: RULE_STRING
+                // InternalFormatterTestLanguage.g:1:255: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
             case 42 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:267: RULE_ML_COMMENT
+                // InternalFormatterTestLanguage.g:1:267: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
             case 43 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:283: RULE_SL_COMMENT
+                // InternalFormatterTestLanguage.g:1:283: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
             case 44 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:299: RULE_WS
+                // InternalFormatterTestLanguage.g:1:299: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
             case 45 :
-                // ../com.avaloq.tools.ddk.xtext.test/src-gen/com/avaloq/tools/ddk/xtext/formatter/parser/antlr/internal/InternalFormatterTestLanguage.g:1:307: RULE_ANY_OTHER
+                // InternalFormatterTestLanguage.g:1:307: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1681,61 +1681,19 @@ public class InternalFormatterTestLanguageLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\2\47\2\uffff\1\45\3\uffff\1\47\3\uffff\4\47\2\uffff\3"+
-        "\47\1\uffff\1\47\4\uffff\2\47\1\45\2\uffff\3\45\2\uffff\1\47\1\uffff"+
-        "\2\47\6\uffff\2\47\3\uffff\5\47\2\uffff\3\47\1\uffff\1\47\4\uffff"+
-        "\2\47\5\uffff\16\47\1\160\2\47\1\163\1\164\1\165\1\166\1\167\1\47"+
-        "\1\171\3\47\1\175\1\176\1\177\2\47\1\u0082\3\47\1\uffff\1\u0086"+
-        "\1\47\5\uffff\1\47\1\uffff\1\u0089\1\u008a\1\47\3\uffff\2\47\1\uffff"+
-        "\3\47\1\uffff\2\47\2\uffff\3\47\1\u0096\1\u0097\1\u0098\1\47\1\u009a"+
-        "\3\47\3\uffff\1\47\1\uffff\1\u009f\3\47\1\uffff\2\47\1\u00a5\1\u00a6"+
-        "\1\47\2\uffff\1\u00a8\1\uffff";
+        "\1\uffff\2\47\2\uffff\1\45\3\uffff\1\47\3\uffff\4\47\2\uffff\3\47\1\uffff\1\47\4\uffff\2\47\1\45\2\uffff\3\45\2\uffff\1\47\1\uffff\2\47\6\uffff\2\47\3\uffff\5\47\2\uffff\3\47\1\uffff\1\47\4\uffff\2\47\5\uffff\16\47\1\160\2\47\1\163\1\164\1\165\1\166\1\167\1\47\1\171\3\47\1\175\1\176\1\177\2\47\1\u0082\3\47\1\uffff\1\u0086\1\47\5\uffff\1\47\1\uffff\1\u0089\1\u008a\1\47\3\uffff\2\47\1\uffff\3\47\1\uffff\2\47\2\uffff\3\47\1\u0096\1\u0097\1\u0098\1\47\1\u009a\3\47\3\uffff\1\47\1\uffff\1\u009f\3\47\1\uffff\2\47\1\u00a5\1\u00a6\1\47\2\uffff\1\u00a8\1\uffff";
     static final String DFA12_eofS =
         "\u00a9\uffff";
     static final String DFA12_minS =
-        "\1\0\1\145\1\141\2\uffff\1\75\3\uffff\1\141\3\uffff\1\160\1\151"+
-        "\1\162\1\156\2\uffff\1\157\1\146\1\161\1\uffff\1\156\4\uffff\1\141"+
-        "\1\167\1\101\2\uffff\2\0\1\52\2\uffff\1\163\1\uffff\1\163\1\144"+
-        "\6\uffff\1\151\1\154\3\uffff\1\141\1\156\1\141\1\144\1\145\2\uffff"+
-        "\1\154\1\146\1\156\1\uffff\1\165\4\uffff\1\164\1\61\5\uffff\2\164"+
-        "\1\162\2\144\1\165\1\143\1\145\1\61\1\160\1\145\1\155\1\165\1\163"+
-        "\1\60\1\155\1\141\5\60\1\151\1\60\2\145\1\167\3\60\1\155\1\156\1"+
-        "\60\1\155\2\145\1\uffff\1\60\1\164\5\uffff\1\156\1\uffff\2\60\1"+
-        "\162\3\uffff\1\151\1\164\1\uffff\1\156\1\164\1\146\1\uffff\1\171"+
-        "\1\147\2\uffff\1\141\1\156\1\141\3\60\1\160\1\60\1\160\1\155\1\164"+
-        "\3\uffff\1\145\1\uffff\1\60\1\141\1\151\1\163\1\uffff\1\170\1\157"+
-        "\2\60\1\156\2\uffff\1\60\1\uffff";
+        "\1\0\1\145\1\141\2\uffff\1\75\3\uffff\1\141\3\uffff\1\160\1\151\1\162\1\156\2\uffff\1\157\1\146\1\161\1\uffff\1\156\4\uffff\1\141\1\167\1\101\2\uffff\2\0\1\52\2\uffff\1\163\1\uffff\1\163\1\144\6\uffff\1\151\1\154\3\uffff\1\141\1\156\1\141\1\144\1\145\2\uffff\1\154\1\146\1\156\1\uffff\1\165\4\uffff\1\164\1\61\5\uffff\2\164\1\162\2\144\1\165\1\143\1\145\1\61\1\160\1\145\1\155\1\165\1\163\1\60\1\155\1\141\5\60\1\151\1\60\2\145\1\167\3\60\1\155\1\156\1\60\1\155\2\145\1\uffff\1\60\1\164\5\uffff\1\156\1\uffff\2\60\1\162\3\uffff\1\151\1\164\1\uffff\1\156\1\164\1\146\1\uffff\1\171\1\147\2\uffff\1\141\1\156\1\141\3\60\1\160\1\60\1\160\1\155\1\164\3\uffff\1\145\1\uffff\1\60\1\141\1\151\1\163\1\uffff\1\170\1\157\2\60\1\156\2\uffff\1\60\1\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\1\145\1\157\2\uffff\1\75\3\uffff\1\157\3\uffff\1\160\1"+
-        "\151\1\162\1\164\2\uffff\1\157\1\146\1\161\1\uffff\1\156\4\uffff"+
-        "\1\141\1\167\1\172\2\uffff\2\uffff\1\57\2\uffff\1\163\1\uffff\1"+
-        "\163\1\151\6\uffff\1\151\1\154\3\uffff\1\141\1\164\1\141\1\144\1"+
-        "\145\2\uffff\1\154\1\146\1\156\1\uffff\1\165\4\uffff\1\164\1\63"+
-        "\5\uffff\2\164\1\162\2\144\1\165\1\143\1\145\1\63\1\160\1\145\1"+
-        "\155\1\165\1\163\1\172\1\155\1\141\5\172\1\151\1\172\2\145\1\167"+
-        "\3\172\1\155\1\156\1\172\1\155\2\145\1\uffff\1\172\1\164\5\uffff"+
-        "\1\156\1\uffff\2\172\1\162\3\uffff\1\151\1\164\1\uffff\1\156\1\164"+
-        "\1\146\1\uffff\1\171\1\147\2\uffff\1\141\1\156\1\141\3\172\1\160"+
-        "\1\172\1\160\1\155\1\164\3\uffff\1\145\1\uffff\1\172\1\141\1\151"+
-        "\1\163\1\uffff\1\170\1\157\2\172\1\156\2\uffff\1\172\1\uffff";
+        "\1\uffff\1\145\1\157\2\uffff\1\75\3\uffff\1\157\3\uffff\1\160\1\151\1\162\1\164\2\uffff\1\157\1\146\1\161\1\uffff\1\156\4\uffff\1\141\1\167\1\172\2\uffff\2\uffff\1\57\2\uffff\1\163\1\uffff\1\163\1\151\6\uffff\1\151\1\154\3\uffff\1\141\1\164\1\141\1\144\1\145\2\uffff\1\154\1\146\1\156\1\uffff\1\165\4\uffff\1\164\1\63\5\uffff\2\164\1\162\2\144\1\165\1\143\1\145\1\63\1\160\1\145\1\155\1\165\1\163\1\172\1\155\1\141\5\172\1\151\1\172\2\145\1\167\3\172\1\155\1\156\1\172\1\155\2\145\1\uffff\1\172\1\164\5\uffff\1\156\1\uffff\2\172\1\162\3\uffff\1\151\1\164\1\uffff\1\156\1\164\1\146\1\uffff\1\171\1\147\2\uffff\1\141\1\156\1\141\3\172\1\160\1\172\1\160\1\155\1\164\3\uffff\1\145\1\uffff\1\172\1\141\1\151\1\163\1\uffff\1\170\1\157\2\172\1\156\2\uffff\1\172\1\uffff";
     static final String DFA12_acceptS =
-        "\3\uffff\1\3\1\4\1\uffff\1\6\1\7\1\10\1\uffff\1\12\1\13\1\14\4"+
-        "\uffff\1\21\1\22\3\uffff\1\32\1\uffff\1\35\1\36\1\37\1\40\3\uffff"+
-        "\1\47\1\50\3\uffff\1\54\1\55\1\uffff\1\47\2\uffff\1\3\1\4\1\5\1"+
-        "\6\1\7\1\10\2\uffff\1\12\1\13\1\14\5\uffff\1\21\1\22\3\uffff\1\32"+
-        "\1\uffff\1\35\1\36\1\37\1\40\2\uffff\1\50\1\51\1\52\1\53\1\54\44"+
-        "\uffff\1\31\2\uffff\1\42\1\43\1\1\1\2\1\27\1\uffff\1\11\3\uffff"+
-        "\1\44\1\45\1\46\2\uffff\1\24\3\uffff\1\34\2\uffff\1\26\1\15\13\uffff"+
-        "\1\23\1\25\1\33\1\uffff\1\30\4\uffff\1\16\5\uffff\1\41\1\17\1\uffff"+
-        "\1\20";
+        "\3\uffff\1\3\1\4\1\uffff\1\6\1\7\1\10\1\uffff\1\12\1\13\1\14\4\uffff\1\21\1\22\3\uffff\1\32\1\uffff\1\35\1\36\1\37\1\40\3\uffff\1\47\1\50\3\uffff\1\54\1\55\1\uffff\1\47\2\uffff\1\3\1\4\1\5\1\6\1\7\1\10\2\uffff\1\12\1\13\1\14\5\uffff\1\21\1\22\3\uffff\1\32\1\uffff\1\35\1\36\1\37\1\40\2\uffff\1\50\1\51\1\52\1\53\1\54\44\uffff\1\31\2\uffff\1\42\1\43\1\1\1\2\1\27\1\uffff\1\11\3\uffff\1\44\1\45\1\46\2\uffff\1\24\3\uffff\1\34\2\uffff\1\26\1\15\13\uffff\1\23\1\25\1\33\1\uffff\1\30\4\uffff\1\16\5\uffff\1\41\1\17\1\uffff\1\20";
     static final String DFA12_specialS =
         "\1\1\40\uffff\1\2\1\0\u0086\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\11\45\2\44\2\45\1\44\22\45\1\44\1\45\1\41\2\45\1\31\1\45\1"+
-            "\42\1\12\1\13\1\45\1\5\1\7\1\45\1\26\1\43\12\40\1\14\1\3\1\32"+
-            "\1\4\1\33\2\45\32\37\1\6\1\45\1\10\1\36\1\37\1\30\2\37\1\23"+
-            "\1\34\1\27\1\25\2\37\1\20\1\37\1\35\1\16\2\37\1\24\1\2\2\37"+
-            "\1\15\1\1\1\37\1\11\1\17\3\37\1\21\1\45\1\22\uff82\45",
+            "\11\45\2\44\2\45\1\44\22\45\1\44\1\45\1\41\2\45\1\31\1\45\1\42\1\12\1\13\1\45\1\5\1\7\1\45\1\26\1\43\12\40\1\14\1\3\1\32\1\4\1\33\2\45\32\37\1\6\1\45\1\10\1\36\1\37\1\30\2\37\1\23\1\34\1\27\1\25\2\37\1\20\1\37\1\35\1\16\2\37\1\24\1\2\2\37\1\15\1\1\1\37\1\11\1\17\3\37\1\21\1\45\1\22\uff82\45",
             "\1\46",
             "\1\51\15\uffff\1\50",
             "",

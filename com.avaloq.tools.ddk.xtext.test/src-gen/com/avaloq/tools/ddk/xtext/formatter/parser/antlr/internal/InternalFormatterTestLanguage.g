@@ -294,7 +294,7 @@ ruleDecl returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_0_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -312,7 +312,7 @@ ruleDecl returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -351,7 +351,7 @@ ruleAssign returns [EObject current=null]
        			$current, 
        			"var",
         		lv_var_0_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -403,7 +403,7 @@ ruleAssign returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_3_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -425,7 +425,7 @@ ruleAssign returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_5_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -472,7 +472,7 @@ ruleMeth returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -493,7 +493,7 @@ ruleMeth returns [EObject current=null]
        			$current, 
        			"param",
         		lv_param_3_0, 
-        		"Param");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Param");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -515,7 +515,7 @@ ruleMeth returns [EObject current=null]
        			$current, 
        			"param",
         		lv_param_5_0, 
-        		"Param");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Param");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -559,7 +559,7 @@ ruleParam returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_0_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -581,7 +581,7 @@ ruleParam returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_2_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -624,7 +624,7 @@ ruleSpace returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -672,7 +672,7 @@ ruleTestLinewrap returns [EObject current=null]
        			$current, 
        			"items",
         		lv_items_2_0, 
-        		"Line");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Line");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -721,7 +721,7 @@ ruleTestLinewrapMinMax returns [EObject current=null]
        			$current, 
        			"items",
         		lv_items_2_0, 
-        		"Line");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Line");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -774,7 +774,7 @@ ruleTestIndentation returns [EObject current=null]
        			$current, 
        			"sub",
         		lv_sub_3_0, 
-        		"TestIndentation");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.TestIndentation");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -793,7 +793,7 @@ ruleTestIndentation returns [EObject current=null]
        			$current, 
        			"items",
         		lv_items_4_0, 
-        		"Line");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Line");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -862,7 +862,7 @@ ruleTestColumn returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_2_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -883,7 +883,7 @@ ruleTestColumn returns [EObject current=null]
        			$current, 
        			"items",
         		lv_items_4_0, 
-        		"Line");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Line");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -937,7 +937,7 @@ ruleTestOffset returns [EObject current=null]
        			$current, 
        			"value",
         		lv_value_3_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -959,7 +959,7 @@ ruleTestOffset returns [EObject current=null]
        			$current, 
        			"first",
         		lv_first_5_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -977,7 +977,7 @@ ruleTestOffset returns [EObject current=null]
        			$current, 
        			"second",
         		lv_second_6_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1020,7 +1020,7 @@ ruleTestRightPadding returns [EObject current=null]
        			$current, 
        			"p1",
         		lv_p1_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1038,7 +1038,7 @@ ruleTestRightPadding returns [EObject current=null]
        			$current, 
        			"p2",
         		lv_p2_2_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1084,7 +1084,7 @@ ruleFqnObj returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_1_0, 
-        		"FQN");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.FQN");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1208,7 +1208,7 @@ ruleEnumeration returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_1_0, 
-        		"Enum1");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Enum1");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1230,7 +1230,7 @@ ruleEnumeration returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_3_0, 
-        		"Enum1");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Enum1");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1286,7 +1286,7 @@ ruleSuppressedHidden returns [EObject current=null]
        			$current, 
        			"vals",
         		lv_vals_2_0, 
-        		"SuppressedHiddenSub");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.SuppressedHiddenSub");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1308,7 +1308,7 @@ ruleSuppressedHidden returns [EObject current=null]
        			$current, 
        			"vals",
         		lv_vals_4_0, 
-        		"SuppressedHiddenSub");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.SuppressedHiddenSub");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1406,7 +1406,7 @@ ruleSuppressedHiddenSubSub returns [EObject current=null]
        			$current, 
        			"idval",
         		lv_idval_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1452,7 +1452,7 @@ ruleSuppressedHiddenSubID returns [EObject current=null]
        			$current, 
        			"idval",
         		lv_idval_0_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1590,7 +1590,7 @@ ruleDatatypes returns [EObject current=null]
        			$current, 
        			"val1",
         		lv_val1_1_0, 
-        		"Datatype1");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Datatype1");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1612,7 +1612,7 @@ ruleDatatypes returns [EObject current=null]
        			$current, 
        			"val2",
         		lv_val2_3_0, 
-        		"Datatype2");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Datatype2");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1630,7 +1630,7 @@ ruleDatatypes returns [EObject current=null]
        			$current, 
        			"val3",
         		lv_val3_4_0, 
-        		"Datatype3");
+        		"com.avaloq.tools.ddk.xtext.formatter.FormatterTestLanguage.Datatype3");
 	        afterParserOrEnumRuleCall();
 	    }
 

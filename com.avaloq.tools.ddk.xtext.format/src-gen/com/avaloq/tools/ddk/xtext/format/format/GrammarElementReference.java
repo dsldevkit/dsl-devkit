@@ -16,6 +16,7 @@ import org.eclipse.xtext.RuleCall;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference#getAssignment <em>Assignment</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference#getRuleCall <em>Rule Call</em>}</li>
@@ -23,7 +24,6 @@ import org.eclipse.xtext.RuleCall;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference#getRule <em>Rule</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GrammarElementReference#getKeyword <em>Keyword</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getGrammarElementReference()
  * @model

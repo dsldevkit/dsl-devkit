@@ -110,7 +110,7 @@ ruleExportModel returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_2_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -146,7 +146,7 @@ ruleExportModel returns [EObject current=null]
        			$current, 
        			"imports",
         		lv_imports_5_0, 
-        		"Import");
+        		"com.avaloq.tools.ddk.xtext.export.Export.Import");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -164,7 +164,7 @@ ruleExportModel returns [EObject current=null]
        			$current, 
        			"extensions",
         		lv_extensions_6_0, 
-        		"Extension");
+        		"com.avaloq.tools.ddk.xtext.export.Export.Extension");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -190,7 +190,7 @@ ruleExportModel returns [EObject current=null]
        			$current, 
        			"interfaces",
         		lv_interfaces_9_0, 
-        		"Interface");
+        		"com.avaloq.tools.ddk.xtext.export.Export.Interface");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -212,7 +212,7 @@ ruleExportModel returns [EObject current=null]
        			$current, 
        			"exports",
         		lv_exports_11_0, 
-        		"Export");
+        		"com.avaloq.tools.ddk.xtext.export.Export.Export");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -273,7 +273,7 @@ ruleImport returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_3_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -315,7 +315,7 @@ ruleExtension returns [EObject current=null]
        			$current, 
        			"extension",
         		lv_extension_1_0, 
-        		"QualifiedID");
+        		"com.avaloq.tools.ddk.xtext.export.Export.QualifiedID");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -375,7 +375,7 @@ ruleInterface returns [EObject current=null]
        			$current, 
        			"guard",
         		lv_guard_2_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -401,7 +401,7 @@ ruleInterface returns [EObject current=null]
        			$current, 
        			"items",
         		lv_items_5_0, 
-        		"InterfaceItem");
+        		"com.avaloq.tools.ddk.xtext.export.Export.InterfaceItem");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -423,7 +423,7 @@ ruleInterface returns [EObject current=null]
        			$current, 
        			"items",
         		lv_items_7_0, 
-        		"InterfaceItem");
+        		"com.avaloq.tools.ddk.xtext.export.Export.InterfaceItem");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -656,7 +656,7 @@ ruleInterfaceExpression returns [EObject current=null]
        			$current, 
        			"expr",
         		lv_expr_4_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -722,7 +722,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"lookupPredicate",
         		lv_lookupPredicate_3_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -778,7 +778,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"naming",
         		lv_naming_8_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -800,7 +800,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"guard",
         		lv_guard_10_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -917,7 +917,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"attributes",
         		lv_attributes_25_0, 
-        		"Attribute");
+        		"com.avaloq.tools.ddk.xtext.export.Export.Attribute");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -939,7 +939,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"attributes",
         		lv_attributes_27_0, 
-        		"Attribute");
+        		"com.avaloq.tools.ddk.xtext.export.Export.Attribute");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -966,7 +966,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"userData",
         		lv_userData_30_0, 
-        		"UserData");
+        		"com.avaloq.tools.ddk.xtext.export.Export.UserData");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -988,7 +988,7 @@ ruleExport returns [EObject current=null]
        			$current, 
        			"userData",
         		lv_userData_32_0, 
-        		"UserData");
+        		"com.avaloq.tools.ddk.xtext.export.Export.UserData");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1036,7 +1036,7 @@ ruleUserData returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_0_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1057,7 +1057,7 @@ ruleUserData returns [EObject current=null]
        			$current, 
        			"expr",
         		lv_expr_2_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1227,7 +1227,7 @@ ruleLetExpression returns [EObject current=null]
        			$current, 
        			"identifier",
         		lv_identifier_1_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1249,7 +1249,7 @@ ruleLetExpression returns [EObject current=null]
        			$current, 
        			"varExpr",
         		lv_varExpr_3_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1271,7 +1271,7 @@ ruleLetExpression returns [EObject current=null]
        			$current, 
        			"target",
         		lv_target_5_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1314,7 +1314,7 @@ ruleCastedExpression returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_1_0, 
-        		"Type");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Type");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1336,7 +1336,7 @@ ruleCastedExpression returns [EObject current=null]
        			$current, 
        			"target",
         		lv_target_3_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1394,7 +1394,7 @@ ruleChainExpression returns [EObject current=null]
        			$current, 
        			"next",
         		lv_next_3_0, 
-        		"ChainedExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ChainedExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1502,7 +1502,7 @@ ruleIfExpressionTri returns [EObject current=null]
        			$current, 
        			"thenPart",
         		lv_thenPart_3_0, 
-        		"ChainedExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ChainedExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1524,7 +1524,7 @@ ruleIfExpressionTri returns [EObject current=null]
        			$current, 
        			"elsePart",
         		lv_elsePart_5_0, 
-        		"ChainedExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ChainedExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1567,7 +1567,7 @@ ruleIfExpressionKw returns [EObject current=null]
        			$current, 
        			"condition",
         		lv_condition_1_0, 
-        		"ChainedExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ChainedExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1589,7 +1589,7 @@ ruleIfExpressionKw returns [EObject current=null]
        			$current, 
        			"thenPart",
         		lv_thenPart_3_0, 
-        		"ChainedExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ChainedExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1612,7 +1612,7 @@ ruleIfExpressionKw returns [EObject current=null]
        			$current, 
        			"elsePart",
         		lv_elsePart_5_0, 
-        		"ChainedExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ChainedExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1659,7 +1659,7 @@ ruleSwitchExpression returns [EObject current=null]
        			$current, 
        			"switchExpr",
         		lv_switchExpr_2_0, 
-        		"OrExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.OrExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1685,7 +1685,7 @@ ruleSwitchExpression returns [EObject current=null]
        			$current, 
        			"case",
         		lv_case_5_0, 
-        		"Case");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Case");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1711,7 +1711,7 @@ ruleSwitchExpression returns [EObject current=null]
        			$current, 
        			"defaultExpr",
         		lv_defaultExpr_8_0, 
-        		"OrExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.OrExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1758,7 +1758,7 @@ ruleCase returns [EObject current=null]
        			$current, 
        			"condition",
         		lv_condition_1_0, 
-        		"OrExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.OrExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1780,7 +1780,7 @@ ruleCase returns [EObject current=null]
        			$current, 
        			"thenPar",
         		lv_thenPar_3_0, 
-        		"OrExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.OrExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1849,7 +1849,7 @@ ruleOrExpression returns [EObject current=null]
        			$current, 
        			"right",
         		lv_right_3_0, 
-        		"AndExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.AndExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1918,7 +1918,7 @@ ruleAndExpression returns [EObject current=null]
        			$current, 
        			"right",
         		lv_right_3_0, 
-        		"ImpliesExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.ImpliesExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1987,7 +1987,7 @@ ruleImpliesExpression returns [EObject current=null]
        			$current, 
        			"right",
         		lv_right_3_0, 
-        		"RelationalExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.RelationalExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2119,7 +2119,7 @@ ruleRelationalExpression returns [EObject current=null]
        			$current, 
        			"right",
         		lv_right_3_0, 
-        		"AdditiveExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.AdditiveExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2203,7 +2203,7 @@ ruleAdditiveExpression returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_3_0, 
-        		"MultiplicativeExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.MultiplicativeExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2287,7 +2287,7 @@ ruleMultiplicativeExpression returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_3_0, 
-        		"UnaryOrInfixExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.UnaryOrInfixExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2396,7 +2396,7 @@ ruleUnaryExpression returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_1_0, 
-        		"InfixExpression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.InfixExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2454,7 +2454,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_3_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2476,7 +2476,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_5_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2498,7 +2498,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_7_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2531,7 +2531,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_11_0, 
-        		"Type");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Type");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2579,7 +2579,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_16_0, 
-        		"Type");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Type");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2718,7 +2718,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"var",
         		lv_var_22_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2740,7 +2740,7 @@ ruleInfixExpression returns [EObject current=null]
        			$current, 
        			"exp",
         		lv_exp_24_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2985,7 +2985,7 @@ ruleIntegerLiteral returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_0_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -3060,7 +3060,7 @@ ruleRealLiteral returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_0_0, 
-        		"REAL");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.REAL");
 	    }
 
 )
@@ -3099,7 +3099,7 @@ ruleStringLiteral returns [EObject current=null]
        			$current, 
        			"val",
         		lv_val_0_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -3179,7 +3179,7 @@ ruleGlobalVarExpression returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_1_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3228,7 +3228,7 @@ ruleFeatureCall returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_1_0, 
-        		"Type");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Type");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3287,7 +3287,7 @@ ruleOperationCall returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_0_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3309,7 +3309,7 @@ ruleOperationCall returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_2_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3331,7 +3331,7 @@ ruleOperationCall returns [EObject current=null]
        			$current, 
        			"params",
         		lv_params_4_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3384,7 +3384,7 @@ ruleListLiteral returns [EObject current=null]
        			$current, 
        			"elements",
         		lv_elements_2_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3406,7 +3406,7 @@ ruleListLiteral returns [EObject current=null]
        			$current, 
        			"elements",
         		lv_elements_4_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3453,7 +3453,7 @@ ruleConstructorCallExpression returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_1_0, 
-        		"SimpleType");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.SimpleType");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3511,7 +3511,7 @@ ruleTypeSelectExpression returns [EObject current=null]
        			$current, 
        			"type",
         		lv_type_2_0, 
-        		"Type");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Type");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3660,7 +3660,7 @@ ruleCollectionExpression returns [EObject current=null]
        			$current, 
        			"var",
         		lv_var_2_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3682,7 +3682,7 @@ ruleCollectionExpression returns [EObject current=null]
        			$current, 
        			"exp",
         		lv_exp_4_0, 
-        		"Expression");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3811,7 +3811,7 @@ ruleCollectionType returns [EObject current=null]
        			$current, 
        			"id1",
         		lv_id1_2_0, 
-        		"SimpleType");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.SimpleType");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3854,7 +3854,7 @@ ruleSimpleType returns [EObject current=null]
        			$current, 
        			"id",
         		lv_id_0_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -3876,7 +3876,7 @@ ruleSimpleType returns [EObject current=null]
        			$current, 
        			"id",
         		lv_id_2_0, 
-        		"Identifier");
+        		"com.avaloq.tools.ddk.xtext.expression.Expression.Identifier");
 	        afterParserOrEnumRuleCall();
 	    }
 

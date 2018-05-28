@@ -3,16 +3,16 @@
  */
 package com.avaloq.tools.ddk.check;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.eclipse.xtext.junit4.GlobalRegistries;
 import org.eclipse.xtext.junit4.GlobalRegistries.GlobalStateMemento;
 import org.eclipse.xtext.junit4.IInjectorProvider;
 import org.eclipse.xtext.junit4.IRegistryConfigurator;
 
-import com.google.inject.Injector;
-
 public class CheckInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
-	
-    protected GlobalStateMemento stateBeforeInjectorCreation;
+
+	protected GlobalStateMemento stateBeforeInjectorCreation;
 	protected GlobalStateMemento stateAfterInjectorCreation;
 	protected Injector injector;
 
@@ -30,9 +30,26 @@ public class CheckInjectorProvider implements IInjectorProvider, IRegistryConfig
 		}
 		return injector;
 	}
-	
+
 	protected Injector internalCreateInjector() {
-	    return new CheckStandaloneSetup().createInjectorAndDoEMFRegistration();
+		return new CheckStandaloneSetup() {
+			@Override
+			public Injector createInjector() {
+				return Guice.createInjector(createRuntimeModule());
+			}
+		}.createInjectorAndDoEMFRegistration();
+	}
+
+	protected CheckRuntimeModule createRuntimeModule() {
+		// make it work also with Maven/Tycho and OSGI
+		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=493672
+		return new CheckRuntimeModule() {
+			@Override
+			public ClassLoader bindClassLoaderToInstance() {
+				return CheckInjectorProvider.class
+						.getClassLoader();
+			}
+		};
 	}
 
 	@Override

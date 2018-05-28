@@ -13,13 +13,14 @@ import org.eclipse.xtext.service.GrammarProvider;
 import org.eclipse.xtext.service.AbstractElementFinder.*;
 
 import com.avaloq.tools.ddk.xtext.expression.services.ExpressionGrammarAccess;
+import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
 
 @Singleton
 public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	
 	
 	public class ExportModelElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ExportModel");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.ExportModel");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
 		private final Keyword cExportKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
@@ -45,24 +46,24 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cExportsExportParserRuleCall_4_0 = (RuleCall)cExportsAssignment_4.eContents().get(0);
 		
 		//ExportModel:
-		//	("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
-		//	extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+;
+		//	('export' extension?='extension'? name=ID 'for' targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
+		//	extensions+=Extension* ('interface' '{' interfaces+=Interface+ '}')? exports+=Export+;
 		@Override public ParserRule getRule() { return rule; }
 
-		//("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
-		//extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+
+		//('export' extension?='extension'? name=ID 'for' targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
+		//extensions+=Extension* ('interface' '{' interfaces+=Interface+ '}')? exports+=Export+
 		public Group getGroup() { return cGroup; }
 
-		//("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])?
+		//('export' extension?='extension'? name=ID 'for' targetGrammar=[xtext::Grammar|QualifiedID])?
 		public Group getGroup_0() { return cGroup_0; }
 
-		//"export"
+		//'export'
 		public Keyword getExportKeyword_0_0() { return cExportKeyword_0_0; }
 
-		//extension?="extension"?
+		//extension?='extension'?
 		public Assignment getExtensionAssignment_0_1() { return cExtensionAssignment_0_1; }
 
-		//"extension"
+		//'extension'
 		public Keyword getExtensionExtensionKeyword_0_1_0() { return cExtensionExtensionKeyword_0_1_0; }
 
 		//name=ID
@@ -71,7 +72,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_2_0() { return cNameIDTerminalRuleCall_0_2_0; }
 
-		//"for"
+		//'for'
 		public Keyword getForKeyword_0_3() { return cForKeyword_0_3; }
 
 		//targetGrammar=[xtext::Grammar|QualifiedID]
@@ -95,13 +96,13 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Extension
 		public RuleCall getExtensionsExtensionParserRuleCall_2_0() { return cExtensionsExtensionParserRuleCall_2_0; }
 
-		//("interface" "{" interfaces+=Interface+ "}")?
+		//('interface' '{' interfaces+=Interface+ '}')?
 		public Group getGroup_3() { return cGroup_3; }
 
-		//"interface"
+		//'interface'
 		public Keyword getInterfaceKeyword_3_0() { return cInterfaceKeyword_3_0; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3_1() { return cLeftCurlyBracketKeyword_3_1; }
 
 		//interfaces+=Interface+
@@ -110,7 +111,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Interface
 		public RuleCall getInterfacesInterfaceParserRuleCall_3_2_0() { return cInterfacesInterfaceParserRuleCall_3_2_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_3_3() { return cRightCurlyBracketKeyword_3_3; }
 
 		//exports+=Export+
@@ -121,7 +122,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class ImportElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Import");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.Import");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cPackageAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -133,14 +134,14 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIDTerminalRuleCall_2_1_0 = (RuleCall)cNameAssignment_2_1.eContents().get(0);
 		
 		//Import:
-		//	"import" package=[ecore::EPackage|STRING] ("as" name=ID)? // Use nsURIs
+		//	'import' package=[ecore::EPackage|STRING] ('as' name=ID)? // Use nsURIs
 		//;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"import" package=[ecore::EPackage|STRING] ("as" name=ID)? // Use nsURIs
+		//'import' package=[ecore::EPackage|STRING] ('as' name=ID)?
 		public Group getGroup() { return cGroup; }
 
-		//"import"
+		//'import'
 		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
 
 		//package=[ecore::EPackage|STRING]
@@ -152,10 +153,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getPackageEPackageSTRINGTerminalRuleCall_1_0_1() { return cPackageEPackageSTRINGTerminalRuleCall_1_0_1; }
 
-		//("as" name=ID)?
+		//('as' name=ID)?
 		public Group getGroup_2() { return cGroup_2; }
 
-		//"as"
+		//'as'
 		public Keyword getAsKeyword_2_0() { return cAsKeyword_2_0; }
 
 		//name=ID
@@ -166,35 +167,32 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class ExtensionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Extension");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.Extension");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cExtensionKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cExtensionAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cExtensionQualifiedIDParserRuleCall_1_0 = (RuleCall)cExtensionAssignment_1.eContents().get(0);
 		
 		//Extension:
-		//	"extension" extension= // Alas, we can't link xtend files. Maybe simply as EResources?
-		// QualifiedID;
+		//	'extension' extension=QualifiedID // Alas, we can't link xtend files. Maybe simply as EResources?
+		//;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"extension" extension= // Alas, we can't link xtend files. Maybe simply as EResources?
-		// QualifiedID
+		//'extension' extension=QualifiedID
 		public Group getGroup() { return cGroup; }
 
-		//"extension"
+		//'extension'
 		public Keyword getExtensionKeyword_0() { return cExtensionKeyword_0; }
 
-		//extension= // Alas, we can't link xtend files. Maybe simply as EResources?
-		// QualifiedID
+		//extension=QualifiedID
 		public Assignment getExtensionAssignment_1() { return cExtensionAssignment_1; }
 
-		//// Alas, we can't link xtend files. Maybe simply as EResources?
-		// QualifiedID
+		//QualifiedID
 		public RuleCall getExtensionQualifiedIDParserRuleCall_1_0() { return cExtensionQualifiedIDParserRuleCall_1_0; }
 	}
 
 	public class DeclarationForTypeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "DeclarationForType");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.DeclarationForType");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cInterfaceParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cExportParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -214,7 +212,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class InterfaceElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Interface");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.Interface");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cTypeEClassCrossReference_0_0 = (CrossReference)cTypeAssignment_0.eContents().get(0);
@@ -235,11 +233,11 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		//Interface:
-		//	type=[ecore::EClass|QualifiedID] ("[" guard=Expression "]")? ("=" items+=InterfaceItem ("," items+=InterfaceItem)*)*
-		//	";";
+		//	type=[ecore::EClass|QualifiedID] ('[' guard=Expression ']')? ('=' items+=InterfaceItem (',' items+=InterfaceItem)*)*
+		//	';';
 		@Override public ParserRule getRule() { return rule; }
 
-		//type=[ecore::EClass|QualifiedID] ("[" guard=Expression "]")? ("=" items+=InterfaceItem ("," items+=InterfaceItem)*)* ";"
+		//type=[ecore::EClass|QualifiedID] ('[' guard=Expression ']')? ('=' items+=InterfaceItem (',' items+=InterfaceItem)*)* ';'
 		public Group getGroup() { return cGroup; }
 
 		//type=[ecore::EClass|QualifiedID]
@@ -251,10 +249,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getTypeEClassQualifiedIDParserRuleCall_0_0_1() { return cTypeEClassQualifiedIDParserRuleCall_0_0_1; }
 
-		//("[" guard=Expression "]")?
+		//('[' guard=Expression ']')?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"["
+		//'['
 		public Keyword getLeftSquareBracketKeyword_1_0() { return cLeftSquareBracketKeyword_1_0; }
 
 		//guard=Expression
@@ -263,13 +261,13 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getGuardExpressionParserRuleCall_1_1_0() { return cGuardExpressionParserRuleCall_1_1_0; }
 
-		//"]"
+		//']'
 		public Keyword getRightSquareBracketKeyword_1_2() { return cRightSquareBracketKeyword_1_2; }
 
-		//("=" items+=InterfaceItem ("," items+=InterfaceItem)*)*
+		//('=' items+=InterfaceItem (',' items+=InterfaceItem)*)*
 		public Group getGroup_2() { return cGroup_2; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_2_0() { return cEqualsSignKeyword_2_0; }
 
 		//items+=InterfaceItem
@@ -278,10 +276,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//InterfaceItem
 		public RuleCall getItemsInterfaceItemParserRuleCall_2_1_0() { return cItemsInterfaceItemParserRuleCall_2_1_0; }
 
-		//("," items+=InterfaceItem)*
+		//(',' items+=InterfaceItem)*
 		public Group getGroup_2_2() { return cGroup_2_2; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_2_2_0() { return cCommaKeyword_2_2_0; }
 
 		//items+=InterfaceItem
@@ -290,12 +288,12 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//InterfaceItem
 		public RuleCall getItemsInterfaceItemParserRuleCall_2_2_1_0() { return cItemsInterfaceItemParserRuleCall_2_2_1_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_3() { return cSemicolonKeyword_3; }
 	}
 
 	public class InterfaceItemElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "InterfaceItem");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.InterfaceItem");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cInterfaceFieldParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cInterfaceNavigationParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -319,7 +317,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class InterfaceFieldElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "InterfaceField");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.InterfaceField");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cUnorderedAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final Keyword cUnorderedPlusSignKeyword_0_0 = (Keyword)cUnorderedAssignment_0.eContents().get(0);
@@ -328,16 +326,16 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cFieldEStructuralFeatureIDTerminalRuleCall_1_0_1 = (RuleCall)cFieldEStructuralFeatureCrossReference_1_0.eContents().get(1);
 		
 		//InterfaceField:
-		//	unordered?="+"? field=[ecore::EStructuralFeature];
+		//	unordered?='+'? field=[ecore::EStructuralFeature];
 		@Override public ParserRule getRule() { return rule; }
 
-		//unordered?="+"? field=[ecore::EStructuralFeature]
+		//unordered?='+'? field=[ecore::EStructuralFeature]
 		public Group getGroup() { return cGroup; }
 
-		//unordered?="+"?
+		//unordered?='+'?
 		public Assignment getUnorderedAssignment_0() { return cUnorderedAssignment_0; }
 
-		//"+"
+		//'+'
 		public Keyword getUnorderedPlusSignKeyword_0_0() { return cUnorderedPlusSignKeyword_0_0; }
 
 		//field=[ecore::EStructuralFeature]
@@ -351,7 +349,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class InterfaceNavigationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "InterfaceNavigation");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.InterfaceNavigation");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cCommercialAtKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cUnorderedAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -361,19 +359,19 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRefEReferenceIDTerminalRuleCall_2_0_1 = (RuleCall)cRefEReferenceCrossReference_2_0.eContents().get(1);
 		
 		//InterfaceNavigation:
-		//	"@" unordered?="+"? ref=[ecore::EReference];
+		//	'@' unordered?='+'? ref=[ecore::EReference];
 		@Override public ParserRule getRule() { return rule; }
 
-		//"@" unordered?="+"? ref=[ecore::EReference]
+		//'@' unordered?='+'? ref=[ecore::EReference]
 		public Group getGroup() { return cGroup; }
 
-		//"@"
+		//'@'
 		public Keyword getCommercialAtKeyword_0() { return cCommercialAtKeyword_0; }
 
-		//unordered?="+"?
+		//unordered?='+'?
 		public Assignment getUnorderedAssignment_1() { return cUnorderedAssignment_1; }
 
-		//"+"
+		//'+'
 		public Keyword getUnorderedPlusSignKeyword_1_0() { return cUnorderedPlusSignKeyword_1_0; }
 
 		//ref=[ecore::EReference]
@@ -387,7 +385,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class InterfaceExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "InterfaceExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.InterfaceExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cEvalKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -400,28 +398,28 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//InterfaceExpression:
-		//	"eval" ref?="@"? unordered?="+"? "(" expr=Expression ")";
+		//	'eval' ref?='@'? unordered?='+'? '(' expr=Expression ')';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"eval" ref?="@"? unordered?="+"? "(" expr=Expression ")"
+		//'eval' ref?='@'? unordered?='+'? '(' expr=Expression ')'
 		public Group getGroup() { return cGroup; }
 
-		//"eval"
+		//'eval'
 		public Keyword getEvalKeyword_0() { return cEvalKeyword_0; }
 
-		//ref?="@"?
+		//ref?='@'?
 		public Assignment getRefAssignment_1() { return cRefAssignment_1; }
 
-		//"@"
+		//'@'
 		public Keyword getRefCommercialAtKeyword_1_0() { return cRefCommercialAtKeyword_1_0; }
 
-		//unordered?="+"?
+		//unordered?='+'?
 		public Assignment getUnorderedAssignment_2() { return cUnorderedAssignment_2; }
 
-		//"+"
+		//'+'
 		public Keyword getUnorderedPlusSignKeyword_2_0() { return cUnorderedPlusSignKeyword_2_0; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_3() { return cLeftParenthesisKeyword_3; }
 
 		//expr=Expression
@@ -430,12 +428,12 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getExprExpressionParserRuleCall_4_0() { return cExprExpressionParserRuleCall_4_0; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
 	}
 
 	public class ExportElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Export");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.Export");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cExportKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
@@ -502,39 +500,37 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
 		
 		//Export:
-		//	"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
-		//	qualifiedName?="qualified"? naming=Expression)? // Only one name for now
-		// ("[" guard=Expression "]")? "{"
-		//	("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
-		//	((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
-		//	attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")*
-		//	"}";
+		//	'export' (lookup?='lookup' ('[' lookupPredicate=Expression ']')?)? type=[ecore::EClass|QualifiedID] ('as'
+		//	qualifiedName?='qualified'? naming=Expression)? ('[' guard=Expression ']')? '{' ('uri-fragment' '='
+		//	fragmentUnique?='unique'? 'attribute' '(' fragmentAttribute=[ecore::EAttribute] ')' ';')?
+		//	((fingerprint?='object-fingerprint' | resourceFingerprint?='resource-fingerprint') ';')? ('field'
+		//	attributes+=Attribute (',' attributes+=Attribute)* ';' | 'data' userData+=UserData (',' userData+=UserData)* ';')*
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
-		//qualifiedName?="qualified"? naming=Expression)? // Only one name for now
-		// ("[" guard=Expression "]")? "{"
-		//("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
-		//((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
-		//attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")* "}"
+		//'export' (lookup?='lookup' ('[' lookupPredicate=Expression ']')?)? type=[ecore::EClass|QualifiedID] ('as'
+		//qualifiedName?='qualified'? naming=Expression)? ('[' guard=Expression ']')? '{' ('uri-fragment' '='
+		//fragmentUnique?='unique'? 'attribute' '(' fragmentAttribute=[ecore::EAttribute] ')' ';')?
+		//((fingerprint?='object-fingerprint' | resourceFingerprint?='resource-fingerprint') ';')? ('field'
+		//attributes+=Attribute (',' attributes+=Attribute)* ';' | 'data' userData+=UserData (',' userData+=UserData)* ';')* '}'
 		public Group getGroup() { return cGroup; }
 
-		//"export"
+		//'export'
 		public Keyword getExportKeyword_0() { return cExportKeyword_0; }
 
-		//(lookup?="lookup" ("[" lookupPredicate=Expression "]")?)?
+		//(lookup?='lookup' ('[' lookupPredicate=Expression ']')?)?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//lookup?="lookup"
+		//lookup?='lookup'
 		public Assignment getLookupAssignment_1_0() { return cLookupAssignment_1_0; }
 
-		//"lookup"
+		//'lookup'
 		public Keyword getLookupLookupKeyword_1_0_0() { return cLookupLookupKeyword_1_0_0; }
 
-		//("[" lookupPredicate=Expression "]")?
+		//('[' lookupPredicate=Expression ']')?
 		public Group getGroup_1_1() { return cGroup_1_1; }
 
-		//"["
+		//'['
 		public Keyword getLeftSquareBracketKeyword_1_1_0() { return cLeftSquareBracketKeyword_1_1_0; }
 
 		//lookupPredicate=Expression
@@ -543,7 +539,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getLookupPredicateExpressionParserRuleCall_1_1_1_0() { return cLookupPredicateExpressionParserRuleCall_1_1_1_0; }
 
-		//"]"
+		//']'
 		public Keyword getRightSquareBracketKeyword_1_1_2() { return cRightSquareBracketKeyword_1_1_2; }
 
 		//type=[ecore::EClass|QualifiedID]
@@ -555,16 +551,16 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getTypeEClassQualifiedIDParserRuleCall_2_0_1() { return cTypeEClassQualifiedIDParserRuleCall_2_0_1; }
 
-		//("as" qualifiedName?="qualified"? naming=Expression)?
+		//('as' qualifiedName?='qualified'? naming=Expression)?
 		public Group getGroup_3() { return cGroup_3; }
 
-		//"as"
+		//'as'
 		public Keyword getAsKeyword_3_0() { return cAsKeyword_3_0; }
 
-		//qualifiedName?="qualified"?
+		//qualifiedName?='qualified'?
 		public Assignment getQualifiedNameAssignment_3_1() { return cQualifiedNameAssignment_3_1; }
 
-		//"qualified"
+		//'qualified'
 		public Keyword getQualifiedNameQualifiedKeyword_3_1_0() { return cQualifiedNameQualifiedKeyword_3_1_0; }
 
 		//naming=Expression
@@ -573,10 +569,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getNamingExpressionParserRuleCall_3_2_0() { return cNamingExpressionParserRuleCall_3_2_0; }
 
-		//("[" guard=Expression "]")?
+		//('[' guard=Expression ']')?
 		public Group getGroup_4() { return cGroup_4; }
 
-		//"["
+		//'['
 		public Keyword getLeftSquareBracketKeyword_4_0() { return cLeftSquareBracketKeyword_4_0; }
 
 		//guard=Expression
@@ -585,31 +581,31 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getGuardExpressionParserRuleCall_4_1_0() { return cGuardExpressionParserRuleCall_4_1_0; }
 
-		//"]"
+		//']'
 		public Keyword getRightSquareBracketKeyword_4_2() { return cRightSquareBracketKeyword_4_2; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 
-		//("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
+		//('uri-fragment' '=' fragmentUnique?='unique'? 'attribute' '(' fragmentAttribute=[ecore::EAttribute] ')' ';')?
 		public Group getGroup_6() { return cGroup_6; }
 
-		//"uri-fragment"
+		//'uri-fragment'
 		public Keyword getUriFragmentKeyword_6_0() { return cUriFragmentKeyword_6_0; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_6_1() { return cEqualsSignKeyword_6_1; }
 
-		//fragmentUnique?="unique"?
+		//fragmentUnique?='unique'?
 		public Assignment getFragmentUniqueAssignment_6_2() { return cFragmentUniqueAssignment_6_2; }
 
-		//"unique"
+		//'unique'
 		public Keyword getFragmentUniqueUniqueKeyword_6_2_0() { return cFragmentUniqueUniqueKeyword_6_2_0; }
 
-		//"attribute"
+		//'attribute'
 		public Keyword getAttributeKeyword_6_3() { return cAttributeKeyword_6_3; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_6_4() { return cLeftParenthesisKeyword_6_4; }
 
 		//fragmentAttribute=[ecore::EAttribute]
@@ -621,41 +617,41 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getFragmentAttributeEAttributeIDTerminalRuleCall_6_5_0_1() { return cFragmentAttributeEAttributeIDTerminalRuleCall_6_5_0_1; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_6_6() { return cRightParenthesisKeyword_6_6; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_6_7() { return cSemicolonKeyword_6_7; }
 
-		//((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")?
+		//((fingerprint?='object-fingerprint' | resourceFingerprint?='resource-fingerprint') ';')?
 		public Group getGroup_7() { return cGroup_7; }
 
-		//fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint"
+		//fingerprint?='object-fingerprint' | resourceFingerprint?='resource-fingerprint'
 		public Alternatives getAlternatives_7_0() { return cAlternatives_7_0; }
 
-		//fingerprint?="object-fingerprint"
+		//fingerprint?='object-fingerprint'
 		public Assignment getFingerprintAssignment_7_0_0() { return cFingerprintAssignment_7_0_0; }
 
-		//"object-fingerprint"
+		//'object-fingerprint'
 		public Keyword getFingerprintObjectFingerprintKeyword_7_0_0_0() { return cFingerprintObjectFingerprintKeyword_7_0_0_0; }
 
-		//resourceFingerprint?="resource-fingerprint"
+		//resourceFingerprint?='resource-fingerprint'
 		public Assignment getResourceFingerprintAssignment_7_0_1() { return cResourceFingerprintAssignment_7_0_1; }
 
-		//"resource-fingerprint"
+		//'resource-fingerprint'
 		public Keyword getResourceFingerprintResourceFingerprintKeyword_7_0_1_0() { return cResourceFingerprintResourceFingerprintKeyword_7_0_1_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_7_1() { return cSemicolonKeyword_7_1; }
 
-		//("field" attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)*
-		//";")*
+		//('field' attributes+=Attribute (',' attributes+=Attribute)* ';' | 'data' userData+=UserData (',' userData+=UserData)*
+		//';')*
 		public Alternatives getAlternatives_8() { return cAlternatives_8; }
 
-		//"field" attributes+=Attribute ("," attributes+=Attribute)* ";"
+		//'field' attributes+=Attribute (',' attributes+=Attribute)* ';'
 		public Group getGroup_8_0() { return cGroup_8_0; }
 
-		//"field"
+		//'field'
 		public Keyword getFieldKeyword_8_0_0() { return cFieldKeyword_8_0_0; }
 
 		//attributes+=Attribute
@@ -664,10 +660,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Attribute
 		public RuleCall getAttributesAttributeParserRuleCall_8_0_1_0() { return cAttributesAttributeParserRuleCall_8_0_1_0; }
 
-		//("," attributes+=Attribute)*
+		//(',' attributes+=Attribute)*
 		public Group getGroup_8_0_2() { return cGroup_8_0_2; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_8_0_2_0() { return cCommaKeyword_8_0_2_0; }
 
 		//attributes+=Attribute
@@ -676,13 +672,13 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//Attribute
 		public RuleCall getAttributesAttributeParserRuleCall_8_0_2_1_0() { return cAttributesAttributeParserRuleCall_8_0_2_1_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_8_0_3() { return cSemicolonKeyword_8_0_3; }
 
-		//"data" userData+=UserData ("," userData+=UserData)* ";"
+		//'data' userData+=UserData (',' userData+=UserData)* ';'
 		public Group getGroup_8_1() { return cGroup_8_1; }
 
-		//"data"
+		//'data'
 		public Keyword getDataKeyword_8_1_0() { return cDataKeyword_8_1_0; }
 
 		//userData+=UserData
@@ -691,10 +687,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//UserData
 		public RuleCall getUserDataUserDataParserRuleCall_8_1_1_0() { return cUserDataUserDataParserRuleCall_8_1_1_0; }
 
-		//("," userData+=UserData)*
+		//(',' userData+=UserData)*
 		public Group getGroup_8_1_2() { return cGroup_8_1_2; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_8_1_2_0() { return cCommaKeyword_8_1_2_0; }
 
 		//userData+=UserData
@@ -703,15 +699,15 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//UserData
 		public RuleCall getUserDataUserDataParserRuleCall_8_1_2_1_0() { return cUserDataUserDataParserRuleCall_8_1_2_1_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_8_1_3() { return cSemicolonKeyword_8_1_3; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_9() { return cRightCurlyBracketKeyword_9; }
 	}
 
 	public class UserDataElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "UserData");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.UserData");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
@@ -720,10 +716,10 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cExprExpressionParserRuleCall_2_0 = (RuleCall)cExprAssignment_2.eContents().get(0);
 		
 		//UserData:
-		//	name=ID "=" expr=Expression;
+		//	name=ID '=' expr=Expression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//name=ID "=" expr=Expression
+		//name=ID '=' expr=Expression
 		public Group getGroup() { return cGroup; }
 
 		//name=ID
@@ -732,7 +728,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
 
 		//expr=Expression
@@ -743,7 +739,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class AttributeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Attribute");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.Attribute");
 		private final Assignment cAttributeAssignment = (Assignment)rule.eContents().get(1);
 		private final CrossReference cAttributeEAttributeCrossReference_0 = (CrossReference)cAttributeAssignment.eContents().get(0);
 		private final RuleCall cAttributeEAttributeIDTerminalRuleCall_0_1 = (RuleCall)cAttributeEAttributeCrossReference_0.eContents().get(1);
@@ -763,27 +759,27 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class QualifiedIDElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "QualifiedID");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.export.Export.QualifiedID");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cColonColonKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final RuleCall cIDTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
-		//QualifiedID returns ecore::EString:
-		//	ID ("::" ID)*;
+		//QualifiedID:
+		//	ID ('::' ID)*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//ID ("::" ID)*
+		//ID ('::' ID)*
 		public Group getGroup() { return cGroup; }
 
 		//ID
 		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
 
-		//("::" ID)*
+		//('::' ID)*
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"::"
+		//'::'
 		public Keyword getColonColonKeyword_1_0() { return cColonColonKeyword_1_0; }
 
 		//ID
@@ -809,11 +805,15 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 
 	private final ExpressionGrammarAccess gaExpression;
 
+	private final TerminalsGrammarAccess gaTerminals;
+
 	@Inject
 	public ExportGrammarAccess(GrammarProvider grammarProvider,
-		ExpressionGrammarAccess gaExpression) {
+		ExpressionGrammarAccess gaExpression,
+		TerminalsGrammarAccess gaTerminals) {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaExpression = gaExpression;
+		this.gaTerminals = gaTerminals;
 		this.pExportModel = new ExportModelElements();
 		this.pImport = new ImportElements();
 		this.pExtension = new ExtensionElements();
@@ -855,10 +855,14 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		return gaExpression;
 	}
 
+	public TerminalsGrammarAccess getTerminalsGrammarAccess() {
+		return gaTerminals;
+	}
+
 	
 	//ExportModel:
-	//	("export" extension?="extension"? name=ID "for" targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
-	//	extensions+=Extension* ("interface" "{" interfaces+=Interface+ "}")? exports+=Export+;
+	//	('export' extension?='extension'? name=ID 'for' targetGrammar=[xtext::Grammar|QualifiedID])? imports+=Import+
+	//	extensions+=Extension* ('interface' '{' interfaces+=Interface+ '}')? exports+=Export+;
 	public ExportModelElements getExportModelAccess() {
 		return pExportModel;
 	}
@@ -868,7 +872,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Import:
-	//	"import" package=[ecore::EPackage|STRING] ("as" name=ID)? // Use nsURIs
+	//	'import' package=[ecore::EPackage|STRING] ('as' name=ID)? // Use nsURIs
 	//;
 	public ImportElements getImportAccess() {
 		return pImport;
@@ -879,8 +883,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Extension:
-	//	"extension" extension= // Alas, we can't link xtend files. Maybe simply as EResources?
-	// QualifiedID;
+	//	'extension' extension=QualifiedID // Alas, we can't link xtend files. Maybe simply as EResources?
+	//;
 	public ExtensionElements getExtensionAccess() {
 		return pExtension;
 	}
@@ -900,8 +904,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Interface:
-	//	type=[ecore::EClass|QualifiedID] ("[" guard=Expression "]")? ("=" items+=InterfaceItem ("," items+=InterfaceItem)*)*
-	//	";";
+	//	type=[ecore::EClass|QualifiedID] ('[' guard=Expression ']')? ('=' items+=InterfaceItem (',' items+=InterfaceItem)*)*
+	//	';';
 	public InterfaceElements getInterfaceAccess() {
 		return pInterface;
 	}
@@ -921,7 +925,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//InterfaceField:
-	//	unordered?="+"? field=[ecore::EStructuralFeature];
+	//	unordered?='+'? field=[ecore::EStructuralFeature];
 	public InterfaceFieldElements getInterfaceFieldAccess() {
 		return pInterfaceField;
 	}
@@ -931,7 +935,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//InterfaceNavigation:
-	//	"@" unordered?="+"? ref=[ecore::EReference];
+	//	'@' unordered?='+'? ref=[ecore::EReference];
 	public InterfaceNavigationElements getInterfaceNavigationAccess() {
 		return pInterfaceNavigation;
 	}
@@ -941,7 +945,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//InterfaceExpression:
-	//	"eval" ref?="@"? unordered?="+"? "(" expr=Expression ")";
+	//	'eval' ref?='@'? unordered?='+'? '(' expr=Expression ')';
 	public InterfaceExpressionElements getInterfaceExpressionAccess() {
 		return pInterfaceExpression;
 	}
@@ -951,13 +955,12 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Export:
-	//	"export" (lookup?="lookup" ("[" lookupPredicate=Expression "]")?)? type=[ecore::EClass|QualifiedID] ("as"
-	//	qualifiedName?="qualified"? naming=Expression)? // Only one name for now
-	// ("[" guard=Expression "]")? "{"
-	//	("uri-fragment" "=" fragmentUnique?="unique"? "attribute" "(" fragmentAttribute=[ecore::EAttribute] ")" ";")?
-	//	((fingerprint?="object-fingerprint" | resourceFingerprint?="resource-fingerprint") ";")? ("field"
-	//	attributes+=Attribute ("," attributes+=Attribute)* ";" | "data" userData+=UserData ("," userData+=UserData)* ";")*
-	//	"}";
+	//	'export' (lookup?='lookup' ('[' lookupPredicate=Expression ']')?)? type=[ecore::EClass|QualifiedID] ('as'
+	//	qualifiedName?='qualified'? naming=Expression)? ('[' guard=Expression ']')? '{' ('uri-fragment' '='
+	//	fragmentUnique?='unique'? 'attribute' '(' fragmentAttribute=[ecore::EAttribute] ')' ';')?
+	//	((fingerprint?='object-fingerprint' | resourceFingerprint?='resource-fingerprint') ';')? ('field'
+	//	attributes+=Attribute (',' attributes+=Attribute)* ';' | 'data' userData+=UserData (',' userData+=UserData)* ';')*
+	//	'}';
 	public ExportElements getExportAccess() {
 		return pExport;
 	}
@@ -967,7 +970,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//UserData:
-	//	name=ID "=" expr=Expression;
+	//	name=ID '=' expr=Expression;
 	public UserDataElements getUserDataAccess() {
 		return pUserData;
 	}
@@ -986,8 +989,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		return getAttributeAccess().getRule();
 	}
 
-	//QualifiedID returns ecore::EString:
-	//	ID ("::" ID)*;
+	//QualifiedID:
+	//	ID ('::' ID)*;
 	public QualifiedIDElements getQualifiedIDAccess() {
 		return pQualifiedID;
 	}
@@ -1029,7 +1032,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////   {$e=factory.createLetExpression(v,varExpr,target);}
 	// //|  x=castedExpression {$e=x;};
 	// LetExpression:
-	//	"let" identifier=Identifier "=" varExpr=Expression ":" target=Expression;
+	//	'let' identifier=Identifier '=' varExpr=Expression ':' target=Expression;
 	public ExpressionGrammarAccess.LetExpressionElements getLetExpressionAccess() {
 		return gaExpression.getLetExpressionAccess();
 	}
@@ -1045,7 +1048,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	// //	| x=chainExpression {$e=x;};
 	//
 	//CastedExpression:
-	//	"(" type=Type ")" target=Expression;
+	//	'(' type=Type ')' target=Expression;
 	public ExpressionGrammarAccess.CastedExpressionElements getCastedExpressionAccess() {
 		return gaExpression.getCastedExpressionAccess();
 	}
@@ -1058,8 +1061,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	x=ifExpression {$e=x;} ( '->' right=ifExpression {$e=factory.createChainExpression($e,right);})*;
 	// ChainExpression
-	//returns Expression:
-	//	ChainedExpression ({ChainExpression.first=current} "->" next=ChainedExpression)*;
+	//Expression:
+	//	ChainedExpression ({ChainExpression.first=current} '->' next=ChainedExpression)*;
 	public ExpressionGrammarAccess.ChainExpressionElements getChainExpressionAccess() {
 		return gaExpression.getChainExpressionAccess();
 	}
@@ -1068,7 +1071,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		return getChainExpressionAccess().getRule();
 	}
 
-	//ChainedExpression returns Expression:
+	//ChainedExpression Expression:
 	//	IfExpressionKw | IfExpressionTri | SwitchExpression;
 	public ExpressionGrammarAccess.ChainedExpressionElements getChainedExpressionAccess() {
 		return gaExpression.getChainedExpressionAccess();
@@ -1084,8 +1087,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////|	'if' condition=switchExpression 'then' thenPart=switchExpression ('else' elsePart=expression)? {$e=factory.createIf(condition,thenPart,elsePart);};
 	//
-	//IfExpressionTri returns Expression:
-	//	OrExpression ({IfExpression.condition=current} "?" thenPart=ChainedExpression ":" elsePart=ChainedExpression)?;
+	//IfExpressionTri Expression:
+	//	OrExpression ({IfExpression.condition=current} '?' thenPart=ChainedExpression ':' elsePart=ChainedExpression)?;
 	public ExpressionGrammarAccess.IfExpressionTriElements getIfExpressionTriAccess() {
 		return gaExpression.getIfExpressionTriAccess();
 	}
@@ -1094,8 +1097,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		return getIfExpressionTriAccess().getRule();
 	}
 
-	//IfExpressionKw returns IfExpression:
-	//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression -> ("else" elsePart=ChainedExpression)?;
+	//IfExpressionKw IfExpression:
+	//	'if' condition=ChainedExpression 'then' thenPart=ChainedExpression -> ('else' elsePart=ChainedExpression)?;
 	public ExpressionGrammarAccess.IfExpressionKwElements getIfExpressionKwAccess() {
 		return gaExpression.getIfExpressionKwAccess();
 	}
@@ -1119,7 +1122,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////   {$e = factory.createSwitchExpression(pred,cases,def);}
 	// //|  x=orExpression {$e=x;};
 	// SwitchExpression:
-	//	"switch" ("(" switchExpr=OrExpression ")")? "{" case+=Case* "default" ":" defaultExpr=OrExpression "}";
+	//	'switch' ('(' switchExpr=OrExpression ')')? '{' case+=Case* 'default' ':' defaultExpr=OrExpression '}';
 	public ExpressionGrammarAccess.SwitchExpressionElements getSwitchExpressionAccess() {
 		return gaExpression.getSwitchExpressionAccess();
 	}
@@ -1129,7 +1132,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Case:
-	//	"case" condition=OrExpression ":" thenPar=OrExpression;
+	//	'case' condition=OrExpression ':' thenPar=OrExpression;
 	public ExpressionGrammarAccess.CaseElements getCaseAccess() {
 		return gaExpression.getCaseAccess();
 	}
@@ -1142,8 +1145,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////  	x=andExpression {$e=x;} (name='||' r=andExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
 	//
-	//OrExpression returns Expression:
-	//	AndExpression ({BooleanOperation.left=current} operator="||" right=AndExpression)*;
+	//OrExpression Expression:
+	//	AndExpression ({BooleanOperation.left=current} operator='||' right=AndExpression)*;
 	public ExpressionGrammarAccess.OrExpressionElements getOrExpressionAccess() {
 		return gaExpression.getOrExpressionAccess();
 	}
@@ -1156,8 +1159,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	x=impliesExpression {$e=x;} (name='&&' r=impliesExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
 	//
-	//AndExpression returns Expression:
-	//	ImpliesExpression ({BooleanOperation.left=current} operator="&&" right=ImpliesExpression)*;
+	//AndExpression Expression:
+	//	ImpliesExpression ({BooleanOperation.left=current} operator='&&' right=ImpliesExpression)*;
 	public ExpressionGrammarAccess.AndExpressionElements getAndExpressionAccess() {
 		return gaExpression.getAndExpressionAccess();
 	}
@@ -1170,8 +1173,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	x=relationalExpression {$e=x;} (name='implies' r=relationalExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
 	//
-	//ImpliesExpression returns Expression:
-	//	RelationalExpression ({BooleanOperation.left=current} operator="implies" right=RelationalExpression)*;
+	//ImpliesExpression Expression:
+	//	RelationalExpression ({BooleanOperation.left=current} operator='implies' right=RelationalExpression)*;
 	public ExpressionGrammarAccess.ImpliesExpressionElements getImpliesExpressionAccess() {
 		return gaExpression.getImpliesExpressionAccess();
 	}
@@ -1185,8 +1188,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
-	//RelationalExpression returns Expression:
-	//	AdditiveExpression ({BooleanOperation.left=current} operator=("==" | "!=" | ">=" | "<=" | ">" | "<")
+	//RelationalExpression Expression:
+	//	AdditiveExpression ({BooleanOperation.left=current} operator=('==' | '!=' | '>=' | '<=' | '>' | '<')
 	//	right=AdditiveExpression)*;
 	public ExpressionGrammarAccess.RelationalExpressionElements getRelationalExpressionAccess() {
 		return gaExpression.getRelationalExpressionAccess();
@@ -1201,8 +1204,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////   (name=('+'| '-') r=multiplicativeExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
-	//AdditiveExpression returns Expression:
-	//	MultiplicativeExpression ({OperationCall.params+=current} name=("+" | "-") params+=MultiplicativeExpression)*;
+	//AdditiveExpression Expression:
+	//	MultiplicativeExpression ({OperationCall.params+=current} name=('+' | '-') params+=MultiplicativeExpression)*;
 	public ExpressionGrammarAccess.AdditiveExpressionElements getAdditiveExpressionAccess() {
 		return gaExpression.getAdditiveExpressionAccess();
 	}
@@ -1216,8 +1219,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	(name=('*' | '/') r=unaryExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
-	//MultiplicativeExpression returns Expression:
-	//	UnaryOrInfixExpression ({OperationCall.params+=current} name=("*" | "/") params+=UnaryOrInfixExpression)*;
+	//MultiplicativeExpression Expression:
+	//	UnaryOrInfixExpression ({OperationCall.params+=current} name=('*' | '/') params+=UnaryOrInfixExpression)*;
 	public ExpressionGrammarAccess.MultiplicativeExpressionElements getMultiplicativeExpressionAccess() {
 		return gaExpression.getMultiplicativeExpressionAccess();
 	}
@@ -1232,8 +1235,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////|	name='!' x=infixExpression	{$e = factory.createOperationCall(id(name),x);}
 	//
 	////|	name='-' x=infixExpression	{$e = factory.createOperationCall(id(name),x);};
-	// UnaryOrInfixExpression returns
-	//Expression:
+	// UnaryOrInfixExpression Expression:
 	//	UnaryExpression | InfixExpression;
 	public ExpressionGrammarAccess.UnaryOrInfixExpressionElements getUnaryOrInfixExpressionAccess() {
 		return gaExpression.getUnaryOrInfixExpressionAccess();
@@ -1243,8 +1245,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		return getUnaryOrInfixExpressionAccess().getRule();
 	}
 
-	//UnaryExpression returns OperationCall:
-	//	name=("!" | "-") params+=InfixExpression;
+	//UnaryExpression OperationCall:
+	//	name=('!' | '-') params+=InfixExpression;
 	public ExpressionGrammarAccess.UnaryExpressionElements getUnaryExpressionAccess() {
 		return gaExpression.getUnaryExpressionAccess();
 	}
@@ -1258,12 +1260,12 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////	x=primaryExpression {$e=x;} ( '.' op=featureCall { if (op!=null) { op.setTarget($e);$e=op;}} )*;
 	//
 	//// having support for fragments could avoid the redundancy at this point
-	// InfixExpression returns Expression:
-	//	PrimaryExpression ({OperationCall.target=current} "." name=Identifier "(" (params+=Expression (","
-	//	params+=Expression)*)? ")" | {FeatureCall.target=current} "." type=Type | {TypeSelectExpression.target=current} "."
-	//	name="typeSelect" "(" type=Type ")" | {CollectionExpression.target=current} "." name=("collect" | "select" |
-	//	"selectFirst" | "reject" | "exists" | "notExists" | "sortBy" | "forAll") "(" (var=Identifier "|")? exp=Expression
-	//	")")*;
+	// InfixExpression Expression:
+	//	PrimaryExpression ({OperationCall.target=current} '.' name=Identifier '(' (params+=Expression (','
+	//	params+=Expression)*)? ')' | {FeatureCall.target=current} '.' type=Type | {TypeSelectExpression.target=current} '.'
+	//	name='typeSelect' '(' type=Type ')' | {CollectionExpression.target=current} '.' name=('collect' | 'select' |
+	//	'selectFirst' | 'reject' | 'exists' | 'notExists' | 'sortBy' | 'forAll') '(' (var=Identifier '|')? exp=Expression
+	//	')')*;
 	public ExpressionGrammarAccess.InfixExpressionElements getInfixExpressionAccess() {
 		return gaExpression.getInfixExpressionAccess();
 	}
@@ -1285,7 +1287,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////|   x=globalVarExpression {$e=x;}
 	// //|   x=paranthesizedExpression {$e=x;};
-	// PrimaryExpression returns Expression:
+	// PrimaryExpression Expression:
 	//	Literal | FeatureCall | ListLiteral | ConstructorCallExpression | GlobalVarExpression | ParanthesizedExpression;
 	public ExpressionGrammarAccess.PrimaryExpressionElements getPrimaryExpressionAccess() {
 		return gaExpression.getPrimaryExpressionAccess();
@@ -1306,7 +1308,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//BooleanLiteral:
-	//	val=("true" | "false");
+	//	val=('true' | 'false');
 	public ExpressionGrammarAccess.BooleanLiteralElements getBooleanLiteralAccess() {
 		return gaExpression.getBooleanLiteralAccess();
 	}
@@ -1326,7 +1328,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NullLiteral:
-	//	val="null";
+	//	val='null';
 	public ExpressionGrammarAccess.NullLiteralElements getNullLiteralAccess() {
 		return gaExpression.getNullLiteralAccess();
 	}
@@ -1356,7 +1358,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal REAL:
-	//	"0".."9"* "." "0".."9"*;
+	//	'0'..'9'* '.' '0'..'9'*;
 	public TerminalRule getREALRule() {
 		return gaExpression.getREALRule();
 	} 
@@ -1364,9 +1366,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////paranthesizedExpression returns [Expression e] :
 	//
 	////    '(' x=expression ')' {$e=factory.createParanthesizedExpression(x);};
-	// ParanthesizedExpression returns
-	//Expression:
-	//	"(" Expression ")";
+	// ParanthesizedExpression Expression:
+	//	'(' Expression ')';
 	public ExpressionGrammarAccess.ParanthesizedExpressionElements getParanthesizedExpressionAccess() {
 		return gaExpression.getParanthesizedExpressionAccess();
 	}
@@ -1379,7 +1380,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////    '(' x=expression ')' {$e=factory.createParanthesizedExpression(x);};
 	// GlobalVarExpression:
-	//	"GLOBALVAR" name=Identifier;
+	//	'GLOBALVAR' name=Identifier;
 	public ExpressionGrammarAccess.GlobalVarExpressionElements getGlobalVarExpressionAccess() {
 		return gaExpression.getGlobalVarExpressionAccess();
 	}
@@ -1405,7 +1406,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//OperationCall:
-	//	name=Identifier "(" (params+=Expression ("," params+=Expression)*)? ")";
+	//	name=Identifier '(' (params+=Expression (',' params+=Expression)*)? ')';
 	public ExpressionGrammarAccess.OperationCallElements getOperationCallAccess() {
 		return gaExpression.getOperationCallAccess();
 	}
@@ -1417,7 +1418,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////listLiteral  returns [Expression e] :
 	// //	'{' (l=parameterList)? '}' {$e=factory.createListLiteral(l);};
 	// ListLiteral:
-	//	{ListLiteral} "{" (elements+=Expression ("," elements+=Expression)*)? "}";
+	//	{ListLiteral} '{' (elements+=Expression (',' elements+=Expression)*)? '}';
 	public ExpressionGrammarAccess.ListLiteralElements getListLiteralAccess() {
 		return gaExpression.getListLiteralAccess();
 	}
@@ -1431,7 +1432,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	{$e= factory.createConstructorCallExpression(t);};
 	// ConstructorCallExpression:
-	//	"new" type=SimpleType;
+	//	'new' type=SimpleType;
 	public ExpressionGrammarAccess.ConstructorCallExpressionElements getConstructorCallExpressionAccess() {
 		return gaExpression.getConstructorCallExpressionAccess();
 	}
@@ -1457,7 +1458,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	//// { $e = factory.createCollectionExpression(id(name),var,x);};
 	// TypeSelectExpression:
-	//	name="typeSelect" "(" type=Type ")";
+	//	name='typeSelect' '(' type=Type ')';
 	public ExpressionGrammarAccess.TypeSelectExpressionElements getTypeSelectExpressionAccess() {
 		return gaExpression.getTypeSelectExpressionAccess();
 	}
@@ -1467,8 +1468,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CollectionExpression:
-	//	name=("collect" | "select" | "selectFirst" | "reject" | "exists" | "notExists" | "sortBy" | "forAll") "("
-	//	(var=Identifier "|")? exp=Expression ")";
+	//	name=('collect' | 'select' | 'selectFirst' | 'reject' | 'exists' | 'notExists' | 'sortBy' | 'forAll') '('
+	//	(var=Identifier '|')? exp=Expression ')';
 	public ExpressionGrammarAccess.CollectionExpressionElements getCollectionExpressionAccess() {
 		return gaExpression.getCollectionExpressionAccess();
 	}
@@ -1480,7 +1481,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	////type returns [Identifier id] :
 	// //	a = collectionType {$id=a;}|
 	// //	b = simpleType {$id=b;};
-	// Type returns Identifier:
+	// Type Identifier:
 	//	CollectionType | SimpleType;
 	public ExpressionGrammarAccess.TypeElements getTypeAccess() {
 		return gaExpression.getTypeAccess();
@@ -1494,9 +1495,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	// //  cl=( 'Collection' | 'List' | 'Set' ) {$id = id(cl);}
 	//
 	////  (b='[' id1=simpleType c=']' { $id.append(id(b));$id.append(id1);$id.append(id(c));})?;
-	// CollectionType returns
-	//Identifier:
-	//	cl=("Collection" | "List" | "Set") "[" id1=SimpleType "]";
+	// CollectionType Identifier:
+	//	cl=('Collection' | 'List' | 'Set') '[' id1=SimpleType ']';
 	public ExpressionGrammarAccess.CollectionTypeElements getCollectionTypeAccess() {
 		return gaExpression.getCollectionTypeAccess();
 	}
@@ -1509,8 +1509,8 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	// //	x=identifier {$id=x;}
 	//
 	////	(d='::' end=identifier  {$id.append(id(d)); $id.append(end);})*;
-	// SimpleType returns Identifier:
-	//	id+=Identifier ("::" id+=Identifier)*;
+	// SimpleType Identifier:
+	//	id+=Identifier ('::' id+=Identifier)*;
 	public ExpressionGrammarAccess.SimpleTypeElements getSimpleTypeAccess() {
 		return gaExpression.getSimpleTypeAccess();
 	}
@@ -1519,7 +1519,7 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 		return getSimpleTypeAccess().getRule();
 	}
 
-	//Identifier returns ecore::EString:
+	//Identifier:
 	//	ID;
 	public ExpressionGrammarAccess.IdentifierElements getIdentifierAccess() {
 		return gaExpression.getIdentifierAccess();
@@ -1530,45 +1530,44 @@ public class ExportGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal ID:
-	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
+	//	'^'? ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 	public TerminalRule getIDRule() {
-		return gaExpression.getIDRule();
+		return gaTerminals.getIDRule();
 	} 
 
 	//terminal INT returns ecore::EInt:
-	//	"0".."9"+;
+	//	'0'..'9'+;
 	public TerminalRule getINTRule() {
-		return gaExpression.getINTRule();
+		return gaTerminals.getINTRule();
 	} 
 
 	//terminal STRING:
-	//	"\"" ("\\" . / * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\""))* "\"" | "\'" ("\\" .
-	//	/ * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\'"))* "\'";
+	//	'"' ('\\' . | !('\\' | '"'))* '"' | "'" ('\\' . | !('\\' | "'"))* "'";
 	public TerminalRule getSTRINGRule() {
-		return gaExpression.getSTRINGRule();
+		return gaTerminals.getSTRINGRule();
 	} 
 
 	//terminal ML_COMMENT:
-	//	"/ *"->"* /";
+	//	'/*'->'*/';
 	public TerminalRule getML_COMMENTRule() {
-		return gaExpression.getML_COMMENTRule();
+		return gaTerminals.getML_COMMENTRule();
 	} 
 
 	//terminal SL_COMMENT:
-	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
+	//	'//' !('\n' | '\r')* ('\r'? '\n')?;
 	public TerminalRule getSL_COMMENTRule() {
-		return gaExpression.getSL_COMMENTRule();
+		return gaTerminals.getSL_COMMENTRule();
 	} 
 
 	//terminal WS:
-	//	(" " | "\t" | "\r" | "\n")+;
+	//	' ' | '\t' | '\r' | '\n'+;
 	public TerminalRule getWSRule() {
-		return gaExpression.getWSRule();
+		return gaTerminals.getWSRule();
 	} 
 
 	//terminal ANY_OTHER:
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
-		return gaExpression.getANY_OTHERRule();
+		return gaTerminals.getANY_OTHERRule();
 	} 
 }

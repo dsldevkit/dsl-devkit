@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RangeRuleImpl#getMin <em>Min</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RangeRuleImpl#getMax <em>Max</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RangeRuleImpl#getContexts <em>Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

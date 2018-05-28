@@ -160,3 +160,9 @@ RuleSelfIdentifier:
 ValidID:
   'context' | 'currentColumn' | ID;
 
+/**
+ * Overwrite INT rule one more time (exactly as in Xbase.xtext) to avoid false-positive error.
+ */
+terminal INT returns ecore::EInt:
+  '0'..'9' ('0'..'9'|'_')*;
+

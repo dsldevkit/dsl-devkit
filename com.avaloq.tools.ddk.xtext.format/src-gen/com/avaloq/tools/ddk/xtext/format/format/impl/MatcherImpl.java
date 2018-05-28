@@ -24,12 +24,12 @@ import org.eclipse.xtext.xbase.XExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.MatcherImpl#getLocator <em>Locator</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.MatcherImpl#getType <em>Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.MatcherImpl#getCondition <em>Condition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

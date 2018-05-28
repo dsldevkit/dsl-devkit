@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.QuickFixImpl#getQuickFixKind <em>Quick Fix Kind</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.QuickFixImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.QuickFixImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.QuickFixImpl#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -26,17 +26,15 @@ import com.avaloq.tools.ddk.xtext.expression.expression.SwitchExpression;
 import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression;
 import com.avaloq.tools.ddk.xtext.expression.services.ExpressionGrammarAccess;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.xtext.Action;
+import org.eclipse.xtext.Parameter;
+import org.eclipse.xtext.ParserRule;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
-import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
-import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
-import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("all")
@@ -46,8 +44,13 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	private ExpressionGrammarAccess grammarAccess;
 	
 	@Override
-	public void createSequence(EObject context, EObject semanticObject) {
-		if(semanticObject.eClass().getEPackage() == ExpressionPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+	public void sequence(ISerializationContext context, EObject semanticObject) {
+		EPackage epackage = semanticObject.eClass().getEPackage();
+		ParserRule rule = context.getParserRule();
+		Action action = context.getAssignedAction();
+		Set<Parameter> parameters = context.getEnabledBooleanParameters();
+		if (epackage == ExpressionPackage.eINSTANCE)
+			switch (semanticObject.eClass().getClassifierID()) {
 			case ExpressionPackage.BOOLEAN_LITERAL:
 				sequence_BooleanLiteral(context, (BooleanLiteral) semanticObject); 
 				return; 
@@ -64,38 +67,38 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 				sequence_ChainExpression(context, (ChainExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.COLLECTION_EXPRESSION:
-				if(context == grammarAccess.getCollectionExpressionRule() ||
-				   context == grammarAccess.getFeatureCallRule()) {
+				if (rule == grammarAccess.getFeatureCallRule()
+						|| rule == grammarAccess.getCollectionExpressionRule()) {
 					sequence_CollectionExpression(context, (CollectionExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
+				else if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
 					sequence_CollectionExpression_InfixExpression(context, (CollectionExpression) semanticObject); 
 					return; 
 				}
@@ -104,37 +107,37 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 				sequence_ConstructorCallExpression(context, (ConstructorCallExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.FEATURE_CALL:
-				if(context == grammarAccess.getFeatureCallRule()) {
+				if (rule == grammarAccess.getFeatureCallRule()) {
 					sequence_FeatureCall(context, (FeatureCall) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
+				else if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
 					sequence_FeatureCall_InfixExpression(context, (FeatureCall) semanticObject); 
 					return; 
 				}
@@ -143,53 +146,53 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 				sequence_GlobalVarExpression(context, (GlobalVarExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.IDENTIFIER:
-				if(context == grammarAccess.getCollectionTypeRule()) {
+				if (rule == grammarAccess.getCollectionTypeRule()) {
 					sequence_CollectionType(context, (Identifier) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getTypeRule()) {
-					sequence_CollectionType_SimpleType_Type(context, (Identifier) semanticObject); 
+				else if (rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getTypeRule()) {
+					sequence_CollectionType_SimpleType(context, (Identifier) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getSimpleTypeRule()) {
+				else if (rule == grammarAccess.getSimpleTypeRule()) {
 					sequence_SimpleType(context, (Identifier) semanticObject); 
 					return; 
 				}
 				else break;
 			case ExpressionPackage.IF_EXPRESSION:
-				if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
-					sequence_ChainedExpression_IfExpressionKw_IfExpressionTri(context, (IfExpression) semanticObject); 
+				if (rule == grammarAccess.getIfExpressionKwRule()) {
+					sequence_IfExpressionKw(context, (IfExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getIfExpressionKwRule()) {
-					sequence_IfExpressionKw(context, (IfExpression) semanticObject); 
+				else if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
+					sequence_IfExpressionKw_IfExpressionTri(context, (IfExpression) semanticObject); 
 					return; 
 				}
 				else break;
@@ -206,42 +209,42 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 				sequence_NullLiteral(context, (NullLiteral) semanticObject); 
 				return; 
 			case ExpressionPackage.OPERATION_CALL:
-				if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
-					sequence_AdditiveExpression_InfixExpression_MultiplicativeExpression_OperationCall_UnaryExpression_UnaryOrInfixExpression(context, (OperationCall) semanticObject); 
+				if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
+					sequence_AdditiveExpression_InfixExpression_MultiplicativeExpression_OperationCall_UnaryExpression(context, (OperationCall) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getFeatureCallRule() ||
-				   context == grammarAccess.getOperationCallRule()) {
+				else if (rule == grammarAccess.getFeatureCallRule()
+						|| rule == grammarAccess.getOperationCallRule()) {
 					sequence_OperationCall(context, (OperationCall) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getUnaryExpressionRule()) {
+				else if (rule == grammarAccess.getUnaryExpressionRule()) {
 					sequence_UnaryExpression(context, (OperationCall) semanticObject); 
 					return; 
 				}
@@ -256,64 +259,125 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 				sequence_SwitchExpression(context, (SwitchExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.TYPE_SELECT_EXPRESSION:
-				if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
+				if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
 					sequence_InfixExpression_TypeSelectExpression(context, (TypeSelectExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getFeatureCallRule() ||
-				   context == grammarAccess.getTypeSelectExpressionRule()) {
+				else if (rule == grammarAccess.getFeatureCallRule()
+						|| rule == grammarAccess.getTypeSelectExpressionRule()) {
 					sequence_TypeSelectExpression(context, (TypeSelectExpression) semanticObject); 
 					return; 
 				}
 				else break;
 			}
-		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
+		if (errorAcceptor != null)
+			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
 	
 	/**
+	 * Contexts:
+	 *     Expression returns OperationCall
+	 *     SyntaxElement returns OperationCall
+	 *     ChainExpression returns OperationCall
+	 *     ChainExpression.ChainExpression_1_0 returns OperationCall
+	 *     ChainedExpression returns OperationCall
+	 *     IfExpressionTri returns OperationCall
+	 *     IfExpressionTri.IfExpression_1_0 returns OperationCall
+	 *     OrExpression returns OperationCall
+	 *     OrExpression.BooleanOperation_1_0 returns OperationCall
+	 *     AndExpression returns OperationCall
+	 *     AndExpression.BooleanOperation_1_0 returns OperationCall
+	 *     ImpliesExpression returns OperationCall
+	 *     ImpliesExpression.BooleanOperation_1_0 returns OperationCall
+	 *     RelationalExpression returns OperationCall
+	 *     RelationalExpression.BooleanOperation_1_0 returns OperationCall
+	 *     AdditiveExpression returns OperationCall
+	 *     AdditiveExpression.OperationCall_1_0 returns OperationCall
+	 *     MultiplicativeExpression returns OperationCall
+	 *     MultiplicativeExpression.OperationCall_1_0 returns OperationCall
+	 *     UnaryOrInfixExpression returns OperationCall
+	 *     InfixExpression returns OperationCall
+	 *     InfixExpression.OperationCall_1_0_0 returns OperationCall
+	 *     InfixExpression.FeatureCall_1_1_0 returns OperationCall
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns OperationCall
+	 *     InfixExpression.CollectionExpression_1_3_0 returns OperationCall
+	 *     PrimaryExpression returns OperationCall
+	 *     ParanthesizedExpression returns OperationCall
+	 *
 	 * Constraint:
 	 *     (
+	 *         (params+=AdditiveExpression_OperationCall_1_0 (name='+' | name='-') params+=MultiplicativeExpression) | 
+	 *         (params+=MultiplicativeExpression_OperationCall_1_0 (name='*' | name='/') params+=UnaryOrInfixExpression) | 
 	 *         ((name='!' | name='-') params+=InfixExpression) | 
 	 *         (target=InfixExpression_OperationCall_1_0_0 name=Identifier (params+=Expression params+=Expression*)?) | 
-	 *         (name=Identifier (params+=Expression params+=Expression*)?) | 
-	 *         (params+=MultiplicativeExpression_OperationCall_1_0 (name='*' | name='/') params+=UnaryOrInfixExpression) | 
-	 *         (params+=AdditiveExpression_OperationCall_1_0 (name='+' | name='-') params+=MultiplicativeExpression)
+	 *         (name=Identifier (params+=Expression params+=Expression*)?)
 	 *     )
 	 */
-	protected void sequence_AdditiveExpression_InfixExpression_MultiplicativeExpression_OperationCall_UnaryExpression_UnaryOrInfixExpression(EObject context, OperationCall semanticObject) {
+	protected void sequence_AdditiveExpression_InfixExpression_MultiplicativeExpression_OperationCall_UnaryExpression(ISerializationContext context, OperationCall semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns BooleanOperation
+	 *     SyntaxElement returns BooleanOperation
+	 *     ChainExpression returns BooleanOperation
+	 *     ChainExpression.ChainExpression_1_0 returns BooleanOperation
+	 *     ChainedExpression returns BooleanOperation
+	 *     IfExpressionTri returns BooleanOperation
+	 *     IfExpressionTri.IfExpression_1_0 returns BooleanOperation
+	 *     OrExpression returns BooleanOperation
+	 *     OrExpression.BooleanOperation_1_0 returns BooleanOperation
+	 *     AndExpression returns BooleanOperation
+	 *     AndExpression.BooleanOperation_1_0 returns BooleanOperation
+	 *     ImpliesExpression returns BooleanOperation
+	 *     ImpliesExpression.BooleanOperation_1_0 returns BooleanOperation
+	 *     RelationalExpression returns BooleanOperation
+	 *     RelationalExpression.BooleanOperation_1_0 returns BooleanOperation
+	 *     AdditiveExpression returns BooleanOperation
+	 *     AdditiveExpression.OperationCall_1_0 returns BooleanOperation
+	 *     MultiplicativeExpression returns BooleanOperation
+	 *     MultiplicativeExpression.OperationCall_1_0 returns BooleanOperation
+	 *     UnaryOrInfixExpression returns BooleanOperation
+	 *     InfixExpression returns BooleanOperation
+	 *     InfixExpression.OperationCall_1_0_0 returns BooleanOperation
+	 *     InfixExpression.FeatureCall_1_1_0 returns BooleanOperation
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns BooleanOperation
+	 *     InfixExpression.CollectionExpression_1_3_0 returns BooleanOperation
+	 *     PrimaryExpression returns BooleanOperation
+	 *     ParanthesizedExpression returns BooleanOperation
+	 *
 	 * Constraint:
 	 *     (
+	 *         (left=OrExpression_BooleanOperation_1_0 operator='||' right=AndExpression) | 
+	 *         (left=AndExpression_BooleanOperation_1_0 operator='&&' right=ImpliesExpression) | 
 	 *         (left=ImpliesExpression_BooleanOperation_1_0 operator='implies' right=RelationalExpression) | 
 	 *         (
 	 *             left=RelationalExpression_BooleanOperation_1_0 
@@ -326,38 +390,70 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	 *                 operator='<'
 	 *             ) 
 	 *             right=AdditiveExpression
-	 *         ) | 
-	 *         (left=AndExpression_BooleanOperation_1_0 operator='&&' right=ImpliesExpression) | 
-	 *         (left=OrExpression_BooleanOperation_1_0 operator='||' right=AndExpression)
+	 *         )
 	 *     )
 	 */
-	protected void sequence_AndExpression_ImpliesExpression_OrExpression_RelationalExpression(EObject context, BooleanOperation semanticObject) {
+	protected void sequence_AndExpression_ImpliesExpression_OrExpression_RelationalExpression(ISerializationContext context, BooleanOperation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns BooleanLiteral
+	 *     SyntaxElement returns BooleanLiteral
+	 *     ChainExpression returns BooleanLiteral
+	 *     ChainExpression.ChainExpression_1_0 returns BooleanLiteral
+	 *     ChainedExpression returns BooleanLiteral
+	 *     IfExpressionTri returns BooleanLiteral
+	 *     IfExpressionTri.IfExpression_1_0 returns BooleanLiteral
+	 *     OrExpression returns BooleanLiteral
+	 *     OrExpression.BooleanOperation_1_0 returns BooleanLiteral
+	 *     AndExpression returns BooleanLiteral
+	 *     AndExpression.BooleanOperation_1_0 returns BooleanLiteral
+	 *     ImpliesExpression returns BooleanLiteral
+	 *     ImpliesExpression.BooleanOperation_1_0 returns BooleanLiteral
+	 *     RelationalExpression returns BooleanLiteral
+	 *     RelationalExpression.BooleanOperation_1_0 returns BooleanLiteral
+	 *     AdditiveExpression returns BooleanLiteral
+	 *     AdditiveExpression.OperationCall_1_0 returns BooleanLiteral
+	 *     MultiplicativeExpression returns BooleanLiteral
+	 *     MultiplicativeExpression.OperationCall_1_0 returns BooleanLiteral
+	 *     UnaryOrInfixExpression returns BooleanLiteral
+	 *     InfixExpression returns BooleanLiteral
+	 *     InfixExpression.OperationCall_1_0_0 returns BooleanLiteral
+	 *     InfixExpression.FeatureCall_1_1_0 returns BooleanLiteral
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns BooleanLiteral
+	 *     InfixExpression.CollectionExpression_1_3_0 returns BooleanLiteral
+	 *     PrimaryExpression returns BooleanLiteral
+	 *     Literal returns BooleanLiteral
+	 *     BooleanLiteral returns BooleanLiteral
+	 *     ParanthesizedExpression returns BooleanLiteral
+	 *
 	 * Constraint:
 	 *     (val='true' | val='false')
 	 */
-	protected void sequence_BooleanLiteral(EObject context, BooleanLiteral semanticObject) {
+	protected void sequence_BooleanLiteral(ISerializationContext context, BooleanLiteral semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     SyntaxElement returns Case
+	 *     Case returns Case
+	 *
 	 * Constraint:
 	 *     (condition=OrExpression thenPar=OrExpression)
 	 */
-	protected void sequence_Case(EObject context, Case semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASE__CONDITION) == ValueTransient.YES)
+	protected void sequence_Case(ISerializationContext context, Case semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASE__CONDITION) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CASE__CONDITION));
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASE__THEN_PAR) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASE__THEN_PAR) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CASE__THEN_PAR));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getCaseAccess().getConditionOrExpressionParserRuleCall_1_0(), semanticObject.getCondition());
 		feeder.accept(grammarAccess.getCaseAccess().getThenParOrExpressionParserRuleCall_3_0(), semanticObject.getThenPar());
 		feeder.finish();
@@ -365,18 +461,47 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns CastedExpression
+	 *     SyntaxElement returns CastedExpression
+	 *     CastedExpression returns CastedExpression
+	 *     ChainExpression returns CastedExpression
+	 *     ChainExpression.ChainExpression_1_0 returns CastedExpression
+	 *     ChainedExpression returns CastedExpression
+	 *     IfExpressionTri returns CastedExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns CastedExpression
+	 *     OrExpression returns CastedExpression
+	 *     OrExpression.BooleanOperation_1_0 returns CastedExpression
+	 *     AndExpression returns CastedExpression
+	 *     AndExpression.BooleanOperation_1_0 returns CastedExpression
+	 *     ImpliesExpression returns CastedExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns CastedExpression
+	 *     RelationalExpression returns CastedExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns CastedExpression
+	 *     AdditiveExpression returns CastedExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns CastedExpression
+	 *     MultiplicativeExpression returns CastedExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns CastedExpression
+	 *     UnaryOrInfixExpression returns CastedExpression
+	 *     InfixExpression returns CastedExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns CastedExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns CastedExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns CastedExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns CastedExpression
+	 *     PrimaryExpression returns CastedExpression
+	 *     ParanthesizedExpression returns CastedExpression
+	 *
 	 * Constraint:
 	 *     (type=Type target=Expression)
 	 */
-	protected void sequence_CastedExpression(EObject context, CastedExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASTED_EXPRESSION__TYPE) == ValueTransient.YES)
+	protected void sequence_CastedExpression(ISerializationContext context, CastedExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASTED_EXPRESSION__TYPE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CASTED_EXPRESSION__TYPE));
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASTED_EXPRESSION__TARGET) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CASTED_EXPRESSION__TARGET) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CASTED_EXPRESSION__TARGET));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getCastedExpressionAccess().getTypeTypeParserRuleCall_1_0(), semanticObject.getType());
 		feeder.accept(grammarAccess.getCastedExpressionAccess().getTargetExpressionParserRuleCall_3_0(), semanticObject.getTarget());
 		feeder.finish();
@@ -384,18 +509,46 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns ChainExpression
+	 *     SyntaxElement returns ChainExpression
+	 *     ChainExpression returns ChainExpression
+	 *     ChainExpression.ChainExpression_1_0 returns ChainExpression
+	 *     ChainedExpression returns ChainExpression
+	 *     IfExpressionTri returns ChainExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns ChainExpression
+	 *     OrExpression returns ChainExpression
+	 *     OrExpression.BooleanOperation_1_0 returns ChainExpression
+	 *     AndExpression returns ChainExpression
+	 *     AndExpression.BooleanOperation_1_0 returns ChainExpression
+	 *     ImpliesExpression returns ChainExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns ChainExpression
+	 *     RelationalExpression returns ChainExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns ChainExpression
+	 *     AdditiveExpression returns ChainExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns ChainExpression
+	 *     MultiplicativeExpression returns ChainExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns ChainExpression
+	 *     UnaryOrInfixExpression returns ChainExpression
+	 *     InfixExpression returns ChainExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns ChainExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns ChainExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns ChainExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns ChainExpression
+	 *     PrimaryExpression returns ChainExpression
+	 *     ParanthesizedExpression returns ChainExpression
+	 *
 	 * Constraint:
 	 *     (first=ChainExpression_ChainExpression_1_0 next=ChainedExpression)
 	 */
-	protected void sequence_ChainExpression(EObject context, ChainExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CHAIN_EXPRESSION__FIRST) == ValueTransient.YES)
+	protected void sequence_ChainExpression(ISerializationContext context, ChainExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CHAIN_EXPRESSION__FIRST) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CHAIN_EXPRESSION__FIRST));
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CHAIN_EXPRESSION__NEXT) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CHAIN_EXPRESSION__NEXT) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CHAIN_EXPRESSION__NEXT));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0(), semanticObject.getFirst());
 		feeder.accept(grammarAccess.getChainExpressionAccess().getNextChainedExpressionParserRuleCall_1_2_0(), semanticObject.getNext());
 		feeder.finish();
@@ -403,18 +556,10 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	
 	
 	/**
-	 * Constraint:
-	 *     (
-	 *         (condition=ChainedExpression thenPart=ChainedExpression elsePart=ChainedExpression?) | 
-	 *         (condition=IfExpressionTri_IfExpression_1_0 thenPart=ChainedExpression elsePart=ChainedExpression)
-	 *     )
-	 */
-	protected void sequence_ChainedExpression_IfExpressionKw_IfExpressionTri(EObject context, IfExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
+	 * Contexts:
+	 *     FeatureCall returns CollectionExpression
+	 *     CollectionExpression returns CollectionExpression
+	 *
 	 * Constraint:
 	 *     (
 	 *         (
@@ -431,12 +576,41 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	 *         exp=Expression
 	 *     )
 	 */
-	protected void sequence_CollectionExpression(EObject context, CollectionExpression semanticObject) {
+	protected void sequence_CollectionExpression(ISerializationContext context, CollectionExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns CollectionExpression
+	 *     SyntaxElement returns CollectionExpression
+	 *     ChainExpression returns CollectionExpression
+	 *     ChainExpression.ChainExpression_1_0 returns CollectionExpression
+	 *     ChainedExpression returns CollectionExpression
+	 *     IfExpressionTri returns CollectionExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns CollectionExpression
+	 *     OrExpression returns CollectionExpression
+	 *     OrExpression.BooleanOperation_1_0 returns CollectionExpression
+	 *     AndExpression returns CollectionExpression
+	 *     AndExpression.BooleanOperation_1_0 returns CollectionExpression
+	 *     ImpliesExpression returns CollectionExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns CollectionExpression
+	 *     RelationalExpression returns CollectionExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns CollectionExpression
+	 *     AdditiveExpression returns CollectionExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns CollectionExpression
+	 *     MultiplicativeExpression returns CollectionExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns CollectionExpression
+	 *     UnaryOrInfixExpression returns CollectionExpression
+	 *     InfixExpression returns CollectionExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns CollectionExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns CollectionExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns CollectionExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns CollectionExpression
+	 *     PrimaryExpression returns CollectionExpression
+	 *     ParanthesizedExpression returns CollectionExpression
+	 *
 	 * Constraint:
 	 *     (
 	 *         (
@@ -470,128 +644,363 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	 *         )
 	 *     )
 	 */
-	protected void sequence_CollectionExpression_InfixExpression(EObject context, CollectionExpression semanticObject) {
+	protected void sequence_CollectionExpression_InfixExpression(ISerializationContext context, CollectionExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     CollectionType returns Identifier
+	 *
 	 * Constraint:
 	 *     ((cl='Collection' | cl='List' | cl='Set') id1=SimpleType)
 	 */
-	protected void sequence_CollectionType(EObject context, Identifier semanticObject) {
+	protected void sequence_CollectionType(ISerializationContext context, Identifier semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     SyntaxElement returns Identifier
+	 *     Type returns Identifier
+	 *
 	 * Constraint:
 	 *     (((cl='Collection' | cl='List' | cl='Set') id1=SimpleType) | (id+=Identifier id+=Identifier*))
 	 */
-	protected void sequence_CollectionType_SimpleType_Type(EObject context, Identifier semanticObject) {
+	protected void sequence_CollectionType_SimpleType(ISerializationContext context, Identifier semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns ConstructorCallExpression
+	 *     SyntaxElement returns ConstructorCallExpression
+	 *     ChainExpression returns ConstructorCallExpression
+	 *     ChainExpression.ChainExpression_1_0 returns ConstructorCallExpression
+	 *     ChainedExpression returns ConstructorCallExpression
+	 *     IfExpressionTri returns ConstructorCallExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns ConstructorCallExpression
+	 *     OrExpression returns ConstructorCallExpression
+	 *     OrExpression.BooleanOperation_1_0 returns ConstructorCallExpression
+	 *     AndExpression returns ConstructorCallExpression
+	 *     AndExpression.BooleanOperation_1_0 returns ConstructorCallExpression
+	 *     ImpliesExpression returns ConstructorCallExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns ConstructorCallExpression
+	 *     RelationalExpression returns ConstructorCallExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns ConstructorCallExpression
+	 *     AdditiveExpression returns ConstructorCallExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns ConstructorCallExpression
+	 *     MultiplicativeExpression returns ConstructorCallExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns ConstructorCallExpression
+	 *     UnaryOrInfixExpression returns ConstructorCallExpression
+	 *     InfixExpression returns ConstructorCallExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns ConstructorCallExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns ConstructorCallExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns ConstructorCallExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns ConstructorCallExpression
+	 *     PrimaryExpression returns ConstructorCallExpression
+	 *     ParanthesizedExpression returns ConstructorCallExpression
+	 *     ConstructorCallExpression returns ConstructorCallExpression
+	 *
 	 * Constraint:
 	 *     type=SimpleType
 	 */
-	protected void sequence_ConstructorCallExpression(EObject context, ConstructorCallExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CONSTRUCTOR_CALL_EXPRESSION__TYPE) == ValueTransient.YES)
+	protected void sequence_ConstructorCallExpression(ISerializationContext context, ConstructorCallExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.CONSTRUCTOR_CALL_EXPRESSION__TYPE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.CONSTRUCTOR_CALL_EXPRESSION__TYPE));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getConstructorCallExpressionAccess().getTypeSimpleTypeParserRuleCall_1_0(), semanticObject.getType());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     FeatureCall returns FeatureCall
+	 *
 	 * Constraint:
 	 *     type=Type
 	 */
-	protected void sequence_FeatureCall(EObject context, FeatureCall semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+	protected void sequence_FeatureCall(ISerializationContext context, FeatureCall semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.FEATURE_CALL__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.FEATURE_CALL__TYPE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFeatureCallAccess().getTypeTypeParserRuleCall_1_0(), semanticObject.getType());
+		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns FeatureCall
+	 *     SyntaxElement returns FeatureCall
+	 *     ChainExpression returns FeatureCall
+	 *     ChainExpression.ChainExpression_1_0 returns FeatureCall
+	 *     ChainedExpression returns FeatureCall
+	 *     IfExpressionTri returns FeatureCall
+	 *     IfExpressionTri.IfExpression_1_0 returns FeatureCall
+	 *     OrExpression returns FeatureCall
+	 *     OrExpression.BooleanOperation_1_0 returns FeatureCall
+	 *     AndExpression returns FeatureCall
+	 *     AndExpression.BooleanOperation_1_0 returns FeatureCall
+	 *     ImpliesExpression returns FeatureCall
+	 *     ImpliesExpression.BooleanOperation_1_0 returns FeatureCall
+	 *     RelationalExpression returns FeatureCall
+	 *     RelationalExpression.BooleanOperation_1_0 returns FeatureCall
+	 *     AdditiveExpression returns FeatureCall
+	 *     AdditiveExpression.OperationCall_1_0 returns FeatureCall
+	 *     MultiplicativeExpression returns FeatureCall
+	 *     MultiplicativeExpression.OperationCall_1_0 returns FeatureCall
+	 *     UnaryOrInfixExpression returns FeatureCall
+	 *     InfixExpression returns FeatureCall
+	 *     InfixExpression.OperationCall_1_0_0 returns FeatureCall
+	 *     InfixExpression.FeatureCall_1_1_0 returns FeatureCall
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns FeatureCall
+	 *     InfixExpression.CollectionExpression_1_3_0 returns FeatureCall
+	 *     PrimaryExpression returns FeatureCall
+	 *     ParanthesizedExpression returns FeatureCall
+	 *
 	 * Constraint:
 	 *     ((target=InfixExpression_FeatureCall_1_1_0 type=Type) | type=Type)
 	 */
-	protected void sequence_FeatureCall_InfixExpression(EObject context, FeatureCall semanticObject) {
+	protected void sequence_FeatureCall_InfixExpression(ISerializationContext context, FeatureCall semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns GlobalVarExpression
+	 *     SyntaxElement returns GlobalVarExpression
+	 *     ChainExpression returns GlobalVarExpression
+	 *     ChainExpression.ChainExpression_1_0 returns GlobalVarExpression
+	 *     ChainedExpression returns GlobalVarExpression
+	 *     IfExpressionTri returns GlobalVarExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns GlobalVarExpression
+	 *     OrExpression returns GlobalVarExpression
+	 *     OrExpression.BooleanOperation_1_0 returns GlobalVarExpression
+	 *     AndExpression returns GlobalVarExpression
+	 *     AndExpression.BooleanOperation_1_0 returns GlobalVarExpression
+	 *     ImpliesExpression returns GlobalVarExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns GlobalVarExpression
+	 *     RelationalExpression returns GlobalVarExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns GlobalVarExpression
+	 *     AdditiveExpression returns GlobalVarExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns GlobalVarExpression
+	 *     MultiplicativeExpression returns GlobalVarExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns GlobalVarExpression
+	 *     UnaryOrInfixExpression returns GlobalVarExpression
+	 *     InfixExpression returns GlobalVarExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns GlobalVarExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns GlobalVarExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns GlobalVarExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns GlobalVarExpression
+	 *     PrimaryExpression returns GlobalVarExpression
+	 *     ParanthesizedExpression returns GlobalVarExpression
+	 *     GlobalVarExpression returns GlobalVarExpression
+	 *
 	 * Constraint:
 	 *     name=Identifier
 	 */
-	protected void sequence_GlobalVarExpression(EObject context, GlobalVarExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.GLOBAL_VAR_EXPRESSION__NAME) == ValueTransient.YES)
+	protected void sequence_GlobalVarExpression(ISerializationContext context, GlobalVarExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.GLOBAL_VAR_EXPRESSION__NAME) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.GLOBAL_VAR_EXPRESSION__NAME));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getGlobalVarExpressionAccess().getNameIdentifierParserRuleCall_1_0(), semanticObject.getName());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     IfExpressionKw returns IfExpression
+	 *
 	 * Constraint:
 	 *     (condition=ChainedExpression thenPart=ChainedExpression elsePart=ChainedExpression?)
 	 */
-	protected void sequence_IfExpressionKw(EObject context, IfExpression semanticObject) {
+	protected void sequence_IfExpressionKw(ISerializationContext context, IfExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns IfExpression
+	 *     SyntaxElement returns IfExpression
+	 *     ChainExpression returns IfExpression
+	 *     ChainExpression.ChainExpression_1_0 returns IfExpression
+	 *     ChainedExpression returns IfExpression
+	 *     IfExpressionTri returns IfExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns IfExpression
+	 *     OrExpression returns IfExpression
+	 *     OrExpression.BooleanOperation_1_0 returns IfExpression
+	 *     AndExpression returns IfExpression
+	 *     AndExpression.BooleanOperation_1_0 returns IfExpression
+	 *     ImpliesExpression returns IfExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns IfExpression
+	 *     RelationalExpression returns IfExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns IfExpression
+	 *     AdditiveExpression returns IfExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns IfExpression
+	 *     MultiplicativeExpression returns IfExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns IfExpression
+	 *     UnaryOrInfixExpression returns IfExpression
+	 *     InfixExpression returns IfExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns IfExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns IfExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns IfExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns IfExpression
+	 *     PrimaryExpression returns IfExpression
+	 *     ParanthesizedExpression returns IfExpression
+	 *
+	 * Constraint:
+	 *     (
+	 *         (condition=IfExpressionTri_IfExpression_1_0 thenPart=ChainedExpression elsePart=ChainedExpression) | 
+	 *         (condition=ChainedExpression thenPart=ChainedExpression elsePart=ChainedExpression?)
+	 *     )
+	 */
+	protected void sequence_IfExpressionKw_IfExpressionTri(ISerializationContext context, IfExpression semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     Expression returns TypeSelectExpression
+	 *     SyntaxElement returns TypeSelectExpression
+	 *     ChainExpression returns TypeSelectExpression
+	 *     ChainExpression.ChainExpression_1_0 returns TypeSelectExpression
+	 *     ChainedExpression returns TypeSelectExpression
+	 *     IfExpressionTri returns TypeSelectExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns TypeSelectExpression
+	 *     OrExpression returns TypeSelectExpression
+	 *     OrExpression.BooleanOperation_1_0 returns TypeSelectExpression
+	 *     AndExpression returns TypeSelectExpression
+	 *     AndExpression.BooleanOperation_1_0 returns TypeSelectExpression
+	 *     ImpliesExpression returns TypeSelectExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns TypeSelectExpression
+	 *     RelationalExpression returns TypeSelectExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns TypeSelectExpression
+	 *     AdditiveExpression returns TypeSelectExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns TypeSelectExpression
+	 *     MultiplicativeExpression returns TypeSelectExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns TypeSelectExpression
+	 *     UnaryOrInfixExpression returns TypeSelectExpression
+	 *     InfixExpression returns TypeSelectExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns TypeSelectExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns TypeSelectExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns TypeSelectExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns TypeSelectExpression
+	 *     PrimaryExpression returns TypeSelectExpression
+	 *     ParanthesizedExpression returns TypeSelectExpression
+	 *
 	 * Constraint:
 	 *     ((target=InfixExpression_TypeSelectExpression_1_2_0 name='typeSelect' type=Type) | (name='typeSelect' type=Type))
 	 */
-	protected void sequence_InfixExpression_TypeSelectExpression(EObject context, TypeSelectExpression semanticObject) {
+	protected void sequence_InfixExpression_TypeSelectExpression(ISerializationContext context, TypeSelectExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns IntegerLiteral
+	 *     SyntaxElement returns IntegerLiteral
+	 *     ChainExpression returns IntegerLiteral
+	 *     ChainExpression.ChainExpression_1_0 returns IntegerLiteral
+	 *     ChainedExpression returns IntegerLiteral
+	 *     IfExpressionTri returns IntegerLiteral
+	 *     IfExpressionTri.IfExpression_1_0 returns IntegerLiteral
+	 *     OrExpression returns IntegerLiteral
+	 *     OrExpression.BooleanOperation_1_0 returns IntegerLiteral
+	 *     AndExpression returns IntegerLiteral
+	 *     AndExpression.BooleanOperation_1_0 returns IntegerLiteral
+	 *     ImpliesExpression returns IntegerLiteral
+	 *     ImpliesExpression.BooleanOperation_1_0 returns IntegerLiteral
+	 *     RelationalExpression returns IntegerLiteral
+	 *     RelationalExpression.BooleanOperation_1_0 returns IntegerLiteral
+	 *     AdditiveExpression returns IntegerLiteral
+	 *     AdditiveExpression.OperationCall_1_0 returns IntegerLiteral
+	 *     MultiplicativeExpression returns IntegerLiteral
+	 *     MultiplicativeExpression.OperationCall_1_0 returns IntegerLiteral
+	 *     UnaryOrInfixExpression returns IntegerLiteral
+	 *     InfixExpression returns IntegerLiteral
+	 *     InfixExpression.OperationCall_1_0_0 returns IntegerLiteral
+	 *     InfixExpression.FeatureCall_1_1_0 returns IntegerLiteral
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns IntegerLiteral
+	 *     InfixExpression.CollectionExpression_1_3_0 returns IntegerLiteral
+	 *     PrimaryExpression returns IntegerLiteral
+	 *     Literal returns IntegerLiteral
+	 *     IntegerLiteral returns IntegerLiteral
+	 *     ParanthesizedExpression returns IntegerLiteral
+	 *
 	 * Constraint:
 	 *     val=INT
 	 */
-	protected void sequence_IntegerLiteral(EObject context, IntegerLiteral semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.INTEGER_LITERAL__VAL) == ValueTransient.YES)
+	protected void sequence_IntegerLiteral(ISerializationContext context, IntegerLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.INTEGER_LITERAL__VAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.INTEGER_LITERAL__VAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getIntegerLiteralAccess().getValINTTerminalRuleCall_0(), semanticObject.getVal());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns LetExpression
+	 *     SyntaxElement returns LetExpression
+	 *     LetExpression returns LetExpression
+	 *     ChainExpression returns LetExpression
+	 *     ChainExpression.ChainExpression_1_0 returns LetExpression
+	 *     ChainedExpression returns LetExpression
+	 *     IfExpressionTri returns LetExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns LetExpression
+	 *     OrExpression returns LetExpression
+	 *     OrExpression.BooleanOperation_1_0 returns LetExpression
+	 *     AndExpression returns LetExpression
+	 *     AndExpression.BooleanOperation_1_0 returns LetExpression
+	 *     ImpliesExpression returns LetExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns LetExpression
+	 *     RelationalExpression returns LetExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns LetExpression
+	 *     AdditiveExpression returns LetExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns LetExpression
+	 *     MultiplicativeExpression returns LetExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns LetExpression
+	 *     UnaryOrInfixExpression returns LetExpression
+	 *     InfixExpression returns LetExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns LetExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns LetExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns LetExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns LetExpression
+	 *     PrimaryExpression returns LetExpression
+	 *     ParanthesizedExpression returns LetExpression
+	 *
 	 * Constraint:
 	 *     (identifier=Identifier varExpr=Expression target=Expression)
 	 */
-	protected void sequence_LetExpression(EObject context, LetExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__IDENTIFIER) == ValueTransient.YES)
+	protected void sequence_LetExpression(ISerializationContext context, LetExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__IDENTIFIER) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__IDENTIFIER));
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__VAR_EXPR) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__VAR_EXPR) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__VAR_EXPR));
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__TARGET) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__TARGET) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.LET_EXPRESSION__TARGET));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getLetExpressionAccess().getIdentifierIdentifierParserRuleCall_1_0(), semanticObject.getIdentifier());
 		feeder.accept(grammarAccess.getLetExpressionAccess().getVarExprExpressionParserRuleCall_3_0(), semanticObject.getVarExpr());
 		feeder.accept(grammarAccess.getLetExpressionAccess().getTargetExpressionParserRuleCall_5_0(), semanticObject.getTarget());
@@ -600,103 +1009,278 @@ public abstract class AbstractExpressionSemanticSequencer extends AbstractDelega
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns ListLiteral
+	 *     SyntaxElement returns ListLiteral
+	 *     ChainExpression returns ListLiteral
+	 *     ChainExpression.ChainExpression_1_0 returns ListLiteral
+	 *     ChainedExpression returns ListLiteral
+	 *     IfExpressionTri returns ListLiteral
+	 *     IfExpressionTri.IfExpression_1_0 returns ListLiteral
+	 *     OrExpression returns ListLiteral
+	 *     OrExpression.BooleanOperation_1_0 returns ListLiteral
+	 *     AndExpression returns ListLiteral
+	 *     AndExpression.BooleanOperation_1_0 returns ListLiteral
+	 *     ImpliesExpression returns ListLiteral
+	 *     ImpliesExpression.BooleanOperation_1_0 returns ListLiteral
+	 *     RelationalExpression returns ListLiteral
+	 *     RelationalExpression.BooleanOperation_1_0 returns ListLiteral
+	 *     AdditiveExpression returns ListLiteral
+	 *     AdditiveExpression.OperationCall_1_0 returns ListLiteral
+	 *     MultiplicativeExpression returns ListLiteral
+	 *     MultiplicativeExpression.OperationCall_1_0 returns ListLiteral
+	 *     UnaryOrInfixExpression returns ListLiteral
+	 *     InfixExpression returns ListLiteral
+	 *     InfixExpression.OperationCall_1_0_0 returns ListLiteral
+	 *     InfixExpression.FeatureCall_1_1_0 returns ListLiteral
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns ListLiteral
+	 *     InfixExpression.CollectionExpression_1_3_0 returns ListLiteral
+	 *     PrimaryExpression returns ListLiteral
+	 *     ParanthesizedExpression returns ListLiteral
+	 *     ListLiteral returns ListLiteral
+	 *
 	 * Constraint:
-	 *     ((elements+=Expression elements+=Expression*)?)
+	 *     (elements+=Expression elements+=Expression*)?
 	 */
-	protected void sequence_ListLiteral(EObject context, ListLiteral semanticObject) {
+	protected void sequence_ListLiteral(ISerializationContext context, ListLiteral semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns NullLiteral
+	 *     SyntaxElement returns NullLiteral
+	 *     ChainExpression returns NullLiteral
+	 *     ChainExpression.ChainExpression_1_0 returns NullLiteral
+	 *     ChainedExpression returns NullLiteral
+	 *     IfExpressionTri returns NullLiteral
+	 *     IfExpressionTri.IfExpression_1_0 returns NullLiteral
+	 *     OrExpression returns NullLiteral
+	 *     OrExpression.BooleanOperation_1_0 returns NullLiteral
+	 *     AndExpression returns NullLiteral
+	 *     AndExpression.BooleanOperation_1_0 returns NullLiteral
+	 *     ImpliesExpression returns NullLiteral
+	 *     ImpliesExpression.BooleanOperation_1_0 returns NullLiteral
+	 *     RelationalExpression returns NullLiteral
+	 *     RelationalExpression.BooleanOperation_1_0 returns NullLiteral
+	 *     AdditiveExpression returns NullLiteral
+	 *     AdditiveExpression.OperationCall_1_0 returns NullLiteral
+	 *     MultiplicativeExpression returns NullLiteral
+	 *     MultiplicativeExpression.OperationCall_1_0 returns NullLiteral
+	 *     UnaryOrInfixExpression returns NullLiteral
+	 *     InfixExpression returns NullLiteral
+	 *     InfixExpression.OperationCall_1_0_0 returns NullLiteral
+	 *     InfixExpression.FeatureCall_1_1_0 returns NullLiteral
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns NullLiteral
+	 *     InfixExpression.CollectionExpression_1_3_0 returns NullLiteral
+	 *     PrimaryExpression returns NullLiteral
+	 *     Literal returns NullLiteral
+	 *     NullLiteral returns NullLiteral
+	 *     ParanthesizedExpression returns NullLiteral
+	 *
 	 * Constraint:
 	 *     val='null'
 	 */
-	protected void sequence_NullLiteral(EObject context, NullLiteral semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.NULL_LITERAL__VAL) == ValueTransient.YES)
+	protected void sequence_NullLiteral(ISerializationContext context, NullLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.NULL_LITERAL__VAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.NULL_LITERAL__VAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getNullLiteralAccess().getValNullKeyword_0(), semanticObject.getVal());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     FeatureCall returns OperationCall
+	 *     OperationCall returns OperationCall
+	 *
 	 * Constraint:
 	 *     (name=Identifier (params+=Expression params+=Expression*)?)
 	 */
-	protected void sequence_OperationCall(EObject context, OperationCall semanticObject) {
+	protected void sequence_OperationCall(ISerializationContext context, OperationCall semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns RealLiteral
+	 *     SyntaxElement returns RealLiteral
+	 *     ChainExpression returns RealLiteral
+	 *     ChainExpression.ChainExpression_1_0 returns RealLiteral
+	 *     ChainedExpression returns RealLiteral
+	 *     IfExpressionTri returns RealLiteral
+	 *     IfExpressionTri.IfExpression_1_0 returns RealLiteral
+	 *     OrExpression returns RealLiteral
+	 *     OrExpression.BooleanOperation_1_0 returns RealLiteral
+	 *     AndExpression returns RealLiteral
+	 *     AndExpression.BooleanOperation_1_0 returns RealLiteral
+	 *     ImpliesExpression returns RealLiteral
+	 *     ImpliesExpression.BooleanOperation_1_0 returns RealLiteral
+	 *     RelationalExpression returns RealLiteral
+	 *     RelationalExpression.BooleanOperation_1_0 returns RealLiteral
+	 *     AdditiveExpression returns RealLiteral
+	 *     AdditiveExpression.OperationCall_1_0 returns RealLiteral
+	 *     MultiplicativeExpression returns RealLiteral
+	 *     MultiplicativeExpression.OperationCall_1_0 returns RealLiteral
+	 *     UnaryOrInfixExpression returns RealLiteral
+	 *     InfixExpression returns RealLiteral
+	 *     InfixExpression.OperationCall_1_0_0 returns RealLiteral
+	 *     InfixExpression.FeatureCall_1_1_0 returns RealLiteral
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns RealLiteral
+	 *     InfixExpression.CollectionExpression_1_3_0 returns RealLiteral
+	 *     PrimaryExpression returns RealLiteral
+	 *     Literal returns RealLiteral
+	 *     RealLiteral returns RealLiteral
+	 *     ParanthesizedExpression returns RealLiteral
+	 *
 	 * Constraint:
 	 *     val=REAL
 	 */
-	protected void sequence_RealLiteral(EObject context, RealLiteral semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.REAL_LITERAL__VAL) == ValueTransient.YES)
+	protected void sequence_RealLiteral(ISerializationContext context, RealLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.REAL_LITERAL__VAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.REAL_LITERAL__VAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getRealLiteralAccess().getValREALTerminalRuleCall_0(), semanticObject.getVal());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     SimpleType returns Identifier
+	 *
 	 * Constraint:
 	 *     (id+=Identifier id+=Identifier*)
 	 */
-	protected void sequence_SimpleType(EObject context, Identifier semanticObject) {
+	protected void sequence_SimpleType(ISerializationContext context, Identifier semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns StringLiteral
+	 *     SyntaxElement returns StringLiteral
+	 *     ChainExpression returns StringLiteral
+	 *     ChainExpression.ChainExpression_1_0 returns StringLiteral
+	 *     ChainedExpression returns StringLiteral
+	 *     IfExpressionTri returns StringLiteral
+	 *     IfExpressionTri.IfExpression_1_0 returns StringLiteral
+	 *     OrExpression returns StringLiteral
+	 *     OrExpression.BooleanOperation_1_0 returns StringLiteral
+	 *     AndExpression returns StringLiteral
+	 *     AndExpression.BooleanOperation_1_0 returns StringLiteral
+	 *     ImpliesExpression returns StringLiteral
+	 *     ImpliesExpression.BooleanOperation_1_0 returns StringLiteral
+	 *     RelationalExpression returns StringLiteral
+	 *     RelationalExpression.BooleanOperation_1_0 returns StringLiteral
+	 *     AdditiveExpression returns StringLiteral
+	 *     AdditiveExpression.OperationCall_1_0 returns StringLiteral
+	 *     MultiplicativeExpression returns StringLiteral
+	 *     MultiplicativeExpression.OperationCall_1_0 returns StringLiteral
+	 *     UnaryOrInfixExpression returns StringLiteral
+	 *     InfixExpression returns StringLiteral
+	 *     InfixExpression.OperationCall_1_0_0 returns StringLiteral
+	 *     InfixExpression.FeatureCall_1_1_0 returns StringLiteral
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns StringLiteral
+	 *     InfixExpression.CollectionExpression_1_3_0 returns StringLiteral
+	 *     PrimaryExpression returns StringLiteral
+	 *     Literal returns StringLiteral
+	 *     StringLiteral returns StringLiteral
+	 *     ParanthesizedExpression returns StringLiteral
+	 *
 	 * Constraint:
 	 *     val=STRING
 	 */
-	protected void sequence_StringLiteral(EObject context, StringLiteral semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.STRING_LITERAL__VAL) == ValueTransient.YES)
+	protected void sequence_StringLiteral(ISerializationContext context, StringLiteral semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.STRING_LITERAL__VAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.STRING_LITERAL__VAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getStringLiteralAccess().getValSTRINGTerminalRuleCall_0(), semanticObject.getVal());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Expression returns SwitchExpression
+	 *     SyntaxElement returns SwitchExpression
+	 *     ChainExpression returns SwitchExpression
+	 *     ChainExpression.ChainExpression_1_0 returns SwitchExpression
+	 *     ChainedExpression returns SwitchExpression
+	 *     IfExpressionTri returns SwitchExpression
+	 *     IfExpressionTri.IfExpression_1_0 returns SwitchExpression
+	 *     SwitchExpression returns SwitchExpression
+	 *     OrExpression returns SwitchExpression
+	 *     OrExpression.BooleanOperation_1_0 returns SwitchExpression
+	 *     AndExpression returns SwitchExpression
+	 *     AndExpression.BooleanOperation_1_0 returns SwitchExpression
+	 *     ImpliesExpression returns SwitchExpression
+	 *     ImpliesExpression.BooleanOperation_1_0 returns SwitchExpression
+	 *     RelationalExpression returns SwitchExpression
+	 *     RelationalExpression.BooleanOperation_1_0 returns SwitchExpression
+	 *     AdditiveExpression returns SwitchExpression
+	 *     AdditiveExpression.OperationCall_1_0 returns SwitchExpression
+	 *     MultiplicativeExpression returns SwitchExpression
+	 *     MultiplicativeExpression.OperationCall_1_0 returns SwitchExpression
+	 *     UnaryOrInfixExpression returns SwitchExpression
+	 *     InfixExpression returns SwitchExpression
+	 *     InfixExpression.OperationCall_1_0_0 returns SwitchExpression
+	 *     InfixExpression.FeatureCall_1_1_0 returns SwitchExpression
+	 *     InfixExpression.TypeSelectExpression_1_2_0 returns SwitchExpression
+	 *     InfixExpression.CollectionExpression_1_3_0 returns SwitchExpression
+	 *     PrimaryExpression returns SwitchExpression
+	 *     ParanthesizedExpression returns SwitchExpression
+	 *
 	 * Constraint:
 	 *     (switchExpr=OrExpression? case+=Case* defaultExpr=OrExpression)
 	 */
-	protected void sequence_SwitchExpression(EObject context, SwitchExpression semanticObject) {
+	protected void sequence_SwitchExpression(ISerializationContext context, SwitchExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     FeatureCall returns TypeSelectExpression
+	 *     TypeSelectExpression returns TypeSelectExpression
+	 *
 	 * Constraint:
 	 *     (name='typeSelect' type=Type)
 	 */
-	protected void sequence_TypeSelectExpression(EObject context, TypeSelectExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+	protected void sequence_TypeSelectExpression(ISerializationContext context, TypeSelectExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.FEATURE_CALL__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.FEATURE_CALL__NAME));
+			if (transientValues.isValueTransient(semanticObject, ExpressionPackage.Literals.FEATURE_CALL__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ExpressionPackage.Literals.FEATURE_CALL__TYPE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTypeSelectExpressionAccess().getNameTypeSelectKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTypeSelectExpressionAccess().getTypeTypeParserRuleCall_2_0(), semanticObject.getType());
+		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     UnaryExpression returns OperationCall
+	 *
 	 * Constraint:
 	 *     ((name='!' | name='-') params+=InfixExpression)
 	 */
-	protected void sequence_UnaryExpression(EObject context, OperationCall semanticObject) {
+	protected void sequence_UnaryExpression(ISerializationContext context, OperationCall semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
+	
+	
 }

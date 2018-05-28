@@ -15,13 +15,13 @@ import org.eclipse.xtext.CompoundElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GroupBlock#getGrammarElement <em>Grammar Element</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GroupBlock#getMatcherList <em>Matcher List</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GroupBlock#getSubGroup <em>Sub Group</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GroupBlock#getDirectives <em>Directives</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getGroupBlock()
  * @model

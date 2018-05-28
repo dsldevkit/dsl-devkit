@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.DuplicateContext#getMarkerType <em>Marker Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.DuplicateContext#getMarkerFeature <em>Marker Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getDuplicateContext()
  * @model

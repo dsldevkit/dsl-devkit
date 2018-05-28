@@ -23,4 +23,5 @@ Require-Bundle: org.eclipse.xtext.ui,
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export.ui.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.export.ui.contentassist,
- com.avaloq.tools.ddk.xtext.export.ui.quickfix
+ com.avaloq.tools.ddk.xtext.export.ui.quickfix,
+ com.avaloq.tools.ddk.xtext.export.ui.contentassist.antlr.internal

@@ -24,17 +24,15 @@ import com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.TestOffset;
 import com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.TestRightPadding;
 import com.avaloq.tools.ddk.xtext.formatter.services.FormatterTestLanguageGrammarAccess;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.xtext.Action;
+import org.eclipse.xtext.Parameter;
+import org.eclipse.xtext.ParserRule;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
-import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
-import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
-import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("all")
@@ -44,8 +42,13 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	private FormatterTestLanguageGrammarAccess grammarAccess;
 	
 	@Override
-	public void createSequence(EObject context, EObject semanticObject) {
-		if(semanticObject.eClass().getEPackage() == FormatterTestLanguagePackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+	public void sequence(ISerializationContext context, EObject semanticObject) {
+		EPackage epackage = semanticObject.eClass().getEPackage();
+		ParserRule rule = context.getParserRule();
+		Action action = context.getAssignedAction();
+		Set<Parameter> parameters = context.getEnabledBooleanParameters();
+		if (epackage == FormatterTestLanguagePackage.eINSTANCE)
+			switch (semanticObject.eClass().getClassifierID()) {
 			case FormatterTestLanguagePackage.ASSIGN:
 				sequence_Assign(context, (Assign) semanticObject); 
 				return; 
@@ -101,33 +104,41 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 				sequence_TestRightPadding(context, (TestRightPadding) semanticObject); 
 				return; 
 			}
-		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
+		if (errorAcceptor != null)
+			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
 	
 	/**
+	 * Contexts:
+	 *     Line returns Assign
+	 *     Assign returns Assign
+	 *
 	 * Constraint:
 	 *     (var=ID (op='=' | op='+=') (val+=INT val+=INT*)?)
 	 */
-	protected void sequence_Assign(EObject context, Assign semanticObject) {
+	protected void sequence_Assign(ISerializationContext context, Assign semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns Datatypes
+	 *     Datatypes returns Datatypes
+	 *
 	 * Constraint:
 	 *     (val1=Datatype1 val2=Datatype2 val3=Datatype3)
 	 */
-	protected void sequence_Datatypes(EObject context, Datatypes semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL1) == ValueTransient.YES)
+	protected void sequence_Datatypes(ISerializationContext context, Datatypes semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL1) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL1));
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL2) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL2) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL2));
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL3) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL3) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.DATATYPES__VAL3));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getDatatypesAccess().getVal1Datatype1ParserRuleCall_1_0(), semanticObject.getVal1());
 		feeder.accept(grammarAccess.getDatatypesAccess().getVal2Datatype2ParserRuleCall_3_0(), semanticObject.getVal2());
 		feeder.accept(grammarAccess.getDatatypesAccess().getVal3Datatype3ParserRuleCall_4_0(), semanticObject.getVal3());
@@ -136,181 +147,234 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns Decl
+	 *     Decl returns Decl
+	 *
 	 * Constraint:
 	 *     (type+=ID name+=ID)
 	 */
-	protected void sequence_Decl(EObject context, Decl semanticObject) {
+	protected void sequence_Decl(ISerializationContext context, Decl semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns Enumeration
+	 *     Enumeration returns Enumeration
+	 *
 	 * Constraint:
 	 *     (val+=Enum1+ val+=Enum1*)
 	 */
-	protected void sequence_Enumeration(EObject context, Enumeration semanticObject) {
+	protected void sequence_Enumeration(ISerializationContext context, Enumeration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns FqnObj
+	 *     FqnObj returns FqnObj
+	 *
 	 * Constraint:
 	 *     name=FQN
 	 */
-	protected void sequence_FqnObj(EObject context, FqnObj semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.FQN_OBJ__NAME) == ValueTransient.YES)
+	protected void sequence_FqnObj(ISerializationContext context, FqnObj semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.FQN_OBJ__NAME) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.FQN_OBJ__NAME));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getFqnObjAccess().getNameFQNParserRuleCall_1_0(), semanticObject.getName());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns FqnRef
+	 *     FqnRef returns FqnRef
+	 *
 	 * Constraint:
 	 *     ref=[FqnObj|FQN]
 	 */
-	protected void sequence_FqnRef(EObject context, FqnRef semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.FQN_REF__REF) == ValueTransient.YES)
+	protected void sequence_FqnRef(ISerializationContext context, FqnRef semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.FQN_REF__REF) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.FQN_REF__REF));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getFqnRefAccess().getRefFqnObjFQNParserRuleCall_1_0_1(), semanticObject.getRef());
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFqnRefAccess().getRefFqnObjFQNParserRuleCall_1_0_1(), semanticObject.eGet(FormatterTestLanguagePackage.Literals.FQN_REF__REF, false));
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns Meth
+	 *     Meth returns Meth
+	 *
 	 * Constraint:
 	 *     (name=ID (param+=Param param+=Param*)?)
 	 */
-	protected void sequence_Meth(EObject context, Meth semanticObject) {
+	protected void sequence_Meth(ISerializationContext context, Meth semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Param returns Param
+	 *
 	 * Constraint:
 	 *     (name+=ID type+=ID)
 	 */
-	protected void sequence_Param(EObject context, Param semanticObject) {
+	protected void sequence_Param(ISerializationContext context, Param semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns Space
+	 *     Space returns Space
+	 *
 	 * Constraint:
 	 *     val=ID
 	 */
-	protected void sequence_Space(EObject context, Space semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.SPACE__VAL) == ValueTransient.YES)
+	protected void sequence_Space(ISerializationContext context, Space semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.SPACE__VAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.SPACE__VAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getSpaceAccess().getValIDTerminalRuleCall_1_0(), semanticObject.getVal());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     SuppressedHiddenSub returns SuppressedHiddenSubID
+	 *     SuppressedHiddenSubID returns SuppressedHiddenSubID
+	 *
 	 * Constraint:
 	 *     idval=ID
 	 */
-	protected void sequence_SuppressedHiddenSubID(EObject context, SuppressedHiddenSubID semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.SUPPRESSED_HIDDEN_SUB__IDVAL) == ValueTransient.YES)
+	protected void sequence_SuppressedHiddenSubID(ISerializationContext context, SuppressedHiddenSubID semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.SUPPRESSED_HIDDEN_SUB__IDVAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.SUPPRESSED_HIDDEN_SUB__IDVAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getSuppressedHiddenSubIDAccess().getIdvalIDTerminalRuleCall_0(), semanticObject.getIdval());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     SuppressedHiddenSub returns SuppressedHiddenSubSub
+	 *     SuppressedHiddenSubSub returns SuppressedHiddenSubSub
+	 *
 	 * Constraint:
 	 *     idval=ID
 	 */
-	protected void sequence_SuppressedHiddenSubSub(EObject context, SuppressedHiddenSubSub semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.SUPPRESSED_HIDDEN_SUB__IDVAL) == ValueTransient.YES)
+	protected void sequence_SuppressedHiddenSubSub(ISerializationContext context, SuppressedHiddenSubSub semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.SUPPRESSED_HIDDEN_SUB__IDVAL) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.SUPPRESSED_HIDDEN_SUB__IDVAL));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getSuppressedHiddenSubSubAccess().getIdvalIDTerminalRuleCall_1_0(), semanticObject.getIdval());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Line returns SuppressedHidden
+	 *     SuppressedHidden returns SuppressedHidden
+	 *
 	 * Constraint:
-	 *     ((vals+=SuppressedHiddenSub vals+=SuppressedHiddenSub*)?)
+	 *     (vals+=SuppressedHiddenSub vals+=SuppressedHiddenSub*)?
 	 */
-	protected void sequence_SuppressedHidden(EObject context, SuppressedHidden semanticObject) {
+	protected void sequence_SuppressedHidden(ISerializationContext context, SuppressedHidden semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Root returns TestColumn
+	 *     TestColumn returns TestColumn
+	 *
 	 * Constraint:
 	 *     (name=ID? items+=Line*)
 	 */
-	protected void sequence_TestColumn(EObject context, TestColumn semanticObject) {
+	protected void sequence_TestColumn(ISerializationContext context, TestColumn semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Root returns TestIndentation
+	 *     TestIndentation returns TestIndentation
+	 *
 	 * Constraint:
 	 *     ((sub+=TestIndentation | items+=Line)* semi?=';'?)
 	 */
-	protected void sequence_TestIndentation(EObject context, TestIndentation semanticObject) {
+	protected void sequence_TestIndentation(ISerializationContext context, TestIndentation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Root returns TestLinewrapMinMax
+	 *     TestLinewrapMinMax returns TestLinewrapMinMax
+	 *
 	 * Constraint:
-	 *     (items+=Line*)
+	 *     items+=Line*
 	 */
-	protected void sequence_TestLinewrapMinMax(EObject context, TestLinewrapMinMax semanticObject) {
+	protected void sequence_TestLinewrapMinMax(ISerializationContext context, TestLinewrapMinMax semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Root returns TestLinewrap
+	 *     TestLinewrap returns TestLinewrap
+	 *
 	 * Constraint:
-	 *     (items+=Line*)
+	 *     items+=Line*
 	 */
-	protected void sequence_TestLinewrap(EObject context, TestLinewrap semanticObject) {
+	protected void sequence_TestLinewrap(ISerializationContext context, TestLinewrap semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Root returns TestOffset
+	 *     TestOffset returns TestOffset
+	 *
 	 * Constraint:
 	 *     (value=ID first=ID second=ID)
 	 */
-	protected void sequence_TestOffset(EObject context, TestOffset semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__VALUE) == ValueTransient.YES)
+	protected void sequence_TestOffset(ISerializationContext context, TestOffset semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__VALUE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__VALUE));
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__FIRST) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__FIRST) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__FIRST));
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__SECOND) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__SECOND) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.TEST_OFFSET__SECOND));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTestOffsetAccess().getValueIDTerminalRuleCall_3_0(), semanticObject.getValue());
 		feeder.accept(grammarAccess.getTestOffsetAccess().getFirstIDTerminalRuleCall_5_0(), semanticObject.getFirst());
 		feeder.accept(grammarAccess.getTestOffsetAccess().getSecondIDTerminalRuleCall_6_0(), semanticObject.getSecond());
@@ -319,20 +383,25 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * Contexts:
+	 *     Root returns TestRightPadding
+	 *     TestRightPadding returns TestRightPadding
+	 *
 	 * Constraint:
 	 *     (p1=ID p2=ID)
 	 */
-	protected void sequence_TestRightPadding(EObject context, TestRightPadding semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_RIGHT_PADDING__P1) == ValueTransient.YES)
+	protected void sequence_TestRightPadding(ISerializationContext context, TestRightPadding semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_RIGHT_PADDING__P1) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.TEST_RIGHT_PADDING__P1));
-			if(transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_RIGHT_PADDING__P2) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, FormatterTestLanguagePackage.Literals.TEST_RIGHT_PADDING__P2) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FormatterTestLanguagePackage.Literals.TEST_RIGHT_PADDING__P2));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTestRightPaddingAccess().getP1IDTerminalRuleCall_1_0(), semanticObject.getP1());
 		feeder.accept(grammarAccess.getTestRightPaddingAccess().getP2IDTerminalRuleCall_2_0(), semanticObject.getP2());
 		feeder.finish();
 	}
+	
+	
 }
