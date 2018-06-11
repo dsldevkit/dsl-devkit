@@ -32,13 +32,7 @@ public final class EObjectUtil {
   /**
    * Predicate to filter out null and EMF proxy objects. I.e. only non-null and non-proxy objects pass this predicate.
    */
-  private static final Predicate<EObject> PROXY_FILTER = new Predicate<EObject>() {
-    /** {@inheritDoc} */
-    @Override
-    public boolean apply(final EObject input) {
-      return input != null && !input.eIsProxy();
-    }
-  };
+  private static final Predicate<EObject> PROXY_FILTER = input -> input != null && !input.eIsProxy();
 
   /** Inhibit public instantiation. */
   private EObjectUtil() {
@@ -59,9 +53,23 @@ public final class EObjectUtil {
    */
   @SuppressWarnings("unchecked")
   public static <T extends EObject> T eContainer(final EObject obj, final Class<T> type) {
+    return (T) eContainer(obj, e -> type.isInstance(e));
+  }
+
+  /**
+   * Find a direct or indirect container that satisfies a given predicate. If no such container exists, return null. If the
+   * object itself satisfies it, return the object.
+   *
+   * @param obj
+   *          the object
+   * @param predicate
+   *          the predicate
+   * @return The container, as described above.
+   */
+  public static EObject eContainer(final EObject obj, final Predicate<EObject> predicate) {
     for (EObject e = obj; e != null; e = e.eContainer()) {
-      if (type.isInstance(e)) {
-        return (T) e;
+      if (predicate.apply(e)) {
+        return e;
       }
     }
     return null;
