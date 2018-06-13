@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.typesystem
 Bundle-SymbolicName: com.avaloq.tools.ddk.typesystem;singleton:=true
-Bundle-Version: 1.2.1.qualifier
+Bundle-Version: 1.2.1.v20180613-1245-REL
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.log4j
