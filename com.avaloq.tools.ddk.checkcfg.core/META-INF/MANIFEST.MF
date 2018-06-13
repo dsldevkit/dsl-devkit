@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.checkcfg.core
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 1.2.1.v20180613-1245-REL
+Bundle-Version: 1.2.2.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core; singleton:=true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
