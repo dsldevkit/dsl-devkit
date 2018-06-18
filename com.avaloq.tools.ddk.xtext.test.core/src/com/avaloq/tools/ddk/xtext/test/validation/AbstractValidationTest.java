@@ -557,6 +557,24 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   }
 
   /**
+   * Register a new validation marker with the given issue code. Expects a warning if the condition is {@code true}, no diagnostic otherwise.
+   *
+   * @param condition
+   *          the condition when the marker is expected
+   * @param issueCode
+   *          issue code (usually found as static constant of the JavaValidator class of the DSL being tested)
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String warningIf(final boolean condition, final String issueCode) {
+    if (condition) {
+      return warning(issueCode);
+    } else {
+      return noDiagnostic(issueCode);
+    }
+  }
+
+  /**
    * Register a new validation marker with the given issue code. Expects a warning.
    *
    * @param issueCode
@@ -580,6 +598,24 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   protected String warning(final String issueCode, final String message) {
     return addAssertion(new XtextDiagnosticAssertion(issueCode, true, Diagnostic.WARNING, message));
+  }
+
+  /**
+   * Register a new validation marker with the given issue code. Expects an error if the condition is {@code true}, no diagnostic otherwise.
+   *
+   * @param condition
+   *          the condition when the marker is expected
+   * @param issueCode
+   *          issue code (usually found as static constant of the JavaValidator class of the DSL being tested)
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String errorIf(final boolean condition, final String issueCode) {
+    if (condition) {
+      return error(issueCode);
+    } else {
+      return noDiagnostic(issueCode);
+    }
   }
 
   /**
