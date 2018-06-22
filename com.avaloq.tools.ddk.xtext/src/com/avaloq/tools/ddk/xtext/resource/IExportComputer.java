@@ -50,14 +50,16 @@ public interface IExportComputer {
   /**
    * Extension for fragment computation.
    * <p>
-   * Implementations must return {@code null} if this extension is not meant to handle the EClass of the given object.
+   * Implementations must return {@code false} if this extension is not meant to handle the EClass of the given object.
    * </p>
    *
    * @param object
    *          the object, must not be {@code null}
-   * @return the fragment segment for the object or {@code null} if this extension is not handling these objects
+   * @param builder
+   *          builder to append fragment segment to, must not be {@code null}
+   * @return {@code true} if a fragment segment was appended to {@code builder}
    */
-  CharSequence getFragmentSegment(final EObject object);
+  boolean appendFragmentSegment(final EObject object, StringBuilder builder);
 
   /**
    * Returns additional exported classes by this extension.

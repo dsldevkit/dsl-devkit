@@ -25,20 +25,19 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
 
   /** {@inheritDoc} */
   @Override
-  public CharSequence getFragmentSegment(final EObject object) {
+  public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
     final EReference containmentFeature = object.eContainmentFeature();
-    final StringBuilder result = new StringBuilder();
     if (containmentFeature == null) {
-      result.append(object.eResource().getContents().indexOf(object));
+      builder.append(object.eResource().getContents().indexOf(object));
     } else {
       final EObject container = object.eContainer();
-      result.append(container.eClass().getFeatureID(containmentFeature));
+      builder.append(container.eClass().getFeatureID(containmentFeature));
       if (containmentFeature.isMany()) {
         final List<?> list = (List<?>) container.eGet(containmentFeature, false);
-        result.append(LIST_SEPARATOR).append(list.indexOf(object));
+        builder.append(LIST_SEPARATOR).append(list.indexOf(object));
       }
     }
-    return result;
+    return true;
   }
 
   /** {@inheritDoc} */
@@ -47,9 +46,9 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
     final int listSeparatorIndex = segment.indexOf(LIST_SEPARATOR);
     int featureId;
     if (listSeparatorIndex == -1) {
-      featureId = Integer.parseInt(segment);
+      featureId = Integer.parseUnsignedInt(segment);
     } else {
-      featureId = Integer.parseInt(segment.substring(0, listSeparatorIndex));
+      featureId = Integer.parseUnsignedInt(segment.substring(0, listSeparatorIndex));
     }
     final EReference reference = (EReference) container.eClass().getEStructuralFeature(featureId);
     if (reference.isMany()) {
@@ -59,7 +58,7 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
         return null;
       }
       final List<?> list = (List<?>) container.eGet(reference, false);
-      final int listIndex = Integer.parseInt(segment.substring(listSeparatorIndex + 1));
+      final int listIndex = Integer.parseUnsignedInt(segment.substring(listSeparatorIndex + 1));
       // If the uri references an element outside of the list range return null (i.e. cannot find element)
       if (listIndex >= list.size()) {
         return null;

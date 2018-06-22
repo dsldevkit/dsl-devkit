@@ -16,10 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -28,6 +26,7 @@ import org.eclipse.xtext.resource.impl.EObjectDescriptionLookUp;
 import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
+import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
@@ -83,8 +82,8 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
 
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByObject(final EObject object) {
-    final URI objectUri = EcoreUtil.getURI(object);
-    return Iterables.filter(getExportedObjects(), input -> objectUri.equals(input.getEObjectURI()));
+    final String fragment = EObjectUtil.getURIFragment(object);
+    return Iterables.filter(getExportedObjects(), input -> fragment.equals(input.getEObjectURI().fragment()));
   }
 
   @Override

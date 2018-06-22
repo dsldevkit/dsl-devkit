@@ -24,8 +24,8 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.IAcceptor;
 
-import com.avaloq.tools.ddk.xtext.extension.ILanguageExtensionsService;
 import com.avaloq.tools.ddk.xtext.extension.ILanguageExtensions;
+import com.avaloq.tools.ddk.xtext.extension.ILanguageExtensionsService;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -61,8 +61,13 @@ public class DefaultExportFeatureExtensionService implements IExportFeatureExten
   }
 
   @Override
-  public CharSequence getFragmentSegment(final EObject object) {
-    return returnFirst(c -> c.getFragmentSegment(object));
+  public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
+    for (IExportFeatureExtension ext : exportFeatureExtensions) {
+      if (ext.appendFragmentSegment(object, builder)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

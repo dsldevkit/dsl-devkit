@@ -44,8 +44,8 @@ public abstract class AbstractExportFeatureExtension implements IExportFeatureEx
   }
 
   @Override
-  public CharSequence getFragmentSegment(final EObject object) {
-    return getFragmentProvider().getFragmentSegment(object);
+  public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
+    return getFragmentProvider().appendFragmentSegment(object, builder);
   }
 
   @Override
