@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.validation;
 
+import static org.eclipse.xtext.validation.ValidationMessageAcceptor.INSIGNIFICANT_INDEX;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -245,10 +246,13 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
             return true;
           }
         } else {
-          for (INode node : nodes) {
-            INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(node);
-            if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
-              return true;
+          int avdIndex = ((FeatureBasedDiagnostic) avd).getIndex();
+          for (int i = 0; i < nodes.size(); i++) {
+            if (avdIndex == INSIGNIFICANT_INDEX || avdIndex == i) {
+              INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(nodes.get(i));
+              if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
+                return true;
+              }
             }
           }
         }
