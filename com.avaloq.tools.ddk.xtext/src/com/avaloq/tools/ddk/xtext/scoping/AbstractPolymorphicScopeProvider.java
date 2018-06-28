@@ -17,6 +17,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -319,11 +320,11 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
     }
     final XtextResource rsc = (XtextResource) ctxRsc;
     // Cache these container lists, they're expensive to create
-    final String key = "CONTAINERCACHE&" + rsc.getURI().toString(); //$NON-NLS-1$
+    URI uri = rsc.getURI();
     List<IContainer> result = null;
-    final ResourceCache<String, List<IContainer>> cache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#cache", rsc); //$NON-NLS-1$
+    final ResourceCache<URI, List<IContainer>> cache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", rsc); //$NON-NLS-1$
     if (cache != null) {
-      result = cache.get(key);
+      result = cache.get(uri);
       if (result != null) {
         return result;
       }
@@ -340,7 +341,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
     final IResourceDescriptions resourceDescriptions = getResourceDescriptions(ctx.eResource());
     result = containerManager.getVisibleContainers(description, resourceDescriptions);
     if (cache != null) {
-      cache.set(key, result);
+      cache.set(uri, result);
     }
     return result;
   }

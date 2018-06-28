@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.typesystem;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
@@ -101,7 +102,22 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    * @param <T>
    *          the type of the items we iterate over
    */
-  abstract class AbstractCyclicHandlingSupport<T> {
+  abstract static class AbstractCyclicHandlingSupport<T> {
+
+    /**
+     * A thread local that holds the ongoing type computations.
+     */
+    private final ThreadLocal<ComputationData<T>> ongoing = ThreadLocal.withInitial(ComputationData::new);
+
+    /**
+     * Gets the ongoing, thread-local computations.
+     *
+     * @return the ongoing, thread-local computations
+     */
+    protected ComputationData<T> getTypeComputations() {
+      ThreadLocal<ComputationData<T>> computations = ongoing;
+      return computations.get();
+    }
 
     private final OnChangeEvictingCache typeReferenceAwareCache = new OnChangeEvictingCache() {
 
@@ -144,8 +160,11 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
 
     /**
      * Holds the set of items being computed.
+     *
+     * @param <T>
+     *          the type of the items we iterate over
      */
-    protected class ComputationData {
+    protected static class ComputationData<T> {
       private final Set<T> computations = Sets.newHashSet();
       private ImmutableLinkedItem<T> queryState;
       private Resource resource;
@@ -156,13 +175,15 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
        *
        * @param t
        *          the item to add
-       * @return true if {@code t} was added to the set, i.e., was not already present
+       * @param resourceMapper
+       *          function returning resource of primary object for {@code t}, must not be {@code null}
+       * @return {@code true} if {@code t} was added to the set, i.e., was not already present
        */
-      protected boolean add(final T t) {
+      protected boolean add(final T t, final Function<T, Resource> resourceMapper) {
         boolean result = computations.add(t);
         if (result) {
           if (queryState == null) {
-            resource = getPrimaryEObject(t).eResource();
+            resource = resourceMapper.apply(t);
           }
           queryState = new ImmutableLinkedItem<T>(t, queryState);
         }
@@ -203,26 +224,6 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
     protected abstract EObject getPrimaryEObject(T t);
 
     /**
-     * A thread local that holds the ongoing type computations.
-     */
-    private final ThreadLocal<ComputationData> ongoingComputations = new ThreadLocal<ComputationData>() {
-      @Override
-      protected ComputationData initialValue() {
-        return createComputationData();
-      }
-    };
-
-    /**
-     * Gets the ongoing, thread-local computations.
-     *
-     * @return the ongoing, thread-local computations
-     */
-    protected ComputationData getTypeComputations() {
-      ThreadLocal<ComputationData> computations = ongoingComputations;
-      return computations.get();
-    }
-
-    /**
      * Gets the type for an item.
      *
      * @param t
@@ -237,8 +238,8 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
       if (eObject == null || eObject.eIsProxy()) {
         return null;
       }
-      ComputationData computationData = getTypeComputations();
-      if (computationData.add(t)) {
+      ComputationData<T> computationData = getTypeComputations();
+      if (computationData.add(t, k -> getPrimaryEObject(k).eResource())) {
         try {
           if (computationData.resource == eObject.eResource() && !computationData.resourceLeftOrCyclic) {
             final boolean[] hit = new boolean[] {true};
@@ -302,15 +303,6 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
      * @return the type for {@code t}
      */
     protected abstract IType doHandleCyclicCall(T t);
-
-    /**
-     * Creates the initial computation data to get track of computations.
-     *
-     * @return the computation data
-     */
-    protected ComputationData createComputationData() {
-      return new ComputationData();
-    }
   }
 
   /**
@@ -632,4 +624,3 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   }
 
 }
-
