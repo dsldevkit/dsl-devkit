@@ -18,10 +18,10 @@ import com.avaloq.tools.ddk.typesystem.typemodel.INamedType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.typesystem.builtintypemodel.InternalType#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.typesystem.builtintypemodel.BuiltInTypeModelPackage#getInternalType()
  * @model
