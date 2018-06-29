@@ -27,7 +27,6 @@ import org.eclipse.xtext.util.Modules2;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider;
 import com.google.inject.AbstractModule;
 
 
@@ -93,47 +92,46 @@ public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
   private static class TestSelectorFragmentProvider extends AbstractSelectorFragmentProvider {
 
     @Override
-    public CharSequence getFragmentSegment(final EObject object) {
+    public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
       EClass eClass = object.eClass();
       EPackage ePackage = eClass.getEPackage();
       if (ePackage == XtextPackage.eINSTANCE) {
         int classifierID = eClass.getClassifierID();
         switch (classifierID) {
         case XtextPackage.GRAMMAR:
-          return getFragmentSegment((Grammar) object);
+          return appendFragmentSegment((Grammar) object, builder);
         case XtextPackage.ENUM_RULE:
         case XtextPackage.PARSER_RULE:
         case XtextPackage.TERMINAL_RULE:
-          return getFragmentSegment((AbstractRule) object);
+          return appendFragmentSegment((AbstractRule) object, builder);
         case XtextPackage.KEYWORD:
           if (((Keyword) object).getValue().equals("selectCardinality")) {
-            return getFragmentSegment((AbstractElement) object);
+            return appendFragmentSegment((AbstractElement) object, builder);
           } else {
-            return getFragmentSegment((Keyword) object);
+            return appendFragmentSegment((Keyword) object, builder);
           }
         default:
-          return super.getFragmentSegment(object);
+          return super.appendFragmentSegment(object, builder);
         }
       }
-      return super.getFragmentSegment(object);
+      return super.appendFragmentSegment(object, builder);
     }
 
-    protected CharSequence getFragmentSegment(final Grammar obj) {
-      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.GRAMMAR__NAME, true);
+    protected boolean appendFragmentSegment(final Grammar obj, final StringBuilder builder) {
+      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.GRAMMAR__NAME, true, builder);
     }
 
-    protected CharSequence getFragmentSegment(final AbstractRule obj) {
-      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.ABSTRACT_RULE__NAME, false);
+    protected boolean appendFragmentSegment(final AbstractRule obj, final StringBuilder builder) {
+      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.ABSTRACT_RULE__NAME, false, builder);
     }
 
-    protected CharSequence getFragmentSegment(final AbstractElement obj) {
-      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.ABSTRACT_ELEMENT__CARDINALITY, false);
+    protected boolean appendFragmentSegment(final AbstractElement obj, final StringBuilder builder) {
+      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.ABSTRACT_ELEMENT__CARDINALITY, false, builder);
     }
 
-    protected CharSequence getFragmentSegment(final Keyword obj) {
-      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.KEYWORD__VALUE, false);
+    protected boolean appendFragmentSegment(final Keyword obj, final StringBuilder builder) {
+      return computeSelectorFragmentSegment(obj, XtextPackage.Literals.KEYWORD__VALUE, false, builder);
     }
 
   }
 }
-

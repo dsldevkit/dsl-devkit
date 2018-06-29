@@ -10,8 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Iterator;
-import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -30,6 +31,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   public static final char REP_SEPARATOR = '*';
   public static final char LIST_SEPARATOR = '#';
 
+  private static final int FRAGMENT_BUFFER_CAPACITY = 8;
   private static final char ESCAPE_CHARACTER = '\\';
   private static final CharMatcher CHARACTERS_TO_ESCAPE = CharMatcher.anyOf(new String(new char[] {SEGMENT_SEPARATOR, ESCAPE_CHARACTER,
       REP_SEPARATOR})).precomputed();
@@ -82,7 +84,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       int idx = indexOfUnescapedChar(fragment, END_MATCHER, startIdx);
       int repIdx = idx < length && fragment.charAt(idx) == REP_SEPARATOR ? idx : -1;
       endIdx = repIdx == -1 ? idx : indexOfUnescapedChar(fragment, SEGMENT_SEPARATOR_MATCHER, repIdx);
-      reps = repIdx < startIdx ? 1 : Integer.parseInt(fragment.substring(repIdx + 1, endIdx));
+      reps = repIdx < startIdx ? 1 : Integer.parseUnsignedInt(fragment.substring(repIdx + 1, endIdx));
       return fragment.substring(startIdx, reps == 1 ? endIdx : repIdx);
     }
 
@@ -105,7 +107,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   /** {@inheritDoc} */
   @Override
   public String getFragment(final EObject object, final Fallback fallback) {
-    final Stack<EObject> containingObjects = new Stack<EObject>();
+    final Deque<EObject> containingObjects = new ArrayDeque<>();
     EObject current = object;
     while (current != null) {
       containingObjects.push(current);
@@ -115,70 +117,73 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       // could happen while unloading objects
       return fallback.getFragment(object);
     }
-    final StringBuilder fragment = new StringBuilder(containingObjects.size() * 16);
-    CharSequence previousSegment = null;
-    CharSequence segment = internalGetFragmentSegment(containingObjects.pop());
+    final StringBuilder result = new StringBuilder(containingObjects.size() * FRAGMENT_BUFFER_CAPACITY);
+    StringBuilder previousSegment = new StringBuilder(FRAGMENT_BUFFER_CAPACITY);
+    StringBuilder segment = new StringBuilder(FRAGMENT_BUFFER_CAPACITY);
+    internalAppendFragmentSegment(containingObjects.pop(), segment);
     int reps = 1;
-    fragment.append(SEGMENT_SEPARATOR);
-    fragment.append(segment);
+    result.append(SEGMENT_SEPARATOR);
+    result.append(segment);
     while (!containingObjects.isEmpty()) {
+      StringBuilder temp = previousSegment;
       previousSegment = segment;
-      segment = internalGetFragmentSegment(containingObjects.pop());
+      segment = temp;
+      segment.setLength(0);
+      internalAppendFragmentSegment(containingObjects.pop(), segment);
       if (equal(previousSegment, segment)) {
         reps++;
       } else {
         if (reps == 2 && previousSegment.length() == 1) {
-          fragment.append(SEGMENT_SEPARATOR).append(previousSegment);
+          result.append(SEGMENT_SEPARATOR).append(previousSegment);
           reps = 1;
         } else if (reps > 1) {
-          fragment.append(REP_SEPARATOR).append(reps);
+          result.append(REP_SEPARATOR).append(reps);
           reps = 1;
         }
-        fragment.append(SEGMENT_SEPARATOR).append(segment);
+        result.append(SEGMENT_SEPARATOR).append(segment);
       }
     }
     if (reps == 2 && previousSegment.length() == 1) {
-      fragment.append(SEGMENT_SEPARATOR).append(previousSegment);
+      result.append(SEGMENT_SEPARATOR).append(previousSegment);
     } else if (reps > 1) {
-      fragment.append(REP_SEPARATOR).append(reps);
+      result.append(REP_SEPARATOR).append(reps);
     }
-    return fragment.toString();
+    return result.toString();
   }
 
   /**
    * Internal method which calls {@link InferenceContainer#getFragmentSegment(EObject)} if {@code object}'s container is an {@link InferenceContainer} and
-   * otherwise calls {@link #getFragmentSegment(EObject)}.
+   * otherwise calls {@link #appendFragmentSegment(EObject, StringBuilder)}.
    *
    * @param object
    *          the {@link EObject} for which to calculate the fragment segment, must not be {@code null}
-   * @return the calculated fragment segment for the given object, never {@code null} or empty
+   * @param builder
+   *          builder to append fragment segment to, must not be {@code null}
    */
-  private CharSequence internalGetFragmentSegment(final EObject object) {
+  private void internalAppendFragmentSegment(final EObject object, final StringBuilder builder) {
     if (object.eContainer() instanceof InferenceContainer) {
-      return ((InferenceContainer) object.eContainer()).getFragmentSegment(object);
+      builder.append(((InferenceContainer) object.eContainer()).getFragmentSegment(object));
+    } else {
+      appendFragmentSegment(object, builder);
     }
-    return getFragmentSegment(object);
   }
 
   /**
-   * Checks whether the two given CharSequence objects represent the same string value.
+   * Checks whether the two given {@link StringBuilder} objects represent the same string value.
    *
-   * @param seq1
-   *          first sequence, must not be {@code null}
-   * @param seq2
-   *          second sequence, must not be {@code null}
+   * @param builder1
+   *          first builder, must not be {@code null}
+   * @param builder2
+   *          second builder, must not be {@code null}
    * @return {@code true} if both represent the same string, {@code false} otherwise
    */
-  private boolean equal(final CharSequence seq1, final CharSequence seq2) {
-    if (seq1.equals(seq2)) {
-      return true;
-    }
-    int length = seq1.length();
-    if (seq2.length() != length) {
+  private boolean equal(final StringBuilder builder1, final StringBuilder builder2) {
+    int length = builder1.length();
+    if (builder2.length() != length) {
       return false;
     }
     for (int i = 0; i < length; i++) {
-      if (seq1.charAt(i) != seq2.charAt(i)) {
+      if (builder1.charAt(i) != builder2.charAt(i)) {
         return false;
       }
     }
@@ -186,13 +191,15 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   }
 
   /**
-   * Calculates and returns the URI fragment segment for the given object, without segment separators.
+   * Calculates and append the URI fragment segment for the given object to the given {@link StringBuilder}, without segment separators.
    *
    * @param object
    *          the {@link EObject} for which to calculate the fragment segment, must not be {@code null}
-   * @return the calculated fragment segment for the given object, never {@code null} or empty
+   * @param builder
+   *          builder to append fragment segment to, must not be {@code null}
+   * @return {@code true} if a fragment segment was appended to {@code builder}
    */
-  public abstract CharSequence getFragmentSegment(final EObject object);
+  public abstract boolean appendFragmentSegment(final EObject object, StringBuilder builder);
 
   /** {@inheritDoc} */
   @Override
@@ -202,7 +209,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       String segment = iterator.next();
       int reps = iterator.repetitions();
 
-      final int contentsIndex = Integer.parseInt(segment);
+      final int contentsIndex = Integer.parseUnsignedInt(segment);
       EObject container = resource.getContents().get(contentsIndex);
 
       while (iterator.hasNext() || reps > 1) {
@@ -282,7 +289,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   }
 
   /**
-   * Escapes the reserved characters contained in the given text.
+   * Escapes the reserved characters contained in the given text and appends it to the given {@link StringBuilder}.
    * <p>
    * Reserved characters for e.g. segment and list separation cannot be used by custom fragment providers unless escaped, i.e. prefixed with a '\'. Such URI
    * segments need to be escaped when forming the URI fragment, and consequently unescaped when reading the URI segments.
@@ -290,10 +297,11 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
    *
    * @param text
    *          the text to escape, must not be {@code null}
-   * @return the escaped text, never {@code null}
+   * @param builder
+   *          builder to append the escaped text to, must not be {@code null}
    */
-  protected String escape(final String text) {
-    return escape(text, CHARACTERS_TO_ESCAPE);
+  protected void appendEscaped(final String text, final StringBuilder builder) {
+    appendEscaped(text, builder, CHARACTERS_TO_ESCAPE);
   }
 
   /**
@@ -312,7 +320,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   }
 
   /**
-   * Escapes the escape characters contained in the given text.
+   * Escapes the escape characters contained in the given text and appends the result to the given {@link StringBuilder}.
    * <p>
    * Reserved characters for e.g. segment and list separation cannot be used by custom fragment providers unless escaped, i.e. prefixed with a '\'. Such URI
    * segments need to be escaped when forming the URI fragment, and consequently unescaped when reading the URI segments.
@@ -320,28 +328,21 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
    *
    * @param text
    *          the text to escape, must not be {@code null}
+   * @param builder
+   *          builder to append the escaped text to, must not be {@code null}
    * @param charactersToEscape
    *          the characters to escape, must not be {@code null}
-   * @return the escaped text, never {@code null}
    */
-  protected String escape(final String text, final CharMatcher charactersToEscape) {
-    if (CharMatcher.NONE.equals(charactersToEscape)) {
-      return text;
-    }
-    final StringBuilder result = new StringBuilder(text.length());
+  protected void appendEscaped(final String text, final StringBuilder builder, final CharMatcher charactersToEscape) {
     int lastIndex = 0;
     for (int index = 0; index < text.length(); index++) {
       char character = text.charAt(index);
       if (charactersToEscape.matches(character)) {
-        result.append(text.substring(lastIndex, index)).append(ESCAPE_CHARACTER).append(character);
+        builder.append(text.substring(lastIndex, index)).append(ESCAPE_CHARACTER).append(character);
         lastIndex = index + 1;
       }
     }
-    if (result.length() == 0) {
-      return text;
-    }
-    result.append(text.substring(lastIndex));
-    return result.toString();
+    builder.append(text.substring(lastIndex));
   }
 
   /**
@@ -358,10 +359,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
    * @return the unescaped text, never {@code null}
    */
   protected String unescape(final String text, final CharMatcher charactersToEscape) {
-    if (CharMatcher.NONE.equals(charactersToEscape)) {
-      return text;
-    }
-    final StringBuilder result = new StringBuilder(text.length());
+    StringBuilder result = null;
     int lastIndex = 0;
     boolean escaped = false;
     for (int index = 0; index < text.length(); index++) {
@@ -369,6 +367,9 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       if (escaped) {
         escaped = false;
         if (charactersToEscape.matches(character)) {
+          if (result == null) {
+            result = new StringBuilder(text.length());
+          }
           result.append(text.substring(lastIndex, index - 1)).append(character);
           lastIndex = index + 1;
         }
@@ -376,7 +377,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
         escaped = true;
       }
     }
-    if (result.length() == 0) {
+    if (result == null) {
       return text;
     }
     result.append(text.substring(lastIndex));
