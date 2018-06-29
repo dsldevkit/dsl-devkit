@@ -184,18 +184,16 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
    *          the label of the quickfix, may be {@code null}
    */
   protected void assertQuickFixSuccessful(final String issueCode, final String quickfixLabel) {
-    for (final IssueResolution issueResolution : sortResolutionsByOffsetDecreasing(resolutionsFor(issueCode))) {
-      if (quickfixLabel == null || quickfixLabel.equals(issueResolution.getLabel())) {
-        UiThreadDispatcher.dispatchAndWait(new Runnable() {
-          @Override
-          public void run() {
-            issueResolution.apply();
-          }
-        });
-      }
+    for (final IssueResolution issueResolution : sortResolutionsByOffsetDecreasing(resolutionsFor(issueCode, quickfixLabel))) {
+      UiThreadDispatcher.dispatchAndWait(new Runnable() {
+        @Override
+        public void run() {
+          issueResolution.apply();
+        }
+      });
     }
     waitForValidation();
-    Assert.assertTrue(resolutionsFor(issueCode).isEmpty());
+    Assert.assertTrue(resolutionsFor(issueCode, quickfixLabel).isEmpty());
   }
 
   /**
