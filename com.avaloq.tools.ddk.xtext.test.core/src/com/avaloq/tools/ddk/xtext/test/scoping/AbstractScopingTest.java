@@ -53,6 +53,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Triple;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
@@ -679,6 +680,19 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     final int sourceTag = getTag();
     expectedLinkAssertions.add(() -> testLinking(sourceTag, getTargetObject.get()));
     return mark(sourceTag);
+  }
+
+  /**
+   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int).
+   *
+   * @see #link(int)
+   * @see #link(Supplier)
+   * @see #testLinking(int, EObject)
+   * @param sourceFileNameAndContent
+   *          the file name and content, given as the key and value of the pair, respectively, must not be {@code null}
+   */
+  protected void testLinking(final Pair<String, String> sourceFileNameAndContent) {
+    testLinking(sourceFileNameAndContent.getKey(), sourceFileNameAndContent.getValue());
   }
 
   /**
