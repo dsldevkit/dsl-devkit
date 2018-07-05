@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.diagnostics.AbstractDiagnostic;
+import org.eclipse.xtext.linking.impl.XtextLinkingDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
@@ -966,7 +967,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     for (int i = 0; i < referenceNames.length; i++) {
       messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
     }
-    assertNoErrorsOnResource(object, messages);
+    assertNoLinkingErrorsWithCustomMessageOnResource(object, messages);
   }
 
   /**
@@ -984,7 +985,39 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     for (int i = 0; i < referenceNames.length; i++) {
       messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
     }
-    assertErrorsOnResourceExist(object, messages);
+    assertLinkingErrorsWithCustomMessageOnResourceExist(object, messages);
+  }
+
+  /**
+   * Expect the given linking error messages on the resource of the given model.
+   *
+   * @param object
+   *          the object, must not be {@code null}
+   * @param errorStrings
+   *          the expected linking error error messages, must not be {@code null}
+   */
+  public static void assertLinkingErrorsWithCustomMessageOnResourceExist(final EObject object, final String... errorStrings) {
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
+    for (final String s : errorStrings) {
+      assertTrue(NLS.bind("Expected linking error \"{0}\" but could not find it", s), errorMessages.contains(s));
+    }
+  }
+
+  /**
+   * Assert no linking errors on resource with the given message exist.
+   *
+   * @param object
+   *          the object, must not be {@code null}
+   * @param messages
+   *          the linking error messages, must not be {@code null}
+   */
+  public static void assertNoLinkingErrorsWithCustomMessageOnResource(final EObject object, final String... messages) {
+    List<String> messageList = Arrays.asList(messages);
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    for (String errorMessage : Lists.transform(linkingErrors, Resource.Diagnostic::getMessage)) {
+      assertFalse(NLS.bind("Expecting no linking errors on resource with message \"{0}\".", errorMessage), messageList.contains(errorMessage));
+    }
   }
 
   /**
