@@ -5,7 +5,8 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ui.test;singleton:=true
 Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.xtext.ui,
+Require-Bundle: org.eclipse.xtext.junit4,
+ org.eclipse.xtext.ui,
  org.eclipse.xtext.xbase.lib,
  org.junit,
  org.mockito,

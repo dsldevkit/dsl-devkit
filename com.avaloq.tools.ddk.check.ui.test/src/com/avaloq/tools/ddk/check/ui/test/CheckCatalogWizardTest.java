@@ -31,7 +31,6 @@ import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -43,6 +42,7 @@ import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.util.CheckResourceUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
 import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -52,7 +52,7 @@ import com.google.inject.Provider;
  * The CheckProjectWizardTestBackup tests the Check Project Wizard.
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(XtextRunner.class)
+@RunWith(ClassRunner.class)
 public class CheckCatalogWizardTest {
 
   /** This is the name of the catalog wizard. It's the name SWTBot uses to look up the wizard. */
@@ -243,7 +243,6 @@ public class CheckCatalogWizardTest {
   /**
    * Tests that initially no grammar is selected, so pressing finish is disabled if no grammar is chosen.
    */
-  @Test
   @BugTest("AIG-708")
   public void testInitiallyNoGrammarSelected() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);

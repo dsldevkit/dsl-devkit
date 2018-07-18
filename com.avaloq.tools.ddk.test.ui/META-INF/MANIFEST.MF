@@ -23,7 +23,8 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.mockito,
  com.google.guava,
  org.apache.commons.lang,
- org.eclipse.emf.common
+ org.eclipse.emf.common,
+ org.eclipse.xtext.junit4
 Export-Package: com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.test.ui.junit.runners,
  com.avaloq.tools.ddk.test.ui.swtbot,
