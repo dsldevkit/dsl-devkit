@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtend.expression.ExecutionContextImpl;
@@ -27,6 +28,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator;
 import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
 import com.avaloq.tools.ddk.xtext.scope.scope.Casing;
+import com.avaloq.tools.ddk.xtext.scope.scope.Import;
 import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingSection;
@@ -76,7 +78,7 @@ public final class ScopingGeneratorUtil {
    */
   private static class ScopeExecutionContext extends ExecutionContextImpl {
 
-    private static final String VAR_ORIGINAL_RESOURCE = "originalResource";
+    private static final String VAR_ORIGINAL_RESOURCE = "originalResource"; //$NON-NLS-1$
 
     ScopeExecutionContext(final ScopeModel model) {
       super(new ResourceManagerDefaultImpl(), new ScopeResource(model), new TypeSystemImpl(), getVariables(model), null, null, null, null, null, null, null, null, null);
@@ -115,6 +117,19 @@ public final class ScopingGeneratorUtil {
         @Override
         public EPackage[] allPackages() {
           return ePackages;
+        }
+
+        @Override
+        protected String getElementName(final ENamedElement ele) {
+          if (ele instanceof EPackage) {
+            // use alias as name (if provided)
+            for (Import imp : model.getImports()) {
+              if (imp.getPackage() == ele) {
+                return imp.getName() != null ? imp.getName() : super.getElementName(ele);
+              }
+            }
+          }
+          return super.getElementName(ele);
         }
       });
       // Finally, add the default meta models
