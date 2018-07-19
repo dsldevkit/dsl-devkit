@@ -15,13 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.internal.xtend.expression.parser.SyntaxConstants;
 import org.eclipse.xtend.expression.ExecutionContextImpl;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtend.expression.TypeSystemImpl;
 import org.eclipse.xtend.expression.Variable;
+import org.eclipse.xtend.typesystem.Type;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
@@ -120,16 +121,17 @@ public final class ScopingGeneratorUtil {
         }
 
         @Override
-        protected String getElementName(final ENamedElement ele) {
-          if (ele instanceof EPackage) {
-            // use alias as name (if provided)
+        public Type getTypeForName(final String name) {
+          final String[] frags = name.split(SyntaxConstants.NS_DELIM);
+          if (frags.length == 2) {
+            // convert references which use import alias
             for (Import imp : model.getImports()) {
-              if (imp.getPackage() == ele) {
-                return imp.getName() != null ? imp.getName() : super.getElementName(ele);
+              if (frags[0].equals(imp.getName()) && imp.getPackage() != null) {
+                return super.getTypeForName(imp.getPackage().getName() + SyntaxConstants.NS_DELIM + frags[1]);
               }
             }
           }
-          return super.getElementName(ele);
+          return super.getTypeForName(name);
         }
       });
       // Finally, add the default meta models
