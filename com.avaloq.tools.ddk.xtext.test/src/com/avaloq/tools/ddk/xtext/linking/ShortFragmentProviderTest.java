@@ -83,7 +83,6 @@ public class ShortFragmentProviderTest extends AbstractTest {
     EPackage.Registry.INSTANCE.remove(testPackage.getNsURI());
   }
 
-  @Test
   @BugTest(value = "DSL-601")
   public void testLongFragment() {
     int reps = 100;

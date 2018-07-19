@@ -18,10 +18,13 @@ import java.util.Comparator;
 
 import org.eclipse.xtext.naming.QualifiedName;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 
 
+@RunWith(ClassRunner.class)
 @SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
 // CHECKSTYLE:CONSTANTS-OFF
 public class QualifiedNamePatternTest {
@@ -166,7 +169,6 @@ public class QualifiedNamePatternTest {
   }
 
   @BugTest("DSL-209")
-  @Test
   @SuppressWarnings("PMD.UseAssertSameInsteadOfAssertTrue")
   // The comparator structure of ==, > and < should be clear in the tests.
   public void testComparison() {
