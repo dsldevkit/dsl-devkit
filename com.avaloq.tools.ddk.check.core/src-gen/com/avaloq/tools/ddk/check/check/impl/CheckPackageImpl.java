@@ -286,7 +286,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCheckCatalog_IncludedCatalogs()
+	public EReference getCheckCatalog_Categories()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(5);
 	}
@@ -296,7 +296,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCheckCatalog_Categories()
+	public EReference getCheckCatalog_Implementations()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(6);
 	}
@@ -306,7 +306,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCheckCatalog_Implementations()
+	public EReference getCheckCatalog_Checks()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(7);
 	}
@@ -316,19 +316,9 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCheckCatalog_Checks()
-	{
-		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getCheckCatalog_Members()
 	{
-		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(9);
+		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -907,7 +897,6 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 		createEAttribute(checkCatalogEClass, CHECK_CATALOG__FINAL);
 		createEAttribute(checkCatalogEClass, CHECK_CATALOG__NAME);
 		createEReference(checkCatalogEClass, CHECK_CATALOG__GRAMMAR);
-		createEReference(checkCatalogEClass, CHECK_CATALOG__INCLUDED_CATALOGS);
 		createEReference(checkCatalogEClass, CHECK_CATALOG__CATEGORIES);
 		createEReference(checkCatalogEClass, CHECK_CATALOG__IMPLEMENTATIONS);
 		createEReference(checkCatalogEClass, CHECK_CATALOG__CHECKS);
@@ -1037,7 +1026,6 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 		initEAttribute(getCheckCatalog_Final(), ecorePackage.getEBoolean(), "final", null, 0, 1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCheckCatalog_Name(), ecorePackage.getEString(), "name", null, 0, 1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCheckCatalog_Grammar(), theXtextPackage.getGrammar(), null, "grammar", null, 0, 1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCheckCatalog_IncludedCatalogs(), this.getCheckCatalog(), null, "includedCatalogs", null, 0, 1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCheckCatalog_Categories(), this.getCategory(), null, "categories", null, 0, -1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCheckCatalog_Implementations(), this.getImplementation(), null, "implementations", null, 0, -1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCheckCatalog_Checks(), this.getCheck(), null, "checks", null, 0, -1, CheckCatalog.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

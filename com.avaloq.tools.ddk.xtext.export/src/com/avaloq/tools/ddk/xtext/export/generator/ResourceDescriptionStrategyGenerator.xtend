@@ -46,7 +46,7 @@ class ResourceDescriptionStrategyGenerator {
       «IF exports.exists[e|e.fingerprint||e.resourceFingerprint]»
         import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
       «ENDIF»
-      «IF exports.exists(e|e.allowLookup)»
+      «IF exports.exists(e|e.lookup)»
         import com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription;
       «ENDIF»
       import com.google.common.collect.ForwardingMap;
@@ -108,8 +108,13 @@ class ResourceDescriptionStrategyGenerator {
                   return «p.name»ExportSwitch.doSwitch(object);
                 }
               «ENDFOR»
-              // TODO: generate code for other possible epackages (as defined by grammar)
-              return true;
+              «IF it.extension»
+                // Extension does not have to cover all EPackages of the language
+                return false;
+              «ELSE»
+                // TODO: generate code for other possible epackages (as defined by grammar)
+                return true;
+              «ENDIF»
             } finally {
               this.acceptor.set(null);
             }
@@ -124,7 +129,7 @@ class ResourceDescriptionStrategyGenerator {
     val a = c.allEAttributes
     val d = c.allUserData
     '''
-      «IF !a.isEmpty || !d.isEmpty || c.fingerprint || c.resourceFingerprint || c.allowLookup »
+      «IF !a.isEmpty || !d.isEmpty || c.fingerprint || c.resourceFingerprint || c.lookup »
         // Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts
         Map<String, String> data = new ForwardingMap<String, String>() {
           private Map<String, String> delegate;
@@ -147,9 +152,16 @@ class ResourceDescriptionStrategyGenerator {
                   builder.put(IFingerprintComputer.RESOURCE_FINGERPRINT, value.toString());
                 }
               «ENDIF»
-              «IF c.allowLookup»
+              «IF c.lookup»
                 // Allow lookups
-                builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
+                «IF c.lookupPredicate != null»
+                  «javaContributorComment(c.lookupPredicate.location)»
+                  if («c.lookupPredicate.javaExpression(ctx.clone('obj', c.type))») {
+                    builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
+                  }
+                «ELSE»
+                  builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
+                «ENDIF»
               «ENDIF»
               «IF !a.isEmpty »
                 // Exported attributes

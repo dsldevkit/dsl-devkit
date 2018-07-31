@@ -56,20 +56,20 @@ class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   // will otherwise cause the builder to fail during linking.
   override IScope getScope(EObject context, EReference reference) {
     val res = scope(context, reference)
-    if (res != null) res else super.getScope(context, reference)
+    if (res !== null) res else super.getScope(context, reference)
   }
 
   def dispatch IScope scope(XIssueExpression context, EReference reference) {
     if (reference == CheckPackage.Literals::XISSUE_EXPRESSION__MARKER_FEATURE) {
       var jvmTypeRef =
-        if (context.markerObject!= null)
+        if (context.markerObject !== null)
           typeResolver.resolveTypes(context.markerObject).getActualType(context.markerObject).toTypeReference
         else
           EcoreUtil2::getContainerOfType(context, typeof(Context)).contextVariable.type;
 
-      if (jvmTypeRef != null) {
+      if (jvmTypeRef !== null) {
         val eClass = context.classForJvmType(jvmTypeRef.type);
-        if (eClass != null) {
+        if (eClass !== null) {
           var features = eClass.EAllStructuralFeatures
           val descriptions = Collections2::transform(features,  [f | EObjectDescription::create(QualifiedName::create(f.name), f)])
           return MapBasedScope::createScope(IScope::NULLSCOPE, descriptions);
@@ -84,11 +84,11 @@ class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       // another CheckCatalog, then use that parent as parent scope
 
       val catalog = EcoreUtil2::getContainerOfType(context, typeof(CheckCatalog))
-      val checks  = catalog.allChecks.filter(c|c.name != null).toList
+      val checks  = catalog.allChecks.filter(c|c.name !== null).toList
 
       val descriptions = Collections2::transform(checks, [c|EObjectDescription::create(QualifiedName::create(c.name), c)])
       // Determine the parent scope; use NULLSCOPE if no included CheckCatalog is defined (or if it cannot be resolved)
-      val parentScope  = if (catalog.includedCatalogs != null && !catalog.includedCatalogs.eIsProxy) getScope(catalog.includedCatalogs, reference) else IScope::NULLSCOPE
+      val parentScope  = IScope::NULLSCOPE
 
       return MapBasedScope::createScope(parentScope, Iterables::filter(descriptions, Predicates::notNull));
     }
@@ -124,12 +124,12 @@ class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   }
 
   def EClass classForJvmType(EObject context, JvmType jvmType) {
-    if (jvmType != null && !jvmType.eIsProxy) {
+    if (jvmType !== null && !jvmType.eIsProxy) {
       val qualifiedName = jvmType.getQualifiedName();
       val qualifiedPackageName = qualifiedName.substring(0, qualifiedName.lastIndexOf("."));
       val packageName = qualifiedPackageName.substring(qualifiedPackageName.lastIndexOf(".") + 1);
       val ePackage = getEPackage(context.eResource, packageName);
-      if (ePackage != null) {
+      if (ePackage !== null) {
         val eClassifier = (EcoreUtil::resolve(ePackage, context) as EPackage).getEClassifier(jvmType.simpleName)
         if (eClassifier instanceof EClass) {
           return eClassifier
@@ -150,7 +150,7 @@ class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       }
     }
     val desc = globalScopeProvider.getScope(context, EcorePackage.Literals.EPACKAGE__ESUPER_PACKAGE, null).getSingleElement(QualifiedName.create(name))
-    if (desc != null) {
+    if (desc !== null) {
       return desc.EObjectOrProxy as EPackage
     }
     val descs = descriptionsProvider.getResourceDescriptions(context).getExportedObjects(EcorePackage.Literals.EPACKAGE, QualifiedName.create(name), false).iterator

@@ -43,6 +43,8 @@ class ExportGenerator implements IGenerator {
   FingerprintComputerGenerator fingerprintComputerGenerator
   @Inject
   FragmentProviderGenerator fragmentProviderGenerator
+  @Inject
+  ExportFeatureExtensionGenerator exportFeatureExtensionGenerator
 
   CompilationContext compilationContext
 
@@ -69,6 +71,7 @@ class ExportGenerator implements IGenerator {
       generateResourceDescriptionConstants(model, fsa)
       generateFingerprintComputer(model, fsa)
       generateFragmentProvider(model, fsa)
+      generateFeatureExtension(model, fsa)
     ])
   }
 
@@ -78,8 +81,10 @@ class ExportGenerator implements IGenerator {
   }
 
   def generateResourceDescriptionManager(ExportModel model, IFileSystemAccess fsa) {
-    val fileName = model.resourceDescriptionManager.toFileName
-    fsa.generateFile(fileName, ExportOutputConfigurationProvider.STUB_OUTPUT, resourceDescriptionManagerGenerator.generate(model, compilationContext, genModelUtil))
+    if(!model.extension){
+      val fileName = model.resourceDescriptionManager.toFileName
+      fsa.generateFile(fileName, ExportOutputConfigurationProvider.STUB_OUTPUT, resourceDescriptionManagerGenerator.generate(model, compilationContext, genModelUtil))
+    }
   }
 
   def generateResourceDescriptionStrategy(ExportModel model, IFileSystemAccess fsa) {
@@ -98,9 +103,16 @@ class ExportGenerator implements IGenerator {
   }
 
   def generateFragmentProvider(ExportModel model, IFileSystemAccess fsa) {
-    if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute != null)) {
+    if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute != null) || model.isExtension) {
       val fileName = model.fragmentProvider.toFileName
       fsa.generateFile(fileName, fragmentProviderGenerator.generate(model, compilationContext, genModelUtil))
+    }
+  }
+
+  def generateFeatureExtension(ExportModel model, IFileSystemAccess fsa) {
+    if (model.extension) {
+      val fileName = model.exportFeatureExtension.toFileName
+      fsa.generateFile(fileName, exportFeatureExtensionGenerator.generate(model, compilationContext, genModelUtil))
     }
   }
 

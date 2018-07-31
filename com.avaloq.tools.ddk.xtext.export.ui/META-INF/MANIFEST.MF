@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.export.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.export.ui;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: com.avaloq.tools.ddk.xtext.export.ui.internal.ExportActivator
@@ -17,6 +17,7 @@ Require-Bundle: org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext.expression.ui,
  com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.expression,
+ com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.compare,
  org.eclipse.jdt.ui
 Import-Package: org.apache.log4j

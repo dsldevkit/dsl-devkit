@@ -33,7 +33,7 @@ public class DefaultCheckValidator extends AbstractCheckValidator {
   @Named(Constants.LANGUAGE_NAME)
   private String hostLanguage;
 
-  @Inject
+  @Inject(optional = true)
   private IGrammarAccess grammarAccess;
 
   @Override
@@ -49,7 +49,7 @@ public class DefaultCheckValidator extends AbstractCheckValidator {
 
   /**
    * At this point, {@link #grammarAccess} has been injected. See {@link #register(EValidatorRegistrar)}.
-   * 
+   *
    * @param registrar
    *          the validator registrar
    */
@@ -61,14 +61,15 @@ public class DefaultCheckValidator extends AbstractCheckValidator {
   @Override
   protected List<EPackage> getEPackages() {
     List<EPackage> result = Lists.newArrayList();
-    for (AbstractMetamodelDeclaration decl : grammarAccess.getGrammar().getMetamodelDeclarations()) {
-      // TODO what about imported meta models?
-      if (decl instanceof GeneratedMetamodel) {
-        result.add(EPackage.Registry.INSTANCE.getEPackage(decl.getEPackage().getNsURI()));
+    if (grammarAccess != null) {
+      for (AbstractMetamodelDeclaration decl : grammarAccess.getGrammar().getMetamodelDeclarations()) {
+        // TODO what about imported meta models?
+        if (decl instanceof GeneratedMetamodel) {
+          result.add(EPackage.Registry.INSTANCE.getEPackage(decl.getEPackage().getNsURI()));
+        }
       }
     }
     return result;
   }
 
 }
-

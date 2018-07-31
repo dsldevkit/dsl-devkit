@@ -48,14 +48,8 @@ public class ExportValidationTest extends AbstractValidationTest {
   }
 
   @Test
-  public final void testCheckNameAsFields() {
-    assertDiagnosticMessage("nsURI is already used as export key");
-  }
-
-  @Test
   public final void testCheckOverlap() {
     // TODO assertDiagnosticMessage("");
   }
 
 }
-

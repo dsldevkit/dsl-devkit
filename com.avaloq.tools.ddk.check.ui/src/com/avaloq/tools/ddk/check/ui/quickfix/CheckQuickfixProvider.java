@@ -29,8 +29,6 @@ import org.eclipse.xtext.validation.Issue;
 import org.eclipse.xtext.xbase.ui.quickfix.XbaseQuickfixProvider;
 
 import com.avaloq.tools.ddk.check.check.Check;
-import com.avaloq.tools.ddk.check.check.CheckCatalog;
-import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.check.Documented;
 import com.avaloq.tools.ddk.check.check.Implementation;
 import com.avaloq.tools.ddk.check.check.SeverityKind;
@@ -51,7 +49,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
   private CheckResourceUtil resourceUtil;
 
   private static final String NO_IMAGE = null;
-  private static final String CHECK = "check";
+  private static final String CHECK = "check"; //$NON-NLS-1$
 
   /**
    * Replaces a guard by an if-expression.
@@ -68,7 +66,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
       public void apply(final IModificationContext context) throws BadLocationException {
         IXtextDocument xtextDocument = context.getXtextDocument();
         String expr = xtextDocument.get(issue.getOffset(), issue.getLength());
-        expr = expr.replaceFirst("^guard(\\s*)", "if (!(") + ")) {return}";
+        expr = expr.replaceFirst("^guard(\\s*)", "if (!(") + ")) {return}"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         xtextDocument.replace(issue.getOffset(), issue.getLength(), expr);
       }
     });
@@ -134,7 +132,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
       @Override
       public void apply(final IModificationContext context) throws BadLocationException {
         IXtextDocument xtextDocument = context.getXtextDocument();
-        xtextDocument.replace(issue.getOffset() + issue.getLength() - 1, 0, ' ' + "issue" + ' ');
+        xtextDocument.replace(issue.getOffset() + issue.getLength() - 1, 0, ' ' + "issue" + ' '); //$NON-NLS-1$
       }
     });
   }
@@ -191,7 +189,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
   @Fix(IssueCodes.MISSING_DOCUMENTATION_ON_CHECK)
   public void addDocumentationToCheck(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, Messages.CheckQuickfixProvider_ADD_DOCUMENTATION_LABEL, NLS.bind(Messages.CheckQuickfixProvider_ADD_DOCUMENTATION_DESCN, CHECK), NO_IMAGE, // LF
-        new AutoDoc<Check>(Check.class, issue, "/**\n{0} * @todo document check\n{0} */\n{0}"));
+        new AutoDoc<Check>(Check.class, issue, "/**\n{0} * @todo document check\n{0} */\n{0}")); //$NON-NLS-1$
   }
 
   /**
@@ -205,8 +203,8 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
    */
   @Fix(IssueCodes.MISSING_DOCUMENTATION_ON_IMPLEMENTATION)
   public void addDocumentationToImplementation(final Issue issue, final IssueResolutionAcceptor acceptor) {
-    acceptor.accept(issue, Messages.CheckQuickfixProvider_ADD_DOCUMENTATION_LABEL, NLS.bind(Messages.CheckQuickfixProvider_ADD_DOCUMENTATION_DESCN, "definition"), NO_IMAGE, // LF
-        new AutoDoc<Implementation>(Implementation.class, issue, "/**\n{0} * @todo document implementation\n{0} */\n{0}"));
+    acceptor.accept(issue, Messages.CheckQuickfixProvider_ADD_DOCUMENTATION_LABEL, NLS.bind(Messages.CheckQuickfixProvider_ADD_DOCUMENTATION_DESCN, "definition"), NO_IMAGE, // LF //$NON-NLS-1$
+        new AutoDoc<Implementation>(Implementation.class, issue, "/**\n{0} * @todo document implementation\n{0} */\n{0}")); //$NON-NLS-1$
   }
 
   /**
@@ -225,27 +223,6 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
         final String label = check.getLabel();
         final String id = CheckUtil.toIdentifier(label);
         check.setId(id);
-      }
-    });
-  }
-
-  /**
-   * Fixes the circular dependency problem by removing the {@code with} clause.
-   *
-   * @param issue
-   *          the issue
-   * @param acceptor
-   *          the acceptor
-   */
-  @Fix(IssueCodes.INCLUDED_CATALOGS_WITH_CIRCULAR_DEPENDENCIES)
-  public void removeWithClause(final Issue issue, final IssueResolutionAcceptor acceptor) {
-    acceptor.accept(issue, Messages.CheckQuickfixProvider_REMOVE_WITH_LABEL, Messages.CheckQuickfixProvider_REMOVE_WITH_DESCN, NO_IMAGE, new ISemanticModification() {
-      @Override
-      public void apply(final EObject element, final IModificationContext context) {
-        final CheckCatalog catalog = EcoreUtil2.getContainerOfType(element, CheckCatalog.class);
-        if (catalog != null) {
-          catalog.eUnset(CheckPackage.Literals.CHECK_CATALOG__INCLUDED_CATALOGS);
-        }
       }
     });
   }
@@ -285,7 +262,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
    */
   @Fix(IssueCodes.SEVERITY_RANGES_FOR_FINAL_CHECK)
   public void removeFinal(final Issue issue, final IssueResolutionAcceptor acceptor) {
-    doTextualTokenReplacement(issue, acceptor, Messages.CheckQuickfixProvider_REMOVE_FINAL_KW_LABEL, Messages.CheckQuickfixProvider_REMOVE_FINAL_KW_DESCN, "");
+    doTextualTokenReplacement(issue, acceptor, Messages.CheckQuickfixProvider_REMOVE_FINAL_KW_LABEL, Messages.CheckQuickfixProvider_REMOVE_FINAL_KW_DESCN, ""); //$NON-NLS-1$
   }
 
   /**
@@ -390,7 +367,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
   public void fixRedundantFinalKeyword(final Issue issue, final IssueResolutionAcceptor acceptor) {
     final String label = Messages.CheckQuickfixProvider_REDUNDANT_FINAL_FIX_LABEL;
     final String descn = Messages.CheckQuickfixProvider_REDUNDANT_FINAL_FIX_DESCN;
-    doTextualTokenReplacement(issue, acceptor, label, descn, "");
+    doTextualTokenReplacement(issue, acceptor, label, descn, ""); //$NON-NLS-1$
   }
 
   /**

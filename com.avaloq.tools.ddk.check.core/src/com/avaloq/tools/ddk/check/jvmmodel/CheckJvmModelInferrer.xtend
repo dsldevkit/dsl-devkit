@@ -24,7 +24,6 @@ import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStore
 import com.avaloq.tools.ddk.check.runtime.issue.AbstractIssue
 import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl
 import com.avaloq.tools.ddk.check.runtime.issue.SeverityKind
-import com.avaloq.tools.ddk.check.runtime.validation.ComposedCheckValidator
 import com.avaloq.tools.ddk.check.validation.IssueCodes
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Lists
@@ -41,10 +40,8 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.common.types.JvmAnnotationReference
 import org.eclipse.xtext.common.types.JvmAnnotationType
-import org.eclipse.xtext.common.types.JvmAnnotationValue
 import org.eclipse.xtext.common.types.JvmDeclaredType
 import org.eclipse.xtext.common.types.JvmField
-import org.eclipse.xtext.common.types.JvmGenericType
 import org.eclipse.xtext.common.types.JvmMember
 import org.eclipse.xtext.common.types.JvmOperation
 import org.eclipse.xtext.common.types.JvmParameterizedTypeReference
@@ -56,9 +53,7 @@ import org.eclipse.xtext.util.Strings
 import org.eclipse.xtext.validation.CheckType
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XFeatureCall
-import org.eclipse.xtext.xbase.XListLiteral
 import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.XTypeLiteral
 import org.eclipse.xtext.xbase.XbaseFactory
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
@@ -93,7 +88,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     val issueCodeToLabelMapTypeRef = typeRef(ImmutableMap, typeRef(String), typeRef(String))
     acceptor.accept(catalogClass, [
       val parentType = checkedTypeRef(catalog, typeof(AbstractIssue));
-      if (parentType != null) {
+      if (parentType !== null) {
         superTypes += parentType;
       }
       annotations += createAnnotation(checkedTypeRef(catalog, typeof(Singleton)), [])
@@ -114,7 +109,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
           val qualifiedIssueCodeName = issue.qualifiedIssueCodeName();
           val issueLabel = issue.issueLabel().escapeJava;
           val existingIssueLabel = sortedUniqueQualifiedIssueCodeNamesAndLabels.putIfAbsent(qualifiedIssueCodeName, issueLabel);
-          if (null != existingIssueLabel && issueLabel != existingIssueLabel) {
+          if (null !== existingIssueLabel && issueLabel != existingIssueLabel) {
             // This qualified issue code name is already in the map, with a different label. Fail the build.
             throw new IllegalArgumentException('''Multiple issues found with qualified issue code name: «qualifiedIssueCodeName»''')
           }
@@ -143,20 +138,14 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
 
     acceptor.accept(catalog.toClass(catalog.qualifiedValidatorClassName), [
       val parentType = checkedTypeRef(catalog, typeof(DefaultCheckImpl));
-      if (parentType != null) {
+      if (parentType !== null) {
         superTypes += parentType;
       }
       // Constructor will be added automatically.
-      setCheckComposition(catalog, it);
       documentation = '''
-        Validator for «catalog.name».«IF catalog.hasIncludedCatalogs» Includes validations from its parent catalog.
-
-        @see «catalog.includedCatalogs.validatorClassName»«ENDIF»''';
+        Validator for «catalog.name».''';
       // Create catalog injections
       members += createInjectedField(catalog, catalog.catalogInstanceName, typeRef(catalogClass));
-      if (catalog.hasIncludedCatalogs) {
-        members += createInjectedField(catalog, catalog.includedCatalogs.catalogInstanceName, checkedTypeRef(catalog, catalog.includedCatalogs.qualifiedCatalogClassName));
-      }
       // Create fields
       members += catalog.members.map(m|m.toField(m.name, m.type) [initializer = m.value; it.addAnnotations(m.annotations);]);
       // Create catalog name function
@@ -178,7 +167,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     ]);
     acceptor.accept(catalog.toClass(catalog.qualifiedPreferenceInitializerClassName), [
       val parentType = checkedTypeRef(catalog, typeof(AbstractPreferenceInitializer));
-      if (parentType != null) {
+      if (parentType !== null) {
         superTypes += parentType;
       }
       members += catalog.toField('RUNTIME_NODE_NAME', typeRef(typeof(String))) [
@@ -191,35 +180,9 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     ]);
   }
 
-  private def void setCheckComposition(CheckCatalog catalog, JvmGenericType jvmType) {
-    if (!catalog.hasIncludedCatalogs) {
-      return;
-    }
-
-    // Create an XExpression for the RHS
-    val XListLiteral rhs = XbaseFactory::eINSTANCE.createXListLiteral();
-    val XTypeLiteral containedType = XbaseFactory::eINSTANCE.createXTypeLiteral();
-    val JvmTypeReference typeRef = checkedTypeRef(catalog, catalog.includedCatalogs.qualifiedValidatorClassName);
-    if (typeRef == null) {
-      return;
-    }
-    containedType.type = typeRef.type;
-    rhs.elements += containedType;
-
-    // Create a ComposedCheckValidator annotation and associate with jvmType.
-    jvmType.annotations+= createAnnotation(checkedTypeRef(catalog, typeof (ComposedCheckValidator)), [
-      // rhs has no eResource set here. This works all the same.
-      val JvmAnnotationValue annotationValue = rhs.toJvmAnnotationValue;
-      annotationValue.operation = (annotation as JvmDeclaredType).findAllFeaturesByName('validators').head as JvmOperation;
-      values += annotationValue;
-    ]);
-
-    // Now we have the equivalent of @ComposedCheckValidator(validators = {<includedCatalogs>.class})
-  }
-
   private def Iterable<JvmField> createInjectedField(CheckCatalog context, String fieldName, JvmTypeReference type) {
     // Generate @Inject private typeName fieldName;
-    if (type == null) {
+    if (type === null) {
       return Collections::emptyList;
     }
     val field = typesFactory.createJvmField();
@@ -254,7 +217,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       visibility = JvmVisibility::PRIVATE;
       // Add a fields for the parameters, so that they can be linked. We suppress generation of these fields in the generator,
       // and replace all references by calls to the getter function in the catalog.
-      members += chk.formalParameters.filter(f|f.type != null && f.name != null).map(f|f.toField(f.name, f.type) [final = true]);
+      members += chk.formalParameters.filter(f|f.type !== null && f.name !== null).map(f|f.toField(f.name, f.type) [final = true]);
     ];
     newMembers += checkClass;
     newMembers += chk.toField(chk.name.toFirstLower + 'Impl', typeRef(checkClass)) [initializer = [append('''new «checkClass.simpleName»()''')]];
@@ -265,19 +228,19 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
 
   private def JvmOperation createCheckExecution(Context ctx) {
-    if (ctx == null || ctx.contextVariable == null) {
+    if (ctx === null || ctx.contextVariable === null) {
       return null;
     }
     val String functionName = 'run' + ctx.contextVariable.type?.simpleName.toFirstUpper;
     ctx.toMethod(functionName, typeRef('void')) [
-      parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name == null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
+      parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
       body = ctx.constraint;
     ]
   }
 
   private def Iterable<JvmAnnotationReference> createCheckAnnotation (Context ctx) {
     val checkTypeTypeRef = checkedTypeRef(ctx, typeof(CheckType));
-    if (checkTypeTypeRef == null) {
+    if (checkTypeTypeRef === null) {
       return Collections::emptyList;
     }
     val XFeatureCall featureCall = XbaseFactory::eINSTANCE.createXFeatureCall();
@@ -303,7 +266,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
 
   private def JvmOperation createCheckCaller(Context ctx, Check chk) {
-    if (ctx == null || ctx.contextVariable == null) {
+    if (ctx === null || ctx.contextVariable === null) {
       return null;
     }
     val String functionName = chk.name.toFirstLower + ctx.contextVariable.type?.simpleName;
@@ -323,7 +286,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
 
   private def JvmOperation createCheckMethod(Context ctx) {
     // Simple case for contexts of checks that do not have formal parameters. No need to generate nested classes for these.
-    if (ctx == null || ctx.contextVariable == null) {
+    if (ctx === null || ctx.contextVariable === null) {
       return null;
     }
     val String functionName = switch container : ctx.eContainer {
@@ -332,7 +295,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     }.toFirstLower + ctx.contextVariable.type?.simpleName;
 
     ctx.toMethod(functionName, typeRef('void')) [
-      parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name == null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
+      parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
       annotations += createCheckAnnotation(ctx);
       documentation = functionName + '.'; // Well, that's not very helpful, but it is what the old compiler did...
       body = ctx.constraint;
@@ -345,7 +308,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     val List<JvmMember> members = Lists::newArrayList();
     for (FormalParameter parameter : check.formalParameters) {
       val JvmTypeReference returnType  = parameter.type;
-      if (returnType != null && !returnType.eIsProxy) {
+      if (returnType !== null && !returnType.eIsProxy) {
         val String returnName  = returnType.qualifiedName;
         val String operation   = switch returnName {
           case 'java.lang.Boolean'                 : 'getBoolean'
@@ -359,7 +322,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
         }
         val String parameterKey  = CheckPropertiesGenerator::parameterKey(parameter, check);
         var String defaultName = 'null';
-        if (parameter.right != null) {
+        if (parameter.right !== null) {
           defaultName = parameter.formalParameterGetterName.splitCamelCase.toUpperCase + '_DEFAULT';
           // Is generated into the PreferenceInitializer. Actually, since we do have it in the initializer, passing it here again
           // as default value is just a safety measure if something went wrong and the property shouldn't be set.
@@ -376,7 +339,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
                        order to check if a configured value exists in a project scope
             @return the run-time value of <em>«parameter.name»</em>''';
           val eObjectTypeRef = checkedTypeRef(parameter, typeof(EObject));
-          if (eObjectTypeRef != null) {
+          if (eObjectTypeRef !== null) {
             parameters += parameter.toParameter('context', eObjectTypeRef);
           }
           body = [append('''
@@ -401,7 +364,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       // TODO (minor): how to get NLS into the imports?
     ];
     val severityType = checkedTypeRef(check, typeof(SeverityKind));
-    if (severityType != null) {
+    if (severityType !== null) {
       members += check.toMethod('get' + check.name.toFirstUpper + 'SeverityKind', severityType) [
         documentation = '''
           Gets the {@link SeverityKind severity kind} of check
@@ -416,7 +379,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
                   no configuration for this check was found, else the configured
                   value looked up in the configuration store''';
         val eObjectTypeRef = checkedTypeRef(check, typeof(EObject));
-        if (eObjectTypeRef != null) {
+        if (eObjectTypeRef !== null) {
           parameters += check.toParameter('context', eObjectTypeRef);
         }
         body = [append('''
@@ -437,7 +400,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     val List<JvmMember> result = Lists::newArrayList();
     for (Check c : allChecks) {
       for (FormalParameter parameter : c.formalParameters) {
-        if (parameter.type != null && parameter.right != null) {
+        if (parameter.type !== null && parameter.right !== null) {
           val String defaultName = parameter.formalParameterGetterName.splitCamelCase.toUpperCase + '_DEFAULT';
           result += parameter.toField(defaultName, parameter.type) [
             visibility = JvmVisibility::PUBLIC;
@@ -456,7 +419,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     val JvmTypeReference prefStore = checkedTypeRef(catalog, typeof (IEclipsePreferences));
     val List<JvmMember> result = Lists::newArrayList();
 
-    if (prefStore != null) {
+    if (prefStore !== null) {
       result += catalog.toMethod('initializeDefaultPreferences', typeRef('void')) [
         annotations += createAnnotation(checkedTypeRef(catalog, typeof(Override)), []);
         visibility = JvmVisibility::PUBLIC;
@@ -480,15 +443,15 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
         body = [
           for (Check c : allChecks) {
             for (FormalParameter parameter : c.formalParameters) {
-              if (parameter.right != null) {
+              if (parameter.right !== null) {
                 val String key = CheckPropertiesGenerator::parameterKey(parameter, c);
                 val String defaultFieldName = parameter.formalParameterGetterName.splitCamelCase.toUpperCase + '_DEFAULT';
                 val JvmTypeReference jvmType = parameter.type;
                 val String typeName = jvmType.qualifiedName;
-                if (typeName != null && typeName.startsWith("java.util.List<")) {
+                if (typeName !== null && typeName.startsWith("java.util.List<")) {
                   // Marshal lists.
                   val args = (jvmType as JvmParameterizedTypeReference).arguments;
-                  if (args != null && args.size == 1) {
+                  if (args !== null && args.size == 1) {
                     val baseTypeName = args.head.simpleName;
                     append('''preferences.put("«key»", com.avaloq.tools.ddk.check.runtime.configuration.CheckPreferencesHelper.marshal«baseTypeName»s(«defaultFieldName»));
                     ''');
@@ -518,7 +481,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
 
   private def Iterable<JvmAnnotationReference> createAnnotation (JvmTypeReference typeRef, Procedure1<JvmAnnotationReference> initializer) {
-    if (typeRef == null) {
+    if (typeRef === null) {
       return Collections::emptyList;
     }
 
@@ -533,9 +496,9 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
 
   private def createError (String message, EObject context, EStructuralFeature feature) {
     val Resource rsc = context.eResource;
-    if (rsc != null) {
+    if (rsc !== null) {
       var f = feature;
-      if (f == null) {
+      if (f === null) {
         f = locationInFileProvider.getIdentifierFeature(context);
       }
       rsc.errors += new EObjectDiagnosticImpl(Severity::ERROR, IssueCodes::INFERRER_ERROR, "Check compiler: " + message, context, f, -1, null)
@@ -547,22 +510,13 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
 
   private def JvmTypeReference checkedTypeRef(EObject context, Class<?> clazz) {
-    if (clazz == null) {
+    if (clazz === null) {
       createTypeNotFoundError ("<unknown>", context);
       return null;
     }
     val result = typeRef(clazz);
-    if (result == null || result.type == null) {
+    if (result === null || result.type === null) {
       createTypeNotFoundError(clazz.name, context);
-      return null;
-    }
-    return result;
-  }
-
-  private def JvmTypeReference checkedTypeRef(EObject context, String className) {
-    val result = typeRef(className);
-    if (result == null || result.type == null) {
-      createTypeNotFoundError(className, context);
       return null;
     }
     return result;

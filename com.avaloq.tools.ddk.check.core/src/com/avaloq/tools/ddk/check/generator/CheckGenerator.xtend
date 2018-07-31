@@ -157,13 +157,15 @@ class CheckGenerator extends JvmModelGenerator {
     public class «catalog.standaloneSetupClassName» implements ICheckValidatorStandaloneSetup {
 
       private static final Logger LOG = Logger.getLogger(«catalog.standaloneSetupClassName».class);
+      «IF catalog.grammar !== null»
       private static final String GRAMMAR_NAME = "«catalog.grammar.name»";
+      «ENDIF»
       private static final String CATALOG_FILE_PATH = "«catalog.checkFilePath»";
 
       /** {@inheritDoc} */
       public void doSetup() {
-        ICheckValidatorRegistry.INSTANCE.registerValidator(GRAMMAR_NAME, new «catalog.validatorClassName»());
-        ICheckCatalogRegistry.INSTANCE.registerCatalog(GRAMMAR_NAME, new ModelLocation(
+        ICheckValidatorRegistry.INSTANCE.registerValidator(«IF catalog.grammar !== null»GRAMMAR_NAME,«ENDIF» new «catalog.validatorClassName»());
+        ICheckCatalogRegistry.INSTANCE.registerCatalog(«IF catalog.grammar !== null»GRAMMAR_NAME,«ENDIF» new ModelLocation(
           «catalog.standaloneSetupClassName».class.getClassLoader().getResource(CATALOG_FILE_PATH), CATALOG_FILE_PATH));
         LOG.info("Standalone setup done for «catalog.checkFilePath»");
       }

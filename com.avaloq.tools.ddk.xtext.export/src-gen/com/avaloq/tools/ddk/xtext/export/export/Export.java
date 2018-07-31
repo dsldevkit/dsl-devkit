@@ -17,7 +17,8 @@ import org.eclipse.emf.ecore.EAttribute;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup <em>Allow Lookup</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#getLookupPredicate <em>Lookup Predicate</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#getNaming <em>Naming</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}</li>
@@ -35,58 +36,84 @@ import org.eclipse.emf.ecore.EAttribute;
 public interface Export extends DeclarationForType
 {
 	/**
-	 * Returns the value of the '<em><b>Allow Lookup</b></em>' attribute.
+	 * Returns the value of the '<em><b>Lookup</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Allow Lookup</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Lookup</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Allow Lookup</em>' attribute.
-	 * @see #isSetAllowLookup()
-	 * @see #unsetAllowLookup()
-	 * @see #setAllowLookup(boolean)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_AllowLookup()
+	 * @return the value of the '<em>Lookup</em>' attribute.
+	 * @see #isSetLookup()
+	 * @see #unsetLookup()
+	 * @see #setLookup(boolean)
+	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Lookup()
 	 * @model default="false" unsettable="true"
 	 * @generated
 	 */
-	boolean isAllowLookup();
+	boolean isLookup();
 
 	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup <em>Allow Lookup</em>}' attribute.
+	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Allow Lookup</em>' attribute.
-	 * @see #isSetAllowLookup()
-	 * @see #unsetAllowLookup()
-	 * @see #isAllowLookup()
+	 * @param value the new value of the '<em>Lookup</em>' attribute.
+	 * @see #isSetLookup()
+	 * @see #unsetLookup()
+	 * @see #isLookup()
 	 * @generated
 	 */
-	void setAllowLookup(boolean value);
+	void setLookup(boolean value);
 
 	/**
-	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup <em>Allow Lookup</em>}' attribute.
+	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isSetAllowLookup()
-	 * @see #isAllowLookup()
-	 * @see #setAllowLookup(boolean)
+	 * @see #isSetLookup()
+	 * @see #isLookup()
+	 * @see #setLookup(boolean)
 	 * @generated
 	 */
-	void unsetAllowLookup();
+	void unsetLookup();
 
 	/**
-	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isAllowLookup <em>Allow Lookup</em>}' attribute is set.
+	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Allow Lookup</em>' attribute is set.
-	 * @see #unsetAllowLookup()
-	 * @see #isAllowLookup()
-	 * @see #setAllowLookup(boolean)
+	 * @return whether the value of the '<em>Lookup</em>' attribute is set.
+	 * @see #unsetLookup()
+	 * @see #isLookup()
+	 * @see #setLookup(boolean)
 	 * @generated
 	 */
-	boolean isSetAllowLookup();
+	boolean isSetLookup();
+
+	/**
+	 * Returns the value of the '<em><b>Lookup Predicate</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Lookup Predicate</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Lookup Predicate</em>' containment reference.
+	 * @see #setLookupPredicate(Expression)
+	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_LookupPredicate()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Expression getLookupPredicate();
+
+	/**
+	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getLookupPredicate <em>Lookup Predicate</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Lookup Predicate</em>' containment reference.
+	 * @see #getLookupPredicate()
+	 * @generated
+	 */
+	void setLookupPredicate(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Qualified Name</b></em>' attribute.
@@ -403,13 +430,5 @@ public interface Export extends DeclarationForType
 	 * @generated
 	 */
 	EList<EAttribute> getAllEAttributes();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EAttribute getNamingAttribute();
 
 } // Export

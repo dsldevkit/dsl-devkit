@@ -11,9 +11,11 @@
 grammar com.avaloq.tools.ddk.xtext.export.Export with com.avaloq.tools.ddk.xtext.expression.Expression
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.eclipse.org/2008/Xtext" as xtext
 generate export "http://www.avaloq.com/tools/ddk/xtext/export/Export"
 
 ExportModel:
+    ('export' (extension?='extension')? name=ID 'for' targetGrammar=[xtext::Grammar | QualifiedID])?
     (imports+=Import)+
     (extensions+=Extension)*
     ('interface' '{'
@@ -57,7 +59,7 @@ InterfaceExpression:
 
 Export:
     'export'
-    (allowLookup?='lookup')?
+    (lookup?='lookup' ('[' lookupPredicate=Expression ']')?)?
     type=[ecore::EClass|QualifiedID]
     ('as' qualifiedName?='qualified'? naming=Expression)? // Only one name for now
     ('[' guard=Expression ']')?

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.modelinference;
 
+import org.apache.log4j.Logger;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 
 import com.google.inject.Inject;
@@ -23,14 +24,21 @@ import com.google.inject.Singleton;
 @Singleton
 public class ExtendableInferredModelAssociator extends InferredModelAssociator {
 
-  @Inject(optional = true)
-  private IAdditionalInferrersService additionalInferrers;
+  private static final Logger LOGGER = Logger.getLogger(ExtendableInferredModelAssociator.class);
+
+  @Inject
+  private IModelInferrerFeatureExtensionService additionalInferrers;
 
   @Override
   public void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
     super.installDerivedState(resource, isPreLinkingPhase);
-    if (additionalInferrers != null) {
+    try {
       additionalInferrers.inferTargetModel(resource.getContents().get(0), createAcceptor(resource), isPreLinkingPhase);
+      // CHECKSTYLE:OFF
+    } catch (RuntimeException e) {
+      // CHECKSTYLE:ON
+      LOGGER.error("Failed to install additional derived state for resource " + resource.getURI(), e); //$NON-NLS-1$
     }
   }
+
 }

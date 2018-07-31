@@ -15,19 +15,18 @@ import org.eclipse.xtext.xtype.XImportSection;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getPackageName <em>Package Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getImports <em>Imports</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#isFinal <em>Final</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getGrammar <em>Grammar</em>}</li>
- *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getIncludedCatalogs <em>Included Catalogs</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getCategories <em>Categories</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getImplementations <em>Implementations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getChecks <em>Checks</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getMembers <em>Members</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog()
  * @model
@@ -164,32 +163,6 @@ public interface CheckCatalog extends Documented
 	 * @generated
 	 */
 	void setGrammar(Grammar value);
-
-	/**
-	 * Returns the value of the '<em><b>Included Catalogs</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Included Catalogs</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Included Catalogs</em>' reference.
-	 * @see #setIncludedCatalogs(CheckCatalog)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog_IncludedCatalogs()
-	 * @model
-	 * @generated
-	 */
-	CheckCatalog getIncludedCatalogs();
-
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.CheckCatalog#getIncludedCatalogs <em>Included Catalogs</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Included Catalogs</em>' reference.
-	 * @see #getIncludedCatalogs()
-	 * @generated
-	 */
-	void setIncludedCatalogs(CheckCatalog value);
 
 	/**
 	 * Returns the value of the '<em><b>Categories</b></em>' containment reference list.

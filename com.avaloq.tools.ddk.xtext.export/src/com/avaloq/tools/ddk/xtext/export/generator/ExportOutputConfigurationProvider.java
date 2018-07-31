@@ -22,7 +22,7 @@ import org.eclipse.xtext.generator.OutputConfigurationProvider;
  */
 public class ExportOutputConfigurationProvider extends OutputConfigurationProvider {
 
-  public static final String STUB_OUTPUT = "STUB_OUTPUT";
+  public static final String STUB_OUTPUT = "STUB_OUTPUT"; //$NON-NLS-1$
 
   @Override
   public Set<OutputConfiguration> getOutputConfigurations() {
@@ -41,11 +41,11 @@ public class ExportOutputConfigurationProvider extends OutputConfigurationProvid
    */
   private OutputConfiguration getStubConfig() {
     OutputConfiguration config = new OutputConfiguration(STUB_OUTPUT);
-    config.setDescription("Output configuration for stubs");
+    config.setDescription("Output configuration for stubs"); //$NON-NLS-1$
     config.setOverrideExistingResources(false);
     config.setCanClearOutputDirectory(false);
     config.setCleanUpDerivedResources(false);
-    config.setOutputDirectory("src");
+    config.setOutputDirectory("src"); //$NON-NLS-1$
     return config;
   }
 
@@ -56,9 +56,9 @@ public class ExportOutputConfigurationProvider extends OutputConfigurationProvid
    */
   private OutputConfiguration getDefaultConfig() {
     OutputConfiguration config = new OutputConfiguration(IFileSystemAccess.DEFAULT_OUTPUT);
-    config.setDescription("Output configuration for generated classes");
+    config.setDescription("Output configuration for generated classes"); //$NON-NLS-1$
     config.setOverrideExistingResources(true);
-    config.setOutputDirectory("src-gen");
+    config.setOutputDirectory("src-gen"); //$NON-NLS-1$
     return config;
   }
 }

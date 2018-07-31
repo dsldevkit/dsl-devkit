@@ -51,7 +51,7 @@ public class CheckFormatter extends XbaseFormatter {
     super.configure(configuration, access.getXbaseWithAnnotationsGrammarAccess());
 
     // Common curly brackets handling (for check grammar only)
-    List<Pair<Keyword, Keyword>> curlyPairs = access.findKeywordPairs("{", "}");
+    List<Pair<Keyword, Keyword>> curlyPairs = access.findKeywordPairs("{", "}"); //$NON-NLS-1$ //$NON-NLS-2$
     for (Pair<Keyword, Keyword> pair : curlyPairs) {
       if (EcoreUtil2.getContainerOfType(pair.getFirst(), GrammarImpl.class).getName().equals(CheckConstants.GRAMMAR)) {
         configuration.setLinewrap().after(pair.getFirst());
@@ -128,7 +128,7 @@ public class CheckFormatter extends XbaseFormatter {
    *          the accessible formattable parser elements
    */
   public void configureXIssueExpression(final FormattingConfig c, final XIssueExpressionElements elements) {
-    c.setSpace(" ").after(elements.getOnKeyword_3_0());
+    c.setSpace(" ").after(elements.getOnKeyword_3_0()); //$NON-NLS-1$
 
     c.setNoSpace().around(elements.getNumberSignKeyword_3_1_0_0());
     c.setNoSpace().around(elements.getNumberSignKeyword_3_1_1_1_0());
@@ -161,7 +161,6 @@ public class CheckFormatter extends XbaseFormatter {
 
     c.setLinewrap(0, 1, 2).before(elements.getCatalogKeyword_5());
     c.setLinewrap(1, 1, 2).before(elements.getForKeyword_7_0());
-    c.setLinewrap(0, 1, 2).before(elements.getWithKeyword_8_0());
   }
 
   /**

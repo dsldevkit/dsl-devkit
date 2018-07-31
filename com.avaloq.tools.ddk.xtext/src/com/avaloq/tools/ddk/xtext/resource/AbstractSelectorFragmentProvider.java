@@ -20,7 +20,7 @@ import com.google.inject.Inject;
 
 
 /**
- * Fragment provider which understands fragments with selector path segments. E.g. <code>0.1.3(0=='foo').0</code>.
+ * Fragment provider which understands fragments with selector path segments. E.g. <code>0/1/3(0=='foo')/0</code>.
  * <p>
  * Implementation classes should override {@link #getFragment(EObject, org.eclipse.xtext.resource.IFragmentProvider.Fallback)} and call
  * {@link #computeSelectorFragment(EObject, EStructuralFeature, boolean, org.eclipse.xtext.resource.IFragmentProvider.Fallback)} as appropriate.
@@ -39,42 +39,45 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   private ShortFragmentProvider shortFragmentProvider;
 
   /**
-   * Returns a segment of the fragment with a selector for the given object.
+   * Computes a segment of the fragment with a selector for the given object and appends it to the given {@link StringBuilder}.
    *
    * @param obj
    *          object to compute fragment for
    * @param selectorFeature
    *          selector feature
    * @param unique
-   *          <code>true</code> the values for selectorFeature are unique within the object's containment feature setting
-   * @return computed selector fragment
+   *          {@code true} the values for selectorFeature are unique within the object's containment feature setting
+   * @param builder
+   *          builder to append fragment segment to, must not be {@code null}
+   * @return {@code true} if a fragment segment was appended to {@code builder}
    */
   @SuppressWarnings("unchecked")
-  protected CharSequence computeSelectorFragmentSegment(final EObject obj, final EStructuralFeature selectorFeature, final boolean unique) {
+  protected boolean computeSelectorFragmentSegment(final EObject obj, final EStructuralFeature selectorFeature, final boolean unique, final StringBuilder builder) {
     final EObject container = obj.eContainer();
     if (container == null) {
-      return shortFragmentProvider.getFragmentSegment(obj);
+      return shortFragmentProvider.appendFragmentSegment(obj, builder);
     }
-    final StringBuilder result = new StringBuilder();
     // containment feature
     final EStructuralFeature containmentFeature = obj.eContainmentFeature();
-    result.append(container.eClass().getFeatureID(containmentFeature));
+    builder.append(container.eClass().getFeatureID(containmentFeature));
     // selector
     final Object selectorValue = obj.eGet(selectorFeature);
-    result.append(SELECTOR_START).append(selectorFeature.getFeatureID()).append(EQ_OP);
+    builder.append(SELECTOR_START).append(obj.eClass().getFeatureID(selectorFeature)).append(EQ_OP);
     if (selectorValue != null) {
-      result.append(VALUE_SEP).append(escape(selectorValue.toString())).append(VALUE_SEP);
+      builder.append(VALUE_SEP);
+      appendEscaped(selectorValue.toString(), builder);
+      builder.append(VALUE_SEP);
     } else {
-      result.append(NULL_VALUE);
+      builder.append(NULL_VALUE);
     }
     if (unique) {
-      result.append(UNIQUE);
+      builder.append(UNIQUE);
     }
-    result.append(SELECTOR_END);
+    builder.append(SELECTOR_END);
 
     // selector index
     if (!unique && containmentFeature.isMany()) {
-      result.append(ShortFragmentProvider.LIST_SEPARATOR);
+      builder.append(ShortFragmentProvider.LIST_SEPARATOR);
       final EList<? extends EObject> containmentList = (EList<? extends EObject>) container.eGet(containmentFeature);
       int selectorIndex = 0;
       final int objectIndex = containmentList.indexOf(obj);
@@ -84,23 +87,35 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
           selectorIndex++;
         }
       }
-      result.append(selectorIndex);
+      builder.append(selectorIndex);
     }
+    return true;
+  }
 
-    return result;
+  /**
+   * Allows override for delegation to extensions.
+   *
+   * @param object
+   *          object to compute fragment for
+   * @param builder
+   *          builder to append fragment segment to, must not be {@code null}
+   * @return {@code true} if a fragment segment was appended to {@code builder}
+   */
+  protected boolean appendFragmentSegmentFallback(final EObject object, final StringBuilder builder) {
+    return shortFragmentProvider.appendFragmentSegment(object, builder);
   }
 
   /**
    * {@inheritDoc}
    * <p>
-   * By default, this method delegates to {@link ShortFragmentProvider#getFragmentSegment(EObject)}. Sub classes have to override this method in order to
+   * By default, this method delegates to {@link #appendFragmentSegmentFallback(EObject, StringBuilder)}. Sub classes have to override this method in order to
    * customize which EObject generates a selector segment.
    * </p>
    */
   // TODO DSL-348: change generator for fragment providers to implement getFragmentSegment instead of getFragment
   @Override
-  public CharSequence getFragmentSegment(final EObject object) {
-    return shortFragmentProvider.getFragmentSegment(object);
+  public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
+    return appendFragmentSegmentFallback(object, builder);
   }
 
   /** {@inheritDoc} */
@@ -110,7 +125,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     final int selectorEndOffset = segment.lastIndexOf(SELECTOR_END);
     if (selectorEndOffset != -1) {
       final int selectorOffset = segment.indexOf(SELECTOR_START);
-      final int containmentFeatureId = Integer.parseInt(segment.substring(0, selectorOffset));
+      final int containmentFeatureId = Integer.parseUnsignedInt(segment.substring(0, selectorOffset));
       final EStructuralFeature containmentFeature = container.eClass().getEStructuralFeature(containmentFeatureId);
       if (containmentFeature == null) {
         return null;
@@ -119,9 +134,9 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
         return (EObject) container.eGet(containmentFeature);
       }
       final int eqOffset = segment.indexOf(EQ_OP, selectorOffset);
-      final int selectorFeatureId = Integer.parseInt(segment.substring(selectorOffset + 1, eqOffset));
+      final int selectorFeatureId = Integer.parseUnsignedInt(segment.substring(selectorOffset + 1, eqOffset));
       boolean uniqueMatch = segment.charAt(selectorEndOffset - 1) == UNIQUE;
-      int matchedIndex = uniqueMatch ? 0 : Integer.parseInt(segment.substring(selectorEndOffset + 2));
+      int matchedIndex = uniqueMatch ? 0 : Integer.parseUnsignedInt(segment.substring(selectorEndOffset + 2));
       boolean isNull = segment.startsWith(NULL_VALUE, eqOffset + EQ_OP_LENGTH);
       String matchedValue = isNull ? null
           : unescape(segment.substring(eqOffset + EQ_OP_LENGTH + 1, uniqueMatch ? selectorEndOffset - 2 : selectorEndOffset - 1));

@@ -10,7 +10,7 @@
 /**
  * @todo Document catalog.
  */
-catalog ${catalogName:ResourceName('catalog')}
+catalog ${catalogName:ResourceName('file')}
 for grammar ${grammarName:CrossReference(CheckCatalog.grammar)} {
   ${cursor}
 }</template>

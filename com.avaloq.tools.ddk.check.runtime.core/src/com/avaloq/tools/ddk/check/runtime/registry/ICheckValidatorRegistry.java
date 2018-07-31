@@ -66,6 +66,14 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
   void registerValidator(final String language, final ICheckValidatorImpl validator);
 
   /**
+   * Add a validator that is not attached to the language.
+   *
+   * @param validator
+   *          validator for the given language
+   */
+  void registerValidator(final ICheckValidatorImpl validator);
+
+  /**
    * Clear the list of registered providers.
    */
   void removeAllValidators();

@@ -25,11 +25,9 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
-import org.eclipse.xtext.util.Arrays;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
-import com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -287,17 +285,6 @@ public class ContainerQuery {
       };
       result = Iterables.filter(result, userDataPredicate);
     }
-
-    result = Iterables.transform(result, new Function<IEObjectDescription, IEObjectDescription>() {
-      @Override
-      public IEObjectDescription apply(final IEObjectDescription from) {
-        String[] keys = from.getUserDataKeys();
-        if (keys.length == 0 || !Arrays.contains(keys, DetachableEObjectDescription.ALLOW_LOOKUP)) {
-          LOGGER.error("Found object description '" + from.getQualifiedName() + "' at " + from.getEObjectURI() + ", but lookup is not allowed!"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        }
-        return keys.length == 0 ? from : new ProxyFactoryEObjectDescription(from);
-      }
-    });
 
     return result;
   }

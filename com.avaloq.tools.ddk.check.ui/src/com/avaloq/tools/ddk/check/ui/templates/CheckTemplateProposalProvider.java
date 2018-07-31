@@ -28,6 +28,9 @@ import com.google.inject.Inject;
  */
 public class CheckTemplateProposalProvider extends DefaultTemplateProposalProvider {
 
+  // Make template proposals appear at the head of the autocomplete list
+  private static final int RELEVANCE = 10000;
+
   @Inject
   private CheckImages images;
 
@@ -38,17 +41,21 @@ public class CheckTemplateProposalProvider extends DefaultTemplateProposalProvid
 
   @Override
   public Image getImage(final Template template) {
-    if (Strings.equal("Catalog", template.getName())) {
+    if (Strings.equal("Catalog", template.getName())) { //$NON-NLS-1$
       return images.forCheckCatalog();
-    } else if (Strings.equal("Check", template.getName())) {
+    } else if (Strings.equal("Check", template.getName())) { //$NON-NLS-1$
       return images.forCheck(SeverityKind.ERROR);
-    } else if (Strings.equal("Category", template.getName())) {
+    } else if (Strings.equal("Category", template.getName())) { //$NON-NLS-1$
       return images.forCategory();
-    } else if (Strings.equal("Severity range", template.getName())) {
+    } else if (Strings.equal("Severity range", template.getName())) { //$NON-NLS-1$
       return images.forSeverityRange();
     }
     return super.getImage(template);
   }
 
-}
+  @Override
+  public int getRelevance(final Template template) {
+    return RELEVANCE;
+  }
 
+}
