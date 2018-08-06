@@ -11,18 +11,20 @@
 package com.avaloq.tools.ddk.check.ui.builder;
 
 import org.apache.log4j.Logger;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 
-import com.google.inject.Inject;
+import com.avaloq.tools.ddk.check.compiler.CheckGeneratorConfig;
+import com.avaloq.tools.ddk.check.compiler.ICheckGeneratorConfigProvider;
 import com.avaloq.tools.ddk.xtext.builder.ConditionalBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
+import com.google.inject.Inject;
 
 
 /**
@@ -46,6 +48,9 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
 
   @Inject
   private IStorage2UriMapper mapper;
+
+  @Inject
+  private ICheckGeneratorConfigProvider generatorConfigProvider;
 
   private IProgressMonitor progressMonitor;
 
@@ -77,22 +82,27 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
       } catch (CoreException e) {
         LOGGER.error(e.getMessage(), e);
       }
-      try {
-        tocGenerator.updateTocModel(delta.getUri(), context);
-      } catch (CoreException e) {
-        LOGGER.error(e.getMessage(), e);
-      }
-      try {
-        contextsGenerator.updateContextsFile(delta.getUri(), context);
-      } catch (CoreException e) {
-        LOGGER.error(e.getMessage(), e);
+      Resource resource = context.getResourceSet().getResource(delta.getUri(), true);
+      CheckGeneratorConfig config = generatorConfigProvider.get(resource);
+      // Generate docu-related files for SCA checks only
+      if (!config.isGenerateLanguageInternalChecks()) {
+        try {
+          tocGenerator.updateTocModel(delta.getUri(), context);
+        } catch (CoreException e) {
+          LOGGER.error(e.getMessage(), e);
+        }
+        try {
+          contextsGenerator.updateContextsFile(delta.getUri(), context);
+        } catch (CoreException e) {
+          LOGGER.error(e.getMessage(), e);
+        }
       }
     }
   }
 
   /**
    * Removes corresponding entries from plugin.xml.
-   * 
+   *
    * @param delta
    *          delta of deleted resource
    * @param context
@@ -119,4 +129,3 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
   }
 
 }
-
