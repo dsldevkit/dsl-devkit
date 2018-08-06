@@ -50,7 +50,7 @@ import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplat
 /**
  * Use this class to register components to be used within the IDE.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "PMD.CouplingBetweenObjects"})
 public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUiModule {
   public CheckUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
@@ -198,6 +198,7 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
   }
 
   @Override
+  @SuppressWarnings("PMD.AvoidDollarSigns") // that's how it's defined in Xtext
   public Class<? extends BuilderPreferenceAccess.Initializer> bindBuilderPreferenceAccess$Initializer() {
     return CheckBuilderPreferenceAccess.Initializer.class;
   }
