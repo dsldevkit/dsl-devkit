@@ -15,10 +15,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.internal.xtend.expression.parser.SyntaxConstants;
 import org.eclipse.xtend.expression.ExecutionContextImpl;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtend.expression.TypeSystemImpl;
 import org.eclipse.xtend.expression.Variable;
+import org.eclipse.xtend.typesystem.Type;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 import org.eclipse.xtext.resource.IEObjectDescription;
 
@@ -84,6 +86,20 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
         @Override
         public EPackage[] allPackages() {
           return ePackages;
+        }
+
+        @Override
+        public Type getTypeForName(final String name) {
+          final String[] frags = name.split(SyntaxConstants.NS_DELIM);
+          if (frags.length == 2) {
+            // convert references which use import alias
+            for (Import imp : model.getImports()) {
+              if (frags[0].equals(imp.getName()) && imp.getPackage() != null) {
+                return super.getTypeForName(imp.getPackage().getName() + SyntaxConstants.NS_DELIM + frags[1]);
+              }
+            }
+          }
+          return super.getTypeForName(name);
         }
       });
       // Finally, add the default meta models

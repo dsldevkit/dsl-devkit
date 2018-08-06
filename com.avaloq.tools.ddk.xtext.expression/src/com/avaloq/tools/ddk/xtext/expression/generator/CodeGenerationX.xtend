@@ -251,8 +251,8 @@ class CodeGenerationX {
       autoBracket(name + params.head.javaExpression(ctx), ctx)
     } else if ('first' == name && params.isEmpty && target != null) {
       target.javaExpression(ctx) + '.get(0)'
-    } else if ('isInstance' == name) {
-      autoBracket(params.head.javaExpression(ctx) + ' instanceof ' + ctx.javaType(target.serialize()), ctx)
+    } else if ('isInstance' == name && params.size == 1 && target instanceof FeatureCall && (target as FeatureCall).isType(ctx)) {
+      autoBracket(params.head.javaExpression(ctx) + ' instanceof ' + target.javaExpression(ctx), ctx)
     } else if ('eContainer' == name && params.isEmpty) {
       target.javaExpression(ctx) + '.eContainer()'
     } else if (ctx.isExtension(name)) {
