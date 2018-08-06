@@ -26,16 +26,20 @@ import org.eclipse.xtext.xbase.compiler.GeneratorConfig
 
 import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorExtensions.*
 import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.*
+import com.avaloq.tools.ddk.check.compiler.ICheckGeneratorConfigProvider
 
 class CheckGenerator extends JvmModelGenerator {
 
   @Inject extension CheckGeneratorExtensions generatorExtensions
   @Inject extension CheckGeneratorNaming
   @Inject CheckCompiler compiler
+  @Inject private ICheckGeneratorConfigProvider generatorConfigProvider;
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
     super.doGenerate(resource, fsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
+    val config = generatorConfigProvider.get(resource);
     for (catalog : toIterable(resource.allContents).filter(typeof(CheckCatalog))) {
+
       fsa.generateFile(catalog.issueCodesFilePath, catalog.compileIssueCodes)
       fsa.generateFile(catalog.standaloneSetupPath, catalog.compileStandaloneSetup)
 
@@ -45,9 +49,11 @@ class CheckGenerator extends JvmModelGenerator {
         CheckGeneratorConstants::CHECK_REGISTRY_OUTPUT,
         catalog.generateServiceRegistry(CheckUtil::serviceRegistryClassName, fsa)
       )
-
-      // change output path for html files to docs/
-      fsa.generateFile(catalog.docFileName, CheckGeneratorConstants::CHECK_DOC_OUTPUT, catalog.compileDoc)
+      // generate documentation for SCA-checks only
+	  if(!config.isGenerateLanguageInternalChecks){
+	      // change output path for html files to docs/
+    	  fsa.generateFile(catalog.docFileName, CheckGeneratorConstants::CHECK_DOC_OUTPUT, catalog.compileDoc)
+      }
     }
   }
 
