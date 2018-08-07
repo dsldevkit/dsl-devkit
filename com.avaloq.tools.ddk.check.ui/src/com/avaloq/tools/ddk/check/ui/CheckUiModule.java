@@ -24,6 +24,8 @@ import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
 import org.eclipse.xtext.ui.wizard.IProjectCreator;
+import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
+import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
 import com.avaloq.tools.ddk.check.compiler.ICheckGeneratorConfigProvider;
 import com.avaloq.tools.ddk.check.runtime.ui.editor.PlatformPluginAwareEditorOpener;
@@ -183,15 +185,25 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
     return CheckValidateActionHandler.class;
   }
 
+  /**
+   * Fix for NPE in EclipseGeneratorConfigProvider.
+   *
+   * @return GeneratorConfigProvider
+   */
+  @Override
+  public Class<? extends IGeneratorConfigProvider> bindIGeneratorConfigProvider() {
+    return GeneratorConfigProvider.class;
+  }
+
   @Override
   public Class<? extends BuilderConfigurationBlock> bindBuilderConfigurationBlock() {
     return CheckBuilderConfigurationBlock.class;
   }
 
   /**
-   * Bind check generator config provider.
+   * Bind check generator configuration provider.
    *
-   * @return the class<? extends i check generator config provider>
+   * @return the check specific configuration provider for Eclipse project
    */
   public Class<? extends ICheckGeneratorConfigProvider> bindICheckGeneratorConfigProvider() {
     return CheckEclipseGeneratorConfigProvider.class;
