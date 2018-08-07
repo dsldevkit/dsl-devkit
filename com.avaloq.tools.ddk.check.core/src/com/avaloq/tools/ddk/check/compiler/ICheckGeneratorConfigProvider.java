@@ -13,10 +13,13 @@ package com.avaloq.tools.ddk.check.compiler;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.google.inject.ImplementedBy;
+
 
 /**
  * Provides generator configurations specific to Check DSL.
  */
+@ImplementedBy(CheckGeneratorConfigProvider.class)
 public interface ICheckGeneratorConfigProvider {
 
   /**
