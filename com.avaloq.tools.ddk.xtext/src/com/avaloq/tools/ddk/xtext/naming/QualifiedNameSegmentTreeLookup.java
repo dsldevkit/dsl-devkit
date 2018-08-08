@@ -81,9 +81,10 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
         return null;
       }
       String seg = name.getSegment(segIdx++);
+      boolean lastSeg = name.getSegmentCount() == segIdx;
       int idx = binarySearch(children, seg);
       if (idx < 0) {
-        if (exactMatch) {
+        if (exactMatch || !lastSeg) {
           return null;
         }
         idx = -(idx + 1);
@@ -91,7 +92,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       if (idx == children.size()) {
         return null;
       }
-      if (name.getSegmentCount() == segIdx) {
+      if (lastSeg) {
         return children.get(idx);
       }
       SegmentNode result = children.get(idx++).find(name, segIdx, exactMatch);
@@ -148,15 +149,17 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      *          visitor to visit matching nodes with, must not be {@code null}
      * @return {@code false} if marker {@code upper} node was found and search should be stopped
      */
-    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    @SuppressWarnings({"PMD.CompareObjectsWithEquals", "PMD.NPathComplexity"})
     protected boolean collectMatches(final QualifiedName lower, int lowerIdx, final SegmentNode upper, final boolean recursive, final Visitor visitor) {
-      if (children == null || this == upper) {
+      if (children == null || this == upper || upper == null) {
         return false;
       }
       String seg = lower.getSegment(lowerIdx++);
       int idx = binarySearch(children, seg);
-      if (idx < 0) {
+      if (idx < 0 && lower.getSegmentCount() == lowerIdx) {
         idx = -(idx + 1);
+      } else if (idx < 0) {
+        return false;
       }
       if (idx == children.size()) {
         return true;
