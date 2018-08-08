@@ -26,7 +26,7 @@ public interface ICheckGeneratorConfigProvider {
    * Gets the generator configuration.
    *
    * @param resource
-   *          the context resource to detect generator preferences
+   *          the context resource to detect generator preferences, must not be {@code null}
    * @return the check generator configuration
    */
   CheckGeneratorConfig get(Resource resource);
