@@ -49,9 +49,9 @@ public class CheckBuilderPreferenceAccess extends XbaseBuilderPreferenceAccess {
    * Load builder preferences for check.
    *
    * @param generatorConfig
-   *          the generator config
+   *          the generator config, must not be {@code null}
    * @param context
-   *          the context
+   *          the context, must not be {@code null}
    */
   public void loadBuilderPreferences(final CheckGeneratorConfig generatorConfig, final Object context) {
     super.loadBuilderPreferences(generatorConfig, context);
