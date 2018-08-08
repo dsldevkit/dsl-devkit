@@ -80,4 +80,24 @@ public interface TraceConfiguration {
     }
     return includedTraceClassMap::containsKey;
   }
+
+  /**
+   * Creates a new trace configuration that is the combination of a list of other configurations.
+   * Tracing is enabled for event types that are enabled in any of the given configurations.
+   *
+   * @param configurations
+   *          the configurations to combine.
+   * @return trace configuration, never {@code null}
+   */
+  @SafeVarargs
+  static TraceConfiguration combine(final TraceConfiguration... configurations) {
+    return c -> {
+      for (TraceConfiguration config : configurations) {
+        if (config.isEnabled(c)) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
 }

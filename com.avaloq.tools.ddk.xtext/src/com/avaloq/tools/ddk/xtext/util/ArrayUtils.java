@@ -10,35 +10,13 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.util;
 
-import com.google.common.collect.ObjectArrays;
-
-
 /**
  * Collects various utility operations on arrays.
- *
- * @param <T>
- *          generic element type
  */
-public final class ArrayUtils<T> {
+public final class ArrayUtils {
 
-  private final Class<T> componentType;
-
-  private ArrayUtils(final Class<T> componentType) {
-    this.componentType = componentType;
-  }
-
-  /**
-   * Creates a new instance of ArrayUtils for the given component type.
-   *
-   * @param <T>
-   *          generic element type
-   * @param componentType
-   *          component type, must not be {@code null}
-   * @return new ArrayUtils instance, never {@code null}
-   */
-  @SuppressWarnings("PMD.ShortMethodName")
-  public static <T> ArrayUtils<T> of(final Class<T> componentType) {
-    return new ArrayUtils<T>(componentType);
+  private ArrayUtils() {
+    // not instantiatable
   }
 
   /**
@@ -48,8 +26,8 @@ public final class ArrayUtils<T> {
    *          length of array to create
    * @return new array, never {@code null}
    */
-  public T[] newArray(final int length) {
-    return ObjectArrays.newArray(componentType, length);
+  public static Object[] newArray(final int length) {
+    return new Object[length];
   }
 
   /**
@@ -65,16 +43,16 @@ public final class ArrayUtils<T> {
    *         If the array already contained the new value, the return value is == identical
    *         to the array passed in.
    */
-  public T[] add(final T[] array, final T value) {
+  public static Object[] add(final Object[] array, final Object value) {
     if (array == null || array.length == 0) {
-      T[] result = ObjectArrays.newArray(componentType, 1);
+      Object[] result = newArray(1);
       result[0] = value;
       return result;
     }
     int i = find(array, value);
     if (i < 0) {
       // Not found: add value
-      T[] newArray = ObjectArrays.newArray(componentType, array.length + 1);
+      Object[] newArray = newArray(array.length + 1);
       System.arraycopy(array, 0, newArray, 0, array.length);
       newArray[array.length] = value;
       return newArray;
@@ -95,17 +73,17 @@ public final class ArrayUtils<T> {
    *         If the array already contained the new value, the return value is == identical
    *         to the array passed in.
    */
-  @SuppressWarnings(value="PMD.UseVarargs")
-  public T[] addAll(final T[] array, final T[] values) {
+  @SuppressWarnings(value = "PMD.UseVarargs")
+  public static Object[] addAll(final Object[] array, final Object[] values) {
     if (array == null || array.length == 0) {
       return values;
     }
-    T[] result = array;
-    for (T value : values) {
+    Object[] result = array;
+    for (Object value : values) {
       int i = find(array, value);
       if (i < 0) {
         // Not found: add value
-        T[] tmp = ObjectArrays.newArray(componentType, result.length + 1);
+        Object[] tmp = newArray(result.length + 1);
         System.arraycopy(result, 0, tmp, 0, result.length);
         tmp[result.length] = value;
         result = tmp;
@@ -126,7 +104,7 @@ public final class ArrayUtils<T> {
    *         the original array. If the original array does not contain the given value, the returned
    *         array is == identical to the array passed in.
    */
-  public T[] remove(final T[] array, final T value) {
+  public static Object[] remove(final Object[] array, final Object value) {
     if (array == null) {
       return null;
     }
@@ -136,7 +114,7 @@ public final class ArrayUtils<T> {
     }
     if (i >= 0) {
       // Found it: remove value. i is guaranteed to be < array.length here.
-      T[] newArray = ObjectArrays.newArray(componentType, array.length - 1);
+      Object[] newArray = newArray(array.length - 1);
       if (i > 0) {
         System.arraycopy(array, 0, newArray, 0, i);
       }
@@ -157,7 +135,7 @@ public final class ArrayUtils<T> {
    *          to find; must not be {@code null}
    * @return the smallest index i; i >= 0 && i < array.length, such that value.equals(array[i]) == true, or -1 if there is no such value in the array.
    */
-  public int find(final T[] array, final T value) {
+  public static int find(final Object[] array, final Object value) {
     if (array == null) {
       return -1;
     }

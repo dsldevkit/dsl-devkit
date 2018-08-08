@@ -319,7 +319,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Override
   public void installDerivedState(final boolean isPrelinkingPhase) {
-    if (derivedStateComputer != null && !fullyInitialized && !isInitializing) {
+    if (derivedStateComputer != null && !fullyInitialized && !isInitializing && !isLoadedFromStorage()) {
       try {
         traceSet.started(ResourceInferenceEvent.class, getURI());
         isInitializing = true;
@@ -350,7 +350,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Override
   public boolean isInitialized() {
-    return fullyInitialized || isInitializing;
+    return fullyInitialized || isInitializing || isLoadedFromStorage();
   }
 
   @Override

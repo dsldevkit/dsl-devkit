@@ -11,6 +11,8 @@
 package com.avaloq.tools.ddk.check.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.builder.preferences.BuilderConfigurationBlock;
+import org.eclipse.xtext.builder.preferences.BuilderPreferenceAccess;
 import org.eclipse.xtext.common.types.access.jdt.JdtTypeProviderFactory;
 import org.eclipse.xtext.ui.LanguageSpecific;
 import org.eclipse.xtext.ui.editor.DirtyStateEditorSupport;
@@ -25,8 +27,12 @@ import org.eclipse.xtext.ui.wizard.IProjectCreator;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
 import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
+import com.avaloq.tools.ddk.check.compiler.ICheckGeneratorConfigProvider;
 import com.avaloq.tools.ddk.check.runtime.ui.editor.PlatformPluginAwareEditorOpener;
+import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderConfigurationBlock;
 import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderParticipant;
+import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderPreferenceAccess;
+import com.avaloq.tools.ddk.check.ui.builder.CheckEclipseGeneratorConfigProvider;
 import com.avaloq.tools.ddk.check.ui.editor.handler.CheckValidateActionHandler;
 import com.avaloq.tools.ddk.check.ui.highlighting.CheckAntlrTokenToAttributeIdMapper;
 import com.avaloq.tools.ddk.check.ui.highlighting.CheckHighlightingCalculator;
@@ -46,6 +52,7 @@ import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplat
 /**
  * Use this class to register components to be used within the IDE.
  */
+@SuppressWarnings({"restriction", "PMD.CouplingBetweenObjects"})
 public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUiModule {
   public CheckUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
@@ -186,5 +193,25 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
   @Override
   public Class<? extends IGeneratorConfigProvider> bindIGeneratorConfigProvider() {
     return GeneratorConfigProvider.class;
+  }
+
+  @Override
+  public Class<? extends BuilderConfigurationBlock> bindBuilderConfigurationBlock() {
+    return CheckBuilderConfigurationBlock.class;
+  }
+
+  /**
+   * Bind check generator configuration provider.
+   *
+   * @return the check specific configuration provider for Eclipse project
+   */
+  public Class<? extends ICheckGeneratorConfigProvider> bindICheckGeneratorConfigProvider() {
+    return CheckEclipseGeneratorConfigProvider.class;
+  }
+
+  @Override
+  @SuppressWarnings("PMD.AvoidDollarSigns") // that's how it's defined in Xtext
+  public Class<? extends BuilderPreferenceAccess.Initializer> bindBuilderPreferenceAccess$Initializer() {
+    return CheckBuilderPreferenceAccess.Initializer.class;
   }
 }

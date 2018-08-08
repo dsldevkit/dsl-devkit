@@ -14,8 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
-
 
 /**
  * Tests for {@code AbstractFragmentProvider}.
@@ -27,8 +25,8 @@ public class AbstractFragmentProviderTest {
   private static class TestAbstractFragmentProvider extends AbstractFragmentProvider {
 
     @Override
-    public CharSequence getFragmentSegment(final EObject object) {
-      return null;
+    public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
+      return false;
     }
 
     @Override
@@ -39,8 +37,8 @@ public class AbstractFragmentProviderTest {
     @Override
     // make method public for testing
     @SuppressWarnings("PMD.UselessOverridingMethod")
-    public String escape(final String text) {
-      return super.escape(text);
+    public void appendEscaped(final String text, final StringBuilder builder) {
+      super.appendEscaped(text, builder);
     }
 
     @Override
@@ -55,7 +53,9 @@ public class AbstractFragmentProviderTest {
 
   @Test
   public void testEscape() {
-    Assert.assertEquals("foo\\/bar#\\\\", fragmentProvider.escape("foo/bar#\\"));
+    StringBuilder builder = new StringBuilder();
+    fragmentProvider.appendEscaped("foo/bar#\\", builder);
+    Assert.assertEquals("foo\\/bar#\\\\", builder.toString());
   }
 
   @Test
@@ -66,9 +66,10 @@ public class AbstractFragmentProviderTest {
   @Test
   public void testUnescapeEscape() {
     for (String text : SPECIAL_ESCAPE_CASES) {
-      Assert.assertEquals(text, fragmentProvider.unescape(fragmentProvider.escape(text)));
+      StringBuilder builder = new StringBuilder();
+      fragmentProvider.appendEscaped(text, builder);
+      Assert.assertEquals(text, fragmentProvider.unescape(builder.toString()));
     }
   }
 
 }
-

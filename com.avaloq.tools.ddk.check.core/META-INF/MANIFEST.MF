@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.core;singleton:=true
-Bundle-Version: 1.4.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
@@ -31,19 +31,20 @@ Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.check,
  com.avaloq.tools.ddk.check.check.impl,
  com.avaloq.tools.ddk.check.check.util,
+ com.avaloq.tools.ddk.check.compiler,
  com.avaloq.tools.ddk.check.documentation,
  com.avaloq.tools.ddk.check.formatting,
  com.avaloq.tools.ddk.check.generator,
  com.avaloq.tools.ddk.check.imports,
+ com.avaloq.tools.ddk.check.jvmmodel,
  com.avaloq.tools.ddk.check.naming,
  com.avaloq.tools.ddk.check.parser.antlr,
  com.avaloq.tools.ddk.check.parser.antlr.internal,
  com.avaloq.tools.ddk.check.scoping,
+ com.avaloq.tools.ddk.check.serializer,
  com.avaloq.tools.ddk.check.services,
  com.avaloq.tools.ddk.check.typing,
  com.avaloq.tools.ddk.check.util,
- com.avaloq.tools.ddk.check.validation,
- com.avaloq.tools.ddk.check.jvmmodel,
- com.avaloq.tools.ddk.check.serializer
+ com.avaloq.tools.ddk.check.validation
 Import-Package: org.apache.log4j,
  org.eclipse.jdt.internal.ui.text

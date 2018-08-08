@@ -24,7 +24,6 @@ import org.eclipse.xtext.ui.editor.folding.DefaultFoldedPosition;
 import org.eclipse.xtext.ui.editor.folding.FoldedPosition;
 import org.eclipse.xtext.ui.editor.folding.IFoldingRegionProvider;
 import org.junit.Assert;
-import org.junit.Test;
 
 import com.avaloq.tools.ddk.test.core.BugTest;
 import com.avaloq.tools.ddk.xtext.test.ui.AbstractXtextEditorTest;
@@ -89,7 +88,6 @@ public abstract class AbstractFoldingTest extends AbstractXtextEditorTest {
    * Verifies that FoldedPositions are valid.
    * If the assertion fails that is probably due to an ITextRegion.EMPTY_REGION being provided for the object's significant text region.
    */
-  @Test
   @BugTest("ACF-2605")
   public void testFoldedPositions() {
     Collection<FoldedPosition> foldingRegions = getXtextTestUtil().get(IFoldingRegionProvider.class).getFoldingRegions(getDocument());

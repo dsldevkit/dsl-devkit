@@ -41,7 +41,7 @@ class FragmentProviderGenerator {
       public class «getFragmentProvider().toSimpleName()» extends AbstractSelectorFragmentProvider {
 
         @Override
-        public CharSequence getFragmentSegment(final EObject object) {
+        public boolean appendFragmentSegment(final EObject object, StringBuilder builder) {
           EClass eClass = object.eClass();
           EPackage ePackage = eClass.getEPackage();
           «val typeMap = fingerprintedExports.typeMap(grammar)»
@@ -54,28 +54,28 @@ class FragmentProviderGenerator {
                 «val e = typeMap.get(c)»
                 «javaContributorComment(e.location())»
                 case «c.classifierIdLiteral()»: {
-                  return getFragmentSegment((«c.instanceClassName()») object);
+                  return appendFragmentSegment((«c.instanceClassName()») object, builder);
                 }
               «ENDFOR»
               default:
-                return super.getFragmentSegment(object);
+                return super.appendFragmentSegment(object, builder);
               }
             }
           «ENDFOR»
-          return super.getFragmentSegment(object);
+          return super.appendFragmentSegment(object, builder);
         }
 
         «IF it.extension»
           @Override
-          protected CharSequence getFragmentSegmentFallback(final EObject object) {
-            // For export extension we must return null, so the logic will try other extensions
-            return null;
+          protected boolean appendFragmentSegmentFallback(final EObject object, StringBuilder builder) {
+            // For export extension we must return false, so the logic will try other extensions
+            return false;
           }
 
         «ENDIF»
         «FOR e : fingerprintedExports»
-          protected CharSequence getFragmentSegment(final «e.type.instanceClassName()» obj) {
-            return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique»);
+          protected boolean appendFragmentSegment(final «e.type.instanceClassName()» obj, StringBuilder builder) {
+            return computeSelectorFragmentSegment(obj, «e.fragmentAttribute.literalIdentifier()», «e.fragmentUnique», builder);
           }
 
         «ENDFOR»

@@ -17,16 +17,19 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.internal.xtend.expression.parser.SyntaxConstants;
 import org.eclipse.xtend.expression.ExecutionContextImpl;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtend.expression.TypeSystemImpl;
 import org.eclipse.xtend.expression.Variable;
+import org.eclipse.xtend.typesystem.Type;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator;
 import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
 import com.avaloq.tools.ddk.xtext.scope.scope.Casing;
+import com.avaloq.tools.ddk.xtext.scope.scope.Import;
 import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingSection;
@@ -76,7 +79,7 @@ public final class ScopingGeneratorUtil {
    */
   private static class ScopeExecutionContext extends ExecutionContextImpl {
 
-    private static final String VAR_ORIGINAL_RESOURCE = "originalResource";
+    private static final String VAR_ORIGINAL_RESOURCE = "originalResource"; //$NON-NLS-1$
 
     ScopeExecutionContext(final ScopeModel model) {
       super(new ResourceManagerDefaultImpl(), new ScopeResource(model), new TypeSystemImpl(), getVariables(model), null, null, null, null, null, null, null, null, null);
@@ -115,6 +118,20 @@ public final class ScopingGeneratorUtil {
         @Override
         public EPackage[] allPackages() {
           return ePackages;
+        }
+
+        @Override
+        public Type getTypeForName(final String name) {
+          final String[] frags = name.split(SyntaxConstants.NS_DELIM);
+          if (frags.length == 2) {
+            // convert references which use import alias
+            for (Import imp : model.getImports()) {
+              if (frags[0].equals(imp.getName()) && imp.getPackage() != null) {
+                return super.getTypeForName(imp.getPackage().getName() + SyntaxConstants.NS_DELIM + frags[1]);
+              }
+            }
+          }
+          return super.getTypeForName(name);
         }
       });
       // Finally, add the default meta models
