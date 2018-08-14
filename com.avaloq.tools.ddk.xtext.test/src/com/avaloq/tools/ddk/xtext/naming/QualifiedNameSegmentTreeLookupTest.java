@@ -20,13 +20,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
-import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookup;
-import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.google.common.collect.ImmutableSet;
 
 
-@SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
+@SuppressWarnings({"nls", "unused", "PMD.JUnitAssertionsShouldIncludeMessage"})
 // CHECKSTYLE:CHECK-OFF MultipleStringLiteralsCheck
 public class QualifiedNameSegmentTreeLookupTest {
 
@@ -57,32 +54,20 @@ public class QualifiedNameSegmentTreeLookupTest {
 
   @Test
   public void testTopLevelPatternWithoutWildcard() {
-    QualifiedName name1 = name("foo");
-    URI value1 = uri(name1);
-    lookup.put(name1, value1);
-    QualifiedName name2 = name("bar");
-    URI value2 = uri(name2);
-    lookup.put(name2, value2);
-    QualifiedName name3 = name("foo2");
-    URI value3 = uri(name3);
-    lookup.put(name3, value3);
+    URI value1 = put("foo");
+    URI value2 = put("bar");
+    URI value3 = put("foo2");
 
-    assertContentEquals(ImmutableSet.of(value1), lookup.get(pattern(name1), false));
-    assertContentEquals(ImmutableSet.of(value2), lookup.get(pattern(name2), false));
-    assertContentEquals(ImmutableSet.of(value3), lookup.get(pattern(name3), false));
+    assertContentEquals(ImmutableSet.of(value1), lookup.get(pattern("foo"), false));
+    assertContentEquals(ImmutableSet.of(value2), lookup.get(pattern("bar"), false));
+    assertContentEquals(ImmutableSet.of(value3), lookup.get(pattern("foo2"), false));
   }
 
   @Test
   public void testTopLevelPatternWithWildcard() {
-    QualifiedName name1 = name("foo");
-    URI value1 = uri(name1);
-    lookup.put(name1, value1);
-    QualifiedName name2 = name("foo2");
-    URI value2 = uri(name2);
-    lookup.put(name2, value2);
-    QualifiedName name3 = name("bar");
-    URI value3 = uri(name3);
-    lookup.put(name3, value3);
+    URI value1 = put("foo");
+    URI value2 = put("foo2");
+    URI value3 = put("bar");
 
     assertContentEquals(ImmutableSet.of(value1, value2), lookup.get(pattern("f*"), true));
     assertContentEquals(ImmutableSet.of(value1, value2), lookup.get(pattern("foo*"), true));
@@ -91,38 +76,22 @@ public class QualifiedNameSegmentTreeLookupTest {
 
   @Test
   public void testNestedPatternMatchesWithoutWildcard() {
-    QualifiedName name1 = name("foo");
-    URI value1 = uri(name1);
-    lookup.put(name1, value1);
-    QualifiedName name2 = name("foo.bar");
-    URI value2 = uri(name2);
-    lookup.put(name2, value2);
-    QualifiedName name3 = name("foo2");
-    URI value3 = uri(name3);
-    lookup.put(name3, value3);
+    URI value1 = put("foo");
+    URI value2 = put("foo.bar");
+    URI value3 = put("foo2");
 
-    assertContentEquals(ImmutableSet.of(value1), lookup.get(pattern(name1), true));
-    assertContentEquals(ImmutableSet.of(value2), lookup.get(pattern(name2), true));
-    assertContentEquals(ImmutableSet.of(value3), lookup.get(pattern(name3), true));
+    assertContentEquals(ImmutableSet.of(value1), lookup.get(pattern("foo"), true));
+    assertContentEquals(ImmutableSet.of(value2), lookup.get(pattern("foo.bar"), true));
+    assertContentEquals(ImmutableSet.of(value3), lookup.get(pattern("foo2"), true));
   }
 
   @Test
   public void testNestedPatternMatchesWithWildcard() {
-    QualifiedName name1 = name("foo");
-    URI value1 = uri(name1);
-    lookup.put(name1, value1);
-    QualifiedName name2 = name("foo.bar");
-    URI value2 = uri(name2);
-    lookup.put(name2, value2);
-    QualifiedName name3 = name("foo.baz");
-    URI value3 = uri(name3);
-    lookup.put(name3, value3);
-    QualifiedName name4 = name("foo.baz.bazz");
-    URI value4 = uri(name4);
-    lookup.put(name4, value4);
-    QualifiedName name5 = name("foo2");
-    URI value5 = uri(name5);
-    lookup.put(name5, value5);
+    URI value1 = put("foo");
+    URI value2 = put("foo.bar");
+    URI value3 = put("foo.baz");
+    URI value4 = put("foo.baz.bazz");
+    URI value5 = put("foo2");
 
     assertContentEquals(ImmutableSet.of(value1, value5), lookup.get(pattern("f*"), true));
     assertContentEquals(ImmutableSet.of(value2, value3), lookup.get(pattern("foo.*"), true));
@@ -132,27 +101,34 @@ public class QualifiedNameSegmentTreeLookupTest {
 
   @Test
   public void testNestedPatternMatchesWithRecursiveWildcard() {
-    QualifiedName name1 = name("foo");
-    URI value1 = uri(name1);
-    lookup.put(name1, value1);
-    QualifiedName name2 = name("foo.bar");
-    URI value2 = uri(name2);
-    lookup.put(name2, value2);
-    QualifiedName name3 = name("foo.bar.baz");
-    URI value3 = uri(name3);
-    lookup.put(name3, value3);
-    QualifiedName name4 = name("foo.bar.baz.quux");
-    URI value4 = uri(name4);
-    lookup.put(name4, value4);
-    QualifiedName name5 = name("foo.foo");
-    URI value5 = uri(name5);
-    lookup.put(name5, value5);
-    QualifiedName name6 = name("foo2");
-    URI value6 = uri(name6);
-    lookup.put(name6, value6);
+    URI value1 = put("foo");
+    URI value2 = put("foo.bar");
+    URI value3 = put("foo.bar.baz");
+    URI value4 = put("foo.bar.baz.quux");
+    URI value5 = put("foo.foo");
+    URI value6 = put("foo2");
 
     assertContentEquals(ImmutableSet.of(value2, value3, value4, value5), lookup.get(pattern("foo.**"), true));
     assertContentEquals(ImmutableSet.of(value2, value3, value4), lookup.get(pattern("foo.b**"), true));
+  }
+
+  @Test
+  public void testUnmatchedNestedPattern() {
+    URI value1 = put("foo");
+    URI value2 = put("foo.bar");
+    URI value3 = put("foo.bar.baz");
+    URI value4 = put("foo.bar.baz.quux");
+    URI value5 = put("foo.foo");
+    URI value6 = put("foo2");
+
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("e*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("g*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("foa.*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("fon.b*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("foo.c*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("foo.baq.b*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("foo.bar.a*"), true));
+    assertContentEquals(ImmutableSet.of(), lookup.get(pattern("foo.bar.bazz*"), true));
   }
 
   @Test
@@ -184,8 +160,14 @@ public class QualifiedNameSegmentTreeLookupTest {
     return URI.createURI("scheme:/" + name);
   }
 
+  private URI put(final String name) {
+    QualifiedName qname = name(name);
+    URI value = uri(qname);
+    lookup.put(qname, value);
+    return value;
+  }
+
   public void assertContentEquals(final Collection<?> expected, final Collection<?> actual) {
     assertEquals(ImmutableSet.copyOf(expected), ImmutableSet.copyOf(actual));
   }
 }
-

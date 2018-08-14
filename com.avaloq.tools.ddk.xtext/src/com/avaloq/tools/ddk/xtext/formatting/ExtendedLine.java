@@ -274,6 +274,10 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
       }
 
     });
+    String postProcessedValue = getConfigBasedStream().getFormatter().executeCustomPostFormatAction(lineEntry, getEntries());
+    if (postProcessedValue != null) {
+      lineEntry.setValue(postProcessedValue);
+    }
     getEntries().add(lineEntry);
     return this;
   }

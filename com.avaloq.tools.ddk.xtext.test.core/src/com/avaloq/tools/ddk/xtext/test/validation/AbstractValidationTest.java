@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.validation;
 
+import static org.eclipse.xtext.validation.ValidationMessageAcceptor.INSIGNIFICANT_INDEX;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.diagnostics.AbstractDiagnostic;
+import org.eclipse.xtext.linking.impl.XtextLinkingDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
@@ -245,10 +247,13 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
             return true;
           }
         } else {
-          for (INode node : nodes) {
-            INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(node);
-            if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
-              return true;
+          int avdIndex = ((FeatureBasedDiagnostic) avd).getIndex();
+          for (int i = 0; i < nodes.size(); i++) {
+            if (avdIndex == INSIGNIFICANT_INDEX || avdIndex == i) {
+              INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(nodes.get(i));
+              if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
+                return true;
+              }
             }
           }
         }
@@ -557,6 +562,24 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   }
 
   /**
+   * Register a new validation marker with the given issue code. Expects a warning if the condition is {@code true}, no diagnostic otherwise.
+   *
+   * @param condition
+   *          the condition when the marker is expected
+   * @param issueCode
+   *          issue code (usually found as static constant of the JavaValidator class of the DSL being tested)
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String warningIf(final boolean condition, final String issueCode) {
+    if (condition) {
+      return warning(issueCode);
+    } else {
+      return noDiagnostic(issueCode);
+    }
+  }
+
+  /**
    * Register a new validation marker with the given issue code. Expects a warning.
    *
    * @param issueCode
@@ -580,6 +603,24 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   protected String warning(final String issueCode, final String message) {
     return addAssertion(new XtextDiagnosticAssertion(issueCode, true, Diagnostic.WARNING, message));
+  }
+
+  /**
+   * Register a new validation marker with the given issue code. Expects an error if the condition is {@code true}, no diagnostic otherwise.
+   *
+   * @param condition
+   *          the condition when the marker is expected
+   * @param issueCode
+   *          issue code (usually found as static constant of the JavaValidator class of the DSL being tested)
+   * @return
+   *         unique marker that can be used in the input string to mark a position that should be validated
+   */
+  protected String errorIf(final boolean condition, final String issueCode) {
+    if (condition) {
+      return error(issueCode);
+    } else {
+      return noDiagnostic(issueCode);
+    }
   }
 
   /**
@@ -926,7 +967,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     for (int i = 0; i < referenceNames.length; i++) {
       messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
     }
-    assertNoErrorsOnResource(object, messages);
+    assertNoLinkingErrorsWithCustomMessageOnResource(object, messages);
   }
 
   /**
@@ -944,7 +985,39 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     for (int i = 0; i < referenceNames.length; i++) {
       messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
     }
-    assertErrorsOnResourceExist(object, messages);
+    assertLinkingErrorsWithCustomMessageOnResourceExist(object, messages);
+  }
+
+  /**
+   * Expect the given linking error messages on the resource of the given model.
+   *
+   * @param object
+   *          the object, must not be {@code null}
+   * @param errorStrings
+   *          the expected linking error error messages, must not be {@code null}
+   */
+  public static void assertLinkingErrorsWithCustomMessageOnResourceExist(final EObject object, final String... errorStrings) {
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
+    for (final String s : errorStrings) {
+      assertTrue(NLS.bind("Expected linking error \"{0}\" but could not find it", s), errorMessages.contains(s));
+    }
+  }
+
+  /**
+   * Assert no linking errors on resource with the given message exist.
+   *
+   * @param object
+   *          the object, must not be {@code null}
+   * @param messages
+   *          the linking error messages, must not be {@code null}
+   */
+  public static void assertNoLinkingErrorsWithCustomMessageOnResource(final EObject object, final String... messages) {
+    List<String> messageList = Arrays.asList(messages);
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    for (String errorMessage : Lists.transform(linkingErrors, Resource.Diagnostic::getMessage)) {
+      assertFalse(NLS.bind("Expecting no linking errors on resource with message \"{0}\".", errorMessage), messageList.contains(errorMessage));
+    }
   }
 
   /**

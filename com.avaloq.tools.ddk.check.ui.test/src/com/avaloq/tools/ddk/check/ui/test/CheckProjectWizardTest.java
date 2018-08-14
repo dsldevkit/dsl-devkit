@@ -16,7 +16,6 @@ import static org.junit.Assert.assertNotSame;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +25,7 @@ import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProv
 import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
 import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 
 
@@ -33,7 +33,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
  * The CheckProjectWizardTest tests the Check Project Wizard.
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(XtextRunner.class)
+@RunWith(ClassRunner.class)
 public class CheckProjectWizardTest {
 
   /** This is the name of the project wizard. It's the name SWTBot uses to look up the wizard. */
@@ -78,7 +78,6 @@ public class CheckProjectWizardTest {
   /**
    * Tests that the 'finish' button is not enabled in the project page.
    */
-  @Test
   @BugTest("AIG-490")
   public void testFinishButtonDisabledInProjectPage() {
     CheckWizardTestUtil.projectName(wizard, "valid.project.name", CheckWizardTestUtil.NEXT_ENABLED, CheckWizardTestUtil.FINISH_DISABLED);
@@ -109,7 +108,6 @@ public class CheckProjectWizardTest {
   /**
    * Tests that applying the next button changes the wizard page.
    */
-  @Test
   @BugTest("AIG-479")
   public void testNextButtonChangesPage() {
     wizard.writeToTextField(Messages.PROJECT_NAME_LABEL, "a.b");
