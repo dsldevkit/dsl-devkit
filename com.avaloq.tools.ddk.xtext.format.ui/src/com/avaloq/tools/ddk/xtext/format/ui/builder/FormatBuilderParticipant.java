@@ -39,6 +39,7 @@ public class FormatBuilderParticipant extends ConditionalBuilderParticipant {
     if (!isEnabled(context)) {
       return;
     }
+    clearResourceSet(context.getResourceSet());
     super.build(context, monitor);
   }
 
