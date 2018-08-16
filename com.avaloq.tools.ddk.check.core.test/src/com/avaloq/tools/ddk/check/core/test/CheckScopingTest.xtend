@@ -19,9 +19,9 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil
 import com.google.common.collect.Lists
 import com.google.inject.Inject
 import java.util.List
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
 import org.junit.Test
 import org.junit.runner.RunWith
 

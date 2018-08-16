@@ -26,9 +26,9 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil;
-import org.eclipse.xtext.junit4.ui.util.JavaProjectSetupUtil;
 import org.eclipse.xtext.ui.XtextProjectHelper;
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
+import org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil;
 import org.eclipse.xtext.ui.util.IProjectFactoryContributor;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
 import org.junit.Assert;
@@ -39,7 +39,6 @@ import com.google.inject.Injector;
 /**
  * The Test Project Manager for Plugins.
  */
-@SuppressWarnings("restriction")
 public class PluginTestProjectManager extends XtextTestProjectManager {
   private static final Logger LOGGER = Logger.getLogger(PluginTestProjectManager.class);
 

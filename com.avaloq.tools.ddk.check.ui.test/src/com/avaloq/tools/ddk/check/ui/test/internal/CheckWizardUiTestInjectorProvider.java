@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.internal;
 
-import org.eclipse.xtext.junit4.IInjectorProvider;
+import org.eclipse.xtext.testing.IInjectorProvider;
 
 import com.google.inject.Injector;
 

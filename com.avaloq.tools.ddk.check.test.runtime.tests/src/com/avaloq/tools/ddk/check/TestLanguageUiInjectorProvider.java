@@ -8,11 +8,11 @@ import org.eclipse.xtext.testing.IInjectorProvider;
 import com.google.inject.Injector;
 
 
-public class CheckUiInjectorProvider implements IInjectorProvider {
+public class TestLanguageUiInjectorProvider implements IInjectorProvider {
 
   @Override
   public Injector getInjector() {
-    return com.avaloq.tools.ddk.check.ui.internal.CheckActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.Check");
+    return com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.TestLanguage");
   }
 
 }

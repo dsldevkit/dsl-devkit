@@ -34,15 +34,15 @@ public class InternalTestLanguageLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g"; }
+    public String getGrammarFileName() { return "InternalTestLanguage.g"; }
 
     // $ANTLR start "T__11"
     public final void mT__11() throws RecognitionException {
         try {
             int _type = T__11;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:11:7: ( 'Hello' )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:11:9: 'Hello'
+            // InternalTestLanguage.g:11:7: ( 'Hello' )
+            // InternalTestLanguage.g:11:9: 'Hello'
             {
             match("Hello"); 
 
@@ -62,8 +62,8 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = T__12;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:12:7: ( '!' )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:12:9: '!'
+            // InternalTestLanguage.g:12:7: ( '!' )
+            // InternalTestLanguage.g:12:9: '!'
             {
             match('!'); 
 
@@ -82,10 +82,10 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:246:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:246:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalTestLanguage.g:246:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalTestLanguage.g:246:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:246:11: ( '^' )?
+            // InternalTestLanguage.g:246:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -94,7 +94,7 @@ public class InternalTestLanguageLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:246:11: '^'
+                    // InternalTestLanguage.g:246:11: '^'
                     {
                     match('^'); 
 
@@ -112,7 +112,7 @@ public class InternalTestLanguageLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:246:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalTestLanguage.g:246:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -125,7 +125,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:
+            	    // InternalTestLanguage.g:
             	    {
             	    if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
             	        input.consume();
@@ -161,10 +161,10 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:248:10: ( ( '0' .. '9' )+ )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:248:12: ( '0' .. '9' )+
+            // InternalTestLanguage.g:248:10: ( ( '0' .. '9' )+ )
+            // InternalTestLanguage.g:248:12: ( '0' .. '9' )+
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:248:12: ( '0' .. '9' )+
+            // InternalTestLanguage.g:248:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -178,7 +178,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:248:13: '0' .. '9'
+            	    // InternalTestLanguage.g:248:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -210,10 +210,10 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalTestLanguage.g:250:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalTestLanguage.g:250:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalTestLanguage.g:250:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -231,10 +231,10 @@ public class InternalTestLanguageLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalTestLanguage.g:250:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalTestLanguage.g:250:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -250,7 +250,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:21: '\\\\' .
+                    	    // InternalTestLanguage.g:250:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -258,7 +258,7 @@ public class InternalTestLanguageLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalTestLanguage.g:250:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -283,10 +283,10 @@ public class InternalTestLanguageLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalTestLanguage.g:250:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalTestLanguage.g:250:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -302,7 +302,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:54: '\\\\' .
+                    	    // InternalTestLanguage.g:250:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -310,7 +310,7 @@ public class InternalTestLanguageLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:250:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalTestLanguage.g:250:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -353,12 +353,12 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:252:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:252:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalTestLanguage.g:252:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalTestLanguage.g:252:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:252:24: ( options {greedy=false; } : . )*
+            // InternalTestLanguage.g:252:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -383,7 +383,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:252:52: .
+            	    // InternalTestLanguage.g:252:52: .
             	    {
             	    matchAny(); 
 
@@ -413,12 +413,12 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalTestLanguage.g:254:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalTestLanguage.g:254:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalTestLanguage.g:254:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -431,7 +431,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalTestLanguage.g:254:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -451,7 +451,7 @@ public class InternalTestLanguageLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:40: ( ( '\\r' )? '\\n' )?
+            // InternalTestLanguage.g:254:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -460,9 +460,9 @@ public class InternalTestLanguageLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:41: ( '\\r' )? '\\n'
+                    // InternalTestLanguage.g:254:41: ( '\\r' )? '\\n'
                     {
-                    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:41: ( '\\r' )?
+                    // InternalTestLanguage.g:254:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -471,7 +471,7 @@ public class InternalTestLanguageLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:254:41: '\\r'
+                            // InternalTestLanguage.g:254:41: '\\r'
                             {
                             match('\r'); 
 
@@ -503,10 +503,10 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:256:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:256:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalTestLanguage.g:256:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalTestLanguage.g:256:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:256:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalTestLanguage.g:256:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -520,7 +520,7 @@ public class InternalTestLanguageLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:
+            	    // InternalTestLanguage.g:
             	    {
             	    if ( (input.LA(1)>='\t' && input.LA(1)<='\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -560,8 +560,8 @@ public class InternalTestLanguageLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:258:16: ( . )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:258:18: .
+            // InternalTestLanguage.g:258:16: ( . )
+            // InternalTestLanguage.g:258:18: .
             {
             matchAny(); 
 
@@ -576,68 +576,68 @@ public class InternalTestLanguageLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:8: ( T__11 | T__12 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        // InternalTestLanguage.g:1:8: ( T__11 | T__12 | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
         int alt12=9;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:10: T__11
+                // InternalTestLanguage.g:1:10: T__11
                 {
                 mT__11(); 
 
                 }
                 break;
             case 2 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:16: T__12
+                // InternalTestLanguage.g:1:16: T__12
                 {
                 mT__12(); 
 
                 }
                 break;
             case 3 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:22: RULE_ID
+                // InternalTestLanguage.g:1:22: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
             case 4 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:30: RULE_INT
+                // InternalTestLanguage.g:1:30: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
             case 5 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:39: RULE_STRING
+                // InternalTestLanguage.g:1:39: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
             case 6 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:51: RULE_ML_COMMENT
+                // InternalTestLanguage.g:1:51: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
             case 7 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:67: RULE_SL_COMMENT
+                // InternalTestLanguage.g:1:67: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
             case 8 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:83: RULE_WS
+                // InternalTestLanguage.g:1:83: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
             case 9 :
-                // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:1:91: RULE_ANY_OTHER
+                // InternalTestLanguage.g:1:91: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -651,24 +651,19 @@ public class InternalTestLanguageLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\1\14\1\uffff\1\12\2\uffff\3\12\2\uffff\1\14\7\uffff\2"+
-        "\14\1\26\1\uffff";
+        "\1\uffff\1\14\1\uffff\1\12\2\uffff\3\12\2\uffff\1\14\7\uffff\2\14\1\26\1\uffff";
     static final String DFA12_eofS =
         "\27\uffff";
     static final String DFA12_minS =
-        "\1\0\1\145\1\uffff\1\101\2\uffff\2\0\1\52\2\uffff\1\154\7\uffff"+
-        "\1\154\1\157\1\60\1\uffff";
+        "\1\0\1\145\1\uffff\1\101\2\uffff\2\0\1\52\2\uffff\1\154\7\uffff\1\154\1\157\1\60\1\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\1\145\1\uffff\1\172\2\uffff\2\uffff\1\57\2\uffff\1\154"+
-        "\7\uffff\1\154\1\157\1\172\1\uffff";
+        "\1\uffff\1\145\1\uffff\1\172\2\uffff\2\uffff\1\57\2\uffff\1\154\7\uffff\1\154\1\157\1\172\1\uffff";
     static final String DFA12_acceptS =
-        "\2\uffff\1\2\1\uffff\1\3\1\4\3\uffff\1\10\1\11\1\uffff\1\3\1\2"+
-        "\1\4\1\5\1\6\1\7\1\10\3\uffff\1\1";
+        "\2\uffff\1\2\1\uffff\1\3\1\4\3\uffff\1\10\1\11\1\uffff\1\3\1\2\1\4\1\5\1\6\1\7\1\10\3\uffff\1\1";
     static final String DFA12_specialS =
         "\1\2\5\uffff\1\0\1\1\17\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\11\12\2\11\2\12\1\11\22\12\1\11\1\2\1\6\4\12\1\7\7\12\1\10"+
-            "\12\5\7\12\7\4\1\1\22\4\3\12\1\3\1\4\1\12\32\4\uff85\12",
+            "\11\12\2\11\2\12\1\11\22\12\1\11\1\2\1\6\4\12\1\7\7\12\1\10\12\5\7\12\7\4\1\1\22\4\3\12\1\3\1\4\1\12\32\4\uff85\12",
             "\1\13",
             "",
             "\32\14\4\uffff\1\14\1\uffff\32\14",

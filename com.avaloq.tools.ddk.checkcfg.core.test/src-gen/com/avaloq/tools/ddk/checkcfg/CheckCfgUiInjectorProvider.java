@@ -3,7 +3,7 @@
  */
 package com.avaloq.tools.ddk.checkcfg;
 
-import org.eclipse.xtext.junit4.IInjectorProvider;
+import org.eclipse.xtext.testing.IInjectorProvider;
 
 import com.google.inject.Injector;
 

@@ -11,7 +11,7 @@ import org.eclipse.xtext.testing.IRegistryConfigurator;
 import com.google.inject.Injector;
 
 
-public class CheckInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
+public class TestLanguageInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
 
   protected GlobalStateMemento stateBeforeInjectorCreation;
   protected GlobalStateMemento stateAfterInjectorCreation;
@@ -32,7 +32,7 @@ public class CheckInjectorProvider implements IInjectorProvider, IRegistryConfig
   }
 
   protected Injector internalCreateInjector() {
-    return new CheckStandaloneSetup().createInjectorAndDoEMFRegistration();
+    return new TestLanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
   }
 
   @Override

@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.testLanguage.Model#getGreetings <em>Greetings</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage#getModel()
  * @model

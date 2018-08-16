@@ -17,10 +17,10 @@ import com.avaloq.tools.ddk.check.check.XIssueExpression
 import com.avaloq.tools.ddk.check.core.test.util.CheckModelUtil
 import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil
 import com.google.inject.Inject
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.resource.XtextResource
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
