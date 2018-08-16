@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.linking;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -52,6 +53,29 @@ import com.google.inject.Provider;
 // Node Model serialization is a restricted API of Xtext. Until Xtext provides a proper serialization API, we need to access its internal components.
 public class LazyLinkingResource2 extends DerivedStateAwareResource implements ILazyLinkingResource2 {
 
+  private static final int SLOW_REPORTING_MULTIPLIER = 3;
+  private static final long SLOW_INFERENCE_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(15);
+  private static final String SLOW_INFERENCE_TIME_PROPERTY = "resourceloader.slowinferencetime"; //$NON-NLS-1$
+  private static final long SLOW_PARSE_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(15);
+  private static final String SLOW_PARSE_TIME_PROPERTY = "resourceloader.slowparsetime"; //$NON-NLS-1$
+  private static long slowInferenceTime;
+  private static long slowParseTime;
+
+  static {
+    String slowInferenceTimeString = System.getProperty(SLOW_INFERENCE_TIME_PROPERTY);
+    String slowParseTimeString = System.getProperty(SLOW_PARSE_TIME_PROPERTY);
+    try {
+      slowInferenceTime = Long.parseLong(slowInferenceTimeString);
+    } catch (NumberFormatException e) {
+      slowInferenceTime = SLOW_INFERENCE_TIME_DEFAULT;
+    }
+    try {
+      slowParseTime = Long.parseLong(slowParseTimeString);
+    } catch (NumberFormatException e) {
+      slowParseTime = SLOW_PARSE_TIME_DEFAULT;
+    }
+  }
+
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(LazyLinkingResource2.class);
 
@@ -86,7 +110,17 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   protected void doLoad(final InputStream inputStream, final Map<?, ?> options) throws IOException {
     getModelManager().setAllModelsToStatus(ModelStatus.UNLOADED);
     if (!getModelManager().loadBinaryModels(ResourceModelType.EMF)) {
+      final long startElapsed = System.currentTimeMillis();
       super.doLoad(inputStream, options);
+      final long elapsedTime = System.currentTimeMillis() - startElapsed;
+      if (elapsedTime > slowParseTime) {
+        String message = String.format("Slow parsing of source %s: %d ms", uri, elapsedTime); //$NON-NLS-1$
+        if (elapsedTime >= slowParseTime * SLOW_REPORTING_MULTIPLIER) {
+          LOGGER.warn(message);
+        } else {
+          LOGGER.info(message);
+        }
+      }
       getModelManager().setAllModelsToStatus(ModelStatus.LOADED);
       getModelManager().saveBinaryModels();
     }
@@ -320,6 +354,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   @Override
   public void installDerivedState(final boolean isPrelinkingPhase) {
     if (derivedStateComputer != null && !fullyInitialized && !isInitializing && !isLoadedFromStorage()) {
+      final long startElapsed = System.currentTimeMillis();
       try {
         traceSet.started(ResourceInferenceEvent.class, getURI());
         isInitializing = true;
@@ -329,6 +364,17 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
         isInitializing = false;
         getCache().clear(this); // Why?
         traceSet.ended(ResourceInferenceEvent.class);
+        final long elapsedTime = System.currentTimeMillis() - startElapsed;
+
+        if (elapsedTime > slowInferenceTime) {
+          String message = String.format("Slow inference for source %s: %d ms", uri, elapsedTime); //$NON-NLS-1$
+          if (elapsedTime >= slowInferenceTime * SLOW_REPORTING_MULTIPLIER) {
+            LOGGER.warn(message);
+          } else {
+            LOGGER.info(message);
+          }
+        }
+
       }
     }
   }

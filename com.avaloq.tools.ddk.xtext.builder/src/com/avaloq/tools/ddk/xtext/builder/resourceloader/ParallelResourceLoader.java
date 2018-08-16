@@ -24,7 +24,6 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -58,10 +57,6 @@ import com.google.inject.name.Names;
 public class ParallelResourceLoader extends AbstractResourceLoader {
 
   private static final long MAX_WAIT_TIME = TimeUnit.SECONDS.toMillis(300);
-  private static final long SLOW_LOADING_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(30);
-  private static final String SLOW_LOADING_TIME_PROPERTY = "resourceloader.slowloadingtime"; //$NON-NLS-1$
-
-  private static final Logger LOGGER = Logger.getLogger(ParallelResourceLoader.class);
 
   private static final Key<Boolean> PARALLEL_LOADING_SUPPORT_KEY = Key.get(Boolean.class, Names.named(ILazyLinkingResource2.PARALLEL_LOADING_SUPPORT));
 
@@ -74,22 +69,12 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   private final int nThreads;
   private final int queueSize;
   private long timeout;
-  private long slowLoadingTime;
 
   public ParallelResourceLoader(final IResourceSetProvider resourceSetProvider, final Sorter sorter, final int nThreads, final int queueSize) {
     super(resourceSetProvider, sorter);
     this.nThreads = nThreads;
     this.queueSize = queueSize;
     this.timeout = MAX_WAIT_TIME;
-    String slowLoadingTimeString = System.getProperty(SLOW_LOADING_TIME_PROPERTY);
-    try {
-      slowLoadingTime = Long.parseLong(slowLoadingTimeString);
-    } catch (NumberFormatException e) {
-      if (slowLoadingTimeString != null) {
-        LOGGER.warn(String.format("Slow loading timeout property '%s' is set to invalid value '%s'. Using default value of %d ms instead.", SLOW_LOADING_TIME_PROPERTY, slowLoadingTimeString, SLOW_LOADING_TIME_DEFAULT)); //$NON-NLS-1$
-      }
-      slowLoadingTime = SLOW_LOADING_TIME_DEFAULT;
-    }
   }
 
   public long getTimeout() {
@@ -325,17 +310,12 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
      * @return the loaded resource
      */
     private Resource doLoadResource(final URI uri) {
-      final long startElapsed = System.currentTimeMillis();
       try {
         traceSet.started(ResourceLoadEvent.class, uri);
         ResourceSet localResourceSet = resourceSetProvider.get();
         return ParallelResourceLoader.this.loadResource(uri, localResourceSet, parent);
       } finally {
         traceSet.ended(ResourceLoadEvent.class);
-        final long elapsedTime = System.currentTimeMillis() - startElapsed;
-        if (elapsedTime > slowLoadingTime) {
-          LOGGER.warn(String.format("Slow loading of source %s: %d ms", uri, elapsedTime)); //$NON-NLS-1$
-        }
       }
     }
 
