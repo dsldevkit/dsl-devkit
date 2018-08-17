@@ -13,9 +13,9 @@ import com.google.inject.Injector;
 
 public class TestLanguageInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
 
-  protected GlobalStateMemento stateBeforeInjectorCreation;
-  protected GlobalStateMemento stateAfterInjectorCreation;
-  protected Injector injector;
+  private GlobalStateMemento stateBeforeInjectorCreation;
+  private GlobalStateMemento stateAfterInjectorCreation;
+  private Injector injector;
 
   static {
     GlobalRegistries.initializeDefaults();

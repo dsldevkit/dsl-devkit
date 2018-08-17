@@ -8,6 +8,9 @@ import org.eclipse.xtext.testing.IInjectorProvider;
 import com.google.inject.Injector;
 
 
+/**
+ * Producer strategy for {@link Injector Injectors}.
+ */
 public class CheckUiInjectorProvider implements IInjectorProvider {
 
   @Override
