@@ -179,14 +179,19 @@ public class FixedPartialParsingHelper implements IPartialParsingHelper {
     } else {
       unloadSemanticObject(oldSemanticElement);
     }
-    if (oldCompositeNode != oldRootNode) {
-      nodeModelBuilder.replaceAndTransferLookAhead(oldCompositeNode, newParseResult.getRootNode());
-      ((ParseResult) newParseResult).setRootNode(oldRootNode);
-      StringBuilder builder = new StringBuilder(oldRootNode.getText());
-      replaceRegion.applyTo(builder);
-      nodeModelBuilder.setCompleteContent(oldRootNode, builder.toString());
+    try {
+      if (oldCompositeNode != oldRootNode) {
+        nodeModelBuilder.replaceAndTransferLookAhead(oldCompositeNode, newParseResult.getRootNode());
+        ((ParseResult) newParseResult).setRootNode(oldRootNode);
+        StringBuilder builder = new StringBuilder(oldRootNode.getText());
+        replaceRegion.applyTo(builder);
+        nodeModelBuilder.setCompleteContent(oldRootNode, builder.toString());
+      }
+      return newParseResult;
+    } catch (Exception exception) {
+      // on error fully reparse
+      return fullyReparse(parser, previousParseResult, replaceRegion);
     }
-    return newParseResult;
   }
 
   private boolean isRangePartOfExceedingLookAhead(final CompositeNode node, final ReplaceRegion replaceRegion) {
