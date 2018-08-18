@@ -211,6 +211,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
   }
 
   @Override
+  @Deprecated
   public void enterUnassignedParserRuleCall(final RuleCall ruleCall) {
     delegate.enterUnassignedParserRuleCall(ruleCall);
   }
@@ -226,6 +227,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
   }
 
   @Override
+  @Deprecated
   public void leaveUnssignedParserRuleCall(final RuleCall ruleCall) {
     delegate.leaveUnssignedParserRuleCall(ruleCall);
   }

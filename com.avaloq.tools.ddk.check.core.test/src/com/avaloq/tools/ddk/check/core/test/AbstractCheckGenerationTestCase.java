@@ -119,7 +119,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
       // own class loader, let eclipse do the work: create our test project and then get the resolved classpath entries from
       // that.
       IProject project = getOrCreatePluginProject();
-      IResourcesSetupUtil.waitForAutoBuild();
+      IResourcesSetupUtil.reallyWaitForAutoBuild();
       // enumerateContents(project);
       IJavaProject javaProject = JavaCore.create(project);
       javaCompiler.clearClassPath();

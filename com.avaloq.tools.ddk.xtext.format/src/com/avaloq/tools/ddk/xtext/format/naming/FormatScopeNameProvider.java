@@ -36,7 +36,7 @@ public class FormatScopeNameProvider {
 
       @Override
       public String caseGrammar(final org.eclipse.xtext.Grammar object) {
-        return GrammarUtil.getName(object);
+        return GrammarUtil.getSimpleName(object);
       };
 
       @Override

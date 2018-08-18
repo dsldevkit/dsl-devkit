@@ -57,7 +57,6 @@ class CheckRewritableImportSectionFactoryTest extends AbstractCheckTestCase {
 
     // ASSERT
     assertNotNull("parse() should return an object", rewritableImportSection)
-    assertTrue("parse() should return a RewritableImportSection", rewritableImportSection instanceof RewritableImportSection)
     assertTrue("parse() should return a RewritableImportSection with sort=true", rewritableImportSection.sort)
   }
 

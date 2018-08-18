@@ -140,7 +140,7 @@ public abstract class AbstractGeneratorTest {
     addSourcesToWorkspace(projectName, sourceFileNames);
 
     // wait for build to finish, otherwise included catalog may not be resolvable
-    IResourcesSetupUtil.waitForAutoBuild();
+    IResourcesSetupUtil.reallyWaitForAutoBuild();
   }
 
   /**

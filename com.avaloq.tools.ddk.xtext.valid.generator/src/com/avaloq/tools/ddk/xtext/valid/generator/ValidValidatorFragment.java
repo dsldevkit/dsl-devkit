@@ -36,15 +36,15 @@ import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
 import org.eclipse.xtext.validation.CompositeEValidator;
 import org.eclipse.xtext.validation.Issue;
 
+import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
+import com.avaloq.tools.ddk.xtext.ui.validation.preferences.ValidPreferenceConstants;
+import com.avaloq.tools.ddk.xtext.util.EmfResourceUtil;
 import com.avaloq.tools.ddk.xtext.valid.ValidStandaloneSetup;
 import com.avaloq.tools.ddk.xtext.valid.valid.Category;
 import com.avaloq.tools.ddk.xtext.valid.valid.NativeContext;
 import com.avaloq.tools.ddk.xtext.valid.valid.NativeRule;
 import com.avaloq.tools.ddk.xtext.valid.valid.Rule;
 import com.avaloq.tools.ddk.xtext.valid.valid.ValidModel;
-import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
-import com.avaloq.tools.ddk.xtext.ui.validation.preferences.ValidPreferenceConstants;
-import com.avaloq.tools.ddk.xtext.util.EmfResourceUtil;
 import com.avaloq.tools.ddk.xtext.validation.ValidCompositeEValidator;
 import com.google.common.base.Preconditions;
 
@@ -133,7 +133,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     }
 
     Resource resource = null;
-    final String name = GrammarUtil.getName(grammar) + '.' + XTEXT_EXTENSION;
+    final String name = GrammarUtil.getSimpleName(grammar) + '.' + XTEXT_EXTENSION;
     URI uri;
     for (final Resource res : grammar.eResource().getResourceSet().getResources()) {
       if (res.getURI() != null && name.equals(EmfResourceUtil.getFileName(res.getURI()))) {
@@ -176,19 +176,19 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     // profile for generator is:
     // <<DEFINE generate(List[String] packageQNames, List[String] composedChecks, ValidModel validModel) FOR Grammar>>
     XpandFacade.create(ctx).evaluate(getTemplate() + "::generate", // template //$NON-NLS-1$
-    grammar, // this (the grammar)
-    getParameters(grammar).get(0), // package Qualified Names (first parameter of the argument list is the 'list of
-                                   // packages')
-    this.composedChecks, // composed checks
-    validModel); // validModel
+        grammar, // this (the grammar)
+        getParameters(grammar).get(0), // package Qualified Names (first parameter of the argument list is the 'list of
+                                       // packages')
+        this.composedChecks, // composed checks
+        validModel); // validModel
 
     if (generateTests) {
       XpandFacade.create(ctx).evaluate("com::avaloq::tools::ddk::xtext::valid::generator::ValidatorTests::generate", // template //$NON-NLS-1$
-      grammar, // this (the grammar)
-      validModel); // validModel
+          grammar, // this (the grammar)
+          validModel); // validModel
       XpandFacade.create(ctx).evaluate("com::avaloq::tools::ddk::xtext::valid::generator::QuickfixTests::generate", // template //$NON-NLS-1$
-      grammar, // this (the grammar)
-      validModel); // validModel
+          grammar, // this (the grammar)
+          validModel); // validModel
     }
   }
 
@@ -208,7 +208,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
    * @return the java validator name
    */
   public static String getJavaValidatorName(final Grammar grammar, final String prefix) {
-    return GrammarUtil.getNamespace(grammar) + ".validation." + prefix + GrammarUtil.getName(grammar) + "JavaValidator"; //$NON-NLS-1$ //$NON-NLS-2$
+    return GrammarUtil.getNamespace(grammar) + ".validation." + prefix + GrammarUtil.getSimpleName(grammar) + "JavaValidator"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
@@ -234,7 +234,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
    * @return the java validator name
    */
   public static String getPreferencePageName(final Grammar grammar, final Naming naming) {
-    return getPreferencePackage(grammar, naming) + "." + GrammarUtil.getName(grammar) + "ValidPreferencePage"; //$NON-NLS-1$ //$NON-NLS-2$
+    return getPreferencePackage(grammar, naming) + "." + GrammarUtil.getSimpleName(grammar) + "ValidPreferencePage"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
@@ -260,7 +260,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
    * @return the quickfix provider name
    */
   public static String getQuickfixProviderName(final Grammar grammar, final Naming naming) {
-    return getQuickfixPackage(grammar, naming) + "." + GrammarUtil.getName(grammar) + "QuickfixProvider"; //$NON-NLS-1$//$NON-NLS-2$
+    return getQuickfixPackage(grammar, naming) + "." + GrammarUtil.getSimpleName(grammar) + "QuickfixProvider"; //$NON-NLS-1$//$NON-NLS-2$
   }
 
   /**
@@ -273,7 +273,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
    * @return the check validator name
    */
   public static String getCheckValidatorName(final Grammar grammar, final Naming naming) {
-    return naming.basePackageRuntime(grammar) + ".validation." + GrammarUtil.getName(grammar) + "CheckValidator"; //$NON-NLS-1$//$NON-NLS-2$
+    return naming.basePackageRuntime(grammar) + ".validation." + GrammarUtil.getSimpleName(grammar) + "CheckValidator"; //$NON-NLS-1$//$NON-NLS-2$
   }
 
   /**
@@ -400,4 +400,3 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
   }
 
 }
-

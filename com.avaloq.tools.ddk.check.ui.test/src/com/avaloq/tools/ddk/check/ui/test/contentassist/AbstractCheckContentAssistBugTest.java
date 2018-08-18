@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.contentassist;
 
-import static org.eclipse.xtext.junit4.ui.util.JavaProjectSetupUtil.findJavaProject;
+import static org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil.findJavaProject;
 
 import java.io.InputStream;
 
@@ -50,7 +50,7 @@ public abstract class AbstractCheckContentAssistBugTest extends AbstractCheckTes
   public XtextResource getResourceFor(final InputStream stream) {
     try {
       XtextResourceSet set = get(XtextResourceSet.class);
-      XtextResource resource = (XtextResource) set.createResource(URI.createURI("Test." + getFileExtension()));
+      XtextResource resource = (XtextResource) set.createResource(URI.createURI("Test." + getFileExtension())); //$NON-NLS-1$
       resource.load(stream, null);
       initializeTypeProvider(set);
       return resource;

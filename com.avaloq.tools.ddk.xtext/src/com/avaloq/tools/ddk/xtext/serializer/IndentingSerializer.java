@@ -11,21 +11,17 @@
 package com.avaloq.tools.ddk.xtext.serializer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.formatting.IFormatterExtension;
 import org.eclipse.xtext.parsetree.reconstr.ITokenStream;
 import org.eclipse.xtext.parsetree.reconstr.impl.TokenStringBuffer;
 import org.eclipse.xtext.resource.SaveOptions;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.ISequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.TokenStreamSequenceAdapter;
 import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic;
 import org.eclipse.xtext.serializer.impl.Serializer;
-import org.eclipse.xtext.validation.IConcreteSyntaxValidator;
 
 
 /**
@@ -56,14 +52,6 @@ public class IndentingSerializer extends Serializer implements IIndentingSeriali
    *           Signals that an I/O exception has occurred.
    */
   protected void serialize(final EObject obj, final ITokenStream tokenStream, final SaveOptions options, final String initialIndentation) throws IOException {
-    if (options.isValidating()) {
-      List<Diagnostic> diagnostics = new ArrayList<Diagnostic>();
-      validator.validateRecursive(obj, new IConcreteSyntaxValidator.DiagnosticListAcceptor(diagnostics), new HashMap<Object, Object>());
-      if (!diagnostics.isEmpty()) {
-        throw new IConcreteSyntaxValidator.InvalidConcreteSyntaxException("These errors need to be fixed before the model can be serialized.", diagnostics); //$NON-NLS-1$
-      }
-    }
-
     ISerializationDiagnostic.Acceptor errors = ISerializationDiagnostic.EXCEPTION_THROWING_ACCEPTOR;
     ITokenStream formatterTokenStream;
     if (formatter instanceof IFormatterExtension) {
@@ -71,9 +59,9 @@ public class IndentingSerializer extends Serializer implements IIndentingSeriali
     } else {
       formatterTokenStream = formatter.createFormatterStream(initialIndentation, tokenStream, !options.isFormatting());
     }
-    EObject context = getContext(obj);
+    ISerializationContext context = getIContext(obj);
     ISequenceAcceptor acceptor = new TokenStreamSequenceAdapter(formatterTokenStream, grammar.getGrammar(), errors);
-    serialize(obj, context, acceptor, errors);
+    serialize(context, obj, acceptor, errors);
     formatterTokenStream.flush();
   }
 

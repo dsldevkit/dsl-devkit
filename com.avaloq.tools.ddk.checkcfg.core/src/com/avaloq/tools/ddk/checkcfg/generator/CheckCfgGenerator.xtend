@@ -10,15 +10,15 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.generator
 
+import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration
+import com.google.inject.Inject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractFileSystemAccess
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 
-import static extension org.eclipse.xtext.xbase.lib.IteratorExtensions.*
-import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService
-import com.google.inject.Inject
+import static org.eclipse.xtext.xbase.lib.IteratorExtensions.*
 
 class CheckCfgGenerator implements IGenerator {
 
@@ -35,7 +35,7 @@ class CheckCfgGenerator implements IGenerator {
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
     if (fsa instanceof AbstractFileSystemAccess) {
-      (fsa as AbstractFileSystemAccess).setOutputPath(outputPath)
+      fsa.setOutputPath(outputPath)
     }
     for (configuration:toIterable(resource.allContents).filter(typeof(CheckConfiguration))) {
       fsa.generateFile(configuration.fileName, configuration.compile)
