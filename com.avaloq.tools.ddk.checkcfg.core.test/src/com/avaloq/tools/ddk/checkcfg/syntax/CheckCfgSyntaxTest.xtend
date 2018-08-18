@@ -48,7 +48,7 @@ class CheckCfgSyntaxTest extends AbstractValidationTest {
       }
     '''
     addCustomerSourceToWorkspace("customer$sca_testchecks.check", checkSource)
-    IResourcesSetupUtil::waitForAutoBuild
+    IResourcesSetupUtil.reallyWaitForAutoBuild
 
     val checkcfgSource = '''
       check configuration checkconfiguration {

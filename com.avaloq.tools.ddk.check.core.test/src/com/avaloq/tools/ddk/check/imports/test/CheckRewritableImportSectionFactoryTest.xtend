@@ -17,9 +17,8 @@ import com.google.inject.Inject
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.resource.XtextResource
-import org.eclipse.xtext.xbase.imports.RewritableImportSection
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
