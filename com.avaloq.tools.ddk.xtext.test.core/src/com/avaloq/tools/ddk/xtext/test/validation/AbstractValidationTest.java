@@ -60,7 +60,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
 
   static final String NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE = "Expecting no errors on resource";
 
-  private static final String COULD_NOT_RESOLVE_REFERENCE_TO = "Couldn''t resolve reference to {0} ''{1}''.";
+  private static final String METHOD_OR_FIELD_UNDEFINED = "The method or field {1} is undefined";
 
   private static final int SEVERITY_UNDEFINED = -1;
   private static final Map<Integer, String> CODE_TO_NAME = ImmutableMap.of(Diagnostic.INFO, "INFO", Diagnostic.WARNING, "WARNING", Diagnostic.ERROR, "ERROR");
@@ -965,9 +965,20 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   public static void assertNoLinkingErrorsOnResource(final EObject object, final String referenceType, final String... referenceNames) {
     String[] messages = new String[referenceNames.length];
     for (int i = 0; i < referenceNames.length; i++) {
-      messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
+      messages[i] = NLS.bind(METHOD_OR_FIELD_UNDEFINED, referenceType, referenceNames[i]);
     }
-    assertNoLinkingErrorsWithCustomMessageOnResource(object, messages);
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
+    for (final String msg : messages) {
+      boolean found = false;
+      for (final String errMessage : errorMessages) {
+        if (errMessage.startsWith(msg)) {
+          found = true;
+          break;
+        }
+      }
+      assertFalse(NLS.bind("Expecting no linking errors on resource with message \"{0}\".", msg), found);
+    }
   }
 
   /**
@@ -983,9 +994,20 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   public static void assertLinkingErrorsOnResourceExist(final EObject object, final String referenceType, final String... referenceNames) {
     String[] messages = new String[referenceNames.length];
     for (int i = 0; i < referenceNames.length; i++) {
-      messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
+      messages[i] = NLS.bind(METHOD_OR_FIELD_UNDEFINED, referenceType, referenceNames[i]);
     }
-    assertLinkingErrorsWithCustomMessageOnResourceExist(object, messages);
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
+    for (final String msg : messages) {
+      boolean found = false;
+      for (final String errMessage : errorMessages) {
+        if (errMessage.startsWith(msg)) {
+          found = true;
+          break;
+        }
+      }
+      assertTrue(NLS.bind("Expected linking error \"{0}\" but could not find it", msg), found);
+    }
   }
 
   /**
