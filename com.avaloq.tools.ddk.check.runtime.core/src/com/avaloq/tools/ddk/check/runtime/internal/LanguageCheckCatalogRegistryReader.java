@@ -64,9 +64,9 @@ class LanguageCheckCatalogRegistryReader extends AbstractCheckRegistryReader {
    * Instantiates a new Check language registry reader. TODO Document this method.
    *
    * @param extensionRegistry
-   *          the extension registry
+   *                             the extension registry
    * @param symbolicBundleName
-   *          the symbolic bundle name
+   *                             the symbolic bundle name
    */
   LanguageCheckCatalogRegistryReader(final IExtensionRegistry extensionRegistry, final String symbolicBundleName) {
     super(extensionRegistry, symbolicBundleName, "check"); //$NON-NLS-1$
@@ -77,6 +77,9 @@ class LanguageCheckCatalogRegistryReader extends AbstractCheckRegistryReader {
     if ("catalog".equals(attributeName)) { //$NON-NLS-1$
       LOGGER.debug("The optional attribute 'catalog' is not defined"); //$NON-NLS-1$
       return; // attribute is currently optional, message "The required attribute 'catalog' not defined" is inappropriate
+    }
+    if ("language".equals(attributeName)) { //$NON-NLS-1$
+      return; // attribute is currently optional, message "The required attribute 'language' not defined" is inappropriate
     }
     super.logMissingAttribute(element, attributeName);
   }
@@ -90,4 +93,3 @@ class LanguageCheckCatalogRegistryReader extends AbstractCheckRegistryReader {
   }
 
 }
-
