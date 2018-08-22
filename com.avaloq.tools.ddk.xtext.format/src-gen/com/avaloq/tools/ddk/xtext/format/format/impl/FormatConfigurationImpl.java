@@ -33,6 +33,7 @@ import org.eclipse.xtext.common.types.JvmDeclaredType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.FormatConfigurationImpl#getTargetGrammar <em>Target Grammar</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.FormatConfigurationImpl#getExtendedFormatConfiguration <em>Extended Format Configuration</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.xtext.common.types.JvmDeclaredType;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.FormatConfigurationImpl#getConstants <em>Constants</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.FormatConfigurationImpl#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

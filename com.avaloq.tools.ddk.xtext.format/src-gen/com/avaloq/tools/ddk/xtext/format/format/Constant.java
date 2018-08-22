@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.Constant#isIntType <em>Int Type</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.Constant#isStringType <em>String Type</em>}</li>
@@ -18,7 +19,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.Constant#getIntValue <em>Int Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.Constant#getStringValue <em>String Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getConstant()
  * @model

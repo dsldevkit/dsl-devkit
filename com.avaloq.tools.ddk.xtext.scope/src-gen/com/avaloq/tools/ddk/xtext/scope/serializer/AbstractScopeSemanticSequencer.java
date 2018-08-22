@@ -45,16 +45,14 @@ import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
 import com.avaloq.tools.ddk.xtext.scope.scope.SimpleScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.services.ScopeGrammarAccess;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.xtext.Action;
+import org.eclipse.xtext.Parameter;
+import org.eclipse.xtext.ParserRule;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
-import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
-import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
-import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
-import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("all")
@@ -64,8 +62,13 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	private ScopeGrammarAccess grammarAccess;
 	
 	@Override
-	public void createSequence(EObject context, EObject semanticObject) {
-		if(semanticObject.eClass().getEPackage() == ExpressionPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+	public void sequence(ISerializationContext context, EObject semanticObject) {
+		EPackage epackage = semanticObject.eClass().getEPackage();
+		ParserRule rule = context.getParserRule();
+		Action action = context.getAssignedAction();
+		Set<Parameter> parameters = context.getEnabledBooleanParameters();
+		if (epackage == ExpressionPackage.eINSTANCE)
+			switch (semanticObject.eClass().getClassifierID()) {
 			case ExpressionPackage.BOOLEAN_LITERAL:
 				sequence_BooleanLiteral(context, (BooleanLiteral) semanticObject); 
 				return; 
@@ -82,38 +85,38 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_ChainExpression(context, (ChainExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.COLLECTION_EXPRESSION:
-				if(context == grammarAccess.getCollectionExpressionRule() ||
-				   context == grammarAccess.getFeatureCallRule()) {
+				if (rule == grammarAccess.getFeatureCallRule()
+						|| rule == grammarAccess.getCollectionExpressionRule()) {
 					sequence_CollectionExpression(context, (CollectionExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
+				else if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
 					sequence_CollectionExpression_InfixExpression(context, (CollectionExpression) semanticObject); 
 					return; 
 				}
@@ -122,37 +125,37 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_ConstructorCallExpression(context, (ConstructorCallExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.FEATURE_CALL:
-				if(context == grammarAccess.getFeatureCallRule()) {
+				if (rule == grammarAccess.getFeatureCallRule()) {
 					sequence_FeatureCall(context, (FeatureCall) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
+				else if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
 					sequence_FeatureCall_InfixExpression(context, (FeatureCall) semanticObject); 
 					return; 
 				}
@@ -161,53 +164,53 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_GlobalVarExpression(context, (GlobalVarExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.IDENTIFIER:
-				if(context == grammarAccess.getCollectionTypeRule()) {
+				if (rule == grammarAccess.getCollectionTypeRule()) {
 					sequence_CollectionType(context, (Identifier) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getTypeRule()) {
-					sequence_CollectionType_SimpleType_Type(context, (Identifier) semanticObject); 
+				else if (rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getTypeRule()) {
+					sequence_CollectionType_SimpleType(context, (Identifier) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getSimpleTypeRule()) {
+				else if (rule == grammarAccess.getSimpleTypeRule()) {
 					sequence_SimpleType(context, (Identifier) semanticObject); 
 					return; 
 				}
 				else break;
 			case ExpressionPackage.IF_EXPRESSION:
-				if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
-					sequence_ChainedExpression_IfExpressionKw_IfExpressionTri(context, (IfExpression) semanticObject); 
+				if (rule == grammarAccess.getIfExpressionKwRule()) {
+					sequence_IfExpressionKw(context, (IfExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getIfExpressionKwRule()) {
-					sequence_IfExpressionKw(context, (IfExpression) semanticObject); 
+				else if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
+					sequence_IfExpressionKw_IfExpressionTri(context, (IfExpression) semanticObject); 
 					return; 
 				}
 				else break;
@@ -224,42 +227,42 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_NullLiteral(context, (NullLiteral) semanticObject); 
 				return; 
 			case ExpressionPackage.OPERATION_CALL:
-				if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
-					sequence_AdditiveExpression_InfixExpression_MultiplicativeExpression_OperationCall_UnaryExpression_UnaryOrInfixExpression(context, (OperationCall) semanticObject); 
+				if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
+					sequence_AdditiveExpression_InfixExpression_MultiplicativeExpression_OperationCall_UnaryExpression(context, (OperationCall) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getFeatureCallRule() ||
-				   context == grammarAccess.getOperationCallRule()) {
+				else if (rule == grammarAccess.getFeatureCallRule()
+						|| rule == grammarAccess.getOperationCallRule()) {
 					sequence_OperationCall(context, (OperationCall) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getUnaryExpressionRule()) {
+				else if (rule == grammarAccess.getUnaryExpressionRule()) {
 					sequence_UnaryExpression(context, (OperationCall) semanticObject); 
 					return; 
 				}
@@ -274,67 +277,68 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_SwitchExpression(context, (SwitchExpression) semanticObject); 
 				return; 
 			case ExpressionPackage.TYPE_SELECT_EXPRESSION:
-				if(context == grammarAccess.getAdditiveExpressionRule() ||
-				   context == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getAndExpressionRule() ||
-				   context == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getChainExpressionRule() ||
-				   context == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0() ||
-				   context == grammarAccess.getChainedExpressionRule() ||
-				   context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getIfExpressionTriRule() ||
-				   context == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0() ||
-				   context == grammarAccess.getImpliesExpressionRule() ||
-				   context == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getInfixExpressionRule() ||
-				   context == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0() ||
-				   context == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0() ||
-				   context == grammarAccess.getMultiplicativeExpressionRule() ||
-				   context == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0() ||
-				   context == grammarAccess.getOrExpressionRule() ||
-				   context == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getParanthesizedExpressionRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionRule() ||
-				   context == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0() ||
-				   context == grammarAccess.getSyntaxElementRule() ||
-				   context == grammarAccess.getUnaryOrInfixExpressionRule()) {
+				if (rule == grammarAccess.getExpressionRule()
+						|| rule == grammarAccess.getSyntaxElementRule()
+						|| rule == grammarAccess.getChainExpressionRule()
+						|| action == grammarAccess.getChainExpressionAccess().getChainExpressionFirstAction_1_0()
+						|| rule == grammarAccess.getChainedExpressionRule()
+						|| rule == grammarAccess.getIfExpressionTriRule()
+						|| action == grammarAccess.getIfExpressionTriAccess().getIfExpressionConditionAction_1_0()
+						|| rule == grammarAccess.getOrExpressionRule()
+						|| action == grammarAccess.getOrExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAndExpressionRule()
+						|| action == grammarAccess.getAndExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getImpliesExpressionRule()
+						|| action == grammarAccess.getImpliesExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getRelationalExpressionRule()
+						|| action == grammarAccess.getRelationalExpressionAccess().getBooleanOperationLeftAction_1_0()
+						|| rule == grammarAccess.getAdditiveExpressionRule()
+						|| action == grammarAccess.getAdditiveExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getMultiplicativeExpressionRule()
+						|| action == grammarAccess.getMultiplicativeExpressionAccess().getOperationCallParamsAction_1_0()
+						|| rule == grammarAccess.getUnaryOrInfixExpressionRule()
+						|| rule == grammarAccess.getInfixExpressionRule()
+						|| action == grammarAccess.getInfixExpressionAccess().getOperationCallTargetAction_1_0_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getFeatureCallTargetAction_1_1_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getTypeSelectExpressionTargetAction_1_2_0()
+						|| action == grammarAccess.getInfixExpressionAccess().getCollectionExpressionTargetAction_1_3_0()
+						|| rule == grammarAccess.getPrimaryExpressionRule()
+						|| rule == grammarAccess.getParanthesizedExpressionRule()) {
 					sequence_InfixExpression_TypeSelectExpression(context, (TypeSelectExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getFeatureCallRule() ||
-				   context == grammarAccess.getTypeSelectExpressionRule()) {
+				else if (rule == grammarAccess.getFeatureCallRule()
+						|| rule == grammarAccess.getTypeSelectExpressionRule()) {
 					sequence_TypeSelectExpression(context, (TypeSelectExpression) semanticObject); 
 					return; 
 				}
 				else break;
 			}
-		else if(semanticObject.eClass().getEPackage() == ScopePackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+		else if (epackage == ScopePackage.eINSTANCE)
+			switch (semanticObject.eClass().getClassifierID()) {
 			case ScopePackage.EXTENSION:
 				sequence_Extension(context, (Extension) semanticObject); 
 				return; 
 			case ScopePackage.FACTORY_EXPRESSION:
-				if(context == grammarAccess.getFactoryExpressionRule()) {
+				if (rule == grammarAccess.getFactoryExpressionRule()) {
 					sequence_FactoryExpression(context, (FactoryExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getScopeExpressionRule()) {
+				else if (rule == grammarAccess.getScopeExpressionRule()) {
 					sequence_FactoryExpression_ScopeExpression(context, (FactoryExpression) semanticObject); 
 					return; 
 				}
 				else break;
 			case ScopePackage.GLOBAL_SCOPE_EXPRESSION:
-				if(context == grammarAccess.getGlobalScopeExpressionRule()) {
+				if (rule == grammarAccess.getGlobalScopeExpressionRule()) {
 					sequence_GlobalScopeExpression(context, (GlobalScopeExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getNamedScopeExpressionRule()) {
+				else if (rule == grammarAccess.getNamedScopeExpressionRule()) {
 					sequence_GlobalScopeExpression_NamedScopeExpression(context, (GlobalScopeExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getScopeExpressionRule()) {
+				else if (rule == grammarAccess.getScopeExpressionRule()) {
 					sequence_GlobalScopeExpression_NamedScopeExpression_ScopeExpression(context, (GlobalScopeExpression) semanticObject); 
 					return; 
 				}
@@ -370,11 +374,11 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_ScopeDefinition(context, (ScopeDefinition) semanticObject); 
 				return; 
 			case ScopePackage.SCOPE_DELEGATION:
-				if(context == grammarAccess.getScopeDelegationRule()) {
+				if (rule == grammarAccess.getScopeDelegationRule()) {
 					sequence_ScopeDelegation(context, (ScopeDelegation) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getScopeExpressionRule()) {
+				else if (rule == grammarAccess.getScopeExpressionRule()) {
 					sequence_ScopeDelegation_ScopeExpression(context, (ScopeDelegation) semanticObject); 
 					return; 
 				}
@@ -386,58 +390,76 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_ScopeRule(context, (ScopeRule) semanticObject); 
 				return; 
 			case ScopePackage.SIMPLE_SCOPE_EXPRESSION:
-				if(context == grammarAccess.getScopeExpressionRule()) {
+				if (rule == grammarAccess.getScopeExpressionRule()) {
 					sequence_NamedScopeExpression_ScopeExpression_SimpleScopeExpression(context, (SimpleScopeExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getNamedScopeExpressionRule()) {
+				else if (rule == grammarAccess.getNamedScopeExpressionRule()) {
 					sequence_NamedScopeExpression_SimpleScopeExpression(context, (SimpleScopeExpression) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getSimpleScopeExpressionRule()) {
+				else if (rule == grammarAccess.getSimpleScopeExpressionRule()) {
 					sequence_SimpleScopeExpression(context, (SimpleScopeExpression) semanticObject); 
 					return; 
 				}
 				else break;
 			}
-		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
+		if (errorAcceptor != null)
+			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
 	
 	/**
+	 * Contexts:
+	 *     Extension returns Extension
+	 *
 	 * Constraint:
 	 *     extension=QualifiedID
 	 */
-	protected void sequence_Extension(EObject context, Extension semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.EXTENSION__EXTENSION) == ValueTransient.YES)
+	protected void sequence_Extension(ISerializationContext context, Extension semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.EXTENSION__EXTENSION) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.EXTENSION__EXTENSION));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getExtensionAccess().getExtensionQualifiedIDParserRuleCall_1_0(), semanticObject.getExtension());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     FactoryExpression returns FactoryExpression
+	 *
 	 * Constraint:
 	 *     expr=Expression
 	 */
-	protected void sequence_FactoryExpression(EObject context, FactoryExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+	protected void sequence_FactoryExpression(ISerializationContext context, FactoryExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.FACTORY_EXPRESSION__EXPR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.FACTORY_EXPRESSION__EXPR));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFactoryExpressionAccess().getExprExpressionParserRuleCall_1_0(), semanticObject.getExpr());
+		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeExpression returns FactoryExpression
+	 *
 	 * Constraint:
 	 *     (expr=Expression prune=Expression?)
 	 */
-	protected void sequence_FactoryExpression_ScopeExpression(EObject context, FactoryExpression semanticObject) {
+	protected void sequence_FactoryExpression_ScopeExpression(ISerializationContext context, FactoryExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     GlobalScopeExpression returns GlobalScopeExpression
+	 *
 	 * Constraint:
 	 *     (
 	 *         type=[EClass|QualifiedID] 
@@ -446,12 +468,15 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 *         (domains+='*' | domains+=Identifier | (domains+=Identifier domains+=Identifier*))?
 	 *     )
 	 */
-	protected void sequence_GlobalScopeExpression(EObject context, GlobalScopeExpression semanticObject) {
+	protected void sequence_GlobalScopeExpression(ISerializationContext context, GlobalScopeExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     NamedScopeExpression returns GlobalScopeExpression
+	 *
 	 * Constraint:
 	 *     (
 	 *         type=[EClass|QualifiedID] 
@@ -462,12 +487,15 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 *         naming=Naming?
 	 *     )
 	 */
-	protected void sequence_GlobalScopeExpression_NamedScopeExpression(EObject context, GlobalScopeExpression semanticObject) {
+	protected void sequence_GlobalScopeExpression_NamedScopeExpression(ISerializationContext context, GlobalScopeExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeExpression returns GlobalScopeExpression
+	 *
 	 * Constraint:
 	 *     (
 	 *         type=[EClass|QualifiedID] 
@@ -479,33 +507,38 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 *         prune=Expression?
 	 *     )
 	 */
-	protected void sequence_GlobalScopeExpression_NamedScopeExpression_ScopeExpression(EObject context, GlobalScopeExpression semanticObject) {
+	protected void sequence_GlobalScopeExpression_NamedScopeExpression_ScopeExpression(ISerializationContext context, GlobalScopeExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Import returns Import
+	 *
 	 * Constraint:
 	 *     (package=[EPackage|STRING] name=Identifier?)
 	 */
-	protected void sequence_Import(EObject context, Import semanticObject) {
+	protected void sequence_Import(ISerializationContext context, Import semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Injection returns Injection
+	 *
 	 * Constraint:
 	 *     (type=DottedID name=Identifier)
 	 */
-	protected void sequence_Injection(EObject context, Injection semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.INJECTION__TYPE) == ValueTransient.YES)
+	protected void sequence_Injection(ISerializationContext context, Injection semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.INJECTION__TYPE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.INJECTION__TYPE));
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.INJECTION__NAME) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.INJECTION__NAME) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.INJECTION__NAME));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getInjectionAccess().getTypeDottedIDParserRuleCall_1_0(), semanticObject.getType());
 		feeder.accept(grammarAccess.getInjectionAccess().getNameIdentifierParserRuleCall_3_0(), semanticObject.getName());
 		feeder.finish();
@@ -513,18 +546,21 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	
 	/**
+	 * Contexts:
+	 *     DataExpression returns LambdaDataExpression
+	 *     LambdaDataExpression returns LambdaDataExpression
+	 *
 	 * Constraint:
 	 *     (desc=Identifier value=Expression)
 	 */
-	protected void sequence_LambdaDataExpression(EObject context, LambdaDataExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE));
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.LAMBDA_DATA_EXPRESSION__DESC) == ValueTransient.YES)
+	protected void sequence_LambdaDataExpression(ISerializationContext context, LambdaDataExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.LAMBDA_DATA_EXPRESSION__DESC) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.LAMBDA_DATA_EXPRESSION__DESC));
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getLambdaDataExpressionAccess().getDescIdentifierParserRuleCall_1_0(), semanticObject.getDesc());
 		feeder.accept(grammarAccess.getLambdaDataExpressionAccess().getValueExpressionParserRuleCall_3_0(), semanticObject.getValue());
 		feeder.finish();
@@ -532,18 +568,21 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	
 	/**
+	 * Contexts:
+	 *     DataExpression returns MatchDataExpression
+	 *     MatchDataExpression returns MatchDataExpression
+	 *
 	 * Constraint:
 	 *     (key=Identifier value=Expression)
 	 */
-	protected void sequence_MatchDataExpression(EObject context, MatchDataExpression semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE));
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.MATCH_DATA_EXPRESSION__KEY) == ValueTransient.YES)
+	protected void sequence_MatchDataExpression(ISerializationContext context, MatchDataExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.MATCH_DATA_EXPRESSION__KEY) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.MATCH_DATA_EXPRESSION__KEY));
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.DATA_EXPRESSION__VALUE));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getMatchDataExpressionAccess().getKeyIdentifierParserRuleCall_0_0(), semanticObject.getKey());
 		feeder.accept(grammarAccess.getMatchDataExpressionAccess().getValueExpressionParserRuleCall_2_0(), semanticObject.getValue());
 		feeder.finish();
@@ -551,106 +590,138 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeExpression returns SimpleScopeExpression
+	 *
 	 * Constraint:
 	 *     (expr=Expression (caseDef?='case' casing=Casing)? naming=Naming? prune=Expression?)
 	 */
-	protected void sequence_NamedScopeExpression_ScopeExpression_SimpleScopeExpression(EObject context, SimpleScopeExpression semanticObject) {
+	protected void sequence_NamedScopeExpression_ScopeExpression_SimpleScopeExpression(ISerializationContext context, SimpleScopeExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     NamedScopeExpression returns SimpleScopeExpression
+	 *
 	 * Constraint:
 	 *     (expr=Expression (caseDef?='case' casing=Casing)? naming=Naming?)
 	 */
-	protected void sequence_NamedScopeExpression_SimpleScopeExpression(EObject context, SimpleScopeExpression semanticObject) {
+	protected void sequence_NamedScopeExpression_SimpleScopeExpression(ISerializationContext context, SimpleScopeExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     NamingDefinition returns NamingDefinition
+	 *
 	 * Constraint:
 	 *     (type=[EClass|QualifiedID] naming=Naming)
 	 */
-	protected void sequence_NamingDefinition(EObject context, NamingDefinition semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.NAMING_DEFINITION__TYPE) == ValueTransient.YES)
+	protected void sequence_NamingDefinition(ISerializationContext context, NamingDefinition semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.NAMING_DEFINITION__TYPE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.NAMING_DEFINITION__TYPE));
-			if(transientValues.isValueTransient(semanticObject, ScopePackage.Literals.NAMING_DEFINITION__NAMING) == ValueTransient.YES)
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.NAMING_DEFINITION__NAMING) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.NAMING_DEFINITION__NAMING));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getNamingDefinitionAccess().getTypeEClassQualifiedIDParserRuleCall_0_0_1(), semanticObject.getType());
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getNamingDefinitionAccess().getTypeEClassQualifiedIDParserRuleCall_0_0_1(), semanticObject.eGet(ScopePackage.Literals.NAMING_DEFINITION__TYPE, false));
 		feeder.accept(grammarAccess.getNamingDefinitionAccess().getNamingNamingParserRuleCall_2_0(), semanticObject.getNaming());
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     NamingExpression returns NamingExpression
+	 *
 	 * Constraint:
 	 *     (export?='export' | (factory?='factory'? expression=Expression))
 	 */
-	protected void sequence_NamingExpression(EObject context, NamingExpression semanticObject) {
+	protected void sequence_NamingExpression(ISerializationContext context, NamingExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     NamingSection returns NamingSection
+	 *
 	 * Constraint:
 	 *     (casing=Casing? namings+=NamingDefinition*)
 	 */
-	protected void sequence_NamingSection(EObject context, NamingSection semanticObject) {
+	protected void sequence_NamingSection(ISerializationContext context, NamingSection semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Naming returns Naming
+	 *
 	 * Constraint:
 	 *     ((names+=NamingExpression names+=NamingExpression*) | names+=NamingExpression)
 	 */
-	protected void sequence_Naming(EObject context, Naming semanticObject) {
+	protected void sequence_Naming(ISerializationContext context, Naming semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeContext returns ScopeContext
+	 *
 	 * Constraint:
 	 *     ((global?='*' | contextType=[EClass|QualifiedID]) guard=Expression?)
 	 */
-	protected void sequence_ScopeContext(EObject context, ScopeContext semanticObject) {
+	protected void sequence_ScopeContext(ISerializationContext context, ScopeContext semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeDefinition returns ScopeDefinition
+	 *
 	 * Constraint:
 	 *     (name=Identifier? (targetType=[EClass|QualifiedID] | (contextType=[EClass|QualifiedID] reference=[EReference|Identifier])) rules+=ScopeRule+)
 	 */
-	protected void sequence_ScopeDefinition(EObject context, ScopeDefinition semanticObject) {
+	protected void sequence_ScopeDefinition(ISerializationContext context, ScopeDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeDelegation returns ScopeDelegation
+	 *
 	 * Constraint:
 	 *     ((delegate=Expression | external=GlobalScopeExpression) scope=[ScopeDefinition|Identifier]?)
 	 */
-	protected void sequence_ScopeDelegation(EObject context, ScopeDelegation semanticObject) {
+	protected void sequence_ScopeDelegation(ISerializationContext context, ScopeDelegation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeExpression returns ScopeDelegation
+	 *
 	 * Constraint:
 	 *     ((delegate=Expression | external=GlobalScopeExpression) scope=[ScopeDefinition|Identifier]? prune=Expression?)
 	 */
-	protected void sequence_ScopeDelegation_ScopeExpression(EObject context, ScopeDelegation semanticObject) {
+	protected void sequence_ScopeDelegation_ScopeExpression(ISerializationContext context, ScopeDelegation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeModel returns ScopeModel
+	 *
 	 * Constraint:
 	 *     (
 	 *         name=DottedID 
@@ -662,25 +733,39 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 *         scopes+=ScopeDefinition*
 	 *     )
 	 */
-	protected void sequence_ScopeModel(EObject context, ScopeModel semanticObject) {
+	protected void sequence_ScopeModel(ISerializationContext context, ScopeModel semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ScopeRule returns ScopeRule
+	 *
 	 * Constraint:
 	 *     (context=ScopeContext exprs+=ScopeExpression exprs+=ScopeExpression*)
 	 */
-	protected void sequence_ScopeRule(EObject context, ScopeRule semanticObject) {
+	protected void sequence_ScopeRule(ISerializationContext context, ScopeRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     SimpleScopeExpression returns SimpleScopeExpression
+	 *
 	 * Constraint:
 	 *     expr=Expression
 	 */
-	protected void sequence_SimpleScopeExpression(EObject context, SimpleScopeExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+	protected void sequence_SimpleScopeExpression(ISerializationContext context, SimpleScopeExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ScopePackage.Literals.SIMPLE_SCOPE_EXPRESSION__EXPR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ScopePackage.Literals.SIMPLE_SCOPE_EXPRESSION__EXPR));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getSimpleScopeExpressionAccess().getExprExpressionParserRuleCall_0(), semanticObject.getExpr());
+		feeder.finish();
 	}
+	
+	
 }

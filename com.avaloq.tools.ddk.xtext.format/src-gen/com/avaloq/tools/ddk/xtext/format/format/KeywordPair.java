@@ -11,13 +11,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.KeywordPair#getLeft <em>Left</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.KeywordPair#getRight <em>Right</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.KeywordPair#getLeftMatchers <em>Left Matchers</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.KeywordPair#getRightMatchers <em>Right Matchers</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getKeywordPair()
  * @model

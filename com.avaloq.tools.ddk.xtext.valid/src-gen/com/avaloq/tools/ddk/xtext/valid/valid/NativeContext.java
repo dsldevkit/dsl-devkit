@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.NativeContext#isNamed <em>Named</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.NativeContext#getGivenName <em>Given Name</em>}</li>
@@ -21,7 +22,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.NativeContext#getMarkerFeature <em>Marker Feature</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.NativeContext#getQuickFixes <em>Quick Fixes</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getNativeContext()
  * @model

@@ -25,6 +25,8 @@ import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.ISemanticHighlightingCalculator;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.MergingHighlightedPositionAcceptor;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IBatchLinkableResource;
 import org.eclipse.xtext.resource.XtextResource;
@@ -36,9 +38,7 @@ import org.eclipse.xtext.ui.editor.model.XtextDocument;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AttributedPosition;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.HighlightingPresenter;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.HighlightingReconciler;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.ITextAttributeProvider;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.MergingHighlightedPositionAcceptor;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.concurrent.CancelableUnitOfWork;
 
@@ -59,7 +59,11 @@ import com.google.inject.Inject;
 public class FixedHighlightingReconciler extends HighlightingReconciler {
 
   @Inject(optional = true)
-  private ISemanticHighlightingCalculator calculator;
+  @SuppressWarnings("deprecation")
+  private org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator oldCalculator;
+
+  @Inject(optional = true)
+  private ISemanticHighlightingCalculator newCalculator;
 
   @Inject
   private ITextAttributeProvider attributeProvider;
@@ -152,12 +156,27 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
    *
    * @param resource
    *          XtextResource
+   * @param cancelIndicator
+   *          an indicator that should be asked in order to cancel an operation early in case there are new pending changes.
    */
-  private void reconcilePositions(final XtextResource resource) {
+  @SuppressWarnings("deprecation")
+  private void reconcilePositions(final XtextResource resource, final CancelIndicator cancelIndicator) {
     // for (int i= 0, n= subtrees.length; i < n; i++)
     // subtrees[i].accept(fCollector);
-    MergingHighlightedPositionAcceptor acceptor = new MergingHighlightedPositionAcceptor(calculator);
-    acceptor.provideHighlightingFor(resource, this);
+
+    // A default binding was registered from ISemanticHighlightingCalculator to DefaultHighlightingCalculator
+    // thus clienst may have bound DefaultHighlightingCalculator to their custom impl
+    // use the custom impl if available, otherwise go for the new impl
+    if (oldCalculator != null && !org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator.class.equals(oldCalculator.getClass())) {
+      org.eclipse.xtext.ui.editor.syntaxcoloring.MergingHighlightedPositionAcceptor acceptor = new org.eclipse.xtext.ui.editor.syntaxcoloring.MergingHighlightedPositionAcceptor(oldCalculator);
+      acceptor.provideHighlightingFor(resource, this);
+    } else if (newCalculator != null) {
+      MergingHighlightedPositionAcceptor acceptor = new MergingHighlightedPositionAcceptor(newCalculator);
+      acceptor.provideHighlightingFor(resource, this, cancelIndicator);
+    } else {
+      throw new IllegalStateException("No semantic highlighting calculator bound."); //$NON-NLS-1$
+    }
+
     // calculator.provideHighlightingFor(resource, this);
     List<AttributedPosition> oldPositions = removedPositions;
     List<AttributedPosition> newPositions = new ArrayList<AttributedPosition>(removedPositionCount);
@@ -290,7 +309,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
     this.presenter = presenter;
     this.editor = editor;
     this.sourceViewer = sourceViewer;
-    if (calculator != null) {
+    if (oldCalculator != null || newCalculator != null) {
       if (editor == null) {
         ((IXtextDocument) sourceViewer.getDocument()).addModelListener(this);
       } else if (editor.getDocument() != null) {
@@ -312,7 +331,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
     }
 
     if (sourceViewer.getDocument() != null) {
-      if (calculator != null) {
+      if (oldCalculator != null || newCalculator != null) {
         XtextDocument document = (XtextDocument) sourceViewer.getDocument();
         document.removeModelListener(this);
         sourceViewer.removeTextInputListener(this);
@@ -349,7 +368,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
    */
   @Override
   public void refresh() {
-    if (calculator != null) {
+    if (oldCalculator != null || newCalculator != null) {
       IDocument document = editor != null ? editor.getDocument() : sourceViewer.getDocument();
       if (document instanceof IXtextDocument) {
         Job job = new Job("Calculating highlighting") { //$NON-NLS-1$
@@ -428,7 +447,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
         return;
       }
       checkCanceled(cancelIndicator);
-      reconcilePositions(resource);
+      reconcilePositions(resource, cancelIndicator);
 
       if (highlightingPresenter.isCanceled()) {
         return;
@@ -470,12 +489,14 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
   }
 
   @Override
-  public void setCalculator(final ISemanticHighlightingCalculator calculator) {
-    this.calculator = calculator;
+  @Deprecated
+  public void setCalculator(final org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator calculator) {
+    this.oldCalculator = calculator;
   }
 
   @Override
-  public ISemanticHighlightingCalculator getCalculator() {
-    return calculator;
+  @Deprecated
+  public org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator getCalculator() {
+    return oldCalculator;
   }
 }

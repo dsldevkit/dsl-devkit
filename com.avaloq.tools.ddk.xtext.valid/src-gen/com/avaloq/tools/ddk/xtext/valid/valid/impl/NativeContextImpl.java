@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.NativeContextImpl#isNamed <em>Named</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.NativeContextImpl#getGivenName <em>Given Name</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.NativeContextImpl#getMarkerFeature <em>Marker Feature</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.NativeContextImpl#getQuickFixes <em>Quick Fixes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

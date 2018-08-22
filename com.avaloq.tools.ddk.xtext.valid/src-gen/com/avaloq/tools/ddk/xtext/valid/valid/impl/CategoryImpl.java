@@ -28,13 +28,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.CategoryImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.CategoryImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.CategoryImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.CategoryImpl#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

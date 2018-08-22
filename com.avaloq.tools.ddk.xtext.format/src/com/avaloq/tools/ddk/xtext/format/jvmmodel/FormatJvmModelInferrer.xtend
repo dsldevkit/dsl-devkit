@@ -73,6 +73,9 @@ import static org.eclipse.xtext.GrammarUtil.*
 import static extension com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
 import org.eclipse.emf.ecore.EClass
 import java.util.regex.Pattern
+import org.eclipse.xtext.xtext.RuleNames
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.xtext.GrammarUtil
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -117,6 +120,15 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
    *      rely on linking using the index if isPreIndexingPhase is {@code true}.
    */
   def dispatch void infer(FormatConfiguration format, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+   val context = format.targetGrammar
+    if (EcoreUtil.getAdapter(context.eAdapters(), typeof(RuleNames)) === null) {
+    	val allRules = GrammarUtil.allRules(context);
+    	for(AbstractRule rule: allRules) {
+    		val adpt =EcoreUtil.getAdapter(rule.eAdapters(), typeof(RuleNames));
+    		if(adpt!==null) rule.eAdapters().remove(adpt)
+    	}
+		RuleNames.getRuleNames(context, true);
+	}
     acceptor.accept(
       format.toClass(getFormatterName(format, "Abstract").toSimpleName), [
         inferClass(format, it)

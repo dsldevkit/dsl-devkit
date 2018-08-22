@@ -16,12 +16,13 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.IHighlightedPositionAcceptor;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.ISemanticHighlightingCalculator;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
+import org.eclipse.xtext.util.CancelIndicator;
 
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
@@ -37,7 +38,8 @@ public class SemanticHighlightingCalculator implements ISemanticHighlightingCalc
   // NOTE: will never be called, is currently disabled (see UI module)
 
   /** {@inheritDoc} */
-  public void provideHighlightingFor(final XtextResource resource, final IHighlightedPositionAcceptor acceptor) {
+  @Override
+  public void provideHighlightingFor(final XtextResource resource, final IHighlightedPositionAcceptor acceptor, final CancelIndicator cancelIndicator) {
     if (resource == null) {
       return;
     }
@@ -54,7 +56,7 @@ public class SemanticHighlightingCalculator implements ISemanticHighlightingCalc
 
   /**
    * Highlights a given parse tree node.
-   * 
+   *
    * @param node
    *          the node from the parse tree
    * @param id
@@ -79,7 +81,7 @@ public class SemanticHighlightingCalculator implements ISemanticHighlightingCalc
 
   /**
    * Gets the first node from the parse tree for given semantic object and structural feature.
-   * 
+   *
    * @param semanticElement
    *          the semantic element
    * @param feature

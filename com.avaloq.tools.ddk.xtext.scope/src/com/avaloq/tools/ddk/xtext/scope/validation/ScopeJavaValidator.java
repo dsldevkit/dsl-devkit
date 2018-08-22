@@ -13,8 +13,6 @@ package com.avaloq.tools.ddk.xtext.scope.validation;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -24,9 +22,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtend.expression.Resource;
 import org.eclipse.xtend.expression.ResourceManager;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
-import org.eclipse.xtend.shared.ui.Activator;
-import org.eclipse.xtend.shared.ui.core.IXtendXpandProject;
-import org.eclipse.xtend.shared.ui.expression.XpandPluginExecutionContext;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.serializer.ISerializer;
@@ -72,10 +67,12 @@ public class ScopeJavaValidator extends AbstractScopeJavaValidator {
   public void checkExtensions(final ScopeModel model) {
     ResourceManager resourceManager = null;
     if (Platform.isRunning()) {
-      IXtendXpandProject project = Activator.getExtXptModelManager().findProject(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(model.eResource().getURI().toPlatformString(true))).getProject());
-      if (project != null) {
-        resourceManager = new XpandPluginExecutionContext(project).getResourceManager();
-      }
+      // FIXME: xpand
+      // IXtendXpandProject project = Activator.getExtXptModelManager().findProject(ResourcesPlugin.getWorkspace().getRoot().getFile(new
+      // Path(model.eResource().getURI().toPlatformString(true))).getProject());
+      // if (project != null) {
+      // resourceManager = new XpandPluginExecutionContext(project).getResourceManager();
+      // }
     } else {
       resourceManager = new ResourceManagerDefaultImpl();
     }

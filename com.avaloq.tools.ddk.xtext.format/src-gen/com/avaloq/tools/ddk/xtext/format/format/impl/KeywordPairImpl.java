@@ -27,13 +27,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.KeywordPairImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.KeywordPairImpl#getRight <em>Right</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.KeywordPairImpl#getLeftMatchers <em>Left Matchers</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.KeywordPairImpl#getRightMatchers <em>Right Matchers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

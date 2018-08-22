@@ -19,7 +19,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	
 	
 	public class ValidModelElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ValidModel");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.ValidModel");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cImportsAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cImportsImportParserRuleCall_0_0 = (RuleCall)cImportsAssignment_0.eContents().get(0);
@@ -27,7 +27,8 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cCategoriesCategoryParserRuleCall_1_0 = (RuleCall)cCategoriesAssignment_1.eContents().get(0);
 		
 		//ValidModel:
-		//	imports+=Import* categories+=Category*;
+		//	imports+=Import*
+		//	categories+=Category*;
 		@Override public ParserRule getRule() { return rule; }
 
 		//imports+=Import* categories+=Category*
@@ -47,7 +48,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class ImportElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Import");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.Import");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cPackageAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -55,13 +56,13 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cPackageEPackageSTRINGTerminalRuleCall_1_0_1 = (RuleCall)cPackageEPackageCrossReference_1_0.eContents().get(1);
 		
 		//Import:
-		//	"import" package=[ecore::EPackage|STRING];
+		//	'import' package=[ecore::EPackage|STRING];
 		@Override public ParserRule getRule() { return rule; }
 
-		//"import" package=[ecore::EPackage|STRING]
+		//'import' package=[ecore::EPackage|STRING]
 		public Group getGroup() { return cGroup; }
 
-		//"import"
+		//'import'
 		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
 
 		//package=[ecore::EPackage|STRING]
@@ -75,7 +76,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class CategoryElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Category");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.Category");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cCategoryKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -93,13 +94,13 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//Category:
-		//	"category" name=ID "label" label=STRING ("description" description=STRING)? "{" rules+=Rule* "}";
+		//	'category' name=ID 'label' label=STRING ('description' description=STRING)? '{' rules+=Rule* '}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"category" name=ID "label" label=STRING ("description" description=STRING)? "{" rules+=Rule* "}"
+		//'category' name=ID 'label' label=STRING ('description' description=STRING)? '{' rules+=Rule* '}'
 		public Group getGroup() { return cGroup; }
 
-		//"category"
+		//'category'
 		public Keyword getCategoryKeyword_0() { return cCategoryKeyword_0; }
 
 		//name=ID
@@ -108,7 +109,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 
-		//"label"
+		//'label'
 		public Keyword getLabelKeyword_2() { return cLabelKeyword_2; }
 
 		//label=STRING
@@ -117,10 +118,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getLabelSTRINGTerminalRuleCall_3_0() { return cLabelSTRINGTerminalRuleCall_3_0; }
 
-		//("description" description=STRING)?
+		//('description' description=STRING)?
 		public Group getGroup_4() { return cGroup_4; }
 
-		//"description"
+		//'description'
 		public Keyword getDescriptionKeyword_4_0() { return cDescriptionKeyword_4_0; }
 
 		//description=STRING
@@ -129,7 +130,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getDescriptionSTRINGTerminalRuleCall_4_1_0() { return cDescriptionSTRINGTerminalRuleCall_4_1_0; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 
 		//rules+=Rule*
@@ -138,12 +139,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//Rule
 		public RuleCall getRulesRuleParserRuleCall_6_0() { return cRulesRuleParserRuleCall_6_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
 	}
 
 	public class RuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Rule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.Rule");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cNativeRuleParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cPredefinedRuleParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -163,19 +164,18 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class PredefinedRuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PredefinedRule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.PredefinedRule");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cSizeRuleParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cRangeRuleParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cUniqueRuleParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//PredefinedRule:
-		//	SizeRule | RangeRule | //TODO | CapitalizationRule
-		//	UniqueRule;
+		//	SizeRule | RangeRule | UniqueRule //TODO | CapitalizationRule
+		//;
 		@Override public ParserRule getRule() { return rule; }
 
-		//SizeRule | RangeRule | //TODO | CapitalizationRule
-		//UniqueRule
+		//SizeRule | RangeRule | UniqueRule
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//SizeRule
@@ -184,13 +184,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//RangeRule
 		public RuleCall getRangeRuleParserRuleCall_1() { return cRangeRuleParserRuleCall_1; }
 
-		////TODO | CapitalizationRule
 		//UniqueRule
 		public RuleCall getUniqueRuleParserRuleCall_2() { return cUniqueRuleParserRuleCall_2; }
 	}
 
 	public class NativeRuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NativeRule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.NativeRule");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final UnorderedGroup cUnorderedGroup_0 = (UnorderedGroup)cGroup.eContents().get(0);
 		private final Assignment cOptionalAssignment_0_0 = (Assignment)cUnorderedGroup_0.eContents().get(0);
@@ -218,21 +217,25 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
 		
 		//NativeRule:
-		//	(optional?="optional"? & checkKind=CheckKind?) severity=SeverityKind name=ID "label" label=STRING ("description"
-		//	description=STRING)? "message" message=STRING "context" "{" contexts+=NativeContext+ "}";
+		//	(optional?='optional'? & checkKind=CheckKind?) severity=SeverityKind name=ID
+		//	'label' label=STRING ('description' description=STRING)?
+		//	'message' message=STRING
+		//	'context' '{'
+		//	contexts+=NativeContext+
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?="optional"? & checkKind=CheckKind?) severity=SeverityKind name=ID "label" label=STRING ("description"
-		//description=STRING)? "message" message=STRING "context" "{" contexts+=NativeContext+ "}"
+		//(optional?='optional'? & checkKind=CheckKind?) severity=SeverityKind name=ID 'label' label=STRING ('description'
+		//description=STRING)? 'message' message=STRING 'context' '{' contexts+=NativeContext+ '}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?="optional"? & checkKind=CheckKind?
+		//optional?='optional'? & checkKind=CheckKind?
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
-		//optional?="optional"?
+		//optional?='optional'?
 		public Assignment getOptionalAssignment_0_0() { return cOptionalAssignment_0_0; }
 
-		//"optional"
+		//'optional'
 		public Keyword getOptionalOptionalKeyword_0_0_0() { return cOptionalOptionalKeyword_0_0_0; }
 
 		//checkKind=CheckKind?
@@ -253,7 +256,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
 
-		//"label"
+		//'label'
 		public Keyword getLabelKeyword_3() { return cLabelKeyword_3; }
 
 		//label=STRING
@@ -262,10 +265,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getLabelSTRINGTerminalRuleCall_4_0() { return cLabelSTRINGTerminalRuleCall_4_0; }
 
-		//("description" description=STRING)?
+		//('description' description=STRING)?
 		public Group getGroup_5() { return cGroup_5; }
 
-		//"description"
+		//'description'
 		public Keyword getDescriptionKeyword_5_0() { return cDescriptionKeyword_5_0; }
 
 		//description=STRING
@@ -274,7 +277,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getDescriptionSTRINGTerminalRuleCall_5_1_0() { return cDescriptionSTRINGTerminalRuleCall_5_1_0; }
 
-		//"message"
+		//'message'
 		public Keyword getMessageKeyword_6() { return cMessageKeyword_6; }
 
 		//message=STRING
@@ -283,10 +286,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getMessageSTRINGTerminalRuleCall_7_0() { return cMessageSTRINGTerminalRuleCall_7_0; }
 
-		//"context"
+		//'context'
 		public Keyword getContextKeyword_8() { return cContextKeyword_8; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_9() { return cLeftCurlyBracketKeyword_9; }
 
 		//contexts+=NativeContext+
@@ -295,12 +298,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//NativeContext
 		public RuleCall getContextsNativeContextParserRuleCall_10_0() { return cContextsNativeContextParserRuleCall_10_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
 	}
 
 	public class SizeRuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SizeRule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.SizeRule");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final UnorderedGroup cUnorderedGroup_0 = (UnorderedGroup)cGroup.eContents().get(0);
 		private final Assignment cOptionalAssignment_0_0 = (Assignment)cUnorderedGroup_0.eContents().get(0);
@@ -337,23 +340,26 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_14 = (Keyword)cGroup.eContents().get(14);
 		
 		//SizeRule:
-		//	(optional?="optional"? & checkKind=CheckKind?) "size" severity=SeverityKind name=ID "label" label=STRING
-		//	("description" description=STRING)? ("message" message=STRING)? "size" (min=INT "..")? max=INT "context" "{"
-		//	contexts+=SimpleContext+ "}";
+		//	(optional?='optional'? & checkKind=CheckKind?) 'size' severity=SeverityKind name=ID
+		//	'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+		//	'size' (min=INT '..')? max=INT
+		//	'context' '{'
+		//	contexts+=SimpleContext+
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?="optional"? & checkKind=CheckKind?) "size" severity=SeverityKind name=ID "label" label=STRING ("description"
-		//description=STRING)? ("message" message=STRING)? "size" (min=INT "..")? max=INT "context" "{" contexts+=SimpleContext+
-		//"}"
+		//(optional?='optional'? & checkKind=CheckKind?) 'size' severity=SeverityKind name=ID 'label' label=STRING ('description'
+		//description=STRING)? ('message' message=STRING)? 'size' (min=INT '..')? max=INT 'context' '{' contexts+=SimpleContext+
+		//'}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?="optional"? & checkKind=CheckKind?
+		//optional?='optional'? & checkKind=CheckKind?
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
-		//optional?="optional"?
+		//optional?='optional'?
 		public Assignment getOptionalAssignment_0_0() { return cOptionalAssignment_0_0; }
 
-		//"optional"
+		//'optional'
 		public Keyword getOptionalOptionalKeyword_0_0_0() { return cOptionalOptionalKeyword_0_0_0; }
 
 		//checkKind=CheckKind?
@@ -362,7 +368,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//CheckKind
 		public RuleCall getCheckKindCheckKindEnumRuleCall_0_1_0() { return cCheckKindCheckKindEnumRuleCall_0_1_0; }
 
-		//"size"
+		//'size'
 		public Keyword getSizeKeyword_1() { return cSizeKeyword_1; }
 
 		//severity=SeverityKind
@@ -377,7 +383,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
 
-		//"label"
+		//'label'
 		public Keyword getLabelKeyword_4() { return cLabelKeyword_4; }
 
 		//label=STRING
@@ -386,10 +392,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getLabelSTRINGTerminalRuleCall_5_0() { return cLabelSTRINGTerminalRuleCall_5_0; }
 
-		//("description" description=STRING)?
+		//('description' description=STRING)?
 		public Group getGroup_6() { return cGroup_6; }
 
-		//"description"
+		//'description'
 		public Keyword getDescriptionKeyword_6_0() { return cDescriptionKeyword_6_0; }
 
 		//description=STRING
@@ -398,10 +404,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getDescriptionSTRINGTerminalRuleCall_6_1_0() { return cDescriptionSTRINGTerminalRuleCall_6_1_0; }
 
-		//("message" message=STRING)?
+		//('message' message=STRING)?
 		public Group getGroup_7() { return cGroup_7; }
 
-		//"message"
+		//'message'
 		public Keyword getMessageKeyword_7_0() { return cMessageKeyword_7_0; }
 
 		//message=STRING
@@ -410,10 +416,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getMessageSTRINGTerminalRuleCall_7_1_0() { return cMessageSTRINGTerminalRuleCall_7_1_0; }
 
-		//"size"
+		//'size'
 		public Keyword getSizeKeyword_8() { return cSizeKeyword_8; }
 
-		//(min=INT "..")?
+		//(min=INT '..')?
 		public Group getGroup_9() { return cGroup_9; }
 
 		//min=INT
@@ -422,7 +428,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//INT
 		public RuleCall getMinINTTerminalRuleCall_9_0_0() { return cMinINTTerminalRuleCall_9_0_0; }
 
-		//".."
+		//'..'
 		public Keyword getFullStopFullStopKeyword_9_1() { return cFullStopFullStopKeyword_9_1; }
 
 		//max=INT
@@ -431,10 +437,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//INT
 		public RuleCall getMaxINTTerminalRuleCall_10_0() { return cMaxINTTerminalRuleCall_10_0; }
 
-		//"context"
+		//'context'
 		public Keyword getContextKeyword_11() { return cContextKeyword_11; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_12() { return cLeftCurlyBracketKeyword_12; }
 
 		//contexts+=SimpleContext+
@@ -443,12 +449,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//SimpleContext
 		public RuleCall getContextsSimpleContextParserRuleCall_13_0() { return cContextsSimpleContextParserRuleCall_13_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_14() { return cRightCurlyBracketKeyword_14; }
 	}
 
 	public class RangeRuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "RangeRule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.RangeRule");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final UnorderedGroup cUnorderedGroup_0 = (UnorderedGroup)cGroup.eContents().get(0);
 		private final Assignment cOptionalAssignment_0_0 = (Assignment)cUnorderedGroup_0.eContents().get(0);
@@ -485,23 +491,26 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_14 = (Keyword)cGroup.eContents().get(14);
 		
 		//RangeRule:
-		//	(optional?="optional"? & checkKind=CheckKind?) "range" severity=SeverityKind name=ID "label" label=STRING
-		//	("description" description=STRING)? ("message" message=STRING)? "range" (min=INT "..")? max=INT "context" "{"
-		//	contexts+=SimpleContext+ "}";
+		//	(optional?='optional'? & checkKind=CheckKind?) 'range' severity=SeverityKind name=ID
+		//	'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+		//	'range' (min=INT '..')? max=INT
+		//	'context' '{'
+		//	contexts+=SimpleContext+
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?="optional"? & checkKind=CheckKind?) "range" severity=SeverityKind name=ID "label" label=STRING ("description"
-		//description=STRING)? ("message" message=STRING)? "range" (min=INT "..")? max=INT "context" "{"
-		//contexts+=SimpleContext+ "}"
+		//(optional?='optional'? & checkKind=CheckKind?) 'range' severity=SeverityKind name=ID 'label' label=STRING ('description'
+		//description=STRING)? ('message' message=STRING)? 'range' (min=INT '..')? max=INT 'context' '{'
+		//contexts+=SimpleContext+ '}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?="optional"? & checkKind=CheckKind?
+		//optional?='optional'? & checkKind=CheckKind?
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
-		//optional?="optional"?
+		//optional?='optional'?
 		public Assignment getOptionalAssignment_0_0() { return cOptionalAssignment_0_0; }
 
-		//"optional"
+		//'optional'
 		public Keyword getOptionalOptionalKeyword_0_0_0() { return cOptionalOptionalKeyword_0_0_0; }
 
 		//checkKind=CheckKind?
@@ -510,7 +519,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//CheckKind
 		public RuleCall getCheckKindCheckKindEnumRuleCall_0_1_0() { return cCheckKindCheckKindEnumRuleCall_0_1_0; }
 
-		//"range"
+		//'range'
 		public Keyword getRangeKeyword_1() { return cRangeKeyword_1; }
 
 		//severity=SeverityKind
@@ -525,7 +534,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
 
-		//"label"
+		//'label'
 		public Keyword getLabelKeyword_4() { return cLabelKeyword_4; }
 
 		//label=STRING
@@ -534,10 +543,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getLabelSTRINGTerminalRuleCall_5_0() { return cLabelSTRINGTerminalRuleCall_5_0; }
 
-		//("description" description=STRING)?
+		//('description' description=STRING)?
 		public Group getGroup_6() { return cGroup_6; }
 
-		//"description"
+		//'description'
 		public Keyword getDescriptionKeyword_6_0() { return cDescriptionKeyword_6_0; }
 
 		//description=STRING
@@ -546,10 +555,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getDescriptionSTRINGTerminalRuleCall_6_1_0() { return cDescriptionSTRINGTerminalRuleCall_6_1_0; }
 
-		//("message" message=STRING)?
+		//('message' message=STRING)?
 		public Group getGroup_7() { return cGroup_7; }
 
-		//"message"
+		//'message'
 		public Keyword getMessageKeyword_7_0() { return cMessageKeyword_7_0; }
 
 		//message=STRING
@@ -558,10 +567,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getMessageSTRINGTerminalRuleCall_7_1_0() { return cMessageSTRINGTerminalRuleCall_7_1_0; }
 
-		//"range"
+		//'range'
 		public Keyword getRangeKeyword_8() { return cRangeKeyword_8; }
 
-		//(min=INT "..")?
+		//(min=INT '..')?
 		public Group getGroup_9() { return cGroup_9; }
 
 		//min=INT
@@ -570,7 +579,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//INT
 		public RuleCall getMinINTTerminalRuleCall_9_0_0() { return cMinINTTerminalRuleCall_9_0_0; }
 
-		//".."
+		//'..'
 		public Keyword getFullStopFullStopKeyword_9_1() { return cFullStopFullStopKeyword_9_1; }
 
 		//max=INT
@@ -579,10 +588,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//INT
 		public RuleCall getMaxINTTerminalRuleCall_10_0() { return cMaxINTTerminalRuleCall_10_0; }
 
-		//"context"
+		//'context'
 		public Keyword getContextKeyword_11() { return cContextKeyword_11; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_12() { return cLeftCurlyBracketKeyword_12; }
 
 		//contexts+=SimpleContext+
@@ -591,12 +600,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//SimpleContext
 		public RuleCall getContextsSimpleContextParserRuleCall_13_0() { return cContextsSimpleContextParserRuleCall_13_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_14() { return cRightCurlyBracketKeyword_14; }
 	}
 
 	public class UniqueRuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "UniqueRule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.UniqueRule");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final UnorderedGroup cUnorderedGroup_0 = (UnorderedGroup)cGroup.eContents().get(0);
 		private final Assignment cOptionalAssignment_0_0 = (Assignment)cUnorderedGroup_0.eContents().get(0);
@@ -626,21 +635,24 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
 		
 		//UniqueRule:
-		//	(optional?="optional"? & checkKind=CheckKind?) "unique" severity=SeverityKind name=ID "label" label=STRING
-		//	("description" description=STRING)? ("message" message=STRING)? "context" "{" contexts+=DuplicateContext+ "}";
+		//	(optional?='optional'? & checkKind=CheckKind?) 'unique' severity=SeverityKind name=ID
+		//	'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+		//	'context' '{'
+		//	contexts+=DuplicateContext+
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?="optional"? & checkKind=CheckKind?) "unique" severity=SeverityKind name=ID "label" label=STRING
-		//("description" description=STRING)? ("message" message=STRING)? "context" "{" contexts+=DuplicateContext+ "}"
+		//(optional?='optional'? & checkKind=CheckKind?) 'unique' severity=SeverityKind name=ID 'label' label=STRING
+		//('description' description=STRING)? ('message' message=STRING)? 'context' '{' contexts+=DuplicateContext+ '}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?="optional"? & checkKind=CheckKind?
+		//optional?='optional'? & checkKind=CheckKind?
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
-		//optional?="optional"?
+		//optional?='optional'?
 		public Assignment getOptionalAssignment_0_0() { return cOptionalAssignment_0_0; }
 
-		//"optional"
+		//'optional'
 		public Keyword getOptionalOptionalKeyword_0_0_0() { return cOptionalOptionalKeyword_0_0_0; }
 
 		//checkKind=CheckKind?
@@ -649,7 +661,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//CheckKind
 		public RuleCall getCheckKindCheckKindEnumRuleCall_0_1_0() { return cCheckKindCheckKindEnumRuleCall_0_1_0; }
 
-		//"unique"
+		//'unique'
 		public Keyword getUniqueKeyword_1() { return cUniqueKeyword_1; }
 
 		//severity=SeverityKind
@@ -664,7 +676,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
 
-		//"label"
+		//'label'
 		public Keyword getLabelKeyword_4() { return cLabelKeyword_4; }
 
 		//label=STRING
@@ -673,10 +685,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getLabelSTRINGTerminalRuleCall_5_0() { return cLabelSTRINGTerminalRuleCall_5_0; }
 
-		//("description" description=STRING)?
+		//('description' description=STRING)?
 		public Group getGroup_6() { return cGroup_6; }
 
-		//"description"
+		//'description'
 		public Keyword getDescriptionKeyword_6_0() { return cDescriptionKeyword_6_0; }
 
 		//description=STRING
@@ -685,10 +697,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getDescriptionSTRINGTerminalRuleCall_6_1_0() { return cDescriptionSTRINGTerminalRuleCall_6_1_0; }
 
-		//("message" message=STRING)?
+		//('message' message=STRING)?
 		public Group getGroup_7() { return cGroup_7; }
 
-		//"message"
+		//'message'
 		public Keyword getMessageKeyword_7_0() { return cMessageKeyword_7_0; }
 
 		//message=STRING
@@ -697,10 +709,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getMessageSTRINGTerminalRuleCall_7_1_0() { return cMessageSTRINGTerminalRuleCall_7_1_0; }
 
-		//"context"
+		//'context'
 		public Keyword getContextKeyword_8() { return cContextKeyword_8; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_9() { return cLeftCurlyBracketKeyword_9; }
 
 		//contexts+=DuplicateContext+
@@ -709,12 +721,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//DuplicateContext
 		public RuleCall getContextsDuplicateContextParserRuleCall_10_0() { return cContextsDuplicateContextParserRuleCall_10_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
 	}
 
 	public class ContextElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Context");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.Context");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cNativeContextParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cDuplicateContextParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -738,7 +750,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class SimpleContextElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SimpleContext");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.SimpleContext");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cContextTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cContextTypeEClassCrossReference_0_0 = (CrossReference)cContextTypeAssignment_0.eContents().get(0);
@@ -751,10 +763,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//SimpleContext:
-		//	contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? ";";
+		//	contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? ";";
 		@Override public ParserRule getRule() { return rule; }
 
-		//contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? ";"
+		//contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? ";"
 		public Group getGroup() { return cGroup; }
 
 		//contextType=[ecore::EClass|QualifiedID]
@@ -766,10 +778,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getContextTypeEClassQualifiedIDParserRuleCall_0_0_1() { return cContextTypeEClassQualifiedIDParserRuleCall_0_0_1; }
 
-		//("#" contextFeature=[ecore::EStructuralFeature])?
+		//('#' contextFeature=[ecore::EStructuralFeature])?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"#"
+		//'#'
 		public Keyword getNumberSignKeyword_1_0() { return cNumberSignKeyword_1_0; }
 
 		//contextFeature=[ecore::EStructuralFeature]
@@ -786,7 +798,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class DuplicateContextElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "DuplicateContext");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.DuplicateContext");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cContextTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cContextTypeEClassCrossReference_0_0 = (CrossReference)cContextTypeAssignment_0.eContents().get(0);
@@ -807,12 +819,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//DuplicateContext:
-		//	contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? "marker"
-		//	markerType=[ecore::EClass|QualifiedID] "#" markerFeature=[ecore::EStructuralFeature]? ";";
+		//	contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? 'marker'
+		//	markerType=[ecore::EClass|QualifiedID] '#' markerFeature=[ecore::EStructuralFeature]? ";";
 		@Override public ParserRule getRule() { return rule; }
 
-		//contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? "marker"
-		//markerType=[ecore::EClass|QualifiedID] "#" markerFeature=[ecore::EStructuralFeature]? ";"
+		//contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? 'marker'
+		//markerType=[ecore::EClass|QualifiedID] '#' markerFeature=[ecore::EStructuralFeature]? ";"
 		public Group getGroup() { return cGroup; }
 
 		//contextType=[ecore::EClass|QualifiedID]
@@ -824,10 +836,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getContextTypeEClassQualifiedIDParserRuleCall_0_0_1() { return cContextTypeEClassQualifiedIDParserRuleCall_0_0_1; }
 
-		//("#" contextFeature=[ecore::EStructuralFeature])?
+		//('#' contextFeature=[ecore::EStructuralFeature])?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"#"
+		//'#'
 		public Keyword getNumberSignKeyword_1_0() { return cNumberSignKeyword_1_0; }
 
 		//contextFeature=[ecore::EStructuralFeature]
@@ -839,7 +851,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getContextFeatureEStructuralFeatureIDTerminalRuleCall_1_1_0_1() { return cContextFeatureEStructuralFeatureIDTerminalRuleCall_1_1_0_1; }
 
-		//"marker"
+		//'marker'
 		public Keyword getMarkerKeyword_2() { return cMarkerKeyword_2; }
 
 		//markerType=[ecore::EClass|QualifiedID]
@@ -851,7 +863,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getMarkerTypeEClassQualifiedIDParserRuleCall_3_0_1() { return cMarkerTypeEClassQualifiedIDParserRuleCall_3_0_1; }
 
-		//"#"
+		//'#'
 		public Keyword getNumberSignKeyword_4() { return cNumberSignKeyword_4; }
 
 		//markerFeature=[ecore::EStructuralFeature]?
@@ -868,7 +880,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class NativeContextElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NativeContext");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.NativeContext");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cContextTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cContextTypeEClassCrossReference_0_0 = (CrossReference)cContextTypeAssignment_0.eContents().get(0);
@@ -902,14 +914,16 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//NativeContext:
-		//	contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? (named?="as" givenName=ID)?
-		//	("marker" markerType=[ecore::EClass|QualifiedID] ("#" markerFeature=[ecore::EStructuralFeature]))? ("quickfixes" "{"
-		//	quickFixes+=QuickFix+ "}")? ";";
+		//	contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? (named?='as' givenName=ID)?
+		//	('marker' markerType=[ecore::EClass|QualifiedID] ('#' markerFeature=[ecore::EStructuralFeature]))? ('quickfixes' '{'
+		//	quickFixes+=QuickFix+
+		//	'}')?
+		//	";";
 		@Override public ParserRule getRule() { return rule; }
 
-		//contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? (named?="as" givenName=ID)?
-		//("marker" markerType=[ecore::EClass|QualifiedID] ("#" markerFeature=[ecore::EStructuralFeature]))? ("quickfixes" "{"
-		//quickFixes+=QuickFix+ "}")? ";"
+		//contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? (named?='as' givenName=ID)?
+		//('marker' markerType=[ecore::EClass|QualifiedID] ('#' markerFeature=[ecore::EStructuralFeature]))? ('quickfixes' '{'
+		//quickFixes+=QuickFix+ '}')? ";"
 		public Group getGroup() { return cGroup; }
 
 		//contextType=[ecore::EClass|QualifiedID]
@@ -921,10 +935,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getContextTypeEClassQualifiedIDParserRuleCall_0_0_1() { return cContextTypeEClassQualifiedIDParserRuleCall_0_0_1; }
 
-		//("#" contextFeature=[ecore::EStructuralFeature])?
+		//('#' contextFeature=[ecore::EStructuralFeature])?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"#"
+		//'#'
 		public Keyword getNumberSignKeyword_1_0() { return cNumberSignKeyword_1_0; }
 
 		//contextFeature=[ecore::EStructuralFeature]
@@ -936,13 +950,13 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getContextFeatureEStructuralFeatureIDTerminalRuleCall_1_1_0_1() { return cContextFeatureEStructuralFeatureIDTerminalRuleCall_1_1_0_1; }
 
-		//(named?="as" givenName=ID)?
+		//(named?='as' givenName=ID)?
 		public Group getGroup_2() { return cGroup_2; }
 
-		//named?="as"
+		//named?='as'
 		public Assignment getNamedAssignment_2_0() { return cNamedAssignment_2_0; }
 
-		//"as"
+		//'as'
 		public Keyword getNamedAsKeyword_2_0_0() { return cNamedAsKeyword_2_0_0; }
 
 		//givenName=ID
@@ -951,10 +965,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getGivenNameIDTerminalRuleCall_2_1_0() { return cGivenNameIDTerminalRuleCall_2_1_0; }
 
-		//("marker" markerType=[ecore::EClass|QualifiedID] ("#" markerFeature=[ecore::EStructuralFeature]))?
+		//('marker' markerType=[ecore::EClass|QualifiedID] ('#' markerFeature=[ecore::EStructuralFeature]))?
 		public Group getGroup_3() { return cGroup_3; }
 
-		//"marker"
+		//'marker'
 		public Keyword getMarkerKeyword_3_0() { return cMarkerKeyword_3_0; }
 
 		//markerType=[ecore::EClass|QualifiedID]
@@ -966,10 +980,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getMarkerTypeEClassQualifiedIDParserRuleCall_3_1_0_1() { return cMarkerTypeEClassQualifiedIDParserRuleCall_3_1_0_1; }
 
-		//"#" markerFeature=[ecore::EStructuralFeature]
+		//'#' markerFeature=[ecore::EStructuralFeature]
 		public Group getGroup_3_2() { return cGroup_3_2; }
 
-		//"#"
+		//'#'
 		public Keyword getNumberSignKeyword_3_2_0() { return cNumberSignKeyword_3_2_0; }
 
 		//markerFeature=[ecore::EStructuralFeature]
@@ -981,13 +995,13 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getMarkerFeatureEStructuralFeatureIDTerminalRuleCall_3_2_1_0_1() { return cMarkerFeatureEStructuralFeatureIDTerminalRuleCall_3_2_1_0_1; }
 
-		//("quickfixes" "{" quickFixes+=QuickFix+ "}")?
+		//('quickfixes' '{' quickFixes+=QuickFix+ '}')?
 		public Group getGroup_4() { return cGroup_4; }
 
-		//"quickfixes"
+		//'quickfixes'
 		public Keyword getQuickfixesKeyword_4_0() { return cQuickfixesKeyword_4_0; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_4_1() { return cLeftCurlyBracketKeyword_4_1; }
 
 		//quickFixes+=QuickFix+
@@ -996,7 +1010,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QuickFix
 		public RuleCall getQuickFixesQuickFixParserRuleCall_4_2_0() { return cQuickFixesQuickFixParserRuleCall_4_2_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_4_3() { return cRightCurlyBracketKeyword_4_3; }
 
 		//";"
@@ -1004,7 +1018,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class QuickFixElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "QuickFix");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.QuickFix");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cQuickFixKindAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cQuickFixKindQuickFixKindEnumRuleCall_0_0 = (RuleCall)cQuickFixKindAssignment_0.eContents().get(0);
@@ -1020,10 +1034,10 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//QuickFix:
-		//	quickFixKind=QuickFixKind? "fix" name=ID "label" label=STRING "message" message=STRING ";";
+		//	quickFixKind=QuickFixKind? 'fix' name=ID 'label' label=STRING 'message' message=STRING ';';
 		@Override public ParserRule getRule() { return rule; }
 
-		//quickFixKind=QuickFixKind? "fix" name=ID "label" label=STRING "message" message=STRING ";"
+		//quickFixKind=QuickFixKind? 'fix' name=ID 'label' label=STRING 'message' message=STRING ';'
 		public Group getGroup() { return cGroup; }
 
 		//quickFixKind=QuickFixKind?
@@ -1032,7 +1046,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QuickFixKind
 		public RuleCall getQuickFixKindQuickFixKindEnumRuleCall_0_0() { return cQuickFixKindQuickFixKindEnumRuleCall_0_0; }
 
-		//"fix"
+		//'fix'
 		public Keyword getFixKeyword_1() { return cFixKeyword_1; }
 
 		//name=ID
@@ -1041,7 +1055,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
 
-		//"label"
+		//'label'
 		public Keyword getLabelKeyword_3() { return cLabelKeyword_3; }
 
 		//label=STRING
@@ -1050,7 +1064,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getLabelSTRINGTerminalRuleCall_4_0() { return cLabelSTRINGTerminalRuleCall_4_0; }
 
-		//"message"
+		//'message'
 		public Keyword getMessageKeyword_5() { return cMessageKeyword_5; }
 
 		//message=STRING
@@ -1059,32 +1073,32 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getMessageSTRINGTerminalRuleCall_6_0() { return cMessageSTRINGTerminalRuleCall_6_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_7() { return cSemicolonKeyword_7; }
 	}
 
 	public class QualifiedIDElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "QualifiedID");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.QualifiedID");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
 		private final RuleCall cIDTerminalRuleCall_0_0 = (RuleCall)cGroup_0.eContents().get(0);
 		private final Keyword cColonColonKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
 		private final RuleCall cIDTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
 		
-		//QualifiedID returns ecore::EString:
-		//	(ID "::")* ID;
+		//QualifiedID:
+		//	(ID '::')* ID;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(ID "::")* ID
+		//(ID '::')* ID
 		public Group getGroup() { return cGroup; }
 
-		//(ID "::")*
+		//(ID '::')*
 		public Group getGroup_0() { return cGroup_0; }
 
 		//ID
 		public RuleCall getIDTerminalRuleCall_0_0() { return cIDTerminalRuleCall_0_0; }
 
-		//"::"
+		//'::'
 		public Keyword getColonColonKeyword_0_1() { return cColonColonKeyword_0_1; }
 
 		//ID
@@ -1093,7 +1107,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	
 	
 	public class CheckKindElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "CheckKind");
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.CheckKind");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final EnumLiteralDeclaration cFastEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
 		private final Keyword cFastFastKeyword_0_0 = (Keyword)cFastEnumLiteralDeclaration_0.eContents().get(0);
@@ -1112,24 +1126,24 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//fast
 		public EnumLiteralDeclaration getFastEnumLiteralDeclaration_0() { return cFastEnumLiteralDeclaration_0; }
 
-		//"fast"
+		//'fast'
 		public Keyword getFastFastKeyword_0_0() { return cFastFastKeyword_0_0; }
 
 		//normal
 		public EnumLiteralDeclaration getNormalEnumLiteralDeclaration_1() { return cNormalEnumLiteralDeclaration_1; }
 
-		//"normal"
+		//'normal'
 		public Keyword getNormalNormalKeyword_1_0() { return cNormalNormalKeyword_1_0; }
 
 		//expensive
 		public EnumLiteralDeclaration getExpensiveEnumLiteralDeclaration_2() { return cExpensiveEnumLiteralDeclaration_2; }
 
-		//"expensive"
+		//'expensive'
 		public Keyword getExpensiveExpensiveKeyword_2_0() { return cExpensiveExpensiveKeyword_2_0; }
 	}
 
 	public class SeverityKindElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "SeverityKind");
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.SeverityKind");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final EnumLiteralDeclaration cErrorEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
 		private final Keyword cErrorErrorKeyword_0_0 = (Keyword)cErrorEnumLiteralDeclaration_0.eContents().get(0);
@@ -1146,18 +1160,18 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//error
 		public EnumLiteralDeclaration getErrorEnumLiteralDeclaration_0() { return cErrorEnumLiteralDeclaration_0; }
 
-		//"error"
+		//'error'
 		public Keyword getErrorErrorKeyword_0_0() { return cErrorErrorKeyword_0_0; }
 
 		//warning
 		public EnumLiteralDeclaration getWarningEnumLiteralDeclaration_1() { return cWarningEnumLiteralDeclaration_1; }
 
-		//"warning"
+		//'warning'
 		public Keyword getWarningWarningKeyword_1_0() { return cWarningWarningKeyword_1_0; }
 	}
 
 	public class QuickFixKindElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "QuickFixKind");
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.valid.Valid.QuickFixKind");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final EnumLiteralDeclaration cSemanticEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
 		private final Keyword cSemanticSemanticKeyword_0_0 = (Keyword)cSemanticEnumLiteralDeclaration_0.eContents().get(0);
@@ -1174,13 +1188,13 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//semantic
 		public EnumLiteralDeclaration getSemanticEnumLiteralDeclaration_0() { return cSemanticEnumLiteralDeclaration_0; }
 
-		//"semantic"
+		//'semantic'
 		public Keyword getSemanticSemanticKeyword_0_0() { return cSemanticSemanticKeyword_0_0; }
 
 		//textual
 		public EnumLiteralDeclaration getTextualEnumLiteralDeclaration_1() { return cTextualEnumLiteralDeclaration_1; }
 
-		//"textual"
+		//'textual'
 		public Keyword getTextualTextualKeyword_1_0() { return cTextualTextualKeyword_1_0; }
 	}
 	
@@ -1198,9 +1212,9 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	private final DuplicateContextElements pDuplicateContext;
 	private final NativeContextElements pNativeContext;
 	private final QuickFixElements pQuickFix;
-	private final CheckKindElements unknownRuleCheckKind;
-	private final SeverityKindElements unknownRuleSeverityKind;
-	private final QuickFixKindElements unknownRuleQuickFixKind;
+	private final CheckKindElements eCheckKind;
+	private final SeverityKindElements eSeverityKind;
+	private final QuickFixKindElements eQuickFixKind;
 	private final QualifiedIDElements pQualifiedID;
 	
 	private final Grammar grammar;
@@ -1226,9 +1240,9 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		this.pDuplicateContext = new DuplicateContextElements();
 		this.pNativeContext = new NativeContextElements();
 		this.pQuickFix = new QuickFixElements();
-		this.unknownRuleCheckKind = new CheckKindElements();
-		this.unknownRuleSeverityKind = new SeverityKindElements();
-		this.unknownRuleQuickFixKind = new QuickFixKindElements();
+		this.eCheckKind = new CheckKindElements();
+		this.eSeverityKind = new SeverityKindElements();
+		this.eQuickFixKind = new QuickFixKindElements();
 		this.pQualifiedID = new QualifiedIDElements();
 	}
 	
@@ -1260,7 +1274,8 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//ValidModel:
-	//	imports+=Import* categories+=Category*;
+	//	imports+=Import*
+	//	categories+=Category*;
 	public ValidModelElements getValidModelAccess() {
 		return pValidModel;
 	}
@@ -1270,7 +1285,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Import:
-	//	"import" package=[ecore::EPackage|STRING];
+	//	'import' package=[ecore::EPackage|STRING];
 	public ImportElements getImportAccess() {
 		return pImport;
 	}
@@ -1280,7 +1295,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Category:
-	//	"category" name=ID "label" label=STRING ("description" description=STRING)? "{" rules+=Rule* "}";
+	//	'category' name=ID 'label' label=STRING ('description' description=STRING)? '{' rules+=Rule* '}';
 	public CategoryElements getCategoryAccess() {
 		return pCategory;
 	}
@@ -1300,8 +1315,8 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//PredefinedRule:
-	//	SizeRule | RangeRule | //TODO | CapitalizationRule
-	//	UniqueRule;
+	//	SizeRule | RangeRule | UniqueRule //TODO | CapitalizationRule
+	//;
 	public PredefinedRuleElements getPredefinedRuleAccess() {
 		return pPredefinedRule;
 	}
@@ -1311,8 +1326,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NativeRule:
-	//	(optional?="optional"? & checkKind=CheckKind?) severity=SeverityKind name=ID "label" label=STRING ("description"
-	//	description=STRING)? "message" message=STRING "context" "{" contexts+=NativeContext+ "}";
+	//	(optional?='optional'? & checkKind=CheckKind?) severity=SeverityKind name=ID
+	//	'label' label=STRING ('description' description=STRING)?
+	//	'message' message=STRING
+	//	'context' '{'
+	//	contexts+=NativeContext+
+	//	'}';
 	public NativeRuleElements getNativeRuleAccess() {
 		return pNativeRule;
 	}
@@ -1322,9 +1341,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//SizeRule:
-	//	(optional?="optional"? & checkKind=CheckKind?) "size" severity=SeverityKind name=ID "label" label=STRING
-	//	("description" description=STRING)? ("message" message=STRING)? "size" (min=INT "..")? max=INT "context" "{"
-	//	contexts+=SimpleContext+ "}";
+	//	(optional?='optional'? & checkKind=CheckKind?) 'size' severity=SeverityKind name=ID
+	//	'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+	//	'size' (min=INT '..')? max=INT
+	//	'context' '{'
+	//	contexts+=SimpleContext+
+	//	'}';
 	public SizeRuleElements getSizeRuleAccess() {
 		return pSizeRule;
 	}
@@ -1334,9 +1356,12 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//RangeRule:
-	//	(optional?="optional"? & checkKind=CheckKind?) "range" severity=SeverityKind name=ID "label" label=STRING
-	//	("description" description=STRING)? ("message" message=STRING)? "range" (min=INT "..")? max=INT "context" "{"
-	//	contexts+=SimpleContext+ "}";
+	//	(optional?='optional'? & checkKind=CheckKind?) 'range' severity=SeverityKind name=ID
+	//	'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+	//	'range' (min=INT '..')? max=INT
+	//	'context' '{'
+	//	contexts+=SimpleContext+
+	//	'}';
 	public RangeRuleElements getRangeRuleAccess() {
 		return pRangeRule;
 	}
@@ -1346,8 +1371,11 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//UniqueRule:
-	//	(optional?="optional"? & checkKind=CheckKind?) "unique" severity=SeverityKind name=ID "label" label=STRING
-	//	("description" description=STRING)? ("message" message=STRING)? "context" "{" contexts+=DuplicateContext+ "}";
+	//	(optional?='optional'? & checkKind=CheckKind?) 'unique' severity=SeverityKind name=ID
+	//	'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+	//	'context' '{'
+	//	contexts+=DuplicateContext+
+	//	'}';
 	public UniqueRuleElements getUniqueRuleAccess() {
 		return pUniqueRule;
 	}
@@ -1367,7 +1395,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//SimpleContext:
-	//	contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? ";";
+	//	contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? ";";
 	public SimpleContextElements getSimpleContextAccess() {
 		return pSimpleContext;
 	}
@@ -1377,8 +1405,8 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//DuplicateContext:
-	//	contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? "marker"
-	//	markerType=[ecore::EClass|QualifiedID] "#" markerFeature=[ecore::EStructuralFeature]? ";";
+	//	contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? 'marker'
+	//	markerType=[ecore::EClass|QualifiedID] '#' markerFeature=[ecore::EStructuralFeature]? ";";
 	public DuplicateContextElements getDuplicateContextAccess() {
 		return pDuplicateContext;
 	}
@@ -1388,9 +1416,11 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NativeContext:
-	//	contextType=[ecore::EClass|QualifiedID] ("#" contextFeature=[ecore::EStructuralFeature])? (named?="as" givenName=ID)?
-	//	("marker" markerType=[ecore::EClass|QualifiedID] ("#" markerFeature=[ecore::EStructuralFeature]))? ("quickfixes" "{"
-	//	quickFixes+=QuickFix+ "}")? ";";
+	//	contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? (named?='as' givenName=ID)?
+	//	('marker' markerType=[ecore::EClass|QualifiedID] ('#' markerFeature=[ecore::EStructuralFeature]))? ('quickfixes' '{'
+	//	quickFixes+=QuickFix+
+	//	'}')?
+	//	";";
 	public NativeContextElements getNativeContextAccess() {
 		return pNativeContext;
 	}
@@ -1400,7 +1430,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//QuickFix:
-	//	quickFixKind=QuickFixKind? "fix" name=ID "label" label=STRING "message" message=STRING ";";
+	//	quickFixKind=QuickFixKind? 'fix' name=ID 'label' label=STRING 'message' message=STRING ';';
 	public QuickFixElements getQuickFixAccess() {
 		return pQuickFix;
 	}
@@ -1412,7 +1442,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	//enum CheckKind:
 	//	fast | normal | expensive;
 	public CheckKindElements getCheckKindAccess() {
-		return unknownRuleCheckKind;
+		return eCheckKind;
 	}
 	
 	public EnumRule getCheckKindRule() {
@@ -1422,7 +1452,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	//enum SeverityKind:
 	//	error | warning;
 	public SeverityKindElements getSeverityKindAccess() {
-		return unknownRuleSeverityKind;
+		return eSeverityKind;
 	}
 	
 	public EnumRule getSeverityKindRule() {
@@ -1432,15 +1462,15 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	//enum QuickFixKind:
 	//	semantic | textual;
 	public QuickFixKindElements getQuickFixKindAccess() {
-		return unknownRuleQuickFixKind;
+		return eQuickFixKind;
 	}
 	
 	public EnumRule getQuickFixKindRule() {
 		return getQuickFixKindAccess().getRule();
 	}
 
-	//QualifiedID returns ecore::EString:
-	//	(ID "::")* ID;
+	//QualifiedID:
+	//	(ID '::')* ID;
 	public QualifiedIDElements getQualifiedIDAccess() {
 		return pQualifiedID;
 	}
@@ -1450,38 +1480,37 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal ID:
-	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
+	//	'^'? ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 	public TerminalRule getIDRule() {
 		return gaTerminals.getIDRule();
 	} 
 
 	//terminal INT returns ecore::EInt:
-	//	"0".."9"+;
+	//	'0'..'9'+;
 	public TerminalRule getINTRule() {
 		return gaTerminals.getINTRule();
 	} 
 
 	//terminal STRING:
-	//	"\"" ("\\" . / * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\""))* "\"" | "\'" ("\\" .
-	//	/ * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\'"))* "\'";
+	//	'"' ('\\' . | !('\\' | '"'))* '"' | "'" ('\\' . | !('\\' | "'"))* "'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	} 
 
 	//terminal ML_COMMENT:
-	//	"/ *"->"* /";
+	//	'/*'->'*/';
 	public TerminalRule getML_COMMENTRule() {
 		return gaTerminals.getML_COMMENTRule();
 	} 
 
 	//terminal SL_COMMENT:
-	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
+	//	'//' !('\n' | '\r')* ('\r'? '\n')?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaTerminals.getSL_COMMENTRule();
 	} 
 
 	//terminal WS:
-	//	(" " | "\t" | "\r" | "\n")+;
+	//	' ' | '\t' | '\r' | '\n'+;
 	public TerminalRule getWSRule() {
 		return gaTerminals.getWSRule();
 	} 

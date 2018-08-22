@@ -11,12 +11,12 @@ import org.eclipse.xtext.xbase.XExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.IndentLocator#isIncrement <em>Increment</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.IndentLocator#getValue <em>Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.IndentLocator#getParameter <em>Parameter</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getIndentLocator()
  * @model

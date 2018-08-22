@@ -22,14 +22,14 @@ import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.xtext.junit4.ui.ContentAssistProcessorTestBuilder;
-import org.eclipse.xtext.junit4.util.ResourceLoadHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextSourceViewerConfiguration;
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateProposal;
+import org.eclipse.xtext.ui.testing.ContentAssistProcessorTestBuilder;
+import org.eclipse.xtext.ui.testing.util.ResourceLoadHelper;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.StringInputStream;
 import org.eclipse.xtext.util.Tuples;
@@ -48,7 +48,7 @@ import com.google.inject.Injector;
  * {@link ConfigurableCompletionProposal}s.
  * </ul>
  */
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "restriction"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
 public class AcfContentAssistProcessorTestBuilder extends ContentAssistProcessorTestBuilder {
   private final ResourceLoadHelper loadHelper;
 

@@ -13,13 +13,14 @@ import org.eclipse.xtext.service.GrammarProvider;
 import org.eclipse.xtext.service.AbstractElementFinder.*;
 
 import com.avaloq.tools.ddk.xtext.expression.services.ExpressionGrammarAccess;
+import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
 
 @Singleton
 public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	
 	
 	public class ScopeModelElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ScopeModel");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeModel");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cScopingKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -41,15 +42,15 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cScopesScopeDefinitionParserRuleCall_7_0 = (RuleCall)cScopesAssignment_7.eContents().get(0);
 		
 		//ScopeModel:
-		//	"scoping" name=DottedID ("with" includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
+		//	'scoping' name=DottedID ('with' includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
 		//	injections+=Injection* naming=NamingSection? scopes+=ScopeDefinition*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"scoping" name=DottedID ("with" includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
+		//'scoping' name=DottedID ('with' includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
 		//injections+=Injection* naming=NamingSection? scopes+=ScopeDefinition*
 		public Group getGroup() { return cGroup; }
 
-		//"scoping"
+		//'scoping'
 		public Keyword getScopingKeyword_0() { return cScopingKeyword_0; }
 
 		//name=DottedID
@@ -58,10 +59,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//DottedID
 		public RuleCall getNameDottedIDParserRuleCall_1_0() { return cNameDottedIDParserRuleCall_1_0; }
 
-		//("with" includedScopes+=[ScopeModel|DottedID])?
+		//('with' includedScopes+=[ScopeModel|DottedID])?
 		public Group getGroup_2() { return cGroup_2; }
 
-		//"with"
+		//'with'
 		public Keyword getWithKeyword_2_0() { return cWithKeyword_2_0; }
 
 		//includedScopes+=[ScopeModel|DottedID]
@@ -105,7 +106,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class ImportElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Import");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.Import");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cImportKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cPackageAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -117,13 +118,13 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIdentifierParserRuleCall_2_1_0 = (RuleCall)cNameAssignment_2_1.eContents().get(0);
 		
 		//Import:
-		//	"import" package=[ecore::EPackage|STRING] ("as" name=Identifier)?;
+		//	'import' package=[ecore::EPackage|STRING] ('as' name=Identifier)?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"import" package=[ecore::EPackage|STRING] ("as" name=Identifier)?
+		//'import' package=[ecore::EPackage|STRING] ('as' name=Identifier)?
 		public Group getGroup() { return cGroup; }
 
-		//"import"
+		//'import'
 		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
 
 		//package=[ecore::EPackage|STRING]
@@ -135,10 +136,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getPackageEPackageSTRINGTerminalRuleCall_1_0_1() { return cPackageEPackageSTRINGTerminalRuleCall_1_0_1; }
 
-		//("as" name=Identifier)?
+		//('as' name=Identifier)?
 		public Group getGroup_2() { return cGroup_2; }
 
-		//"as"
+		//'as'
 		public Keyword getAsKeyword_2_0() { return cAsKeyword_2_0; }
 
 		//name=Identifier
@@ -149,20 +150,20 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class ExtensionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Extension");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.Extension");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cExtensionKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cExtensionAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cExtensionQualifiedIDParserRuleCall_1_0 = (RuleCall)cExtensionAssignment_1.eContents().get(0);
 		
 		//Extension:
-		//	"extension" extension=QualifiedID;
+		//	'extension' extension=QualifiedID;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"extension" extension=QualifiedID
+		//'extension' extension=QualifiedID
 		public Group getGroup() { return cGroup; }
 
-		//"extension"
+		//'extension'
 		public Keyword getExtensionKeyword_0() { return cExtensionKeyword_0; }
 
 		//extension=QualifiedID
@@ -173,7 +174,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class InjectionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Injection");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.Injection");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cInjectKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cTypeAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -183,13 +184,13 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNameIdentifierParserRuleCall_3_0 = (RuleCall)cNameAssignment_3.eContents().get(0);
 		
 		//Injection:
-		//	"inject" type=DottedID "as" name=Identifier;
+		//	'inject' type=DottedID 'as' name=Identifier;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"inject" type=DottedID "as" name=Identifier
+		//'inject' type=DottedID 'as' name=Identifier
 		public Group getGroup() { return cGroup; }
 
-		//"inject"
+		//'inject'
 		public Keyword getInjectKeyword_0() { return cInjectKeyword_0; }
 
 		//type=DottedID
@@ -198,7 +199,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//DottedID
 		public RuleCall getTypeDottedIDParserRuleCall_1_0() { return cTypeDottedIDParserRuleCall_1_0; }
 
-		//"as"
+		//'as'
 		public Keyword getAsKeyword_2() { return cAsKeyword_2; }
 
 		//name=Identifier
@@ -209,7 +210,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class NamingSectionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NamingSection");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.NamingSection");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cNamingSectionAction_0 = (Action)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
@@ -223,19 +224,19 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//NamingSection:
-		//	{NamingSection} ("case" casing=Casing)? "naming" "{" namings+=NamingDefinition* "}";
+		//	{NamingSection} ('case' casing=Casing)? 'naming' '{' namings+=NamingDefinition* '}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//{NamingSection} ("case" casing=Casing)? "naming" "{" namings+=NamingDefinition* "}"
+		//{NamingSection} ('case' casing=Casing)? 'naming' '{' namings+=NamingDefinition* '}'
 		public Group getGroup() { return cGroup; }
 
 		//{NamingSection}
 		public Action getNamingSectionAction_0() { return cNamingSectionAction_0; }
 
-		//("case" casing=Casing)?
+		//('case' casing=Casing)?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"case"
+		//'case'
 		public Keyword getCaseKeyword_1_0() { return cCaseKeyword_1_0; }
 
 		//casing=Casing
@@ -244,10 +245,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Casing
 		public RuleCall getCasingCasingEnumRuleCall_1_1_0() { return cCasingCasingEnumRuleCall_1_1_0; }
 
-		//"naming"
+		//'naming'
 		public Keyword getNamingKeyword_2() { return cNamingKeyword_2; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
 
 		//namings+=NamingDefinition*
@@ -256,12 +257,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//NamingDefinition
 		public RuleCall getNamingsNamingDefinitionParserRuleCall_4_0() { return cNamingsNamingDefinitionParserRuleCall_4_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
 	}
 
 	public class NamingDefinitionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NamingDefinition");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.NamingDefinition");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final CrossReference cTypeEClassCrossReference_0_0 = (CrossReference)cTypeAssignment_0.eContents().get(0);
@@ -272,10 +273,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		//NamingDefinition:
-		//	type=[ecore::EClass|QualifiedID] "=" naming=Naming ";";
+		//	type=[ecore::EClass|QualifiedID] '=' naming=Naming ';';
 		@Override public ParserRule getRule() { return rule; }
 
-		//type=[ecore::EClass|QualifiedID] "=" naming=Naming ";"
+		//type=[ecore::EClass|QualifiedID] '=' naming=Naming ';'
 		public Group getGroup() { return cGroup; }
 
 		//type=[ecore::EClass|QualifiedID]
@@ -287,7 +288,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getTypeEClassQualifiedIDParserRuleCall_0_0_1() { return cTypeEClassQualifiedIDParserRuleCall_0_0_1; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
 
 		//naming=Naming
@@ -296,12 +297,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Naming
 		public RuleCall getNamingNamingParserRuleCall_2_0() { return cNamingNamingParserRuleCall_2_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_3() { return cSemicolonKeyword_3; }
 	}
 
 	public class ScopeDefinitionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ScopeDefinition");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeDefinition");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cScopeKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
@@ -327,21 +328,21 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//ScopeDefinition:
-		//	"scope" ("(" name=Identifier ")")? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID]
-		//	"#" reference=[ecore::EReference|Identifier]) "{" rules+=ScopeRule+ "}";
+		//	'scope' ('(' name=Identifier ')')? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID]
+		//	'#' reference=[ecore::EReference|Identifier]) '{' rules+=ScopeRule+ '}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"scope" ("(" name=Identifier ")")? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID] "#"
-		//reference=[ecore::EReference|Identifier]) "{" rules+=ScopeRule+ "}"
+		//'scope' ('(' name=Identifier ')')? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID] '#'
+		//reference=[ecore::EReference|Identifier]) '{' rules+=ScopeRule+ '}'
 		public Group getGroup() { return cGroup; }
 
-		//"scope"
+		//'scope'
 		public Keyword getScopeKeyword_0() { return cScopeKeyword_0; }
 
-		//("(" name=Identifier ")")?
+		//('(' name=Identifier ')')?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_1_0() { return cLeftParenthesisKeyword_1_0; }
 
 		//name=Identifier
@@ -350,10 +351,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getNameIdentifierParserRuleCall_1_1_0() { return cNameIdentifierParserRuleCall_1_1_0; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_1_2() { return cRightParenthesisKeyword_1_2; }
 
-		//targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID] "#"
+		//targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID] '#'
 		//reference=[ecore::EReference|Identifier]
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
@@ -366,7 +367,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getTargetTypeEClassQualifiedIDParserRuleCall_2_0_0_1() { return cTargetTypeEClassQualifiedIDParserRuleCall_2_0_0_1; }
 
-		//contextType=[ecore::EClass|QualifiedID] "#" reference=[ecore::EReference|Identifier]
+		//contextType=[ecore::EClass|QualifiedID] '#' reference=[ecore::EReference|Identifier]
 		public Group getGroup_2_1() { return cGroup_2_1; }
 
 		//contextType=[ecore::EClass|QualifiedID]
@@ -378,7 +379,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getContextTypeEClassQualifiedIDParserRuleCall_2_1_0_0_1() { return cContextTypeEClassQualifiedIDParserRuleCall_2_1_0_0_1; }
 
-		//"#"
+		//'#'
 		public Keyword getNumberSignKeyword_2_1_1() { return cNumberSignKeyword_2_1_1; }
 
 		//reference=[ecore::EReference|Identifier]
@@ -390,7 +391,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getReferenceEReferenceIdentifierParserRuleCall_2_1_2_0_1() { return cReferenceEReferenceIdentifierParserRuleCall_2_1_2_0_1; }
 
-		//"{"
+		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
 
 		//rules+=ScopeRule+
@@ -399,12 +400,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//ScopeRule
 		public RuleCall getRulesScopeRuleParserRuleCall_4_0() { return cRulesScopeRuleParserRuleCall_4_0; }
 
-		//"}"
+		//'}'
 		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
 	}
 
 	public class ScopeRuleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ScopeRule");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeRule");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cContextKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cContextAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -419,13 +420,13 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//ScopeRule:
-		//	"context" context=ScopeContext "=" exprs+=ScopeExpression (">>" exprs+=ScopeExpression)* ";";
+		//	'context' context=ScopeContext '=' exprs+=ScopeExpression ('>>' exprs+=ScopeExpression)* ';';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"context" context=ScopeContext "=" exprs+=ScopeExpression (">>" exprs+=ScopeExpression)* ";"
+		//'context' context=ScopeContext '=' exprs+=ScopeExpression ('>>' exprs+=ScopeExpression)* ';'
 		public Group getGroup() { return cGroup; }
 
-		//"context"
+		//'context'
 		public Keyword getContextKeyword_0() { return cContextKeyword_0; }
 
 		//context=ScopeContext
@@ -434,7 +435,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//ScopeContext
 		public RuleCall getContextScopeContextParserRuleCall_1_0() { return cContextScopeContextParserRuleCall_1_0; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
 
 		//exprs+=ScopeExpression
@@ -443,10 +444,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//ScopeExpression
 		public RuleCall getExprsScopeExpressionParserRuleCall_3_0() { return cExprsScopeExpressionParserRuleCall_3_0; }
 
-		//(">>" exprs+=ScopeExpression)*
+		//('>>' exprs+=ScopeExpression)*
 		public Group getGroup_4() { return cGroup_4; }
 
-		//">>"
+		//'>>'
 		public Keyword getGreaterThanSignGreaterThanSignKeyword_4_0() { return cGreaterThanSignGreaterThanSignKeyword_4_0; }
 
 		//exprs+=ScopeExpression
@@ -455,12 +456,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//ScopeExpression
 		public RuleCall getExprsScopeExpressionParserRuleCall_4_1_0() { return cExprsScopeExpressionParserRuleCall_4_1_0; }
 
-		//";"
+		//';'
 		public Keyword getSemicolonKeyword_5() { return cSemicolonKeyword_5; }
 	}
 
 	public class ScopeContextElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ScopeContext");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeContext");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
 		private final Assignment cGlobalAssignment_0_0 = (Assignment)cAlternatives_0.eContents().get(0);
@@ -475,19 +476,19 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_1_2 = (Keyword)cGroup_1.eContents().get(2);
 		
 		//ScopeContext:
-		//	(global?="*" | contextType=[ecore::EClass|QualifiedID]) ("[" guard=Expression "]")?;
+		//	(global?='*' | contextType=[ecore::EClass|QualifiedID]) ('[' guard=Expression ']')?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(global?="*" | contextType=[ecore::EClass|QualifiedID]) ("[" guard=Expression "]")?
+		//(global?='*' | contextType=[ecore::EClass|QualifiedID]) ('[' guard=Expression ']')?
 		public Group getGroup() { return cGroup; }
 
-		//global?="*" | contextType=[ecore::EClass|QualifiedID]
+		//global?='*' | contextType=[ecore::EClass|QualifiedID]
 		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 
-		//global?="*"
+		//global?='*'
 		public Assignment getGlobalAssignment_0_0() { return cGlobalAssignment_0_0; }
 
-		//"*"
+		//'*'
 		public Keyword getGlobalAsteriskKeyword_0_0_0() { return cGlobalAsteriskKeyword_0_0_0; }
 
 		//contextType=[ecore::EClass|QualifiedID]
@@ -499,10 +500,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getContextTypeEClassQualifiedIDParserRuleCall_0_1_0_1() { return cContextTypeEClassQualifiedIDParserRuleCall_0_1_0_1; }
 
-		//("[" guard=Expression "]")?
+		//('[' guard=Expression ']')?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"["
+		//'['
 		public Keyword getLeftSquareBracketKeyword_1_0() { return cLeftSquareBracketKeyword_1_0; }
 
 		//guard=Expression
@@ -511,12 +512,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getGuardExpressionParserRuleCall_1_1_0() { return cGuardExpressionParserRuleCall_1_1_0; }
 
-		//"]"
+		//']'
 		public Keyword getRightSquareBracketKeyword_1_2() { return cRightSquareBracketKeyword_1_2; }
 	}
 
 	public class ScopeExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ScopeExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
 		private final RuleCall cScopeDelegationParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
@@ -528,10 +529,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cPruneExpressionParserRuleCall_1_1_0 = (RuleCall)cPruneAssignment_1_1.eContents().get(0);
 		
 		//ScopeExpression:
-		//	(ScopeDelegation | FactoryExpression | NamedScopeExpression) ("|" prune=Expression)?;
+		//	(ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(ScopeDelegation | FactoryExpression | NamedScopeExpression) ("|" prune=Expression)?
+		//(ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?
 		public Group getGroup() { return cGroup; }
 
 		//ScopeDelegation | FactoryExpression | NamedScopeExpression
@@ -546,10 +547,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//NamedScopeExpression
 		public RuleCall getNamedScopeExpressionParserRuleCall_0_2() { return cNamedScopeExpressionParserRuleCall_0_2; }
 
-		//("|" prune=Expression)?
+		//('|' prune=Expression)?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"|"
+		//'|'
 		public Keyword getVerticalLineKeyword_1_0() { return cVerticalLineKeyword_1_0; }
 
 		//prune=Expression
@@ -560,20 +561,20 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class FactoryExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "FactoryExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.FactoryExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cFactoryKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cExprAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cExprExpressionParserRuleCall_1_0 = (RuleCall)cExprAssignment_1.eContents().get(0);
 		
 		//FactoryExpression:
-		//	"factory" expr=Expression;
+		//	'factory' expr=Expression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"factory" expr=Expression
+		//'factory' expr=Expression
 		public Group getGroup() { return cGroup; }
 
-		//"factory"
+		//'factory'
 		public Keyword getFactoryKeyword_0() { return cFactoryKeyword_0; }
 
 		//expr=Expression
@@ -584,7 +585,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class ScopeDelegationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ScopeDelegation");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeDelegation");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cScopeofKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -601,16 +602,16 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//ScopeDelegation:
-		//	"scopeof" "(" (delegate=Expression | external=GlobalScopeExpression) ("," scope=[ScopeDefinition|Identifier])? ")";
+		//	'scopeof' '(' (delegate=Expression | external=GlobalScopeExpression) (',' scope=[ScopeDefinition|Identifier])? ')';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"scopeof" "(" (delegate=Expression | external=GlobalScopeExpression) ("," scope=[ScopeDefinition|Identifier])? ")"
+		//'scopeof' '(' (delegate=Expression | external=GlobalScopeExpression) (',' scope=[ScopeDefinition|Identifier])? ')'
 		public Group getGroup() { return cGroup; }
 
-		//"scopeof"
+		//'scopeof'
 		public Keyword getScopeofKeyword_0() { return cScopeofKeyword_0; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 
 		//delegate=Expression | external=GlobalScopeExpression
@@ -628,10 +629,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//GlobalScopeExpression
 		public RuleCall getExternalGlobalScopeExpressionParserRuleCall_2_1_0() { return cExternalGlobalScopeExpressionParserRuleCall_2_1_0; }
 
-		//("," scope=[ScopeDefinition|Identifier])?
+		//(',' scope=[ScopeDefinition|Identifier])?
 		public Group getGroup_3() { return cGroup_3; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_3_0() { return cCommaKeyword_3_0; }
 
 		//scope=[ScopeDefinition|Identifier]
@@ -643,12 +644,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getScopeScopeDefinitionIdentifierParserRuleCall_3_1_0_1() { return cScopeScopeDefinitionIdentifierParserRuleCall_3_1_0_1; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
 	}
 
 	public class NamedScopeExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NamedScopeExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.NamedScopeExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
 		private final RuleCall cGlobalScopeExpressionParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
@@ -664,10 +665,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNamingNamingParserRuleCall_2_1_0 = (RuleCall)cNamingAssignment_2_1.eContents().get(0);
 		
 		//NamedScopeExpression:
-		//	(GlobalScopeExpression | SimpleScopeExpression) (caseDef?="case" casing=Casing)? ("as" naming=Naming)?;
+		//	(GlobalScopeExpression | SimpleScopeExpression) (caseDef?='case' casing=Casing)? ('as' naming=Naming)?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(GlobalScopeExpression | SimpleScopeExpression) (caseDef?="case" casing=Casing)? ("as" naming=Naming)?
+		//(GlobalScopeExpression | SimpleScopeExpression) (caseDef?='case' casing=Casing)? ('as' naming=Naming)?
 		public Group getGroup() { return cGroup; }
 
 		//GlobalScopeExpression | SimpleScopeExpression
@@ -679,13 +680,13 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//SimpleScopeExpression
 		public RuleCall getSimpleScopeExpressionParserRuleCall_0_1() { return cSimpleScopeExpressionParserRuleCall_0_1; }
 
-		//(caseDef?="case" casing=Casing)?
+		//(caseDef?='case' casing=Casing)?
 		public Group getGroup_1() { return cGroup_1; }
 
-		//caseDef?="case"
+		//caseDef?='case'
 		public Assignment getCaseDefAssignment_1_0() { return cCaseDefAssignment_1_0; }
 
-		//"case"
+		//'case'
 		public Keyword getCaseDefCaseKeyword_1_0_0() { return cCaseDefCaseKeyword_1_0_0; }
 
 		//casing=Casing
@@ -694,10 +695,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Casing
 		public RuleCall getCasingCasingEnumRuleCall_1_1_0() { return cCasingCasingEnumRuleCall_1_1_0; }
 
-		//("as" naming=Naming)?
+		//('as' naming=Naming)?
 		public Group getGroup_2() { return cGroup_2; }
 
-		//"as"
+		//'as'
 		public Keyword getAsKeyword_2_0() { return cAsKeyword_2_0; }
 
 		//naming=Naming
@@ -708,7 +709,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class GlobalScopeExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "GlobalScopeExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.GlobalScopeExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cFindKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -763,20 +764,20 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//GlobalScopeExpression:
-		//	"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," recursivePrefix?="recursive"?
-		//	"prefix" "=" prefix=Expression)? ("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? (","
-		//	"domains" "=" (domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")";
+		//	'find' '(' type=[ecore::EClass|QualifiedID] (',' 'key' '=' name=Expression | ',' recursivePrefix?='recursive'?
+		//	'prefix' '=' prefix=Expression)? (',' 'data' '=' '(' data+=DataExpression (',' data+=DataExpression)* ')')? (','
+		//	'domains' '=' (domains+='*' | domains+=Identifier | '(' domains+=Identifier (',' domains+=Identifier)* ')'))? ')';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," recursivePrefix?="recursive"? "prefix"
-		//"=" prefix=Expression)? ("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? ("," "domains" "="
-		//(domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")"
+		//'find' '(' type=[ecore::EClass|QualifiedID] (',' 'key' '=' name=Expression | ',' recursivePrefix?='recursive'? 'prefix'
+		//'=' prefix=Expression)? (',' 'data' '=' '(' data+=DataExpression (',' data+=DataExpression)* ')')? (',' 'domains' '='
+		//(domains+='*' | domains+=Identifier | '(' domains+=Identifier (',' domains+=Identifier)* ')'))? ')'
 		public Group getGroup() { return cGroup; }
 
-		//"find"
+		//'find'
 		public Keyword getFindKeyword_0() { return cFindKeyword_0; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 
 		//type=[ecore::EClass|QualifiedID]
@@ -788,19 +789,19 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getTypeEClassQualifiedIDParserRuleCall_2_0_1() { return cTypeEClassQualifiedIDParserRuleCall_2_0_1; }
 
-		//("," "key" "=" name=Expression | "," recursivePrefix?="recursive"? "prefix" "=" prefix=Expression)?
+		//(',' 'key' '=' name=Expression | ',' recursivePrefix?='recursive'? 'prefix' '=' prefix=Expression)?
 		public Alternatives getAlternatives_3() { return cAlternatives_3; }
 
-		//"," "key" "=" name=Expression
+		//',' 'key' '=' name=Expression
 		public Group getGroup_3_0() { return cGroup_3_0; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_3_0_0() { return cCommaKeyword_3_0_0; }
 
-		//"key"
+		//'key'
 		public Keyword getKeyKeyword_3_0_1() { return cKeyKeyword_3_0_1; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_3_0_2() { return cEqualsSignKeyword_3_0_2; }
 
 		//name=Expression
@@ -809,22 +810,22 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getNameExpressionParserRuleCall_3_0_3_0() { return cNameExpressionParserRuleCall_3_0_3_0; }
 
-		//"," recursivePrefix?="recursive"? "prefix" "=" prefix=Expression
+		//',' recursivePrefix?='recursive'? 'prefix' '=' prefix=Expression
 		public Group getGroup_3_1() { return cGroup_3_1; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_3_1_0() { return cCommaKeyword_3_1_0; }
 
-		//recursivePrefix?="recursive"?
+		//recursivePrefix?='recursive'?
 		public Assignment getRecursivePrefixAssignment_3_1_1() { return cRecursivePrefixAssignment_3_1_1; }
 
-		//"recursive"
+		//'recursive'
 		public Keyword getRecursivePrefixRecursiveKeyword_3_1_1_0() { return cRecursivePrefixRecursiveKeyword_3_1_1_0; }
 
-		//"prefix"
+		//'prefix'
 		public Keyword getPrefixKeyword_3_1_2() { return cPrefixKeyword_3_1_2; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_3_1_3() { return cEqualsSignKeyword_3_1_3; }
 
 		//prefix=Expression
@@ -833,19 +834,19 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getPrefixExpressionParserRuleCall_3_1_4_0() { return cPrefixExpressionParserRuleCall_3_1_4_0; }
 
-		//("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")?
+		//(',' 'data' '=' '(' data+=DataExpression (',' data+=DataExpression)* ')')?
 		public Group getGroup_4() { return cGroup_4; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
 
-		//"data"
+		//'data'
 		public Keyword getDataKeyword_4_1() { return cDataKeyword_4_1; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_4_2() { return cEqualsSignKeyword_4_2; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_4_3() { return cLeftParenthesisKeyword_4_3; }
 
 		//data+=DataExpression
@@ -854,10 +855,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//DataExpression
 		public RuleCall getDataDataExpressionParserRuleCall_4_4_0() { return cDataDataExpressionParserRuleCall_4_4_0; }
 
-		//("," data+=DataExpression)*
+		//(',' data+=DataExpression)*
 		public Group getGroup_4_5() { return cGroup_4_5; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_4_5_0() { return cCommaKeyword_4_5_0; }
 
 		//data+=DataExpression
@@ -866,28 +867,28 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//DataExpression
 		public RuleCall getDataDataExpressionParserRuleCall_4_5_1_0() { return cDataDataExpressionParserRuleCall_4_5_1_0; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_4_6() { return cRightParenthesisKeyword_4_6; }
 
-		//("," "domains" "=" (domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))?
+		//(',' 'domains' '=' (domains+='*' | domains+=Identifier | '(' domains+=Identifier (',' domains+=Identifier)* ')'))?
 		public Group getGroup_5() { return cGroup_5; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_5_0() { return cCommaKeyword_5_0; }
 
-		//"domains"
+		//'domains'
 		public Keyword getDomainsKeyword_5_1() { return cDomainsKeyword_5_1; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_5_2() { return cEqualsSignKeyword_5_2; }
 
-		//domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"
+		//domains+='*' | domains+=Identifier | '(' domains+=Identifier (',' domains+=Identifier)* ')'
 		public Alternatives getAlternatives_5_3() { return cAlternatives_5_3; }
 
-		//domains+="*"
+		//domains+='*'
 		public Assignment getDomainsAssignment_5_3_0() { return cDomainsAssignment_5_3_0; }
 
-		//"*"
+		//'*'
 		public Keyword getDomainsAsteriskKeyword_5_3_0_0() { return cDomainsAsteriskKeyword_5_3_0_0; }
 
 		//domains+=Identifier
@@ -896,10 +897,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getDomainsIdentifierParserRuleCall_5_3_1_0() { return cDomainsIdentifierParserRuleCall_5_3_1_0; }
 
-		//"(" domains+=Identifier ("," domains+=Identifier)* ")"
+		//'(' domains+=Identifier (',' domains+=Identifier)* ')'
 		public Group getGroup_5_3_2() { return cGroup_5_3_2; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_5_3_2_0() { return cLeftParenthesisKeyword_5_3_2_0; }
 
 		//domains+=Identifier
@@ -908,10 +909,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getDomainsIdentifierParserRuleCall_5_3_2_1_0() { return cDomainsIdentifierParserRuleCall_5_3_2_1_0; }
 
-		//("," domains+=Identifier)*
+		//(',' domains+=Identifier)*
 		public Group getGroup_5_3_2_2() { return cGroup_5_3_2_2; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_5_3_2_2_0() { return cCommaKeyword_5_3_2_2_0; }
 
 		//domains+=Identifier
@@ -920,15 +921,15 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getDomainsIdentifierParserRuleCall_5_3_2_2_1_0() { return cDomainsIdentifierParserRuleCall_5_3_2_2_1_0; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_5_3_2_3() { return cRightParenthesisKeyword_5_3_2_3; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_6() { return cRightParenthesisKeyword_6; }
 	}
 
 	public class DataExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "DataExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.DataExpression");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cMatchDataExpressionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cLambdaDataExpressionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -948,7 +949,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class MatchDataExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "MatchDataExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.MatchDataExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cKeyAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cKeyIdentifierParserRuleCall_0_0 = (RuleCall)cKeyAssignment_0.eContents().get(0);
@@ -957,10 +958,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cValueExpressionParserRuleCall_2_0 = (RuleCall)cValueAssignment_2.eContents().get(0);
 		
 		//MatchDataExpression:
-		//	key=Identifier "=" value=Expression;
+		//	key=Identifier '=' value=Expression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//key=Identifier "=" value=Expression
+		//key=Identifier '=' value=Expression
 		public Group getGroup() { return cGroup; }
 
 		//key=Identifier
@@ -969,7 +970,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getKeyIdentifierParserRuleCall_0_0() { return cKeyIdentifierParserRuleCall_0_0; }
 
-		//"="
+		//'='
 		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
 
 		//value=Expression
@@ -980,7 +981,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class LambdaDataExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "LambdaDataExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.LambdaDataExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cLeftSquareBracketKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cDescAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -991,13 +992,13 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//LambdaDataExpression:
-		//	"[" desc=Identifier "|" value=Expression "]";
+		//	'[' desc=Identifier '|' value=Expression ']';
 		@Override public ParserRule getRule() { return rule; }
 
-		//"[" desc=Identifier "|" value=Expression "]"
+		//'[' desc=Identifier '|' value=Expression ']'
 		public Group getGroup() { return cGroup; }
 
-		//"["
+		//'['
 		public Keyword getLeftSquareBracketKeyword_0() { return cLeftSquareBracketKeyword_0; }
 
 		//desc=Identifier
@@ -1006,7 +1007,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Identifier
 		public RuleCall getDescIdentifierParserRuleCall_1_0() { return cDescIdentifierParserRuleCall_1_0; }
 
-		//"|"
+		//'|'
 		public Keyword getVerticalLineKeyword_2() { return cVerticalLineKeyword_2; }
 
 		//value=Expression
@@ -1015,12 +1016,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//Expression
 		public RuleCall getValueExpressionParserRuleCall_3_0() { return cValueExpressionParserRuleCall_3_0; }
 
-		//"]"
+		//']'
 		public Keyword getRightSquareBracketKeyword_4() { return cRightSquareBracketKeyword_4; }
 	}
 
 	public class SimpleScopeExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SimpleScopeExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.SimpleScopeExpression");
 		private final Assignment cExprAssignment = (Assignment)rule.eContents().get(1);
 		private final RuleCall cExprExpressionParserRuleCall_0 = (RuleCall)cExprAssignment.eContents().get(0);
 		
@@ -1036,7 +1037,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class NamingElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Naming");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.Naming");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
 		private final Group cGroup_0_0 = (Group)cGroup_0.eContents().get(0);
@@ -1052,19 +1053,19 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNamesNamingExpressionParserRuleCall_1_0 = (RuleCall)cNamesAssignment_1.eContents().get(0);
 		
 		//Naming:
-		//	-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")") | names+=NamingExpression;
+		//	-> ('(' names+=NamingExpression (',' names+=NamingExpression)* ')') | names+=NamingExpression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")") | names+=NamingExpression
+		//-> ('(' names+=NamingExpression (',' names+=NamingExpression)* ')') | names+=NamingExpression
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")")
+		//-> ('(' names+=NamingExpression (',' names+=NamingExpression)* ')')
 		public Group getGroup_0() { return cGroup_0; }
 
-		//"(" names+=NamingExpression ("," names+=NamingExpression)* ")"
+		//'(' names+=NamingExpression (',' names+=NamingExpression)* ')'
 		public Group getGroup_0_0() { return cGroup_0_0; }
 
-		//"("
+		//'('
 		public Keyword getLeftParenthesisKeyword_0_0_0() { return cLeftParenthesisKeyword_0_0_0; }
 
 		//names+=NamingExpression
@@ -1073,10 +1074,10 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//NamingExpression
 		public RuleCall getNamesNamingExpressionParserRuleCall_0_0_1_0() { return cNamesNamingExpressionParserRuleCall_0_0_1_0; }
 
-		//("," names+=NamingExpression)*
+		//(',' names+=NamingExpression)*
 		public Group getGroup_0_0_2() { return cGroup_0_0_2; }
 
-		//","
+		//','
 		public Keyword getCommaKeyword_0_0_2_0() { return cCommaKeyword_0_0_2_0; }
 
 		//names+=NamingExpression
@@ -1085,7 +1086,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		//NamingExpression
 		public RuleCall getNamesNamingExpressionParserRuleCall_0_0_2_1_0() { return cNamesNamingExpressionParserRuleCall_0_0_2_1_0; }
 
-		//")"
+		//')'
 		public Keyword getRightParenthesisKeyword_0_0_3() { return cRightParenthesisKeyword_0_0_3; }
 
 		//names+=NamingExpression
@@ -1096,7 +1097,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class NamingExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NamingExpression");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.NamingExpression");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Assignment cExportAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
 		private final Keyword cExportExportKeyword_0_0 = (Keyword)cExportAssignment_0.eContents().get(0);
@@ -1107,25 +1108,25 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cExpressionExpressionParserRuleCall_1_1_0 = (RuleCall)cExpressionAssignment_1_1.eContents().get(0);
 		
 		//NamingExpression:
-		//	export?="export" | factory?="factory"? expression=Expression;
+		//	export?='export' | factory?='factory'? expression=Expression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//export?="export" | factory?="factory"? expression=Expression
+		//export?='export' | factory?='factory'? expression=Expression
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//export?="export"
+		//export?='export'
 		public Assignment getExportAssignment_0() { return cExportAssignment_0; }
 
-		//"export"
+		//'export'
 		public Keyword getExportExportKeyword_0_0() { return cExportExportKeyword_0_0; }
 
-		//factory?="factory"? expression=Expression
+		//factory?='factory'? expression=Expression
 		public Group getGroup_1() { return cGroup_1; }
 
-		//factory?="factory"?
+		//factory?='factory'?
 		public Assignment getFactoryAssignment_1_0() { return cFactoryAssignment_1_0; }
 
-		//"factory"
+		//'factory'
 		public Keyword getFactoryFactoryKeyword_1_0_0() { return cFactoryFactoryKeyword_1_0_0; }
 
 		//expression=Expression
@@ -1136,27 +1137,27 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class QualifiedIDElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "QualifiedID");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.QualifiedID");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final RuleCall cIdentifierParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cColonColonKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final RuleCall cIdentifierParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
-		//QualifiedID returns ecore::EString:
-		//	Identifier ("::" Identifier)*;
+		//QualifiedID:
+		//	Identifier ('::' Identifier)*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//Identifier ("::" Identifier)*
+		//Identifier ('::' Identifier)*
 		public Group getGroup() { return cGroup; }
 
 		//Identifier
 		public RuleCall getIdentifierParserRuleCall_0() { return cIdentifierParserRuleCall_0; }
 
-		//("::" Identifier)*
+		//('::' Identifier)*
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"::"
+		//'::'
 		public Keyword getColonColonKeyword_1_0() { return cColonColonKeyword_1_0; }
 
 		//Identifier
@@ -1164,27 +1165,27 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	public class DottedIDElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "DottedID");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.DottedID");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final RuleCall cIdentifierParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cFullStopKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final RuleCall cIdentifierParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
-		//DottedID returns ecore::EString:
-		//	Identifier ("." Identifier)*;
+		//DottedID:
+		//	Identifier ('.' Identifier)*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//Identifier ("." Identifier)*
+		//Identifier ('.' Identifier)*
 		public Group getGroup() { return cGroup; }
 
 		//Identifier
 		public RuleCall getIdentifierParserRuleCall_0() { return cIdentifierParserRuleCall_0; }
 
-		//("." Identifier)*
+		//('.' Identifier)*
 		public Group getGroup_1() { return cGroup_1; }
 
-		//"."
+		//'.'
 		public Keyword getFullStopKeyword_1_0() { return cFullStopKeyword_1_0; }
 
 		//Identifier
@@ -1193,7 +1194,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	
 	
 	public class CasingElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "Casing");
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.Casing");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final EnumLiteralDeclaration cSENSITIVEEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
 		private final Keyword cSENSITIVESensitiveKeyword_0_0 = (Keyword)cSENSITIVEEnumLiteralDeclaration_0.eContents().get(0);
@@ -1201,22 +1202,22 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cINSENSITIVEInsensitiveKeyword_1_0 = (Keyword)cINSENSITIVEEnumLiteralDeclaration_1.eContents().get(0);
 		
 		//enum Casing:
-		//	SENSITIVE="sensitive" | INSENSITIVE="insensitive";
+		//	SENSITIVE='sensitive' | INSENSITIVE='insensitive';
 		public EnumRule getRule() { return rule; }
 
-		//SENSITIVE="sensitive" | INSENSITIVE="insensitive"
+		//SENSITIVE='sensitive' | INSENSITIVE='insensitive'
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//SENSITIVE="sensitive"
+		//SENSITIVE='sensitive'
 		public EnumLiteralDeclaration getSENSITIVEEnumLiteralDeclaration_0() { return cSENSITIVEEnumLiteralDeclaration_0; }
 
-		//"sensitive"
+		//'sensitive'
 		public Keyword getSENSITIVESensitiveKeyword_0_0() { return cSENSITIVESensitiveKeyword_0_0; }
 
-		//INSENSITIVE="insensitive"
+		//INSENSITIVE='insensitive'
 		public EnumLiteralDeclaration getINSENSITIVEEnumLiteralDeclaration_1() { return cINSENSITIVEEnumLiteralDeclaration_1; }
 
-		//"insensitive"
+		//'insensitive'
 		public Keyword getINSENSITIVEInsensitiveKeyword_1_0() { return cINSENSITIVEInsensitiveKeyword_1_0; }
 	}
 	
@@ -1224,7 +1225,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	private final ImportElements pImport;
 	private final ExtensionElements pExtension;
 	private final InjectionElements pInjection;
-	private final CasingElements unknownRuleCasing;
+	private final CasingElements eCasing;
 	private final NamingSectionElements pNamingSection;
 	private final NamingDefinitionElements pNamingDefinition;
 	private final ScopeDefinitionElements pScopeDefinition;
@@ -1248,16 +1249,20 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 
 	private final ExpressionGrammarAccess gaExpression;
 
+	private final TerminalsGrammarAccess gaTerminals;
+
 	@Inject
 	public ScopeGrammarAccess(GrammarProvider grammarProvider,
-		ExpressionGrammarAccess gaExpression) {
+		ExpressionGrammarAccess gaExpression,
+		TerminalsGrammarAccess gaTerminals) {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaExpression = gaExpression;
+		this.gaTerminals = gaTerminals;
 		this.pScopeModel = new ScopeModelElements();
 		this.pImport = new ImportElements();
 		this.pExtension = new ExtensionElements();
 		this.pInjection = new InjectionElements();
-		this.unknownRuleCasing = new CasingElements();
+		this.eCasing = new CasingElements();
 		this.pNamingSection = new NamingSectionElements();
 		this.pNamingDefinition = new NamingDefinitionElements();
 		this.pScopeDefinition = new ScopeDefinitionElements();
@@ -1304,9 +1309,13 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return gaExpression;
 	}
 
+	public TerminalsGrammarAccess getTerminalsGrammarAccess() {
+		return gaTerminals;
+	}
+
 	
 	//ScopeModel:
-	//	"scoping" name=DottedID ("with" includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
+	//	'scoping' name=DottedID ('with' includedScopes+=[ScopeModel|DottedID])? imports+=Import* extensions+=Extension*
 	//	injections+=Injection* naming=NamingSection? scopes+=ScopeDefinition*;
 	public ScopeModelElements getScopeModelAccess() {
 		return pScopeModel;
@@ -1317,7 +1326,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Import:
-	//	"import" package=[ecore::EPackage|STRING] ("as" name=Identifier)?;
+	//	'import' package=[ecore::EPackage|STRING] ('as' name=Identifier)?;
 	public ImportElements getImportAccess() {
 		return pImport;
 	}
@@ -1327,7 +1336,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Extension:
-	//	"extension" extension=QualifiedID;
+	//	'extension' extension=QualifiedID;
 	public ExtensionElements getExtensionAccess() {
 		return pExtension;
 	}
@@ -1337,7 +1346,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Injection:
-	//	"inject" type=DottedID "as" name=Identifier;
+	//	'inject' type=DottedID 'as' name=Identifier;
 	public InjectionElements getInjectionAccess() {
 		return pInjection;
 	}
@@ -1347,9 +1356,9 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//enum Casing:
-	//	SENSITIVE="sensitive" | INSENSITIVE="insensitive";
+	//	SENSITIVE='sensitive' | INSENSITIVE='insensitive';
 	public CasingElements getCasingAccess() {
-		return unknownRuleCasing;
+		return eCasing;
 	}
 	
 	public EnumRule getCasingRule() {
@@ -1357,7 +1366,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NamingSection:
-	//	{NamingSection} ("case" casing=Casing)? "naming" "{" namings+=NamingDefinition* "}";
+	//	{NamingSection} ('case' casing=Casing)? 'naming' '{' namings+=NamingDefinition* '}';
 	public NamingSectionElements getNamingSectionAccess() {
 		return pNamingSection;
 	}
@@ -1367,7 +1376,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NamingDefinition:
-	//	type=[ecore::EClass|QualifiedID] "=" naming=Naming ";";
+	//	type=[ecore::EClass|QualifiedID] '=' naming=Naming ';';
 	public NamingDefinitionElements getNamingDefinitionAccess() {
 		return pNamingDefinition;
 	}
@@ -1377,8 +1386,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ScopeDefinition:
-	//	"scope" ("(" name=Identifier ")")? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID]
-	//	"#" reference=[ecore::EReference|Identifier]) "{" rules+=ScopeRule+ "}";
+	//	'scope' ('(' name=Identifier ')')? (targetType=[ecore::EClass|QualifiedID] | contextType=[ecore::EClass|QualifiedID]
+	//	'#' reference=[ecore::EReference|Identifier]) '{' rules+=ScopeRule+ '}';
 	public ScopeDefinitionElements getScopeDefinitionAccess() {
 		return pScopeDefinition;
 	}
@@ -1388,7 +1397,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ScopeRule:
-	//	"context" context=ScopeContext "=" exprs+=ScopeExpression (">>" exprs+=ScopeExpression)* ";";
+	//	'context' context=ScopeContext '=' exprs+=ScopeExpression ('>>' exprs+=ScopeExpression)* ';';
 	public ScopeRuleElements getScopeRuleAccess() {
 		return pScopeRule;
 	}
@@ -1398,7 +1407,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ScopeContext:
-	//	(global?="*" | contextType=[ecore::EClass|QualifiedID]) ("[" guard=Expression "]")?;
+	//	(global?='*' | contextType=[ecore::EClass|QualifiedID]) ('[' guard=Expression ']')?;
 	public ScopeContextElements getScopeContextAccess() {
 		return pScopeContext;
 	}
@@ -1408,7 +1417,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ScopeExpression:
-	//	(ScopeDelegation | FactoryExpression | NamedScopeExpression) ("|" prune=Expression)?;
+	//	(ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?;
 	public ScopeExpressionElements getScopeExpressionAccess() {
 		return pScopeExpression;
 	}
@@ -1418,7 +1427,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//FactoryExpression:
-	//	"factory" expr=Expression;
+	//	'factory' expr=Expression;
 	public FactoryExpressionElements getFactoryExpressionAccess() {
 		return pFactoryExpression;
 	}
@@ -1428,7 +1437,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ScopeDelegation:
-	//	"scopeof" "(" (delegate=Expression | external=GlobalScopeExpression) ("," scope=[ScopeDefinition|Identifier])? ")";
+	//	'scopeof' '(' (delegate=Expression | external=GlobalScopeExpression) (',' scope=[ScopeDefinition|Identifier])? ')';
 	public ScopeDelegationElements getScopeDelegationAccess() {
 		return pScopeDelegation;
 	}
@@ -1438,7 +1447,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NamedScopeExpression:
-	//	(GlobalScopeExpression | SimpleScopeExpression) (caseDef?="case" casing=Casing)? ("as" naming=Naming)?;
+	//	(GlobalScopeExpression | SimpleScopeExpression) (caseDef?='case' casing=Casing)? ('as' naming=Naming)?;
 	public NamedScopeExpressionElements getNamedScopeExpressionAccess() {
 		return pNamedScopeExpression;
 	}
@@ -1448,9 +1457,9 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//GlobalScopeExpression:
-	//	"find" "(" type=[ecore::EClass|QualifiedID] ("," "key" "=" name=Expression | "," recursivePrefix?="recursive"?
-	//	"prefix" "=" prefix=Expression)? ("," "data" "=" "(" data+=DataExpression ("," data+=DataExpression)* ")")? (","
-	//	"domains" "=" (domains+="*" | domains+=Identifier | "(" domains+=Identifier ("," domains+=Identifier)* ")"))? ")";
+	//	'find' '(' type=[ecore::EClass|QualifiedID] (',' 'key' '=' name=Expression | ',' recursivePrefix?='recursive'?
+	//	'prefix' '=' prefix=Expression)? (',' 'data' '=' '(' data+=DataExpression (',' data+=DataExpression)* ')')? (','
+	//	'domains' '=' (domains+='*' | domains+=Identifier | '(' domains+=Identifier (',' domains+=Identifier)* ')'))? ')';
 	public GlobalScopeExpressionElements getGlobalScopeExpressionAccess() {
 		return pGlobalScopeExpression;
 	}
@@ -1470,7 +1479,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//MatchDataExpression:
-	//	key=Identifier "=" value=Expression;
+	//	key=Identifier '=' value=Expression;
 	public MatchDataExpressionElements getMatchDataExpressionAccess() {
 		return pMatchDataExpression;
 	}
@@ -1480,7 +1489,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//LambdaDataExpression:
-	//	"[" desc=Identifier "|" value=Expression "]";
+	//	'[' desc=Identifier '|' value=Expression ']';
 	public LambdaDataExpressionElements getLambdaDataExpressionAccess() {
 		return pLambdaDataExpression;
 	}
@@ -1500,7 +1509,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Naming:
-	//	-> ("(" names+=NamingExpression ("," names+=NamingExpression)* ")") | names+=NamingExpression;
+	//	-> ('(' names+=NamingExpression (',' names+=NamingExpression)* ')') | names+=NamingExpression;
 	public NamingElements getNamingAccess() {
 		return pNaming;
 	}
@@ -1510,7 +1519,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NamingExpression:
-	//	export?="export" | factory?="factory"? expression=Expression;
+	//	export?='export' | factory?='factory'? expression=Expression;
 	public NamingExpressionElements getNamingExpressionAccess() {
 		return pNamingExpression;
 	}
@@ -1519,8 +1528,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getNamingExpressionAccess().getRule();
 	}
 
-	//QualifiedID returns ecore::EString:
-	//	Identifier ("::" Identifier)*;
+	//QualifiedID:
+	//	Identifier ('::' Identifier)*;
 	public QualifiedIDElements getQualifiedIDAccess() {
 		return pQualifiedID;
 	}
@@ -1529,8 +1538,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getQualifiedIDAccess().getRule();
 	}
 
-	//DottedID returns ecore::EString:
-	//	Identifier ("." Identifier)*;
+	//DottedID:
+	//	Identifier ('.' Identifier)*;
 	public DottedIDElements getDottedIDAccess() {
 		return pDottedID;
 	}
@@ -1572,7 +1581,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////   {$e=factory.createLetExpression(v,varExpr,target);}
 	// //|  x=castedExpression {$e=x;};
 	// LetExpression:
-	//	"let" identifier=Identifier "=" varExpr=Expression ":" target=Expression;
+	//	'let' identifier=Identifier '=' varExpr=Expression ':' target=Expression;
 	public ExpressionGrammarAccess.LetExpressionElements getLetExpressionAccess() {
 		return gaExpression.getLetExpressionAccess();
 	}
@@ -1588,7 +1597,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	// //	| x=chainExpression {$e=x;};
 	//
 	//CastedExpression:
-	//	"(" type=Type ")" target=Expression;
+	//	'(' type=Type ')' target=Expression;
 	public ExpressionGrammarAccess.CastedExpressionElements getCastedExpressionAccess() {
 		return gaExpression.getCastedExpressionAccess();
 	}
@@ -1601,8 +1610,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	x=ifExpression {$e=x;} ( '->' right=ifExpression {$e=factory.createChainExpression($e,right);})*;
 	// ChainExpression
-	//returns Expression:
-	//	ChainedExpression ({ChainExpression.first=current} "->" next=ChainedExpression)*;
+	//Expression:
+	//	ChainedExpression ({ChainExpression.first=current} '->' next=ChainedExpression)*;
 	public ExpressionGrammarAccess.ChainExpressionElements getChainExpressionAccess() {
 		return gaExpression.getChainExpressionAccess();
 	}
@@ -1611,7 +1620,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getChainExpressionAccess().getRule();
 	}
 
-	//ChainedExpression returns Expression:
+	//ChainedExpression Expression:
 	//	IfExpressionKw | IfExpressionTri | SwitchExpression;
 	public ExpressionGrammarAccess.ChainedExpressionElements getChainedExpressionAccess() {
 		return gaExpression.getChainedExpressionAccess();
@@ -1627,8 +1636,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////|	'if' condition=switchExpression 'then' thenPart=switchExpression ('else' elsePart=expression)? {$e=factory.createIf(condition,thenPart,elsePart);};
 	//
-	//IfExpressionTri returns Expression:
-	//	OrExpression ({IfExpression.condition=current} "?" thenPart=ChainedExpression ":" elsePart=ChainedExpression)?;
+	//IfExpressionTri Expression:
+	//	OrExpression ({IfExpression.condition=current} '?' thenPart=ChainedExpression ':' elsePart=ChainedExpression)?;
 	public ExpressionGrammarAccess.IfExpressionTriElements getIfExpressionTriAccess() {
 		return gaExpression.getIfExpressionTriAccess();
 	}
@@ -1637,8 +1646,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getIfExpressionTriAccess().getRule();
 	}
 
-	//IfExpressionKw returns IfExpression:
-	//	"if" condition=ChainedExpression "then" thenPart=ChainedExpression -> ("else" elsePart=ChainedExpression)?;
+	//IfExpressionKw IfExpression:
+	//	'if' condition=ChainedExpression 'then' thenPart=ChainedExpression -> ('else' elsePart=ChainedExpression)?;
 	public ExpressionGrammarAccess.IfExpressionKwElements getIfExpressionKwAccess() {
 		return gaExpression.getIfExpressionKwAccess();
 	}
@@ -1662,7 +1671,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////   {$e = factory.createSwitchExpression(pred,cases,def);}
 	// //|  x=orExpression {$e=x;};
 	// SwitchExpression:
-	//	"switch" ("(" switchExpr=OrExpression ")")? "{" case+=Case* "default" ":" defaultExpr=OrExpression "}";
+	//	'switch' ('(' switchExpr=OrExpression ')')? '{' case+=Case* 'default' ':' defaultExpr=OrExpression '}';
 	public ExpressionGrammarAccess.SwitchExpressionElements getSwitchExpressionAccess() {
 		return gaExpression.getSwitchExpressionAccess();
 	}
@@ -1672,7 +1681,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Case:
-	//	"case" condition=OrExpression ":" thenPar=OrExpression;
+	//	'case' condition=OrExpression ':' thenPar=OrExpression;
 	public ExpressionGrammarAccess.CaseElements getCaseAccess() {
 		return gaExpression.getCaseAccess();
 	}
@@ -1685,8 +1694,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////  	x=andExpression {$e=x;} (name='||' r=andExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
 	//
-	//OrExpression returns Expression:
-	//	AndExpression ({BooleanOperation.left=current} operator="||" right=AndExpression)*;
+	//OrExpression Expression:
+	//	AndExpression ({BooleanOperation.left=current} operator='||' right=AndExpression)*;
 	public ExpressionGrammarAccess.OrExpressionElements getOrExpressionAccess() {
 		return gaExpression.getOrExpressionAccess();
 	}
@@ -1699,8 +1708,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	x=impliesExpression {$e=x;} (name='&&' r=impliesExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
 	//
-	//AndExpression returns Expression:
-	//	ImpliesExpression ({BooleanOperation.left=current} operator="&&" right=ImpliesExpression)*;
+	//AndExpression Expression:
+	//	ImpliesExpression ({BooleanOperation.left=current} operator='&&' right=ImpliesExpression)*;
 	public ExpressionGrammarAccess.AndExpressionElements getAndExpressionAccess() {
 		return gaExpression.getAndExpressionAccess();
 	}
@@ -1713,8 +1722,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	x=relationalExpression {$e=x;} (name='implies' r=relationalExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
 	//
-	//ImpliesExpression returns Expression:
-	//	RelationalExpression ({BooleanOperation.left=current} operator="implies" right=RelationalExpression)*;
+	//ImpliesExpression Expression:
+	//	RelationalExpression ({BooleanOperation.left=current} operator='implies' right=RelationalExpression)*;
 	public ExpressionGrammarAccess.ImpliesExpressionElements getImpliesExpressionAccess() {
 		return gaExpression.getImpliesExpressionAccess();
 	}
@@ -1728,8 +1737,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
-	//RelationalExpression returns Expression:
-	//	AdditiveExpression ({BooleanOperation.left=current} operator=("==" | "!=" | ">=" | "<=" | ">" | "<")
+	//RelationalExpression Expression:
+	//	AdditiveExpression ({BooleanOperation.left=current} operator=('==' | '!=' | '>=' | '<=' | '>' | '<')
 	//	right=AdditiveExpression)*;
 	public ExpressionGrammarAccess.RelationalExpressionElements getRelationalExpressionAccess() {
 		return gaExpression.getRelationalExpressionAccess();
@@ -1744,8 +1753,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////   (name=('+'| '-') r=multiplicativeExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
-	//AdditiveExpression returns Expression:
-	//	MultiplicativeExpression ({OperationCall.params+=current} name=("+" | "-") params+=MultiplicativeExpression)*;
+	//AdditiveExpression Expression:
+	//	MultiplicativeExpression ({OperationCall.params+=current} name=('+' | '-') params+=MultiplicativeExpression)*;
 	public ExpressionGrammarAccess.AdditiveExpressionElements getAdditiveExpressionAccess() {
 		return gaExpression.getAdditiveExpressionAccess();
 	}
@@ -1759,8 +1768,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	(name=('*' | '/') r=unaryExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 	//
-	//MultiplicativeExpression returns Expression:
-	//	UnaryOrInfixExpression ({OperationCall.params+=current} name=("*" | "/") params+=UnaryOrInfixExpression)*;
+	//MultiplicativeExpression Expression:
+	//	UnaryOrInfixExpression ({OperationCall.params+=current} name=('*' | '/') params+=UnaryOrInfixExpression)*;
 	public ExpressionGrammarAccess.MultiplicativeExpressionElements getMultiplicativeExpressionAccess() {
 		return gaExpression.getMultiplicativeExpressionAccess();
 	}
@@ -1775,8 +1784,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////|	name='!' x=infixExpression	{$e = factory.createOperationCall(id(name),x);}
 	//
 	////|	name='-' x=infixExpression	{$e = factory.createOperationCall(id(name),x);};
-	// UnaryOrInfixExpression returns
-	//Expression:
+	// UnaryOrInfixExpression Expression:
 	//	UnaryExpression | InfixExpression;
 	public ExpressionGrammarAccess.UnaryOrInfixExpressionElements getUnaryOrInfixExpressionAccess() {
 		return gaExpression.getUnaryOrInfixExpressionAccess();
@@ -1786,8 +1794,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getUnaryOrInfixExpressionAccess().getRule();
 	}
 
-	//UnaryExpression returns OperationCall:
-	//	name=("!" | "-") params+=InfixExpression;
+	//UnaryExpression OperationCall:
+	//	name=('!' | '-') params+=InfixExpression;
 	public ExpressionGrammarAccess.UnaryExpressionElements getUnaryExpressionAccess() {
 		return gaExpression.getUnaryExpressionAccess();
 	}
@@ -1801,12 +1809,12 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////	x=primaryExpression {$e=x;} ( '.' op=featureCall { if (op!=null) { op.setTarget($e);$e=op;}} )*;
 	//
 	//// having support for fragments could avoid the redundancy at this point
-	// InfixExpression returns Expression:
-	//	PrimaryExpression ({OperationCall.target=current} "." name=Identifier "(" (params+=Expression (","
-	//	params+=Expression)*)? ")" | {FeatureCall.target=current} "." type=Type | {TypeSelectExpression.target=current} "."
-	//	name="typeSelect" "(" type=Type ")" | {CollectionExpression.target=current} "." name=("collect" | "select" |
-	//	"selectFirst" | "reject" | "exists" | "notExists" | "sortBy" | "forAll") "(" (var=Identifier "|")? exp=Expression
-	//	")")*;
+	// InfixExpression Expression:
+	//	PrimaryExpression ({OperationCall.target=current} '.' name=Identifier '(' (params+=Expression (','
+	//	params+=Expression)*)? ')' | {FeatureCall.target=current} '.' type=Type | {TypeSelectExpression.target=current} '.'
+	//	name='typeSelect' '(' type=Type ')' | {CollectionExpression.target=current} '.' name=('collect' | 'select' |
+	//	'selectFirst' | 'reject' | 'exists' | 'notExists' | 'sortBy' | 'forAll') '(' (var=Identifier '|')? exp=Expression
+	//	')')*;
 	public ExpressionGrammarAccess.InfixExpressionElements getInfixExpressionAccess() {
 		return gaExpression.getInfixExpressionAccess();
 	}
@@ -1828,7 +1836,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////|   x=globalVarExpression {$e=x;}
 	// //|   x=paranthesizedExpression {$e=x;};
-	// PrimaryExpression returns Expression:
+	// PrimaryExpression Expression:
 	//	Literal | FeatureCall | ListLiteral | ConstructorCallExpression | GlobalVarExpression | ParanthesizedExpression;
 	public ExpressionGrammarAccess.PrimaryExpressionElements getPrimaryExpressionAccess() {
 		return gaExpression.getPrimaryExpressionAccess();
@@ -1849,7 +1857,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//BooleanLiteral:
-	//	val=("true" | "false");
+	//	val=('true' | 'false');
 	public ExpressionGrammarAccess.BooleanLiteralElements getBooleanLiteralAccess() {
 		return gaExpression.getBooleanLiteralAccess();
 	}
@@ -1869,7 +1877,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NullLiteral:
-	//	val="null";
+	//	val='null';
 	public ExpressionGrammarAccess.NullLiteralElements getNullLiteralAccess() {
 		return gaExpression.getNullLiteralAccess();
 	}
@@ -1899,7 +1907,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal REAL:
-	//	"0".."9"* "." "0".."9"*;
+	//	'0'..'9'* '.' '0'..'9'*;
 	public TerminalRule getREALRule() {
 		return gaExpression.getREALRule();
 	} 
@@ -1907,9 +1915,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////paranthesizedExpression returns [Expression e] :
 	//
 	////    '(' x=expression ')' {$e=factory.createParanthesizedExpression(x);};
-	// ParanthesizedExpression returns
-	//Expression:
-	//	"(" Expression ")";
+	// ParanthesizedExpression Expression:
+	//	'(' Expression ')';
 	public ExpressionGrammarAccess.ParanthesizedExpressionElements getParanthesizedExpressionAccess() {
 		return gaExpression.getParanthesizedExpressionAccess();
 	}
@@ -1922,7 +1929,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////    '(' x=expression ')' {$e=factory.createParanthesizedExpression(x);};
 	// GlobalVarExpression:
-	//	"GLOBALVAR" name=Identifier;
+	//	'GLOBALVAR' name=Identifier;
 	public ExpressionGrammarAccess.GlobalVarExpressionElements getGlobalVarExpressionAccess() {
 		return gaExpression.getGlobalVarExpressionAccess();
 	}
@@ -1948,7 +1955,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//OperationCall:
-	//	name=Identifier "(" (params+=Expression ("," params+=Expression)*)? ")";
+	//	name=Identifier '(' (params+=Expression (',' params+=Expression)*)? ')';
 	public ExpressionGrammarAccess.OperationCallElements getOperationCallAccess() {
 		return gaExpression.getOperationCallAccess();
 	}
@@ -1960,7 +1967,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////listLiteral  returns [Expression e] :
 	// //	'{' (l=parameterList)? '}' {$e=factory.createListLiteral(l);};
 	// ListLiteral:
-	//	{ListLiteral} "{" (elements+=Expression ("," elements+=Expression)*)? "}";
+	//	{ListLiteral} '{' (elements+=Expression (',' elements+=Expression)*)? '}';
 	public ExpressionGrammarAccess.ListLiteralElements getListLiteralAccess() {
 		return gaExpression.getListLiteralAccess();
 	}
@@ -1974,7 +1981,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	////	{$e= factory.createConstructorCallExpression(t);};
 	// ConstructorCallExpression:
-	//	"new" type=SimpleType;
+	//	'new' type=SimpleType;
 	public ExpressionGrammarAccess.ConstructorCallExpressionElements getConstructorCallExpressionAccess() {
 		return gaExpression.getConstructorCallExpressionAccess();
 	}
@@ -2000,7 +2007,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	//
 	//// { $e = factory.createCollectionExpression(id(name),var,x);};
 	// TypeSelectExpression:
-	//	name="typeSelect" "(" type=Type ")";
+	//	name='typeSelect' '(' type=Type ')';
 	public ExpressionGrammarAccess.TypeSelectExpressionElements getTypeSelectExpressionAccess() {
 		return gaExpression.getTypeSelectExpressionAccess();
 	}
@@ -2010,8 +2017,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CollectionExpression:
-	//	name=("collect" | "select" | "selectFirst" | "reject" | "exists" | "notExists" | "sortBy" | "forAll") "("
-	//	(var=Identifier "|")? exp=Expression ")";
+	//	name=('collect' | 'select' | 'selectFirst' | 'reject' | 'exists' | 'notExists' | 'sortBy' | 'forAll') '('
+	//	(var=Identifier '|')? exp=Expression ')';
 	public ExpressionGrammarAccess.CollectionExpressionElements getCollectionExpressionAccess() {
 		return gaExpression.getCollectionExpressionAccess();
 	}
@@ -2023,7 +2030,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	////type returns [Identifier id] :
 	// //	a = collectionType {$id=a;}|
 	// //	b = simpleType {$id=b;};
-	// Type returns Identifier:
+	// Type Identifier:
 	//	CollectionType | SimpleType;
 	public ExpressionGrammarAccess.TypeElements getTypeAccess() {
 		return gaExpression.getTypeAccess();
@@ -2037,9 +2044,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	// //  cl=( 'Collection' | 'List' | 'Set' ) {$id = id(cl);}
 	//
 	////  (b='[' id1=simpleType c=']' { $id.append(id(b));$id.append(id1);$id.append(id(c));})?;
-	// CollectionType returns
-	//Identifier:
-	//	cl=("Collection" | "List" | "Set") "[" id1=SimpleType "]";
+	// CollectionType Identifier:
+	//	cl=('Collection' | 'List' | 'Set') '[' id1=SimpleType ']';
 	public ExpressionGrammarAccess.CollectionTypeElements getCollectionTypeAccess() {
 		return gaExpression.getCollectionTypeAccess();
 	}
@@ -2052,8 +2058,8 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	// //	x=identifier {$id=x;}
 	//
 	////	(d='::' end=identifier  {$id.append(id(d)); $id.append(end);})*;
-	// SimpleType returns Identifier:
-	//	id+=Identifier ("::" id+=Identifier)*;
+	// SimpleType Identifier:
+	//	id+=Identifier ('::' id+=Identifier)*;
 	public ExpressionGrammarAccess.SimpleTypeElements getSimpleTypeAccess() {
 		return gaExpression.getSimpleTypeAccess();
 	}
@@ -2062,7 +2068,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 		return getSimpleTypeAccess().getRule();
 	}
 
-	//Identifier returns ecore::EString:
+	//Identifier:
 	//	ID;
 	public ExpressionGrammarAccess.IdentifierElements getIdentifierAccess() {
 		return gaExpression.getIdentifierAccess();
@@ -2073,45 +2079,44 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal ID:
-	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
+	//	'^'? ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 	public TerminalRule getIDRule() {
-		return gaExpression.getIDRule();
+		return gaTerminals.getIDRule();
 	} 
 
 	//terminal INT returns ecore::EInt:
-	//	"0".."9"+;
+	//	'0'..'9'+;
 	public TerminalRule getINTRule() {
-		return gaExpression.getINTRule();
+		return gaTerminals.getINTRule();
 	} 
 
 	//terminal STRING:
-	//	"\"" ("\\" . / * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\""))* "\"" | "\'" ("\\" .
-	//	/ * 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' * / | !("\\" | "\'"))* "\'";
+	//	'"' ('\\' . | !('\\' | '"'))* '"' | "'" ('\\' . | !('\\' | "'"))* "'";
 	public TerminalRule getSTRINGRule() {
-		return gaExpression.getSTRINGRule();
+		return gaTerminals.getSTRINGRule();
 	} 
 
 	//terminal ML_COMMENT:
-	//	"/ *"->"* /";
+	//	'/*'->'*/';
 	public TerminalRule getML_COMMENTRule() {
-		return gaExpression.getML_COMMENTRule();
+		return gaTerminals.getML_COMMENTRule();
 	} 
 
 	//terminal SL_COMMENT:
-	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
+	//	'//' !('\n' | '\r')* ('\r'? '\n')?;
 	public TerminalRule getSL_COMMENTRule() {
-		return gaExpression.getSL_COMMENTRule();
+		return gaTerminals.getSL_COMMENTRule();
 	} 
 
 	//terminal WS:
-	//	(" " | "\t" | "\r" | "\n")+;
+	//	' ' | '\t' | '\r' | '\n'+;
 	public TerminalRule getWSRule() {
-		return gaExpression.getWSRule();
+		return gaTerminals.getWSRule();
 	} 
 
 	//terminal ANY_OTHER:
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
-		return gaExpression.getANY_OTHERRule();
+		return gaTerminals.getANY_OTHERRule();
 	} 
 }

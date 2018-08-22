@@ -152,8 +152,8 @@ public class ExportFragment extends AbstractGeneratorFragment {
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     final BindFactory bindFactory = new BindFactory();
-    final String namingPrefix = GrammarUtil.getNamespace(grammar) + ".naming." + GrammarUtil.getName(grammar); //$NON-NLS-1$
-    final String resourcePrefix = GrammarUtil.getNamespace(grammar) + ".resource." + GrammarUtil.getName(grammar); //$NON-NLS-1$
+    final String namingPrefix = GrammarUtil.getNamespace(grammar) + ".naming." + GrammarUtil.getSimpleName(grammar); //$NON-NLS-1$
+    final String resourcePrefix = GrammarUtil.getNamespace(grammar) + ".resource." + GrammarUtil.getSimpleName(grammar); //$NON-NLS-1$
 
     ExportModel m = getModel(grammar);
     if (m != null) {

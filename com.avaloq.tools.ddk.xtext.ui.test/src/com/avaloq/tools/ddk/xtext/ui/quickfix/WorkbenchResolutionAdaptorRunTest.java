@@ -33,9 +33,11 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.ui.MarkerTypes;
+import org.eclipse.xtext.ui.editor.IDirtyStateManager;
 import org.eclipse.xtext.ui.editor.quickfix.ILanguageResourceHelper;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolution;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
+import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 import org.eclipse.xtext.ui.util.IssueUtil;
 import org.eclipse.xtext.util.Pair;
@@ -63,6 +65,8 @@ public class WorkbenchResolutionAdaptorRunTest {
   private final IStorage2UriMapper mockStorage2UriMapper = mock(IStorage2UriMapper.class);
   private final ILanguageResourceHelper mockLanguageResourceHelper = mock(ILanguageResourceHelper.class);
   private final IssueResolutionProvider mockIssueResolutionProvider = mock(IssueResolutionProvider.class);
+  private final IResourceSetProvider mockResourceSetProvider = mock(IResourceSetProvider.class);
+  private final IDirtyStateManager mockDirtyStateManager = mock(IDirtyStateManager.class);
 
   private final Injector injector = Guice.createInjector(new AbstractModule() {
     @Override
@@ -78,6 +82,9 @@ public class WorkbenchResolutionAdaptorRunTest {
       bind(IStorage2UriMapper.class).toInstance(mockStorage2UriMapper);
       bind(ILanguageResourceHelper.class).toInstance(mockLanguageResourceHelper);
       bind(IssueResolutionProvider.class).toInstance(mockIssueResolutionProvider);
+
+      bind(IResourceSetProvider.class).toInstance(mockResourceSetProvider);
+      bind(IDirtyStateManager.class).toInstance(mockDirtyStateManager);
     }
   });
 

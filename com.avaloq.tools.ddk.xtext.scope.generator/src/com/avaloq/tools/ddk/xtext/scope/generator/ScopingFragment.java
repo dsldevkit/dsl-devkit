@@ -28,17 +28,17 @@ import com.avaloq.tools.ddk.xtext.scoping.IScopeNameProvider;
  */
 public class ScopingFragment extends AbstractGeneratorFragment {
 
-  private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";
+  private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext"; //$NON-NLS-1$
 
   /** {@inheritDoc} */
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     final BindFactory bindFactory = new BindFactory();
-    final String prefix = GrammarUtil.getNamespace(grammar) + ".scoping." + GrammarUtil.getName(grammar);
+    final String prefix = GrammarUtil.getNamespace(grammar) + ".scoping." + GrammarUtil.getSimpleName(grammar); //$NON-NLS-1$
 
-    bindFactory.addTypeToType(IScopeProvider.class.getName(), prefix + "ScopeProvider");
-    bindFactory.addTypeToType(IScopeNameProvider.class.getName(), prefix + "ScopeNameProvider");
-    bindFactory.addTypeToType(ILinkingService.class.getName(), "com.avaloq.tools.ddk.xtext.linking.LinkingService");
+    bindFactory.addTypeToType(IScopeProvider.class.getName(), prefix + "ScopeProvider"); //$NON-NLS-1$
+    bindFactory.addTypeToType(IScopeNameProvider.class.getName(), prefix + "ScopeNameProvider"); //$NON-NLS-1$
+    bindFactory.addTypeToType(ILinkingService.class.getName(), "com.avaloq.tools.ddk.xtext.linking.LinkingService"); //$NON-NLS-1$
 
     return bindFactory.getBindings();
   }
@@ -46,7 +46,7 @@ public class ScopingFragment extends AbstractGeneratorFragment {
   /** {@inheritDoc} */
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
-    return new String[] {"org.eclipse.emf.ecore", RUNTIME_PLUGIN};
+    return new String[] {"org.eclipse.emf.ecore", RUNTIME_PLUGIN}; //$NON-NLS-1$
   }
 
   /** {@inheritDoc} */
@@ -58,7 +58,7 @@ public class ScopingFragment extends AbstractGeneratorFragment {
   /** {@inheritDoc} */
   @Override
   public String[] getExportedPackagesRt(final Grammar grammar) {
-    return new String[] {GrammarUtil.getNamespace(grammar) + ".scoping"};
+    return new String[] {GrammarUtil.getNamespace(grammar) + ".scoping"}; //$NON-NLS-1$
   }
 
 }

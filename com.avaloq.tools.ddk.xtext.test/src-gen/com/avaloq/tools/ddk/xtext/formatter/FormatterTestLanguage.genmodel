@@ -5,7 +5,7 @@
     forceOverwrite="true" modelName="FormatterTestLanguage" updateClasspath="false"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" complianceLevel="6.0"
     copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.test.edit" editorPluginID="com.avaloq.tools.ddk.xtext.test.editor"
-    runtimeVersion="2.12" usedGenPackages="platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    runtimeVersion="2.12">
   <genPackages prefix="FormatterTestLanguage" basePackage="com.avaloq.tools.ddk.xtext.formatter"
       disposableProviderFactory="true" ecorePackage="FormatterTestLanguage.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="FormatterTestLanguage.ecore#//Enum1">

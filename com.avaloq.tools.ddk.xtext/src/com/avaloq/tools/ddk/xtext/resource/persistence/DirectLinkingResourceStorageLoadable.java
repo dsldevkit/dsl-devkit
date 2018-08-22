@@ -73,6 +73,9 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       // CHECKSTYLE:ON
       LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
       throw e instanceof WrappedException ? e : new WrappedException(e); // NOPMD
+    } catch (IOException e) {
+      LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
+      throw new WrappedException(e); // NOPMD
     } finally {
       traceSet.ended(ResourceLoadStorageEvent.class);
     }

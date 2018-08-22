@@ -27,11 +27,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredLanguageValidatorImpl#getLanguage <em>Language</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.impl.ConfiguredLanguageValidatorImpl#getCatalogConfigurations <em>Catalog Configurations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -10,10 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.naming;
 
-import org.eclipse.xtext.naming.DefaultDeclarativeQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.xbase.scoping.XbaseQualifiedNameProvider;
 
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
@@ -22,7 +22,7 @@ import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
 /**
  * QualifiedNameProvider for Format - currently only provides for FormatConfiguration elements.
  */
-public class FormatQualifiedNameProvider extends DefaultDeclarativeQualifiedNameProvider {
+public class FormatQualifiedNameProvider extends XbaseQualifiedNameProvider {
 
   /**
    * Qualified name for FormatConfiguration.

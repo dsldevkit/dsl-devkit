@@ -49,7 +49,7 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
         
 
     public String[] getTokenNames() { return InternalTestLanguageParser.tokenNames; }
-    public String getGrammarFileName() { return "../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g"; }
+    public String getGrammarFileName() { return "InternalTestLanguage.g"; }
 
 
      
@@ -73,20 +73,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "entryRuleModel"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:60:1: entryRuleModel : ruleModel EOF ;
+    // InternalTestLanguage.g:60:1: entryRuleModel : ruleModel EOF ;
     public final void entryRuleModel() throws RecognitionException {
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:61:1: ( ruleModel EOF )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:62:1: ruleModel EOF
+            // InternalTestLanguage.g:61:1: ( ruleModel EOF )
+            // InternalTestLanguage.g:62:1: ruleModel EOF
             {
              before(grammarAccess.getModelRule()); 
-            pushFollow(FOLLOW_ruleModel_in_entryRuleModel61);
+            pushFollow(FOLLOW_1);
             ruleModel();
 
             state._fsp--;
 
              after(grammarAccess.getModelRule()); 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleModel68); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
@@ -103,20 +103,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "ruleModel"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:69:1: ruleModel : ( ( rule__Model__GreetingsAssignment )* ) ;
+    // InternalTestLanguage.g:69:1: ruleModel : ( ( rule__Model__GreetingsAssignment )* ) ;
     public final void ruleModel() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:73:2: ( ( ( rule__Model__GreetingsAssignment )* ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:74:1: ( ( rule__Model__GreetingsAssignment )* )
+            // InternalTestLanguage.g:73:2: ( ( ( rule__Model__GreetingsAssignment )* ) )
+            // InternalTestLanguage.g:74:1: ( ( rule__Model__GreetingsAssignment )* )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:74:1: ( ( rule__Model__GreetingsAssignment )* )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:75:1: ( rule__Model__GreetingsAssignment )*
+            // InternalTestLanguage.g:74:1: ( ( rule__Model__GreetingsAssignment )* )
+            // InternalTestLanguage.g:75:1: ( rule__Model__GreetingsAssignment )*
             {
              before(grammarAccess.getModelAccess().getGreetingsAssignment()); 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:76:1: ( rule__Model__GreetingsAssignment )*
+            // InternalTestLanguage.g:76:1: ( rule__Model__GreetingsAssignment )*
             loop1:
             do {
                 int alt1=2;
@@ -129,9 +129,9 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
                 switch (alt1) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:76:2: rule__Model__GreetingsAssignment
+            	    // InternalTestLanguage.g:76:2: rule__Model__GreetingsAssignment
             	    {
-            	    pushFollow(FOLLOW_rule__Model__GreetingsAssignment_in_ruleModel94);
+            	    pushFollow(FOLLOW_3);
             	    rule__Model__GreetingsAssignment();
 
             	    state._fsp--;
@@ -168,20 +168,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "entryRuleGreeting"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:88:1: entryRuleGreeting : ruleGreeting EOF ;
+    // InternalTestLanguage.g:88:1: entryRuleGreeting : ruleGreeting EOF ;
     public final void entryRuleGreeting() throws RecognitionException {
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:89:1: ( ruleGreeting EOF )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:90:1: ruleGreeting EOF
+            // InternalTestLanguage.g:89:1: ( ruleGreeting EOF )
+            // InternalTestLanguage.g:90:1: ruleGreeting EOF
             {
              before(grammarAccess.getGreetingRule()); 
-            pushFollow(FOLLOW_ruleGreeting_in_entryRuleGreeting122);
+            pushFollow(FOLLOW_1);
             ruleGreeting();
 
             state._fsp--;
 
              after(grammarAccess.getGreetingRule()); 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleGreeting129); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
@@ -198,23 +198,23 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "ruleGreeting"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:97:1: ruleGreeting : ( ( rule__Greeting__Group__0 ) ) ;
+    // InternalTestLanguage.g:97:1: ruleGreeting : ( ( rule__Greeting__Group__0 ) ) ;
     public final void ruleGreeting() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:101:2: ( ( ( rule__Greeting__Group__0 ) ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:102:1: ( ( rule__Greeting__Group__0 ) )
+            // InternalTestLanguage.g:101:2: ( ( ( rule__Greeting__Group__0 ) ) )
+            // InternalTestLanguage.g:102:1: ( ( rule__Greeting__Group__0 ) )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:102:1: ( ( rule__Greeting__Group__0 ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:103:1: ( rule__Greeting__Group__0 )
+            // InternalTestLanguage.g:102:1: ( ( rule__Greeting__Group__0 ) )
+            // InternalTestLanguage.g:103:1: ( rule__Greeting__Group__0 )
             {
              before(grammarAccess.getGreetingAccess().getGroup()); 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:104:1: ( rule__Greeting__Group__0 )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:104:2: rule__Greeting__Group__0
+            // InternalTestLanguage.g:104:1: ( rule__Greeting__Group__0 )
+            // InternalTestLanguage.g:104:2: rule__Greeting__Group__0
             {
-            pushFollow(FOLLOW_rule__Greeting__Group__0_in_ruleGreeting155);
+            pushFollow(FOLLOW_2);
             rule__Greeting__Group__0();
 
             state._fsp--;
@@ -245,21 +245,21 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__0"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:118:1: rule__Greeting__Group__0 : rule__Greeting__Group__0__Impl rule__Greeting__Group__1 ;
+    // InternalTestLanguage.g:118:1: rule__Greeting__Group__0 : rule__Greeting__Group__0__Impl rule__Greeting__Group__1 ;
     public final void rule__Greeting__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:122:1: ( rule__Greeting__Group__0__Impl rule__Greeting__Group__1 )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:123:2: rule__Greeting__Group__0__Impl rule__Greeting__Group__1
+            // InternalTestLanguage.g:122:1: ( rule__Greeting__Group__0__Impl rule__Greeting__Group__1 )
+            // InternalTestLanguage.g:123:2: rule__Greeting__Group__0__Impl rule__Greeting__Group__1
             {
-            pushFollow(FOLLOW_rule__Greeting__Group__0__Impl_in_rule__Greeting__Group__0189);
+            pushFollow(FOLLOW_4);
             rule__Greeting__Group__0__Impl();
 
             state._fsp--;
 
-            pushFollow(FOLLOW_rule__Greeting__Group__1_in_rule__Greeting__Group__0192);
+            pushFollow(FOLLOW_2);
             rule__Greeting__Group__1();
 
             state._fsp--;
@@ -283,20 +283,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__0__Impl"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:130:1: rule__Greeting__Group__0__Impl : ( 'Hello' ) ;
+    // InternalTestLanguage.g:130:1: rule__Greeting__Group__0__Impl : ( 'Hello' ) ;
     public final void rule__Greeting__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:134:1: ( ( 'Hello' ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:135:1: ( 'Hello' )
+            // InternalTestLanguage.g:134:1: ( ( 'Hello' ) )
+            // InternalTestLanguage.g:135:1: ( 'Hello' )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:135:1: ( 'Hello' )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:136:1: 'Hello'
+            // InternalTestLanguage.g:135:1: ( 'Hello' )
+            // InternalTestLanguage.g:136:1: 'Hello'
             {
              before(grammarAccess.getGreetingAccess().getHelloKeyword_0()); 
-            match(input,11,FOLLOW_11_in_rule__Greeting__Group__0__Impl220); 
+            match(input,11,FOLLOW_2); 
              after(grammarAccess.getGreetingAccess().getHelloKeyword_0()); 
 
             }
@@ -320,21 +320,21 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__1"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:149:1: rule__Greeting__Group__1 : rule__Greeting__Group__1__Impl rule__Greeting__Group__2 ;
+    // InternalTestLanguage.g:149:1: rule__Greeting__Group__1 : rule__Greeting__Group__1__Impl rule__Greeting__Group__2 ;
     public final void rule__Greeting__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:153:1: ( rule__Greeting__Group__1__Impl rule__Greeting__Group__2 )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:154:2: rule__Greeting__Group__1__Impl rule__Greeting__Group__2
+            // InternalTestLanguage.g:153:1: ( rule__Greeting__Group__1__Impl rule__Greeting__Group__2 )
+            // InternalTestLanguage.g:154:2: rule__Greeting__Group__1__Impl rule__Greeting__Group__2
             {
-            pushFollow(FOLLOW_rule__Greeting__Group__1__Impl_in_rule__Greeting__Group__1251);
+            pushFollow(FOLLOW_5);
             rule__Greeting__Group__1__Impl();
 
             state._fsp--;
 
-            pushFollow(FOLLOW_rule__Greeting__Group__2_in_rule__Greeting__Group__1254);
+            pushFollow(FOLLOW_2);
             rule__Greeting__Group__2();
 
             state._fsp--;
@@ -358,23 +358,23 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__1__Impl"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:161:1: rule__Greeting__Group__1__Impl : ( ( rule__Greeting__NameAssignment_1 ) ) ;
+    // InternalTestLanguage.g:161:1: rule__Greeting__Group__1__Impl : ( ( rule__Greeting__NameAssignment_1 ) ) ;
     public final void rule__Greeting__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:165:1: ( ( ( rule__Greeting__NameAssignment_1 ) ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:166:1: ( ( rule__Greeting__NameAssignment_1 ) )
+            // InternalTestLanguage.g:165:1: ( ( ( rule__Greeting__NameAssignment_1 ) ) )
+            // InternalTestLanguage.g:166:1: ( ( rule__Greeting__NameAssignment_1 ) )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:166:1: ( ( rule__Greeting__NameAssignment_1 ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:167:1: ( rule__Greeting__NameAssignment_1 )
+            // InternalTestLanguage.g:166:1: ( ( rule__Greeting__NameAssignment_1 ) )
+            // InternalTestLanguage.g:167:1: ( rule__Greeting__NameAssignment_1 )
             {
              before(grammarAccess.getGreetingAccess().getNameAssignment_1()); 
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:168:1: ( rule__Greeting__NameAssignment_1 )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:168:2: rule__Greeting__NameAssignment_1
+            // InternalTestLanguage.g:168:1: ( rule__Greeting__NameAssignment_1 )
+            // InternalTestLanguage.g:168:2: rule__Greeting__NameAssignment_1
             {
-            pushFollow(FOLLOW_rule__Greeting__NameAssignment_1_in_rule__Greeting__Group__1__Impl281);
+            pushFollow(FOLLOW_2);
             rule__Greeting__NameAssignment_1();
 
             state._fsp--;
@@ -405,16 +405,16 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__2"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:178:1: rule__Greeting__Group__2 : rule__Greeting__Group__2__Impl ;
+    // InternalTestLanguage.g:178:1: rule__Greeting__Group__2 : rule__Greeting__Group__2__Impl ;
     public final void rule__Greeting__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:182:1: ( rule__Greeting__Group__2__Impl )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:183:2: rule__Greeting__Group__2__Impl
+            // InternalTestLanguage.g:182:1: ( rule__Greeting__Group__2__Impl )
+            // InternalTestLanguage.g:183:2: rule__Greeting__Group__2__Impl
             {
-            pushFollow(FOLLOW_rule__Greeting__Group__2__Impl_in_rule__Greeting__Group__2311);
+            pushFollow(FOLLOW_2);
             rule__Greeting__Group__2__Impl();
 
             state._fsp--;
@@ -438,20 +438,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__2__Impl"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:189:1: rule__Greeting__Group__2__Impl : ( '!' ) ;
+    // InternalTestLanguage.g:189:1: rule__Greeting__Group__2__Impl : ( '!' ) ;
     public final void rule__Greeting__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:193:1: ( ( '!' ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:194:1: ( '!' )
+            // InternalTestLanguage.g:193:1: ( ( '!' ) )
+            // InternalTestLanguage.g:194:1: ( '!' )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:194:1: ( '!' )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:195:1: '!'
+            // InternalTestLanguage.g:194:1: ( '!' )
+            // InternalTestLanguage.g:195:1: '!'
             {
              before(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); 
-            match(input,12,FOLLOW_12_in_rule__Greeting__Group__2__Impl339); 
+            match(input,12,FOLLOW_2); 
              after(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); 
 
             }
@@ -475,20 +475,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Model__GreetingsAssignment"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:215:1: rule__Model__GreetingsAssignment : ( ruleGreeting ) ;
+    // InternalTestLanguage.g:215:1: rule__Model__GreetingsAssignment : ( ruleGreeting ) ;
     public final void rule__Model__GreetingsAssignment() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:219:1: ( ( ruleGreeting ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:220:1: ( ruleGreeting )
+            // InternalTestLanguage.g:219:1: ( ( ruleGreeting ) )
+            // InternalTestLanguage.g:220:1: ( ruleGreeting )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:220:1: ( ruleGreeting )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:221:1: ruleGreeting
+            // InternalTestLanguage.g:220:1: ( ruleGreeting )
+            // InternalTestLanguage.g:221:1: ruleGreeting
             {
              before(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); 
-            pushFollow(FOLLOW_ruleGreeting_in_rule__Model__GreetingsAssignment381);
+            pushFollow(FOLLOW_2);
             ruleGreeting();
 
             state._fsp--;
@@ -516,20 +516,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__NameAssignment_1"
-    // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:230:1: rule__Greeting__NameAssignment_1 : ( RULE_ID ) ;
+    // InternalTestLanguage.g:230:1: rule__Greeting__NameAssignment_1 : ( RULE_ID ) ;
     public final void rule__Greeting__NameAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:234:1: ( ( RULE_ID ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:235:1: ( RULE_ID )
+            // InternalTestLanguage.g:234:1: ( ( RULE_ID ) )
+            // InternalTestLanguage.g:235:1: ( RULE_ID )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:235:1: ( RULE_ID )
-            // ../com.avaloq.tools.ddk.check.test.runtime.ui/src-gen/com/avaloq/tools/ddk/check/ui/contentassist/antlr/internal/InternalTestLanguage.g:236:1: RULE_ID
+            // InternalTestLanguage.g:235:1: ( RULE_ID )
+            // InternalTestLanguage.g:236:1: RULE_ID
             {
              before(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Greeting__NameAssignment_1412); 
+            match(input,RULE_ID,FOLLOW_2); 
              after(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
 
             }
@@ -556,21 +556,10 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
  
 
-    public static final BitSet FOLLOW_ruleModel_in_entryRuleModel61 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleModel68 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Model__GreetingsAssignment_in_ruleModel94 = new BitSet(new long[]{0x0000000000000802L});
-    public static final BitSet FOLLOW_ruleGreeting_in_entryRuleGreeting122 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleGreeting129 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Greeting__Group__0_in_ruleGreeting155 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Greeting__Group__0__Impl_in_rule__Greeting__Group__0189 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_rule__Greeting__Group__1_in_rule__Greeting__Group__0192 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_11_in_rule__Greeting__Group__0__Impl220 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Greeting__Group__1__Impl_in_rule__Greeting__Group__1251 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_rule__Greeting__Group__2_in_rule__Greeting__Group__1254 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Greeting__NameAssignment_1_in_rule__Greeting__Group__1__Impl281 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Greeting__Group__2__Impl_in_rule__Greeting__Group__2311 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_12_in_rule__Greeting__Group__2__Impl339 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleGreeting_in_rule__Model__GreetingsAssignment381 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__Greeting__NameAssignment_1412 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000802L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000001000L});
 
 }

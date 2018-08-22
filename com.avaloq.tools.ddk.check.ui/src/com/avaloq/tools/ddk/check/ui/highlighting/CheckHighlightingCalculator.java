@@ -14,11 +14,11 @@ import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.TerminalRule;
+import org.eclipse.xtext.ide.editor.syntaxcoloring.IHighlightedPositionAcceptor;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultHighlightingConfiguration;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor;
-import org.eclipse.xtext.xbase.ui.highlighting.XbaseHighlightingCalculator;
+import org.eclipse.xtext.xbase.ide.highlighting.XbaseHighlightingCalculator;
 
 import com.avaloq.tools.ddk.check.documentation.JavaDocCommentDocumentationProvider;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess;
@@ -30,7 +30,7 @@ import com.google.inject.Inject;
  */
 public class CheckHighlightingCalculator extends XbaseHighlightingCalculator {
 
-  private static final String FEATURE_CALL_ID_RULE_NAME = "FeatureCallID";
+  private static final String FEATURE_CALL_ID_RULE_NAME = "FeatureCallID"; //$NON-NLS-1$
 
   @Inject
   private JavaDocCommentDocumentationProvider commentProvider;
@@ -61,4 +61,3 @@ public class CheckHighlightingCalculator extends XbaseHighlightingCalculator {
   }
 
 }
-

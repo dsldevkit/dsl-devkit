@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.OffsetLocatorImpl#isFixed <em>Fixed</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.OffsetLocatorImpl#getValue <em>Value</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.OffsetLocatorImpl#isNobreak <em>Nobreak</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

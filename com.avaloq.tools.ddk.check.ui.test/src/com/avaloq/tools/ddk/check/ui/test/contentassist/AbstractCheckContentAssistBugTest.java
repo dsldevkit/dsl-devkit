@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.contentassist;
 
-import static org.eclipse.xtext.junit4.ui.util.JavaProjectSetupUtil.findJavaProject;
+import static org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil.findJavaProject;
 
 import java.io.InputStream;
 
@@ -20,10 +20,10 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.xtext.common.types.access.IJvmTypeProvider;
 import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
 import org.eclipse.xtext.common.types.access.jdt.JdtTypeProviderFactory;
-import org.eclipse.xtext.junit4.ui.ContentAssistProcessorTestBuilder;
-import org.eclipse.xtext.junit4.util.ResourceLoadHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.ui.testing.ContentAssistProcessorTestBuilder;
+import org.eclipse.xtext.ui.testing.util.ResourceLoadHelper;
 
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase;
 import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
@@ -50,7 +50,7 @@ public abstract class AbstractCheckContentAssistBugTest extends AbstractCheckTes
   public XtextResource getResourceFor(final InputStream stream) {
     try {
       XtextResourceSet set = get(XtextResourceSet.class);
-      XtextResource resource = (XtextResource) set.createResource(URI.createURI("Test." + getFileExtension()));
+      XtextResource resource = (XtextResource) set.createResource(URI.createURI("Test." + getFileExtension())); //$NON-NLS-1$
       resource.load(stream, null);
       initializeTypeProvider(set);
       return resource;

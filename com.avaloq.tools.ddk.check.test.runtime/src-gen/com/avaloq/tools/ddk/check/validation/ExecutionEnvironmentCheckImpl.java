@@ -28,8 +28,7 @@ public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
   private class GreetingNameLengthClass {
     
     public void runGreeting(final Greeting g) {
-      String _name = g.getName();
-      int _length = _name.length();
+      int _length = g.getName().length();
       boolean _greaterThan = (_length > 5);
       if (_greaterThan) {
         
@@ -43,8 +42,7 @@ public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
           ExecutionEnvironmentIssueCodes.NAMELENGTH, null // Issue code & data
         );
       } else {
-        String _name_1 = g.getName();
-        boolean _equals = _name_1.equals(executionEnvironmentCatalog.getGreetingNameLength_DefaultName(g));
+        boolean _equals = g.getName().equals(executionEnvironmentCatalog.getGreetingNameLength_DefaultName(g));
         if (_equals) {
           
           // Issue diagnostic
