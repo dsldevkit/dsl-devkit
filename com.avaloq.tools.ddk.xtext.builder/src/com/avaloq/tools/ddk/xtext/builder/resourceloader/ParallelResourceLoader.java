@@ -58,7 +58,7 @@ import com.google.inject.name.Names;
 public class ParallelResourceLoader extends AbstractResourceLoader {
 
   private static final long MAX_WAIT_TIME = TimeUnit.SECONDS.toMillis(300);
-  private static final long SLOW_LOADING_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(30);
+  private static final long SLOW_LOADING_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(60);
   private static final String SLOW_LOADING_TIME_PROPERTY = "resourceloader.slowloadingtime"; //$NON-NLS-1$
 
   private static final Logger LOGGER = Logger.getLogger(ParallelResourceLoader.class);
