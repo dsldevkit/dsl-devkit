@@ -63,7 +63,7 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
 
   @Override
   public void closeAllShells() {
-    new FixedDefaultWorkbench(this).closeAllShells();
+    new FixedDefaultWorkbench(this).closeShellsMatchingName(s -> !s.isEmpty());
   }
 
   /**
