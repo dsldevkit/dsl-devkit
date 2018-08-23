@@ -29,8 +29,6 @@ import com.avaloq.tools.ddk.xtext.modelcache.IModelCacheManager;
  */
 public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
 
-  String MARK_UNRESOLVABLE_XREFS = ILazyLinkingResource2.class.getName() + ".MARK_UNRESOLVABLE_XREFS"; //$NON-NLS-1$
-
   /**
    * Use as the value for a {@link com.google.inject.name.Named} annotation on a {@link Boolean} value bound in the language injector to explicitly enable or
    * disable parallel loading. By default parallel loading is enabled.
