@@ -84,6 +84,8 @@ class FixedDefaultWorkbench {
   /**
    * Close all shells matching given name predicate.
    *
+   * @param predicate
+   *          condition on name of shells
    * @return the fixed default workbench
    */
   FixedDefaultWorkbench closeShellsMatchingName(final Predicate<String> predicate) {
