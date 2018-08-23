@@ -21,6 +21,7 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withSt
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTooltip;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.WrappedException;
@@ -63,7 +64,24 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
 
   @Override
   public void closeAllShells() {
-    new FixedDefaultWorkbench(this).closeAllShells();
+    closeShellsNonEmptyName();
+  }
+
+  /**
+   * Close shells matching given name predicate, excluding Eclipse system shells though.
+   *
+   * @param predicate
+   *          name predicate
+   */
+  public void closeShellsMatchingName(final Predicate<String> predicate) {
+    new FixedDefaultWorkbench(this).closeShellsMatchingName(predicate);
+  }
+
+  /**
+   * Closes shells that have some name, but are not Eclipse system shells.
+   */
+  public void closeShellsNonEmptyName() {
+    new FixedDefaultWorkbench(this).closeShellsMatchingName(s -> !s.isEmpty());
   }
 
   /**

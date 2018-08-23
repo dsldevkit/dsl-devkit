@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.test.ui.swtbot;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -77,9 +78,18 @@ class FixedDefaultWorkbench {
    * @return the fixed default workbench
    */
   FixedDefaultWorkbench closeAllShells() {
+    return closeShellsMatchingName(v -> true);
+  }
+
+  /**
+   * Close all shells matching given name predicate.
+   *
+   * @return the fixed default workbench
+   */
+  FixedDefaultWorkbench closeShellsMatchingName(final Predicate<String> predicate) {
     SWTBotShell[] shells = bot.shells();
     for (SWTBotShell shell : shells) {
-      if (!isEclipseShell(shell) && !isLimboShell(shell) && !isQuickAccess(shell)) {
+      if (!isEclipseShell(shell) && !isLimboShell(shell) && !isQuickAccess(shell) && predicate.test(shell.getText())) {
         shell.close();
       }
     }
