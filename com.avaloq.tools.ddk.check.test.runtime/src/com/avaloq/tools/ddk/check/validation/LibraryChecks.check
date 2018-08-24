@@ -29,7 +29,7 @@ for grammar com.avaloq.tools.ddk.check.TestLanguage {
     live error CacheInjectionFailed "Cache injection failed"
     message "Cache was not injected" {
       for Greeting g {
-        if (cache == null) {
+        if (cache === null) {
           issue;
         }
       }
@@ -43,7 +43,7 @@ for grammar com.avaloq.tools.ddk.check.TestLanguage {
         try {
           cache.put(it, key, new Boolean(true));
           val Boolean value = cache.get(it, key);
-          if (value == null || !value) {
+          if (value === null || !value) {
             issue bind ("Could not read value from cache: " + value);
           }
         } catch (Throwable t) {

@@ -44,9 +44,9 @@ import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider
 class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
 
   @Inject
-  private FormatScopeUtil scopeUtil;
+  FormatScopeUtil scopeUtil;
   @Inject
-  private FormatScopeNameProvider nameProvider;
+  FormatScopeNameProvider nameProvider;
 
   /**
   * Provides a scope for given context and reference.
@@ -54,7 +54,7 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
   */
   override IScope getScope(EObject context, EReference reference) {
     val result = scope(context, reference)
-    if (result != null) {
+    if (result !== null) {
       return result
     }
     return super.getScope(context, reference)
@@ -68,7 +68,7 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
     val LinkedList<Grammar> grammars = newLinkedList()
     grammars.add(context)
     val usedGrammars = EcoreUtil2::getContainerOfType(context, typeof(Grammar)).usedGrammars
-    if (usedGrammars!=null && !usedGrammars.empty){
+    if (usedGrammars!==null && !usedGrammars.empty){
       grammars.addAll( Iterables::concat( Iterables::transform( usedGrammars, [g|getUsedGrammar(g)] )))
     }
     return grammars
@@ -81,7 +81,7 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
   def Collection<Grammar> getGrammars(EObject context) {
     val LinkedList<Grammar> grammars = newLinkedList()
     val format = EcoreUtil2::getContainerOfType(context, typeof(FormatConfiguration))
-    if (format != null && format.targetGrammar != null) {
+    if (format !== null && format.targetGrammar !== null) {
       grammars.add(format.targetGrammar);
       grammars.addAll(getUsedGrammar(format.targetGrammar))
     }
@@ -95,9 +95,9 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
   def Collection<FormatConfiguration> getFormats(FormatConfiguration context) {
     val formats = newLinkedList()
     val format = context
-    if (format != null) {
+    if (format !== null) {
       formats.add(format);
-      if (format.extendedFormatConfiguration != null) {
+      if (format.extendedFormatConfiguration !== null) {
         formats.addAll(getFormats(format.extendedFormatConfiguration))
       }
     }
@@ -123,7 +123,7 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
    * Creates scopes for a given list of rules for each grammar. Returned scopes are chained (parental relationships).
    */
   def IScope createScopeForAbstractRules(IScope parent, Iterable<EList<AbstractRule>> rulesForGrammars) {
-    if (parent == null) {
+    if (parent === null) {
       return createScopeForAbstractRules(
         MapBasedScope::createScope(IScope::NULLSCOPE, createDescriptions(rulesForGrammars.head)),
         rulesForGrammars.tail);
@@ -182,7 +182,7 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
     if (reference == FormatPackage.Literals::GROUP_BLOCK__GRAMMAR_ELEMENT) {
       val grammarRule = EcoreUtil2::getContainerOfType(context, typeof(GrammarRule))
       val superGroup = EcoreUtil2::getContainerOfType(context.eContainer(), typeof(GroupBlock))
-      if (superGroup == null){
+      if (superGroup === null){
         return createScopeForCompoundElements(scopeUtil.getCompoundElements(grammarRule.targetRule, typeof(CompoundElement)))
       }
       else{
@@ -196,22 +196,22 @@ class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
     val grammarRule = EcoreUtil2::getContainerOfType(context, typeof(GrammarRule))
     val groupBlock = EcoreUtil2::getContainerOfType(context, typeof(GroupBlock))
     if (reference == FormatPackage.Literals::GRAMMAR_ELEMENT_REFERENCE__KEYWORD) {
-      if (groupBlock != null) {
+      if (groupBlock !== null) {
         return createScopeForEObjects(scopeUtil.getKeywords(groupBlock.grammarElement));
       }
       return createScopeForEObjects(scopeUtil.getKeywords(grammarRule.targetRule));
     } else if (reference == FormatPackage.Literals::GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT) {
-      if (groupBlock != null) {
+      if (groupBlock !== null) {
         return createScopeForEObjects(scopeUtil.getAssignments(groupBlock.grammarElement));
       }
       return createScopeForEObjects(scopeUtil.getAssignments(grammarRule.targetRule));
     } else if (reference == FormatPackage.Literals::GRAMMAR_ELEMENT_REFERENCE__RULE_CALL) {
-      if (groupBlock != null) {
+      if (groupBlock !== null) {
         return createScopeForEObjects(scopeUtil.getRuleCalls(groupBlock.grammarElement));
       }
       return createScopeForEObjects(scopeUtil.getRuleCalls(grammarRule.targetRule));
     } else if (reference == FormatPackage.Literals::GRAMMAR_ELEMENT_REFERENCE__SELF) {
-      if (groupBlock != null) {
+      if (groupBlock !== null) {
         val selfDescription = EObjectDescription::create(
           nameProvider.getConstantNameFunction("rule").apply(groupBlock.grammarElement),
           groupBlock.grammarElement)

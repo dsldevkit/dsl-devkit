@@ -42,7 +42,7 @@ class CheckNewProject {
 
   def fileImports(CheckProjectInfo info) {
     // package where top-level grammar rule interfaces are defined
-    if(info.defaultPackageImport != null)
+    if(info.defaultPackageImport !== null)
         '''import «info.defaultPackageImport».* '''
     else ""
   }

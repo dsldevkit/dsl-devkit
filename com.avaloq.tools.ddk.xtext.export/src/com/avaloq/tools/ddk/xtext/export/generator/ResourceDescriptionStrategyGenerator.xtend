@@ -57,7 +57,7 @@ class ResourceDescriptionStrategyGenerator {
 
       public class «resourceDescriptionStrategy.toSimpleName» extends AbstractResourceDescriptionStrategy {
 
-        private static final Set<EClass> EXPORTED_ECLASSES = ImmutableSet.copyOf(new EClass[] {
+        static final Set<EClass> EXPORTED_ECLASSES = ImmutableSet.copyOf(new EClass[] {
           «val e = types.typeMap(grammar)»
           «FOR c : e.keySet.sortBy[literalIdentifier] SEPARATOR ',\n'»«c.literalIdentifier»«ENDFOR»
         });
@@ -82,7 +82,7 @@ class ResourceDescriptionStrategyGenerator {
                 «javaContributorComment(c.location)»
                 @Override
                 public Boolean case«c.type.name»(final «c.type.instanceClassName()» obj) {
-                  «IF c.guard != null»
+                  «IF c.guard !== null»
                     «javaContributorComment(c.guard.location)»
                     if («c.guard.javaExpression(ctx.clone('obj', c.type))») {
                       «generateCaseBody(c, ctx, genModelUtil)»
@@ -132,29 +132,29 @@ class ResourceDescriptionStrategyGenerator {
       «IF !a.isEmpty || !d.isEmpty || c.fingerprint || c.resourceFingerprint || c.lookup »
         // Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts
         Map<String, String> data = new ForwardingMap<String, String>() {
-          private Map<String, String> delegate;
+          Map<String, String> delegate;
 
           @Override
           protected Map<String, String> delegate() {
-            if (delegate == null) {
+            if (delegate === null) {
               ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
               Object value = null;
               «IF c.fingerprint»
                 // Fingerprint
                 value = getFingerprint(obj);
-                if (value != null) {
+                if (value !== null) {
                   builder.put(IFingerprintComputer.OBJECT_FINGERPRINT, value.toString());
                 }
               «ELSEIF c.resourceFingerprint»
                 // Resource fingerprint
                 value = getFingerprint(obj);
-                if (value != null) {
+                if (value !== null) {
                   builder.put(IFingerprintComputer.RESOURCE_FINGERPRINT, value.toString());
                 }
               «ENDIF»
               «IF c.lookup»
                 // Allow lookups
-                «IF c.lookupPredicate != null»
+                «IF c.lookupPredicate !== null»
                   «javaContributorComment(c.lookupPredicate.location)»
                   if («c.lookupPredicate.javaExpression(ctx.clone('obj', c.type))») {
                     builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
@@ -167,7 +167,7 @@ class ResourceDescriptionStrategyGenerator {
                 // Exported attributes
                 «FOR attr : a»
                   value = obj.eGet(«attr.literalIdentifier», false);
-                  if (value != null) {
+                  if (value !== null) {
                     builder.put(«resourceDescriptionConstants.toSimpleName».«attr.constantName(c.type)», value.toString());
                   }
                 «ENDFOR»
@@ -176,7 +176,7 @@ class ResourceDescriptionStrategyGenerator {
                 // User data
                 «FOR data : d»
                   value = «data.expr.javaExpression(ctx.clone('obj', c.type))»;
-                  if (value != null) {
+                  if (value !== null) {
                     builder.put(«resourceDescriptionConstants.toSimpleName».«data.constantName(c.type)», value.toString());
                   }
                 «ENDFOR»

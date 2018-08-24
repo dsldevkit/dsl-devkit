@@ -29,8 +29,8 @@ import org.junit.runner.RunWith
 @RunWith(XtextRunner)
 class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase {
 
-  private static final String PACKAGE_NAME = "mypackage"
-  private static final String CATALOG_NAME = "MyCatalog"
+  static final String PACKAGE_NAME = "mypackage"
+  static final String CATALOG_NAME = "MyCatalog"
 
   /**
    * Test the map generated from a catalog with no checks.

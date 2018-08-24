@@ -42,19 +42,19 @@ class CheckApiAccessValidationsTest{
   }
 
   @Test
-  def public void testNonApiAccessDisallowed() {
+  def void testNonApiAccessDisallowed() {
     val model = getTestSource("com.avaloq.tools.ddk.check.check.impl.CheckImpl") //Not OK - impl not defined as API.
     helper.assertWarning(model, XtypePackage.Literals.XIMPORT_DECLARATION, IssueCodes.NON_API_IMPORTED)
   }
 
   @Test
-  def public void testDefinedApiAccessable() {
+  def void testDefinedApiAccessable() {
     val model = getTestSource("com.avaloq.tools.ddk.check.check.Check") //OK! There's an API spec in this plugin's plugin.xml
     helper.assertNoIssue(model, XtypePackage.Literals.XIMPORT_DECLARATION, IssueCodes.NON_API_IMPORTED)
   }
 
   @Test
-  def public void testNonAvaloqTypeAccessable() {
+  def void testNonAvaloqTypeAccessable() {
     val model = getTestSource("java.util.HashMap") //OK! Not in com.avaloq.*
     helper.assertNoIssue(model, XtypePackage.Literals.XIMPORT_DECLARATION, IssueCodes.NON_API_IMPORTED)
   }

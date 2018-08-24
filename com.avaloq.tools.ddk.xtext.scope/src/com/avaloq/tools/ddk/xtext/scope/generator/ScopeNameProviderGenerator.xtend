@@ -55,7 +55,7 @@ class ScopeNameProviderGenerator {
         /** {@inheritDoc} */
         @Override
         public Iterable<INameFunction> internalGetNameFunctions(final EClass eClass) {
-          «IF it != null && it.naming != null»
+          «IF it !== null && it.naming !== null»
             «FOR p : it.naming.namings.map[type.EPackage].toSet()»
               if («p.qualifiedPackageInterfaceName()».eINSTANCE == eClass.getEPackage()) {
                 switch (eClass.getClassifierID()) {
@@ -89,7 +89,7 @@ class ScopeNameProviderGenerator {
 
   def dispatch String nameFunction(NamingExpression it, ScopeModel model, String contextName, EClass contextType) {
     if (factory) {
-      if (contextName == null || contextType == null) {
+      if (contextName === null || contextType === null) {
         expression.javaExpression(compilationContext.clone('UNEXPECTED_THIS'))
       } else {
         expression.javaExpression(compilationContext.clone('UNEXPECTED_THIS', null, contextName, contextType))
@@ -114,8 +114,8 @@ class ScopeNameProviderGenerator {
   }
 
   def dispatch String nameFunction(FeatureCall it, ScopeModel model, String contextName, EClass contextType) '''
-    «val currentContext = if (contextName == null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
-    «IF (target == null || target.isThisCall()) && isSimpleFeatureCall(currentContext)»NameFunctions.fromFeature(«literalIdentifier(feature())»)«
+    «val currentContext = if (contextName === null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
+    «IF (target === null || target.isThisCall()) && isSimpleFeatureCall(currentContext)»NameFunctions.fromFeature(«literalIdentifier(feature())»)«
     ELSEIF isSimpleNavigation(currentContext)»new AbstractNameFunction() {
       public QualifiedName apply(final EObject object) {
         final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
@@ -126,7 +126,7 @@ class ScopeNameProviderGenerator {
   »'''
 
   def dispatch String nameFunction(OperationCall it, ScopeModel model, String contextName, EClass contextType) '''
-    «val currentContext = if (contextName == null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
+    «val currentContext = if (contextName === null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
     «IF isCompilable(currentContext)»new AbstractNameFunction() {
       public QualifiedName apply(final EObject object) {
         final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;

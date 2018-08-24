@@ -194,7 +194,7 @@ class FixedXbaseGeneratorFragmentTest extends TestCase {
    * Class to access protected members of {@link XbaseGeneratorFragmentOverride}.
    */
   private static class FragmentAccessor extends FixedXbaseGeneratorFragment {
-    def override getTemplate() {
+    override getTemplate() {
       return super.getTemplate
     }
   }

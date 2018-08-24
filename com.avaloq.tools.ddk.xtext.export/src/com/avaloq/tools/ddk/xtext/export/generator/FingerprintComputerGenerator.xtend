@@ -54,7 +54,7 @@ class FingerprintComputerGenerator {
           }
 
         «ENDIF»
-        private ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();
+        ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();
 
         «FOR p : interfaces.map[type.EPackage].toSet.sortBy[nsURI]»
           private final Switch<Hasher> «p.name»Switch = new «p.qualifiedSwitchClassName()»<Hasher>() {
@@ -64,7 +64,7 @@ class FingerprintComputerGenerator {
               @Override
               public Hasher case«f.type.name»(final «f.type.instanceClassName()» obj) {
                 final Hasher hasher = hasherAccess.get();
-                «IF f.guard != null»
+                «IF f.guard !== null»
                   if (!(«f.guard.javaExpression(ctx.clone('obj', f.type))»)) {
                     return hasher;
                   }

@@ -43,7 +43,7 @@ class ScopeGenerator implements IGenerator {
   CompilationContext compilationContext
 
   override doGenerate(Resource input, IFileSystemAccess fsa) {
-    if (input == null || input.contents.empty || !(input.contents.head instanceof ScopeModel)) {
+    if (input === null || input.contents.empty || !(input.contents.head instanceof ScopeModel)) {
       return
     }
     val model = input.contents.head as ScopeModel
@@ -51,7 +51,7 @@ class ScopeGenerator implements IGenerator {
     var IProject project = null
     if (input.URI.isPlatformResource) {
       val res = ResourcesPlugin.workspace.root.findMember(input.URI.toPlatformString(true))
-      if (res != null) {
+      if (res !== null) {
         project = res.project
       }
     }

@@ -34,7 +34,7 @@ import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
 @RunWith(ClassRunner)
-public class TemplateProposalProviderHelperTest {
+class TemplateProposalProviderHelperTest {
 
   static val SIMPLE_ENUM_VARIABLE_TYPE = new SimpleEnumTemplateVariableResolver().type
   static val VARIABLE_NAME = "variableName"
