@@ -794,15 +794,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The new index
    * @param monitor
    *          The progress monitor used for user feedback
-   * @return a List with the list of loaded resources {@link URI} in the first position and a list of {@link URI}s of resources that could not be loaded in the
-   *         second position.
+   * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
-  @SuppressWarnings("unchecked")
-  private List<List<URI>> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
+  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
     ResourceSet resourceSet = buildData.getResourceSet();
     IProject currentProject = getBuiltProject(buildData);
     List<URI> toBuild = Lists.newLinkedList();
-    List<URI> toRetry = Lists.newLinkedList();
     IResourceLoader.LoadOperation loadOperation = null;
     try {
       int resourcesToWriteSize = toWrite.size();
@@ -834,16 +831,14 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             // Set flag to make unresolvable cross-references raise an error
             resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
             final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
-
             final boolean hasUnresolvedLinks = resourceSet.getLoadOptions().get(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS) == Boolean.TRUE;
             if (hasUnresolvedLinks) {
-              toRetry.add(uri);
-              resourceSet.getResources().remove(resource);
-            } else {
-              final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
-              newState.register(intermediateDelta);
-              toBuild.add(uri);
+              LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_FAILED_REFERENCE_RESOLUTION_IN_INDEXING, uri));
             }
+            // In any case process the resource. We expect no DSL to depend on linking in indexing phase
+            final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
+            newState.register(intermediateDelta);
+            toBuild.add(uri);
           }
         } catch (final WrappedException ex) {
           pollForCancellation(monitor);
@@ -889,7 +884,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         loadOperation.cancel();
       }
     }
-    return Lists.newArrayList(toBuild, toRetry);
+    return toBuild;
   }
 
   /** {@inheritDoc} */
@@ -898,13 +893,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     final List<URI> toBuild = Lists.newLinkedList();
     ResourceSet resourceSet = buildData.getResourceSet();
     BuildPhases.setIndexing(resourceSet, true);
-    List<URI> tryAgain = Lists.newLinkedList();
     int totalSize = 0;
     for (List<URI> group : toWriteGroups) {
       totalSize = totalSize + group.size();
     }
     final SubMonitor subMonitor = SubMonitor.convert(monitor, Messages.MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS, totalSize);
-    int nofRetries = 0;
 
     try {
       traceSet.started(BuildIndexingEvent.class);
@@ -916,23 +909,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
        * In fact, in this case we might start processing sources before the ones they depend on are still being handled.
        */
       for (Collection<URI> fileExtensionBuildGroup : toWriteGroups) {
-        List<List<URI>> result = writeResources(fileExtensionBuildGroup, buildData, oldState, newState, subMonitor);
-        toBuild.addAll(result.get(0));
-        tryAgain.addAll(result.get(1));
+        toBuild.addAll(writeResources(fileExtensionBuildGroup, buildData, oldState, newState, subMonitor));
       }
       flushChanges(newData);
-
-      while (!tryAgain.isEmpty() && (tryAgain.size() != nofRetries)) {
-        // We made some progress.
-        nofRetries = tryAgain.size();
-        LOGGER.info(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN, nofRetries, tryAgain));
-        List<List<URI>> result = writeResources(tryAgain, buildData, oldState, newState, subMonitor);
-        toBuild.addAll(result.get(0));
-        tryAgain = result.get(1);
-      }
-      if (!tryAgain.isEmpty()) {
-        LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN_FAILED, nofRetries, tryAgain));
-      }
     } finally {
       // Clear the flags
       BuildPhases.setIndexing(resourceSet, false);
