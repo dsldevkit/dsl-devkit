@@ -4,7 +4,6 @@ import com.avaloq.tools.ddk.check.lib.IResourceCache;
 import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl;
 import com.avaloq.tools.ddk.check.testLanguage.Greeting;
 import com.avaloq.tools.ddk.check.validation.LibraryChecksCheckCatalog;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
@@ -55,8 +54,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
    */
   @Check(CheckType.FAST)
   public void cacheInjectionFailedGreeting(final Greeting g) {
-    boolean _equals = Objects.equal(LibraryChecksCheckImpl.this.cache, null);
-    if (_equals) {// Issue diagnostic
+    if ((LibraryChecksCheckImpl.this.cache == null)) {// Issue diagnostic
       libraryChecksCatalog.accept(getMessageAcceptor(), //
         g, // context EObject
         null, // EStructuralFeature
@@ -79,7 +77,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       Boolean _boolean = new Boolean(true);
       LibraryChecksCheckImpl.this.cache.<Boolean>put(it, key, _boolean);
       final Boolean value = LibraryChecksCheckImpl.this.cache.<Boolean>get(it, key);
-      if ((Objects.equal(value, null) || (!(value).booleanValue()))) {
+      if (((value == null) || (!(value).booleanValue()))) {
         // Issue diagnostic
         libraryChecksCatalog.accept(getMessageAcceptor(), //
           it, // context EObject

@@ -38,7 +38,7 @@ class ExpressionExtensionsX {
   }
 
   def boolean isSimpleConcatCall(OperationCall it) {
-    name == '+' && type == null && target == null && !params.isEmpty
+    name == '+' && type === null && target === null && !params.isEmpty
   }
 
   def boolean isNumber(Expression it, CompilationContext ctx) {
@@ -46,7 +46,7 @@ class ExpressionExtensionsX {
   }
 
   def dispatch boolean isArithmeticOperatorCall(OperationCall it, CompilationContext ctx) {
-    type == null && target == null && params.size > 1 && (name == '+' || name == '-' || name == '*' || name == '/') && params.forall(p|p.isNumber(ctx))
+    type === null && target === null && params.size > 1 && (name == '+' || name == '-' || name == '*' || name == '/') && params.forall(p|p.isNumber(ctx))
   }
 
   def dispatch boolean isArithmeticOperatorCall(Expression it, CompilationContext ctx) {
@@ -58,7 +58,7 @@ class ExpressionExtensionsX {
   }
 
   def dispatch boolean isPrefixExpression(OperationCall it, CompilationContext ctx) {
-    type == null && target == null && params.size == 1 && (name == '-' || name == '!')
+    type === null && target === null && params.size == 1 && (name == '-' || name == '!')
   }
 
   def dispatch boolean isInfixExpression(Void it, CompilationContext ctx) {

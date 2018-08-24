@@ -20,7 +20,7 @@ import static org.junit.Assert.assertArrayEquals
 
 final class CheckCfgScopeProviderTest extends AbstractScopingTest {
 
-  private final val scopeProvider = getScopeProvider();
+  val scopeProvider = getScopeProvider();
 
   /** {@inheritDoc} */
   override protected getXtextTestUtil() {
@@ -54,7 +54,7 @@ final class CheckCfgScopeProviderTest extends AbstractScopingTest {
     // Register a check configuration source, and get a context model
     registerModel(getTestSourceFileName, SOURCE_CONTENT);
     val context = getMarkerTagsInfo().getModel(CURSOR_POS);
-    if (null == context) {
+    if (null === context) {
       throw new NullPointerException("Got null context model");
     }
 

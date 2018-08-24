@@ -91,18 +91,18 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   @Inject TypesFactory typesFactory;
   @Inject XbaseCompiler xbaseCompiler;
 
-  private static final String BASE_FORMATTER_CLASS_NAME = AbstractExtendedFormatter.name
-  private static final String BASE_FORMAT_CONFIG = ExtendedFormattingConfig.name
+  static final String BASE_FORMATTER_CLASS_NAME = AbstractExtendedFormatter.name
+  static final String BASE_FORMAT_CONFIG = ExtendedFormattingConfig.name
 
-  private static final String METHOD_ACTIVATE= 'activate'
-  private static final String METHOD_CALCULATE= 'calculateParameter'
+  static final String METHOD_ACTIVATE= 'activate'
+  static final String METHOD_CALCULATE= 'calculateParameter'
 
-  private static final String PARAMETER_CONFIG = 'config'
-  private static final String PARAMETER_ELEMENTS = 'elements'
-  private static final String PARAMETER_RULE = 'rule'
-  private static final String PARAMETER_GRAMMAR_ACCESS = 'grammarAccess'
-  private static final String PARAMETER_CONTEXT = 'context'
-  private static final String PARAMETER_COLUMN = 'currentColumn'
+  static final String PARAMETER_CONFIG = 'config'
+  static final String PARAMETER_ELEMENTS = 'elements'
+  static final String PARAMETER_RULE = 'rule'
+  static final String PARAMETER_GRAMMAR_ACCESS = 'grammarAccess'
+  static final String PARAMETER_CONTEXT = 'context'
+  static final String PARAMETER_COLUMN = 'currentColumn'
 
   /**
    * The dispatch method {@code infer} is called for each instance of the
@@ -144,7 +144,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   def inferClass(FormatConfiguration format, JvmGenericType it) {
     documentation = '''The abstract formatting configuration for «format.targetGrammar?.name?.toPackageName».«format.targetGrammar?.name?.toSimpleName» as declared in «format.targetGrammar?.name?.toSimpleName».format.'''
-    if(format.formatterBaseClass != null) {
+    if(format.formatterBaseClass !== null) {
       superTypes += typeRef(format.formatterBaseClass.packageName + '.' + format.formatterBaseClass.simpleName)
     } else {
       superTypes += typeRef(BASE_FORMATTER_CLASS_NAME)
@@ -163,7 +163,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     members += format.toMethod('getGrammarAccess', format.targetGrammar.gaFQName.getTypeForName(format.targetGrammar)) [
       visibility = JvmVisibility::PROTECTED
       val JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format)
-      if(overrideAnnotation != null) {
+      if(overrideAnnotation !== null) {
         annotations += overrideAnnotation;
       }
       body = [append('''return («format.targetGrammar.gaSimpleName») super.getGrammarAccess();''')]
@@ -174,7 +174,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     members += format.toMethod('configureAcsFormatting', typeRef('void')) [
       visibility = JvmVisibility::PROTECTED
       val JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format)
-      if(overrideAnnotation != null) {
+      if(overrideAnnotation !== null) {
         annotations += overrideAnnotation;
       }
       parameters += format.toParameter(PARAMETER_CONFIG, typeRef(BASE_FORMAT_CONFIG))
@@ -205,7 +205,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     members += format.parserRules.map(c|createRule(format, c)).flatten;
     members += format.enumRules.map(c|createRule(format, c)).flatten;
     members += format.terminalRules.map(c|createRule(format, c)).flatten;
-    if(format.wildcardRule != null) {
+    if(format.wildcardRule !== null) {
       members += format.toMethod('configFindElements', typeRef('void')) [
         documentation = generateJavaDoc('Configuration for IGrammarAccess.findXyz() methods.', newLinkedHashMap(
           PARAMETER_CONFIG   -> 'the format configuration',
@@ -234,13 +234,13 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       }
       for (directive : directives.filterNull) {
         for (matcher : collectMatchers(directive)) {
-          if (matcher.locator instanceof ColumnLocator && (matcher.locator as ColumnLocator).parameter != null) {
+          if (matcher.locator instanceof ColumnLocator && (matcher.locator as ColumnLocator).parameter !== null) {
             members += createParameterCalculatorInnerClass(format, rule, directive, matcher, (matcher.locator as ColumnLocator).parameter, it)
           }
-          if (matcher.locator instanceof IndentLocator && (matcher.locator as IndentLocator).parameter != null) {
+          if (matcher.locator instanceof IndentLocator && (matcher.locator as IndentLocator).parameter !== null) {
             members += createParameterCalculatorInnerClass(format, rule, directive, matcher, (matcher.locator as IndentLocator).parameter, it)
           }
-          if (matcher.condition != null) {
+          if (matcher.condition !== null) {
             members += createLocatorActivatorInnerClass(format, rule, directive, matcher, it)
           }
         }
@@ -293,7 +293,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   def listConfigRules(FormatConfiguration format) {
     val configRules = newArrayList;
-    if(format.wildcardRule != null) {
+    if(format.wildcardRule !== null) {
       configRules += '''configFindElements(config, grammarAccess);'''
     }
     for (rule : format.parserRules) {
@@ -322,7 +322,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   def JvmAnnotationReference createOverrideAnnotation(FormatConfiguration format) {
     val annotationTypeRef = typeRef(typeof(Override));
     var JvmAnnotationReference overrideAnnotation = null
-    if(annotationTypeRef != null) {
+    if(annotationTypeRef !== null) {
       val annotationType = annotationTypeRef.type;
       overrideAnnotation = typesFactory.createJvmAnnotationReference();
       overrideAnnotation.annotation = annotationType as JvmAnnotationType;
@@ -332,7 +332,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   def JvmMember createConstant(FormatConfiguration configuration, Constant constant) {
     switch constant {
-      case constant.stringValue != null:
+      case constant.stringValue !== null:
         constant.toField(constant.name, "String".getTypeForName(constant)) [
           documentation = locatorString(constant)
           static = true
@@ -340,7 +340,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
           visibility = JvmVisibility::PROTECTED
           initializer = [append('"' + constant.stringValue + '"')]
         ]
-      case constant.intValue != null:
+      case constant.intValue !== null:
         constant.toField(constant.name, "int".getTypeForName(constant)) [
           documentation = locatorString(constant)
           static = true
@@ -354,12 +354,12 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   def collectMatchers(EObject directive) {
     var List<Matcher> matchers = newLinkedList
     switch directive {
-      GroupBlock: if(directive.matcherList != null) matchers += directive.matcherList.matchers
-      SpecificDirective: if(directive.matcherList != null) matchers += directive.matcherList.matchers
-      ContextFreeDirective: if(directive.matcherList != null) matchers += directive.matcherList.matchers
+      GroupBlock: if(directive.matcherList !== null) matchers += directive.matcherList.matchers
+      SpecificDirective: if(directive.matcherList !== null) matchers += directive.matcherList.matchers
+      ContextFreeDirective: if(directive.matcherList !== null) matchers += directive.matcherList.matchers
       KeywordPair: {
-        if(directive.leftMatchers != null) matchers += directive.leftMatchers
-        if(directive.rightMatchers != null) matchers += directive.rightMatchers
+        if(directive.leftMatchers !== null) matchers += directive.leftMatchers
+        if(directive.rightMatchers !== null) matchers += directive.rightMatchers
       }
     }
     matchers
@@ -398,7 +398,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       actualRuleName = rule.targetRule.type.classifier.name
     }
     var metamodel = rule.targetRule?.type?.metamodel
-    if (metamodel == null) {
+    if (metamodel === null) {
       return actualRuleName
     } else {
       if (actualRuleName != originalRuleName) {
@@ -469,19 +469,19 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   def dispatch String getDirectiveName(SpecificDirective directive) {
     var directiveName = ''
     for (grammarElementReference : directive.grammarElements) {
-      if(grammarElementReference.assignment != null) {
+      if(grammarElementReference.assignment !== null) {
         directiveName = directiveName + grammarElementReference.assignment.gaElementAccessMethodeName.replaceFirst("get","").replaceFirst("(?s)(.*)" + "Assignment","$1" + "")
       }
-      if(grammarElementReference.ruleCall != null) {
+      if(grammarElementReference.ruleCall !== null) {
         directiveName = directiveName + grammarElementReference.ruleCall.rule.name.toFirstUpper
       }
-      if(grammarElementReference.rule != null) {
+      if(grammarElementReference.rule !== null) {
         directiveName = directiveName + grammarElementReference.rule.name.toFirstUpper
       }
-      if(grammarElementReference.keyword != null) {
+      if(grammarElementReference.keyword !== null) {
         directiveName = directiveName + grammarElementReference.keyword.value.convertNonAlphaNumeric.toFirstUpper
       }
-      if(grammarElementReference.self != null) {
+      if(grammarElementReference.self !== null) {
         directiveName = directiveName + "Self"
       }
     }
@@ -490,10 +490,10 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   def dispatch String getDirectiveName(ContextFreeDirective directive) {
     var directiveName = ''
     for (grammarElementLookup : directive.grammarElements) {
-      if(grammarElementLookup.rule != null) {
+      if(grammarElementLookup.rule !== null) {
         directiveName = directiveName + grammarElementLookup.rule.name.toFirstUpper
       }
-      if(grammarElementLookup.keyword != null) {
+      if(grammarElementLookup.keyword !== null) {
         directiveName = directiveName + grammarElementLookup.keyword.convertNonAlphaNumeric.toFirstUpper
       }
     }
@@ -556,9 +556,9 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   def dispatch directive(SpecificDirective dir, String partialName) { matchReference(dir.matcherList, dir.grammarElements, partialName + getDirectiveName(dir)) }
   def dispatch directive(ContextFreeDirective dir, String partialName) { matchLookup(dir.matcherList, dir.grammarElements, partialName + getDirectiveName(dir)) }
   def dispatch CharSequence directive(GroupBlock dir, String partialName) {
-    if(dir.matcherList != null) {
+    if(dir.matcherList !== null) {
       matchReference(dir.matcherList, new BasicEList(#[dir.grammarElement]), partialName + getDirectiveName(dir))
-    } else if (dir.subGroup != null) {
+    } else if (dir.subGroup !== null) {
       directive(dir.subGroup, partialName+ getDirectiveName(dir))
     } else {
       '''«FOR d : dir.directives»«directive(d, partialName + getDirectiveName(dir))»«ENDFOR»'''
@@ -581,17 +581,17 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   def matchLookup(MatcherList matcherList, EList<GrammarElementLookup> elements, String partialName) '''
     «IF !elements.isEmpty»
-      «IF !elements.filter[e|e.rule != null].isEmpty»
+      «IF !elements.filter[e|e.rule !== null].isEmpty»
         // «locatorString(matcherList)»
-        for (org.eclipse.xtext.RuleCall ruleCall : elements.findRuleCalls(«FOR element : elements.filter(e|e.rule != null) SEPARATOR ', '»elements.«element.rule.gaRuleAccessor»«ENDFOR»)) {
+        for (org.eclipse.xtext.RuleCall ruleCall : elements.findRuleCalls(«FOR element : elements.filter(e|e.rule !== null) SEPARATOR ', '»elements.«element.rule.gaRuleAccessor»«ENDFOR»)) {
           «FOR matcher : matcherList.matchers»
             «matchLookupPartial(matcher.locator, matcher, "ruleCall", partialName)»
           «ENDFOR»
         }
       «ENDIF»
-      «IF !elements.filter(e|e.keyword != null).isEmpty»
+      «IF !elements.filter(e|e.keyword !== null).isEmpty»
         // «locatorString(matcherList)»
-        for (org.eclipse.xtext.Keyword keyword : elements.findKeywords(«FOR element : elements.filter(e|e.keyword != null) SEPARATOR ', '»"«element.keyword»"«ENDFOR»)) {
+        for (org.eclipse.xtext.Keyword keyword : elements.findKeywords(«FOR element : elements.filter(e|e.keyword !== null) SEPARATOR ', '»"«element.keyword»"«ENDFOR»)) {
           «FOR matcher : matcherList.matchers»
             «matchLookupPartial(matcher.locator, matcher, "keyword", partialName)»
           «ENDFOR»
@@ -603,18 +603,18 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   // matchLookupPartial dispatch
   def dispatch matchLookupPartial(ColumnLocator columnLocator, Matcher matcher, String eobjectTypeName, String partialName) '''
     «IF matcher.type.literal.compareTo("before") == 0»
-      config.setColumn(«columnLocator.value.getValueOrConstant», «columnLocator.fixed», «columnLocator.relative», «columnLocator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«eobjectTypeName»);  // «locatorString(columnLocator)»
-      config.setColumn(«columnLocator.value.getValueOrConstant», «columnLocator.fixed», «columnLocator.relative», «columnLocator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«eobjectTypeName»);  // «locatorString(columnLocator)»
+      config.setColumn(«columnLocator.value.getValueOrConstant», «columnLocator.fixed», «columnLocator.relative», «columnLocator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«eobjectTypeName»);  // «locatorString(columnLocator)»
+      config.setColumn(«columnLocator.value.getValueOrConstant», «columnLocator.fixed», «columnLocator.relative», «columnLocator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«eobjectTypeName»);  // «locatorString(columnLocator)»
     «ELSE»
-      config.setColumn(«columnLocator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«eobjectTypeName»); // «locatorString(columnLocator)»
+      config.setColumn(«columnLocator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«eobjectTypeName»); // «locatorString(columnLocator)»
     «ENDIF»
   '''
   def dispatch matchLookupPartial(OffsetLocator offsetLocator, Matcher matcher, String eobjectTypeName, String partialName) '''
     «IF matcher.type.literal.compareTo("before") == 0»
-      config.setColumn(«offsetLocator.value.getValueOrConstant», «offsetLocator.fixed», true, «offsetLocator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«eobjectTypeName»);  // «locatorString(offsetLocator)»
-      config.setColumn(«offsetLocator.value.getValueOrConstant», «offsetLocator.fixed», true, «offsetLocator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«eobjectTypeName»);  // «locatorString(offsetLocator)»
+      config.setColumn(«offsetLocator.value.getValueOrConstant», «offsetLocator.fixed», true, «offsetLocator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«eobjectTypeName»);  // «locatorString(offsetLocator)»
+      config.setColumn(«offsetLocator.value.getValueOrConstant», «offsetLocator.fixed», true, «offsetLocator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«eobjectTypeName»);  // «locatorString(offsetLocator)»
     «ELSE»
-      config.setOffset(«offsetLocator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«eobjectTypeName»); // «locatorString(offsetLocator)»
+      config.setOffset(«offsetLocator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«eobjectTypeName»); // «locatorString(offsetLocator)»
     «ENDIF»
   '''
   def dispatch matchLookupPartial(EObject locator, Matcher matcher, String eobjectTypeName, String partialName) '''
@@ -645,27 +645,27 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   '''
   def dispatch match(Matcher matcher, EObject element, ColumnLocator locator, String partialName) '''
     «IF matcher.type.literal.compareTo("before") == 0»
-      «IF locator.parameter != null»
-        config.setColumn(«locator.fixed», «locator.relative», «locator.nobreak», new «getParameterCalculatorName(partialName, matcher)»()«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«elementAccess(element)»);  // «locatorString(matcher)»
-        config.setColumn(«locator.fixed», «locator.relative», «locator.nobreak», new «getParameterCalculatorName(partialName, matcher)»()«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«elementAccess(element)»);  // «locatorString(matcher)»
+      «IF locator.parameter !== null»
+        config.setColumn(«locator.fixed», «locator.relative», «locator.nobreak», new «getParameterCalculatorName(partialName, matcher)»()«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«elementAccess(element)»);  // «locatorString(matcher)»
+        config.setColumn(«locator.fixed», «locator.relative», «locator.nobreak», new «getParameterCalculatorName(partialName, matcher)»()«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«elementAccess(element)»);  // «locatorString(matcher)»
       «ELSE»
-        config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», «locator.relative», «locator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«elementAccess(element)»);  // «locatorString(matcher)»
-        config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», «locator.relative», «locator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«elementAccess(element)»);  // «locatorString(matcher)»
+        config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», «locator.relative», «locator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«elementAccess(element)»);  // «locatorString(matcher)»
+        config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», «locator.relative», «locator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«elementAccess(element)»);  // «locatorString(matcher)»
       «ENDIF»
     «ELSE»
-      «IF locator.parameter != null»
-        config.setColumn(new «getParameterCalculatorName(partialName, matcher)»()«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
+      «IF locator.parameter !== null»
+        config.setColumn(new «getParameterCalculatorName(partialName, matcher)»()«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
       «ELSE»
-        config.setColumn(«locator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
+        config.setColumn(«locator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
       «ENDIF»
     «ENDIF»
   '''
   def dispatch match(Matcher matcher, EObject element, OffsetLocator locator, String partialName) '''
     «IF matcher.type.literal.compareTo("before") == 0»
-      config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», true, «locator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«elementAccess(element)»);  // «locatorString(matcher)»
-      config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», true, «locator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«elementAccess(element)»);  // «locatorString(matcher)»
+      config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», true, «locator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).before(«elementAccess(element)»);  // «locatorString(matcher)»
+      config.setColumn(«locator.value.getValueOrConstant», «locator.fixed», true, «locator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).after(«elementAccess(element)»);  // «locatorString(matcher)»
     «ELSE»
-      config.setOffset(«locator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
+      config.setOffset(«locator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»).«matcherType(matcher.type)»(«elementAccess(element)»); // «locatorString(matcher)»
     «ENDIF»
   '''
   def dispatch match(Matcher matcher, EObject element, IndentLocator locator, String partialName) '''
@@ -676,25 +676,25 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   // elementAccess dispatch
   def dispatch elementAccess(GrammarElementLookup grammarElementLookup) '''
-    «IF grammarElementLookup.rule != null»elements.findRuleCalls(«grammarElementLookup.rule.gaElementsAccessor»)«ELSEIF grammarElementLookup.keyword != null»elements.findKeywords("«grammarElementLookup.keyword»")«ENDIF»'''
+    «IF grammarElementLookup.rule !== null»elements.findRuleCalls(«grammarElementLookup.rule.gaElementsAccessor»)«ELSEIF grammarElementLookup.keyword !== null»elements.findKeywords("«grammarElementLookup.keyword»")«ENDIF»'''
   def dispatch CharSequence elementAccess(GrammarElementReference grammarElementReference) {
-    if(grammarElementReference.ruleCall != null) {
+    if(grammarElementReference.ruleCall !== null) {
       elementAccess(grammarElementReference.ruleCall)
     }
-    else if(grammarElementReference.keyword != null) {
+    else if(grammarElementReference.keyword !== null) {
       elementAccess(grammarElementReference.keyword)
     }
-    else if(grammarElementReference.assignment != null) {
+    else if(grammarElementReference.assignment !== null) {
       elementAccess(grammarElementReference.assignment)
     }
-    else if(grammarElementReference.self != null) {
+    else if(grammarElementReference.self !== null) {
       if(grammarElementReference.containedByParserRule) {
         'elements.getRule()'
       }
       else {
         'rule'
       }
-    } else if(grammarElementReference.rule != null) {
+    } else if(grammarElementReference.rule !== null) {
       elementAccess(grammarElementReference.rule)
     }
   }
@@ -708,41 +708,41 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   // locator dispatch
   def dispatch locator(Matcher matcher, SpaceLocator spaceLocator, String partialName) '''
-    «IF spaceLocator.noSpace»setNoSpace(«IF matcher.condition != null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)«ELSE»setSpace(«spaceLocator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)«ENDIF»'''
+    «IF spaceLocator.noSpace»setNoSpace(«IF matcher.condition !== null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)«ELSE»setSpace(«spaceLocator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)«ENDIF»'''
   def dispatch locator(Matcher matcher, RightPaddingLocator rightPaddingLocator, String partialName) '''
-    setRightPadding(«rightPaddingLocator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
+    setRightPadding(«rightPaddingLocator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
   def dispatch locator(Matcher matcher, LinewrapLocator linewrapLocator, String partialName) '''
-    «IF linewrapLocator.noLinewrap»setNoLinewrap(«IF matcher.condition != null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)«ELSE»setLinewrap(«IF linewrapLocator.value != null»«linewrapLocator.value.getValueOrConstant»«IF matcher.condition != null», new «getLocatorActivatorName(
-      partialName, matcher)»()«ENDIF»«ELSEIF linewrapLocator.minimum != null»«linewrapLocator.minimum.getValueOrConstant», «linewrapLocator.^default.getValueOrConstant», «linewrapLocator.maximum.getValueOrConstant()»«IF matcher.condition!=null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»«ELSE»«IF matcher.
-      condition != null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»«ENDIF»)«ENDIF»'''
+    «IF linewrapLocator.noLinewrap»setNoLinewrap(«IF matcher.condition !== null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)«ELSE»setLinewrap(«IF linewrapLocator.value !== null»«linewrapLocator.value.getValueOrConstant»«IF matcher.condition !== null», new «getLocatorActivatorName(
+      partialName, matcher)»()«ENDIF»«ELSEIF linewrapLocator.minimum !== null»«linewrapLocator.minimum.getValueOrConstant», «linewrapLocator.^default.getValueOrConstant», «linewrapLocator.maximum.getValueOrConstant()»«IF matcher.condition!==null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»«ELSE»«IF matcher.
+      condition !== null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»«ENDIF»)«ENDIF»'''
   def dispatch locator(Matcher matcher, ColumnLocator columnLocator, String partialName) '''
-    setColumn(«columnLocator.value.getValueOrConstant», «columnLocator.fixed», «columnLocator.relative», «columnLocator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
+    setColumn(«columnLocator.value.getValueOrConstant», «columnLocator.fixed», «columnLocator.relative», «columnLocator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
   def dispatch locator(Matcher matcher, OffsetLocator offsetLocator, String partialName) '''
-    setColumn(«offsetLocator.value.getValueOrConstant», «offsetLocator.fixed», true, «offsetLocator.nobreak»«IF matcher.condition != null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
+    setColumn(«offsetLocator.value.getValueOrConstant», «offsetLocator.fixed», true, «offsetLocator.nobreak»«IF matcher.condition !== null», new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
   def dispatch locator(Matcher matcher, IndentLocator indentLocator, String partialName) '''
     «IF indentLocator.increment»setIndentationIncrement(«ELSE»setIndentationDecrement(«
     ENDIF»«
-    IF indentLocator.value != null && (indentLocator.value.reference != null || indentLocator.value.literal >= 1)»«indentLocator.value.getValueOrConstant»«
-    ELSEIF indentLocator.parameter != null»new «getParameterCalculatorName(partialName, matcher)»()«
+    IF indentLocator.value !== null && (indentLocator.value.reference !== null || indentLocator.value.literal >= 1)»«indentLocator.value.getValueOrConstant»«
+    ELSEIF indentLocator.parameter !== null»new «getParameterCalculatorName(partialName, matcher)»()«
     ENDIF»«
-    IF matcher.condition != null»«IF indentLocator.value != null || indentLocator.parameter != null»,«ENDIF» new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
+    IF matcher.condition !== null»«IF indentLocator.value !== null || indentLocator.parameter !== null»,«ENDIF» new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
 
   def dispatch locator(Matcher matcher, NoFormatLocator noFormatLocator, String partialName) '''
-    setNoFormat(«IF matcher.condition != null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
+    setNoFormat(«IF matcher.condition !== null»new «getLocatorActivatorName(partialName, matcher)»()«ENDIF»)'''
   def dispatch locator(Matcher matcher, Locator locator, String partialName) {
     throw new UnsupportedOperationException("Unknown locator " + locator.class.name)
   }
 
   // getValueOrConstant dispatch
   def dispatch getValueOrConstant(StringValue stringValue) {
-    if(stringValue.literal == null) {
+    if(stringValue.literal === null) {
       stringValue.reference.name
     } else {
       '"' + stringValue.literal + '"'
     }
   }
   def dispatch getValueOrConstant(IntValue intValue) {
-    if(intValue.literal == null) {
+    if(intValue.literal === null) {
       intValue.reference.name
     } else {
       intValue.literal.toString()

@@ -28,10 +28,10 @@ class CheckCfgTest extends TestCase {
 
 
   @Inject
-  private ValidationTestHelper helper;
+  ValidationTestHelper helper;
 
   @Inject
-  private ParseHelper<CheckConfiguration> parser;
+  ParseHelper<CheckConfiguration> parser;
 
   @Test
   def testValidLanguageOk() {

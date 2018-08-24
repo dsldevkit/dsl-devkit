@@ -33,7 +33,7 @@ class CheckGenerator extends JvmModelGenerator {
   @Inject extension CheckGeneratorExtensions generatorExtensions
   @Inject extension CheckGeneratorNaming
   @Inject CheckCompiler compiler
-  @Inject private ICheckGeneratorConfigProvider generatorConfigProvider;
+  @Inject ICheckGeneratorConfigProvider generatorConfigProvider;
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
     super.doGenerate(resource, fsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
@@ -71,7 +71,7 @@ class CheckGenerator extends JvmModelGenerator {
     <body>
       <h1>Check Catalog «catalog.name»</h1>
       «val formattedDescription = catalog.description.formatDescription»
-      «IF formattedDescription != null»
+      «IF formattedDescription !== null»
         <p>«formattedDescription»</p>
       «ENDIF»
       «body»
@@ -84,7 +84,7 @@ class CheckGenerator extends JvmModelGenerator {
     «FOR check:catalog.checks»
       <div id="«check.contextId»" class="description"><h3>«check.label» <span class="thin">(«check.defaultSeverity.name().toLowerCase»)</span></h3>
       «val formattedCheckDescription = check.description.formatDescription»
-      «IF formattedCheckDescription != null»
+      «IF formattedCheckDescription !== null»
         «formattedCheckDescription»
       «ENDIF»
       <p><i>Message: </i>«check.message.replacePlaceholder»</p><br></div>
@@ -93,14 +93,14 @@ class CheckGenerator extends JvmModelGenerator {
       <div class="category">
         <h2 id="«category.contextId»">«category.label»</h2>
         «val formattedCateogryDescription = category.description.formatDescription»
-        «IF formattedCateogryDescription != null»
+        «IF formattedCateogryDescription !== null»
           «formattedCateogryDescription»
         «ENDIF»
         «FOR check:category.checks»
           <div id="«check.contextId»" class="description">
             <h3>«check.label» <span class="thin">(«check.defaultSeverity.name().toLowerCase»)</span></h3>
             «val formattedCheckDescription = check.description.formatDescription»
-            «IF formattedCheckDescription != null»
+            «IF formattedCheckDescription !== null»
               «formattedCheckDescription»
             «ENDIF»
             <p><i>Message: </i>«check.message.replacePlaceholder»</p>
@@ -162,11 +162,11 @@ class CheckGenerator extends JvmModelGenerator {
     @SuppressWarnings("nls")
     public class «catalog.standaloneSetupClassName» implements ICheckValidatorStandaloneSetup {
 
-      private static final Logger LOG = Logger.getLogger(«catalog.standaloneSetupClassName».class);
+      static final Logger LOG = Logger.getLogger(«catalog.standaloneSetupClassName».class);
       «IF catalog.grammar !== null»
-      private static final String GRAMMAR_NAME = "«catalog.grammar.name»";
+      static final String GRAMMAR_NAME = "«catalog.grammar.name»";
       «ENDIF»
-      private static final String CATALOG_FILE_PATH = "«catalog.checkFilePath»";
+      static final String CATALOG_FILE_PATH = "«catalog.checkFilePath»";
 
       /** {@inheritDoc} */
       public void doSetup() {
@@ -200,11 +200,11 @@ class CheckGenerator extends JvmModelGenerator {
     '''
   }
 
-  override def ITreeAppendable _generateMember(JvmField field, ITreeAppendable appendable, GeneratorConfig config) {
+  override ITreeAppendable _generateMember(JvmField field, ITreeAppendable appendable, GeneratorConfig config) {
     // Suppress generation of the "artificial" fields for FormalParameters in check impls, but not elsewhere.
     if (field.final && !field.static) { // A bit hacky to use this as the distinction...
       val FormalParameter parameter = compiler.getFormalParameter(field);
-      if (parameter != null) {
+      if (parameter !== null) {
         return appendable;
       }
     }

@@ -33,7 +33,7 @@ class IssueLabelTest {
 
     // ARRANGE
     val checkRuleLabelProvider = Guice.createInjector(new AbstractModule() {
-      def protected override configure() {}
+      protected override configure() {}
     }).getInstance(ICheckRuleLabelProvider);
 
     val expectedMap = #{
