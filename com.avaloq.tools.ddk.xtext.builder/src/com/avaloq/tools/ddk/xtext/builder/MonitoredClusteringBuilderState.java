@@ -794,7 +794,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The new index
    * @param monitor
    *          The progress monitor used for user feedback
-   * @return a List with the list of loaded resources {@link URI}
+   * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
   private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
     ResourceSet resourceSet = buildData.getResourceSet();
