@@ -20,7 +20,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.serialization.SerializationUtil;
@@ -39,6 +38,7 @@ import com.avaloq.tools.ddk.xtext.modelcache.ResourceModelType;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
+import com.avaloq.tools.ddk.xtext.util.RecordUnresolvableXrefs;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -57,12 +57,6 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Inject
   private ITraceSet traceSet;
-
-  /**
-   * Global key that can be used to set a flag in a resource set's load options to tell the linker whether it should raise an
-   * exception for unresolvable cross-references.
-   */
-  public static final String MARK_UNRESOLVABLE_XREFS = ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS;
 
   /**
    * Global key to store a flag in the resource scope cache whether lazy linking has been done.
@@ -153,10 +147,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     try {
       final EObject result = super.getEObject(uriFragment);
       if (result == null && getEncoder().isCrossLinkFragment(this, uriFragment)) {
-        final ResourceSet rs = getResourceSet();
-        if (rs.getLoadOptions().get(MARK_UNRESOLVABLE_XREFS) == Boolean.FALSE) {
-          rs.getLoadOptions().put(MARK_UNRESOLVABLE_XREFS, Boolean.TRUE);
-        }
+        RecordUnresolvableXrefs.recordUnresolvableXref(getResourceSet());
       }
       return result;
     } catch (FastLazyURIEncoder.DecodingError err) {
