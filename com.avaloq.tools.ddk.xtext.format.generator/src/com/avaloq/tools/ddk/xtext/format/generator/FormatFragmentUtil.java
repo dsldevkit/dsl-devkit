@@ -25,7 +25,6 @@ import org.eclipse.xtend.expression.Variable;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.diagnostics.Severity;
-import org.eclipse.xtext.generator.Generator;
 import org.eclipse.xtext.resource.ClasspathUriResolutionException;
 import org.eclipse.xtext.validation.Issue;
 
@@ -42,6 +41,9 @@ public final class FormatFragmentUtil {
 
   /** Class-wide logger. */
   private static final Logger LOG = Logger.getLogger(FormatFragmentUtil.class);
+
+  /** FIXME - properly find outlets */
+  private static final String SRC = "SRC"; //$NON-NLS-1$
 
   /** Resource checker used to validate loaded model. */
   private static ModelValidator modelValidator;
@@ -64,7 +66,7 @@ public final class FormatFragmentUtil {
    */
   private static URI getDefaultFormatLocation(final Grammar grammar, final XpandExecutionContext ctx) {
     final String xmiPath = GrammarUtil.getClasspathRelativePathToXmi(grammar);
-    return URI.createFileURI(new File(ctx.getOutput().getOutlet(Generator.SRC).getPath(), xmiPath).getAbsolutePath()).trimFileExtension().appendFileExtension(FormatConstants.FILE_EXTENSION);
+    return URI.createFileURI(new File(ctx.getOutput().getOutlet(SRC).getPath(), xmiPath).getAbsolutePath()).trimFileExtension().appendFileExtension(FormatConstants.FILE_EXTENSION);
   }
 
   /**
