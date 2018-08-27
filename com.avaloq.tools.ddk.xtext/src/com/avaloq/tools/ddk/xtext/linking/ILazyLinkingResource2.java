@@ -21,8 +21,6 @@ import org.eclipse.xtext.parser.ParseResult;
 import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.Triple;
 
-import com.avaloq.tools.ddk.xtext.modelcache.IModelCacheManager;
-
 
 /**
  * Common interface of LazyLinkingResource with custom implementations.
@@ -36,13 +34,6 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    * disable parallel loading. By default parallel loading is enabled.
    */
   String PARALLEL_LOADING_SUPPORT = ILazyLinkingResource2.class.getName() + ".PARALLEL_LOADING_SUPPORT"; //$NON-NLS-1$
-
-  /**
-   * Gets the model manager for this resource or creates one if it does not exist.
-   *
-   * @return the model manager, never {@code null}
-   */
-  IModelCacheManager getModelManager();
 
   /**
    * Creates diagnostics for given triple.
