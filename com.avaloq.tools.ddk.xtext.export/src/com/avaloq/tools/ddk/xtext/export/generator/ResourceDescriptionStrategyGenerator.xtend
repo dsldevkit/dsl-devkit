@@ -57,7 +57,7 @@ class ResourceDescriptionStrategyGenerator {
 
       public class «resourceDescriptionStrategy.toSimpleName» extends AbstractResourceDescriptionStrategy {
 
-        static final Set<EClass> EXPORTED_ECLASSES = ImmutableSet.copyOf(new EClass[] {
+        private static final Set<EClass> EXPORTED_ECLASSES = ImmutableSet.copyOf(new EClass[] {
           «val e = types.typeMap(grammar)»
           «FOR c : e.keySet.sortBy[literalIdentifier] SEPARATOR ',\n'»«c.literalIdentifier»«ENDFOR»
         });
@@ -132,7 +132,7 @@ class ResourceDescriptionStrategyGenerator {
       «IF !a.isEmpty || !d.isEmpty || c.fingerprint || c.resourceFingerprint || c.lookup »
         // Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts
         Map<String, String> data = new ForwardingMap<String, String>() {
-          Map<String, String> delegate;
+          private Map<String, String> delegate;
 
           @Override
           protected Map<String, String> delegate() {

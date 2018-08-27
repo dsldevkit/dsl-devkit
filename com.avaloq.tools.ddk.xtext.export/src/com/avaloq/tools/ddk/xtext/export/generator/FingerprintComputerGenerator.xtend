@@ -54,7 +54,7 @@ class FingerprintComputerGenerator {
           }
 
         «ENDIF»
-        ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();
+        private ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();
 
         «FOR p : interfaces.map[type.EPackage].toSet.sortBy[nsURI]»
           private final Switch<Hasher> «p.name»Switch = new «p.qualifiedSwitchClassName()»<Hasher>() {
