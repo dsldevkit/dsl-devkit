@@ -131,7 +131,7 @@ class ScopeProviderGenerator {
     /** {@inheritDoc} */
     @Override
     protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
-      if (context.eContainer() === null) {
+      if (context.eContainer() == null) {
         «FOR name : allScopes().filter(s|s.reference !== null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
        »if ("«name»".equals(scopeName)) {
           «FOR scope : allScopes().filter(s|s.reference !== null).filter(s|s.getScopeName()==name)»
@@ -149,7 +149,7 @@ class ScopeProviderGenerator {
     /** {@inheritDoc} */
     @Override
     protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
-      if (context.eContainer() === null) {
+      if (context.eContainer() == null) {
         «FOR name : allScopes().filter(s|s.reference === null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
        »if ("«name»".equals(scopeName)) {
           «FOR scope : allScopes().filter(s|s.reference === null).filter(s|s.getScopeName()==name)»
@@ -180,7 +180,7 @@ class ScopeProviderGenerator {
       «IF !localRules.isEmpty || !globalRules.isEmpty»
 
       final EObject eContainer = context.eContainer();
-      if (eContainer !== null) {
+      if (eContainer != null) {
         return internalGetScope(«IF !localRules.isEmpty»eContainer«ELSE»getRootObject(eContainer)«ENDIF», «IF scope.reference !== null»ref«ELSE»type«ENDIF», "«scope.getScopeName()»", originalResource);
       }
 
@@ -189,7 +189,7 @@ class ScopeProviderGenerator {
       «val r = globalRules.head»
       «val rulesForTypeAndContext = #[r]»
       «javaContributorComment(r.location())»
-      if (context.eResource() !== null) {
+      if (context.eResource() != null) {
         final Resource ctx = context.eResource();
         «scopeRuleBlock(rulesForTypeAndContext, it, if (r.contextRef() !== null) 'ref' else 'type', r.context.contextType, r.context.global)»
       }

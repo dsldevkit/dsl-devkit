@@ -82,7 +82,7 @@ class ExportedNamesProviderGenerator {
               «javaContributorComment(c.location())»
               «IF c.naming !== null»
                 final Object name = «c.naming.javaExpression(ctx.clone('obj', c.type))»;
-                return name !== null ? «IF c.qualifiedName»getConverter().toQualifiedName(String.valueOf(name))«ELSE»qualifyWithContainerName(obj, String.valueOf(name))«ENDIF» : null;
+                return name != null ? «IF c.qualifiedName»getConverter().toQualifiedName(String.valueOf(name))«ELSE»qualifyWithContainerName(obj, String.valueOf(name))«ENDIF» : null;
               «ELSE»
                 return «IF c.qualifiedName»getConverter().toQualifiedName(getResolver().apply(obj))«ELSE»qualifyWithContainerName(obj, getResolver().apply(obj))«ENDIF»; // "name" attribute by default
               «ENDIF»
