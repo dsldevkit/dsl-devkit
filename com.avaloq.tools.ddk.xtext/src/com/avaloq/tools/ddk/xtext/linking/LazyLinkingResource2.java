@@ -11,8 +11,6 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -32,10 +30,6 @@ import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Triple;
 
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
-import com.avaloq.tools.ddk.xtext.modelcache.BinaryModelCacheManager.ModelStatus;
-import com.avaloq.tools.ddk.xtext.modelcache.IModelCacheManager;
-import com.avaloq.tools.ddk.xtext.modelcache.ModelCacheManagerFactory;
-import com.avaloq.tools.ddk.xtext.modelcache.ResourceModelType;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
@@ -75,22 +69,6 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Inject
   private Injector injector;
-
-  @Inject
-  private ModelCacheManagerFactory modelCacheManagerFactory;
-
-  private IModelCacheManager modelManager;
-
-  /** {@inheritDoc} */
-  @Override
-  protected void doLoad(final InputStream inputStream, final Map<?, ?> options) throws IOException {
-    getModelManager().setAllModelsToStatus(ModelStatus.UNLOADED);
-    if (!getModelManager().loadBinaryModels(ResourceModelType.EMF)) {
-      super.doLoad(inputStream, options);
-      getModelManager().setAllModelsToStatus(ModelStatus.LOADED);
-      getModelManager().saveBinaryModels();
-    }
-  }
 
   /**
    * Sets the parse result for this resource.
@@ -132,19 +110,6 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   @Override
   public void setLoading(final boolean loading) {
     isLoading = loading;
-  }
-
-  /**
-   * Gets the model manager for this resource or creates one if it doesn't exist.
-   *
-   * @return the model manager, never {@code null}
-   */
-  @Override
-  public IModelCacheManager getModelManager() {
-    if (modelManager == null) {
-      modelManager = modelCacheManagerFactory.createModelCacheManager(this);
-    }
-    return modelManager;
   }
 
   /** {@inheritDoc} */
