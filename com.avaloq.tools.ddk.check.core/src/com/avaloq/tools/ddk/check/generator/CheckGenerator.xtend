@@ -162,11 +162,11 @@ class CheckGenerator extends JvmModelGenerator {
     @SuppressWarnings("nls")
     public class «catalog.standaloneSetupClassName» implements ICheckValidatorStandaloneSetup {
 
-      static final Logger LOG = Logger.getLogger(«catalog.standaloneSetupClassName».class);
+      private static final Logger LOG = Logger.getLogger(«catalog.standaloneSetupClassName».class);
       «IF catalog.grammar !== null»
-      static final String GRAMMAR_NAME = "«catalog.grammar.name»";
+      private static final String GRAMMAR_NAME = "«catalog.grammar.name»";
       «ENDIF»
-      static final String CATALOG_FILE_PATH = "«catalog.checkFilePath»";
+      private static final String CATALOG_FILE_PATH = "«catalog.checkFilePath»";
 
       /** {@inheritDoc} */
       public void doSetup() {

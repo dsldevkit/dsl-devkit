@@ -84,7 +84,7 @@ class ScopeProviderGenerator {
       public class «getScopeProvider().toSimpleName()» extends AbstractPolymorphicScopeProvider {
 
         /** Class-wide logger. */
-        static final Logger LOGGER = Logger.getLogger(«getScopeProvider().toSimpleName()».class);
+        private static final Logger LOGGER = Logger.getLogger(«getScopeProvider().toSimpleName()».class);
         «IF it !== null»
 
         «IF !allInjections().isEmpty»
