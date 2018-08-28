@@ -120,6 +120,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
    *      rely on linking using the index if isPreIndexingPhase is {@code true}.
    */
   def dispatch void infer(FormatConfiguration format, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+   if (isPreIndexingPhase) return
    val context = format.targetGrammar
     if (EcoreUtil.getAdapter(context.eAdapters(), typeof(RuleNames)) === null) {
     	val allRules = GrammarUtil.allRules(context);
