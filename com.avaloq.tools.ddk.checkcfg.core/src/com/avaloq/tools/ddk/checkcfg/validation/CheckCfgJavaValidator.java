@@ -45,6 +45,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
@@ -209,7 +210,7 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
           info(NLS.bind(Messages.CheckCfgJavaValidator_CONFIGURED_PARAM_EQUALS_DEFAULT, param.getName()), configParam, CheckcfgPackage.Literals.CONFIGURED_PARAMETER__NEW_VALUE, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.CONFIGURED_PARAM_EQUALS_DEFAULT);
         }
       } catch (NoSuchElementException e) {
-        LOGGER.debug("Could not find referenced formal parameter");
+        LOGGER.debug("Could not find referenced formal parameter"); //$NON-NLS-1$
       }
     }
   }
@@ -306,8 +307,23 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
   @Check
   public void checkConfiguredLanguageExists(final ConfiguredLanguageValidator validator) {
     if (!checkCfgUtil.getAllLanguages().contains(validator.getLanguage())) {
-      error("Unknown language", validator, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.UNKNOWN_LANGUAGE);
+      error("Unknown language", validator, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.UNKNOWN_LANGUAGE); //$NON-NLS-1$
     }
+  }
+
+  /**
+   * Checks that language referenced in validator configuration is unique.
+   *
+   * @param checkCfg
+   *          the check configuration containing {@link ConfiguredLanguageValidator}'s
+   */
+  @Check
+  public void checkConfiguredLanguageUnique(final CheckConfiguration checkCfg) {
+    Set<String> existingLanguages = Sets.newHashSet();
+    checkCfg.getLanguageValidatorConfigurations() //
+        .stream() //
+        .filter(lang -> !existingLanguages.add(lang.getLanguage())) // Don't do the mapping first - it's easier having the EObject
+        .forEach(lang -> error(Messages.CheckCfgJavaValidator_DUPLICATE_LANGUAGE_CONFIGURATION, lang, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE, IssueCodes.DUPLICATE_LANGUAGE_CONFIGURATION));
   }
 
   /**
@@ -321,18 +337,9 @@ public class CheckCfgJavaValidator extends AbstractCheckCfgJavaValidator {
     if (configuredCheck.getParameterConfigurations().size() < 2) {
       return;
     }
-    Predicate<ConfiguredParameter> predicate = new Predicate<ConfiguredParameter>() {
-      @Override
-      public boolean apply(final ConfiguredParameter configuredParameter) {
-        return configuredParameter.getParameter() != null && !configuredParameter.getParameter().eIsProxy();
-      }
-    };
-    Function<ConfiguredParameter, String> function = new Function<ConfiguredParameter, String>() {
-      @Override
-      public String apply(final ConfiguredParameter from) {
-        return from.getParameter().getName();
-      }
-    };
+    Predicate<ConfiguredParameter> predicate = (final ConfiguredParameter configuredParameter) -> configuredParameter.getParameter() != null
+        && !configuredParameter.getParameter().eIsProxy();
+    Function<ConfiguredParameter, String> function = (final ConfiguredParameter from) -> from.getParameter().getName();
     for (final ConfiguredParameter p : getDuplicates(predicate, function, configuredCheck.getParameterConfigurations())) {
       error(Messages.CheckCfgJavaValidator_DUPLICATE_PARAMETER_CONFIGURATION, p, CheckcfgPackage.Literals.CONFIGURED_PARAMETER__PARAMETER, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.DUPLICATE_PARAMETER_CONFIGURATION);
     }

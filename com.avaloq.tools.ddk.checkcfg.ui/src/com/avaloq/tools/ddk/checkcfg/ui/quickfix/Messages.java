@@ -30,6 +30,8 @@ public class Messages extends NLS {
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CHECK_LABEL;
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_PARAM_DESCN;
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_PARAM_LABEL;
+  public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_CONFIG_LABEL;
+  public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_CONFIG_DESC;
 
   static {
     // initialize resource bundle
@@ -40,4 +42,3 @@ public class Messages extends NLS {
     super();
   }
 }
-
