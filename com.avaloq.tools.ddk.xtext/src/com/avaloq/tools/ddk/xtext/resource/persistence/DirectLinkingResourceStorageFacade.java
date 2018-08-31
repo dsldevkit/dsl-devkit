@@ -96,6 +96,11 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
     return uri.deresolve(srcContainerURI, false, false, true).path();
   }
 
+  @Override
+  protected URI getSourceContainerURI(final StorageAwareResource resource) {
+    return getSourceContainerURI(resource.getURI());
+  }
+
   /**
    * URI-based alternative to {@link #getSourceContainerURI(StorageAwareResource)}.
    *

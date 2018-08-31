@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
@@ -64,44 +63,40 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   }
 
   @Override
-  protected void loadIntoResource(final StorageAwareResource resource) {
+  protected void loadIntoResource(final StorageAwareResource resource) throws IOException {
     traceSet.started(ResourceLoadStorageEvent.class, resource.getURI());
     try {
       super.loadIntoResource(resource);
       // CHECKSTYLE:OFF
-    } catch (RuntimeException e) {
+    } catch (IOException | RuntimeException e) {
       // CHECKSTYLE:ON
-      LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
-      throw e instanceof WrappedException ? e : new WrappedException(e); // NOPMD
-    } catch (IOException e) {
-      LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
-      throw new WrappedException(e); // NOPMD
+      LOG.warn("Error loading " + resource.getURI() + " from binary storage", e); //$NON-NLS-1$ //$NON-NLS-2$
+      if (e instanceof IOException) { // NOPMD
+        throw e;
+      }
+      throw new IOException(e);
     } finally {
       traceSet.ended(ResourceLoadStorageEvent.class);
     }
   }
 
   @Override
-  protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) {
-    try {
+  protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
+    zipIn.getNextEntry();
+    readContents(resource, new BufferedInputStream(zipIn));
+
+    if (storeNodeModel) {
       zipIn.getNextEntry();
-      readContents(resource, new BufferedInputStream(zipIn));
-
-      if (storeNodeModel) {
-        zipIn.getNextEntry();
-        StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
-        CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
-        String content = out.toString();
-
-        zipIn.getNextEntry();
-        readNodeModel(resource, new BufferedInputStream(zipIn), content);
-      }
+      StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
+      CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
+      String content = out.toString();
 
       zipIn.getNextEntry();
-      readAssociationsAdapter(resource, new BufferedInputStream(zipIn));
-    } catch (IOException e) {
-      throw new WrappedException(e);
+      readNodeModel(resource, new BufferedInputStream(zipIn), content);
     }
+
+    zipIn.getNextEntry();
+    readAssociationsAdapter(resource, new BufferedInputStream(zipIn));
   }
 
   /**
@@ -113,22 +108,15 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    *          input stream, must not be {@code null}
    * @param content
    *          corresponding source content as required by node model, must not be {@code null}
+   * @throws IOException
+   *           if an I/O exception occurred
    */
-  protected void readNodeModel(final StorageAwareResource resource, final InputStream inputStream, final String content) {
-    try {
-      // if this is a synthetic resource (i.e. tests or so, don't load the node model)
-      if (!resource.getResourceSet().getURIConverter().exists(resource.getURI(), resource.getResourceSet().getLoadOptions())) {
-        LOG.info("Skipping loading node model for synthetic resource " + resource.getURI()); //$NON-NLS-1$
-        return;
-      }
-      DeserializationConversionContext deserializationContext = new FixedDeserializationConversionContext(resource, content);
-      DataInputStream dataIn = new DataInputStream(inputStream);
-      SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
-      serializableNodeModel.readObjectData(dataIn, deserializationContext);
-      resource.setParseResult(new ParseResult(resource.getContents().get(0), serializableNodeModel.root, deserializationContext.hasErrors()));
-    } catch (IOException e) {
-      LOG.warn(e.getMessage(), e);
-    }
+  protected void readNodeModel(final StorageAwareResource resource, final InputStream inputStream, final String content) throws IOException {
+    DeserializationConversionContext deserializationContext = new FixedDeserializationConversionContext(resource, content);
+    DataInputStream dataIn = new DataInputStream(inputStream);
+    SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
+    serializableNodeModel.readObjectData(dataIn, deserializationContext);
+    resource.setParseResult(new ParseResult(resource.getContents().get(0), serializableNodeModel.root, deserializationContext.hasErrors()));
   }
 
   /**
