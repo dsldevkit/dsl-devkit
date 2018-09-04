@@ -49,7 +49,7 @@ class ExportGenerator implements IGenerator {
   CompilationContext compilationContext
 
   override void doGenerate(Resource input, IFileSystemAccess fsa) {
-    if (input == null || input.contents.empty || !(input.contents.head instanceof ExportModel)) {
+    if (input === null || input.contents.empty || !(input.contents.head instanceof ExportModel)) {
       return
     }
     val model = input.contents.head as ExportModel
@@ -57,7 +57,7 @@ class ExportGenerator implements IGenerator {
     var IProject project = null
     if (input.URI.isPlatformResource) {
       val res = ResourcesPlugin.workspace.root.findMember(input.URI.toPlatformString(true))
-      if (res != null) {
+      if (res !== null) {
         project = res.project
       }
     }
@@ -103,7 +103,7 @@ class ExportGenerator implements IGenerator {
   }
 
   def generateFragmentProvider(ExportModel model, IFileSystemAccess fsa) {
-    if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute != null) || model.isExtension) {
+    if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute !== null) || model.isExtension) {
       val fileName = model.fragmentProvider.toFileName
       fsa.generateFile(fileName, fragmentProviderGenerator.generate(model, compilationContext, genModelUtil))
     }

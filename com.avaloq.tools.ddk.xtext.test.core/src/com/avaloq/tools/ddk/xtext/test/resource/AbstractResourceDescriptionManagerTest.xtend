@@ -25,7 +25,7 @@ import com.avaloq.tools.ddk.xtext.test.TestSource
 /**
  * Abstract base class for {@link AbstractCachingResourceDescriptionManager} tests.
  */
-public abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest {
+abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest {
 
   /**
    * Simple unchanged {@link Delta} implementation with {@link URI}.

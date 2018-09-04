@@ -34,7 +34,7 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   val SwtWorkbenchBot bot = new SwtWorkbenchBot
   var boolean oldAutoBuildState
 
-  def private String getTestSourceFileName(String catalogName) {
+  def String getTestSourceFileName(String catalogName) {
     return '''«PACKAGE_NAME.replace(".", "/")»/«catalogName».«xtextTestUtil.getFileExtension»'''
   }
 

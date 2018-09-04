@@ -55,7 +55,7 @@ class PropertiesInferenceHelper {
       val parameters = section.parameterConfigurations;
       for (parameter : parameters) {
         val formalParameter = parameter.inferFormalParameter(referenceBuilder)
-        if (formalParameter != null) {
+        if (formalParameter !== null) {
           properties.add(formalParameter)
         }
       }
@@ -65,7 +65,7 @@ class PropertiesInferenceHelper {
     val contributions = CheckCfgUtil.allPropertyContributions
     for (contribution : contributions) {
       val formalParameter = contribution.inferFormalParameter(referenceBuilder)
-      if (formalParameter != null) {
+      if (formalParameter !== null) {
         properties.add(formalParameter)
       }
     }
@@ -108,7 +108,7 @@ class PropertiesInferenceHelper {
   }
 
   def inferFormalParameter(ConfiguredParameter parameter, JvmTypeReferenceBuilder referenceBuilder) {
-    if (parameter == null) {
+    if (parameter === null) {
       return null
     }
     inferFormalParameter(ParseTreeUtil.getParsedString(parameter, CheckcfgPackage.Literals.CONFIGURED_PARAMETER__PARAMETER),
@@ -116,14 +116,14 @@ class PropertiesInferenceHelper {
   }
 
   def inferFormalParameter(ICheckCfgPropertySpecification contribution, JvmTypeReferenceBuilder referenceBuilder) {
-    if (contribution == null) {
+    if (contribution === null) {
       return null
     }
     inferFormalParameter(contribution.name, inferType(contribution, referenceBuilder))
   }
 
   def inferFormalParameter(String name, JvmTypeReference type) {
-    if (type == null) {
+    if (type === null) {
       return null
     }
     val formalParameter = CheckFactoryImpl.eINSTANCE.createFormalParameter();

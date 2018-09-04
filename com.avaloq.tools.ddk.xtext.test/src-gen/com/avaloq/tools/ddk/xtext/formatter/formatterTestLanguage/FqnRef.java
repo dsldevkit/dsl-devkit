@@ -10,10 +10,10 @@ package com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FqnRef#getRef <em>Ref</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguagePackage#getFqnRef()
  * @model

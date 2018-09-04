@@ -65,7 +65,7 @@ class FormatGenerator extends JvmModelGenerator {
         if (documentation.endsWith("\r\n")) {
             documentation = documentation.substring(0, documentation.length - 2)
         }
-        if (documentation != null) {
+        if (documentation !== null) {
             tracedAppendable.append(" // ")
             tracedAppendable.append(documentation)
         }

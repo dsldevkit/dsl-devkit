@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.testing.InjectWith;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

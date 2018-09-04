@@ -18,17 +18,17 @@ import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IMarker
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
 
 @InjectWith(typeof(CheckUiInjectorProvider))
 @RunWith(typeof(XtextRunner))
 class ProjectBasedTests extends AbstractCheckTestCase {
 
-  private boolean initialized;
+  boolean initialized;
 
   def List<String> getRequiredSourceFileNames() {
     // No file extension to prevent code generation in development workbench. Will get .check extension when copied into
@@ -36,7 +36,7 @@ class ProjectBasedTests extends AbstractCheckTestCase {
     Lists::newArrayList("bugdsl27/BugDsl27", "bugdsl281/BugDsl281")
   }
 
-  override def getFullFileName(String fileName) {
+  override getFullFileName(String fileName) {
     // Make sure it is put into the src folder even if the name contains a dash!
     return getSourceFolderPath() + getFileName(fileName);
   }
@@ -48,7 +48,7 @@ class ProjectBasedTests extends AbstractCheckTestCase {
       addSourcesToWorkspace(typeof(ProjectBasedTests), requiredSourceFileNames)
 
       // wait for build to finish, otherwise included catalog may not be resolvable
-      IResourcesSetupUtil::waitForAutoBuild
+      IResourcesSetupUtil.reallyWaitForAutoBuild
     }
   }
 

@@ -37,10 +37,10 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil;
-import org.eclipse.xtext.junit4.ui.util.JavaProjectSetupUtil;
 import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.ui.XtextProjectHelper;
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
+import org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -72,14 +72,14 @@ public abstract class AbstractGeneratorTest {
 
   private final Set<IFile> files = newHashSet();
   protected static final List<String> REQUIRED_BUNDLES = newArrayList(//
-  "org.eclipse.xtext.xbase.lib", //$NON-NLS-1$
-  "org.eclipse.xtend2.lib", // //$NON-NLS-1$
-  "org.eclipse.emf.ecore", //$NON-NLS-1$
-  "org.eclipse.xtext", // //$NON-NLS-1$
-  "org.eclipse.osgi", //$NON-NLS-1$
-  "org.eclipse.xtend", //$NON-NLS-1$
-  "org.eclipse.core.runtime", //$NON-NLS-1$
-  "org.eclipse.xtext.xbase" //$NON-NLS-1$
+      "org.eclipse.xtext.xbase.lib", //$NON-NLS-1$
+      "org.eclipse.xtend.lib", // //$NON-NLS-1$
+      "org.eclipse.emf.ecore", //$NON-NLS-1$
+      "org.eclipse.xtext", // //$NON-NLS-1$
+      "org.eclipse.osgi", //$NON-NLS-1$
+      "org.eclipse.xtend", //$NON-NLS-1$
+      "org.eclipse.core.runtime", //$NON-NLS-1$
+      "org.eclipse.xtext.xbase" //$NON-NLS-1$
   );
 
   @Inject
@@ -140,7 +140,7 @@ public abstract class AbstractGeneratorTest {
     addSourcesToWorkspace(projectName, sourceFileNames);
 
     // wait for build to finish, otherwise included catalog may not be resolvable
-    IResourcesSetupUtil.waitForAutoBuild();
+    IResourcesSetupUtil.reallyWaitForAutoBuild();
   }
 
   /**

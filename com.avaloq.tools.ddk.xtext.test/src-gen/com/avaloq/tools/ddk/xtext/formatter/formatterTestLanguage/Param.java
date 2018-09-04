@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.Param#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.Param#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguagePackage#getParam()
  * @model

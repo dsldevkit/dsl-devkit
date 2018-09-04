@@ -5,7 +5,7 @@
     forceOverwrite="true" modelName="Scope" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.scope.edit"
     editorPluginID="com.avaloq.tools.ddk.xtext.scope.editor" runtimeVersion="2.12"
-    usedGenPackages="platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel#//expression">
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel#//expression">
   <genPackages prefix="Scope" basePackage="com.avaloq.tools.ddk.xtext.scope" disposableProviderFactory="true"
       ecorePackage="Scope.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="Scope.ecore#//Casing">

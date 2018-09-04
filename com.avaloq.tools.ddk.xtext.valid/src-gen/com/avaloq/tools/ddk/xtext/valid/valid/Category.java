@@ -13,13 +13,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Category#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Category#getLabel <em>Label</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Category#getDescription <em>Description</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Category#getRules <em>Rules</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getCategory()
  * @model

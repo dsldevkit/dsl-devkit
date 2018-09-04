@@ -22,6 +22,7 @@ import org.eclipse.xtext.xbase.XExpression;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ColumnLocatorImpl#isFixed <em>Fixed</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ColumnLocatorImpl#getValue <em>Value</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.xtext.xbase.XExpression;
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ColumnLocatorImpl#isRelative <em>Relative</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.impl.ColumnLocatorImpl#isNobreak <em>Nobreak</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

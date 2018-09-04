@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.SuppressedHiddenSubImpl#getIdval <em>Idval</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

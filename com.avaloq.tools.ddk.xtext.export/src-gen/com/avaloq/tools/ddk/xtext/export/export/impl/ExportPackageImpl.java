@@ -170,8 +170,8 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 		isInited = true;
 
 		// Initialize simple dependencies
-		ExpressionPackage.eINSTANCE.eClass();
 		XtextPackage.eINSTANCE.eClass();
+		ExpressionPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theExportPackage.createPackageContents();

@@ -6,7 +6,7 @@ Bundle-Version: 2.1.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Require-Bundle: com.google.guava;bundle-version="[10.0.0,19.0.0)",
+Require-Bundle: com.google.guava,
  org.apache.commons.lang,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
@@ -23,7 +23,6 @@ Export-Package: com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.xtext.formatting.locators.conditional,
  com.avaloq.tools.ddk.xtext.grammar,
  com.avaloq.tools.ddk.xtext.linking,
- com.avaloq.tools.ddk.xtext.modelcache,
  com.avaloq.tools.ddk.xtext.modelinference,
  com.avaloq.tools.ddk.xtext.modelinference.impl,
  com.avaloq.tools.ddk.xtext.modelinference.util,

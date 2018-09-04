@@ -69,7 +69,7 @@ public class CheckProjectCreator extends AbstractPluginProjectCreator { // exten
   "com.avaloq.tools.ddk.check.lib", // Check user library
   "com.avaloq.tools.targetdefinition.check.core;resolution:=optional", // Check configuration preferences, TODO should only be added for ASMD
   "org.eclipse.core.runtime", //
-  "org.eclipse.xtend2.lib", // required for CheckGenerator operations, e.g. 'StringConcatenation()'
+  "org.eclipse.xtend.lib", // required for CheckGenerator operations, e.g. 'StringConcatenation()'
   "org.eclipse.xtext.xbase.lib", // required for Xbase operations, e.g. '=='
   "com.avaloq.tools.dsl.check.lib;resolution:=optional" // utility operations (ASMD specific)
   );

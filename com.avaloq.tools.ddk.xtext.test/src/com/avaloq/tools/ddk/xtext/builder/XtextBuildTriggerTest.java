@@ -76,4 +76,3 @@ public class XtextBuildTriggerTest extends AbstractXtextTests {
     verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), Matchers.<IBuildFlag[]> anyVararg());
   }
 }
-

@@ -40,7 +40,7 @@ class GenModelUtilX {
 
   def /*cached*/ String qualifiedPackageInterfaceName(EPackage it) {
     val genPackage = genPackage()
-    if (genPackage != null)
+    if (genPackage !== null)
       return genPackage.qualifiedPackageInterfaceName
     else if (it.class != EPackageImpl)
       return it.class.interfaces.head.name
@@ -49,7 +49,7 @@ class GenModelUtilX {
 
   def String qualifiedSwitchClassName(EPackage it) {
     val genPackage = genPackage()
-    if (genPackage != null && genPackage.literalsInterface)
+    if (genPackage !== null && genPackage.literalsInterface)
       genPackage.utilitiesPackageName + "." + genPackage.switchClassName
     else
       qualifiedPackageInterfaceName().toJavaPackage + '.util.' + name.toFirstUpper + 'Switch' // heuristic
@@ -59,7 +59,7 @@ class GenModelUtilX {
     val eClass     = EContainingClass
     val ePackage   = eClass.EPackage
     val genPackage = ePackage.genPackage()
-    if (genPackage != null && genPackage.literalsInterface)
+    if (genPackage !== null && genPackage.literalsInterface)
        eClass.literalIdentifier() + "__" + name.format().toUpperCase()
     else
       ePackage.qualifiedPackageInterfaceName() + ".eINSTANCE.get" + eClass.name + "_" + name.toFirstUpper() + "()"
@@ -67,7 +67,7 @@ class GenModelUtilX {
 
   def /*cached*/ dispatch String literalIdentifier(EClass it) {
      val genPackage = EPackage.genPackage()
-     if (genPackage != null && genPackage.literalsInterface)
+     if (genPackage !== null && genPackage.literalsInterface)
        genPackage.qualifiedPackageInterfaceName + ".Literals." + name.format().toUpperCase()
      else
        EPackage.qualifiedPackageInterfaceName() + ".eINSTANCE.get" + name + "()"
@@ -93,30 +93,30 @@ class GenModelUtilX {
   }
 
   def /*cached*/ dispatch String instanceClassName(EClassifier it) {
-    if (instanceClassName != null)
+    if (instanceClassName !== null)
       return instanceClassName
     return name
   }
 
   def /*cached*/ dispatch String instanceClassName(EDataType it) {
-    if (instanceClassName != null)
+    if (instanceClassName !== null)
       return instanceClassName
     return genDataType(it).qualifiedInstanceClassName
   }
 
   def /*cached*/ dispatch String instanceClassName(EClass it) {
-    if (instanceClassName != null)
+    if (instanceClassName !== null)
       return instanceClassName
     return genClass(it).qualifiedInterfaceName
   }
 
   def /*cached*/ GenPackage genPackage(EModelElement it) {
     val ePackage = EcoreUtil2.getContainerOfType(it, EPackage)
-    if (globalScopeProvider != null && context != null) {
+    if (globalScopeProvider !== null && context !== null) {
       val scope = globalScopeProvider.getScope(context, GenModelPackage.Literals.GEN_MODEL__GEN_PACKAGES, null)
-      if (scope != null && ePackage != null) {
+      if (scope !== null && ePackage !== null) {
         val desc = scope.getSingleElement(QualifiedName.create(ePackage.nsURI))
-        if (desc != null) {
+        if (desc !== null) {
           return EcoreUtil.resolve(desc.EObjectOrProxy, context) as GenPackage
         } else {
           val resourceDescriptions = resourceDescriptionsProvider.getResourceDescriptions(context)
@@ -134,23 +134,23 @@ class GenModelUtilX {
         }
       }
     }
-    val resourceSet = if (context != null) context.resourceSet else if (it.eResource.resourceSet != null) it.eResource.resourceSet else new ResourceSetImpl
-    return if (ePackage != null) GenModelUtil2.findGenPackage(ePackage, resourceSet) else null
+    val resourceSet = if (context !== null) context.resourceSet else if (it.eResource.resourceSet !== null) it.eResource.resourceSet else new ResourceSetImpl
+    return if (ePackage !== null) GenModelUtil2.findGenPackage(ePackage, resourceSet) else null
   }
 
   def /*cached*/ GenModel genModel(EModelElement it) {
     val genPackage = genPackage(it)
-    return if (genPackage != null) genPackage.genModel else null
+    return if (genPackage !== null) genPackage.genModel else null
   }
 
   def /*cached*/ GenClass genClass(EClass it) {
     val genPackage = genPackage(it)
-    return if (genPackage != null) genPackage.genModel.findGenClassifier(it) as GenClass else null
+    return if (genPackage !== null) genPackage.genModel.findGenClassifier(it) as GenClass else null
   }
 
   def /*cached*/ GenDataType genDataType(EDataType it) {
     val genPackage = genPackage(it)
-    return if (genPackage != null) genPackage.genModel.findGenClassifier(it) as GenDataType else null;
+    return if (genPackage !== null) genPackage.genModel.findGenClassifier(it) as GenDataType else null;
   }
 
   def /*cached*/ String format(String name) {

@@ -24,8 +24,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil;
 import org.eclipse.xtext.ui.XtextProjectHelper;
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 
 import com.google.common.collect.Maps;
 
@@ -33,7 +33,6 @@ import com.google.common.collect.Maps;
 /**
  * Simple Test project manager for SDK tests.
  */
-@SuppressWarnings("restriction")
 public class XtextTestProjectManager implements ITestProjectManager {
   protected static final String TEST_PROJECT_NAME = "TEST";
   private final Map<String, TestSource> testSources = Maps.newHashMap();
@@ -75,7 +74,7 @@ public class XtextTestProjectManager implements ITestProjectManager {
   /** {@inheritDoc} */
   @Override
   public void build() {
-    IResourcesSetupUtil.waitForAutoBuild();
+    IResourcesSetupUtil.reallyWaitForAutoBuild();
   }
 
   /** {@inheritDoc} */
@@ -161,4 +160,3 @@ public class XtextTestProjectManager implements ITestProjectManager {
   }
 
 }
-

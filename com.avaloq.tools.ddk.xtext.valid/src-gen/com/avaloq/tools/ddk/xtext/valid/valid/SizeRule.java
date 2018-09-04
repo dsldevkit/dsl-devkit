@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.SizeRule#getMin <em>Min</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.SizeRule#getMax <em>Max</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.SizeRule#getContexts <em>Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getSizeRule()
  * @model

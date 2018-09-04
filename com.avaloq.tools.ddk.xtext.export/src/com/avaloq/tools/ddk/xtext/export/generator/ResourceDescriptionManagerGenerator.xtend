@@ -24,7 +24,7 @@ class ResourceDescriptionManagerGenerator {
 
   def generate(ExportModel model, CompilationContext ctx, extension GenModelUtilX genModelUtil) {
     val grammar = model.grammar
-    val usedGrammars = if (grammar != null) grammar.usedGrammars else newArrayList
+    val usedGrammars = if (grammar !== null) grammar.usedGrammars else newArrayList
     val extendedGrammar = if (usedGrammars.isEmpty || usedGrammars.head.name.endsWith('.Terminals')) null else usedGrammars.head
     '''
       package «model.resourceDescriptionManager.toJavaPackage»;
@@ -32,7 +32,7 @@ class ResourceDescriptionManagerGenerator {
       import java.util.Set;
 
       import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
-      «IF extendedGrammar != null»
+      «IF extendedGrammar !== null»
       import «extendedGrammar.resourceDescriptionManager»;
       import com.google.common.collect.ImmutableSet;
       import com.google.common.collect.Sets;
@@ -46,7 +46,7 @@ class ResourceDescriptionManagerGenerator {
       @Singleton
       public class «model.resourceDescriptionManager.toSimpleName» extends AbstractCachingResourceDescriptionManager {
 
-        public static final Set<String> INTERESTING_EXTS = «IF extendedGrammar != null»ImmutableSet.copyOf(Sets.union(«extendedGrammar.resourceDescriptionManager.toSimpleName».INTERESTING_EXTS, of(/*add extensions here*/)));«ELSE»all();«ENDIF»
+        public static final Set<String> INTERESTING_EXTS = «IF extendedGrammar !== null»ImmutableSet.copyOf(Sets.union(«extendedGrammar.resourceDescriptionManager.toSimpleName».INTERESTING_EXTS, of(/*add extensions here*/)));«ELSE»all();«ENDIF»
 
         @Override
         protected Set<String> getInterestingExtensions() {

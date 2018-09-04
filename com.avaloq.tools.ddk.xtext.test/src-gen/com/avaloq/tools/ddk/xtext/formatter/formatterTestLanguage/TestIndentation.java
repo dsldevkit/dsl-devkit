@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.TestIndentation#getSub <em>Sub</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.TestIndentation#getItems <em>Items</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.TestIndentation#isSemi <em>Semi</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguagePackage#getTestIndentation()
  * @model

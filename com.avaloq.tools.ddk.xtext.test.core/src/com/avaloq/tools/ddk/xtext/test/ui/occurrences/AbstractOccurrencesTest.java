@@ -174,7 +174,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
   private final DefaultCondition occurenceJobCondition = new DefaultCondition() {
     @Override
     public boolean test() {
-      return jobChangeListener.isJobDone(Messages.OccurrenceMarker_MarkOccurenceJob_title);
+      return jobChangeListener.isJobDone(Messages.OccurrenceMarker_MarkOccurrenceJob_title);
     }
 
     @Override
@@ -198,7 +198,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
     OccurrencesToCheck occurrencesMap = (OccurrencesToCheck) getTestInformation().getTestObject(OccurrencesToCheck.class);
 
     IEditorPart editorPart = editorBot.getReference().getEditor(true);
-    ITextEditor editor = (ITextEditor) editorPart.getAdapter(ITextEditor.class);
+    ITextEditor editor = editorPart.getAdapter(ITextEditor.class);
     IDocumentProvider provider = editor.getDocumentProvider();
     IDocument document = provider.getDocument(editorPart.getEditorInput());
     int cursorLine = document.getLineOfOffset(occurrencesMap.cursorOffset);

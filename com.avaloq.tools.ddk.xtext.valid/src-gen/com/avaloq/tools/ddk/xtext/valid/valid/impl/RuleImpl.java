@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RuleImpl#isOptional <em>Optional</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RuleImpl#getCheckKind <em>Check Kind</em>}</li>
@@ -29,7 +30,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RuleImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.RuleImpl#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

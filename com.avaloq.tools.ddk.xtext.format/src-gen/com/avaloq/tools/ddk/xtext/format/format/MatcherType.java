@@ -172,6 +172,8 @@ public enum MatcherType implements Enumerator
    * Returns the '<em><b>Matcher Type</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param literal the literal.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static MatcherType get(String literal)
@@ -191,6 +193,8 @@ public enum MatcherType implements Enumerator
    * Returns the '<em><b>Matcher Type</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param name the name.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static MatcherType getByName(String name)
@@ -210,6 +214,8 @@ public enum MatcherType implements Enumerator
    * Returns the '<em><b>Matcher Type</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the integer value.
+   * @return the matching enumerator or <code>null</code>.
    * @generated
    */
   public static MatcherType get(int value)

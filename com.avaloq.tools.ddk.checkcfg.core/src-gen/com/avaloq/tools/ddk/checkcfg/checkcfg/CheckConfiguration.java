@@ -13,13 +13,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getLanguageValidatorConfigurations <em>Language Validator Configurations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getLegacyCatalogConfigurations <em>Legacy Catalog Configurations</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getProperties <em>Properties</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration()
  * @model

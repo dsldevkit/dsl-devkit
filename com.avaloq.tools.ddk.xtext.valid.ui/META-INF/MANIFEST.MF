@@ -19,7 +19,8 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.ui,
 Export-Package: com.avaloq.tools.ddk.xtext.valid.ui.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.valid.ui.internal;x-friends:="com.avaloq.tools.ddk.xtext.valid.test",
  com.avaloq.tools.ddk.xtext.valid.ui.contentassist,
- com.avaloq.tools.ddk.xtext.valid.ui.quickfix
+ com.avaloq.tools.ddk.xtext.valid.ui.quickfix,
+ com.avaloq.tools.ddk.xtext.valid.ui.contentassist.antlr.internal
 Import-Package: org.apache.log4j
 Bundle-Activator: com.avaloq.tools.ddk.xtext.valid.ui.internal.ValidActivator
 Eclipse-ExtensibleAPI: true

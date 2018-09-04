@@ -91,7 +91,7 @@ ruleValidModel returns [EObject current=null]
        			$current, 
        			"imports",
         		lv_imports_0_0, 
-        		"Import");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.Import");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -109,7 +109,7 @@ ruleValidModel returns [EObject current=null]
        			$current, 
        			"categories",
         		lv_categories_1_0, 
-        		"Category");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.Category");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -191,7 +191,7 @@ ruleCategory returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -213,7 +213,7 @@ ruleCategory returns [EObject current=null]
        			$current, 
        			"label",
         		lv_label_3_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -235,7 +235,7 @@ ruleCategory returns [EObject current=null]
        			$current, 
        			"description",
         		lv_description_5_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -256,7 +256,7 @@ ruleCategory returns [EObject current=null]
        			$current, 
        			"rules",
         		lv_rules_7_0, 
-        		"Rule");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.Rule");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -430,7 +430,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"checkKind",
         		lv_checkKind_2_0, 
-        		"CheckKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.CheckKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -462,7 +462,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"severity",
         		lv_severity_3_0, 
-        		"SeverityKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.SeverityKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -481,7 +481,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_4_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -503,7 +503,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"label",
         		lv_label_6_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -525,7 +525,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"description",
         		lv_description_8_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -547,7 +547,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"message",
         		lv_message_10_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -572,7 +572,7 @@ ruleNativeRule returns [EObject current=null]
        			$current, 
        			"contexts",
         		lv_contexts_13_0, 
-        		"NativeContext");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.NativeContext");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -656,7 +656,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"checkKind",
         		lv_checkKind_2_0, 
-        		"CheckKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.CheckKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -692,7 +692,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"severity",
         		lv_severity_4_0, 
-        		"SeverityKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.SeverityKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -711,7 +711,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_5_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -733,7 +733,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"label",
         		lv_label_7_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -755,7 +755,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"description",
         		lv_description_9_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -777,7 +777,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"message",
         		lv_message_11_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -799,7 +799,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"min",
         		lv_min_13_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -821,7 +821,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"max",
         		lv_max_15_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -846,7 +846,7 @@ ruleSizeRule returns [EObject current=null]
        			$current, 
        			"contexts",
         		lv_contexts_18_0, 
-        		"SimpleContext");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.SimpleContext");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -930,7 +930,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"checkKind",
         		lv_checkKind_2_0, 
-        		"CheckKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.CheckKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -966,7 +966,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"severity",
         		lv_severity_4_0, 
-        		"SeverityKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.SeverityKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -985,7 +985,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_5_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1007,7 +1007,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"label",
         		lv_label_7_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1029,7 +1029,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"description",
         		lv_description_9_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1051,7 +1051,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"message",
         		lv_message_11_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1073,7 +1073,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"min",
         		lv_min_13_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -1095,7 +1095,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"max",
         		lv_max_15_0, 
-        		"INT");
+        		"org.eclipse.xtext.common.Terminals.INT");
 	    }
 
 )
@@ -1120,7 +1120,7 @@ ruleRangeRule returns [EObject current=null]
        			$current, 
        			"contexts",
         		lv_contexts_18_0, 
-        		"SimpleContext");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.SimpleContext");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1204,7 +1204,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"checkKind",
         		lv_checkKind_2_0, 
-        		"CheckKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.CheckKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1240,7 +1240,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"severity",
         		lv_severity_4_0, 
-        		"SeverityKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.SeverityKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1259,7 +1259,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_5_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1281,7 +1281,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"label",
         		lv_label_7_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1303,7 +1303,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"description",
         		lv_description_9_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1325,7 +1325,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"message",
         		lv_message_11_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1350,7 +1350,7 @@ ruleUniqueRule returns [EObject current=null]
        			$current, 
        			"contexts",
         		lv_contexts_14_0, 
-        		"DuplicateContext");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.DuplicateContext");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1593,7 +1593,7 @@ ruleNativeContext returns [EObject current=null]
        			$current, 
        			"givenName",
         		lv_givenName_4_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1654,7 +1654,7 @@ ruleNativeContext returns [EObject current=null]
        			$current, 
        			"quickFixes",
         		lv_quickFixes_11_0, 
-        		"QuickFix");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.QuickFix");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1701,7 +1701,7 @@ ruleQuickFix returns [EObject current=null]
        			$current, 
        			"quickFixKind",
         		lv_quickFixKind_0_0, 
-        		"QuickFixKind");
+        		"com.avaloq.tools.ddk.xtext.valid.Valid.QuickFixKind");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1724,7 +1724,7 @@ ruleQuickFix returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_2_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
@@ -1746,7 +1746,7 @@ ruleQuickFix returns [EObject current=null]
        			$current, 
        			"label",
         		lv_label_4_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )
@@ -1768,7 +1768,7 @@ ruleQuickFix returns [EObject current=null]
        			$current, 
        			"message",
         		lv_message_6_0, 
-        		"STRING");
+        		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
 )

@@ -13,11 +13,11 @@ import org.eclipse.xtext.AbstractRule;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GrammarElementLookup#getRule <em>Rule</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.format.format.GrammarElementLookup#getKeyword <em>Keyword</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getGrammarElementLookup()
  * @model

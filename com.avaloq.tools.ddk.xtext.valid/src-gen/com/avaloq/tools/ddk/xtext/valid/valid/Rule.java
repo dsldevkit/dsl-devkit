@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Rule#isOptional <em>Optional</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Rule#getCheckKind <em>Check Kind</em>}</li>
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Rule#getDescription <em>Description</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.Rule#getMessage <em>Message</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getRule()
  * @model

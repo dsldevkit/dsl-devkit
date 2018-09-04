@@ -4,7 +4,6 @@ import com.avaloq.tools.ddk.check.lib.IResourceCache;
 import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl;
 import com.avaloq.tools.ddk.check.testLanguage.Greeting;
 import com.avaloq.tools.ddk.check.validation.LibraryChecksCheckCatalog;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
@@ -55,8 +54,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
    */
   @Check(CheckType.FAST)
   public void cacheInjectionFailedGreeting(final Greeting g) {
-    boolean _equals = Objects.equal(LibraryChecksCheckImpl.this.cache, null);
-    if (_equals) {// Issue diagnostic
+    if ((LibraryChecksCheckImpl.this.cache == null)) {// Issue diagnostic
       libraryChecksCatalog.accept(getMessageAcceptor(), //
         g, // context EObject
         null, // EStructuralFeature
@@ -79,14 +77,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       Boolean _boolean = new Boolean(true);
       LibraryChecksCheckImpl.this.cache.<Boolean>put(it, key, _boolean);
       final Boolean value = LibraryChecksCheckImpl.this.cache.<Boolean>get(it, key);
-      boolean _or = false;
-      boolean _equals = Objects.equal(value, null);
-      if (_equals) {
-        _or = true;
-      } else {
-        _or = (!(value).booleanValue());
-      }
-      if (_or) {
+      if (((value == null) || (!(value).booleanValue()))) {
         // Issue diagnostic
         libraryChecksCatalog.accept(getMessageAcceptor(), //
           it, // context EObject
@@ -172,16 +163,14 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       } else {
         while ((i < names.size())) {
           {
-            String _get = expectedNames.get(i);
-            String _get_1 = names.get(i);
-            boolean _equals_1 = _get.equals(_get_1);
+            boolean _equals_1 = expectedNames.get(i).equals(names.get(i));
             boolean _not_1 = (!_equals_1);
             if (_not_1) {
-              String _get_2 = expectedNames.get(i);
-              String _plus_1 = ("String mismatch in list, expected \"" + _get_2);
+              String _get = expectedNames.get(i);
+              String _plus_1 = ("String mismatch in list, expected \"" + _get);
               String _plus_2 = (_plus_1 + "\" but got \"");
-              String _get_3 = names.get(i);
-              String _plus_3 = (_plus_2 + _get_3);
+              String _get_1 = names.get(i);
+              String _plus_3 = (_plus_2 + _get_1);
               String _plus_4 = (_plus_3 + "\"");
               // Issue diagnostic
               libraryChecksCatalog.accept(getMessageAcceptor(), //
@@ -217,17 +206,15 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       i = 0;
       while ((i < INTS.size())) {
         {
-          Integer _get = expectedInts.get(i);
-          int _intValue = _get.intValue();
-          Integer _get_1 = INTS.get(i);
-          int _intValue_1 = _get_1.intValue();
+          int _intValue = expectedInts.get(i).intValue();
+          int _intValue_1 = INTS.get(i).intValue();
           boolean _notEquals_2 = (_intValue != _intValue_1);
           if (_notEquals_2) {
-            Integer _get_2 = expectedInts.get(i);
-            String _plus_2 = ((("Integer mismatch at index " + Integer.valueOf(i)) + ":") + _get_2);
+            Integer _get = expectedInts.get(i);
+            String _plus_2 = ((("Integer mismatch at index " + Integer.valueOf(i)) + ":") + _get);
             String _plus_3 = (_plus_2 + " != ");
-            Integer _get_3 = INTS.get(i);
-            String _plus_4 = (_plus_3 + _get_3);
+            Integer _get_1 = INTS.get(i);
+            String _plus_4 = (_plus_3 + _get_1);
             // Issue diagnostic
             libraryChecksCatalog.accept(getMessageAcceptor(), //
               it, // context EObject

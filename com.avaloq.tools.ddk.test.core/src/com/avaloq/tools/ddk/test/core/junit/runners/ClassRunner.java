@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.xtext.junit4.XtextRunner;
+import org.eclipse.xtext.testing.XtextRunner;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

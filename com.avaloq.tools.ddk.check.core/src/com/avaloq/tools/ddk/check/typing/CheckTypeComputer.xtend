@@ -23,9 +23,9 @@ class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
 
   override computeTypes(XExpression expression, ITypeComputationState state) {
     if (expression instanceof XIssueExpression) {
-      _computeTypes(expression as XIssueExpression, state);
+      _computeTypes(expression, state);
     } else if (expression instanceof XGuardExpression) {
-      _computeTypes(expression as XGuardExpression, state);
+      _computeTypes(expression, state);
     } else if (expression.eContainer instanceof FormalParameter && expression instanceof XListLiteral && (expression as XListLiteral).elements.empty) {
       super.computeTypes(expression, state.withExpectation(state.referenceOwner.toLightweightTypeReference((expression.eContainer as FormalParameter).type)));
     } else {
@@ -34,13 +34,13 @@ class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
   }
 
   protected def _computeTypes(XIssueExpression expression, ITypeComputationState state) {
-    if (expression.markerObject != null) {
+    if (expression.markerObject !== null) {
       state.withExpectation(getTypeForName(typeof(EObject), state)).computeTypes(expression.markerObject);
     }
-    if (expression.markerIndex != null) {
+    if (expression.markerIndex !== null) {
       state.withExpectation(getTypeForName(typeof(Integer), state)).computeTypes(expression.markerIndex);
     }
-    if (expression.message != null) {
+    if (expression.message !== null) {
       state.withExpectation(getTypeForName(typeof(String), state)).computeTypes(expression.message);
     }
     for (p : expression.messageParameters) {
