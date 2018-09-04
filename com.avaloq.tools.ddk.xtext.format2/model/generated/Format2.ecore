@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="format2" nsURI="http://www.avaloq.com/tools/ddk/xtext/format2/Format2"
+    nsPrefix="format2">
+  <eClassifiers xsi:type="ecore:EClass" name="FormatConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetGrammar" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Grammar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedFormatConfiguration"
+        eType="#//FormatConfiguration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formatterBaseClass" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmDeclaredType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constants" upperBound="-1"
+        eType="#//Constant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intType" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringType" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intValue" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringValue" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="#//Constant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="override" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GrammarRule" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="directives" upperBound="-1"
+        eType="ecore:EClass platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WildcardRule" eSuperTypes="#//Rule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="directives" upperBound="-1"
+        eType="#//WildcardRuleDirective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GrammarRuleDirective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WildcardRuleDirective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GrammarElementReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Assignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleCall" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//RuleCall"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="self" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keyword" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Keyword"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GrammarElementLookup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyword" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContextFreeDirective" eSuperTypes="#//GrammarRuleDirective #//WildcardRuleDirective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grammarElements" upperBound="-1"
+        eType="#//GrammarElementLookup" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matcherList" eType="#//MatcherList"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificDirective" eSuperTypes="#//GrammarRuleDirective">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grammarElements" upperBound="-1"
+        eType="#//GrammarElementReference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matcherList" eType="#//MatcherList"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MatcherList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matchers" upperBound="-1"
+        eType="#//Matcher" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GroupBlock">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grammarElement" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//CompoundElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matcherList" eType="#//MatcherList"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subGroup" eType="#//GroupBlock"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="directives" upperBound="-1"
+        eType="#//GrammarRuleDirective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KeywordPair" eSuperTypes="#//GrammarRuleDirective #//WildcardRuleDirective">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="left" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="right" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftMatchers" upperBound="-1"
+        eType="#//Matcher" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightMatchers" upperBound="-1"
+        eType="#//Matcher" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Matcher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locator" eType="#//Locator"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//MatcherType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MatcherType">
+    <eLiterals name="before" literal="before"/>
+    <eLiterals name="after" value="1" literal="after"/>
+    <eLiterals name="around" value="2" literal="around"/>
+    <eLiterals name="between" value="3" literal="between"/>
+    <eLiterals name="range" value="4" literal="range"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Locator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NoFormatLocator" eSuperTypes="#//Locator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpaceLocator" eSuperTypes="#//Locator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//StringValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noSpace" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RightPaddingLocator" eSuperTypes="#//Locator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//IntValue"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinewrapLocator" eSuperTypes="#//Locator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="minimum" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="default" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maximum" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="noLinewrap" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColumnLocator" eSuperTypes="#//Locator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixed" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relative" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nobreak" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OffsetLocator" eSuperTypes="#//Locator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixed" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nobreak" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndentLocator" eSuperTypes="#//Locator">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="increment" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//IntValue"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>
