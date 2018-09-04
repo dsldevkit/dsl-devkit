@@ -1,0 +1,63 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Evolution AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Evolution AG - initial API and implementation
+ *******************************************************************************/
+package com.avaloq.tools.ddk.xtext.format2.generator;
+
+import java.util.Set;
+
+import org.eclipse.xtext.generator.OutputConfiguration;
+import org.eclipse.xtext.generator.OutputConfigurationProvider;
+
+import com.avaloq.tools.ddk.xtext.format2.Format2Constants;
+
+
+/**
+ * Provides output configurations for the generation of formatters.
+ */
+public class FormatOutputConfigurationProvider extends OutputConfigurationProvider {
+
+  @Override
+  public Set<OutputConfiguration> getOutputConfigurations() {
+    Set<OutputConfiguration> configurations = super.getOutputConfigurations();
+
+    configurations.add(getFormatterConfig());
+    configurations.add(getAbstractFormatterConfig());
+
+    return configurations;
+  }
+
+  /**
+   * Creates output configuration for a Formatter.
+   *
+   * @return output configuration
+   */
+  private OutputConfiguration getFormatterConfig() {
+    OutputConfiguration config = new OutputConfiguration(Format2Constants.FORMATTER);
+    config.setDescription("Output configuration for a formatter");
+    config.setOverrideExistingResources(false);
+    config.setCanClearOutputDirectory(false);
+    config.setCleanUpDerivedResources(false);
+    config.setOutputDirectory("src");
+    return config;
+  }
+
+  /**
+   * Creates output configuration for a AbstractFormatter.
+   *
+   * @return output configuration
+   */
+  private OutputConfiguration getAbstractFormatterConfig() {
+    OutputConfiguration config = new OutputConfiguration(Format2Constants.ABSTRACT_FORMATTER);
+    config.setDescription("Output configuration for a abstract formatter");
+    config.setOverrideExistingResources(true);
+    config.setOutputDirectory("src-gen");
+    return config;
+  }
+}
