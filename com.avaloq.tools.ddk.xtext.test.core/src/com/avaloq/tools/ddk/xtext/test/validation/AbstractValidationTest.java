@@ -111,7 +111,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   /**
    * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
    */
-  private class XtextDiagnosticAssertion extends AbstractModelAssertion {
+  protected class XtextDiagnosticAssertion extends AbstractModelAssertion {
 
     private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
 
