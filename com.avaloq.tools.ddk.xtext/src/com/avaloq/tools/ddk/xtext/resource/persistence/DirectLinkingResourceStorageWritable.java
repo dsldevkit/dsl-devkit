@@ -34,7 +34,6 @@ import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator.Adapter;
-import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedSerializationConversionContext;
 import com.google.common.base.Ascii;
 import com.google.common.io.CharStreams;
 
@@ -61,6 +60,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
   protected void writeEntries(final StorageAwareResource resource, final ZipOutputStream zipOut) {
     BufferedOutputStream bufferedOutput = new BufferedOutputStream(zipOut);
     try {
+      // 1. resource contents
       zipOut.putNextEntry(new ZipEntry("emf-contents")); //$NON-NLS-1$
       try {
         writeContents(resource, bufferedOutput);
@@ -68,6 +68,17 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
         bufferedOutput.flush();
         zipOut.closeEntry();
       }
+
+      // 2. associations adapter
+      zipOut.putNextEntry(new ZipEntry("associations")); //$NON-NLS-1$
+      try {
+        writeAssociationsAdapter(resource, bufferedOutput);
+      } finally {
+        bufferedOutput.flush();
+        zipOut.closeEntry();
+      }
+
+      // 3. node model
       if (storeNodeModel) {
         zipOut.putNextEntry(new ZipEntry("source")); //$NON-NLS-1$
         try {
@@ -91,14 +102,6 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
           zipOut.closeEntry();
         }
       }
-
-      zipOut.putNextEntry(new ZipEntry("associations")); //$NON-NLS-1$
-      try {
-        writeAssociationsAdapter(resource, bufferedOutput);
-      } finally {
-        bufferedOutput.flush();
-        zipOut.closeEntry();
-      }
     } catch (IOException e) {
       throw new WrappedException(e);
       // CHECKSTYLE:OFF
@@ -114,7 +117,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     try {
       DataOutputStream out = new DataOutputStream(outputStream);
       SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
-      SerializationConversionContext conversionContext = new FixedSerializationConversionContext(resource);
+      SerializationConversionContext conversionContext = new ProxyAwareSerializationConversionContext(resource);
       serializableNodeModel.writeObjectData(out, conversionContext);
       out.flush();
     } catch (IOException e) {

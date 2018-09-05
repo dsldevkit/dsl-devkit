@@ -9,7 +9,7 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.nodemodel.serialization;
+package com.avaloq.tools.ddk.xtext.resource.persistence;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -22,26 +22,30 @@ import org.eclipse.xtext.resource.XtextResource;
 
 
 /**
- * Fix for issue https://github.com/eclipse/xtext-core/issues/65 (serialization of transient features). Can be deleted after upgrade to Xtext 2.11 or later.
+ * Implementation which supports deserializing a node model into a resource with a {@link ProxyCompositeNode proxy node model}.
  */
-public class FixedDeserializationConversionContext extends DeserializationConversionContext {
+public class ProxyAwareDeserializationConversionContext extends DeserializationConversionContext {
 
-  public FixedDeserializationConversionContext(final XtextResource xr, final String completeContent) throws IOException {
+  public ProxyAwareDeserializationConversionContext(final XtextResource xr, final String completeContent) throws IOException {
     super(xr, completeContent);
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public void fillIdToEObjectMap(final Resource resource) {
-    List<EObject> idToEObjectMap = null;
+    List<EObject> idToEObjectMap = ProxyCompositeNode.uninstallProxyNodeModel(resource);
     try {
       Field field = DeserializationConversionContext.class.getDeclaredField("idToEObjectMap"); //$NON-NLS-1$
       field.setAccessible(true);
-      idToEObjectMap = (List<EObject>) field.get(this);
+      if (idToEObjectMap != null) {
+        field.set(this, idToEObjectMap);
+      } else {
+        List<EObject> map = (List<EObject>) field.get(this);
+        ProxyAwareSerializationConversionContext.fillIdToEObjectMap(resource, map);
+      }
     } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
       throw new IllegalStateException("Could not read 'idToEObjectMap' field", e); //$NON-NLS-1$
     }
-    FixedSerializationConversionContext.fillIdToEObjectMap(resource, idToEObjectMap);
   }
 
 }
