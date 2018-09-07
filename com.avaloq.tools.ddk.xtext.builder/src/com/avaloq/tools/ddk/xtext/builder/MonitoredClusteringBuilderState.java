@@ -613,6 +613,23 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // CHECKSTYLE:CHECK-ON NestedTryDepth
   }
 
+  @Override
+  protected Resource addResource(final Resource resource, final ResourceSet resourceSet) {
+    URI uri = resource.getURI();
+    Resource r = resourceSet.getResource(uri, false);
+    if (r == null) {
+      resourceSet.getResources().add(resource);
+      return resource;
+    } else if (r instanceof StorageAwareResource && ((StorageAwareResource) r).isLoadedFromStorage()) {
+      // make sure to not process any binary resources in builder as it could have incorrect linking
+      r.unload();
+      resourceSet.getResources().set(resourceSet.getResources().indexOf(r), resource);
+      return resource;
+    } else {
+      return r;
+    }
+  }
+
   /**
    * Log the first and last 10 StackOverflowError Stack Trace.
    *
@@ -1012,6 +1029,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (allDeltas.isEmpty() || allRemainingURIs.isEmpty()) {
       return;
     }
+    Set<URI> sources = buildData.getSourceLevelURICache().getSources();
     ImmutableListMultimap<Manager, URI> candidatesByManager = getUrisByManager(allRemainingURIs);
     FindReferenceCachingState cachingIndex = new FindReferenceCachingState((IResourceDescriptions2) newState);
     final SubMonitor progressMonitor = SubMonitor.convert(monitor, candidatesByManager.keySet().size());
@@ -1030,6 +1048,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           for (URI uri : affected) {
             if (allRemainingURIs.remove(uri)) {
               buildData.queueURI(uri);
+              sources.add(uri);
             }
           }
         } else {
@@ -1045,6 +1064,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               if (affected) {
                 allRemainingURIs.remove(candidateURI);
                 buildData.queueURI(candidateURI);
+                sources.add(candidateURI);
               }
             }
           }
