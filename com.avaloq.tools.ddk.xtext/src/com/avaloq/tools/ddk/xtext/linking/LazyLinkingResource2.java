@@ -31,11 +31,13 @@ import org.eclipse.xtext.util.Triple;
 
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
 
 /**
@@ -69,6 +71,11 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Inject
   private Injector injector;
+
+  /** Default load mode to use when loading resources of this type. If not specified it defaults to {@link ResourceLoadMode#PROXIED_NODE_MODEL}. */
+  @Inject(optional = true)
+  @Named(ResourceLoadMode.DEFAULT_LOAD_MODE)
+  private ResourceLoadMode defaultLoadMode;
 
   /**
    * Sets the parse result for this resource.
@@ -358,5 +365,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
         resourceParser.setFileExtension(URI.decode(resourceUri.fileExtension())); // if uri.fileExtension() is null, URI.decode will return null
       }
     }
+  }
+
+  public ResourceLoadMode getDefaultLoadMode() {
+    return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL;
   }
 }

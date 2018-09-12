@@ -9,7 +9,7 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.nodemodel.serialization;
+package com.avaloq.tools.ddk.xtext.resource.persistence;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,11 +24,13 @@ import org.eclipse.xtext.resource.XtextResource;
 
 
 /**
- * Fix for issue https://github.com/eclipse/xtext-core/issues/65 (serialization of transient features). Can be deleted after upgrade to Xtext 2.11 or later.
+ * Slightly improved performance over the Xtext standard implementation.
+ * <p>
+ * For consistency follows the same naming scheme as {@link ProxyAwareDeserializationConversionContext}.
  */
-public class FixedSerializationConversionContext extends SerializationConversionContext {
+class ProxyAwareSerializationConversionContext extends SerializationConversionContext {
 
-  public FixedSerializationConversionContext(final XtextResource resource) {
+  ProxyAwareSerializationConversionContext(final XtextResource resource) {
     super(resource);
   }
 
