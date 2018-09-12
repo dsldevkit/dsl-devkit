@@ -1,0 +1,9 @@
+grammar com.avaloq.tools.ddk.sample.helloworld.HelloWorld with org.eclipse.xtext.common.Terminals
+
+generate helloWorld "http://www.avaloq.com/tools/ddk/sample/helloworld/HelloWorld"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
