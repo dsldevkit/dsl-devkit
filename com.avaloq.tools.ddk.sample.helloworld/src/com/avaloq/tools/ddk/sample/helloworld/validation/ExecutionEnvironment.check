@@ -1,0 +1,25 @@
+package com.avaloq.tools.ddk.sample.helloworld.validation
+
+import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting
+
+catalog ExecutionEnvironment
+for grammar com.avaloq.tools.ddk.sample.helloworld.HelloWorld {
+
+  category DefaultCategory "Test category" {
+
+  /** Checks the greeting name length */
+    onSave error GreetingNameLength "Greeting name length" (String defaultName = "Franz")
+    message "Greeting name {0}" {
+
+        for Greeting g {
+          if (g.name.length > 5) {
+            issue bind ("too long") data namelength (null)
+          } else if (g.name.equals(defaultName)) {
+            issue bind ("must not be Franz") data franzname (null)
+          }
+        }
+
+    }
+
+  }
+}
