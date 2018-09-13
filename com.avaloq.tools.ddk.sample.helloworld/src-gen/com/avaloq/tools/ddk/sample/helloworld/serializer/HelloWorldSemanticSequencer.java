@@ -20,7 +20,7 @@ import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequence
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("all")
-public abstract class AbstractHelloWorldSemanticSequencer extends AbstractDelegatingSemanticSequencer {
+public class HelloWorldSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 
 	@Inject
 	private HelloWorldGrammarAccess grammarAccess;

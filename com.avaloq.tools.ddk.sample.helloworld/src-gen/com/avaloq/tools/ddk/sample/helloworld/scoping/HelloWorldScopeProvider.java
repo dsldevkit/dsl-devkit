@@ -5,5 +5,5 @@ package com.avaloq.tools.ddk.sample.helloworld.scoping;
 
 import org.eclipse.xtext.scoping.impl.DelegatingScopeProvider;
 
-public abstract class AbstractHelloWorldScopeProvider extends DelegatingScopeProvider {
+public class HelloWorldScopeProvider extends DelegatingScopeProvider {
 }

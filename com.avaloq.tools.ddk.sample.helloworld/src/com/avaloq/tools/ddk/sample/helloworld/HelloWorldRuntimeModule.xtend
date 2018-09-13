@@ -7,7 +7,6 @@ import org.eclipse.xtext.service.SingletonBinding
 import org.eclipse.xtext.resource.IResourceDescription
 import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator
 import com.avaloq.tools.ddk.sample.helloworld.validation.HelloWorldCheckValidator
-import com.avaloq.tools.ddk.sample.helloworld.resource.HelloWorldResourceDescriptionManager
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -22,17 +21,6 @@ class HelloWorldRuntimeModule extends AbstractHelloWorldRuntimeModule {
 	@SingletonBinding(eager=true)
 	def Class<? extends AbstractCheckValidator> bindAbstractCheckValidator() {
 		HelloWorldCheckValidator
-	}
-
-	// TODO check partialparserhelper is fixed in xtext 2.14: DSL-596
-
-	/**
-	 * Binds resource description manager.
-	 *
-	 * @return {@link TestLanguageResourceDescriptionManager}
-	 */
-	def Class<? extends IResourceDescription.Manager> bindIResourceDescription$Manager() {
-		HelloWorldResourceDescriptionManager
 	}
 
 }

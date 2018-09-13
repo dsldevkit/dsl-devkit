@@ -11,8 +11,8 @@ var baseName = "com.avaloq.tools.ddk.sample.helloworld"
 Workflow {
 
 	component = XtextGenerator {
-		configuration = CustomGeneratorModule {
-			project = CustomProjectConfig {
+		configuration = GeneratorModule {
+			project = ProjectConfig {
 				baseName = baseName
 				rootPath = rootPath
 				runtimeTest = {
@@ -36,18 +36,16 @@ Workflow {
 			name = "com.avaloq.tools.ddk.sample.helloworld.HelloWorld"
 			fileExtensions = "helloworld"
 
-			formatter = {
-				generateStub = true
-			}
-
 			serializer = {
-				generateStub = true
+				generateStub = false
 			}
 
 			generator = {
-				generateStub = true
-				generateMwe = true
-				generateJavaMain = false
+				generateStub = false
+			}
+
+			scopeProvider = {
+				generateStub = false
 			}
 
 		}

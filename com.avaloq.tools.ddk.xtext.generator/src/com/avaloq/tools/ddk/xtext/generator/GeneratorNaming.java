@@ -18,7 +18,7 @@ import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
 /**
  * Give the generated packages the names we want.
  */
-public class CustomGeneratorNaming extends XtextGeneratorNaming {
+public class GeneratorNaming extends XtextGeneratorNaming {
   private static final String PACKAGE_SEPARATOR = "."; //$NON-NLS-1$
   private static final String TESTS_PACKAGE_SUFFIX = ""; //$NON-NLS-1$
   private static final String IDE_PACKAGE_SUFFIX = PACKAGE_SEPARATOR + "ide"; //$NON-NLS-1$

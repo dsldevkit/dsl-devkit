@@ -9,11 +9,13 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.sample.helloworld;
+package com.avaloq.tools.ddk.sample.helloworld.test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import com.avaloq.tools.ddk.sample.helloworld.check.CheckConfigurationIsAppliedTest;
+import com.avaloq.tools.ddk.sample.helloworld.check.CheckExecutionEnvironmentProjectTest;
 import com.avaloq.tools.ddk.sample.helloworld.label.IssueLabelTest;
 
 
@@ -23,9 +25,11 @@ import com.avaloq.tools.ddk.sample.helloworld.label.IssueLabelTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 // @Format-Off
-  IssueLabelTest.class
+  IssueLabelTest.class,
+  CheckConfigurationIsAppliedTest.class,
+  CheckExecutionEnvironmentProjectTest.class
 // @Format-On
 })
-public class CheckLibraryChecksTestSuite {
+public class HelloWorldSampleTestSuite {
 
 }

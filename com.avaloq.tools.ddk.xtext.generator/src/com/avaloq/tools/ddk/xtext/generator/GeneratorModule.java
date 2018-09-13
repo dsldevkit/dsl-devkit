@@ -18,14 +18,14 @@ import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
 /**
  * Custom generator module for controlling what is injected into the mwe2 workflow.
  */
-public class CustomGeneratorModule extends DefaultGeneratorModule {
+public class GeneratorModule extends DefaultGeneratorModule {
   /**
    * Use a custom generator naming class.
    *
    * @return the custom generator naming class.
    */
   public Class<? extends XtextGeneratorNaming> bindXtextGeneratorNaming() {
-    return CustomGeneratorNaming.class;
+    return GeneratorNaming.class;
   }
 
 }

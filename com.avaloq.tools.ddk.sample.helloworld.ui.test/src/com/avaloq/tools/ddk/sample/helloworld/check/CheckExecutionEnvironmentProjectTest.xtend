@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.sample.helloworld
+package com.avaloq.tools.ddk.sample.helloworld.check
 
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase
 import com.google.inject.Inject

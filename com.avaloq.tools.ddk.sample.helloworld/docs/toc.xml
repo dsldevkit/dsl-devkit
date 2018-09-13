@@ -1,23 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toc label="Check Catalogs" link_to="../com.avaloq.tools.ddk.check.runtime.ui/toc.xml#checkdocumentation" sort="true">
-   <topic href="docs/content/ExecutionEnvironment.html" label="ExecutionEnvironment" sort="false">
-      <topic href="docs/content/ExecutionEnvironment.html#executionenvironment_testcategory" label="Test category">
-         <topic href="docs/content/ExecutionEnvironment.html#executionenvironment_greetingnamelength" label="Greeting name length">
-         </topic>
-      </topic>
-   </topic>
-   <topic href="docs/content/LibraryChecks.html" label="LibraryChecks" sort="false">
-      <topic href="docs/content/LibraryChecks.html#librarychecks_checksoninjectionsincheckcatalogs." label="Checks on injections in check catalogs.">
-         <topic href="docs/content/LibraryChecks.html#librarychecks_checkcatalogisactive" label="Check catalog is active">
-         </topic>
-         <topic href="docs/content/LibraryChecks.html#librarychecks_cacheinjectionfailed" label="Cache injection failed">
-         </topic>
-         <topic href="docs/content/LibraryChecks.html#librarychecks_cachedoesntwork" label="Cache doesn&apos;t work">
-         </topic>
-      </topic>
-      <topic href="docs/content/LibraryChecks.html#librarychecks_checksonformalparameters" label="Checks on formal parameters">
-         <topic href="docs/content/LibraryChecks.html#librarychecks_formalparameters" label="Formal Parameters">
-         </topic>
-      </topic>
-   </topic>
+<toc>
 </toc>

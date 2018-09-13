@@ -14,7 +14,7 @@ package com.avaloq.tools.ddk.xtext.generator.model.project
 import org.eclipse.xtext.xtext.generator.model.project.StandardProjectConfig
 import org.eclipse.xtext.xtext.generator.model.project.SubProjectConfig
 
-class CustomProjectConfig extends StandardProjectConfig {
+class ProjectConfig extends StandardProjectConfig {
   static val TESTS_PROJECT_SUFFIX = '.test'
   static val UI_PROJECT_SUFFIX = '.ui'
   static val IDE_PROJECT_SUFFIX = UI_PROJECT_SUFFIX
