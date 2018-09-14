@@ -7,6 +7,6 @@
     <relativePath>../ddk-parent</relativePath>
   </parent>
   <groupId>com.avaloq.tools.ddk</groupId>
-  <artifactId>com.avaloq.tools.ddk.sample.helloworld.tests</artifactId>
+  <artifactId>com.avaloq.tools.ddk.sample.helloworld.ui.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
 </project>
