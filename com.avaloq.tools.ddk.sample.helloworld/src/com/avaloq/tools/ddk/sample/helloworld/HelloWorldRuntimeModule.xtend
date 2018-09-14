@@ -4,7 +4,6 @@
 package com.avaloq.tools.ddk.sample.helloworld
 
 import org.eclipse.xtext.service.SingletonBinding
-import org.eclipse.xtext.resource.IResourceDescription
 import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator
 import com.avaloq.tools.ddk.sample.helloworld.validation.HelloWorldCheckValidator
 
