@@ -157,14 +157,22 @@ IntObject returns ecore::EIntegerObject:
 RuleSelfIdentifier:
   'rule';
 
+<<<<<<< Upstream, based on origin/master
 @Override
+=======
+@Override
+>>>>>>> a73e276 New implementation of Format using new mwe2 fragments.
 ValidID:
   'context' | 'currentColumn' | ID;
 
 /**
  * Overwrite INT rule one more time (exactly as in Xbase.xtext) to avoid false-positive error.
  */
+<<<<<<< Upstream, based on origin/master
 @Override
+=======
+ @Override
+>>>>>>> a73e276 New implementation of Format using new mwe2 fragments.
 terminal INT returns ecore::EInt:
   '0'..'9' ('0'..'9'|'_')*;
 

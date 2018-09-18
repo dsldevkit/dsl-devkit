@@ -62,7 +62,7 @@ class FormatGenerator extends JvmModelGenerator {
         generateInitialization(tracedAppendable, config)
         tracedAppendable.append(";")
         var documentation = getSingleCommentDocumentation(appendable, config)
-        if (documentation.endsWith("\r\n")) {
+        if (documentation !== null && documentation.endsWith("\r\n")) {
             documentation = documentation.substring(0, documentation.length - 2)
         }
         if (documentation !== null) {

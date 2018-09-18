@@ -143,9 +143,19 @@ public abstract class AbstractTestLanguageRuntimeModule extends org.eclipse.xtex
 		return com.avaloq.tools.ddk.check.generator.TestLanguageGenerator.class;
 	}
 
-	// contributed by org.eclipse.xtext.generator.formatting.FormatterFragment
+	// contributed by com.avaloq.tools.ddk.xtext.format.generator.FormatFragment
 	public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
 		return com.avaloq.tools.ddk.check.formatting.TestLanguageFormatter.class;
+	}
+
+	// contributed by com.avaloq.tools.ddk.xtext.format.generator.FormatFragment
+	public Class<? extends org.eclipse.xtext.formatting.INodeModelFormatter> bindINodeModelFormatter() {
+		return com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter.class;
+	}
+
+	// contributed by com.avaloq.tools.ddk.xtext.format.generator.FormatFragment
+	public Class<? extends org.eclipse.xtext.formatting.INodeModelStreamer> bindINodeModelStreamer() {
+		return com.avaloq.tools.ddk.xtext.formatting.DirectNodeModelStreamer.class;
 	}
 
 	// contributed by org.eclipse.xtext.generator.types.TypesGeneratorFragment

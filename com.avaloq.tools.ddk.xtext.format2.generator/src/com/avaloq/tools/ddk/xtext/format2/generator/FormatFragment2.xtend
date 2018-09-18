@@ -15,21 +15,21 @@ import com.avaloq.tools.ddk.xtext.formatting.DirectNodeModelStreamer
 import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter
 import com.google.inject.Inject
 import org.apache.log4j.Logger
+import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.formatting.IFormatter
 import org.eclipse.xtext.formatting.INodeModelFormatter
 import org.eclipse.xtext.formatting.INodeModelStreamer
-import org.eclipse.xtext.formatting.impl.AbstractFormatter
 import org.eclipse.xtext.xtext.generator.AbstractStubGeneratingFragment
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
 import org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessExtensions
 import org.eclipse.xtext.xtext.generator.model.FileAccessFactory
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
 import org.eclipse.xtext.xtext.generator.model.TypeReference
+import org.eclipse.xtext.xtext.generator.util.BooleanGeneratorOption
 
 import static org.eclipse.xtext.GrammarUtil.*
+
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
-import org.eclipse.xtext.Grammar
-import org.eclipse.xtext.xtext.generator.util.BooleanGeneratorOption
 
 /**
  * MWE fragment for the format language.
