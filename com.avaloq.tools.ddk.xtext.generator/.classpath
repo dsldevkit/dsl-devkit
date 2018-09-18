@@ -11,6 +11,7 @@
     <accessrules>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/serializer/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/generator/**"/>
+      <accessrule kind="accessible" pattern="org/eclipse/xtext/xtext/**"/>
     </accessrules>
   </classpathentry>
   <classpathentry kind="output" path="bin"/>
