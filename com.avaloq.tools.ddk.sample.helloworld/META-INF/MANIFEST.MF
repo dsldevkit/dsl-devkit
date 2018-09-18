@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
@@ -18,8 +18,8 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtend.lib,
  com.avaloq.tools.ddk.xtext,
  org.eclipse.emf.mwe2.launch;resolution:=optional,
- com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.core.runtime,
+ com.avaloq.tools.ddk.check.runtime.core,
  com.avaloq.tools.ddk.check.lib,
  com.avaloq.tools.ddk.check.core,
  com.avaloq.tools.ddk.xtext.generator;resolution:=optional,
