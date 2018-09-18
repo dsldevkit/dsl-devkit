@@ -3,7 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="format" nsURI="http://www.avaloq.com/tools/ddk/xtext/format/Format"
     nsPrefix="format">
   <eClassifiers xsi:type="ecore:EClass" name="FormatConfiguration">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetGrammar" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Grammar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetGrammar" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Grammar"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extendedFormatConfiguration"
         eType="#//FormatConfiguration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="formatterBaseClass" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmDeclaredType"/>
@@ -31,7 +31,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="override" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GrammarRule" eSuperTypes="#//Rule">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="directives" upperBound="-1"
         eType="ecore:EClass platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
@@ -43,14 +43,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="GrammarRuleDirective"/>
   <eClassifiers xsi:type="ecore:EClass" name="WildcardRuleDirective"/>
   <eClassifiers xsi:type="ecore:EClass" name="GrammarElementReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Assignment"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleCall" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//RuleCall"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="self" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="keyword" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Keyword"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignment" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Assignment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleCall" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//RuleCall"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="self" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keyword" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//Keyword"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GrammarElementLookup">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//AbstractRule"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyword" eType="ecore:EDataType platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContextFreeDirective" eSuperTypes="#//GrammarRuleDirective #//WildcardRuleDirective">
@@ -70,7 +70,7 @@
         eType="#//Matcher" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GroupBlock">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="grammarElement" eType="ecore:EClass platform:/plugin/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//CompoundElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grammarElement" eType="ecore:EClass platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.ecore#//CompoundElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="matcherList" eType="#//MatcherList"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subGroup" eType="#//GroupBlock"

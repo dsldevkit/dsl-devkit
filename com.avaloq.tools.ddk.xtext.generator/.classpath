@@ -12,7 +12,10 @@
       <accessrule kind="accessible" pattern="org/eclipse/xtext/serializer/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/generator/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/xtext/**"/>
+<<<<<<< Upstream, based on upstream/master
       <accessrule kind="accessible" pattern="org/eclipse/xtext/util/**"/>
+=======
+>>>>>>> ed79af9 New implementation of Format using new mwe2 fragments.
     </accessrules>
   </classpathentry>
   <classpathentry kind="output" path="bin"/>

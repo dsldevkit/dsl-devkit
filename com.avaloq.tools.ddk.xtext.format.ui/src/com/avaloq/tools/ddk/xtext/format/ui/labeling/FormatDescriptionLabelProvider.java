@@ -10,12 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.ui.labeling;
 
-import org.eclipse.xtext.ui.label.DefaultDescriptionLabelProvider;
+import org.eclipse.xtext.xbase.ui.labeling.XbaseDescriptionLabelProvider;
 
 
 /**
  * Provides labels for a IEObjectDescriptions and IResourceDescriptions.
  */
-public class FormatDescriptionLabelProvider extends DefaultDescriptionLabelProvider {
+public class FormatDescriptionLabelProvider extends XbaseDescriptionLabelProvider {
 
 }

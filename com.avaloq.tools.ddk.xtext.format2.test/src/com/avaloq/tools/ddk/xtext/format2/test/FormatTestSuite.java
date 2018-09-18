@@ -15,7 +15,6 @@ import org.junit.runners.Suite;
 
 import com.avaloq.tools.ddk.xtext.format2.builder.FormatBuilderParticipantTest;
 import com.avaloq.tools.ddk.xtext.format2.formatting.FormatFormattingTest;
-import com.avaloq.tools.ddk.xtext.format2.formatting2.FormatFormatting2Test;
 import com.avaloq.tools.ddk.xtext.format2.scoping.FormatScopingTest;
 import com.avaloq.tools.ddk.xtext.format2.validation.FormatValidationTest;
 
@@ -24,7 +23,7 @@ import com.avaloq.tools.ddk.xtext.format2.validation.FormatValidationTest;
  * Empty class serving only as holder for JUnit4 annotations.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({FormatFormattingTest.class, FormatFormatting2Test.class, FormatValidationTest.class, FormatScopingTest.class, FormatBuilderParticipantTest.class})
+@Suite.SuiteClasses({FormatFormattingTest.class, FormatValidationTest.class, FormatScopingTest.class, FormatBuilderParticipantTest.class})
 public class FormatTestSuite {
 
 }

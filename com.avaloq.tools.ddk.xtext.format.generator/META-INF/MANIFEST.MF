@@ -6,6 +6,7 @@ Bundle-Version: 2.3.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.format.generator;singleton:=true
 Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
  org.eclipse.xtext.generator,
+ org.eclipse.xtext.xtext.generator,
  org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext.generator;visibility:=reexport,
  org.eclipse.osgi,

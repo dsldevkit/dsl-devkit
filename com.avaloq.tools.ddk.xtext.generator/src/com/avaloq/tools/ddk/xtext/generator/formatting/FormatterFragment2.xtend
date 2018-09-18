@@ -66,49 +66,81 @@ class FormatterFragment2 extends AbstractStubGeneratingFragment {
   }
 
   protected def doGenerateStubFile() {
-    val xtendFile = doGetXtendStubFile
-    xtendFile?.writeTo(projectConfig.runtime.src)
+    if(!isGenerateStub) {
+      return
+    }
+    if (isGenerateXtendStub) {
+      val xtendFile = doGetXtendStubFile
+      xtendFile?.writeTo(projectConfig.runtime.src)
+    } else {
+      val javaFile = doGetJavaStubFile
+      javaFile?.writeTo(projectConfig.runtime.src)
+    }
   }
 
   protected def doGetXtendStubFile() {
-    if(!isGenerateStub)
-      return null
+    val xtendFile = fileAccessFactory.createXtendFile(grammar.formatterStub)
+    xtendFile.resourceSet = language.resourceSet
 
-    if(isGenerateXtendStub) {
-      val xtendFile = fileAccessFactory.createXtendFile(grammar.formatterStub)
-      xtendFile.resourceSet = language.resourceSet
+    xtendFile.content = '''
+      import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter
+      import org.eclipse.xtext.formatting.impl.FormattingConfig
 
-      xtendFile.content = '''
-        import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter
-        import org.eclipse.xtext.formatting.impl.FormattingConfig
+      /**
+       * This class contains custom formatting declarations.
+       *
+       * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting
+       * on how and when to use it.
+       *
+       * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example
+       */
+      class «grammar.formatterStub.simpleName» extends AbstractDeclarativeFormatter {
 
-        /**
-         * This class contains custom formatting declarations.
-         *
-         * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting
-         * on how and when to use it.
-         *
-         * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example
-         */
-        class «grammar.formatterStub.simpleName» extends AbstractDeclarativeFormatter {
+        @«Inject» extension «grammar.grammarAccess»
 
-          @«Inject» extension «grammar.grammarAccess»
-
-          override protected void configureFormatting(FormattingConfig c) {
-        // It's usually a good idea to activate the following three statements.
-        // They will add and preserve newlines around comments
-        //    c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
-        //    c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
-        //    c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
-          }
+        override protected void configureFormatting(FormattingConfig c) {
+      // It's usually a good idea to activate the following three statements.
+      // They will add and preserve newlines around comments
+      //    c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
+      //    c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
+      //    c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
         }
-      '''
-      return xtendFile
-    } else {
-      LOGGER.error(this.class.name + " has been configured to generate a Java stub, but that's not yet supported. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=481563")
-    }
+      }
+    '''
+    return xtendFile
+  }
 
-    null
+  protected def doGetJavaStubFile() {
+    val javaFile = fileAccessFactory.createJavaFile(grammar.formatterStub)
+    javaFile.resourceSet = language.resourceSet
+
+    javaFile.content = '''
+      import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;
+      import org.eclipse.xtext.formatting.impl.FormattingConfig;
+
+      /**
+       * This class contains custom formatting declarations.
+       *
+       * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting
+       * on how and when to use it.
+       *
+       * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example
+       */
+      class «grammar.formatterStub.simpleName» extends AbstractDeclarativeFormatter {
+
+        @«Inject» «grammar.grammarAccess» grammarAccess;
+
+        @Override
+          protected void configureFormatting(FormattingConfig c) {
+      // It's usually a good idea to activate the following three statements.
+      // They will add and preserve newlines around comments
+      //    c.setLinewrap(0, 1, 2).before(grammarAccess.getSL_COMMENTRule());
+      //    c.setLinewrap(0, 1, 2).before(grammarAccess.getML_COMMENTRule());
+      //    c.setLinewrap(0, 1, 1).after(grammarAccess.getML_COMMENTRule());
+        }
+      }
+    '''
+    return javaFile
   }
 
 }
