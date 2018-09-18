@@ -20,11 +20,18 @@ import org.eclipse.xtext.TerminalRule
 import org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenerator
 import org.eclipse.xtext.xtext.generator.parser.antlr.AntlrOptions
 
-import static extension com.avaloq.tools.ddk.xtext.generator.parser.antlr.GrammarRuleAnnotations.*
 import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
 import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.CrossReference
+import org.eclipse.xtext.Grammar
+import org.eclipse.xtext.xtext.generator.model.IXtextGeneratorFileSystemAccess
+import org.eclipse.xtext.xtext.RuleFilter
+import org.eclipse.xtext.xtext.RuleNames
+import org.eclipse.xtext.xtext.FlattenedGrammarAccess
+import org.eclipse.xtext.xtext.generator.parser.antlr.CombinedGrammarMarker
+import org.eclipse.xtext.xtext.generator.parser.antlr.KeywordHelper
+import com.google.inject.Inject
 
 /**
  *
@@ -64,6 +71,30 @@ import org.eclipse.xtext.CrossReference
  *     - Error messages will be adjusted correspondingly
  */
 class AnnotationAwareAntlrGrammarGenerator extends AntlrGrammarGenerator {
+
+  @Inject extension GrammarRuleAnnotations annotations
+
+  Grammar originalGrammar
+
+  override generate(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
+    this.keywordHelper = KeywordHelper.getHelper(it)
+    this.originalGrammar = it
+    val RuleFilter filter = new RuleFilter();
+    filter.discardUnreachableRules = true // options.skipUnusedRules
+    filter.discardTerminalRules = false // options.skipUnusedRules
+    val RuleNames ruleNames = RuleNames.getRuleNames(it, true);
+    val Grammar flattened = new FlattenedGrammarAccess(ruleNames, filter).getFlattenedGrammar();
+    flattened.annotateGrammar
+    new CombinedGrammarMarker(combinedGrammar).attachToEmfObject(flattened)
+    fsa.generateFile(grammarNaming.getParserGrammar(it).grammarFileName, flattened.compileParser(options))
+    if (!isCombinedGrammar) {
+      fsa.generateFile(grammarNaming.getLexerGrammar(it).grammarFileName, flattened.compileLexer(options))
+    }
+  }
+
+  protected override isCombinedGrammar() {
+    grammarNaming.isCombinedGrammar(originalGrammar)
+  }
 
   protected override compileInit(AbstractRule it, AntlrOptions options) '''
     «IF it instanceof ParserRule»«getParameterList(!isPassCurrentIntoFragment, currentType)»«ENDIF» returns «compileReturns(options)»
