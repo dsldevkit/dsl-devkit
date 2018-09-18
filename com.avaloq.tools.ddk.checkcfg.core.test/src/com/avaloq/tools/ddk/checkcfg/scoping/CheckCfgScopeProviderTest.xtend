@@ -41,7 +41,7 @@ final class CheckCfgScopeProviderTest extends AbstractScopingTest {
 
     // ARRANGE
 
-    val EXP_PACKAGE_NAME = #["com", "avaloq", "tools", "ddk", "check", "validation"];
+    val EXP_PACKAGE_NAME_PREFIX = #["com", "avaloq", "tools", "ddk"];
 
     // Define test data
     val CURSOR_POS = getTag;
@@ -71,8 +71,8 @@ final class CheckCfgScopeProviderTest extends AbstractScopingTest {
     elements.forEach[element |
       // Check catalog has the correct fully-qualified package name
       val actualName = element.name.segments;
-      val actualPackageName = actualName.take(actualName.size - 1);
-      assertArrayEquals("Catalog must have the correct fully-qualified package name", EXP_PACKAGE_NAME, actualPackageName);
+      val actualPackageName = actualName.take(EXP_PACKAGE_NAME_PREFIX.size);
+      assertArrayEquals("Catalog must have the correct fully-qualified package name", EXP_PACKAGE_NAME_PREFIX, actualPackageName);
     ]
   }
 }
