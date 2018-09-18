@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/com/avaloq/tools/ddk/check/generator/quickfix/CheckQuickfixProviderFragment.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/export/generator/ExportFragment.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/format/generator/FormatFragment.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/generator/builder/StandaloneBuilderIntegrationFragment.xpt=ISO-8859-1
