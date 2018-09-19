@@ -9,11 +9,10 @@
  */
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr
 
-import com.google.common.base.Joiner
 import com.google.common.base.Splitter
+import com.google.common.collect.Lists
+import java.util.List
 import java.util.regex.Pattern
-import java.util.stream.Collectors
-import java.util.stream.StreamSupport
 import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
@@ -25,7 +24,6 @@ import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.GrammarUtil
 import org.eclipse.xtext.Group
 import org.eclipse.xtext.RuleCall
-import org.eclipse.xtext.generator.Naming
 import org.eclipse.xtext.generator.grammarAccess.GrammarAccessUtil
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.util.internal.EmfAdaptable
@@ -67,7 +65,7 @@ class GrammarRuleAnnotations {
   static class SemanticPredicate {
     val String name
     val String message
-    val String keywords
+    val List<String> keywords
   }
 
   def boolean hasNoBacktrackAnnotation(AbstractRule rule){
@@ -89,6 +87,10 @@ class GrammarRuleAnnotations {
     return findPredicate(element) !== null
   }
 
+  def boolean hasValidatingPredicate(AbstractRule rule){
+    return SemanticPredicate.findInEmfObject(rule) !== null
+  }
+
   /**
    * Returns disambiguating/validating semantic predicate.
    *
@@ -96,8 +98,8 @@ class GrammarRuleAnnotations {
    *          Xtext grammar element
    * @return A string containing the semantic predicate or an empty string
    */
-  def String generateSemanticPredicate(AbstractElement element){
-    val predicate = findPredicate(element)
+  def String generateValidatingPredicate(AbstractRule rule){
+    val predicate = SemanticPredicate.findInEmfObject(rule)
     if(predicate !== null) return generateValidatingPredicate(predicate)
     return "";
   }
@@ -207,28 +209,10 @@ class GrammarRuleAnnotations {
       }
     } else if (container instanceof Alternatives) {
       for (AbstractElement alternative : container.getElements()) {
-        if (alternative != element && !isGated(alternative)) {
+        if (alternative != element /*&& !isGated(alternative)*/) {
           return true;
         }
       }
-    }
-    return false;
-  }
-
-  /**
-   * Checks whether the grammar element will get a gated semantic predicate.
-   *
-   * @param element
-   *          Grammar element
-   * @return {@code true} if this grammar element may be preceded by a gated semantic predicate
-   */
-  def boolean isGated(AbstractElement element) {
-    if (element instanceof Group){
-     if(element.getElements().size() > 0)
-      return isGated(element.getElements().get(0));
-    }
-    if (element instanceof RuleCall) {
-      return isRuleWithPredicate(element.getRule());
     }
     return false;
   }
@@ -253,59 +237,9 @@ class GrammarRuleAnnotations {
   def String generateValidatingPredicate(SemanticPredicate predicate)
     '''{predicates.«predicate.name»(parserContext) /* @ErrorMessage(«predicate.message») */}?'''
 
-  /**
-   * Returns the full name of the grammar predicates class.
-   *
-   * TODO: Move this method
-   *
-   * @param grammar
-   *          Grammar
-   * @param naming
-   *          Naming
-   * @return Name of the predicates class
-   */
-  def String getSemanticPredicatesFullName(Grammar grammar, Naming naming) {
-    return naming.basePackageRuntime(grammar) + ".grammar.Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates";
-  }
 
-   /**
-   * Returns name for the predicate message method.
-   *
-   * @param predicate
-   *          Semantic predicate
-   * @return Content for the predicate message method
-   */
-  def String getRulePredicateMessage(SemanticPredicate predicate){
-    if(predicate.keywords!==null)
-      '''
-      return "Unexpected: " + token.getText() + ". Expected: '«Joiner.on("', '").join(KEYWORDS_SPLITTER.split(predicate.keywords))»'";
-      '''
-  else
-    '''
-    /* Default message. Intended to be overridden. */
-    return "Condition «predicate.name» is not fullfilled ";
-    '''
-  }
 
-  /**
-   * Returns predicate condition (default condition).
-   *
-   * @param predicate
-   *          Semantic predicate
-   * @return A string containing the condition for the semantic predicate or {@code null}
-   */
-  def String getRulePredicateCondition(SemanticPredicate predicate){
-      if (predicate.keywords !== null) {
-        val condition = StreamSupport.stream(KEYWORDS_SPLITTER.split(predicate.keywords).spliterator(),false).
-        map([s | '''"«s»".equalsIgnoreCase(text)''']).collect(Collectors.joining(" || "))
-        '''
-        String text = parserContext.getInput().LT(1).getText();
-        return «condition»;
-        '''
-      } else {
-        "return true; /* Intended to be overridden. */\n";
-     }
-  }
+
 
   /**
    * Keyword rule proposals.
@@ -319,7 +253,7 @@ class GrammarRuleAnnotations {
     if (semPredicate?.keywords !== null) {
       val StringBuilder predicate = new StringBuilder();
       var passedFirst = false;
-      for (String kw : KEYWORDS_SPLITTER.split(semPredicate.keywords)) {
+      for (String kw : semPredicate.keywords) {
         if (passedFirst) {
           predicate.append("    ");
         }
@@ -390,7 +324,7 @@ class GrammarRuleAnnotations {
         return new SemanticPredicate(
           "is" + ruleName + "Enabled",
           "get" + ruleName + "EnabledMessage",
-           matcher.group(1)
+           Lists.newArrayList(KEYWORDS_SPLITTER.split(matcher.group(1)))
         )
       }
   }

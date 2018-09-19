@@ -31,9 +31,15 @@ public class HelloWorldParser extends AbstractContentAssistParser {
 		}
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, HelloWorldGrammarAccess grammarAccess) {
+			builder.put(grammarAccess.getKeywordsExampleAccess().getAlternatives(), "rule__KeywordsExample__Alternatives");
+			builder.put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
 			builder.put(grammarAccess.getGreetingAccess().getGroup(), "rule__Greeting__Group__0");
-			builder.put(grammarAccess.getModelAccess().getGreetingsAssignment(), "rule__Model__GreetingsAssignment");
+			builder.put(grammarAccess.getOptionTwoAccess().getGroup(), "rule__OptionTwo__Group__0");
+			builder.put(grammarAccess.getModelAccess().getGreetingsAssignment_0(), "rule__Model__GreetingsAssignment_0");
+			builder.put(grammarAccess.getModelAccess().getKeywordsExampleAssignment_1(), "rule__Model__KeywordsExampleAssignment_1");
 			builder.put(grammarAccess.getGreetingAccess().getNameAssignment_1(), "rule__Greeting__NameAssignment_1");
+			builder.put(grammarAccess.getKeywordsExampleAccess().getOptionAssignment_0(), "rule__KeywordsExample__OptionAssignment_0");
+			builder.put(grammarAccess.getKeywordsExampleAccess().getOptionAssignment_1(), "rule__KeywordsExample__OptionAssignment_1");
 		}
 	}
 	

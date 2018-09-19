@@ -77,13 +77,22 @@ public interface HelloWorldPackage extends EPackage
   int MODEL__GREETINGS = 0;
 
   /**
+   * The feature id for the '<em><b>Keywords Example</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL__KEYWORDS_EXAMPLE = 1;
+
+  /**
    * The number of structural features of the '<em>Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 1;
+  int MODEL_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.GreetingImpl <em>Greeting</em>}' class.
@@ -113,6 +122,34 @@ public interface HelloWorldPackage extends EPackage
    */
   int GREETING_FEATURE_COUNT = 1;
 
+  /**
+   * The meta object id for the '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.KeywordsExampleImpl <em>Keywords Example</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.KeywordsExampleImpl
+   * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.HelloWorldPackageImpl#getKeywordsExample()
+   * @generated
+   */
+  int KEYWORDS_EXAMPLE = 2;
+
+  /**
+   * The feature id for the '<em><b>Option</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEYWORDS_EXAMPLE__OPTION = 0;
+
+  /**
+   * The number of structural features of the '<em>Keywords Example</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int KEYWORDS_EXAMPLE_FEATURE_COUNT = 1;
+
 
   /**
    * Returns the meta object for class '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model <em>Model</em>}'.
@@ -136,6 +173,17 @@ public interface HelloWorldPackage extends EPackage
   EReference getModel_Greetings();
 
   /**
+   * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model#getKeywordsExample <em>Keywords Example</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Keywords Example</em>'.
+   * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model#getKeywordsExample()
+   * @see #getModel()
+   * @generated
+   */
+  EReference getModel_KeywordsExample();
+
+  /**
    * Returns the meta object for class '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting <em>Greeting</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -155,6 +203,27 @@ public interface HelloWorldPackage extends EPackage
    * @generated
    */
   EAttribute getGreeting_Name();
+
+  /**
+   * Returns the meta object for class '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.KeywordsExample <em>Keywords Example</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Keywords Example</em>'.
+   * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.KeywordsExample
+   * @generated
+   */
+  EClass getKeywordsExample();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.KeywordsExample#getOption <em>Option</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Option</em>'.
+   * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.KeywordsExample#getOption()
+   * @see #getKeywordsExample()
+   * @generated
+   */
+  EAttribute getKeywordsExample_Option();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -198,6 +267,14 @@ public interface HelloWorldPackage extends EPackage
     EReference MODEL__GREETINGS = eINSTANCE.getModel_Greetings();
 
     /**
+     * The meta object literal for the '<em><b>Keywords Example</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MODEL__KEYWORDS_EXAMPLE = eINSTANCE.getModel_KeywordsExample();
+
+    /**
      * The meta object literal for the '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.GreetingImpl <em>Greeting</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -214,6 +291,24 @@ public interface HelloWorldPackage extends EPackage
      * @generated
      */
     EAttribute GREETING__NAME = eINSTANCE.getGreeting_Name();
+
+    /**
+     * The meta object literal for the '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.KeywordsExampleImpl <em>Keywords Example</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.KeywordsExampleImpl
+     * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl.HelloWorldPackageImpl#getKeywordsExample()
+     * @generated
+     */
+    EClass KEYWORDS_EXAMPLE = eINSTANCE.getKeywordsExample();
+
+    /**
+     * The meta object literal for the '<em><b>Option</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute KEYWORDS_EXAMPLE__OPTION = eINSTANCE.getKeywordsExample_Option();
 
   }
 

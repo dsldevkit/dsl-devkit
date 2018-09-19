@@ -15,8 +15,8 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.ui,
  org.eclipse.compare,
  org.eclipse.xtext.builder,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtend.lib,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtend.lib;resolution:=optional,
  org.antlr.runtime,
  com.avaloq.tools.ddk.check.runtime.core
 Import-Package: org.apache.log4j

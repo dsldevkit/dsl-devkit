@@ -40,6 +40,9 @@ import org.eclipse.xtext.Keyword
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.EnumLiteralDeclaration
 import org.eclipse.xtext.Action
+import com.avaloq.tools.ddk.xtext.generator.parser.antlr.GrammarRuleAnnotations.SemanticPredicate
+import java.util.List
+import com.google.common.collect.Lists
 
 /**
  *
@@ -83,14 +86,18 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
 
   @Inject extension GrammarRuleAnnotations annotations
   @Inject extension GrammarNaming naming
+  @Inject extension PredicatesNaming predicatesNaming
+
 
   Grammar originalGrammar
+
+
 
   protected override getGrammarNaming() {
     naming
   }
 
-  override generate(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
+  def List<SemanticPredicate> generate2(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
     this.keywordHelper = KeywordHelper.getHelper(it)
     this.originalGrammar = it
     val RuleFilter filter = new RuleFilter();
@@ -104,6 +111,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     if (!isCombinedGrammar) {
       fsa.generateFile(grammarNaming.getLexerGrammar(it).grammarFileName, flattened.compileLexer(options))
     }
+    return Lists.newArrayList(flattened.allRules.filter[r | r.hasValidatingPredicate].map[r| SemanticPredicate.findInEmfObject(r)])
   }
 
   protected override isCombinedGrammar() {
@@ -132,6 +140,8 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     «ENDIF»
     import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
     import «grammarAccess.name»;
+    import «grammar.semanticPredicatesFullName»;
+    import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
 
   '''
 
@@ -146,12 +156,29 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     */
 
     «ENDIF»
-      private «grammarAccess.simpleName» grammarAccess;
+        private «grammarAccess.simpleName» grammarAccess;
+        private «getSemanticPredicatesSimpleName()» predicates;
+        private ParserContext parserContext;
 
-        public «internalParserClass.simpleName»(TokenStream input, «grammarAccess.simpleName» grammarAccess) {
+        public «internalParserClass.simpleName»(TokenStream input, «grammarAccess.simpleName» grammarAccess, ParserContext parserContext, «getSemanticPredicatesSimpleName()» predicates) {
             this(input);
             this.grammarAccess = grammarAccess;
+            this.predicates = predicates;
+            this.parserContext = parserContext;
+            parserContext.setTokenStream(input);
             registerRules(grammarAccess.getGrammar());
+        }
+
+        /**
+         * Set token stream in parser context.
+         * @param input Token stream
+         */
+        @Override
+        public void setTokenStream(TokenStream input) {
+          super.setTokenStream(input);
+          if(parserContext != null){
+            parserContext.setTokenStream(input);
+          }
         }
 
         @Override
@@ -398,8 +425,20 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
  /**
   * Inserts validating predicate only. Gated predicates will be inserted in alternatives if needed.
   */
+  protected override String compileEBNF(AbstractRule it, AntlrOptions options) '''
+    // Rule «originalElement.name»
+    «ruleName»«compileInit(options)»:
+      «IF it instanceof ParserRule && originalElement.datatypeRule»
+        «IF hasValidatingPredicate»«generateValidatingPredicate»«ENDIF»
+        «dataTypeEbnf(alternatives, true)»
+      «ELSE»
+        «ebnf(alternatives, options, true)»
+      «ENDIF»
+    ;
+    «compileFinally(options)»
+  '''
+
   protected  override String dataTypeEbnf(AbstractElement it, boolean supportActions) '''
-    «IF hasSemanticPredicate»«generateSemanticPredicate»«ENDIF»
     «IF mustBeParenthesized»(
       «IF hasNoBacktrackAnnotation»
         // Enclosing rule was annotated with @NoBacktrack
