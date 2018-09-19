@@ -11,27 +11,35 @@
 
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr
 
+import com.google.inject.Inject
+import com.google.inject.Singleton
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.CrossReference
 import org.eclipse.xtext.EnumRule
+import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.TerminalRule
-import org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenerator
-import org.eclipse.xtext.xtext.generator.parser.antlr.AntlrOptions
-
-import static extension org.eclipse.xtext.GrammarUtil.*
-import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
-import org.eclipse.xtext.Assignment
-import org.eclipse.xtext.CrossReference
-import org.eclipse.xtext.Grammar
-import org.eclipse.xtext.xtext.generator.model.IXtextGeneratorFileSystemAccess
+import org.eclipse.xtext.UnorderedGroup
+import org.eclipse.xtext.xtext.FlattenedGrammarAccess
 import org.eclipse.xtext.xtext.RuleFilter
 import org.eclipse.xtext.xtext.RuleNames
-import org.eclipse.xtext.xtext.FlattenedGrammarAccess
+import org.eclipse.xtext.xtext.generator.model.IXtextGeneratorFileSystemAccess
+import org.eclipse.xtext.xtext.generator.parser.antlr.AbstractAntlrGrammarWithActionsGenerator
+import org.eclipse.xtext.xtext.generator.parser.antlr.AntlrOptions
 import org.eclipse.xtext.xtext.generator.parser.antlr.CombinedGrammarMarker
+import org.eclipse.xtext.xtext.generator.parser.antlr.GrammarNaming
 import org.eclipse.xtext.xtext.generator.parser.antlr.KeywordHelper
-import com.google.inject.Inject
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
+import static extension org.eclipse.xtext.GrammarUtil.*
+import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
+import org.eclipse.xtext.Keyword
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.EnumLiteralDeclaration
+import org.eclipse.xtext.Action
 
 /**
  *
@@ -70,11 +78,17 @@ import com.google.inject.Inject
  *       be used in the alternative
  *     - Error messages will be adjusted correspondingly
  */
-class AnnotationAwareAntlrGrammarGenerator extends AntlrGrammarGenerator {
+@Singleton
+class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActionsGenerator {
 
   @Inject extension GrammarRuleAnnotations annotations
+  @Inject extension GrammarNaming naming
 
   Grammar originalGrammar
+
+  protected override getGrammarNaming() {
+    naming
+  }
 
   override generate(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
     this.keywordHelper = KeywordHelper.getHelper(it)
@@ -96,6 +110,103 @@ class AnnotationAwareAntlrGrammarGenerator extends AntlrGrammarGenerator {
     grammarNaming.isCombinedGrammar(originalGrammar)
   }
 
+  // *****************************************************************************
+  // Methods without modification from AntrlrGrammarGeneratorFragment
+  // *****************************************************************************
+
+  protected override compileParserImports(Grammar it, AntlrOptions options) '''
+
+    import org.eclipse.xtext.*;
+    import org.eclipse.xtext.parser.*;
+    import org.eclipse.xtext.parser.impl.*;
+    import org.eclipse.emf.ecore.util.EcoreUtil;
+    import org.eclipse.emf.ecore.EObject;
+    «IF !allEnumRules.empty»
+    import org.eclipse.emf.common.util.Enumerator;
+    «ENDIF»
+    import «grammarNaming.getInternalParserSuperClass(it).name»;
+    import org.eclipse.xtext.parser.antlr.XtextTokenStream;
+    import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
+    «IF !allParserRules.map[eAllContentsAsList].flatten.filter(UnorderedGroup).empty && options.backtrack»
+    import org.eclipse.xtext.parser.antlr.IUnorderedGroupHelper.UnorderedGroupState;
+    «ENDIF»
+    import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
+    import «grammarAccess.name»;
+
+  '''
+
+  protected override compileParserMembers(Grammar it, AntlrOptions options) '''
+
+    @«IF combinedGrammar»parser::«ENDIF»members {
+
+    «IF options.backtrack»
+    /*
+      This grammar contains a lot of empty actions to work around a bug in ANTLR.
+      Otherwise the ANTLR tool will create synpreds that cannot be compiled in some rare cases.
+    */
+
+    «ENDIF»
+      private «grammarAccess.simpleName» grammarAccess;
+
+        public «internalParserClass.simpleName»(TokenStream input, «grammarAccess.simpleName» grammarAccess) {
+            this(input);
+            this.grammarAccess = grammarAccess;
+            registerRules(grammarAccess.getGrammar());
+        }
+
+        @Override
+        protected String getFirstRuleName() {
+          return "«allParserRules.head.originalElement.name»";
+        }
+
+        @Override
+        protected «grammarAccess.simpleName» getGrammarAccess() {
+          return grammarAccess;
+        }
+
+    }
+  '''
+
+  protected override compileRuleCatch(Grammar it, AntlrOptions options) '''
+
+    @rulecatch {
+        catch (RecognitionException re) {
+            recover(input,re);
+            appendSkippedTokens();
+        }
+    }
+  '''
+
+  override protected shouldBeSkipped(TerminalRule it, Grammar grammar) {
+    false
+  }
+
+  protected override dispatch compileRule(ParserRule it, Grammar grammar, AntlrOptions options) '''
+    «IF isValidEntryRule()»
+      «compileEntryRule(grammar, options)»
+    «ENDIF»
+
+    «compileEBNF(options)»
+  '''
+
+  protected def String compileEntryRule(ParserRule it, Grammar grammar, AntlrOptions options) '''
+    // Entry rule «originalElement.entryRuleName»
+    «originalElement.entryRuleName» returns «compileEntryReturns(options)»«compileEntryInit(options)»:
+      { «newCompositeNode» }
+      iv_«originalElement.ruleName»=«ruleName»«defaultArgumentList»
+      { $current=$iv_«ruleName».current«IF originalElement.datatypeRule».getText()«ENDIF»; }
+      EOF;
+    «compileEntryFinally(options)»
+  '''
+
+  protected def compileEntryReturns(ParserRule it, AntlrOptions options) {
+    if (originalElement.datatypeRule)
+      return '[String current=null]'
+    else
+      return '''[«currentType» current=null]'''
+  }
+
+
   protected override compileInit(AbstractRule it, AntlrOptions options) '''
     «IF it instanceof ParserRule»«getParameterList(!isPassCurrentIntoFragment, currentType)»«ENDIF» returns «compileReturns(options)»
     «IF hasNoBacktrackAnnotation»
@@ -111,29 +222,139 @@ class AnnotationAwareAntlrGrammarGenerator extends AntlrGrammarGenerator {
       leaveRule();
     }'''
 
- /**
-  * Inserts validating predicate only. Gated predicates will be inserted in alternatives if needed.
-  */
-  protected  override String dataTypeEbnf(AbstractElement it, boolean supportActions) '''
-    «IF hasSemanticPredicate»«generateSemanticPredicate»«ENDIF»
-    «IF mustBeParenthesized»(
-      «IF hasNoBacktrackAnnotation»
-        // Enclosing rule was annotated with @NoBacktrack
-        options { backtrack=false; }
-      «ENDIF»
-      «dataTypeEbnfPredicate»«dataTypeEbnf2(supportActions)»
-    )«ELSE»«dataTypeEbnf2(supportActions)»«ENDIF»«cardinality»
-  '''
+  protected def compileReturns(AbstractRule it, AntlrOptions options) {
+    switch it {
+      EnumRule:
+        '[Enumerator current=null]'
+      ParserRule case originalElement.datatypeRule:
+        '[AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]'
+      ParserRule case originalElement.isEObjectFragmentRule:
+        '''[«currentType» current=in_current]'''
+      ParserRule:
+        '''[«currentType» current=null]'''
+      default:
+        throw new IllegalStateException("Unexpected rule: " + it)
+    }
+  }
 
-  protected override String ebnf(AbstractElement it, AntlrOptions options, boolean supportActions) '''
-    «IF mustBeParenthesized»(
-      «IF hasNoBacktrackAnnotation»
-        // Enclosing rule was annotated with @NoBacktrack
-        options { backtrack=false; }
+  protected override String _dataTypeEbnf2(Keyword it, boolean supportActions) {
+    if (supportActions) '''
+      kw=«super._dataTypeEbnf2(it, supportActions)»
+      {
+        $current.merge(kw);
+        «newLeafNode("kw")»
+      }
+    '''
+    else
+      super._dataTypeEbnf2(it, supportActions)
+  }
+
+  protected override String _ebnf2(Action it, AntlrOptions options, boolean supportActions) {
+    if (supportActions) '''
+      «IF options.backtrack»
+      {
+        /* */
+      }
       «ENDIF»
-      «ebnfPredicate(options)»«ebnf2(options, supportActions)»
-    )«ELSE»«ebnf2(options, supportActions)»«ENDIF»«cardinality»
-  '''
+      {
+        $current = forceCreateModelElement«IF feature !== null»And«setOrAdd.toFirstUpper»«ENDIF»(
+          grammarAccess.«originalElement.grammarElementAccess»,
+          $current);
+      }
+    '''
+    else
+      super._ebnf2(it, options, supportActions)
+  }
+
+  protected override String _ebnf2(Keyword it, AntlrOptions options, boolean supportActions) {
+    if (!supportActions)
+      super._ebnf2(it, options, supportActions)
+    else if (assigned) '''
+      «super._ebnf2(it, options, supportActions)»
+      {
+        «newLeafNode(containingAssignment.localVar(it))»
+      }
+    '''
+    else '''
+      «localVar»=«super._ebnf2(it, options, supportActions)»
+      {
+        «newLeafNode(localVar)»
+      }
+    '''
+  }
+
+  override protected _ebnf2(EnumLiteralDeclaration it, AntlrOptions options, boolean supportActions) {
+    if (!supportActions)
+      super._ebnf2(it, options, supportActions)
+    else '''
+      «localVar»=«super._ebnf2(it, options, supportActions)»
+      {
+        $current = grammarAccess.«grammarElementAccess(originalElement)».getEnumLiteral().getInstance();
+        «newLeafNode(localVar)»
+      }
+    '''
+  }
+
+  protected override String crossrefEbnf(AbstractRule it, RuleCall call, CrossReference ref, boolean supportActions) {
+    if (supportActions)
+      switch it {
+        EnumRule,
+        ParserRule: '''
+          {
+            «ref.newCompositeNode»
+          }
+          «ruleName»«call.getArgumentList(isPassCurrentIntoFragment, !supportActions)»
+          {
+            afterParserOrEnumRuleCall();
+          }
+        '''
+        TerminalRule: '''
+          «ref.containingAssignment.localVar»=«ruleName»
+          {
+            «ref.newLeafNode(ref.containingAssignment.localVar)»
+          }
+        '''
+        default:
+          throw new IllegalStateException("crossrefEbnf is not supported for " + it)
+      }
+    else
+      super.crossrefEbnf(it, call, ref, supportActions)
+  }
+
+  override protected _assignmentEbnf(AbstractElement it, Assignment assignment, AntlrOptions options, boolean supportActions) {
+    if (supportActions) '''
+      «assignment.localVar(it)»=«super._assignmentEbnf(it, assignment, options, supportActions)»
+      {
+        if ($current==null) {
+          $current = «assignment.createModelElement»;
+        }
+        «assignment.setOrAdd»WithLastConsumed($current, "«assignment.feature»", «
+              IF assignment.isBooleanAssignment»true«
+              ELSE»«assignment.localVar(it)»«
+              ENDIF», «assignment.terminal.toStringLiteral»);
+      }
+    '''
+    else
+      super._assignmentEbnf(it, assignment, options, supportActions)
+  }
+
+  override protected isPassCurrentIntoFragment() {
+    return true
+  }
+
+  protected def createModelElement(EObject grammarElement) '''
+    createModelElement(grammarAccess.«grammarElement.containingParserRule.originalElement.grammarElementAccess»)'''
+
+  protected def createModelElementForParent(EObject grammarElement) '''
+    createModelElementForParent(grammarAccess.«grammarElement.containingParserRule.originalElement.grammarElementAccess»)'''
+
+  protected def newCompositeNode(EObject it) '''newCompositeNode(grammarAccess.«originalElement.grammarElementAccess»);'''
+
+  protected def newLeafNode(EObject it, String token) '''newLeafNode(«token», grammarAccess.«originalElement.grammarElementAccess»);'''
+
+  // *****************************************************************************
+  // Methods with modification compared to AntrlGrammarGenerator
+  // *****************************************************************************
 
  /**
   * Add gated predicate, if necessary, before the action preceding the rule call.
@@ -173,6 +394,32 @@ class AnnotationAwareAntlrGrammarGenerator extends AntlrGrammarGenerator {
     else
       super._dataTypeEbnf2(it, supportActions)
   }
+
+ /**
+  * Inserts validating predicate only. Gated predicates will be inserted in alternatives if needed.
+  */
+  protected  override String dataTypeEbnf(AbstractElement it, boolean supportActions) '''
+    «IF hasSemanticPredicate»«generateSemanticPredicate»«ENDIF»
+    «IF mustBeParenthesized»(
+      «IF hasNoBacktrackAnnotation»
+        // Enclosing rule was annotated with @NoBacktrack
+        options { backtrack=false; }
+      «ENDIF»
+      «dataTypeEbnfPredicate»«dataTypeEbnf2(supportActions)»
+    )«ELSE»«dataTypeEbnf2(supportActions)»«ENDIF»«cardinality»
+  '''
+
+  protected override String ebnf(AbstractElement it, AntlrOptions options, boolean supportActions) '''
+    «IF mustBeParenthesized»(
+      «IF hasNoBacktrackAnnotation»
+        // Enclosing rule was annotated with @NoBacktrack
+        options { backtrack=false; }
+      «ENDIF»
+      «ebnfPredicate(options)»«ebnf2(options, supportActions)»
+    )«ELSE»«ebnf2(options, supportActions)»«ENDIF»«cardinality»
+  '''
+
+
 
  /**
   * Add gated predicate, if necessary, before the action preceding the assignment.

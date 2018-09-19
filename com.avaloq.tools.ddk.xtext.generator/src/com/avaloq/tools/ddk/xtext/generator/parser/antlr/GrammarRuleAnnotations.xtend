@@ -17,10 +17,17 @@ import java.util.stream.StreamSupport
 import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
+import org.eclipse.xtext.Action
+import org.eclipse.xtext.Alternatives
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.CrossReference
 import org.eclipse.xtext.Grammar
+import org.eclipse.xtext.GrammarUtil
+import org.eclipse.xtext.Group
+import org.eclipse.xtext.RuleCall
+import org.eclipse.xtext.generator.Naming
 import org.eclipse.xtext.generator.grammarAccess.GrammarAccessUtil
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
-import org.eclipse.xtext.util.XtextSwitch
 import org.eclipse.xtext.util.internal.EmfAdaptable
 import org.eclipse.xtext.xtext.RuleWithParameterValues
 
@@ -64,38 +71,202 @@ class GrammarRuleAnnotations {
   }
 
   def boolean hasNoBacktrackAnnotation(AbstractRule rule){
-    return false
+    return NoBacktrack.findInEmfObject(rule) !== null
   }
 
+  /**
+   * Checks if the given element is contained in a rule with a NoBacktrack annotation.
+   *
+   * @param element
+   *          Grammar element
+   * @return {@code true} if there is an annotation on the enclosing rule, {@code false} otherwise
+   */
   def boolean hasNoBacktrackAnnotation(AbstractElement element){
-    return false
+    return hasNoBacktrackAnnotation(GrammarUtil.containingRule(element))
   }
 
   def boolean hasSemanticPredicate(AbstractElement element){
-    return false
+    return findPredicate(element) !== null
   }
 
+  /**
+   * Returns disambiguating/validating semantic predicate.
+   *
+   * @param element
+   *          Xtext grammar element
+   * @return A string containing the semantic predicate or an empty string
+   */
   def String generateSemanticPredicate(AbstractElement element){
-    return ""
+    val predicate = findPredicate(element)
+    if(predicate !== null) return generateValidatingPredicate(predicate)
+    return "";
   }
 
   def boolean isGatedPredicateRequired(AbstractElement element){
-    return false;
+    return isStartingWithPredicatedRule(element) && isAlternativeAvailable(element);
   }
 
+  /**
+   * Returns gated semantic predicate.
+   *
+   * @param element
+   *          Xtext grammar element
+   * @return A string containing the semantic predicate or an empty string
+   */
   def String generateGatedPredicate(AbstractElement element){
+    val predicate = findPredicate(element)
+    if(predicate !== null) return generateGatedPredicate(predicate)
     return "";
   }
 
   def void annotateGrammar(Grammar grammar){
-
+    grammar.rules.forEach[r | annotateRule(r)]
   }
+
+  /**
+   * Checks whether this abstract element leads directly to a keyword rule.
+   *
+   * @param element
+   *          Element call
+   * @return {@code true} if the rule leads to a keyword rule
+   */
+  def boolean isStartingWithPredicatedRule(AbstractElement element) {
+    if (element instanceof CrossReference) {
+      return findPredicate(element.getTerminal()) !== null;
+    }
+    return findPredicate(element) !== null;
+  }
+
+  /**
+   * Finds the predicated rule the given element leads to.
+   *
+   * @param element
+   *          Current element
+   * @return Keyword rule or {@code null} if the given element does not lead to a keyword rule
+   */
+  def SemanticPredicate findPredicate(AbstractElement element) {
+    if (element instanceof RuleCall) {
+      val predicate = SemanticPredicate.findInEmfObject(element.getRule())
+      if (predicate !== null) {
+        return predicate;
+      }
+      return findPredicate(element.getRule().getAlternatives());
+    }
+    if (GrammarUtil.isOptionalCardinality(element)) {
+      return null;
+    }
+    if (element instanceof CrossReference) {
+      return findPredicate(element.getTerminal());
+    }
+    if (element instanceof Group) {
+      val firstNonActionElement = getFirstNonActionElement(element);
+      if (firstNonActionElement !== null) {
+        return findPredicate(firstNonActionElement);
+      }
+    }
+    if (element instanceof Assignment) {
+      return findPredicate((element).getTerminal());
+    }
+    return null;
+  }
+
+  def boolean isRuleWithPredicate(AbstractRule rule){
+    return SemanticPredicate.findInEmfObject(rule) !== null
+  }
+
+  def AbstractElement getFirstNonActionElement(Group group){
+    for (AbstractElement groupElement : group.getElements()) {
+      if (!(groupElement instanceof Action)) {
+        return groupElement;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Checks whether there is a viable alternative (i.e. not potentially gated by another gated semantic predicate) for the current element.
+   * If there is no alternative we should not insert gated semantic predicates, but validating semantic predicates, so we get a better error recovery and
+   * a correct message. We should not also propagate validating predicates in the callers. If we do so this will damage error recovery in the callers.
+   *
+   * @param element
+   *          Grammar element
+   * @return {@code true} if there is an alternative available and the gated semantic predicate can be inserted
+   */
+  def boolean isAlternativeAvailable(AbstractElement element) {
+    if (GrammarUtil.isOptionalCardinality(element)) {
+      return true;
+    }
+    val container = element.eContainer();
+    if (container instanceof Assignment) {
+      return isAlternativeAvailable(container);
+    } else if (container instanceof CrossReference) {
+      return isAlternativeAvailable(container);
+    } else if (container instanceof Group) {
+      if (isFirstNonActionElement(container, element)) {
+        return isAlternativeAvailable(container);
+      }
+    } else if (container instanceof Alternatives) {
+      for (AbstractElement alternative : container.getElements()) {
+        if (alternative != element && !isGated(alternative)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks whether the grammar element will get a gated semantic predicate.
+   *
+   * @param element
+   *          Grammar element
+   * @return {@code true} if this grammar element may be preceded by a gated semantic predicate
+   */
+  def boolean isGated(AbstractElement element) {
+    if (element instanceof Group){
+     if(element.getElements().size() > 0)
+      return isGated(element.getElements().get(0));
+    }
+    if (element instanceof RuleCall) {
+      return isRuleWithPredicate(element.getRule());
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the given grammar element is the first non action element in the given group.
+   *
+   * @param group
+   *          where the position is checked, must not be {@code null}
+   * @param element
+   *          to check, must not be {@code null}
+   * @return {@code true}, if is first non action element is the given element, {@code false} otherwise
+   */
+  def boolean isFirstNonActionElement(Group group, AbstractElement element) {
+    return element == getFirstNonActionElement(group);
+  }
+
 
   def String generateGatedPredicate(SemanticPredicate predicate)
     '''{predicates.«predicate.name»(parserContext)}?=>'''
 
   def String generateValidatingPredicate(SemanticPredicate predicate)
     '''{predicates.«predicate.name»(parserContext) /* @ErrorMessage(«predicate.message») */}?'''
+
+  /**
+   * Returns the full name of the grammar predicates class.
+   *
+   * TODO: Move this method
+   *
+   * @param grammar
+   *          Grammar
+   * @param naming
+   *          Naming
+   * @return Name of the predicates class
+   */
+  def String getSemanticPredicatesFullName(Grammar grammar, Naming naming) {
+    return naming.basePackageRuntime(grammar) + ".grammar.Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates";
+  }
 
    /**
    * Returns name for the predicate message method.
@@ -137,6 +308,41 @@ class GrammarRuleAnnotations {
   }
 
   /**
+   * Keyword rule proposals.
+   *
+   * @param rule
+   *          Xtext grammar rule
+   * @return A string containing the proposals for abstract content assist
+   */
+  def String keywordRuleProposals(AbstractRule rule) {
+    val semPredicate = SemanticPredicate.findInEmfObject(rule)
+    if (semPredicate?.keywords !== null) {
+      val StringBuilder predicate = new StringBuilder();
+      var passedFirst = false;
+      for (String kw : KEYWORDS_SPLITTER.split(semPredicate.keywords)) {
+        if (passedFirst) {
+          predicate.append("    ");
+        }
+        predicate.append("propose(");
+        predicate.append('"');
+        predicate.append(kw);
+        predicate.append('"');
+        predicate.append(", ");
+        predicate.append('"');
+        predicate.append(kw);
+        predicate.append('"');
+        predicate.append(", getImage(model), context, acceptor);");
+        predicate.append('\n');
+        passedFirst = true;
+      }
+      if (passedFirst) {
+        return predicate.toString();
+      }
+    }
+    return "";
+  }
+
+  /**
    * Translate annotations in comments into predicate annotations.
    *
    * <p>
@@ -152,13 +358,9 @@ class GrammarRuleAnnotations {
    * This will have no negative impact. We still need validating predicates in Keyword rules themselves.
    * </p>
    */
-static class GrammarAnnotationVisitor extends XtextSwitch<Boolean> {
-
-
-  override Boolean caseAbstractRule(AbstractRule object) {
+  def void annotateRule(AbstractRule object) {
     val original = RuleWithParameterValues.findInEmfObject(object).getOriginal();
     attachRulePredicates(original, object)
-    return Boolean.TRUE;
   }
 
 
@@ -222,5 +424,4 @@ static class GrammarAnnotationVisitor extends XtextSwitch<Boolean> {
     return if(node !== null) node.getText() else GrammarAccessUtil.serialize(rule, "");
   }
 
-}
 }
