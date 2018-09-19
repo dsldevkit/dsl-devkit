@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.test;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
@@ -43,7 +43,8 @@ Import-Package: org.apache.log4j,
  com.avaloq.tools.ddk.xtext.test.format,
  com.avaloq.tools.ddk.xtext.test.valid,
  com.avaloq.tools.ddk.xtext.ui.test,
- com.avaloq.tools.ddk.xtextspy.test 
+ com.avaloq.tools.ddk.xtextspy.test,
+ com.avaloq.tools.ddk.sample.helloworld.test
 Export-Package: com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.formatter,
  com.avaloq.tools.ddk.xtext.formatter.services,

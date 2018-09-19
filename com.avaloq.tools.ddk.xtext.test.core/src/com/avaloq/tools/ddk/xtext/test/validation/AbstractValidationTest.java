@@ -35,6 +35,7 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextSyntaxDiagnostic;
+import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
 import org.eclipse.xtext.validation.FeatureBasedDiagnostic;
 import org.eclipse.xtext.validation.RangeBasedDiagnostic;
@@ -110,7 +111,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   /**
    * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
    */
-  private class XtextDiagnosticAssertion extends AbstractModelAssertion {
+  protected class XtextDiagnosticAssertion extends AbstractModelAssertion {
 
     private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
 
@@ -236,7 +237,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      * @return
      *         TRUE if diagnostic has the same position as the given one, FALSE otherwise.
      */
-    private boolean diagnosticPositionEquals(final Integer pos, final AbstractValidationDiagnostic avd) {
+    protected boolean diagnosticPositionEquals(final Integer pos, final AbstractValidationDiagnostic avd) {
       if (avd instanceof FeatureBasedDiagnostic && ((FeatureBasedDiagnostic) avd).getFeature() != null) {
         List<INode> nodes = NodeModelUtils.findNodesForFeature(avd.getSourceEObject(), ((FeatureBasedDiagnostic) avd).getFeature());
         if (nodes.isEmpty()) {
@@ -732,7 +733,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     super.beforeApplyAssertions(testSource);
     EObject root = testSource.getModel();
     // Get all diagnostics of the current testing file
-    EcoreUtil2.resolveLazyCrossReferences(root.eResource(), null);
+    EcoreUtil2.resolveLazyCrossReferences(root.eResource(), CancelIndicator.NullImpl);
     fileDiagnostics = validate(root);
     getUnexpectedDiagnostics().addAll(fileDiagnostics.getChildren());
     getUnexpectedResourceDiagnostics().addAll(root.eResource().getErrors());
@@ -1072,7 +1073,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * @param root
    *          root node of the model to be analyzed
    */
-  private void memorizeUnexpectedResourceErrors() {
+  protected void memorizeUnexpectedResourceErrors() {
     for (Resource.Diagnostic diagnostic : getUnexpectedResourceDiagnostics()) {
       if (diagnostic instanceof AbstractDiagnostic) {
         AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
@@ -1099,7 +1100,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Memorize the position and issue code of each unexpected diagnostic that appears in the file.
    * A diagnostic is considered as expected if a marker with the issue code in the test file was set.
    */
-  private void memorizeUnexpectedErrors() {
+  protected void memorizeUnexpectedErrors() {
     for (Diagnostic diagnostic : getUnexpectedDiagnostics()) {
       if (diagnostic instanceof AbstractValidationDiagnostic) {
         AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;
