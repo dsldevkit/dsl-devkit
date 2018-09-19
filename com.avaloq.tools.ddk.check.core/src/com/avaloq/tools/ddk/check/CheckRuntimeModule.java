@@ -23,6 +23,7 @@ import org.eclipse.xtext.xbase.imports.RewritableImportSection;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.util.XExpressionHelper;
+import org.eclipse.xtext.xtext.generator.xbase.XbaseUsageDetector;
 
 import com.avaloq.tools.ddk.check.documentation.CheckEObjectDocumentationProvider;
 import com.avaloq.tools.ddk.check.generator.CheckCompiler;
@@ -36,6 +37,7 @@ import com.avaloq.tools.ddk.check.scoping.CheckScopeProvider;
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.check.typing.CheckExpressionHelper;
 import com.avaloq.tools.ddk.check.typing.CheckTypeComputer;
+import com.avaloq.tools.ddk.xtext.generator.xbase.FixedXbaseUsageDetector;
 import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
@@ -150,5 +152,14 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
    */
   public Class<? extends RewritableImportSection.Factory> bindRewritableImportSectionFactory() {
     return CheckRewritableImportSectionFactory.class;
+  }
+
+  /**
+   * Override of {@link XbaseUsageDetector}, to fix usesXImportSection() for languages which override XImportSection.
+   * 
+   * @return {@link FixedXbaseUsageDetector}
+   */
+  public Class<? extends XbaseUsageDetector> bindXbaseUsageDetector() {
+    return FixedXbaseUsageDetector.class;
   }
 }
