@@ -34,8 +34,8 @@ Workflow {
     }
 
   component = XtextGenerator {
-    configuration = CustomGeneratorModule {
-      project = model.project.CustomProjectConfig {
+    configuration = GeneratorModule {
+      project = model.project.ProjectConfig {
         baseName = projectName
         rootPath = rootPath
         createEclipseMetaData = true
