@@ -158,7 +158,7 @@ public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
 
     genModel.setNonNLSMarkers(generateNonNLSMarkers);
 
-    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(loggedTypeMappings, getTypeMapper(), LOGGER));
+    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(loggedTypeMappings, getTypeMapper()));
     generator.setInput(genModel);
 
     Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());

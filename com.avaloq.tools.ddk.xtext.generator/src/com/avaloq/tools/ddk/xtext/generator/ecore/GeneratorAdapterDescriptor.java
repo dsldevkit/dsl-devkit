@@ -107,12 +107,11 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
 
   private final Function<String, String> typeMapper;
   private final Set<String> loggedTypeMappings;
-  private final Logger logger;
+  private static final Logger LOGGER = Logger.getLogger(GeneratorAdapterDescriptor.class);
 
-  protected GeneratorAdapterDescriptor(final Set<String> loggedTypeMappings, final Function<String, String> typeMapper, final Logger logger) { // NOPMD
+  protected GeneratorAdapterDescriptor(final Set<String> loggedTypeMappings, final Function<String, String> typeMapper) { // NOPMD
     this.typeMapper = typeMapper;
     this.loggedTypeMappings = loggedTypeMappings;
-    this.logger = logger;
   }
 
   @Override
@@ -137,7 +136,7 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
       String mapped = typeMapper.apply(qualifiedName);
       if (mapped != null) {
         if (loggedTypeMappings.add(qualifiedName)) {
-          logger.debug("mapping " + qualifiedName + " to " + mapped); //$NON-NLS-1$ //$NON-NLS-2$
+          LOGGER.debug("mapping " + qualifiedName + " to " + mapped); //$NON-NLS-1$ //$NON-NLS-2$
         }
         return super.getImportedName(mapped, autoImport);
       } else {

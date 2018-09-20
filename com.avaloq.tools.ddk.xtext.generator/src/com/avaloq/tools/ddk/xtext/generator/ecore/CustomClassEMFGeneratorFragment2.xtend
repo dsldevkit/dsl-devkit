@@ -268,7 +268,7 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
 
     genModel.setNonNLSMarkers(generateNonNLSMarkers);
 
-    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(loggedTypeMappings, getTypeMapper(), LOGGER));
+    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(loggedTypeMappings, getTypeMapper()));
     generator.setInput(genModel);
 
     val Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
