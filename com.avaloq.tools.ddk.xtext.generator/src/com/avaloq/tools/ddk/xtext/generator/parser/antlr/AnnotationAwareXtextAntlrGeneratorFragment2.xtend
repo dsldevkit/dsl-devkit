@@ -11,12 +11,14 @@
 
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr
 
-import com.avaloq.tools.ddk.xtext.generator.parser.antlr.GrammarRuleAnnotations.SemanticPredicate
+import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations.SemanticPredicate
+import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming
 import com.avaloq.tools.ddk.xtext.parser.ISemanticPredicates
 import com.avaloq.tools.ddk.xtext.parser.antlr.AbstractContextualAntlrParser
 import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext
 import com.google.common.base.Joiner
 import com.google.inject.Inject
+import com.google.inject.Singleton
 import java.util.stream.Collectors
 import org.antlr.runtime.CharStream
 import org.antlr.runtime.Token
@@ -31,36 +33,23 @@ import org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragmen
 
 import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
-import com.google.inject.Singleton
-import java.util.List
+import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
-  @Inject AnnotationAwareAntlrGrammarGenerator productionGenerator
   @Inject GrammarNaming productionNaming
   @Inject FileAccessFactory fileFactory
 
   @Inject extension PredicatesNaming predicatesNaming
   @Inject extension GrammarAccessExtensions grammarUtil
+  @Inject extension GrammarRuleAnnotations annotations
 
-  List<SemanticPredicate> predicates
-
-  protected override generateProductionGrammar() {
-    val extension naming = productionNaming
-    val fsa = projectConfig.runtime.srcGen
-
-    predicates = productionGenerator.generate2(grammar, options, fsa)
-
-    runAntlr(grammar.parserGrammar, grammar.lexerGrammar, fsa)
-
-    simplifyUnorderedGroupPredicatesIfRequired(grammar, fsa, grammar.internalParserClass)
-    splitParserAndLexerIfEnabled(fsa, grammar.internalParserClass, grammar.lexerClass)
-    normalizeTokens(fsa, grammar.lexerGrammar.tokensFileName)
-    suppressWarnings(fsa, grammar.internalParserClass, grammar.lexerClass)
-    normalizeLineDelimiters(fsa, grammar.internalParserClass, grammar.lexerClass)
+  protected override void checkGrammar() {
+    super.checkGrammar();
+    getGrammar().annotateGrammar
   }
 
-  override protected doGenerate() {
+  protected override doGenerate() {
       super.doGenerate()
       generateAbstractSemanticPredicate().writeTo(projectConfig.runtime.srcGen)
 
@@ -70,7 +59,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     val file = fileFactory.createGeneratedJavaFile(TypeReference.typeRef(grammar.getSemanticPredicatesFullName))
     file.importType(TypeReference.typeRef(grammar.semanticPredicatesFullName))
     file.importType(TypeReference.typeRef(ISemanticPredicates.AbstractSemanticPredicates))
-    if(!predicates.isEmpty){
+    if(!getGrammar().predicates.isEmpty){
       file.importType(TypeReference.typeRef(ParserContext))
       file.importType(TypeReference.typeRef(Token))
     }
@@ -83,7 +72,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
        */
       @Singleton
       public class «grammar.getSemanticPredicatesSimpleName()» extends AbstractSemanticPredicates {
-        «FOR element : predicates»
+        «FOR element : getGrammar().predicates»
 
           /**
            * Predicate for grammar rule «element.name».
@@ -97,7 +86,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
           }
         «ENDFOR»
 
-        «FOR element : predicates»
+        «FOR element : getGrammar().predicates»
 
          /**
            * Message for «element.name» predicate.

@@ -40,9 +40,8 @@ import org.eclipse.xtext.Keyword
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.EnumLiteralDeclaration
 import org.eclipse.xtext.Action
-import com.avaloq.tools.ddk.xtext.generator.parser.antlr.GrammarRuleAnnotations.SemanticPredicate
-import java.util.List
-import com.google.common.collect.Lists
+import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
+import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming
 
 /**
  *
@@ -88,16 +87,13 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
   @Inject extension GrammarNaming naming
   @Inject extension PredicatesNaming predicatesNaming
 
-
   Grammar originalGrammar
-
-
 
   protected override getGrammarNaming() {
     naming
   }
 
-  def List<SemanticPredicate> generate2(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
+  override generate(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
     this.keywordHelper = KeywordHelper.getHelper(it)
     this.originalGrammar = it
     val RuleFilter filter = new RuleFilter();
@@ -105,13 +101,11 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     filter.discardTerminalRules = false // options.skipUnusedRules
     val RuleNames ruleNames = RuleNames.getRuleNames(it, true);
     val Grammar flattened = new FlattenedGrammarAccess(ruleNames, filter).getFlattenedGrammar();
-    flattened.annotateGrammar
     new CombinedGrammarMarker(combinedGrammar).attachToEmfObject(flattened)
     fsa.generateFile(grammarNaming.getParserGrammar(it).grammarFileName, flattened.compileParser(options))
     if (!isCombinedGrammar) {
       fsa.generateFile(grammarNaming.getLexerGrammar(it).grammarFileName, flattened.compileLexer(options))
     }
-    return Lists.newArrayList(flattened.allRules.filter[r | r.hasValidatingPredicate].map[r| SemanticPredicate.findInEmfObject(r)])
   }
 
   protected override isCombinedGrammar() {

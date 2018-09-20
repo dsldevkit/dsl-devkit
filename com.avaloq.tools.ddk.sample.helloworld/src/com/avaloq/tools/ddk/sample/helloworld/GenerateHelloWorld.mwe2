@@ -39,6 +39,10 @@ Workflow {
 
       }
 
+      contentAssist = ui.contentAssist.AnnotationAwareContentAssistFragment2 {
+
+      }
+
       serializer = {
         generateStub = false
       }

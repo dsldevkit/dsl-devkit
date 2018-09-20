@@ -18,7 +18,8 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
  org.eclipse.xtend.lib;resolution:=optional,
  org.antlr.runtime,
- com.avaloq.tools.ddk.check.runtime.core
+ com.avaloq.tools.ddk.check.runtime.core,
+ com.avaloq.tools.ddk.xtext.ui
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ui.quickfix,

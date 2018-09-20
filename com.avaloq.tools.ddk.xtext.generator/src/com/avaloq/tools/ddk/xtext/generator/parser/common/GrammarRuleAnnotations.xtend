@@ -7,7 +7,7 @@
  * Contributors:
  * Avaloq Evolution AG - initial API and implementation
  */
-package com.avaloq.tools.ddk.xtext.generator.parser.antlr
+package com.avaloq.tools.ddk.xtext.generator.parser.common
 
 import com.google.common.base.Splitter
 import com.google.common.collect.Lists
@@ -28,6 +28,7 @@ import org.eclipse.xtext.generator.grammarAccess.GrammarAccessUtil
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.util.internal.EmfAdaptable
 import org.eclipse.xtext.xtext.RuleWithParameterValues
+import java.util.stream.Collectors
 
 class GrammarRuleAnnotations {
 
@@ -68,8 +69,14 @@ class GrammarRuleAnnotations {
     val List<String> keywords
   }
 
+  @EmfAdaptable
+  @Data
+  static class GrammarAnnotations {
+    val List<SemanticPredicate> predicates
+  }
+
   def boolean hasNoBacktrackAnnotation(AbstractRule rule){
-    return NoBacktrack.findInEmfObject(rule) !== null
+    return getNoBacktrackAnnotation(rule) !== null
   }
 
   /**
@@ -88,7 +95,7 @@ class GrammarRuleAnnotations {
   }
 
   def boolean hasValidatingPredicate(AbstractRule rule){
-    return SemanticPredicate.findInEmfObject(rule) !== null
+    return getSemanticPredicateAnnotation(rule) !== null
   }
 
   /**
@@ -99,7 +106,7 @@ class GrammarRuleAnnotations {
    * @return A string containing the semantic predicate or an empty string
    */
   def String generateValidatingPredicate(AbstractRule rule){
-    val predicate = SemanticPredicate.findInEmfObject(rule)
+    val predicate = getSemanticPredicateAnnotation(rule)
     if(predicate !== null) return generateValidatingPredicate(predicate)
     return "";
   }
@@ -121,8 +128,17 @@ class GrammarRuleAnnotations {
     return "";
   }
 
-  def void annotateGrammar(Grammar grammar){
-    grammar.rules.forEach[r | annotateRule(r)]
+  def GrammarAnnotations annotateGrammar(Grammar grammar){
+    var annotations = GrammarAnnotations.findInEmfObject(grammar)
+    if(annotations === null){
+      annotations = new GrammarAnnotations(grammar.rules.stream().map[r | annotateRule(r)].filter([a | a !== null]).collect(Collectors.toList))
+      annotations.attachToEmfObject(grammar)
+    }
+    return annotations
+  }
+
+  def List<SemanticPredicate> predicates(Grammar grammar){
+    return grammar.annotateGrammar.predicates
   }
 
   /**
@@ -148,7 +164,7 @@ class GrammarRuleAnnotations {
    */
   def SemanticPredicate findPredicate(AbstractElement element) {
     if (element instanceof RuleCall) {
-      val predicate = SemanticPredicate.findInEmfObject(element.getRule())
+      val predicate = getSemanticPredicateAnnotation(element.getRule())
       if (predicate !== null) {
         return predicate;
       }
@@ -173,7 +189,7 @@ class GrammarRuleAnnotations {
   }
 
   def boolean isRuleWithPredicate(AbstractRule rule){
-    return SemanticPredicate.findInEmfObject(rule) !== null
+    return getSemanticPredicateAnnotation(rule) !== null
   }
 
   def AbstractElement getFirstNonActionElement(Group group){
@@ -238,44 +254,6 @@ class GrammarRuleAnnotations {
     '''{predicates.«predicate.name»(parserContext) /* @ErrorMessage(«predicate.message») */}?'''
 
 
-
-
-
-  /**
-   * Keyword rule proposals.
-   *
-   * @param rule
-   *          Xtext grammar rule
-   * @return A string containing the proposals for abstract content assist
-   */
-  def String keywordRuleProposals(AbstractRule rule) {
-    val semPredicate = SemanticPredicate.findInEmfObject(rule)
-    if (semPredicate?.keywords !== null) {
-      val StringBuilder predicate = new StringBuilder();
-      var passedFirst = false;
-      for (String kw : semPredicate.keywords) {
-        if (passedFirst) {
-          predicate.append("    ");
-        }
-        predicate.append("propose(");
-        predicate.append('"');
-        predicate.append(kw);
-        predicate.append('"');
-        predicate.append(", ");
-        predicate.append('"');
-        predicate.append(kw);
-        predicate.append('"');
-        predicate.append(", getImage(model), context, acceptor);");
-        predicate.append('\n');
-        passedFirst = true;
-      }
-      if (passedFirst) {
-        return predicate.toString();
-      }
-    }
-    return "";
-  }
-
   /**
    * Translate annotations in comments into predicate annotations.
    *
@@ -292,29 +270,38 @@ class GrammarRuleAnnotations {
    * This will have no negative impact. We still need validating predicates in Keyword rules themselves.
    * </p>
    */
-  def void annotateRule(AbstractRule object) {
-    val original = RuleWithParameterValues.findInEmfObject(object).getOriginal();
-    attachRulePredicates(original, object)
-  }
-
-
-
-  /**
-   * Checks comments of the original grammar rule and, if present, turns them into
-   * adapters on the derived rule.
-   */
-  def void attachRulePredicates(AbstractRule rule, AbstractRule derivedRule) {
+  def SemanticPredicate annotateRule(AbstractRule rule) {
     val text = getText(rule);
+    var SemanticPredicate predicate = null;
     if (text !== null) {
-      val keywordPredicate = getKeywordRulePredicate(text, rule.getName())
-      keywordPredicate?.attachToEmfObject(derivedRule)
+      predicate = getKeywordRulePredicate(text, rule.getName())
+      if(predicate !== null){
+        predicate.attachToEmfObject(rule)
+      }
       val semanticPredicate = getSemanticPredicate(text)
-      semanticPredicate?.attachToEmfObject(derivedRule)
+      if(semanticPredicate !== null){
+        if(predicate !== null)
+          throw new IllegalArgumentException("You may not combine keyword annotations with semantic predicate annotations on one rule: " + rule.name)
+        semanticPredicate.attachToEmfObject(rule)
+        predicate = semanticPredicate
+      }
       val noBacktrack = getNoBacktrack(text)
-      noBacktrack?.attachToEmfObject(derivedRule)
+      noBacktrack?.attachToEmfObject(rule)
     }
+    return predicate
   }
 
+  def SemanticPredicate getSemanticPredicateAnnotation(AbstractRule rule){
+      var original = RuleWithParameterValues.findInEmfObject(rule)?.getOriginal();
+      if(original === null) original = rule;
+      return SemanticPredicate.findInEmfObject(original)
+  }
+
+  def NoBacktrack getNoBacktrackAnnotation(AbstractRule rule){
+      var original = RuleWithParameterValues.findInEmfObject(rule).getOriginal();
+      if(original === null) original = rule;
+      return NoBacktrack.findInEmfObject(original)
+  }
   /**
    * Checks if the given rule contains {@code @KeywordRule(kw1,kw2)} annotation.
    */
