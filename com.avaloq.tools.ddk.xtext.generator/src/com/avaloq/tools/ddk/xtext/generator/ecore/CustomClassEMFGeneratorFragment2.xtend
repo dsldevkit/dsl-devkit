@@ -20,18 +20,14 @@ import java.util.List
 import java.util.Set
 import org.apache.log4j.Logger
 import org.eclipse.emf.codegen.ecore.generator.Generator
-import org.eclipse.emf.codegen.ecore.genmodel.GenBase
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapter
 import org.eclipse.emf.codegen.merge.java.JControlModel
-import org.eclipse.emf.codegen.util.ImportManager
 import org.eclipse.emf.common.util.BasicMonitor
 import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.common.util.Monitor
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.common.util.WrappedException
 import org.eclipse.emf.ecore.resource.Resource
@@ -40,17 +36,12 @@ import org.eclipse.emf.ecore.resource.URIConverter
 import org.eclipse.emf.mwe.core.ConfigurationException
 import org.eclipse.emf.mwe.utils.GenModelHelper
 import org.eclipse.emf.mwe.utils.StandaloneSetup
-import org.eclipse.emf.mwe2.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor
-import org.eclipse.emf.mwe2.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor.IdFilteringGenModelGeneratorAdapterFactory
-import org.eclipse.emf.mwe2.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor.IdFilteringGenModelGeneratorAdapterFactory.IdFilteringGenClassAdapter
-import org.eclipse.emf.mwe2.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor.IdFilteringGenModelGeneratorAdapterFactory.IdFilteringGenEnumAdapter
-import org.eclipse.emf.mwe2.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor.IdFilteringGenModelGeneratorAdapterFactory.IdFilteringGenPackageAdapter
 import org.eclipse.xtext.generator.GenModelAccess
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.xtext.xtext.generator.ecore.EMFGeneratorFragment2
 
 /**
- * This fragment is our previous alternative to the default {@link EcoreGeneratorFragment} migrated to Fragment2. In addition it also supports the generation gap pattern with FooImplCustom
+ * This fragment is our previous alternative to the default {@link org.eclipse.xtext.generator.ecore.EcoreGeneratorFragment} migrated to Fragment2. In addition it also supports the generation gap pattern with FooImplCustom
  * classes in the {@link #getJavaModelSrcDirectory() source directory}.
  * <p>
  * This class will also register any referenced / generated GenModels in the global URI map, where other fragments can find them (see GeneratorUtil and
@@ -60,7 +51,7 @@ import org.eclipse.xtext.xtext.generator.ecore.EMFGeneratorFragment2
  * same basic idea. This component can however only be used for hand maintained Ecore models, whereas this fragment works equally well with Xtext generated
  * Ecore models (and GenModels).
  * <p>
- * Some of the code here has been copied from org.eclipse.xtext.generator.ecore.EcoreGeneratorFragment which is now deprecated - any methods that were marked deprecated
+ * To enable the migration to Format2, some of the code here has been copied from org.eclipse.xtext.generator.ecore.EcoreGeneratorFragment which is now deprecated - any methods that were marked deprecated
  * in have been left deprecated here, and we should move to using the suggested replacements in some future cleanup.
  */
 @SuppressWarnings("deprecation")
@@ -213,120 +204,6 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
   }
 
   /**
-   * Custom EMF GenModel generator adapter using the {@link TypeMapper} to make EMF properly generate import statements for the custom classes.
-   */
-  protected static class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDescriptor {
-
-    /**
-     * Custom EMF GenModel generator adapter factory using the {@link TypeMapper} to make EMF properly generate import statements for the custom classes.
-     */
-    private final static class CustomImplAwareGeneratorAdapterFactory extends IdFilteringGenModelGeneratorAdapterFactory {
-      val GeneratorAdapterDescriptor descriptor
-      new (GeneratorAdapterDescriptor descriptor) {
-        this.descriptor = descriptor
-      }
-      override createGenClassAdapter() {
-        return new IdFilteringGenClassAdapter(this) {
-          override createImportManager(String packageName, String className) {
-            importManager = new ImportManagerHack(descriptor.fragment, packageName, descriptor.typeMapper);
-            importManager.addMasterImport(packageName, className);
-            if (generatingObject !== null) {
-              (generatingObject as GenBase).getGenModel().setImportManager(importManager);
-            }
-          }
-        };
-      }
-
-      override createGenEnumAdapter() {
-        return new IdFilteringGenEnumAdapter(this) {
-          override createImportManager(String packageName, String className) {
-            importManager = new ImportManagerHack(descriptor.fragment, packageName, descriptor.typeMapper);
-            importManager.addMasterImport(packageName, className);
-            if (generatingObject !== null) {
-              (generatingObject as GenBase).getGenModel().setImportManager(importManager);
-            }
-          }
-        };
-      }
-
-      override createGenModelAdapter() {
-        if (genModelGeneratorAdapter === null) {
-          genModelGeneratorAdapter = new GenModelGeneratorAdapter(this) {
-            override createImportManager(String packageName, String className) {
-              importManager = new ImportManagerHack(descriptor.fragment, packageName, descriptor.typeMapper);
-              importManager.addMasterImport(packageName, className);
-              if (generatingObject !== null) {
-                (generatingObject as GenBase).getGenModel().setImportManager(importManager);
-              }
-            }
-
-            /**
-             * We handle this one on our own, see
-             * {@link org.eclipse.xtext.generator.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor.IdFilteringGenModelGeneratorAdapterFactory# createGenModelAdapter()}
-             * . Note that the original source comment vanishes in de-compiled Java code.
-             */
-            override generateModelPluginProperties(GenModel genModel, Monitor monitor) {
-              // Do nothing.
-            }
-          };
-        }
-        return genModelGeneratorAdapter;
-      }
-
-      override createGenPackageAdapter() {
-        return new IdFilteringGenPackageAdapter(this) {
-          override createImportManager(String packageName, String className) {
-            importManager = new ImportManagerHack(descriptor.fragment, packageName, descriptor.typeMapper);
-            importManager.addMasterImport(packageName, className);
-            if (generatingObject !== null) {
-              (generatingObject as GenBase).getGenModel().setImportManager(importManager);
-            }
-          }
-        };
-      }
-    }
-
-    val CustomClassEMFGeneratorFragment2 fragment
-    var Function<String, String> typeMapper;
-
-    new (CustomClassEMFGeneratorFragment2 fragment, Function<String, String> typeMapper) {
-      this.fragment = fragment
-      this.typeMapper = typeMapper;
-    }
-
-    override createAdapterFactory() {
-      return new CustomImplAwareGeneratorAdapterFactory(this);
-    }
-  }
-
-  /**
-   * Hacked EMF ImportManager which returns the name of the custom classes as returned by the {@link TypeMapper}.
-   */
-  protected static class ImportManagerHack extends ImportManager {
-
-    val CustomClassEMFGeneratorFragment2 fragment
-    val Function<String, String> typeMapper;
-
-    new(CustomClassEMFGeneratorFragment2 fragment, String compilationUnitPackage, Function<String, String> typeMapper) {
-      super(compilationUnitPackage)
-      this.fragment = fragment
-      this.typeMapper = typeMapper
-    }
-
-    override getImportedName(String qualifiedName, boolean autoImport) {
-      val String mapped = typeMapper.apply(qualifiedName);
-      if (mapped !== null) {
-        if (fragment.loggedTypeMappings.add(qualifiedName)) {
-          LOGGER.debug("mapping " + qualifiedName + " to " + mapped); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        return super.getImportedName(mapped, autoImport);
-      } else {
-        return super.getImportedName(qualifiedName, autoImport);
-      }
-    }
-  }
-
-  /**
    * A list of Java source folders containing potential *ImplCustom classes. This needs to be a list as extended types may generate into source folders of other
    * plug-ins.
    *
@@ -391,7 +268,7 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
 
     genModel.setNonNLSMarkers(generateNonNLSMarkers);
 
-    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(this, getTypeMapper()));
+    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(loggedTypeMappings, getTypeMapper(), LOGGER));
     generator.setInput(genModel);
 
     val Diagnostic diagnostic = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
