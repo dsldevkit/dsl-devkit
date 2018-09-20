@@ -29,7 +29,7 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
   @Inject extension XtextGeneratorNaming
 
   /** Class-wide logger. */
-  val Logger LOGGER = Logger.getLogger(LanguageConstantsFragment2);
+  val static Logger LOGGER = Logger.getLogger(LanguageConstantsFragment2);
 
   /** Variables / Fragment Parameters. */
   var String preferredFileExtension

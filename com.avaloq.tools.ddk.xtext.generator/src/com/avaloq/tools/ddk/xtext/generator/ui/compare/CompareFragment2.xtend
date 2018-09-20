@@ -28,7 +28,7 @@ class CompareFragment2 extends ResourceFactoryFragment2 {
   @Inject
   extension XtextGeneratorNaming
 
-  val Logger LOGGER = Logger.getLogger(CompareFragment2);
+  val static Logger LOGGER = Logger.getLogger(CompareFragment2);
 
   var String viewCreator;
   var String bundleName;
