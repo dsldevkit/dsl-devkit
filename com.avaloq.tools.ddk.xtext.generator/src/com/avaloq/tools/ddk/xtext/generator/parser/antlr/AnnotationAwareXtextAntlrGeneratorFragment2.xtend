@@ -37,6 +37,7 @@ import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
+  @Inject AnnotationAwareAntlrGrammarGenerator productionGenerator
   @Inject GrammarNaming productionNaming
   @Inject FileAccessFactory fileFactory
 
@@ -52,7 +53,21 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   protected override doGenerate() {
       super.doGenerate()
       generateAbstractSemanticPredicate().writeTo(projectConfig.runtime.srcGen)
+  }
 
+  protected override generateProductionGrammar() {
+    val extension naming = productionNaming
+    val fsa = projectConfig.runtime.srcGen
+
+    productionGenerator.generate(grammar, options, fsa)
+
+    runAntlr(grammar.parserGrammar, grammar.lexerGrammar, fsa)
+
+    simplifyUnorderedGroupPredicatesIfRequired(grammar, fsa, grammar.internalParserClass)
+    splitParserAndLexerIfEnabled(fsa, grammar.internalParserClass, grammar.lexerClass)
+    normalizeTokens(fsa, grammar.lexerGrammar.tokensFileName)
+    suppressWarnings(fsa, grammar.internalParserClass, grammar.lexerClass)
+    normalizeLineDelimiters(fsa, grammar.internalParserClass, grammar.lexerClass)
   }
 
   def JavaFileAccess generateAbstractSemanticPredicate() {

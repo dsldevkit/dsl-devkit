@@ -82,10 +82,10 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:361:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // InternalHelloWorld.g:361:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalHelloWorld.g:385:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalHelloWorld.g:385:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // InternalHelloWorld.g:361:11: ( '^' )?
+            // InternalHelloWorld.g:385:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -94,7 +94,7 @@ public class InternalHelloWorldLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // InternalHelloWorld.g:361:11: '^'
+                    // InternalHelloWorld.g:385:11: '^'
                     {
                     match('^'); 
 
@@ -112,7 +112,7 @@ public class InternalHelloWorldLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalHelloWorld.g:361:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalHelloWorld.g:385:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -161,10 +161,10 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:363:10: ( ( '0' .. '9' )+ )
-            // InternalHelloWorld.g:363:12: ( '0' .. '9' )+
+            // InternalHelloWorld.g:387:10: ( ( '0' .. '9' )+ )
+            // InternalHelloWorld.g:387:12: ( '0' .. '9' )+
             {
-            // InternalHelloWorld.g:363:12: ( '0' .. '9' )+
+            // InternalHelloWorld.g:387:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -178,7 +178,7 @@ public class InternalHelloWorldLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // InternalHelloWorld.g:363:13: '0' .. '9'
+            	    // InternalHelloWorld.g:387:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -210,10 +210,10 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:365:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // InternalHelloWorld.g:365:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalHelloWorld.g:389:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalHelloWorld.g:389:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // InternalHelloWorld.g:365:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalHelloWorld.g:389:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -231,10 +231,10 @@ public class InternalHelloWorldLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // InternalHelloWorld.g:365:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalHelloWorld.g:389:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // InternalHelloWorld.g:365:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalHelloWorld.g:389:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -250,7 +250,7 @@ public class InternalHelloWorldLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // InternalHelloWorld.g:365:21: '\\\\' .
+                    	    // InternalHelloWorld.g:389:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -258,7 +258,7 @@ public class InternalHelloWorldLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalHelloWorld.g:365:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalHelloWorld.g:389:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -283,10 +283,10 @@ public class InternalHelloWorldLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalHelloWorld.g:365:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalHelloWorld.g:389:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // InternalHelloWorld.g:365:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalHelloWorld.g:389:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -302,7 +302,7 @@ public class InternalHelloWorldLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // InternalHelloWorld.g:365:54: '\\\\' .
+                    	    // InternalHelloWorld.g:389:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -310,7 +310,7 @@ public class InternalHelloWorldLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalHelloWorld.g:365:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalHelloWorld.g:389:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -353,12 +353,12 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:367:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalHelloWorld.g:367:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalHelloWorld.g:391:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalHelloWorld.g:391:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalHelloWorld.g:367:24: ( options {greedy=false; } : . )*
+            // InternalHelloWorld.g:391:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -383,7 +383,7 @@ public class InternalHelloWorldLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // InternalHelloWorld.g:367:52: .
+            	    // InternalHelloWorld.g:391:52: .
             	    {
             	    matchAny(); 
 
@@ -413,12 +413,12 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:369:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalHelloWorld.g:369:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalHelloWorld.g:393:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalHelloWorld.g:393:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalHelloWorld.g:369:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalHelloWorld.g:393:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -431,7 +431,7 @@ public class InternalHelloWorldLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // InternalHelloWorld.g:369:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalHelloWorld.g:393:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -451,7 +451,7 @@ public class InternalHelloWorldLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalHelloWorld.g:369:40: ( ( '\\r' )? '\\n' )?
+            // InternalHelloWorld.g:393:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -460,9 +460,9 @@ public class InternalHelloWorldLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // InternalHelloWorld.g:369:41: ( '\\r' )? '\\n'
+                    // InternalHelloWorld.g:393:41: ( '\\r' )? '\\n'
                     {
-                    // InternalHelloWorld.g:369:41: ( '\\r' )?
+                    // InternalHelloWorld.g:393:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -471,7 +471,7 @@ public class InternalHelloWorldLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // InternalHelloWorld.g:369:41: '\\r'
+                            // InternalHelloWorld.g:393:41: '\\r'
                             {
                             match('\r'); 
 
@@ -503,10 +503,10 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:371:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalHelloWorld.g:371:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalHelloWorld.g:395:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalHelloWorld.g:395:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalHelloWorld.g:371:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalHelloWorld.g:395:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -560,8 +560,8 @@ public class InternalHelloWorldLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalHelloWorld.g:373:16: ( . )
-            // InternalHelloWorld.g:373:18: .
+            // InternalHelloWorld.g:397:16: ( . )
+            // InternalHelloWorld.g:397:18: .
             {
             matchAny(); 
 
