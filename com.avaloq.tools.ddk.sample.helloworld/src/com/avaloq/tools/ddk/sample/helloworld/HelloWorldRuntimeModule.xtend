@@ -6,20 +6,25 @@ package com.avaloq.tools.ddk.sample.helloworld
 import org.eclipse.xtext.service.SingletonBinding
 import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator
 import com.avaloq.tools.ddk.sample.helloworld.validation.HelloWorldCheckValidator
+import com.avaloq.tools.ddk.xtext.parser.ISemanticPredicates
+import com.avaloq.tools.ddk.sample.helloworld.grammar.AbstractHelloWorldSemanticPredicates
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 class HelloWorldRuntimeModule extends AbstractHelloWorldRuntimeModule {
 
-	/**
-	 * Allows Check clients to register validators for this language.
-	 *
-	 * @return the default check validator
-	 */
-	@SingletonBinding(eager=true)
-	def Class<? extends AbstractCheckValidator> bindAbstractCheckValidator() {
-		HelloWorldCheckValidator
-	}
+  /**
+   * Allows Check clients to register validators for this language.
+   *
+   * @return the default check validator
+   */
+  @SingletonBinding(eager=true)
+  def Class<? extends AbstractCheckValidator> bindAbstractCheckValidator() {
+    HelloWorldCheckValidator
+  }
 
+  def Class<?extends ISemanticPredicates> bindISemanticPredicates(){
+    AbstractHelloWorldSemanticPredicates
+  }
 }
