@@ -14,18 +14,18 @@ package com.avaloq.tools.ddk.xtext.generator.parser.common
 import com.google.inject.Inject
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.GrammarUtil
-import org.eclipse.xtext.generator.Naming
+import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
 
 class PredicatesNaming {
 
-  @Inject extension Naming naming
+  @Inject extension XtextGeneratorNaming naming
 
   def String getSemanticPredicatesFullName(Grammar grammar) {
-    return naming.basePackageRuntime(grammar) + ".grammar.Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates";
+    return naming.getRuntimeBasePackage(grammar) + ".grammar." + getSemanticPredicatesSimpleName(grammar);
   }
 
   def String getSemanticPredicatesSimpleName(Grammar grammar) {
-    return getSemanticPredicatesFullName(grammar).toSimpleName;
+    return "Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates";
   }
 
 }

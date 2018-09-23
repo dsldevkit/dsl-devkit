@@ -5,7 +5,7 @@ generate helloWorld "http://www.avaloq.com/tools/ddk/sample/helloworld/HelloWorl
 Model:
   greetings+=Greeting*
 
-  keywordsExample = KeywordsExample
+  ( keywordsExample = KeywordsExample )?
 ;
 
 Greeting:

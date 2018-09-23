@@ -83,7 +83,7 @@ public class HelloWorldSemanticSequencer extends AbstractDelegatingSemanticSeque
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     (greetings+=Greeting* keywordsExample=KeywordsExample)
+	 *     ((greetings+=Greeting+ keywordsExample=KeywordsExample) | keywordsExample=KeywordsExample)?
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

@@ -664,11 +664,11 @@ public class InternalHelloWorldParser extends AbstractInternalContentAssistParse
             if ( (LA1_0==RULE_ID) ) {
                 int LA1_1 = input.LA(2);
 
-                if ( (LA1_1==EOF) ) {
-                    alt1=1;
-                }
-                else if ( (LA1_1==RULE_ID) ) {
+                if ( (LA1_1==RULE_ID) ) {
                     alt1=2;
+                }
+                else if ( (LA1_1==EOF) ) {
+                    alt1=1;
                 }
                 else {
                     NoViableAltException nvae =
@@ -888,27 +888,38 @@ public class InternalHelloWorldParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Model__Group__1__Impl"
-    // InternalHelloWorld.g:311:1: rule__Model__Group__1__Impl : ( ( rule__Model__KeywordsExampleAssignment_1 ) ) ;
+    // InternalHelloWorld.g:311:1: rule__Model__Group__1__Impl : ( ( rule__Model__KeywordsExampleAssignment_1 )? ) ;
     public final void rule__Model__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalHelloWorld.g:315:1: ( ( ( rule__Model__KeywordsExampleAssignment_1 ) ) )
-            // InternalHelloWorld.g:316:1: ( ( rule__Model__KeywordsExampleAssignment_1 ) )
+            // InternalHelloWorld.g:315:1: ( ( ( rule__Model__KeywordsExampleAssignment_1 )? ) )
+            // InternalHelloWorld.g:316:1: ( ( rule__Model__KeywordsExampleAssignment_1 )? )
             {
-            // InternalHelloWorld.g:316:1: ( ( rule__Model__KeywordsExampleAssignment_1 ) )
-            // InternalHelloWorld.g:317:2: ( rule__Model__KeywordsExampleAssignment_1 )
+            // InternalHelloWorld.g:316:1: ( ( rule__Model__KeywordsExampleAssignment_1 )? )
+            // InternalHelloWorld.g:317:2: ( rule__Model__KeywordsExampleAssignment_1 )?
             {
              before(grammarAccess.getModelAccess().getKeywordsExampleAssignment_1()); 
-            // InternalHelloWorld.g:318:2: ( rule__Model__KeywordsExampleAssignment_1 )
-            // InternalHelloWorld.g:318:3: rule__Model__KeywordsExampleAssignment_1
-            {
-            pushFollow(FOLLOW_2);
-            rule__Model__KeywordsExampleAssignment_1();
+            // InternalHelloWorld.g:318:2: ( rule__Model__KeywordsExampleAssignment_1 )?
+            int alt3=2;
+            int LA3_0 = input.LA(1);
 
-            state._fsp--;
+            if ( (LA3_0==RULE_ID) ) {
+                alt3=1;
+            }
+            switch (alt3) {
+                case 1 :
+                    // InternalHelloWorld.g:318:3: rule__Model__KeywordsExampleAssignment_1
+                    {
+                    pushFollow(FOLLOW_2);
+                    rule__Model__KeywordsExampleAssignment_1();
 
+                    state._fsp--;
+
+
+                    }
+                    break;
 
             }
 

@@ -129,7 +129,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModel"
-    // InternalHelloWorld.g:90:1: ruleModel returns [EObject current=null] : ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) ) ) ;
+    // InternalHelloWorld.g:90:1: ruleModel returns [EObject current=null] : ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )? ) ;
     public final EObject ruleModel() throws RecognitionException {
         EObject current = null;
 
@@ -142,11 +142,11 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
           enterRule();
 
         try {
-            // InternalHelloWorld.g:96:2: ( ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) ) ) )
-            // InternalHelloWorld.g:97:3: ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) ) )
+            // InternalHelloWorld.g:96:2: ( ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )? ) )
+            // InternalHelloWorld.g:97:3: ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )? )
             {
-            // InternalHelloWorld.g:97:3: ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) ) )
-            // InternalHelloWorld.g:98:5: ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )
+            // InternalHelloWorld.g:97:3: ( ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )? )
+            // InternalHelloWorld.g:98:5: ( (lv_greetings_0_0= ruleGreeting ) )* ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )?
             {
             // InternalHelloWorld.g:98:5: ( (lv_greetings_0_0= ruleGreeting ) )*
             loop1:
@@ -197,34 +197,45 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // InternalHelloWorld.g:117:5: ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )
-            // InternalHelloWorld.g:118:7: (lv_keywordsExample_1_0= ruleKeywordsExample )
-            {
-            // InternalHelloWorld.g:118:7: (lv_keywordsExample_1_0= ruleKeywordsExample )
-            // InternalHelloWorld.g:119:8: lv_keywordsExample_1_0= ruleKeywordsExample
-            {
+            // InternalHelloWorld.g:117:5: ( (lv_keywordsExample_1_0= ruleKeywordsExample ) )?
+            int alt2=2;
+            int LA2_0 = input.LA(1);
 
-                  	  newCompositeNode(grammarAccess.getModelAccess().getKeywordsExampleKeywordsExampleParserRuleCall_1_0());
-                  	
-            pushFollow(FOLLOW_2);
-            lv_keywordsExample_1_0=ruleKeywordsExample();
-
-            state._fsp--;
-
-
-                  	  if (current==null) {
-                  	    current = createModelElementForParent(grammarAccess.getModelRule());
-                  	  }
-                  	  set(
-                  	    current,
-                  	    "keywordsExample",
-                  	    lv_keywordsExample_1_0,
-                  	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeywordsExample");
-                  	  afterParserOrEnumRuleCall();
-                  	
-
+            if ( (LA2_0==RULE_ID) ) {
+                alt2=1;
             }
+            switch (alt2) {
+                case 1 :
+                    // InternalHelloWorld.g:118:7: (lv_keywordsExample_1_0= ruleKeywordsExample )
+                    {
+                    // InternalHelloWorld.g:118:7: (lv_keywordsExample_1_0= ruleKeywordsExample )
+                    // InternalHelloWorld.g:119:8: lv_keywordsExample_1_0= ruleKeywordsExample
+                    {
 
+                          	  newCompositeNode(grammarAccess.getModelAccess().getKeywordsExampleKeywordsExampleParserRuleCall_1_0());
+                          	
+                    pushFollow(FOLLOW_2);
+                    lv_keywordsExample_1_0=ruleKeywordsExample();
+
+                    state._fsp--;
+
+
+                          	  if (current==null) {
+                          	    current = createModelElementForParent(grammarAccess.getModelRule());
+                          	  }
+                          	  set(
+                          	    current,
+                          	    "keywordsExample",
+                          	    lv_keywordsExample_1_0,
+                          	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeywordsExample");
+                          	  afterParserOrEnumRuleCall();
+                          	
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
@@ -415,32 +426,32 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
             // InternalHelloWorld.g:199:3: ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) )
             {
             // InternalHelloWorld.g:199:3: ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) )
-            int alt2=2;
-            int LA2_0 = input.LA(1);
+            int alt3=2;
+            int LA3_0 = input.LA(1);
 
-            if ( (LA2_0==RULE_ID) && (((predicates.isKeyTwoEnabled(parserContext))||(predicates.isKeyOneEnabled(parserContext))))) {
-                int LA2_1 = input.LA(2);
+            if ( (LA3_0==RULE_ID) && (((predicates.isKeyTwoEnabled(parserContext))||(predicates.isKeyOneEnabled(parserContext))))) {
+                int LA3_1 = input.LA(2);
 
-                if ( (LA2_1==EOF) && ((predicates.isKeyOneEnabled(parserContext)))) {
-                    alt2=1;
+                if ( (LA3_1==EOF) && ((predicates.isKeyOneEnabled(parserContext)))) {
+                    alt3=1;
                 }
-                else if ( (LA2_1==RULE_ID) && ((predicates.isKeyTwoEnabled(parserContext)))) {
-                    alt2=2;
+                else if ( (LA3_1==RULE_ID) && ((predicates.isKeyTwoEnabled(parserContext)))) {
+                    alt3=2;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 2, 1, input);
+                        new NoViableAltException("", 3, 1, input);
 
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 2, 0, input);
+                    new NoViableAltException("", 3, 0, input);
 
                 throw nvae;
             }
-            switch (alt2) {
+            switch (alt3) {
                 case 1 :
                     // InternalHelloWorld.g:200:5: ( ({...}? =>lv_option_0_0= ruleOptionOne ) )
                     {
@@ -976,7 +987,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
     public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000810L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000812L});
     public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000001000L});
 

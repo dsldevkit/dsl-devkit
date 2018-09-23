@@ -32,10 +32,10 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//Model:
 		//	greetings+=Greeting*
-		//	keywordsExample=KeywordsExample;
+		//	keywordsExample=KeywordsExample?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//greetings+=Greeting* keywordsExample=KeywordsExample
+		//greetings+=Greeting* keywordsExample=KeywordsExample?
 		public Group getGroup() { return cGroup; }
 		
 		//greetings+=Greeting*
@@ -44,7 +44,7 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 		//Greeting
 		public RuleCall getGreetingsGreetingParserRuleCall_0_0() { return cGreetingsGreetingParserRuleCall_0_0; }
 		
-		//keywordsExample=KeywordsExample
+		//keywordsExample=KeywordsExample?
 		public Assignment getKeywordsExampleAssignment_1() { return cKeywordsExampleAssignment_1; }
 		
 		//KeywordsExample
@@ -238,7 +238,7 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//Model:
 	//	greetings+=Greeting*
-	//	keywordsExample=KeywordsExample;
+	//	keywordsExample=KeywordsExample?;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}

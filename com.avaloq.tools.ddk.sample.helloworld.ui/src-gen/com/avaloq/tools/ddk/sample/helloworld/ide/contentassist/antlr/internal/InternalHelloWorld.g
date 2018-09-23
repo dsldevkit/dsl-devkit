@@ -315,7 +315,7 @@ rule__Model__Group__1__Impl
 :
 (
 	{ before(grammarAccess.getModelAccess().getKeywordsExampleAssignment_1()); }
-	(rule__Model__KeywordsExampleAssignment_1)
+	(rule__Model__KeywordsExampleAssignment_1)?
 	{ after(grammarAccess.getModelAccess().getKeywordsExampleAssignment_1()); }
 )
 ;
