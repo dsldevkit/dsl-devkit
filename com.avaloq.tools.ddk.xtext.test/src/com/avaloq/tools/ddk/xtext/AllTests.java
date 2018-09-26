@@ -23,6 +23,7 @@ import com.avaloq.tools.ddk.check.test.runtime.tests.CheckLibraryChecksTestSuite
 import com.avaloq.tools.ddk.check.ui.test.CheckUiTestSuite;
 import com.avaloq.tools.ddk.checkcfg.test.CheckCfgTestSuite;
 import com.avaloq.tools.ddk.checkcfg.ui.test.CheckCfgUiTestSuite;
+import com.avaloq.tools.ddk.sample.helloworld.test.HelloWorldSampleTestSuite;
 import com.avaloq.tools.ddk.typesystem.test.TypeSystemTestSuite;
 import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
 import com.avaloq.tools.ddk.xtext.test.TargetDefinitionSetup;
@@ -47,6 +48,7 @@ import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
   ValidTestSuite.class,
   FormatTestSuite.class,
   ExportTestSuite.class,
+  HelloWorldSampleTestSuite.class,
   CheckRuntimeTestSuite.class,
   CheckCoreTestSuite.class,
   CheckExecutionEnvironmentTestSuite.class,

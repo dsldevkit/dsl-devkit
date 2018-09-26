@@ -38,7 +38,7 @@ class CheckTestUtil {
     val result = Lists::<T>newArrayList
     for (candidate : EcoreUtil2::getAllContentsOfType(context, type)) {
       var valueOfFeature = candidate.eGet(feature);
-      if (valueOfFeature != null && valueOfFeature.equals(value)) {
+      if (valueOfFeature !== null && valueOfFeature.equals(value)) {
         result.add(candidate);
       }
     }
@@ -58,7 +58,7 @@ class CheckTestUtil {
   def <T extends EObject> T getInstanceOf(EObject context, Class<T> type, EStructuralFeature feature, Object value, int instance) {
     var skip = instance - 1;
     for (candiadate : EcoreUtil2::getAllContentsOfType(context, type)) {
-      if ((feature == null && value == null) || candiadate.eGet(feature).equals(value)) {
+      if ((feature === null && value === null) || candiadate.eGet(feature).equals(value)) {
         if (skip == 0) {
           return candiadate;
         } else {

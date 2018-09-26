@@ -11,8 +11,8 @@
 package com.avaloq.tools.ddk.check.validation;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.XtextRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

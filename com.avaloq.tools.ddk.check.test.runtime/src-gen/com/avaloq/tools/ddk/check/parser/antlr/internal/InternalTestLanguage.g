@@ -90,7 +90,7 @@ ruleModel returns [EObject current=null]
        			$current, 
        			"greetings",
         		lv_greetings_0_0, 
-        		"Greeting");
+        		"com.avaloq.tools.ddk.check.TestLanguage.Greeting");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -134,7 +134,7 @@ ruleGreeting returns [EObject current=null]
        			$current, 
        			"name",
         		lv_name_1_0, 
-        		"ID");
+        		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )

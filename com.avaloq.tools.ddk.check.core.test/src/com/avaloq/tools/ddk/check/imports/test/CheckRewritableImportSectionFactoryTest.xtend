@@ -17,9 +17,8 @@ import com.google.inject.Inject
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.resource.XtextResource
-import org.eclipse.xtext.xbase.imports.RewritableImportSection
+import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -57,7 +56,6 @@ class CheckRewritableImportSectionFactoryTest extends AbstractCheckTestCase {
 
     // ASSERT
     assertNotNull("parse() should return an object", rewritableImportSection)
-    assertTrue("parse() should return a RewritableImportSection", rewritableImportSection instanceof RewritableImportSection)
     assertTrue("parse() should return a RewritableImportSection with sort=true", rewritableImportSection.sort)
   }
 

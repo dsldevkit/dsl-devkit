@@ -50,7 +50,7 @@ public class LanguageConstantsFragment extends AbstractGeneratorFragment {
   @Override
   public void generate(final Grammar grammar, final XpandExecutionContext ctx) {
     if (LOGGER.isInfoEnabled()) {
-      LOGGER.info(NLS.bind("executing generate for {0}", getClass().getName()));
+      LOGGER.info(NLS.bind("executing generate for {0}", getClass().getName())); //$NON-NLS-1$
     }
     addMetamodelSrcGenOutlet(grammar, ctx);
     super.generate(grammar, ctx);
@@ -68,7 +68,7 @@ public class LanguageConstantsFragment extends AbstractGeneratorFragment {
    * @return the qualified name
    */
   public static String getQualifiedName(final Grammar grammar, final String prefix, final Naming naming) {
-    return naming.basePackageRuntime(grammar) + "." + prefix + GrammarUtil.getName(grammar) + "Constants"; //$NON-NLS-1$
+    return naming.basePackageRuntime(grammar) + "." + prefix + GrammarUtil.getSimpleName(grammar) + "Constants"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   @Override
@@ -84,11 +84,11 @@ public class LanguageConstantsFragment extends AbstractGeneratorFragment {
    */
 
   public void setFileExtensions(final String fileExtensions) {
-    if ("".equals(fileExtensions.trim())) {
+    if ("".equals(fileExtensions.trim())) { //$NON-NLS-1$
       return;
     }
     this.fileExtensions = new ArrayList<String>();
-    String[] split = fileExtensions.split("\\s*,\\s*");
+    String[] split = fileExtensions.split("\\s*,\\s*"); //$NON-NLS-1$
     for (String string : split) {
       this.fileExtensions.add(string);
     }
@@ -135,7 +135,7 @@ public class LanguageConstantsFragment extends AbstractGeneratorFragment {
     } else if (!getFileExtensions(grammar).isEmpty()) {
       return getFileExtensions(grammar).get(0);
     } else {
-      return GrammarUtil.getName(grammar).toLowerCase();
+      return GrammarUtil.getSimpleName(grammar).toLowerCase();
     }
   }
 

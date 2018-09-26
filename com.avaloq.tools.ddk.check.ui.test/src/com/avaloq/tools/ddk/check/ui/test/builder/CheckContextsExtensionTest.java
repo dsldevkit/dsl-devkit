@@ -10,8 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.builder;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
@@ -20,9 +18,9 @@ import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModel;
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
-import org.eclipse.xtext.junit4.util.ParseHelper;
+import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.util.ParseHelper;
+import org.eclipse.xtext.testing.InjectWith;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +32,8 @@ import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProv
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -66,7 +66,7 @@ public class CheckContextsExtensionTest extends TestCase {
 
   /**
    * Tests if the contexts extension is correctly created.
-   * 
+   *
    * @throws CoreException
    *           core exception
    */
@@ -82,7 +82,7 @@ public class CheckContextsExtensionTest extends TestCase {
 
   /**
    * Test if isExtensionUpdateRequired is true, if the file path attribute is not as expected.
-   * 
+   *
    * @throws CoreException
    *           the core exception
    */
@@ -95,7 +95,7 @@ public class CheckContextsExtensionTest extends TestCase {
 
   /**
    * Test if isExtensionUpdateRequired returns false if a correct extension already exists.
-   * 
+   *
    * @throws CoreException
    *           the core exception
    */
@@ -108,7 +108,7 @@ public class CheckContextsExtensionTest extends TestCase {
 
   /**
    * Creates the extension with wrong file path.
-   * 
+   *
    * @return the i plugin extension
    * @throws CoreException
    *           the core exception
@@ -125,4 +125,3 @@ public class CheckContextsExtensionTest extends TestCase {
     return extension;
   }
 }
-

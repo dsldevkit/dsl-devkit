@@ -39,7 +39,7 @@ class CodeGenerationX {
   //////////////////////////////////////////////////
   def boolean isCompilable(Expression it, CompilationContext ctx) {
     val expr = javaExpression(ctx)
-    expr != null && !expr.contains('/* NOT COMPILABLE: ')
+    expr !== null && !expr.contains('/* NOT COMPILABLE: ')
   }
 
   def dispatch String javaExpression(Void it, CompilationContext ctx) {
@@ -95,7 +95,7 @@ class CodeGenerationX {
   }
 
   def boolean isType(FeatureCall it, CompilationContext ctx) {
-    name == null && type != null && ctx.isType(type.javaExpression(ctx))
+    name === null && type !== null && ctx.isType(type.javaExpression(ctx))
   }
 
   def boolean isVariable(Expression it, CompilationContext ctx) {
@@ -103,11 +103,11 @@ class CodeGenerationX {
   }
 
   def boolean isVariable(FeatureCall it, CompilationContext ctx) {
-      target == null && name == null && ctx.isVariable(type.javaExpression(ctx))
+      target === null && name === null && ctx.isVariable(type.javaExpression(ctx))
   }
 
   def String featureCallTarget(FeatureCall it, CompilationContext ctx) {
-    if (target == null || target.isThisCall())
+    if (target === null || target.isThisCall())
       ctx.implicitVariable
     else
       target.javaExpression(ctx)
@@ -128,7 +128,7 @@ class CodeGenerationX {
     if ('select' == name) {
       'com.google.common.collect.Iterables.filter(' + target.javaExpression(ctx) +
           ', new com.google.common.base.Predicate<Object>() { public boolean apply(Object ' +
-          (if (^var != null) ^var else 'e') + ') {return ' +
+          (if (^var !== null) ^var else 'e') + ') {return ' +
           exp.javaExpression(ctx) + ';} })'
     } else {
       notCompilable()
@@ -187,7 +187,7 @@ class CodeGenerationX {
   }
 
   def boolean isSimpleFeatureCall(FeatureCall it, CompilationContext ctx) {
-    eClass.name.contains('FeatureCall') && name == null && type.isFeature() && (target == null || target.isVariable(ctx) || target.isThisCall())
+    eClass.name.contains('FeatureCall') && name === null && type.isFeature() && (target === null || target.isVariable(ctx) || target.isThisCall())
   }
 
   def dispatch boolean isSimpleNavigation(Expression it, CompilationContext ctx) {
@@ -199,7 +199,7 @@ class CodeGenerationX {
   }
 
   def dispatch boolean isSimpleNavigation(FeatureCall it, CompilationContext ctx) {
-    name == null && type.isFeature() && (target == null || target.isVariable(ctx) || target.isThisCall() || target.isSimpleNavigation(ctx))
+    name === null && type.isFeature() && (target === null || target.isVariable(ctx) || target.isThisCall() || target.isSimpleNavigation(ctx))
   }
 
   def dispatch String navigationRoot(Void it, CompilationContext ctx) {
@@ -211,7 +211,7 @@ class CodeGenerationX {
   }
 
   def dispatch String navigationRoot(FeatureCall it, CompilationContext ctx) {
-    if (target != null) target.navigationRoot(ctx) else (if (isVariable(ctx)) javaExpression(ctx) else ctx.implicitVariable)
+    if (target !== null) target.navigationRoot(ctx) else (if (isVariable(ctx)) javaExpression(ctx) else ctx.implicitVariable)
   }
 
   def dispatch List<String> navigations(Void it, CompilationContext ctx) {
@@ -239,17 +239,17 @@ class CodeGenerationX {
   // TODO handle eClass()
   // TODO work out if 'this' should be added or not
   def dispatch String javaExpression(OperationCall it, CompilationContext ctx) {
-    if ((target == null || target.isThisCall()) && ctx.targetHasOperation(it)) {
-      (if (target != null) target.javaExpression(ctx) + '.' else '') + name + '(' + ', '.join(params.map[javaExpression(ctx)]) + ')'
+    if ((target === null || target.isThisCall()) && ctx.targetHasOperation(it)) {
+      (if (target !== null) target.javaExpression(ctx) + '.' else '') + name + '(' + ', '.join(params.map[javaExpression(ctx)]) + ')'
     } else if (isJavaExtensionCall(ctx)) {
-      calledJavaMethod(ctx) + '(' + ', '.join((if (target != null) { val l = newArrayList(target); l.addAll(params); l } else params).map[javaExpression(ctx)]) + ')'
+      calledJavaMethod(ctx) + '(' + ', '.join((if (target !== null) { val l = newArrayList(target); l.addAll(params); l } else params).map[javaExpression(ctx)]) + ')'
     } else if (isArithmeticOperatorCall(ctx)) {
       autoBracket((' ' + name + ' ').join(params.map(e|e.javaExpression(ctx))), ctx)
     } else if (isSimpleConcatCall()) {
       (' + ').join(params.map(e|e.javaExpression(ctx)))
     } else if (isPrefixExpression(ctx)) {
       autoBracket(name + params.head.javaExpression(ctx), ctx)
-    } else if ('first' == name && params.isEmpty && target != null) {
+    } else if ('first' == name && params.isEmpty && target !== null) {
       target.javaExpression(ctx) + '.get(0)'
     } else if ('isInstance' == name && params.size == 1 && target instanceof FeatureCall && (target as FeatureCall).isType(ctx)) {
       autoBracket(params.head.javaExpression(ctx) + ' instanceof ' + target.javaExpression(ctx), ctx)
@@ -258,7 +258,7 @@ class CodeGenerationX {
     } else if (ctx.isExtension(name)) {
       notCompilable()
     } else {
-      (if (target != null) target.javaExpression(ctx) + '.' else '') + name + '(' + (if (params.isEmpty) '' else ', '.join(params.map[javaExpression(ctx)])) + ')'
+      (if (target !== null) target.javaExpression(ctx) + '.' else '') + name + '(' + (if (params.isEmpty) '' else ', '.join(params.map[javaExpression(ctx)])) + ')'
     }
   }
 
@@ -267,11 +267,11 @@ class CodeGenerationX {
   }
 
   def boolean isJavaExtensionCall(OperationCall it, CompilationContext ctx) {
-    name != 'isInstance' && isSimpleCall(ctx) && calledJavaMethod(ctx) != null
+    name != 'isInstance' && isSimpleCall(ctx) && calledJavaMethod(ctx) !== null
   }
 
   def boolean isSimpleCall(OperationCall it, CompilationContext ctx) {
-    (target == null || target.isCompilable(ctx)) && params.forall(p|p.isCompilable(ctx))
+    (target === null || target.isCompilable(ctx)) && params.forall(p|p.isCompilable(ctx))
   }
 
   def String calledJavaMethod(OperationCall it, CompilationContext ctx) {
@@ -290,7 +290,7 @@ class CodeGenerationX {
   }
 
   def dispatch boolean requiresBracketing(Expression it, CompilationContext ctx) {
-    (isPrefixExpression(ctx) || isInfixExpression(ctx)) && eContainer() != null && requiresBracketing(it, eContainer(), ctx)
+    (isPrefixExpression(ctx) || isInfixExpression(ctx)) && eContainer() !== null && requiresBracketing(it, eContainer(), ctx)
   }
 
   def dispatch boolean requiresBracketing(Literal it, CompilationContext ctx) {
@@ -323,11 +323,11 @@ class CodeGenerationX {
   }
 
   def dispatch boolean isThisCall(FeatureCall it) {
-    name == null && type.isThis()
+    name === null && type.isThis()
   }
 
   def boolean isFeature(Identifier it) {
-    id != null && id.size == 1
+    id !== null && id.size == 1
   }
 
   def dispatch boolean isThis(Expression it) {
@@ -335,7 +335,7 @@ class CodeGenerationX {
   }
 
   def dispatch boolean isThis(Identifier it) {
-    id != null && id.size == 1 && id.head == "this"
+    id !== null && id.size == 1 && id.head == "this"
   }
 
   def String qualifiedTypeName(Identifier it, CompilationContext ctx) {

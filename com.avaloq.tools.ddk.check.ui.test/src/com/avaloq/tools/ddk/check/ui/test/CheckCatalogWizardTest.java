@@ -30,7 +30,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.xtext.Grammar;
-import org.eclipse.xtext.junit4.InjectWith;
+import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
 import org.junit.After;
 import org.junit.Before;

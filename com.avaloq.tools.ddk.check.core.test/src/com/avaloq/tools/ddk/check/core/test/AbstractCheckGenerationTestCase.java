@@ -29,8 +29,8 @@ import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 import org.eclipse.xtext.generator.OutputConfiguration;
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.eclipse.xtext.xbase.compiler.OnTheFlyJavaCompiler.EclipseRuntimeDependentJavaCompiler;
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
@@ -119,7 +119,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
       // own class loader, let eclipse do the work: create our test project and then get the resolved classpath entries from
       // that.
       IProject project = getOrCreatePluginProject();
-      IResourcesSetupUtil.waitForAutoBuild();
+      IResourcesSetupUtil.reallyWaitForAutoBuild();
       // enumerateContents(project);
       IJavaProject javaProject = JavaCore.create(project);
       javaCompiler.clearClassPath();

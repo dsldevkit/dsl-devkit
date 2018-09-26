@@ -29,6 +29,7 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.parsetree.reconstr.IHiddenTokenHelper;
 import org.eclipse.xtext.parsetree.reconstr.impl.NodeIterator;
 import org.eclipse.xtext.parsetree.reconstr.impl.TokenUtil;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.ISequenceAcceptor;
 import org.eclipse.xtext.serializer.acceptor.ISyntacticSequenceAcceptor;
 import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
@@ -74,7 +75,19 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
   // Implementation of the IHiddenTokenSequencer interface.
 
   @Override
+  @Deprecated
   public void init(final EObject context, final EObject semanticObject, final ISequenceAcceptor sequenceAcceptor, final Acceptor errorAcceptor) {
+    this.delegate = sequenceAcceptor;
+    this.lastNode = NodeModelUtils.findActualNodeFor(semanticObject);
+    this.rootNode = lastNode;
+    if (rootNode != null) {
+      this.rootOffset = rootNode.getTotalOffset();
+      this.rootEndOffset = rootNode.getTotalEndOffset();
+    }
+  }
+
+  @Override
+  public void init(final ISerializationContext context, final EObject semanticObject, final ISequenceAcceptor sequenceAcceptor, final Acceptor errorAcceptor) {
     this.delegate = sequenceAcceptor;
     this.lastNode = NodeModelUtils.findActualNodeFor(semanticObject);
     this.rootNode = lastNode;
@@ -198,6 +211,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
   }
 
   @Override
+  @Deprecated
   public void enterUnassignedParserRuleCall(final RuleCall ruleCall) {
     delegate.enterUnassignedParserRuleCall(ruleCall);
   }
@@ -213,6 +227,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
   }
 
   @Override
+  @Deprecated
   public void leaveUnssignedParserRuleCall(final RuleCall ruleCall) {
     delegate.leaveUnssignedParserRuleCall(ruleCall);
   }
@@ -734,4 +749,5 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
       return NEW_LINE;
     }
   }
+
 }

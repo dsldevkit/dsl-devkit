@@ -9,6 +9,7 @@
       ecorePackage="ModelInference.ecore#/">
     <genClasses ecoreClass="ModelInference.ecore#//InferenceContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelInference.ecore#//InferenceContainer/contents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelInference.ecore#//InferenceContainer/fragments"/>
       <genOperations ecoreOperation="ModelInference.ecore#//InferenceContainer/getFragmentSegment">
         <genParameters ecoreParameter="ModelInference.ecore#//InferenceContainer/getFragmentSegment/object"/>
       </genOperations>

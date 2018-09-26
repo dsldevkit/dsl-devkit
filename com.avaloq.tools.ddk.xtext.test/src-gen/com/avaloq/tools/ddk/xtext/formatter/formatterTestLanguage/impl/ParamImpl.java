@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.ParamImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.ParamImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

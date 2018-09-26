@@ -48,7 +48,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
         
 
     public String[] getTokenNames() { return InternalTestLanguageParser.tokenNames; }
-    public String getGrammarFileName() { return "../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g"; }
+    public String getGrammarFileName() { return "InternalTestLanguage.g"; }
 
 
 
@@ -73,7 +73,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleModel"
-    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:67:1: entryRuleModel returns [EObject current=null] : iv_ruleModel= ruleModel EOF ;
+    // InternalTestLanguage.g:67:1: entryRuleModel returns [EObject current=null] : iv_ruleModel= ruleModel EOF ;
     public final EObject entryRuleModel() throws RecognitionException {
         EObject current = null;
 
@@ -81,17 +81,17 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:68:2: (iv_ruleModel= ruleModel EOF )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:69:2: iv_ruleModel= ruleModel EOF
+            // InternalTestLanguage.g:68:2: (iv_ruleModel= ruleModel EOF )
+            // InternalTestLanguage.g:69:2: iv_ruleModel= ruleModel EOF
             {
              newCompositeNode(grammarAccess.getModelRule()); 
-            pushFollow(FOLLOW_ruleModel_in_entryRuleModel75);
+            pushFollow(FOLLOW_1);
             iv_ruleModel=ruleModel();
 
             state._fsp--;
 
              current =iv_ruleModel; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleModel85); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
@@ -109,7 +109,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModel"
-    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:76:1: ruleModel returns [EObject current=null] : ( (lv_greetings_0_0= ruleGreeting ) )* ;
+    // InternalTestLanguage.g:76:1: ruleModel returns [EObject current=null] : ( (lv_greetings_0_0= ruleGreeting ) )* ;
     public final EObject ruleModel() throws RecognitionException {
         EObject current = null;
 
@@ -119,10 +119,10 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:79:28: ( ( (lv_greetings_0_0= ruleGreeting ) )* )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:80:1: ( (lv_greetings_0_0= ruleGreeting ) )*
+            // InternalTestLanguage.g:79:28: ( ( (lv_greetings_0_0= ruleGreeting ) )* )
+            // InternalTestLanguage.g:80:1: ( (lv_greetings_0_0= ruleGreeting ) )*
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:80:1: ( (lv_greetings_0_0= ruleGreeting ) )*
+            // InternalTestLanguage.g:80:1: ( (lv_greetings_0_0= ruleGreeting ) )*
             loop1:
             do {
                 int alt1=2;
@@ -135,15 +135,15 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:81:1: (lv_greetings_0_0= ruleGreeting )
+            	    // InternalTestLanguage.g:81:1: (lv_greetings_0_0= ruleGreeting )
             	    {
-            	    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:81:1: (lv_greetings_0_0= ruleGreeting )
-            	    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:82:3: lv_greetings_0_0= ruleGreeting
+            	    // InternalTestLanguage.g:81:1: (lv_greetings_0_0= ruleGreeting )
+            	    // InternalTestLanguage.g:82:3: lv_greetings_0_0= ruleGreeting
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleGreeting_in_ruleModel130);
+            	    pushFollow(FOLLOW_3);
             	    lv_greetings_0_0=ruleGreeting();
 
             	    state._fsp--;
@@ -156,7 +156,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
             	           			current, 
             	           			"greetings",
             	            		lv_greetings_0_0, 
-            	            		"Greeting");
+            	            		"com.avaloq.tools.ddk.check.TestLanguage.Greeting");
             	    	        afterParserOrEnumRuleCall();
             	    	    
 
@@ -189,7 +189,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleGreeting"
-    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:106:1: entryRuleGreeting returns [EObject current=null] : iv_ruleGreeting= ruleGreeting EOF ;
+    // InternalTestLanguage.g:106:1: entryRuleGreeting returns [EObject current=null] : iv_ruleGreeting= ruleGreeting EOF ;
     public final EObject entryRuleGreeting() throws RecognitionException {
         EObject current = null;
 
@@ -197,17 +197,17 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:107:2: (iv_ruleGreeting= ruleGreeting EOF )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:108:2: iv_ruleGreeting= ruleGreeting EOF
+            // InternalTestLanguage.g:107:2: (iv_ruleGreeting= ruleGreeting EOF )
+            // InternalTestLanguage.g:108:2: iv_ruleGreeting= ruleGreeting EOF
             {
              newCompositeNode(grammarAccess.getGreetingRule()); 
-            pushFollow(FOLLOW_ruleGreeting_in_entryRuleGreeting166);
+            pushFollow(FOLLOW_1);
             iv_ruleGreeting=ruleGreeting();
 
             state._fsp--;
 
              current =iv_ruleGreeting; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleGreeting176); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
@@ -225,7 +225,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleGreeting"
-    // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:115:1: ruleGreeting returns [EObject current=null] : (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) ;
+    // InternalTestLanguage.g:115:1: ruleGreeting returns [EObject current=null] : (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) ;
     public final EObject ruleGreeting() throws RecognitionException {
         EObject current = null;
 
@@ -236,23 +236,23 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:118:28: ( (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:119:1: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
+            // InternalTestLanguage.g:118:28: ( (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) )
+            // InternalTestLanguage.g:119:1: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:119:1: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:119:3: otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!'
+            // InternalTestLanguage.g:119:1: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
+            // InternalTestLanguage.g:119:3: otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!'
             {
-            otherlv_0=(Token)match(input,11,FOLLOW_11_in_ruleGreeting213); 
+            otherlv_0=(Token)match(input,11,FOLLOW_4); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
                 
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:123:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:124:1: (lv_name_1_0= RULE_ID )
+            // InternalTestLanguage.g:123:1: ( (lv_name_1_0= RULE_ID ) )
+            // InternalTestLanguage.g:124:1: (lv_name_1_0= RULE_ID )
             {
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:124:1: (lv_name_1_0= RULE_ID )
-            // ../com.avaloq.tools.ddk.check.test.runtime/src-gen/com/avaloq/tools/ddk/check/parser/antlr/internal/InternalTestLanguage.g:125:3: lv_name_1_0= RULE_ID
+            // InternalTestLanguage.g:124:1: (lv_name_1_0= RULE_ID )
+            // InternalTestLanguage.g:125:3: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleGreeting230); 
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_5); 
 
             			newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
             		
@@ -264,7 +264,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
                    			current, 
                    			"name",
                     		lv_name_1_0, 
-                    		"ID");
+                    		"org.eclipse.xtext.common.Terminals.ID");
             	    
 
             }
@@ -272,7 +272,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,12,FOLLOW_12_in_ruleGreeting247); 
+            otherlv_2=(Token)match(input,12,FOLLOW_2); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
                 
@@ -300,13 +300,10 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
  
 
-    public static final BitSet FOLLOW_ruleModel_in_entryRuleModel75 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleModel85 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleGreeting_in_ruleModel130 = new BitSet(new long[]{0x0000000000000802L});
-    public static final BitSet FOLLOW_ruleGreeting_in_entryRuleGreeting166 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleGreeting176 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_11_in_ruleGreeting213 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleGreeting230 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_12_in_ruleGreeting247 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000802L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000001000L});
 
 }

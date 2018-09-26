@@ -76,7 +76,7 @@ class ScopeProviderGenerator {
       import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
       import com.google.common.base.Predicate;
-      «IF it != null && !allInjections().isEmpty»
+      «IF it !== null && !allInjections().isEmpty»
       import com.google.inject.Inject;
       «ENDIF»
 
@@ -85,7 +85,7 @@ class ScopeProviderGenerator {
 
         /** Class-wide logger. */
         private static final Logger LOGGER = Logger.getLogger(«getScopeProvider().toSimpleName()».class);
-        «IF it != null»
+        «IF it !== null»
 
         «IF !allInjections().isEmpty»
           «FOR i : allInjections()»
@@ -105,9 +105,9 @@ class ScopeProviderGenerator {
     /** {@inheritDoc} */
     @Override
     protected IScope doGetScope(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
-      «FOR name : allScopes().filter(s|s.reference != null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
+      «FOR name : allScopes().filter(s|s.reference !== null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
      »if ("«name»".equals(scopeName)) {
-        «FOR scope : allScopes().filter(s|s.reference != null).filter(s|s.getScopeName()==name)»
+        «FOR scope : allScopes().filter(s|s.reference !== null).filter(s|s.getScopeName()==name)»
         if (reference == «scope.reference.literalIdentifier()») return «scope.scopeMethodName()»(context, reference, originalResource);
         «ENDFOR»
       }«
@@ -118,9 +118,9 @@ class ScopeProviderGenerator {
     /** {@inheritDoc} */
     @Override
     protected IScope doGetScope(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
-      «FOR name : allScopes().filter(s|s.reference == null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
+      «FOR name : allScopes().filter(s|s.reference === null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
      »if ("«name»".equals(scopeName)) {
-        «FOR scope : allScopes().filter(s|s.reference == null).filter(s|s.getScopeName()==name)»
+        «FOR scope : allScopes().filter(s|s.reference === null).filter(s|s.getScopeName()==name)»
         if (type == «scope.targetType.literalIdentifier()») return «scope.scopeMethodName()»(context, type, originalResource);
         «ENDFOR»
       }«
@@ -132,9 +132,9 @@ class ScopeProviderGenerator {
     @Override
     protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
       if (context.eContainer() == null) {
-        «FOR name : allScopes().filter(s|s.reference != null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
+        «FOR name : allScopes().filter(s|s.reference !== null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
        »if ("«name»".equals(scopeName)) {
-          «FOR scope : allScopes().filter(s|s.reference != null).filter(s|s.getScopeName()==name)»
+          «FOR scope : allScopes().filter(s|s.reference !== null).filter(s|s.getScopeName()==name)»
           «val globalRules = scope.allScopeRules().filter(r|r.context.global)»
           «IF globalRules.size > 0»
           if (reference == «scope.reference.literalIdentifier()») return true;
@@ -150,9 +150,9 @@ class ScopeProviderGenerator {
     @Override
     protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
       if (context.eContainer() == null) {
-        «FOR name : allScopes().filter(s|s.reference == null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
+        «FOR name : allScopes().filter(s|s.reference === null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
        »if ("«name»".equals(scopeName)) {
-          «FOR scope : allScopes().filter(s|s.reference == null).filter(s|s.getScopeName()==name)»
+          «FOR scope : allScopes().filter(s|s.reference === null).filter(s|s.getScopeName()==name)»
           «val globalRules = scope.allScopeRules().filter(r|r.context.global)»
           «IF globalRules.size > 0»
           if (type == «scope.targetType.literalIdentifier()») return true;
@@ -165,7 +165,7 @@ class ScopeProviderGenerator {
     }
 
     «FOR scope : allScopes()»
-    protected IScope «scope.scopeMethodName()»(final EObject context, final «IF scope.reference != null»EReference ref«ELSE»EClass type«ENDIF», final Resource originalResource) {
+    protected IScope «scope.scopeMethodName()»(final EObject context, final «IF scope.reference !== null»EReference ref«ELSE»EClass type«ENDIF», final Resource originalResource) {
       «val localRules = scope.allScopeRules().filter(r|!r.context.global).toList»
       «val globalRules = scope.allScopeRules().filter(r|r.context.global).toList»
       «if (globalRules.size > 1) throw new RuntimeException("only one global rule allowed")»
@@ -174,14 +174,14 @@ class ScopeProviderGenerator {
       if («IF EClassComparator.isEObjectType(r.context.contextType)»true«ELSE»context instanceof «r.context.contextType.instanceClassName()»«ENDIF») {
         final «r.context.contextType.instanceClassName()» ctx = («r.context.contextType.instanceClassName()») context;
        «val rulesForTypeAndContext = localRules.filter(r2|r2.hasSameContext(r)).toList»
-        «scopeRuleBlock(rulesForTypeAndContext, it, if (r.contextRef() != null) 'ref' else 'type', r.context.contextType, r.context.global)»
+        «scopeRuleBlock(rulesForTypeAndContext, it, if (r.contextRef() !== null) 'ref' else 'type', r.context.contextType, r.context.global)»
       }
       «ENDFOR»
       «IF !localRules.isEmpty || !globalRules.isEmpty»
 
       final EObject eContainer = context.eContainer();
       if (eContainer != null) {
-        return internalGetScope(«IF !localRules.isEmpty»eContainer«ELSE»getRootObject(eContainer)«ENDIF», «IF scope.reference != null»ref«ELSE»type«ENDIF», "«scope.getScopeName()»", originalResource);
+        return internalGetScope(«IF !localRules.isEmpty»eContainer«ELSE»getRootObject(eContainer)«ENDIF», «IF scope.reference !== null»ref«ELSE»type«ENDIF», "«scope.getScopeName()»", originalResource);
       }
 
       «ENDIF»
@@ -191,7 +191,7 @@ class ScopeProviderGenerator {
       «javaContributorComment(r.location())»
       if (context.eResource() != null) {
         final Resource ctx = context.eResource();
-        «scopeRuleBlock(rulesForTypeAndContext, it, if (r.contextRef() != null) 'ref' else 'type', r.context.contextType, r.context.global)»
+        «scopeRuleBlock(rulesForTypeAndContext, it, if (r.contextRef() !== null) 'ref' else 'type', r.context.contextType, r.context.global)»
       }
 
       «ENDIF»
@@ -204,14 +204,14 @@ class ScopeProviderGenerator {
   def scopeRuleBlock(List<ScopeRule> it, ScopeModel model, String typeOrRef, EClass contextType, Boolean isGlobal) '''
     IScope scope = IScope.NULLSCOPE;
     try {
-      «IF it.exists(r|r.context.guard != null)»
-        «FOR r : it.sortBy(r|if (r.context.guard == null) it.size else it.indexOf(r)) SEPARATOR ' else '
-          »«IF r.context.guard != null»if («r.context.guard.javaExpression(compilationContext.clone('ctx', r.scopeType()))») «ENDIF»{
+      «IF it.exists(r|r.context.guard !== null)»
+        «FOR r : it.sortBy(r|if (r.context.guard === null) it.size else it.indexOf(r)) SEPARATOR ' else '
+          »«IF r.context.guard !== null»if («r.context.guard.javaExpression(compilationContext.clone('ctx', r.scopeType()))») «ENDIF»{
           «IF it.size > 1»«javaContributorComment(r.location())»
           «ENDIF
           »«FOR e : Lists.newArrayList(r.exprs).reverse()»«scopes(e, model, typeOrRef, r.getScope(), isGlobal)»«ENDFOR»
         }«ENDFOR»«
-        IF !it.exists(r|r.context.guard == null)» else {
+        IF !it.exists(r|r.context.guard === null)» else {
           throw new UnsupportedOperationException(); // continue matching other definitions
         }«ENDIF»
       «ELSEIF it.size == 1»
@@ -227,7 +227,7 @@ class ScopeProviderGenerator {
 
   def scopes(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
     val b = new StringBuilder
-    if (prune != null)
+    if (prune !== null)
       b.append(pruning(it, model, scope))
     b.append(scopeExpression(it, model, typeOrRef, scope, isGlobal))
     return b
@@ -262,7 +262,7 @@ class ScopeProviderGenerator {
   }
 
   def dispatch scopeExpression(ScopeDelegation it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) '''
-    «IF delegate != null »
+    «IF delegate !== null »
     «val delegateString = delegate.serialize()»
     «IF delegateString == "this.eContainer()" || delegateString == "this.eContainer" || delegateString == "eContainer()" || delegateString == "eContainer"»
       scope = newSameScope("«it.locatorString()»", scope, ctx.eContainer()«
@@ -278,7 +278,7 @@ class ScopeProviderGenerator {
       scope = newExternalDelegateScope("«it.locatorString()»", scope, «
     query(external, model, typeOrRef, scope)».execute(ctx, originalResource)«
     ENDIF», «
-    IF it.scope != null && it.scope.typeOrRef() != getScope(it).typeOrRef()»«it.scope.typeOrRef().literalIdentifier()»«ELSE»«typeOrRef»«ENDIF», "«if (it.scope != null && it.scope.name != null) it.scope.name else "scope"»", originalResource);
+    IF it.scope !== null && it.scope.typeOrRef() != getScope(it).typeOrRef()»«it.scope.typeOrRef().literalIdentifier()»«ELSE»«typeOrRef»«ENDIF», "«if (it.scope !== null && it.scope.name !== null) it.scope.name else "scope"»", originalResource);
   '''
 
   def dispatch scopeExpression(NamedScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) '''
@@ -308,14 +308,14 @@ class ScopeProviderGenerator {
   def query (GlobalScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope) '''
     newQuery(«type.literalIdentifier()»)«
     val matchData = data.filter(MatchDataExpression)»«
-    IF name != null».name(«doExpression (name, model, 'ctx', eContainer(ScopeRule).context.contextType)»)«ENDIF»«
+    IF name !== null».name(«doExpression (name, model, 'ctx', eContainer(ScopeRule).context.contextType)»)«ENDIF»«
     IF !matchData.isEmpty»«FOR d : matchData».data("«javaEncode(d.key)»", «doExpression (d.value, model, 'ctx', eContainer(ScopeRule).context.contextType)»)«ENDFOR»«ENDIF»«
     IF !domains.isEmpty && domains.get(0) != "*"».domains(«FOR d : domains SEPARATOR ", "»"«javaEncode(d)»"«ENDFOR»)«ENDIF
   »'''
 
   def dispatch scopeExpressionPart (GlobalScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope) '''
     «val matchData = data.filter(LambdaDataExpression)»
-    «IF matchData.isEmpty && prefix == null»newContainerScope(«ELSEIF matchData.isEmpty && prefix != null»newPrefixedContainerScope(«ELSE»newDataMatchScope(«ENDIF»"«it.locatorString()»", scope, ctx, «query (it, model, typeOrRef, scope)», originalResource«
+    «IF matchData.isEmpty && prefix === null»newContainerScope(«ELSEIF matchData.isEmpty && prefix !== null»newPrefixedContainerScope(«ELSE»newDataMatchScope(«ENDIF»"«it.locatorString()»", scope, ctx, «query (it, model, typeOrRef, scope)», originalResource«
     IF !matchData.isEmpty», //
       Arrays.<Predicate<IEObjectDescription>> asList(
     «FOR d : matchData SEPARATOR ","»
@@ -330,7 +330,7 @@ class ScopeProviderGenerator {
           }
         }«
     ENDFOR»)«
-    ELSEIF prefix != null», «doExpression (prefix, model, 'ctx', eContainer(ScopeRule).context.contextType)», «recursivePrefix»«
+    ELSEIF prefix !== null», «doExpression (prefix, model, 'ctx', eContainer(ScopeRule).context.contextType)», «recursivePrefix»«
     ENDIF
   »'''
 
@@ -375,7 +375,7 @@ class ScopeProviderGenerator {
   }
 
   def name(NamedScopeExpression it, ScopeModel model, String typeOrRef, String contextName, EClass contextType) {
-    if (it.naming != null)
+    if (it.naming !== null)
       nameProviderGenerator.nameFunctions(it.naming, model, contextName, contextType)
     else
       'getNameFunctions(' + typeOrRef + ')'

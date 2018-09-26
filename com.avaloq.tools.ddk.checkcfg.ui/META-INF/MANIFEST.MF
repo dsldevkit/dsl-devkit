@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.checkcfg.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.ui;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: com.avaloq.tools.ddk.checkcfg.ui.internal.Activator
@@ -32,5 +32,6 @@ Require-Bundle: com.avaloq.tools.ddk.checkcfg.core,
 Export-Package: com.avaloq.tools.ddk.checkcfg.ui.internal,
  com.avaloq.tools.ddk.checkcfg.ui.contentassist.antlr,
  com.avaloq.tools.ddk.checkcfg.ui.contentassist,
- com.avaloq.tools.ddk.checkcfg.ui.quickfix
+ com.avaloq.tools.ddk.checkcfg.ui.quickfix,
+ com.avaloq.tools.ddk.checkcfg.ui.contentassist.antlr.internal
 Import-Package: org.apache.log4j

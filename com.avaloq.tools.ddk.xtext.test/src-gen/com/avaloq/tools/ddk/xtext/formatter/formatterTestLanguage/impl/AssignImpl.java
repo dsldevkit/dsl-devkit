@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.AssignImpl#getVar <em>Var</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.AssignImpl#getOp <em>Op</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.AssignImpl#getVal <em>Val</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

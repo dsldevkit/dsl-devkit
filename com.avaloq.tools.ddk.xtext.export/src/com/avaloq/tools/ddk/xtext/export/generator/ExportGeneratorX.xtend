@@ -43,7 +43,7 @@ class ExportGeneratorX {
   def Grammar getGrammar(ExportModel model) {
     val uri = model.eResource.URI
     // Grammar should be set correctly for export extensions, not yet for normal export sources
-    if(model.targetGrammar != null) {
+    if(model.targetGrammar !== null) {
       return model.targetGrammar;
     }
     val grammarResource = model.eResource.resourceSet.getResource(uri.trimSegments(1).appendSegment(uri.trimFileExtension.lastSegment + '.xtext'), true)

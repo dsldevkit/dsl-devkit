@@ -13,8 +13,6 @@ package com.avaloq.tools.ddk.xtext.export.validation;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -25,9 +23,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtend.expression.Resource;
 import org.eclipse.xtend.expression.ResourceManager;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
-import org.eclipse.xtend.shared.ui.Activator;
-import org.eclipse.xtend.shared.ui.core.IXtendXpandProject;
-import org.eclipse.xtend.shared.ui.expression.XpandPluginExecutionContext;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.validation.Check;
 
@@ -65,10 +60,12 @@ public class ExportJavaValidator extends AbstractExportJavaValidator {
   public void checkExtensions(final ExportModel model) {
     ResourceManager resourceManager = null;
     if (Platform.isRunning()) {
-      IXtendXpandProject project = Activator.getExtXptModelManager().findProject(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(model.eResource().getURI().toPlatformString(true))).getProject());
-      if (project != null) {
-        resourceManager = new XpandPluginExecutionContext(project).getResourceManager();
-      }
+      // FIXME: sort out xpand
+      // IXtendXpandProject project = Activator.getExtXptModelManager().findProject(ResourcesPlugin.getWorkspace().getRoot().getFile(new
+      // Path(model.eResource().getURI().toPlatformString(true))).getProject());
+      // if (project != null) {
+      // resourceManager = new XpandPluginExecutionContext(project).getResourceManager();
+      // }
     } else {
       resourceManager = new ResourceManagerDefaultImpl();
     }

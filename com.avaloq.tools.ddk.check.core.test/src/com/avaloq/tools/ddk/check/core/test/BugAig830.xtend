@@ -15,9 +15,9 @@ import com.avaloq.tools.ddk.check.check.CheckCatalog
 import com.avaloq.tools.ddk.check.check.XIssueExpression
 import com.google.inject.Inject
 import org.eclipse.xtext.EcoreUtil2
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.xbase.XbasePackage
 import org.junit.Assert
 import org.junit.Test

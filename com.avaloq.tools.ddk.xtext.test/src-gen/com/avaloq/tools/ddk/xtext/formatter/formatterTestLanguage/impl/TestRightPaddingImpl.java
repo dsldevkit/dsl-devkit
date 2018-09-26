@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.TestRightPaddingImpl#getP1 <em>P1</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.impl.TestRightPaddingImpl#getP2 <em>P2</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

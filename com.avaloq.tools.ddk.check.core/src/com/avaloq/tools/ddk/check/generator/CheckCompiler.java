@@ -59,7 +59,7 @@ public class CheckCompiler extends XbaseCompiler {
 
   /**
    * Gets the name of the implicit variable in a context.
-   * 
+   *
    * @param expr
    *          any expression
    * @return the parameter name, if the expression is within a context and set, or CheckConstants.IT otherwise.
@@ -71,7 +71,7 @@ public class CheckCompiler extends XbaseCompiler {
 
   /**
    * Gets the FormalParameter this feature call references, if any.
-   * 
+   *
    * @param expression
    *          to check
    * @return The source model element (FormalParameter) for this feature call target, or null.
@@ -82,7 +82,7 @@ public class CheckCompiler extends XbaseCompiler {
 
   /**
    * Gets the FormalParameter this feature call references, if any.
-   * 
+   *
    * @param element
    *          to check
    * @return The source model element (FormalParameter) for this feature call target, or null.
@@ -101,7 +101,7 @@ public class CheckCompiler extends XbaseCompiler {
 
   /**
    * Gets the Member this feature call references, if any.
-   * 
+   *
    * @param expression
    *          to check
    * @return The source model element (Member) for this feature call target, or null.
@@ -112,7 +112,7 @@ public class CheckCompiler extends XbaseCompiler {
 
   /**
    * Gets the Member this feature call references, if any.
-   * 
+   *
    * @param element
    *          to check
    * @return The source model element (Member) for this feature call target, or null.
@@ -130,13 +130,12 @@ public class CheckCompiler extends XbaseCompiler {
 
   }
 
-  /** {@inheritDoc} */
   @Override
-  protected boolean isVariableDeclarationRequired(final XExpression expression, final ITreeAppendable b) {
+  protected boolean isVariableDeclarationRequired(final XExpression expression, final ITreeAppendable b, final boolean recursive) {
     if (expression instanceof XAbstractFeatureCall && getFormalParameter((XAbstractFeatureCall) expression) != null) {
       return false;
     }
-    return super.isVariableDeclarationRequired(expression, b);
+    return super.isVariableDeclarationRequired(expression, b, recursive);
   }
 
   @Override
@@ -363,4 +362,3 @@ public class CheckCompiler extends XbaseCompiler {
   }
 
 }
-

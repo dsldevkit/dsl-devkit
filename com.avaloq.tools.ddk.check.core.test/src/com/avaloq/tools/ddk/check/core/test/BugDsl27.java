@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.check.core.test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.xtext.junit4.InjectWith;
-import org.eclipse.xtext.junit4.XtextRunner;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.XtextRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

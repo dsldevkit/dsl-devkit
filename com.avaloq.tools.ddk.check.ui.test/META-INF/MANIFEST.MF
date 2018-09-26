@@ -2,13 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.ui.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.ui.test
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit,
  com.avaloq.tools.ddk.check.ui,
  com.avaloq.tools.ddk.xtext.test.core,
- com.avaloq.tools.ddk.check.ui,
  com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.check.core.test,
@@ -18,9 +17,17 @@ Require-Bundle: org.junit,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.jdt.core,
  org.eclipse.ui.ide,
- com.avaloq.tools.ddk.xtext.test.core,
- org.apache.log4j
+ org.apache.log4j,
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.workbench;resolution:=optional,
+ org.objectweb.asm;bundle-version="[6.1.1,6.2.0)";resolution:=optional
 Export-Package: com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.ui.test.util
 Import-Package: org.junit.runner;version="4.5.0",
- org.junit.runners;version="4.5.0"
+ org.junit.runners;version="4.5.0",
+ org.junit.runner.manipulation;version="4.5.0",
+ org.junit.runner.notification;version="4.5.0",
+ org.junit.runners.model;version="4.5.0",
+ org.hamcrest.core

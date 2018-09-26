@@ -3,15 +3,16 @@
  */
 package com.avaloq.tools.ddk.check;
 
-import org.eclipse.xtext.junit4.IInjectorProvider;
+import org.eclipse.xtext.testing.IInjectorProvider;
 
 import com.google.inject.Injector;
 
+
 public class CheckUiInjectorProvider implements IInjectorProvider {
-	
-	@Override
-	public Injector getInjector() {
-		return com.avaloq.tools.ddk.check.ui.internal.CheckActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.Check");
-	}
-	
+
+  @Override
+  public Injector getInjector() {
+    return com.avaloq.tools.ddk.check.ui.internal.CheckActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.Check");
+  }
+
 }

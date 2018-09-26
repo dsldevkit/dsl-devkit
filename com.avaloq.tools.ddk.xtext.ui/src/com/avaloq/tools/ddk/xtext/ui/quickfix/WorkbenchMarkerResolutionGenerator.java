@@ -84,7 +84,7 @@ public class WorkbenchMarkerResolutionGenerator extends MarkerResolutionGenerato
       }
     }
 
-    final Iterable<IssueResolution> resolutions = getResolutions(getIssueUtil().createIssue(marker), null);
+    final Iterable<IssueResolution> resolutions = getResolutionProvider().getResolutions(getIssueUtil().createIssue(marker));
     if (editor != null && editor.isEditorInputReadOnly()) {
       editor.close(false);
     }
@@ -103,6 +103,7 @@ public class WorkbenchMarkerResolutionGenerator extends MarkerResolutionGenerato
   }
 
   @Override
+  @Deprecated
   public XtextEditor getEditor(final IResource resource) {
     if (Display.getCurrent() != null) {
       return super.getEditor(resource);

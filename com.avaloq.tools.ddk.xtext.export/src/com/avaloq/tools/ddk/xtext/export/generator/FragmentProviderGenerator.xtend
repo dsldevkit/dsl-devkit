@@ -27,7 +27,7 @@ class FragmentProviderGenerator {
 
   def generate(ExportModel it, CompilationContext ctx, extension GenModelUtilX genModelUtil) {
     val grammar = grammar
-    val fingerprintedExports = exports.filter[fingerprint && fragmentAttribute != null].toList
+    val fingerprintedExports = exports.filter[fingerprint && fragmentAttribute !== null].toList
     '''
       package «fragmentProvider.toJavaPackage»;
 

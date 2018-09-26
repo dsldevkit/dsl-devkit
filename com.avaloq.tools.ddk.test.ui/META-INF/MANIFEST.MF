@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.test.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.test.ui;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: com.avaloq.tools.ddk.test.ui.Activator
@@ -17,6 +17,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.eclipse.swtbot.junit4_x,
  org.eclipse.swtbot.swt.finder,
  org.eclipse.swtbot.eclipse.gef.finder,
+ org.eclipse.xtext.testing,
  org.eclipse.ui;visibility:=reexport,
  org.hamcrest,
  org.junit,

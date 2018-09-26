@@ -19,10 +19,10 @@ import com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentIssueCodes
 import com.google.common.collect.Lists
 import com.google.inject.Inject
 import java.util.List
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -56,7 +56,7 @@ class CheckConfigurationIsAppliedTest extends AbstractCheckTestCase {
     // sources are copied into the project and then built by the Xtext builder
     addSourcesToWorkspace(typeof(CheckConfigurationIsAppliedTest), requiredSourceFileNames)
     // wait for build to finish, otherwise included catalog may not be resolvable
-    IResourcesSetupUtil::waitForAutoBuild
+    IResourcesSetupUtil::reallyWaitForAutoBuild
     val model = getModel("Greetings") as Model
     helper.assertWarning(model.greetings.get(0), TestLanguagePackage$Literals::GREETING, ExecutionEnvironmentIssueCodes::FRANZNAME)
   }

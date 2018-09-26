@@ -19,8 +19,6 @@ public class Messages extends NLS {
   public static String MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE;
   public static String MonitoredClusteringBuilderState_NO_MORE_RESOURCES;
   public static String MonitoredClusteringBuilderState_PHASE_ONE_DONE;
-  public static String MonitoredClusteringBuilderState_TRY_AGAIN;
-  public static String MonitoredClusteringBuilderState_TRY_AGAIN_FAILED;
   public static String MonitoredClusteringBuilderState_UPDATE_DESCRIPTIONS;
   public static String MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS;
   public static String MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION;
@@ -35,4 +33,3 @@ public class Messages extends NLS {
     super();
   }
 }
-

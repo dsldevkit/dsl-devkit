@@ -3,46 +3,46 @@
  */
 package com.avaloq.tools.ddk.check;
 
-import org.eclipse.xtext.junit4.GlobalRegistries;
-import org.eclipse.xtext.junit4.GlobalRegistries.GlobalStateMemento;
-import org.eclipse.xtext.junit4.IInjectorProvider;
-import org.eclipse.xtext.junit4.IRegistryConfigurator;
+import org.eclipse.xtext.testing.GlobalRegistries;
+import org.eclipse.xtext.testing.GlobalRegistries.GlobalStateMemento;
+import org.eclipse.xtext.testing.IInjectorProvider;
+import org.eclipse.xtext.testing.IRegistryConfigurator;
 
 import com.google.inject.Injector;
 
+
 public class CheckInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
-	
-    protected GlobalStateMemento stateBeforeInjectorCreation;
-	protected GlobalStateMemento stateAfterInjectorCreation;
-	protected Injector injector;
 
-	static {
-		GlobalRegistries.initializeDefaults();
-	}
+  protected GlobalStateMemento stateBeforeInjectorCreation;
+  protected GlobalStateMemento stateAfterInjectorCreation;
+  protected Injector injector;
 
-	@Override
-	public Injector getInjector()
-	{
-		if (injector == null) {
-			stateBeforeInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
-			this.injector = internalCreateInjector();
-			stateAfterInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
-		}
-		return injector;
-	}
-	
-	protected Injector internalCreateInjector() {
-	    return new CheckStandaloneSetup().createInjectorAndDoEMFRegistration();
-	}
+  static {
+    GlobalRegistries.initializeDefaults();
+  }
 
-	@Override
-	public void restoreRegistry() {
-		stateBeforeInjectorCreation.restoreGlobalState();
-	}
+  @Override
+  public Injector getInjector() {
+    if (injector == null) {
+      stateBeforeInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
+      this.injector = internalCreateInjector();
+      stateAfterInjectorCreation = GlobalRegistries.makeCopyOfGlobalState();
+    }
+    return injector;
+  }
 
-	@Override
-	public void setupRegistry() {
-		getInjector();
-		stateAfterInjectorCreation.restoreGlobalState();
-	}
+  protected Injector internalCreateInjector() {
+    return new CheckStandaloneSetup().createInjectorAndDoEMFRegistration();
+  }
+
+  @Override
+  public void restoreRegistry() {
+    stateBeforeInjectorCreation.restoreGlobalState();
+  }
+
+  @Override
+  public void setupRegistry() {
+    getInjector();
+    stateAfterInjectorCreation.restoreGlobalState();
+  }
 }

@@ -19,7 +19,6 @@ import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
 import com.avaloq.tools.ddk.xtext.expression.generator.Naming
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EPackage
 
 class ExportedNamesProviderGenerator {
 
@@ -54,11 +53,11 @@ class ExportedNamesProviderGenerator {
             EPackage ePackage = eClass.getEPackage();
             «val exportedEClasses = types.map[type].toSet()»
             «val exportsMap = types.sortedExportsByEPackage()»
-            «FOR p : exportsMap.keySet().sortBy(p|(p as EPackage).nsURI)»
-              if (ePackage == «(p as EPackage).qualifiedPackageInterfaceName()».eINSTANCE) {
+            «FOR p : exportsMap.keySet().sortBy[nsURI]»
+              if (ePackage == «p.qualifiedPackageInterfaceName()».eINSTANCE) {
                 int classifierID = eClass.getClassifierID();
                 switch (classifierID) {
-                «FOR c : (p as EPackage).EClassifiers.filter(EClass).filter(c|exportedEClasses.exists(e|e.isSuperTypeOf(c)))»
+                «FOR c : p.EClassifiers.filter(EClass).filter(c|exportedEClasses.exists(e|e.isSuperTypeOf(c)))»
                   case «c.classifierIdLiteral()»: {
                     return qualifiedName((«c.instanceClassName()») object);
                   }
@@ -81,7 +80,7 @@ class ExportedNamesProviderGenerator {
              */
             protected QualifiedName qualifiedName(final «c.type.instanceClassName()» obj) {
               «javaContributorComment(c.location())»
-              «IF c.naming != null»
+              «IF c.naming !== null»
                 final Object name = «c.naming.javaExpression(ctx.clone('obj', c.type))»;
                 return name != null ? «IF c.qualifiedName»getConverter().toQualifiedName(String.valueOf(name))«ELSE»qualifyWithContainerName(obj, String.valueOf(name))«ENDIF» : null;
               «ELSE»

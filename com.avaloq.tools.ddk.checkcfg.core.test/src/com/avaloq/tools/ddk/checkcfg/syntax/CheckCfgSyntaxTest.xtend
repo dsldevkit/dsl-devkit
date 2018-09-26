@@ -14,7 +14,7 @@ package com.avaloq.tools.ddk.checkcfg.syntax
 import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil
 import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest
 import java.util.LinkedList
-import org.eclipse.xtext.junit4.ui.util.IResourcesSetupUtil
+import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
 import org.junit.Test
 
 class CheckCfgSyntaxTest extends AbstractValidationTest {
@@ -48,7 +48,7 @@ class CheckCfgSyntaxTest extends AbstractValidationTest {
       }
     '''
     addCustomerSourceToWorkspace("customer$sca_testchecks.check", checkSource)
-    IResourcesSetupUtil::waitForAutoBuild
+    IResourcesSetupUtil.reallyWaitForAutoBuild
 
     val checkcfgSource = '''
       check configuration checkconfiguration {

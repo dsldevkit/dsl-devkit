@@ -22,6 +22,8 @@ import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.ResourceStorageWritable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.google.inject.Inject;
 
@@ -31,8 +33,6 @@ import com.google.inject.Inject;
  * {@link com.avaloq.tools.ddk.xtext.modelinference.IInferredModelAssociations model associations map}.
  */
 public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
-
-  private static final URI SOURCE_CONTAINER_URI = URI.createURI("ctx:/src/"); //$NON-NLS-1$
 
   @Inject
   private ITraceSet traceSet;
@@ -48,10 +48,10 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
     DirectLinkingSourceLevelURIsAdapter adapter = DirectLinkingSourceLevelURIsAdapter.findInstalledAdapter(resource.getResourceSet());
     if (adapter == null) {
       return false;
-    } else {
-      if (adapter.getSourceLevelURIs().contains(resource.getURI())) {
-        return false;
-      }
+    } else if (adapter.getSourceLevelURIs().contains(resource.getURI())) {
+      return false;
+    } else if (ResourceLoadMode.get(resource).instruction(Constituent.RESOURCE) == Instruction.SKIP) {
+      return false;
     }
     return doesStorageExist(resource);
   }
@@ -80,13 +80,37 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
     fsa.deleteFile(computeOutputPath(resourceUri));
   }
 
-  private String computeOutputPath(final URI resourceUri) {
+  @Override
+  protected final String computeOutputPath(final StorageAwareResource resource) {
+    return computeOutputPath(resource.getURI());
+  }
+
+  /**
+   * URI-based alternative to {@link #computeOutputPath(StorageAwareResource)}.
+   *
+   * @param resourceUri
+   *          resource URI, must not be {@code null}
+   * @return output path for given URI, never {@code null}
+   */
+  protected String computeOutputPath(final URI resourceUri) {
     URI srcContainerURI = getSourceContainerURI(resourceUri);
     URI uri = getBinaryStorageURI(resourceUri);
     return uri.deresolve(srcContainerURI, false, false, true).path();
   }
 
-  private URI getSourceContainerURI(final URI resourceUri) {
+  @Override
+  protected URI getSourceContainerURI(final StorageAwareResource resource) {
+    return getSourceContainerURI(resource.getURI());
+  }
+
+  /**
+   * URI-based alternative to {@link #getSourceContainerURI(StorageAwareResource)}.
+   *
+   * @param resourceUri
+   *          resource URI, must not be {@code null}
+   * @return source container URI for given URI, never {@code null}
+   */
+  protected URI getSourceContainerURI(final URI resourceUri) {
     return resourceUri.trimSegments(1).appendSegment(""); //$NON-NLS-1$
   }
 
@@ -98,11 +122,6 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
   @Override
   public ResourceStorageWritable createResourceStorageWritable(final OutputStream out) {
     return new DirectLinkingResourceStorageWritable(out, isStoreNodeModel());
-  }
-
-  @Override
-  protected URI getSourceContainerURI(final StorageAwareResource resource) {
-    return SOURCE_CONTAINER_URI;
   }
 
 }

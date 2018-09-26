@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.xtext.valid.valid.impl.NativeRuleImpl#getContexts <em>Contexts</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

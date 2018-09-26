@@ -64,7 +64,7 @@ class FingerprintComputerGenerator {
               @Override
               public Hasher case«f.type.name»(final «f.type.instanceClassName()» obj) {
                 final Hasher hasher = hasherAccess.get();
-                «IF f.guard != null»
+                «IF f.guard !== null»
                   if (!(«f.guard.javaExpression(ctx.clone('obj', f.type))»)) {
                     return hasher;
                   }

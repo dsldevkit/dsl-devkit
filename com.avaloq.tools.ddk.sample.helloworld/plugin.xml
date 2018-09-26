@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http://www.avaloq.com/tools/ddk/sample/helloworld/HelloWorld"
+			class = "com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage"
+			genModel = "model/generated/HelloWorld.genmodel" />
+	</extension>
+ <extension
+       id="com.avaloq.tools.ddk.sample.helloworld.validation.executionenvironment.validator"
+       name="Check extension for ExecutionEnvironment"
+       point="com.avaloq.tools.ddk.check.runtime.core.check">
+    <validator
+          catalog="com/avaloq/tools/ddk/sample/helloworld/validation/ExecutionEnvironment.check"
+          language="com.avaloq.tools.ddk.sample.helloworld.HelloWorld"
+          targetClass="com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentCheckImpl">
+    </validator>
+ </extension>
+ <extension
+       id="com.avaloq.tools.ddk.sample.helloworld.validation.librarychecks.validator"
+       name="Check extension for LibraryChecks"
+       point="com.avaloq.tools.ddk.check.runtime.core.check">
+    <validator
+          catalog="com/avaloq/tools/ddk/sample/helloworld/validation/LibraryChecks.check"
+          language="com.avaloq.tools.ddk.sample.helloworld.HelloWorld"
+          targetClass="com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksCheckImpl">
+    </validator>
+ </extension>
+ <extension
+       id="com.avaloq.tools.ddk.sample.helloworld.validation.executionenvironment.preference"
+       name="Preferences extension for ExecutionEnvironment"
+       point="org.eclipse.core.runtime.preferences">
+    <initializer
+          class="com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentPreferenceInitializer">
+    </initializer>
+    <scope
+          class="com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences"
+          name="checkcfgproject">
+    </scope>
+ </extension>
+ <extension
+       id="com.avaloq.tools.ddk.sample.helloworld.validation.librarychecks.preference"
+       name="Preferences extension for LibraryChecks"
+       point="org.eclipse.core.runtime.preferences">
+    <initializer
+          class="com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksPreferenceInitializer">
+    </initializer>
+    <scope
+          class="com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences"
+          name="checkcfgproject">
+    </scope>
+ </extension>
+ <extension
+       name="Context sensitive help for check"
+       point="org.eclipse.help.contexts">
+    <contexts
+          file="docs/contexts.xml">
+    </contexts>
+ </extension>
+ <extension
+       name="Help extension for Check"
+       point="org.eclipse.help.toc">
+    <toc
+          file="docs/toc.xml"
+          primary="false">
+    </toc>
+ </extension>
+</plugin>

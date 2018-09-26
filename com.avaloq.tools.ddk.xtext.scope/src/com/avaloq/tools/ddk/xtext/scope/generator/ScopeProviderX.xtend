@@ -58,7 +58,7 @@ class ScopeProviderX {
 
   // returns the name of the scope method generated for the given scope definition
   def String scopeMethodName(ScopeDefinition it) {
-    getScopeName() + '_' + (if (targetType != null) targetType.EPackage.name + '_' + targetType.name else contextType.EPackage.name + '_' + contextType.name + '_' + reference.name)
+    getScopeName() + '_' + (if (targetType !== null) targetType.EPackage.name + '_' + targetType.name else contextType.EPackage.name + '_' + contextType.name + '_' + reference.name)
   }
 
   def String locatorString(EObject it) {
@@ -84,9 +84,9 @@ class ScopeProviderX {
     getModel().collectAllScopeRules(it)
   }
 
-  def private List<ScopeRule> collectAllScopeRules(ScopeModel it, ScopeDefinition ^def) {
+  def List<ScopeRule> collectAllScopeRules(ScopeModel it, ScopeDefinition ^def) {
     val d = scopes.filter(d|d.isEqual(^def))
-    val myScopeRules = if (d == null) newArrayList else d.map[rules].flatten
+    val myScopeRules = if (d === null) newArrayList else d.map[rules].flatten
     val result =
       if (includedScopes.isEmpty)
         newArrayList
@@ -106,7 +106,7 @@ class ScopeProviderX {
 
   def dispatch boolean isEqual(ScopeRule a, ScopeRule b) {
     a.hasSameContext(b)
-    // && ((a.name == null) == (b.name == null)) && (a.name == null || a.name.matches (b.name))
+    // && ((a.name === null) == (b.name === null)) && (a.name === null || a.name.matches (b.name))
     && a.context.guard.serialize() == b.context.guard.serialize()
   }
 
@@ -136,7 +136,7 @@ class ScopeProviderX {
   }
 
   def String getScopeName(ScopeDefinition it) {
-    if (it.name == null) 'scope' else it.name
+    if (it.name === null) 'scope' else it.name
   }
 
   def boolean hasScope(List<ScopeDefinition> list, ScopeDefinition scope) {
@@ -151,7 +151,7 @@ class ScopeProviderX {
    * SCOPE TYPE
    */
   def dispatch EClass scopeType(ScopeDefinition it) {
-    if (reference != null) reference.EReferenceType else targetType
+    if (reference !== null) reference.EReferenceType else targetType
   }
 
   def dispatch EClass scopeType(ScopeRule it) {
@@ -159,11 +159,11 @@ class ScopeProviderX {
   }
 
   def dispatch EClass scopeType(Expression it) {
-    if (getScope() != null) getScope().scopeType() else getNamingDef().type
+    if (getScope() !== null) getScope().scopeType() else getNamingDef().type
   }
 
   def ENamedElement typeOrRef(ScopeDefinition it) {
-    if (reference != null) reference else targetType
+    if (reference !== null) reference else targetType
   }
 
   def EReference contextRef(ScopeRule it) {
@@ -217,7 +217,7 @@ class ScopeProviderX {
   }
 
   def <T extends EObject> T eContainer(EObject it, Class<T> type) {
-    if (it == null) return null
+    if (it === null) return null
     else if (type.isInstance(it)) it as T
     else eContainer().eContainer(type)
   }
@@ -226,7 +226,7 @@ class ScopeProviderX {
    * ECORE
    */
   def dispatch boolean isEqual(EClass a, EClass b) {
-    a == b || (a != null && b != null && a.name == b.name && a.EPackage.nsURI == b.EPackage.nsURI)
+    a == b || (a !== null && b !== null && a.name == b.name && a.EPackage.nsURI == b.EPackage.nsURI)
   }
 
   def dispatch boolean isEqual(Void a, Void b) {
@@ -242,7 +242,7 @@ class ScopeProviderX {
   }
 
   def dispatch boolean isEqual(EReference a, EReference b) {
-    a == b || (a != null && b != null && a.name == b.name && a.EContainingClass.isEqual(b.EContainingClass))
+    a == b || (a !== null && b !== null && a.name == b.name && a.EContainingClass.isEqual(b.EContainingClass))
   }
 
 }

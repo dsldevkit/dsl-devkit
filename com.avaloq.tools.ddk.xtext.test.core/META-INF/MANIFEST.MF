@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.test.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.test.core;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: com.avaloq.tools.ddk.xtext,
@@ -17,6 +17,8 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.ui.ide,
  org.eclipse.xtend.lib,
  org.eclipse.xtext.junit4;visibility:=reexport,
+ org.eclipse.xtext.testing;visibility:=reexport,
+ org.eclipse.xtext.ui.testing;visibility:=reexport,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.xbase,
  org.eclipse.xtext.xbase.lib;visibility:=reexport,

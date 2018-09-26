@@ -15,10 +15,10 @@ import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage
 import com.google.inject.Inject
 import junit.framework.TestCase
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -28,10 +28,10 @@ class CheckCfgTest extends TestCase {
 
 
   @Inject
-  private ValidationTestHelper helper;
+  ValidationTestHelper helper;
 
   @Inject
-  private ParseHelper<CheckConfiguration> parser;
+  ParseHelper<CheckConfiguration> parser;
 
   @Test
   def testValidLanguageOk() {

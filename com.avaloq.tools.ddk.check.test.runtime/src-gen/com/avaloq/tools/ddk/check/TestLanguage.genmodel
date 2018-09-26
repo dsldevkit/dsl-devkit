@@ -5,7 +5,7 @@
     modelPluginID="com.avaloq.tools.ddk.check.test.runtime" forceOverwrite="true"
     modelName="TestLanguage" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.check.test.runtime.edit"
-    editorPluginID="com.avaloq.tools.ddk.check.test.runtime.editor" runtimeVersion="2.10">
+    editorPluginID="com.avaloq.tools.ddk.check.test.runtime.editor" runtimeVersion="2.12">
   <genPackages prefix="TestLanguage" basePackage="com.avaloq.tools.ddk.check" disposableProviderFactory="true"
       ecorePackage="TestLanguage.ecore#/">
     <genClasses ecoreClass="TestLanguage.ecore#//Model">

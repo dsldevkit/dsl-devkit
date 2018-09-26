@@ -17,17 +17,15 @@ import com.avaloq.tools.ddk.xtext.valid.valid.UniqueRule;
 import com.avaloq.tools.ddk.xtext.valid.valid.ValidModel;
 import com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.serializer.acceptor.ISemanticSequenceAcceptor;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.xtext.Action;
+import org.eclipse.xtext.Parameter;
+import org.eclipse.xtext.ParserRule;
+import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
-import org.eclipse.xtext.serializer.diagnostic.ISemanticSequencerDiagnosticProvider;
-import org.eclipse.xtext.serializer.diagnostic.ISerializationDiagnostic.Acceptor;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.GenericSequencer;
-import org.eclipse.xtext.serializer.sequencer.ISemanticNodeProvider.INodesForEObjectProvider;
-import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
-import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 
 @SuppressWarnings("all")
@@ -37,8 +35,13 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 	private ValidGrammarAccess grammarAccess;
 	
 	@Override
-	public void createSequence(EObject context, EObject semanticObject) {
-		if(semanticObject.eClass().getEPackage() == ValidPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
+	public void sequence(ISerializationContext context, EObject semanticObject) {
+		EPackage epackage = semanticObject.eClass().getEPackage();
+		ParserRule rule = context.getParserRule();
+		Action action = context.getAssignedAction();
+		Set<Parameter> parameters = context.getEnabledBooleanParameters();
+		if (epackage == ValidPackage.eINSTANCE)
+			switch (semanticObject.eClass().getClassifierID()) {
 			case ValidPackage.CATEGORY:
 				sequence_Category(context, (Category) semanticObject); 
 				return; 
@@ -73,44 +76,58 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 				sequence_ValidModel(context, (ValidModel) semanticObject); 
 				return; 
 			}
-		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
+		if (errorAcceptor != null)
+			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
 	
 	/**
+	 * Contexts:
+	 *     Category returns Category
+	 *
 	 * Constraint:
 	 *     (name=ID label=STRING description=STRING? rules+=Rule*)
 	 */
-	protected void sequence_Category(EObject context, Category semanticObject) {
+	protected void sequence_Category(ISerializationContext context, Category semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Context returns DuplicateContext
+	 *     DuplicateContext returns DuplicateContext
+	 *
 	 * Constraint:
 	 *     (contextType=[EClass|QualifiedID] contextFeature=[EStructuralFeature|ID]? markerType=[EClass|QualifiedID] markerFeature=[EStructuralFeature|ID]?)
 	 */
-	protected void sequence_DuplicateContext(EObject context, DuplicateContext semanticObject) {
+	protected void sequence_DuplicateContext(ISerializationContext context, DuplicateContext semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Import returns Import
+	 *
 	 * Constraint:
 	 *     package=[EPackage|STRING]
 	 */
-	protected void sequence_Import(EObject context, Import semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ValidPackage.Literals.IMPORT__PACKAGE) == ValueTransient.YES)
+	protected void sequence_Import(ISerializationContext context, Import semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, ValidPackage.Literals.IMPORT__PACKAGE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ValidPackage.Literals.IMPORT__PACKAGE));
 		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getImportAccess().getPackageEPackageSTRINGTerminalRuleCall_1_0_1(), semanticObject.getPackage());
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getImportAccess().getPackageEPackageSTRINGTerminalRuleCall_1_0_1(), semanticObject.eGet(ValidPackage.Literals.IMPORT__PACKAGE, false));
 		feeder.finish();
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Context returns NativeContext
+	 *     NativeContext returns NativeContext
+	 *
 	 * Constraint:
 	 *     (
 	 *         contextType=[EClass|QualifiedID] 
@@ -120,16 +137,19 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 	 *         quickFixes+=QuickFix*
 	 *     )
 	 */
-	protected void sequence_NativeContext(EObject context, NativeContext semanticObject) {
+	protected void sequence_NativeContext(ISerializationContext context, NativeContext semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Rule returns NativeRule
+	 *     NativeRule returns NativeRule
+	 *
 	 * Constraint:
 	 *     (
-	 *         optional?='optional'? 
-	 *         checkKind=CheckKind? 
+	 *         (optional?='optional' | checkKind=CheckKind)* 
 	 *         severity=SeverityKind 
 	 *         name=ID 
 	 *         label=STRING 
@@ -138,25 +158,32 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 	 *         contexts+=NativeContext+
 	 *     )
 	 */
-	protected void sequence_NativeRule(EObject context, NativeRule semanticObject) {
+	protected void sequence_NativeRule(ISerializationContext context, NativeRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     QuickFix returns QuickFix
+	 *
 	 * Constraint:
 	 *     (quickFixKind=QuickFixKind? name=ID label=STRING message=STRING)
 	 */
-	protected void sequence_QuickFix(EObject context, QuickFix semanticObject) {
+	protected void sequence_QuickFix(ISerializationContext context, QuickFix semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Rule returns RangeRule
+	 *     PredefinedRule returns RangeRule
+	 *     RangeRule returns RangeRule
+	 *
 	 * Constraint:
 	 *     (
-	 *         optional?='optional'? 
-	 *         checkKind=CheckKind? 
+	 *         (optional?='optional' | checkKind=CheckKind)* 
 	 *         severity=SeverityKind 
 	 *         name=ID 
 	 *         label=STRING 
@@ -167,25 +194,33 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 	 *         contexts+=SimpleContext+
 	 *     )
 	 */
-	protected void sequence_RangeRule(EObject context, RangeRule semanticObject) {
+	protected void sequence_RangeRule(ISerializationContext context, RangeRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Context returns SimpleContext
+	 *     SimpleContext returns SimpleContext
+	 *
 	 * Constraint:
 	 *     (contextType=[EClass|QualifiedID] contextFeature=[EStructuralFeature|ID]?)
 	 */
-	protected void sequence_SimpleContext(EObject context, SimpleContext semanticObject) {
+	protected void sequence_SimpleContext(ISerializationContext context, SimpleContext semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Rule returns SizeRule
+	 *     PredefinedRule returns SizeRule
+	 *     SizeRule returns SizeRule
+	 *
 	 * Constraint:
 	 *     (
-	 *         optional?='optional'? 
-	 *         checkKind=CheckKind? 
+	 *         (optional?='optional' | checkKind=CheckKind)* 
 	 *         severity=SeverityKind 
 	 *         name=ID 
 	 *         label=STRING 
@@ -196,16 +231,20 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 	 *         contexts+=SimpleContext+
 	 *     )
 	 */
-	protected void sequence_SizeRule(EObject context, SizeRule semanticObject) {
+	protected void sequence_SizeRule(ISerializationContext context, SizeRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     Rule returns UniqueRule
+	 *     PredefinedRule returns UniqueRule
+	 *     UniqueRule returns UniqueRule
+	 *
 	 * Constraint:
 	 *     (
-	 *         optional?='optional'? 
-	 *         checkKind=CheckKind? 
+	 *         (optional?='optional' | checkKind=CheckKind)* 
 	 *         severity=SeverityKind 
 	 *         name=ID 
 	 *         label=STRING 
@@ -214,16 +253,21 @@ public abstract class AbstractValidSemanticSequencer extends AbstractDelegatingS
 	 *         contexts+=DuplicateContext+
 	 *     )
 	 */
-	protected void sequence_UniqueRule(EObject context, UniqueRule semanticObject) {
+	protected void sequence_UniqueRule(ISerializationContext context, UniqueRule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
+	 * Contexts:
+	 *     ValidModel returns ValidModel
+	 *
 	 * Constraint:
-	 *     (imports+=Import* categories+=Category*)
+	 *     ((imports+=Import+ categories+=Category+) | categories+=Category+)?
 	 */
-	protected void sequence_ValidModel(EObject context, ValidModel semanticObject) {
+	protected void sequence_ValidModel(ISerializationContext context, ValidModel semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
+	
+	
 }

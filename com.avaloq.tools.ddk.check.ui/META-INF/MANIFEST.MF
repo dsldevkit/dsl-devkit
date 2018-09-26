@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.ui;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: com.avaloq.tools.ddk.check.ui.internal.Activator
@@ -38,5 +38,6 @@ Export-Package: com.avaloq.tools.ddk.check.ui;x-friends:="com.avaloq.tools.ddk.c
  com.avaloq.tools.ddk.check.ui.internal;x-friends:="com.avaloq.tools.ddk.check.ui.test",
  com.avaloq.tools.ddk.check.ui.util,
  com.avaloq.tools.ddk.check.ui.wizard,
- com.avaloq.tools.ddk.check.ui.quickfix
+ com.avaloq.tools.ddk.check.ui.quickfix,
+ com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal
 Import-Package: org.apache.log4j

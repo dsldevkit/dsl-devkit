@@ -84,6 +84,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     // JVM validator class before the resource gets indexed, so the JVM catalog class cannot be found yet when we
     // create the injection in the validator. Therefore, remember the class here directly, and set it directly
     // in the validator, completely bypassing any scoping.
+    if (preIndexingPhase) return;
     val catalogClass = catalog.toClass(catalog.qualifiedCatalogClassName);
     val issueCodeToLabelMapTypeRef = typeRef(ImmutableMap, typeRef(String), typeRef(String))
     acceptor.accept(catalogClass, [

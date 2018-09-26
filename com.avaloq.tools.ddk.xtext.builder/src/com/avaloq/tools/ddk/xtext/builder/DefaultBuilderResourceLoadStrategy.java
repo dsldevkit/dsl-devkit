@@ -11,10 +11,8 @@
 package com.avaloq.tools.ddk.xtext.builder;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
-import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -67,27 +65,6 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
     this.clusterSize = clusterSize;
   }
 
-  /**
-   * Calculates the number of fully loaded resources of a resource set.
-   *
-   * @param resourceSet
-   *          the resource set
-   * @return number of fully loaded resources
-   */
-  private int getFullyLoadedResources(final ResourceSet resourceSet) {
-    final int loadedResources = resourceSet.getResources().size();
-    int fullyLoaded = loadedResources;
-    for (Resource resource : resourceSet.getResources()) {
-      if (resource instanceof ILazyLinkingResource2) {
-        ILazyLinkingResource2 lazyLinkingResource = (ILazyLinkingResource2) resource;
-        if (!lazyLinkingResource.getModelManager().allModelsLoaded()) {
-          fullyLoaded--;
-        }
-      }
-    }
-    return fullyLoaded;
-  }
-
   /** {@inheritDoc} */
   @Override
   public boolean mayProcessAnotherResource(final ResourceSet resourceSet, final int alreadyProcessed) {
@@ -107,8 +84,7 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
       // We may use slightly smaller clusters than strictly necessary without GC, though.
       if (LOGGER.isInfoEnabled()) {
         final int loadedResources = resourceSet.getResources().size();
-        final int fullyLoaded = getFullyLoadedResources(resourceSet);
-        LOGGER.info("Cluster capped after " + alreadyProcessed + "/" + loadedResources + "/" + fullyLoaded + " resources; " + (freeMemory / ONE_MEGABYTE) + "/"
+        LOGGER.info("Cluster capped after " + alreadyProcessed + "/" + loadedResources + " resources; " + (freeMemory / ONE_MEGABYTE) + "/"
             + (RUNTIME.totalMemory() / ONE_MEGABYTE) + " memory");
       }
       return false;
@@ -116,4 +92,3 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
     return true; // Keep on loading resources into this resource set
   }
 }
-

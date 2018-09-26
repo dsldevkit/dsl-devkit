@@ -35,6 +35,7 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextSyntaxDiagnostic;
+import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
 import org.eclipse.xtext.validation.FeatureBasedDiagnostic;
 import org.eclipse.xtext.validation.RangeBasedDiagnostic;
@@ -59,8 +60,6 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   public static final int NO_ERRORS = 0;
 
   static final String NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE = "Expecting no errors on resource";
-
-  private static final String COULD_NOT_RESOLVE_REFERENCE_TO = "Couldn''t resolve reference to {0} ''{1}''.";
 
   private static final int SEVERITY_UNDEFINED = -1;
   private static final Map<Integer, String> CODE_TO_NAME = ImmutableMap.of(Diagnostic.INFO, "INFO", Diagnostic.WARNING, "WARNING", Diagnostic.ERROR, "ERROR");
@@ -112,7 +111,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   /**
    * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
    */
-  private class XtextDiagnosticAssertion extends AbstractModelAssertion {
+  protected class XtextDiagnosticAssertion extends AbstractModelAssertion {
 
     private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
 
@@ -238,7 +237,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      * @return
      *         TRUE if diagnostic has the same position as the given one, FALSE otherwise.
      */
-    private boolean diagnosticPositionEquals(final Integer pos, final AbstractValidationDiagnostic avd) {
+    protected boolean diagnosticPositionEquals(final Integer pos, final AbstractValidationDiagnostic avd) {
       if (avd instanceof FeatureBasedDiagnostic && ((FeatureBasedDiagnostic) avd).getFeature() != null) {
         List<INode> nodes = NodeModelUtils.findNodesForFeature(avd.getSourceEObject(), ((FeatureBasedDiagnostic) avd).getFeature());
         if (nodes.isEmpty()) {
@@ -734,7 +733,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     super.beforeApplyAssertions(testSource);
     EObject root = testSource.getModel();
     // Get all diagnostics of the current testing file
-    EcoreUtil2.resolveLazyCrossReferences(root.eResource(), null);
+    EcoreUtil2.resolveLazyCrossReferences(root.eResource(), CancelIndicator.NullImpl);
     fileDiagnostics = validate(root);
     getUnexpectedDiagnostics().addAll(fileDiagnostics.getChildren());
     getUnexpectedResourceDiagnostics().addAll(root.eResource().getErrors());
@@ -963,11 +962,18 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the names of the referenced elements
    */
   public static void assertNoLinkingErrorsOnResource(final EObject object, final String referenceType, final String... referenceNames) {
-    String[] messages = new String[referenceNames.length];
-    for (int i = 0; i < referenceNames.length; i++) {
-      messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
+    for (final String referenceName : referenceNames) {
+      boolean found = false;
+      for (final String errMessage : errorMessages) {
+        if (errMessage.startsWith(referenceName)) {
+          found = true;
+          break;
+        }
+      }
+      assertFalse(NLS.bind("Expecting no linking errors on resource for \"{0}\".", referenceName), found);
     }
-    assertNoLinkingErrorsWithCustomMessageOnResource(object, messages);
   }
 
   /**
@@ -981,11 +987,18 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the names of the referenced elements
    */
   public static void assertLinkingErrorsOnResourceExist(final EObject object, final String referenceType, final String... referenceNames) {
-    String[] messages = new String[referenceNames.length];
-    for (int i = 0; i < referenceNames.length; i++) {
-      messages[i] = NLS.bind(COULD_NOT_RESOLVE_REFERENCE_TO, referenceType, referenceNames[i]);
+    final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
+    final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
+    for (final String referenceName : referenceNames) {
+      boolean found = false;
+      for (final String errMessage : errorMessages) {
+        if (errMessage.contains(referenceName)) {
+          found = true;
+          break;
+        }
+      }
+      assertTrue(NLS.bind("Expected linking error on \"{0}\" but could not find it", referenceName), found);
     }
-    assertLinkingErrorsWithCustomMessageOnResourceExist(object, messages);
   }
 
   /**
@@ -1060,7 +1073,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * @param root
    *          root node of the model to be analyzed
    */
-  private void memorizeUnexpectedResourceErrors() {
+  protected void memorizeUnexpectedResourceErrors() {
     for (Resource.Diagnostic diagnostic : getUnexpectedResourceDiagnostics()) {
       if (diagnostic instanceof AbstractDiagnostic) {
         AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
@@ -1087,7 +1100,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Memorize the position and issue code of each unexpected diagnostic that appears in the file.
    * A diagnostic is considered as expected if a marker with the issue code in the test file was set.
    */
-  private void memorizeUnexpectedErrors() {
+  protected void memorizeUnexpectedErrors() {
     for (Diagnostic diagnostic : getUnexpectedDiagnostics()) {
       if (diagnostic instanceof AbstractValidationDiagnostic) {
         AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;

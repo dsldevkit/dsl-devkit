@@ -82,7 +82,7 @@ class ResourceDescriptionStrategyGenerator {
                 «javaContributorComment(c.location)»
                 @Override
                 public Boolean case«c.type.name»(final «c.type.instanceClassName()» obj) {
-                  «IF c.guard != null»
+                  «IF c.guard !== null»
                     «javaContributorComment(c.guard.location)»
                     if («c.guard.javaExpression(ctx.clone('obj', c.type))») {
                       «generateCaseBody(c, ctx, genModelUtil)»
@@ -154,7 +154,7 @@ class ResourceDescriptionStrategyGenerator {
               «ENDIF»
               «IF c.lookup»
                 // Allow lookups
-                «IF c.lookupPredicate != null»
+                «IF c.lookupPredicate !== null»
                   «javaContributorComment(c.lookupPredicate.location)»
                   if («c.lookupPredicate.javaExpression(ctx.clone('obj', c.type))») {
                     builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());

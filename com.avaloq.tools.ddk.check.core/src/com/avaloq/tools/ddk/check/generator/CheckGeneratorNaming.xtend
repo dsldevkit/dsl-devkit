@@ -31,8 +31,8 @@ class CheckGeneratorNaming {
   }
 
   // creates a pathName out of a qualified javaPackagename
-  def private String asPath(String javaPackageName) {
-    if (javaPackageName != null) javaPackageName.replace('.', '/') + "/" else ""
+  def String asPath(String javaPackageName) {
+    if (javaPackageName !== null) javaPackageName.replace('.', '/') + "/" else ""
   }
 
   /* Gets the class name of the check validator. */
