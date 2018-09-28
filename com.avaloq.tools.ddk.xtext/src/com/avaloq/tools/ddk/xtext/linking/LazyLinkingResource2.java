@@ -72,7 +72,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   @Inject
   private Injector injector;
 
-  /** Default load mode to use when loading resources of this type. If not specified it defaults to {@link ResourceLoadMode#PROXIED_NODE_MODEL}. */
+  /**
+   * Default load mode to use when loading resources of this type. If not specified it defaults to {@link ResourceLoadMode#PROXIED_NODE_MODEL_AND_ASSOCIATIONS}.
+   */
   @Inject(optional = true)
   @Named(ResourceLoadMode.DEFAULT_LOAD_MODE)
   private ResourceLoadMode defaultLoadMode;
@@ -368,6 +370,6 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   }
 
   public ResourceLoadMode getDefaultLoadMode() {
-    return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL;
+    return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL_AND_ASSOCIATIONS;
   }
 }
