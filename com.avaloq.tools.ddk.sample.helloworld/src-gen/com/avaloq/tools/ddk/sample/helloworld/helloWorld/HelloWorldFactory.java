@@ -42,6 +42,15 @@ public interface HelloWorldFactory extends EFactory
   Greeting createGreeting();
 
   /**
+   * Returns a new object of class '<em>Keywords Example</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Keywords Example</em>'.
+   * @generated
+   */
+  KeywordsExample createKeywordsExample();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

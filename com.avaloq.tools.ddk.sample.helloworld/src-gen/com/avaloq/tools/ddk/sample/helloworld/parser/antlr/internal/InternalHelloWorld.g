@@ -28,28 +28,47 @@ import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
 import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
 import com.avaloq.tools.ddk.sample.helloworld.services.HelloWorldGrammarAccess;
+import com.avaloq.tools.ddk.sample.helloworld.grammar.AbstractHelloWorldSemanticPredicates;
+import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
 
 }
 
 @parser::members {
 
- 	private HelloWorldGrammarAccess grammarAccess;
+    private HelloWorldGrammarAccess grammarAccess;
+    private AbstractHelloWorldSemanticPredicates predicates;
+    private ParserContext parserContext;
 
-    public InternalHelloWorldParser(TokenStream input, HelloWorldGrammarAccess grammarAccess) {
+    public InternalHelloWorldParser(TokenStream input, HelloWorldGrammarAccess grammarAccess, ParserContext parserContext, AbstractHelloWorldSemanticPredicates predicates) {
         this(input);
         this.grammarAccess = grammarAccess;
+        this.predicates = predicates;
+        this.parserContext = parserContext;
+        parserContext.setTokenStream(input);
         registerRules(grammarAccess.getGrammar());
+    }
+
+    /**
+     * Set token stream in parser context.
+     * @param input Token stream
+     */
+    @Override
+    public void setTokenStream(TokenStream input) {
+      super.setTokenStream(input);
+      if(parserContext != null){
+        parserContext.setTokenStream(input);
+      }
     }
 
     @Override
     protected String getFirstRuleName() {
-    	return "Model";
-   	}
+      return "Model";
+    }
 
-   	@Override
-   	protected HelloWorldGrammarAccess getGrammarAccess() {
-   		return grammarAccess;
-   	}
+    @Override
+    protected HelloWorldGrammarAccess getGrammarAccess() {
+      return grammarAccess;
+    }
 
 }
 
@@ -62,83 +81,305 @@ import com.avaloq.tools.ddk.sample.helloworld.services.HelloWorldGrammarAccess;
 
 // Entry rule entryRuleModel
 entryRuleModel returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getModelRule()); }
-	iv_ruleModel=ruleModel
-	{ $current=$iv_ruleModel.current; }
-	EOF;
+  { newCompositeNode(grammarAccess.getModelRule()); }
+  iv_ruleModel=ruleModel
+  { $current=$iv_ruleModel.current; }
+  EOF;
 
 // Rule Model
 ruleModel returns [EObject current=null]
 @init {
-	enterRule();
+  enterRule();
 }
 @after {
-	leaveRule();
+  leaveRule();
 }:
-	(
-		(
-			{
-				newCompositeNode(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0());
-			}
-			lv_greetings_0_0=ruleGreeting
-			{
-				if ($current==null) {
-					$current = createModelElementForParent(grammarAccess.getModelRule());
-				}
-				add(
-					$current,
-					"greetings",
-					lv_greetings_0_0,
-					"com.avaloq.tools.ddk.sample.helloworld.HelloWorld.Greeting");
-				afterParserOrEnumRuleCall();
-			}
-		)
-	)*
+  (
+    (
+      (
+      	{
+      	  newCompositeNode(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0_0());
+      	}
+      	lv_greetings_0_0=ruleGreeting
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElementForParent(grammarAccess.getModelRule());
+      	  }
+      	  add(
+      	    $current,
+      	    "greetings",
+      	    lv_greetings_0_0,
+      	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.Greeting");
+      	  afterParserOrEnumRuleCall();
+      	}
+      )
+    )*
+    (
+      (
+      	{
+      	  newCompositeNode(grammarAccess.getModelAccess().getKeywordsExampleKeywordsExampleParserRuleCall_1_0());
+      	}
+      	lv_keywordsExample_1_0=ruleKeywordsExample
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElementForParent(grammarAccess.getModelRule());
+      	  }
+      	  set(
+      	    $current,
+      	    "keywordsExample",
+      	    lv_keywordsExample_1_0,
+      	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeywordsExample");
+      	  afterParserOrEnumRuleCall();
+      	}
+      )
+    )?
+  )
 ;
 
 // Entry rule entryRuleGreeting
 entryRuleGreeting returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getGreetingRule()); }
-	iv_ruleGreeting=ruleGreeting
-	{ $current=$iv_ruleGreeting.current; }
-	EOF;
+  { newCompositeNode(grammarAccess.getGreetingRule()); }
+  iv_ruleGreeting=ruleGreeting
+  { $current=$iv_ruleGreeting.current; }
+  EOF;
 
 // Rule Greeting
 ruleGreeting returns [EObject current=null]
 @init {
-	enterRule();
+  enterRule();
 }
 @after {
-	leaveRule();
+  leaveRule();
 }:
-	(
-		otherlv_0='Hello'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
-		}
-		(
-			(
-				lv_name_1_0=RULE_ID
-				{
-					newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getGreetingRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_1_0,
-						"org.eclipse.xtext.common.Terminals.ID");
-				}
-			)
-		)
-		otherlv_2='!'
-		{
-			newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
-		}
-	)
+  (
+    otherlv_0='Hello'
+    {
+      newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
+    }
+    (
+      (
+      	lv_name_1_0=RULE_ID
+      	{
+      	  newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0());
+      	}
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElement(grammarAccess.getGreetingRule());
+      	  }
+      	  setWithLastConsumed(
+      	    $current,
+      	    "name",
+      	    lv_name_1_0,
+      	    "org.eclipse.xtext.common.Terminals.ID");
+      	}
+      )
+    )
+    otherlv_2='!'
+    {
+      newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
+    }
+  )
+;
+
+// Entry rule entryRuleKeywordsExample
+entryRuleKeywordsExample returns [EObject current=null]:
+  { newCompositeNode(grammarAccess.getKeywordsExampleRule()); }
+  iv_ruleKeywordsExample=ruleKeywordsExample
+  { $current=$iv_ruleKeywordsExample.current; }
+  EOF;
+
+// Rule KeywordsExample
+ruleKeywordsExample returns [EObject current=null]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  (
+    (
+      (
+      	{predicates.isKeyOneEnabled(parserContext)}?=>
+      	{
+      	  newCompositeNode(grammarAccess.getKeywordsExampleAccess().getOptionOptionOneParserRuleCall_0_0());
+      	}
+      	lv_option_0_0=ruleOptionOne
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElementForParent(grammarAccess.getKeywordsExampleRule());
+      	  }
+      	  set(
+      	    $current,
+      	    "option",
+      	    lv_option_0_0,
+      	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionOne");
+      	  afterParserOrEnumRuleCall();
+      	}
+      )
+    )
+        |
+    (
+      (
+      	{predicates.isKeyTwoEnabled(parserContext)}?=>
+      	{
+      	  newCompositeNode(grammarAccess.getKeywordsExampleAccess().getOptionOptionTwoParserRuleCall_1_0());
+      	}
+      	lv_option_1_0=ruleOptionTwo
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElementForParent(grammarAccess.getKeywordsExampleRule());
+      	  }
+      	  set(
+      	    $current,
+      	    "option",
+      	    lv_option_1_0,
+      	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionTwo");
+      	  afterParserOrEnumRuleCall();
+      	}
+      )
+    )
+  )
+;
+
+// Entry rule entryRuleOptionOne
+entryRuleOptionOne returns [String current=null]:
+  { newCompositeNode(grammarAccess.getOptionOneRule()); }
+  iv_ruleOptionOne=ruleOptionOne
+  { $current=$iv_ruleOptionOne.current.getText(); }
+  EOF;
+
+// Rule OptionOne
+ruleOptionOne returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  {
+    newCompositeNode(grammarAccess.getOptionOneAccess().getKeyOneParserRuleCall());
+  }
+  this_KeyOne_0=ruleKeyOne
+  {
+    $current.merge(this_KeyOne_0);
+  }
+  {
+    afterParserOrEnumRuleCall();
+  }
+;
+
+// Entry rule entryRuleOptionTwo
+entryRuleOptionTwo returns [String current=null]:
+  { newCompositeNode(grammarAccess.getOptionTwoRule()); }
+  iv_ruleOptionTwo=ruleOptionTwo
+  { $current=$iv_ruleOptionTwo.current.getText(); }
+  EOF;
+
+// Rule OptionTwo
+ruleOptionTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  (
+    {
+      newCompositeNode(grammarAccess.getOptionTwoAccess().getKeyTwoParserRuleCall_0());
+    }
+    this_KeyTwo_0=ruleKeyTwo
+    {
+      $current.merge(this_KeyTwo_0);
+    }
+    {
+      afterParserOrEnumRuleCall();
+    }
+    {
+      newCompositeNode(grammarAccess.getOptionTwoAccess().getKeyOtherParserRuleCall_1());
+    }
+    this_KeyOther_1=ruleKeyOther
+    {
+      $current.merge(this_KeyOther_1);
+    }
+    {
+      afterParserOrEnumRuleCall();
+    }
+  )
+;
+
+// Entry rule entryRuleKeyOne
+entryRuleKeyOne returns [String current=null]:
+  { newCompositeNode(grammarAccess.getKeyOneRule()); }
+  iv_ruleKeyOne=ruleKeyOne
+  { $current=$iv_ruleKeyOne.current.getText(); }
+  EOF;
+
+// Rule KeyOne
+ruleKeyOne returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  {predicates.isKeyOneEnabled(parserContext) /* @ErrorMessage(getKeyOneEnabledMessage) */}?
+  this_ID_0=RULE_ID
+  {
+    $current.merge(this_ID_0);
+  }
+  {
+    newLeafNode(this_ID_0, grammarAccess.getKeyOneAccess().getIDTerminalRuleCall());
+  }
+;
+
+// Entry rule entryRuleKeyTwo
+entryRuleKeyTwo returns [String current=null]:
+  { newCompositeNode(grammarAccess.getKeyTwoRule()); }
+  iv_ruleKeyTwo=ruleKeyTwo
+  { $current=$iv_ruleKeyTwo.current.getText(); }
+  EOF;
+
+// Rule KeyTwo
+ruleKeyTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  {predicates.isKeyTwoEnabled(parserContext) /* @ErrorMessage(getKeyTwoEnabledMessage) */}?
+  this_ID_0=RULE_ID
+  {
+    $current.merge(this_ID_0);
+  }
+  {
+    newLeafNode(this_ID_0, grammarAccess.getKeyTwoAccess().getIDTerminalRuleCall());
+  }
+;
+
+// Entry rule entryRuleKeyOther
+entryRuleKeyOther returns [String current=null]:
+  { newCompositeNode(grammarAccess.getKeyOtherRule()); }
+  iv_ruleKeyOther=ruleKeyOther
+  { $current=$iv_ruleKeyOther.current.getText(); }
+  EOF;
+
+// Rule KeyOther
+ruleKeyOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  {predicates.isKeyOtherEnabled(parserContext) /* @ErrorMessage(getKeyOtherEnabledMessage) */}?
+  this_ID_0=RULE_ID
+  {
+    $current.merge(this_ID_0);
+  }
+  {
+    newLeafNode(this_ID_0, grammarAccess.getKeyOtherAccess().getIDTerminalRuleCall());
+  }
 ;
 
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
