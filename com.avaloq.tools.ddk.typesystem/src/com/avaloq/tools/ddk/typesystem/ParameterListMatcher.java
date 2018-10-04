@@ -98,11 +98,14 @@ public class ParameterListMatcher {
     TOO_MANY_ACTUALS,
     /** An actual parameter is invalid, e.g., is null or has a name that is null or the empty string. */
     INVALID_ACTUAL,
-    /**
-     * A formal parameter is invalid, e.g., is null, has a name that is null or the empty string, is a duplicate named parameter or is an unnamed parameter that
-     * occurred after a named parameter.
-     */
+    /** A formal parameter is null. */
     INVALID_FORMAL,
+    /** A formal parameter is a duplicate named parameter. */
+    DUPLICATE_PARAMETER,
+    /** A formal parameter has a name that is null or the empty string. */
+    INVALID_FORMAL_NAME,
+    /** A formal parameter is an unnamed parameter that occurred after a named parameter. */
+    UNNAMED_FORMAL_AFTER_NAMED
   }
 
   /**
@@ -266,16 +269,21 @@ public class ParameterListMatcher {
           if (!Strings.isEmpty(name)) {
             if (getConsumedNamedFormals().containsKey(name) && !formal.isMulti()) {
               addDuplicateNamedFormal(namedFormal);
+              setStatus(ParameterListMatchStatus.DUPLICATE_PARAMETER);
+              return;
             } else {
               getConsumedNamedFormals().put(name, namedFormal);
               return;
             }
+          } else {
+            setStatus(ParameterListMatchStatus.INVALID_FORMAL_NAME);
+            return;
           }
         } else {
           return; // is an unnamed formal
         }
       }
-      setStatus(ParameterListMatchStatus.INVALID_FORMAL);
+      setStatus(ParameterListMatchStatus.INVALID_FORMAL); // Cannot match
     }
 
     /**
@@ -362,7 +370,7 @@ public class ParameterListMatcher {
           unnamedFormalsAfterNamedFormal = new ArrayList<IFormalParameter>(1);
         }
         unnamedFormalsAfterNamedFormal.add(formal);
-        setStatus(ParameterListMatchStatus.INVALID_FORMAL);
+        setStatus(ParameterListMatchStatus.UNNAMED_FORMAL_AFTER_NAMED);
       }
     }
 
@@ -498,7 +506,7 @@ public class ParameterListMatcher {
         if (validName && !listMatchResult.getConsumedNamedFormals().containsKey(formalName) && !resultMap.containsKey(formalName)) {
           resultMap.put(formalName, formal);
         } else if (!validName) {
-          listMatchResult.setStatus(ParameterListMatchStatus.INVALID_FORMAL);
+          listMatchResult.setStatus(ParameterListMatchStatus.INVALID_FORMAL_NAME);
         }
       } else { // it is either null or an unnamed parameter
         if (formal == null) {
