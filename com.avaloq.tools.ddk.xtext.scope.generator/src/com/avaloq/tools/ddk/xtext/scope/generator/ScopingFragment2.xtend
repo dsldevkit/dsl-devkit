@@ -15,7 +15,7 @@ import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
 
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
-import static extension org.eclipse.xtext.xtext.generator.util.GrammarUtil2.*
+import static extension org.eclipse.xtext.GrammarUtil.*
 import org.eclipse.xtext.scoping.IScopeProvider
 import com.avaloq.tools.ddk.xtext.scoping.IScopeNameProvider
 import org.eclipse.xtext.linking.ILinkingService

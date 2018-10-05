@@ -19,7 +19,7 @@ import com.google.inject.Inject
 
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
 
-import static extension org.eclipse.xtext.xtext.generator.util.GrammarUtil2.*
+import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import org.eclipse.xtext.xtext.generator.model.TypeReference
 import org.eclipse.xtext.Grammar
@@ -34,7 +34,6 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
 	@Inject extension XtextGeneratorNaming
 
 	def private TypeReference createSuffixedTypeReference(Grammar g, String suffix) {
-				//TODO check me
 		return new TypeReference(
 			g.name + suffix
 		)
@@ -59,12 +58,11 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
 
 	def generateServiceRegistration() {
 		fileAccessFactory.createTextFile("META-INF/services/com.avaloq.tools.ddk.xtext.build.IDynamicSetupService", '''
-			«grammar.runtimeBasePackage».«grammar.simpleName»  «««« TODO check me
+			«grammar.runtimeBasePackage».«grammar.simpleName»
 		''').writeTo(projectConfig.runtime.srcGen)
 	}
 
 	def generateBuildService() {
-		// TODO check use of grammar.simpleName
 		fileAccessFactory.createJavaFile(grammar.standaloneBuildSetupServiceClass, '''
 			import java.util.List;
 
