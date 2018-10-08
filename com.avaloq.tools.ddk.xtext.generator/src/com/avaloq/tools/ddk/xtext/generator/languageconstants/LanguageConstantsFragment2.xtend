@@ -101,7 +101,7 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
   }
 
   def doGetConstantsClassFile() {
-    val typeReference = grammar.getTypeReference("")
+    val typeReference = grammar.typeReference
     val javaFile = fileAccessFactory.createJavaFile(typeReference)
     javaFile.resourceSet = language.resourceSet
 
@@ -147,12 +147,10 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
    *
    * @param grammar
    *          the grammar
-   * @param prefix
-   *          the prefix (e.g. "Abstract", "Default", ...
    * @return the type reference
    */
-  def TypeReference getTypeReference(Grammar grammar, String prefix) {
-    return new TypeReference(grammar.runtimeBasePackage + "." + prefix + GrammarUtil.getSimpleName(grammar) + "Constants")
+  def TypeReference getTypeReference(Grammar grammar) {
+    return new TypeReference(grammar.runtimeBasePackage + "." + GrammarUtil.getSimpleName(grammar) + "Constants")
   }
 
 }

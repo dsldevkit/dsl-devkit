@@ -35,7 +35,7 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
   /**
    * Class-wide logger.
    */
-  static final Logger LOGGER = Logger::getLogger(typeof(ExportFragment2))
+  static final Logger LOGGER = Logger::getLogger(ExportFragment2)
 
   val DDK_XTEXT_RUNTIME_BUNDLE = "com.avaloq.tools.ddk.xtext"
 
