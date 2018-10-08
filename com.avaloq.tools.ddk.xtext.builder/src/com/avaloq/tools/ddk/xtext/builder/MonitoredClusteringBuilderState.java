@@ -845,14 +845,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (manager != null) {
             final IResourceDescription description = manager.getResourceDescription(resource);
             // We don't care here about links, we really just want the exported objects so that we can link in the next phase.
-            // Set flag to make unresolvable cross-references raise an error
+            // Set flag to tell linker to log warnings on unresolvable cross-references
             resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
             final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
-            final boolean hasUnresolvedLinks = resourceSet.getLoadOptions().get(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS) == Boolean.TRUE;
-            if (hasUnresolvedLinks) {
-              LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_FAILED_REFERENCE_RESOLUTION_IN_INDEXING, uri));
-            }
-            // In any case process the resource. We expect no DSL to depend on linking in indexing phase
             final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
             newState.register(intermediateDelta);
             toBuild.add(uri);

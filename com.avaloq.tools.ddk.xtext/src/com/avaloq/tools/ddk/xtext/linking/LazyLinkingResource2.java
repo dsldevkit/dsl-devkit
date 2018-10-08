@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.serialization.SerializationUtil;
@@ -72,7 +73,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   @Inject
   private Injector injector;
 
-  /** Default load mode to use when loading resources of this type. If not specified it defaults to {@link ResourceLoadMode#PROXIED_NODE_MODEL}. */
+  /**
+   * Default load mode to use when loading resources of this type. If not specified it defaults to {@link ResourceLoadMode#PROXIED_NODE_MODEL_AND_ASSOCIATIONS}.
+   */
   @Inject(optional = true)
   @Named(ResourceLoadMode.DEFAULT_LOAD_MODE)
   private ResourceLoadMode defaultLoadMode;
@@ -127,6 +130,11 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       if (result == null && getEncoder().isCrossLinkFragment(this, uriFragment)) {
         final ResourceSet rs = getResourceSet();
         if (rs.getLoadOptions().get(MARK_UNRESOLVABLE_XREFS) == Boolean.FALSE) {
+          Triple<EObject, EReference, INode> refInfo = getEncoder().decode(this, uriFragment);
+          EReference reference = refInfo.getSecond();
+          EObject context = refInfo.getFirst();
+          LOGGER.warn("Failed unexpected attempt to resolve reference during indexing " + context.eClass().getName() + "#" //$NON-NLS-1$ //$NON-NLS-2$
+              + reference.getName() + " for object " + EcoreUtil.getURI(context), new RuntimeException()); //$NON-NLS-1$
           rs.getLoadOptions().put(MARK_UNRESOLVABLE_XREFS, Boolean.TRUE);
         }
       }
@@ -368,6 +376,6 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   }
 
   public ResourceLoadMode getDefaultLoadMode() {
-    return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL;
+    return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL_AND_ASSOCIATIONS;
   }
 }

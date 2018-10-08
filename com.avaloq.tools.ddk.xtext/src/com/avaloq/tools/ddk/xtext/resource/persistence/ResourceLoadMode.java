@@ -35,6 +35,8 @@ public interface ResourceLoadMode {
 
   /**
    * Constituent to load from binary storage.
+   * <p>
+   * Note: It is important that the order of these literals reflect the order of the entries in the zip archives.
    */
   enum Constituent {
     /**
@@ -50,6 +52,10 @@ public interface ResourceLoadMode {
      * elements in the resource contents.
      */
     ASSOCIATIONS,
+    /**
+     * This represents the source text behind the node model.
+     */
+    SOURCE,
     /**
      * This represents the {@link org.eclipse.xtext.parser.IParseResult#getRootNode() node model}.
      */
@@ -119,21 +125,42 @@ public interface ResourceLoadMode {
   ResourceLoadMode FULL = of(c -> Instruction.LOAD, "FULL");
 
   /**
-   * Load mode for loading a resource fully from binary storage except for the {@link Constituent#NODE_MODEL}, which will be {@link Instruction#PROXY proxied}.
+   * Load mode for loading a resource fully from binary storage except for the {@link Constituent#NODE_MODEL} and {@link Constituent#SOURCE}, which will be
+   * {@link Instruction#PROXY proxied}.
    */
-  ResourceLoadMode PROXIED_NODE_MODEL = of(c -> c == Constituent.NODE_MODEL ? Instruction.PROXY : Instruction.LOAD, "PROXIED_NODE_MODEL");
+  ResourceLoadMode PROXIED_NODE_MODEL = of(c -> c == Constituent.NODE_MODEL || c == Constituent.SOURCE ? Instruction.PROXY
+      : Instruction.LOAD, "PROXIED_NODE_MODEL");
+
+  /**
+   * Load mode for loading a resource fully from binary storage except for the {@link Constituent#ASSOCIATIONS}, {@link Constituent#NODE_MODEL}, and
+   * {@link Constituent#SOURCE}, which will all be {@link Instruction#PROXY proxied}.
+   */
+  ResourceLoadMode PROXIED_NODE_MODEL_AND_ASSOCIATIONS = of(c -> c == Constituent.NODE_MODEL || c == Constituent.SOURCE || c == Constituent.ASSOCIATIONS
+      ? Instruction.PROXY
+      : Instruction.LOAD, "PROXIED_NODE_MODEL_AND_ASSOCIATIONS");
 
   /**
    * Load mode for loading a resource from binary storage without any node model.
    */
-  ResourceLoadMode NO_NODE_MODEL = of(c -> c == Constituent.NODE_MODEL ? Instruction.SKIP : Instruction.LOAD, "NO_NODE_MODEL");
+  ResourceLoadMode NO_NODE_MODEL = of(c -> c == Constituent.NODE_MODEL || c == Constituent.SOURCE ? Instruction.SKIP : Instruction.LOAD, "NO_NODE_MODEL");
 
   /**
-   * Load mode for demand-loading a resource's node model from binary storage. This is intended to be used in conjunction with {@link #PROXIED_NODE_MODEL}.
+   * Load mode for demand-loading a resource's node model from binary storage. This is intended to be used in conjunction with {@link #PROXIED_NODE_MODEL} and
+   * {@link #PROXIED_NODE_MODEL_AND_ASSOCIATIONS}.
    *
    * @return load mode for demand-loading a resource's node model, never {@code null}
    */
-  ResourceLoadMode ONLY_NODE_MODEL = of(c -> c == Constituent.RESOURCE || c == Constituent.NODE_MODEL ? Instruction.LOAD : Instruction.SKIP, "ONLY_NODE_MODEL");
+  ResourceLoadMode ONLY_NODE_MODEL = of(c -> c == Constituent.RESOURCE || c == Constituent.NODE_MODEL || c == Constituent.SOURCE ? Instruction.LOAD
+      : Instruction.SKIP, "ONLY_NODE_MODEL");
+
+  /**
+   * Load mode for demand-loading a resource's associations from binary storage. This is intended to be used in conjunction with
+   * {@link #PROXIED_NODE_MODEL_AND_ASSOCIATIONS}.
+   *
+   * @return load mode for demand-loading a resource's associations, never {@code null}
+   */
+  ResourceLoadMode ONLY_ASSOCIATIONS = of(c -> c == Constituent.RESOURCE || c == Constituent.ASSOCIATIONS ? Instruction.LOAD
+      : Instruction.SKIP, "ONLY_ASSOCIATIONS");
 
   /**
    * Helper method to create a load mode using a function. The additional name will be returned by the load mode's {@link #toString()} method to assist while

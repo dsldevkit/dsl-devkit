@@ -82,8 +82,9 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
 
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByObject(final EObject object) {
+    final EClass eClass = object.eClass();
     final String fragment = EObjectUtil.getURIFragment(object);
-    return Iterables.filter(getExportedObjects(), input -> fragment.equals(input.getEObjectURI().fragment()));
+    return Iterables.filter(getExportedObjects(), input -> eClass == input.getEClass() && fragment.equals(input.getEObjectURI().fragment()));
   }
 
   @Override

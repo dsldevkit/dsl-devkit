@@ -161,9 +161,10 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
   }
 
   @Override
+  // @SuppressFBWarnings("EQ_CHECK_FOR_OPERAND_NOT_COMPATIBLE_WITH_THIS")
   public boolean equals(final Object obj) {
     // this override is required for NodeTreeIterator (returned by iterator()) to work correctly in the context of NodeModelUtils
-    return this == obj || !(obj instanceof ProxyCompositeNode) && delegate() == obj;
+    return this == obj || obj instanceof CompositeNode && delegate() == obj;
   }
 
   @Override

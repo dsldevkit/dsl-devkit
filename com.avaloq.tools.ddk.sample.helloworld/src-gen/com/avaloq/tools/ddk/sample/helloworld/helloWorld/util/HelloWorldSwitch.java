@@ -87,6 +87,13 @@ public class HelloWorldSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case HelloWorldPackage.KEYWORDS_EXAMPLE:
+      {
+        KeywordsExample keywordsExample = (KeywordsExample)theEObject;
+        T result = caseKeywordsExample(keywordsExample);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -119,6 +126,22 @@ public class HelloWorldSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseGreeting(Greeting object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Keywords Example</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Keywords Example</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseKeywordsExample(KeywordsExample object)
   {
     return null;
   }

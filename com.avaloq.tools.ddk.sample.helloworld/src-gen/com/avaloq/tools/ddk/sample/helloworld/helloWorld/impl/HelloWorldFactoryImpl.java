@@ -67,6 +67,7 @@ public class HelloWorldFactoryImpl extends EFactoryImpl implements HelloWorldFac
     {
       case HelloWorldPackage.MODEL: return createModel();
       case HelloWorldPackage.GREETING: return createGreeting();
+      case HelloWorldPackage.KEYWORDS_EXAMPLE: return createKeywordsExample();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -92,6 +93,17 @@ public class HelloWorldFactoryImpl extends EFactoryImpl implements HelloWorldFac
   {
     GreetingImpl greeting = new GreetingImpl();
     return greeting;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public KeywordsExample createKeywordsExample()
+  {
+    KeywordsExampleImpl keywordsExample = new KeywordsExampleImpl();
+    return keywordsExample;
   }
 
   /**
