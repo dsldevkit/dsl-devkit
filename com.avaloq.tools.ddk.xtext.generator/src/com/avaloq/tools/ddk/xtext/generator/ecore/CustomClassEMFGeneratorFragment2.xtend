@@ -308,7 +308,6 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
    */
   def protected void generateCustomClassStub(String from, String customClassName, URI path) {
     val StringBuilder sb = new StringBuilder();
-    // sb.append(copyright()).append("\n");
     val int lastIndexOfDot = customClassName.lastIndexOf('.');
     sb.append("package ").append(customClassName.substring(0, lastIndexOfDot)).append(";\n\n\n");
     sb.append("public class ").append(customClassName.substring(lastIndexOfDot + 1)).append(" extends ").append(from).append(" {\n\n");

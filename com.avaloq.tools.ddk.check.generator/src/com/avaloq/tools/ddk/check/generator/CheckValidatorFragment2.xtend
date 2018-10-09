@@ -19,14 +19,14 @@ import com.avaloq.tools.ddk.check.runtime.validation.DefaultCheckValidator
 
 class CheckValidatorFragment2 extends AbstractXtextGeneratorFragment {
 
-	static val RUNTIME_PLUGIN = "com.avaloq.tools.ddk.check.runtime.core"
+  static val RUNTIME_PLUGIN = "com.avaloq.tools.ddk.check.runtime.core"
 
-	override generate() {
-		new GuiceModuleAccess.BindingFactory().addTypeToTypeEagerSingleton(AbstractCheckValidator.typeRef,
-			DefaultCheckValidator.typeRef).contributeTo(language.runtimeGenModule)
+  override generate() {
+    new GuiceModuleAccess.BindingFactory().addTypeToTypeEagerSingleton(AbstractCheckValidator.typeRef,
+      DefaultCheckValidator.typeRef).contributeTo(language.runtimeGenModule)
 
-		if (projectConfig.runtime.manifest !== null) {
-			projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
-		}
-	}
+    if (projectConfig.runtime.manifest !== null) {
+      projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
+    }
+  }
 }
