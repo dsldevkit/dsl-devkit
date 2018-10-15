@@ -26,6 +26,7 @@ import com.avaloq.tools.ddk.check.CheckInjectorProvider;
  */
 @InjectWith(CheckInjectorProvider.class)
 @RunWith(XtextRunner.class)
+@SuppressWarnings("deprecation")
 public class BugDsl27 extends AbstractCheckGenerationTestCase {
 
   /**

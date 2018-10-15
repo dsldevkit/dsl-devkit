@@ -22,17 +22,26 @@ import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.mwe2.ecore.CvsIdFilteringGeneratorAdapterFactoryDescriptor;
 
-import com.avaloq.tools.ddk.xtext.generator.ecore.CustomClassEcoreGeneratorFragment.TypeMapper;
 import com.google.common.base.Function;
 
 
 /**
- * Custom EMF GenModel generator adapter using the {@link TypeMapper} to make EMF properly generate import statements for the custom classes.
+ * Custom EMF GenModel generator adapter using one of
+ * <ul>
+ * <li>{@link com.avaloq.tools.ddk.xtext.generator.ecore.CustomClassEcoreGeneratorFragment.TypeMapper CustomClassEcoreGeneratorFragment.TypeMapper}</li>
+ * <li>{@link com.avaloq.tools.ddk.xtext.generator.ecore.CustomClassEMFGeneratorFragment2.TypeMapper CustomClassEMFGeneratorFragment2.TypeMapper}</li>
+ * </ul>
+ * to make EMF properly generate import statements for the custom classes.
  */
 class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDescriptor {
 
   /**
-   * Custom EMF GenModel generator adapter factory using the {@link TypeMapper} to make EMF properly generate import statements for the custom classes.
+   * Custom EMF GenModel generator adapter using one of
+   * <ul>
+   * <li>{@link com.avaloq.tools.ddk.xtext.generator.ecore.CustomClassEcoreGeneratorFragment.TypeMapper CustomClassEcoreGeneratorFragment.TypeMapper}</li>
+   * <li>{@link com.avaloq.tools.ddk.xtext.generator.ecore.CustomClassEMFGeneratorFragment2.TypeMapper CustomClassEMFGeneratorFragment2.TypeMapper}</li>
+   * </ul>
+   * to make EMF properly generate import statements for the custom classes.
    */
   private final class CustomImplAwareGeneratorAdapterFactory extends IdFilteringGenModelGeneratorAdapterFactory {
     @Override
@@ -40,7 +49,7 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
       return new IdFilteringGenClassAdapter(this) {
         @Override
         protected void createImportManager(final String packageName, final String className) {
-          importManager = new ImportManagerHack(packageName, typeMapper);
+          importManager = new CustomImportManager(packageName, typeMapper);
           importManager.addMasterImport(packageName, className);
           if (generatingObject != null) {
             ((GenBase) generatingObject).getGenModel().setImportManager(importManager);
@@ -54,7 +63,7 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
       return new IdFilteringGenEnumAdapter(this) {
         @Override
         protected void createImportManager(final String packageName, final String className) {
-          importManager = new ImportManagerHack(packageName, typeMapper);
+          importManager = new CustomImportManager(packageName, typeMapper);
           importManager.addMasterImport(packageName, className);
           if (generatingObject != null) {
             ((GenBase) generatingObject).getGenModel().setImportManager(importManager);
@@ -69,7 +78,7 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
         genModelGeneratorAdapter = new GenModelGeneratorAdapter(this) {
           @Override
           protected void createImportManager(final String packageName, final String className) {
-            importManager = new ImportManagerHack(packageName, typeMapper);
+            importManager = new CustomImportManager(packageName, typeMapper);
             importManager.addMasterImport(packageName, className);
             if (generatingObject != null) {
               ((GenBase) generatingObject).getGenModel().setImportManager(importManager);
@@ -95,7 +104,7 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
       return new IdFilteringGenPackageAdapter(this) {
         @Override
         protected void createImportManager(final String packageName, final String className) {
-          importManager = new ImportManagerHack(packageName, typeMapper);
+          importManager = new CustomImportManager(packageName, typeMapper);
           importManager.addMasterImport(packageName, className);
           if (generatingObject != null) {
             ((GenBase) generatingObject).getGenModel().setImportManager(importManager);
@@ -120,13 +129,13 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
   }
 
   /**
-   * Hacked EMF ImportManager which returns the name of the custom classes as returned by the {@link TypeMapper}.
+   * Adapted EMF ImportManager which returns the name of the custom classes as returned by the given type mapping function.
    */
-  protected class ImportManagerHack extends ImportManager {
+  protected class CustomImportManager extends ImportManager {
 
     private final Function<String, String> typeMapper;
 
-    public ImportManagerHack(final String compilationUnitPackage, final Function<String, String> typeMapper) {
+    public CustomImportManager(final String compilationUnitPackage, final Function<String, String> typeMapper) {
       super(compilationUnitPackage);
       this.typeMapper = typeMapper;
     }

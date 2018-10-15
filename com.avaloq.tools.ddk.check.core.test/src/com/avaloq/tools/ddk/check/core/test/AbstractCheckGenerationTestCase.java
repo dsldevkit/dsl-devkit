@@ -44,6 +44,7 @@ import com.google.inject.Injector;
 /**
  * An abstract test class for tests on Check models. Allows creating a project, adding files, and generating and compiling the project.
  */
+@SuppressWarnings("deprecation")
 public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
 
   @Inject

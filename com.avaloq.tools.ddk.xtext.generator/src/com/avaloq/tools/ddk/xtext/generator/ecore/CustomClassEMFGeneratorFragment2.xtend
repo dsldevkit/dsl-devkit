@@ -35,8 +35,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.URIConverter
 import org.eclipse.emf.mwe.core.ConfigurationException
 import org.eclipse.emf.mwe.utils.GenModelHelper
-import org.eclipse.emf.mwe.utils.StandaloneSetup
-import org.eclipse.xtext.generator.GenModelAccess
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.xtext.xtext.generator.ecore.EMFGeneratorFragment2
 
@@ -98,7 +96,7 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
   }
 
   /**
-   * Use {@link GenModelAccess#getGenPackage(EPackage)}
+   * Use {@link org.eclipse.xtext.generator.GenModelAccess#getGenPackage(EPackage, ResourceSet) GenModelAccess#getGenPackage(EPackage, ResourceSet)}
    */
   @Deprecated
   def protected List<GenPackage> loadReferencedGenModels(ResourceSet rs) {
@@ -123,7 +121,7 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
   }
 
   /**
-   * use {@link StandaloneSetup#addRegisterGenModelFile(String)}
+   * use {@link org.eclipse.emf.mwe.utils.StandaloneSetup#addRegisterGenModelFile(String) StandaloneSetup#addRegisterGenModelFile(String)}
    */
   @Deprecated
   def void setReferencedGenModels(String referencedGenModel) {
@@ -157,7 +155,7 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
 
   /**
    * Sets the URIs for the generated EMF generator models (aka genmodels).
-   * use {@link StandaloneSetup#addRegisterGenModelFile(String)}
+   * use {@link org.eclipse.emf.mwe.utils.StandaloneSetup#addRegisterGenModelFile(String) StandaloneSetup#addRegisterGenModelFile(String)}
    *
    * @param uris
    * @deprecated

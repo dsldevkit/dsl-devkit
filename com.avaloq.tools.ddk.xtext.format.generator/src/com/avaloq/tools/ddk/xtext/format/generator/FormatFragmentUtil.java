@@ -38,6 +38,7 @@ import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
 /**
  * Various utility functions for the format generator.
  */
+@SuppressWarnings("deprecation")
 public final class FormatFragmentUtil {
 
   /** Class-wide logger. */
