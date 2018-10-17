@@ -111,7 +111,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          Our resource
    */
   protected void registerForeignObject(final EObject context, final XtextResource contextResource, final Resource originalResource) {
-    InferredImplicitReferencesAdapter.findOrCreate(originalResource).addImplicitReference(contextResource.getURI());
+    ImplicitReferencesAdapter.findOrCreate(originalResource).addImplicitReference(contextResource.getURI());
   }
 
   // "Exported" operation (from IScopeProvider). As this is the only operation known from the interface, this is

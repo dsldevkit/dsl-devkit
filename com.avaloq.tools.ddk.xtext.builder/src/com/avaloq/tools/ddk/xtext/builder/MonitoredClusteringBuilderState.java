@@ -79,6 +79,7 @@ import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionDelta;
 import com.avaloq.tools.ddk.xtext.resource.extensions.ForwardingResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
+import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
@@ -111,8 +112,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   public static final long CANCELLATION_POLLING_DELAY = 200; // ms
 
   public static final int STACK_TRACE_LIMIT = 10;
-
-  private static final String INFERRED_FRAGMENT = "inferred!"; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(MonitoredClusteringBuilderState.class);
@@ -335,7 +334,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          descriptions of the complete set of built resources
    */
   protected void propagateDependencyChains(final Set<URI> toBeUpdated, final IResourceDescriptions2 resourceDescriptions) {
-    final Set<URI> candidateDependencies = toBeUpdated.stream().map(uri -> uri.appendFragment(INFERRED_FRAGMENT)).collect(Collectors.toSet());
+    final Set<URI> candidateDependencies = toBeUpdated.stream().map(uri -> uri.appendFragment(ImplicitReferencesAdapter.INFERRED_FRAGMENT)).collect(Collectors.toSet());
     for (final IReferenceDescription referenceDescription : resourceDescriptions.findReferencesToObjects(candidateDependencies)) {
       final URI dependency = referenceDescription.getSourceEObjectUri().trimFragment();
       toBeUpdated.add(dependency);
