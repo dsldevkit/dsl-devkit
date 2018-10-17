@@ -151,7 +151,7 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
       }
     }
     if (strategy instanceof AbstractResourceDescriptionStrategy) {
-      ((AbstractResourceDescriptionStrategy) strategy).createImplicitReferenceDescriptions(getResource(), referenceDescriptions::add);
+      ((AbstractResourceDescriptionStrategy) strategy).createInferredImplicitReferenceDescriptions(getResource(), referenceDescriptions::add);
     }
     return referenceDescriptions.build();
   }
