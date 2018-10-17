@@ -28,10 +28,15 @@ import com.google.common.collect.Sets;
 /**
  * Adapter which registers implicit references between two resources. Note that both the source and target objects of these references don't actually exist.
  */
-public class ImplicitReferencesAdapter extends AdapterImpl {
+public class InferredImplicitReferencesAdapter extends AdapterImpl {
 
   /** Constant URI fragment used for both source and target object of reference. */
   private static final String IMPLICIT_FRAGMENT = URI.encodeFragment("implicit!", false); //$NON-NLS-1$
+
+  /** Constant URI fragment used for both source and target object of reference. */
+  private static final String INFERRED_FRAGMENT = URI.encodeFragment("inferred!", false); //$NON-NLS-1$
+
+  private final Set<URI> inferredResources = Sets.newHashSet();
 
   /**
    * Returns the adapter registered for a resource.
@@ -40,13 +45,30 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
    *          resource to get adapter for
    * @return the registered adapter or <code>null</code>
    */
-  public static ImplicitReferencesAdapter find(final Resource resource) {
+  public static InferredImplicitReferencesAdapter find(final Resource resource) {
     for (Adapter adapter : resource.eAdapters()) {
-      if (adapter instanceof ImplicitReferencesAdapter) {
-        return (ImplicitReferencesAdapter) adapter;
+      if (adapter instanceof InferredImplicitReferencesAdapter) {
+        return (InferredImplicitReferencesAdapter) adapter;
       }
     }
     return null;
+  }
+
+  /**
+   * Returns the implicit references adapter for the given resource. It will be added first if it doesn't already exist.
+   *
+   * @param resource
+   *          resource to get adapter for
+   * @return the registered adapter
+   */
+  public static InferredImplicitReferencesAdapter findOrCreate(final Resource resource) {
+    final InferredImplicitReferencesAdapter adapter = InferredImplicitReferencesAdapter.find(resource);
+    if (adapter != null) {
+      return adapter;
+    }
+    final InferredImplicitReferencesAdapter result = new InferredImplicitReferencesAdapter();
+    resource.eAdapters().add(result);
+    return result;
   }
 
   private final Set<URI> implicitReferences = Sets.newHashSet();
@@ -62,19 +84,33 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
   }
 
   /**
-   * Returns all implicit references registered with this adapter.
+   * Adds an inferred reference to the given URI (object or resource URI).
+   *
+   * @param resourceUri
+   *          referenced resource
+   */
+  public void addInferredReference(final URI resourceUri) {
+    inferredResources.add(resourceUri);
+  }
+
+  /**
+   * Returns all inferred and implicit references registered with this adapter.
    *
    * @return implicit references
    */
-  public Iterable<IReferenceDescription> getImplicitReferences() {
+  public Iterable<IReferenceDescription> getInferredImplicitReferences() {
     final URI contextURI = ((Resource) getTarget()).getURI().appendFragment(IMPLICIT_FRAGMENT);
-    return Iterables.transform(implicitReferences, new Function<URI, IReferenceDescription>() {
+    final Set<IReferenceDescription> result = Sets.newHashSet(Iterables.transform(implicitReferences, new Function<URI, IReferenceDescription>() {
       @Override
       public IReferenceDescription apply(final URI target) {
         return new ReferenceDescription(contextURI, target.hasFragment() ? target
             : target.appendFragment(IMPLICIT_FRAGMENT), EcorePackage.Literals.EFACTORY__EPACKAGE, null, -1);
       }
-    });
+    }));
+    for (final URI uri : inferredResources) {
+      result.add(new ReferenceDescription(contextURI, uri.appendFragment(INFERRED_FRAGMENT), EcorePackage.Literals.EFACTORY__EPACKAGE, null, -1));
+    }
+    return result;
   }
 
   /**
@@ -82,6 +118,7 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
    */
   public void clear() {
     implicitReferences.clear();
+    inferredResources.clear();
   }
 
 }
