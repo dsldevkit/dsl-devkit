@@ -31,7 +31,7 @@ import org.eclipse.xtext.util.IAcceptor;
 
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.linking.ICrossReferenceHelper;
-import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
+import com.avaloq.tools.ddk.xtext.scoping.InferredImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.inject.Inject;
 
@@ -162,17 +162,17 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   }
 
   /**
-   * Creates all implicit reference descriptions and adds them to the acceptor.
+   * Creates all inferred and implicit reference descriptions and adds them to the acceptor.
    *
    * @param resource
    *          resource to create implicit references for
    * @param acceptor
    *          acceptor
    */
-  public void createImplicitReferenceDescriptions(final Resource resource, final IAcceptor<IReferenceDescription> acceptor) {
-    ImplicitReferencesAdapter adapter = ImplicitReferencesAdapter.find(resource);
+  public void createInferredImplicitReferenceDescriptions(final Resource resource, final IAcceptor<IReferenceDescription> acceptor) {
+    InferredImplicitReferencesAdapter adapter = InferredImplicitReferencesAdapter.find(resource);
     if (adapter != null) {
-      for (IReferenceDescription ref : adapter.getImplicitReferences()) {
+      for (IReferenceDescription ref : adapter.getInferredImplicitReferences()) {
         acceptor.accept(ref);
       }
     }

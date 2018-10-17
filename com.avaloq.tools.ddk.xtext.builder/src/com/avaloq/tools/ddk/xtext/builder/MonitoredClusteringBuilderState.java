@@ -18,6 +18,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -110,6 +111,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   public static final long CANCELLATION_POLLING_DELAY = 200; // ms
 
   public static final int STACK_TRACE_LIMIT = 10;
+
+  private static final String INFERRED_FRAGMENT = "inferred!"; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(MonitoredClusteringBuilderState.class);
@@ -323,6 +326,22 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return event.getDeltas();
   }
 
+  /**
+   * Adds to the toBeUpdated set all the dependencies derived from inferences. Useful for case of XSDs and NETWORK STRUCTs.
+   *
+   * @param toBeUpdated
+   *          set of URIs to be updated
+   * @param resourceDescriptions
+   *          descriptions of the complete set of built resources
+   */
+  protected void propagateDependencyChains(final Set<URI> toBeUpdated, final IResourceDescriptions2 resourceDescriptions) {
+    final Set<URI> candidateDependencies = toBeUpdated.stream().map(uri -> uri.appendFragment(INFERRED_FRAGMENT)).collect(Collectors.toSet());
+    for (final IReferenceDescription referenceDescription : resourceDescriptions.findReferencesToObjects(candidateDependencies)) {
+      final URI dependency = referenceDescription.getSourceEObjectUri().trimFragment();
+      toBeUpdated.add(dependency);
+    }
+  }
+
   @Override
   public synchronized ImmutableList<IResourceDescription.Delta> clean(final Set<URI> toBeRemoved, final IProgressMonitor monitor) {
     ensureLoaded();
@@ -378,6 +397,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // use this. Once the build is completed, the persistable index is reset to the contents of newState by
     // virtue of the newMap, which is maintained in synch with this.
     final CurrentDescriptions2 newState = createCurrentDescriptions(resourceSet, newData);
+
+    propagateDependencyChains(buildData.getToBeUpdated(), newState);
 
     final Map<URI, IResourceDescription> oldDescriptions = saveOldDescriptions(buildData);
 
