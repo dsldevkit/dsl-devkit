@@ -12,18 +12,12 @@
 package com.avaloq.tools.ddk.xtext.generator.builder
 
 import com.google.inject.name.Names
-import org.eclipse.xtext.generator.Binding
 import org.eclipse.xtext.resource.IResourceDescriptions
 import com.avaloq.tools.ddk.xtext.linking.FastLazyURIEncoder
 import org.eclipse.xtext.linking.lazy.LazyURIEncoder
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource
-import com.google.common.collect.Lists
 import org.eclipse.xtext.resource.IContainer
 import com.avaloq.tools.ddk.xtext.linking.LazyLinkingResource2
-import java.util.Set
-import org.eclipse.xtext.generator.BindFactory
-import java.util.List
-import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
 
