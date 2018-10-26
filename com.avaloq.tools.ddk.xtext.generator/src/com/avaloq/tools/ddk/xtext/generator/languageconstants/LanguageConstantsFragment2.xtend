@@ -16,12 +16,15 @@ import org.apache.log4j.Logger
 import org.eclipse.osgi.util.NLS
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.GrammarUtil
-import org.eclipse.xtext.generator.IFileSystemAccess2
+import static extension org.eclipse.xtext.GrammarUtil.*
 import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
 import org.eclipse.xtext.xtext.generator.model.FileAccessFactory
 import org.eclipse.xtext.xtext.generator.model.TypeReference
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.xtext.generator.model.XtextGeneratorFileSystemAccess
+import com.google.inject.Injector
+import org.eclipse.xtext.xtext.generator.model.IXtextGeneratorFileSystemAccess
 
 class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
@@ -31,23 +34,16 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
   /** Class-wide logger. */
   val static Logger LOGGER = Logger.getLogger(LanguageConstantsFragment2);
 
-  /** Variables / Fragment Parameters. */
-  var String preferredFileExtension
-
-  /** The corresponding outlet. */
-  var IFileSystemAccess2 metamodelSrcGenOutlet
-
   /**
    * An alternative implementation is to use
    * com.avaloq.tools.ddk.xtext.generator.util.GeneratorUtil.getFileExtensions(org.eclipse.xtext.Grammar).
    * However, we want to use the preferred file extension.
-   *
-   * @param fileExtension
-   *          the preferred file extension
    */
-  def void setPreferedFileExtension(String fileExtension) {
-    this.preferredFileExtension = fileExtension
-  }
+  @Accessors(PUBLIC_SETTER) String preferredFileExtension
+
+  @Accessors String metamodelSrcGenPath
+
+  @Accessors(PROTECTED_GETTER) IXtextGeneratorFileSystemAccess metamodelSrcGen
 
   /**
    * Returns the preferred file extension. If not manually set, the
@@ -67,23 +63,6 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
     }
   }
 
-  /**
-   * Used to set outlet SRC_TEST or SRC_TEST_GEN - all other outlets are ignored.
-   *
-   * @param outlet
-   *          the outlet
-   */
-  def void addOutlet(XtextGeneratorFileSystemAccess outlet) {
-    metamodelSrcGenOutlet = outlet
-  }
-
-  def IFileSystemAccess2 getOutlet() {
-    if (metamodelSrcGenOutlet !== null) {
-      return metamodelSrcGenOutlet
-    }
-    return projectConfig.runtime.srcGen
-  }
-
   override generate() {
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info(NLS.bind("executing generate for {0}", class.name))
@@ -97,7 +76,7 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
   def doGenerateFiles() {
     val constantsFile = doGetConstantsClassFile
-    constantsFile?.writeTo(outlet)
+    constantsFile?.writeTo(getMetamodelSrcGen)
   }
 
   def doGetConstantsClassFile() {
@@ -107,37 +86,35 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
     javaFile.content =
     '''
-      package «typeReference.packageName»;
+			/**
+			 * Provides language specific constants for «grammar.name».
+			 *
+			 * Theses constants are used e.g. by the test plug-ins.
+			 */
+			@SuppressWarnings("nls")
+			public final class «typeReference.simpleName» {
+			  public static final String GRAMMAR = "«grammar.name»";
 
-      /**
-       * Provides language specific constants for «grammar.name».
-       *
-       * Theses constants are used e.g. by the test plug-ins.
-       */
-      @SuppressWarnings("nls")
-      public final class «typeReference.simpleName» {
-        public static final String GRAMMAR = "«grammar.name»";
+			  /** Preferred file extension (for testing). */
+			  public static final String FILE_EXTENSION = "«getPreferredFileExtension.replaceAll("%20"," ")»";
+			  /** All file extensions. */
+			  public static final String FILE_EXTENSIONS = "«language.fileExtensions.join(",")»";
+			  /** Private constant specifying an URI pattern that match all files of the preferred extension. */
+			  private static final String ALL_«grammar.simpleName.toUpperCase()»_URI = "*."+FILE_EXTENSION;
 
-        /** Preferred file extension (for testing). */
-        public static final String FILE_EXTENSION = "«preferredFileExtension.replaceAll("%20"," ")»";
-        /** All file extensions. */
-        public static final String FILE_EXTENSIONS = "«language.fileExtensions.join(",")»";
-        /** Private constant specifying an URI pattern that match all files of the preferred extension. */
-        private static final String ALL_«grammar.name.toUpperCase()»_URI = "*."+FILE_EXTENSION;
+			  private «typeReference.simpleName»() {}
 
-        private «typeReference.simpleName»() {}
+			  /**
+			 * An URI pattern that matches all files of the preferred file extension.
+			 *
+			 * @return this pattern
+			 */
+			  public static final String getAll«grammar.simpleName»URI() {
+			    return ALL_«grammar.simpleName.toUpperCase()»_URI;
+			  }
 
-        /**
-         * An URI pattern that matches all files of the preferred file extension.
-         *
-         * @return this pattern
-         */
-        public static final String getAll«grammar.name»URI() {
-          return ALL_«grammar.name.toUpperCase()»_URI;
-        }
-
-      }
-    '''
+			}
+		'''
 
     return javaFile
   }
@@ -151,6 +128,16 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
    */
   def TypeReference getTypeReference(Grammar grammar) {
     return new TypeReference(grammar.runtimeBasePackage + "." + GrammarUtil.getSimpleName(grammar) + "Constants")
+  }
+
+  override initialize(Injector injector) {
+    super.initialize(injector)
+    if (!metamodelSrcGenPath.isNullOrEmpty) {
+      metamodelSrcGen = new XtextGeneratorFileSystemAccess(metamodelSrcGenPath, true)
+      metamodelSrcGen.initialize(injector)
+    } else {
+      metamodelSrcGen = projectConfig.runtime.srcGen
+    }
   }
 
 }

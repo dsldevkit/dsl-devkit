@@ -24,45 +24,19 @@ import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 
 class ModelInferenceFragment2 extends AbstractXtextGeneratorFragment {
 
-  /** Indicates if support for model inference is generated. */
-  var boolean generateModelInference;
-
-  /**
-   * Indicates if support for model inference is generated.
-   *
-   * @return true if model inference support will be generated, false otherwise.
-   */
-  def boolean isGenerateModelInference() {
-    return generateModelInference
-  }
-
-  /**
-   * Sets the flag to generate support for model inference.
-   * <p>
-   * The default is that support for model inference is not generated.
-   * </p>
-   *
-   * @param generateModelInference
-   *          specifies if model inference support is to be generated. A value of true
-   *          will cause model inference support to be generated.
-   */
-  def void setGenerateModelInference(boolean generateModelInference) {
-    this.generateModelInference = generateModelInference
-  }
-
   override generate() {
-    if (generateModelInference) {
-      new GuiceModuleAccess.BindingFactory()
-      .addTypeToTypeSingleton(IInferredModelAssociations.typeRef, InferredModelAssociator.typeRef)
-      .addTypeToTypeSingleton(IInferredModelAssociator.typeRef, InferredModelAssociator.typeRef)
-      .addTypeToTypeSingleton(IDerivedStateComputer.typeRef, InferredModelAssociator.typeRef)
-      .contributeTo(language.runtimeGenModule)
-      new GuiceModuleAccess.BindingFactory()
-      .addTypeToType(ReferenceQueryExecutor.typeRef, InferredModelReferenceQueryExecutor.typeRef)
-      .contributeTo(language.eclipsePluginGenModule)
-    }
+    new GuiceModuleAccess.BindingFactory()
+    .addTypeToTypeSingleton(IInferredModelAssociations.typeRef, InferredModelAssociator.typeRef)
+    .addTypeToTypeSingleton(IInferredModelAssociator.typeRef, InferredModelAssociator.typeRef)
+    .addTypeToTypeSingleton(IDerivedStateComputer.typeRef, InferredModelAssociator.typeRef)
+    .contributeTo(language.runtimeGenModule)
+    new GuiceModuleAccess.BindingFactory()
+    .addTypeToType(ReferenceQueryExecutor.typeRef, InferredModelReferenceQueryExecutor.typeRef)
+    .contributeTo(language.eclipsePluginGenModule)
+
+
     if (projectConfig.runtime.manifest !== null) {
-      projectConfig.eclipsePlugin.manifest.requiredBundles += "com.avaloq.tools.ddk.xtext"
+      projectConfig.runtime.manifest.requiredBundles += "com.avaloq.tools.ddk.xtext"
     }
     if (projectConfig.eclipsePlugin.manifest !== null) {
       projectConfig.eclipsePlugin.manifest.requiredBundles += "com.avaloq.tools.ddk.xtext.ui"

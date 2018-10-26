@@ -13,6 +13,7 @@
       <accessrule kind="accessible" pattern="org/eclipse/xtext/generator/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/xtext/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/util/**"/>
+      <accessrule kind="accessible" pattern="org/eclipse/xtext/ui/editor/**"/>
     </accessrules>
   </classpathentry>
   <classpathentry kind="output" path="bin"/>
