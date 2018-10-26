@@ -47,5 +47,8 @@
     <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedFormalParameter"/>
     <genClasses image="false" ecoreClass="TypeModel.ecore#//ICallable"/>
     <genClasses ecoreClass="TypeModel.ecore#//Callable"/>
+    <genClasses ecoreClass="TypeModel.ecore#//ICustomExportedName">
+      <genOperations ecoreOperation="TypeModel.ecore#//ICustomExportedName/getCustomExportedName"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

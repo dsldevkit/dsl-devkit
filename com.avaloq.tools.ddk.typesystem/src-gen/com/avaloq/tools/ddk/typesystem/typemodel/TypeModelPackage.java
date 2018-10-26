@@ -396,6 +396,25 @@ public interface TypeModelPackage extends EPackage
 	 */
 	int CALLABLE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.impl.ICustomExportedNameImpl <em>ICustom Exported Name</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.ICustomExportedNameImpl
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getICustomExportedName()
+	 * @generated
+	 */
+	int ICUSTOM_EXPORTED_NAME = 18;
+
+	/**
+	 * The number of structural features of the '<em>ICustom Exported Name</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICUSTOM_EXPORTED_NAME_FEATURE_COUNT = 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.IExpression <em>IExpression</em>}'.
@@ -577,6 +596,16 @@ public interface TypeModelPackage extends EPackage
 	 * @generated
 	 */
 	EClass getCallable();
+
+	/**
+	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.ICustomExportedName <em>ICustom Exported Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>ICustom Exported Name</em>'.
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.ICustomExportedName
+	 * @generated
+	 */
+	EClass getICustomExportedName();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -780,6 +809,16 @@ public interface TypeModelPackage extends EPackage
 		 * @generated
 		 */
 		EClass CALLABLE = eINSTANCE.getCallable();
+
+		/**
+		 * The meta object literal for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.impl.ICustomExportedNameImpl <em>ICustom Exported Name</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.ICustomExportedNameImpl
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getICustomExportedName()
+		 * @generated
+		 */
+		EClass ICUSTOM_EXPORTED_NAME = eINSTANCE.getICustomExportedName();
 
 	}
 

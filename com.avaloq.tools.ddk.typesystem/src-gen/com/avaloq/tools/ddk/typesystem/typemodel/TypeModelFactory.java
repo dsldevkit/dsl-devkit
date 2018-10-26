@@ -59,6 +59,15 @@ public interface TypeModelFactory extends EFactory
 	Callable createCallable();
 
 	/**
+	 * Returns a new object of class '<em>ICustom Exported Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>ICustom Exported Name</em>'.
+	 * @generated
+	 */
+	ICustomExportedName createICustomExportedName();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -68,6 +68,7 @@ public class TypeModelFactoryImpl extends EFactoryImpl implements TypeModelFacto
 			case TypeModelPackage.NAMED_TYPE: return createNamedType();
 			case TypeModelPackage.NAMED_FORMAL_PARAMETER: return createNamedFormalParameter();
 			case TypeModelPackage.CALLABLE: return createCallable();
+			case TypeModelPackage.ICUSTOM_EXPORTED_NAME: return createICustomExportedName();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -115,6 +116,17 @@ public class TypeModelFactoryImpl extends EFactoryImpl implements TypeModelFacto
 	{
 		CallableImpl callable = new CallableImpl();
 		return callable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ICustomExportedName createICustomExportedName()
+	{
+		ICustomExportedNameImpl iCustomExportedName = new ICustomExportedNameImpl();
+		return iCustomExportedName;
 	}
 
 	/**

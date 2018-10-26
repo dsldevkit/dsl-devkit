@@ -5,6 +5,7 @@ package com.avaloq.tools.ddk.typesystem.typemodel.impl;
 import com.avaloq.tools.ddk.typesystem.typemodel.Callable;
 import com.avaloq.tools.ddk.typesystem.typemodel.IActualParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.ICallable;
+import com.avaloq.tools.ddk.typesystem.typemodel.ICustomExportedName;
 import com.avaloq.tools.ddk.typesystem.typemodel.IExpression;
 import com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.IFunction;
@@ -160,6 +161,13 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * @generated
 	 */
 	private EClass callableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iCustomExportedNameEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -409,6 +417,16 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getICustomExportedName()
+	{
+		return iCustomExportedNameEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public TypeModelFactory getTypeModelFactory()
 	{
 		return (TypeModelFactory)getEFactoryInstance();
@@ -469,6 +487,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		iCallableEClass = createEClass(ICALLABLE);
 
 		callableEClass = createEClass(CALLABLE);
+
+		iCustomExportedNameEClass = createEClass(ICUSTOM_EXPORTED_NAME);
 	}
 
 	/**
@@ -574,6 +594,10 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		initEClass(iCallableEClass, ICallable.class, "ICallable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(callableEClass, Callable.class, "Callable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(iCustomExportedNameEClass, ICustomExportedName.class, "ICustomExportedName", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(iCustomExportedNameEClass, ecorePackage.getEString(), "getCustomExportedName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

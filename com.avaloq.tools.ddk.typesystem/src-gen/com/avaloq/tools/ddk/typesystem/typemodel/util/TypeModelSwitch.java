@@ -225,6 +225,13 @@ public class TypeModelSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TypeModelPackage.ICUSTOM_EXPORTED_NAME:
+			{
+				ICustomExportedName iCustomExportedName = (ICustomExportedName)theEObject;
+				T result = caseICustomExportedName(iCustomExportedName);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -513,6 +520,22 @@ public class TypeModelSwitch<T> extends Switch<T>
 	 * @generated
 	 */
 	public T caseCallable(Callable object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ICustom Exported Name</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ICustom Exported Name</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseICustomExportedName(ICustomExportedName object)
 	{
 		return null;
 	}

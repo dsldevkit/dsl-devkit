@@ -174,6 +174,31 @@ public class TypeModelItemProviderAdapterFactory extends TypeModelAdapterFactory
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.avaloq.tools.ddk.typesystem.typemodel.ICustomExportedName} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ICustomExportedNameItemProvider iCustomExportedNameItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.avaloq.tools.ddk.typesystem.typemodel.ICustomExportedName}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createICustomExportedNameAdapter()
+	{
+		if (iCustomExportedNameItemProvider == null)
+		{
+			iCustomExportedNameItemProvider = new ICustomExportedNameItemProvider(this);
+		}
+
+		return iCustomExportedNameItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -288,6 +313,7 @@ public class TypeModelItemProviderAdapterFactory extends TypeModelAdapterFactory
 		if (namedTypeItemProvider != null) namedTypeItemProvider.dispose();
 		if (namedFormalParameterItemProvider != null) namedFormalParameterItemProvider.dispose();
 		if (callableItemProvider != null) callableItemProvider.dispose();
+		if (iCustomExportedNameItemProvider != null) iCustomExportedNameItemProvider.dispose();
 	}
 
 }
