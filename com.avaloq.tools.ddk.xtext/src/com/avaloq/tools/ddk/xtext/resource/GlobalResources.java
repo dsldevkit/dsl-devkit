@@ -11,6 +11,9 @@
 
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -21,6 +24,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  * JVM.
  * <p>
  * The idea is that other resource sets delegate the load operation to {@link #getResource(URI)} for all global resources.
+ * <p>
+ * Access the ressources is made threadsafe so that (suspected) lazy adding of ressources does not cause concurrent access errors with existing reads.
  */
 public final class GlobalResources {
 
@@ -43,6 +48,10 @@ public final class GlobalResources {
 
   private final ResourceSetImpl resourceSet = new GlobalResourceSet();
 
+  private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+  private final Lock readLock = lock.readLock();
+  private final Lock writeLock = lock.writeLock();
+
   private GlobalResources() {
     // private
   }
@@ -54,7 +63,12 @@ public final class GlobalResources {
    *          resource to add, must not be {@code null}
    */
   public void addResource(final Resource resource) {
-    resourceSet.getResources().add(resource);
+    writeLock.lock();
+    try {
+      resourceSet.getResources().add(resource);
+    } finally {
+      writeLock.unlock();
+    }
   }
 
   /**
@@ -65,6 +79,11 @@ public final class GlobalResources {
    * @return corresponding resource or {@code null}
    */
   public Resource getResource(final URI uri) {
-    return resourceSet.getResource(uri, false);
+    readLock.lock();
+    try {
+      return resourceSet.getResource(uri, false);
+    } finally {
+      readLock.unlock();
+    }
   }
 }
