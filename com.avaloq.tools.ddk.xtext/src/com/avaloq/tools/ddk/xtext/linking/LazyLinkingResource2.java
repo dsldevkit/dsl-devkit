@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -27,6 +28,7 @@ import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ParseResult;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IDerivedStateComputer;
+import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Triple;
 
@@ -35,6 +37,7 @@ import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -377,5 +380,16 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   public ResourceLoadMode getDefaultLoadMode() {
     return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL_AND_ASSOCIATIONS;
+  }
+
+  @Override
+  protected Set<String> getUnresolvableURIFragments() {
+    Set<String> unresolveableProxies = getCache().get(UNRESOLVEABLE_PROXIES_KEY, this, new Provider<Set<String>>() {
+      @Override
+      public Set<String> get() {
+        return Sets.newHashSet(StorageAwareResource.UNRESOLVABLE_FRAGMENT);
+      }
+    });
+    return unresolveableProxies;
   }
 }
