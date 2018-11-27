@@ -387,7 +387,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     Set<String> unresolveableProxies = getCache().get(UNRESOLVEABLE_PROXIES_KEY, this, new Provider<Set<String>>() {
       @Override
       public Set<String> get() {
-        return Sets.newHashSet(StorageAwareResource.UNRESOLVABLE_FRAGMENT);
+        return isLoadedFromStorage() ? Sets.newHashSet(StorageAwareResource.UNRESOLVABLE_FRAGMENT) : Sets.newHashSet();
       }
     });
     return unresolveableProxies;
