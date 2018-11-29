@@ -86,35 +86,35 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
     javaFile.content =
     '''
-			/**
-			 * Provides language specific constants for «grammar.name».
-			 *
-			 * Theses constants are used e.g. by the test plug-ins.
-			 */
-			@SuppressWarnings("nls")
-			public final class «typeReference.simpleName» {
-			  public static final String GRAMMAR = "«grammar.name»";
+      /**
+       * Provides language specific constants for «grammar.name».
+       *
+       * Theses constants are used e.g. by the test plug-ins.
+       */
+      @SuppressWarnings("nls")
+      public final class «typeReference.simpleName» {
+        public static final String GRAMMAR = "«grammar.name»";
 
-			  /** Preferred file extension (for testing). */
-			  public static final String FILE_EXTENSION = "«getPreferredFileExtension.replaceAll("%20"," ")»";
-			  /** All file extensions. */
-			  public static final String FILE_EXTENSIONS = "«language.fileExtensions.join(",")»";
-			  /** Private constant specifying an URI pattern that match all files of the preferred extension. */
-			  private static final String ALL_«grammar.simpleName.toUpperCase()»_URI = "*."+FILE_EXTENSION;
+        /** Preferred file extension (for testing). */
+        public static final String FILE_EXTENSION = "«getPreferredFileExtension.replaceAll("%20"," ")»";
+        /** All file extensions. */
+        public static final String FILE_EXTENSIONS = "«language.fileExtensions.join(",")»";
+        /** Private constant specifying an URI pattern that match all files of the preferred extension. */
+        private static final String ALL_«grammar.simpleName.toUpperCase()»_URI = "*."+FILE_EXTENSION;
 
-			  private «typeReference.simpleName»() {}
+        private «typeReference.simpleName»() {}
 
-			  /**
-			 * An URI pattern that matches all files of the preferred file extension.
-			 *
-			 * @return this pattern
-			 */
-			  public static final String getAll«grammar.simpleName»URI() {
-			    return ALL_«grammar.simpleName.toUpperCase()»_URI;
-			  }
+        /**
+         * An URI pattern that matches all files of the preferred file extension.
+         *
+         * @return this pattern
+         */
+        public static final String getAll«grammar.simpleName»URI() {
+          return ALL_«grammar.simpleName.toUpperCase()»_URI;
+        }
 
-			}
-		'''
+      }
+    '''
 
     return javaFile
   }

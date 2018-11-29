@@ -80,17 +80,17 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
         );
 
         public Injector doSetup(Module overrideModule, Module... additionalModules) {
-        return new «grammar.simpleName»StandaloneBuildSetupGenerated(overrideModule, additionalModules).createInjectorAndDoEMFRegistration();
+          return new «grammar.simpleName»StandaloneBuildSetupGenerated(overrideModule, additionalModules).createInjectorAndDoEMFRegistration();
         }
 
         @Override
         public List<String> getParentLanguages() {
-        return PARENTS;
+          return PARENTS;
         }
 
         @Override
         public String getLanguageName() {
-        return GRAMMAR;
+          return GRAMMAR;
         }
 
       }
@@ -116,33 +116,33 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
         private final Module[] additionalModules;
 
         public «standaloneBuildSetupGeneratedClass.simpleName»(final Module overrideModule, Module... additionalModules) {
-        this.overrideModule = overrideModule;
-        this.additionalModules = additionalModules;
+          this.overrideModule = overrideModule;
+          this.additionalModules = additionalModules;
         }
 
         @Override
         public Injector createInjectorAndDoEMFRegistration() {
-        registerEPackages();
-        Injector injector = createInjector();
-        register(injector);
-        return injector;
+          registerEPackages();
+          Injector injector = createInjector();
+          register(injector);
+          return injector;
         }
 
         @Override
         public Injector createInjector() {
-        return Guice.createInjector(getModules());
+          return Guice.createInjector(getModules());
         }
 
         protected void registerEPackages() {
-        «FOR mmd: grammar.metamodelDeclarations.typeSelect(GeneratedMetamodel)»
-          if («grammar.namespace».«mmd.name».«mmd.name.toFirstUpper()»Package.eINSTANCE == null) {
-            throw new IllegalStateException("EPackage could not be initialized: " + «grammar.namespace».«mmd.name».«mmd.name.toFirstUpper()»Package.eNS_URI); //$NON-NLS-1$
-          }
-        «ENDFOR»
+          «FOR mmd: grammar.metamodelDeclarations.typeSelect(GeneratedMetamodel)»
+            if («grammar.namespace».«mmd.name».«mmd.name.toFirstUpper()»Package.eINSTANCE == null) {
+              throw new IllegalStateException("EPackage could not be initialized: " + «grammar.namespace».«mmd.name».«mmd.name.toFirstUpper()»Package.eNS_URI); //$NON-NLS-1$
+            }
+          «ENDFOR»
         }
 
         protected Iterable<Module> getModules() {
-        return ImmutableList.<Module> builder().add(Modules.override(new «grammar.name»RuntimeModule()).with(overrideModule)).add(additionalModules).build();
+          return ImmutableList.<Module> builder().add(Modules.override(new «grammar.name»RuntimeModule()).with(overrideModule)).add(additionalModules).build();
         }
 
       }
