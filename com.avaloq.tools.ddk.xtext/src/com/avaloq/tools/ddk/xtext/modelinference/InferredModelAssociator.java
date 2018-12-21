@@ -23,6 +23,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -32,6 +33,7 @@ import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.util.IAcceptor;
 
+import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,12 +42,17 @@ import com.google.inject.Singleton;
 
 /**
  * Manager for associations between source and inferred model elements.
+ * Registers implicit inference dependencies.
+ * This is needed for those cases when a resource loads others to perform inference.
+ * Registering dependencies will ensure that the inference will be re-triggered once one (or many) of those 'other' resources are changed.
  * Based on {@link org.eclipse.xtext.xbase.jvmmodel.JvmModelAssociator}
  */
 @Singleton
 public class InferredModelAssociator implements IInferredModelAssociations, IInferredModelAssociator, IDerivedStateComputer {
 
   private static final Logger LOGGER = Logger.getLogger(InferredModelAssociator.class);
+
+  private final ThreadLocal<Deque<Resource>> inferenceStackLocal = ThreadLocal.withInitial(ArrayDeque::new);
 
   @Inject
   private IReferableElementsUnloader.GenericUnloader unloader;
@@ -85,9 +92,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     if (!(resource instanceof XtextResource)) {
       return new Adapter();
     }
-    // if (!languageName.equals(((XtextResource) resource).getLanguageName())) {
-    // return new Adapter();
-    // }
     Adapter adapter = (Adapter) EcoreUtil.getAdapter(resource.eAdapters(), Adapter.class);
     if (adapter == null) {
       adapter = new Adapter();
@@ -127,6 +131,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> new ArrayDeque<>()).add(inferredModelElement);
       Map<EObject, Deque<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
       inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> new ArrayDeque<>()).add(sourceModelElement);
+      addInferenceDependency(sourceModelElement);
     }
   }
 
@@ -139,6 +144,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       sourceToInferredModelMap.computeIfAbsent(sourceModelElement, k -> new ArrayDeque<>()).addFirst(inferredModelElement);
       Map<EObject, Deque<EObject>> inferredModelToSourceMap = getInferredModelToSourceMap(resource);
       inferredModelToSourceMap.computeIfAbsent(inferredModelElement, k -> new ArrayDeque<>()).addFirst(sourceModelElement);
+      addInferenceDependency(sourceModelElement);
     }
   }
 
@@ -177,18 +183,57 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
 
   /** {@inheritDoc} */
   @Override
-  public void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
+  public final void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
     if (resource.getContents().isEmpty()) {
       return;
     }
     EObject eObject = resource.getContents().get(0);
+    Deque<Resource> inferenceStack = getInferenceStack();
+    inferenceStack.push(resource);
     try {
-      IModelInferrer inferrer = inferrerProvider.get();
-      inferrer.inferTargetModel(eObject, createAcceptor(resource), isPreLinkingPhase);
+      inferTargetModel(eObject, createAcceptor(resource), isPreLinkingPhase);
       // CHECKSTYLE:OFF
     } catch (RuntimeException e) {
       // CHECKSTYLE:ON
       LOGGER.error("Failed to install derived state for resource " + resource.getURI(), e); //$NON-NLS-1$
+    } finally {
+      inferenceStack.pop();
+    }
+  }
+
+  /**
+   * Performs the inference for the given model element.
+   *
+   * @param eObject
+   *          model element, must not be {@code null}
+   * @param acceptor
+   *          inferred elements acceptor, must not be {@code}
+   * @param isPreLinkingPhase
+   *          designates the current phase
+   */
+  protected void inferTargetModel(final EObject eObject, final IAcceptor<EObject> acceptor, final boolean isPreLinkingPhase) {
+    IModelInferrer inferrer = inferrerProvider.get();
+    inferrer.inferTargetModel(eObject, acceptor, isPreLinkingPhase);
+  }
+
+  protected Deque<Resource> getInferenceStack() {
+    return inferenceStackLocal.get();
+  }
+
+  /**
+   * Registers a dependency from the resource the inference was originally trigger for to the currently processed one.
+   *
+   * @param sourceModelElement
+   *          primary model element, must not be {@code null}
+   */
+  private void addInferenceDependency(final EObject sourceModelElement) {
+    Resource originalResource = getInferenceStack().peekFirst();
+    if (originalResource != null) {
+      final URI originalResourceUri = originalResource.getURI();
+      final URI currentResourceUri = sourceModelElement.eResource().getURI();
+      if (originalResourceUri != null && currentResourceUri != null && !originalResourceUri.equals(currentResourceUri)) {
+        ImplicitReferencesAdapter.findOrCreate(originalResource).addInferenceDependency(currentResourceUri);
+      }
     }
   }
 
