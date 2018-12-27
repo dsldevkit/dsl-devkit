@@ -11,6 +11,10 @@
 package com.avaloq.tools.ddk.xtext.util;
 
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -20,6 +24,7 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.linking.impl.DefaultLinkingService;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 
@@ -152,6 +157,25 @@ public final class ParseTreeUtil {
       return NodeModelUtils.getTokenText(node);
     }
     return null;
+  }
+
+  private static String getTerminalString(final INode node) {
+    final Stream<ILeafNode> leaves = StreamSupport.stream(node.getLeafNodes().spliterator(), false);
+    return leaves.filter(leaf -> !leaf.isHidden()).map(ILeafNode::getText).collect(Collectors.joining(""));//$NON-NLS-1$
+  }
+
+  /**
+   * Gets a list of all the terminal strings contained in a model object for a given feature.
+   *
+   * @param modelObject
+   *          EObject model whose enclosed terminals are considered
+   * @param feature
+   *          EStructuralFeature feature to consider
+   * @return the list of strings defined by the terminals enclosed in modelObject for assigning values to feature
+   */
+  public static List<String> getParsedStrings(final EObject modelObject, final EStructuralFeature feature) {
+    final List<INode> nodes = NodeModelUtils.findNodesForFeature(modelObject, feature);
+    return nodes.stream().map(ParseTreeUtil::getTerminalString).collect(Collectors.toList());
   }
 
 }

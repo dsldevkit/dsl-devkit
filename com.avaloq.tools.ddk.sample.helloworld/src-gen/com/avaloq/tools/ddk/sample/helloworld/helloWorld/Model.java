@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model#getGreetings <em>Greetings</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model#getKeywordsExample <em>Keywords Example</em>}</li>
  * </ul>
  *
  * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage#getModel()
@@ -40,5 +41,31 @@ public interface Model extends EObject
    * @generated
    */
   EList<Greeting> getGreetings();
+
+  /**
+   * Returns the value of the '<em><b>Keywords Example</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Keywords Example</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Keywords Example</em>' containment reference.
+   * @see #setKeywordsExample(KeywordsExample)
+   * @see com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage#getModel_KeywordsExample()
+   * @model containment="true"
+   * @generated
+   */
+  KeywordsExample getKeywordsExample();
+
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model#getKeywordsExample <em>Keywords Example</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Keywords Example</em>' containment reference.
+   * @see #getKeywordsExample()
+   * @generated
+   */
+  void setKeywordsExample(KeywordsExample value);
 
 } // Model

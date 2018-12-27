@@ -162,7 +162,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   }
 
   /**
-   * Creates all implicit reference descriptions and adds them to the acceptor.
+   * Creates all inferred and implicit reference descriptions and adds them to the acceptor.
    *
    * @param resource
    *          resource to create implicit references for

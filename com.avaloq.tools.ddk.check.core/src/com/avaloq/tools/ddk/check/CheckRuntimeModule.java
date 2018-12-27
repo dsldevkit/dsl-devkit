@@ -151,4 +151,5 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
   public Class<? extends RewritableImportSection.Factory> bindRewritableImportSectionFactory() {
     return CheckRewritableImportSectionFactory.class;
   }
+
 }

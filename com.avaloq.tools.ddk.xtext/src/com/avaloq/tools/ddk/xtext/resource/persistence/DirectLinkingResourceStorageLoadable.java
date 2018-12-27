@@ -103,36 +103,75 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     }
   }
 
+  /**
+   * Utility class to help position the {@link ZipInputStream} when loading a particular {@link Constituent}.
+   */
+  private static class ZipPositioner {
+    private final ZipInputStream zipIn;
+    private Constituent current = Constituent.RESOURCE;
+
+    ZipPositioner(final ZipInputStream zipIn) {
+      this.zipIn = zipIn;
+    }
+
+    public void position(final Constituent target) throws IOException {
+      if (current.ordinal() > target.ordinal()) {
+        throw new IllegalStateException("Out of order access of " + target); //$NON-NLS-1$
+      }
+      for (int i = current.ordinal(); i < target.ordinal(); i++) {
+        zipIn.getNextEntry();
+      }
+      current = target;
+    }
+  }
+
   @Override
   protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
+    ZipPositioner positioner = new ZipPositioner(zipIn);
     // 1. resource contents
-    zipIn.getNextEntry();
     switch (mode.instruction(Constituent.CONTENT)) {
     case SKIP:
       break;
     case PROXY:
       LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
-      break;
+      // fall through
     case LOAD:
+      positioner.position(Constituent.CONTENT);
       readContents(resource, new BufferedInputStream(zipIn));
       break;
     }
 
     // 2. associations adapter
-    zipIn.getNextEntry();
     switch (mode.instruction(Constituent.ASSOCIATIONS)) {
     case SKIP:
       break;
     case PROXY:
-      LOG.warn("Proxying of model associations is not supported: " + resource.getURI()); //$NON-NLS-1$
+      ProxyModelAssociationsAdapter.install(resource);
       break;
     default:
+      positioner.position(Constituent.ASSOCIATIONS);
       readAssociationsAdapter(resource, new BufferedInputStream(zipIn));
       break;
     }
 
-    // 3. node model
-    // since this corresponds to the last entries the "zipIn.getNextEntry()" calls are inside the switch cases
+    // 3. source
+    String content = null;
+    switch (mode.instruction(Constituent.SOURCE)) {
+    case SKIP:
+    case PROXY:
+      if (mode.instruction(Constituent.NODE_MODEL) == Instruction.LOAD) {
+        throw new IllegalArgumentException("Loading node model also requires loading source"); //$NON-NLS-1$
+      }
+      break;
+    case LOAD:
+      positioner.position(Constituent.SOURCE);
+      StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
+      CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
+      content = out.toString();
+      break;
+    }
+
+    // 4. node model
     switch (mode.instruction(Constituent.NODE_MODEL)) {
     case SKIP:
       break;
@@ -140,12 +179,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       ProxyCompositeNode.installProxyNodeModel(resource);
       break;
     case LOAD:
-      zipIn.getNextEntry();
-      StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
-      CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
-      String content = out.toString();
-
-      zipIn.getNextEntry();
+      positioner.position(Constituent.NODE_MODEL);
       readNodeModel(resource, new BufferedInputStream(zipIn), content);
       break;
     }

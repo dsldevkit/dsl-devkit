@@ -6,6 +6,7 @@ package com.avaloq.tools.ddk.sample.helloworld.services;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
+import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
@@ -23,18 +24,31 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.Model");
-		private final Assignment cGreetingsAssignment = (Assignment)rule.eContents().get(1);
-		private final RuleCall cGreetingsGreetingParserRuleCall_0 = (RuleCall)cGreetingsAssignment.eContents().get(0);
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cGreetingsAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cGreetingsGreetingParserRuleCall_0_0 = (RuleCall)cGreetingsAssignment_0.eContents().get(0);
+		private final Assignment cKeywordsExampleAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cKeywordsExampleKeywordsExampleParserRuleCall_1_0 = (RuleCall)cKeywordsExampleAssignment_1.eContents().get(0);
 		
 		//Model:
-		//	greetings+=Greeting*;
+		//	greetings+=Greeting*
+		//	keywordsExample=KeywordsExample?;
 		@Override public ParserRule getRule() { return rule; }
 		
+		//greetings+=Greeting* keywordsExample=KeywordsExample?
+		public Group getGroup() { return cGroup; }
+		
 		//greetings+=Greeting*
-		public Assignment getGreetingsAssignment() { return cGreetingsAssignment; }
+		public Assignment getGreetingsAssignment_0() { return cGreetingsAssignment_0; }
 		
 		//Greeting
-		public RuleCall getGreetingsGreetingParserRuleCall_0() { return cGreetingsGreetingParserRuleCall_0; }
+		public RuleCall getGreetingsGreetingParserRuleCall_0_0() { return cGreetingsGreetingParserRuleCall_0_0; }
+		
+		//keywordsExample=KeywordsExample?
+		public Assignment getKeywordsExampleAssignment_1() { return cKeywordsExampleAssignment_1; }
+		
+		//KeywordsExample
+		public RuleCall getKeywordsExampleKeywordsExampleParserRuleCall_1_0() { return cKeywordsExampleKeywordsExampleParserRuleCall_1_0; }
 	}
 	public class GreetingElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.Greeting");
@@ -63,10 +77,118 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 		//'!'
 		public Keyword getExclamationMarkKeyword_2() { return cExclamationMarkKeyword_2; }
 	}
+	public class KeywordsExampleElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeywordsExample");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Assignment cOptionAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cOptionOptionOneParserRuleCall_0_0 = (RuleCall)cOptionAssignment_0.eContents().get(0);
+		private final Assignment cOptionAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cOptionOptionTwoParserRuleCall_1_0 = (RuleCall)cOptionAssignment_1.eContents().get(0);
+		
+		///**
+		// * This example illustrated keyword annotation.
+		// * Predicates are propagated into alternative before Xtext-generated actions.
+		// */ KeywordsExample:
+		//	option=OptionOne | option=OptionTwo;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//option=OptionOne | option=OptionTwo
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//option=OptionOne
+		public Assignment getOptionAssignment_0() { return cOptionAssignment_0; }
+		
+		//OptionOne
+		public RuleCall getOptionOptionOneParserRuleCall_0_0() { return cOptionOptionOneParserRuleCall_0_0; }
+		
+		//option=OptionTwo
+		public Assignment getOptionAssignment_1() { return cOptionAssignment_1; }
+		
+		//OptionTwo
+		public RuleCall getOptionOptionTwoParserRuleCall_1_0() { return cOptionOptionTwoParserRuleCall_1_0; }
+	}
+	public class OptionOneElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionOne");
+		private final RuleCall cKeyOneParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//OptionOne:
+		//	KeyOne;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//KeyOne
+		public RuleCall getKeyOneParserRuleCall() { return cKeyOneParserRuleCall; }
+	}
+	public class OptionTwoElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionTwo");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cKeyTwoParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final RuleCall cKeyOtherParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		
+		///**
+		// * In this example the second rule has no alternatives,
+		// * so we only get validating predicate.
+		// */ OptionTwo:
+		//	KeyTwo KeyOther;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//KeyTwo KeyOther
+		public Group getGroup() { return cGroup; }
+		
+		//KeyTwo
+		public RuleCall getKeyTwoParserRuleCall_0() { return cKeyTwoParserRuleCall_0; }
+		
+		//KeyOther
+		public RuleCall getKeyOtherParserRuleCall_1() { return cKeyOtherParserRuleCall_1; }
+	}
+	public class KeyOneElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeyOne");
+		private final RuleCall cIDTerminalRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		///**
+		// * @KeywordRule(one)
+		// */ KeyOne:
+		//	ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall() { return cIDTerminalRuleCall; }
+	}
+	public class KeyTwoElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeyTwo");
+		private final RuleCall cIDTerminalRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		///**
+		// * @KeywordRule(two)
+		// */ KeyTwo:
+		//	ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall() { return cIDTerminalRuleCall; }
+	}
+	public class KeyOtherElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.KeyOther");
+		private final RuleCall cIDTerminalRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		///**
+		// * @KeywordRule(one,two,three)
+		// */ KeyOther:
+		//	ID;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall() { return cIDTerminalRuleCall; }
+	}
 	
 	
 	private final ModelElements pModel;
 	private final GreetingElements pGreeting;
+	private final KeywordsExampleElements pKeywordsExample;
+	private final OptionOneElements pOptionOne;
+	private final OptionTwoElements pOptionTwo;
+	private final KeyOneElements pKeyOne;
+	private final KeyTwoElements pKeyTwo;
+	private final KeyOtherElements pKeyOther;
 	
 	private final Grammar grammar;
 	
@@ -79,6 +201,12 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 		this.gaTerminals = gaTerminals;
 		this.pModel = new ModelElements();
 		this.pGreeting = new GreetingElements();
+		this.pKeywordsExample = new KeywordsExampleElements();
+		this.pOptionOne = new OptionOneElements();
+		this.pOptionTwo = new OptionTwoElements();
+		this.pKeyOne = new KeyOneElements();
+		this.pKeyTwo = new KeyTwoElements();
+		this.pKeyOther = new KeyOtherElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -109,7 +237,8 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//Model:
-	//	greetings+=Greeting*;
+	//	greetings+=Greeting*
+	//	keywordsExample=KeywordsExample?;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -126,6 +255,78 @@ public class HelloWorldGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getGreetingRule() {
 		return getGreetingAccess().getRule();
+	}
+	
+	///**
+	// * This example illustrated keyword annotation.
+	// * Predicates are propagated into alternative before Xtext-generated actions.
+	// */ KeywordsExample:
+	//	option=OptionOne | option=OptionTwo;
+	public KeywordsExampleElements getKeywordsExampleAccess() {
+		return pKeywordsExample;
+	}
+	
+	public ParserRule getKeywordsExampleRule() {
+		return getKeywordsExampleAccess().getRule();
+	}
+	
+	//OptionOne:
+	//	KeyOne;
+	public OptionOneElements getOptionOneAccess() {
+		return pOptionOne;
+	}
+	
+	public ParserRule getOptionOneRule() {
+		return getOptionOneAccess().getRule();
+	}
+	
+	///**
+	// * In this example the second rule has no alternatives,
+	// * so we only get validating predicate.
+	// */ OptionTwo:
+	//	KeyTwo KeyOther;
+	public OptionTwoElements getOptionTwoAccess() {
+		return pOptionTwo;
+	}
+	
+	public ParserRule getOptionTwoRule() {
+		return getOptionTwoAccess().getRule();
+	}
+	
+	///**
+	// * @KeywordRule(one)
+	// */ KeyOne:
+	//	ID;
+	public KeyOneElements getKeyOneAccess() {
+		return pKeyOne;
+	}
+	
+	public ParserRule getKeyOneRule() {
+		return getKeyOneAccess().getRule();
+	}
+	
+	///**
+	// * @KeywordRule(two)
+	// */ KeyTwo:
+	//	ID;
+	public KeyTwoElements getKeyTwoAccess() {
+		return pKeyTwo;
+	}
+	
+	public ParserRule getKeyTwoRule() {
+		return getKeyTwoAccess().getRule();
+	}
+	
+	///**
+	// * @KeywordRule(one,two,three)
+	// */ KeyOther:
+	//	ID;
+	public KeyOtherElements getKeyOtherAccess() {
+		return pKeyOther;
+	}
+	
+	public ParserRule getKeyOtherRule() {
+		return getKeyOtherAccess().getRule();
 	}
 	
 	//terminal ID:

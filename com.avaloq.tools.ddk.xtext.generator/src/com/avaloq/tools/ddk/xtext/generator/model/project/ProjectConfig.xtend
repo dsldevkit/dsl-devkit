@@ -11,27 +11,39 @@
 
 package com.avaloq.tools.ddk.xtext.generator.model.project
 
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.xtext.generator.model.project.StandardProjectConfig
 import org.eclipse.xtext.xtext.generator.model.project.SubProjectConfig
 
 class ProjectConfig extends StandardProjectConfig {
-  static val TESTS_PROJECT_SUFFIX = '.test'
-  static val UI_PROJECT_SUFFIX = '.ui'
-  static val IDE_PROJECT_SUFFIX = UI_PROJECT_SUFFIX
 
+  @Accessors var String runtimeSuffix = ""
+  @Accessors var String testSuffix = "test"
+  @Accessors var String eclipsePluginSuffix = "ui"
+  @Accessors var String genericIdeSuffix = eclipsePluginSuffix
+  @Accessors var boolean forceDisableIdeProject = true
 
   override protected computeName(SubProjectConfig project) {
     if (mavenLayout) {
       return super.computeName(project)
     }
     switch project {
-      case runtime: baseName
-      case runtimeTest: baseName + TESTS_PROJECT_SUFFIX
-      case genericIde: baseName + IDE_PROJECT_SUFFIX
-      case eclipsePlugin: baseName + UI_PROJECT_SUFFIX
-      case eclipsePluginTest: baseName + UI_PROJECT_SUFFIX + TESTS_PROJECT_SUFFIX
+      case runtime: '''«baseName».«runtimeSuffix»'''
+      case runtimeTest: '''«baseName».«runtimeSuffix».«testSuffix»'''
+      case genericIde: '''«baseName».«genericIdeSuffix»'''
+      case eclipsePlugin: '''«baseName».«eclipsePluginSuffix»'''
+      case eclipsePluginTest: '''«baseName».«eclipsePluginSuffix».«testSuffix»'''
       default: super.computeName(project)
     }
   }
 
+  override setDefaults() {
+    super.setDefaults
+    if (forceDisableIdeProject) {
+      genericIde.enabled = false
+    }
+  }
+
 }
+
+/* Copyright (c) Avaloq Licence AG */

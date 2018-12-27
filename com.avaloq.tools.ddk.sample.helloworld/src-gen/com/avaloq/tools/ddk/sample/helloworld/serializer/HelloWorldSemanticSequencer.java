@@ -5,6 +5,7 @@ package com.avaloq.tools.ddk.sample.helloworld.serializer;
 
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage;
+import com.avaloq.tools.ddk.sample.helloworld.helloWorld.KeywordsExample;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model;
 import com.avaloq.tools.ddk.sample.helloworld.services.HelloWorldGrammarAccess;
 import com.google.inject.Inject;
@@ -36,6 +37,9 @@ public class HelloWorldSemanticSequencer extends AbstractDelegatingSemanticSeque
 			case HelloWorldPackage.GREETING:
 				sequence_Greeting(context, (Greeting) semanticObject); 
 				return; 
+			case HelloWorldPackage.KEYWORDS_EXAMPLE:
+				sequence_KeywordsExample(context, (KeywordsExample) semanticObject); 
+				return; 
 			case HelloWorldPackage.MODEL:
 				sequence_Model(context, (Model) semanticObject); 
 				return; 
@@ -64,10 +68,22 @@ public class HelloWorldSemanticSequencer extends AbstractDelegatingSemanticSeque
 	
 	/**
 	 * Contexts:
+	 *     KeywordsExample returns KeywordsExample
+	 *
+	 * Constraint:
+	 *     (option=OptionOne | option=OptionTwo)
+	 */
+	protected void sequence_KeywordsExample(ISerializationContext context, KeywordsExample semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Model returns Model
 	 *
 	 * Constraint:
-	 *     greetings+=Greeting+
+	 *     ((greetings+=Greeting+ keywordsExample=KeywordsExample) | keywordsExample=KeywordsExample)?
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

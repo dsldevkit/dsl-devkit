@@ -6,6 +6,7 @@ package com.avaloq.tools.ddk.sample.helloworld.helloWorld.impl;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldFactory;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage;
+import com.avaloq.tools.ddk.sample.helloworld.helloWorld.KeywordsExample;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -36,6 +37,13 @@ public class HelloWorldPackageImpl extends EPackageImpl implements HelloWorldPac
    * @generated
    */
   private EClass greetingEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass keywordsExampleEClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -125,6 +133,16 @@ public class HelloWorldPackageImpl extends EPackageImpl implements HelloWorldPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getModel_KeywordsExample()
+  {
+    return (EReference)modelEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getGreeting()
   {
     return greetingEClass;
@@ -138,6 +156,26 @@ public class HelloWorldPackageImpl extends EPackageImpl implements HelloWorldPac
   public EAttribute getGreeting_Name()
   {
     return (EAttribute)greetingEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getKeywordsExample()
+  {
+    return keywordsExampleEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getKeywordsExample_Option()
+  {
+    return (EAttribute)keywordsExampleEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -172,9 +210,13 @@ public class HelloWorldPackageImpl extends EPackageImpl implements HelloWorldPac
     // Create classes and their features
     modelEClass = createEClass(MODEL);
     createEReference(modelEClass, MODEL__GREETINGS);
+    createEReference(modelEClass, MODEL__KEYWORDS_EXAMPLE);
 
     greetingEClass = createEClass(GREETING);
     createEAttribute(greetingEClass, GREETING__NAME);
+
+    keywordsExampleEClass = createEClass(KEYWORDS_EXAMPLE);
+    createEAttribute(keywordsExampleEClass, KEYWORDS_EXAMPLE__OPTION);
   }
 
   /**
@@ -210,9 +252,13 @@ public class HelloWorldPackageImpl extends EPackageImpl implements HelloWorldPac
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getModel_Greetings(), this.getGreeting(), null, "greetings", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_KeywordsExample(), this.getKeywordsExample(), null, "keywordsExample", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(greetingEClass, Greeting.class, "Greeting", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGreeting_Name(), ecorePackage.getEString(), "name", null, 0, 1, Greeting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(keywordsExampleEClass, KeywordsExample.class, "KeywordsExample", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getKeywordsExample_Option(), ecorePackage.getEString(), "option", null, 0, 1, KeywordsExample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

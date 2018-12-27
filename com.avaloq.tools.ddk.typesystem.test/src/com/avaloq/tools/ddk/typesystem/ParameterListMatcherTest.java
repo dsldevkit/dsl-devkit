@@ -661,7 +661,7 @@ public class ParameterListMatcherTest {
     actuals.add(new NamedActualParameter(NAME_2, intType));
     actuals.add(new NamedActualParameter(NAME_3, textType));
     ParameterListMatchResult matchResult = parameterListMatcher.match(actuals, formals, parameterMatcher, CASE_INSENSITIVE);
-    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL, 2, 3, matchResult);
+    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL_NAME, 2, 3, matchResult);
     List<ParameterMatch> matches = matchResult.getMatches();
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(0), formals.get(0), matches.get(0));
     checkParameterMatch(IParameterMatchChecker.MatchStatus.NO_MATCH_FOR_NAMED_ACTUAL, actuals.get(1), null, matches.get(1));
@@ -679,7 +679,7 @@ public class ParameterListMatcherTest {
     actuals.add(new ActualParameter(intType));
     actuals.add(new NamedActualParameter(null, textType));
     ParameterListMatchResult matchResult = parameterListMatcher.match(actuals, formals, parameterMatcher, CASE_INSENSITIVE);
-    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL, 2, 3, matchResult); // position matches against null
+    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL_NAME, 2, 3, matchResult); // position matches against null
     List<ParameterMatch> matches = matchResult.getMatches();
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(0), formals.get(0), matches.get(0));
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(1), formals.get(1), matches.get(1));
@@ -696,7 +696,7 @@ public class ParameterListMatcherTest {
     actuals.add(new ActualParameter(intType));
     actuals.add(new NamedActualParameter(NAME_3, textType));
     ParameterListMatchResult matchResult = parameterListMatcher.match(actuals, formals, parameterMatcher, CASE_INSENSITIVE);
-    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL, 2, 2, matchResult);
+    checkParameterListResult(ParameterListMatchStatus.DUPLICATE_PARAMETER, 2, 2, matchResult);
     assertSame("have one duplicate formal", 1, matchResult.getDuplicateNamedFormals().size());
     List<ParameterMatch> matches = matchResult.getMatches();
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(0), formals.get(0), matches.get(0));
@@ -821,7 +821,7 @@ public class ParameterListMatcherTest {
 
   private void verifyOneUnnamedFormalAfterNamed(final List<FormalParameter> formals, final FormalParameter unnamedFormal, final List<ActualParameter> actuals) {
     ParameterListMatchResult matchResult = parameterListMatcher.match(actuals, formals, parameterMatcher, CASE_INSENSITIVE);
-    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL, 1, 1, matchResult);
+    checkParameterListResult(ParameterListMatchStatus.UNNAMED_FORMAL_AFTER_NAMED, 1, 1, matchResult);
     List<ParameterMatch> matches = matchResult.getMatches();
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(0), formals.get(0), matches.get(0));
     assertSame(WRONG_NUMBER_OF_UNNAMED_FORMALS_AFTER_NAMED_FORMALS, 1, matchResult.getUnnamedFormalsAfterNamed().size());
@@ -841,7 +841,7 @@ public class ParameterListMatcherTest {
     actuals.add(new ActualParameter(intType));
     actuals.add(new ActualParameter(intType));
     ParameterListMatchResult matchResult = parameterListMatcher.match(actuals, formals, parameterMatcher, CASE_INSENSITIVE);
-    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL, 2, 2, matchResult);
+    checkParameterListResult(ParameterListMatchStatus.UNNAMED_FORMAL_AFTER_NAMED, 2, 2, matchResult);
     List<ParameterMatch> matches = matchResult.getMatches();
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(0), formals.get(0), matches.get(0));
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(1), formals.get(1), matches.get(1));
@@ -886,7 +886,7 @@ public class ParameterListMatcherTest {
     List<ActualParameter> actuals = new ArrayList<ActualParameter>();
     actuals.add(new ActualParameter(intType));
     ParameterListMatchResult matchResult = parameterListMatcher.match(actuals, formals, parameterMatcher, CASE_INSENSITIVE);
-    checkParameterListResult(ParameterListMatchStatus.INVALID_FORMAL, 1, 1, matchResult);
+    checkParameterListResult(ParameterListMatchStatus.UNNAMED_FORMAL_AFTER_NAMED, 1, 1, matchResult);
     List<ParameterMatch> matches = matchResult.getMatches();
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(0), formals.get(0), matches.get(0));
     assertSame(WRONG_NUMBER_OF_UNNAMED_FORMALS_AFTER_NAMED_FORMALS, 2, matchResult.getUnnamedFormalsAfterNamed().size());

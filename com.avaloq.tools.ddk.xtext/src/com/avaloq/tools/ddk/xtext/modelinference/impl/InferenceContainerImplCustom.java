@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com.avaloq.tools.ddk.xtext.modelinference.IInferredElementFragmentProvider;
@@ -95,7 +96,7 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
       // append sequence number suffix in case fragment is already assigned (collision)
       key = fragmentSegment + '.' + i++;
     }
-    getFragments().add(key);
+    ((InternalEList<String>) getFragments()).addUnique(key);
   }
 
   /**

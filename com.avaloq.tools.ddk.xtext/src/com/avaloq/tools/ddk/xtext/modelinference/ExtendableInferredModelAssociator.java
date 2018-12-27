@@ -11,7 +11,8 @@
 package com.avaloq.tools.ddk.xtext.modelinference;
 
 import org.apache.log4j.Logger;
-import org.eclipse.xtext.resource.DerivedStateAwareResource;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.util.IAcceptor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -30,14 +31,14 @@ public class ExtendableInferredModelAssociator extends InferredModelAssociator {
   private IModelInferrerFeatureExtensionService additionalInferrers;
 
   @Override
-  public void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
-    super.installDerivedState(resource, isPreLinkingPhase);
+  protected void inferTargetModel(final EObject eObject, final IAcceptor<EObject> acceptor, final boolean isPreLinkingPhase) {
+    super.inferTargetModel(eObject, acceptor, isPreLinkingPhase);
     try {
-      additionalInferrers.inferTargetModel(resource.getContents().get(0), createAcceptor(resource), isPreLinkingPhase);
+      additionalInferrers.inferTargetModel(eObject, acceptor, isPreLinkingPhase);
       // CHECKSTYLE:OFF
     } catch (RuntimeException e) {
       // CHECKSTYLE:ON
-      LOGGER.error("Failed to install additional derived state for resource " + resource.getURI(), e); //$NON-NLS-1$
+      LOGGER.error("Failed to install additional derived state for resource " + eObject.eResource().getURI(), e); //$NON-NLS-1$
     }
   }
 
