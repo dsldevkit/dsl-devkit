@@ -110,7 +110,7 @@ abstract class AbstractCheckRegistryReader extends RegistryReader {
     if (element.getName().equals(topLevelElementName())) {
       String languageIdentifier = getValueForKeyAttribute(element);
       if (languageIdentifier == null) {
-        logMissingAttribute(element, getKeyAttribute());
+        return false;
       } else if (element.getAttribute(getAttribute()) == null) {
         logMissingAttribute(element, getAttribute());
       } else if (add) {
@@ -146,4 +146,3 @@ abstract class AbstractCheckRegistryReader extends RegistryReader {
   }
 
 }
-
