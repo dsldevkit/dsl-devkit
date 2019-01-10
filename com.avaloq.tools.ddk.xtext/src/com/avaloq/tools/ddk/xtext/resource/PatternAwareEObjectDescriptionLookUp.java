@@ -47,9 +47,6 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
 
   @Override
   public Iterable<IEObjectDescription> getExportedObjects(final EClass type, final QualifiedName name, final boolean ignoreCase) {
-    if (Iterables.isEmpty(getExportedObjects())) {
-      return Collections.emptyList();
-    }
     QualifiedName lowerCase = name.toLowerCase(); // NOPMD UseLocaleWithCaseConversions not a String!
     QualifiedNameLookup<IEObjectDescription> lookup = getNameToObjectsLookup();
     Collection<IEObjectDescription> values;
@@ -62,26 +59,15 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
     if (values == null) {
       return Collections.emptyList();
     }
-    Predicate<IEObjectDescription> predicate = ignoreCase ? new Predicate<IEObjectDescription>() {
-      @Override
-      public boolean apply(final IEObjectDescription input) {
-        return EcoreUtil2.isAssignableFrom(type, input.getEClass());
-      }
-    } : new Predicate<IEObjectDescription>() {
-      @Override
-      public boolean apply(final IEObjectDescription input) {
-        if (isPattern) {
-          return EcoreUtil2.isAssignableFrom(type, input.getEClass()) && ((QualifiedNamePattern) name).matches(name);
-        } else {
-          return name.equals(input.getName()) && EcoreUtil2.isAssignableFrom(type, input.getEClass());
-        }
-      }
-    };
+    Predicate<IEObjectDescription> predicate = ignoreCase ? input -> EcoreUtil2.isAssignableFrom(type, input.getEClass())
+        : input -> isPattern ? EcoreUtil2.isAssignableFrom(type, input.getEClass()) && ((QualifiedNamePattern) name).matches(name)
+            : name.equals(input.getName()) && EcoreUtil2.isAssignableFrom(type, input.getEClass());
     return Collections2.filter(values, predicate);
   }
 
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByObject(final EObject object) {
+    // cannot really filter by EClass, as "object" may be a dummy proxy of arbitrary type
     final String fragment = EObjectUtil.getURIFragment(object);
     return Iterables.filter(getExportedObjects(), input -> fragment.equals(input.getEObjectURI().fragment()));
   }

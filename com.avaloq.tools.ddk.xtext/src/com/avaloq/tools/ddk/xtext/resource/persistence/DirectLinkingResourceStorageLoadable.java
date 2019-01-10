@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
@@ -33,8 +32,8 @@ import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
-import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator.Adapter;
-import com.avaloq.tools.ddk.xtext.nodemodel.serialization.FixedDeserializationConversionContext;
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceLoadStorageEvent;
 import com.google.common.base.Ascii;
@@ -47,60 +46,142 @@ import com.google.common.io.CharStreams;
  * are that this implementation is specific to the {@link com.avaloq.tools.ddk.xtext.modelinference.IInferredModelAssociations DDK implementation} and that the
  * source and target objects of a mapping don't need to be part of the resource containing the mapping itself. Also, the resource description is not persisted,
  * but instead the source text is also included so that it doesn't need to be loaded with an additional I/O call.
+ * <p>
+ * Additionally this implementation supports partial loading using a specified {@link Mode}.
  */
+// CHECKSTYLE:COUPLING-OFF
 public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadable {
+  // CHECKSTYLE:COUPLING-ON
 
   private static final Logger LOG = Logger.getLogger(DirectLinkingResourceStorageLoadable.class);
 
   private static final int SOURCE_BUFFER_CAPACITY = 0x10000; // 64 KiB
 
-  private final boolean storeNodeModel;
   private final ITraceSet traceSet;
 
-  public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean storeNodeModel, final ITraceSet traceSet) {
-    super(in, storeNodeModel);
-    this.storeNodeModel = storeNodeModel;
+  private ResourceLoadMode mode;
+
+  public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final ITraceSet traceSet) {
+    super(in, loadNodeModel);
     this.traceSet = traceSet;
   }
 
   @Override
-  protected void loadIntoResource(final StorageAwareResource resource) {
-    traceSet.started(ResourceLoadStorageEvent.class, resource.getURI());
+  protected void loadIntoResource(final StorageAwareResource resource) throws IOException {
+    ResourceLoadMode loadMode = ResourceLoadMode.get(resource);
+    loadIntoResource(resource, loadMode);
+  }
+
+  /**
+   * Loads the binary storage into the given resource in the given {@link Mode}.
+   *
+   * @param resource
+   *          resource to load into, must not be {@code null}
+   * @param loadMode
+   *          load mode, must not be {@code null}
+   * @throws IOException
+   *           if an I/O exception occurred
+   */
+  public void loadIntoResource(final StorageAwareResource resource, final ResourceLoadMode loadMode) throws IOException {
+    if (loadMode.instruction(Constituent.RESOURCE) != Instruction.LOAD) {
+      throw new IllegalArgumentException("Incompatible resource load mode: " + loadMode.instruction(Constituent.RESOURCE)); //$NON-NLS-1$
+    }
+    this.mode = loadMode;
+    traceSet.started(ResourceLoadStorageEvent.class, resource.getURI(), loadMode);
     try {
       super.loadIntoResource(resource);
       // CHECKSTYLE:OFF
-    } catch (RuntimeException e) {
+    } catch (IOException | RuntimeException e) {
       // CHECKSTYLE:ON
-      LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
-      throw e instanceof WrappedException ? e : new WrappedException(e); // NOPMD
-    } catch (IOException e) {
-      LOG.warn("Error loading " + resource.getURI(), e); //$NON-NLS-1$
-      throw new WrappedException(e); // NOPMD
+      LOG.warn("Error loading " + resource.getURI() + " from binary storage", e); //$NON-NLS-1$ //$NON-NLS-2$
+      if (e instanceof IOException) { // NOPMD
+        throw e;
+      }
+      throw new IOException(e);
     } finally {
       traceSet.ended(ResourceLoadStorageEvent.class);
     }
   }
 
-  @Override
-  protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) {
-    try {
-      zipIn.getNextEntry();
-      readContents(resource, new BufferedInputStream(zipIn));
+  /**
+   * Utility class to help position the {@link ZipInputStream} when loading a particular {@link Constituent}.
+   */
+  private static class ZipPositioner {
+    private final ZipInputStream zipIn;
+    private Constituent current = Constituent.RESOURCE;
 
-      if (storeNodeModel) {
-        zipIn.getNextEntry();
-        StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
-        CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
-        String content = out.toString();
+    ZipPositioner(final ZipInputStream zipIn) {
+      this.zipIn = zipIn;
+    }
 
-        zipIn.getNextEntry();
-        readNodeModel(resource, new BufferedInputStream(zipIn), content);
+    public void position(final Constituent target) throws IOException {
+      if (current.ordinal() > target.ordinal()) {
+        throw new IllegalStateException("Out of order access of " + target); //$NON-NLS-1$
       }
+      for (int i = current.ordinal(); i < target.ordinal(); i++) {
+        zipIn.getNextEntry();
+      }
+      current = target;
+    }
+  }
 
-      zipIn.getNextEntry();
+  @Override
+  protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
+    ZipPositioner positioner = new ZipPositioner(zipIn);
+    // 1. resource contents
+    switch (mode.instruction(Constituent.CONTENT)) {
+    case SKIP:
+      break;
+    case PROXY:
+      LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
+      // fall through
+    case LOAD:
+      positioner.position(Constituent.CONTENT);
+      readContents(resource, new BufferedInputStream(zipIn));
+      break;
+    }
+
+    // 2. associations adapter
+    switch (mode.instruction(Constituent.ASSOCIATIONS)) {
+    case SKIP:
+      break;
+    case PROXY:
+      ProxyModelAssociationsAdapter.install(resource);
+      break;
+    default:
+      positioner.position(Constituent.ASSOCIATIONS);
       readAssociationsAdapter(resource, new BufferedInputStream(zipIn));
-    } catch (IOException e) {
-      throw new WrappedException(e);
+      break;
+    }
+
+    // 3. source
+    String content = null;
+    switch (mode.instruction(Constituent.SOURCE)) {
+    case SKIP:
+    case PROXY:
+      if (mode.instruction(Constituent.NODE_MODEL) == Instruction.LOAD) {
+        throw new IllegalArgumentException("Loading node model also requires loading source"); //$NON-NLS-1$
+      }
+      break;
+    case LOAD:
+      positioner.position(Constituent.SOURCE);
+      StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
+      CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
+      content = out.toString();
+      break;
+    }
+
+    // 4. node model
+    switch (mode.instruction(Constituent.NODE_MODEL)) {
+    case SKIP:
+      break;
+    case PROXY:
+      ProxyCompositeNode.installProxyNodeModel(resource);
+      break;
+    case LOAD:
+      positioner.position(Constituent.NODE_MODEL);
+      readNodeModel(resource, new BufferedInputStream(zipIn), content);
+      break;
     }
   }
 
@@ -113,22 +194,15 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    *          input stream, must not be {@code null}
    * @param content
    *          corresponding source content as required by node model, must not be {@code null}
+   * @throws IOException
+   *           if an I/O exception occurred
    */
-  protected void readNodeModel(final StorageAwareResource resource, final InputStream inputStream, final String content) {
-    try {
-      // if this is a synthetic resource (i.e. tests or so, don't load the node model)
-      if (!resource.getResourceSet().getURIConverter().exists(resource.getURI(), resource.getResourceSet().getLoadOptions())) {
-        LOG.info("Skipping loading node model for synthetic resource " + resource.getURI()); //$NON-NLS-1$
-        return;
-      }
-      DeserializationConversionContext deserializationContext = new FixedDeserializationConversionContext(resource, content);
-      DataInputStream dataIn = new DataInputStream(inputStream);
-      SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
-      serializableNodeModel.readObjectData(dataIn, deserializationContext);
-      resource.setParseResult(new ParseResult(resource.getContents().get(0), serializableNodeModel.root, deserializationContext.hasErrors()));
-    } catch (IOException e) {
-      LOG.warn(e.getMessage(), e);
-    }
+  protected void readNodeModel(final StorageAwareResource resource, final InputStream inputStream, final String content) throws IOException {
+    DeserializationConversionContext deserializationContext = new ProxyAwareDeserializationConversionContext(resource, content);
+    DataInputStream dataIn = new DataInputStream(inputStream);
+    SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
+    serializableNodeModel.readObjectData(dataIn, deserializationContext);
+    resource.setParseResult(new ParseResult(resource.getContents().get(0), serializableNodeModel.root, deserializationContext.hasErrors()));
   }
 
   /**
@@ -150,7 +224,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       return;
     }
 
-    InferredModelAssociator.Adapter adapter = (Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class);
+    InferredModelAssociator.Adapter adapter = (InferredModelAssociator.Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class);
     if (adapter == null) {
       adapter = new InferredModelAssociator.Adapter();
       resource.eAdapters().add(adapter);

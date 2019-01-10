@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -19,6 +20,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.serialization.SerializationUtil;
@@ -26,16 +28,20 @@ import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ParseResult;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IDerivedStateComputer;
+import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Triple;
 
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
 
 /**
@@ -69,6 +75,13 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Inject
   private Injector injector;
+
+  /**
+   * Default load mode to use when loading resources of this type. If not specified it defaults to {@link ResourceLoadMode#PROXIED_NODE_MODEL_AND_ASSOCIATIONS}.
+   */
+  @Inject(optional = true)
+  @Named(ResourceLoadMode.DEFAULT_LOAD_MODE)
+  private ResourceLoadMode defaultLoadMode;
 
   /**
    * Sets the parse result for this resource.
@@ -120,6 +133,11 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       if (result == null && getEncoder().isCrossLinkFragment(this, uriFragment)) {
         final ResourceSet rs = getResourceSet();
         if (rs.getLoadOptions().get(MARK_UNRESOLVABLE_XREFS) == Boolean.FALSE) {
+          Triple<EObject, EReference, INode> refInfo = getEncoder().decode(this, uriFragment);
+          EReference reference = refInfo.getSecond();
+          EObject context = refInfo.getFirst();
+          LOGGER.warn("Failed unexpected attempt to resolve reference during indexing " + context.eClass().getName() + "#" //$NON-NLS-1$ //$NON-NLS-2$
+              + reference.getName() + " for object " + EcoreUtil.getURI(context), new RuntimeException()); //$NON-NLS-1$
           rs.getLoadOptions().put(MARK_UNRESOLVABLE_XREFS, Boolean.TRUE);
         }
       }
@@ -358,5 +376,20 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
         resourceParser.setFileExtension(URI.decode(resourceUri.fileExtension())); // if uri.fileExtension() is null, URI.decode will return null
       }
     }
+  }
+
+  public ResourceLoadMode getDefaultLoadMode() {
+    return defaultLoadMode != null ? defaultLoadMode : ResourceLoadMode.PROXIED_NODE_MODEL_AND_ASSOCIATIONS;
+  }
+
+  @Override
+  protected Set<String> getUnresolvableURIFragments() {
+    Set<String> unresolveableProxies = getCache().get(UNRESOLVEABLE_PROXIES_KEY, this, new Provider<Set<String>>() {
+      @Override
+      public Set<String> get() {
+        return isLoadedFromStorage() ? Sets.newHashSet(StorageAwareResource.UNRESOLVABLE_FRAGMENT) : Sets.newHashSet();
+      }
+    });
+    return unresolveableProxies;
   }
 }

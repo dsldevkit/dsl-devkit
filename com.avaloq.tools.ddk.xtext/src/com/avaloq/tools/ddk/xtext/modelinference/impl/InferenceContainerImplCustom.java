@@ -19,8 +19,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com.avaloq.tools.ddk.xtext.modelinference.IInferredElementFragmentProvider;
@@ -68,6 +68,9 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
             objectToFragmentMap.remove(oldObject);
           }
           break;
+        case Notification.MOVE:
+        case Notification.SET:
+          throw new UnsupportedOperationException("Operations move() and set() are not supported."); //$NON-NLS-1$
         default:
           break;
         }
@@ -93,6 +96,7 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
       // append sequence number suffix in case fragment is already assigned (collision)
       key = fragmentSegment + '.' + i++;
     }
+    ((InternalEList<String>) getFragments()).addUnique(key);
   }
 
   /**
@@ -126,11 +130,19 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
     if (fragmentToObjectMap.isEmpty()) {
       if (eResource() == null) {
         LOG.warn("InferenceContainer must be contained in a resource to compute URI fragments."); //$NON-NLS-1$
-        return;
-      }
-      EList<EObject> contents = getContents();
-      for (int i = 0; i < contents.size(); i++) {
-        addFragmentMapping(contents.get(i));
+      } else {
+        int size = getContents().size();
+        if (getFragments().size() != size) {
+          LOG.warn("Fragments need to be recomputed for the InferenceContainer in " + eResource().getURI()); //$NON-NLS-1$
+          getFragments().clear();
+          for (int i = 0; i < getContents().size(); i++) {
+            addFragmentMapping(getContents().get(i));
+          }
+        } else {
+          for (int i = 0; i < size; i++) {
+            fragmentToObjectMap.put(getFragments().get(i), getContents().get(i));
+          }
+        }
       }
     }
   }

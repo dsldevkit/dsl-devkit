@@ -22,6 +22,8 @@ import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.ResourceStorageWritable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
+import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.google.inject.Inject;
 
@@ -46,10 +48,10 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
     DirectLinkingSourceLevelURIsAdapter adapter = DirectLinkingSourceLevelURIsAdapter.findInstalledAdapter(resource.getResourceSet());
     if (adapter == null) {
       return false;
-    } else {
-      if (adapter.getSourceLevelURIs().contains(resource.getURI())) {
-        return false;
-      }
+    } else if (adapter.getSourceLevelURIs().contains(resource.getURI())) {
+      return false;
+    } else if (ResourceLoadMode.get(resource).instruction(Constituent.RESOURCE) == Instruction.SKIP) {
+      return false;
     }
     return doesStorageExist(resource);
   }
@@ -94,6 +96,11 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
     URI srcContainerURI = getSourceContainerURI(resourceUri);
     URI uri = getBinaryStorageURI(resourceUri);
     return uri.deresolve(srcContainerURI, false, false, true).path();
+  }
+
+  @Override
+  protected URI getSourceContainerURI(final StorageAwareResource resource) {
+    return getSourceContainerURI(resource.getURI());
   }
 
   /**

@@ -18,6 +18,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -78,6 +79,7 @@ import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionDelta;
 import com.avaloq.tools.ddk.xtext.resource.extensions.ForwardingResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
+import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
@@ -323,6 +325,22 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return event.getDeltas();
   }
 
+  /**
+   * Adds to the toBeUpdated set all the dependencies derived from inferences. Useful for case of XSDs and NETWORK STRUCTs.
+   *
+   * @param toBeUpdated
+   *          set of URIs to be updated
+   * @param resourceDescriptions
+   *          descriptions of the complete set of built resources
+   */
+  protected void propagateDependencyChains(final Set<URI> toBeUpdated, final IResourceDescriptions2 resourceDescriptions) {
+    final Set<URI> candidateDependencies = toBeUpdated.stream().map(uri -> uri.appendFragment(ImplicitReferencesAdapter.INFERRED_FRAGMENT)).collect(Collectors.toSet());
+    for (final IReferenceDescription referenceDescription : resourceDescriptions.findReferencesToObjects(candidateDependencies)) {
+      final URI dependency = referenceDescription.getSourceEObjectUri().trimFragment();
+      toBeUpdated.add(dependency);
+    }
+  }
+
   @Override
   public synchronized ImmutableList<IResourceDescription.Delta> clean(final Set<URI> toBeRemoved, final IProgressMonitor monitor) {
     ensureLoaded();
@@ -378,6 +396,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // use this. Once the build is completed, the persistable index is reset to the contents of newState by
     // virtue of the newMap, which is maintained in synch with this.
     final CurrentDescriptions2 newState = createCurrentDescriptions(resourceSet, newData);
+
+    propagateDependencyChains(buildData.getToBeUpdated(), newState);
 
     final Map<URI, IResourceDescription> oldDescriptions = saveOldDescriptions(buildData);
 
@@ -613,6 +633,23 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // CHECKSTYLE:CHECK-ON NestedTryDepth
   }
 
+  @Override
+  protected Resource addResource(final Resource resource, final ResourceSet resourceSet) {
+    URI uri = resource.getURI();
+    Resource r = resourceSet.getResource(uri, false);
+    if (r == null) {
+      resourceSet.getResources().add(resource);
+      return resource;
+    } else if (r instanceof StorageAwareResource && ((StorageAwareResource) r).isLoadedFromStorage()) {
+      // make sure to not process any binary resources in builder as it could have incorrect linking
+      r.unload();
+      resourceSet.getResources().set(resourceSet.getResources().indexOf(r), resource);
+      return resource;
+    } else {
+      return r;
+    }
+  }
+
   /**
    * Log the first and last 10 StackOverflowError Stack Trace.
    *
@@ -828,14 +865,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (manager != null) {
             final IResourceDescription description = manager.getResourceDescription(resource);
             // We don't care here about links, we really just want the exported objects so that we can link in the next phase.
-            // Set flag to make unresolvable cross-references raise an error
+            // Set flag to tell linker to log warnings on unresolvable cross-references
             resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
             final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
-            final boolean hasUnresolvedLinks = resourceSet.getLoadOptions().get(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS) == Boolean.TRUE;
-            if (hasUnresolvedLinks) {
-              LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_FAILED_REFERENCE_RESOLUTION_IN_INDEXING, uri));
-            }
-            // In any case process the resource. We expect no DSL to depend on linking in indexing phase
             final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
             newState.register(intermediateDelta);
             toBuild.add(uri);
@@ -1012,6 +1044,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (allDeltas.isEmpty() || allRemainingURIs.isEmpty()) {
       return;
     }
+    Set<URI> sources = buildData.getSourceLevelURICache().getSources();
     ImmutableListMultimap<Manager, URI> candidatesByManager = getUrisByManager(allRemainingURIs);
     FindReferenceCachingState cachingIndex = new FindReferenceCachingState((IResourceDescriptions2) newState);
     final SubMonitor progressMonitor = SubMonitor.convert(monitor, candidatesByManager.keySet().size());
@@ -1030,6 +1063,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           for (URI uri : affected) {
             if (allRemainingURIs.remove(uri)) {
               buildData.queueURI(uri);
+              sources.add(uri);
             }
           }
         } else {
@@ -1045,6 +1079,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               if (affected) {
                 allRemainingURIs.remove(candidateURI);
                 buildData.queueURI(candidateURI);
+                sources.add(candidateURI);
               }
             }
           }

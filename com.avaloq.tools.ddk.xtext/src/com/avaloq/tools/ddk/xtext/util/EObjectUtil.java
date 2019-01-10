@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.linking.impl.DefaultLinkingService;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
+import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -124,6 +125,18 @@ public final class EObjectUtil {
    */
   public static <T extends EObject> Iterable<T> filterProxies(final Iterable<T> iterable) {
     return Iterables.filter(iterable, PROXY_FILTER);
+  }
+
+  /**
+   * Checks if the given object represents an Xtext lazy-linking proxy.
+   *
+   * @param object
+   *          object to check, can be {@code null}
+   * @return {@code true} if the given object is non-{@code null}, is a {@link EObject#eIsProxy() proxy} and has a
+   *         {@link LazyURIEncoder#isCrossLinkFragment(org.eclipse.emf.ecore.resource.Resource, String) lazy-linking proxy URI fragment}.
+   */
+  public static boolean isLazyLinkingProxy(final EObject object) {
+    return object != null && object.eIsProxy() && ((InternalEObject) object).eProxyURI().fragment().startsWith(LazyURIEncoder.XTEXT_LINK);
   }
 
   /**

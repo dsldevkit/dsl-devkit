@@ -23,7 +23,6 @@ public class Messages extends NLS {
   public static String MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS;
   public static String MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION;
   public static String MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR;
-  public static String MonitoredClusteringBuilderState_FAILED_REFERENCE_RESOLUTION_IN_INDEXING;
 
   static {
     // initialize resource bundle
@@ -34,4 +33,3 @@ public class Messages extends NLS {
     super();
   }
 }
-

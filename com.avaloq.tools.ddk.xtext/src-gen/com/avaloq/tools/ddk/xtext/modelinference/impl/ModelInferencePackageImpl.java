@@ -6,6 +6,7 @@ import com.avaloq.tools.ddk.xtext.modelinference.InferenceContainer;
 import com.avaloq.tools.ddk.xtext.modelinference.ModelInferenceFactory;
 import com.avaloq.tools.ddk.xtext.modelinference.ModelInferencePackage;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
@@ -116,6 +117,16 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getInferenceContainer_Fragments()
+	{
+		return (EAttribute)inferenceContainerEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EOperation getInferenceContainer__GetFragmentSegment__EObject()
 	{
 		return inferenceContainerEClass.getEOperations().get(0);
@@ -163,6 +174,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 		// Create classes and their features
 		inferenceContainerEClass = createEClass(INFERENCE_CONTAINER);
 		createEReference(inferenceContainerEClass, INFERENCE_CONTAINER__CONTENTS);
+		createEAttribute(inferenceContainerEClass, INFERENCE_CONTAINER__FRAGMENTS);
 		createEOperation(inferenceContainerEClass, INFERENCE_CONTAINER___GET_FRAGMENT_SEGMENT__EOBJECT);
 		createEOperation(inferenceContainerEClass, INFERENCE_CONTAINER___GET_EOBJECT__STRING);
 	}
@@ -200,6 +212,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 		// Initialize classes, features, and operations; add parameters
 		initEClass(inferenceContainerEClass, InferenceContainer.class, "InferenceContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInferenceContainer_Contents(), ecorePackage.getEObject(), null, "contents", null, 0, -1, InferenceContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInferenceContainer_Fragments(), ecorePackage.getEString(), "fragments", null, 0, -1, InferenceContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = initEOperation(getInferenceContainer__GetFragmentSegment__EObject(), ecorePackage.getEString(), "getFragmentSegment", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "object", 0, 1, IS_UNIQUE, IS_ORDERED);

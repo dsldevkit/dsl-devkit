@@ -1,0 +1,54 @@
+grammar com.avaloq.tools.ddk.sample.helloworld.HelloWorld with org.eclipse.xtext.common.Terminals
+
+generate helloWorld "http://www.avaloq.com/tools/ddk/sample/helloworld/HelloWorld"
+
+Model:
+  greetings+=Greeting*
+
+  ( keywordsExample = KeywordsExample )?
+;
+
+Greeting:
+  'Hello' name=ID '!'
+;
+
+/**
+ * This example illustrated keyword annotation.
+ * Predicates are propagated into alternative before Xtext-generated actions.
+ */
+KeywordsExample:
+ option = OptionOne | option = OptionTwo
+;
+
+OptionOne:
+  KeyOne
+;
+
+/**
+ * In this example the second rule has no alternatives,
+ * so we only get validating predicate.
+ */
+OptionTwo:
+  KeyTwo KeyOther
+;
+
+/**
+ * @KeywordRule(one)
+ */
+KeyOne:
+  ID
+;
+
+/**
+ * @KeywordRule(two)
+ */
+KeyTwo:
+  ID
+;
+
+/**
+ * @KeywordRule(one,two,three)
+ */
+KeyOther:
+  ID
+;

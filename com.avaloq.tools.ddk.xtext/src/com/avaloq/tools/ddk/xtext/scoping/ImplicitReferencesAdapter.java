@@ -33,6 +33,11 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
   /** Constant URI fragment used for both source and target object of reference. */
   private static final String IMPLICIT_FRAGMENT = URI.encodeFragment("implicit!", false); //$NON-NLS-1$
 
+  /** Constant URI fragment used for both source and target object of reference. */
+  public static final String INFERRED_FRAGMENT = URI.encodeFragment("inferred!", false); //$NON-NLS-1$
+
+  private final Set<URI> inferenceDependencies = Sets.newHashSet();
+
   /**
    * Returns the adapter registered for a resource.
    *
@@ -49,6 +54,23 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
     return null;
   }
 
+  /**
+   * Returns the implicit references adapter for the given resource. It will be added first if it doesn't already exist.
+   *
+   * @param resource
+   *          resource to get adapter for
+   * @return the registered adapter
+   */
+  public static ImplicitReferencesAdapter findOrCreate(final Resource resource) {
+    final ImplicitReferencesAdapter adapter = ImplicitReferencesAdapter.find(resource);
+    if (adapter != null) {
+      return adapter;
+    }
+    final ImplicitReferencesAdapter result = new ImplicitReferencesAdapter();
+    resource.eAdapters().add(result);
+    return result;
+  }
+
   private final Set<URI> implicitReferences = Sets.newHashSet();
 
   /**
@@ -62,19 +84,33 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
   }
 
   /**
-   * Returns all implicit references registered with this adapter.
+   * Adds an inference dependency to the given URI (object or resource URI).
+   *
+   * @param resourceUri
+   *          resource required in the inference of the target resource
+   */
+  public void addInferenceDependency(final URI resourceUri) {
+    inferenceDependencies.add(resourceUri);
+  }
+
+  /**
+   * Returns all inferred and implicit references registered with this adapter.
    *
    * @return implicit references
    */
   public Iterable<IReferenceDescription> getImplicitReferences() {
     final URI contextURI = ((Resource) getTarget()).getURI().appendFragment(IMPLICIT_FRAGMENT);
-    return Iterables.transform(implicitReferences, new Function<URI, IReferenceDescription>() {
+    final Set<IReferenceDescription> result = Sets.newHashSet(Iterables.transform(implicitReferences, new Function<URI, IReferenceDescription>() {
       @Override
       public IReferenceDescription apply(final URI target) {
         return new ReferenceDescription(contextURI, target.hasFragment() ? target
             : target.appendFragment(IMPLICIT_FRAGMENT), EcorePackage.Literals.EFACTORY__EPACKAGE, null, -1);
       }
-    });
+    }));
+    for (final URI uri : inferenceDependencies) {
+      result.add(new ReferenceDescription(contextURI, uri.appendFragment(INFERRED_FRAGMENT), EcorePackage.Literals.EFACTORY__EPACKAGE, null, -1));
+    }
+    return result;
   }
 
   /**
@@ -82,6 +118,7 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
    */
   public void clear() {
     implicitReferences.clear();
+    inferenceDependencies.clear();
   }
 
 }
