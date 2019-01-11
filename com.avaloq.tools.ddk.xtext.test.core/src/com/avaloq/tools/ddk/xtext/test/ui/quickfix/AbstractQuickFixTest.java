@@ -385,7 +385,7 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
     String expected = expectedContent.replaceAll(CR_LF, LF);
     String actual = actualContent.replaceAll(CR_LF, LF);
     if (ignoreFormatting) {
-      assertThat(message, expected, equalToIgnoringWhiteSpace(actual));
+      assertThat(message, actual, equalToIgnoringWhiteSpace(expected));
     } else {
       assertEquals(message, expected, actual);
     }
