@@ -81,7 +81,11 @@ public class XtextElementSelectionListener implements ISelectionListener, ISelec
         @Override
         @SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
         public ILeafNode exec(final XtextResource resource) throws Exception {
-          return NodeModelUtils.findLeafNodeAtOffset(NodeModelUtils.getNode(resource.getContents().get(0)), ((ITextSelection) selection).getOffset());
+          INode node = NodeModelUtils.getNode(resource.getContents().get(0));
+          if (node == null) {
+            return null;
+          }
+          return NodeModelUtils.findLeafNodeAtOffset(node, ((ITextSelection) selection).getOffset());
         }
       });
     }
