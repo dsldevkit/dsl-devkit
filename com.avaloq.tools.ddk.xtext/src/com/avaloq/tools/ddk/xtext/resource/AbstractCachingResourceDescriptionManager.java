@@ -16,6 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
@@ -37,8 +41,6 @@ import org.eclipse.xtext.util.Tuples;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2.ReferenceMatchPolicy;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -216,14 +218,10 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     //
     // See also the comment on MonitoredClusteringBuilderState.FindReferenceCachingState.
     if (deltas.isEmpty() || candidates.isEmpty()) {
-      return ImmutableSet.of();
+      return Collections.emptySet();
     }
-    return getAffectedResources(deltas, new Predicate<URI>() {
-      @Override
-      public boolean apply(final URI input) {
-        return candidates.contains(input) && isManagerFor(input);
-      }
-    }, (IResourceDescriptions2) context);
+
+    return getAffectedResources(deltas, uri -> candidates.contains(uri) && isManagerFor(uri), (IResourceDescriptions2) context);
   }
 
   /**
@@ -265,19 +263,17 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     }
 
     // find all resources matching provided filter with physical references to changed-or-deleted resources and objects
-    Set<URI> references = Sets.newHashSet(Iterables.filter(Iterables.transform(Iterables.concat(context.findAllReferencingResources(changedOrDeletedResources, ReferenceMatchPolicy.REFERENCES), context.findExactReferencingResources(changedOrDeletedObjects, ReferenceMatchPolicy.REFERENCES)), new Function<IResourceDescription, URI>() {
-      @Override
-      public URI apply(final IResourceDescription from) {
-        return from.getURI();
-      }
-    }), filter));
+    Iterable<IResourceDescription> resourceReferences = context.findAllReferencingResources(changedOrDeletedResources, ReferenceMatchPolicy.REFERENCES);
+    Iterable<IResourceDescription> objectReferences = context.findExactReferencingResources(changedOrDeletedObjects, ReferenceMatchPolicy.REFERENCES);
+    Set<URI> references = StreamSupport.stream(Iterables.concat(resourceReferences, objectReferences).spliterator(), false) //
+        .map(description -> description.getURI()).filter(filter).collect(Collectors.toSet());
 
     // find all resources matching provided filter with physical or imported name references to added resources and objects
     for (String container : addedResources.keySet()) {
       // using ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES is not enough: a lower index layer may contain physical references
       for (IResourceDescription res : context.findAllReferencingResources(addedResources.get(container), ReferenceMatchPolicy.ALL)) {
         URI uri = res.getURI();
-        if (!references.contains(uri) && filter.apply(uri)
+        if (!references.contains(uri) && filter.test(uri)
             && containersState.getVisibleContainerHandles(containersState.getContainerHandle(uri)).contains(container)) {
           references.add(uri);
         }
@@ -287,7 +283,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
       // using ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES is not enough: a lower index layer may contain physical references
       for (IResourceDescription res : context.findExactReferencingResources(addedObjects.get(container), ReferenceMatchPolicy.ALL)) {
         URI uri = res.getURI();
-        if (!references.contains(uri) && filter.apply(uri)
+        if (!references.contains(uri) && filter.test(uri)
             && containersState.getVisibleContainerHandles(containersState.getContainerHandle(uri)).contains(container)) {
           references.add(uri);
         }
@@ -453,12 +449,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
    * @return immutable set of extensions
    */
   protected static ImmutableSet<String> of(final String... exts) { // NOPMD
-    return ImmutableSet.copyOf(Iterables.transform(Sets.newHashSet(exts), new Function<String, String>() {
-      @Override
-      public String apply(final String input) {
-        return URI.encodeSegment(input, true);
-      }
-    }));
+    return ImmutableSet.copyOf(Stream.of(exts).map(ext -> URI.encodeSegment(ext, true)).iterator());
   }
 
 }
