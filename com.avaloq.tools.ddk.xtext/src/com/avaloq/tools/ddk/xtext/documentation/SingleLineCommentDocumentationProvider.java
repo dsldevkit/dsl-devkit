@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.documentation;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -23,7 +24,6 @@ import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -87,7 +87,7 @@ public class SingleLineCommentDocumentationProvider implements IEObjectDocumenta
   public List<INode> getDocumentationNodes(final EObject object) {
     ICompositeNode node = NodeModelUtils.getNode(object);
     if (node == null) {
-      return ImmutableList.of();
+      return Collections.emptyList();
     }
 
     // get all single line comments before a non hidden leaf node
@@ -130,8 +130,8 @@ public class SingleLineCommentDocumentationProvider implements IEObjectDocumenta
   protected String findTrailingComment(final EObject context) {
     StringBuilder returnValue = new StringBuilder();
     ICompositeNode node = NodeModelUtils.getNode(context);
-    final int contextEndLine = node.getEndLine();
     if (node != null) {
+      final int contextEndLine = node.getEndLine();
       // process all leaf nodes first
       for (ILeafNode leave : node.getLeafNodes()) {
         addComment(returnValue, leave, contextEndLine);

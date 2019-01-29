@@ -43,7 +43,6 @@ import com.avaloq.tools.ddk.xtext.linking.ImportedNamesTypesAdapter;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescription2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
 
 /**
@@ -63,7 +62,7 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
   @Override
   protected EObjectDescriptionLookUp getLookUp() {
     if (lookup == null) {
-      lookup = new PatternAwareEObjectDescriptionLookUp(ImmutableList.<IEObjectDescription> of());
+      lookup = new PatternAwareEObjectDescriptionLookUp(Collections.emptyList());
       lookup.setExportedObjects(computeExportedObjects());
     }
     return lookup;
@@ -76,7 +75,7 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
         getResource().load(null);
       } catch (IOException e) {
         LOG.error(e.getMessage(), e);
-        return ImmutableList.of();
+        return Collections.emptyList();
       }
     }
     // Maybe we need to install the derived state first. Installing/discarding the derived state will clear the resource cache, so we must
@@ -212,6 +211,6 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
     if (adapter instanceof ImportedNamesTypesAdapter) {
       return ImmutableMap.copyOf(((ImportedNamesTypesAdapter) adapter).getImportedNamesTypes());
     }
-    return Maps.newHashMap();
+    return Collections.emptyMap();
   }
 }
