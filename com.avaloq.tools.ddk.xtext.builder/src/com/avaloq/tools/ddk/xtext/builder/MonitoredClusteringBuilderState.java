@@ -175,6 +175,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    */
   private IDerivedObjectAssociationsStore derivedObjectAssociationsStore;
 
+  private final Object associationsStoreLock = new Object();
+
   /**
    * Copied handle to the plain ResourceDescriptionsData.
    */
@@ -242,8 +244,16 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return this.isLoaded;
   }
 
+  /**
+   * Sets the derived object associations store.
+   *
+   * @param associationsStore
+   *          the new derived object associations store
+   */
   protected void setDerivedObjectAssociationsStore(final IDerivedObjectAssociationsStore associationsStore) {
-    derivedObjectAssociationsStore = associationsStore;
+    synchronized (associationsStoreLock) {
+      derivedObjectAssociationsStore = associationsStore;
+    }
   }
 
   @Override
@@ -777,10 +787,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * @return a map containing associations for objects derived from resources identified by their URIs
    */
   protected Map<URI, DerivedObjectAssociations> saveOldDerivedObjectAssociations(final BuildData buildData) {
-    if (derivedObjectAssociationsStore != null) {
+    IDerivedObjectAssociationsStore associationStore = getDerivedObjectAssociationsStore();
+    if (associationStore != null) {
       Map<URI, DerivedObjectAssociations> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
       for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
-        cache.computeIfAbsent(uri, derivedObjectAssociationsStore::getAssociations);
+        cache.computeIfAbsent(uri, associationStore::getAssociations);
       }
       return cache;
     }
@@ -799,11 +810,18 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    */
   protected DerivedObjectAssociations getSavedDerivedObjectAssociations(final Map<URI, DerivedObjectAssociations> oldDerivedObjectAssociations, final URI uri) {
     DerivedObjectAssociations associations = oldDerivedObjectAssociations.get(uri);
-    if (associations == null && derivedObjectAssociationsStore != null) {
+    IDerivedObjectAssociationsStore associationsStore = getDerivedObjectAssociationsStore();
+    if (associations == null && associationsStore != null) {
       // Resource was not processed by the indexing phase, so we should still have the old state in the Index
-      associations = derivedObjectAssociationsStore.getAssociations(uri);
+      associations = associationsStore.getAssociations(uri);
     }
     return associations;
+  }
+
+  private IDerivedObjectAssociationsStore getDerivedObjectAssociationsStore() {
+    synchronized (associationsStoreLock) {
+      return derivedObjectAssociationsStore;
+    }
   }
 
   /**
