@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.xtext.tracing.TraceEvent.Trigger;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -160,6 +161,7 @@ public class TraceSet implements ITraceSet {
    * @return new event instance
    */
   @SuppressWarnings("unchecked")
+  @SuppressFBWarnings("RV_RETURN_VALUE_OF_PUTIFABSENT_IGNORED")
   protected <T extends TraceEvent> T newEvent(final Class<T> eventClass, final Trigger trigger, final Object... data) {
     try {
       Constructor<T> constructor = (Constructor<T>) constructors.get(eventClass);

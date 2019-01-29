@@ -13,8 +13,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.ecore,
  org.eclipse.xtext,
  org.eclipse.xtext.builder,
- org.eclipse.xtext.util,
- edu.umd.cs.findbugs.annotations;resolution:=optional
+ org.eclipse.xtext.util
 Export-Package: com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.xtext.build,
  com.avaloq.tools.ddk.xtext.documentation,
