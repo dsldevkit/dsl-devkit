@@ -169,7 +169,7 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     }
 
     // At least one has no fingerprint. If both have none, try the default method, otherwise, there is a change.
-    if (oldHash != newHash) {
+    if (oldHash != null || newHash != null) {
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug(getNew().getURI().toString() + ": fingerprint has changed from: " + oldHash + " to " + newHash); //$NON-NLS-1$ //$NON-NLS-2$
       }
