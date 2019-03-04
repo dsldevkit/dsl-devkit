@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -82,8 +81,7 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
       } catch (CoreException e) {
         LOGGER.error(e.getMessage(), e);
       }
-      Resource resource = context.getResourceSet().getResource(delta.getUri(), true);
-      CheckGeneratorConfig config = generatorConfigProvider.get(resource);
+      CheckGeneratorConfig config = generatorConfigProvider.get(delta.getUri());
       // Generate docu-related files for SCA checks only
       if (!config.isGenerateLanguageInternalChecks()) {
         try {
@@ -115,15 +113,19 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
       } catch (CoreException e) {
         LOGGER.error(e.getMessage(), e);
       }
-      try {
-        tocGenerator.removeTopicFromTocFile(delta.getUri());
-      } catch (CoreException e) {
-        LOGGER.error(e.getMessage(), e);
-      }
-      try {
-        contextsGenerator.removeContexts(delta);
-      } catch (CoreException e) {
-        LOGGER.error(e.getMessage(), e);
+      CheckGeneratorConfig config = generatorConfigProvider.get(delta.getUri());
+
+      if (!config.isGenerateLanguageInternalChecks()) {
+        try {
+          tocGenerator.removeTopicFromTocFile(delta.getUri());
+        } catch (CoreException e) {
+          LOGGER.error(e.getMessage(), e);
+        }
+        try {
+          contextsGenerator.removeContexts(delta);
+        } catch (CoreException e) {
+          LOGGER.error(e.getMessage(), e);
+        }
       }
     }
   }

@@ -11,7 +11,7 @@
 
 package com.avaloq.tools.ddk.check.compiler;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -22,7 +22,7 @@ public class CheckGeneratorConfigProvider implements ICheckGeneratorConfigProvid
   private static final CheckGeneratorConfig CONFIG_INSTANCE = new CheckGeneratorConfig();
 
   @Override
-  public CheckGeneratorConfig get(final Resource context) {
+  public CheckGeneratorConfig get(final URI uri) {
     return CONFIG_INSTANCE;
   }
 

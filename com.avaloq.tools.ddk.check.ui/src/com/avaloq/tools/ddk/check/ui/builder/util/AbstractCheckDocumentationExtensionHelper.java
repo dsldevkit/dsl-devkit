@@ -40,7 +40,7 @@ public abstract class AbstractCheckDocumentationExtensionHelper extends Abstract
       return false;
     }
     // Do not generate plugin.xml extensions for docu in a non SCA-plguin
-    CheckGeneratorConfig config = generatorConfigProvider.get(catalog.eResource());
+    CheckGeneratorConfig config = generatorConfigProvider.get(catalog.eResource().getURI());
     return !config.isGenerateLanguageInternalChecks();
   }
 
