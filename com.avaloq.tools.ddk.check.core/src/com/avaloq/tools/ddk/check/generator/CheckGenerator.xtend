@@ -37,7 +37,7 @@ class CheckGenerator extends JvmModelGenerator {
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
     super.doGenerate(resource, fsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
-    val config = generatorConfigProvider.get(resource);
+    val config = generatorConfigProvider.get(resource?.URI);
     for (catalog : toIterable(resource.allContents).filter(typeof(CheckCatalog))) {
 
       fsa.generateFile(catalog.issueCodesFilePath, catalog.compileIssueCodes)

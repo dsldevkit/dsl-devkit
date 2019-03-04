@@ -11,7 +11,7 @@
 
 package com.avaloq.tools.ddk.check.compiler;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.URI;
 
 import com.google.inject.ImplementedBy;
 
@@ -25,10 +25,10 @@ public interface ICheckGeneratorConfigProvider {
   /**
    * Gets the generator configuration.
    *
-   * @param resource
-   *          the context resource to detect generator preferences, must not be {@code null}
+   * @param uri
+   *          the uri to detect generator preferences, must not be {@code null}
    * @return the check generator configuration
    */
-  CheckGeneratorConfig get(Resource resource);
+  CheckGeneratorConfig get(URI uri);
 
 }

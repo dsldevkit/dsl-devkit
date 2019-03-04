@@ -13,7 +13,7 @@ package com.avaloq.tools.ddk.check.ui.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 import org.eclipse.xtext.util.Pair;
 
@@ -35,11 +35,11 @@ public class CheckEclipseGeneratorConfigProvider implements ICheckGeneratorConfi
   private CheckBuilderPreferenceAccess xbaseBuilderPreferenceAccess;
 
   @Override
-  public CheckGeneratorConfig get(final Resource resource) {
+  public CheckGeneratorConfig get(final URI uri) {
     CheckGeneratorConfig result = new CheckGeneratorConfig();
     IProject project = null;
-    if (resource != null) {
-      Pair<IStorage, IProject> pair = Iterables.getFirst(storage2UriMapper.getStorages(resource.getURI()), null);
+    if (uri != null) {
+      Pair<IStorage, IProject> pair = Iterables.getFirst(storage2UriMapper.getStorages(uri), null);
       if (pair != null) {
         project = pair.getSecond();
       }
