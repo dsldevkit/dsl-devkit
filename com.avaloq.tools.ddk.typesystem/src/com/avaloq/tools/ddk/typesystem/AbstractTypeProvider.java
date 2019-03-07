@@ -35,8 +35,19 @@ import com.google.inject.Provider;
  * Abstract base class for implementing a type provider.
  * <p>
  * Based on xtext's AbstractTypeProvider for xbase.
+ * <br>
+ * As well as the abstract methods, implementations should typically override the methods that return null by default (type, expectedType and
+ * getTypeProviderFor).
+ * <br>
+ * AbstractTypeProvider caches the results of type computation, detects cycles, and handles delegation to other type providers
+ * The calls to ITypeProvider end up as follows, assuming the corresponding provides*TypeFor* returns true
+ * - getType(IExpression expression) -> calls type(expression)
+ * - getExpectedType(IExpression expression) -> calls expectedType(expression.container, containerReferenceForExpression, indexOfReference)
+ * - getTypeForNamedElement(INamedElement element) -> calls typeForNamedElement(element)
+ * <br>
+ * If any of these provides*TypeFor* calls returns false, getTypeProviderFor(EObject object) should return the appropriate type provider.
  * </p>
- *
+ * 
  * @see org.eclipse.xtext.xbase.typing.AbstractTypeProvider
  */
 public abstract class AbstractTypeProvider implements ITypeProvider {
