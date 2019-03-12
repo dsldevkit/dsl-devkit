@@ -409,6 +409,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
     propagateDependencyChains(buildData.getToBeUpdated(), newState);
 
+    // These descriptions are mainly used to compute the set of invalidated resources
+    // Therefore, contain only the objects fingerprint, other user data items are not saved
     final Map<URI, IResourceDescription> oldDescriptions = saveOldDescriptions(buildData);
 
     final Map<URI, DerivedObjectAssociations> oldDerivedObjectAssociations = saveOldDerivedObjectAssociations(buildData);

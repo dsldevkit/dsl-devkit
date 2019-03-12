@@ -28,18 +28,18 @@ import org.eclipse.xtext.resource.impl.AbstractResourceDescription;
 import org.eclipse.xtext.resource.impl.EObjectDescriptionLookUp;
 
 import com.avaloq.tools.ddk.xtext.resource.IDetachableDescription;
+import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUp;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescription2;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 
 
 /**
  * Fix a contract-breaking default implementation in Xtext 2.0.1. Further use LinkedHashMap instead of HashMap to preserve order of user data entries.
  * Also the {@link IDetachableDescription} is respected in order to reuse descriptions and computed data where possible.
+ * This implementation keeps only the object fingerprint out of all the user data items, as this is the only one relevant for computing invalidation.
  */
 public class FixedCopiedResourceDescription extends AbstractResourceDescription implements IResourceDescription2 {
 
@@ -60,11 +60,10 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
         }
         InternalEObject result = (InternalEObject) EcoreUtil.create(from.getEClass());
         result.eSetProxyURI(from.getEObjectURI());
-        ImmutableMap.Builder<String, String> userData = ImmutableMap.builder();
-        for (final String key : from.getUserDataKeys()) {
-          userData.put(key, from.getUserData(key));
-        }
-        return EObjectDescription.create(from.getName(), result, userData.build());
+        String fingerprint = from.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT);
+        Map<String, String> userData = fingerprint != null ? Collections.singletonMap(IFingerprintComputer.OBJECT_FINGERPRINT, fingerprint)
+            : Collections.emptyMap();
+        return EObjectDescription.create(from.getName(), result, userData);
       }
     }));
   }
@@ -120,7 +119,6 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
    */
   @Override
   public Map<QualifiedName, Set<EClass>> getImportedNamesTypes() {
-    return Maps.newHashMap();
+    return Collections.emptyMap();
   }
 }
-
