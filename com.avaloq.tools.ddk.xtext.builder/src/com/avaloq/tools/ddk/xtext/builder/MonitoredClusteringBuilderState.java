@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -83,7 +84,6 @@ import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -757,7 +757,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (saved == null) {
       // TODO DSL-828: this may end up using a lot of memory; we should instead consider creating old copies of the resources in the db
       IResourceDescription old = getResourceDescription(uri);
-      saved = old != null ? new FixedCopiedResourceDescription(old) : null;
+      saved = old != null ? new FingerprintResourceDescription(old) : null;
     } else if (saved == NULL_DESCRIPTION) { // NOPMD
       saved = null; // NOPMD
     }
@@ -774,9 +774,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   protected Map<URI, IResourceDescription> saveOldDescriptions(final BuildData buildData) {
     Map<URI, IResourceDescription> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
     for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
-      cache.computeIfAbsent(uri, u -> Optional.fromNullable(getResourceDescription(u))
-          // Do *not* use descriptionCopier here, we just want the EObjectDescriptions!
-          .<IResourceDescription> transform(FixedCopiedResourceDescription::new).or(NULL_DESCRIPTION));
+      // Do *not* use descriptionCopier here, we just want the EObjectDescriptions!
+      cache.computeIfAbsent(uri, u -> Optional.ofNullable(getResourceDescription(u)).<IResourceDescription> map(FixedCopiedResourceDescription::new).orElse(NULL_DESCRIPTION));
     }
     return cache;
   }
@@ -887,7 +886,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             // We don't care here about links, we really just want the exported objects so that we can link in the next phase.
             // Set flag to tell linker to log warnings on unresolvable cross-references
             resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
-            final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
+            final IResourceDescription copiedDescription = new FingerprintResourceDescription(description);
             final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
             newState.register(intermediateDelta);
             toBuild.add(uri);
