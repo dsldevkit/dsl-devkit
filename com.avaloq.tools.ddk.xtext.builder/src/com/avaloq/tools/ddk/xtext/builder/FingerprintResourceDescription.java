@@ -18,10 +18,11 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -56,8 +57,7 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
     InternalEObject result = (InternalEObject) EcoreUtil.create(original.getEClass());
     result.eSetProxyURI(original.getEObjectURI());
     String fingerprint = original.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT);
-    Map<String, String> data = fingerprint != null ? Collections.singletonMap(IFingerprintComputer.OBJECT_FINGERPRINT, fingerprint) : Collections.emptyMap();
-    return EObjectDescription.create(original.getName(), result, data);
+    return new LightEObjectDescription(result, fingerprint);
   }
 
   @Override
@@ -91,6 +91,80 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
   @Override
   public Map<QualifiedName, Set<EClass>> getImportedNamesTypes() {
     return Collections.emptyMap();
+  }
+
+  /**
+   * The memory-efficient minimal implementation of the {@link IEObjectDescription}.
+   * Essentially contains only the data necessary for the computation of invalidations and should be used in this context only.
+   */
+  private static class LightEObjectDescription implements IEObjectDescription {
+
+    private static final String[] EMPTY_ARRAY = new String[0];
+
+    private final EObject element;
+    private final String fingerprint;
+    private URI normalizedURI;
+
+    LightEObjectDescription(final EObject element, final String fingerprint) {
+      this.element = element;
+      this.fingerprint = fingerprint;
+    }
+
+    @Override
+    public QualifiedName getName() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public QualifiedName getQualifiedName() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public EObject getEObjectOrProxy() {
+      return element;
+    }
+
+    @Override
+    public URI getEObjectURI() {
+      if (normalizedURI == null) {
+        normalizedURI = normalize(element, EcoreUtil.getURI(element));
+      }
+      return normalizedURI;
+    }
+
+    @Override
+    public EClass getEClass() {
+      return element.eClass();
+    }
+
+    @Override
+    public String getUserData(final String key) {
+      if (IFingerprintComputer.OBJECT_FINGERPRINT.equals(key)) {
+        return fingerprint;
+      }
+      return null;
+    }
+
+    @Override
+    public String[] getUserDataKeys() {
+      if (fingerprint != null) {
+        return new String[] {IFingerprintComputer.OBJECT_FINGERPRINT};
+      }
+      return EMPTY_ARRAY; // NOPMD - we don't really expose anything here
+    }
+
+    private static URI normalize(final EObject element, final URI uri) {
+      // Copied from EObjectDescription
+      if (uri != null && !uri.isPlatform() && element != null && element.eResource() != null) {
+        ResourceSet resourceSet = element.eResource().getResourceSet();
+        if (resourceSet != null) {
+          return resourceSet.getURIConverter().normalize(uri);
+        }
+      }
+      return uri;
+    }
+
   }
 
 }

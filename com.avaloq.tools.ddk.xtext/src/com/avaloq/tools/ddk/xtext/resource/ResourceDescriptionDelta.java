@@ -189,7 +189,8 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
   }
 
   /**
-   * Checks if two EObjectDescriptions are equal.
+   * Checks if two IEObjectDescriptions are equal.
+   * The implementation assumes the descriptions' fingerprints include all the necessary data, including name, EClass and relevant user data items.
    *
    * @param oldObj
    *          old object
