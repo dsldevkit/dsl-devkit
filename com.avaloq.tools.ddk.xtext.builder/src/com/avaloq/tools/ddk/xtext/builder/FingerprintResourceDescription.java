@@ -19,9 +19,6 @@ import java.util.Set;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IReferenceDescription;
@@ -46,18 +43,16 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
 
   public FingerprintResourceDescription(final IResourceDescription original) {
     this.uri = original.getURI();
-    ImmutableList.Builder<IEObjectDescription> builer = ImmutableList.builder();
+    ImmutableList.Builder<IEObjectDescription> builder = ImmutableList.builder();
     for (IEObjectDescription description : original.getExportedObjects()) {
-      builer.add(createLightDescription(description));
+      builder.add(createLightDescription(description));
     }
-    this.exportedObjects = builer.build();
+    this.exportedObjects = builder.build();
   }
 
   private static IEObjectDescription createLightDescription(final IEObjectDescription original) {
-    InternalEObject result = (InternalEObject) EcoreUtil.create(original.getEClass());
-    result.eSetProxyURI(original.getEObjectURI());
     String fingerprint = original.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT);
-    return new LightEObjectDescription(result, fingerprint);
+    return new LightEObjectDescription(original.getEObjectURI(), fingerprint);
   }
 
   @Override
@@ -101,12 +96,11 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
 
     private static final String[] EMPTY_ARRAY = new String[0];
 
-    private final EObject element;
     private final String fingerprint;
-    private URI normalizedURI;
+    private final URI uri;
 
-    LightEObjectDescription(final EObject element, final String fingerprint) {
-      this.element = element;
+    LightEObjectDescription(final URI uri, final String fingerprint) {
+      this.uri = uri;
       this.fingerprint = fingerprint;
     }
 
@@ -122,20 +116,17 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
 
     @Override
     public EObject getEObjectOrProxy() {
-      return element;
+      throw new UnsupportedOperationException();
     }
 
     @Override
     public URI getEObjectURI() {
-      if (normalizedURI == null) {
-        normalizedURI = normalize(element, EcoreUtil.getURI(element));
-      }
-      return normalizedURI;
+      return uri;
     }
 
     @Override
     public EClass getEClass() {
-      return element.eClass();
+      throw new UnsupportedOperationException();
     }
 
     @Override
@@ -152,17 +143,6 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
         return new String[] {IFingerprintComputer.OBJECT_FINGERPRINT};
       }
       return EMPTY_ARRAY; // NOPMD - we don't really expose anything here
-    }
-
-    private static URI normalize(final EObject element, final URI uri) {
-      // Copied from EObjectDescription
-      if (uri != null && !uri.isPlatform() && element != null && element.eResource() != null) {
-        ResourceSet resourceSet = element.eResource().getResourceSet();
-        if (resourceSet != null) {
-          return resourceSet.getURIConverter().normalize(uri);
-        }
-      }
-      return uri;
     }
 
   }
