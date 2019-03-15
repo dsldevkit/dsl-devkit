@@ -310,9 +310,10 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
           // CHECKSTYLE:ON
           errorMessage.append("Failed to load feature's value. Owner: ").append(internalEObject.eClass()); //$NON-NLS-1$
           if (eStructuralFeatureData.eStructuralFeature != null) {
-            errorMessage.append(" feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
+            errorMessage.append(", feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
           }
           LOG.error(errorMessage);
+          throw e;
         }
       }
     };
