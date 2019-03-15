@@ -18,12 +18,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
 import org.eclipse.xtext.nodemodel.serialization.DeserializationConversionContext;
@@ -275,6 +278,46 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       }
     }
     return deque;
+  }
+
+  @Override
+  protected void readContents(final StorageAwareResource resource, final InputStream inputStream) throws IOException {
+    // Implementation is copied over from org.eclipse.xtext.resource.persistence.ResourceStorageLoadable
+    // The only difference is that the stream overrides 'loadFeatureValue' to add some error logging
+    final BinaryResourceImpl.EObjectInputStream in = new BinaryResourceImpl.EObjectInputStream(inputStream, Collections.emptyMap()) {
+
+      @Override
+      public int readCompressedInt() throws IOException {
+        // HACK! null resource set, to avoid usage of resourceSet's package registry
+        resourceSet = null;
+        return super.readCompressedInt();
+      }
+
+      @Override
+      public InternalEObject loadEObject() throws IOException {
+        final InternalEObject result = super.loadEObject();
+        handleLoadEObject(result, this);
+        return result;
+      }
+
+      @Override
+      protected void loadFeatureValue(final InternalEObject internalEObject, final EStructuralFeatureData eStructuralFeatureData) throws IOException {
+        try {
+          super.loadFeatureValue(internalEObject, eStructuralFeatureData);
+          // CHECKSTYLE:OFF
+        } catch (Exception e) {
+          StringBuilder errorMessage = new StringBuilder(100);
+          // CHECKSTYLE:ON
+          errorMessage.append("Failed to load feature's value. Owner: ").append(internalEObject.eClass()); //$NON-NLS-1$
+          if (eStructuralFeatureData.eStructuralFeature != null) {
+            errorMessage.append(", feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
+          }
+          LOG.error(errorMessage);
+          throw e;
+        }
+      }
+    };
+    in.loadResource(resource);
   }
 
 }
