@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.xtext.resource;
 
 import java.lang.ref.SoftReference;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -190,7 +189,8 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
   }
 
   /**
-   * Checks if two EObjectDescriptions are equal.
+   * Checks if two IEObjectDescriptions are equal.
+   * The implementation assumes the descriptions' fingerprints include all the necessary data, including name, EClass and relevant user data items.
    *
    * @param oldObj
    *          old object
@@ -199,33 +199,12 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
    * @return true if both are equal
    */
   protected boolean equals(final IEObjectDescription oldObj, final IEObjectDescription newObj) {
-    if (oldObj == newObj) {
-      return true;
-    }
-    String newFingerprint = newObj.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT);
-    if (newFingerprint != null && !newFingerprint.equals(oldObj.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT))) {
-      return false;
-    }
-    if (oldObj.getEClass() != newObj.getEClass()) {
-      return false;
-    }
-    if (oldObj.getName() != null && !oldObj.getName().equals(newObj.getName())) {
-      return false;
-    }
-    if (!oldObj.getEObjectURI().equals(newObj.getEObjectURI())) {
-      return false;
-    }
-    if (!Arrays.equals(oldObj.getUserDataKeys(), newObj.getUserDataKeys())) {
-      return false;
-    }
-    for (String key : oldObj.getUserDataKeys()) {
-      String userData = oldObj.getUserData(key);
-      String userData2 = newObj.getUserData(key);
-      if (userData == null) {
-        if (userData2 != null) {
-          return false;
-        }
-      } else if (!userData.equals(userData2)) {
+    if (oldObj != newObj) {
+      String newFingerprint = newObj.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT);
+      if (newFingerprint != null && !newFingerprint.equals(oldObj.getUserData(IFingerprintComputer.OBJECT_FINGERPRINT))) {
+        return false;
+      }
+      if (!oldObj.getEObjectURI().equals(newObj.getEObjectURI())) {
         return false;
       }
     }
