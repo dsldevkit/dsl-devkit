@@ -775,7 +775,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     Map<URI, IResourceDescription> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
     for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
       // Do *not* use descriptionCopier here, we just want the EObjectDescriptions!
-      cache.computeIfAbsent(uri, u -> Optional.ofNullable(getResourceDescription(u)).<IResourceDescription> map(FixedCopiedResourceDescription::new).orElse(NULL_DESCRIPTION));
+      cache.computeIfAbsent(uri, u -> Optional.ofNullable(getResourceDescription(u)).<IResourceDescription> map(FingerprintResourceDescription::new).orElse(NULL_DESCRIPTION));
     }
     return cache;
   }
@@ -886,7 +886,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             // We don't care here about links, we really just want the exported objects so that we can link in the next phase.
             // Set flag to tell linker to log warnings on unresolvable cross-references
             resourceSet.getLoadOptions().put(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS, Boolean.FALSE);
-            final IResourceDescription copiedDescription = new FingerprintResourceDescription(description);
+            final IResourceDescription copiedDescription = new FixedCopiedResourceDescription(description);
             final Delta intermediateDelta = manager.createDelta(oldState.getResourceDescription(uri), copiedDescription);
             newState.register(intermediateDelta);
             toBuild.add(uri);
