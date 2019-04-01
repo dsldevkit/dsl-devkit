@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.checkcfg.ui.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.ui.test
-Bundle-Version: 3.0.2.v20190401-1253-REL
+Bundle-Version: 3.0.3.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.checkcfg.ui.test
