@@ -30,14 +30,29 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
   /** Default value for target free memory in megabytes. */
   private static final String TARGET_FREE_MEMORY_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.targetFreeMemory"; //$NON-NLS-1$
 
+  /** Property for setting minimum free memory setting. */
+  private static final String MIN_FREE_MEMORY_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.minFreeMemory"; //$NON-NLS-1$
+
+  /** Property for setting the maximal cluster size. */
+  private static final String MAX_CLUSTER_SIZE_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.maxClusterSize"; //$NON-NLS-1$
+
+  /** Default value for the maximal cluster size. */
+  private static final int DEFAULT_MAX_CLUSTER_SIZE = 50000;
+
+  /** Maximal cluster size. */
+  private static final int MAX_CLUSTER_SIZE = getMaximalClusterSize();
+
   /** One megabyte. */
   private static final long ONE_MEGABYTE = 1 << 20;
 
   /** Default target memory value. This is 10% of 2GB, which was historically used as the default memory settings. */
   private static final long DEFAULT_TARGET_FREE_MEMORY = 200 * ONE_MEGABYTE;
 
+  /** Default value for MINIMUM_FREE_MEMORY. */
+  private static final long DEFAULT_MIN_FREE_MEMORY = 100 * ONE_MEGABYTE;
+
   /** Cluster will always end if memory falls bellow this threshold. */
-  private static final long MINIMUM_FREE_MEMORY = 50 * ONE_MEGABYTE;
+  private static final long MINIMUM_FREE_MEMORY = getMinimumFreeMemory();
 
   /** Attempt to cap cluster when memory reaches this limit, as long as we processed more than the minimum cluster size. */
   private static final long TARGET_FREE_MEMORY = getTargetFreeMemory();
@@ -60,6 +75,26 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
     return targetFreeMemory != null ? Long.parseLong(targetFreeMemory) * ONE_MEGABYTE : DEFAULT_TARGET_FREE_MEMORY;
   }
 
+  /**
+   * Returns the value for the maximal cluster size.
+   *
+   * @return a value set by the corresponding system property, or a default value if the property is not set
+   */
+  private static int getMaximalClusterSize() {
+    String maxClusterSize = System.getProperty(MAX_CLUSTER_SIZE_PROPERTY);
+    return maxClusterSize != null ? Integer.parseInt(maxClusterSize) : DEFAULT_MAX_CLUSTER_SIZE;
+  }
+
+  /**
+   * Returns the value for the minimum memory property..
+   *
+   * @return a value set by the corresponding system property, or a default value if the property is not set
+   */
+  private static long getMinimumFreeMemory() {
+    String minimumMemory = System.getProperty(MIN_FREE_MEMORY_PROPERTY);
+    return minimumMemory != null ? Long.parseLong(minimumMemory) : DEFAULT_MIN_FREE_MEMORY;
+  }
+
   // note that this setter is required as otherwise the clusterSize field will be marked final
   public void setClusterSize(final int clusterSize) {
     this.clusterSize = clusterSize;
@@ -70,6 +105,14 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
   public boolean mayProcessAnotherResource(final ResourceSet resourceSet, final int alreadyProcessed) {
     if (alreadyProcessed == 0) {
       return true;
+    }
+
+    if (MAX_CLUSTER_SIZE != 0 && alreadyProcessed >= MAX_CLUSTER_SIZE) {
+      // Return false if we have reached some extreme size. MaxClusterSize == 0 means cluster size is not restricted (not a default setting!)
+      if (LOGGER.isInfoEnabled()) {
+        LOGGER.info("Cluster capped after reaching the maximal size of " + MAX_CLUSTER_SIZE + " resources. Current size: " + alreadyProcessed);
+      }
+      return false;
     }
 
     final long freeMemory = RUNTIME.freeMemory();
