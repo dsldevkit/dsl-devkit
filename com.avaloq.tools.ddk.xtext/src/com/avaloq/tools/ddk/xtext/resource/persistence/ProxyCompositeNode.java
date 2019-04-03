@@ -132,7 +132,10 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
     for (int i = 0; i < size; ++i) {
       Adapter adapter = adapters.get(i);
       if (adapter.isAdapterForType(ProxyCompositeNode.class)) {
-        return (ProxyCompositeNode) adapters.remove(i);
+        if (adapter instanceof ProxyCompositeNode) {
+          return (ProxyCompositeNode) adapters.remove(i);
+        }
+        break;
       }
     }
     return null;
