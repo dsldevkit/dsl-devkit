@@ -850,16 +850,16 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The new index
    * @param monitor
    *          The progress monitor used for user feedback
-   * @return the pair of {@link URI} lists that represent resources to be processed in the second phase and resources that failed to be processed
+   * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
-  private Pair<List<URI>, List<URI>> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
+  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
     ResourceSet resourceSet = buildData.getResourceSet();
     IProject currentProject = getBuiltProject(buildData);
-
-    final List<URI> toBuild = Lists.newArrayList();
-    final List<URI> toRetry = Lists.newArrayList();
+    List<URI> toBuild = Lists.newArrayList();
 
     IResourceLoader.LoadOperation loadOperation = null;
+    URI resourceToRetry = null;
+
     try {
       int resourcesToWriteSize = toWrite.size();
       int index = 1;
@@ -869,16 +869,23 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
       // Not using the loadingStrategy here; seems to work fine with a reasonable clusterSize (20 by default), even with
       // large resources and "scarce" memory (say, about 500MB).
-      while (loadOperation.hasNext()) {
+      while (loadOperation.hasNext() || resourceToRetry != null) {
         if (monitor.isCanceled()) {
           loadOperation.cancel();
           throw new OperationCanceledException();
         }
+
         URI uri = null;
         Resource resource = null;
         try {
-          resource = addResource(loadOperation.next().getResource(), resourceSet);
+          if (resourceToRetry == null) {
+            resource = addResource(loadOperation.next().getResource(), resourceSet);
+          } else {
+            resource = resourceSet.getResource(resourceToRetry, true);
+            resourceToRetry = null;
+          }
           uri = resource.getURI();
+
           final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(resourcesToWriteSize), uri.fileExtension(), URI.decode(uri.lastSegment())};
           monitor.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION, bindings));
           traceSet.started(ResourceIndexingEvent.class, uri);
@@ -895,9 +902,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             toBuild.add(uri);
           }
         } catch (final DemandLoadFailedException e) {
-          // Demand load failed because of memory shortage, save the uri to process again later
+          // Demand load failed because of memory shortage, save the uri to process again in the next cluster
           // Resource set will be cleared at the end of this loop iteration
-          toRetry.add(uri);
+          resourceToRetry = uri;
         } catch (final WrappedException ex) {
           pollForCancellation(monitor);
           if (uri == null && ex instanceof LoadOperationException) { // NOPMD
@@ -935,14 +942,17 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size())) {
           clearResourceSet(resourceSet);
         }
-        index++;
+
+        if (resourceToRetry == null) {
+          index++;
+        }
       }
     } finally {
       if (loadOperation != null) {
         loadOperation.cancel();
       }
     }
-    return Tuples.create(toBuild, toRetry);
+    return toBuild;
   }
 
   /**
@@ -963,16 +973,14 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated(), oldState);
     ResourceSet resourceSet = buildData.getResourceSet();
     BuildPhases.setIndexing(resourceSet, true);
+
     int totalSize = 0;
     for (List<URI> group : toWriteGroups) {
       totalSize = totalSize + group.size();
     }
 
-    final List<URI> toBuild = Lists.newArrayListWithCapacity(totalSize);
-    List<URI> toRetry = Collections.emptyList();
-    int nofRetries = 0;
-
     final SubMonitor subMonitor = SubMonitor.convert(monitor, Messages.MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS, totalSize);
+    final List<URI> toBuild = Lists.newArrayListWithCapacity(totalSize);
 
     try {
       traceSet.started(BuildIndexingEvent.class);
@@ -984,24 +992,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
        * In fact, in this case we might start processing sources before the ones they depend on are still being handled.
        */
       for (Collection<URI> fileExtensionBuildGroup : toWriteGroups) {
-        Pair<List<URI>, List<URI>> result = writeResources(fileExtensionBuildGroup, buildData, oldState, newState, subMonitor);
-        toBuild.addAll(result.getFirst());
-        toRetry = result.getSecond();
+        toBuild.addAll(writeResources(fileExtensionBuildGroup, buildData, oldState, newState, subMonitor));
       }
-
-      while (!toRetry.isEmpty() && (toRetry.size() != nofRetries)) {
-        // We made some progress.
-        nofRetries = toRetry.size();
-        LOGGER.info(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN, nofRetries, toRetry));
-        Pair<List<URI>, List<URI>> retryResult = writeResources(toRetry, buildData, oldState, newState, subMonitor);
-        toBuild.addAll(retryResult.getFirst());
-        toRetry = retryResult.getSecond();
-      }
-
-      if (!toRetry.isEmpty()) {
-        LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_TRY_AGAIN_FAILED, nofRetries, toRetry));
-      }
-
       flushChanges(newData);
     } finally {
       // Clear the flags
