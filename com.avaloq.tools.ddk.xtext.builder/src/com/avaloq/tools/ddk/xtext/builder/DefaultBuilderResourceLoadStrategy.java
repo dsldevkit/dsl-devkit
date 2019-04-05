@@ -27,10 +27,10 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(DefaultBuilderResourceLoadStrategy.class);
 
-  /** Property for setting target free memory value. (in megabyte). */
+  /** Property for setting target free memory value. (in megabytes). */
   private static final String TARGET_FREE_MEMORY_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.targetFreeMemory"; //$NON-NLS-1$
 
-  /** Property for setting minimum free memory value. (in megabyte) */
+  /** Property for setting minimum free memory value. (in megabytes) */
   private static final String MIN_FREE_MEMORY_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.minFreeMemory"; //$NON-NLS-1$
 
   /** Property for setting the maximal cluster size. */
