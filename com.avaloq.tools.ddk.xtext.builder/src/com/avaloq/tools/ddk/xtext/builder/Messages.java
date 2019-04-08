@@ -15,7 +15,9 @@ import org.eclipse.osgi.util.NLS;
 
 //CHECKSTYLE:OFF
 public class Messages extends NLS {
+
   private static final String BUNDLE_NAME = "com.avaloq.tools.ddk.xtext.builder.messages"; //$NON-NLS-1$
+
   public static String MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE;
   public static String MonitoredClusteringBuilderState_NO_MORE_RESOURCES;
   public static String MonitoredClusteringBuilderState_PHASE_ONE_DONE;

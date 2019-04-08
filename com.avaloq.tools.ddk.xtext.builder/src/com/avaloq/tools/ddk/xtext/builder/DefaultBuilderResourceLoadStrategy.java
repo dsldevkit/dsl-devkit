@@ -18,7 +18,7 @@ import com.google.inject.name.Named;
 
 
 /**
- * Determine when to stop loading resources during build.
+ * Determine when to stop loading resources during the build.
  */
 @SuppressWarnings("nls")
 // CHECKSTYLE:CONSTANTS-OFF
@@ -27,10 +27,10 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(DefaultBuilderResourceLoadStrategy.class);
 
-  /** Default value for target free memory in megabytes. */
+  /** Property for setting target free memory value. (in megabytes). */
   private static final String TARGET_FREE_MEMORY_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.targetFreeMemory"; //$NON-NLS-1$
 
-  /** Property for setting minimum free memory setting. */
+  /** Property for setting minimum free memory value. (in megabytes) */
   private static final String MIN_FREE_MEMORY_PROPERTY = "com.avaloq.tools.ddk.xtext.builder.minFreeMemory"; //$NON-NLS-1$
 
   /** Property for setting the maximal cluster size. */
@@ -51,16 +51,16 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
   /** Default value for MINIMUM_FREE_MEMORY. */
   private static final long DEFAULT_MIN_FREE_MEMORY = 100 * ONE_MEGABYTE;
 
-  /** Cluster will always end if memory falls bellow this threshold. */
+  /** Cluster will always end if memory falls below this threshold. */
   private static final long MINIMUM_FREE_MEMORY = getMinimumFreeMemory();
 
-  /** Attempt to cap cluster when memory reaches this limit, as long as we processed more than the minimum cluster size. */
+  /** Attempt to cap a cluster when memory reaches this limit, as long as we processed more than the minimum cluster size. */
   private static final long TARGET_FREE_MEMORY = getTargetFreeMemory();
 
   /** Cluster size. */
   @Inject(optional = true)
   @Named("org.eclipse.xtext.builder.clustering.ClusteringBuilderState.clusterSize")
-  private int clusterSize = 20; // NOPMD Cannot be static because of the way Guice injection works.
+  private int clusterSize = 50; // NOPMD Cannot be static because of the way Guice injection works.
 
   /** The Java runtime; needed to get access to memory usage data. */
   private static final Runtime RUNTIME = Runtime.getRuntime();
@@ -100,7 +100,6 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
     this.clusterSize = clusterSize;
   }
 
-  /** {@inheritDoc} */
   @Override
   public boolean mayProcessAnotherResource(final ResourceSet resourceSet, final int alreadyProcessed) {
     if (alreadyProcessed == 0) {
@@ -115,13 +114,13 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
       return false;
     }
 
-    final long freeMemory = RUNTIME.freeMemory();
-    if (freeMemory < MINIMUM_FREE_MEMORY) {
+    if (isMemoryLimitReached()) {
       return false;
     } else if (alreadyProcessed < clusterSize) {
       return true; // Process at least up to cluster size
     }
 
+    final long freeMemory = RUNTIME.freeMemory();
     if (freeMemory < TARGET_FREE_MEMORY) {
       // Running GC here might free memory, but would not significantly speed up processing.
       // We may use slightly smaller clusters than strictly necessary without GC, though.
@@ -134,4 +133,10 @@ public class DefaultBuilderResourceLoadStrategy implements IBuilderResourceLoadS
     }
     return true; // Keep on loading resources into this resource set
   }
+
+  @Override
+  public boolean isMemoryLimitReached() {
+    return RUNTIME.freeMemory() < MINIMUM_FREE_MEMORY;
+  }
+
 }
