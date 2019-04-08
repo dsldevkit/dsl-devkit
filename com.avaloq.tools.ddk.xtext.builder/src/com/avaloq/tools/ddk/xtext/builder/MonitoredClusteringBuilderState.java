@@ -940,7 +940,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           monitor.worked(1);
         }
 
-        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size()) || resourceToRetry == null) {
+        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size()) || resourceToRetry != null) {
           clearResourceSet(resourceSet);
         }
 
