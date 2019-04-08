@@ -25,8 +25,6 @@ public class Messages extends NLS {
   public static String MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS;
   public static String MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION;
   public static String MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR;
-  public static String MonitoredClusteringBuilderState_TRY_AGAIN;
-  public static String MonitoredClusteringBuilderState_TRY_AGAIN_FAILED;
 
   static {
     // initialize resource bundle

@@ -905,6 +905,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           // Demand load failed because of memory shortage, save the uri to process again in the next cluster
           // Resource set will be cleared at the end of this loop iteration
           resourceToRetry = uri;
+          LOGGER.info("Demand load failed during resource indexing: " + resourceToRetry); //$NON-NLS-1$
         } catch (final WrappedException ex) {
           pollForCancellation(monitor);
           if (uri == null && ex instanceof LoadOperationException) { // NOPMD
@@ -939,7 +940,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           monitor.worked(1);
         }
 
-        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size())) {
+        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size()) || resourceToRetry == null) {
           clearResourceSet(resourceSet);
         }
 
