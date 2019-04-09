@@ -852,14 +852,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The progress monitor used for user feedback
    * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
-  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) { // NOPMD
+  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
     ResourceSet resourceSet = buildData.getResourceSet();
     IProject currentProject = getBuiltProject(buildData);
-    List<URI> toBuild = Lists.newArrayList();
-
+    List<URI> toBuild = Lists.newLinkedList();
     IResourceLoader.LoadOperation loadOperation = null;
-    URI resourceToRetry = null;
-
     try {
       int resourcesToWriteSize = toWrite.size();
       int index = 1;
@@ -869,23 +866,16 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
       // Not using the loadingStrategy here; seems to work fine with a reasonable clusterSize (20 by default), even with
       // large resources and "scarce" memory (say, about 500MB).
-      while (loadOperation.hasNext() || resourceToRetry != null) {
+      while (loadOperation.hasNext()) {
         if (monitor.isCanceled()) {
           loadOperation.cancel();
           throw new OperationCanceledException();
         }
-
         URI uri = null;
         Resource resource = null;
         try {
-          if (resourceToRetry == null) {
-            resource = addResource(loadOperation.next().getResource(), resourceSet);
-          } else {
-            resource = resourceSet.getResource(resourceToRetry, true);
-            resourceToRetry = null;
-          }
+          resource = addResource(loadOperation.next().getResource(), resourceSet);
           uri = resource.getURI();
-
           final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(resourcesToWriteSize), uri.fileExtension(), URI.decode(uri.lastSegment())};
           monitor.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION, bindings));
           traceSet.started(ResourceIndexingEvent.class, uri);
@@ -901,11 +891,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             newState.register(intermediateDelta);
             toBuild.add(uri);
           }
-        } catch (final DemandLoadFailedException e) {
-          // Demand load failed because of memory shortage, save the uri to process again in the next cluster
-          // Resource set will be cleared at the end of this loop iteration
-          resourceToRetry = uri;
-          LOGGER.info("Demand load failed during resource indexing: " + resourceToRetry); //$NON-NLS-1$
         } catch (final WrappedException ex) {
           pollForCancellation(monitor);
           if (uri == null && ex instanceof LoadOperationException) { // NOPMD
@@ -940,13 +925,10 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           monitor.worked(1);
         }
 
-        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size()) || resourceToRetry != null) {
+        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size())) {
           clearResourceSet(resourceSet);
         }
-
-        if (resourceToRetry == null) {
-          index++;
-        }
+        index++;
       }
     } finally {
       if (loadOperation != null) {
@@ -956,32 +938,17 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return toBuild;
   }
 
-  /**
-   * Writes resources descriptions to the database.
-   *
-   * @param buildData
-   *          builder's data, must not be {@code null}
-   * @param oldState
-   *          represents old index state, must not be {@code null}
-   * @param newState
-   *          represents the new index state, must not be {@code null}
-   * @param newData
-   *          new resource descriptions, must not be {@code null}
-   * @param monitor
-   *          progress monitor, must not be {@code null}
-   */
+  /** {@inheritDoc} */
   protected void writeNewResourceDescriptions(final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final ResourceDescriptionsData newData, final IProgressMonitor monitor) {
     final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated(), oldState);
+    final List<URI> toBuild = Lists.newLinkedList();
     ResourceSet resourceSet = buildData.getResourceSet();
     BuildPhases.setIndexing(resourceSet, true);
-
     int totalSize = 0;
     for (List<URI> group : toWriteGroups) {
       totalSize = totalSize + group.size();
     }
-
     final SubMonitor subMonitor = SubMonitor.convert(monitor, Messages.MonitoredClusteringBuilderState_WRITE_DESCRIPTIONS, totalSize);
-    final List<URI> toBuild = Lists.newArrayListWithCapacity(totalSize);
 
     try {
       traceSet.started(BuildIndexingEvent.class);
