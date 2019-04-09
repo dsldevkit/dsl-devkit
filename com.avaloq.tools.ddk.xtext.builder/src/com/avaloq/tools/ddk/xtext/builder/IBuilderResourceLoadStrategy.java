@@ -22,7 +22,7 @@ import com.google.inject.ImplementedBy;
 public interface IBuilderResourceLoadStrategy {
 
   /**
-   * Determine whether the builder may process yet another resource.
+   * Determine whether the builder may, in its second phase, process yet another resource.
    *
    * @param resourceSet
    *          The builder's resource set, containing all currently loaded resources.
@@ -31,12 +31,5 @@ public interface IBuilderResourceLoadStrategy {
    * @return true, if the builder shall continue; false if it shall start a new cluster.
    */
   boolean mayProcessAnotherResource(ResourceSet resourceSet, int alreadyProcessed);
-
-  /**
-   * Checks whether the builder has reached the minimal amount of free memory, which prevents further progress without clearing the resource set.
-   *
-   * @return {@code true} if the described condition is met, {@code false} otherwise
-   */
-  boolean isMemoryLimitReached();
 
 }
