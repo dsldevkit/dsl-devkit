@@ -227,8 +227,6 @@ class ScopeProviderGenerator {
 
   def scopes(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
     val b = new StringBuilder
-    if (prune !== null)
-      b.append(pruning(it, model, scope))
     b.append(scopeExpression(it, model, typeOrRef, scope, isGlobal))
     return b
   }
@@ -349,22 +347,6 @@ class ScopeProviderGenerator {
   def scopeExpressionCasing (NamedScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope) {
     ', ' + isCaseInsensitive().toString
   }
-
-  def pruning (ScopeExpression it, ScopeModel model, ScopeDefinition scope) '''
-    scope = newPruningScope("«it.locatorString()»", scope, new Predicate<QualifiedName>() {
-      «prunePredicate(prune, model, (eContainer() as ScopeRule).context.contextType, 'ctx')»);
-    }
-  '''
-
-  def prunePredicate(Expression it, ScopeModel model, EClass type, String object) '''
-    public boolean apply(QualifiedName name) {
-      «IF isCompilable(compilationContext.cloneWithVariable(object, type, "name", "org::eclipse::xtext::naming::QualifiedName"))»
-        return «javaExpression(compilationContext.cloneWithString(object, type, "name"))»;
-      «ELSE»
-        EXPRESSION_NOT_SUPPORTED("«serialize()»");
-      «ENDIF»
-      }
-  '''
 
   def scopedElements(Expression it, ScopeModel model, EClass type, String object) {
     doExpression(it, model, object, type)

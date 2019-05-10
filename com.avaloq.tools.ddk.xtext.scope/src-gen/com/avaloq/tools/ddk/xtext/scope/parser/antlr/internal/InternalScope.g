@@ -835,9 +835,9 @@ ruleScopeExpression returns [EObject current=null]
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-((
+(
     { 
-        newCompositeNode(grammarAccess.getScopeExpressionAccess().getScopeDelegationParserRuleCall_0_0()); 
+        newCompositeNode(grammarAccess.getScopeExpressionAccess().getScopeDelegationParserRuleCall_0()); 
     }
     this_ScopeDelegation_0=ruleScopeDelegation
     { 
@@ -847,7 +847,7 @@ ruleScopeExpression returns [EObject current=null]
 
     |
     { 
-        newCompositeNode(grammarAccess.getScopeExpressionAccess().getFactoryExpressionParserRuleCall_0_1()); 
+        newCompositeNode(grammarAccess.getScopeExpressionAccess().getFactoryExpressionParserRuleCall_1()); 
     }
     this_FactoryExpression_1=ruleFactoryExpression
     { 
@@ -857,36 +857,14 @@ ruleScopeExpression returns [EObject current=null]
 
     |
     { 
-        newCompositeNode(grammarAccess.getScopeExpressionAccess().getNamedScopeExpressionParserRuleCall_0_2()); 
+        newCompositeNode(grammarAccess.getScopeExpressionAccess().getNamedScopeExpressionParserRuleCall_2()); 
     }
     this_NamedScopeExpression_2=ruleNamedScopeExpression
     { 
         $current = $this_NamedScopeExpression_2.current; 
         afterParserOrEnumRuleCall();
     }
-)(	otherlv_3='|' 
-    {
-    	newLeafNode(otherlv_3, grammarAccess.getScopeExpressionAccess().getVerticalLineKeyword_1_0());
-    }
-(
-(
-		{ 
-	        newCompositeNode(grammarAccess.getScopeExpressionAccess().getPruneExpressionParserRuleCall_1_1_0()); 
-	    }
-		lv_prune_4_0=ruleExpression		{
-	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getScopeExpressionRule());
-	        }
-       		set(
-       			$current, 
-       			"prune",
-        		lv_prune_4_0, 
-        		"com.avaloq.tools.ddk.xtext.expression.Expression.Expression");
-	        afterParserOrEnumRuleCall();
-	    }
-
 )
-))?)
 ;
 
 

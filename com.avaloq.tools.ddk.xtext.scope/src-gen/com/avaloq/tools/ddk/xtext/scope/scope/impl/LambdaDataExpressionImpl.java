@@ -166,7 +166,7 @@ public class LambdaDataExpressionImpl extends DataExpressionImpl implements Lamb
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (desc: ");
     result.append(desc);
     result.append(')');

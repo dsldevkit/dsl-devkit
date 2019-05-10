@@ -61,10 +61,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ScopeExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="prune" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScopeExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="FactoryExpression" eSuperTypes="#//ScopeExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="ecore:EClass platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.ecore#//Expression"
         containment="true"/>

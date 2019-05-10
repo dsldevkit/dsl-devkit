@@ -309,7 +309,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (caseDef: ");
     result.append(caseDef);
     result.append(", casing: ");

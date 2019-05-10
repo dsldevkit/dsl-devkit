@@ -39,7 +39,7 @@ public class ScopeParser extends AbstractContentAssistParser {
 				{
 					put(grammarAccess.getScopeDefinitionAccess().getAlternatives_2(), "rule__ScopeDefinition__Alternatives_2");
 					put(grammarAccess.getScopeContextAccess().getAlternatives_0(), "rule__ScopeContext__Alternatives_0");
-					put(grammarAccess.getScopeExpressionAccess().getAlternatives_0(), "rule__ScopeExpression__Alternatives_0");
+					put(grammarAccess.getScopeExpressionAccess().getAlternatives(), "rule__ScopeExpression__Alternatives");
 					put(grammarAccess.getScopeDelegationAccess().getAlternatives_2(), "rule__ScopeDelegation__Alternatives_2");
 					put(grammarAccess.getNamedScopeExpressionAccess().getAlternatives_0(), "rule__NamedScopeExpression__Alternatives_0");
 					put(grammarAccess.getGlobalScopeExpressionAccess().getAlternatives_3(), "rule__GlobalScopeExpression__Alternatives_3");
@@ -81,8 +81,6 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getScopeRuleAccess().getGroup_4(), "rule__ScopeRule__Group_4__0");
 					put(grammarAccess.getScopeContextAccess().getGroup(), "rule__ScopeContext__Group__0");
 					put(grammarAccess.getScopeContextAccess().getGroup_1(), "rule__ScopeContext__Group_1__0");
-					put(grammarAccess.getScopeExpressionAccess().getGroup(), "rule__ScopeExpression__Group__0");
-					put(grammarAccess.getScopeExpressionAccess().getGroup_1(), "rule__ScopeExpression__Group_1__0");
 					put(grammarAccess.getFactoryExpressionAccess().getGroup(), "rule__FactoryExpression__Group__0");
 					put(grammarAccess.getScopeDelegationAccess().getGroup(), "rule__ScopeDelegation__Group__0");
 					put(grammarAccess.getScopeDelegationAccess().getGroup_3(), "rule__ScopeDelegation__Group_3__0");
@@ -182,7 +180,6 @@ public class ScopeParser extends AbstractContentAssistParser {
 					put(grammarAccess.getScopeContextAccess().getGlobalAssignment_0_0(), "rule__ScopeContext__GlobalAssignment_0_0");
 					put(grammarAccess.getScopeContextAccess().getContextTypeAssignment_0_1(), "rule__ScopeContext__ContextTypeAssignment_0_1");
 					put(grammarAccess.getScopeContextAccess().getGuardAssignment_1_1(), "rule__ScopeContext__GuardAssignment_1_1");
-					put(grammarAccess.getScopeExpressionAccess().getPruneAssignment_1_1(), "rule__ScopeExpression__PruneAssignment_1_1");
 					put(grammarAccess.getFactoryExpressionAccess().getExprAssignment_1(), "rule__FactoryExpression__ExprAssignment_1");
 					put(grammarAccess.getScopeDelegationAccess().getDelegateAssignment_2_0(), "rule__ScopeDelegation__DelegateAssignment_2_0");
 					put(grammarAccess.getScopeDelegationAccess().getExternalAssignment_2_1(), "rule__ScopeDelegation__ExternalAssignment_2_1");

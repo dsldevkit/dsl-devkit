@@ -67,7 +67,7 @@ ScopeContext :
 ;
 
 ScopeExpression :
-  (ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?
+  ScopeDelegation | FactoryExpression | NamedScopeExpression
 ;
 
 FactoryExpression :

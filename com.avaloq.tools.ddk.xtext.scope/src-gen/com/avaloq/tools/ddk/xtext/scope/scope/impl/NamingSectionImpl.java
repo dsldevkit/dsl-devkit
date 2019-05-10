@@ -231,7 +231,7 @@ public class NamingSectionImpl extends MinimalEObjectImpl.Container implements N
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (casing: ");
     result.append(casing);
     result.append(')');

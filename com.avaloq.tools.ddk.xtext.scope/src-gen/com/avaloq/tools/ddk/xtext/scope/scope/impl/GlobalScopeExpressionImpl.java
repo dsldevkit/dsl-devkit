@@ -475,7 +475,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (recursivePrefix: ");
     result.append(recursivePrefix);
     result.append(", domains: ");

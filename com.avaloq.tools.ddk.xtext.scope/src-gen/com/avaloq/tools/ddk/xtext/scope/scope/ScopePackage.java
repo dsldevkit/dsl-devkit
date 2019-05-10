@@ -473,22 +473,13 @@ public interface ScopePackage extends EPackage
   int SCOPE_EXPRESSION = 9;
 
   /**
-   * The feature id for the '<em><b>Prune</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int SCOPE_EXPRESSION__PRUNE = 0;
-
-  /**
    * The number of structural features of the '<em>Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SCOPE_EXPRESSION_FEATURE_COUNT = 1;
+  int SCOPE_EXPRESSION_FEATURE_COUNT = 0;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.FactoryExpressionImpl <em>Factory Expression</em>}' class.
@@ -499,15 +490,6 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   int FACTORY_EXPRESSION = 10;
-
-  /**
-   * The feature id for the '<em><b>Prune</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FACTORY_EXPRESSION__PRUNE = SCOPE_EXPRESSION__PRUNE;
 
   /**
    * The feature id for the '<em><b>Expr</b></em>' containment reference.
@@ -536,15 +518,6 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   int SCOPE_DELEGATION = 11;
-
-  /**
-   * The feature id for the '<em><b>Prune</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int SCOPE_DELEGATION__PRUNE = SCOPE_EXPRESSION__PRUNE;
 
   /**
    * The feature id for the '<em><b>Delegate</b></em>' containment reference.
@@ -593,15 +566,6 @@ public interface ScopePackage extends EPackage
   int NAMED_SCOPE_EXPRESSION = 12;
 
   /**
-   * The feature id for the '<em><b>Prune</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NAMED_SCOPE_EXPRESSION__PRUNE = SCOPE_EXPRESSION__PRUNE;
-
-  /**
    * The feature id for the '<em><b>Case Def</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -646,15 +610,6 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   int GLOBAL_SCOPE_EXPRESSION = 13;
-
-  /**
-   * The feature id for the '<em><b>Prune</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GLOBAL_SCOPE_EXPRESSION__PRUNE = NAMED_SCOPE_EXPRESSION__PRUNE;
 
   /**
    * The feature id for the '<em><b>Case Def</b></em>' attribute.
@@ -857,15 +812,6 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   int SIMPLE_SCOPE_EXPRESSION = 17;
-
-  /**
-   * The feature id for the '<em><b>Prune</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int SIMPLE_SCOPE_EXPRESSION__PRUNE = NAMED_SCOPE_EXPRESSION__PRUNE;
 
   /**
    * The feature id for the '<em><b>Case Def</b></em>' attribute.
@@ -1382,17 +1328,6 @@ public interface ScopePackage extends EPackage
    * @generated
    */
   EClass getScopeExpression();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeExpression#getPrune <em>Prune</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Prune</em>'.
-   * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopeExpression#getPrune()
-   * @see #getScopeExpression()
-   * @generated
-   */
-  EReference getScopeExpression_Prune();
 
   /**
    * Returns the meta object for class '{@link com.avaloq.tools.ddk.xtext.scope.scope.FactoryExpression <em>Factory Expression</em>}'.
@@ -2065,14 +2000,6 @@ public interface ScopePackage extends EPackage
      * @generated
      */
     EClass SCOPE_EXPRESSION = eINSTANCE.getScopeExpression();
-
-    /**
-     * The meta object literal for the '<em><b>Prune</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference SCOPE_EXPRESSION__PRUNE = eINSTANCE.getScopeExpression_Prune();
 
     /**
      * The meta object literal for the '{@link com.avaloq.tools.ddk.xtext.scope.scope.impl.FactoryExpressionImpl <em>Factory Expression</em>}' class.
