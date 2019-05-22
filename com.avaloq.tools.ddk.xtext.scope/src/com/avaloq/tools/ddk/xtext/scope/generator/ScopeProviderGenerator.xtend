@@ -209,13 +209,13 @@ class ScopeProviderGenerator {
           »«IF r.context.guard !== null»if («r.context.guard.javaExpression(compilationContext.clone('ctx', r.scopeType()))») «ENDIF»{
           «IF it.size > 1»«javaContributorComment(r.location())»
           «ENDIF
-          »«FOR e : Lists.newArrayList(r.exprs).reverse()»«scopes(e, model, typeOrRef, r.getScope(), isGlobal)»«ENDFOR»
+          »«FOR e : Lists.newArrayList(r.exprs).reverse()»«scopeExpression(e, model, typeOrRef, r.getScope(), isGlobal)»«ENDFOR»
         }«ENDFOR»«
         IF !it.exists(r|r.context.guard === null)» else {
           throw new UnsupportedOperationException(); // continue matching other definitions
         }«ENDIF»
       «ELSEIF it.size == 1»
-        «FOR e : Lists.newArrayList(it.head.exprs).reverse()»«scopes(e, model, typeOrRef, it.head.getScope(), isGlobal)»«ENDFOR»
+        «FOR e : Lists.newArrayList(it.head.exprs).reverse()»«scopeExpression(e, model, typeOrRef, it.head.getScope(), isGlobal)»«ENDFOR»
       «ELSE»
         «error('scope context not unique for definitions: ' + ', '.join(it.map(r|r.location())))»
       «ENDIF»
@@ -224,12 +224,6 @@ class ScopeProviderGenerator {
     }
     return scope;
   '''
-
-  def scopes(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
-    val b = new StringBuilder
-    b.append(scopeExpression(it, model, typeOrRef, scope, isGlobal))
-    return b
-  }
 
   def dispatch scopeExpression(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
     error("Xpand called the wrong definition." + it.toString() + javaContributorComment(it.location()))
