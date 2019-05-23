@@ -827,22 +827,6 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Creates a new {@link PruningScope} with the given parent scope and
-   * predicate.
-   *
-   * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
-   * @param parent
-   *          Parent scope
-   * @param predicate
-   *          predicate to evaluate to determine pruning
-   * @return resulting scope
-   */
-  protected IScope newPruningScope(final String id, final IScope parent, final Predicate<QualifiedName> predicate) {
-    return new PruningScope(id, parent, predicate);
-  }
-
-  /**
    * Creates a new {@link MultiScope} with the given elements and names.
    *
    * @param id

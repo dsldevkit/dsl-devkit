@@ -221,7 +221,7 @@ public class InjectionImpl extends MinimalEObjectImpl.Container implements Injec
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (type: ");
     result.append(type);
     result.append(", name: ");

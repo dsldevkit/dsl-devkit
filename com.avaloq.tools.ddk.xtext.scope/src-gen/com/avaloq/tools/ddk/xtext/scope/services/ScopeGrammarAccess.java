@@ -518,46 +518,26 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 
 	public class ScopeExpressionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "com.avaloq.tools.ddk.xtext.scope.Scope.ScopeExpression");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final RuleCall cScopeDelegationParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
-		private final RuleCall cFactoryExpressionParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
-		private final RuleCall cNamedScopeExpressionParserRuleCall_0_2 = (RuleCall)cAlternatives_0.eContents().get(2);
-		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Keyword cVerticalLineKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final Assignment cPruneAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final RuleCall cPruneExpressionParserRuleCall_1_1_0 = (RuleCall)cPruneAssignment_1_1.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cScopeDelegationParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cFactoryExpressionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cNamedScopeExpressionParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//ScopeExpression:
-		//	(ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?;
+		//	ScopeDelegation | FactoryExpression | NamedScopeExpression;
 		@Override public ParserRule getRule() { return rule; }
 
-		//(ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?
-		public Group getGroup() { return cGroup; }
-
 		//ScopeDelegation | FactoryExpression | NamedScopeExpression
-		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ScopeDelegation
-		public RuleCall getScopeDelegationParserRuleCall_0_0() { return cScopeDelegationParserRuleCall_0_0; }
+		public RuleCall getScopeDelegationParserRuleCall_0() { return cScopeDelegationParserRuleCall_0; }
 
 		//FactoryExpression
-		public RuleCall getFactoryExpressionParserRuleCall_0_1() { return cFactoryExpressionParserRuleCall_0_1; }
+		public RuleCall getFactoryExpressionParserRuleCall_1() { return cFactoryExpressionParserRuleCall_1; }
 
 		//NamedScopeExpression
-		public RuleCall getNamedScopeExpressionParserRuleCall_0_2() { return cNamedScopeExpressionParserRuleCall_0_2; }
-
-		//('|' prune=Expression)?
-		public Group getGroup_1() { return cGroup_1; }
-
-		//'|'
-		public Keyword getVerticalLineKeyword_1_0() { return cVerticalLineKeyword_1_0; }
-
-		//prune=Expression
-		public Assignment getPruneAssignment_1_1() { return cPruneAssignment_1_1; }
-
-		//Expression
-		public RuleCall getPruneExpressionParserRuleCall_1_1_0() { return cPruneExpressionParserRuleCall_1_1_0; }
+		public RuleCall getNamedScopeExpressionParserRuleCall_2() { return cNamedScopeExpressionParserRuleCall_2; }
 	}
 
 	public class FactoryExpressionElements extends AbstractParserRuleElementFinder {
@@ -1417,7 +1397,7 @@ public class ScopeGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ScopeExpression:
-	//	(ScopeDelegation | FactoryExpression | NamedScopeExpression) ('|' prune=Expression)?;
+	//	ScopeDelegation | FactoryExpression | NamedScopeExpression;
 	public ScopeExpressionElements getScopeExpressionAccess() {
 		return pScopeExpression;
 	}

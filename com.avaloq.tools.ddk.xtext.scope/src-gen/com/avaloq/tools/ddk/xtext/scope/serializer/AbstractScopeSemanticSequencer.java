@@ -320,26 +320,16 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_Extension(context, (Extension) semanticObject); 
 				return; 
 			case ScopePackage.FACTORY_EXPRESSION:
-				if (rule == grammarAccess.getFactoryExpressionRule()) {
-					sequence_FactoryExpression(context, (FactoryExpression) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getScopeExpressionRule()) {
-					sequence_FactoryExpression_ScopeExpression(context, (FactoryExpression) semanticObject); 
-					return; 
-				}
-				else break;
+				sequence_FactoryExpression(context, (FactoryExpression) semanticObject); 
+				return; 
 			case ScopePackage.GLOBAL_SCOPE_EXPRESSION:
 				if (rule == grammarAccess.getGlobalScopeExpressionRule()) {
 					sequence_GlobalScopeExpression(context, (GlobalScopeExpression) semanticObject); 
 					return; 
 				}
-				else if (rule == grammarAccess.getNamedScopeExpressionRule()) {
+				else if (rule == grammarAccess.getScopeExpressionRule()
+						|| rule == grammarAccess.getNamedScopeExpressionRule()) {
 					sequence_GlobalScopeExpression_NamedScopeExpression(context, (GlobalScopeExpression) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getScopeExpressionRule()) {
-					sequence_GlobalScopeExpression_NamedScopeExpression_ScopeExpression(context, (GlobalScopeExpression) semanticObject); 
 					return; 
 				}
 				else break;
@@ -374,15 +364,8 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_ScopeDefinition(context, (ScopeDefinition) semanticObject); 
 				return; 
 			case ScopePackage.SCOPE_DELEGATION:
-				if (rule == grammarAccess.getScopeDelegationRule()) {
-					sequence_ScopeDelegation(context, (ScopeDelegation) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getScopeExpressionRule()) {
-					sequence_ScopeDelegation_ScopeExpression(context, (ScopeDelegation) semanticObject); 
-					return; 
-				}
-				else break;
+				sequence_ScopeDelegation(context, (ScopeDelegation) semanticObject); 
+				return; 
 			case ScopePackage.SCOPE_MODEL:
 				sequence_ScopeModel(context, (ScopeModel) semanticObject); 
 				return; 
@@ -390,11 +373,8 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 				sequence_ScopeRule(context, (ScopeRule) semanticObject); 
 				return; 
 			case ScopePackage.SIMPLE_SCOPE_EXPRESSION:
-				if (rule == grammarAccess.getScopeExpressionRule()) {
-					sequence_NamedScopeExpression_ScopeExpression_SimpleScopeExpression(context, (SimpleScopeExpression) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getNamedScopeExpressionRule()) {
+				if (rule == grammarAccess.getScopeExpressionRule()
+						|| rule == grammarAccess.getNamedScopeExpressionRule()) {
 					sequence_NamedScopeExpression_SimpleScopeExpression(context, (SimpleScopeExpression) semanticObject); 
 					return; 
 				}
@@ -428,6 +408,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	/**
 	 * Contexts:
+	 *     ScopeExpression returns FactoryExpression
 	 *     FactoryExpression returns FactoryExpression
 	 *
 	 * Constraint:
@@ -441,18 +422,6 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getFactoryExpressionAccess().getExprExpressionParserRuleCall_1_0(), semanticObject.getExpr());
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ScopeExpression returns FactoryExpression
-	 *
-	 * Constraint:
-	 *     (expr=Expression prune=Expression?)
-	 */
-	protected void sequence_FactoryExpression_ScopeExpression(ISerializationContext context, FactoryExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -475,6 +444,7 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	/**
 	 * Contexts:
+	 *     ScopeExpression returns GlobalScopeExpression
 	 *     NamedScopeExpression returns GlobalScopeExpression
 	 *
 	 * Constraint:
@@ -488,26 +458,6 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	 *     )
 	 */
 	protected void sequence_GlobalScopeExpression_NamedScopeExpression(ISerializationContext context, GlobalScopeExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ScopeExpression returns GlobalScopeExpression
-	 *
-	 * Constraint:
-	 *     (
-	 *         type=[EClass|QualifiedID] 
-	 *         (name=Expression | (recursivePrefix?='recursive'? prefix=Expression))? 
-	 *         (data+=DataExpression data+=DataExpression*)? 
-	 *         (domains+='*' | domains+=Identifier | (domains+=Identifier domains+=Identifier*))? 
-	 *         (caseDef?='case' casing=Casing)? 
-	 *         naming=Naming? 
-	 *         prune=Expression?
-	 *     )
-	 */
-	protected void sequence_GlobalScopeExpression_NamedScopeExpression_ScopeExpression(ISerializationContext context, GlobalScopeExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -592,17 +542,6 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	/**
 	 * Contexts:
 	 *     ScopeExpression returns SimpleScopeExpression
-	 *
-	 * Constraint:
-	 *     (expr=Expression (caseDef?='case' casing=Casing)? naming=Naming? prune=Expression?)
-	 */
-	protected void sequence_NamedScopeExpression_ScopeExpression_SimpleScopeExpression(ISerializationContext context, SimpleScopeExpression semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     NamedScopeExpression returns SimpleScopeExpression
 	 *
 	 * Constraint:
@@ -696,24 +635,13 @@ public abstract class AbstractScopeSemanticSequencer extends ExpressionSemanticS
 	
 	/**
 	 * Contexts:
+	 *     ScopeExpression returns ScopeDelegation
 	 *     ScopeDelegation returns ScopeDelegation
 	 *
 	 * Constraint:
 	 *     ((delegate=Expression | external=GlobalScopeExpression) scope=[ScopeDefinition|Identifier]?)
 	 */
 	protected void sequence_ScopeDelegation(ISerializationContext context, ScopeDelegation semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ScopeExpression returns ScopeDelegation
-	 *
-	 * Constraint:
-	 *     ((delegate=Expression | external=GlobalScopeExpression) scope=[ScopeDefinition|Identifier]? prune=Expression?)
-	 */
-	protected void sequence_ScopeDelegation_ScopeExpression(ISerializationContext context, ScopeDelegation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

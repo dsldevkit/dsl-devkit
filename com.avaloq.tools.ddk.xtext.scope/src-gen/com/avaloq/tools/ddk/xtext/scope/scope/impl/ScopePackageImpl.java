@@ -221,7 +221,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ScopePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -236,11 +236,13 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     if (isInited) return (ScopePackage)EPackage.Registry.INSTANCE.getEPackage(ScopePackage.eNS_URI);
 
     // Obtain or create and register package
-    ScopePackageImpl theScopePackage = (ScopePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ScopePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ScopePackageImpl());
+    Object registeredScopePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ScopePackageImpl theScopePackage = registeredScopePackage instanceof ScopePackageImpl ? (ScopePackageImpl)registeredScopePackage : new ScopePackageImpl();
 
     isInited = true;
 
     // Initialize simple dependencies
+    EcorePackage.eINSTANCE.eClass();
     ExpressionPackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
@@ -252,7 +254,6 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     // Mark meta-data to indicate it can't be changed
     theScopePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ScopePackage.eNS_URI, theScopePackage);
     return theScopePackage;
@@ -616,16 +617,6 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
   public EClass getScopeExpression()
   {
     return scopeExpressionEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getScopeExpression_Prune()
-  {
-    return (EReference)scopeExpressionEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1023,7 +1014,6 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     createEReference(scopeContextEClass, SCOPE_CONTEXT__GUARD);
 
     scopeExpressionEClass = createEClass(SCOPE_EXPRESSION);
-    createEReference(scopeExpressionEClass, SCOPE_EXPRESSION__PRUNE);
 
     factoryExpressionEClass = createEClass(FACTORY_EXPRESSION);
     createEReference(factoryExpressionEClass, FACTORY_EXPRESSION__EXPR);
@@ -1157,7 +1147,6 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
     initEReference(getScopeContext_Guard(), theExpressionPackage.getExpression(), null, "guard", null, 0, 1, ScopeContext.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(scopeExpressionEClass, ScopeExpression.class, "ScopeExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getScopeExpression_Prune(), theExpressionPackage.getExpression(), null, "prune", null, 0, 1, ScopeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(factoryExpressionEClass, FactoryExpression.class, "FactoryExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getFactoryExpression_Expr(), theExpressionPackage.getExpression(), null, "expr", null, 0, 1, FactoryExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

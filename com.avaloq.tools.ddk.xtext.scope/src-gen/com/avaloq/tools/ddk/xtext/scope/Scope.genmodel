@@ -4,7 +4,7 @@
     editorDirectory="/com.avaloq.tools.ddk.xtext.scope.editor/src" modelPluginID="com.avaloq.tools.ddk.xtext.scope"
     forceOverwrite="true" modelName="Scope" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.scope.edit"
-    editorPluginID="com.avaloq.tools.ddk.xtext.scope.editor" runtimeVersion="2.12"
+    editorPluginID="com.avaloq.tools.ddk.xtext.scope.editor" runtimeVersion="2.14"
     usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel#//expression">
   <genPackages prefix="Scope" basePackage="com.avaloq.tools.ddk.xtext.scope" disposableProviderFactory="true"
       ecorePackage="Scope.ecore#/">
@@ -56,9 +56,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scope.ecore#//ScopeContext/contextType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scope.ecore#//ScopeContext/guard"/>
     </genClasses>
-    <genClasses ecoreClass="Scope.ecore#//ScopeExpression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scope.ecore#//ScopeExpression/prune"/>
-    </genClasses>
+    <genClasses ecoreClass="Scope.ecore#//ScopeExpression"/>
     <genClasses ecoreClass="Scope.ecore#//FactoryExpression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scope.ecore#//FactoryExpression/expr"/>
     </genClasses>

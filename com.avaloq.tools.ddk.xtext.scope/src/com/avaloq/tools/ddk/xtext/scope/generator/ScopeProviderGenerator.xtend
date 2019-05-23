@@ -209,13 +209,13 @@ class ScopeProviderGenerator {
           »«IF r.context.guard !== null»if («r.context.guard.javaExpression(compilationContext.clone('ctx', r.scopeType()))») «ENDIF»{
           «IF it.size > 1»«javaContributorComment(r.location())»
           «ENDIF
-          »«FOR e : Lists.newArrayList(r.exprs).reverse()»«scopes(e, model, typeOrRef, r.getScope(), isGlobal)»«ENDFOR»
+          »«FOR e : Lists.newArrayList(r.exprs).reverse()»«scopeExpression(e, model, typeOrRef, r.getScope(), isGlobal)»«ENDFOR»
         }«ENDFOR»«
         IF !it.exists(r|r.context.guard === null)» else {
           throw new UnsupportedOperationException(); // continue matching other definitions
         }«ENDIF»
       «ELSEIF it.size == 1»
-        «FOR e : Lists.newArrayList(it.head.exprs).reverse()»«scopes(e, model, typeOrRef, it.head.getScope(), isGlobal)»«ENDFOR»
+        «FOR e : Lists.newArrayList(it.head.exprs).reverse()»«scopeExpression(e, model, typeOrRef, it.head.getScope(), isGlobal)»«ENDFOR»
       «ELSE»
         «error('scope context not unique for definitions: ' + ', '.join(it.map(r|r.location())))»
       «ENDIF»
@@ -224,14 +224,6 @@ class ScopeProviderGenerator {
     }
     return scope;
   '''
-
-  def scopes(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
-    val b = new StringBuilder
-    if (prune !== null)
-      b.append(pruning(it, model, scope))
-    b.append(scopeExpression(it, model, typeOrRef, scope, isGlobal))
-    return b
-  }
 
   def dispatch scopeExpression(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
     error("Xpand called the wrong definition." + it.toString() + javaContributorComment(it.location()))
@@ -349,22 +341,6 @@ class ScopeProviderGenerator {
   def scopeExpressionCasing (NamedScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope) {
     ', ' + isCaseInsensitive().toString
   }
-
-  def pruning (ScopeExpression it, ScopeModel model, ScopeDefinition scope) '''
-    scope = newPruningScope("«it.locatorString()»", scope, new Predicate<QualifiedName>() {
-      «prunePredicate(prune, model, (eContainer() as ScopeRule).context.contextType, 'ctx')»);
-    }
-  '''
-
-  def prunePredicate(Expression it, ScopeModel model, EClass type, String object) '''
-    public boolean apply(QualifiedName name) {
-      «IF isCompilable(compilationContext.cloneWithVariable(object, type, "name", "org::eclipse::xtext::naming::QualifiedName"))»
-        return «javaExpression(compilationContext.cloneWithString(object, type, "name"))»;
-      «ELSE»
-        EXPRESSION_NOT_SUPPORTED("«serialize()»");
-      «ENDIF»
-      }
-  '''
 
   def scopedElements(Expression it, ScopeModel model, EClass type, String object) {
     doExpression(it, model, object, type)
