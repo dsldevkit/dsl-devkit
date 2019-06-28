@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -17,9 +18,6 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.resource.impl.AbstractResourceDescription;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 
 /**
@@ -30,27 +28,28 @@ public class EmptyResourceDescriptionImpl extends AbstractResourceDescription {
   private final URI uri;
 
   public EmptyResourceDescriptionImpl(final URI uri) {
-    super();
     this.uri = uri;
   }
 
+  @Override
   public URI getURI() {
     return uri;
   }
 
+  @Override
   public Iterable<QualifiedName> getImportedNames() {
-    return ImmutableSet.of();
+    return Collections.emptySet();
   }
 
+  @Override
   public Iterable<IReferenceDescription> getReferenceDescriptions() {
-    return ImmutableSet.of();
+    return Collections.emptySet();
   }
 
   /** {@inheritDoc} */
   @Override
   protected List<IEObjectDescription> computeExportedObjects() {
-    return ImmutableList.of();
+    return Collections.emptyList();
   }
 
 }
-

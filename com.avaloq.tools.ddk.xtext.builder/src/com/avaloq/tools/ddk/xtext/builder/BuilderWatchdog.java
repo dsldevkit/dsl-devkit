@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
  * along with the stack traces for all threads of the running application.
  */
 public class BuilderWatchdog extends Thread {
+
   private static final Logger LOGGER = Logger.getLogger(BuilderWatchdog.class);
 
   private static final String NEW_LINE = "\n"; //$NON-NLS-1$
@@ -51,7 +52,6 @@ public class BuilderWatchdog extends Thread {
   private URI currentURI;
 
   public BuilderWatchdog() {
-    super();
     entryTime = System.currentTimeMillis();
     batchTime = System.currentTimeMillis();
   }
@@ -124,7 +124,7 @@ public class BuilderWatchdog extends Thread {
     if (currentURI != null) {
       stackTraceBuilder.append("Was processing " + currentURI + " when this occurred.").append(NEW_LINE); //$NON-NLS-1$ //$NON-NLS-2$
     }
-    stackTraceBuilder.append("This batch contained ").append(processedTypeList()).append(". Dumping stack straces:").append(NEW_LINE); //$NON-NLS-1$ //$NON-NLS-2$
+    stackTraceBuilder.append("This batch contained ").append(processedTypeList()).append(". Dumping stack traces:").append(NEW_LINE); //$NON-NLS-1$ //$NON-NLS-2$
 
     final Map<Thread, StackTraceElement[]> allStackTraces = Thread.getAllStackTraces();
     for (Thread thread : allStackTraces.keySet()) {
@@ -142,7 +142,7 @@ public class BuilderWatchdog extends Thread {
 
   /**
    * Logs a warning containing the stack traces for all threads, along with a message explaining the reason for the stack trace dump.
-   * 
+   *
    * @param headerMessage
    *          message to print before the stack traces
    */
@@ -203,4 +203,3 @@ public class BuilderWatchdog extends Thread {
     return System.currentTimeMillis() - start;
   }
 }
-
