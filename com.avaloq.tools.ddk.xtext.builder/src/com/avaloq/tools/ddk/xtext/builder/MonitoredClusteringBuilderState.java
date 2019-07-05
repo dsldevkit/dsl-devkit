@@ -156,9 +156,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   private IDescriptionCopier descriptionCopier;
 
   @Inject
-  private IResourcePostProcessor postProcessor;
-
-  @Inject
   private OperationCanceledManager operationCanceledManager;
 
   @Inject
@@ -587,7 +584,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             try {
               // Validate directly, instead of bulk validating after the cluster.
               updateMarkers(newDelta, resourceSet, subProgress.newChild(1, SubMonitor.SUPPRESS_ALL_LABELS));
-              postProcess(newDelta, resourceSet, subProgress.newChild(1));
             } catch (StackOverflowError ex) {
               queue.remove(changedURI);
               logStackOverflowErrorStackTrace(ex, changedURI);
@@ -722,22 +718,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     for (Delta delta : deltas) {
       checkForCancellation(monitor);
       updateMarkers(delta, resourceSet, progress.newChild(1));
-      postProcess(delta, resourceSet, progress.newChild(1));
     }
-  }
-
-  /**
-   * Post-processes a delta.
-   *
-   * @param delta
-   *          to process
-   * @param resourceSet
-   *          to use for resource loading (the builder's resourceSet)
-   * @param monitor
-   *          to report progress and handle cancellation
-   */
-  protected void postProcess(final Delta delta, final ResourceSet resourceSet, final IProgressMonitor monitor) {
-    postProcessor.process(delta, resourceSet, monitor);
   }
 
   /**
