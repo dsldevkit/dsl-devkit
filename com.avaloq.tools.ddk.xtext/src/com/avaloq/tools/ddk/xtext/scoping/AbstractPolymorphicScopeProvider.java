@@ -286,7 +286,9 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   protected abstract IScope doGetScope(final EObject context, final EClass type, final String scopeName, final Resource originalResource);
 
   /**
-   * Return the visible containers given a context object.
+   * Return the visible containers given a context object and an originalResource.
+   * <p>
+   * Returns the containers visible from the originalResource, unless it is null, in which case, returns the containers visible from the context's resource
    *
    * @param context
    *          The context object
@@ -296,16 +298,25 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    */
   protected List<IContainer> getVisibleContainers(final EObject context, final Resource originalResource) { // NOPMD by WTH on 26.01.11 09:26 (NPath
                                                                                                             // complexity...)
-    final Resource ctxRsc = originalResource == null ? context.eResource() : originalResource;
-    if (!(ctxRsc instanceof XtextResource)) {
-      LOGGER.error(MessageFormat.format("Context {0} is not in an Xtext resource: {1}", context, ctxRsc != null ? ctxRsc.getURI() : "null")); //$NON-NLS-1$ //$NON-NLS-2$
+    final Resource resource = originalResource == null ? context.eResource() : originalResource;
+    if (!(resource instanceof XtextResource)) {
+      LOGGER.error(MessageFormat.format("Context {0} is not in an Xtext resource: {1}", context, resource != null ? resource.getURI() : "null")); //$NON-NLS-1$ //$NON-NLS-2$
       throw new IllegalStateException();
     }
-    final XtextResource rsc = (XtextResource) ctxRsc;
-    // Cache these container lists, they're expensive to create
-    URI uri = rsc.getURI();
+    return getVisibleContainers((XtextResource) resource);
+  }
+
+  /**
+   * Return the visible containers given a resource.
+   *
+   * @param resource
+   *          the resource. Must not be {@code null}
+   * @return The list of visible containers.
+   */
+  protected List<IContainer> getVisibleContainers(final XtextResource resource) {
+    URI uri = resource.getURI();
     List<IContainer> result = null;
-    final ResourceCache<URI, List<IContainer>> cache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", rsc); //$NON-NLS-1$
+    final ResourceCache<URI, List<IContainer>> cache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", resource); //$NON-NLS-1$
     if (cache != null) {
       result = cache.get(uri);
       if (result != null) {
@@ -313,15 +324,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
       }
     }
 
-    final EObject ctx = ctxRsc != context.eResource() ? ctxRsc.getContents().get(0) : context;
-    // We need to get the container manager dynamically, otherwise we may end up using the wrong ResourceDescriptions if
-    // the context object in actually from another resource.
-    final IResourceServiceProvider resourceServiceProvider = rsc.getResourceServiceProvider();
+    final IResourceServiceProvider resourceServiceProvider = resource.getResourceServiceProvider();
     final IResourceDescription.Manager descriptionManager = resourceServiceProvider.getResourceDescriptionManager();
     final IContainer.Manager containerManager = resourceServiceProvider.getContainerManager();
 
-    final IResourceDescription description = descriptionManager.getResourceDescription(ctx.eResource());
-    final IResourceDescriptions resourceDescriptions = getResourceDescriptions(ctx.eResource());
+    final IResourceDescription description = descriptionManager.getResourceDescription(resource);
+    final IResourceDescriptions resourceDescriptions = getResourceDescriptions(resource);
     result = containerManager.getVisibleContainers(description, resourceDescriptions);
     if (cache != null) {
       cache.set(uri, result);

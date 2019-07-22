@@ -187,7 +187,7 @@ public class ContainerQuery {
    * @return The query results
    */
   public Iterable<IEObjectDescription> execute(final EObject context) {
-    return execute(context, context.eResource());
+    return execute(context.eResource());
   }
 
   /**
@@ -195,14 +195,18 @@ public class ContainerQuery {
    * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
    * result does <em>not</em> apply any name shadowing.
    *
+   * @deprecated
+   *             <p>
+   *             use {@link ContainerQuery#execute(Resource)} instead (context is always ignored)
    * @param context
    *          The context resource.
    * @param originalResource
    *          The original resource.
    * @return The query results
    */
+  @Deprecated
   public Iterable<IEObjectDescription> execute(final Resource context, final Resource originalResource) {
-    return execute(context.getContents().get(0), originalResource);
+    return execute(originalResource);
   }
 
   /**
@@ -212,22 +216,41 @@ public class ContainerQuery {
    * result does <em>not</em> apply
    * any name shadowing.
    *
+   * @deprecated
+   *             <p>
+   *             use {@link ContainerQuery#execute(Resource)} instead (context is always ignored)
    * @param context
    *          An object in the context resource.
    * @param originalResource
    *          The original resource.
    * @return The query results
    */
-  @SuppressWarnings("nls")
+  @Deprecated
   public Iterable<IEObjectDescription> execute(final EObject context, final Resource originalResource) {
-    if (!(originalResource instanceof LazyLinkingResource)) {
-      throw new IllegalStateException("Resource is not a LazyLinkingResource " + (originalResource != null ? originalResource.getURI() : ""));
+    return execute(originalResource);
+  }
+
+  /**
+   * Execute the query on containers visible from a certain resource, and caches the results on that resource. The results will grouped by
+   * container and in the order of
+   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
+   * result does <em>not</em> apply
+   * any name shadowing.
+   *
+   * @param resource
+   *          The resource.
+   * @return The query results
+   */
+  @SuppressWarnings("nls")
+  public Iterable<IEObjectDescription> execute(final Resource resource) {
+    if (!(resource instanceof LazyLinkingResource)) {
+      throw new IllegalStateException("Resource is not a LazyLinkingResource " + (resource != null ? resource.getURI() : ""));
     }
-    final IScopeProvider scopeProvider = EObjectUtil.getScopeProviderByResource((LazyLinkingResource) originalResource);
+    final IScopeProvider scopeProvider = EObjectUtil.getScopeProviderByResource((LazyLinkingResource) resource);
     if (!(scopeProvider instanceof AbstractPolymorphicScopeProvider)) {
       throw new IllegalStateException("Scope provider is not an AbstractPolymorphicScopeProvider scope provider.");
     }
-    return execute(((AbstractPolymorphicScopeProvider) scopeProvider).getVisibleContainers(originalResource.getContents().get(0), originalResource));
+    return execute(((AbstractPolymorphicScopeProvider) scopeProvider).getVisibleContainers((LazyLinkingResource) resource));
   }
 
   /**
