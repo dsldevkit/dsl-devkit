@@ -268,7 +268,7 @@ class ScopeProviderGenerator {
     ENDIF»«
     ELSE»
       scope = newExternalDelegateScope("«it.locatorString()»", scope, «
-    query(external, model, typeOrRef, scope)».execute(ctx, originalResource)«
+    query(external, model, typeOrRef, scope)».execute(originalResource)«
     ENDIF», «
     IF it.scope !== null && it.scope.typeOrRef() != getScope(it).typeOrRef()»«it.scope.typeOrRef().literalIdentifier()»«ELSE»«typeOrRef»«ENDIF», "«if (it.scope !== null && it.scope.name !== null) it.scope.name else "scope"»", originalResource);
   '''
