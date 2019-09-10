@@ -15,6 +15,10 @@ package com.avaloq.tools.ddk.check.runtime.quickfix;
  * extension point contract only allows implementing classes to register.
  * <p>
  * This class is UI-independent.
+ * <p>
+ * Classes which implement this interface must follow the following naming pattern:
+ * Name must start with the catalog name and have <em>QuickfixProvider</em>
+ * as suffix. It must be located in the same Java package as the catalog file.
  */
-public interface ICoreQuickfixProvider {}
-
+public interface ICoreQuickfixProvider {
+}
