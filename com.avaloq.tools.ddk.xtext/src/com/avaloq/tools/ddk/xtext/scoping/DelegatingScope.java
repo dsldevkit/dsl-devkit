@@ -235,14 +235,19 @@ public class DelegatingScope extends AbstractRecursiveScope {
     if (name == null) {
       throw new IllegalArgumentException("Null name in getContentByName"); //$NON-NLS-1$
     }
-    for (final IScope scope : getDelegates()) {
-      final IEObjectDescription elem = scope.getSingleElement(name);
-      if (elem != null) {
-        // ScopeTrace.addTrace(elem, getId());
-        return elem;
+
+    try {
+      for (final IScope scope : getDelegates()) {
+        final IEObjectDescription elem = scope.getSingleElement(name);
+        if (elem != null) {
+          // ScopeTrace.addTrace(elem, getId());
+          return elem;
+        }
       }
+      return getParent().getSingleElement(name);
+    } catch (StackOverflowError e) {
+      return STACK_OVERFLOW_EOBJECT_DESCRIPTION;
     }
-    return getParent().getSingleElement(name);
   }
 
   @Override
