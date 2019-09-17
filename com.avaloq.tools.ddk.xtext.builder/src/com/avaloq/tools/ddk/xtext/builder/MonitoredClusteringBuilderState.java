@@ -112,6 +112,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   public static final long CANCELLATION_POLLING_DELAY = 200; // ms
 
   public static final int STACK_TRACE_LIMIT = 10;
+  private static final int COMMIT_WARN_WAIT_SEC = 30;
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(MonitoredClusteringBuilderState.class);
@@ -985,11 +986,16 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    */
   protected void flushChanges(final ResourceDescriptionsData newData) {
     if (newData instanceof IResourceDescriptionsData) {
+      long time = System.currentTimeMillis();
       try {
         traceSet.started(BuildFlushEvent.class);
         ((IResourceDescriptionsData) newData).flushChanges();
       } finally {
         traceSet.ended(BuildFlushEvent.class);
+      }
+      long flushTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - time);
+      if (flushTime > COMMIT_WARN_WAIT_SEC) {
+        LOGGER.warn("Flushing of the database changes took " + flushTime + " seconds."); //$NON-NLS-1$//$NON-NLS-2$
       }
     }
   }
