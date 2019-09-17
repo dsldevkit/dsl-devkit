@@ -362,28 +362,27 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     Collection<IResourceDescription.Delta> deltas = doClean(toBeRemovedCopy, subMonitor.newChild(1));
 
     final ResourceDescriptionsData newData = getCopiedResourceDescriptionsData();
-    ResourceDescriptionChangeEvent event = null;
+
+    checkForCancellation(monitor);
     try {
-      checkForCancellation(monitor);
       for (IResourceDescription.Delta delta : deltas) {
         newData.removeDescription(delta.getOld().getURI());
       }
-      event = new ResourceDescriptionChangeEvent(deltas);
+      ResourceDescriptionChangeEvent event = new ResourceDescriptionChangeEvent(deltas);
       checkForCancellation(monitor);
       updateDeltas(event.getDeltas(), null, subMonitor.newChild(1));
       // update the reference
       setResourceDescriptionsData(newData, monitor);
       // CHECKSTYLE:CHECK-OFF IllegalCatch
+      notifyListeners(event);
+      return event.getDeltas();
     } catch (Throwable t) {
-      // CHECKSTYLE:CHEKC-ON IllegalCatch
+      // CHECKSTYLE:CHECK-ON IllegalCatch
       if (newData instanceof AbstractResourceDescriptionsData) {
         ((AbstractResourceDescriptionsData) newData).rollbackChanges();
       }
       throw t;
     }
-
-    notifyListeners(event);
-    return event.getDeltas();
   }
 
   /** {@inheritDoc} */
@@ -502,9 +501,14 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           Resource resource = null;
           Delta newDelta = null;
 
-          final long initialMemory = Runtime.getRuntime().freeMemory();
-          final int initialResourceSetSize = resourceSet.getResources().size();
-          final long initialTime = System.nanoTime();
+          long initialMemory = 0;
+          int initialResourceSetSize = 0;
+          long initialTime = 0;
+          if (traceSet.isEnabled(ResourceLinkingMemoryEvent.class)) {
+            initialMemory = Runtime.getRuntime().freeMemory();
+            initialResourceSetSize = resourceSet.getResources().size();
+            initialTime = System.nanoTime();
+          }
           try {
             // Load the resource and create a new resource description
             resource = addResource(loadOperation.next().getResource(), resourceSet);
@@ -593,10 +597,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           }
 
           if (changedURI != null) {
-            final long memoryDelta = Runtime.getRuntime().freeMemory() - initialMemory;
-            final int resourceSetSizeDelta = resourceSet.getResources().size() - initialResourceSetSize;
-            final long timeDelta = System.nanoTime() - initialTime;
-            traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta);
+            if (traceSet.isEnabled(ResourceLinkingMemoryEvent.class)) {
+              final long memoryDelta = Runtime.getRuntime().freeMemory() - initialMemory;
+              final int resourceSetSizeDelta = resourceSet.getResources().size() - initialResourceSetSize;
+              final long timeDelta = System.nanoTime() - initialTime;
+              traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta);
+            }
             watchdog.reportWorkEnded(index, index + queue.size());
           }
 
@@ -833,7 +839,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The progress monitor used for user feedback
    * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
-  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
+  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) { // NOPMD NPath Complexity
     ResourceSet resourceSet = buildData.getResourceSet();
     IProject currentProject = getBuiltProject(buildData);
     List<URI> toBuild = Lists.newLinkedList();
@@ -877,7 +883,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (uri == null && ex instanceof LoadOperationException) { // NOPMD
             uri = ((LoadOperationException) ex).getUri();
           }
-          LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri), ex);
+          LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri != null ? uri: "unknown uri"), ex); //$NON-NLS-1$
           if (resource != null) {
             resourceSet.getResources().remove(resource);
           }
