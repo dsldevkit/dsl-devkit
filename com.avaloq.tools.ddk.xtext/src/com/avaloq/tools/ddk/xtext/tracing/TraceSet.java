@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.function.Supplier;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
@@ -23,6 +24,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.inject.Singleton;
 
 
@@ -36,7 +38,7 @@ import com.google.inject.Singleton;
 public class TraceSet implements ITraceSet {
 
   private final EventBus syncBus = new EventBus();
-  private final EventBus asyncBus = new AsyncEventBus(Executors.newSingleThreadExecutor());
+  private final EventBus asyncBus = new AsyncEventBus(Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("trace-set-async-bus").build())); //$NON-NLS-1$
 
   private final ConcurrentMap<Class<?>, Constructor<?>> constructors = Maps.newConcurrentMap();
 
