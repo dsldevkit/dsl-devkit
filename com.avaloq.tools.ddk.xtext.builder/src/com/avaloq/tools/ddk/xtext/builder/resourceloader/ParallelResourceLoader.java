@@ -23,6 +23,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -45,6 +46,7 @@ import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -168,7 +170,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           return resourceSet;
         }
       };
-      this.executor = Executors.newFixedThreadPool(nThreads);
+      this.executor = Executors.newFixedThreadPool(nThreads, new ThreadFactoryBuilder().setNameFormat("parallel-load-operation").build()); //$NON-NLS-1$
       this.waitTime = getTimeout();
     }
 
