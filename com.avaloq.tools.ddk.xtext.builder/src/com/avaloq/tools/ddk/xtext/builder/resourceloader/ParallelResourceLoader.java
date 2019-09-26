@@ -170,7 +170,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           return resourceSet;
         }
       };
-      this.executor = Executors.newFixedThreadPool(nThreads, new ThreadFactoryBuilder().setNameFormat("parallel-load-operation").build()); //$NON-NLS-1$
+      this.executor = Executors.newFixedThreadPool(nThreads, new ThreadFactoryBuilder().setNameFormat("parallel-load-operation-%d").build()); //$NON-NLS-1$
       this.waitTime = getTimeout();
     }
 
