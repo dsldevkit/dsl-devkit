@@ -49,7 +49,7 @@ class ResourceDescriptionStrategyGenerator {
       «IF exports.exists(e|e.lookup)»
         import com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription;
       «ENDIF»
-      import com.google.common.collect.ForwardingMap;
+      import com.avaloq.tools.ddk.xtext.resource.extensions.ForwardingResourceDescriptionStrategyMap;
       import com.google.common.collect.ImmutableMap;
       import com.google.common.collect.ImmutableSet;
       «val types = exports»
@@ -131,13 +131,10 @@ class ResourceDescriptionStrategyGenerator {
     '''
       «IF !a.isEmpty || !d.isEmpty || c.fingerprint || c.resourceFingerprint || c.lookup »
         // Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts
-        Map<String, String> data = new ForwardingMap<String, String>() {
-          private Map<String, String> delegate;
+        Map<String, String> data = new ForwardingResourceDescriptionStrategyMap() {
 
           @Override
-          protected Map<String, String> delegate() {
-            if (delegate == null) {
-              ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+          protected void build(final ImmutableMap.Builder<String, String> builder) {
               Object value = null;
               «IF c.fingerprint»
                 // Fingerprint
@@ -181,9 +178,7 @@ class ResourceDescriptionStrategyGenerator {
                   }
                 «ENDFOR»
               «ENDIF»
-              delegate = builder.build();
             }
-            return delegate;
           }
         };
         acceptEObjectDescription(obj, data, acceptor.get());
