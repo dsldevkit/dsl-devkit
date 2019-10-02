@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.function.Supplier;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;

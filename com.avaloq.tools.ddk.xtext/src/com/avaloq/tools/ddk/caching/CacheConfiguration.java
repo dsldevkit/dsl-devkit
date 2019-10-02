@@ -14,10 +14,14 @@ package com.avaloq.tools.ddk.caching;
  * Allows the behaviour of a cache to be configured.
  */
 public class CacheConfiguration {
+  static final int UNSET_INT = -1;
+
   private boolean arraySize;
   private boolean softValues;
   private boolean statistics;
-  private long cacheSize = -1;
+
+  private long cacheSize = UNSET_INT;
+  private int initialCapacity = UNSET_INT;
 
   /**
    * All values stored in the cache are wrapped as {@link java.lang.ref.SoftReference SoftReference}, allowing them to be garbage collected as necessary.
@@ -76,5 +80,20 @@ public class CacheConfiguration {
   public boolean isArraySizeEnabled() {
     return arraySize;
   }
-}
 
+  /**
+   * Sets the initial size for the cache.
+   *
+   * @param capacity
+   *          the initial capacity
+   * @return the cache configuration
+   */
+  public CacheConfiguration setInitialCapacity(final int capacity) {
+    initialCapacity = capacity;
+    return this;
+  }
+
+  public int getInitialCapacity() {
+    return initialCapacity;
+  }
+}
