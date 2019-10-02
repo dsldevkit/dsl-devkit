@@ -46,6 +46,9 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
     if (config.isSoftValuesEnabled()) {
       cacheBuilder.softValues();
     }
+    if (config.getInitialCapacity() >= 0) {
+      cacheBuilder.initialCapacity(config.getInitialCapacity());
+    }
     if (config.getMaximumSize() >= 0) {
       if (config.isArraySizeEnabled()) {
         cacheBuilder.maximumWeight(config.getMaximumSize());
