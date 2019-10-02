@@ -135,50 +135,49 @@ class ResourceDescriptionStrategyGenerator {
 
           @Override
           protected void fill(final ImmutableMap.Builder<String, String> builder) {
-              Object value = null;
-              «IF c.fingerprint»
-                // Fingerprint
-                value = getFingerprint(obj);
-                if (value != null) {
-                  builder.put(IFingerprintComputer.OBJECT_FINGERPRINT, value.toString());
-                }
-              «ELSEIF c.resourceFingerprint»
-                // Resource fingerprint
-                value = getFingerprint(obj);
-                if (value != null) {
-                  builder.put(IFingerprintComputer.RESOURCE_FINGERPRINT, value.toString());
-                }
-              «ENDIF»
-              «IF c.lookup»
-                // Allow lookups
-                «IF c.lookupPredicate !== null»
-                  «javaContributorComment(c.lookupPredicate.location)»
-                  if («c.lookupPredicate.javaExpression(ctx.clone('obj', c.type))») {
-                    builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
-                  }
-                «ELSE»
+            Object value = null;
+            «IF c.fingerprint»
+              // Fingerprint
+              value = getFingerprint(obj);
+              if (value != null) {
+                builder.put(IFingerprintComputer.OBJECT_FINGERPRINT, value.toString());
+              }
+            «ELSEIF c.resourceFingerprint»
+              // Resource fingerprint
+              value = getFingerprint(obj);
+              if (value != null) {
+                builder.put(IFingerprintComputer.RESOURCE_FINGERPRINT, value.toString());
+              }
+            «ENDIF»
+            «IF c.lookup»
+              // Allow lookups
+              «IF c.lookupPredicate !== null»
+                «javaContributorComment(c.lookupPredicate.location)»
+                if («c.lookupPredicate.javaExpression(ctx.clone('obj', c.type))») {
                   builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
-                «ENDIF»
+                }
+              «ELSE»
+                builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
               «ENDIF»
-              «IF !a.isEmpty »
-                // Exported attributes
-                «FOR attr : a»
-                  value = obj.eGet(«attr.literalIdentifier», false);
-                  if (value != null) {
-                    builder.put(«resourceDescriptionConstants.toSimpleName».«attr.constantName(c.type)», value.toString());
-                  }
-                «ENDFOR»
-              «ENDIF»
-              «IF !d.isEmpty »
-                // User data
-                «FOR data : d»
-                  value = «data.expr.javaExpression(ctx.clone('obj', c.type))»;
-                  if (value != null) {
-                    builder.put(«resourceDescriptionConstants.toSimpleName».«data.constantName(c.type)», value.toString());
-                  }
-                «ENDFOR»
-              «ENDIF»
-            }
+            «ENDIF»
+            «IF !a.isEmpty »
+              // Exported attributes
+              «FOR attr : a»
+                value = obj.eGet(«attr.literalIdentifier», false);
+                if (value != null) {
+                  builder.put(«resourceDescriptionConstants.toSimpleName».«attr.constantName(c.type)», value.toString());
+                }
+              «ENDFOR»
+            «ENDIF»
+            «IF !d.isEmpty »
+              // User data
+              «FOR data : d»
+                value = «data.expr.javaExpression(ctx.clone('obj', c.type))»;
+                if (value != null) {
+                  builder.put(«resourceDescriptionConstants.toSimpleName».«data.constantName(c.type)», value.toString());
+                }
+              «ENDFOR»
+            «ENDIF»
           }
         };
         acceptEObjectDescription(obj, data, acceptor.get());
