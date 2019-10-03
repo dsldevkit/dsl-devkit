@@ -23,6 +23,7 @@ import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.Strings;
 
+import com.avaloq.tools.ddk.xtext.resource.extensions.AbstractForwardingResourceDescriptionStrategyMap;
 import com.google.common.collect.ImmutableMap;
 
 
@@ -141,7 +142,14 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
   /** {@inheritDoc} */
   @Override
   public IEObjectDescription detach() {
-    Map<String, String> copiedData = userData == null ? null : ImmutableMap.copyOf(userData);
+    Map<String, String> copiedData;
+
+    if (userData instanceof AbstractForwardingResourceDescriptionStrategyMap) {
+      // obtain the delegate, if this is immutable, copyOf will try to avoid the copy.
+      copiedData = ImmutableMap.copyOf(((AbstractForwardingResourceDescriptionStrategyMap) userData).delegate());
+    } else {
+      copiedData = userData == null ? null : ImmutableMap.copyOf(userData);
+    }
     return new DetachedEObjectDescription(getQualifiedName(), getEObjectURI(), getEClass(), copiedData);
   }
 
