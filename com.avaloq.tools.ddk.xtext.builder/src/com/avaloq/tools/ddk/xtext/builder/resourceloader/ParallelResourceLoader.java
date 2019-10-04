@@ -23,7 +23,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.ThreadFactory;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -38,6 +37,7 @@ import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.Triple;
 import org.eclipse.xtext.util.Tuples;
 
+import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLoadEvent;
 import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
@@ -163,6 +163,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         @Override
         protected ResourceSet initialValue() {
           ResourceSet resourceSet = getResourceSetProvider().get(project);
+          BuildPhases.setIndexing(resourceSet, BuildPhases.isIndexing(parent));
           resourceSet.getLoadOptions().putAll(parent.getLoadOptions());
           // we are not loading as part of a build
           resourceSet.getLoadOptions().remove(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE);
