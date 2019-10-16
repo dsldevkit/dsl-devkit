@@ -42,7 +42,7 @@ public class 南ame.toSimpleName()艋tandaloneBuildSetupService extends AbstractDy
   );
 
   public Injector doSetup(Module overrideModule, Module... additionalModules) {
-    return new 南ame.toSimpleName()艋tandaloneBuildSetupGenerated(overrideModule, additionalModules).createInjectorAndDoEMFRegistration();
+    return new 南ame.toSimpleName()艋tandaloneBuildSetupGenerated(SETUP_LOCK, overrideModule, additionalModules).createInjectorAndDoEMFRegistration();
   }
 
   @Override
@@ -78,8 +78,16 @@ public class 南ame.toSimpleName()艋tandaloneBuildSetupGenerated extends 南ame.to
 
   private final Module overrideModule;
   private final Module[] additionalModules;
+  private final Object lock;
+
+  public 南ame.toSimpleName()艋tandaloneBuildSetupGenerated(final Object lock, final Module overrideModule, Module... additionalModules) {
+    this.lock = lock;
+    this.overrideModule = overrideModule;
+    this.additionalModules = additionalModules;
+  }
 
   public 南ame.toSimpleName()艋tandaloneBuildSetupGenerated(final Module overrideModule, Module... additionalModules) {
+    this.lock = null;
     this.overrideModule = overrideModule;
     this.additionalModules = additionalModules;
   }
@@ -88,7 +96,13 @@ public class 南ame.toSimpleName()艋tandaloneBuildSetupGenerated extends 南ame.to
   public Injector createInjectorAndDoEMFRegistration() {
     registerEPackages();
     Injector injector = createInjector();
-    register(injector);
+    if (lock != null) {
+      synchronized (lock) {
+        register(injector);
+      }
+    } else {
+      register(injector);
+    }
     return injector;
   }
 

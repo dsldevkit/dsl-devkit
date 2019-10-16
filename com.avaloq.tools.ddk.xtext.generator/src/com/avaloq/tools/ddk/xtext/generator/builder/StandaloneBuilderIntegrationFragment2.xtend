@@ -80,7 +80,7 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
         );
 
         public Injector doSetup(Module overrideModule, Module... additionalModules) {
-          return new «grammar.simpleName»StandaloneBuildSetupGenerated(overrideModule, additionalModules).createInjectorAndDoEMFRegistration();
+          return new «grammar.simpleName»StandaloneBuildSetupGenerated(SETUP_LOCK, overrideModule, additionalModules).createInjectorAndDoEMFRegistration();
         }
 
         @Override
@@ -114,8 +114,16 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
 
         private final Module overrideModule;
         private final Module[] additionalModules;
+        private final Object lock;
+
+        public «standaloneBuildSetupGeneratedClass.simpleName»(final Object lock, final Module overrideModule, Module... additionalModules) {
+          this.lock = lock;
+          this.overrideModule = overrideModule;
+          this.additionalModules = additionalModules;
+        }
 
         public «standaloneBuildSetupGeneratedClass.simpleName»(final Module overrideModule, Module... additionalModules) {
+          this.lock = null;
           this.overrideModule = overrideModule;
           this.additionalModules = additionalModules;
         }
@@ -124,7 +132,13 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
         public Injector createInjectorAndDoEMFRegistration() {
           registerEPackages();
           Injector injector = createInjector();
-          register(injector);
+          if (lock != null) {
+            synchronized (lock)  {
+              register(injector);
+            }
+          } else {
+            register(injector);
+          }
           return injector;
         }
 
