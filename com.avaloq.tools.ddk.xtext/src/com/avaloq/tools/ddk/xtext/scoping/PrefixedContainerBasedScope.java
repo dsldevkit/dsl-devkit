@@ -18,11 +18,11 @@ import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 
+import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 
 
 /**
@@ -39,7 +39,7 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
 
   private final Collection<INameFunction> nameFunctions;
 
-  private final Map<QualifiedName, IEObjectDescription> contentByNameCache = Maps.newHashMap();
+  private final Map<QualifiedName, IEObjectDescription> contentByNameCache = CacheManager.getInstance().createMapCache("PrefixedContainerBasedScope#contentByNameCache"); //$NON-NLS-1$
 
   private final QualifiedName prefix;
 

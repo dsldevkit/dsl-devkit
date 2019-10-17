@@ -24,9 +24,9 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 
+import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.resource.Messages;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 
@@ -57,12 +57,12 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
   /**
    * Cache to avoid repeated lookups.
    */
-  private final Map<QualifiedName, IEObjectDescription> nameCache = Maps.newHashMap();
+  private final Map<QualifiedName, IEObjectDescription> nameCache = CacheManager.getInstance().createMapCache("AbstractRecursiveScope#nameCache"); //$NON-NLS-1$
 
   /**
    * Inverse cache.
    */
-  private final Map<URI, IEObjectDescription> objectCache = Maps.newHashMap();
+  private final Map<URI, IEObjectDescription> objectCache = CacheManager.getInstance().createMapCache("AbstractRecursiveScope#objectCache"); //$NON-NLS-1$
 
   /** Cached contents. */
   private Iterable<IEObjectDescription> contents;
@@ -79,7 +79,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
 
   /**
    * Create a case sensitive scope with a given id.
-   * 
+   *
    * @param id
    *          The id.
    * @param parent
@@ -91,7 +91,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
 
   /**
    * Create a scope with specified case sensitivity and id.
-   * 
+   *
    * @param id
    *          The id.
    * @param parent
@@ -220,7 +220,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
 
   /**
    * For debugging.
-   * 
+   *
    * @return A string representation of the scope useful for debugging.
    */
   @SuppressWarnings("nls")
