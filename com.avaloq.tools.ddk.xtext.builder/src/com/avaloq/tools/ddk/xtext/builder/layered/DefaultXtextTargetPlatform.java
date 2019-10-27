@@ -12,16 +12,17 @@ package com.avaloq.tools.ddk.xtext.builder.layered;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.xtext.builder.builderState.PersistedStateProvider;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
+import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
 import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
 
@@ -73,12 +74,17 @@ public class DefaultXtextTargetPlatform implements IXtextTargetPlatform {
   /** {@inheritDoc} */
   @Override
   public Map<String, String> getMetadata(final Collection<String> keys, final IProgressMonitor monitor) {
-    return ImmutableMap.of();
+    return Collections.emptyMap();
   }
 
   /** {@inheritDoc} */
   @Override
   public void setMetadata(final Map<String, String> options) {
     // nothing to do
+  }
+
+  @Override
+  public IBinaryModelStore getBinaryModelStore() {
+    return null;
   }
 }

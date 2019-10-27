@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
 import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 
@@ -53,6 +54,11 @@ public class NullXtextTargetPlatform implements IXtextTargetPlatform {
     return null;
   }
 
+  @Override
+  public IBinaryModelStore getBinaryModelStore() {
+    return null;
+  }
+
   /** {@inheritDoc} */
   @Override
   public Map<String, String> getMetadata(final Collection<String> keys, final IProgressMonitor monitor) {
@@ -64,4 +70,5 @@ public class NullXtextTargetPlatform implements IXtextTargetPlatform {
   public void setMetadata(final Map<String, String> options) {
     // Nothing to do.
   }
+
 }

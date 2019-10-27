@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -38,6 +40,8 @@ import org.eclipse.xtext.builder.clustering.CurrentDescriptions;
 import org.eclipse.xtext.builder.impl.BuildData;
 import org.eclipse.xtext.builder.resourceloader.IResourceLoader;
 import org.eclipse.xtext.builder.resourceloader.IResourceLoader.LoadOperationException;
+import org.eclipse.xtext.generator.IFileSystemAccess;
+import org.eclipse.xtext.generator.IFileSystemAccessExtension3;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -49,6 +53,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionDelta;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionChangeEvent;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
+import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.service.OperationCanceledManager;
 import org.eclipse.xtext.util.CancelIndicator;
@@ -79,6 +84,7 @@ import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionMan
 import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionDelta;
 import com.avaloq.tools.ddk.xtext.resource.extensions.ForwardingResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
+import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade;
 import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
 import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
@@ -161,6 +167,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   @Inject
   private IResourceServiceProvider.Registry resourceServiceProviderRegistry;
+
+  @Inject(optional = true)
+  private IFileSystemAccess fileSystemAccess;
+
+  private final ForkJoinPool binaryStorageExecutor = new ForkJoinPool(4);
 
   /**
    * Handle to the ResourceDescriptionsData we use viewed as a IResourceDescriptions2 (with findReferences()). Parent class does not provide direct access to
@@ -413,6 +424,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     final Map<URI, DerivedObjectAssociations> oldDerivedObjectAssociations = saveOldDerivedObjectAssociations(buildData);
 
     buildData.getSourceLevelURICache().cacheAsSourceURIs(toBeDeleted);
+    deleteBinaryResources(toBeDeleted);
     installSourceLevelURIs(buildData);
 
     // Step 3: Create a queue; write new temporary resource descriptions for the added or updated resources
@@ -611,6 +623,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (resource instanceof XtextResource) {
             ((XtextResource) resource).getCache().clear(resource);
           }
+          storeBinaryResource(resource, buildData);
           traceSet.ended(ResourceProcessingEvent.class);
           buildData.getSourceLevelURICache().getSources().remove(changedURI);
           subProgress.worked(1);
@@ -643,6 +656,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       }
       traceSet.ended(BuildLinkingEvent.class);
       watchdog.interrupt();
+      awaitBinaryStorageExecutorQuiescence();
     }
     return allDeltas;
     // CHECKSTYLE:CHECK-ON NestedTryDepth
@@ -662,6 +676,70 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       return resource;
     } else {
       return r;
+    }
+  }
+
+  /**
+   * Stores the process resource as a binary if it doesn't contain syntax or linking errors.
+   *
+   * @param resource
+   *          resource to store, must not be {@code null}
+   * @param buildData
+   *          build data, must not be {@code null}
+   */
+  protected void storeBinaryResource(final Resource resource, final BuildData buildData) {
+    if (resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
+        && fileSystemAccess instanceof IFileSystemAccessExtension3) {
+      CompletableFuture.runAsync(() -> {
+        final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
+
+        try {
+          long elapsed = System.nanoTime();
+
+          IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
+          storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
+          buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+
+          elapsed = System.nanoTime() - elapsed;
+          if (elapsed > maxTaskExecutionNanos) {
+            LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
+          }
+          // CHECKSTYLE:OFF
+        } catch (Throwable ex) {
+          // CHECKSTYLE:ON
+          LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
+        }
+      }, binaryStorageExecutor);
+    }
+  }
+
+  /**
+   * Deletes the binary models for the given set of URIs.
+   *
+   * @param toBeDeleted
+   *          set of URIs, must not be {@code null}
+   */
+  protected void deleteBinaryResources(final Set<URI> toBeDeleted) {
+    if (fileSystemAccess == null) {
+      return;
+    }
+    for (URI uri : toBeDeleted) {
+      IResourceStorageFacade resourceStorageFacade = resourceServiceProviderRegistry.getResourceServiceProvider(uri).get(IResourceStorageFacade.class);
+      if (resourceStorageFacade instanceof DirectLinkingResourceStorageFacade) {
+        ((DirectLinkingResourceStorageFacade) resourceStorageFacade).deleteStorage(uri, fileSystemAccess);
+      }
+    }
+  }
+
+  /**
+   * Waits until binary models are stored.
+   */
+  protected void awaitBinaryStorageExecutorQuiescence() {
+    int activeThreadCount = binaryStorageExecutor.getActiveThreadCount();
+    long queuedTaskCount = binaryStorageExecutor.getQueuedTaskCount();
+    if (!binaryStorageExecutor.awaitQuiescence(1, TimeUnit.MINUTES)) {
+      LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with task / queue %d / %d; now have %d / %d", //$NON-NLS-1$
+          activeThreadCount, queuedTaskCount, binaryStorageExecutor.getActiveThreadCount(), binaryStorageExecutor.getQueuedTaskCount()));
     }
   }
 
@@ -840,7 +918,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The progress monitor used for user feedback
    * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
-  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) { // NOPMD NPath Complexity
+  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) { // NOPMD
+                                                                                                                                                                                                         // NPath
+                                                                                                                                                                                                         // Complexity
     ResourceSet resourceSet = buildData.getResourceSet();
     IProject currentProject = getBuiltProject(buildData);
     List<URI> toBuild = Lists.newLinkedList();
@@ -884,7 +964,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (uri == null && ex instanceof LoadOperationException) { // NOPMD
             uri = ((LoadOperationException) ex).getUri();
           }
-          LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri != null ? uri: "unknown uri"), ex); //$NON-NLS-1$
+          LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri != null ? uri : "unknown uri"), ex); //$NON-NLS-1$
           if (resource != null) {
             resourceSet.getResources().remove(resource);
           }
@@ -970,6 +1050,10 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    */
   @Override
   protected void clearResourceSet(final ResourceSet resourceSet) {
+    // this is important as otherwise the resources would unexpectedly become detached from the resource set
+    while (!binaryStorageExecutor.awaitQuiescence(1, TimeUnit.SECONDS)) {
+      LOGGER.warn("Waiting for binary resource storage tasks to complete."); //$NON-NLS-1$
+    }
     traceSet.started(BuildResourceSetClearEvent.class, resourceSet.getResources().size());
     try {
       EmfResourceSetUtil.clearResourceSetWithoutNotifications(resourceSet);
