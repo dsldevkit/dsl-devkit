@@ -55,6 +55,7 @@ import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
+import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.layered.ILayeredResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.builder.layered.IXtextBuildTrigger;
@@ -1022,7 +1023,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       super(baseDescriptions);
     }
 
-    private final Map<Pair<Set<IResourceDescription>, ReferenceMatchPolicy>, Iterable<IResourceDescription>> findAllReferencingResourcesCache = Maps.newHashMap();
+    private final Map<Pair<Set<IResourceDescription>, ReferenceMatchPolicy>, Iterable<IResourceDescription>> findAllReferencingResourcesCache = CacheManager.getInstance().createMapCache("FindReferenceCachingState#findAllReferencingResourcesCache"); //$NON-NLS-1$
 
     @Override
     public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
@@ -1035,7 +1036,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       return result;
     }
 
-    private final Map<Pair<Set<IEObjectDescription>, ReferenceMatchPolicy>, Iterable<IResourceDescription>> findExactReferencingResourcesCache = Maps.newHashMap();
+    private final Map<Pair<Set<IEObjectDescription>, ReferenceMatchPolicy>, Iterable<IResourceDescription>> findExactReferencingResourcesCache = CacheManager.getInstance().createMapCache("FindReferenceCachingState#findExactReferencingResourcesCache"); //$NON-NLS-1$
 
     @Override
     public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
