@@ -11,7 +11,6 @@
 
 package com.avaloq.tools.ddk.xtext.resource.persistence;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -35,7 +34,7 @@ public class DirectLinkingSourceLevelURIsAdapter extends AdapterImpl {
     return type == DirectLinkingSourceLevelURIsAdapter.class;
   }
 
-  public Collection<URI> getSourceLevelURIs() {
+  public Set<URI> getSourceLevelURIs() {
     return sourceLevelURIs;
   }
 
@@ -59,7 +58,7 @@ public class DirectLinkingSourceLevelURIsAdapter extends AdapterImpl {
 
   /**
    * Finds an installed {@link DirectLinkingSourceLevelURIsAdapter} adapter for a given resource set.
-   * 
+   *
    * @param resourceSet
    *          resource set, must not be {@code null}
    * @return installed adapter or {@code null} if none

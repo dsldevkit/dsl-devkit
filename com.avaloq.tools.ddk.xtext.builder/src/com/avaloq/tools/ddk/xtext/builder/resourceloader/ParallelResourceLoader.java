@@ -41,6 +41,7 @@ import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLoadEvent;
 import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
+import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
 import com.google.common.base.Joiner;
@@ -164,6 +165,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         protected ResourceSet initialValue() {
           ResourceSet resourceSet = getResourceSetProvider().get(project);
           BuildPhases.setIndexing(resourceSet, BuildPhases.isIndexing(parent));
+          DirectLinkingSourceLevelURIsAdapter.setSourceLevelUris(resourceSet, DirectLinkingSourceLevelURIsAdapter.findInstalledAdapter(parent).getSourceLevelURIs());
           resourceSet.getLoadOptions().putAll(parent.getLoadOptions());
           // we are not loading as part of a build
           resourceSet.getLoadOptions().remove(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE);
