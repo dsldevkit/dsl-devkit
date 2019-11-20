@@ -62,6 +62,8 @@ public abstract class AbstractTest {
 
   private static final String HIGH_LATENCY_PROPERTY = "com.avaloq.tools.hl.supported";
 
+  private static final String LANGUAGE_VERSION_CACHING_PROPERTY = "com.avaloq.tools.LanguageConfigCaching";
+
   private static Map<Class<? extends AbstractTest>, TestInformation> testInformationMap = new HashMap<Class<? extends AbstractTest>, TestInformation>();
 
   @Rule
@@ -175,6 +177,7 @@ public abstract class AbstractTest {
   protected void beforeAllTests() {
     // check method annotations to ensure test framework policies
     System.setProperty(HIGH_LATENCY_PROPERTY, Boolean.FALSE.toString());
+    System.setProperty(LANGUAGE_VERSION_CACHING_PROPERTY, Boolean.FALSE.toString());
     enforceAnnotationPolicies();
     getTestProjectManager().setup(ImmutableList.<TestSource> of());
     registerRequiredSources();
@@ -188,6 +191,7 @@ public abstract class AbstractTest {
    */
   protected void afterAllTests() {
     getTestProjectManager().teardown();
+    System.clearProperty(LANGUAGE_VERSION_CACHING_PROPERTY);
     System.setProperty(HIGH_LATENCY_PROPERTY, Boolean.TRUE.toString());
   }
 
