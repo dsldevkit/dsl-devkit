@@ -42,6 +42,20 @@ public class AliasingEObjectDescription extends AbstractEObjectDescription {
     this.alias = name;
   }
 
+  /**
+   * @return the original name, this element can be accessed by.
+   */
+  public QualifiedName getOriginalName() {
+    return delegate.getName();
+  }
+
+  /**
+   * @return the original qualified name of the element.
+   */
+  public QualifiedName getOriginalQualifiedName() {
+    return delegate.getQualifiedName();
+  }
+
   /** {@inheritDoc} */
   @Override
   public QualifiedName getName() {

@@ -28,6 +28,7 @@ import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.scoping.IScope;
 
 import com.avaloq.tools.ddk.xtext.linking.ImportedNamesTypesAdapter.WrappingTypedScope;
+import com.avaloq.tools.ddk.xtext.scoping.AliasingEObjectDescription;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -60,77 +61,127 @@ public class LinkingService extends DefaultLinkingService {
   @Inject
   private Provider<ImportedNamesTypesAdapter> importedNamesAdapterProvider;
 
+  private void registerNamedType(final EObject context, final QualifiedName name, final EClass type) {
+    ImportedNamesTypesAdapter adapter = getImportedNamesAdapter(context);
+    adapter.getImportedNames().add(name);
+    if (adapter.getImportedNamesTypes().containsKey(name)) {
+      adapter.getImportedNamesTypes().get(name).add(type);
+    } else {
+      adapter.getImportedNamesTypes().put(name, Sets.newHashSet(type));
+    }
+  }
+
   /**
    * Register a name as imported.
    *
    * @param context
-   *          context object within which a reference is being set to some object using "name" for the lookup, must not be {@code null}
-   * @param name
-   *          the lookup name, may be {@code null}
+   *          context object within which a reference is being set to some object, must not be {@code null}
+   * @param target
+   *          the associated target eObject. Its exported name is recorded as imported, must not be {@code null}
    * @param type
    *          the lookup type, may be {@code null}
-   * @param target
-   *          the associated target eObject. If not {@code null} then all names for this eObject are also recorded
-   *          as imported, provided they're not the same as the {@code name} parameter. May be {@code null}
    */
-  public void importObject(final EObject context, final String name, final EObject target, final EClass type) {
-    // import exported name for resolved references
-    ImportedNamesTypesAdapter adapter = getImportedNamesAdapter(context);
-    if (target != null) {
-      QualifiedName targetName = null;
-      final IResourceDescriptions resourceDescriptions = provider.getResourceDescriptions(context.eResource());
-      Iterator<IEObjectDescription> exports = resourceDescriptions.getExportedObjectsByObject(target).iterator();
-      if (exports.hasNext()) {
-        targetName = exports.next().getName();
-        if (targetName != null && !targetName.isEmpty()) {
-          final QualifiedName lowerCaseName = targetName.toLowerCase();// NOPMD targetName not a String!
-          adapter.getImportedNames().add(lowerCaseName);
-          if (adapter.getImportedNamesTypes().containsKey(lowerCaseName)) {
-            adapter.getImportedNamesTypes().get(lowerCaseName).add(type);
-          } else {
-            adapter.getImportedNamesTypes().put(lowerCaseName, Sets.newHashSet(type));
-          }
-
-        }
-      }
-    } else if (name != null && name.length() > 0) { // import parsed string for unresolved references
-      QualifiedName unresolvedName = crossRefHelper.toUnresolvedReferenceName(name);
-      adapter.getImportedNames().add(unresolvedName);
-      if (adapter.getImportedNamesTypes().containsKey(unresolvedName)) {
-        adapter.getImportedNamesTypes().get(unresolvedName).add(type);
-      } else {
-        adapter.getImportedNamesTypes().put(unresolvedName, Sets.newHashSet(type));
+  public void importObject(final EObject context, final EObject target, final EClass type) {
+    final IResourceDescriptions resourceDescriptions = provider.getResourceDescriptions(context.eResource());
+    Iterator<IEObjectDescription> exports = resourceDescriptions.getExportedObjectsByObject(target).iterator();
+    if (exports.hasNext()) {
+      QualifiedName targetName = exports.next().getName();
+      if (targetName != null && !targetName.isEmpty()) {
+        registerNamedType(context, targetName.toLowerCase(), type); // NOPMD targetName not a String!
       }
     }
   }
 
   /**
+   * Register a name as imported.
+   *
+   * @param context
+   *          context object within which a reference is being set to some object, must not be {@code null}
+   * @param desc
+   *          the associated description. Its name is recorded as imported, must not be {@code null}
+   * @param type
+   *          the lookup type, may be {@code null}
+   */
+  public void importObject(final EObject context, final IEObjectDescription desc, final EClass type) {
+    QualifiedName targetName;
+    if (desc instanceof AliasingEObjectDescription) {
+      targetName = ((AliasingEObjectDescription) desc).getOriginalName();
+    } else {
+      targetName = desc.getName();
+    }
+    if (targetName != null && !targetName.isEmpty()) {
+      registerNamedType(context, targetName.toLowerCase(), type); // NOPMD targetName not a String!
+    }
+  }
+
+  /**
+   * Register a typed unresolved reference.
+   *
+   * @param context
+   *          context object within which a reference is being set to unresolved, must not be {@code null}
+   * @param name
+   *          the lookup name, may be {@code null}
+   * @param type
+   *          the lookup type, may be {@code null}
+   */
+  public void registerUnresolvedReference(final EObject context, final String name, final EClass type) {
+    registerNamedType(context, crossRefHelper.toUnresolvedReferenceName(name), type);
+  }
+
+  /**
    * Check whether a name import should be added for the given cross-reference.
    * <p>
-   * This default implementation will return {@code true} in either of the following cases:
-   * <ul>
-   * <li>the target is {@code null} and the reference is <em>not</em> {@link ICrossReferenceHelper#isOptionalReference(EObject, EReference, INode) optional}
-   * </li>
-   * <li>the reference is <em>not</em> {@code null} and should be {@link ICrossReferenceHelper#exportReference(EObject, EReference, EObject) exported}</li>
-   * </ul>
+   * This default implementation will return {@code true} if the reference should be {@link ICrossReferenceHelper#exportReference(EObject, EReference, EObject)}
+   * exported
    *
    * @param context
    *          The context of the reference
    * @param ref
    *          The meta model cross-reference
    * @param target
-   *          The target object of the reference; may also be {@code null}
-   * @param node
-   *          The parse tree node corresponding to the cross-reference
-   * @return {@code true} if the object is imported or unresolved
+   *          The target object of the reference; may be {@code null}
+   * @return {@code true} if the object is imported
    */
-  protected boolean isImportRequired(final EObject context, final EReference ref, final EObject target, final INode node) {
-    // TODO never import names for optional references? whether they resolve or not?
-    return (target == null && !crossRefHelper.isOptionalReference(context, ref, node))
-        || (target != null && crossRefHelper.exportReference(context, ref, target));
+  protected boolean isImportRequired(final EObject context, final EReference ref, final EObject target) {
+    return crossRefHelper.exportReference(context, ref, target);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Check whether the name of the unresolved reference should be registered.
+   * <p>
+   * This default implementation will return {@code true} if the reference is <em>not</em>
+   * {@link ICrossReferenceHelper#isOptionalReference(EObject, EReference, INode)} optional
+   *
+   * @param context
+   *          The context of the reference
+   * @param ref
+   *          The meta model cross-reference
+   * @param node
+   *          The parse tree node corresponding to the cross-reference
+   * @return {@code true} if the unresolved references should be registered
+   */
+  protected boolean doRegisterUnresolvedReference(final EObject context, final EReference ref, final INode node) {
+    return !crossRefHelper.isOptionalReference(context, ref, node);
+  }
+
+  /**
+   * Gets the actual element or a proxy.
+   * <p>
+   * This default implementation will return just the {@code the actual element or a proxy} of the given candidate,
+   * languages with more complex logic (e.g. overloading) can override this method.
+   *
+   * @param context
+   *          The context of the reference
+   * @param desc
+   *          The descriptor, never {@code null}
+   * @param ref
+   *          The meta model cross-reference, never {@code null}
+   * @return the actual element or a proxy
+   */
+  protected EObject getEObjectOrProxy(final EObject context, final IEObjectDescription desc, final EReference ref) {
+    return desc.getEObjectOrProxy();
+  }
+
   @Override
   public List<EObject> getLinkedObjects(final EObject context, final EReference ref, final INode node) {
     final EClass requiredType = ref.getEReferenceType();
@@ -138,22 +189,33 @@ public class LinkingService extends DefaultLinkingService {
       return Collections.emptyList();
     }
 
-    final String s = getCrossRefNodeAsString(node);
-    if (s != null && s.length() > 0) {
-      QualifiedName qualifiedLinkName = qualifiedNameConverter.toQualifiedName(s);
-      final EObject target = getSingleElement(context, ref, qualifiedLinkName);
-      if (isImportRequired(context, ref, target, node)) {
-        importObject(context, s, target, requiredType);
-      }
+    final String linkName = getCrossRefNodeAsString(node);
+    if (linkName != null && !linkName.isEmpty()) {
+      final QualifiedName qualifiedLinkName = qualifiedNameConverter.toQualifiedName(linkName);
+      final IEObjectDescription desc = getSingleElement(context, ref, qualifiedLinkName);
+      final EObject target = desc == null ? null : getEObjectOrProxy(context, desc, ref);
+
       if (target != null) {
+        if (isImportRequired(context, ref, target)) {
+          if (target.eIsProxy()) {
+            importObject(context, desc, ref.getEReferenceType());
+          } else {
+            importObject(context, target, ref.getEReferenceType());
+          }
+        }
         return Collections.singletonList(target);
+      }
+
+      if (doRegisterUnresolvedReference(context, ref, node)) {
+        registerUnresolvedReference(context, linkName, requiredType);
       }
     }
     return Collections.emptyList();
+
   }
 
   /**
-   * Gets an {@link EObject} that best matches a given context, reference, and qualified name.
+   * Gets an {@link IEObjectDescription} that best matches a given context, reference, and qualified name.
    * <p>
    * The concept of a "best match" is "in the eye of the beholder", that is, the context and reference. The default case is the first element returned from the
    * scope for the given context and reference that matches the given qualified name.
@@ -165,10 +227,10 @@ public class LinkingService extends DefaultLinkingService {
    *          the reference for which the result element should be suitable, must not be {@code null}
    * @param qualifiedLinkName
    *          the name that the result element should match, must not be {@code null}
-   * @return an eObject that best matches {@code qualifiedLinkName} in {@code scope} given the {@code context} and {@code reference},
+   * @return an IEObjectDescription that best matches {@code qualifiedLinkName} in {@code scope} given the {@code context} and {@code reference},
    *         may by {@code null}
    */
-  protected EObject getSingleElement(final EObject context, final EReference reference, final QualifiedName qualifiedLinkName) {
+  protected IEObjectDescription getSingleElement(final EObject context, final EReference reference, final QualifiedName qualifiedLinkName) {
     IEObjectDescription desc = null;
     IScope scope = getScope(context, reference);
     if (scope instanceof WrappingTypedScope) {
@@ -176,12 +238,9 @@ public class LinkingService extends DefaultLinkingService {
     } else {
       desc = scope.getSingleElement(qualifiedLinkName);
     }
-    return desc == null ? null : desc.getEObjectOrProxy();
+    return desc;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected ImportedNamesTypesAdapter getImportedNamesAdapter(final EObject context) {
     ImportedNamesAdapter adapter = ImportedNamesAdapter.find(context.eResource());
