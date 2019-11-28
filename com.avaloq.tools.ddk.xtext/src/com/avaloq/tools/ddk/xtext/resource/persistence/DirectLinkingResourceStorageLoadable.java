@@ -306,13 +306,13 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
           super.loadFeatureValue(internalEObject, eStructuralFeatureData);
           // CHECKSTYLE:OFF
         } catch (Exception e) {
-          StringBuilder errorMessage = new StringBuilder(100);
+          StringBuilder infoMessage = new StringBuilder(100);
           // CHECKSTYLE:ON
-          errorMessage.append("Failed to load feature's value. Owner: ").append(internalEObject.eClass()); //$NON-NLS-1$
+          infoMessage.append("Failed to load feature's value. Owner: ").append(internalEObject.eClass()); //$NON-NLS-1$
           if (eStructuralFeatureData.eStructuralFeature != null) {
-            errorMessage.append(", feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
+            infoMessage.append(", feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
           }
-          LOG.error(errorMessage);
+          LOG.info(infoMessage);
           throw e;
         }
       }
