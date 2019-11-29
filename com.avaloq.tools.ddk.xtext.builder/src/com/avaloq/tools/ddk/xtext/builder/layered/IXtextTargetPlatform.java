@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
 import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.google.inject.ImplementedBy;
@@ -108,6 +109,13 @@ public interface IXtextTargetPlatform {
    * @return the association store, or {@code null} if not supported
    */
   IDerivedObjectAssociationsStore getAssociationsStore();
+
+  /**
+   * Returns the store of binary resources.
+   *
+   * @return the platform's store, can be {@code null} if not supported
+   */
+  IBinaryModelStore getBinaryModelStore();
 
   /**
    * Platforms are supposed to be closed when no longer in use. At any time, there must be only one open platform.
