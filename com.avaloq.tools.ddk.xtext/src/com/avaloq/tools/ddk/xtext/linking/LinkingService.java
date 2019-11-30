@@ -17,9 +17,11 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.linking.impl.DefaultLinkingService;
 import org.eclipse.xtext.linking.impl.ImportedNamesAdapter;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -82,13 +84,22 @@ public class LinkingService extends DefaultLinkingService {
    *          the lookup type, may be {@code null}
    */
   public void importObject(final EObject context, final EObject target, final EClass type) {
-    final IResourceDescriptions resourceDescriptions = provider.getResourceDescriptions(context.eResource());
-    Iterator<IEObjectDescription> exports = resourceDescriptions.getExportedObjectsByObject(target).iterator();
-    if (exports.hasNext()) {
-      QualifiedName targetName = exports.next().getName();
-      if (targetName != null && !targetName.isEmpty()) {
-        registerNamedType(context, targetName.toLowerCase(), type); // NOPMD targetName not a String!
+    Resource eResource = target.eResource();
+    QualifiedName targetName = null;
+    if (eResource instanceof LazyLinkingResource2) {
+      IQualifiedNameProvider nameProvider = ((LazyLinkingResource2) eResource).getService(IQualifiedNameProvider.class);
+      if (nameProvider != null) {
+        targetName = nameProvider.getFullyQualifiedName(target);
       }
+    } else {
+      final IResourceDescriptions resourceDescriptions = provider.getResourceDescriptions(context.eResource());
+      Iterator<IEObjectDescription> exports = resourceDescriptions.getExportedObjectsByObject(target).iterator();
+      if (exports.hasNext()) {
+        targetName = exports.next().getName();
+      }
+    }
+    if (targetName != null && !targetName.isEmpty()) {
+      registerNamedType(context, targetName.toLowerCase(), type); // NOPMD targetName not a String!
     }
   }
 
