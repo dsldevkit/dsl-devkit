@@ -824,7 +824,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (saved == null) {
       // TODO DSL-828: this may end up using a lot of memory; we should instead consider creating old copies of the resources in the db
       IResourceDescription old = getResourceDescription(uri);
-      saved = old != null ? new FingerprintResourceDescription(old) : null;
+      saved = old != null ? createOldStateResourceDescription(old) : null;
     } else if (saved == NULL_DESCRIPTION) { // NOPMD
       saved = null; // NOPMD
     }
@@ -842,9 +842,28 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     Map<URI, IResourceDescription> cache = Maps.newHashMapWithExpectedSize(buildData.getToBeUpdated().size());
     for (URI uri : Iterables.concat(buildData.getToBeUpdated(), buildData.getToBeDeleted())) {
       // Do *not* use descriptionCopier here, we just want the EObjectDescriptions!
-      cache.computeIfAbsent(uri, u -> Optional.ofNullable(getResourceDescription(u)).<IResourceDescription> map(FingerprintResourceDescription::new).orElse(NULL_DESCRIPTION));
+      cache.computeIfAbsent(uri, u -> Optional.ofNullable(getResourceDescription(u)).<IResourceDescription> map(this::createOldStateResourceDescription).orElse(NULL_DESCRIPTION));
     }
     return cache;
+  }
+
+  /**
+   * Create a resource description's copy that represents the old state of a resource. Will be used to compute invalidations.
+   * (see 'oldDescriptions' in doUpdate(BuildData, ResourceDescriptionsData, IProgressMonitor))
+   *
+   * @param original
+   *          original resource description, must not be {@code null}
+   * @return a copy, never {@code null}
+   */
+  private IResourceDescription createOldStateResourceDescription(final IResourceDescription original) {
+    IResourceServiceProvider provider = IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(original.getURI());
+    if (provider != null && provider.getResourceDescriptionManager() instanceof AbstractCachingResourceDescriptionManager) {
+      // FingerprintResourceDescription is a lightweight implementation that contains only the information for computation of invalidated resources
+      // Should be however used only for those DSLs, which use DDK's custom resource descriptions deltas
+      // This is the case if language's IResourceDescription.Manager implementation subclasses AbstractCachingResourceDescriptionManager
+      return new FingerprintResourceDescription(original);
+    }
+    return new FixedCopiedResourceDescription(original);
   }
 
   /**
