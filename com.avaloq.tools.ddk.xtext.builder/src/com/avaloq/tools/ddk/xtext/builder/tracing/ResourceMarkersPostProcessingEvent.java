@@ -14,19 +14,19 @@ import com.avaloq.tools.ddk.xtext.tracing.ResourceEvent;
 
 
 /**
- * An event representing the post-processing of a resource during the build. This event will have a {@link ResourceLinkingEvent} as its parent.
+ * An event representing the post-processing of a resource's markers during the build. This event will have a {@link ResourceValidationEvent} as its parent.
  */
-public class ResourcePostProcessingEvent extends ResourceEvent {
+public class ResourceMarkersPostProcessingEvent extends ResourceEvent {
 
   /**
-   * Creates a new instance of {@link ResourcePostProcessingEvent}.
+   * Creates a new instance of {@link ResourceMarkersPostProcessingEvent}.
    *
    * @param trigger
    *          event trigger
    * @param data
    *          event data, where the first data object is expected to be the resource's {@link org.eclipse.emf.common.util.URI} this event pertains to
    */
-  public ResourcePostProcessingEvent(final Trigger trigger, final Object... data) {
+  public ResourceMarkersPostProcessingEvent(final Trigger trigger, final Object... data) {
     super(trigger, data);
   }
 

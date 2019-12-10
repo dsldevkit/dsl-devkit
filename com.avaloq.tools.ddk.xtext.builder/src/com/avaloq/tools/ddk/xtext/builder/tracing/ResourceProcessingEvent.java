@@ -19,7 +19,7 @@ import com.avaloq.tools.ddk.xtext.tracing.ResourceEvent;
 public class ResourceProcessingEvent extends ResourceEvent {
 
   /**
-   * Creates a new instance of {@link ResourcePostProcessingEvent}.
+   * Creates a new instance of {@link ResourceProcessingEvent}.
    *
    * @param trigger
    *          event trigger
