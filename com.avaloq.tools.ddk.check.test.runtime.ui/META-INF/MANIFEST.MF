@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.test.runtime.ui
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 4.3.0.v20191112-1346-REL
+Bundle-Version: 4.3.1.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.test.runtime.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.check.test.runtime;visibility:=reexport,
