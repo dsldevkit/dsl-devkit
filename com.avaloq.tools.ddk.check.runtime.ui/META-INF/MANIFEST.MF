@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.runtime.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.runtime.ui;singleton:=true
-Bundle-Version: 4.4.0.v20191218-0956-REL
+Bundle-Version: 5.0.0.qualifier
 Bundle-Activator: com.avaloq.tools.ddk.check.runtime.ui.internal.Activator
 Bundle-Vendor: Avaloq Evolution AG
 Require-Bundle: org.eclipse.ui,
