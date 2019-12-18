@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.avaloq.tools.ddk.feature_4.4.0.qualifier.jar" id="com.avaloq.tools.ddk.feature" version="4.4.0.qualifier">
+   <feature url="features/com.avaloq.tools.ddk.feature_4.4.0.v20191218-0956-REL.jar" id="com.avaloq.tools.ddk.feature" version="4.4.0.v20191218-0956-REL">
       <category name="com.avaloq.tools.ddk.sdk"/>
    </feature>
-   <feature url="features/com.avaloq.tools.ddk.source.feature_4.4.0.qualifier.jar" id="com.avaloq.tools.ddk.source.feature" version="4.4.0.qualifier">
+   <feature url="features/com.avaloq.tools.ddk.source.feature_4.4.0.v20191218-0956-REL.jar" id="com.avaloq.tools.ddk.source.feature" version="4.4.0.v20191218-0956-REL">
       <category name="com.avaloq.tools.ddk.sdk"/>
    </feature>
-   <feature url="features/com.avaloq.tools.ddk.runtime.feature_4.4.0.qualifier.jar" id="com.avaloq.tools.ddk.runtime.feature" version="4.4.0.qualifier">
+   <feature url="features/com.avaloq.tools.ddk.runtime.feature_4.4.0.v20191218-0956-REL.jar" id="com.avaloq.tools.ddk.runtime.feature" version="4.4.0.v20191218-0956-REL">
       <category name="com.avaloq.tools.ddk.runtime"/>
    </feature>
-   <feature url="features/com.avaloq.tools.ddk.runtime.source.feature_4.4.0.qualifier.jar" id="com.avaloq.tools.ddk.runtime.source.feature" version="4.4.0.qualifier">
+   <feature url="features/com.avaloq.tools.ddk.runtime.source.feature_4.4.0.v20191218-0956-REL.jar" id="com.avaloq.tools.ddk.runtime.source.feature" version="4.4.0.v20191218-0956-REL">
       <category name="com.avaloq.tools.ddk.runtime"/>
    </feature>
    <category-def name="com.avaloq.tools.ddk.sdk" label="DSL Developer Kit"/>
