@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.resource;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
+import com.avaloq.tools.ddk.caching.CacheConfiguration;
 import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.caching.MapCache;
 
@@ -24,7 +25,7 @@ import com.avaloq.tools.ddk.caching.MapCache;
  *          the type of the stored values
  */
 public class CacheAdapter<V> extends AdapterImpl implements IResourceSetCache<V> {
-  private final MapCache<Object, V> cache = CacheManager.getInstance().createMapCache("CacheAdapter#cache"); //$NON-NLS-1$
+  private final MapCache<Object, V> cache = CacheManager.getInstance().createMapCache("CacheAdapter#cache", new CacheConfiguration().useSoftValues()); //$NON-NLS-1$
 
   /** {@inheritDoc} */
   @Override
