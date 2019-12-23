@@ -240,7 +240,15 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         Resource resource = result.getSecond();
         if (resource == null) {
           // null when parallel loading is not supported
-          resource = parent.getResource(uri, true);
+          try {
+            resource = parent.getResource(uri, true);
+          } catch (WrappedException e) {
+            throw new LoadOperationException(uri, e.exception());
+            // CHECKSTYLE:OFF
+          } catch (Exception e) {
+            // CHECKSTYLE:ON
+            throw new LoadOperationException(uri, e);
+          }
         }
         return new LoadResult(resource, uri);
       } finally {
