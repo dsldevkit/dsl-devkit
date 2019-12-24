@@ -168,7 +168,7 @@ public class RebuildingXtextBuilder extends XtextBuilder {
 
       ResourceSet resourceSet = getResourceSetProvider().get(getProject());
       resourceSet.getLoadOptions().put(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE, Boolean.TRUE);
-      if (resourceSet instanceof ResourceSetImpl) {
+      if (resourceSet instanceof ResourceSetImpl && ((ResourceSetImpl) resourceSet).getURIResourceMap() == null) {
         ((ResourceSetImpl) resourceSet).setURIResourceMap(Maps.<URI, Resource> newHashMap());
       }
       BuildData buildData = new BuildData(getProject().getName(), resourceSet, toBeBuilt, queuedBuildData);
@@ -200,4 +200,3 @@ public class RebuildingXtextBuilder extends XtextBuilder {
     }
   }
 }
-
