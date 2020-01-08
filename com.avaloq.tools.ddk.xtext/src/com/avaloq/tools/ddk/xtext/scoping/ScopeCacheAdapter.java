@@ -12,10 +12,16 @@ package com.avaloq.tools.ddk.xtext.scoping;
 
 import org.eclipse.xtext.scoping.IScope;
 
+import com.avaloq.tools.ddk.caching.CacheConfiguration;
 import com.avaloq.tools.ddk.xtext.resource.CacheAdapter;
 
 
 /**
  * A cache adapter for {@link IScope}s.
  */
-public class ScopeCacheAdapter extends CacheAdapter<IScope> implements IResourceSetScopeCache {}
+public class ScopeCacheAdapter extends CacheAdapter<IScope> implements IResourceSetScopeCache {
+
+  public ScopeCacheAdapter(final CacheConfiguration configuration) {
+    super(configuration);
+  }
+}
