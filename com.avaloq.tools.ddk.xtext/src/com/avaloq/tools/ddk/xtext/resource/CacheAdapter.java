@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.util.function.Function;
+
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
@@ -25,34 +27,43 @@ import com.avaloq.tools.ddk.caching.MapCache;
  *          the type of the stored values
  */
 public class CacheAdapter<V> extends AdapterImpl implements IResourceSetCache<V> {
-  private final MapCache<Object, V> cache = CacheManager.getInstance().createMapCache("CacheAdapter#cache", new CacheConfiguration().useSoftValues()); //$NON-NLS-1$
+  private final MapCache<Object, V> cache;
 
-  /** {@inheritDoc} */
+  public CacheAdapter(final CacheConfiguration configuration) {
+    cache = CacheManager.getInstance().createMapCache("CacheAdapter#cache", configuration); //$NON-NLS-1$ ;
+  }
+
   @Override
   public V get(final Object key) {
     return cache.get(key);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void put(final Object key, final V scope) {
     cache.put(key, scope);
   }
 
-  /** {@inheritDoc} */
+  @Override
+  public V putIfAbsent(final Object key, final V scope) {
+    return cache.putIfAbsent(key, scope);
+  }
+
+  @Override
+  public V computeIfAbsent(final Object key, final Function<? super Object, ? extends V> mappingFunction) {
+    return cache.computeIfAbsent(key, mappingFunction);
+  }
+
   @Override
   public void clear() {
     cache.clear();
   }
 
-  /** {@inheritDoc} */
   @Override
   public void setTarget(final Notifier newTarget) {
     clear();
     super.setTarget(newTarget);
   }
 
-  /** {@inheritDoc} */
   @Override
   public boolean isAdapterForType(final Object type) {
     if (type instanceof Class<?>) {
