@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +27,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.diagnostics.Severity;
-import org.eclipse.xtext.util.SimpleCache;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.CheckType;
@@ -38,7 +36,8 @@ import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent.Collector;
-import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
@@ -57,6 +56,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
 
   private volatile Set<MethodWrapper> checkMethods; // NOPMD: may be modified by different threads; thread safety guaranteed by double-checked locking
 
+  private final Map<Class<?>, List<MethodWrapper>> methodsForType = Maps.newHashMap();
   private final ThreadLocal<State> state;
   private final ValidationMessageAcceptor messageAcceptor;
 
@@ -112,10 +112,25 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
    *          the context
    * @return true, if successful
    */
+  @SuppressWarnings("PMD.NPathComplexity")
   protected final boolean internalValidate(final EClass class1, final EObject object, final DiagnosticChain diagnostics, final Map<Object, Object> context) {
     initCheckMethodCache();
-    CheckMode checkMode = CheckMode.getCheckMode(context);
 
+    List<MethodWrapper> methods = methodsForType.computeIfAbsent(object.getClass(), clazz -> {
+      List<MethodWrapper> result = Lists.newArrayList();
+      for (MethodWrapper mw : checkMethods) {
+        if (mw.isMatching(clazz)) {
+          result.add(mw);
+        }
+      }
+      return result;
+    });
+
+    if (methods.isEmpty()) {
+      return true;
+    }
+
+    CheckMode checkMode = CheckMode.getCheckMode(context);
     State internalState = new State();
     internalState.chain = diagnostics;
     internalState.currentObject = object;
@@ -125,9 +140,10 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
         ? ResourceValidationRuleSummaryEvent.Collector.extractFromLoadOptions(object.eResource().getResourceSet())
         : null;
 
-    Iterator<MethodWrapper> methods = methodsForType.get(object.getClass()).iterator();
-    while (methods.hasNext()) {
-      final MethodWrapper method = methods.next();
+    List<MethodWrapper> erroneousMethods = null;
+
+    for (int i = 0; i < methods.size(); i++) {
+      MethodWrapper method = methods.get(i);
       // FIXME the method name is actually not the real issue code
       String ruleName = collector != null ? method.instance.getClass().getSimpleName() + '.' + method.method.getName() : null;
       try {
@@ -140,10 +156,17 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
       } catch (Exception e) {
         // CHECKSTYLE:ON
         logCheckMethodFailure(method, internalState, e);
-        methods.remove();
+        if (erroneousMethods == null) {
+          erroneousMethods = Lists.newArrayList();
+        }
+        erroneousMethods.add(method);
       } finally {
         traceEnd(ruleName, object, collector);
       }
+    }
+
+    if (erroneousMethods != null) {
+      methodsForType.get(object.getClass()).removeAll(erroneousMethods);
     }
 
     return !internalState.hasErrors;
@@ -201,19 +224,6 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
       collector.ruleEnded(rule, object);
     }
   }
-
-  private final SimpleCache<Class<?>, List<MethodWrapper>> methodsForType = new SimpleCache<Class<?>, List<MethodWrapper>>(new Function<Class<?>, List<MethodWrapper>>() {
-    @Override
-    public List<MethodWrapper> apply(final Class<?> param) {
-      List<MethodWrapper> result = new ArrayList<MethodWrapper>();
-      for (MethodWrapper mw : checkMethods) {
-        if (mw.isMatching(param)) {
-          result.add(mw);
-        }
-      }
-      return result;
-    }
-  });
 
   /**
    * The Class MethodWrapper.
