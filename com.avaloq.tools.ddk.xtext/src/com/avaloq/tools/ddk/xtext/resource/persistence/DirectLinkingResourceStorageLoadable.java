@@ -97,6 +97,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     } catch (IOException | RuntimeException e) {
       // CHECKSTYLE:ON
       LOG.info("Error loading " + resource.getURI() + " from binary storage", e); //$NON-NLS-1$ //$NON-NLS-2$
+      resource.getContents();
+      resource.eAdapters();
       if (e instanceof IOException) { // NOPMD
         throw e;
       }
