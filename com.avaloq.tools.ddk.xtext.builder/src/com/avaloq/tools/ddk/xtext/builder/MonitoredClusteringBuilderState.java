@@ -1376,6 +1376,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       // TODO: check!
       setDerivedObjectAssociationsStore(null);
       setResourceDescriptionsData(new NullResourceDescriptionsData());
+      isBinaryModelStorageAvailable = false;
       return;
     }
     // Deltas?
@@ -1390,6 +1391,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       }
       setDerivedObjectAssociationsStore(newPlatform.getAssociationsStore());
       setResourceDescriptionsData(data);
+      isBinaryModelStorageAvailable = newPlatform.getBinaryModelStore() != null;
       ResourceDescriptionChangeEvent event = new ResourceDescriptionChangeEvent(deltas);
       notifyListeners(event);
     }
