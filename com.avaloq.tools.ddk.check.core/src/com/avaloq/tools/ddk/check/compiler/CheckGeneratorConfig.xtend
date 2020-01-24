@@ -22,6 +22,6 @@ class CheckGeneratorConfig extends GeneratorConfig {
   boolean generateLanguageInternalChecks = false
 
   def doGenerateDocumentationForAllChecks() {
-    return System.getProperty(GENERATE_DOCUMENTATION_PROPERTY).equalsIgnoreCase("true");
+    return Boolean.parseBoolean(GENERATE_DOCUMENTATION_PROPERTY);
   }
 }
