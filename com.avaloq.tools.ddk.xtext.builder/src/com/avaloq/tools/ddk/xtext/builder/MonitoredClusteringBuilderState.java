@@ -209,6 +209,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   private final IXtextTargetPlatformManager targetPlatformManager;
 
   /**
+   * During startup (and maybe in other cases) it is possible for us to be given a default platform which has no binary storage.
+   */
+  private boolean isBinaryModelStorageAvailable;
+
+  /**
    * Creates a new instance of {@link MonitoredClusteringBuilderState}.
    *
    * @param manager
@@ -233,6 +238,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       IXtextTargetPlatform platform = targetPlatformManager.getPlatform();
       setDerivedObjectAssociationsStore(platform.getAssociationsStore());
       setResourceDescriptionsData((ResourceDescriptionsData) platform.getIResourceDescriptionsData());
+      isBinaryModelStorageAvailable = platform.getBinaryModelStore() != null;
       isLoaded = true;
     }
   }
@@ -689,7 +695,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          build data, must not be {@code null}
    */
   protected void storeBinaryResource(final Resource resource, final BuildData buildData) {
-    if (resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
+    if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
       CompletableFuture.runAsync(() -> {
         final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
@@ -721,7 +727,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          set of URIs, must not be {@code null}
    */
   protected void deleteBinaryResources(final Set<URI> toBeDeleted) {
-    if (fileSystemAccess == null) {
+    if (!isBinaryModelStorageAvailable || fileSystemAccess == null) {
       return;
     }
     for (URI uri : toBeDeleted) {
