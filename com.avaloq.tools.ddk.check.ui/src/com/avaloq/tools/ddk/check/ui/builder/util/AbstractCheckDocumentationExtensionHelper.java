@@ -39,7 +39,7 @@ public abstract class AbstractCheckDocumentationExtensionHelper extends Abstract
     if (!super.isExtensionEnabled(base, catalog, type, extensionId)) {
       return false;
     }
-    // Do not generate plugin.xml extensions for docu in a non SCA-plguin
+    // Do not generate plugin.xml extensions for docu in a non SCA-plugin
     CheckGeneratorConfig config = generatorConfigProvider.get(catalog.eResource().getURI());
     return !config.isGenerateLanguageInternalChecks();
   }

@@ -14,12 +14,14 @@ package com.avaloq.tools.ddk.check.compiler
 import org.eclipse.xtext.xbase.compiler.GeneratorConfig
 import org.eclipse.xtend.lib.annotations.Accessors
 
-@Accessors
 class CheckGeneratorConfig extends GeneratorConfig {
 
-	/**
-	 * Whether generators should produce code for DSL-internal checks.
-	 */
-	boolean generateLanguageInternalChecks = false
+  val String GENERATE_DOCUMENTATION_PROPERTY = "com.avaloq.tools.ddk.check.GenerateDocumentationForAllChecks"
 
+  @Accessors
+  boolean generateLanguageInternalChecks = false
+
+  def doGenerateDocumentationForAllChecks() {
+    return System.getProperty(GENERATE_DOCUMENTATION_PROPERTY).equalsIgnoreCase("true");
+  }
 }
