@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.xtext.resource.IResourceDescriptions;
 
 import com.google.common.collect.Lists;
 import com.google.inject.ImplementedBy;
@@ -39,20 +38,12 @@ public interface IBuildSorter {
    * might want to sort all type A resources before all type B resources. Moreover, the uris can be further grouped into several separate groups, for example to
    * allow for strict dependence/ordering between them (e.g. all sources of type are processed before sources of type B).
    * </p>
-   * <p>
-   * The sort operation might also want to use information available from the old build state to determine a sensible order.
-   * </p>
-   * <p>
-   * This operation is called once during the build.
-   * </p>
    *
    * @param uris
    *          URIs of all physically changed or new resources to be considered in the build
-   * @param oldState
-   *          The old builder state
    * @return A list of sorted lists of URIs, containing all the URIs from the input and no additional URIs.
    */
-  List<List<URI>> sort(Collection<URI> uris, IResourceDescriptions oldState);
+  List<List<URI>> sort(Collection<URI> uris);
 
   /**
    * A null implementation of a build sorter.
@@ -61,7 +52,7 @@ public interface IBuildSorter {
 
     /** {@inheritDoc} */
     @Override
-    public List<List<URI>> sort(final Collection<URI> uris, final IResourceDescriptions oldState) {
+    public List<List<URI>> sort(final Collection<URI> uris) {
       List<List<URI>> sortedCopy = Lists.newLinkedList();
       sortedCopy.add(Lists.newLinkedList(uris));// Make a copy
       return sortedCopy;
