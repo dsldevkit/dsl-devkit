@@ -1034,7 +1034,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   /** {@inheritDoc} */
   protected void writeNewResourceDescriptions(final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final ResourceDescriptionsData newData, final IProgressMonitor monitor) {
-    final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated(), oldState);
+    final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated());
     final List<URI> toBuild = Lists.newLinkedList();
     ResourceSet resourceSet = buildData.getResourceSet();
     BuildPhases.setIndexing(resourceSet, true);
@@ -1061,7 +1061,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       // Clear the flags
       BuildPhases.setIndexing(resourceSet, false);
       resourceSet.getLoadOptions().remove(ILazyLinkingResource2.MARK_UNRESOLVABLE_XREFS);
-      phaseTwoBuildSorter.sort(toBuild, oldState).stream().flatMap(List::stream).forEach(buildData::queueURI);
+      phaseTwoBuildSorter.sort(toBuild).stream().flatMap(List::stream).forEach(buildData::queueURI);
       traceSet.ended(BuildIndexingEvent.class);
     }
 
