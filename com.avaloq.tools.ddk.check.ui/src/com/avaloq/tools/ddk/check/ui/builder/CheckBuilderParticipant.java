@@ -83,7 +83,7 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
       }
       CheckGeneratorConfig config = generatorConfigProvider.get(delta.getUri());
       // Generate docu-related files for SCA checks only
-      if (!config.isGenerateLanguageInternalChecks()) {
+      if (config.doGenerateDocumentationForAllChecks() || !config.isGenerateLanguageInternalChecks()) {
         try {
           tocGenerator.updateTocModel(delta.getUri(), context);
         } catch (CoreException e) {
@@ -115,7 +115,7 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
       }
       CheckGeneratorConfig config = generatorConfigProvider.get(delta.getUri());
 
-      if (!config.isGenerateLanguageInternalChecks()) {
+      if (config.doGenerateDocumentationForAllChecks() || !config.isGenerateLanguageInternalChecks()) {
         try {
           tocGenerator.removeTopicFromTocFile(delta.getUri());
         } catch (CoreException e) {
