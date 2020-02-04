@@ -238,7 +238,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       IXtextTargetPlatform platform = targetPlatformManager.getPlatform();
       setDerivedObjectAssociationsStore(platform.getAssociationsStore());
       setResourceDescriptionsData((ResourceDescriptionsData) platform.getIResourceDescriptionsData());
-      isBinaryModelStorageAvailable = platform.getBinaryModelStore() != null;
+      updateBinaryStorageAvailability(platform);
       isLoaded = true;
     }
   }
@@ -1391,7 +1391,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       }
       setDerivedObjectAssociationsStore(newPlatform.getAssociationsStore());
       setResourceDescriptionsData(data);
-      isBinaryModelStorageAvailable = newPlatform.getBinaryModelStore() != null;
+      updateBinaryStorageAvailability(newPlatform);
       ResourceDescriptionChangeEvent event = new ResourceDescriptionChangeEvent(deltas);
       notifyListeners(event);
     }
@@ -1436,4 +1436,15 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     }
     DirectLinkingSourceLevelURIsAdapter.setSourceLevelUris(resourceSet, buildData.getSourceLevelURICache().getSources());
   }
+
+  /**
+   * Set the flag indicating if binary models can be stored based on if the storage is available in the given platform.
+   *
+   * @param platform
+   *          the platform to test, may not be {@code null}.
+   */
+  protected void updateBinaryStorageAvailability(final IXtextTargetPlatform platform) {
+    isBinaryModelStorageAvailable = platform.getBinaryModelStore() != null;
+  }
+
 }
