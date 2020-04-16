@@ -22,6 +22,7 @@
       <genOperations ecoreOperation="TypeModel.ecore#//OverrideDeclaration/isOverride"/>
     </genClasses>
     <genClasses ecoreClass="TypeModel.ecore#//NamedElement"/>
+    <genClasses image="false" ecoreClass="TypeModel.ecore#//ICaseSensitiveNamedElement"/>
     <genClasses image="false" ecoreClass="TypeModel.ecore#//INamedType"/>
     <genClasses ecoreClass="TypeModel.ecore#//NamedType"/>
     <genClasses image="false" ecoreClass="TypeModel.ecore#//IFormalParameter">

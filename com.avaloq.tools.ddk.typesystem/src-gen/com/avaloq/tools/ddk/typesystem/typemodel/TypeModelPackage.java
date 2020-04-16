@@ -150,6 +150,25 @@ public interface TypeModelPackage extends EPackage
 	int NAMED_ELEMENT_FEATURE_COUNT = INAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement <em>ICase Sensitive Named Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getICaseSensitiveNamedElement()
+	 * @generated
+	 */
+	int ICASE_SENSITIVE_NAMED_ELEMENT = 5;
+
+	/**
+	 * The number of structural features of the '<em>ICase Sensitive Named Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICASE_SENSITIVE_NAMED_ELEMENT_FEATURE_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.INamedType <em>INamed Type</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -157,7 +176,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getINamedType()
 	 * @generated
 	 */
-	int INAMED_TYPE = 5;
+	int INAMED_TYPE = 6;
 
 	/**
 	 * The number of structural features of the '<em>INamed Type</em>' class.
@@ -176,7 +195,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getNamedType()
 	 * @generated
 	 */
-	int NAMED_TYPE = 6;
+	int NAMED_TYPE = 7;
 
 	/**
 	 * The number of structural features of the '<em>Named Type</em>' class.
@@ -195,7 +214,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIFormalParameter()
 	 * @generated
 	 */
-	int IFORMAL_PARAMETER = 7;
+	int IFORMAL_PARAMETER = 8;
 
 	/**
 	 * The number of structural features of the '<em>IFormal Parameter</em>' class.
@@ -214,7 +233,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIActualParameter()
 	 * @generated
 	 */
-	int IACTUAL_PARAMETER = 8;
+	int IACTUAL_PARAMETER = 9;
 
 	/**
 	 * The number of structural features of the '<em>IActual Parameter</em>' class.
@@ -233,7 +252,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getINamedActualParameter()
 	 * @generated
 	 */
-	int INAMED_ACTUAL_PARAMETER = 9;
+	int INAMED_ACTUAL_PARAMETER = 10;
 
 	/**
 	 * The number of structural features of the '<em>INamed Actual Parameter</em>' class.
@@ -252,7 +271,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getICallable()
 	 * @generated
 	 */
-	int ICALLABLE = 16;
+	int ICALLABLE = 17;
 
 	/**
 	 * The number of structural features of the '<em>ICallable</em>' class.
@@ -271,7 +290,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getISubprogram()
 	 * @generated
 	 */
-	int ISUBPROGRAM = 10;
+	int ISUBPROGRAM = 11;
 
 	/**
 	 * The number of structural features of the '<em>ISubprogram</em>' class.
@@ -290,7 +309,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIProcedure()
 	 * @generated
 	 */
-	int IPROCEDURE = 11;
+	int IPROCEDURE = 12;
 
 	/**
 	 * The number of structural features of the '<em>IProcedure</em>' class.
@@ -309,7 +328,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIFunction()
 	 * @generated
 	 */
-	int IFUNCTION = 12;
+	int IFUNCTION = 13;
 
 	/**
 	 * The number of structural features of the '<em>IFunction</em>' class.
@@ -328,7 +347,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIFormalParameterList()
 	 * @generated
 	 */
-	int IFORMAL_PARAMETER_LIST = 13;
+	int IFORMAL_PARAMETER_LIST = 14;
 
 	/**
 	 * The number of structural features of the '<em>IFormal Parameter List</em>' class.
@@ -347,7 +366,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getNamedFormalParameter()
 	 * @generated
 	 */
-	int NAMED_FORMAL_PARAMETER = 14;
+	int NAMED_FORMAL_PARAMETER = 15;
 
 	/**
 	 * The number of structural features of the '<em>Named Formal Parameter</em>' class.
@@ -366,7 +385,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getINamedFormalParameter()
 	 * @generated
 	 */
-	int INAMED_FORMAL_PARAMETER = 15;
+	int INAMED_FORMAL_PARAMETER = 16;
 
 	/**
 	 * The number of structural features of the '<em>INamed Formal Parameter</em>' class.
@@ -385,7 +404,7 @@ public interface TypeModelPackage extends EPackage
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getCallable()
 	 * @generated
 	 */
-	int CALLABLE = 17;
+	int CALLABLE = 18;
 
 	/**
 	 * The number of structural features of the '<em>Callable</em>' class.
@@ -446,6 +465,16 @@ public interface TypeModelPackage extends EPackage
 	 * @generated
 	 */
 	EClass getNamedElement();
+
+	/**
+	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement <em>ICase Sensitive Named Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>ICase Sensitive Named Element</em>'.
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement
+	 * @generated
+	 */
+	EClass getICaseSensitiveNamedElement();
 
 	/**
 	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.INamedType <em>INamed Type</em>}'.
@@ -650,6 +679,16 @@ public interface TypeModelPackage extends EPackage
 		 * @generated
 		 */
 		EClass NAMED_ELEMENT = eINSTANCE.getNamedElement();
+
+		/**
+		 * The meta object literal for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement <em>ICase Sensitive Named Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getICaseSensitiveNamedElement()
+		 * @generated
+		 */
+		EClass ICASE_SENSITIVE_NAMED_ELEMENT = eINSTANCE.getICaseSensitiveNamedElement();
 
 		/**
 		 * The meta object literal for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.INamedType <em>INamed Type</em>}' class.

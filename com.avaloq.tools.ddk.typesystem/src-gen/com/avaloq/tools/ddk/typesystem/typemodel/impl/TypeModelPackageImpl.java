@@ -5,6 +5,7 @@ package com.avaloq.tools.ddk.typesystem.typemodel.impl;
 import com.avaloq.tools.ddk.typesystem.typemodel.Callable;
 import com.avaloq.tools.ddk.typesystem.typemodel.IActualParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.ICallable;
+import com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement;
 import com.avaloq.tools.ddk.typesystem.typemodel.IExpression;
 import com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.IFunction;
@@ -69,6 +70,13 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * @generated
 	 */
 	private EClass namedElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iCaseSensitiveNamedElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -279,6 +287,16 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getICaseSensitiveNamedElement()
+	{
+		return iCaseSensitiveNamedElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getINamedType()
 	{
 		return iNamedTypeEClass;
@@ -444,6 +462,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 
+		iCaseSensitiveNamedElementEClass = createEClass(ICASE_SENSITIVE_NAMED_ELEMENT);
+
 		iNamedTypeEClass = createEClass(INAMED_TYPE);
 
 		namedTypeEClass = createEClass(NAMED_TYPE);
@@ -534,6 +554,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		addEOperation(overrideDeclarationEClass, ecorePackage.getEBoolean(), "isOverride", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(iCaseSensitiveNamedElementEClass, ICaseSensitiveNamedElement.class, "ICaseSensitiveNamedElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(iNamedTypeEClass, INamedType.class, "INamedType", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
