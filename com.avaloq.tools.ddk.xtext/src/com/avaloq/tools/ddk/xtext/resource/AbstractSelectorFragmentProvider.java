@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -42,7 +42,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   @Inject
   private ShortFragmentProvider shortFragmentProvider;
 
-  private final ConcurrentMap<Object, Object> eclassToCaseSensitive = Maps.newConcurrentMap();
+  private final Map<Object, Object> eClassToCaseSensitive = Maps.newHashMap();
 
   /**
    * Computes a segment of the fragment with a selector for the given object and appends it to the given {@link StringBuilder}.
@@ -125,7 +125,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   }
 
   private Boolean isCaseSensitive(final EClass eClass) {
-    return (Boolean) eclassToCaseSensitive.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
+    return (Boolean) eClassToCaseSensitive.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
   }
 
   /** {@inheritDoc} */
