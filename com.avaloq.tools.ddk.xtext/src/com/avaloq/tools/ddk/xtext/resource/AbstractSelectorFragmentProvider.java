@@ -10,12 +10,16 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.util.concurrent.ConcurrentMap;
+
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
 import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 
 
@@ -37,6 +41,8 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
 
   @Inject
   private ShortFragmentProvider shortFragmentProvider;
+
+  private final ConcurrentMap<Object, Object> eclassToCaseSensitive = Maps.newConcurrentMap();
 
   /**
    * Computes a segment of the fragment with a selector for the given object and appends it to the given {@link StringBuilder}.
@@ -118,6 +124,10 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     return appendFragmentSegmentFallback(object, builder);
   }
 
+  private Boolean isCaseSensitive(final EClass eClass) {
+    return (Boolean) eclassToCaseSensitive.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
+  }
+
   /** {@inheritDoc} */
   @Override
   @SuppressWarnings({"unchecked", "PMD.NPathComplexity"})
@@ -146,8 +156,15 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
       for (int i = 0; i < containmentListSize; i++) {
         EObject object = containmentList.get(i);
         Object value = object.eGet(object.eClass().getEStructuralFeature(selectorFeatureId));
-        if ((value == null ? matchedValue == null : value.toString().equals(matchedValue)) && index++ == matchedIndex) {
-          return object;
+        if (value == null) {
+          if (matchedValue == null && index++ == matchedIndex) {
+            return object;
+          }
+        } else {
+          if ((isCaseSensitive(object.eClass()) ? value.toString().equals(matchedValue) : value.toString().equalsIgnoreCase(matchedValue))
+              && index++ == matchedIndex) {
+            return object;
+          }
         }
       }
       return null;
