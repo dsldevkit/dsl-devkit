@@ -20,7 +20,6 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.eclipse.xtext.junit4,
  org.eclipse.xtext.ui.testing,
  org.junit,
- org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.ui.workbench;resolution:=optional,
  org.apache.log4j
