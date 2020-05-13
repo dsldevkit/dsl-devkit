@@ -56,7 +56,7 @@ public abstract class AbstractFastLinkingService extends DefaultLinkingService {
             if (parseResult != null) {
               rootElement = parseResult.getRootASTElement();
             }
-          } else if (!resource.getContents().isEmpty()) {
+          } else if (resource.getContents() != null && !resource.getContents().isEmpty()) {
             rootElement = resource.getContents().get(0);
           }
           if (rootElement instanceof Grammar) {
@@ -94,4 +94,3 @@ public abstract class AbstractFastLinkingService extends DefaultLinkingService {
   }
 
 }
-
