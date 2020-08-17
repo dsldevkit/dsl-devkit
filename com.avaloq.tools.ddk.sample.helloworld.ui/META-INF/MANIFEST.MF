@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld.ui
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 6.0.0.qualifier
+Bundle-Version: 6.0.0.v20200817-1127-REL
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
