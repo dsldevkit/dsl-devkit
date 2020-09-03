@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.format.builder;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.argThat;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,9 +24,9 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 
+import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
-import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -108,13 +108,12 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
   /**
    * A Matcher for {@link URI}.
    */
-  public static class IsUri extends ArgumentMatcher<URI> {
+  public static class IsUri implements ArgumentMatcher<URI> {
 
     /** {@inheritDoc} */
     @Override
-    public boolean matches(final Object uri) {
-      return (uri instanceof URI);
+    public boolean matches(final URI argument) {
+      return "format".equalsIgnoreCase(argument.lastSegment());
     }
   }
 }
-
