@@ -17,7 +17,7 @@ public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
   @Inject
   private ICheckConfigurationStoreService checkConfigurationStoreService;
   
-  private final static ImmutableMap<String, String> issueCodeToLabelMap = ImmutableMap.<String, String>builder()
+  private static final ImmutableMap<String, String> issueCodeToLabelMap = ImmutableMap.<String, String>builder()
       .put(ExecutionEnvironmentIssueCodes.FRANZNAME, "Greeting name length")
       .put(ExecutionEnvironmentIssueCodes.NAMELENGTH, "Greeting name length")
       .build()
