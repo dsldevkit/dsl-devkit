@@ -140,7 +140,6 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
    * the problems appears to be in Eclipse.
    */
   @Test
-  @Ignore
   @Retry(10)
   def void testBulkApplyingQuickfix() {
 
