@@ -71,7 +71,6 @@ import com.avaloq.tools.ddk.xtext.builder.tracing.BuildFlushEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.BuildIndexingEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.BuildLinkingEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.BuildResourceSetClearEvent;
-import com.avaloq.tools.ddk.xtext.builder.tracing.ClusterClosedEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceIndexingEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLinkingEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLinkingMemoryEvent;
@@ -141,10 +140,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Inject
   @Named(RESOURCELOADER_CROSS_LINKING)
   private IResourceLoader crossLinkingResourceLoader;
-
-  /** Strategy to dynamically adapt cluster sizes. */
-  @Inject
-  private IBuilderResourceLoadStrategy loadingStrategy;
 
   /** Sorter to sort the resources for phase 1. */
   @Inject
@@ -502,162 +497,151 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
       watchdog.start();
       int index = 1;
+      // CHECKSTYLE:CONSTANTS-OFF
+      subProgress.setWorkRemaining(queue.size() * 3);
+      // CHECKSTYLE:CONSTANTS-ON
+      final List<Delta> newDeltas = Lists.newArrayListWithExpectedSize(clusterSize);
+      final List<Delta> changedDeltas = Lists.newArrayListWithExpectedSize(clusterSize);
       while (!queue.isEmpty()) {
-        // CHECKSTYLE:CONSTANTS-OFF
-        subProgress.setWorkRemaining(queue.size() * 3);
-        // CHECKSTYLE:CONSTANTS-ON
-        final List<Delta> newDeltas = Lists.newArrayListWithExpectedSize(clusterSize);
-        final List<Delta> changedDeltas = Lists.newArrayListWithExpectedSize(clusterSize);
-        while (!queue.isEmpty() && loadingStrategy.mayProcessAnotherResource(resourceSet, newDeltas.size())) {
-          if (subProgress.isCanceled() || !loadOperation.hasNext()) {
-            if (!loadOperation.hasNext()) {
-              LOGGER.warn(Messages.MonitoredClusteringBuilderState_NO_MORE_RESOURCES);
-            }
-            loadOperation.cancel();
-            throw new OperationCanceledException();
+        if (subProgress.isCanceled() || !loadOperation.hasNext()) {
+          if (!loadOperation.hasNext()) {
+            LOGGER.warn(Messages.MonitoredClusteringBuilderState_NO_MORE_RESOURCES);
           }
+          loadOperation.cancel();
+          throw new OperationCanceledException();
+        }
+        // Load the resource and create a new resource description
+        URI changedURI = null;
+        Resource resource = null;
+        Delta newDelta = null;
+
+        long initialMemory = 0;
+        int initialResourceSetSize = 0;
+        long initialTime = 0;
+        if (traceSet.isEnabled(ResourceLinkingMemoryEvent.class)) {
+          initialMemory = Runtime.getRuntime().freeMemory();
+          initialResourceSetSize = resourceSet.getResources().size();
+          initialTime = System.nanoTime();
+        }
+        try {
           // Load the resource and create a new resource description
-          URI changedURI = null;
-          Resource resource = null;
-          Delta newDelta = null;
-
-          long initialMemory = 0;
-          int initialResourceSetSize = 0;
-          long initialTime = 0;
-          if (traceSet.isEnabled(ResourceLinkingMemoryEvent.class)) {
-            initialMemory = Runtime.getRuntime().freeMemory();
-            initialResourceSetSize = resourceSet.getResources().size();
-            initialTime = System.nanoTime();
-          }
-          try {
-            // Load the resource and create a new resource description
-            resource = addResource(loadOperation.next().getResource(), resourceSet);
-            changedURI = resource.getURI();
-            traceSet.started(ResourceProcessingEvent.class, changedURI);
-            queue.remove(changedURI);
-            if (toBeDeleted.contains(changedURI)) {
-              break;
-            }
-
-            watchdog.reportWorkStarted(changedURI);
-            traceSet.started(ResourceLinkingEvent.class, changedURI);
-            final IResourceDescription.Manager manager = getResourceDescriptionManager(changedURI);
-            if (manager != null) {
-              final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(index + queue.size()), URI.decode(resource.getURI().lastSegment())};
-              subProgress.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_UPDATE_DESCRIPTIONS, bindings));
-              // Resolve links here!
-              try {
-                EcoreUtil2.resolveLazyCrossReferences(resource, cancelMonitor);
-                final IResourceDescription description = manager.getResourceDescription(resource);
-                final IResourceDescription copiedDescription = descriptionCopier.copy(description);
-                newDelta = manager.createDelta(getSavedResourceDescription(oldDescriptions, changedURI), copiedDescription);
-                if (newDelta instanceof AbstractResourceDescriptionDelta) {
-                  // For languages that support extended delta, pass generated object info to builder participants using delta
-                  // All languages that manage life cycle of generated objects must support extended delta
-                  ((AbstractResourceDescriptionDelta) newDelta).addExtensionData(DerivedObjectAssociations.class, getSavedDerivedObjectAssociations(oldDerivedObjectAssociations, changedURI));
-                }
-              } catch (StackOverflowError ex) {
-                queue.remove(changedURI);
-                logStackOverflowErrorStackTrace(ex, changedURI);
-              }
-            }
-            // CHECKSTYLE:CHECK-OFF IllegalCatch - guard against ill behaved implementations
-          } catch (final Exception ex) {
-            // CHECKSTYLE:CHECK-ON IllegalCatch
-            pollForCancellation(monitor);
-            if (ex instanceof LoadOperationException) { // NOPMD
-              LoadOperationException loadException = (LoadOperationException) ex;
-              if (loadException.getCause() instanceof TimeoutException) {
-                // Load request timed out, URI of the resource is not available
-                String message = loadException.getCause().getMessage();
-                LOGGER.warn(message);
-              } else {
-                // Exception when loading resource, URI should be available
-                changedURI = ((LoadOperationException) ex).getUri();
-                LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, changedURI), ex);
-              }
-            } else {
-              LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, changedURI), ex);
-            }
-
-            if (changedURI != null) {
-              queue.remove(changedURI);
-            }
-
-            if (resource != null) {
-              resourceSet.getResources().remove(resource);
-            }
-            final IResourceDescription oldDescription = getSavedResourceDescription(oldDescriptions, changedURI);
-            if (oldDescription != null) {
-              newDelta = new DefaultResourceDescriptionDelta(oldDescription, null);
-            }
-          } finally {
-            traceSet.ended(ResourceLinkingEvent.class);
+          resource = addResource(loadOperation.next().getResource(), resourceSet);
+          changedURI = resource.getURI();
+          traceSet.started(ResourceProcessingEvent.class, changedURI);
+          queue.remove(changedURI);
+          if (toBeDeleted.contains(changedURI)) {
+            break;
           }
 
-          if (newDelta != null) {
-            allDeltas.add(newDelta);
-            if (newDelta.haveEObjectDescriptionsChanged()) {
-              changedDeltas.add(newDelta);
-            }
-            if (recordDeltaAsNew(newDelta)) {
-              newDeltas.add(newDelta);
-              // Make the new resource description known in the new index.
-              newState.register(newDelta);
-            }
+          watchdog.reportWorkStarted(changedURI);
+          traceSet.started(ResourceLinkingEvent.class, changedURI);
+          final IResourceDescription.Manager manager = getResourceDescriptionManager(changedURI);
+          if (manager != null) {
+            final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(index + queue.size()), URI.decode(resource.getURI().lastSegment())};
+            subProgress.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_UPDATE_DESCRIPTIONS, bindings));
+            // Resolve links here!
             try {
-              // Validate directly, instead of bulk validating after the cluster.
-              updateMarkers(newDelta, resourceSet, subProgress.newChild(1, SubMonitor.SUPPRESS_ALL_LABELS));
+              EcoreUtil2.resolveLazyCrossReferences(resource, cancelMonitor);
+              final IResourceDescription description = manager.getResourceDescription(resource);
+              final IResourceDescription copiedDescription = descriptionCopier.copy(description);
+              newDelta = manager.createDelta(getSavedResourceDescription(oldDescriptions, changedURI), copiedDescription);
+              if (newDelta instanceof AbstractResourceDescriptionDelta) {
+                // For languages that support extended delta, pass generated object info to builder participants using delta
+                // All languages that manage life cycle of generated objects must support extended delta
+                ((AbstractResourceDescriptionDelta) newDelta).addExtensionData(DerivedObjectAssociations.class, getSavedDerivedObjectAssociations(oldDerivedObjectAssociations, changedURI));
+              }
             } catch (StackOverflowError ex) {
               queue.remove(changedURI);
               logStackOverflowErrorStackTrace(ex, changedURI);
             }
+          }
+          // CHECKSTYLE:CHECK-OFF IllegalCatch - guard against ill behaved implementations
+        } catch (final Exception ex) {
+          // CHECKSTYLE:CHECK-ON IllegalCatch
+          pollForCancellation(monitor);
+          if (ex instanceof LoadOperationException) { // NOPMD
+            LoadOperationException loadException = (LoadOperationException) ex;
+            if (loadException.getCause() instanceof TimeoutException) {
+              // Load request timed out, URI of the resource is not available
+              String message = loadException.getCause().getMessage();
+              LOGGER.warn(message);
+            } else {
+              // Exception when loading resource, URI should be available
+              changedURI = ((LoadOperationException) ex).getUri();
+              LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, changedURI), ex);
+            }
           } else {
-            subProgress.worked(2);
+            LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, changedURI), ex);
           }
 
           if (changedURI != null) {
-            if (traceSet.isEnabled(ResourceLinkingMemoryEvent.class)) {
-              final long memoryDelta = Runtime.getRuntime().freeMemory() - initialMemory;
-              final int resourceSetSizeDelta = resourceSet.getResources().size() - initialResourceSetSize;
-              final long timeDelta = System.nanoTime() - initialTime;
-              traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta);
-            }
-            watchdog.reportWorkEnded(index, index + queue.size());
+            queue.remove(changedURI);
           }
 
-          // Clear caches of resource
-          if (resource instanceof XtextResource) {
-            ((XtextResource) resource).getCache().clear(resource);
+          if (resource != null) {
+            resourceSet.getResources().remove(resource);
           }
-          storeBinaryResource(resource, buildData);
-          traceSet.ended(ResourceProcessingEvent.class);
-          buildData.getSourceLevelURICache().getSources().remove(changedURI);
-          subProgress.worked(1);
-          index++;
+          final IResourceDescription oldDescription = getSavedResourceDescription(oldDescriptions, changedURI);
+          if (oldDescription != null) {
+            newDelta = new DefaultResourceDescriptionDelta(oldDescription, null);
+          }
+        } finally {
+          traceSet.ended(ResourceLinkingEvent.class);
         }
 
-        loadOperation.cancel();
-
-        queueAffectedResources(allRemainingURIs, this, newState, changedDeltas, allDeltas, buildData, subProgress.newChild(1));
-        newDeltas.clear();
-        changedDeltas.clear();
-
-        if (queue.size() > 0) {
-          loadOperation = crossLinkingResourceLoader.create(resourceSet, currentProject);
-          loadOperation.load(queue);
+        if (newDelta != null) {
+          allDeltas.add(newDelta);
+          if (newDelta.haveEObjectDescriptionsChanged()) {
+            changedDeltas.add(newDelta);
+          }
+          if (recordDeltaAsNew(newDelta)) {
+            newDeltas.add(newDelta);
+            // Make the new resource description known in the new index.
+            newState.register(newDelta);
+          }
+          try {
+            // Validate directly, instead of bulk validating after the cluster.
+            updateMarkers(newDelta, resourceSet, subProgress.newChild(1, SubMonitor.SUPPRESS_ALL_LABELS));
+          } catch (StackOverflowError ex) {
+            queue.remove(changedURI);
+            logStackOverflowErrorStackTrace(ex, changedURI);
+          }
+        } else {
+          subProgress.worked(2);
         }
 
-        if (!queue.isEmpty()) {
-          traceSet.trace(ClusterClosedEvent.class, Long.valueOf(resourceSet.getResources().size()));
-          clearResourceSet(resourceSet);
+        if (changedURI != null) {
+          if (traceSet.isEnabled(ResourceLinkingMemoryEvent.class)) {
+            final long memoryDelta = Runtime.getRuntime().freeMemory() - initialMemory;
+            final int resourceSetSizeDelta = resourceSet.getResources().size() - initialResourceSetSize;
+            final long timeDelta = System.nanoTime() - initialTime;
+            traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta);
+          }
+          watchdog.reportWorkEnded(index, index + queue.size());
         }
-        // TODO flush required here or elsewhere ?
-        // flushChanges(newData);
+
+        // Clear caches of resource
+        if (resource instanceof XtextResource) {
+          ((XtextResource) resource).getCache().clear(resource);
+        }
+        storeBinaryResource(resource, buildData);
+        traceSet.ended(ResourceProcessingEvent.class);
+        buildData.getSourceLevelURICache().getSources().remove(changedURI);
+        subProgress.worked(1);
+        index++;
       }
+
+      loadOperation.cancel();
+
+      queueAffectedResources(allRemainingURIs, this, newState, changedDeltas, allDeltas, buildData, subProgress.newChild(1));
+      newDeltas.clear();
+      changedDeltas.clear();
+
+      clearResourceSet(resourceSet);
+      // TODO flush required here or elsewhere ?
+      // flushChanges(newData);
     } finally {
       // Report the current size of the resource set
-      traceSet.trace(ClusterClosedEvent.class, Long.valueOf(resourceSet.getResources().size()));
       if (loadOperation != null) {
         loadOperation.cancel();
       }
@@ -1019,9 +1003,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           monitor.worked(1);
         }
 
-        if (!loadingStrategy.mayProcessAnotherResource(resourceSet, resourceSet.getResources().size())) {
-          clearResourceSet(resourceSet);
-        }
         index++;
       }
     } finally {
@@ -1402,10 +1383,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   protected int getClusterSize() {
     return clusterSize;
-  }
-
-  protected IBuilderResourceLoadStrategy getLoadingStrategy() {
-    return loadingStrategy;
   }
 
   protected IResourceLoader getCrossLinkingResourceLoader() {
