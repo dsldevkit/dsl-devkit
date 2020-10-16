@@ -11,7 +11,7 @@ You can find more detailed documentation and examples at [ddk.tools.avaloq.com](
 # Installation
 
 * Take [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/neon3) (i.e. Neon)
-* Install [Xtext SDK 2.8.3](http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/) (currenlty DDK is based on Xtext 2.8.3)
+* Install [Xtext SDK 2.14](http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/) (currenlty DDK is based on Xtext 2.14)
 * There is no public update site for DDK yet, so 
   * import all plugins from this repository into a new Eclipse workspace
   * change current target to ddk.target
