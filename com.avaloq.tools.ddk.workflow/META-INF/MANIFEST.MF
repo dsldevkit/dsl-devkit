@@ -31,5 +31,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.ecore,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.ui,
- org.eclipse.xtext.xbase.lib,
- org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
+ org.eclipse.xtext.xbase.lib
