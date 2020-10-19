@@ -21,6 +21,7 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.Ignore
 
 /**
  * Unit test for autogeneration of check issue code to label map.
@@ -36,6 +37,7 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
    * Test the map generated from a catalog with no checks.
    */
   @Test
+  @Ignore
   def void testMapGenerationWithNoChecks() {
     // ARRANGE
     val source = '''
@@ -57,6 +59,7 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
    * Test the map generated from a catalog with checks.
    */
   @Test
+  @Ignore
   def void testMapGeneration() {
     // ARRANGE
     // @Format-Off

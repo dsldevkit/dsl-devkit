@@ -10,9 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext;
 
-import java.io.IOException;
-
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -26,7 +23,6 @@ import com.avaloq.tools.ddk.checkcfg.ui.test.CheckCfgUiTestSuite;
 import com.avaloq.tools.ddk.sample.helloworld.test.HelloWorldSampleTestSuite;
 import com.avaloq.tools.ddk.typesystem.test.TypeSystemTestSuite;
 import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
-import com.avaloq.tools.ddk.xtext.test.TargetDefinitionSetup;
 import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
 import com.avaloq.tools.ddk.xtext.test.format.FormatTestSuite;
 import com.avaloq.tools.ddk.xtext.test.valid.ValidTestSuite;
@@ -60,20 +56,5 @@ import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
   TypeSystemTestSuite.class
 })
 // @Format-On
-@SuppressWarnings("PMD.SystemPrintln")
-// I don't want to use a logger here; I want this to be printed always, no matter what logger config we have.
 public class AllTests {
-
-  @BeforeClass
-  public static void setUp() throws IOException {
-    if (Boolean.getBoolean("tychotest")) { //$NON-NLS-1$
-      // This system property is set in ddk-parent/pom.xml, tycho-surefire section.
-      System.err.println("Running on tycho; setting target platform."); //$NON-NLS-1$
-      // Make sure PDE can deal with plugin projects we may create in our tests.
-      TargetDefinitionSetup.initializeTargetPlatform();
-      System.err.println("Target platform set."); //$NON-NLS-1$
-    } else {
-      System.err.println("Not running on tycho; target platform unchanged."); //$NON-NLS-1$
-    }
-  }
 }
