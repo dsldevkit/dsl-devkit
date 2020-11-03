@@ -1,11 +1,13 @@
 language: java
-sudo: false
-dist: trusty
+os: linux
+dist: xenial
 jdk:
-  - oraclejdk8
+  - openjdk8
 env:
   - DISPLAY=:99.0
+services:
+  - xvfb
 before_install:
-  - sh -e /etc/init.d/xvfb start
   - export WORKSPACE=${PWD}
+  - sudo apt-get -y install at-spi2-core
 script: mvn clean verify checkstyle:check pmd:check pmd:cpd-check findbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
