@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -27,7 +27,7 @@ import org.eclipse.xtext.builder.impl.IBuildFlag;
 import org.eclipse.xtext.junit4.AbstractXtextTests;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 
 import com.avaloq.tools.ddk.xtext.builder.layered.XtextBuildTrigger;
 import com.google.inject.AbstractModule;
@@ -61,7 +61,7 @@ public class XtextBuildTriggerTest extends AbstractXtextTests {
     // auto-build disabled
     when(workspace.isAutoBuilding()).thenReturn(false);
     buildTrigger.scheduleFullBuild();
-    verify(scheduler, never()).scheduleBuildIfNecessary(Matchers.<Iterable<IProject>> any(), Matchers.<IBuildFlag> any());
+    verify(scheduler, never()).scheduleBuildIfNecessary(ArgumentMatchers.<Iterable<IProject>> any(), ArgumentMatchers.<IBuildFlag> any());
 
     reset(workspace);
     reset(scheduler);
@@ -73,6 +73,6 @@ public class XtextBuildTriggerTest extends AbstractXtextTests {
     when(workspace.getRoot()).thenReturn(root);
     when(root.getProjects()).thenReturn(projects);
     buildTrigger.scheduleFullBuild();
-    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), Matchers.<IBuildFlag[]> anyVararg());
+    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), ArgumentMatchers.<IBuildFlag[]> anyVararg());
   }
 }
