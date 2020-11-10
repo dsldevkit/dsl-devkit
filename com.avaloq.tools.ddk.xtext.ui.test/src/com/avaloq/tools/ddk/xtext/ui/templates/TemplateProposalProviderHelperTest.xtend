@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertArrayEquals
 import static org.junit.Assert.assertEquals
-import static org.mockito.Matchers.anyInt
+import static org.mockito.ArgumentMatchers.anyInt
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify

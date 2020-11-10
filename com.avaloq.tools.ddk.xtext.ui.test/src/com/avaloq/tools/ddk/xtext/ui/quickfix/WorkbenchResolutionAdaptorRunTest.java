@@ -11,10 +11,10 @@
 
 package com.avaloq.tools.ddk.xtext.ui.quickfix;
 
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,7 +45,7 @@ import org.eclipse.xtext.util.Tuples;
 import org.eclipse.xtext.validation.Issue;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 
 import com.avaloq.tools.ddk.check.runtime.ui.quickfix.IModificationContextRegistry;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchMarkerResolutionGenerator.WorkbenchResolutionAdapter;
@@ -111,7 +111,7 @@ public class WorkbenchResolutionAdaptorRunTest {
 
     mockFile = mock(IFile.class);
 
-    when(mockIssueResolutionProvider.getResolutions(Matchers.any(Issue.class))).thenReturn(Lists.newArrayList(mockIssueResolution));
+    when(mockIssueResolutionProvider.getResolutions(ArgumentMatchers.any(Issue.class))).thenReturn(Lists.newArrayList(mockIssueResolution));
   }
 
   private void mockMarkerResource(final URI uri) throws CoreException {
