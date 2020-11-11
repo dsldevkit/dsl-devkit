@@ -33,7 +33,7 @@ public final class ProblemsViewTestUtil {
   public static final String GROUP_BY = "&Group By"; //$NON-NLS-1$
   public static final String NONE = "&None"; //$NON-NLS-1$
   public static final String SHOW = "&Show"; //$NON-NLS-1$
-  public static final String ALL_ERRORS = "All Errors"; //$NON-NLS-1$
+  public static final String ALL_ERRORS_ON_WORKSPACE = "All Errors on Workspace"; //$NON-NLS-1$
   public static final String SHOW_ALL = "&Show All"; //$NON-NLS-1$
   public static final String QUICK_FIX_CONTEXT_MENU_ITEM_LABEL = "Quick Fix"; //$NON-NLS-1$
   public static final String QUICK_FIX_DIALOG_TEXT = "Quick Fix"; //$NON-NLS-1$
@@ -106,7 +106,7 @@ public final class ProblemsViewTestUtil {
     showProblemsView(bot);
     // Select "Show All" first, to avoid toggling "All Errors" off
     showAll(bot);
-    clickMenuItem(bot, SHOW, ALL_ERRORS);
+    clickMenuItem(bot, SHOW, ALL_ERRORS_ON_WORKSPACE);
   }
 
   /**

@@ -15,6 +15,7 @@ import java.io.InputStream;
 
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.XtextRunner;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,6 +43,7 @@ public class BugDsl27 extends AbstractCheckGenerationTestCase {
    * Tests that our test source compiles fine.
    */
   @Test
+  @Ignore
   public void testGeneratedCodeHasNoErrors() {
     try (InputStream sourceStream = BugDsl27.class.getResourceAsStream("bugdsl27/BugDsl27")) {
       generateAndCompile(sourceStream);
