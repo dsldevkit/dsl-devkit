@@ -19,12 +19,14 @@ CheckCatalog:
   '}';
 
 // Override (inherited via xbase->xtype) to force creation of a (possibly empty) XImportSection
+@Override
 XImportSection returns xtype::XImportSection:
   {xtype::XImportSection}
   (importDeclarations+=XImportDeclaration)*
 ;
 
 // Override (inherited via xbase->xtype) to restrict to our syntax. No static imports. (Backwards compatibility; would introduce a new keyword)
+@Override
 XImportDeclaration returns xtype::XImportDeclaration:
   'import' (
       importedType=[types::JvmDeclaredType|QualifiedName]
@@ -126,6 +128,7 @@ XIssueExpression returns xbase::XExpression:
   (=> 'data' (issueCode=ValidID)? '(' issueData+=XExpression (=> ',' issueData+=XExpression)* ')' )?
   ;
 
+@Override
 XPrimaryExpression returns xbase::XExpression:
   XConstructorCall
   | XBlockExpression
@@ -148,6 +151,7 @@ XPrimaryExpression returns xbase::XExpression:
 
 // We cannot add any identifier here that also starts an XPrimaryExpression. ('for', 'guard', 'issue'). Also, don't add the Java keywords
 // 'package' or 'final'. Let's at least allow all other keywords as member IDs in a chained feature call.
+@Override
 FeatureCallID:
   ValidID
   | 'extends' | 'static' | 'import' | 'extension' // Inherited from xbase

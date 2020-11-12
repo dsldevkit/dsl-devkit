@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtextspy.test;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.inject.util.Modules.override;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

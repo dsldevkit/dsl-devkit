@@ -23,6 +23,7 @@ import org.junit.Assert
 import org.junit.Test
 
 import static org.junit.Assert.fail
+import org.junit.Ignore
 
 /**
  * Test quickfixes for Check files.
@@ -73,6 +74,7 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   }
 
   @Test
+  @Ignore
   @BugTest(value="DSL-244")
   def testImportFix() {
     createTestSource(testSourceFileName, '''
@@ -139,6 +141,7 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
    * the problems appears to be in Eclipse.
    */
   @Test
+  @Ignore
   @Retry(10)
   def void testBulkApplyingQuickfix() {
 

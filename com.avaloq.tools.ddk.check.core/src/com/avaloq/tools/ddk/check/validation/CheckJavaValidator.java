@@ -112,7 +112,7 @@ public class CheckJavaValidator extends AbstractCheckJavaValidator {
     }
     LightweightTypeReference declaredType = toLightweightTypeReference(jvmType);
     LightweightTypeReference valueType = getActualType(value);
-    if (!declaredType.isAssignableFrom(valueType, new TypeConformanceComputationArgument())) {
+    if (!declaredType.isAssignableFrom(valueType, TypeConformanceComputationArgument.DEFAULT)) {
       error(Messages.CheckJavaValidator_FormalParameterType_Incompatibility, value, null, IssueCodes.FORMAL_PARAMETER_TYPE);
     }
   }

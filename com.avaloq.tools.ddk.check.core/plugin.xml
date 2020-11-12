@@ -7,7 +7,7 @@
     <package
        uri = "http://www.avaloq.com/tools/ddk/check/Check"
        class = "com.avaloq.tools.ddk.check.check.CheckPackage"
-       genModel = "com/avaloq/tools/ddk/check/Check.genmodel" />
+       genModel = "metamodel/com/avaloq/tools/ddk/check/Check.genmodel" />
 
   </extension>
 
