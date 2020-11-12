@@ -17,11 +17,11 @@ import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.text.templates.ContextTypeRegistry;
-import org.eclipse.text.templates.TemplatePersistenceData;
-import org.eclipse.text.templates.TemplateReaderWriter;
-import org.eclipse.text.templates.TemplateStoreCore;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.templates.ContextTypeRegistry;
+import org.eclipse.jface.text.templates.persistence.TemplatePersistenceData;
+import org.eclipse.jface.text.templates.persistence.TemplateReaderWriter;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.Constants;
 
@@ -34,16 +34,16 @@ import com.google.inject.name.Named;
  * A collection of templates contributed from preference.ini via xml files.
  */
 @Singleton
-public class ConfigurableTemplateStore extends TemplateStoreCore {
+public class ConfigurableTemplateStore extends TemplateStore {
 
   private static final Logger LOG = Logger.getLogger(ConfigurableTemplateStore.class);
   private final URL res;
-  private final IEclipsePreferences preferenceStore;
+  private final IPreferenceStore preferenceStore;
   private final String key;
 
   @SuppressWarnings("PMD.ConstructorCallsOverridableMethod")
   @Inject
-  public ConfigurableTemplateStore(final ContextTypeRegistry registry, final IEclipsePreferences store, @Named(Constants.LANGUAGE_NAME) final String key, final AbstractUIPlugin plugin) {
+  public ConfigurableTemplateStore(final ContextTypeRegistry registry, final IPreferenceStore store, @Named(Constants.LANGUAGE_NAME) final String key, final AbstractUIPlugin plugin) {
     super(registry, store, key + ".templates"); //$NON-NLS-1$
     this.res = getTemplateFileURL(plugin);
     this.preferenceStore = store;
@@ -57,7 +57,7 @@ public class ConfigurableTemplateStore extends TemplateStoreCore {
 
   /**
    * Returns the URL of the templates.xml file from given plugin.
-   *
+   * 
    * @param plugin
    *          plugin from where template.xml will be loaded
    * @return URL of the xml file with templates
@@ -69,7 +69,7 @@ public class ConfigurableTemplateStore extends TemplateStoreCore {
   @Override
   protected void loadContributedTemplates() throws IOException {
     if (preferenceStore != null) {
-      String pref = preferenceStore.get(key, null);
+      String pref = preferenceStore.getString(key);
       if (pref != null && !StringUtils.isBlank(pref)) {
         URL sharedTemplate = new File(pref).toURI().toURL();
         addTemplatesFromFile(sharedTemplate);
@@ -80,7 +80,7 @@ public class ConfigurableTemplateStore extends TemplateStoreCore {
 
   /**
    * Contribute templates defined in file with the give URL.
-   *
+   * 
    * @param templates
    *          the URL of the file with templates
    */
@@ -119,3 +119,4 @@ public class ConfigurableTemplateStore extends TemplateStoreCore {
   }
 
 }
+
