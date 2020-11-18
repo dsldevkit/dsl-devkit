@@ -33,7 +33,7 @@ import com.avaloq.tools.ddk.xtext.builder.layered.XtextBuildTrigger;
 import com.google.inject.AbstractModule;
 
 
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "deprecation"})
 public class XtextBuildTriggerTest extends AbstractXtextTests {
 
   private IWorkspace workspace;
@@ -73,6 +73,6 @@ public class XtextBuildTriggerTest extends AbstractXtextTests {
     when(workspace.getRoot()).thenReturn(root);
     when(root.getProjects()).thenReturn(projects);
     buildTrigger.scheduleFullBuild();
-    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), ArgumentMatchers.<IBuildFlag[]> anyVararg());
+    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), ArgumentMatchers.<IBuildFlag[]> any());
   }
 }

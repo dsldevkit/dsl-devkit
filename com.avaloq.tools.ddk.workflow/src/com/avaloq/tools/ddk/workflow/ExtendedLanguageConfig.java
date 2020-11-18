@@ -34,6 +34,7 @@ import com.google.common.collect.Sets;
 /**
  * Registers EPackages for referenced GenModls. Supports content types.
  */
+@SuppressWarnings("deprecation")
 public class ExtendedLanguageConfig extends LanguageConfig {
 
   private List<String> contentTypes;
@@ -80,7 +81,6 @@ public class ExtendedLanguageConfig extends LanguageConfig {
   public void setUri(final String uri) {
     ResourceSet rs = new ResourceSetImpl();
     Set<URI> result = Sets.newHashSet();
-    @SuppressWarnings("deprecation")
     Map<String, URI> genModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
     for (Map.Entry<String, URI> entry : genModelLocationMap.entrySet()) {
       Resource resource = GenModelAccess.getGenModelResource(null, entry.getKey(), rs);

@@ -53,6 +53,7 @@ import com.google.inject.Inject;
 /**
  * The template proposal provider for Check Configuration templates.
  */
+@SuppressWarnings("deprecation")
 public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalProvider {
 
   // Make template proposals appear at the head of the autocomplete list

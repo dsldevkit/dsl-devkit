@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 /**
  * A custom template proposal provider for Check.
  */
+@SuppressWarnings("deprecation")
 public class CheckTemplateProposalProvider extends DefaultTemplateProposalProvider {
 
   // Make template proposals appear at the head of the autocomplete list
