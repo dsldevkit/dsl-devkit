@@ -38,11 +38,6 @@ public class StandaloneSetup extends org.eclipse.emf.mwe.utils.StandaloneSetup {
     }
   }
 
-  @Override
-  protected GenModelHelper createGenModelHelper() {
-    return new DependencyAwareGenModelHelper();
-  }
-
   /**
    * Convert a comma-separated string of items into a list of URIs, each element corresponding to one item.
    *
