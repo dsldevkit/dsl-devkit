@@ -151,9 +151,9 @@ public class ValidPreferenceStore {
     } else if (object instanceof Integer) {
       return Integer.valueOf(defaults.getInt(key, INT_DEFAULT_DEFAULT));
     } else if (object instanceof Double) {
-      return new Double(defaults.getDouble(key, DOUBLE_DEFAULT_DEFAULT));
+      return Double.valueOf(defaults.getDouble(key, DOUBLE_DEFAULT_DEFAULT));
     } else if (object instanceof Float) {
-      return new Float(defaults.getFloat(key, FLOAT_DEFAULT_DEFAULT));
+      return Float.valueOf(defaults.getFloat(key, FLOAT_DEFAULT_DEFAULT));
     } else if (object instanceof Long) {
       return Long.valueOf(defaults.getLong(key, LONG_DEFAULT_DEFAULT));
     } else if (object instanceof Boolean) {
