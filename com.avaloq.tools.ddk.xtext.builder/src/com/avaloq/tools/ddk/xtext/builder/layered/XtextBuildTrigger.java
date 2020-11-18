@@ -21,6 +21,7 @@ import com.google.inject.Inject;
 /**
  * Build trigger that actually does trigger a full build. Assumes we have a {@link IWorkspace} and a {@link BuildScheduler}.
  */
+@SuppressWarnings("deprecation")
 public class XtextBuildTrigger implements IXtextBuildTrigger {
 
   @Inject
@@ -30,6 +31,7 @@ public class XtextBuildTrigger implements IXtextBuildTrigger {
   private IWorkspace workspace;
 
   /** {@inheritDoc} */
+  @Override
   public void scheduleFullBuild() {
     if (workspace != null && workspace.isAutoBuilding()) {
       buildScheduler.scheduleBuildIfNecessary(Arrays.asList(workspace.getRoot().getProjects()));
@@ -37,4 +39,3 @@ public class XtextBuildTrigger implements IXtextBuildTrigger {
   }
 
 }
-

@@ -34,6 +34,7 @@ import com.google.inject.name.Named;
  * A collection of templates contributed from preference.ini via xml files.
  */
 @Singleton
+@SuppressWarnings("deprecation")
 public class ConfigurableTemplateStore extends TemplateStore {
 
   private static final Logger LOG = Logger.getLogger(ConfigurableTemplateStore.class);
@@ -57,7 +58,7 @@ public class ConfigurableTemplateStore extends TemplateStore {
 
   /**
    * Returns the URL of the templates.xml file from given plugin.
-   * 
+   *
    * @param plugin
    *          plugin from where template.xml will be loaded
    * @return URL of the xml file with templates
@@ -80,7 +81,7 @@ public class ConfigurableTemplateStore extends TemplateStore {
 
   /**
    * Contribute templates defined in file with the give URL.
-   * 
+   *
    * @param templates
    *          the URL of the file with templates
    */
@@ -119,4 +120,3 @@ public class ConfigurableTemplateStore extends TemplateStore {
   }
 
 }
-

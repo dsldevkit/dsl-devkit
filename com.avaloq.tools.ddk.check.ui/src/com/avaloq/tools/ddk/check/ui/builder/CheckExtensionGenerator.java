@@ -63,7 +63,7 @@ import org.eclipse.xtext.builder.IXtextBuilderParticipant.IBuildContext;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
-import org.eclipse.xtext.util.MergeableManifest;
+import org.eclipse.xtext.util.MergeableManifest2;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -499,7 +499,7 @@ class CheckExtensionGenerator {
       InputStream fileContents = null;
       try {
         fileContents = file.getContents();
-        MergeableManifest manifest = new MergeableManifest(fileContents, project.getName());
+        MergeableManifest2 manifest = new MergeableManifest2(fileContents, project.getName());
         fileContents.close();
         manifest.addRequiredBundles(new GrammarHelper(catalog.getGrammar()).getRequiredBundleSymbolicNames());
         if (manifest.isModified()) {
