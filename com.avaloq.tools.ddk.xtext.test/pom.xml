@@ -17,7 +17,23 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
+          <trimStackTrace>false</trimStackTrace>
           <skip>false</skip>
+          <testClass>${test.testClass}</testClass>
+          <failIfNoTests>false</failIfNoTests>
+          <useUIThread>false</useUIThread>
+          <useUIHarness>true</useUIHarness>
+          <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
+          <argLine>-Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
+          <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
+          <product>${runtime.product}</product>
+          <application>org.eclipse.ui.ide.workbench</application>
+          <dependencies>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.platform.feature.group</artifactId>
+            </dependency>
+          </dependencies>
         </configuration>
       </plugin>
       <plugin>
