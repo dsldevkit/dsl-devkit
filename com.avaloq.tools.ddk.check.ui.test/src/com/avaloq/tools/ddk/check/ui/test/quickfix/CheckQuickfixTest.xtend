@@ -74,7 +74,6 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   }
 
   @Test
-  @Ignore
   @BugTest(value="DSL-244")
   def testImportFix() {
     createTestSource(testSourceFileName, '''
