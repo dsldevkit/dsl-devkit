@@ -33,10 +33,6 @@ public interface ScopeModel extends EObject
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -60,10 +56,6 @@ public interface ScopeModel extends EObject
    * Returns the value of the '<em><b>Included Scopes</b></em>' reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Included Scopes</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Included Scopes</em>' reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel_IncludedScopes()
@@ -76,10 +68,6 @@ public interface ScopeModel extends EObject
    * Returns the value of the '<em><b>Imports</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.Import}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Imports</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imports</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel_Imports()
@@ -92,10 +80,6 @@ public interface ScopeModel extends EObject
    * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.Extension}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Extensions</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Extensions</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel_Extensions()
@@ -108,10 +92,6 @@ public interface ScopeModel extends EObject
    * Returns the value of the '<em><b>Injections</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.Injection}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Injections</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Injections</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel_Injections()
@@ -123,10 +103,6 @@ public interface ScopeModel extends EObject
   /**
    * Returns the value of the '<em><b>Naming</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Naming</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Naming</em>' containment reference.
    * @see #setNaming(NamingSection)
@@ -150,10 +126,6 @@ public interface ScopeModel extends EObject
    * Returns the value of the '<em><b>Scopes</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Scopes</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Scopes</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeModel_Scopes()

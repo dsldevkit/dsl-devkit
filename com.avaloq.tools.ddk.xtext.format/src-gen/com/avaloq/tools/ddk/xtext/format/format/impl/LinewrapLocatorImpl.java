@@ -119,6 +119,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getValue()
   {
     return value;
@@ -146,6 +147,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(IntValue newValue)
   {
     if (newValue != value)
@@ -167,6 +169,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getMinimum()
   {
     return minimum;
@@ -194,6 +197,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMinimum(IntValue newMinimum)
   {
     if (newMinimum != minimum)
@@ -215,6 +219,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getDefault()
   {
     return default_;
@@ -242,6 +247,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDefault(IntValue newDefault)
   {
     if (newDefault != default_)
@@ -263,6 +269,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getMaximum()
   {
     return maximum;
@@ -290,6 +297,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMaximum(IntValue newMaximum)
   {
     if (newMaximum != maximum)
@@ -311,6 +319,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNoLinewrap()
   {
     return noLinewrap;
@@ -321,6 +330,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNoLinewrap(boolean newNoLinewrap)
   {
     boolean oldNoLinewrap = noLinewrap;
@@ -467,7 +477,7 @@ public class LinewrapLocatorImpl extends LocatorImpl implements LinewrapLocator
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (noLinewrap: ");
     result.append(noLinewrap);
     result.append(')');

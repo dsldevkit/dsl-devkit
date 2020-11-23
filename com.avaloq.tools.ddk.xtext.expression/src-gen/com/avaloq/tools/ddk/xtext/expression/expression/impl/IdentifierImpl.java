@@ -102,6 +102,7 @@ public class IdentifierImpl extends SyntaxElementImpl implements Identifier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getCl()
   {
     return cl;
@@ -112,6 +113,7 @@ public class IdentifierImpl extends SyntaxElementImpl implements Identifier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCl(String newCl)
   {
     String oldCl = cl;
@@ -125,6 +127,7 @@ public class IdentifierImpl extends SyntaxElementImpl implements Identifier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Identifier getId1()
   {
     return id1;
@@ -152,6 +155,7 @@ public class IdentifierImpl extends SyntaxElementImpl implements Identifier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setId1(Identifier newId1)
   {
     if (newId1 != id1)
@@ -173,6 +177,7 @@ public class IdentifierImpl extends SyntaxElementImpl implements Identifier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getId()
   {
     if (id == null)
@@ -296,7 +301,7 @@ public class IdentifierImpl extends SyntaxElementImpl implements Identifier
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (cl: ");
     result.append(cl);
     result.append(", id: ");

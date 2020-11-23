@@ -69,6 +69,7 @@ public class NativeRuleImpl extends RuleImpl implements NativeRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<NativeContext> getContexts()
   {
     if (contexts == null)

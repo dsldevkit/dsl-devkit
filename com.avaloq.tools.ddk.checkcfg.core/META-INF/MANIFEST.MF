@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.check.core,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.xtext.xbase.lib,
- org.apache.log4j
+ org.apache.log4j,
+ org.objectweb.asm;bundle-version="[7.1.0,7.2.0)";resolution:=optional
 Export-Package: com.avaloq.tools.ddk.checkcfg,
  com.avaloq.tools.ddk.checkcfg.checkcfg,
  com.avaloq.tools.ddk.checkcfg.checkcfg.impl,

@@ -35,10 +35,6 @@ public interface FormatConfiguration extends EObject
   /**
    * Returns the value of the '<em><b>Target Grammar</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Target Grammar</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Target Grammar</em>' reference.
    * @see #setTargetGrammar(Grammar)
@@ -61,10 +57,6 @@ public interface FormatConfiguration extends EObject
   /**
    * Returns the value of the '<em><b>Extended Format Configuration</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Extended Format Configuration</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Extended Format Configuration</em>' reference.
    * @see #setExtendedFormatConfiguration(FormatConfiguration)
@@ -87,10 +79,6 @@ public interface FormatConfiguration extends EObject
   /**
    * Returns the value of the '<em><b>Formatter Base Class</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Formatter Base Class</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Formatter Base Class</em>' reference.
    * @see #setFormatterBaseClass(JvmDeclaredType)
@@ -114,10 +102,6 @@ public interface FormatConfiguration extends EObject
    * Returns the value of the '<em><b>Constants</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.Constant}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Constants</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Constants</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getFormatConfiguration_Constants()
@@ -130,10 +114,6 @@ public interface FormatConfiguration extends EObject
    * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.Rule}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rules</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rules</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getFormatConfiguration_Rules()

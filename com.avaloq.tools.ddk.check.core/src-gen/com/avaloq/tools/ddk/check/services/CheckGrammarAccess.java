@@ -158,7 +158,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cImportDeclarationsAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cImportDeclarationsXImportDeclarationParserRuleCall_1_0 = (RuleCall)cImportDeclarationsAssignment_1.eContents().get(0);
 		
-		//// Override (inherited via xbase->xtype) to force creation of a (possibly empty) XImportSection
+		//@Override
 		//XImportSection xtype::XImportSection:
 		//	{xtype::XImportSection} importDeclarations+=XImportDeclaration*;
 		@Override public ParserRule getRule() { return rule; }
@@ -188,7 +188,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_1_0 = (RuleCall)cImportedNamespaceAssignment_1_1.eContents().get(0);
 		private final Keyword cSemicolonKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
-		//// Override (inherited via xbase->xtype) to restrict to our syntax. No static imports. (Backwards compatibility; would introduce a new keyword)
+		//@Override
 		//XImportDeclaration xtype::XImportDeclaration:
 		//	'import' (importedType=[types::JvmDeclaredType|QualifiedName] | importedNamespace=QualifiedNameWithWildcard) ';'?;
 		@Override public ParserRule getRule() { return rule; }
@@ -1169,6 +1169,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cXGuardExpressionParserRuleCall_15 = (RuleCall)cAlternatives.eContents().get(15);
 		private final RuleCall cXIssueExpressionParserRuleCall_16 = (RuleCall)cAlternatives.eContents().get(16);
 		
+		//@Override
 		//XPrimaryExpression xbase::XExpression:
 		//	XConstructorCall
 		//	| XBlockExpression
@@ -1273,8 +1274,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cOnSaveKeyword_19 = (Keyword)cAlternatives.eContents().get(19);
 		private final Keyword cOnDemandKeyword_20 = (Keyword)cAlternatives.eContents().get(20);
 		
-		//// We cannot add any identifier here that also starts an XPrimaryExpression. ('for', 'guard', 'issue'). Also, don't add the Java keywords
-		//// 'package' or 'final'. Let's at least allow all other keywords as member IDs in a chained feature call.
+		//@Override
 		//FeatureCallID:
 		//	ValidID
 		//	| 'extends' | 'static' | 'import' | 'extension' // Inherited from xbase
@@ -1554,7 +1554,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getCheckCatalogAccess().getRule();
 	}
 
-	//// Override (inherited via xbase->xtype) to force creation of a (possibly empty) XImportSection
+	//@Override
 	//XImportSection xtype::XImportSection:
 	//	{xtype::XImportSection} importDeclarations+=XImportDeclaration*;
 	public XImportSectionElements getXImportSectionAccess() {
@@ -1565,7 +1565,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getXImportSectionAccess().getRule();
 	}
 
-	//// Override (inherited via xbase->xtype) to restrict to our syntax. No static imports. (Backwards compatibility; would introduce a new keyword)
+	//@Override
 	//XImportDeclaration xtype::XImportDeclaration:
 	//	'import' (importedType=[types::JvmDeclaredType|QualifiedName] | importedNamespace=QualifiedNameWithWildcard) ';'?;
 	public XImportDeclarationElements getXImportDeclarationAccess() {
@@ -1765,6 +1765,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getXIssueExpressionAccess().getRule();
 	}
 
+	//@Override
 	//XPrimaryExpression xbase::XExpression:
 	//	XConstructorCall
 	//	| XBlockExpression
@@ -1792,8 +1793,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		return getXPrimaryExpressionAccess().getRule();
 	}
 
-	//// We cannot add any identifier here that also starts an XPrimaryExpression. ('for', 'guard', 'issue'). Also, don't add the Java keywords
-	//// 'package' or 'final'. Let's at least allow all other keywords as member IDs in a chained feature call.
+	//@Override
 	//FeatureCallID:
 	//	ValidID
 	//	| 'extends' | 'static' | 'import' | 'extension' // Inherited from xbase

@@ -69,6 +69,7 @@ public class WildcardRuleImpl extends RuleImpl implements WildcardRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<WildcardRuleDirective> getDirectives()
   {
     if (directives == null)

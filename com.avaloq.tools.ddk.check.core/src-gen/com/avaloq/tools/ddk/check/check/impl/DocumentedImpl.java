@@ -60,6 +60,7 @@ public class DocumentedImpl extends MinimalEObjectImpl.Container implements Docu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription()
 	{
 		// TODO: implement this method to return the 'Description' attribute

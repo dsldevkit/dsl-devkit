@@ -126,6 +126,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		// TODO: implement this method to return the 'Name' attribute
@@ -138,6 +139,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId()
 	{
 		return id;
@@ -148,6 +150,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId)
 	{
 		String oldId = id;
@@ -161,6 +164,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLabel()
 	{
 		return label;
@@ -171,6 +175,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLabel(String newLabel)
 	{
 		String oldLabel = label;
@@ -184,6 +189,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Check> getChecks()
 	{
 		if (checks == null)
@@ -349,7 +355,7 @@ public class CategoryImpl extends DocumentedImplCustom implements Category
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
 		result.append(id);
 		result.append(", label: ");

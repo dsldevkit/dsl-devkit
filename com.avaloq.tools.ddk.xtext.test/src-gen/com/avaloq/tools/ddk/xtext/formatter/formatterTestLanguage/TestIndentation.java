@@ -28,10 +28,6 @@ public interface TestIndentation extends Root
    * Returns the value of the '<em><b>Sub</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.TestIndentation}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Sub</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Sub</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguagePackage#getTestIndentation_Sub()
@@ -44,10 +40,6 @@ public interface TestIndentation extends Root
    * Returns the value of the '<em><b>Items</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.Line}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Items</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Items</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguagePackage#getTestIndentation_Items()
@@ -59,10 +51,6 @@ public interface TestIndentation extends Root
   /**
    * Returns the value of the '<em><b>Semi</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Semi</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Semi</em>' attribute.
    * @see #setSemi(boolean)

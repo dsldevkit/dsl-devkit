@@ -97,6 +97,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getLeft()
   {
     return left;
@@ -124,6 +125,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLeft(Expression newLeft)
   {
     if (newLeft != left)
@@ -145,6 +147,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getOperator()
   {
     return operator;
@@ -155,6 +158,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOperator(String newOperator)
   {
     String oldOperator = operator;
@@ -168,6 +172,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getRight()
   {
     return right;
@@ -195,6 +200,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRight(Expression newRight)
   {
     if (newRight != right)
@@ -325,7 +331,7 @@ public class BooleanOperationImpl extends ExpressionImpl implements BooleanOpera
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (operator: ");
     result.append(operator);
     result.append(')');

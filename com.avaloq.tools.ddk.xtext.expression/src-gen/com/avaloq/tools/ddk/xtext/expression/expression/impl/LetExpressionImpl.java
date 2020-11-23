@@ -97,6 +97,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getIdentifier()
   {
     return identifier;
@@ -107,6 +108,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIdentifier(String newIdentifier)
   {
     String oldIdentifier = identifier;
@@ -120,6 +122,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getVarExpr()
   {
     return varExpr;
@@ -147,6 +150,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVarExpr(Expression newVarExpr)
   {
     if (newVarExpr != varExpr)
@@ -168,6 +172,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getTarget()
   {
     return target;
@@ -195,6 +200,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTarget(Expression newTarget)
   {
     if (newTarget != target)
@@ -325,7 +331,7 @@ public class LetExpressionImpl extends ExpressionImpl implements LetExpression
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (identifier: ");
     result.append(identifier);
     result.append(')');

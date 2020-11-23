@@ -122,6 +122,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public JvmTypeReference getType()
 	{
 		return type;
@@ -149,6 +150,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(JvmTypeReference newType)
 	{
 		if (newType != type)
@@ -170,6 +172,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -180,6 +183,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName)
 	{
 		String oldName = name;
@@ -193,6 +197,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getRight()
 	{
 		return right;
@@ -220,6 +225,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRight(XExpression newRight)
 	{
 		if (newRight != right)
@@ -241,6 +247,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLabel()
 	{
 		return label;
@@ -251,6 +258,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLabel(String newLabel)
 	{
 		String oldLabel = label;
@@ -383,7 +391,7 @@ public class FormalParameterImpl extends MinimalEObjectImpl.Container implements
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", label: ");

@@ -76,6 +76,7 @@ public class ChainExpressionImpl extends ExpressionImpl implements ChainExpressi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getFirst()
   {
     return first;
@@ -103,6 +104,7 @@ public class ChainExpressionImpl extends ExpressionImpl implements ChainExpressi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFirst(Expression newFirst)
   {
     if (newFirst != first)
@@ -124,6 +126,7 @@ public class ChainExpressionImpl extends ExpressionImpl implements ChainExpressi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getNext()
   {
     return next;
@@ -151,6 +154,7 @@ public class ChainExpressionImpl extends ExpressionImpl implements ChainExpressi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNext(Expression newNext)
   {
     if (newNext != next)

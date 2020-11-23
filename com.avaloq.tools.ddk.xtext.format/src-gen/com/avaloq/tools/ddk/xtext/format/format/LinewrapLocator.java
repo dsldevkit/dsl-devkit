@@ -28,10 +28,6 @@ public interface LinewrapLocator extends Locator
   /**
    * Returns the value of the '<em><b>Value</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Value</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' containment reference.
    * @see #setValue(IntValue)
@@ -54,10 +50,6 @@ public interface LinewrapLocator extends Locator
   /**
    * Returns the value of the '<em><b>Minimum</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Minimum</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Minimum</em>' containment reference.
    * @see #setMinimum(IntValue)
@@ -80,10 +72,6 @@ public interface LinewrapLocator extends Locator
   /**
    * Returns the value of the '<em><b>Default</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Default</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Default</em>' containment reference.
    * @see #setDefault(IntValue)
@@ -106,10 +94,6 @@ public interface LinewrapLocator extends Locator
   /**
    * Returns the value of the '<em><b>Maximum</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Maximum</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Maximum</em>' containment reference.
    * @see #setMaximum(IntValue)
@@ -132,10 +116,6 @@ public interface LinewrapLocator extends Locator
   /**
    * Returns the value of the '<em><b>No Linewrap</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>No Linewrap</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>No Linewrap</em>' attribute.
    * @see #setNoLinewrap(boolean)

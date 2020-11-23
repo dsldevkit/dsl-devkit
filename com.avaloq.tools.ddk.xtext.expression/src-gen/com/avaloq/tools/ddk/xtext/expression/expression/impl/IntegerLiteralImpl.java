@@ -72,6 +72,7 @@ public class IntegerLiteralImpl extends LiteralImpl implements IntegerLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getVal()
   {
     return val;
@@ -82,6 +83,7 @@ public class IntegerLiteralImpl extends LiteralImpl implements IntegerLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVal(int newVal)
   {
     int oldVal = val;
@@ -166,7 +168,7 @@ public class IntegerLiteralImpl extends LiteralImpl implements IntegerLiteral
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (val: ");
     result.append(val);
     result.append(')');

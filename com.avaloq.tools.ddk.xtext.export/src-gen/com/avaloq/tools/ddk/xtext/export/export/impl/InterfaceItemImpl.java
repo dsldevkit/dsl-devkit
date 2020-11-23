@@ -82,6 +82,7 @@ public class InterfaceItemImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isUnordered()
 	{
 		return unordered;
@@ -92,6 +93,7 @@ public class InterfaceItemImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUnordered(boolean newUnordered)
 	{
 		boolean oldUnordered = unordered;
@@ -107,6 +109,7 @@ public class InterfaceItemImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetUnordered()
 	{
 		boolean oldUnordered = unordered;
@@ -122,6 +125,7 @@ public class InterfaceItemImpl extends MinimalEObjectImpl.Container implements I
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetUnordered()
 	{
 		return unorderedESet;
@@ -203,7 +207,7 @@ public class InterfaceItemImpl extends MinimalEObjectImpl.Container implements I
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (unordered: ");
 		if (unorderedESet) result.append(unordered); else result.append("<unset>");
 		result.append(')');

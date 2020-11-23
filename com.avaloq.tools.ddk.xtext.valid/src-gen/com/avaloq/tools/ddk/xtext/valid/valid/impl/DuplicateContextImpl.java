@@ -75,6 +75,7 @@ public class DuplicateContextImpl extends ContextImpl implements DuplicateContex
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMarkerType()
   {
     if (markerType != null && markerType.eIsProxy())
@@ -105,6 +106,7 @@ public class DuplicateContextImpl extends ContextImpl implements DuplicateContex
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMarkerType(EClass newMarkerType)
   {
     EClass oldMarkerType = markerType;
@@ -118,6 +120,7 @@ public class DuplicateContextImpl extends ContextImpl implements DuplicateContex
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EStructuralFeature getMarkerFeature()
   {
     if (markerFeature != null && markerFeature.eIsProxy())
@@ -148,6 +151,7 @@ public class DuplicateContextImpl extends ContextImpl implements DuplicateContex
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMarkerFeature(EStructuralFeature newMarkerFeature)
   {
     EStructuralFeature oldMarkerFeature = markerFeature;

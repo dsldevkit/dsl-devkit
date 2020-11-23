@@ -33,10 +33,6 @@ public interface ScopeDefinition extends EObject
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -59,10 +55,6 @@ public interface ScopeDefinition extends EObject
   /**
    * Returns the value of the '<em><b>Target Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Target Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Target Type</em>' reference.
    * @see #setTargetType(EClass)
@@ -85,10 +77,6 @@ public interface ScopeDefinition extends EObject
   /**
    * Returns the value of the '<em><b>Context Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Context Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Context Type</em>' reference.
    * @see #setContextType(EClass)
@@ -111,10 +99,6 @@ public interface ScopeDefinition extends EObject
   /**
    * Returns the value of the '<em><b>Reference</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reference</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reference</em>' reference.
    * @see #setReference(EReference)
@@ -138,10 +122,6 @@ public interface ScopeDefinition extends EObject
    * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rules</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rules</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeDefinition_Rules()

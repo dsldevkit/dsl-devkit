@@ -198,7 +198,7 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link TypeModelPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -213,7 +213,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		if (isInited) return (TypeModelPackage)EPackage.Registry.INSTANCE.getEPackage(TypeModelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		TypeModelPackageImpl theTypeModelPackage = (TypeModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TypeModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TypeModelPackageImpl());
+		Object registeredTypeModelPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		TypeModelPackageImpl theTypeModelPackage = registeredTypeModelPackage instanceof TypeModelPackageImpl ? (TypeModelPackageImpl)registeredTypeModelPackage : new TypeModelPackageImpl();
 
 		isInited = true;
 
@@ -226,7 +227,6 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		// Mark meta-data to indicate it can't be changed
 		theTypeModelPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(TypeModelPackage.eNS_URI, theTypeModelPackage);
 		return theTypeModelPackage;

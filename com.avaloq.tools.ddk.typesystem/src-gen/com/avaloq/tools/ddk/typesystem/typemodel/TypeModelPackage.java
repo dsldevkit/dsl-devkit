@@ -340,10 +340,10 @@ public interface TypeModelPackage extends EPackage
 	int IFUNCTION_FEATURE_COUNT = ISUBPROGRAM_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter> <em>IFormal Parameter List</em>}' class.
+	 * The meta object id for the '{@link Iterable <em>IFormal Parameter List</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter>
+	 * @see Iterable
 	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIFormalParameterList()
 	 * @generated
 	 */
@@ -557,12 +557,12 @@ public interface TypeModelPackage extends EPackage
 	EClass getIFunction();
 
 	/**
-	 * Returns the meta object for class '{@link Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter> <em>IFormal Parameter List</em>}'.
+	 * Returns the meta object for class '{@link Iterable <em>IFormal Parameter List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>IFormal Parameter List</em>'.
-	 * @see Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter>
-	 * @model instanceClass="Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter>"
+	 * @see Iterable
+	 * @model instanceClass="Iterable&lt;? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter&gt;"
 	 * @generated
 	 */
 	EClass getIFormalParameterList();
@@ -771,10 +771,10 @@ public interface TypeModelPackage extends EPackage
 		EClass IFUNCTION = eINSTANCE.getIFunction();
 
 		/**
-		 * The meta object literal for the '{@link Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter> <em>IFormal Parameter List</em>}' class.
+		 * The meta object literal for the '{@link Iterable <em>IFormal Parameter List</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter>
+		 * @see Iterable
 		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIFormalParameterList()
 		 * @generated
 		 */

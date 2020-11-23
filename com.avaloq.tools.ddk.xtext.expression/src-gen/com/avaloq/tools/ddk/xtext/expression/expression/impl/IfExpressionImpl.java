@@ -87,6 +87,7 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getCondition()
   {
     return condition;
@@ -114,6 +115,7 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCondition(Expression newCondition)
   {
     if (newCondition != condition)
@@ -135,6 +137,7 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getThenPart()
   {
     return thenPart;
@@ -162,6 +165,7 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setThenPart(Expression newThenPart)
   {
     if (newThenPart != thenPart)
@@ -183,6 +187,7 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getElsePart()
   {
     return elsePart;
@@ -210,6 +215,7 @@ public class IfExpressionImpl extends ExpressionImpl implements IfExpression
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setElsePart(Expression newElsePart)
   {
     if (newElsePart != elsePart)

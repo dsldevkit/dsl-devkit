@@ -173,6 +173,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isExtension()
 	{
 		return extension;
@@ -183,6 +184,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExtension(boolean newExtension)
 	{
 		boolean oldExtension = extension;
@@ -198,6 +200,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetExtension()
 	{
 		boolean oldExtension = extension;
@@ -213,6 +216,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetExtension()
 	{
 		return extensionESet;
@@ -223,6 +227,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -233,6 +238,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName)
 	{
 		String oldName = name;
@@ -246,6 +252,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Grammar getTargetGrammar()
 	{
 		if (targetGrammar != null && targetGrammar.eIsProxy())
@@ -276,6 +283,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetGrammar(Grammar newTargetGrammar)
 	{
 		Grammar oldTargetGrammar = targetGrammar;
@@ -289,6 +297,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Import> getImports()
 	{
 		if (imports == null)
@@ -303,6 +312,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Extension> getExtensions()
 	{
 		if (extensions == null)
@@ -317,6 +327,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Interface> getInterfaces()
 	{
 		if (interfaces == null)
@@ -331,6 +342,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Export> getExports()
 	{
 		if (exports == null)
@@ -504,7 +516,7 @@ public class ExportModelImpl extends MinimalEObjectImpl.Container implements Exp
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (extension: ");
 		if (extensionESet) result.append(extension); else result.append("<unset>");
 		result.append(", name: ");

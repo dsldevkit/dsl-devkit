@@ -85,6 +85,7 @@ public class GrammarRuleImpl extends RuleImpl implements GrammarRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AbstractRule getTargetRule()
   {
     if (targetRule != null && targetRule.eIsProxy())
@@ -115,6 +116,7 @@ public class GrammarRuleImpl extends RuleImpl implements GrammarRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTargetRule(AbstractRule newTargetRule)
   {
     AbstractRule oldTargetRule = targetRule;
@@ -128,6 +130,7 @@ public class GrammarRuleImpl extends RuleImpl implements GrammarRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getDirectives()
   {
     if (directives == null)

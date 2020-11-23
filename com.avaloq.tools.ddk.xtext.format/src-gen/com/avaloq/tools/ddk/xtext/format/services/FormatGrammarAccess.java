@@ -1473,6 +1473,7 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cCurrentColumnKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
 		private final RuleCall cIDTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
+		//@Override
 		//ValidID:
 		//	'context' | 'currentColumn' | ID;
 		@Override public ParserRule getRule() { return rule; }
@@ -2009,6 +2010,7 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 		return getRuleSelfIdentifierAccess().getRule();
 	}
 
+	//@Override
 	//ValidID:
 	//	'context' | 'currentColumn' | ID;
 	public ValidIDElements getValidIDAccess() {
@@ -2019,6 +2021,7 @@ public class FormatGrammarAccess extends AbstractGrammarElementFinder {
 		return getValidIDAccess().getRule();
 	}
 
+	//@Override
 	//terminal INT returns ecore::EInt:
 	//	'0'..'9' ('0'..'9' | '_')*;
 	public TerminalRule getINTRule() {

@@ -72,6 +72,7 @@ public class LambdaDataExpressionImpl extends DataExpressionImpl implements Lamb
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getDesc()
   {
     return desc;
@@ -82,6 +83,7 @@ public class LambdaDataExpressionImpl extends DataExpressionImpl implements Lamb
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDesc(String newDesc)
   {
     String oldDesc = desc;

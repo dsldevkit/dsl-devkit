@@ -93,6 +93,7 @@ public class MethImpl extends LineImpl implements Meth
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -103,6 +104,7 @@ public class MethImpl extends LineImpl implements Meth
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -116,6 +118,7 @@ public class MethImpl extends LineImpl implements Meth
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Param> getParam()
   {
     if (param == null)
@@ -229,7 +232,7 @@ public class MethImpl extends LineImpl implements Meth
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

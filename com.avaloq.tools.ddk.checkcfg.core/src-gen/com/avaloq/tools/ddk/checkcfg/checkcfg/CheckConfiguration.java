@@ -30,10 +30,6 @@ public interface CheckConfiguration extends ConfigurableSection
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -57,10 +53,6 @@ public interface CheckConfiguration extends ConfigurableSection
 	 * Returns the value of the '<em><b>Language Validator Configurations</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Language Validator Configurations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Language Validator Configurations</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_LanguageValidatorConfigurations()
@@ -73,10 +65,6 @@ public interface CheckConfiguration extends ConfigurableSection
 	 * Returns the value of the '<em><b>Legacy Catalog Configurations</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Legacy Catalog Configurations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Legacy Catalog Configurations</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_LegacyCatalogConfigurations()
@@ -89,10 +77,6 @@ public interface CheckConfiguration extends ConfigurableSection
 	 * Returns the value of the '<em><b>Properties</b></em>' reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.FormalParameter}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Properties</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Properties</em>' reference list.
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_Properties()

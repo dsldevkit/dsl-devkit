@@ -25,10 +25,6 @@ public interface Extension extends EObject
   /**
    * Returns the value of the '<em><b>Extension</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Extension</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Extension</em>' attribute.
    * @see #setExtension(String)

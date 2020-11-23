@@ -68,6 +68,7 @@ public class XGuardExpressionImpl extends XExpressionImpl implements XGuardExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getGuard()
 	{
 		return guard;
@@ -95,6 +96,7 @@ public class XGuardExpressionImpl extends XExpressionImpl implements XGuardExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGuard(XExpression newGuard)
 	{
 		if (newGuard != guard)

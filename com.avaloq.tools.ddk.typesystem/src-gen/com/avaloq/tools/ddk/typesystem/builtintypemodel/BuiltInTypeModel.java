@@ -28,10 +28,6 @@ public interface BuiltInTypeModel extends EObject
 	 * Returns the value of the '<em><b>Internal Types</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.typesystem.builtintypemodel.InternalType}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Internal Types</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Internal Types</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.typesystem.builtintypemodel.BuiltInTypeModelPackage#getBuiltInTypeModel_InternalTypes()

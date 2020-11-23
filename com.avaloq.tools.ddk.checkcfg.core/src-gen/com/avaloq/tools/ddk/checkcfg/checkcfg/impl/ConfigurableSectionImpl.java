@@ -71,6 +71,7 @@ public class ConfigurableSectionImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ConfiguredParameter> getParameterConfigurations()
 	{
 		if (parameterConfigurations == null)

@@ -28,10 +28,6 @@ public interface MatcherList extends EObject
    * Returns the value of the '<em><b>Matchers</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.Matcher}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Matchers</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Matchers</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getMatcherList_Matchers()

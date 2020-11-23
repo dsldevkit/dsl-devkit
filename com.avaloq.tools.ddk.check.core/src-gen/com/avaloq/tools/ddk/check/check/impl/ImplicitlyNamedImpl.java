@@ -60,6 +60,7 @@ public class ImplicitlyNamedImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		// TODO: implement this method to return the 'Name' attribute

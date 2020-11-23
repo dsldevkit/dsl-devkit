@@ -95,6 +95,7 @@ public class SwitchExpressionImpl extends ExpressionImpl implements SwitchExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getSwitchExpr()
   {
     return switchExpr;
@@ -122,6 +123,7 @@ public class SwitchExpressionImpl extends ExpressionImpl implements SwitchExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSwitchExpr(Expression newSwitchExpr)
   {
     if (newSwitchExpr != switchExpr)
@@ -143,6 +145,7 @@ public class SwitchExpressionImpl extends ExpressionImpl implements SwitchExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Case> getCase()
   {
     if (case_ == null)
@@ -157,6 +160,7 @@ public class SwitchExpressionImpl extends ExpressionImpl implements SwitchExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getDefaultExpr()
   {
     return defaultExpr;
@@ -184,6 +188,7 @@ public class SwitchExpressionImpl extends ExpressionImpl implements SwitchExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDefaultExpr(Expression newDefaultExpr)
   {
     if (newDefaultExpr != defaultExpr)

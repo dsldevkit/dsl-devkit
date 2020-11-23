@@ -134,6 +134,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FormatConfiguration createFormatConfiguration()
   {
     FormatConfigurationImpl formatConfiguration = new FormatConfigurationImpl();
@@ -145,6 +146,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Constant createConstant()
   {
     ConstantImpl constant = new ConstantImpl();
@@ -156,6 +158,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue createIntValue()
   {
     IntValueImpl intValue = new IntValueImpl();
@@ -167,6 +170,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public StringValue createStringValue()
   {
     StringValueImpl stringValue = new StringValueImpl();
@@ -178,6 +182,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Rule createRule()
   {
     RuleImpl rule = new RuleImpl();
@@ -189,6 +194,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GrammarRule createGrammarRule()
   {
     GrammarRuleImpl grammarRule = new GrammarRuleImpl();
@@ -200,6 +206,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public WildcardRule createWildcardRule()
   {
     WildcardRuleImpl wildcardRule = new WildcardRuleImpl();
@@ -211,6 +218,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GrammarRuleDirective createGrammarRuleDirective()
   {
     GrammarRuleDirectiveImpl grammarRuleDirective = new GrammarRuleDirectiveImpl();
@@ -222,6 +230,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public WildcardRuleDirective createWildcardRuleDirective()
   {
     WildcardRuleDirectiveImpl wildcardRuleDirective = new WildcardRuleDirectiveImpl();
@@ -233,6 +242,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GrammarElementReference createGrammarElementReference()
   {
     GrammarElementReferenceImpl grammarElementReference = new GrammarElementReferenceImpl();
@@ -244,6 +254,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GrammarElementLookup createGrammarElementLookup()
   {
     GrammarElementLookupImpl grammarElementLookup = new GrammarElementLookupImpl();
@@ -255,6 +266,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ContextFreeDirective createContextFreeDirective()
   {
     ContextFreeDirectiveImpl contextFreeDirective = new ContextFreeDirectiveImpl();
@@ -266,6 +278,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SpecificDirective createSpecificDirective()
   {
     SpecificDirectiveImpl specificDirective = new SpecificDirectiveImpl();
@@ -277,6 +290,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MatcherList createMatcherList()
   {
     MatcherListImpl matcherList = new MatcherListImpl();
@@ -288,6 +302,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GroupBlock createGroupBlock()
   {
     GroupBlockImpl groupBlock = new GroupBlockImpl();
@@ -299,6 +314,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public KeywordPair createKeywordPair()
   {
     KeywordPairImpl keywordPair = new KeywordPairImpl();
@@ -310,6 +326,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Matcher createMatcher()
   {
     MatcherImpl matcher = new MatcherImpl();
@@ -321,6 +338,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Locator createLocator()
   {
     LocatorImpl locator = new LocatorImpl();
@@ -332,6 +350,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NoFormatLocator createNoFormatLocator()
   {
     NoFormatLocatorImpl noFormatLocator = new NoFormatLocatorImpl();
@@ -343,6 +362,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SpaceLocator createSpaceLocator()
   {
     SpaceLocatorImpl spaceLocator = new SpaceLocatorImpl();
@@ -354,6 +374,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RightPaddingLocator createRightPaddingLocator()
   {
     RightPaddingLocatorImpl rightPaddingLocator = new RightPaddingLocatorImpl();
@@ -365,6 +386,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LinewrapLocator createLinewrapLocator()
   {
     LinewrapLocatorImpl linewrapLocator = new LinewrapLocatorImpl();
@@ -376,6 +398,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ColumnLocator createColumnLocator()
   {
     ColumnLocatorImpl columnLocator = new ColumnLocatorImpl();
@@ -387,6 +410,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public OffsetLocator createOffsetLocator()
   {
     OffsetLocatorImpl offsetLocator = new OffsetLocatorImpl();
@@ -398,6 +422,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IndentLocator createIndentLocator()
   {
     IndentLocatorImpl indentLocator = new IndentLocatorImpl();
@@ -431,6 +456,7 @@ public class FormatFactoryImpl extends EFactoryImpl implements FormatFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FormatPackage getFormatPackage()
   {
     return (FormatPackage)getEPackage();

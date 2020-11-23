@@ -72,10 +72,6 @@ public enum SeverityKind implements Enumerator
 	/**
 	 * The '<em><b>Default</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Default</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DEFAULT
 	 * @model name="default"
@@ -87,10 +83,6 @@ public enum SeverityKind implements Enumerator
 	/**
 	 * The '<em><b>Error</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Error</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ERROR
 	 * @model name="error"
@@ -102,10 +94,6 @@ public enum SeverityKind implements Enumerator
 	/**
 	 * The '<em><b>Warning</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Warning</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WARNING
 	 * @model name="warning"
@@ -117,10 +105,6 @@ public enum SeverityKind implements Enumerator
 	/**
 	 * The '<em><b>Info</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Info</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INFO
 	 * @model name="info"
@@ -132,10 +116,6 @@ public enum SeverityKind implements Enumerator
 	/**
 	 * The '<em><b>Ignore</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Ignore</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IGNORE
 	 * @model name="ignore"
@@ -270,6 +250,7 @@ public enum SeverityKind implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue()
 	{
 	  return value;
@@ -280,6 +261,7 @@ public enum SeverityKind implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 	  return name;
@@ -290,6 +272,7 @@ public enum SeverityKind implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral()
 	{
 	  return literal;

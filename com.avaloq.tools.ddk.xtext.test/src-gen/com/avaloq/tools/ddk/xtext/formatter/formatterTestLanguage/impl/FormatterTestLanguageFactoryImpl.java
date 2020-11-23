@@ -130,6 +130,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Root createRoot()
   {
     RootImpl root = new RootImpl();
@@ -141,6 +142,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Line createLine()
   {
     LineImpl line = new LineImpl();
@@ -152,6 +154,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Decl createDecl()
   {
     DeclImpl decl = new DeclImpl();
@@ -163,6 +166,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Assign createAssign()
   {
     AssignImpl assign = new AssignImpl();
@@ -174,6 +178,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Meth createMeth()
   {
     MethImpl meth = new MethImpl();
@@ -185,6 +190,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Param createParam()
   {
     ParamImpl param = new ParamImpl();
@@ -196,6 +202,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Space createSpace()
   {
     SpaceImpl space = new SpaceImpl();
@@ -207,6 +214,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TestLinewrap createTestLinewrap()
   {
     TestLinewrapImpl testLinewrap = new TestLinewrapImpl();
@@ -218,6 +226,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TestLinewrapMinMax createTestLinewrapMinMax()
   {
     TestLinewrapMinMaxImpl testLinewrapMinMax = new TestLinewrapMinMaxImpl();
@@ -229,6 +238,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TestIndentation createTestIndentation()
   {
     TestIndentationImpl testIndentation = new TestIndentationImpl();
@@ -240,6 +250,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TestColumn createTestColumn()
   {
     TestColumnImpl testColumn = new TestColumnImpl();
@@ -251,6 +262,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TestOffset createTestOffset()
   {
     TestOffsetImpl testOffset = new TestOffsetImpl();
@@ -262,6 +274,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TestRightPadding createTestRightPadding()
   {
     TestRightPaddingImpl testRightPadding = new TestRightPaddingImpl();
@@ -273,6 +286,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FqnObj createFqnObj()
   {
     FqnObjImpl fqnObj = new FqnObjImpl();
@@ -284,6 +298,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FqnRef createFqnRef()
   {
     FqnRefImpl fqnRef = new FqnRefImpl();
@@ -295,6 +310,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Enumeration createEnumeration()
   {
     EnumerationImpl enumeration = new EnumerationImpl();
@@ -306,6 +322,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SuppressedHidden createSuppressedHidden()
   {
     SuppressedHiddenImpl suppressedHidden = new SuppressedHiddenImpl();
@@ -317,6 +334,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SuppressedHiddenSub createSuppressedHiddenSub()
   {
     SuppressedHiddenSubImpl suppressedHiddenSub = new SuppressedHiddenSubImpl();
@@ -328,6 +346,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SuppressedHiddenSubSub createSuppressedHiddenSubSub()
   {
     SuppressedHiddenSubSubImpl suppressedHiddenSubSub = new SuppressedHiddenSubSubImpl();
@@ -339,6 +358,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SuppressedHiddenSubID createSuppressedHiddenSubID()
   {
     SuppressedHiddenSubIDImpl suppressedHiddenSubID = new SuppressedHiddenSubIDImpl();
@@ -350,6 +370,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Datatypes createDatatypes()
   {
     DatatypesImpl datatypes = new DatatypesImpl();
@@ -383,6 +404,7 @@ public class FormatterTestLanguageFactoryImpl extends EFactoryImpl implements Fo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FormatterTestLanguagePackage getFormatterTestLanguagePackage()
   {
     return (FormatterTestLanguagePackage)getEPackage();

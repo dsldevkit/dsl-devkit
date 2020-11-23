@@ -97,6 +97,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression createExpression()
   {
     ExpressionImpl expression = new ExpressionImpl();
@@ -108,6 +109,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SyntaxElement createSyntaxElement()
   {
     SyntaxElementImpl syntaxElement = new SyntaxElementImpl();
@@ -119,6 +121,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LetExpression createLetExpression()
   {
     LetExpressionImpl letExpression = new LetExpressionImpl();
@@ -130,6 +133,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CastedExpression createCastedExpression()
   {
     CastedExpressionImpl castedExpression = new CastedExpressionImpl();
@@ -141,6 +145,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IfExpression createIfExpression()
   {
     IfExpressionImpl ifExpression = new IfExpressionImpl();
@@ -152,6 +157,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SwitchExpression createSwitchExpression()
   {
     SwitchExpressionImpl switchExpression = new SwitchExpressionImpl();
@@ -163,6 +169,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Case createCase()
   {
     CaseImpl case_ = new CaseImpl();
@@ -174,6 +181,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public OperationCall createOperationCall()
   {
     OperationCallImpl operationCall = new OperationCallImpl();
@@ -185,6 +193,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Literal createLiteral()
   {
     LiteralImpl literal = new LiteralImpl();
@@ -196,6 +205,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BooleanLiteral createBooleanLiteral()
   {
     BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
@@ -207,6 +217,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntegerLiteral createIntegerLiteral()
   {
     IntegerLiteralImpl integerLiteral = new IntegerLiteralImpl();
@@ -218,6 +229,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NullLiteral createNullLiteral()
   {
     NullLiteralImpl nullLiteral = new NullLiteralImpl();
@@ -229,6 +241,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RealLiteral createRealLiteral()
   {
     RealLiteralImpl realLiteral = new RealLiteralImpl();
@@ -240,6 +253,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public StringLiteral createStringLiteral()
   {
     StringLiteralImpl stringLiteral = new StringLiteralImpl();
@@ -251,6 +265,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GlobalVarExpression createGlobalVarExpression()
   {
     GlobalVarExpressionImpl globalVarExpression = new GlobalVarExpressionImpl();
@@ -262,6 +277,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureCall createFeatureCall()
   {
     FeatureCallImpl featureCall = new FeatureCallImpl();
@@ -273,6 +289,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ListLiteral createListLiteral()
   {
     ListLiteralImpl listLiteral = new ListLiteralImpl();
@@ -284,6 +301,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ConstructorCallExpression createConstructorCallExpression()
   {
     ConstructorCallExpressionImpl constructorCallExpression = new ConstructorCallExpressionImpl();
@@ -295,6 +313,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TypeSelectExpression createTypeSelectExpression()
   {
     TypeSelectExpressionImpl typeSelectExpression = new TypeSelectExpressionImpl();
@@ -306,6 +325,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CollectionExpression createCollectionExpression()
   {
     CollectionExpressionImpl collectionExpression = new CollectionExpressionImpl();
@@ -317,6 +337,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Identifier createIdentifier()
   {
     IdentifierImpl identifier = new IdentifierImpl();
@@ -328,6 +349,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ChainExpression createChainExpression()
   {
     ChainExpressionImpl chainExpression = new ChainExpressionImpl();
@@ -339,6 +361,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BooleanOperation createBooleanOperation()
   {
     BooleanOperationImpl booleanOperation = new BooleanOperationImpl();
@@ -350,6 +373,7 @@ public class ExpressionFactoryImpl extends EFactoryImpl implements ExpressionFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExpressionPackage getExpressionPackage()
   {
     return (ExpressionPackage)getEPackage();

@@ -27,10 +27,6 @@ public interface Category extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
@@ -53,10 +49,6 @@ public interface Category extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Label</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Label</em>' attribute.
 	 * @see #setLabel(String)
@@ -80,10 +72,6 @@ public interface Category extends Documented, ImplicitlyNamed
 	 * Returns the value of the '<em><b>Checks</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.Check}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Checks</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Checks</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCategory_Checks()

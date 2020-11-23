@@ -150,7 +150,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ExportPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -165,11 +165,13 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 		if (isInited) return (ExportPackage)EPackage.Registry.INSTANCE.getEPackage(ExportPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ExportPackageImpl theExportPackage = (ExportPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ExportPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ExportPackageImpl());
+		Object registeredExportPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ExportPackageImpl theExportPackage = registeredExportPackage instanceof ExportPackageImpl ? (ExportPackageImpl)registeredExportPackage : new ExportPackageImpl();
 
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XtextPackage.eINSTANCE.eClass();
 		ExpressionPackage.eINSTANCE.eClass();
 
@@ -182,7 +184,6 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 		// Mark meta-data to indicate it can't be changed
 		theExportPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ExportPackage.eNS_URI, theExportPackage);
 		return theExportPackage;
@@ -193,6 +194,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExportModel()
 	{
 		return exportModelEClass;
@@ -203,6 +205,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExportModel_Extension()
 	{
 		return (EAttribute)exportModelEClass.getEStructuralFeatures().get(0);
@@ -213,6 +216,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExportModel_Name()
 	{
 		return (EAttribute)exportModelEClass.getEStructuralFeatures().get(1);
@@ -223,6 +227,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExportModel_TargetGrammar()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(2);
@@ -233,6 +238,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExportModel_Imports()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(3);
@@ -243,6 +249,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExportModel_Extensions()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(4);
@@ -253,6 +260,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExportModel_Interfaces()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(5);
@@ -263,6 +271,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExportModel_Exports()
 	{
 		return (EReference)exportModelEClass.getEStructuralFeatures().get(6);
@@ -273,6 +282,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getImport()
 	{
 		return importEClass;
@@ -283,6 +293,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getImport_Package()
 	{
 		return (EReference)importEClass.getEStructuralFeatures().get(0);
@@ -293,6 +304,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getImport_Name()
 	{
 		return (EAttribute)importEClass.getEStructuralFeatures().get(1);
@@ -303,6 +315,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExtension()
 	{
 		return extensionEClass;
@@ -313,6 +326,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExtension_Extension()
 	{
 		return (EAttribute)extensionEClass.getEStructuralFeatures().get(0);
@@ -323,6 +337,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDeclarationForType()
 	{
 		return declarationForTypeEClass;
@@ -333,6 +348,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDeclarationForType_Type()
 	{
 		return (EReference)declarationForTypeEClass.getEStructuralFeatures().get(0);
@@ -343,6 +359,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDeclarationForType_Guard()
 	{
 		return (EReference)declarationForTypeEClass.getEStructuralFeatures().get(1);
@@ -353,6 +370,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInterface()
 	{
 		return interfaceEClass;
@@ -363,6 +381,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInterface_Items()
 	{
 		return (EReference)interfaceEClass.getEStructuralFeatures().get(0);
@@ -373,6 +392,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInterfaceItem()
 	{
 		return interfaceItemEClass;
@@ -383,6 +403,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getInterfaceItem_Unordered()
 	{
 		return (EAttribute)interfaceItemEClass.getEStructuralFeatures().get(0);
@@ -393,6 +414,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInterfaceField()
 	{
 		return interfaceFieldEClass;
@@ -403,6 +425,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInterfaceField_Field()
 	{
 		return (EReference)interfaceFieldEClass.getEStructuralFeatures().get(0);
@@ -413,6 +436,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInterfaceNavigation()
 	{
 		return interfaceNavigationEClass;
@@ -423,6 +447,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInterfaceNavigation_Ref()
 	{
 		return (EReference)interfaceNavigationEClass.getEStructuralFeatures().get(0);
@@ -433,6 +458,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInterfaceExpression()
 	{
 		return interfaceExpressionEClass;
@@ -443,6 +469,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getInterfaceExpression_Ref()
 	{
 		return (EAttribute)interfaceExpressionEClass.getEStructuralFeatures().get(0);
@@ -453,6 +480,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInterfaceExpression_Expr()
 	{
 		return (EReference)interfaceExpressionEClass.getEStructuralFeatures().get(1);
@@ -463,6 +491,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExport()
 	{
 		return exportEClass;
@@ -473,6 +502,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExport_Lookup()
 	{
 		return (EAttribute)exportEClass.getEStructuralFeatures().get(0);
@@ -483,6 +513,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExport_LookupPredicate()
 	{
 		return (EReference)exportEClass.getEStructuralFeatures().get(1);
@@ -493,6 +524,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExport_QualifiedName()
 	{
 		return (EAttribute)exportEClass.getEStructuralFeatures().get(2);
@@ -503,6 +535,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExport_Naming()
 	{
 		return (EReference)exportEClass.getEStructuralFeatures().get(3);
@@ -513,6 +546,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExport_FragmentUnique()
 	{
 		return (EAttribute)exportEClass.getEStructuralFeatures().get(4);
@@ -523,6 +557,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExport_FragmentAttribute()
 	{
 		return (EReference)exportEClass.getEStructuralFeatures().get(5);
@@ -533,6 +568,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExport_Fingerprint()
 	{
 		return (EAttribute)exportEClass.getEStructuralFeatures().get(6);
@@ -543,6 +579,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExport_ResourceFingerprint()
 	{
 		return (EAttribute)exportEClass.getEStructuralFeatures().get(7);
@@ -553,6 +590,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExport_Attributes()
 	{
 		return (EReference)exportEClass.getEStructuralFeatures().get(8);
@@ -563,6 +601,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExport_UserData()
 	{
 		return (EReference)exportEClass.getEStructuralFeatures().get(9);
@@ -573,6 +612,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUserData()
 	{
 		return userDataEClass;
@@ -583,6 +623,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUserData_Name()
 	{
 		return (EAttribute)userDataEClass.getEStructuralFeatures().get(0);
@@ -593,6 +634,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUserData_Expr()
 	{
 		return (EReference)userDataEClass.getEStructuralFeatures().get(1);
@@ -603,6 +645,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttribute()
 	{
 		return attributeEClass;
@@ -613,6 +656,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttribute_Attribute()
 	{
 		return (EReference)attributeEClass.getEStructuralFeatures().get(0);
@@ -623,6 +667,7 @@ public class ExportPackageImpl extends EPackageImpl implements ExportPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExportFactory getExportFactory()
 	{
 		return (ExportFactory)getEFactoryInstance();

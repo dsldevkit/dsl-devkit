@@ -265,7 +265,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link FormatPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -280,12 +280,15 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
     if (isInited) return (FormatPackage)EPackage.Registry.INSTANCE.getEPackage(FormatPackage.eNS_URI);
 
     // Obtain or create and register package
-    FormatPackageImpl theFormatPackage = (FormatPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof FormatPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new FormatPackageImpl());
+    Object registeredFormatPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    FormatPackageImpl theFormatPackage = registeredFormatPackage instanceof FormatPackageImpl ? (FormatPackageImpl)registeredFormatPackage : new FormatPackageImpl();
 
     isInited = true;
 
     // Initialize simple dependencies
     XtextPackage.eINSTANCE.eClass();
+    EcorePackage.eINSTANCE.eClass();
+    TypesPackage.eINSTANCE.eClass();
     XbasePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
@@ -297,7 +300,6 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
     // Mark meta-data to indicate it can't be changed
     theFormatPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(FormatPackage.eNS_URI, theFormatPackage);
     return theFormatPackage;
@@ -308,6 +310,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFormatConfiguration()
   {
     return formatConfigurationEClass;
@@ -318,6 +321,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFormatConfiguration_TargetGrammar()
   {
     return (EReference)formatConfigurationEClass.getEStructuralFeatures().get(0);
@@ -328,6 +332,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFormatConfiguration_ExtendedFormatConfiguration()
   {
     return (EReference)formatConfigurationEClass.getEStructuralFeatures().get(1);
@@ -338,6 +343,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFormatConfiguration_FormatterBaseClass()
   {
     return (EReference)formatConfigurationEClass.getEStructuralFeatures().get(2);
@@ -348,6 +354,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFormatConfiguration_Constants()
   {
     return (EReference)formatConfigurationEClass.getEStructuralFeatures().get(3);
@@ -358,6 +365,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFormatConfiguration_Rules()
   {
     return (EReference)formatConfigurationEClass.getEStructuralFeatures().get(4);
@@ -368,6 +376,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getConstant()
   {
     return constantEClass;
@@ -378,6 +387,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getConstant_IntType()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(0);
@@ -388,6 +398,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getConstant_StringType()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(1);
@@ -398,6 +409,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getConstant_Name()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(2);
@@ -408,6 +420,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getConstant_IntValue()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(3);
@@ -418,6 +431,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getConstant_StringValue()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(4);
@@ -428,6 +442,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getIntValue()
   {
     return intValueEClass;
@@ -438,6 +453,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getIntValue_Literal()
   {
     return (EAttribute)intValueEClass.getEStructuralFeatures().get(0);
@@ -448,6 +464,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getIntValue_Reference()
   {
     return (EReference)intValueEClass.getEStructuralFeatures().get(1);
@@ -458,6 +475,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getStringValue()
   {
     return stringValueEClass;
@@ -468,6 +486,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getStringValue_Literal()
   {
     return (EAttribute)stringValueEClass.getEStructuralFeatures().get(0);
@@ -478,6 +497,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getStringValue_Reference()
   {
     return (EReference)stringValueEClass.getEStructuralFeatures().get(1);
@@ -488,6 +508,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRule()
   {
     return ruleEClass;
@@ -498,6 +519,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Override()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(0);
@@ -508,6 +530,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGrammarRule()
   {
     return grammarRuleEClass;
@@ -518,6 +541,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarRule_TargetRule()
   {
     return (EReference)grammarRuleEClass.getEStructuralFeatures().get(0);
@@ -528,6 +552,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarRule_Directives()
   {
     return (EReference)grammarRuleEClass.getEStructuralFeatures().get(1);
@@ -538,6 +563,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getWildcardRule()
   {
     return wildcardRuleEClass;
@@ -548,6 +574,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getWildcardRule_Directives()
   {
     return (EReference)wildcardRuleEClass.getEStructuralFeatures().get(0);
@@ -558,6 +585,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGrammarRuleDirective()
   {
     return grammarRuleDirectiveEClass;
@@ -568,6 +596,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getWildcardRuleDirective()
   {
     return wildcardRuleDirectiveEClass;
@@ -578,6 +607,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGrammarElementReference()
   {
     return grammarElementReferenceEClass;
@@ -588,6 +618,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarElementReference_Assignment()
   {
     return (EReference)grammarElementReferenceEClass.getEStructuralFeatures().get(0);
@@ -598,6 +629,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarElementReference_RuleCall()
   {
     return (EReference)grammarElementReferenceEClass.getEStructuralFeatures().get(1);
@@ -608,6 +640,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarElementReference_Self()
   {
     return (EReference)grammarElementReferenceEClass.getEStructuralFeatures().get(2);
@@ -618,6 +651,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarElementReference_Rule()
   {
     return (EReference)grammarElementReferenceEClass.getEStructuralFeatures().get(3);
@@ -628,6 +662,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarElementReference_Keyword()
   {
     return (EReference)grammarElementReferenceEClass.getEStructuralFeatures().get(4);
@@ -638,6 +673,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGrammarElementLookup()
   {
     return grammarElementLookupEClass;
@@ -648,6 +684,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGrammarElementLookup_Rule()
   {
     return (EReference)grammarElementLookupEClass.getEStructuralFeatures().get(0);
@@ -658,6 +695,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGrammarElementLookup_Keyword()
   {
     return (EAttribute)grammarElementLookupEClass.getEStructuralFeatures().get(1);
@@ -668,6 +706,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getContextFreeDirective()
   {
     return contextFreeDirectiveEClass;
@@ -678,6 +717,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getContextFreeDirective_GrammarElements()
   {
     return (EReference)contextFreeDirectiveEClass.getEStructuralFeatures().get(0);
@@ -688,6 +728,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getContextFreeDirective_MatcherList()
   {
     return (EReference)contextFreeDirectiveEClass.getEStructuralFeatures().get(1);
@@ -698,6 +739,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSpecificDirective()
   {
     return specificDirectiveEClass;
@@ -708,6 +750,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSpecificDirective_GrammarElements()
   {
     return (EReference)specificDirectiveEClass.getEStructuralFeatures().get(0);
@@ -718,6 +761,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSpecificDirective_MatcherList()
   {
     return (EReference)specificDirectiveEClass.getEStructuralFeatures().get(1);
@@ -728,6 +772,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMatcherList()
   {
     return matcherListEClass;
@@ -738,6 +783,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMatcherList_Matchers()
   {
     return (EReference)matcherListEClass.getEStructuralFeatures().get(0);
@@ -748,6 +794,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGroupBlock()
   {
     return groupBlockEClass;
@@ -758,6 +805,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGroupBlock_GrammarElement()
   {
     return (EReference)groupBlockEClass.getEStructuralFeatures().get(0);
@@ -768,6 +816,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGroupBlock_MatcherList()
   {
     return (EReference)groupBlockEClass.getEStructuralFeatures().get(1);
@@ -778,6 +827,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGroupBlock_SubGroup()
   {
     return (EReference)groupBlockEClass.getEStructuralFeatures().get(2);
@@ -788,6 +838,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGroupBlock_Directives()
   {
     return (EReference)groupBlockEClass.getEStructuralFeatures().get(3);
@@ -798,6 +849,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getKeywordPair()
   {
     return keywordPairEClass;
@@ -808,6 +860,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getKeywordPair_Left()
   {
     return (EAttribute)keywordPairEClass.getEStructuralFeatures().get(0);
@@ -818,6 +871,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getKeywordPair_Right()
   {
     return (EAttribute)keywordPairEClass.getEStructuralFeatures().get(1);
@@ -828,6 +882,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getKeywordPair_LeftMatchers()
   {
     return (EReference)keywordPairEClass.getEStructuralFeatures().get(2);
@@ -838,6 +893,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getKeywordPair_RightMatchers()
   {
     return (EReference)keywordPairEClass.getEStructuralFeatures().get(3);
@@ -848,6 +904,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMatcher()
   {
     return matcherEClass;
@@ -858,6 +915,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMatcher_Locator()
   {
     return (EReference)matcherEClass.getEStructuralFeatures().get(0);
@@ -868,6 +926,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMatcher_Type()
   {
     return (EAttribute)matcherEClass.getEStructuralFeatures().get(1);
@@ -878,6 +937,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMatcher_Condition()
   {
     return (EReference)matcherEClass.getEStructuralFeatures().get(2);
@@ -888,6 +948,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLocator()
   {
     return locatorEClass;
@@ -898,6 +959,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNoFormatLocator()
   {
     return noFormatLocatorEClass;
@@ -908,6 +970,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSpaceLocator()
   {
     return spaceLocatorEClass;
@@ -918,6 +981,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSpaceLocator_Value()
   {
     return (EReference)spaceLocatorEClass.getEStructuralFeatures().get(0);
@@ -928,6 +992,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSpaceLocator_NoSpace()
   {
     return (EAttribute)spaceLocatorEClass.getEStructuralFeatures().get(1);
@@ -938,6 +1003,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRightPaddingLocator()
   {
     return rightPaddingLocatorEClass;
@@ -948,6 +1014,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRightPaddingLocator_Value()
   {
     return (EReference)rightPaddingLocatorEClass.getEStructuralFeatures().get(0);
@@ -958,6 +1025,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLinewrapLocator()
   {
     return linewrapLocatorEClass;
@@ -968,6 +1036,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLinewrapLocator_Value()
   {
     return (EReference)linewrapLocatorEClass.getEStructuralFeatures().get(0);
@@ -978,6 +1047,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLinewrapLocator_Minimum()
   {
     return (EReference)linewrapLocatorEClass.getEStructuralFeatures().get(1);
@@ -988,6 +1058,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLinewrapLocator_Default()
   {
     return (EReference)linewrapLocatorEClass.getEStructuralFeatures().get(2);
@@ -998,6 +1069,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLinewrapLocator_Maximum()
   {
     return (EReference)linewrapLocatorEClass.getEStructuralFeatures().get(3);
@@ -1008,6 +1080,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getLinewrapLocator_NoLinewrap()
   {
     return (EAttribute)linewrapLocatorEClass.getEStructuralFeatures().get(4);
@@ -1018,6 +1091,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getColumnLocator()
   {
     return columnLocatorEClass;
@@ -1028,6 +1102,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getColumnLocator_Fixed()
   {
     return (EAttribute)columnLocatorEClass.getEStructuralFeatures().get(0);
@@ -1038,6 +1113,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getColumnLocator_Value()
   {
     return (EReference)columnLocatorEClass.getEStructuralFeatures().get(1);
@@ -1048,6 +1124,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getColumnLocator_Parameter()
   {
     return (EReference)columnLocatorEClass.getEStructuralFeatures().get(2);
@@ -1058,6 +1135,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getColumnLocator_Relative()
   {
     return (EAttribute)columnLocatorEClass.getEStructuralFeatures().get(3);
@@ -1068,6 +1146,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getColumnLocator_Nobreak()
   {
     return (EAttribute)columnLocatorEClass.getEStructuralFeatures().get(4);
@@ -1078,6 +1157,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getOffsetLocator()
   {
     return offsetLocatorEClass;
@@ -1088,6 +1168,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getOffsetLocator_Fixed()
   {
     return (EAttribute)offsetLocatorEClass.getEStructuralFeatures().get(0);
@@ -1098,6 +1179,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getOffsetLocator_Value()
   {
     return (EReference)offsetLocatorEClass.getEStructuralFeatures().get(1);
@@ -1108,6 +1190,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getOffsetLocator_Nobreak()
   {
     return (EAttribute)offsetLocatorEClass.getEStructuralFeatures().get(2);
@@ -1118,6 +1201,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getIndentLocator()
   {
     return indentLocatorEClass;
@@ -1128,6 +1212,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getIndentLocator_Increment()
   {
     return (EAttribute)indentLocatorEClass.getEStructuralFeatures().get(0);
@@ -1138,6 +1223,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getIndentLocator_Value()
   {
     return (EReference)indentLocatorEClass.getEStructuralFeatures().get(1);
@@ -1148,6 +1234,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getIndentLocator_Parameter()
   {
     return (EReference)indentLocatorEClass.getEStructuralFeatures().get(2);
@@ -1158,6 +1245,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getMatcherType()
   {
     return matcherTypeEEnum;
@@ -1168,6 +1256,7 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FormatFactory getFormatFactory()
   {
     return (FormatFactory)getEFactoryInstance();

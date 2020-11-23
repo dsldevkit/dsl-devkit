@@ -84,6 +84,7 @@ public class ContextFreeDirectiveImpl extends GrammarRuleDirectiveImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GrammarElementLookup> getGrammarElements()
   {
     if (grammarElements == null)
@@ -98,6 +99,7 @@ public class ContextFreeDirectiveImpl extends GrammarRuleDirectiveImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MatcherList getMatcherList()
   {
     return matcherList;
@@ -125,6 +127,7 @@ public class ContextFreeDirectiveImpl extends GrammarRuleDirectiveImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMatcherList(MatcherList newMatcherList)
   {
     if (newMatcherList != matcherList)

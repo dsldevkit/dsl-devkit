@@ -113,6 +113,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Assignment getAssignment()
   {
     if (assignment != null && assignment.eIsProxy())
@@ -143,6 +144,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAssignment(Assignment newAssignment)
   {
     Assignment oldAssignment = assignment;
@@ -156,6 +158,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RuleCall getRuleCall()
   {
     if (ruleCall != null && ruleCall.eIsProxy())
@@ -186,6 +189,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRuleCall(RuleCall newRuleCall)
   {
     RuleCall oldRuleCall = ruleCall;
@@ -199,6 +203,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AbstractRule getSelf()
   {
     if (self != null && self.eIsProxy())
@@ -229,6 +234,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSelf(AbstractRule newSelf)
   {
     AbstractRule oldSelf = self;
@@ -242,6 +248,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AbstractRule getRule()
   {
     if (rule != null && rule.eIsProxy())
@@ -272,6 +279,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRule(AbstractRule newRule)
   {
     AbstractRule oldRule = rule;
@@ -285,6 +293,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Keyword getKeyword()
   {
     if (keyword != null && keyword.eIsProxy())
@@ -315,6 +324,7 @@ public class GrammarElementReferenceImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKeyword(Keyword newKeyword)
   {
     Keyword oldKeyword = keyword;

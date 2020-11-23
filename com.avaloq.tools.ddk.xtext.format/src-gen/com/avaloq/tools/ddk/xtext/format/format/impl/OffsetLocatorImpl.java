@@ -107,6 +107,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFixed()
   {
     return fixed;
@@ -117,6 +118,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFixed(boolean newFixed)
   {
     boolean oldFixed = fixed;
@@ -130,6 +132,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getValue()
   {
     return value;
@@ -157,6 +160,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(IntValue newValue)
   {
     if (newValue != value)
@@ -178,6 +182,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNobreak()
   {
     return nobreak;
@@ -188,6 +193,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNobreak(boolean newNobreak)
   {
     boolean oldNobreak = nobreak;
@@ -308,7 +314,7 @@ public class OffsetLocatorImpl extends LocatorImpl implements OffsetLocator
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (fixed: ");
     result.append(fixed);
     result.append(", nobreak: ");
