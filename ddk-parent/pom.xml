@@ -181,6 +181,7 @@
         <configuration>
           <showDeprecation>${compiler.showWarnings}</showDeprecation>
           <showWarnings>${compiler.showWarnings}</showWarnings>
+          <useProjectSettings>false</useProjectSettings>
           <source>1.8</source>
           <target>1.8</target>
           <!-- Disable 'Unsupported @SuppressWarnings' warnings More information
