@@ -12,16 +12,13 @@
 package com.avaloq.tools.ddk.check.core.test
 
 import com.avaloq.tools.ddk.check.CheckInjectorProvider
-import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl
-import com.google.common.collect.ImmutableMap
 import java.io.ByteArrayInputStream
-import java.util.Collections
-import java.util.Map
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Ignore
+import java.util.List
+import org.eclipse.xtext.xbase.testing.JavaSource
 
 /**
  * Unit test for autogeneration of check issue code to label map.
@@ -37,7 +34,6 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
    * Test the map generated from a catalog with no checks.
    */
   @Test
-  @Ignore
   def void testMapGenerationWithNoChecks() {
     // ARRANGE
     val source = '''
@@ -49,17 +45,17 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
       }
     ''';
 
-    val expectedMap = Collections.emptyMap
+    // check for the construction of an empty map
+    val expectedCatalog = #['ImmutableMap.<String,String>builder().build()']
 
     // ACT AND ASSERT
-    testMapGeneration(source, expectedMap)
+    testMapGeneration(source, expectedCatalog)
   }
 
   /**
    * Test the map generated from a catalog with checks.
    */
   @Test
-  @Ignore
   def void testMapGeneration() {
     // ARRANGE
     // @Format-Off
@@ -94,13 +90,12 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
         }
       }
     ''';
-
-    val expectedMap = #{"mypackage.MyCatalogIssueCodes.id.1" -> "Label 1",
-                        "mypackage.MyCatalogIssueCodes.id.2" -> "Label 2"}
     // @Format-On
 
+    val expectedCatalog = #['put(MyCatalogIssueCodes.ID_1,"Label1")','put(MyCatalogIssueCodes.ID_2,"Label2")']
+
     // ACT AND ASSERT
-    testMapGeneration(source, expectedMap)
+    testMapGeneration(source, expectedCatalog)
   }
 
   /**
@@ -110,29 +105,24 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
    * @param expectedMap
    *          the expected map, may be {@code null}
    */
-  def void testMapGeneration(String source, Map<String, String> expectedMap) {
+  def void testMapGeneration(String source, List<String> expectedCatalog) {
     // ACT
-    var Map<String, Class<?>> compiledClassesMap
+    var List<JavaSource> compiledClassesList
     val sourceStream = new ByteArrayInputStream(source.getBytes());
     try {
-      compiledClassesMap = generateAndCompile(sourceStream);
+      compiledClassesList = generateAndCompile(sourceStream);
     } finally {
       sourceStream.close
     }
 
     // ASSERT
-    val catalogClassName = '''«PACKAGE_NAME».«CATALOG_NAME»«CATALOG_NAME_SUFFIX»'''
-    val validatorClassName = '''«PACKAGE_NAME».«CATALOG_NAME»«VALIDATOR_NAME_SUFFIX»'''
-    val mapGetterName = "getIssueCodeToLabelMap"
+    val catalogClassName = '''«CATALOG_NAME»«CATALOG_NAME_SUFFIX»'''
 
-    val catalogClass = compiledClassesMap.get(catalogClassName);
-    val validatorClass = compiledClassesMap.get(validatorClassName) as Class<ICheckValidatorImpl>;
+    val catalogClass = compiledClassesList.findFirst[s | s.fileName.equals(catalogClassName)].code;
 
-    val mapFromCatalog = catalogClass.getMethod(mapGetterName).invoke(null) as ImmutableMap<String, String>;
-    val mapFromValidator = validatorClass.newInstance().getIssueCodeToLabelMap();
-
-    assertEquals('''«catalogClassName».«mapGetterName»() was generated correctly''', expectedMap, mapFromCatalog)
-    assertEquals('''«validatorClassName».«mapGetterName»() was generated correctly''', expectedMap, mapFromValidator)
+    for (code: expectedCatalog) {
+      assertTrue('''«catalogClassName» was generated correctly''', catalogClass.replaceAll("\\s+","").contains(code))    	
+    }
   }
 
 }
