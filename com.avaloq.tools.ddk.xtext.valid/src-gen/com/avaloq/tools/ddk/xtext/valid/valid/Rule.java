@@ -31,10 +31,6 @@ public interface Rule extends EObject
   /**
    * Returns the value of the '<em><b>Optional</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Optional</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Optional</em>' attribute.
    * @see #setOptional(boolean)
@@ -58,10 +54,6 @@ public interface Rule extends EObject
    * Returns the value of the '<em><b>Check Kind</b></em>' attribute.
    * The literals are from the enumeration {@link com.avaloq.tools.ddk.xtext.valid.valid.CheckKind}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Check Kind</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Check Kind</em>' attribute.
    * @see com.avaloq.tools.ddk.xtext.valid.valid.CheckKind
@@ -87,10 +79,6 @@ public interface Rule extends EObject
    * Returns the value of the '<em><b>Severity</b></em>' attribute.
    * The literals are from the enumeration {@link com.avaloq.tools.ddk.xtext.valid.valid.SeverityKind}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Severity</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Severity</em>' attribute.
    * @see com.avaloq.tools.ddk.xtext.valid.valid.SeverityKind
@@ -115,10 +103,6 @@ public interface Rule extends EObject
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -141,10 +125,6 @@ public interface Rule extends EObject
   /**
    * Returns the value of the '<em><b>Label</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Label</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Label</em>' attribute.
    * @see #setLabel(String)
@@ -167,10 +147,6 @@ public interface Rule extends EObject
   /**
    * Returns the value of the '<em><b>Description</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Description</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Description</em>' attribute.
    * @see #setDescription(String)
@@ -193,10 +169,6 @@ public interface Rule extends EObject
   /**
    * Returns the value of the '<em><b>Message</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Message</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Message</em>' attribute.
    * @see #setMessage(String)

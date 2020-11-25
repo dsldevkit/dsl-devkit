@@ -94,6 +94,7 @@ public class InjectionImpl extends MinimalEObjectImpl.Container implements Injec
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getType()
   {
     return type;
@@ -104,6 +105,7 @@ public class InjectionImpl extends MinimalEObjectImpl.Container implements Injec
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(String newType)
   {
     String oldType = type;
@@ -117,6 +119,7 @@ public class InjectionImpl extends MinimalEObjectImpl.Container implements Injec
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -127,6 +130,7 @@ public class InjectionImpl extends MinimalEObjectImpl.Container implements Injec
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;

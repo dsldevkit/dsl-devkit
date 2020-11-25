@@ -34,10 +34,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Severity Range</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Severity Range</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Severity Range</em>' containment reference.
 	 * @see #setSeverityRange(SeverityRange)
@@ -60,10 +56,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Final</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Final</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Final</em>' attribute.
 	 * @see #setFinal(boolean)
@@ -87,10 +79,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.avaloq.tools.ddk.check.check.TriggerKind}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Kind</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Kind</em>' attribute.
 	 * @see com.avaloq.tools.ddk.check.check.TriggerKind
@@ -116,10 +104,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	 * Returns the value of the '<em><b>Default Severity</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.avaloq.tools.ddk.check.check.SeverityKind}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Default Severity</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Default Severity</em>' attribute.
 	 * @see com.avaloq.tools.ddk.check.check.SeverityKind
@@ -144,10 +128,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
@@ -170,10 +150,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Label</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Label</em>' attribute.
 	 * @see #setLabel(String)
@@ -197,10 +173,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	 * Returns the value of the '<em><b>Formal Parameters</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.FormalParameter}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Formal Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Formal Parameters</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheck_FormalParameters()
@@ -212,10 +184,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Given Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Given Message</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Given Message</em>' attribute.
 	 * @see #setGivenMessage(String)
@@ -239,10 +207,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	 * Returns the value of the '<em><b>Contexts</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.Context}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Contexts</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Contexts</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheck_Contexts()
@@ -254,10 +218,6 @@ public interface Check extends Documented, ImplicitlyNamed
 	/**
 	 * Returns the value of the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Message</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Message</em>' attribute.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheck_Message()

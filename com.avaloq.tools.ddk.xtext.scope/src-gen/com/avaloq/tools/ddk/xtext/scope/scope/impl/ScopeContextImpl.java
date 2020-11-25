@@ -99,6 +99,7 @@ public class ScopeContextImpl extends MinimalEObjectImpl.Container implements Sc
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isGlobal()
   {
     return global;
@@ -109,6 +110,7 @@ public class ScopeContextImpl extends MinimalEObjectImpl.Container implements Sc
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGlobal(boolean newGlobal)
   {
     boolean oldGlobal = global;
@@ -122,6 +124,7 @@ public class ScopeContextImpl extends MinimalEObjectImpl.Container implements Sc
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getContextType()
   {
     if (contextType != null && contextType.eIsProxy())
@@ -152,6 +155,7 @@ public class ScopeContextImpl extends MinimalEObjectImpl.Container implements Sc
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContextType(EClass newContextType)
   {
     EClass oldContextType = contextType;
@@ -165,6 +169,7 @@ public class ScopeContextImpl extends MinimalEObjectImpl.Container implements Sc
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getGuard()
   {
     return guard;
@@ -192,6 +197,7 @@ public class ScopeContextImpl extends MinimalEObjectImpl.Container implements Sc
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGuard(Expression newGuard)
   {
     if (newGuard != guard)

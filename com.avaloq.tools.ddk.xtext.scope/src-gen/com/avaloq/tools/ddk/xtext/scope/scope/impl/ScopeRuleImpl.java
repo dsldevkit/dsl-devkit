@@ -85,6 +85,7 @@ public class ScopeRuleImpl extends MinimalEObjectImpl.Container implements Scope
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeContext getContext()
   {
     return context;
@@ -112,6 +113,7 @@ public class ScopeRuleImpl extends MinimalEObjectImpl.Container implements Scope
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContext(ScopeContext newContext)
   {
     if (newContext != context)
@@ -133,6 +135,7 @@ public class ScopeRuleImpl extends MinimalEObjectImpl.Container implements Scope
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ScopeExpression> getExprs()
   {
     if (exprs == null)

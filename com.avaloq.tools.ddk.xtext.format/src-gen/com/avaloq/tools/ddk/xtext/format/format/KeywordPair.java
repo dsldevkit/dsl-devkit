@@ -28,10 +28,6 @@ public interface KeywordPair extends GrammarRuleDirective, WildcardRuleDirective
   /**
    * Returns the value of the '<em><b>Left</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Left</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Left</em>' attribute.
    * @see #setLeft(String)
@@ -54,10 +50,6 @@ public interface KeywordPair extends GrammarRuleDirective, WildcardRuleDirective
   /**
    * Returns the value of the '<em><b>Right</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Right</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Right</em>' attribute.
    * @see #setRight(String)
@@ -81,10 +73,6 @@ public interface KeywordPair extends GrammarRuleDirective, WildcardRuleDirective
    * Returns the value of the '<em><b>Left Matchers</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.Matcher}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Left Matchers</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Left Matchers</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getKeywordPair_LeftMatchers()
@@ -97,10 +85,6 @@ public interface KeywordPair extends GrammarRuleDirective, WildcardRuleDirective
    * Returns the value of the '<em><b>Right Matchers</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.Matcher}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Right Matchers</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Right Matchers</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getKeywordPair_RightMatchers()

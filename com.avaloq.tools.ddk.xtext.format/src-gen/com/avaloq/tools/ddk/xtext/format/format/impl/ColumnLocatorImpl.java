@@ -141,6 +141,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFixed()
   {
     return fixed;
@@ -151,6 +152,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFixed(boolean newFixed)
   {
     boolean oldFixed = fixed;
@@ -164,6 +166,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getValue()
   {
     return value;
@@ -191,6 +194,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(IntValue newValue)
   {
     if (newValue != value)
@@ -212,6 +216,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XExpression getParameter()
   {
     return parameter;
@@ -239,6 +244,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParameter(XExpression newParameter)
   {
     if (newParameter != parameter)
@@ -260,6 +266,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isRelative()
   {
     return relative;
@@ -270,6 +277,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRelative(boolean newRelative)
   {
     boolean oldRelative = relative;
@@ -283,6 +291,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNobreak()
   {
     return nobreak;
@@ -293,6 +302,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNobreak(boolean newNobreak)
   {
     boolean oldNobreak = nobreak;
@@ -435,7 +445,7 @@ public class ColumnLocatorImpl extends LocatorImpl implements ColumnLocator
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (fixed: ");
     result.append(fixed);
     result.append(", relative: ");

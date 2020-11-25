@@ -80,6 +80,7 @@ public class ConfiguredParameterImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public FormalParameter getParameter()
 	{
 		if (parameter != null && parameter.eIsProxy())
@@ -110,6 +111,7 @@ public class ConfiguredParameterImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setParameter(FormalParameter newParameter)
 	{
 		FormalParameter oldParameter = parameter;
@@ -123,6 +125,7 @@ public class ConfiguredParameterImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getNewValue()
 	{
 		return newValue;
@@ -150,6 +153,7 @@ public class ConfiguredParameterImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNewValue(XExpression newNewValue)
 	{
 		if (newNewValue != newValue)

@@ -137,6 +137,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public QuickFixKind getQuickFixKind()
   {
     return quickFixKind;
@@ -147,6 +148,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setQuickFixKind(QuickFixKind newQuickFixKind)
   {
     QuickFixKind oldQuickFixKind = quickFixKind;
@@ -160,6 +162,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -170,6 +173,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -183,6 +187,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLabel()
   {
     return label;
@@ -193,6 +198,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLabel(String newLabel)
   {
     String oldLabel = label;
@@ -206,6 +212,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getMessage()
   {
     return message;
@@ -216,6 +223,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMessage(String newMessage)
   {
     String oldMessage = message;
@@ -330,7 +338,7 @@ public class QuickFixImpl extends MinimalEObjectImpl.Container implements QuickF
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (quickFixKind: ");
     result.append(quickFixKind);
     result.append(", name: ");

@@ -77,6 +77,7 @@ public class ParamImpl extends MinimalEObjectImpl.Container implements Param
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getName()
   {
     if (name == null)
@@ -91,6 +92,7 @@ public class ParamImpl extends MinimalEObjectImpl.Container implements Param
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getType()
   {
     if (type == null)
@@ -189,7 +191,7 @@ public class ParamImpl extends MinimalEObjectImpl.Container implements Param
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(", type: ");

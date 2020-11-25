@@ -197,6 +197,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPackageName()
 	{
 		return packageName;
@@ -207,6 +208,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPackageName(String newPackageName)
 	{
 		String oldPackageName = packageName;
@@ -220,6 +222,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XImportSection getImports()
 	{
 		return imports;
@@ -247,6 +250,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImports(XImportSection newImports)
 	{
 		if (newImports != imports)
@@ -268,6 +272,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isFinal()
 	{
 		return final_;
@@ -278,6 +283,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFinal(boolean newFinal)
 	{
 		boolean oldFinal = final_;
@@ -291,6 +297,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -301,6 +308,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName)
 	{
 		String oldName = name;
@@ -314,6 +322,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Grammar getGrammar()
 	{
 		if (grammar != null && grammar.eIsProxy())
@@ -344,6 +353,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGrammar(Grammar newGrammar)
 	{
 		Grammar oldGrammar = grammar;
@@ -357,6 +367,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Category> getCategories()
 	{
 		if (categories == null)
@@ -371,6 +382,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Implementation> getImplementations()
 	{
 		if (implementations == null)
@@ -385,6 +397,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Check> getChecks()
 	{
 		if (checks == null)
@@ -399,6 +412,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Member> getMembers()
 	{
 		if (members == null)
@@ -413,6 +427,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Check> getAllChecks()
 	{
 		// TODO: implement this method
@@ -606,7 +621,7 @@ public class CheckCatalogImpl extends DocumentedImplCustom implements CheckCatal
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (packageName: ");
 		result.append(packageName);
 		result.append(", final: ");

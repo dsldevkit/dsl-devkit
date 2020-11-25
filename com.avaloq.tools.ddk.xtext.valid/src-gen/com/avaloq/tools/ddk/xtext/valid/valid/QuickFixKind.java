@@ -42,10 +42,6 @@ public enum QuickFixKind implements Enumerator
   /**
    * The '<em><b>Semantic</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Semantic</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #SEMANTIC
    * @model name="semantic"
@@ -57,10 +53,6 @@ public enum QuickFixKind implements Enumerator
   /**
    * The '<em><b>Textual</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Textual</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #TEXTUAL
    * @model name="textual"
@@ -189,6 +181,7 @@ public enum QuickFixKind implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -199,6 +192,7 @@ public enum QuickFixKind implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -209,6 +203,7 @@ public enum QuickFixKind implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLiteral()
   {
     return literal;

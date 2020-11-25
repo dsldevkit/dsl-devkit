@@ -96,6 +96,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isRef()
 	{
 		return ref;
@@ -106,6 +107,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRef(boolean newRef)
 	{
 		boolean oldRef = ref;
@@ -121,6 +123,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetRef()
 	{
 		boolean oldRef = ref;
@@ -136,6 +139,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetRef()
 	{
 		return refESet;
@@ -146,6 +150,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getExpr()
 	{
 		return expr;
@@ -173,6 +178,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpr(Expression newExpr)
 	{
 		if (newExpr != expr)
@@ -291,7 +297,7 @@ public class InterfaceExpressionImpl extends InterfaceItemImpl implements Interf
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (ref: ");
 		if (refESet) result.append(ref); else result.append("<unset>");
 		result.append(')');

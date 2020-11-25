@@ -27,10 +27,6 @@ public interface ScopeDelegation extends ScopeExpression
   /**
    * Returns the value of the '<em><b>Delegate</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Delegate</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Delegate</em>' containment reference.
    * @see #setDelegate(Expression)
@@ -53,10 +49,6 @@ public interface ScopeDelegation extends ScopeExpression
   /**
    * Returns the value of the '<em><b>External</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>External</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>External</em>' containment reference.
    * @see #setExternal(GlobalScopeExpression)
@@ -79,10 +71,6 @@ public interface ScopeDelegation extends ScopeExpression
   /**
    * Returns the value of the '<em><b>Scope</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Scope</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Scope</em>' reference.
    * @see #setScope(ScopeDefinition)

@@ -88,6 +88,7 @@ public class UserDataImpl extends MinimalEObjectImpl.Container implements UserDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -98,6 +99,7 @@ public class UserDataImpl extends MinimalEObjectImpl.Container implements UserDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName)
 	{
 		String oldName = name;
@@ -111,6 +113,7 @@ public class UserDataImpl extends MinimalEObjectImpl.Container implements UserDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getExpr()
 	{
 		return expr;
@@ -138,6 +141,7 @@ public class UserDataImpl extends MinimalEObjectImpl.Container implements UserDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpr(Expression newExpr)
 	{
 		if (newExpr != expr)
@@ -256,7 +260,7 @@ public class UserDataImpl extends MinimalEObjectImpl.Container implements UserDa
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

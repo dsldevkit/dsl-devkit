@@ -125,6 +125,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLeft()
   {
     return left;
@@ -135,6 +136,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLeft(String newLeft)
   {
     String oldLeft = left;
@@ -148,6 +150,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRight()
   {
     return right;
@@ -158,6 +161,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRight(String newRight)
   {
     String oldRight = right;
@@ -171,6 +175,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Matcher> getLeftMatchers()
   {
     if (leftMatchers == null)
@@ -185,6 +190,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Matcher> getRightMatchers()
   {
     if (rightMatchers == null)
@@ -321,7 +327,7 @@ public class KeywordPairImpl extends GrammarRuleDirectiveImpl implements Keyword
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (left: ");
     result.append(left);
     result.append(", right: ");

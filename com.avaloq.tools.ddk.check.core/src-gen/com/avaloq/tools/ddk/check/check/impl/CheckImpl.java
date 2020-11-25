@@ -247,6 +247,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		// TODO: implement this method to return the 'Name' attribute
@@ -259,6 +260,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SeverityRange getSeverityRange()
 	{
 		return severityRange;
@@ -286,6 +288,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSeverityRange(SeverityRange newSeverityRange)
 	{
 		if (newSeverityRange != severityRange)
@@ -307,6 +310,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isFinal()
 	{
 		return final_;
@@ -317,6 +321,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFinal(boolean newFinal)
 	{
 		boolean oldFinal = final_;
@@ -330,6 +335,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TriggerKind getKind()
 	{
 		return kind;
@@ -340,6 +346,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKind(TriggerKind newKind)
 	{
 		TriggerKind oldKind = kind;
@@ -353,6 +360,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SeverityKind getDefaultSeverity()
 	{
 		return defaultSeverity;
@@ -363,6 +371,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefaultSeverity(SeverityKind newDefaultSeverity)
 	{
 		SeverityKind oldDefaultSeverity = defaultSeverity;
@@ -376,6 +385,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId()
 	{
 		return id;
@@ -386,6 +396,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId)
 	{
 		String oldId = id;
@@ -399,6 +410,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLabel()
 	{
 		return label;
@@ -409,6 +421,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLabel(String newLabel)
 	{
 		String oldLabel = label;
@@ -422,6 +435,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<FormalParameter> getFormalParameters()
 	{
 		if (formalParameters == null)
@@ -436,6 +450,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getGivenMessage()
 	{
 		return givenMessage;
@@ -446,6 +461,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGivenMessage(String newGivenMessage)
 	{
 		String oldGivenMessage = givenMessage;
@@ -459,6 +475,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Context> getContexts()
 	{
 		if (contexts == null)
@@ -473,6 +490,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getMessage()
 	{
 		// TODO: implement this method to return the 'Message' attribute
@@ -705,7 +723,7 @@ public class CheckImpl extends DocumentedImplCustom implements Check
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (final: ");
 		result.append(final_);
 		result.append(", kind: ");

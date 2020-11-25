@@ -87,6 +87,7 @@ public class GrammarElementLookupImpl extends MinimalEObjectImpl.Container imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AbstractRule getRule()
   {
     if (rule != null && rule.eIsProxy())
@@ -117,6 +118,7 @@ public class GrammarElementLookupImpl extends MinimalEObjectImpl.Container imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRule(AbstractRule newRule)
   {
     AbstractRule oldRule = rule;
@@ -130,6 +132,7 @@ public class GrammarElementLookupImpl extends MinimalEObjectImpl.Container imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getKeyword()
   {
     return keyword;
@@ -140,6 +143,7 @@ public class GrammarElementLookupImpl extends MinimalEObjectImpl.Container imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKeyword(String newKeyword)
   {
     String oldKeyword = keyword;
@@ -235,7 +239,7 @@ public class GrammarElementLookupImpl extends MinimalEObjectImpl.Container imple
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (keyword: ");
     result.append(keyword);
     result.append(')');

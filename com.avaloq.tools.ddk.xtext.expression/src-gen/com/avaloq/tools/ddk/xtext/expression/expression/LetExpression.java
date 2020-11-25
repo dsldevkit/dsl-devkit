@@ -26,10 +26,6 @@ public interface LetExpression extends Expression
   /**
    * Returns the value of the '<em><b>Identifier</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Identifier</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Identifier</em>' attribute.
    * @see #setIdentifier(String)
@@ -52,10 +48,6 @@ public interface LetExpression extends Expression
   /**
    * Returns the value of the '<em><b>Var Expr</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Var Expr</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Var Expr</em>' containment reference.
    * @see #setVarExpr(Expression)
@@ -78,10 +70,6 @@ public interface LetExpression extends Expression
   /**
    * Returns the value of the '<em><b>Target</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Target</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Target</em>' containment reference.
    * @see #setTarget(Expression)

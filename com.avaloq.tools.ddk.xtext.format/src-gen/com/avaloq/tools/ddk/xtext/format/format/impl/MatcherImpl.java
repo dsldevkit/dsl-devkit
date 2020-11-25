@@ -101,6 +101,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Locator getLocator()
   {
     return locator;
@@ -128,6 +129,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLocator(Locator newLocator)
   {
     if (newLocator != locator)
@@ -149,6 +151,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MatcherType getType()
   {
     return type;
@@ -159,6 +162,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(MatcherType newType)
   {
     MatcherType oldType = type;
@@ -172,6 +176,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XExpression getCondition()
   {
     return condition;
@@ -199,6 +204,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCondition(XExpression newCondition)
   {
     if (newCondition != condition)
@@ -329,7 +335,7 @@ public class MatcherImpl extends MinimalEObjectImpl.Container implements Matcher
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (type: ");
     result.append(type);
     result.append(')');

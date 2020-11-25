@@ -28,10 +28,6 @@ public interface ConfiguredCatalog extends ConfigurableSection
 	/**
 	 * Returns the value of the '<em><b>Catalog</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Catalog</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Catalog</em>' reference.
 	 * @see #setCatalog(CheckCatalog)
@@ -55,10 +51,6 @@ public interface ConfiguredCatalog extends ConfigurableSection
 	 * Returns the value of the '<em><b>Check Configurations</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Check Configurations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Check Configurations</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredCatalog_CheckConfigurations()

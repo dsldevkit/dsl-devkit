@@ -95,6 +95,7 @@ public class NamingSectionImpl extends MinimalEObjectImpl.Container implements N
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Casing getCasing()
   {
     return casing;
@@ -105,6 +106,7 @@ public class NamingSectionImpl extends MinimalEObjectImpl.Container implements N
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCasing(Casing newCasing)
   {
     Casing oldCasing = casing;
@@ -118,6 +120,7 @@ public class NamingSectionImpl extends MinimalEObjectImpl.Container implements N
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<NamingDefinition> getNamings()
   {
     if (namings == null)

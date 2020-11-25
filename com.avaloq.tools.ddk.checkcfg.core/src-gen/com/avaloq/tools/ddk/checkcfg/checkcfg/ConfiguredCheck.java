@@ -27,10 +27,6 @@ public interface ConfiguredCheck extends ConfigurableSection
 	 * Returns the value of the '<em><b>Severity</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Severity</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Severity</em>' attribute.
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind
@@ -55,10 +51,6 @@ public interface ConfiguredCheck extends ConfigurableSection
 	/**
 	 * Returns the value of the '<em><b>Check</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Check</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Check</em>' reference.
 	 * @see #setCheck(Check)

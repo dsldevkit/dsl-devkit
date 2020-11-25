@@ -72,6 +72,7 @@ public class MatchDataExpressionImpl extends DataExpressionImpl implements Match
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getKey()
   {
     return key;
@@ -82,6 +83,7 @@ public class MatchDataExpressionImpl extends DataExpressionImpl implements Match
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(String newKey)
   {
     String oldKey = key;

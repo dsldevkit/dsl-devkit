@@ -93,6 +93,7 @@ public class ConfiguredLanguageValidatorImpl extends ConfigurableSectionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLanguage()
 	{
 		return language;
@@ -103,6 +104,7 @@ public class ConfiguredLanguageValidatorImpl extends ConfigurableSectionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLanguage(String newLanguage)
 	{
 		String oldLanguage = language;
@@ -116,6 +118,7 @@ public class ConfiguredLanguageValidatorImpl extends ConfigurableSectionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ConfiguredCatalog> getCatalogConfigurations()
 	{
 		if (catalogConfigurations == null)
@@ -229,7 +232,7 @@ public class ConfiguredLanguageValidatorImpl extends ConfigurableSectionImpl imp
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (language: ");
 		result.append(language);
 		result.append(')');

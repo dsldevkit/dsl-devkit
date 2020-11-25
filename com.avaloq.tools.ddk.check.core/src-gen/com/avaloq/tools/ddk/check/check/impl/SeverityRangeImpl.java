@@ -95,6 +95,7 @@ public class SeverityRangeImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SeverityKind getMinSeverity()
 	{
 		return minSeverity;
@@ -105,6 +106,7 @@ public class SeverityRangeImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMinSeverity(SeverityKind newMinSeverity)
 	{
 		SeverityKind oldMinSeverity = minSeverity;
@@ -118,6 +120,7 @@ public class SeverityRangeImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SeverityKind getMaxSeverity()
 	{
 		return maxSeverity;
@@ -128,6 +131,7 @@ public class SeverityRangeImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMaxSeverity(SeverityKind newMaxSeverity)
 	{
 		SeverityKind oldMaxSeverity = maxSeverity;
@@ -222,7 +226,7 @@ public class SeverityRangeImpl extends MinimalEObjectImpl.Container implements S
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (minSeverity: ");
 		result.append(minSeverity);
 		result.append(", maxSeverity: ");

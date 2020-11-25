@@ -83,6 +83,7 @@ public class ValidModelImpl extends MinimalEObjectImpl.Container implements Vali
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Import> getImports()
   {
     if (imports == null)
@@ -97,6 +98,7 @@ public class ValidModelImpl extends MinimalEObjectImpl.Container implements Vali
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Category> getCategories()
   {
     if (categories == null)

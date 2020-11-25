@@ -26,10 +26,6 @@ public interface IntValue extends EObject
   /**
    * Returns the value of the '<em><b>Literal</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Literal</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Literal</em>' attribute.
    * @see #setLiteral(Integer)
@@ -52,10 +48,6 @@ public interface IntValue extends EObject
   /**
    * Returns the value of the '<em><b>Reference</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reference</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reference</em>' reference.
    * @see #setReference(Constant)

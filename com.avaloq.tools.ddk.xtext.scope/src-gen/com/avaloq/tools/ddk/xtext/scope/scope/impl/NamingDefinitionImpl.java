@@ -77,6 +77,7 @@ public class NamingDefinitionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getType()
   {
     if (type != null && type.eIsProxy())
@@ -107,6 +108,7 @@ public class NamingDefinitionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(EClass newType)
   {
     EClass oldType = type;
@@ -120,6 +122,7 @@ public class NamingDefinitionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Naming getNaming()
   {
     return naming;
@@ -147,6 +150,7 @@ public class NamingDefinitionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNaming(Naming newNaming)
   {
     if (newNaming != naming)

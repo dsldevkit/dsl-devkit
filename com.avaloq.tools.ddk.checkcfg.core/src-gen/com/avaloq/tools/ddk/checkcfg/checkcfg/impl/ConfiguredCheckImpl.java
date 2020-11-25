@@ -87,6 +87,7 @@ public class ConfiguredCheckImpl extends ConfigurableSectionImpl implements Conf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SeverityKind getSeverity()
 	{
 		return severity;
@@ -97,6 +98,7 @@ public class ConfiguredCheckImpl extends ConfigurableSectionImpl implements Conf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSeverity(SeverityKind newSeverity)
 	{
 		SeverityKind oldSeverity = severity;
@@ -110,6 +112,7 @@ public class ConfiguredCheckImpl extends ConfigurableSectionImpl implements Conf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Check getCheck()
 	{
 		if (check != null && check.eIsProxy())
@@ -140,6 +143,7 @@ public class ConfiguredCheckImpl extends ConfigurableSectionImpl implements Conf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCheck(Check newCheck)
 	{
 		Check oldCheck = check;
@@ -235,7 +239,7 @@ public class ConfiguredCheckImpl extends ConfigurableSectionImpl implements Conf
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (severity: ");
 		result.append(severity);
 		result.append(')');

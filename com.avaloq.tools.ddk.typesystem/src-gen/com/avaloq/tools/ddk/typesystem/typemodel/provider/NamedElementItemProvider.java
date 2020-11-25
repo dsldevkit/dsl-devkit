@@ -79,7 +79,7 @@ public class NamedElementItemProvider
 	 * @generated
 	 */
 	@Override
-	protected boolean shouldComposeCreationImage() 
+	protected boolean shouldComposeCreationImage()
 	{
 		return true;
 	}
@@ -95,7 +95,7 @@ public class NamedElementItemProvider
 	{
 		return getString("_UI_NamedElement_type");
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

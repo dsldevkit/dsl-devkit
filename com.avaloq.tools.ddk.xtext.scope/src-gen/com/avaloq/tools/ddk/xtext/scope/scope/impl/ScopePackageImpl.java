@@ -264,6 +264,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getScopeModel()
   {
     return scopeModelEClass;
@@ -274,6 +275,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getScopeModel_Name()
   {
     return (EAttribute)scopeModelEClass.getEStructuralFeatures().get(0);
@@ -284,6 +286,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeModel_IncludedScopes()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(1);
@@ -294,6 +297,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeModel_Imports()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(2);
@@ -304,6 +308,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeModel_Extensions()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(3);
@@ -314,6 +319,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeModel_Injections()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(4);
@@ -324,6 +330,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeModel_Naming()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(5);
@@ -334,6 +341,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeModel_Scopes()
   {
     return (EReference)scopeModelEClass.getEStructuralFeatures().get(6);
@@ -344,6 +352,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getImport()
   {
     return importEClass;
@@ -354,6 +363,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getImport_Package()
   {
     return (EReference)importEClass.getEStructuralFeatures().get(0);
@@ -364,6 +374,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getImport_Name()
   {
     return (EAttribute)importEClass.getEStructuralFeatures().get(1);
@@ -374,6 +385,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getExtension()
   {
     return extensionEClass;
@@ -384,6 +396,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getExtension_Extension()
   {
     return (EAttribute)extensionEClass.getEStructuralFeatures().get(0);
@@ -394,6 +407,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getInjection()
   {
     return injectionEClass;
@@ -404,6 +418,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getInjection_Type()
   {
     return (EAttribute)injectionEClass.getEStructuralFeatures().get(0);
@@ -414,6 +429,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getInjection_Name()
   {
     return (EAttribute)injectionEClass.getEStructuralFeatures().get(1);
@@ -424,6 +440,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNamingSection()
   {
     return namingSectionEClass;
@@ -434,6 +451,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNamingSection_Casing()
   {
     return (EAttribute)namingSectionEClass.getEStructuralFeatures().get(0);
@@ -444,6 +462,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNamingSection_Namings()
   {
     return (EReference)namingSectionEClass.getEStructuralFeatures().get(1);
@@ -454,6 +473,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNamingDefinition()
   {
     return namingDefinitionEClass;
@@ -464,6 +484,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNamingDefinition_Type()
   {
     return (EReference)namingDefinitionEClass.getEStructuralFeatures().get(0);
@@ -474,6 +495,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNamingDefinition_Naming()
   {
     return (EReference)namingDefinitionEClass.getEStructuralFeatures().get(1);
@@ -484,6 +506,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getScopeDefinition()
   {
     return scopeDefinitionEClass;
@@ -494,6 +517,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getScopeDefinition_Name()
   {
     return (EAttribute)scopeDefinitionEClass.getEStructuralFeatures().get(0);
@@ -504,6 +528,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDefinition_TargetType()
   {
     return (EReference)scopeDefinitionEClass.getEStructuralFeatures().get(1);
@@ -514,6 +539,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDefinition_ContextType()
   {
     return (EReference)scopeDefinitionEClass.getEStructuralFeatures().get(2);
@@ -524,6 +550,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDefinition_Reference()
   {
     return (EReference)scopeDefinitionEClass.getEStructuralFeatures().get(3);
@@ -534,6 +561,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDefinition_Rules()
   {
     return (EReference)scopeDefinitionEClass.getEStructuralFeatures().get(4);
@@ -544,6 +572,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getScopeRule()
   {
     return scopeRuleEClass;
@@ -554,6 +583,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeRule_Context()
   {
     return (EReference)scopeRuleEClass.getEStructuralFeatures().get(0);
@@ -564,6 +594,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeRule_Exprs()
   {
     return (EReference)scopeRuleEClass.getEStructuralFeatures().get(1);
@@ -574,6 +605,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getScopeContext()
   {
     return scopeContextEClass;
@@ -584,6 +616,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getScopeContext_Global()
   {
     return (EAttribute)scopeContextEClass.getEStructuralFeatures().get(0);
@@ -594,6 +627,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeContext_ContextType()
   {
     return (EReference)scopeContextEClass.getEStructuralFeatures().get(1);
@@ -604,6 +638,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeContext_Guard()
   {
     return (EReference)scopeContextEClass.getEStructuralFeatures().get(2);
@@ -614,6 +649,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getScopeExpression()
   {
     return scopeExpressionEClass;
@@ -624,6 +660,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFactoryExpression()
   {
     return factoryExpressionEClass;
@@ -634,6 +671,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFactoryExpression_Expr()
   {
     return (EReference)factoryExpressionEClass.getEStructuralFeatures().get(0);
@@ -644,6 +682,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getScopeDelegation()
   {
     return scopeDelegationEClass;
@@ -654,6 +693,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDelegation_Delegate()
   {
     return (EReference)scopeDelegationEClass.getEStructuralFeatures().get(0);
@@ -664,6 +704,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDelegation_External()
   {
     return (EReference)scopeDelegationEClass.getEStructuralFeatures().get(1);
@@ -674,6 +715,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getScopeDelegation_Scope()
   {
     return (EReference)scopeDelegationEClass.getEStructuralFeatures().get(2);
@@ -684,6 +726,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNamedScopeExpression()
   {
     return namedScopeExpressionEClass;
@@ -694,6 +737,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNamedScopeExpression_CaseDef()
   {
     return (EAttribute)namedScopeExpressionEClass.getEStructuralFeatures().get(0);
@@ -704,6 +748,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNamedScopeExpression_Casing()
   {
     return (EAttribute)namedScopeExpressionEClass.getEStructuralFeatures().get(1);
@@ -714,6 +759,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNamedScopeExpression_Naming()
   {
     return (EReference)namedScopeExpressionEClass.getEStructuralFeatures().get(2);
@@ -724,6 +770,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGlobalScopeExpression()
   {
     return globalScopeExpressionEClass;
@@ -734,6 +781,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGlobalScopeExpression_Type()
   {
     return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(0);
@@ -744,6 +792,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGlobalScopeExpression_Name()
   {
     return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(1);
@@ -754,6 +803,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGlobalScopeExpression_RecursivePrefix()
   {
     return (EAttribute)globalScopeExpressionEClass.getEStructuralFeatures().get(2);
@@ -764,6 +814,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGlobalScopeExpression_Prefix()
   {
     return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(3);
@@ -774,6 +825,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGlobalScopeExpression_Data()
   {
     return (EReference)globalScopeExpressionEClass.getEStructuralFeatures().get(4);
@@ -784,6 +836,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGlobalScopeExpression_Domains()
   {
     return (EAttribute)globalScopeExpressionEClass.getEStructuralFeatures().get(5);
@@ -794,6 +847,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDataExpression()
   {
     return dataExpressionEClass;
@@ -804,6 +858,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDataExpression_Value()
   {
     return (EReference)dataExpressionEClass.getEStructuralFeatures().get(0);
@@ -814,6 +869,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMatchDataExpression()
   {
     return matchDataExpressionEClass;
@@ -824,6 +880,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMatchDataExpression_Key()
   {
     return (EAttribute)matchDataExpressionEClass.getEStructuralFeatures().get(0);
@@ -834,6 +891,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLambdaDataExpression()
   {
     return lambdaDataExpressionEClass;
@@ -844,6 +902,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getLambdaDataExpression_Desc()
   {
     return (EAttribute)lambdaDataExpressionEClass.getEStructuralFeatures().get(0);
@@ -854,6 +913,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSimpleScopeExpression()
   {
     return simpleScopeExpressionEClass;
@@ -864,6 +924,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSimpleScopeExpression_Expr()
   {
     return (EReference)simpleScopeExpressionEClass.getEStructuralFeatures().get(0);
@@ -874,6 +935,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNaming()
   {
     return namingEClass;
@@ -884,6 +946,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNaming_Names()
   {
     return (EReference)namingEClass.getEStructuralFeatures().get(0);
@@ -894,6 +957,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNamingExpression()
   {
     return namingExpressionEClass;
@@ -904,6 +968,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNamingExpression_Export()
   {
     return (EAttribute)namingExpressionEClass.getEStructuralFeatures().get(0);
@@ -914,6 +979,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNamingExpression_Factory()
   {
     return (EAttribute)namingExpressionEClass.getEStructuralFeatures().get(1);
@@ -924,6 +990,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNamingExpression_Expression()
   {
     return (EReference)namingExpressionEClass.getEStructuralFeatures().get(2);
@@ -934,6 +1001,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getCasing()
   {
     return casingEEnum;
@@ -944,6 +1012,7 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeFactory getScopeFactory()
   {
     return (ScopeFactory)getEFactoryInstance();

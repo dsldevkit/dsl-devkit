@@ -93,6 +93,7 @@ public class TestRightPaddingImpl extends RootImpl implements TestRightPadding
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getP1()
   {
     return p1;
@@ -103,6 +104,7 @@ public class TestRightPaddingImpl extends RootImpl implements TestRightPadding
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setP1(String newP1)
   {
     String oldP1 = p1;
@@ -116,6 +118,7 @@ public class TestRightPaddingImpl extends RootImpl implements TestRightPadding
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getP2()
   {
     return p2;
@@ -126,6 +129,7 @@ public class TestRightPaddingImpl extends RootImpl implements TestRightPadding
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setP2(String newP2)
   {
     String oldP2 = p2;
@@ -220,7 +224,7 @@ public class TestRightPaddingImpl extends RootImpl implements TestRightPadding
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (p1: ");
     result.append(p1);
     result.append(", p2: ");

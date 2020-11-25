@@ -29,10 +29,6 @@ public interface Matcher extends EObject
   /**
    * Returns the value of the '<em><b>Locator</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Locator</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Locator</em>' containment reference.
    * @see #setLocator(Locator)
@@ -56,10 +52,6 @@ public interface Matcher extends EObject
    * Returns the value of the '<em><b>Type</b></em>' attribute.
    * The literals are from the enumeration {@link com.avaloq.tools.ddk.xtext.format.format.MatcherType}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Type</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' attribute.
    * @see com.avaloq.tools.ddk.xtext.format.format.MatcherType
@@ -84,10 +76,6 @@ public interface Matcher extends EObject
   /**
    * Returns the value of the '<em><b>Condition</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Condition</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Condition</em>' containment reference.
    * @see #setCondition(XExpression)

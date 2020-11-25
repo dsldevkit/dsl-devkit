@@ -69,6 +69,7 @@ public class InterfaceImpl extends DeclarationForTypeImpl implements Interface
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<InterfaceItem> getItems()
 	{
 		if (items == null)

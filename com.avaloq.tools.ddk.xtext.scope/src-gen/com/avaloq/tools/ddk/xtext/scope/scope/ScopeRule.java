@@ -28,10 +28,6 @@ public interface ScopeRule extends EObject
   /**
    * Returns the value of the '<em><b>Context</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Context</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Context</em>' containment reference.
    * @see #setContext(ScopeContext)
@@ -55,10 +51,6 @@ public interface ScopeRule extends EObject
    * Returns the value of the '<em><b>Exprs</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.ScopeExpression}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Exprs</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Exprs</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getScopeRule_Exprs()

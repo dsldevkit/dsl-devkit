@@ -27,10 +27,6 @@ public interface RangeRule extends PredefinedRule
   /**
    * Returns the value of the '<em><b>Min</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Min</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Min</em>' attribute.
    * @see #setMin(int)
@@ -53,10 +49,6 @@ public interface RangeRule extends PredefinedRule
   /**
    * Returns the value of the '<em><b>Max</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Max</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Max</em>' attribute.
    * @see #setMax(int)
@@ -80,10 +72,6 @@ public interface RangeRule extends PredefinedRule
    * Returns the value of the '<em><b>Contexts</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.valid.valid.SimpleContext}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Contexts</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contexts</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getRangeRule_Contexts()

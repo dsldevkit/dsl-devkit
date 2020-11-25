@@ -75,6 +75,7 @@ public class ModelInferenceFactoryImpl extends EFactoryImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InferenceContainer createInferenceContainer()
 	{
 		InferenceContainerImplCustom inferenceContainer = new InferenceContainerImplCustom();
@@ -86,6 +87,7 @@ public class ModelInferenceFactoryImpl extends EFactoryImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModelInferencePackage getModelInferencePackage()
 	{
 		return (ModelInferencePackage)getEPackage();

@@ -164,6 +164,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Check getCheck()
 	{
 		if (check != null && check.eIsProxy())
@@ -194,6 +195,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCheck(Check newCheck)
 	{
 		Check oldCheck = check;
@@ -207,6 +209,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getMarkerFeature()
 	{
 		if (markerFeature != null && markerFeature.eIsProxy())
@@ -237,6 +240,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMarkerFeature(EStructuralFeature newMarkerFeature)
 	{
 		EStructuralFeature oldMarkerFeature = markerFeature;
@@ -250,6 +254,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getMarkerObject()
 	{
 		return markerObject;
@@ -277,6 +282,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMarkerObject(XExpression newMarkerObject)
 	{
 		if (newMarkerObject != markerObject)
@@ -298,6 +304,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getMarkerIndex()
 	{
 		return markerIndex;
@@ -325,6 +332,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMarkerIndex(XExpression newMarkerIndex)
 	{
 		if (newMarkerIndex != markerIndex)
@@ -346,6 +354,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getMessage()
 	{
 		return message;
@@ -373,6 +382,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMessage(XExpression newMessage)
 	{
 		if (newMessage != message)
@@ -394,6 +404,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<XExpression> getMessageParameters()
 	{
 		if (messageParameters == null)
@@ -408,6 +419,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getIssueCode()
 	{
 		return issueCode;
@@ -418,6 +430,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIssueCode(String newIssueCode)
 	{
 		String oldIssueCode = issueCode;
@@ -431,6 +444,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<XExpression> getIssueData()
 	{
 		if (issueData == null)
@@ -615,7 +629,7 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (issueCode: ");
 		result.append(issueCode);
 		result.append(')');

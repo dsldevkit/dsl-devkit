@@ -122,6 +122,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Grammar getTargetGrammar()
   {
     if (targetGrammar != null && targetGrammar.eIsProxy())
@@ -152,6 +153,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTargetGrammar(Grammar newTargetGrammar)
   {
     Grammar oldTargetGrammar = targetGrammar;
@@ -165,6 +167,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FormatConfiguration getExtendedFormatConfiguration()
   {
     if (extendedFormatConfiguration != null && extendedFormatConfiguration.eIsProxy())
@@ -195,6 +198,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExtendedFormatConfiguration(FormatConfiguration newExtendedFormatConfiguration)
   {
     FormatConfiguration oldExtendedFormatConfiguration = extendedFormatConfiguration;
@@ -208,6 +212,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JvmDeclaredType getFormatterBaseClass()
   {
     if (formatterBaseClass != null && formatterBaseClass.eIsProxy())
@@ -238,6 +243,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFormatterBaseClass(JvmDeclaredType newFormatterBaseClass)
   {
     JvmDeclaredType oldFormatterBaseClass = formatterBaseClass;
@@ -251,6 +257,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Constant> getConstants()
   {
     if (constants == null)
@@ -265,6 +272,7 @@ public class FormatConfigurationImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Rule> getRules()
   {
     if (rules == null)

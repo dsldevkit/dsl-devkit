@@ -99,6 +99,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isIncrement()
   {
     return increment;
@@ -109,6 +110,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIncrement(boolean newIncrement)
   {
     boolean oldIncrement = increment;
@@ -122,6 +124,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getValue()
   {
     return value;
@@ -149,6 +152,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(IntValue newValue)
   {
     if (newValue != value)
@@ -170,6 +174,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XExpression getParameter()
   {
     return parameter;
@@ -197,6 +202,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParameter(XExpression newParameter)
   {
     if (newParameter != parameter)
@@ -327,7 +333,7 @@ public class IndentLocatorImpl extends LocatorImpl implements IndentLocator
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (increment: ");
     result.append(increment);
     result.append(')');

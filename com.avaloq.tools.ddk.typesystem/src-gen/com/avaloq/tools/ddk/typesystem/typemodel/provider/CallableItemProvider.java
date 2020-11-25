@@ -64,7 +64,7 @@ public class CallableItemProvider extends NamedElementItemProvider
 	 * @generated
 	 */
 	@Override
-	protected boolean shouldComposeCreationImage() 
+	protected boolean shouldComposeCreationImage()
 	{
 		return true;
 	}
@@ -80,7 +80,7 @@ public class CallableItemProvider extends NamedElementItemProvider
 	{
 		return getString("_UI_Callable_type");
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

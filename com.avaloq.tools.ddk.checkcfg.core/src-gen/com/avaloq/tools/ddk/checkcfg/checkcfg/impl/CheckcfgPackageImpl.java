@@ -23,7 +23,15 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.xtext.XtextPackage;
+
+import org.eclipse.xtext.common.types.TypesPackage;
+
 import org.eclipse.xtext.xbase.XbasePackage;
+
+import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotationsPackage;
+
+import org.eclipse.xtext.xtype.XtypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -111,7 +119,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link CheckcfgPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -126,12 +134,19 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 		if (isInited) return (CheckcfgPackage)EPackage.Registry.INSTANCE.getEPackage(CheckcfgPackage.eNS_URI);
 
 		// Obtain or create and register package
-		CheckcfgPackageImpl theCheckcfgPackage = (CheckcfgPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CheckcfgPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CheckcfgPackageImpl());
+		Object registeredCheckcfgPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		CheckcfgPackageImpl theCheckcfgPackage = registeredCheckcfgPackage instanceof CheckcfgPackageImpl ? (CheckcfgPackageImpl)registeredCheckcfgPackage : new CheckcfgPackageImpl();
 
 		isInited = true;
 
 		// Initialize simple dependencies
 		CheckPackage.eINSTANCE.eClass();
+		EcorePackage.eINSTANCE.eClass();
+		TypesPackage.eINSTANCE.eClass();
+		XAnnotationsPackage.eINSTANCE.eClass();
+		XtypePackage.eINSTANCE.eClass();
+		XbasePackage.eINSTANCE.eClass();
+		XtextPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theCheckcfgPackage.createPackageContents();
@@ -142,7 +157,6 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 		// Mark meta-data to indicate it can't be changed
 		theCheckcfgPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(CheckcfgPackage.eNS_URI, theCheckcfgPackage);
 		return theCheckcfgPackage;
@@ -153,6 +167,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCheckConfiguration()
 	{
 		return checkConfigurationEClass;
@@ -163,6 +178,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheckConfiguration_Name()
 	{
 		return (EAttribute)checkConfigurationEClass.getEStructuralFeatures().get(0);
@@ -173,6 +189,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckConfiguration_LanguageValidatorConfigurations()
 	{
 		return (EReference)checkConfigurationEClass.getEStructuralFeatures().get(1);
@@ -183,6 +200,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckConfiguration_LegacyCatalogConfigurations()
 	{
 		return (EReference)checkConfigurationEClass.getEStructuralFeatures().get(2);
@@ -193,6 +211,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckConfiguration_Properties()
 	{
 		return (EReference)checkConfigurationEClass.getEStructuralFeatures().get(3);
@@ -203,6 +222,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConfiguredLanguageValidator()
 	{
 		return configuredLanguageValidatorEClass;
@@ -213,6 +233,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConfiguredLanguageValidator_Language()
 	{
 		return (EAttribute)configuredLanguageValidatorEClass.getEStructuralFeatures().get(0);
@@ -223,6 +244,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfiguredLanguageValidator_CatalogConfigurations()
 	{
 		return (EReference)configuredLanguageValidatorEClass.getEStructuralFeatures().get(1);
@@ -233,6 +255,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConfiguredCatalog()
 	{
 		return configuredCatalogEClass;
@@ -243,6 +266,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfiguredCatalog_Catalog()
 	{
 		return (EReference)configuredCatalogEClass.getEStructuralFeatures().get(0);
@@ -253,6 +277,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfiguredCatalog_CheckConfigurations()
 	{
 		return (EReference)configuredCatalogEClass.getEStructuralFeatures().get(1);
@@ -263,6 +288,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConfiguredCheck()
 	{
 		return configuredCheckEClass;
@@ -273,6 +299,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConfiguredCheck_Severity()
 	{
 		return (EAttribute)configuredCheckEClass.getEStructuralFeatures().get(0);
@@ -283,6 +310,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfiguredCheck_Check()
 	{
 		return (EReference)configuredCheckEClass.getEStructuralFeatures().get(1);
@@ -293,6 +321,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConfiguredParameter()
 	{
 		return configuredParameterEClass;
@@ -303,6 +332,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfiguredParameter_Parameter()
 	{
 		return (EReference)configuredParameterEClass.getEStructuralFeatures().get(0);
@@ -313,6 +343,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfiguredParameter_NewValue()
 	{
 		return (EReference)configuredParameterEClass.getEStructuralFeatures().get(1);
@@ -323,6 +354,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConfigurableSection()
 	{
 		return configurableSectionEClass;
@@ -333,6 +365,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getConfigurableSection_ParameterConfigurations()
 	{
 		return (EReference)configurableSectionEClass.getEStructuralFeatures().get(0);
@@ -343,6 +376,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getSeverityKind()
 	{
 		return severityKindEEnum;
@@ -353,6 +387,7 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckcfgFactory getCheckcfgFactory()
 	{
 		return (CheckcfgFactory)getEFactoryInstance();

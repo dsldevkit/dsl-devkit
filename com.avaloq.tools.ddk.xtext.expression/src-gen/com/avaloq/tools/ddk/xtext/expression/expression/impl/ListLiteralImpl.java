@@ -69,6 +69,7 @@ public class ListLiteralImpl extends ExpressionImpl implements ListLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Expression> getElements()
   {
     if (elements == null)

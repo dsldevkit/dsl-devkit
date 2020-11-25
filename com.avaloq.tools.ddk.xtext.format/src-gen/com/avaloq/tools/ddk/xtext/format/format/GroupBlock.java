@@ -32,10 +32,6 @@ public interface GroupBlock extends EObject
   /**
    * Returns the value of the '<em><b>Grammar Element</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Grammar Element</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Grammar Element</em>' reference.
    * @see #setGrammarElement(CompoundElement)
@@ -58,10 +54,6 @@ public interface GroupBlock extends EObject
   /**
    * Returns the value of the '<em><b>Matcher List</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Matcher List</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Matcher List</em>' containment reference.
    * @see #setMatcherList(MatcherList)
@@ -84,10 +76,6 @@ public interface GroupBlock extends EObject
   /**
    * Returns the value of the '<em><b>Sub Group</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Sub Group</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Sub Group</em>' containment reference.
    * @see #setSubGroup(GroupBlock)
@@ -111,10 +99,6 @@ public interface GroupBlock extends EObject
    * Returns the value of the '<em><b>Directives</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.GrammarRuleDirective}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Directives</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Directives</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getGroupBlock_Directives()

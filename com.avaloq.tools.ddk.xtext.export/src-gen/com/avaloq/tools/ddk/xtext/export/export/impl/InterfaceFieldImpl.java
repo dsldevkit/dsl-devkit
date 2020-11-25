@@ -64,6 +64,7 @@ public class InterfaceFieldImpl extends InterfaceItemImpl implements InterfaceFi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EStructuralFeature getField()
 	{
 		if (field != null && field.eIsProxy())
@@ -94,6 +95,7 @@ public class InterfaceFieldImpl extends InterfaceItemImpl implements InterfaceFi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setField(EStructuralFeature newField)
 	{
 		EStructuralFeature oldField = field;

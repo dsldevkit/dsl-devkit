@@ -154,6 +154,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -164,6 +165,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -177,6 +179,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ScopeModel> getIncludedScopes()
   {
     if (includedScopes == null)
@@ -191,6 +194,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Import> getImports()
   {
     if (imports == null)
@@ -205,6 +209,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Extension> getExtensions()
   {
     if (extensions == null)
@@ -219,6 +224,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Injection> getInjections()
   {
     if (injections == null)
@@ -233,6 +239,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NamingSection getNaming()
   {
     return naming;
@@ -260,6 +267,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNaming(NamingSection newNaming)
   {
     if (newNaming != naming)
@@ -281,6 +289,7 @@ public class ScopeModelImpl extends MinimalEObjectImpl.Container implements Scop
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ScopeDefinition> getScopes()
   {
     if (scopes == null)

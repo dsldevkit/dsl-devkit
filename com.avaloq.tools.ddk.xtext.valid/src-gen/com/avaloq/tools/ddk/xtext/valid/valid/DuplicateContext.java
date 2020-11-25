@@ -27,10 +27,6 @@ public interface DuplicateContext extends Context
   /**
    * Returns the value of the '<em><b>Marker Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Marker Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Marker Type</em>' reference.
    * @see #setMarkerType(EClass)
@@ -53,10 +49,6 @@ public interface DuplicateContext extends Context
   /**
    * Returns the value of the '<em><b>Marker Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Marker Feature</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Marker Feature</em>' reference.
    * @see #setMarkerFeature(EStructuralFeature)

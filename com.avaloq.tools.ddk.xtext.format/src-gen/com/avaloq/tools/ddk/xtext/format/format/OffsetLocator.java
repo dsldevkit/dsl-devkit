@@ -26,10 +26,6 @@ public interface OffsetLocator extends Locator
   /**
    * Returns the value of the '<em><b>Fixed</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Fixed</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Fixed</em>' attribute.
    * @see #setFixed(boolean)
@@ -52,10 +48,6 @@ public interface OffsetLocator extends Locator
   /**
    * Returns the value of the '<em><b>Value</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Value</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' containment reference.
    * @see #setValue(IntValue)
@@ -78,10 +70,6 @@ public interface OffsetLocator extends Locator
   /**
    * Returns the value of the '<em><b>Nobreak</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Nobreak</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nobreak</em>' attribute.
    * @see #setNobreak(boolean)

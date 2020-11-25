@@ -396,6 +396,7 @@ public class CheckSwitch<T> extends Switch<T>
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>XExpression</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @since 2.7
 	 * @generated
 	 */
 	public T caseXExpression(XExpression object)

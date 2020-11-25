@@ -27,10 +27,6 @@ public interface SwitchExpression extends Expression
   /**
    * Returns the value of the '<em><b>Switch Expr</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Switch Expr</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Switch Expr</em>' containment reference.
    * @see #setSwitchExpr(Expression)
@@ -54,10 +50,6 @@ public interface SwitchExpression extends Expression
    * Returns the value of the '<em><b>Case</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.expression.expression.Case}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Case</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Case</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage#getSwitchExpression_Case()
@@ -69,10 +61,6 @@ public interface SwitchExpression extends Expression
   /**
    * Returns the value of the '<em><b>Default Expr</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Default Expr</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Default Expr</em>' containment reference.
    * @see #setDefaultExpr(Expression)

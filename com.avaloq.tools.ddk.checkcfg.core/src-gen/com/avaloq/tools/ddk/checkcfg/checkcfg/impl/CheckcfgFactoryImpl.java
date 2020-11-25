@@ -115,6 +115,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckConfiguration createCheckConfiguration()
 	{
 		CheckConfigurationImplCustom checkConfiguration = new CheckConfigurationImplCustom();
@@ -126,6 +127,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfiguredLanguageValidator createConfiguredLanguageValidator()
 	{
 		ConfiguredLanguageValidatorImpl configuredLanguageValidator = new ConfiguredLanguageValidatorImpl();
@@ -137,6 +139,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfiguredCatalog createConfiguredCatalog()
 	{
 		ConfiguredCatalogImpl configuredCatalog = new ConfiguredCatalogImpl();
@@ -148,6 +151,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfiguredCheck createConfiguredCheck()
 	{
 		ConfiguredCheckImpl configuredCheck = new ConfiguredCheckImpl();
@@ -159,6 +163,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfiguredParameter createConfiguredParameter()
 	{
 		ConfiguredParameterImpl configuredParameter = new ConfiguredParameterImpl();
@@ -170,6 +175,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfigurableSection createConfigurableSection()
 	{
 		ConfigurableSectionImpl configurableSection = new ConfigurableSectionImpl();
@@ -203,6 +209,7 @@ public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckcfgPackage getCheckcfgPackage()
 	{
 		return (CheckcfgPackage)getEPackage();

@@ -26,10 +26,6 @@ public interface ConfiguredLanguageValidator extends ConfigurableSection
 	/**
 	 * Returns the value of the '<em><b>Language</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Language</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Language</em>' attribute.
 	 * @see #setLanguage(String)
@@ -53,10 +49,6 @@ public interface ConfiguredLanguageValidator extends ConfigurableSection
 	 * Returns the value of the '<em><b>Catalog Configurations</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Catalog Configurations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Catalog Configurations</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfiguredLanguageValidator_CatalogConfigurations()

@@ -34,10 +34,6 @@ public interface GlobalScopeExpression extends NamedScopeExpression
   /**
    * Returns the value of the '<em><b>Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
    * @see #setType(EClass)
@@ -60,10 +56,6 @@ public interface GlobalScopeExpression extends NamedScopeExpression
   /**
    * Returns the value of the '<em><b>Name</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' containment reference.
    * @see #setName(Expression)
@@ -86,10 +78,6 @@ public interface GlobalScopeExpression extends NamedScopeExpression
   /**
    * Returns the value of the '<em><b>Recursive Prefix</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Recursive Prefix</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Recursive Prefix</em>' attribute.
    * @see #setRecursivePrefix(boolean)
@@ -112,10 +100,6 @@ public interface GlobalScopeExpression extends NamedScopeExpression
   /**
    * Returns the value of the '<em><b>Prefix</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Prefix</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Prefix</em>' containment reference.
    * @see #setPrefix(Expression)
@@ -139,10 +123,6 @@ public interface GlobalScopeExpression extends NamedScopeExpression
    * Returns the value of the '<em><b>Data</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.DataExpression}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Data</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Data</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getGlobalScopeExpression_Data()
@@ -155,10 +135,6 @@ public interface GlobalScopeExpression extends NamedScopeExpression
    * Returns the value of the '<em><b>Domains</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Domains</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Domains</em>' attribute list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getGlobalScopeExpression_Domains()
