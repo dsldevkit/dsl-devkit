@@ -76,6 +76,7 @@ public class CaseImpl extends SyntaxElementImpl implements Case
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getCondition()
   {
     return condition;
@@ -103,6 +104,7 @@ public class CaseImpl extends SyntaxElementImpl implements Case
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCondition(Expression newCondition)
   {
     if (newCondition != condition)
@@ -124,6 +126,7 @@ public class CaseImpl extends SyntaxElementImpl implements Case
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getThenPar()
   {
     return thenPar;
@@ -151,6 +154,7 @@ public class CaseImpl extends SyntaxElementImpl implements Case
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setThenPar(Expression newThenPar)
   {
     if (newThenPar != thenPar)

@@ -109,6 +109,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CompoundElement getGrammarElement()
   {
     if (grammarElement != null && grammarElement.eIsProxy())
@@ -139,6 +140,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGrammarElement(CompoundElement newGrammarElement)
   {
     CompoundElement oldGrammarElement = grammarElement;
@@ -152,6 +154,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MatcherList getMatcherList()
   {
     return matcherList;
@@ -179,6 +182,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMatcherList(MatcherList newMatcherList)
   {
     if (newMatcherList != matcherList)
@@ -200,6 +204,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GroupBlock getSubGroup()
   {
     return subGroup;
@@ -227,6 +232,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSubGroup(GroupBlock newSubGroup)
   {
     if (newSubGroup != subGroup)
@@ -248,6 +254,7 @@ public class GroupBlockImpl extends MinimalEObjectImpl.Container implements Grou
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GrammarRuleDirective> getDirectives()
   {
     if (directives == null)

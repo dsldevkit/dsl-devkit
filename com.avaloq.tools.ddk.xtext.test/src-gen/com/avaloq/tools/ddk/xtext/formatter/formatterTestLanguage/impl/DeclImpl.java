@@ -75,6 +75,7 @@ public class DeclImpl extends LineImpl implements Decl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getType()
   {
     if (type == null)
@@ -89,6 +90,7 @@ public class DeclImpl extends LineImpl implements Decl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getName()
   {
     if (name == null)
@@ -187,7 +189,7 @@ public class DeclImpl extends LineImpl implements Decl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (type: ");
     result.append(type);
     result.append(", name: ");

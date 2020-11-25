@@ -27,10 +27,6 @@ public interface NamingDefinition extends EObject
   /**
    * Returns the value of the '<em><b>Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
    * @see #setType(EClass)
@@ -53,10 +49,6 @@ public interface NamingDefinition extends EObject
   /**
    * Returns the value of the '<em><b>Naming</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Naming</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Naming</em>' containment reference.
    * @see #setNaming(Naming)

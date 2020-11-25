@@ -86,6 +86,7 @@ public class SpaceLocatorImpl extends LocatorImpl implements SpaceLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public StringValue getValue()
   {
     return value;
@@ -113,6 +114,7 @@ public class SpaceLocatorImpl extends LocatorImpl implements SpaceLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(StringValue newValue)
   {
     if (newValue != value)
@@ -134,6 +136,7 @@ public class SpaceLocatorImpl extends LocatorImpl implements SpaceLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNoSpace()
   {
     return noSpace;
@@ -144,6 +147,7 @@ public class SpaceLocatorImpl extends LocatorImpl implements SpaceLocator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNoSpace(boolean newNoSpace)
   {
     boolean oldNoSpace = noSpace;
@@ -254,7 +258,7 @@ public class SpaceLocatorImpl extends LocatorImpl implements SpaceLocator
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (noSpace: ");
     result.append(noSpace);
     result.append(')');

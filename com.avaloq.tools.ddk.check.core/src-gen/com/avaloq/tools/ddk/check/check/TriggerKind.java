@@ -52,10 +52,6 @@ public enum TriggerKind implements Enumerator
 	/**
 	 * The '<em><b>Fast</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Fast</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FAST
 	 * @model name="fast" literal="live"
@@ -67,10 +63,6 @@ public enum TriggerKind implements Enumerator
 	/**
 	 * The '<em><b>Normal</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Normal</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NORMAL
 	 * @model name="normal" literal="onSave"
@@ -82,10 +74,6 @@ public enum TriggerKind implements Enumerator
 	/**
 	 * The '<em><b>Expensive</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Expensive</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EXPENSIVE
 	 * @model name="expensive" literal="onDemand"
@@ -216,6 +204,7 @@ public enum TriggerKind implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue()
 	{
 	  return value;
@@ -226,6 +215,7 @@ public enum TriggerKind implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 	  return name;
@@ -236,6 +226,7 @@ public enum TriggerKind implements Enumerator
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral()
 	{
 	  return literal;

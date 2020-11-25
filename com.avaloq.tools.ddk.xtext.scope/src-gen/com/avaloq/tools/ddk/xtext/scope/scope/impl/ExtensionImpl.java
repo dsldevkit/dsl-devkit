@@ -73,6 +73,7 @@ public class ExtensionImpl extends MinimalEObjectImpl.Container implements Exten
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getExtension()
   {
     return extension;
@@ -83,6 +84,7 @@ public class ExtensionImpl extends MinimalEObjectImpl.Container implements Exten
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExtension(String newExtension)
   {
     String oldExtension = extension;

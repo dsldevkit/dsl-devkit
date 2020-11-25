@@ -131,6 +131,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ValidModel createValidModel()
   {
     ValidModelImpl validModel = new ValidModelImpl();
@@ -142,6 +143,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Import createImport()
   {
     ImportImpl import_ = new ImportImpl();
@@ -153,6 +155,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Category createCategory()
   {
     CategoryImpl category = new CategoryImpl();
@@ -164,6 +167,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Rule createRule()
   {
     RuleImpl rule = new RuleImpl();
@@ -175,6 +179,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PredefinedRule createPredefinedRule()
   {
     PredefinedRuleImpl predefinedRule = new PredefinedRuleImpl();
@@ -186,6 +191,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NativeRule createNativeRule()
   {
     NativeRuleImpl nativeRule = new NativeRuleImpl();
@@ -197,6 +203,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SizeRule createSizeRule()
   {
     SizeRuleImpl sizeRule = new SizeRuleImpl();
@@ -208,6 +215,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RangeRule createRangeRule()
   {
     RangeRuleImpl rangeRule = new RangeRuleImpl();
@@ -219,6 +227,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public UniqueRule createUniqueRule()
   {
     UniqueRuleImpl uniqueRule = new UniqueRuleImpl();
@@ -230,6 +239,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Context createContext()
   {
     ContextImpl context = new ContextImpl();
@@ -241,6 +251,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SimpleContext createSimpleContext()
   {
     SimpleContextImpl simpleContext = new SimpleContextImpl();
@@ -252,6 +263,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DuplicateContext createDuplicateContext()
   {
     DuplicateContextImpl duplicateContext = new DuplicateContextImpl();
@@ -263,6 +275,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NativeContext createNativeContext()
   {
     NativeContextImpl nativeContext = new NativeContextImpl();
@@ -274,6 +287,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public QuickFix createQuickFix()
   {
     QuickFixImpl quickFix = new QuickFixImpl();
@@ -351,6 +365,7 @@ public class ValidFactoryImpl extends EFactoryImpl implements ValidFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ValidPackage getValidPackage()
   {
     return (ValidPackage)getEPackage();

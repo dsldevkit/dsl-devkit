@@ -58,7 +58,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ModelInferencePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -73,7 +73,8 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 		if (isInited) return (ModelInferencePackage)EPackage.Registry.INSTANCE.getEPackage(ModelInferencePackage.eNS_URI);
 
 		// Obtain or create and register package
-		ModelInferencePackageImpl theModelInferencePackage = (ModelInferencePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ModelInferencePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ModelInferencePackageImpl());
+		Object registeredModelInferencePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ModelInferencePackageImpl theModelInferencePackage = registeredModelInferencePackage instanceof ModelInferencePackageImpl ? (ModelInferencePackageImpl)registeredModelInferencePackage : new ModelInferencePackageImpl();
 
 		isInited = true;
 
@@ -86,7 +87,6 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 		// Mark meta-data to indicate it can't be changed
 		theModelInferencePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ModelInferencePackage.eNS_URI, theModelInferencePackage);
 		return theModelInferencePackage;
@@ -97,6 +97,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInferenceContainer()
 	{
 		return inferenceContainerEClass;
@@ -107,6 +108,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInferenceContainer_Contents()
 	{
 		return (EReference)inferenceContainerEClass.getEStructuralFeatures().get(0);
@@ -117,6 +119,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getInferenceContainer_Fragments()
 	{
 		return (EAttribute)inferenceContainerEClass.getEStructuralFeatures().get(1);
@@ -127,6 +130,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getInferenceContainer__GetFragmentSegment__EObject()
 	{
 		return inferenceContainerEClass.getEOperations().get(0);
@@ -137,6 +141,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getInferenceContainer__GetEObject__String()
 	{
 		return inferenceContainerEClass.getEOperations().get(1);
@@ -147,6 +152,7 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ModelInferenceFactory getModelInferenceFactory()
 	{
 		return (ModelInferenceFactory)getEFactoryInstance();

@@ -86,6 +86,7 @@ public class IntValueImpl extends MinimalEObjectImpl.Container implements IntVal
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Integer getLiteral()
   {
     return literal;
@@ -96,6 +97,7 @@ public class IntValueImpl extends MinimalEObjectImpl.Container implements IntVal
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLiteral(Integer newLiteral)
   {
     Integer oldLiteral = literal;
@@ -109,6 +111,7 @@ public class IntValueImpl extends MinimalEObjectImpl.Container implements IntVal
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Constant getReference()
   {
     if (reference != null && reference.eIsProxy())
@@ -139,6 +142,7 @@ public class IntValueImpl extends MinimalEObjectImpl.Container implements IntVal
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setReference(Constant newReference)
   {
     Constant oldReference = reference;
@@ -234,7 +238,7 @@ public class IntValueImpl extends MinimalEObjectImpl.Container implements IntVal
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (literal: ");
     result.append(literal);
     result.append(')');

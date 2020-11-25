@@ -86,6 +86,7 @@ public class ImplementationImpl extends DocumentedImplCustom implements Implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName()
 	{
 		return name;
@@ -96,6 +97,7 @@ public class ImplementationImpl extends DocumentedImplCustom implements Implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName)
 	{
 		String oldName = name;
@@ -109,6 +111,7 @@ public class ImplementationImpl extends DocumentedImplCustom implements Implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Context getContext()
 	{
 		return context;
@@ -136,6 +139,7 @@ public class ImplementationImpl extends DocumentedImplCustom implements Implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContext(Context newContext)
 	{
 		if (newContext != context)
@@ -254,7 +258,7 @@ public class ImplementationImpl extends DocumentedImplCustom implements Implemen
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

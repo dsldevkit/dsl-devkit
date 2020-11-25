@@ -71,6 +71,7 @@ public class MatcherListImpl extends MinimalEObjectImpl.Container implements Mat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Matcher> getMatchers()
   {
     if (matchers == null)

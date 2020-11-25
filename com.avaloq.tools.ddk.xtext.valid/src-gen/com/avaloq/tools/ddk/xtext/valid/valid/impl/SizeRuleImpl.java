@@ -114,6 +114,7 @@ public class SizeRuleImpl extends PredefinedRuleImpl implements SizeRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMin()
   {
     return min;
@@ -124,6 +125,7 @@ public class SizeRuleImpl extends PredefinedRuleImpl implements SizeRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMin(int newMin)
   {
     int oldMin = min;
@@ -137,6 +139,7 @@ public class SizeRuleImpl extends PredefinedRuleImpl implements SizeRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMax()
   {
     return max;
@@ -147,6 +150,7 @@ public class SizeRuleImpl extends PredefinedRuleImpl implements SizeRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMax(int newMax)
   {
     int oldMax = max;
@@ -160,6 +164,7 @@ public class SizeRuleImpl extends PredefinedRuleImpl implements SizeRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<SimpleContext> getContexts()
   {
     if (contexts == null)
@@ -283,7 +288,7 @@ public class SizeRuleImpl extends PredefinedRuleImpl implements SizeRule
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (min: ");
     result.append(min);
     result.append(", max: ");

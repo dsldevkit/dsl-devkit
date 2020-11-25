@@ -85,6 +85,7 @@ public class ConfiguredCatalogImpl extends ConfigurableSectionImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckCatalog getCatalog()
 	{
 		if (catalog != null && catalog.eIsProxy())
@@ -115,6 +116,7 @@ public class ConfiguredCatalogImpl extends ConfigurableSectionImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCatalog(CheckCatalog newCatalog)
 	{
 		CheckCatalog oldCatalog = catalog;
@@ -128,6 +130,7 @@ public class ConfiguredCatalogImpl extends ConfigurableSectionImpl implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ConfiguredCheck> getCheckConfigurations()
 	{
 		if (checkConfigurations == null)

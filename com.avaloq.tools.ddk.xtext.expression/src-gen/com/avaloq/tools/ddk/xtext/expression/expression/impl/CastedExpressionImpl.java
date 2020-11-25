@@ -77,6 +77,7 @@ public class CastedExpressionImpl extends ExpressionImpl implements CastedExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Identifier getType()
   {
     return type;
@@ -104,6 +105,7 @@ public class CastedExpressionImpl extends ExpressionImpl implements CastedExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(Identifier newType)
   {
     if (newType != type)
@@ -125,6 +127,7 @@ public class CastedExpressionImpl extends ExpressionImpl implements CastedExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getTarget()
   {
     return target;
@@ -152,6 +155,7 @@ public class CastedExpressionImpl extends ExpressionImpl implements CastedExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTarget(Expression newTarget)
   {
     if (newTarget != target)

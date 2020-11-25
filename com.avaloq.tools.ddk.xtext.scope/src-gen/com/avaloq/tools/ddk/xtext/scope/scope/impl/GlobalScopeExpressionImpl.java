@@ -140,6 +140,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getType()
   {
     if (type != null && type.eIsProxy())
@@ -170,6 +171,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(EClass newType)
   {
     EClass oldType = type;
@@ -183,6 +185,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getName()
   {
     return name;
@@ -210,6 +213,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(Expression newName)
   {
     if (newName != name)
@@ -231,6 +235,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isRecursivePrefix()
   {
     return recursivePrefix;
@@ -241,6 +246,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRecursivePrefix(boolean newRecursivePrefix)
   {
     boolean oldRecursivePrefix = recursivePrefix;
@@ -254,6 +260,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getPrefix()
   {
     return prefix;
@@ -281,6 +288,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPrefix(Expression newPrefix)
   {
     if (newPrefix != prefix)
@@ -302,6 +310,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<DataExpression> getData()
   {
     if (data == null)
@@ -316,6 +325,7 @@ public class GlobalScopeExpressionImpl extends NamedScopeExpressionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getDomains()
   {
     if (domains == null)

@@ -93,6 +93,7 @@ public class TestColumnImpl extends RootImpl implements TestColumn
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -103,6 +104,7 @@ public class TestColumnImpl extends RootImpl implements TestColumn
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -116,6 +118,7 @@ public class TestColumnImpl extends RootImpl implements TestColumn
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Line> getItems()
   {
     if (items == null)
@@ -229,7 +232,7 @@ public class TestColumnImpl extends RootImpl implements TestColumn
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

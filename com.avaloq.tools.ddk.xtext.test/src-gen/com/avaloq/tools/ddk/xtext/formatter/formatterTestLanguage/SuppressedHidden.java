@@ -26,10 +26,6 @@ public interface SuppressedHidden extends Line
    * Returns the value of the '<em><b>Vals</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.SuppressedHiddenSub}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Vals</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Vals</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguagePackage#getSuppressedHidden_Vals()

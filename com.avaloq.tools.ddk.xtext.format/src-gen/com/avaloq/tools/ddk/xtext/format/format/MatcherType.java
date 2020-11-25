@@ -72,10 +72,6 @@ public enum MatcherType implements Enumerator
   /**
    * The '<em><b>Before</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Before</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #BEFORE
    * @model name="before"
@@ -87,10 +83,6 @@ public enum MatcherType implements Enumerator
   /**
    * The '<em><b>After</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>After</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #AFTER
    * @model name="after"
@@ -102,10 +94,6 @@ public enum MatcherType implements Enumerator
   /**
    * The '<em><b>Around</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Around</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #AROUND
    * @model name="around"
@@ -117,10 +105,6 @@ public enum MatcherType implements Enumerator
   /**
    * The '<em><b>Between</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Between</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #BETWEEN
    * @model name="between"
@@ -132,10 +116,6 @@ public enum MatcherType implements Enumerator
   /**
    * The '<em><b>Range</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Range</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #RANGE
    * @model name="range"
@@ -270,6 +250,7 @@ public enum MatcherType implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -280,6 +261,7 @@ public enum MatcherType implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -290,6 +272,7 @@ public enum MatcherType implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLiteral()
   {
     return literal;

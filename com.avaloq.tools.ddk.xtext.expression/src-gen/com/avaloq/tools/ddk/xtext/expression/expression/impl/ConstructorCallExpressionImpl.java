@@ -65,6 +65,7 @@ public class ConstructorCallExpressionImpl extends ExpressionImpl implements Con
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Identifier getType()
   {
     return type;
@@ -92,6 +93,7 @@ public class ConstructorCallExpressionImpl extends ExpressionImpl implements Con
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(Identifier newType)
   {
     if (newType != type)

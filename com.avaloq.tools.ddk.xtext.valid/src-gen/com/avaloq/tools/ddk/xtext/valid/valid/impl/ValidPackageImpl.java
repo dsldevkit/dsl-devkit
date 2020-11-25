@@ -187,7 +187,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ValidPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -202,7 +202,8 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
     if (isInited) return (ValidPackage)EPackage.Registry.INSTANCE.getEPackage(ValidPackage.eNS_URI);
 
     // Obtain or create and register package
-    ValidPackageImpl theValidPackage = (ValidPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ValidPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ValidPackageImpl());
+    Object registeredValidPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ValidPackageImpl theValidPackage = registeredValidPackage instanceof ValidPackageImpl ? (ValidPackageImpl)registeredValidPackage : new ValidPackageImpl();
 
     isInited = true;
 
@@ -218,7 +219,6 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
     // Mark meta-data to indicate it can't be changed
     theValidPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ValidPackage.eNS_URI, theValidPackage);
     return theValidPackage;
@@ -229,6 +229,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getValidModel()
   {
     return validModelEClass;
@@ -239,6 +240,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getValidModel_Imports()
   {
     return (EReference)validModelEClass.getEStructuralFeatures().get(0);
@@ -249,6 +251,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getValidModel_Categories()
   {
     return (EReference)validModelEClass.getEStructuralFeatures().get(1);
@@ -259,6 +262,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getImport()
   {
     return importEClass;
@@ -269,6 +273,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getImport_Package()
   {
     return (EReference)importEClass.getEStructuralFeatures().get(0);
@@ -279,6 +284,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCategory()
   {
     return categoryEClass;
@@ -289,6 +295,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCategory_Name()
   {
     return (EAttribute)categoryEClass.getEStructuralFeatures().get(0);
@@ -299,6 +306,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCategory_Label()
   {
     return (EAttribute)categoryEClass.getEStructuralFeatures().get(1);
@@ -309,6 +317,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCategory_Description()
   {
     return (EAttribute)categoryEClass.getEStructuralFeatures().get(2);
@@ -319,6 +328,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCategory_Rules()
   {
     return (EReference)categoryEClass.getEStructuralFeatures().get(3);
@@ -329,6 +339,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRule()
   {
     return ruleEClass;
@@ -339,6 +350,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Optional()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(0);
@@ -349,6 +361,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_CheckKind()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(1);
@@ -359,6 +372,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Severity()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(2);
@@ -369,6 +383,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Name()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(3);
@@ -379,6 +394,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Label()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(4);
@@ -389,6 +405,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Description()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(5);
@@ -399,6 +416,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRule_Message()
   {
     return (EAttribute)ruleEClass.getEStructuralFeatures().get(6);
@@ -409,6 +427,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPredefinedRule()
   {
     return predefinedRuleEClass;
@@ -419,6 +438,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNativeRule()
   {
     return nativeRuleEClass;
@@ -429,6 +449,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNativeRule_Contexts()
   {
     return (EReference)nativeRuleEClass.getEStructuralFeatures().get(0);
@@ -439,6 +460,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSizeRule()
   {
     return sizeRuleEClass;
@@ -449,6 +471,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSizeRule_Min()
   {
     return (EAttribute)sizeRuleEClass.getEStructuralFeatures().get(0);
@@ -459,6 +482,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSizeRule_Max()
   {
     return (EAttribute)sizeRuleEClass.getEStructuralFeatures().get(1);
@@ -469,6 +493,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSizeRule_Contexts()
   {
     return (EReference)sizeRuleEClass.getEStructuralFeatures().get(2);
@@ -479,6 +504,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRangeRule()
   {
     return rangeRuleEClass;
@@ -489,6 +515,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRangeRule_Min()
   {
     return (EAttribute)rangeRuleEClass.getEStructuralFeatures().get(0);
@@ -499,6 +526,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRangeRule_Max()
   {
     return (EAttribute)rangeRuleEClass.getEStructuralFeatures().get(1);
@@ -509,6 +537,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRangeRule_Contexts()
   {
     return (EReference)rangeRuleEClass.getEStructuralFeatures().get(2);
@@ -519,6 +548,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getUniqueRule()
   {
     return uniqueRuleEClass;
@@ -529,6 +559,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getUniqueRule_Contexts()
   {
     return (EReference)uniqueRuleEClass.getEStructuralFeatures().get(0);
@@ -539,6 +570,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getContext()
   {
     return contextEClass;
@@ -549,6 +581,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getContext_ContextType()
   {
     return (EReference)contextEClass.getEStructuralFeatures().get(0);
@@ -559,6 +592,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getContext_ContextFeature()
   {
     return (EReference)contextEClass.getEStructuralFeatures().get(1);
@@ -569,6 +603,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSimpleContext()
   {
     return simpleContextEClass;
@@ -579,6 +614,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDuplicateContext()
   {
     return duplicateContextEClass;
@@ -589,6 +625,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDuplicateContext_MarkerType()
   {
     return (EReference)duplicateContextEClass.getEStructuralFeatures().get(0);
@@ -599,6 +636,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDuplicateContext_MarkerFeature()
   {
     return (EReference)duplicateContextEClass.getEStructuralFeatures().get(1);
@@ -609,6 +647,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNativeContext()
   {
     return nativeContextEClass;
@@ -619,6 +658,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNativeContext_Named()
   {
     return (EAttribute)nativeContextEClass.getEStructuralFeatures().get(0);
@@ -629,6 +669,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNativeContext_GivenName()
   {
     return (EAttribute)nativeContextEClass.getEStructuralFeatures().get(1);
@@ -639,6 +680,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNativeContext_MarkerType()
   {
     return (EReference)nativeContextEClass.getEStructuralFeatures().get(2);
@@ -649,6 +691,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNativeContext_MarkerFeature()
   {
     return (EReference)nativeContextEClass.getEStructuralFeatures().get(3);
@@ -659,6 +702,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getNativeContext_QuickFixes()
   {
     return (EReference)nativeContextEClass.getEStructuralFeatures().get(4);
@@ -669,6 +713,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getQuickFix()
   {
     return quickFixEClass;
@@ -679,6 +724,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getQuickFix_QuickFixKind()
   {
     return (EAttribute)quickFixEClass.getEStructuralFeatures().get(0);
@@ -689,6 +735,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getQuickFix_Name()
   {
     return (EAttribute)quickFixEClass.getEStructuralFeatures().get(1);
@@ -699,6 +746,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getQuickFix_Label()
   {
     return (EAttribute)quickFixEClass.getEStructuralFeatures().get(2);
@@ -709,6 +757,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getQuickFix_Message()
   {
     return (EAttribute)quickFixEClass.getEStructuralFeatures().get(3);
@@ -719,6 +768,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getCheckKind()
   {
     return checkKindEEnum;
@@ -729,6 +779,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getSeverityKind()
   {
     return severityKindEEnum;
@@ -739,6 +790,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getQuickFixKind()
   {
     return quickFixKindEEnum;
@@ -749,6 +801,7 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ValidFactory getValidFactory()
   {
     return (ValidFactory)getEFactoryInstance();

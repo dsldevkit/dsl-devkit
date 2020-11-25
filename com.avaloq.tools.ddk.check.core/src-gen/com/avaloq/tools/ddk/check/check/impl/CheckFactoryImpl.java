@@ -126,6 +126,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckCatalog createCheckCatalog()
 	{
 		CheckCatalogImplCustom checkCatalog = new CheckCatalogImplCustom();
@@ -137,6 +138,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Documented createDocumented()
 	{
 		DocumentedImplCustom documented = new DocumentedImplCustom();
@@ -148,6 +150,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ImplicitlyNamed createImplicitlyNamed()
 	{
 		ImplicitlyNamedImpl implicitlyNamed = new ImplicitlyNamedImpl();
@@ -159,6 +162,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Category createCategory()
 	{
 		CategoryImplCustom category = new CategoryImplCustom();
@@ -170,6 +174,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Check createCheck()
 	{
 		CheckImplCustom check = new CheckImplCustom();
@@ -181,6 +186,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SeverityRange createSeverityRange()
 	{
 		SeverityRangeImpl severityRange = new SeverityRangeImpl();
@@ -192,6 +198,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Member createMember()
 	{
 		MemberImpl member = new MemberImpl();
@@ -203,6 +210,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Implementation createImplementation()
 	{
 		ImplementationImpl implementation = new ImplementationImpl();
@@ -214,6 +222,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public FormalParameter createFormalParameter()
 	{
 		FormalParameterImpl formalParameter = new FormalParameterImpl();
@@ -225,6 +234,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Context createContext()
 	{
 		ContextImpl context = new ContextImpl();
@@ -236,6 +246,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ContextVariable createContextVariable()
 	{
 		ContextVariableImpl contextVariable = new ContextVariableImpl();
@@ -247,6 +258,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XGuardExpression createXGuardExpression()
 	{
 		XGuardExpressionImpl xGuardExpression = new XGuardExpressionImpl();
@@ -258,6 +270,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XIssueExpression createXIssueExpression()
 	{
 		XIssueExpressionImpl xIssueExpression = new XIssueExpressionImpl();
@@ -313,6 +326,7 @@ public class CheckFactoryImpl extends EFactoryImpl implements CheckFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckPackage getCheckPackage()
 	{
 		return (CheckPackage)getEPackage();

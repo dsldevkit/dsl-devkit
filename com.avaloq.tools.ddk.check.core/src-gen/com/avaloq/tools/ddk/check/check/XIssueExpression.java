@@ -36,10 +36,6 @@ public interface XIssueExpression extends XExpression
 	/**
 	 * Returns the value of the '<em><b>Check</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Check</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Check</em>' reference.
 	 * @see #setCheck(Check)
@@ -62,10 +58,6 @@ public interface XIssueExpression extends XExpression
 	/**
 	 * Returns the value of the '<em><b>Marker Feature</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Marker Feature</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Marker Feature</em>' reference.
 	 * @see #setMarkerFeature(EStructuralFeature)
@@ -88,10 +80,6 @@ public interface XIssueExpression extends XExpression
 	/**
 	 * Returns the value of the '<em><b>Marker Object</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Marker Object</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Marker Object</em>' containment reference.
 	 * @see #setMarkerObject(XExpression)
@@ -114,10 +102,6 @@ public interface XIssueExpression extends XExpression
 	/**
 	 * Returns the value of the '<em><b>Marker Index</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Marker Index</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Marker Index</em>' containment reference.
 	 * @see #setMarkerIndex(XExpression)
@@ -140,10 +124,6 @@ public interface XIssueExpression extends XExpression
 	/**
 	 * Returns the value of the '<em><b>Message</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Message</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Message</em>' containment reference.
 	 * @see #setMessage(XExpression)
@@ -167,10 +147,6 @@ public interface XIssueExpression extends XExpression
 	 * Returns the value of the '<em><b>Message Parameters</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.xtext.xbase.XExpression}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Message Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Message Parameters</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXIssueExpression_MessageParameters()
@@ -182,10 +158,6 @@ public interface XIssueExpression extends XExpression
 	/**
 	 * Returns the value of the '<em><b>Issue Code</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Issue Code</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Issue Code</em>' attribute.
 	 * @see #setIssueCode(String)
@@ -209,10 +181,6 @@ public interface XIssueExpression extends XExpression
 	 * Returns the value of the '<em><b>Issue Data</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.xtext.xbase.XExpression}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Issue Data</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Issue Data</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXIssueExpression_IssueData()

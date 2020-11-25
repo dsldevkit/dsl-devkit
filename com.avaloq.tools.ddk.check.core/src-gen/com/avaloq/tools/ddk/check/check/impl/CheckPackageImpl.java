@@ -181,7 +181,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link CheckPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -196,11 +196,14 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 		if (isInited) return (CheckPackage)EPackage.Registry.INSTANCE.getEPackage(CheckPackage.eNS_URI);
 
 		// Obtain or create and register package
-		CheckPackageImpl theCheckPackage = (CheckPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CheckPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CheckPackageImpl());
+		Object registeredCheckPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		CheckPackageImpl theCheckPackage = registeredCheckPackage instanceof CheckPackageImpl ? (CheckPackageImpl)registeredCheckPackage : new CheckPackageImpl();
 
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
+		TypesPackage.eINSTANCE.eClass();
 		XAnnotationsPackage.eINSTANCE.eClass();
 		XbasePackage.eINSTANCE.eClass();
 		XtypePackage.eINSTANCE.eClass();
@@ -215,7 +218,6 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 		// Mark meta-data to indicate it can't be changed
 		theCheckPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(CheckPackage.eNS_URI, theCheckPackage);
 		return theCheckPackage;
@@ -226,6 +228,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCheckCatalog()
 	{
 		return checkCatalogEClass;
@@ -236,6 +239,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheckCatalog_PackageName()
 	{
 		return (EAttribute)checkCatalogEClass.getEStructuralFeatures().get(0);
@@ -246,6 +250,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckCatalog_Imports()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(1);
@@ -256,6 +261,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheckCatalog_Final()
 	{
 		return (EAttribute)checkCatalogEClass.getEStructuralFeatures().get(2);
@@ -266,6 +272,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheckCatalog_Name()
 	{
 		return (EAttribute)checkCatalogEClass.getEStructuralFeatures().get(3);
@@ -276,6 +283,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckCatalog_Grammar()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(4);
@@ -286,6 +294,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckCatalog_Categories()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(5);
@@ -296,6 +305,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckCatalog_Implementations()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(6);
@@ -306,6 +316,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckCatalog_Checks()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(7);
@@ -316,6 +327,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheckCatalog_Members()
 	{
 		return (EReference)checkCatalogEClass.getEStructuralFeatures().get(8);
@@ -326,6 +338,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDocumented()
 	{
 		return documentedEClass;
@@ -336,6 +349,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDocumented_Description()
 	{
 		return (EAttribute)documentedEClass.getEStructuralFeatures().get(0);
@@ -346,6 +360,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getImplicitlyNamed()
 	{
 		return implicitlyNamedEClass;
@@ -356,6 +371,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getImplicitlyNamed_Name()
 	{
 		return (EAttribute)implicitlyNamedEClass.getEStructuralFeatures().get(0);
@@ -366,6 +382,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCategory()
 	{
 		return categoryEClass;
@@ -376,6 +393,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCategory_Id()
 	{
 		return (EAttribute)categoryEClass.getEStructuralFeatures().get(0);
@@ -386,6 +404,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCategory_Label()
 	{
 		return (EAttribute)categoryEClass.getEStructuralFeatures().get(1);
@@ -396,6 +415,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCategory_Checks()
 	{
 		return (EReference)categoryEClass.getEStructuralFeatures().get(2);
@@ -406,6 +426,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCheck()
 	{
 		return checkEClass;
@@ -416,6 +437,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheck_SeverityRange()
 	{
 		return (EReference)checkEClass.getEStructuralFeatures().get(0);
@@ -426,6 +448,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_Final()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(1);
@@ -436,6 +459,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_Kind()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(2);
@@ -446,6 +470,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_DefaultSeverity()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(3);
@@ -456,6 +481,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_Id()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(4);
@@ -466,6 +492,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_Label()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(5);
@@ -476,6 +503,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheck_FormalParameters()
 	{
 		return (EReference)checkEClass.getEStructuralFeatures().get(6);
@@ -486,6 +514,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_GivenMessage()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(7);
@@ -496,6 +525,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCheck_Contexts()
 	{
 		return (EReference)checkEClass.getEStructuralFeatures().get(8);
@@ -506,6 +536,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCheck_Message()
 	{
 		return (EAttribute)checkEClass.getEStructuralFeatures().get(9);
@@ -516,6 +547,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSeverityRange()
 	{
 		return severityRangeEClass;
@@ -526,6 +558,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSeverityRange_MinSeverity()
 	{
 		return (EAttribute)severityRangeEClass.getEStructuralFeatures().get(0);
@@ -536,6 +569,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSeverityRange_MaxSeverity()
 	{
 		return (EAttribute)severityRangeEClass.getEStructuralFeatures().get(1);
@@ -546,6 +580,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMember()
 	{
 		return memberEClass;
@@ -556,6 +591,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMember_Annotations()
 	{
 		return (EReference)memberEClass.getEStructuralFeatures().get(0);
@@ -566,6 +602,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMember_Type()
 	{
 		return (EReference)memberEClass.getEStructuralFeatures().get(1);
@@ -576,6 +613,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getMember_Name()
 	{
 		return (EAttribute)memberEClass.getEStructuralFeatures().get(2);
@@ -586,6 +624,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMember_Value()
 	{
 		return (EReference)memberEClass.getEStructuralFeatures().get(3);
@@ -596,6 +635,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getImplementation()
 	{
 		return implementationEClass;
@@ -606,6 +646,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getImplementation_Name()
 	{
 		return (EAttribute)implementationEClass.getEStructuralFeatures().get(0);
@@ -616,6 +657,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getImplementation_Context()
 	{
 		return (EReference)implementationEClass.getEStructuralFeatures().get(1);
@@ -626,6 +668,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getFormalParameter()
 	{
 		return formalParameterEClass;
@@ -636,6 +679,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getFormalParameter_Type()
 	{
 		return (EReference)formalParameterEClass.getEStructuralFeatures().get(0);
@@ -646,6 +690,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFormalParameter_Name()
 	{
 		return (EAttribute)formalParameterEClass.getEStructuralFeatures().get(1);
@@ -656,6 +701,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getFormalParameter_Right()
 	{
 		return (EReference)formalParameterEClass.getEStructuralFeatures().get(2);
@@ -666,6 +712,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFormalParameter_Label()
 	{
 		return (EAttribute)formalParameterEClass.getEStructuralFeatures().get(3);
@@ -676,6 +723,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getContext()
 	{
 		return contextEClass;
@@ -686,6 +734,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContext_ContextVariable()
 	{
 		return (EReference)contextEClass.getEStructuralFeatures().get(0);
@@ -696,6 +745,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContext_Constraint()
 	{
 		return (EReference)contextEClass.getEStructuralFeatures().get(1);
@@ -706,6 +756,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getContextVariable()
 	{
 		return contextVariableEClass;
@@ -716,6 +767,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContextVariable_Type()
 	{
 		return (EReference)contextVariableEClass.getEStructuralFeatures().get(0);
@@ -726,6 +778,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getContextVariable_Name()
 	{
 		return (EAttribute)contextVariableEClass.getEStructuralFeatures().get(1);
@@ -736,6 +789,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getXGuardExpression()
 	{
 		return xGuardExpressionEClass;
@@ -746,6 +800,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXGuardExpression_Guard()
 	{
 		return (EReference)xGuardExpressionEClass.getEStructuralFeatures().get(0);
@@ -756,6 +811,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getXIssueExpression()
 	{
 		return xIssueExpressionEClass;
@@ -766,6 +822,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_Check()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(0);
@@ -776,6 +833,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_MarkerFeature()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(1);
@@ -786,6 +844,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_MarkerObject()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(2);
@@ -796,6 +855,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_MarkerIndex()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(3);
@@ -806,6 +866,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_Message()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(4);
@@ -816,6 +877,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_MessageParameters()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(5);
@@ -826,6 +888,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getXIssueExpression_IssueCode()
 	{
 		return (EAttribute)xIssueExpressionEClass.getEStructuralFeatures().get(6);
@@ -836,6 +899,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getXIssueExpression_IssueData()
 	{
 		return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(7);
@@ -846,6 +910,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getSeverityKind()
 	{
 		return severityKindEEnum;
@@ -856,6 +921,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getTriggerKind()
 	{
 		return triggerKindEEnum;
@@ -866,6 +932,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CheckFactory getCheckFactory()
 	{
 		return (CheckFactory)getEFactoryInstance();

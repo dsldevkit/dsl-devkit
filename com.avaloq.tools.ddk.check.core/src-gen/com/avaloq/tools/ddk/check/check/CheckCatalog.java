@@ -37,10 +37,6 @@ public interface CheckCatalog extends Documented
 	/**
 	 * Returns the value of the '<em><b>Package Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Package Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Package Name</em>' attribute.
 	 * @see #setPackageName(String)
@@ -63,10 +59,6 @@ public interface CheckCatalog extends Documented
 	/**
 	 * Returns the value of the '<em><b>Imports</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Imports</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Imports</em>' containment reference.
 	 * @see #setImports(XImportSection)
@@ -89,10 +81,6 @@ public interface CheckCatalog extends Documented
 	/**
 	 * Returns the value of the '<em><b>Final</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Final</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Final</em>' attribute.
 	 * @see #setFinal(boolean)
@@ -115,10 +103,6 @@ public interface CheckCatalog extends Documented
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -141,10 +125,6 @@ public interface CheckCatalog extends Documented
 	/**
 	 * Returns the value of the '<em><b>Grammar</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Grammar</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Grammar</em>' reference.
 	 * @see #setGrammar(Grammar)
@@ -168,10 +148,6 @@ public interface CheckCatalog extends Documented
 	 * Returns the value of the '<em><b>Categories</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.Category}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Categories</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Categories</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog_Categories()
@@ -184,10 +160,6 @@ public interface CheckCatalog extends Documented
 	 * Returns the value of the '<em><b>Implementations</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.Implementation}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Implementations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Implementations</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog_Implementations()
@@ -200,10 +172,6 @@ public interface CheckCatalog extends Documented
 	 * Returns the value of the '<em><b>Checks</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.Check}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Checks</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Checks</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog_Checks()
@@ -216,10 +184,6 @@ public interface CheckCatalog extends Documented
 	 * Returns the value of the '<em><b>Members</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.Member}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Members</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Members</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheckCatalog_Members()

@@ -109,6 +109,7 @@ public class NamingExpressionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isExport()
   {
     return export;
@@ -119,6 +120,7 @@ public class NamingExpressionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExport(boolean newExport)
   {
     boolean oldExport = export;
@@ -132,6 +134,7 @@ public class NamingExpressionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactory()
   {
     return factory;
@@ -142,6 +145,7 @@ public class NamingExpressionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFactory(boolean newFactory)
   {
     boolean oldFactory = factory;
@@ -155,6 +159,7 @@ public class NamingExpressionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getExpression()
   {
     return expression;
@@ -182,6 +187,7 @@ public class NamingExpressionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExpression(Expression newExpression)
   {
     if (newExpression != expression)

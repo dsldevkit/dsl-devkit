@@ -36,10 +36,6 @@ public interface ExportModel extends EObject
 	 * Returns the value of the '<em><b>Extension</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Extension</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Extension</em>' attribute.
 	 * @see #isSetExtension()
@@ -89,10 +85,6 @@ public interface ExportModel extends EObject
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -115,10 +107,6 @@ public interface ExportModel extends EObject
 	/**
 	 * Returns the value of the '<em><b>Target Grammar</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target Grammar</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target Grammar</em>' reference.
 	 * @see #setTargetGrammar(Grammar)
@@ -142,10 +130,6 @@ public interface ExportModel extends EObject
 	 * Returns the value of the '<em><b>Imports</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Import}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Imports</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Imports</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExportModel_Imports()
@@ -158,10 +142,6 @@ public interface ExportModel extends EObject
 	 * Returns the value of the '<em><b>Extensions</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Extension}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Extensions</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Extensions</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExportModel_Extensions()
@@ -174,10 +154,6 @@ public interface ExportModel extends EObject
 	 * Returns the value of the '<em><b>Interfaces</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Interface}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Interfaces</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interfaces</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExportModel_Interfaces()
@@ -190,10 +166,6 @@ public interface ExportModel extends EObject
 	 * Returns the value of the '<em><b>Exports</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Export}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exports</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exports</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExportModel_Exports()

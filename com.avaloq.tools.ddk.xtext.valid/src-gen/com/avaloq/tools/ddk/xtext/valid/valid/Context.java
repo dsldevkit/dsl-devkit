@@ -28,10 +28,6 @@ public interface Context extends EObject
   /**
    * Returns the value of the '<em><b>Context Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Context Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Context Type</em>' reference.
    * @see #setContextType(EClass)
@@ -54,10 +50,6 @@ public interface Context extends EObject
   /**
    * Returns the value of the '<em><b>Context Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Context Feature</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Context Feature</em>' reference.
    * @see #setContextFeature(EStructuralFeature)

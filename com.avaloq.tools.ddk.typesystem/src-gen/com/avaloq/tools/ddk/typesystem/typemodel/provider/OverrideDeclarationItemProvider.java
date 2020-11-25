@@ -67,7 +67,7 @@ public class OverrideDeclarationItemProvider
 	 * @generated
 	 */
 	@Override
-	protected boolean shouldComposeCreationImage() 
+	protected boolean shouldComposeCreationImage()
 	{
 		return true;
 	}
@@ -83,7 +83,7 @@ public class OverrideDeclarationItemProvider
 	{
 		return getString("_UI_OverrideDeclaration_type");
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

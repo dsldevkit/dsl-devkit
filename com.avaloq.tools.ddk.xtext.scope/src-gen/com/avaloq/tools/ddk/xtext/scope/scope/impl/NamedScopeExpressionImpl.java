@@ -108,6 +108,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCaseDef()
   {
     return caseDef;
@@ -118,6 +119,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCaseDef(boolean newCaseDef)
   {
     boolean oldCaseDef = caseDef;
@@ -131,6 +133,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Casing getCasing()
   {
     return casing;
@@ -141,6 +144,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCasing(Casing newCasing)
   {
     Casing oldCasing = casing;
@@ -154,6 +158,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Naming getNaming()
   {
     return naming;
@@ -181,6 +186,7 @@ public class NamedScopeExpressionImpl extends ScopeExpressionImpl implements Nam
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNaming(Naming newNaming)
   {
     if (newNaming != naming)

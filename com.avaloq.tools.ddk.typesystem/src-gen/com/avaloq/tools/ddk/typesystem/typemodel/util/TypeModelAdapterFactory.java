@@ -402,13 +402,13 @@ public class TypeModelAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter> <em>IFormal Parameter List</em>}'.
+	 * Creates a new adapter for an object of class '{@link Iterable <em>IFormal Parameter List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see Iterable<? extends com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter>
+	 * @see Iterable
 	 * @generated
 	 */
 	public Adapter createIFormalParameterListAdapter()

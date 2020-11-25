@@ -30,10 +30,6 @@ public interface Category extends EObject
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -56,10 +52,6 @@ public interface Category extends EObject
   /**
    * Returns the value of the '<em><b>Label</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Label</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Label</em>' attribute.
    * @see #setLabel(String)
@@ -82,10 +74,6 @@ public interface Category extends EObject
   /**
    * Returns the value of the '<em><b>Description</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Description</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Description</em>' attribute.
    * @see #setDescription(String)
@@ -109,10 +97,6 @@ public interface Category extends EObject
    * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.valid.valid.Rule}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rules</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rules</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getCategory_Rules()

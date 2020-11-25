@@ -76,6 +76,7 @@ public class ContextImpl extends MinimalEObjectImpl.Container implements Context
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getContextType()
   {
     if (contextType != null && contextType.eIsProxy())
@@ -106,6 +107,7 @@ public class ContextImpl extends MinimalEObjectImpl.Container implements Context
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContextType(EClass newContextType)
   {
     EClass oldContextType = contextType;
@@ -119,6 +121,7 @@ public class ContextImpl extends MinimalEObjectImpl.Container implements Context
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EStructuralFeature getContextFeature()
   {
     if (contextFeature != null && contextFeature.eIsProxy())
@@ -149,6 +152,7 @@ public class ContextImpl extends MinimalEObjectImpl.Container implements Context
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContextFeature(EStructuralFeature newContextFeature)
   {
     EStructuralFeature oldContextFeature = contextFeature;

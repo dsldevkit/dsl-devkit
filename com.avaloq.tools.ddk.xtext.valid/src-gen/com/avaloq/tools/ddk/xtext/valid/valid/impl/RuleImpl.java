@@ -201,6 +201,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isOptional()
   {
     return optional;
@@ -211,6 +212,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOptional(boolean newOptional)
   {
     boolean oldOptional = optional;
@@ -224,6 +226,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CheckKind getCheckKind()
   {
     return checkKind;
@@ -234,6 +237,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCheckKind(CheckKind newCheckKind)
   {
     CheckKind oldCheckKind = checkKind;
@@ -247,6 +251,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SeverityKind getSeverity()
   {
     return severity;
@@ -257,6 +262,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSeverity(SeverityKind newSeverity)
   {
     SeverityKind oldSeverity = severity;
@@ -270,6 +276,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -280,6 +287,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -293,6 +301,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLabel()
   {
     return label;
@@ -303,6 +312,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLabel(String newLabel)
   {
     String oldLabel = label;
@@ -316,6 +326,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getDescription()
   {
     return description;
@@ -326,6 +337,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDescription(String newDescription)
   {
     String oldDescription = description;
@@ -339,6 +351,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getMessage()
   {
     return message;
@@ -349,6 +362,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMessage(String newMessage)
   {
     String oldMessage = message;
@@ -493,7 +507,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (optional: ");
     result.append(optional);
     result.append(", checkKind: ");

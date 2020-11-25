@@ -25,10 +25,6 @@ public interface CollectionExpression extends Expression, FeatureCall
   /**
    * Returns the value of the '<em><b>Var</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Var</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Var</em>' attribute.
    * @see #setVar(String)
@@ -51,10 +47,6 @@ public interface CollectionExpression extends Expression, FeatureCall
   /**
    * Returns the value of the '<em><b>Exp</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Exp</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Exp</em>' containment reference.
    * @see #setExp(Expression)

@@ -90,6 +90,7 @@ public class ScopeDelegationImpl extends ScopeExpressionImpl implements ScopeDel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Expression getDelegate()
   {
     return delegate;
@@ -117,6 +118,7 @@ public class ScopeDelegationImpl extends ScopeExpressionImpl implements ScopeDel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDelegate(Expression newDelegate)
   {
     if (newDelegate != delegate)
@@ -138,6 +140,7 @@ public class ScopeDelegationImpl extends ScopeExpressionImpl implements ScopeDel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GlobalScopeExpression getExternal()
   {
     return external;
@@ -165,6 +168,7 @@ public class ScopeDelegationImpl extends ScopeExpressionImpl implements ScopeDel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExternal(GlobalScopeExpression newExternal)
   {
     if (newExternal != external)
@@ -186,6 +190,7 @@ public class ScopeDelegationImpl extends ScopeExpressionImpl implements ScopeDel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeDefinition getScope()
   {
     if (scope != null && scope.eIsProxy())
@@ -216,6 +221,7 @@ public class ScopeDelegationImpl extends ScopeExpressionImpl implements ScopeDel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setScope(ScopeDefinition newScope)
   {
     ScopeDefinition oldScope = scope;

@@ -69,6 +69,7 @@ public class UniqueRuleImpl extends PredefinedRuleImpl implements UniqueRule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<DuplicateContext> getContexts()
   {
     if (contexts == null)

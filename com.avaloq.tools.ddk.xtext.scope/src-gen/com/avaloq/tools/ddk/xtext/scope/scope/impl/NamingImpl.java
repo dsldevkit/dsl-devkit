@@ -71,6 +71,7 @@ public class NamingImpl extends MinimalEObjectImpl.Container implements Naming
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<NamingExpression> getNames()
   {
     if (names == null)

@@ -78,6 +78,7 @@ public class DeclarationForTypeImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getType()
 	{
 		if (type != null && type.eIsProxy())
@@ -108,6 +109,7 @@ public class DeclarationForTypeImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClass newType)
 	{
 		EClass oldType = type;
@@ -121,6 +123,7 @@ public class DeclarationForTypeImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getGuard()
 	{
 		return guard;
@@ -148,6 +151,7 @@ public class DeclarationForTypeImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setGuard(Expression newGuard)
 	{
 		if (newGuard != guard)

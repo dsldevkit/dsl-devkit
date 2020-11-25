@@ -78,6 +78,7 @@ public class ContextImpl extends DocumentedImplCustom implements Context
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ContextVariable getContextVariable()
 	{
 		return contextVariable;
@@ -105,6 +106,7 @@ public class ContextImpl extends DocumentedImplCustom implements Context
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContextVariable(ContextVariable newContextVariable)
 	{
 		if (newContextVariable != contextVariable)
@@ -126,6 +128,7 @@ public class ContextImpl extends DocumentedImplCustom implements Context
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public XExpression getConstraint()
 	{
 		return constraint;
@@ -153,6 +156,7 @@ public class ContextImpl extends DocumentedImplCustom implements Context
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConstraint(XExpression newConstraint)
 	{
 		if (newConstraint != constraint)

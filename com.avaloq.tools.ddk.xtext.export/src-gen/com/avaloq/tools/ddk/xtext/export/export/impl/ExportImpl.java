@@ -270,6 +270,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isLookup()
 	{
 		return lookup;
@@ -280,6 +281,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLookup(boolean newLookup)
 	{
 		boolean oldLookup = lookup;
@@ -295,6 +297,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetLookup()
 	{
 		boolean oldLookup = lookup;
@@ -310,6 +313,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetLookup()
 	{
 		return lookupESet;
@@ -320,6 +324,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getLookupPredicate()
 	{
 		return lookupPredicate;
@@ -347,6 +352,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLookupPredicate(Expression newLookupPredicate)
 	{
 		if (newLookupPredicate != lookupPredicate)
@@ -368,6 +374,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isQualifiedName()
 	{
 		return qualifiedName;
@@ -378,6 +385,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setQualifiedName(boolean newQualifiedName)
 	{
 		boolean oldQualifiedName = qualifiedName;
@@ -393,6 +401,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetQualifiedName()
 	{
 		boolean oldQualifiedName = qualifiedName;
@@ -408,6 +417,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetQualifiedName()
 	{
 		return qualifiedNameESet;
@@ -418,6 +428,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Expression getNaming()
 	{
 		return naming;
@@ -445,6 +456,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNaming(Expression newNaming)
 	{
 		if (newNaming != naming)
@@ -466,6 +478,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isFragmentUnique()
 	{
 		return fragmentUnique;
@@ -476,6 +489,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFragmentUnique(boolean newFragmentUnique)
 	{
 		boolean oldFragmentUnique = fragmentUnique;
@@ -491,6 +505,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetFragmentUnique()
 	{
 		boolean oldFragmentUnique = fragmentUnique;
@@ -506,6 +521,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetFragmentUnique()
 	{
 		return fragmentUniqueESet;
@@ -516,6 +532,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getFragmentAttribute()
 	{
 		if (fragmentAttribute != null && fragmentAttribute.eIsProxy())
@@ -546,6 +563,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFragmentAttribute(EAttribute newFragmentAttribute)
 	{
 		EAttribute oldFragmentAttribute = fragmentAttribute;
@@ -559,6 +577,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isFingerprint()
 	{
 		return fingerprint;
@@ -569,6 +588,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFingerprint(boolean newFingerprint)
 	{
 		boolean oldFingerprint = fingerprint;
@@ -584,6 +604,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetFingerprint()
 	{
 		boolean oldFingerprint = fingerprint;
@@ -599,6 +620,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetFingerprint()
 	{
 		return fingerprintESet;
@@ -609,6 +631,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isResourceFingerprint()
 	{
 		return resourceFingerprint;
@@ -619,6 +642,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setResourceFingerprint(boolean newResourceFingerprint)
 	{
 		boolean oldResourceFingerprint = resourceFingerprint;
@@ -634,6 +658,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void unsetResourceFingerprint()
 	{
 		boolean oldResourceFingerprint = resourceFingerprint;
@@ -649,6 +674,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isSetResourceFingerprint()
 	{
 		return resourceFingerprintESet;
@@ -659,6 +685,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Attribute> getAttributes()
 	{
 		if (attributes == null)
@@ -673,6 +700,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<UserData> getUserData()
 	{
 		if (userData == null)
@@ -687,6 +715,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EAttribute> getEAttributes()
 	{
 		// TODO: implement this method
@@ -699,6 +728,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EAttribute> getAllEAttributes()
 	{
 		// TODO: implement this method
@@ -898,7 +928,7 @@ public class ExportImpl extends DeclarationForTypeImpl implements Export
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (lookup: ");
 		if (lookupESet) result.append(lookup); else result.append("<unset>");
 		result.append(", qualifiedName: ");

@@ -29,10 +29,6 @@ public interface Constant extends EObject
   /**
    * Returns the value of the '<em><b>Int Type</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Int Type</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Int Type</em>' attribute.
    * @see #setIntType(boolean)
@@ -55,10 +51,6 @@ public interface Constant extends EObject
   /**
    * Returns the value of the '<em><b>String Type</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>String Type</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>String Type</em>' attribute.
    * @see #setStringType(boolean)
@@ -81,10 +73,6 @@ public interface Constant extends EObject
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -107,10 +95,6 @@ public interface Constant extends EObject
   /**
    * Returns the value of the '<em><b>Int Value</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Int Value</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Int Value</em>' attribute.
    * @see #setIntValue(Integer)
@@ -133,10 +117,6 @@ public interface Constant extends EObject
   /**
    * Returns the value of the '<em><b>String Value</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>String Value</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>String Value</em>' attribute.
    * @see #setStringValue(String)

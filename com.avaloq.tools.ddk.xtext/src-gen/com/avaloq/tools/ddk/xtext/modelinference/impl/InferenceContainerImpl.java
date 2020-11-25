@@ -85,6 +85,7 @@ public class InferenceContainerImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getContents()
 	{
 		if (contents == null)
@@ -99,6 +100,7 @@ public class InferenceContainerImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getFragments()
 	{
 		if (fragments == null)
@@ -113,6 +115,7 @@ public class InferenceContainerImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFragmentSegment(EObject object)
 	{
 		// TODO: implement this method
@@ -125,6 +128,7 @@ public class InferenceContainerImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getEObject(String fragmentSegment)
 	{
 		// TODO: implement this method
@@ -255,7 +259,7 @@ public class InferenceContainerImpl extends MinimalEObjectImpl.Container impleme
 	{
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (fragments: ");
 		result.append(fragments);
 		result.append(')');

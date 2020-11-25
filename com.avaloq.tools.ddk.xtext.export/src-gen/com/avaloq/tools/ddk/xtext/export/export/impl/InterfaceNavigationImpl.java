@@ -64,6 +64,7 @@ public class InterfaceNavigationImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRef()
 	{
 		if (ref != null && ref.eIsProxy())
@@ -94,6 +95,7 @@ public class InterfaceNavigationImpl extends InterfaceItemImpl implements Interf
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRef(EReference newRef)
 	{
 		EReference oldRef = ref;

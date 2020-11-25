@@ -84,6 +84,7 @@ public class SpecificDirectiveImpl extends GrammarRuleDirectiveImpl implements S
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GrammarElementReference> getGrammarElements()
   {
     if (grammarElements == null)
@@ -98,6 +99,7 @@ public class SpecificDirectiveImpl extends GrammarRuleDirectiveImpl implements S
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MatcherList getMatcherList()
   {
     return matcherList;
@@ -125,6 +127,7 @@ public class SpecificDirectiveImpl extends GrammarRuleDirectiveImpl implements S
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMatcherList(MatcherList newMatcherList)
   {
     if (newMatcherList != matcherList)

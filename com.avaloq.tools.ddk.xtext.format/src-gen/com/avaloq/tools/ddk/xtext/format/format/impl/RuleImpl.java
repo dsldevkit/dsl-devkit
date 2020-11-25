@@ -73,6 +73,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isOverride()
   {
     return override;
@@ -83,6 +84,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOverride(boolean newOverride)
   {
     boolean oldOverride = override;
@@ -167,7 +169,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (override: ");
     result.append(override);
     result.append(')');

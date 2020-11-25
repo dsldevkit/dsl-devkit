@@ -25,10 +25,6 @@ public interface ChainExpression extends Expression
   /**
    * Returns the value of the '<em><b>First</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>First</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>First</em>' containment reference.
    * @see #setFirst(Expression)
@@ -51,10 +47,6 @@ public interface ChainExpression extends Expression
   /**
    * Returns the value of the '<em><b>Next</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Next</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Next</em>' containment reference.
    * @see #setNext(Expression)

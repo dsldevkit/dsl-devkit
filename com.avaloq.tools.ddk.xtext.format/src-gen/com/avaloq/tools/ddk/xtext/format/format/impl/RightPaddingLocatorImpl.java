@@ -65,6 +65,7 @@ public class RightPaddingLocatorImpl extends LocatorImpl implements RightPadding
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntValue getValue()
   {
     return value;
@@ -92,6 +93,7 @@ public class RightPaddingLocatorImpl extends LocatorImpl implements RightPadding
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(IntValue newValue)
   {
     if (newValue != value)

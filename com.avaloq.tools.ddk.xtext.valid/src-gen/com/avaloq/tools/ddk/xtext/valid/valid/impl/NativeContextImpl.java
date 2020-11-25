@@ -137,6 +137,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNamed()
   {
     return named;
@@ -147,6 +148,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNamed(boolean newNamed)
   {
     boolean oldNamed = named;
@@ -160,6 +162,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getGivenName()
   {
     return givenName;
@@ -170,6 +173,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGivenName(String newGivenName)
   {
     String oldGivenName = givenName;
@@ -183,6 +187,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMarkerType()
   {
     if (markerType != null && markerType.eIsProxy())
@@ -213,6 +218,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMarkerType(EClass newMarkerType)
   {
     EClass oldMarkerType = markerType;
@@ -226,6 +232,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EStructuralFeature getMarkerFeature()
   {
     if (markerFeature != null && markerFeature.eIsProxy())
@@ -256,6 +263,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMarkerFeature(EStructuralFeature newMarkerFeature)
   {
     EStructuralFeature oldMarkerFeature = markerFeature;
@@ -269,6 +277,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<QuickFix> getQuickFixes()
   {
     if (quickFixes == null)
@@ -414,7 +423,7 @@ public class NativeContextImpl extends ContextImpl implements NativeContext
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (named: ");
     result.append(named);
     result.append(", givenName: ");

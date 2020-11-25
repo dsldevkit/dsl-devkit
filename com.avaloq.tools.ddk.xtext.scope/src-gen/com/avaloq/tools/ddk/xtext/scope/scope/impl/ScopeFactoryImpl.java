@@ -129,6 +129,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeModel createScopeModel()
   {
     ScopeModelImpl scopeModel = new ScopeModelImpl();
@@ -140,6 +141,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Import createImport()
   {
     ImportImpl import_ = new ImportImpl();
@@ -151,6 +153,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Extension createExtension()
   {
     ExtensionImpl extension = new ExtensionImpl();
@@ -162,6 +165,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Injection createInjection()
   {
     InjectionImpl injection = new InjectionImpl();
@@ -173,6 +177,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NamingSection createNamingSection()
   {
     NamingSectionImpl namingSection = new NamingSectionImpl();
@@ -184,6 +189,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NamingDefinition createNamingDefinition()
   {
     NamingDefinitionImpl namingDefinition = new NamingDefinitionImpl();
@@ -195,6 +201,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeDefinition createScopeDefinition()
   {
     ScopeDefinitionImpl scopeDefinition = new ScopeDefinitionImpl();
@@ -206,6 +213,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeRule createScopeRule()
   {
     ScopeRuleImpl scopeRule = new ScopeRuleImpl();
@@ -217,6 +225,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeContext createScopeContext()
   {
     ScopeContextImpl scopeContext = new ScopeContextImpl();
@@ -228,6 +237,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeExpression createScopeExpression()
   {
     ScopeExpressionImpl scopeExpression = new ScopeExpressionImpl();
@@ -239,6 +249,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FactoryExpression createFactoryExpression()
   {
     FactoryExpressionImpl factoryExpression = new FactoryExpressionImpl();
@@ -250,6 +261,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopeDelegation createScopeDelegation()
   {
     ScopeDelegationImpl scopeDelegation = new ScopeDelegationImpl();
@@ -261,6 +273,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NamedScopeExpression createNamedScopeExpression()
   {
     NamedScopeExpressionImpl namedScopeExpression = new NamedScopeExpressionImpl();
@@ -272,6 +285,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GlobalScopeExpression createGlobalScopeExpression()
   {
     GlobalScopeExpressionImpl globalScopeExpression = new GlobalScopeExpressionImpl();
@@ -283,6 +297,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DataExpression createDataExpression()
   {
     DataExpressionImpl dataExpression = new DataExpressionImpl();
@@ -294,6 +309,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MatchDataExpression createMatchDataExpression()
   {
     MatchDataExpressionImpl matchDataExpression = new MatchDataExpressionImpl();
@@ -305,6 +321,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LambdaDataExpression createLambdaDataExpression()
   {
     LambdaDataExpressionImpl lambdaDataExpression = new LambdaDataExpressionImpl();
@@ -316,6 +333,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SimpleScopeExpression createSimpleScopeExpression()
   {
     SimpleScopeExpressionImpl simpleScopeExpression = new SimpleScopeExpressionImpl();
@@ -327,6 +345,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Naming createNaming()
   {
     NamingImpl naming = new NamingImpl();
@@ -338,6 +357,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NamingExpression createNamingExpression()
   {
     NamingExpressionImpl namingExpression = new NamingExpressionImpl();
@@ -371,6 +391,7 @@ public class ScopeFactoryImpl extends EFactoryImpl implements ScopeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ScopePackage getScopePackage()
   {
     return (ScopePackage)getEPackage();

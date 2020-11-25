@@ -26,10 +26,6 @@ public interface WildcardRule extends Rule
    * Returns the value of the '<em><b>Directives</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.format.format.WildcardRuleDirective}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Directives</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Directives</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getWildcardRule_Directives()

@@ -128,6 +128,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -138,6 +139,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -151,6 +153,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getTargetType()
   {
     if (targetType != null && targetType.eIsProxy())
@@ -181,6 +184,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTargetType(EClass newTargetType)
   {
     EClass oldTargetType = targetType;
@@ -194,6 +198,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getContextType()
   {
     if (contextType != null && contextType.eIsProxy())
@@ -224,6 +229,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContextType(EClass newContextType)
   {
     EClass oldContextType = contextType;
@@ -237,6 +243,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getReference()
   {
     if (reference != null && reference.eIsProxy())
@@ -267,6 +274,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setReference(EReference newReference)
   {
     EReference oldReference = reference;
@@ -280,6 +288,7 @@ public class ScopeDefinitionImpl extends MinimalEObjectImpl.Container implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ScopeRule> getRules()
   {
     if (rules == null)

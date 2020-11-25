@@ -39,10 +39,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>Lookup</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Lookup</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Lookup</em>' attribute.
 	 * @see #isSetLookup()
@@ -92,10 +88,6 @@ public interface Export extends DeclarationForType
 	/**
 	 * Returns the value of the '<em><b>Lookup Predicate</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Lookup Predicate</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Lookup Predicate</em>' containment reference.
 	 * @see #setLookupPredicate(Expression)
@@ -119,10 +111,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>Qualified Name</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Qualified Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Qualified Name</em>' attribute.
 	 * @see #isSetQualifiedName()
@@ -172,10 +160,6 @@ public interface Export extends DeclarationForType
 	/**
 	 * Returns the value of the '<em><b>Naming</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Naming</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Naming</em>' containment reference.
 	 * @see #setNaming(Expression)
@@ -199,10 +183,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>Fragment Unique</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fragment Unique</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fragment Unique</em>' attribute.
 	 * @see #isSetFragmentUnique()
@@ -252,10 +232,6 @@ public interface Export extends DeclarationForType
 	/**
 	 * Returns the value of the '<em><b>Fragment Attribute</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fragment Attribute</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fragment Attribute</em>' reference.
 	 * @see #setFragmentAttribute(EAttribute)
@@ -279,10 +255,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>Fingerprint</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fingerprint</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fingerprint</em>' attribute.
 	 * @see #isSetFingerprint()
@@ -333,10 +305,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>Resource Fingerprint</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resource Fingerprint</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Resource Fingerprint</em>' attribute.
 	 * @see #isSetResourceFingerprint()
@@ -387,10 +355,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Attribute}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Attributes()
@@ -403,10 +367,6 @@ public interface Export extends DeclarationForType
 	 * Returns the value of the '<em><b>User Data</b></em>' containment reference list.
 	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.UserData}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>User Data</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>User Data</em>' containment reference list.
 	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_UserData()

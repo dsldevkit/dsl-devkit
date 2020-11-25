@@ -26,10 +26,6 @@ public interface IfExpression extends Expression
   /**
    * Returns the value of the '<em><b>Condition</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Condition</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Condition</em>' containment reference.
    * @see #setCondition(Expression)
@@ -52,10 +48,6 @@ public interface IfExpression extends Expression
   /**
    * Returns the value of the '<em><b>Then Part</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Then Part</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Then Part</em>' containment reference.
    * @see #setThenPart(Expression)
@@ -78,10 +70,6 @@ public interface IfExpression extends Expression
   /**
    * Returns the value of the '<em><b>Else Part</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Else Part</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Else Part</em>' containment reference.
    * @see #setElsePart(Expression)

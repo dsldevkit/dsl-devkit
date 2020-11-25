@@ -26,10 +26,6 @@ public interface Context extends Documented
 	/**
 	 * Returns the value of the '<em><b>Context Variable</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Context Variable</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Context Variable</em>' containment reference.
 	 * @see #setContextVariable(ContextVariable)
@@ -52,10 +48,6 @@ public interface Context extends Documented
 	/**
 	 * Returns the value of the '<em><b>Constraint</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constraint</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constraint</em>' containment reference.
 	 * @see #setConstraint(XExpression)

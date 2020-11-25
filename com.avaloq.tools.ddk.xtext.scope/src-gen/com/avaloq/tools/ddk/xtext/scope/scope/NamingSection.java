@@ -29,10 +29,6 @@ public interface NamingSection extends EObject
    * Returns the value of the '<em><b>Casing</b></em>' attribute.
    * The literals are from the enumeration {@link com.avaloq.tools.ddk.xtext.scope.scope.Casing}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Casing</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Casing</em>' attribute.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.Casing
@@ -58,10 +54,6 @@ public interface NamingSection extends EObject
    * Returns the value of the '<em><b>Namings</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.scope.scope.NamingDefinition}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Namings</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Namings</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage#getNamingSection_Namings()

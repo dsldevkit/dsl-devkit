@@ -86,6 +86,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExportModel createExportModel()
 	{
 		ExportModelImpl exportModel = new ExportModelImpl();
@@ -97,6 +98,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Import createImport()
 	{
 		ImportImplCustom import_ = new ImportImplCustom();
@@ -108,6 +110,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Extension createExtension()
 	{
 		ExtensionImpl extension = new ExtensionImpl();
@@ -119,6 +122,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DeclarationForType createDeclarationForType()
 	{
 		DeclarationForTypeImpl declarationForType = new DeclarationForTypeImpl();
@@ -130,6 +134,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Interface createInterface()
 	{
 		InterfaceImpl interface_ = new InterfaceImpl();
@@ -141,6 +146,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InterfaceItem createInterfaceItem()
 	{
 		InterfaceItemImpl interfaceItem = new InterfaceItemImpl();
@@ -152,6 +158,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InterfaceField createInterfaceField()
 	{
 		InterfaceFieldImpl interfaceField = new InterfaceFieldImpl();
@@ -163,6 +170,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InterfaceNavigation createInterfaceNavigation()
 	{
 		InterfaceNavigationImpl interfaceNavigation = new InterfaceNavigationImpl();
@@ -174,6 +182,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InterfaceExpression createInterfaceExpression()
 	{
 		InterfaceExpressionImpl interfaceExpression = new InterfaceExpressionImpl();
@@ -185,6 +194,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Export createExport()
 	{
 		ExportImplCustom export = new ExportImplCustom();
@@ -196,6 +206,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UserData createUserData()
 	{
 		UserDataImpl userData = new UserDataImpl();
@@ -207,6 +218,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute createAttribute()
 	{
 		AttributeImpl attribute = new AttributeImpl();
@@ -218,6 +230,7 @@ public class ExportFactoryImpl extends EFactoryImpl implements ExportFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExportPackage getExportPackage()
 	{
 		return (ExportPackage)getEPackage();

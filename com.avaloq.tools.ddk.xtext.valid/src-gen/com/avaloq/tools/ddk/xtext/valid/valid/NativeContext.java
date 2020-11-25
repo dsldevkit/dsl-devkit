@@ -32,10 +32,6 @@ public interface NativeContext extends Context
   /**
    * Returns the value of the '<em><b>Named</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Named</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Named</em>' attribute.
    * @see #setNamed(boolean)
@@ -58,10 +54,6 @@ public interface NativeContext extends Context
   /**
    * Returns the value of the '<em><b>Given Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Given Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Given Name</em>' attribute.
    * @see #setGivenName(String)
@@ -84,10 +76,6 @@ public interface NativeContext extends Context
   /**
    * Returns the value of the '<em><b>Marker Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Marker Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Marker Type</em>' reference.
    * @see #setMarkerType(EClass)
@@ -110,10 +98,6 @@ public interface NativeContext extends Context
   /**
    * Returns the value of the '<em><b>Marker Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Marker Feature</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Marker Feature</em>' reference.
    * @see #setMarkerFeature(EStructuralFeature)
@@ -137,10 +121,6 @@ public interface NativeContext extends Context
    * Returns the value of the '<em><b>Quick Fixes</b></em>' containment reference list.
    * The list contents are of type {@link com.avaloq.tools.ddk.xtext.valid.valid.QuickFix}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Quick Fixes</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Quick Fixes</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage#getNativeContext_QuickFixes()

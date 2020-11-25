@@ -34,10 +34,6 @@ public interface GrammarElementReference extends EObject
   /**
    * Returns the value of the '<em><b>Assignment</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Assignment</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Assignment</em>' reference.
    * @see #setAssignment(Assignment)
@@ -60,10 +56,6 @@ public interface GrammarElementReference extends EObject
   /**
    * Returns the value of the '<em><b>Rule Call</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rule Call</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rule Call</em>' reference.
    * @see #setRuleCall(RuleCall)
@@ -86,10 +78,6 @@ public interface GrammarElementReference extends EObject
   /**
    * Returns the value of the '<em><b>Self</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Self</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Self</em>' reference.
    * @see #setSelf(AbstractRule)
@@ -112,10 +100,6 @@ public interface GrammarElementReference extends EObject
   /**
    * Returns the value of the '<em><b>Rule</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rule</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rule</em>' reference.
    * @see #setRule(AbstractRule)
@@ -138,10 +122,6 @@ public interface GrammarElementReference extends EObject
   /**
    * Returns the value of the '<em><b>Keyword</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Keyword</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Keyword</em>' reference.
    * @see #setKeyword(Keyword)

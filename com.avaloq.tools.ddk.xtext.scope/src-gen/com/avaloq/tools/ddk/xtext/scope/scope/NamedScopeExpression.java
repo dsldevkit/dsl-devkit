@@ -26,10 +26,6 @@ public interface NamedScopeExpression extends ScopeExpression
   /**
    * Returns the value of the '<em><b>Case Def</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Case Def</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Case Def</em>' attribute.
    * @see #setCaseDef(boolean)
@@ -53,10 +49,6 @@ public interface NamedScopeExpression extends ScopeExpression
    * Returns the value of the '<em><b>Casing</b></em>' attribute.
    * The literals are from the enumeration {@link com.avaloq.tools.ddk.xtext.scope.scope.Casing}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Casing</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Casing</em>' attribute.
    * @see com.avaloq.tools.ddk.xtext.scope.scope.Casing
@@ -81,10 +73,6 @@ public interface NamedScopeExpression extends ScopeExpression
   /**
    * Returns the value of the '<em><b>Naming</b></em>' containment reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Naming</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Naming</em>' containment reference.
    * @see #setNaming(Naming)

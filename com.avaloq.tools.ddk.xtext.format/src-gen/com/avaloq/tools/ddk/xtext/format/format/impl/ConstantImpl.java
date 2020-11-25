@@ -157,6 +157,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isIntType()
   {
     return intType;
@@ -167,6 +168,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIntType(boolean newIntType)
   {
     boolean oldIntType = intType;
@@ -180,6 +182,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isStringType()
   {
     return stringType;
@@ -190,6 +193,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStringType(boolean newStringType)
   {
     boolean oldStringType = stringType;
@@ -203,6 +207,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -213,6 +218,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -226,6 +232,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Integer getIntValue()
   {
     return intValue;
@@ -236,6 +243,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIntValue(Integer newIntValue)
   {
     Integer oldIntValue = intValue;
@@ -249,6 +257,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getStringValue()
   {
     return stringValue;
@@ -259,6 +268,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStringValue(String newStringValue)
   {
     String oldStringValue = stringValue;
@@ -383,7 +393,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (intType: ");
     result.append(intType);
     result.append(", stringType: ");

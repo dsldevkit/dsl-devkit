@@ -30,10 +30,6 @@ public interface GrammarRule extends Rule
   /**
    * Returns the value of the '<em><b>Target Rule</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Target Rule</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Target Rule</em>' reference.
    * @see #setTargetRule(AbstractRule)
@@ -57,10 +53,6 @@ public interface GrammarRule extends Rule
    * Returns the value of the '<em><b>Directives</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Directives</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Directives</em>' containment reference list.
    * @see com.avaloq.tools.ddk.xtext.format.format.FormatPackage#getGrammarRule_Directives()
