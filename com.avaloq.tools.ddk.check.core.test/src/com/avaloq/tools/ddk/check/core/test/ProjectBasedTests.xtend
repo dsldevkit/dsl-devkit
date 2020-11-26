@@ -23,7 +23,6 @@ import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
-import org.junit.Ignore
 
 @InjectWith(typeof(CheckUiInjectorProvider))
 @RunWith(typeof(XtextRunner))
@@ -73,7 +72,6 @@ class ProjectBasedTests extends AbstractCheckTestCase {
   }
 
   @Test
-  @Ignore
   def void testBugDsl27CanCompile() {
     initializeTestProject();
 
@@ -81,7 +79,6 @@ class ProjectBasedTests extends AbstractCheckTestCase {
   }
 
   @Test
-  @Ignore
   def void testBugDsl281EmptyList() {
     initializeTestProject();
 
