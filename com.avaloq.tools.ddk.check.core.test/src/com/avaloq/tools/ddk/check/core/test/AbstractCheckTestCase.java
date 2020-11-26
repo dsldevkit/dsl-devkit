@@ -17,16 +17,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -333,8 +328,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
       new WorkspaceModifyOperation() {
         @Override
         protected void execute(final IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
-          for (int i = 0; i < sourceFileNames.size(); i++) {
-            final String fileName = sourceFileNames.get(i);
+          for (final String fileName : sourceFileNames) {
             try {
               final String contents = getNormalizedContents(clazz, fileName);
 
@@ -377,7 +371,6 @@ public abstract class AbstractCheckTestCase extends TestCase {
    * @throws IOException
    *           if model could not be read
    */
-  @SuppressWarnings("deprecation")
   private String getNormalizedContents(final Class<? extends AbstractCheckTestCase> clazz, final String modelName) throws IOException {
     InputStreamReader s = null;
     try {
@@ -385,53 +378,6 @@ public abstract class AbstractCheckTestCase extends TestCase {
       return CharStreams.toString(s);
     } finally {
       Closeables.closeQuietly(s);
-    }
-  }
-
-  /**
-   * Lists all the contents in a project by logging.
-   *
-   * @param project
-   *          to list
-   */
-  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
-  protected void enumerateContents(final IProject project) {
-    try {
-      final StringBuilder b = new StringBuilder();
-      b.append('\n');
-      project.accept(new IResourceVisitor() {
-        @Override
-        @SuppressWarnings("deprecation")
-        public boolean visit(final IResource rsc) throws CoreException {
-          String filePath = rsc.getFullPath().toString();
-          b.append(filePath).append(rsc instanceof IFolder ? "/" : "").append('\n');
-          if (rsc instanceof IFile && !filePath.contains("/bin/") && !filePath.endsWith("._trace")) {
-            IFile file = (IFile) rsc;
-            b.append("---- Content:\n");
-            InputStreamReader s = null;
-            try {
-              s = new InputStreamReader(file.getContents());
-              b.append(CharStreams.toString(s));
-            } catch (IOException e) {
-              b.append("**** ERROR:").append(e.getMessage());
-            } finally {
-              Closeables.closeQuietly(s);
-            }
-            b.append("\n++++ Markers:\n");
-            for (IMarker marker : file.findMarkers(null, true, IResource.DEPTH_INFINITE)) {
-              for (Map.Entry<String, Object> attr : marker.getAttributes().entrySet()) {
-                b.append(" " + attr.getKey() + " " + attr.getValue().toString());
-              }
-              b.append('\n');
-            }
-            b.append("---- End file " + filePath + '\n');
-          }
-          return true;
-        }
-      });
-      LOGGER.error(b.toString());
-    } catch (CoreException e) {
-      LOGGER.error("Failed listing project contents", e);
     }
   }
 
