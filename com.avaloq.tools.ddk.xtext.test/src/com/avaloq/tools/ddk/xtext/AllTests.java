@@ -28,7 +28,6 @@ import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
 import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
 import com.avaloq.tools.ddk.xtext.test.format.FormatTestSuite;
 import com.avaloq.tools.ddk.xtext.test.valid.ValidTestSuite;
-import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchMarkerResolutionGenerator;
 import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
 
@@ -63,6 +62,6 @@ public class AllTests {
   @BeforeClass
   public static void setUp() throws Exception {
     // Make sure PDE can deal with plugin projects we may create in our tests.
-    TargetPlatformUtil.setTargetPlatform(WorkbenchMarkerResolutionGenerator.class);
+    TargetPlatformUtil.setTargetPlatform(AllTests.class);
   }
 }
