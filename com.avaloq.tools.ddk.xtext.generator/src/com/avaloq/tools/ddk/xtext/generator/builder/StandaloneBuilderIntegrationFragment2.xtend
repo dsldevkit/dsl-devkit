@@ -100,7 +100,6 @@ class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
   def generateBuildSetup() {
     fileAccessFactory.createJavaFile(getStandaloneBuildSetupGeneratedClass, '''
       import com.google.common.collect.ImmutableList;
-      import com.google.common.collect.Lists;
       import com.google.inject.Guice;
       import com.google.inject.Injector;
       import com.google.inject.Module;
