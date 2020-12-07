@@ -271,9 +271,9 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       unloader.unloadRoot(eObject);
       derived.add(eObject);
     }
-    resourcesContentsList.removeAll(derived);
     getSourceToInferredModelMap(resource).clear();
     getInferredModelToSourceMap(resource).clear();
+    resourcesContentsList.removeAll(derived);
   }
 
   private static <K, V> Map<K, V> newLinkedHashMapWithCapacity(final int capacity) {

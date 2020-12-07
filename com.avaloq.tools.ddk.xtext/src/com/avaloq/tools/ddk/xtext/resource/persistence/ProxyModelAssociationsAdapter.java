@@ -36,7 +36,7 @@ final class ProxyModelAssociationsAdapter extends InferredModelAssociator.Adapte
 
   /**
    * Installs a {@link ProxyModelAssociationsAdapter} unless the given resource already has an {@link InferredModelAssociator.Adapter}.
-   * 
+   *
    * @param resource
    *          resource to add adapter to, must not be {@code null}
    */
@@ -50,30 +50,32 @@ final class ProxyModelAssociationsAdapter extends InferredModelAssociator.Adapte
 
   @Override
   public Map<EObject, Deque<EObject>> getSourceToInferredModelMap() {
-    DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
-    try {
-      uninstall();
-      loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
-    } catch (IOException e) {
-      throw new WrappedException(e);
+    if (uninstall()) {
+      DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
+      try {
+        loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
+      } catch (IOException e) {
+        throw new WrappedException(e);
+      }
     }
     return ((InferredModelAssociator.Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class)).getSourceToInferredModelMap();
   }
 
   @Override
   public Map<EObject, Deque<EObject>> getInferredModelToSourceMap() {
-    DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
-    try {
-      uninstall();
-      loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
-    } catch (IOException e) {
-      throw new WrappedException(e);
+    if (uninstall()) {
+      DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
+      try {
+        loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
+      } catch (IOException e) {
+        throw new WrappedException(e);
+      }
     }
     return ((InferredModelAssociator.Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class)).getInferredModelToSourceMap();
   }
 
-  private void uninstall() {
-    resource.eAdapters().remove(this);
+  private boolean uninstall() {
+    return resource.eAdapters().remove(this);
   }
 
 }
