@@ -53,7 +53,7 @@ public class RevertableXtextTestSource extends XtextTestSource {
         resources.clear();
         resources.add(resource);
       }
-      content = Files.toString(new File(getiFile().getLocationURI()), Charset.forName(getiFile().getCharset()));
+      content = Files.asCharSource(new File(getiFile().getLocationURI()), Charset.forName(getiFile().getCharset())).read();
       load();
     } catch (IOException e) {
       throw new WrappedException(e);
@@ -63,4 +63,3 @@ public class RevertableXtextTestSource extends XtextTestSource {
   }
 
 }
-
