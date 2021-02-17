@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -19,6 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
@@ -343,6 +345,32 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   // Thus, during the export phase, we have to be able to get to the contents of a resource without triggering model inference.
   public EList<EObject> doGetContents() {
     return super.doGetContents();
+  }
+
+  /**
+   * Copied from {@link DerivedStateAwareResource#doUnload()} with fix to use the correct proxy uri fragments.
+   */
+  @Override
+  protected void doUnload() {
+    Iterator<EObject> allContents = getAllProperContents(unloadingContents);
+
+    // in DerivedStateAwareResource.doUnload(), the doGetContents().clear() clause happens here.
+    // in this implementation, it happens after the unloaded() loop.
+
+    getErrors().clear();
+    getWarnings().clear();
+    // Marking the contents as unloaded sets the proxy uris on the model elements, but to do this using the correct uri fragment providers,
+    // it needs to be done before the contents are removed from the resource.
+    while (allContents.hasNext()) {
+      unloaded((InternalEObject) allContents.next());
+    }
+    // This guard is needed to ensure that clear doesn't make the resource become loaded.
+    //
+    if (!doGetContents().isEmpty()) {
+      doGetContents().clear();
+    }
+    setParseResult(null);
+    setIsLoadedFromStorage(false);
   }
 
   /** {@inheritDoc} */
