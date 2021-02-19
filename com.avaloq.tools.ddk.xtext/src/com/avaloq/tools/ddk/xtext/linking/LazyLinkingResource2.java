@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -20,7 +19,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
@@ -28,6 +26,7 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.serialization.SerializationUtil;
 import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ParseResult;
+import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
@@ -59,6 +58,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Inject
   private ITraceSet traceSet;
+
+  @Inject
+  private IReferableElementsUnloader.GenericUnloader unloader;
 
   /**
    * Global key that can be used to set a flag in a resource set's load options to tell the linker whether it should raise an
@@ -352,17 +354,15 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
    */
   @Override
   protected void doUnload() {
-    Iterator<EObject> allContents = getAllProperContents(unloadingContents);
-
     // in DerivedStateAwareResource.doUnload(), the doGetContents().clear() clause happens here.
-    // in this implementation, it happens after the unloaded() loop.
+    // in this implementation, it happens after the unloadRoot() loop.
 
     getErrors().clear();
     getWarnings().clear();
-    // Marking the contents as unloaded sets the proxy uris on the model elements, but to do this using the correct uri fragment providers,
-    // it needs to be done before the contents are removed from the resource.
-    while (allContents.hasNext()) {
-      unloaded((InternalEObject) allContents.next());
+    // Following the pattern used in InferredModelAssociator.discardDerivedState() we use an unloader to clear the adapters,
+    // unload the model objects and set the proxy uris.
+    for (EObject eObject : unloadingContents) {
+      unloader.unloadRoot(eObject);
     }
     // This guard is needed to ensure that clear doesn't make the resource become loaded.
     //
