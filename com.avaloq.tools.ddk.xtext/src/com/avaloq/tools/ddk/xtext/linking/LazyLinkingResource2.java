@@ -26,6 +26,7 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.serialization.SerializationUtil;
 import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ParseResult;
+import org.eclipse.xtext.parser.antlr.IReferableElementsUnloader;
 import org.eclipse.xtext.resource.DerivedStateAwareResource;
 import org.eclipse.xtext.resource.IDerivedStateComputer;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
@@ -57,6 +58,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Inject
   private ITraceSet traceSet;
+
+  @Inject
+  private IReferableElementsUnloader.GenericUnloader unloader;
 
   /**
    * Global key that can be used to set a flag in a resource set's load options to tell the linker whether it should raise an
@@ -343,6 +347,30 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   // Thus, during the export phase, we have to be able to get to the contents of a resource without triggering model inference.
   public EList<EObject> doGetContents() {
     return super.doGetContents();
+  }
+
+  /**
+   * Copied from {@link DerivedStateAwareResource#doUnload()} with fix to use the correct proxy uri fragments.
+   */
+  @Override
+  protected void doUnload() {
+    // in DerivedStateAwareResource.doUnload(), the doGetContents().clear() clause happens here.
+    // in this implementation, it happens after the unloadRoot() loop.
+
+    getErrors().clear();
+    getWarnings().clear();
+    // Following the pattern used in InferredModelAssociator.discardDerivedState() we use an unloader to clear the adapters,
+    // unload the model objects and set the proxy uris.
+    for (EObject eObject : unloadingContents) {
+      unloader.unloadRoot(eObject);
+    }
+    // This guard is needed to ensure that clear doesn't make the resource become loaded.
+    //
+    if (!doGetContents().isEmpty()) {
+      doGetContents().clear();
+    }
+    setParseResult(null);
+    setIsLoadedFromStorage(false);
   }
 
   /** {@inheritDoc} */
