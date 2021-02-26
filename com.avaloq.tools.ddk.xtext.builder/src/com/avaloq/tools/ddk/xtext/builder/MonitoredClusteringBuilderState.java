@@ -169,14 +169,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Inject(optional = true)
   private IFileSystemAccess fileSystemAccess;
 
-  AtomicInteger counter = new AtomicInteger();
-
   ForkJoinPool.ForkJoinWorkerThreadFactory factory = pool -> {
-    ForkJoinWorkerThread thread = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
+    ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
 
-    thread.setName("binary-storage-executor-" + counter.getAndIncrement()); //$NON-NLS-1$
+    worker.setName("binary-storage-executor-" + worker.getPoolIndex()); //$NON-NLS-1$
 
-    return thread;
+    return worker;
   };
 
   private final ForkJoinPool binaryStorageExecutor = new ForkJoinPool(4, factory, null, false);
