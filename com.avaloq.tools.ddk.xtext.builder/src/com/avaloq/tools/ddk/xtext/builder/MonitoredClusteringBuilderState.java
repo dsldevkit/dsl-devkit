@@ -170,9 +170,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   private final ForkJoinPool.ForkJoinWorkerThreadFactory factory = pool -> {
     ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
-
     worker.setName("binary-storage-executor-" + worker.getPoolIndex()); //$NON-NLS-1$
-
     return worker;
   };
 
