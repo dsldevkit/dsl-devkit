@@ -169,7 +169,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Inject(optional = true)
   private IFileSystemAccess fileSystemAccess;
 
-  ForkJoinPool.ForkJoinWorkerThreadFactory factory = pool -> {
+  private final ForkJoinPool.ForkJoinWorkerThreadFactory factory = pool -> {
     ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
 
     worker.setName("binary-storage-executor-" + worker.getPoolIndex()); //$NON-NLS-1$
