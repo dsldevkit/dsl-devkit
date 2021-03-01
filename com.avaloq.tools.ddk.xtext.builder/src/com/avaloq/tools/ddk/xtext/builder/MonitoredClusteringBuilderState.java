@@ -19,6 +19,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinWorkerThread;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -167,7 +168,13 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Inject(optional = true)
   private IFileSystemAccess fileSystemAccess;
 
-  private final ForkJoinPool binaryStorageExecutor = new ForkJoinPool(4);
+  private final ForkJoinPool.ForkJoinWorkerThreadFactory factory = pool -> {
+    ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
+    worker.setName("binary-storage-executor-" + worker.getPoolIndex()); //$NON-NLS-1$
+    return worker;
+  };
+
+  private final ForkJoinPool binaryStorageExecutor = new ForkJoinPool(4, factory, null, false);
 
   /**
    * Handle to the ResourceDescriptionsData we use viewed as a IResourceDescriptions2 (with findReferences()). Parent class does not provide direct access to
