@@ -119,8 +119,9 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
     final public void check«checkKind.toString().toFirstUpper()»«contextType.name»(«contextType.name» context) {
         ICheckSequencer sequencer = pre«checkKind.toString().toFirstUpper()»Check«contextType.name»(context);
         assert sequencer != null : "Sequencer must be initialized";
+        boolean isDebugEnabled = LOGGER.isDebugEnabled();
 «FOREACH validModel.getAllNativeRules(checkKind).contexts.select(c| c.contextType == contextType).sortBy(c|c.name()) AS context -»
-        if (LOGGER.isDebugEnabled()) {
+        if (isDebugEnabled) {
             LOGGER.debug(NLS.bind("Performing check:{0} on {1}", "«context.name()»", context));
         }
         check«context.name()»(context, sequencer);
@@ -129,13 +130,13 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
     }
 
     /**
-     * Returns a check sequencer for the given Check (Kind/Context) family.
+     * Returns the default check sequencer for the given Check (Kind/Context) family.
      *
      * @param context the context object
-     * @return a check sequencer (possibly enriched with user data)
+     * @return the default check sequencer
      */
     public ICheckSequencer pre«checkKind.toString().toFirstUpper()»Check«contextType.name»(«contextType.name» context) {
-        return new DefaultCheckSequencer();
+        return DefaultCheckSequencer.getInstance();
     }
 
     /**
