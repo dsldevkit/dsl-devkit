@@ -16,6 +16,20 @@ package com.avaloq.tools.ddk.xtext.validation;
 public class DefaultCheckSequencer implements ICheckSequencer {
 
   /**
+   * The singletone.
+   */
+  private static final DefaultCheckSequencer INSTANCE = new DefaultCheckSequencer();
+
+  /**
+   * The singletone instance for the default check sequencer.
+   *
+   * @return the singletone instance
+   */
+  public static DefaultCheckSequencer getInstance() {
+    return INSTANCE;
+  }
+
+  /**
    * Default implementation for canContinue.
    *
    * @return always true
