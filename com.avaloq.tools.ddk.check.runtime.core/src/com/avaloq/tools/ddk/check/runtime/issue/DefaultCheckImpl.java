@@ -63,6 +63,8 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   @Inject
   private ITraceSet traceSet;
 
+  private boolean isTraceEnabled = traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class);
+
   public DefaultCheckImpl() {
     this.state = new ThreadLocal<State>();
     this.messageAcceptor = this;
@@ -136,7 +138,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
     internalState.currentObject = object;
     internalState.checkMode = checkMode;
     internalState.context = context;
-    ResourceValidationRuleSummaryEvent.Collector collector = traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class)
+    ResourceValidationRuleSummaryEvent.Collector collector = isTraceEnabled
         ? ResourceValidationRuleSummaryEvent.Collector.extractFromLoadOptions(object.eResource().getResourceSet())
         : null;
 
@@ -147,7 +149,9 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
       // FIXME the method name is actually not the real issue code
       String ruleName = collector != null ? method.instance.getClass().getSimpleName() + '.' + method.method.getName() : null;
       try {
-        traceStart(ruleName, object, collector);
+        if (collector != null) {
+          traceStart(ruleName, object, collector);
+        }
         method.invoke(internalState);
         // CHECKSTYLE:OFF Yes, we really want to catch anything here. The method invoked is user-written code that may fail arbitrarily.
         // If that happens, we want to exclude this check from all future executions! We catch Exception instead of InvocationTargetException
@@ -161,7 +165,9 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
         }
         erroneousMethods.add(method);
       } finally {
-        traceEnd(ruleName, object, collector);
+        if (collector != null) {
+          traceEnd(ruleName, object, collector);
+        }
       }
     }
 
