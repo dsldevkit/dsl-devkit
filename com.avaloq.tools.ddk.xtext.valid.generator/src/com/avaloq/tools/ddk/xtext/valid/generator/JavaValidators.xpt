@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.eclipse.emf.ecore.EPackage;
 «IF !validModel.getAllNativeRules().contexts.isEmpty-»
-import java.util.stream.Collector;
+import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent.Collector;
 import org.eclipse.emf.ecore.EStructuralFeature;
 «ENDIF-»
 import com.avaloq.tools.ddk.xtext.validation.AbstractDeclarativeValidValidator;
@@ -187,7 +187,7 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
                 CompoundValidMessage<«context.markerType.name»> returnedMessage = get«context.name()»Message(context, sequencer, message, «IF context.markerFeature == null»null«ELSE»«literalIdentifier(context.markerFeature)»«ENDIF»);
                 if (returnedMessage != null) {
                     for (ValidMessage<«context.markerType.name»> validMessage: returnedMessage.getMessages()) {
-                    	«IF context.markerFeature == null»
+                      «IF context.markerFeature == null»
                             if (returnedMessage.getLength() > 0) {
                                 accept«context.rule().severity.name.toLowerCase().toFirstUpper()»(validMessage.getMessage(), validMessage.getContext(), validMessage.getOffset(), validMessage.getLength(), «context.validationCodeLiteral()», validMessage.getData());
                             } else {
