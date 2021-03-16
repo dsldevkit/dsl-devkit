@@ -36,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.eclipse.emf.ecore.EPackage;
 «IF !validModel.getAllNativeRules().contexts.isEmpty-»
+import java.util.stream.Collector;
 import org.eclipse.emf.ecore.EStructuralFeature;
 «ENDIF-»
 import com.avaloq.tools.ddk.xtext.validation.AbstractDeclarativeValidValidator;
@@ -86,6 +87,7 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
 «IF !validModel.getAllNativeRules().isEmpty-»
     /** Class-Wide Error Logger. */
     private static final Log LOGGER = LogFactory.getLog(«getJavaValidatorName("Abstract").toSimpleName()».class);
+    private static final boolean isTraceEnabled = isTraceEnabled();
 «ENDIF-»
 
     /** Language Name, used as preference store key. */
@@ -160,8 +162,11 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
      */
     public final void check«context.name()»(«context.contextType.name» context, ICheckSequencer sequencer) {
         if (sequencer.canContinue()) {
+            Collector collector = null;
+            if (isTraceEnabled) {
+                collector = traceStart(«context.validationCodeLiteral()»);
+            }
             try {
-                traceStart(«context.validationCodeLiteral()»);
 «IF context.rule().optional-»
                 if (isDisabled("«this.getPreferenceKey(context.rule())»")) {
                   return;
@@ -199,7 +204,9 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
             } catch (Exception e) {
                 LOGGER.error(NLS.bind("Error occured when performing check «context.name()» for object of type «context.contextType.name»: {0}", EcoreUtil.getURI(context)), e);
             } finally {
-                traceEnd(«context.validationCodeLiteral()»);
+                if (collector != null) {
+                    traceEnd(collector);
+                }
             }
         }
     }
