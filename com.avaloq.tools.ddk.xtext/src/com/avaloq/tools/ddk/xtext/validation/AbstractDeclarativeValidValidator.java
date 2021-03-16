@@ -12,7 +12,6 @@ package com.avaloq.tools.ddk.xtext.validation;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.stream.Collector;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -89,7 +88,7 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
    *          rule to be executed
    * @return A collector if if tracing is enabled or {@code null} otherwise
    */
-  protected Collector traceStart(final String rule) {
+  protected ResourceValidationRuleSummaryEvent.Collector traceStart(final String rule) {
     if (traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class)) {
       EObject object = getCurrentObject();
       ResourceValidationRuleSummaryEvent.Collector collector = getTraceCollector(object);
@@ -126,8 +125,8 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
    *          the collector returned by traceStart, must not be {@code null}
    * @see #traceStart(String)
    */
-  protected void traceEnd(final Collector collector) {
-    ((ResourceValidationRuleSummaryEvent.Collector)collector).ruleEnded(rule, null);
+  protected void traceEnd(final ResourceValidationRuleSummaryEvent.Collector collector, final String rule) {
+    collector.ruleEnded(rule, null);
   }
 
   /**
