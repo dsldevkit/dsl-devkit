@@ -63,7 +63,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   @Inject
   private ITraceSet traceSet;
 
-  private boolean isTraceEnabled = traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class);
+  private Boolean isTraceEnabled;
 
   public DefaultCheckImpl() {
     this.state = new ThreadLocal<State>();
@@ -138,6 +138,10 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
     internalState.currentObject = object;
     internalState.checkMode = checkMode;
     internalState.context = context;
+
+    if (isTraceEnabled == null) {
+      isTraceEnabled = traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class);
+    }
     ResourceValidationRuleSummaryEvent.Collector collector = isTraceEnabled
         ? ResourceValidationRuleSummaryEvent.Collector.extractFromLoadOptions(object.eResource().getResourceSet())
         : null;

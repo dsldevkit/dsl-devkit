@@ -87,7 +87,7 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
 «IF !validModel.getAllNativeRules().isEmpty-»
     /** Class-Wide Error Logger. */
     private static final Log LOGGER = LogFactory.getLog(«getJavaValidatorName("Abstract").toSimpleName()».class);
-    private static final boolean isTraceEnabled = isTraceEnabled();
+    private final boolean isTraceEnabled = isTraceEnabled();
 «ENDIF-»
 
     /** Language Name, used as preference store key. */
@@ -205,7 +205,7 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
                 LOGGER.error(NLS.bind("Error occured when performing check «context.name()» for object of type «context.contextType.name»: {0}", EcoreUtil.getURI(context)), e);
             } finally {
                 if (collector != null) {
-                    traceEnd(collector);
+                    traceEnd(collector, «context.validationCodeLiteral()»);
                 }
             }
         }
