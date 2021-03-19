@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.core.runtime,
  com.avaloq.tools.ddk.xtext
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.check.lib
+Automatic-Module-Name: com.avaloq.tools.ddk.check.lib

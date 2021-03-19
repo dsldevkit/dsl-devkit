@@ -25,3 +25,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.export.ui.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.export.ui.contentassist,
  com.avaloq.tools.ddk.xtext.export.ui.quickfix,
  com.avaloq.tools.ddk.xtext.export.ui.contentassist.antlr.internal
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.export.ui

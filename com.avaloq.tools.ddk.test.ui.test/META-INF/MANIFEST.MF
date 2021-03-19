@@ -13,3 +13,4 @@ Require-Bundle: org.junit,
  com.avaloq.tools.ddk.test.ui
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.core.runtime.jobs
+Automatic-Module-Name: com.avaloq.tools.ddk.test.ui.test

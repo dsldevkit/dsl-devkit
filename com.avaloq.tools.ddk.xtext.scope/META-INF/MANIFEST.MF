@@ -32,4 +32,5 @@ Export-Package: com.avaloq.tools.ddk.xtext.scope,
  com.avaloq.tools.ddk.xtext.scope.formatting,
  com.avaloq.tools.ddk.xtext.scope.serializer,
  com.avaloq.tools.ddk.xtext.scope.generator
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope
 

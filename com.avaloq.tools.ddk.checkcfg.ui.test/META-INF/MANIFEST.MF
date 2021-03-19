@@ -7,3 +7,4 @@ Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.checkcfg.ui.test
 Require-Bundle: org.junit
+Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.ui.test

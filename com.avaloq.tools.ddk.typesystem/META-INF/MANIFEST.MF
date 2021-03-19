@@ -19,3 +19,4 @@ Export-Package: com.avaloq.tools.ddk.typesystem,
  com.avaloq.tools.ddk.typesystem.typemodel.provider,
  com.avaloq.tools.ddk.typesystem.typemodel.util
 Eclipse-ExtensibleAPI: true
+Automatic-Module-Name: com.avaloq.tools.ddk.typesystem

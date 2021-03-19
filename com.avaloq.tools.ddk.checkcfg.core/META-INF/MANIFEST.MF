@@ -36,3 +36,4 @@ Export-Package: com.avaloq.tools.ddk.checkcfg,
  com.avaloq.tools.ddk.checkcfg.validation,
  com.avaloq.tools.ddk.checkcfg.serializer
 Import-Package: org.apache.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.core

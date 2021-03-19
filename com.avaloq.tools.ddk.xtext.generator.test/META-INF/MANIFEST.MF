@@ -20,3 +20,4 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.eclipse.xtext.generator
 Export-Package: com.avaloq.tools.ddk.xtext.generator.test.generator
 Import-Package: org.eclipse.xtext.ui.resource
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator.test

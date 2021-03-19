@@ -53,3 +53,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.test,
  com.avaloq.tools.ddk.xtext.test.ui.quickfix,
  com.avaloq.tools.ddk.xtext.test.ui.syntaxcoloring,
  com.avaloq.tools.ddk.xtext.test.validation
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.test.core

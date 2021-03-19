@@ -35,3 +35,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.resourceFactory
 Import-Package: org.apache.log4j
 Eclipse-ExtensibleAPI: true
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator

@@ -31,3 +31,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.valid,
  com.avaloq.tools.ddk.xtext.valid.formatting,
  com.avaloq.tools.ddk.xtext.valid.serializer
 Import-Package: org.apache.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.valid

@@ -32,3 +32,4 @@ Export-Package: com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.test.ui.swtbot.util
 Import-Package: org.apache.log4j
 Eclipse-RegisterBuddy: org.eclipse.swtbot.swt.finder
+Automatic-Module-Name: com.avaloq.tools.ddk.test.ui

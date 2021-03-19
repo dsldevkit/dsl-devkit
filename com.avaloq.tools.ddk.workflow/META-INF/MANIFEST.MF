@@ -32,3 +32,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.xbase.lib
+Automatic-Module-Name: com.avaloq.tools.ddk.workflow
