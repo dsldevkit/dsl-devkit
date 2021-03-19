@@ -24,3 +24,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.valid.ui.contentassist.antlr,
 Import-Package: org.apache.log4j
 Bundle-Activator: com.avaloq.tools.ddk.xtext.valid.ui.internal.ValidActivator
 Eclipse-ExtensibleAPI: true
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.valid.ui

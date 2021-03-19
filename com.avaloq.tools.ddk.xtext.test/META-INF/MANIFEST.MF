@@ -54,3 +54,4 @@ Export-Package: com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.formatter.parser.antlr,
  com.avaloq.tools.ddk.xtext.formatter.parser.antlr.internal,
  com.avaloq.tools.ddk.xtext.formatter.serializer
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.test

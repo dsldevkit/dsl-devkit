@@ -37,4 +37,5 @@ Export-Package: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.export.formatting,
  com.avaloq.tools.ddk.xtext.export.serializer,
  com.avaloq.tools.ddk.xtext.export.generator
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.export
 

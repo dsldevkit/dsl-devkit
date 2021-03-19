@@ -17,3 +17,4 @@ Export-Package: com.avaloq.tools.ddk.check.runtime.ui.editor,
  com.avaloq.tools.ddk.check.runtime.ui.editor.model,
  com.avaloq.tools.ddk.check.runtime.ui.quickfix,
  com.avaloq.tools.ddk.check.runtime.ui.validation
+Automatic-Module-Name: com.avaloq.tools.ddk.check.runtime.ui

@@ -15,3 +15,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.builder,
  com.avaloq.tools.ddk.xtext.builder.tracing,
  com.avaloq.tools.ddk.xtext.extensions
 Import-Package: org.apache.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.builder

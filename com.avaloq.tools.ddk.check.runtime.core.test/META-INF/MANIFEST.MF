@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.ui,
 Export-Package: com.avaloq.tools.ddk.check.runtime.test.core
 Import-Package: org.mockito,
  org.mockito.stubbing
+Automatic-Module-Name: com.avaloq.tools.ddk.check.runtime.core.test

@@ -13,3 +13,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.export,
  org.junit,
  com.avaloq.tools.ddk.xtext
 Export-Package: com.avaloq.tools.ddk.xtext.test.export
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.export.test
