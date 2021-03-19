@@ -12,3 +12,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.scope;visibility:=reexport,
  org.eclipse.osgi,
  com.avaloq.tools.ddk.xtext
 Import-Package: org.apache.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope.generator

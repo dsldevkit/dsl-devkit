@@ -15,3 +15,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.xtext.format.generator
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.generator

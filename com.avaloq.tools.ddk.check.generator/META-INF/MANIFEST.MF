@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.xtext,
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.check.generator,
  com.avaloq.tools.ddk.check.generator.quickfix
+Automatic-Module-Name: com.avaloq.tools.ddk.check.generator

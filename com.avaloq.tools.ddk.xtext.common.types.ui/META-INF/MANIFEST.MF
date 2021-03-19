@@ -12,3 +12,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.common.types,
  org.eclipse.xtext.ui
 Export-Package: com.avaloq.tools.ddk.xtext.common.types.ui.access.jdt
 Import-Package: org.apache.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.common.types.ui

@@ -39,4 +39,5 @@ Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.scoping,
  com.avaloq.tools.ddk.check.generator,
  com.avaloq.tools.ddk.check.formatting
+Automatic-Module-Name: com.avaloq.tools.ddk.check.test.runtime
 

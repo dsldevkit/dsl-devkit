@@ -31,3 +31,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.format.ui.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.format.ui.contentassist.antlr.internal
 Bundle-Activator: com.avaloq.tools.ddk.xtext.format.ui.internal.FormatActivator
 Eclipse-ExtensibleAPI: true
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.ui

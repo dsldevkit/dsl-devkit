@@ -15,3 +15,4 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.test.core,
  org.eclipse.emf.ecore;visibility:=reexport,
  com.avaloq.tools.ddk.xtext
 Export-Package: com.avaloq.tools.ddk.xtext.test.valid
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.valid.test

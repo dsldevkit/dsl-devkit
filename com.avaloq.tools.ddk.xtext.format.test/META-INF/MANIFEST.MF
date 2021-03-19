@@ -13,4 +13,5 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.format,
  org.junit,
  org.mockito
 Export-Package: com.avaloq.tools.ddk.xtext.test.format
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.test
 

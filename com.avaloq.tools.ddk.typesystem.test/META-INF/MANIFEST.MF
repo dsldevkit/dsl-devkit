@@ -11,3 +11,4 @@ Require-Bundle: com.google.inject,
  com.google.guava,
  org.junit
 Export-Package: com.avaloq.tools.ddk.typesystem.test
+Automatic-Module-Name: com.avaloq.tools.ddk.typesystem.test

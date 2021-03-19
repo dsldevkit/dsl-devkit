@@ -27,3 +27,4 @@ Export-Package: com.avaloq.tools.ddk.check.ui.contentassist.antlr,
  com.avaloq.tools.ddk.check.ui.quickfix,
  com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal
 Bundle-Activator: com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator
+Automatic-Module-Name: com.avaloq.tools.ddk.check.test.runtime.ui

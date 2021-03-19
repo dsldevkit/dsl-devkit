@@ -35,4 +35,5 @@ Export-Package: com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.expression.serializer,
  com.avaloq.tools.ddk.xtext.expression.services,
  com.avaloq.tools.ddk.xtext.expression.validation
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.expression
 

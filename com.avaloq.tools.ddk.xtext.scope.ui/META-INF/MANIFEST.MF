@@ -25,3 +25,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.scope.ui,
  com.avaloq.tools.ddk.xtext.scope.ui.quickfix,
  com.avaloq.tools.ddk.xtext.scope.ui.contentassist.antlr.internal
 Import-Package: org.apache.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope.ui
