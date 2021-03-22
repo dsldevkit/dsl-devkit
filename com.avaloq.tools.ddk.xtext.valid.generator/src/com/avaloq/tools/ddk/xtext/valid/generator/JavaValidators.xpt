@@ -87,7 +87,12 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
 «IF !validModel.getAllNativeRules().isEmpty-»
     /** Class-Wide Error Logger. */
     private static final Log LOGGER = LogFactory.getLog(«getJavaValidatorName("Abstract").toSimpleName()».class);
-    private final boolean isTraceEnabled = isTraceEnabled();
+    private final boolean isTraceEnabled;
+
+    @Inject
+    «getJavaValidatorName("Abstract").toSimpleName()»(final ITraceSet traceSet) {
+      isTraceEnabled = traceSet.isEnabled(ResourceValidationRuleSummaryEvent.class);
+    }
 «ENDIF-»
 
     /** Language Name, used as preference store key. */
@@ -272,7 +277,12 @@ import com.avaloq.tools.ddk.xtext.validation.ValidMessage;
  */
 public class «getJavaValidatorName("").toSimpleName()» extends «getJavaValidatorName("Abstract").toSimpleName()» {
 
-«FOREACH validModel.getAllNativeRules().contexts AS context -»
+  @Inject
+  «getJavaValidatorName("").toSimpleName()»(final ITraceSet traceSet) {
+    super(traceSet);
+  }
+
+  «FOREACH validModel.getAllNativeRules().contexts AS context -»
     /** {@inheritDoc} */
     @Override
 «IF context.markerType == null -»
