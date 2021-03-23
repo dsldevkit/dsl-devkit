@@ -51,6 +51,9 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
       featureId = Integer.parseUnsignedInt(segment.substring(0, listSeparatorIndex));
     }
     final EReference reference = (EReference) container.eClass().getEStructuralFeature(featureId);
+    if (reference == null) {
+      return null;
+    }
     if (reference.isMany()) {
       if (listSeparatorIndex == -1) {
         // if the model expects a list but the uri does not provide a listIndex, or the model changed and the URI is outdated,
