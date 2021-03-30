@@ -123,6 +123,8 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
    *
    * @param collector
    *          the collector returned by traceStart, must not be {@code null}
+   * @param rule
+   *          executed rule
    * @see #traceStart(String)
    */
   protected void traceEnd(final ResourceValidationRuleSummaryEvent.Collector collector, final String rule) {
