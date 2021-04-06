@@ -1,5 +1,5 @@
 name: verify
-on: [push]
+on: [push, pull_request]
 jobs:
   maven-verify:
     runs-on: ubuntu-18.04
