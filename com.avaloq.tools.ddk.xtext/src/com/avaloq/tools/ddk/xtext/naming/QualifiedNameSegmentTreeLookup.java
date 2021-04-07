@@ -20,6 +20,7 @@ import org.eclipse.xtext.naming.QualifiedName;
 
 import com.avaloq.tools.ddk.caching.CacheStatistics;
 import com.avaloq.tools.ddk.xtext.util.ArrayUtils;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -448,6 +449,9 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   /** {@inheritDoc} */
   @Override
   public void put(final QualifiedName name, final T value) {
+    if (name == null || value == null) {
+      throw new IllegalArgumentException("QualifiedNameLookup does not support null keys or values: put(" + name + ", " + value + ")"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+    }
     Object[] values = ArrayUtils.newArray(1);
     values[0] = value;
     size++;
@@ -457,6 +461,10 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   /** {@inheritDoc} */
   @Override
   public void putAll(final QualifiedName name, final Collection<T> values) {
+    if (name == null || values == null || values.contains(null)) {
+      String valuesAsString = values != null ? Iterables.toString(values) : "<null>"; //$NON-NLS-1$
+      throw new IllegalArgumentException("QualifiedNameLookup does not support null keys or values: putAll(" + name + ", " + valuesAsString + ")"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+    }
     size += values.size();
     root.merge(name, 0, values.toArray(ArrayUtils.newArray(values.size())));
   }
