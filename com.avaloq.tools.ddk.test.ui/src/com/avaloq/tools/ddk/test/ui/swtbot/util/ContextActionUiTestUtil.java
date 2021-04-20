@@ -12,17 +12,20 @@ package com.avaloq.tools.ddk.test.ui.swtbot.util;
 
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withMnemonic;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuFinder;
@@ -44,7 +47,8 @@ import com.google.common.collect.Lists;
  * where the bot can't find a dynamically created context menu.
  */
 public final class ContextActionUiTestUtil {
-  private static final String ICE_CTX_LABEL_LOADING = "Loading...";
+  private static final String ICE_CTX_LABEL_LOADING = "Loading..."; //$NON-NLS-1$
+  private static final String ICE_ASYNC_VALIDATION_LABEL_CHECKING = "Checking ''{0}''"; //$NON-NLS-1$
 
   /**
    * Clicks the context menu matching the given labels.
@@ -66,9 +70,10 @@ public final class ContextActionUiTestUtil {
         menuItem = getContextMenuItem(bot, labels);
       }
       if (menuItem == null) {
-        throw new WidgetNotFoundException("Could not find menu: " + Arrays.asList(labels));
+        throw new WidgetNotFoundException("Could not find menu: " + Arrays.asList(labels)); //$NON-NLS-1$
       }
     }
+    waitUntilMenuItemIsReady(menuItem, labels[labels.length - 1]);
     click(menuItem);
   }
 
@@ -96,7 +101,7 @@ public final class ContextActionUiTestUtil {
         if (event.doit) {
           Menu menu = control.getMenu();
           for (String text : labels) {
-            Matcher<?> matcher = allOf(instanceOf(MenuItem.class), withMnemonic(text));
+            Matcher<Widget> matcher = allOf(instanceOf(MenuItem.class), menuItemWithText(text));
             menuItem = show(menu, matcher);
             if (menuItem != null) {
               menu = menuItem.getMenu();
@@ -111,6 +116,48 @@ public final class ContextActionUiTestUtil {
         }
       }
     });
+  }
+
+  /**
+   * Wait some time until the given menu item is ready to be clicked on, as sometimes the item validation is still in progress.
+   *
+   * @param menuItem
+   *          the menu item to wait for.
+   * @param expectedText
+   *          the expected text for the item.
+   */
+  private static void waitUntilMenuItemIsReady(final MenuItem menuItem, final String expectedText) {
+    Matcher<Widget> matcher = menuItemWithReadyText(expectedText);
+    final long currentTime = System.currentTimeMillis();
+    while (System.currentTimeMillis() - currentTime < SWTBotPreferences.TIMEOUT) {
+      final Boolean isReady = UIThreadRunnable.syncExec(new Result<Boolean>() {
+        @Override
+        public Boolean run() {
+          return matcher.matches(menuItem);
+        }
+      });
+      if (!isReady) {
+        try {
+          Thread.sleep(SWTBotPreferences.DEFAULT_POLL_DELAY);
+        } catch (final InterruptedException exception) {
+          // ignore
+        }
+      } else {
+        break;
+      }
+    }
+  }
+
+  private static Matcher<Widget> menuItemWithText(final String text) {
+    return anyOf(menuItemWithReadyText(text), menuItemWithValidatingText(text));
+  }
+
+  private static Matcher<Widget> menuItemWithReadyText(final String text) {
+    return withMnemonic(text);
+  }
+
+  private static Matcher<Widget> menuItemWithValidatingText(final String text) {
+    return withMnemonic(NLS.bind(ICE_ASYNC_VALIDATION_LABEL_CHECKING, text));
   }
 
   /**
@@ -282,8 +329,9 @@ public final class ContextActionUiTestUtil {
   public static boolean isEnabled(final AbstractSWTBot<? extends Control> widgetBot, final String... labels) {
     final MenuItem menuItem = getContextMenuItem(widgetBot, labels);
     if (menuItem == null) {
-      throw new WidgetNotFoundException("Could not find menu: " + Arrays.asList(labels));
+      throw new WidgetNotFoundException("Could not find menu: " + Arrays.asList(labels)); //$NON-NLS-1$
     }
+    waitUntilMenuItemIsReady(menuItem, labels[labels.length - 1]);
     return UIThreadRunnable.syncExec(new Result<Boolean>() {
       @Override
       public Boolean run() {
@@ -295,5 +343,6 @@ public final class ContextActionUiTestUtil {
   /**
    * Utility classes should not have a public or default constructor.
    */
-  private ContextActionUiTestUtil() {}
+  private ContextActionUiTestUtil() {
+  }
 }
