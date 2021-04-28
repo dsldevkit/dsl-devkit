@@ -142,7 +142,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   public boolean createReferenceDescriptions(final EObject from, final URI exportedContainerURI, final IAcceptor<IReferenceDescription> acceptor) {
     final EList<EReference> references = from.eClass().getEAllReferences();
     for (EReference eReference : references) {
-      if (isIndexable(from, eReference)) {
+      if (isIndexable(eReference)) {
         final Object val = from.eGet(eReference, false);
         if (val != null) {
           if (eReference.isMany()) {
@@ -205,9 +205,9 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
     return new ReferenceDescription(owner, target, eReference, exportedContainerURI, indexInList);
   }
 
-  /** {@inheritDoc} */
-  protected boolean isIndexable(final EObject from, final EReference eReference) {
-    return !eReference.isContainment() && !eReference.isContainer();
+  @Override
+  protected boolean isIndexable(final EReference eReference) {
+    return !eReference.isContainment() && !eReference.isContainer() && !eReference.isDerived() && !eReference.isTransient();
   }
 
   /**
