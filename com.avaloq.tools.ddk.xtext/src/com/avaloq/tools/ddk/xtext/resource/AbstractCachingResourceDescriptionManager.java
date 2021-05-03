@@ -269,23 +269,31 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
         .map(description -> description.getURI()).filter(filter).collect(Collectors.toSet());
 
     // find all resources matching provided filter with physical or imported name references to added resources and objects
-    for (String container : addedResources.keySet()) {
+    for (String containerHandle : addedResources.keySet()) {
       // using ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES is not enough: a lower index layer may contain physical references
-      for (IResourceDescription res : context.findAllReferencingResources(addedResources.get(container), ReferenceMatchPolicy.ALL)) {
+      for (IResourceDescription res : context.findAllReferencingResources(addedResources.get(containerHandle), ReferenceMatchPolicy.ALL)) {
         URI uri = res.getURI();
-        if (!references.contains(uri) && filter.test(uri)
-            && containersState.getVisibleContainerHandles(containersState.getContainerHandle(uri)).contains(container)) {
-          references.add(uri);
+        if (!references.contains(uri) && filter.test(uri)) {
+          final List<IContainer> containers = getContainerManager().getVisibleContainers(res, context);
+          for (IContainer container : containers) {
+            if (container.getResourceDescription(uri) != null) {
+              references.add(uri);
+            }
+          }
         }
       }
     }
-    for (String container : addedObjects.keySet()) {
+    for (String containerHandle : addedObjects.keySet()) {
       // using ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES is not enough: a lower index layer may contain physical references
-      for (IResourceDescription res : context.findExactReferencingResources(addedObjects.get(container), ReferenceMatchPolicy.ALL)) {
+      for (IResourceDescription res : context.findExactReferencingResources(addedObjects.get(containerHandle), ReferenceMatchPolicy.ALL)) {
         URI uri = res.getURI();
-        if (!references.contains(uri) && filter.test(uri)
-            && containersState.getVisibleContainerHandles(containersState.getContainerHandle(uri)).contains(container)) {
-          references.add(uri);
+        if (!references.contains(uri) && filter.test(uri)) {
+          final List<IContainer> containers = getContainerManager().getVisibleContainers(res, context);
+          for (IContainer container : containers) {
+            if (container.getResourceDescription(uri) != null) {
+              references.add(uri);
+            }
+          }
         }
       }
     }
