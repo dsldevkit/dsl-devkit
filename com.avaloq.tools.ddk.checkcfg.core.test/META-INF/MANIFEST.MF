@@ -23,7 +23,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.ui.workbench;resolution:=optional,
  org.apache.log4j,
- org.objectweb.asm;bundle-version="[7.1.0,7.2.0)";resolution:=optional
+ org.objectweb.asm;resolution:=optional
 Import-Package: org.hamcrest.core,
  org.junit.runner;version="4.5.0",
  org.junit.runner.manipulation;version="4.5.0",
