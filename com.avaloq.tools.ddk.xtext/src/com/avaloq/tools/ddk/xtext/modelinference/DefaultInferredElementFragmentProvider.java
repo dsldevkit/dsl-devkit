@@ -78,11 +78,7 @@ public class DefaultInferredElementFragmentProvider implements IInferredElementF
    * @return qualified name or {@code null} if none can be derived
    */
   protected QualifiedName getQualifiedName(final EObject object) {
-    QualifiedName name = getQualifiedNameProvider().getFullyQualifiedName(object);
-    if (name != null) {
-      return name;
-    }
-    return QualifiedName.create(object.toString());
+    return getQualifiedNameProvider().getFullyQualifiedName(object);
   }
 
   protected IQualifiedNameProvider getQualifiedNameProvider() {
