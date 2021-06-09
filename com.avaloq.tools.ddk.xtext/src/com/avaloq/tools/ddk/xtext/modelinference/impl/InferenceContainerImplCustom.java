@@ -12,9 +12,11 @@
 package com.avaloq.tools.ddk.xtext.modelinference.impl;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Notification;
@@ -40,6 +42,7 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
   private final BiMap<String, EObject> fragmentToObjectMap = HashBiMap.create();
   private final Set<String> fragmentSet = Collections.unmodifiableSet(fragmentToObjectMap.keySet());
   private final Map<EObject, String> objectToFragmentMap = fragmentToObjectMap.inverse();
+  private Map<String, AtomicInteger> collisionFragmentIndexMap;
 
   private IInferredElementFragmentProvider fragmentProvider;
 
@@ -91,10 +94,14 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
       fragmentSegment = Integer.toString(getContents().size() - 1);
     }
     String key = fragmentSegment;
-    int i = 1;
+
     while (fragmentToObjectMap.putIfAbsent(key, object) != null) {
       // append sequence number suffix in case fragment is already assigned (collision)
-      key = fragmentSegment + '.' + i++;
+      if (collisionFragmentIndexMap == null) {
+        collisionFragmentIndexMap = new HashMap<>();
+      }
+      AtomicInteger collisionFragmentIndex = collisionFragmentIndexMap.computeIfAbsent(fragmentSegment, v -> new AtomicInteger(1));
+      key = fragmentSegment + '.' + collisionFragmentIndex.getAndIncrement();
     }
     ((InternalEList<String>) getFragments()).addUnique(key);
   }
@@ -135,8 +142,8 @@ public class InferenceContainerImplCustom extends InferenceContainerImpl {
         if (getFragments().size() != size) {
           LOG.warn("Fragments need to be recomputed for the InferenceContainer in " + eResource().getURI()); //$NON-NLS-1$
           getFragments().clear();
-          for (int i = 0; i < getContents().size(); i++) {
-            addFragmentMapping(getContents().get(i));
+          for (EObject element : getContents()) {
+            addFragmentMapping(element);
           }
         } else {
           for (int i = 0; i < size; i++) {
