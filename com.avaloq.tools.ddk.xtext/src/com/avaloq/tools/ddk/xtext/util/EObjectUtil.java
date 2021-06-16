@@ -11,16 +11,20 @@
 package com.avaloq.tools.ddk.xtext.util;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.linking.impl.DefaultLinkingService;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
+import com.avaloq.tools.ddk.xtext.scoping.AbstractPolymorphicScopeProvider;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
@@ -30,6 +34,7 @@ import com.google.common.collect.Iterables;
  */
 public final class EObjectUtil {
 
+  private static final String WRONG_SCOPE_PROVIDER = "Scope provider can only be returned if given a LazyLinkingResource"; //$NON-NLS-1$
   /**
    * Predicate to filter out null and EMF proxy objects. I.e. only non-null and non-proxy objects pass this predicate.
    */
@@ -88,8 +93,28 @@ public final class EObjectUtil {
   }
 
   /**
-   * Gets the scope provider given an object part of a {@link org.eclipse.xtext.linking.lazy.LazyLinkingResource
-   * LazyLinkingResource}.
+   * Gets the scope given an object part of a {@link org.eclipse.xtext.linking.lazy.LazyLinkingResource}, a type and an optional scope name.
+   *
+   * @param object
+   *          the object, never {@code null}
+   * @param type
+   *          the type, never {@code null}
+   * @param scopeName
+   *          the scope name, may be {@code null}
+   * @return the scope provider by e object
+   */
+  public static IScope getScope(final EObject object, final EClass type, final String scopeName) {
+    Resource resource = object.eResource();
+    if (resource instanceof LazyLinkingResource) {
+      AbstractPolymorphicScopeProvider scopeProvider = (AbstractPolymorphicScopeProvider) getScopeProviderByResource((LazyLinkingResource) resource);
+      return scopeProvider.getScope(object, type, scopeName);
+    } else {
+      throw new IllegalArgumentException(WRONG_SCOPE_PROVIDER);
+    }
+  }
+
+  /**
+   * Gets the scope provider given an object part of a {@link org.eclipse.xtext.linking.lazy.LazyLinkingResource}.
    *
    * @param object
    *          the object
@@ -99,7 +124,7 @@ public final class EObjectUtil {
     if (object.eResource() instanceof LazyLinkingResource) {
       return getScopeProviderByResource((LazyLinkingResource) object.eResource());
     } else {
-      throw new IllegalArgumentException("Scope provider can only be returned if given a LazyLinkingResource"); //$NON-NLS-1$
+      throw new IllegalArgumentException(WRONG_SCOPE_PROVIDER);
     }
   }
 
