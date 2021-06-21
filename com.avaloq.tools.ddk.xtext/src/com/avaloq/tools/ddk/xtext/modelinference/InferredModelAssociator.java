@@ -88,12 +88,12 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
 
     @Override
     public Map<EObject, Deque<EObject>> getSourceToInferredModelMap() {
-      return Collections.EMPTY_MAP;
+      return Collections.emptyMap();
     }
 
     @Override
     public Map<EObject, Deque<EObject>> getInferredModelToSourceMap() {
-      return Collections.EMPTY_MAP;
+      return Collections.emptyMap();
     }
 
   }
