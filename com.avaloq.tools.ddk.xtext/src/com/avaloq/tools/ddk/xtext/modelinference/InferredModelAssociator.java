@@ -64,8 +64,18 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    * An adapter that holds the mapping between source- and inferred-model elements.
    */
   public static class Adapter extends AdapterImpl {
-    protected final Map<EObject, Deque<EObject>> sourceToInferredModelMap = newLinkedHashMapWithCapacity(40);
-    protected final Map<EObject, Deque<EObject>> inferredModelToSourceMap = newLinkedHashMapWithCapacity(40);
+    private Map<EObject, Deque<EObject>> sourceToInferredModelMap;
+    private Map<EObject, Deque<EObject>> inferredModelToSourceMap;
+    private static final int CAPACITY = 40;
+
+    public Adapter() {
+      Adapter(CAPACITY);
+    }
+
+    protected Adapter(int capacity) {
+      sourceToInferredModelMap = newLinkedHashMapWithCapacity(capacity);
+      inferredModelToSourceMap = newLinkedHashMapWithCapacity(capacity);
+    }
 
     @Override
     public boolean isAdapterForType(final Object type) {
@@ -85,12 +95,12 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    * An adapter that has a 0 capacity map.
    */
   public static class EmptyAdapter extends Adapter{
+    private static final int CAPACITY = 0;
+
     public EmptyAdapter() {
-      sourceToInferredModelMap = newLinkedHashMapWithCapacity(0);
-      inferredModelToSourceMap = newLinkedHashMapWithCapacity(0);
+      super(CAPACITY);
     }
   }
-
 
   /**
    * Get the adaptor mapping for the resource and install it if not already installed.
