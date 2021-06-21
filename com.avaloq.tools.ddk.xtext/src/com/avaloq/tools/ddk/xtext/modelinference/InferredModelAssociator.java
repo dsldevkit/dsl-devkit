@@ -69,7 +69,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     private static final int CAPACITY = 40;
 
     public Adapter() {
-      Adapter(CAPACITY);
+      this(CAPACITY);
     }
 
     protected Adapter(int capacity) {
