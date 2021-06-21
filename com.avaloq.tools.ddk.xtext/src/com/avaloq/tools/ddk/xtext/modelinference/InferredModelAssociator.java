@@ -72,7 +72,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       this(CAPACITY);
     }
 
-    protected Adapter(int capacity) {
+    protected Adapter(final int capacity) {
       sourceToInferredModelMap = newLinkedHashMapWithCapacity(capacity);
       inferredModelToSourceMap = newLinkedHashMapWithCapacity(capacity);
     }
