@@ -82,6 +82,23 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   }
 
   /**
+   * An adapter that has a empty maps.
+   */
+  public static class EmptyAdapter extends Adapter{
+
+    @Override
+    public Map<EObject, Deque<EObject>> getSourceToInferredModelMap() {
+      return Collections.emptyMap();
+    }
+
+    @Override
+    public Map<EObject, Deque<EObject>> getInferredModelToSourceMap() {
+      return Collections.emptyMap();
+    }
+
+  }
+
+  /**
    * Get the adaptor mapping for the resource and install it if not already installed.
    *
    * @param resource
