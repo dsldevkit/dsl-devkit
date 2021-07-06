@@ -30,6 +30,7 @@ import org.eclipse.xtext.resource.containers.StateBasedContainerManager;
 import org.eclipse.xtext.resource.impl.DefaultResourceDescription;
 
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
+import com.avaloq.tools.ddk.xtext.resource.StateBasedContainerWithHandle;
 import com.avaloq.tools.ddk.xtext.scoping.IDomain;
 import com.google.inject.Inject;
 
