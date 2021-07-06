@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Avaloq Evolution AG and others.
+// * Copyright (c) 2016 Avaloq Evolution AG and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -48,7 +48,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
 
@@ -89,7 +88,6 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     this.fileExtensions = ImmutableSet.copyOf(Arrays.asList(fileExtensions.split(","))); //$NON-NLS-1$
   }
 
-  /** {@inheritDoc} */
   @Override
   public IResourceDescription getResourceDescription(final Resource resource) {
     if (!isManagerFor(resource.getURI())) {
@@ -111,13 +109,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
   @Override
   protected IResourceDescription internalGetResourceDescription(final Resource resource, final IDefaultResourceDescriptionStrategy strategy) {
-    IResourceDescription result = getCache().get(CACHE_KEY, resource, new Provider<IResourceDescription>() {
-      @Override
-      public IResourceDescription get() {
-        return createResourceDescription(resource, descriptionStrategy);
-      }
-    });
-    return result;
+    return getCache().get(CACHE_KEY, resource, () -> createResourceDescription(resource, descriptionStrategy));
   }
 
   @Override
@@ -146,7 +138,6 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     return null;
   }
 
-  /** {@inheritDoc} */
   @Override
   public boolean isAffected(final Collection<Delta> deltas, final IResourceDescription candidate, final IResourceDescriptions context) { // NOPMD(NPathComplexity)
     final Collection<Delta> filteredDeltas = getInterestingDeltas(deltas);
@@ -155,6 +146,8 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     }
 
     final List<IContainer> containers = getContainerManager().getVisibleContainers(candidate, context);
+    final IAllContainersState containersState = containersStateProvider.get(context);
+
     for (final Delta delta : filteredDeltas) {
       final URI deltaURI = delta.getUri();// NOPMD - potentially could be lost due to call on getNew() after
       // deleted resources are no longer visible resources so we test them, too.
@@ -164,8 +157,10 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
         }
         return true;
       }
+
       for (IContainer container : containers) {
-        if (container.getResourceDescription(deltaURI) != null) {
+        if (container.getResourceDescription(deltaURI) != null
+            && containersState.getContainerHandle(deltaURI).equals(containersState.getContainerHandle(delta.getUri()))) {
           if (isReferencedBy(delta, candidate, context)) {
             if (LOGGER.isDebugEnabled()) { // NOPMD AvoidDeeplyNestedIfStmts
               LOGGER.debug(candidate.getURI() + " is affected by " + delta.getUri()); //$NON-NLS-1$
@@ -276,7 +271,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
         if (!references.contains(uri) && filter.test(uri)) {
           final List<IContainer> containers = getContainerManager().getVisibleContainers(res, context);
           for (IContainer container : containers) {
-            if (container.getResourceDescription(uri) != null) {
+            if (container.getResourceDescription(uri) != null && containersState.getContainerHandle(uri).equals(containerHandle)) {
               references.add(uri);
             }
           }
@@ -290,7 +285,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
         if (!references.contains(uri) && filter.test(uri)) {
           final List<IContainer> containers = getContainerManager().getVisibleContainers(res, context);
           for (IContainer container : containers) {
-            if (container.getResourceDescription(uri) != null) {
+            if (container.getResourceDescription(uri) != null && containersState.getContainerHandle(uri).equals(containerHandle)) {
               references.add(uri);
             }
           }
@@ -346,7 +341,6 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
   private static final WeakHashMap<Delta, Set<QualifiedName>> RESOLVED_EXPORTED_NAMES = new WeakHashMap<Delta, Set<QualifiedName>>();
   private static final WeakHashMap<Delta, Set<QualifiedName>> UNRESOLVED_EXPORTED_NAMES = new WeakHashMap<Delta, Set<QualifiedName>>();
 
-  /** {@inheritDoc} */
   @Override
   // PMD : readability ok, nesting level of "returns" is always one
   @SuppressWarnings("PMD.NPathComplexity")
@@ -387,7 +381,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     }
     boolean disjointUnresolved = Collections.disjoint(unresolvedNames, resolvedAndUnresolvedNames.getSecond());
     if (!disjointUnresolved && LOGGER.isDebugEnabled()) {
-      resolvedNames.retainAll(getImportedNames(candidate));
+      unresolvedNames.retainAll(getImportedNames(candidate));
       LOGGER.debug("unrevolved names imported by " + candidate.getURI() + " are exported by " + delta.getUri() + " intersection:" + unresolvedNames.toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
     }
     return !disjointUnresolved;
@@ -414,7 +408,16 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     return Tuples.<Collection<QualifiedName>, Collection<QualifiedName>> pair(resolved, unresolved);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Add the exported objects in given resourceDescriptor to the set of the resolvedNames and unresolvedNames names.
+   *
+   * @param resolvedNames
+   *          the set of resolved names, may be {@code null}
+   * @param unresolvedNames
+   *          the set of unresolved names, may be {@code null}
+   * @param resourceDescriptor
+   *          the resource descriptor, may be {@code null}
+   */
   protected void addExportedNames(final Set<QualifiedName> resolvedNames, final Set<QualifiedName> unresolvedNames, final IResourceDescription resourceDescriptor) {
     if (resourceDescriptor == null) {
       return;
@@ -428,13 +431,11 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void addExportedNames(final Set<QualifiedName> names, final IResourceDescription resourceDescriptor) {
     throw new UnsupportedOperationException();
   }
 
-  /** {@inheritDoc} */
   @Override
   public ResourceDescriptionDelta createDelta(final IResourceDescription oldState, final IResourceDescription newState) {
     return new ResourceDescriptionDelta(oldState, newState, index);
