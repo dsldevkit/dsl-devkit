@@ -10,16 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
-import java.util.Collection;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.containers.IContainerState;
 import org.eclipse.xtext.resource.containers.StateBasedContainer;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 
 
 /**
@@ -27,12 +20,10 @@ import com.google.common.collect.Iterables;
  */
 public class StateBasedContainerWithHandle extends StateBasedContainer {
 
-  private final IContainerState state;
   private final String handle;
 
   public StateBasedContainerWithHandle(final IResourceDescriptions descriptions, final IContainerState state, final String handle) {
     super(descriptions, state);
-    this.state = state;
     this.handle = handle;
   }
 
@@ -41,19 +32,7 @@ public class StateBasedContainerWithHandle extends StateBasedContainer {
   }
 
   @Override
-  protected Iterable<IEObjectDescription> filterByURI(final Iterable<IEObjectDescription> unfiltered) {
-    return Iterables.filter(unfiltered, new Predicate<IEObjectDescription>() {
-      private final Collection<URI> contents = state.getContents();
-
-      public boolean apply(final IEObjectDescription input) {
-        return contents.contains(input.getEObjectURI().trimFragment());
-      }
-    });
-  }
-
-  @Override
   public String toString() {
     return "StateBasedContainerWithHandle: " + handle; //$NON-NLS-1$
   }
 }
-
