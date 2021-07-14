@@ -80,14 +80,6 @@ String getActivatorName(Grammar this):
 ;
 */
 
-private String internalGetPreferencePageName(Grammar this, Naming naming) :
-    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getPreferencePageName(org.eclipse.xtext.Grammar, org.eclipse.xtext.generator.Naming)
-;
-
-String getPreferencePageName(Grammar this) :
-    this.internalGetPreferencePageName(getNaming())
-;
-
 String getValidationPackage(Grammar this) :
     validationPackage(this)
 ;
@@ -162,10 +154,6 @@ EClass getQuickfixElementType(NativeContext this):
 
 Boolean hasQuickfixes(Category this):
    !this.getAllQuickfixes().isEmpty
-;
-
-String getPreferenceKey(Grammar this, Rule rule):
-    JAVA com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment.getPreferenceKey(org.eclipse.xtext.Grammar, com.avaloq.tools.ddk.xtext.valid.valid.Rule)
 ;
 
 String escapeXml(String this):
