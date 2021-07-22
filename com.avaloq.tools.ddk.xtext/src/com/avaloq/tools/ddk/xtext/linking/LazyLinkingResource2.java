@@ -11,6 +11,8 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -35,6 +37,8 @@ import org.eclipse.xtext.util.Triple;
 
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
+import com.avaloq.tools.ddk.xtext.resource.IResourceSetServiceCache;
+import com.avaloq.tools.ddk.xtext.resource.ServiceCacheAdapter;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
@@ -184,7 +188,22 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
    */
   @Override
   public <T> T getService(final Class<? extends T> key) {
-    return injector.getInstance(key);
+    IResourceSetServiceCache serviceCache = ServiceCacheAdapter.getServiceCacheAdapter(getResourceSet());
+    String fileExtension = getURI().fileExtension();
+    Map<Class<?>, Object> map = serviceCache.get(fileExtension);
+    if (map == null) {
+      map = new HashMap<>();
+      serviceCache.put(fileExtension, map);
+    }
+    @SuppressWarnings("unchecked")
+    T service = (T) map.get(key);
+    if (service != null) {
+      return service;
+    }
+    service = injector.getInstance(key);
+    map.put(key, service);
+
+    return service;
   }
 
   /** Simple flag class for use in an IResourceScopeCache. */
