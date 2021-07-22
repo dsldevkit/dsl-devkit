@@ -28,7 +28,6 @@
   «EXPAND Messages::generateMessages(validModel) FOR this»
   «EXPAND Quickfixes::generateQuickfixes(validModel) FOR this»
   «EXPAND Documentation::generateDocumentation(validModel) FOR this»
-  «EXPAND PreferencePage::generatePreferencePage(validModel) FOR this»
 «ENDDEFINE»
 
 
@@ -37,18 +36,6 @@
 
 
 «DEFINE addToPluginXmlUi(List[String] packageQNames, ValidModel validModel) FOR Grammar»
-   «xmlContributorComment("com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment")»
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-         category="«name»"
-         class="«executableExtensionFactory()»:«getPreferencePageName(this)»"
-         id="«name».rules"
-         name="Validation Rules">
-            <keywordReference id="«name.toJavaPackage() + ".ui.keyword_"+name.toSimpleName()»"/>
-      </page>
-   </extension>
-
    «xmlContributorComment("com.avaloq.tools.ddk.xtext.valid.generator.ValidValidatorFragment")»
    <extension
          id="«name»"

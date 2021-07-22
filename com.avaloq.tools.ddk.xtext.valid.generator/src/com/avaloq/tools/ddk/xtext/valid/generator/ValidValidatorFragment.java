@@ -19,7 +19,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.mwe.core.WorkflowInterruptedException;
 import org.eclipse.osgi.util.NLS;
@@ -37,7 +36,6 @@ import org.eclipse.xtext.validation.CompositeEValidator;
 import org.eclipse.xtext.validation.Issue;
 
 import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
-import com.avaloq.tools.ddk.xtext.ui.validation.preferences.ValidPreferenceConstants;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceUtil;
 import com.avaloq.tools.ddk.xtext.valid.ValidStandaloneSetup;
 import com.avaloq.tools.ddk.xtext.valid.valid.Category;
@@ -54,8 +52,6 @@ import com.google.common.base.Preconditions;
  * given grammar and .valid File.
  */
 public class ValidValidatorFragment extends JavaValidatorFragment {
-
-  private static final String DISABLED = "disabled"; //$NON-NLS-1$
 
   private static final String VALID_EXTENSION = "valid"; //$NON-NLS-1$
 
@@ -212,32 +208,6 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
   }
 
   /**
-   * Gets the preference package.
-   *
-   * @param grammar
-   *          the grammar
-   * @param naming
-   *          generator naming variables and properties
-   * @return the preference package
-   */
-  public static String getPreferencePackage(final Grammar grammar, final Naming naming) {
-    return naming.basePackageUi(grammar) + ".preferences"; //$NON-NLS-1$
-  }
-
-  /**
-   * Gets the java validator name.
-   *
-   * @param grammar
-   *          the grammar
-   * @param naming
-   *          generator naming variables and properties
-   * @return the java validator name
-   */
-  public static String getPreferencePageName(final Grammar grammar, final Naming naming) {
-    return getPreferencePackage(grammar, naming) + "." + GrammarUtil.getSimpleName(grammar) + "ValidPreferencePage"; //$NON-NLS-1$ //$NON-NLS-2$
-  }
-
-  /**
    * Gets the quickfix package.
    *
    * @param grammar
@@ -274,44 +244,6 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
    */
   public static String getCheckValidatorName(final Grammar grammar, final Naming naming) {
     return naming.basePackageRuntime(grammar) + ".validation." + GrammarUtil.getSimpleName(grammar) + "CheckValidator"; //$NON-NLS-1$//$NON-NLS-2$
-  }
-
-  /**
-   * Gets the preference key.
-   *
-   * @param category
-   *          the category
-   * @return the preference key
-   */
-  private static String getPreferenceKey(final Category category) {
-    final EObject container = category.eContainer();
-    return (container != null && container instanceof Category ? getPreferenceKey((Category) container) + ValidPreferenceConstants.PREFERENCE_SEPARATOR : "") //$NON-NLS-1$
-        + category.getName();
-  }
-
-  /**
-   * Gets the preference key.
-   *
-   * @param rule
-   *          the rule
-   * @return the preference key
-   */
-  private static String getPreferenceKey(final Rule rule) {
-    return getPreferenceKey((Category) rule.eContainer()) + ValidPreferenceConstants.PREFERENCE_SEPARATOR + rule.getName();
-  }
-
-  /**
-   * Gets the preference key.
-   *
-   * @param grammar
-   *          the grammar
-   * @param rule
-   *          the rule
-   * @return the preference key
-   */
-  public static String getPreferenceKey(final Grammar grammar, final Rule rule) {
-    return grammar.getName() + ValidPreferenceConstants.PREFERENCE_SEPARATOR + getPreferenceKey(rule) + ValidPreferenceConstants.PREFERENCE_SEPARATOR
-        + DISABLED;
   }
 
   /** {@inheritDoc} */
