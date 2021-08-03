@@ -264,14 +264,21 @@ public class CheckCompiler extends XbaseCompiler {
       b.newLine();
     }
 
-    // checking for null context EObject
-    b.append("if (");
+    boolean issueExpressionEqualsImplicitVariable = true;
     if (markerObject != null) {
-      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
-    } else {
-      b.append(getContextImplicitVariableName(expr));
+      issueExpressionEqualsImplicitVariable = markerObject.toString().equalsIgnoreCase(getContextImplicitVariableName(expr));
     }
-    b.append(" != null) {").increaseIndentation().newLine();
+
+    if (!issueExpressionEqualsImplicitVariable) {
+      // checking for null context EObject
+      b.append("if (");
+      if (markerObject != null) {
+        internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
+      } else {
+        b.append(getContextImplicitVariableName(expr));
+      }
+      b.append(" != null) {").increaseIndentation().newLine();
+    }
 
     // acceptor
     b.append("// Issue diagnostic").newLine();
@@ -340,12 +347,17 @@ public class CheckCompiler extends XbaseCompiler {
       internalToJavaExpression(data, b);
     }
     b.append(" // Issue code & data").decreaseIndentation().newLine();
-    b.append(");").decreaseIndentation().newLine();
-    b.append("} else {").increaseIndentation().newLine();
-    b.append("org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
-    b.append("StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();").newLine();
-    b.append("logger.warn(").append(getLoggerString(expr)).append(");").decreaseIndentation().newLine();
-    b.append("}").newLine();
+
+    if (!issueExpressionEqualsImplicitVariable) {
+      b.append(");").decreaseIndentation().newLine();
+      b.append("} else {").increaseIndentation().newLine();
+      b.append("org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
+      b.append("StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();").newLine();
+      b.append("logger.warn(").append(getLoggerString(expr)).append(");").decreaseIndentation().newLine();
+      b.append("}").newLine();
+    } else {
+      b.append(");");
+    }
   }
 
   private String getLoggerClass(final XIssueExpression expr) {
