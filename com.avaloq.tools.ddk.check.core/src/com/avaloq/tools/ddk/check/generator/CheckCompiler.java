@@ -265,18 +265,17 @@ public class CheckCompiler extends XbaseCompiler {
     }
 
     boolean issueExpressionEqualsImplicitVariable = true;
+    boolean isCheckingRedundant = false;
+
     if (markerObject != null) {
-      issueExpressionEqualsImplicitVariable = markerObject.toString().equalsIgnoreCase(getContextImplicitVariableName(expr));
+      issueExpressionEqualsImplicitVariable = markerObject.toString().equals(getContextImplicitVariableName(expr));
+      isCheckingRedundant = b.getContent().contains(markerObject.toString());
     }
 
-    if (!issueExpressionEqualsImplicitVariable) {
+    if (!issueExpressionEqualsImplicitVariable && !isCheckingRedundant) {
       // checking for null context EObject
       b.append("if (");
-      if (markerObject != null) {
-        internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
-      } else {
-        b.append(getContextImplicitVariableName(expr));
-      }
+      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
       b.append(" != null) {").increaseIndentation().newLine();
     }
 
@@ -348,7 +347,7 @@ public class CheckCompiler extends XbaseCompiler {
     }
     b.append(" // Issue code & data").decreaseIndentation().newLine();
 
-    if (!issueExpressionEqualsImplicitVariable) {
+    if (!issueExpressionEqualsImplicitVariable && !isCheckingRedundant) {
       b.append(");").decreaseIndentation().newLine();
       b.append("} else {").increaseIndentation().newLine();
       b.append("org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
