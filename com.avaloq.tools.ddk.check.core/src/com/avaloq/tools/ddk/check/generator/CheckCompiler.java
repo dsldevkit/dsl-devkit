@@ -266,17 +266,13 @@ public class CheckCompiler extends XbaseCompiler {
 
     boolean issueExpressionEqualsImplicitVariable = true;
     if (markerObject != null) {
-      issueExpressionEqualsImplicitVariable = markerObject.toString().equalsIgnoreCase(getContextImplicitVariableName(expr));
+      issueExpressionEqualsImplicitVariable = markerObject.toString().equals(getContextImplicitVariableName(expr));
     }
 
     if (!issueExpressionEqualsImplicitVariable) {
       // checking for null context EObject
       b.append("if (");
-      if (markerObject != null) {
-        internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
-      } else {
-        b.append(getContextImplicitVariableName(expr));
-      }
+      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
       b.append(" != null) {").increaseIndentation().newLine();
     }
 
@@ -396,5 +392,4 @@ public class CheckCompiler extends XbaseCompiler {
     }
     return super.appendTypeArguments(call, original);
   }
-
 }
