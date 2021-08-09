@@ -9,7 +9,6 @@
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <property name="tabWidth" value="2"/>
-    <module name="FileContentsHolder"/>
     <module name="AbstractClassName">
       <property name="ignoreModifier" value="true"/>
     </module>
@@ -55,10 +54,7 @@
     <module name="InterfaceIsType"/>
     <module name="JavadocMethod">
       <property name="allowedAnnotations" value="Override,Inject"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
-      <property name="logLoadErrors" value="true"/>
-      <property name="scope" value="package"/>
-      <property name="suppressLoadErrors" value="true"/>
+      <property name="accessModifiers" value="package"/>
       <property name="tokens" value="METHOD_DEF"/>
     </module>
     <module name="JavadocType"/>
@@ -144,27 +140,27 @@
       <property name="illegalPattern" value="true"/>
       <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations @CheckForNull und @Nonnull benutzen"/>
     </module>
-  </module>
-  <module name="FileLength"/>
-  <module name="Translation"/>
-  <module name="SuppressionCommentFilter"/>
-  <module name="SuppressionCommentFilter">
-    <property name="offCommentFormat" value="CHECKSTYLE\:COUPLING-OFF"/>
-    <property name="onCommentFormat" value="CHECKSTYLE\:COUPLING-ON"/>
-    <property name="checkFormat" value=".*(Coupling|Complexity)"/>
-  </module>
-  <module name="SuppressionCommentFilter">
-    <property name="offCommentFormat" value="CHECKSTYLE\:CONSTANTS-OFF"/>
-    <property name="onCommentFormat" value="CHECKSTYLE\:CONSTANTS-ON"/>
-    <property name="checkFormat" value="(MagicNumber|MultipleStringLiterals)"/>
-  </module>
-  <module name="SuppressionCommentFilter">
-    <property name="offCommentFormat" value="CHECKSTYLE\:CHECK-OFF ([\w\|]+)"/>
-    <property name="onCommentFormat" value="CHECKSTYLE\:CHECK-ON ([\w\|]+)"/>
-    <property name="checkFormat" value="($1)"/>
+    <module name="SuppressionCommentFilter"/>
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\:COUPLING-OFF"/>
+      <property name="onCommentFormat" value="CHECKSTYLE\:COUPLING-ON"/>
+      <property name="checkFormat" value=".*(Coupling|Complexity)"/>
+    </module>
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\:CONSTANTS-OFF"/>
+      <property name="onCommentFormat" value="CHECKSTYLE\:CONSTANTS-ON"/>
+      <property name="checkFormat" value="(MagicNumber|MultipleStringLiterals)"/>
+    </module>
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\:CHECK-OFF ([\w\|]+)"/>
+      <property name="onCommentFormat" value="CHECKSTYLE\:CHECK-ON ([\w\|]+)"/>
+      <property name="checkFormat" value="($1)"/>
+    </module>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${config_loc}/suppressions.xml"/>
     <property name="optional" value="false"/>
   </module>
+  <module name="FileLength"/>
+  <module name="Translation"/>
 </module>
