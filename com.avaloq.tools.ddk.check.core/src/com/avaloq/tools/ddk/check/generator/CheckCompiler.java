@@ -362,8 +362,8 @@ public class CheckCompiler extends XbaseCompiler {
 
   private String getLoggerString(final XIssueExpression expr) {
     Check check = generatorExtensions.issuedCheck(expr);
-    return "\"An issue was found in " + generatorNaming.catalogInstanceName(check) + "." + Strings.toFirstUpper(check.getName()) + //
-        " for \" + " + getContextImplicitVariableName(expr) + ".eResource().getURI() + \" at \" + stackTraceElements[1].toString()";
+    return "\"An issue was found in " + generatorNaming.catalogInstanceName(check) + "." + Strings.toFirstUpper(check.getName()) //
+        + " for \" + " + getContextImplicitVariableName(expr) + ".eResource().getURI() + \" at \" + stackTraceElements[1].toString()";
   }
 
   /** {@inheritDoc} */
