@@ -32,6 +32,10 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
   @Inject extension XtextGeneratorNaming
 
+  var boolean addFingerprintComputer = true
+  var boolean addResourceDescriptionStrategy = true
+  var boolean addFragmentProvider = true
+
   /**
    * Class-wide logger.
    */
@@ -48,13 +52,24 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
     val resourcePackage = grammar.runtimeBasePackage + '.resource'
     val resourcePrefix = resourcePackage + '.' + getSimpleName(grammar)
 
-    new GuiceModuleAccess.BindingFactory()
-    .addTypeToType(IQualifiedNameProvider.typeRef, new TypeReference(namingPrefix + "ExportedNamesProvider"))
-    .addTypeToType(IFingerprintComputer.typeRef, new TypeReference(resourcePrefix + "FingerprintComputer"))
-    .addTypeToType(IDefaultResourceDescriptionStrategy.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionStrategy"))
-    .addTypeToType(IFragmentProvider.typeRef, new TypeReference(resourcePrefix + "FragmentProvider"))
-    .addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
-    .contributeTo(language.runtimeGenModule)
+    val runtimeFactory = new GuiceModuleAccess.BindingFactory()
+    runtimeFactory.addTypeToType(IQualifiedNameProvider.typeRef, new TypeReference(namingPrefix + "ExportedNamesProvider"))
+
+    if(addFingerprintComputer){
+      runtimeFactory.addTypeToType(IFingerprintComputer.typeRef, new TypeReference(resourcePrefix + "FingerprintComputer"))
+    }
+
+    if(addResourceDescriptionStrategy){
+      runtimeFactory.addTypeToType(IDefaultResourceDescriptionStrategy.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionStrategy"))
+    }
+
+    if(addFragmentProvider){
+      runtimeFactory.addTypeToType(IFragmentProvider.typeRef, new TypeReference(resourcePrefix + "FragmentProvider"))
+    }
+
+    runtimeFactory.addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
+    runtimeFactory.contributeTo(language.runtimeGenModule)
+
     if (projectConfig.runtime.manifest !== null) {
       projectConfig.runtime.manifest.requiredBundles += "org.eclipse.emf.ecore"
       projectConfig.runtime.manifest.requiredBundles += DDK_XTEXT_RUNTIME_BUNDLE
@@ -68,4 +83,29 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
     ExportStandaloneSetup.doSetup()
   }
+
+  def isAddFingerprintComputer{
+    return addFingerprintComputer
+  }
+
+  def setaddFingerprintComputer(boolean val){
+    addFingerprintComputer = val
+  }
+
+  def isAddResourceDescriptionStrategy{
+    return addResourceDescriptionStrategy
+  }
+
+  def setAddResourceDescriptionStrategy(boolean val){
+    addResourceDescriptionStrategy = val
+  }
+
+  def isAddFragmentProvider{
+    return addFragmentProvider
+  }
+
+  def setAddFragmentProvider(boolean val){
+    addFragmentProvider = val
+  }
+
 }
