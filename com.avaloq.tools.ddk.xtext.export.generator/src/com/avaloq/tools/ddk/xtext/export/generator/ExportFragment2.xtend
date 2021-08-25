@@ -23,6 +23,7 @@ import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
 import org.eclipse.xtext.xtext.generator.model.TypeReference
+import org.eclipse.xtend.lib.annotations.Accessors
 
 import static org.eclipse.xtext.GrammarUtil.*
 
@@ -31,6 +32,10 @@ import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
   @Inject extension XtextGeneratorNaming
+
+  @Accessors boolean addFingerprintComputer
+  @Accessors boolean addResourceDescriptionStrategy
+  @Accessors boolean addFragmentProvider
 
   /**
    * Class-wide logger.
@@ -48,13 +53,24 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
     val resourcePackage = grammar.runtimeBasePackage + '.resource'
     val resourcePrefix = resourcePackage + '.' + getSimpleName(grammar)
 
-    new GuiceModuleAccess.BindingFactory()
-    .addTypeToType(IQualifiedNameProvider.typeRef, new TypeReference(namingPrefix + "ExportedNamesProvider"))
-    .addTypeToType(IFingerprintComputer.typeRef, new TypeReference(resourcePrefix + "FingerprintComputer"))
-    .addTypeToType(IDefaultResourceDescriptionStrategy.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionStrategy"))
-    .addTypeToType(IFragmentProvider.typeRef, new TypeReference(resourcePrefix + "FragmentProvider"))
-    .addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
-    .contributeTo(language.runtimeGenModule)
+    val runtimeFactory = new GuiceModuleAccess.BindingFactory()
+    runtimeFactory.addTypeToType(IQualifiedNameProvider.typeRef, new TypeReference(namingPrefix + "ExportedNamesProvider"))
+
+    if(addFingerprintComputer){
+      runtimeFactory.addTypeToType(IFingerprintComputer.typeRef, new TypeReference(resourcePrefix + "FingerprintComputer"))
+    }
+
+    if(addResourceDescriptionStrategy){
+      runtimeFactory.addTypeToType(IDefaultResourceDescriptionStrategy.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionStrategy"))
+    }
+
+    if(addFragmentProvider){
+      runtimeFactory.addTypeToType(IFragmentProvider.typeRef, new TypeReference(resourcePrefix + "FragmentProvider"))
+    }
+
+    runtimeFactory.addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
+    runtimeFactory.contributeTo(language.runtimeGenModule)
+
     if (projectConfig.runtime.manifest !== null) {
       projectConfig.runtime.manifest.requiredBundles += "org.eclipse.emf.ecore"
       projectConfig.runtime.manifest.requiredBundles += DDK_XTEXT_RUNTIME_BUNDLE
