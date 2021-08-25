@@ -84,7 +84,7 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
     ExportStandaloneSetup.doSetup()
   }
 
-  def isAddFingerprintComputer{
+  def isAddFingerprintComputer(){
     return addFingerprintComputer
   }
 
@@ -92,7 +92,7 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
     addFingerprintComputer = val
   }
 
-  def isAddResourceDescriptionStrategy{
+  def isAddResourceDescriptionStrategy(){
     return addResourceDescriptionStrategy
   }
 
@@ -100,7 +100,7 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
     addResourceDescriptionStrategy = val
   }
 
-  def isAddFragmentProvider{
+  def isAddFragmentProvider(){
     return addFragmentProvider
   }
 
