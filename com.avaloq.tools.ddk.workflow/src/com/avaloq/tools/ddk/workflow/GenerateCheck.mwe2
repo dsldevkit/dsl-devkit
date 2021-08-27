@@ -16,6 +16,8 @@ var grammarUri = "classpath:/com/avaloq/tools/ddk/${grammar}/${baseName}.xtext"
 var modelDirectory = "metamodel/com/avaloq/tools/ddk/${grammar}"
 var metamodelPlugin = "com.avaloq.tools.ddk.${grammar}.core"
 
+var formatter = org.eclipse.xtext.generator.formatting2.Formatter2Fragment {}
+
 @com.avaloq.tools.ddk.workflow.CommonXbase auto-inject {
     languageName = "Check"
     editorFileExtensions = "check"

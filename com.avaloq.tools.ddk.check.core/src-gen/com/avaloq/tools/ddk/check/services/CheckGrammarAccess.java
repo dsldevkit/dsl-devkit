@@ -199,7 +199,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		//'import'
 		public Keyword getImportKeyword_0() { return cImportKeyword_0; }
 
-		//importedType=[types::JvmDeclaredType|QualifiedName] | importedNamespace=QualifiedNameWithWildcard
+		//(importedType=[types::JvmDeclaredType|QualifiedName] | importedNamespace=QualifiedNameWithWildcard)
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 
 		//importedType=[types::JvmDeclaredType|QualifiedName]
@@ -457,7 +457,7 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getGivenMessageSTRINGTerminalRuleCall_7_1_0() { return cGivenMessageSTRINGTerminalRuleCall_7_1_0; }
 
-		//=> '{' contexts+=Context* '}' | contexts+=Context?
+		//(=> '{' contexts+=Context* '}' | contexts+=Context?)
 		public Alternatives getAlternatives_8() { return cAlternatives_8; }
 
 		//=> '{' contexts+=Context* '}'
@@ -1010,9 +1010,8 @@ public class CheckGrammarAccess extends AbstractGrammarElementFinder {
 		//=> 'on'
 		public Keyword getOnKeyword_3_0() { return cOnKeyword_3_0; }
 
-		//// we list the possible choices to help antlr
-		//=> '#' markerFeature=[ecore::EStructuralFeature|ValidID] | markerObject=XExpression (=> '#'
-		//markerFeature=[ecore::EStructuralFeature|FeatureCallID])?
+		//(=> '#' markerFeature=[ecore::EStructuralFeature|ValidID] | markerObject=XExpression (=> '#'
+		//markerFeature=[ecore::EStructuralFeature|FeatureCallID])?)
 		public Alternatives getAlternatives_3_1() { return cAlternatives_3_1; }
 
 		//=> '#' markerFeature=[ecore::EStructuralFeature|ValidID]
