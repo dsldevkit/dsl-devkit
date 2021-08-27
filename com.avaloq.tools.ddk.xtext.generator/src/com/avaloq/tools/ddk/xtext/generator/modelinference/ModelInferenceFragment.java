@@ -28,7 +28,7 @@ import com.avaloq.tools.ddk.xtext.ui.editor.findrefs.InferredModelReferenceQuery
 /**
  * This fragment generates bindings for languages that implement model inference.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "deprecation"})
 public class ModelInferenceFragment extends DefaultGeneratorFragment {
 
   /** Indicates if support for model inference is generated. */
