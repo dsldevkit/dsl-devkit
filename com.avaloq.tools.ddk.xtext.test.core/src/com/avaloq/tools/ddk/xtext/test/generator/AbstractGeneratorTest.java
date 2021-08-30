@@ -244,6 +244,7 @@ public abstract class AbstractGeneratorTest {
     final IProject[] result = new IProject[1];
     WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
 
+      @SuppressWarnings("deprecation")
       @Override
       protected void execute(final IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
         result[0] = projectFactory.createProject(monitor, null);

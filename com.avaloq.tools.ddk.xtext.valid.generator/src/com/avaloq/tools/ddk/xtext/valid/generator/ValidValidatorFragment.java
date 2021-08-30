@@ -51,6 +51,7 @@ import com.google.common.base.Preconditions;
  * {@link org.eclipse.xtext.generator.IGeneratorFragment} implementation to generate a java based validity checker for a
  * given grammar and .valid File.
  */
+@SuppressWarnings("deprecation")
 public class ValidValidatorFragment extends JavaValidatorFragment {
 
   private static final String VALID_EXTENSION = "valid"; //$NON-NLS-1$

@@ -38,6 +38,7 @@ import com.google.common.base.Preconditions;
 /**
  * Utility class for querying GenModels.
  */
+@SuppressWarnings("deprecation")
 public final class GenModelUtil2 {
 
   /** Class-wide logger. */
