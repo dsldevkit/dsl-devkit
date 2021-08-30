@@ -28,7 +28,7 @@ import com.google.common.base.Predicate;
 /**
  * Override of {@link XbaseGeneratorFragment}, to fix usesXImportSection() for languages which override XImportSection.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "deprecation"})
 public class FixedXbaseGeneratorFragment extends XbaseGeneratorFragment {
 
   @Override

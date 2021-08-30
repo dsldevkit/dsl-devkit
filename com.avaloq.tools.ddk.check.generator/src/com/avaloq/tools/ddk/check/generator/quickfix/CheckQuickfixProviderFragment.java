@@ -20,6 +20,7 @@ import org.eclipse.xtext.ui.generator.quickfix.QuickfixProviderFragment;
  * <p>
  * Note that the {@link QuickfixProviderFragment superclass} creates the necessary IssueResolutionProvider binding.
  */
+@SuppressWarnings("deprecation")
 public class CheckQuickfixProviderFragment extends QuickfixProviderFragment {
 
   /**
@@ -30,8 +31,7 @@ public class CheckQuickfixProviderFragment extends QuickfixProviderFragment {
    */
   @Override
   public String[] getRequiredBundlesUi(final Grammar grammar) {
-    return new String[] {"com.avaloq.tools.ddk.check.runtime.ui"}; //$NON-NLS-1$ 
+    return new String[] {"com.avaloq.tools.ddk.check.runtime.ui"}; //$NON-NLS-1$
   }
 
 }
-

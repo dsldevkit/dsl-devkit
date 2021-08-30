@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter;
  * This class overrides {@link FormatterFragment}.
  * Presently the added functionality is to replace the stock NodeModelFormatter with {@link RegionNodeModelFormatter}.
  */
+@SuppressWarnings("deprecation")
 public class FormatterFragment extends org.eclipse.xtext.generator.formatting.FormatterFragment {
 
   /** Class-wide logger. */

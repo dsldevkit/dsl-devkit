@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ui;singleton:=true
-Bundle-Version: 7.5.0.qualifier
+Bundle-Version: 8.1.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
@@ -29,7 +29,6 @@ Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.syntaxcoloring,
  com.avaloq.tools.ddk.xtext.ui.templates,
  com.avaloq.tools.ddk.xtext.ui.util,
- com.avaloq.tools.ddk.xtext.ui.validation,
- com.avaloq.tools.ddk.xtext.ui.validation.preferences
+ com.avaloq.tools.ddk.xtext.ui.validation
 Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui

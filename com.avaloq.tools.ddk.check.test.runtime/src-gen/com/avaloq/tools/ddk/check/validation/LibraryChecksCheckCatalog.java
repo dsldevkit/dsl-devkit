@@ -18,7 +18,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   @Inject
   private ICheckConfigurationStoreService checkConfigurationStoreService;
   
-  private final static ImmutableMap<String, String> issueCodeToLabelMap = ImmutableMap.<String, String>builder()
+  private static final ImmutableMap<String, String> issueCodeToLabelMap = ImmutableMap.<String, String>builder()
       .put(LibraryChecksIssueCodes.CACHE_DOESNT_WORK, "Cache doesn't work")
       .put(LibraryChecksIssueCodes.CACHE_INJECTION_FAILED, "Cache injection failed")
       .put(LibraryChecksIssueCodes.CHECK_CATALOG_IS_ACTIVE, "Check catalog is active")

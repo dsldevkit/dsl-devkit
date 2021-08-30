@@ -10,7 +10,6 @@ encoding//src/com/avaloq/tools/ddk/xtext/scope/generator/ScopingFragment.xpt=ISO
 encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/Documentation.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/JavaValidators.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/Messages.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/PreferencePage.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/QuickfixTests.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/Quickfixes.xpt=ISO-8859-1
 encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/ValidValidatorFragment.xpt=ISO-8859-1

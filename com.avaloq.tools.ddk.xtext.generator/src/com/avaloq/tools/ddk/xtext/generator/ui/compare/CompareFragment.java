@@ -24,6 +24,7 @@ import org.eclipse.xtext.generator.resourceFactory.ResourceFactoryFragment;
 /**
  * This fragment has the same interface as the Xtext 2.0 CompareFragment. It will make the transition smoother.
  */
+@SuppressWarnings("deprecation")
 public class CompareFragment extends ResourceFactoryFragment {
   private static final Logger LOGGER = Logger.getLogger(CompareFragment.class);
 

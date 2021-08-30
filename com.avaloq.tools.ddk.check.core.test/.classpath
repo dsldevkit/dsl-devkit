@@ -5,6 +5,8 @@
     <accessrules>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/junit4/ui/util/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/imports/RewritableImportSection"/>
+      <accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/**"/>
+      <accessrule kind="accessible" pattern="org/eclipse/xtext/preferences/**"/>
     </accessrules>
   </classpathentry>
   <classpathentry kind="src" path="src"/>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.core;singleton:=true
-Bundle-Version: 7.5.0.qualifier
+Bundle-Version: 8.1.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
@@ -26,14 +26,14 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase.lib,
  com.avaloq.tools.ddk.xtext,
  org.apache.commons.lang,
- org.objectweb.asm;bundle-version="[7.1.0,7.2.0)";resolution:=optional
+ org.objectweb.asm;resolution:=optional
 Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.check,
  com.avaloq.tools.ddk.check.check.impl,
  com.avaloq.tools.ddk.check.check.util,
  com.avaloq.tools.ddk.check.compiler,
  com.avaloq.tools.ddk.check.documentation,
- com.avaloq.tools.ddk.check.formatting,
+ com.avaloq.tools.ddk.check.formatting2,
  com.avaloq.tools.ddk.check.generator,
  com.avaloq.tools.ddk.check.imports,
  com.avaloq.tools.ddk.check.jvmmodel,
