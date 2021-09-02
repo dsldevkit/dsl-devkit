@@ -106,7 +106,7 @@ class ExportGenerator implements IGenerator {
     val fileName = model.fragmentProvider.toFileName
     if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute !== null) || model.isExtension) {
       fsa.generateFile(fileName, fragmentProviderGenerator.generate(model, compilationContext, genModelUtil))
-    } else {
+    } else if (!model.exports.empty){
       fsa.generateFile(fileName, '''
         package «model.fragmentProvider.toJavaPackage»;
 
