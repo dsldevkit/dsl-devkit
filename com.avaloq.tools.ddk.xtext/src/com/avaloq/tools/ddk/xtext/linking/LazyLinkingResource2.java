@@ -141,11 +141,13 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       if (result == null && getEncoder().isCrossLinkFragment(this, uriFragment)) {
         final ResourceSet rs = getResourceSet();
         if (rs.getLoadOptions().get(MARK_UNRESOLVABLE_XREFS) == Boolean.FALSE) {
-          Triple<EObject, EReference, INode> refInfo = getEncoder().decode(this, uriFragment);
-          EReference reference = refInfo.getSecond();
-          EObject context = refInfo.getFirst();
-          LOGGER.warn("Failed unexpected attempt to resolve reference during indexing " + context.eClass().getName() + "#" //$NON-NLS-1$ //$NON-NLS-2$
-              + reference.getName() + " for object " + EcoreUtil.getURI(context), new RuntimeException()); //$NON-NLS-1$
+          if (LOGGER.isDebugEnabled()) {
+            Triple<EObject, EReference, INode> refInfo = getEncoder().decode(this, uriFragment);
+            EReference reference = refInfo.getSecond();
+            EObject context = refInfo.getFirst();
+            LOGGER.debug("Failed unexpected attempt to resolve reference during indexing " + context.eClass().getName() + "#" //$NON-NLS-1$ //$NON-NLS-2$
+                + reference.getName() + " for object " + EcoreUtil.getURI(context), new RuntimeException()); //$NON-NLS-1$
+          }
           rs.getLoadOptions().put(MARK_UNRESOLVABLE_XREFS, Boolean.TRUE);
         }
       }
