@@ -82,7 +82,7 @@ class ResourceDescriptionStrategyGenerator {
                 «javaContributorComment(c.location)»
                 @Override
                 public Boolean case«c.type.name»(final «c.type.instanceClassName()» obj) {
-                  «IF c.guard !== null»
+                  «IF c.guard !== null && !c.guard.javaExpression(ctx.clone('obj', c.type)).equalsIgnoreCase("false")»
                     «javaContributorComment(c.guard.location)»
                     if («c.guard.javaExpression(ctx.clone('obj', c.type))») {
                       «generateCaseBody(c, ctx, genModelUtil)»
