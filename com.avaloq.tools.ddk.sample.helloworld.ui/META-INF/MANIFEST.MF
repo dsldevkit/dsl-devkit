@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld.ui
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 7.4.0.qualifier
+Bundle-Version: 8.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
@@ -15,7 +15,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.ui,
  org.eclipse.compare,
  org.eclipse.xtext.builder,
- org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib;resolution:=optional,
  org.antlr.runtime,
  com.avaloq.tools.ddk.check.runtime.core,

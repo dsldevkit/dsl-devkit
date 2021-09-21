@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 /**
  * Fragment for configuring language specific constants.
  */
+@SuppressWarnings("deprecation")
 public class LanguageConstantsFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */

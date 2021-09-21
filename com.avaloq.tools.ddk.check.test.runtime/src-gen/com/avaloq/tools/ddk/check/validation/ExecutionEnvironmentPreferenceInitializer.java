@@ -5,9 +5,9 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 @SuppressWarnings("all")
 public class ExecutionEnvironmentPreferenceInitializer extends AbstractPreferenceInitializer {
-  private final static String RUNTIME_NODE_NAME = "com.avaloq.tools.ddk.check.test.runtime";
+  private static final String RUNTIME_NODE_NAME = "com.avaloq.tools.ddk.check.test.runtime";
   
-  public final static String GET_GREETING_NAME_LENGTH_DEFAULT_NAME_DEFAULT = "Franz";
+  public static final String GET_GREETING_NAME_LENGTH_DEFAULT_NAME_DEFAULT = "Franz";
   
   @Override
   public void initializeDefaultPreferences() {

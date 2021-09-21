@@ -225,12 +225,15 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    */
   protected void readAssociationsAdapter(final StorageAwareResource resource, final InputStream stream) throws IOException {
     DirectLinkingEObjectInputStream objIn = new DirectLinkingEObjectInputStream(stream, null);
+
     int size = objIn.readCompressedInt();
     if (size == 0) {
+      resource.eAdapters().add(new InferredModelAssociator.EmptyAdapter());
       return;
     }
 
     InferredModelAssociator.Adapter adapter = (InferredModelAssociator.Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class);
+
     if (adapter == null) {
       adapter = new InferredModelAssociator.Adapter();
       resource.eAdapters().add(adapter);

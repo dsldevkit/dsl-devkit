@@ -8,17 +8,17 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 
 @SuppressWarnings("all")
 public class LibraryChecksPreferenceInitializer extends AbstractPreferenceInitializer {
-  private final static String RUNTIME_NODE_NAME = "com.avaloq.tools.ddk.check.test.runtime";
+  private static final String RUNTIME_NODE_NAME = "com.avaloq.tools.ddk.check.test.runtime";
   
-  public final static String GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT = "param1";
+  public static final String GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT = "param1";
   
-  public final static boolean GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT = (!(!true));
+  public static final boolean GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT = (!(!true));
   
-  public final static Boolean GET_FORMAL_PARAMETERS_PARAM_3_DEFAULT = Boolean.valueOf(false);
+  public static final Boolean GET_FORMAL_PARAMETERS_PARAM_3_DEFAULT = Boolean.valueOf(false);
   
-  public final static List<String> GET_FORMAL_PARAMETERS_NAMES_DEFAULT = Collections.<String>unmodifiableList(CollectionLiterals.<String>newArrayList("foo", "bar", "ba\u0001\nz"));
+  public static final List<String> GET_FORMAL_PARAMETERS_NAMES_DEFAULT = Collections.<String>unmodifiableList(CollectionLiterals.<String>newArrayList("foo", "bar", "ba\u0001\nz"));
   
-  public final static List<Integer> GET_FORMAL_PARAMETERS_INTS_DEFAULT = Collections.<Integer>unmodifiableList(CollectionLiterals.<Integer>newArrayList(Integer.valueOf(5), Integer.valueOf((-42)), Integer.valueOf(7)));
+  public static final List<Integer> GET_FORMAL_PARAMETERS_INTS_DEFAULT = Collections.<Integer>unmodifiableList(CollectionLiterals.<Integer>newArrayList(Integer.valueOf(5), Integer.valueOf((-42)), Integer.valueOf(7)));
   
   @Override
   public void initializeDefaultPreferences() {

@@ -103,9 +103,20 @@ class ExportGenerator implements IGenerator {
   }
 
   def generateFragmentProvider(ExportModel model, IFileSystemAccess fsa) {
+    val fileName = model.fragmentProvider.toFileName
     if (model.exports.exists(e|e.fingerprint && e.fragmentAttribute !== null) || model.isExtension) {
-      val fileName = model.fragmentProvider.toFileName
       fsa.generateFile(fileName, fragmentProviderGenerator.generate(model, compilationContext, genModelUtil))
+    } else if (!model.exports.empty){
+      fsa.generateFile(fileName, '''
+        package «model.fragmentProvider.toJavaPackage»;
+
+        import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider;
+
+
+        public class «model.fragmentProvider.toSimpleName» extends ShortFragmentProvider {
+
+        }
+      ''')
     }
   }
 

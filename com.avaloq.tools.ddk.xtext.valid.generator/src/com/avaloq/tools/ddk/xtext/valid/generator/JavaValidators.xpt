@@ -174,12 +174,6 @@ abstract public class «getJavaValidatorName("Abstract").toSimpleName()» extends 
                 collector = traceStart(«context.validationCodeLiteral()»);
             }
             try {
-«IF context.rule().optional-»
-                if (isDisabled("«this.getPreferenceKey(context.rule())»")) {
-                  return;
-                }
-
-«ENDIF-»
                 String message = Messages.«context.rule().category().name»«context.rule().name»Message;
 «IF context.markerType == null -»
                 SimpleValidMessage returnedMessage = get«context.name()»Message(context, sequencer, message, «IF context.contextFeature == null»null«ELSE»«literalIdentifier(context.contextFeature)»«ENDIF»);
