@@ -88,7 +88,7 @@ class ResourceDescriptionStrategyGenerator {
                     if («guard») {
                       «generateCaseBody(c, ctx, genModelUtil)»
                     }
-                  «ELSE»
+                  «ELSEIF c.guard === null»
                     «generateCaseBody(c, ctx, genModelUtil)»
                   «ENDIF»
 
