@@ -140,7 +140,7 @@ public final class ProblemsViewTestUtil {
     } while (markersTreeBot.selectionCount() != markers.length);
 
     // Open the Quick Fix dialog
-    ContextActionUiTestUtil.clickContextMenu(markersTreeBot, QUICK_FIX_CONTEXT_MENU_ITEM_LABEL);
+    DynamicContextActionUiTestUtil.clickContextMenu(markersTreeBot, DynamicMenuPredicate.ALWAYS_WAITING, QUICK_FIX_CONTEXT_MENU_ITEM_LABEL);
     bot.waitUntil(Conditions.shellIsActive(QUICK_FIX_DIALOG_TEXT));
 
     // Select the quickfix

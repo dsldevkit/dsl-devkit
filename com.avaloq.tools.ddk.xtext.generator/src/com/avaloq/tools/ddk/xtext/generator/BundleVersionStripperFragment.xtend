@@ -14,6 +14,7 @@ import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 import org.eclipse.xtext.xtext.generator.model.ManifestAccess
+import org.eclipse.xtext.xtext.generator.model.project.IBundleProjectConfig
 
 /**
  * Removes the bundle-version from specific bundles in generated manifests
@@ -27,16 +28,11 @@ class BundleVersionStripperFragment extends AbstractXtextGeneratorFragment {
   val List<String> bundles = newArrayList
 
   def void addBundle(String bundleName) {
-    this.bundles.add(bundleName)
+    bundles.add(bundleName)
   }
 
   override generate() {
-    if (projectConfig.runtime?.manifest !== null) {
-      projectConfig.runtime.manifest.stripBundleVersions
-    }
-    if (projectConfig.eclipsePlugin?.manifest !== null) {
-      projectConfig.eclipsePlugin.manifest.stripBundleVersions
-    }
+  	projectConfig.enabledProjects.filter(typeof(IBundleProjectConfig)).map[manifest].filterNull.forEach[stripBundleVersions]
   }
 
   def stripBundleVersions(ManifestAccess manifest) {
@@ -45,7 +41,6 @@ class BundleVersionStripperFragment extends AbstractXtextGeneratorFragment {
         manifest.requiredBundles.add(bundleName)
       }
     ]
-
   }
 
 }

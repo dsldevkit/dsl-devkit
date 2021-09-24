@@ -27,8 +27,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.xpand2.XpandExecutionContext;
+import org.eclipse.xpand2.XpandFacade;
 import org.eclipse.xtext.Grammar;
-import org.eclipse.xtext.generator.ecore.EcoreGeneratorFragment;
+import org.eclipse.xtext.generator.ecore.EMFGeneratorFragment;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -36,7 +37,7 @@ import com.google.common.collect.Sets;
 
 
 /**
- * This fragment is an alternative to the default {@link EcoreGeneratorFragment}. In addition it also supports the generation gap pattern with FooImplCustom
+ * This fragment is an alternative to the default {@link EMFGeneratorFragment}. In addition it also supports the generation gap pattern with FooImplCustom
  * classes in the {@link #getJavaModelSrcDirectory() source directory}.
  * <p>
  * This class will also register any referenced / generated GenModels in the global URI map, where other fragments can find them (see GeneratorUtil and
@@ -48,7 +49,7 @@ import com.google.common.collect.Sets;
  */
 @SuppressWarnings("deprecation")
 // TODO: DSL-369: figure out how to refactor this properly to not use deprecated stuff
-public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
+public class CustomClassEcoreGeneratorFragment extends EMFGeneratorFragment {
 
   /** Class-wide logger. */
   private static final Logger LOGGER = Logger.getLogger(CustomClassEcoreGeneratorFragment.class);
@@ -75,7 +76,7 @@ public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
     @Override
     @SuppressWarnings("nls")
     public String apply(final String from) {
-      if (from.startsWith("org.eclipse.emf.ecore")) {
+      if (from != null && from.startsWith("org.eclipse.emf.ecore")) {
         return null;
       }
       for (String dir : baseDirs) {
@@ -91,6 +92,10 @@ public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
       }
       return null;
     }
+  }
+
+  public CustomClassEcoreGeneratorFragment() {
+    setXmiModelDirectory(null);
   }
 
   /**
@@ -184,7 +189,7 @@ public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
 
   @Override
   protected String getTemplate() {
-    return EcoreGeneratorFragment.class.getName().replaceAll("\\.", "::"); //$NON-NLS-1$ //$NON-NLS-2$
+    return EMFGeneratorFragment.class.getName().replaceAll("\\.", "::"); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   protected Function<String, String> getTypeMapper() {
@@ -219,4 +224,9 @@ public class CustomClassEcoreGeneratorFragment extends EcoreGeneratorFragment {
     }
   }
 
+  @Override
+  @SuppressWarnings({"nls"})
+  public void addToPluginXmlRt(final Grammar grammar, final XpandExecutionContext ctx) {
+    XpandFacade.create(ctx).evaluate2(getTemplate() + "::addToPluginXmlRt", grammar, getParameters(grammar));
+  }
 }

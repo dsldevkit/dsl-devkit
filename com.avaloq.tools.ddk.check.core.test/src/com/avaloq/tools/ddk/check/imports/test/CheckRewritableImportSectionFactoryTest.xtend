@@ -49,7 +49,9 @@ class CheckRewritableImportSectionFactoryTest extends AbstractCheckTestCase {
     // ARRANGE
     val mockResource = mock(XtextResource)
     when(mockResource.contents).thenReturn(new BasicEList<EObject>());
-    when(mockResource.URI).thenReturn(mock(URI));
+    val mockUri = mock(URI)
+    when(mockResource.URI).thenReturn(mockUri);
+    when(mockUri.trimFragment).thenReturn(mockUri)
 
     // ACT
     val rewritableImportSection = factory.parse(mockResource)

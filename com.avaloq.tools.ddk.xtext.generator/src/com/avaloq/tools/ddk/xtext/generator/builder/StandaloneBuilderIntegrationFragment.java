@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 /**
  * Fragment to properly include the DSL DevKit clustering builder support in generated languages.
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({"nls", "deprecation"})
 public class StandaloneBuilderIntegrationFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */

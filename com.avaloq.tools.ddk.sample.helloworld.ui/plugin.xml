@@ -249,42 +249,6 @@
 		<super type="org.eclipse.xtext.ui.check.expensive"/>
 		<persistent value="true"/>
 	</extension>
-	<extension point="org.eclipse.ui.preferencePages">
-		<page
-			category="com.avaloq.tools.ddk.sample.helloworld.HelloWorld"
-			class="com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
-			id="com.avaloq.tools.ddk.sample.helloworld.HelloWorld.validator.preferencePage"
-			name="Errors/Warnings">
-			<keywordReference id="com.avaloq.tools.ddk.sample.helloworld.ui.keyword_HelloWorld"/>
-		</page>
-	</extension>
-	<extension point="org.eclipse.xtext.builder.participant">
-		<participant
-			class="com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
-			fileExtensions="helloworld"/>
-	</extension>
-	<extension point="org.eclipse.ui.preferencePages">
-		<page
-			category="com.avaloq.tools.ddk.sample.helloworld.HelloWorld"
-			class="com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="com.avaloq.tools.ddk.sample.helloworld.HelloWorld.compiler.preferencePage"
-			name="Compiler">
-			<keywordReference id="com.avaloq.tools.ddk.sample.helloworld.ui.keyword_HelloWorld"/>
-		</page>
-	</extension>
-	<extension point="org.eclipse.ui.propertyPages">
-		<page
-			category="com.avaloq.tools.ddk.sample.helloworld.HelloWorld"
-			class="com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="com.avaloq.tools.ddk.sample.helloworld.HelloWorld.compiler.propertyPage"
-			name="Compiler">
-			<keywordReference id="com.avaloq.tools.ddk.sample.helloworld.ui.keyword_HelloWorld"/>
-			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
-			</enabledWhen>
-			<filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
-		</page>
-	</extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
 			<command
