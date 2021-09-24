@@ -336,11 +336,8 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   private List<ElementLocator> handleParametrizedLocators(final List<ElementLocator> locators) {
     List<ElementLocator> parameterizedLocators = Lists.newArrayList();
     for (ElementLocator locator : Iterables.filter(locators, Predicates.instanceOf(IParametrizedLocator.class))) {
-
-      if (locator instanceof IConditionalLocator) {
-        if (!isActive((IConditionalLocator) locator)) {
-          continue;
-        }
+      if (locator instanceof IConditionalLocator && !isActive((IConditionalLocator) locator)) {
+        continue;
       }
       final LocatorParameterCalculator<?> parameterCalculator = ((IParametrizedLocator) locator).getLocatorParameterCalculator();
 
