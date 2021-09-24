@@ -85,7 +85,7 @@ class ResourceDescriptionStrategyGenerator {
                   «val guard = c.guard.javaExpression(ctx.clone('obj', c.type))»
                   «IF c.guard === null»
                     «generateCaseBody(c, ctx, genModelUtil)»
-                  «ELSEIF guard.equalsIgnoreCase("false")»
+                  «ELSEIF !guard.equalsIgnoreCase("false")»
                     «javaContributorComment(c.guard.location)»
                     if («guard») {
                       «generateCaseBody(c, ctx, genModelUtil)»
