@@ -47,4 +47,4 @@ You can find more detailed documentation and examples at [ddk.tools.avaloq.com](
 
 # Overview
 
-DSL Developer Kit is an extension layer to Xtext built for active Xtext users. It extends Xtext runtime to handle more sophisticated cases in DSL design, to support scaling for larger models and better monitoring and recovery in headless frameworks based on Xtext. DDK comes with a few handy small DSLs helping to standardize implementatoins of tools for DSLs. Read the [introduction](https://ddk.tools.avaloq.com/overview.html).
+DSL Developer Kit is an extension layer to Xtext built for active Xtext users. It extends Xtext runtime to handle more sophisticated cases in DSL design, to support scaling for larger models and better monitoring and recovery in headless frameworks based on Xtext. DDK comes with a few handy small DSLs helping to standardize implementations of tools for DSLs. Read the [introduction](https://ddk.tools.avaloq.com/overview.html).
