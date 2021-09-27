@@ -82,13 +82,14 @@ class ResourceDescriptionStrategyGenerator {
                 «javaContributorComment(c.location)»
                 @Override
                 public Boolean case«c.type.name»(final «c.type.instanceClassName()» obj) {
-                  «IF c.guard !== null»
+                  «val guard = c.guard.javaExpression(ctx.clone('obj', c.type))»
+                  «IF c.guard === null»
+                    «generateCaseBody(c, ctx, genModelUtil)»
+                  «ELSEIF !guard.equalsIgnoreCase("false")»
                     «javaContributorComment(c.guard.location)»
-                    if («c.guard.javaExpression(ctx.clone('obj', c.type))») {
+                    if («guard») {
                       «generateCaseBody(c, ctx, genModelUtil)»
                     }
-                  «ELSE»
-                    «generateCaseBody(c, ctx, genModelUtil)»
                   «ENDIF»
 
                   // can «c.type.name» contain any nested «types.map[type].filter[!abstract].map[name].toSet» objects ?

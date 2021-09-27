@@ -28,8 +28,8 @@ class ProjectConfig extends StandardProjectConfig {
       return super.computeName(project)
     }
     switch project {
-      case runtime: '''«baseName».«runtimeSuffix»'''
-      case runtimeTest: '''«baseName».«runtimeSuffix».«testSuffix»'''
+      case runtime: runtimeSuffix.empty ? '''«baseName»''':'''«baseName».«runtimeSuffix»'''
+      case runtimeTest: runtimeSuffix.empty ? '''«baseName».«testSuffix»''' : '''«baseName».«runtimeSuffix».«testSuffix»'''
       case genericIde: '''«baseName».«genericIdeSuffix»'''
       case eclipsePlugin: '''«baseName».«eclipsePluginSuffix»'''
       case eclipsePluginTest: '''«baseName».«eclipsePluginSuffix».«testSuffix»'''

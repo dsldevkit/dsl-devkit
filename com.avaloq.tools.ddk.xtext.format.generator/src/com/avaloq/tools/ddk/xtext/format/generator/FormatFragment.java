@@ -35,6 +35,7 @@ import com.google.common.collect.Lists;
 /**
  * MWE fragment for the format language.
  */
+@SuppressWarnings("deprecation")
 public class FormatFragment extends AbstractGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";

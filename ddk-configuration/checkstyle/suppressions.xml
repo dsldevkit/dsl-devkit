@@ -7,6 +7,8 @@
 <suppressions>
     <suppress files="Messages\.java"
               checks=".*"/>
+    <suppress checks="RedundantModifier"
+             files=".*"/>
     <suppress files=".*Test.*\.java|.*Bug.*\.java"
               checks="AvoidStarImport|EmptyBlock|IllegalCatch|JavadocMethod|JavadocType|JavadocStyle|MagicNumber|MethodName"/>
 </suppressions>

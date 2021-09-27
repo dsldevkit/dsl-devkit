@@ -212,11 +212,11 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @return the scope
    */
   public IScope getScope(final EObject context, final EClass type) {
-    return getScope(context, type, null, context.eResource());
+    return getScope(context, type, null);
   }
 
   /**
-   * Gets the scope given a context object and an expected type, using the given scope name.
+   * Gets the scope given a context object and an expected type, using the given scope name and an original resource.
    *
    * @param context
    *          the context
@@ -233,6 +233,22 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
       registerForeignObject(context, (XtextResource) context.eResource(), originalResource);
     }
     final IScope result = internalGetScope(context, type, scopeName == null ? SCOPE_STRING : scopeName, originalResource);
+    return (result == null) ? IScope.NULLSCOPE : result;
+  }
+
+  /**
+   * Gets the scope given a context object and an expected type, using the given scope name.
+   *
+   * @param context
+   *          the context
+   * @param type
+   *          the type
+   * @param scopeName
+   *          the scope name
+   * @return the scope
+   */
+  public IScope getScope(final EObject context, final EClass type, final String scopeName) {
+    final IScope result = internalGetScope(context, type, scopeName == null ? SCOPE_STRING : scopeName, context.eResource());
     return (result == null) ? IScope.NULLSCOPE : result;
   }
 

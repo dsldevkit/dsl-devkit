@@ -42,6 +42,7 @@ import com.google.common.collect.Iterables;
 /**
  * Utility class for querying GenModels.
  */
+@SuppressWarnings("deprecation")
 public final class CheckGenModelUtil {
 
   private static final String GENMODEL_EXTENSION = "genmodel"; //$NON-NLS-1$
