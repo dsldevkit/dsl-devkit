@@ -53,7 +53,7 @@
     <findbugs.plugin.version>3.0.4</findbugs.plugin.version><!-- Maven plug-in 3.0.4 uses FindBugs 3.0.1 -->
     <pmd.plugin.version>3.6</pmd.plugin.version><!-- Maven plug-in 3.6 uses PMD 5.3.5 -->
     <tycho.version>1.6.0</tycho.version>
-    <xtend.version>2.24.0</xtend.version>
+    <xtend.version>2.25.0</xtend.version>
   </properties>
 
   <modules>
