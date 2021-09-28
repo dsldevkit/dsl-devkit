@@ -24,6 +24,7 @@ import com.avaloq.tools.ddk.check.runtime.validation.DefaultCheckValidator;
 /**
  * This generator fragment supplies default bindings for languages using Static Code Analysis.
  */
+@SuppressWarnings("deprecation")
 public class CheckValidatorFragment extends AbstractGeneratorFragment {
 
   @Override
@@ -39,8 +40,7 @@ public class CheckValidatorFragment extends AbstractGeneratorFragment {
 
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
-    return new String[] {"com.avaloq.tools.ddk.check.runtime.core"}; //$NON-NLS-1$ 
+    return new String[] {"com.avaloq.tools.ddk.check.runtime.core"}; //$NON-NLS-1$
   }
 
 }
-

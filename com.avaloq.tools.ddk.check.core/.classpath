@@ -18,6 +18,7 @@
       <accessrule kind="accessible" pattern="org/eclipse/xtext/xbase/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/jdt/internal/ui/text/javadoc/**"/>
       <accessrule kind="accessible" pattern="org/eclipse/xtext/xtext/**"/>
+      <accessrule kind="accessible" pattern="org/eclipse/xtext/formatting2/**"/>
     </accessrules>
   </classpathentry>
   <classpathentry kind="output" path="bin"/>

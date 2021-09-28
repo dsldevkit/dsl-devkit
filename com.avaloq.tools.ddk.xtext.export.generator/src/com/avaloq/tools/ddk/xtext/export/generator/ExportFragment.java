@@ -45,6 +45,7 @@ import com.google.common.collect.Iterables;
 /**
  * MWE fragment for the export language.
  */
+@SuppressWarnings("deprecation")
 public class ExportFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */

@@ -264,6 +264,18 @@ public class CheckCompiler extends XbaseCompiler {
       b.newLine();
     }
 
+    boolean issueExpressionEqualsImplicitVariable = true;
+    if (markerObject != null) {
+      issueExpressionEqualsImplicitVariable = markerObject.toString().equals(getContextImplicitVariableName(expr));
+    }
+
+    if (!issueExpressionEqualsImplicitVariable) {
+      // checking for null context EObject
+      b.append("if (");
+      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
+      b.append(" != null) {").increaseIndentation().newLine();
+    }
+
     // acceptor
     b.append("// Issue diagnostic").newLine();
     b.append(generatorNaming.catalogInstanceName(expr)).append(".accept(").append("getMessageAcceptor()");
@@ -331,7 +343,27 @@ public class CheckCompiler extends XbaseCompiler {
       internalToJavaExpression(data, b);
     }
     b.append(" // Issue code & data").decreaseIndentation().newLine();
-    b.append(");");
+
+    if (!issueExpressionEqualsImplicitVariable) {
+      b.append(");").decreaseIndentation().newLine();
+      b.append("} else {").increaseIndentation().newLine();
+      b.append("org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
+      b.append("StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();").newLine();
+      b.append("logger.warn(").append(getLoggerString(expr)).append(");").decreaseIndentation().newLine();
+      b.append("}").newLine();
+    } else {
+      b.append(");");
+    }
+  }
+
+  private String getLoggerClass(final XIssueExpression expr) {
+    return generatorNaming.standaloneSetupClassName(EcoreUtil2.getContainerOfType(expr, CheckCatalog.class)) + ".class";
+  }
+
+  private String getLoggerString(final XIssueExpression expr) {
+    Check check = generatorExtensions.issuedCheck(expr);
+    return "\"An issue was found in " + generatorNaming.catalogInstanceName(check) + "." + Strings.toFirstUpper(check.getName()) //
+        + " for \" + " + getContextImplicitVariableName(expr) + ".eResource().getURI() + \" at \" + stackTraceElements[1].toString()";
   }
 
   /** {@inheritDoc} */
@@ -360,5 +392,4 @@ public class CheckCompiler extends XbaseCompiler {
     }
     return super.appendTypeArguments(call, original);
   }
-
 }

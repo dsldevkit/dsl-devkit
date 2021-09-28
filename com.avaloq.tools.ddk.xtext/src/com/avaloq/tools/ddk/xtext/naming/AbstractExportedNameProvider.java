@@ -18,7 +18,6 @@ import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.Tuples;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 
 /**
@@ -40,12 +39,7 @@ public abstract class AbstractExportedNameProvider extends IQualifiedNameProvide
    */
   @Override
   public QualifiedName getFullyQualifiedName(final EObject obj) {
-    return cache.get(Tuples.pair(obj, this.getClass()), obj.eResource(), new Provider<QualifiedName>() {
-      @Override
-      public QualifiedName get() {
-        return qualifiedName(obj);
-      }
-    });
+    return cache.get(Tuples.pair(obj, this.getClass()), obj.eResource(), () -> qualifiedName(obj));
   }
 
   /**

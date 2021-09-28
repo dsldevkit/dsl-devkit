@@ -71,9 +71,11 @@ public class CustomClassEcoreGeneratorComponent implements IWorkflowComponent {
 
   /** {@inheritDoc} */
   @Override
-  public void postInvoke() {}
+  public void postInvoke() {
+  }
 
   /** {@inheritDoc} */
+  @SuppressWarnings("deprecation")
   @Override
   public void invoke(final IWorkflowContext ctx) {
     final ResourceSet resSet = new ResourceSetImpl();

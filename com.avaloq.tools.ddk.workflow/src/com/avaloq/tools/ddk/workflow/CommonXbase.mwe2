@@ -53,6 +53,8 @@ var languageName = ""
 var preferencePagesCategory = ""
 var generateNonNLSMarkers = true
 
+var formatter = org.eclipse.xtext.generator.formatting.FormatterFragment {}
+
 Workflow {
 
   bean = com.avaloq.tools.ddk.xtext.generator.util.StandaloneSetup {
@@ -147,7 +149,7 @@ Workflow {
       fragment = junit.Junit4Fragment {}
 
       // formatter API
-      fragment = org.eclipse.xtext.generator.formatting.FormatterFragment {}
+      fragment = formatter
 
       // labeling API
       fragment = labeling.LabelProviderFragment {}

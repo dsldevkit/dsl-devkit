@@ -336,7 +336,9 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   private List<ElementLocator> handleParametrizedLocators(final List<ElementLocator> locators) {
     List<ElementLocator> parameterizedLocators = Lists.newArrayList();
     for (ElementLocator locator : Iterables.filter(locators, Predicates.instanceOf(IParametrizedLocator.class))) {
-
+      if (locator instanceof IConditionalLocator && !isActive((IConditionalLocator) locator)) {
+        continue;
+      }
       final LocatorParameterCalculator<?> parameterCalculator = ((IParametrizedLocator) locator).getLocatorParameterCalculator();
 
       Type genericInterfaceType = parameterCalculator.getClass().getGenericInterfaces()[0];
@@ -409,6 +411,33 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     return semanticNode;
   }
 
+  private boolean isActive(final IConditionalLocator locator) {
+    final LocatorActivator<?> locatorActivator = locator.getLocatorActivator();
+
+    Type genericInterfaceType = locatorActivator.getClass().getGenericInterfaces()[0];
+    Type genericType = ((ParameterizedType) genericInterfaceType).getActualTypeArguments()[0];
+    EObject semanticNode = findSemanticNode(currentNode, genericType);
+
+    // Check if locator is activated
+    boolean isActive = false; // If we fail to execute the locator activator, leave the locator disabled
+
+    if (semanticNode != null) {
+      Class<?> semanticNodeType = getSemanticNodeType(semanticNode);
+      try {
+        Method activateMethod = locatorActivator.getClass().getDeclaredMethod("activate", semanticNodeType, Integer.class); //$NON-NLS-1$
+        if (columnMap.get(semanticNode) == null) {
+          columnMap.put(semanticNode, currentColumn);
+        }
+        isActive = (Boolean) activateMethod.invoke(locatorActivator, semanticNode, columnMap.get(semanticNode));
+        // CHECKSTYLE:OFF if the locator activator fails, simply disable the locator instead of completely failing to format a source
+      } catch (Exception e) {
+        // CHECKSTYLE:ON
+        LOGGER.error(NLS.bind("Failed to execute the locator activator for {0}", semanticNodeType), e); //$NON-NLS-1$
+      }
+    }
+    return isActive;
+  }
+
   /**
    * Iterates over list of collected locators and activates/deactivates conditional locators.
    *
@@ -418,30 +447,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   public void handleConditionalLocators(final List<ElementLocator> result) {
     List<ElementLocator> inactiveConditionalLocators = Lists.newArrayList();
     for (ElementLocator locator : Iterables.filter(result, Predicates.instanceOf(IConditionalLocator.class))) {
-      final LocatorActivator<?> locatorActivator = ((IConditionalLocator) locator).getLocatorActivator();
-
-      Type genericInterfaceType = locatorActivator.getClass().getGenericInterfaces()[0];
-      Type genericType = ((ParameterizedType) genericInterfaceType).getActualTypeArguments()[0];
-      EObject semanticNode = findSemanticNode(currentNode, genericType);
-
-      // Check if locator is activated
-      boolean isActive = false; // If we fail to execute the locator activator, leave the locator disabled
-
-      if (semanticNode != null) {
-        Class<?> semanticNodeType = getSemanticNodeType(semanticNode);
-        try {
-          Method activateMethod = locatorActivator.getClass().getDeclaredMethod("activate", semanticNodeType, Integer.class); //$NON-NLS-1$
-          if (columnMap.get(semanticNode) == null) {
-            columnMap.put(semanticNode, currentColumn);
-          }
-          isActive = (Boolean) activateMethod.invoke(locatorActivator, semanticNode, columnMap.get(semanticNode));
-          // CHECKSTYLE:OFF if the locator activator fails, simply disable the locator instead of completely failing to format a source
-        } catch (Exception e) {
-          // CHECKSTYLE:ON
-          LOGGER.error(NLS.bind("Failed to execute the locator activator for {0}", semanticNodeType), e); //$NON-NLS-1$
-        }
-      }
-      if (!isActive) {
+      if (!isActive((IConditionalLocator) locator)) {
         inactiveConditionalLocators.add(locator);
       }
     }
