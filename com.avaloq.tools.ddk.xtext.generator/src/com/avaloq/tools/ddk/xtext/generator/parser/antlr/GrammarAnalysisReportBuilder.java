@@ -61,20 +61,20 @@ public class GrammarAnalysisReportBuilder {
    * Prepares a report on identifier rules.
    *
    * @param identifierRules
-   *          the identifier rules
+   *          the identifier rules, must not be {@code null}
    * @param calledRules
-   *          the called rules
+   *          the called rules, must not be {@code null}
    * @param notAcceptedKeywordsPerGrammar
-   *          the not accepted keywords per grammar
+   *          the not accepted keywords per grammar, must not be {@code null}
    * @param uncheckedRules
-   *          the unchecked rules
+   *          the unchecked rules, must not be {@code null}
    * @param keywordsViolatingSpec
-   *          the keywords violating spec
+   *          the keywords violating spec, must not be {@code null}
    */
   public void reportOnIdentifierRules(final List<ParserRule> identifierRules, final Map<ParserRule, Set<AbstractRule>> calledRules, final Map<ParserRule, List<String>> notAcceptedKeywordsPerGrammar, final Set<String> uncheckedRules, final Map<String, Set<String>> keywordsViolatingSpec) {
     appendHeader("<a id=\"rules\">Identifier Rules</a>");
     for (ParserRule rule : identifierRules) {
-      append("\n" + getLinkToIdentifierRule(rule));
+      report.append("\n" + getLinkToIdentifierRule(rule));
     }
     appendHeader("Details for Identifier Rules");
     startTable("Rule", "Keywords that are not accepted", true);
@@ -110,7 +110,7 @@ public class GrammarAnalysisReportBuilder {
    * Prepares a report on identifier rules.
    *
    * @param keyWordsInIDRules
-   *          keywords per ID rule
+   *          keywords per ID rule, must not be {@code null}
    */
   public void reportOnKeywordsInIdentifierRulesOnly(final Map<String, Set<AbstractRule>> keyWordsInIDRules) {
     appendHeader("<a id=\"diagnostic\">Diagnostic of grammar</a>");
@@ -119,7 +119,7 @@ public class GrammarAnalysisReportBuilder {
     for (Entry<String, Set<AbstractRule>> keyword : keyWordsInIDRules.entrySet()) {
       messages.append("<li><font color=\"red\">Keyword \"");
       messages.append(getLinkToKeyword(keyword.getKey()));
-      messages.append("\" is only decalred in: ");
+      messages.append("\" is only declared in: ");
       for (AbstractRule rule : keyword.getValue()) {
         messages.append(getLinkToIdentifierRule(rule));
       }
@@ -127,23 +127,20 @@ public class GrammarAnalysisReportBuilder {
     }
     messages.append("</ul>");
     if (!keyWordsInIDRules.isEmpty()) {
-      append("<font color=\"red\">We have found some keywords that are used only in identifier rules:</font>");
-      append(messages.toString());
+      report.append("<font color=\"red\">We have found some keywords that are used only in identifier rules:</font>");
+      report.append(messages.toString());
     } else {
-      append("<ul><li>OK</li></ul>");
+      report.append("<ul><li>OK</li></ul>");
     }
   }
 
   /**
    * Generates the report part regarding keywords.
-   *
-   * @param keywordsPerGrammar
-   *          the keywords per grammar
    */
-  public void reportOnKeywords(final Map<Grammar, Set<String>> keywordsPerGrammar) {
-    append("\n<ul><li><a href=\"#kw\">All keywords</a></li><li><a href=\"#rules\">Identifier rules</a></li><li><a href=\"#diagnostic\">Diagnostic messages</a></li></ul>");
+  public void reportOnKeywords() {
+    report.append("\n<ul><li><a href=\"#kw\">All keywords</a></li><li><a href=\"#rules\">Identifier rules</a></li><li><a href=\"#diagnostic\">Diagnostic messages</a></li></ul>");
     appendHeader("<a id=\"kw\">All keywords</a>");
-    append(reportKeywordListGroupedPerGrammar(sortedKeywords));
+    report.append(reportKeywordListGroupedPerGrammar(sortedKeywords));
 
     appendHeader2("Details on keywords");
     startTable("Keyword", "Rules where used", false);
@@ -162,7 +159,7 @@ public class GrammarAnalysisReportBuilder {
    * Orders the given list of grammars according to inheritance.
    *
    * @param grammars
-   *          Grammars
+   *          Grammars, must not be {@code null}
    * @return Ordered list
    */
   private List<Grammar> orderGrammars(final Set<Grammar> grammars) {
@@ -232,7 +229,7 @@ public class GrammarAnalysisReportBuilder {
    * Returns a link to keyword details in the report.
    *
    * @param keyword
-   *          Keyword text
+   *          Keyword text, must not be {@code null}
    * @return Href
    */
   private String getLinkToKeyword(final String keyword) {
@@ -241,7 +238,7 @@ public class GrammarAnalysisReportBuilder {
 
   private void startHtml(final String mainGrammarName) {
     report.append("<!DOCTYPE html>\n<html>\n<body>");
-    append("\n<h1>Keywords report for grammar " + mainGrammarName + "</h1>");
+    report.append("\n<h1>Keywords report for grammar " + mainGrammarName + "</h1>");
   }
 
   private void appendHeader(final String header) {
@@ -285,10 +282,6 @@ public class GrammarAnalysisReportBuilder {
     report.append("\n</body>\n</html>");
   }
 
-  private void append(final String string) {
-    report.append(string);
-  }
-
   /**
    * Creates the HTML report.
    *
@@ -298,7 +291,6 @@ public class GrammarAnalysisReportBuilder {
     finalizeHtml();
     return report.toString();
   }
-
 }
 
 /* Copyright (c) Avaloq Evolution AG */

@@ -37,17 +37,17 @@ public class CombinedGrammarReportBuilder {
   }
 
   /**
-   * Simple Xtext Doc. With analysis results
+   * Returns a simple documentation for the grammar, with analysis results.
    *
    * @param grammar
-   *          grammar to generate report for
-   * @param enumRules
-   *          list of parser rules
+   *          grammar to generate report for, must not be {@code null}
    * @param parserRules
-   *          list of enum rules
-   * @return Doc
+   *          list of parser, must not be {@code null}
+   * @param enumRules
+   *          list of enum rules, must not be {@code null}
+   * @return Documentation
    */
-  public String getXtextDoc(final Grammar grammar, final List<ParserRule> parserRules, final List<EnumRule> enumRules) {
+  public String getDocumentation(final Grammar grammar, final List<ParserRule> parserRules, final List<EnumRule> enumRules) {
     // CHECKSTYLE:OFF MagicNumber
     StringBuilder doc = new StringBuilder(120);
     // CHECKSTYLE:ON
@@ -73,10 +73,10 @@ public class CombinedGrammarReportBuilder {
   }
 
   /**
-   * Returns hyperlink to rule within Xtext Doc.
+   * Returns hyperlink to rule within the documentation.
    *
    * @param rule
-   *          Grammar Rule
+   *          Grammar Rule, must not be {@code null}
    * @return Name
    */
   private String getLocalLinkToRule(final AbstractRule rule) {
@@ -88,9 +88,9 @@ public class CombinedGrammarReportBuilder {
    * Adds rule to the documentation.
    *
    * @param rule
-   *          Rule
+   *          Rule, must not be {@code null}
    * @param doc
-   *          Docu where the content should be added
+   *          Document where the content should be added, must not be {@code null}
    */
 
   private void addRuleToDoc(final AbstractRule rule, final StringBuilder doc) {

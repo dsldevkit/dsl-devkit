@@ -41,8 +41,6 @@ import com.avaloq.tools.ddk.xtext.generator.parser.antlr.KeywordAnalysisHelper
 import java.util.Set
 import com.google.common.collect.ImmutableSet
 import java.util.Arrays
-import org.apache.commons.lang.StringUtils
-import java.util.Objects
 import org.eclipse.xtext.GrammarUtil
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
@@ -77,7 +75,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   }
 
   def private Set<String> toSet(String words) {
-    Arrays.stream(StringUtils.split(words, ",")).map(str | StringUtils.trimToNull(str)).filter(obj | Objects::nonNull(obj)).collect(Collectors.toSet())
+    Arrays.stream(words.split(",")).map(str | str.trim()).filter(str | !str.isEmpty()).collect(Collectors.toSet());
   }
 
   protected override void checkGrammar() {
@@ -103,7 +101,6 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     normalizeTokens(fsa, grammar.lexerGrammar.tokensFileName)
     suppressWarnings(fsa, grammar.internalParserClass, grammar.lexerClass)
     normalizeLineDelimiters(fsa, grammar.internalParserClass, grammar.lexerClass)
-
 
     /* filter and ruleNames for flattened grammar */
     val RuleFilter filter = new RuleFilter();
@@ -171,7 +168,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
    * Returns name for the predicate message method.
    *
    * @param predicate
-   *          Semantic predicate
+   *          Semantic predicate, must not be {@code null}
    * @return Content for the predicate message method
    */
   def String getRulePredicateMessage(SemanticPredicate predicate){
@@ -190,20 +187,21 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
    * Returns predicate condition (default condition).
    *
    * @param predicate
-   *          Semantic predicate
+   *          Semantic predicate, must not be {@code null}
    * @return A string containing the condition for the semantic predicate or {@code null}
    */
-  def String getRulePredicateCondition(SemanticPredicate predicate){
-      if (predicate.keywords !== null) {
-        val condition = predicate.keywords.stream().
+  def String getRulePredicateCondition(SemanticPredicate predicate) {
+    if (predicate.keywords !== null) {
+      val condition = predicate.keywords.stream().
         map([s | '''"«s»".equalsIgnoreCase(text)''']).collect(Collectors.joining(" || "))
         '''
         String text = parserContext.getInput().LT(1).getText();
         return «condition»;
         '''
-      } else {
-       return "return " + predicate.grammar + CLASS_SUFFIX + "." + predicate.name + "(parserContext);\n"
-     }}
+    } else {
+      return "return " + predicate.grammar + CLASS_SUFFIX + "." + predicate.name + "(parserContext);\n"
+    }
+  }
 
   override JavaFileAccess generateProductionParser() {
     val extension naming = productionNaming

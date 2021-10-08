@@ -164,6 +164,5 @@ FeatureCallID:
 enum SeverityKind:
   error='error' | warning='warning' | info='info' | ignore='ignore';
 
-// we avoid using CheckKind to simplify writing expressions...
-enum TriggerKind:
+enum TriggerKind:  // we avoid using CheckKind to simplify writing expressions...
   fast='live' | normal='onSave' | expensive='onDemand';

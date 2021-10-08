@@ -77,9 +77,9 @@ public final class KeywordAnalysisHelper {
    * Creates a new instance of {@link KeywordAnalysisHelper}.
    *
    * @param parserGrammarFileName
-   *          Parser grammar filename used in generating reports
+   *          Parser grammar filename used in generating reports, must not be {@code null}
    * @param grammar
-   *          Grammar
+   *          Grammar, must not be {@code null}
    * @param identifierRules
    *          rules to check for compliance with language specification, must not be {@code null}
    * @param reservedWords
@@ -87,7 +87,7 @@ public final class KeywordAnalysisHelper {
    * @param keywordsSpec
    *          keywords in the language specification, must not be {@code null}
    * @param grammarExtensions
-   *          extensions used to create Combined Grammar Report
+   *          extensions used to create Combined Grammar Report, must not be {@code null}
    */
   public KeywordAnalysisHelper(final String parserGrammarFileName, final Grammar grammar, final Set<String> identifierRules, final Set<String> reservedWords, final Set<String> keywordsSpec, final GrammarAccessExtensions grammarExtensions) {
     this.parserGrammarFileName = parserGrammarFileName;
@@ -114,7 +114,7 @@ public final class KeywordAnalysisHelper {
       rules.add(rule);
     }
     sortedKeywords = Ordering.natural().sortedCopy(keywords.keySet());
-    report = new GrammarAnalysisReportBuilder(GrammarUtil.getSimpleName(grammar), getXtextDocFileSimpleName(), sortedKeywords, keywords, getAllGrammars());
+    report = new GrammarAnalysisReportBuilder(GrammarUtil.getSimpleName(grammar), getDocFileSimpleName(), sortedKeywords, keywords, getAllGrammars());
     reportOnKeywords();
     reportOnIdentifierRules();
     reportOnKeywordsInIdentifierRulesOnly();
@@ -322,7 +322,7 @@ public final class KeywordAnalysisHelper {
    * Finds all rules called indirectly from this rule.
    *
    * @param startRule
-   *          Rule
+   *          Rule, must not be {@code null}
    * @return Remaining keywords
    */
   private Set<AbstractRule> getCalledRules(final AbstractRule startRule) {
@@ -345,7 +345,7 @@ public final class KeywordAnalysisHelper {
    * Rule is an identifier rule if it is data type rule and contains a call to an ID rule or to another datatype rule.
    *
    * @param rule
-   *          Rule to check
+   *          Rule to check, must not be {@code null}
    * @param visitedRules
    *          Loop prevention
    * @return {@code true} if the rule is an identifier rule
@@ -386,14 +386,14 @@ public final class KeywordAnalysisHelper {
       }
       keywordsPerGrammar.put(grammar, grammarKeywords);
     }
-    report.reportOnKeywords(keywordsPerGrammar);
+    report.reportOnKeywords();
   }
 
   /**
    * Checks whether a keyword is used in a reachable rule in the grammar specified.
    *
    * @param keyword
-   *          Keyword
+   *          Keyword, must not be {@code null}
    * @param expectedGrammar
    *          Grammar
    * @return {@code true} if keyword is used in the given grammar
@@ -431,9 +431,9 @@ public final class KeywordAnalysisHelper {
       PrintWriter writer = new PrintWriter(new File(fileName));
       writer.print(report.build());
       writer.close();
-      String docuFileName = getXtextDocFileName(srcGenPath);
+      String docuFileName = getDocFileName(srcGenPath);
       PrintWriter docuWriter = new PrintWriter(new File(docuFileName));
-      docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getXtextDoc(grammar, parserRules, enumRules));
+      docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
       docuWriter.close();
       LOGGER.info("report on keywords is written into " + fileName);
     } catch (FileNotFoundException e) {
@@ -468,31 +468,31 @@ public final class KeywordAnalysisHelper {
   }
 
   /**
-   * Name of the file with the generated Xtext doc.
+   * Name of the file with the generated documentation.
    *
    * @param srcGenPath
    *          Folder with generated docu
    * @return File name
    */
-  private String getXtextDocFileName(final String srcGenPath) {
-    return srcGenPath + "/" + getXtextDocFileRelativeName();
+  private String getDocFileName(final String srcGenPath) {
+    return srcGenPath + "/" + getDocFileRelativeName();
   }
 
   /**
-   * Simple name of the file with the generated Xtext doc.
+   * Simple name of the file with the generated documentation.
    *
    * @return Simple file name
    */
-  private String getXtextDocFileSimpleName() {
-    return Path.fromPortableString(getXtextDocFileRelativeName()).lastSegment();
+  private String getDocFileSimpleName() {
+    return Path.fromPortableString(getDocFileRelativeName()).lastSegment();
   }
 
   /**
-   * Name of the file with the generated Xtext doc without the gen folder prefix.
+   * Name of the file with the generated documentation without the gen folder prefix.
    *
    * @return File name
    */
-  private String getXtextDocFileRelativeName() {
+  private String getDocFileRelativeName() {
     return getAntlrrFileName() + "CombinedGrammar.html";
   }
 }

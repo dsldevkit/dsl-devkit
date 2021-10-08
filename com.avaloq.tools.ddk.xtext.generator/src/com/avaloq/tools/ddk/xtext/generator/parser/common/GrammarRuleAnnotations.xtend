@@ -7,6 +7,7 @@
  * Contributors:
  * Avaloq Evolution AG - initial API and implementation
  */
+
 package com.avaloq.tools.ddk.xtext.generator.parser.common
 
 import com.google.common.base.Splitter
