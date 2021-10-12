@@ -7,6 +7,7 @@
  * Contributors:
  * Avaloq Evolution AG - initial API and implementation
  */
+
 package com.avaloq.tools.ddk.xtext.generator.parser.common
 
 import com.google.common.base.Splitter
@@ -24,33 +25,38 @@ import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.GrammarUtil
 import org.eclipse.xtext.Group
 import org.eclipse.xtext.RuleCall
-import org.eclipse.xtext.generator.grammarAccess.GrammarAccessUtil
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.xtext.util.internal.EmfAdaptable
 import org.eclipse.xtext.xtext.RuleWithParameterValues
 import java.util.stream.Collectors
+import java.util.Set
+import com.google.common.collect.Sets
+import org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessExtensions
+import com.google.inject.Inject
 
 class GrammarRuleAnnotations {
 
     /**
    * Pattern to deactivate backtracking for single rule.
    */
-  static final Pattern NO_BACKTRACK_ANNOTATION_PATTERN = Pattern.compile("@NoBacktrack", Pattern.MULTILINE);	// $NON-NLS-1$
+  static final Pattern NO_BACKTRACK_ANNOTATION_PATTERN = Pattern.compile("@NoBacktrack", Pattern.MULTILINE);  // $NON-NLS-1$
   /**
    * Pattern to search for keyword rule annotations and extracting list of comma-separated keywords.
    */
   static final Pattern KEYWORD_RULE_ANNOTATION_PATTERN = Pattern.compile("@KeywordRule\\(([\\w\\s,]+)\\)",
-    Pattern.MULTILINE);	// $NON-NLS-1$
+    Pattern.MULTILINE); // $NON-NLS-1$
   /**
    * Pattern to search for semantic predicate rule annotation that enables the given rule.
    */
   static final Pattern SEMANTIC_PREDICATE_PATTERN = Pattern.compile("@SemanticPredicate\\(([\\s]*[\\w]+)[\\s]*\\)",
-    Pattern.MULTILINE);	// $NON-NLS-1$
+    Pattern.MULTILINE); // $NON-NLS-1$
   /**
    * Splits comma separated list of keywords.
    */
   static final Splitter KEYWORDS_SPLITTER = Splitter.on(',').trimResults().omitEmptyStrings();
 
+  @Inject
+  GrammarAccessExtensions grammarExtensions;
 
   @EmfAdaptable
   @Data
@@ -66,6 +72,7 @@ class GrammarRuleAnnotations {
   static class SemanticPredicate {
     val String name
     val String message
+    val String grammar
     val List<String> keywords
   }
 
@@ -130,11 +137,33 @@ class GrammarRuleAnnotations {
 
   def GrammarAnnotations annotateGrammar(Grammar grammar){
     var annotations = GrammarAnnotations.findInEmfObject(grammar)
-    if(annotations === null){
+    if (annotations === null) {
       annotations = new GrammarAnnotations(grammar.rules.stream().map[r | annotateRule(r)].filter([a | a !== null]).collect(Collectors.toList))
       annotations.attachToEmfObject(grammar)
+
+      var inheritedGrammars = allInheritedGrammars(grammar)
+      for (inheritedGrammar : inheritedGrammars) {
+        var inheritedAnnotations = GrammarAnnotations.findInEmfObject(inheritedGrammar)
+        if (inheritedAnnotations === null) {
+          inheritedAnnotations = new GrammarAnnotations(inheritedGrammar.rules.stream().map[r | annotateRule(r)].filter([a | a !== null]).collect(Collectors.toList))
+          inheritedAnnotations.attachToEmfObject(inheritedGrammar)
+        }
+        annotations.predicates.addAll(inheritedAnnotations.predicates)
+      }
     }
+
     return annotations
+  }
+
+  def Set<Grammar> allInheritedGrammars(Grammar grammar) {
+    var result = Sets.newHashSet();
+    for (AbstractRule rule : GrammarUtil.allParserRules(grammar)) {
+      var ruleGrammar = GrammarUtil.getGrammar(rule);
+      if (!ruleGrammar.equals(grammar) && this.isSemanticPredicate(rule)) {
+        result.addAll(ruleGrammar)
+      }
+    }
+    return result.toSet;
   }
 
   def List<SemanticPredicate> predicates(Grammar grammar){
@@ -271,14 +300,15 @@ class GrammarRuleAnnotations {
    * </p>
    */
   def SemanticPredicate annotateRule(AbstractRule rule) {
-    val text = getText(rule);
-    var SemanticPredicate predicate = null;
+    val text = getText(rule)
+    var SemanticPredicate predicate = null
     if (text !== null) {
-      predicate = getKeywordRulePredicate(text, rule.getName())
+      val ruleGrammarName = GrammarUtil.getSimpleName(GrammarUtil.getGrammar(rule))
+      predicate = getKeywordRulePredicate(text, rule.getName(), ruleGrammarName)
       if(predicate !== null){
         predicate.attachToEmfObject(rule)
       }
-      val semanticPredicate = getSemanticPredicate(text)
+      val semanticPredicate = getSemanticPredicate(text, ruleGrammarName)
       if(semanticPredicate !== null){
         if(predicate !== null)
           throw new IllegalArgumentException("You may not combine keyword annotations with semantic predicate annotations on one rule: " + rule.name)
@@ -291,27 +321,37 @@ class GrammarRuleAnnotations {
     return predicate
   }
 
-  def SemanticPredicate getSemanticPredicateAnnotation(AbstractRule rule){
-      var original = RuleWithParameterValues.findInEmfObject(rule)?.getOriginal();
-      if(original === null) original = rule;
+ def SemanticPredicate getSemanticPredicateAnnotation(AbstractRule rule) {
+    if (rule !== null) {
+      var original = RuleWithParameterValues.findInEmfObject(rule)?.getOriginal()
+      if (original === null) {
+        original = rule
+      }
       return SemanticPredicate.findInEmfObject(original)
+    }
   }
 
-  def NoBacktrack getNoBacktrackAnnotation(AbstractRule rule){
-      var original = RuleWithParameterValues.findInEmfObject(rule).getOriginal();
-      if(original === null) original = rule;
+  def NoBacktrack getNoBacktrackAnnotation(AbstractRule rule) {
+    if (rule !== null)  {
+      var original = RuleWithParameterValues.findInEmfObject(rule).getOriginal()
+      if (original === null) {
+        original = rule
+      }
       return NoBacktrack.findInEmfObject(original)
+    }
   }
+
   /**
    * Checks if the given rule contains {@code @KeywordRule(kw1,kw2)} annotation.
    */
-  def SemanticPredicate getKeywordRulePredicate(String text, String ruleName){
+  def SemanticPredicate getKeywordRulePredicate(String text, String ruleName, String grammar){
       val matcher = KEYWORD_RULE_ANNOTATION_PATTERN.matcher(text);
       if (matcher.find()) {
         return new SemanticPredicate(
           "is" + ruleName + "Enabled",
           "get" + ruleName + "EnabledMessage",
-           Lists.newArrayList(KEYWORDS_SPLITTER.split(matcher.group(1)))
+          grammar,
+          Lists.newArrayList(KEYWORDS_SPLITTER.split(matcher.group(1)))
         )
       }
   }
@@ -319,13 +359,14 @@ class GrammarRuleAnnotations {
   /**
    * Checks if the given rule contains {@code @SemanticPredicate(condition)} annotation.
    */
-  def SemanticPredicate getSemanticPredicate(String text){
+  def SemanticPredicate getSemanticPredicate(String text, String grammar){
         val matcher = SEMANTIC_PREDICATE_PATTERN.matcher(text);
         if (matcher.find()) {
          return new SemanticPredicate(
            matcher.group(1),
            "get" + matcher.group(1) + "Message",
-          null
+           grammar,
+           null
          )
         }
   }
@@ -342,7 +383,24 @@ class GrammarRuleAnnotations {
 
   def String getText(AbstractRule rule) {
     val node = NodeModelUtils.getNode(rule);
-    return if(node !== null) node.getText() else GrammarAccessUtil.serialize(rule, "");
+    return if(node !== null) node.getText() else grammarExtensions.grammarFragmentToString(rule,"");
   }
 
+  /**
+   * Checks if the given rule contains a keyword rule annotation.
+   *
+   * @param rule
+   *          Grammar rule
+   * @return {@code true} if there is an annotation, {@code false} otherwise
+   */
+  def boolean isSemanticPredicate(AbstractRule rule) {
+    var text = getText(rule);
+    if (text !== null) {
+      val matcher = SEMANTIC_PREDICATE_PATTERN.matcher(text);
+      if (matcher.find()) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

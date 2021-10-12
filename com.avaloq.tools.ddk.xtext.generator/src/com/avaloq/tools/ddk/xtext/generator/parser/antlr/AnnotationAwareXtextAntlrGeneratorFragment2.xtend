@@ -30,10 +30,18 @@ import org.eclipse.xtext.xtext.generator.model.JavaFileAccess
 import org.eclipse.xtext.xtext.generator.model.TypeReference
 import org.eclipse.xtext.xtext.generator.parser.antlr.GrammarNaming
 import org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+import org.eclipse.xtext.xtext.FlattenedGrammarAccess
+import org.eclipse.xtext.xtext.RuleFilter
+import org.eclipse.xtext.xtext.RuleNames
 
 import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
 import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
+import com.avaloq.tools.ddk.xtext.generator.parser.antlr.KeywordAnalysisHelper
+import java.util.Set
+import com.google.common.collect.ImmutableSet
+import java.util.Arrays
+import org.eclipse.xtext.GrammarUtil
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
@@ -44,6 +52,31 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   @Inject extension PredicatesNaming predicatesNaming
   @Inject extension GrammarAccessExtensions grammarUtil
   @Inject extension GrammarRuleAnnotations annotations
+
+  Set<String> reservedWords = ImmutableSet.of();
+  Set<String> keywords = ImmutableSet.of();
+  Set<String> identifierRules = ImmutableSet.of();
+
+  /**
+   * Suffix used in the naming convention for the classes responsible for semantic predicates.
+   */
+  static val CLASS_SUFFIX = "SemanticPredicates";
+
+  def setReservedWords(String words) {
+    reservedWords = toSet(words);
+  }
+
+  def setIdentifierRules(String rules) {
+    identifierRules = toSet(rules);
+  }
+
+  def setKeywords(String words) {
+    keywords = toSet(words);
+  }
+
+  def private Set<String> toSet(String words) {
+    Arrays.stream(words.split(",")).map(str | str.trim()).filter(str | !str.isEmpty()).collect(Collectors.toSet());
+  }
 
   protected override void checkGrammar() {
     super.checkGrammar();
@@ -68,6 +101,16 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     normalizeTokens(fsa, grammar.lexerGrammar.tokensFileName)
     suppressWarnings(fsa, grammar.internalParserClass, grammar.lexerClass)
     normalizeLineDelimiters(fsa, grammar.internalParserClass, grammar.lexerClass)
+
+    /* filter and ruleNames for flattened grammar */
+    val RuleFilter filter = new RuleFilter();
+    filter.discardUnreachableRules = true
+    filter.discardTerminalRules = false
+    val RuleNames ruleNames = RuleNames.getRuleNames(grammar, true);
+
+    val keywordAnalysisHelper = new KeywordAnalysisHelper(productionGenerator.grammarNaming.getParserGrammar(grammar).grammarFileName, new FlattenedGrammarAccess(ruleNames, filter).getFlattenedGrammar(), identifierRules, reservedWords, keywords, grammarUtil)
+    keywordAnalysisHelper.printReport(fsa.path);
+    keywordAnalysisHelper.printViolations(fsa.path);
   }
 
   def JavaFileAccess generateAbstractSemanticPredicate() {
@@ -77,9 +120,11 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     if(!getGrammar().predicates.isEmpty){
       file.importType(TypeReference.typeRef(ParserContext))
       file.importType(TypeReference.typeRef(Token))
+      for (inheritedGrammar : annotations.allInheritedGrammars(getGrammar())) {
+        file.importType(TypeReference.typeRef(GrammarUtil.getNamespace(inheritedGrammar) + ".grammar." + GrammarUtil.getSimpleName(inheritedGrammar) + CLASS_SUFFIX))
+      }
     }
     file.importType(TypeReference.typeRef(Singleton))
-
     file.content = '''
       /**
        *  Provides semantic predicates as specified in the grammar. Language may need to override
@@ -123,7 +168,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
    * Returns name for the predicate message method.
    *
    * @param predicate
-   *          Semantic predicate
+   *          Semantic predicate, must not be {@code null}
    * @return Content for the predicate message method
    */
   def String getRulePredicateMessage(SemanticPredicate predicate){
@@ -142,20 +187,20 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
    * Returns predicate condition (default condition).
    *
    * @param predicate
-   *          Semantic predicate
+   *          Semantic predicate, must not be {@code null}
    * @return A string containing the condition for the semantic predicate or {@code null}
    */
-  def String getRulePredicateCondition(SemanticPredicate predicate){
-      if (predicate.keywords !== null) {
-        val condition = predicate.keywords.stream().
+  def String getRulePredicateCondition(SemanticPredicate predicate) {
+    if (predicate.keywords !== null) {
+      val condition = predicate.keywords.stream().
         map([s | '''"«s»".equalsIgnoreCase(text)''']).collect(Collectors.joining(" || "))
         '''
         String text = parserContext.getInput().LT(1).getText();
         return «condition»;
         '''
-      } else {
-        "return true; /* Intended to be overridden. */\n";
-     }
+    } else {
+      return "return " + predicate.grammar + CLASS_SUFFIX + "." + predicate.name + "(parserContext);\n"
+    }
   }
 
   override JavaFileAccess generateProductionParser() {
@@ -214,5 +259,9 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
       }
     '''
     file
+  }
+
+  override protected void addUiBindingsAndImports() {
+    /* Overridden to prevent conflicting bindings related to Content Assist. */
   }
 }
