@@ -11,6 +11,7 @@
 
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
 
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +40,11 @@ public class GrammarAnalysisReportBuilder {
 
   private static final String HTML_SPACE = "&nbsp;";
 
+  private static final int REPORT_BUFFER_INITIAL_SIZE = 2000;
+  private static final int SMALL_BUFFER_INITIAL_SIZE = 100;
+
   /** The report. */
-  private final StringBuilder report = new StringBuilder();
+  private final StringWriter report = new StringWriter(REPORT_BUFFER_INITIAL_SIZE);
   private final String xtextDocFileSimpleName;
   private final List<String> sortedKeywords;
   private final Map<String, Set<AbstractRule>> keywords;
@@ -74,13 +78,14 @@ public class GrammarAnalysisReportBuilder {
   public void reportOnIdentifierRules(final List<ParserRule> identifierRules, final Map<ParserRule, Set<AbstractRule>> calledRules, final Map<ParserRule, List<String>> notAcceptedKeywordsPerGrammar, final Set<String> uncheckedRules, final Map<String, Set<String>> keywordsViolatingSpec) {
     appendHeader("<a id=\"rules\">Identifier Rules</a>");
     for (ParserRule rule : identifierRules) {
-      report.append("\n" + getLinkToIdentifierRule(rule));
+      report.append("\n");
+      report.append(getLinkToIdentifierRule(rule));
     }
     appendHeader("Details for Identifier Rules");
     startTable("Rule", "Keywords that are not accepted", true);
     for (ParserRule rule : identifierRules) {
-      StringBuilder usedRules = new StringBuilder();
-      StringBuilder keywordsReport = new StringBuilder();
+      StringBuilder usedRules = new StringBuilder(SMALL_BUFFER_INITIAL_SIZE);
+      StringBuilder keywordsReport = new StringBuilder(SMALL_BUFFER_INITIAL_SIZE);
       if (!uncheckedRules.contains(rule.getName())) {
         usedRules.append("<b>CHECKED ID RULE</b><br/>");
 
@@ -114,7 +119,7 @@ public class GrammarAnalysisReportBuilder {
    */
   public void reportOnKeywordsInIdentifierRulesOnly(final Map<String, Set<AbstractRule>> keyWordsInIDRules) {
     appendHeader("<a id=\"diagnostic\">Diagnostic of grammar</a>");
-    StringBuilder messages = new StringBuilder();
+    StringBuilder messages = new StringBuilder(SMALL_BUFFER_INITIAL_SIZE);
     messages.append("<ul>");
     for (Entry<String, Set<AbstractRule>> keyword : keyWordsInIDRules.entrySet()) {
       messages.append("<li><font color=\"red\">Keyword \"");
@@ -191,7 +196,7 @@ public class GrammarAnalysisReportBuilder {
         keywordsForGrammar.add(kw);
       }
     }
-    StringBuilder rejectedKeywords = new StringBuilder();
+    StringBuilder rejectedKeywords = new StringBuilder(SMALL_BUFFER_INITIAL_SIZE);
     for (String grammarAbbreviation : grammarToKeyword.keySet()) {
       Set<String> keywordsForGrammar = grammarToKeyword.get(grammarAbbreviation);
       rejectedKeywords.append("<br/><b>");

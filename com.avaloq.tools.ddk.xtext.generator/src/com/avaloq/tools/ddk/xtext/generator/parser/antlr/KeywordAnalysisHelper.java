@@ -47,7 +47,7 @@ import com.google.common.collect.Sets;
 /**
  * Helper class performing analysis of keywords in the grammar.
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({"nls", "PMD.NPathComplexity"})
 public final class KeywordAnalysisHelper {
 
   private static final int WORDS_PADDING = 20;
