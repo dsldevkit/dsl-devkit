@@ -15,6 +15,8 @@ import java.lang.reflect.Method;
 
 import org.antlr.runtime.Token;
 
+import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
+
 
 /**
  * Provides messages to be displayed as diagnostic messages when predicate is violated.
@@ -62,6 +64,22 @@ public interface ISemanticPredicates {
       }
       return message;
     }
-  }
 
+    /**
+     * Predicate for grammar rule DefaultFieldFormat.
+     *
+     * @param parserContext
+     *          Input from Lexer
+     * @param firstKeyword
+     *          the current keyword parser is looking at
+     * @param secondKeyword
+     *          the keyword following the current keyword
+     * @return {@code true} if the grammar rule is enabled, {@code false} otherwise
+     */
+    public static boolean isFollowedBy(final ParserContext parserContext, final String firstKeyword, final String secondKeyword) {
+      String current = parserContext.getInput().LT(1).getText();
+      String next = parserContext.getInput().LT(2).getText();
+      return firstKeyword.equalsIgnoreCase(current) && secondKeyword.equalsIgnoreCase(next);
+    }
+  }
 }

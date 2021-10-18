@@ -38,10 +38,29 @@ import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
 import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 import com.avaloq.tools.ddk.xtext.generator.parser.antlr.KeywordAnalysisHelper
+import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
 import java.util.Set
 import com.google.common.collect.ImmutableSet
 import java.util.Arrays
 import org.eclipse.xtext.GrammarUtil
+import org.eclipse.xtext.parser.antlr.Lexer
+import com.google.inject.name.Names
+import org.eclipse.xtext.parser.antlr.ITokenDefProvider
+import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
+import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider
+import org.eclipse.xtext.parser.IParser
+import org.eclipse.xtext.parser.ITokenToStringConverter
+import org.eclipse.xtext.parser.antlr.AntlrTokenToStringConverter
+import org.eclipse.xtext.parser.antlr.IAntlrTokenFileProvider
+import org.eclipse.xtext.parser.antlr.IUnorderedGroupHelper
+import org.eclipse.xtext.parser.antlr.UnorderedGroupHelper
+import org.eclipse.xtext.parsetree.reconstr.ITokenSerializer
+import org.eclipse.xtext.conversion.impl.IgnoreCaseIDValueConverter
+import org.eclipse.xtext.conversion.impl.AbstractIDValueConverter
+import org.eclipse.xtext.parsetree.reconstr.impl.IgnoreCaseKeywordSerializer
+import org.eclipse.xtext.serializer.tokens.IKeywordSerializer
+import org.eclipse.xtext.parser.antlr.LexerProvider
+import org.eclipse.xtext.parser.antlr.LexerBindings
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
@@ -56,6 +75,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   Set<String> reservedWords = ImmutableSet.of();
   Set<String> keywords = ImmutableSet.of();
   Set<String> identifierRules = ImmutableSet.of();
+  String lexerSuperClassName = "";
 
   /**
    * Suffix used in the naming convention for the classes responsible for semantic predicates.
@@ -72,6 +92,10 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
 
   def setKeywords(String words) {
     keywords = toSet(words);
+  }
+
+  def setLexerSuperClassName (String className) {
+    lexerSuperClassName = className
   }
 
   def private Set<String> toSet(String words) {
@@ -91,7 +115,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   protected override generateProductionGrammar() {
     val extension naming = productionNaming
     val fsa = projectConfig.runtime.srcGen
-
+    productionGenerator.lexerSuperClassName = lexerSuperClassName;
     productionGenerator.generate(grammar, options, fsa)
 
     runAntlr(grammar.parserGrammar, grammar.lexerGrammar, fsa)
@@ -263,5 +287,18 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
 
   override protected void addUiBindingsAndImports() {
     /* Overridden to prevent conflicting bindings related to Content Assist. */
+
+    val uiBindings = new GuiceModuleAccess.BindingFactory()
+      .addConfiguredBinding("HighlightingLexer", '''
+        binder.bind(«Lexer».class)
+          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
+          .to(«productionNaming.getLexerClass(grammar)».class);
+      ''')
+      .addConfiguredBinding("HighlightingTokenDefProvider", '''
+        binder.bind(«ITokenDefProvider».class)
+          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
+          .to(«AntlrTokenDefProvider».class);
+      ''')
+    uiBindings.contributeTo(language.eclipsePluginGenModule)
   }
 }
