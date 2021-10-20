@@ -14,6 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+
+import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
 
 
 /**
@@ -62,6 +65,21 @@ public interface ISemanticPredicates {
       }
       return message;
     }
-  }
 
+    /**
+     * Predicate for grammar rule DefaultFieldFormat.
+     *
+     * @param parserContext
+     *          Input from Lexer
+     * @param firstKeyword
+     *          the current keyword parser is looking at
+     * @param secondKeyword
+     *          the keyword following the current keyword
+     * @return {@code true} if the grammar rule is enabled, {@code false} otherwise
+     */
+    public static boolean isFollowedBy(final ParserContext parserContext, final String firstKeyword, final String secondKeyword) {
+      TokenStream inputStream = parserContext.getInput();
+      return firstKeyword.equalsIgnoreCase(inputStream.LT(1).getText()) && secondKeyword.equalsIgnoreCase(inputStream.LT(2).getText());
+    }
+  }
 }

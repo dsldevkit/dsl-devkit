@@ -9,6 +9,7 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
+
 package com.avaloq.tools.ddk.xtext.export.generator
 
 import com.avaloq.tools.ddk.xtext.export.ExportStandaloneSetup
@@ -31,13 +32,17 @@ import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
   @Inject extension XtextGeneratorNaming
-
+  var hasExports = true
   /**
    * Class-wide logger.
    */
   static final Logger LOGGER = Logger::getLogger(ExportFragment2)
 
   val DDK_XTEXT_RUNTIME_BUNDLE = "com.avaloq.tools.ddk.xtext"
+
+  def setHasExports (boolean hasExports) {
+    this.hasExports = hasExports
+  }
 
   override void generate() {
     if (LOGGER.isInfoEnabled()) {
@@ -48,17 +53,28 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
     val resourcePackage = grammar.runtimeBasePackage + '.resource'
     val resourcePrefix = resourcePackage + '.' + getSimpleName(grammar)
 
-    new GuiceModuleAccess.BindingFactory()
-    .addTypeToType(IQualifiedNameProvider.typeRef, new TypeReference(namingPrefix + "ExportedNamesProvider"))
-    .addTypeToType(IFingerprintComputer.typeRef, new TypeReference(resourcePrefix + "FingerprintComputer"))
-    .addTypeToType(IDefaultResourceDescriptionStrategy.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionStrategy"))
-    .addTypeToType(IFragmentProvider.typeRef, new TypeReference(resourcePrefix + "FragmentProvider"))
-    .addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
-    .contributeTo(language.runtimeGenModule)
+    if (hasExports) {
+      new GuiceModuleAccess.BindingFactory()
+      .addTypeToType(IQualifiedNameProvider.typeRef, new TypeReference(namingPrefix + "ExportedNamesProvider"))
+      .addTypeToType(IFingerprintComputer.typeRef, new TypeReference(resourcePrefix + "FingerprintComputer"))
+      .addTypeToType(IDefaultResourceDescriptionStrategy.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionStrategy"))
+      .addTypeToType(IFragmentProvider.typeRef, new TypeReference(resourcePrefix + "FragmentProvider"))
+      .addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
+      .contributeTo(language.runtimeGenModule)
+    }
+    else {
+      new GuiceModuleAccess.BindingFactory()
+      .addTypeToType(IResourceDescription.Manager.typeRef, new TypeReference(resourcePrefix + "ResourceDescriptionManager"))
+      .contributeTo(language.runtimeGenModule)
+    }
+
     if (projectConfig.runtime.manifest !== null) {
       projectConfig.runtime.manifest.requiredBundles += "org.eclipse.emf.ecore"
       projectConfig.runtime.manifest.requiredBundles += DDK_XTEXT_RUNTIME_BUNDLE
-      projectConfig.runtime.manifest.exportedPackages += namingPackage
+      if (hasExports) {
+       projectConfig.runtime.manifest.exportedPackages += namingPackage
+      }
+
       projectConfig.runtime.manifest.exportedPackages += resourcePackage
     }
     projectConfig.eclipsePlugin.manifest?.requiredBundles += DDK_XTEXT_RUNTIME_BUNDLE

@@ -42,6 +42,8 @@ import org.eclipse.xtext.EnumLiteralDeclaration
 import org.eclipse.xtext.Action
 import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming
+import org.eclipse.xtext.xtext.generator.CodeConfig
+import org.eclipse.xtend.lib.annotations.Accessors
 
 /**
  *
@@ -86,6 +88,9 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
   @Inject extension GrammarRuleAnnotations annotations
   @Inject extension GrammarNaming naming
   @Inject extension PredicatesNaming predicatesNaming
+  @Inject CodeConfig codeConfig
+
+  @Accessors(PUBLIC_SETTER) String lexerSuperClassName = "";
 
   Grammar originalGrammar
 
@@ -436,7 +441,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     «IF mustBeParenthesized»(
       «IF hasNoBacktrackAnnotation»
         // Enclosing rule was annotated with @NoBacktrack
-        options { backtrack=false; }
+        options { backtrack=false; }:
       «ENDIF»
       «dataTypeEbnfPredicate»«dataTypeEbnf2(supportActions)»
     )«ELSE»«dataTypeEbnf2(supportActions)»«ENDIF»«cardinality»
@@ -446,7 +451,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     «IF mustBeParenthesized»(
       «IF hasNoBacktrackAnnotation»
         // Enclosing rule was annotated with @NoBacktrack
-        options { backtrack=false; }
+        options { backtrack=false; }:
       «ENDIF»
       «ebnfPredicate(options)»«ebnf2(options, supportActions)»
     )«ELSE»«ebnf2(options, supportActions)»«ENDIF»«cardinality»
@@ -582,4 +587,41 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
       }
   }
 
+  protected override compileLexerImports(Grammar it, AntlrOptions options) '''
+
+    // Hack: Use our own Lexer superclass by means of import.
+    // Currently there is no other way to specify the superclass for the lexer.
+    «IF !lexerSuperClassName.empty»
+      import «lexerSuperClassName»;
+    «ELSE»
+      import «grammarNaming.getLexerSuperClass(it)»;
+    «ENDIF»
+  '''
+
+  protected override compileLexer(Grammar it, AntlrOptions options) '''
+    «codeConfig.fileHeader»
+    lexer grammar «grammarNaming.getLexerGrammar(it).simpleName»;
+    «compileLexerOptions(options)»
+    «compileTokens(options)»
+    «compileLexerHeader(options)»
+    «compileLexerMembers(options)»
+    «compileKeywordRules(options)»
+    «compileTerminalRules(options)»
+  '''
+
+  protected def compileLexerMembers(Grammar it, AntlrOptions options) '''
+    @members {
+      protected int getSingleLineCommentRule() {
+        return RULE_SL_COMMENT;
+      }
+
+      protected int getMultiLineCommentRule() {
+        return RULE_ML_COMMENT;
+      }
+
+      protected int getEndOfFileRule() {
+        return EOF;
+      }
+    }
+  '''
 }
