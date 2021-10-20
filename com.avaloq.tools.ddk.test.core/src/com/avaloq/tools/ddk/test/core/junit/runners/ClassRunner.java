@@ -107,7 +107,7 @@ public class ClassRunner extends XtextRunner {
   private final int testRetries;
   private final boolean unstableFail;
   private Description description;
-  private boolean descriptionOutdated;
+  private boolean descriptionOutdated = true;
 
   /**
    * Creates a new test class runner.
