@@ -27,7 +27,7 @@ import org.junit.runners.model.RunnerBuilder;
  */
 public class DiscerningSuite extends Suite {
 
-  private boolean descriptionOutdated;
+  private boolean descriptionOutdated = true;
   private Description description;
   private Filter testFilter;
 
