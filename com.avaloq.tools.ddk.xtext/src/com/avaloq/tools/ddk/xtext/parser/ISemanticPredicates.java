@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
 
 import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
 
@@ -77,9 +78,8 @@ public interface ISemanticPredicates {
      * @return {@code true} if the grammar rule is enabled, {@code false} otherwise
      */
     public static boolean isFollowedBy(final ParserContext parserContext, final String firstKeyword, final String secondKeyword) {
-      String current = parserContext.getInput().LT(1).getText();
-      String next = parserContext.getInput().LT(2).getText();
-      return firstKeyword.equalsIgnoreCase(current) && secondKeyword.equalsIgnoreCase(next);
+      TokenStream inputStream = parserContext.getInput();
+      return firstKeyword.equalsIgnoreCase(inputStream.LT(1).getText()) && secondKeyword.equalsIgnoreCase(inputStream.LT(2).getText());
     }
   }
 }
