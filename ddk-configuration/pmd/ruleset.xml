@@ -11,10 +11,22 @@
   <exclude-pattern>.*/src-model/.*</exclude-pattern>
   <exclude-pattern>.*/xtend-gen/.*</exclude-pattern>
 
-  <rule ref="rulesets/java/basic.xml">
-    <exclude name="JumbledIncrementer"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/empty.xml">
+  <rule ref="category/java/errorprone.xml">
+    <exclude name="AssignmentInOperand"/><!--Checkstyle-->
+    <exclude name="AssignmentToNonFinalStatic"/>
+    <exclude name="AvoidBranchingStatementAsLastInLoop"/>
+    <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
+    <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
+    <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
+    <exclude name="BeanMembersShouldSerialize"/>
+    <exclude name="CloneMethodMustImplementCloneable"/>
+    <exclude name="CloseResource"/><!--TODO: 233 markers to be analyzed and fixed in separate change-->
+    <exclude name="CompareObjectsWithEquals"/>
+    <exclude name="ConstructorCallsOverridableMethod"/>
+    <exclude name="DataflowAnomalyAnalysis"/>
+    <exclude name="DetachedTestCase"/>
+    <exclude name="DontImportSun"/><!--Checkstyle-->
+    <exclude name="DoNotCallSystemExit"/>
     <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
     <exclude name="EmptyFinallyBlock"/><!--Checkstyle-->
     <exclude name="EmptyIfStmt"/><!--Checkstyle-->
@@ -24,125 +36,76 @@
     <exclude name="EmptySwitchStatements"/><!--Checkstyle-->
     <exclude name="EmptyTryBlock"/><!--Checkstyle-->
     <exclude name="EmptyWhileStmt"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/unnecessary.xml">
-    <exclude name="UnnecessaryFinalModifier"/><!--Checkstyle-->
-    <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
-  </rule>
-  <rule ref="rulesets/java/braces.xml">
-    <exclude name="ForLoopsMustUseBraces"/><!--Checkstyle-->
-    <exclude name="IfElseStmtsMustUseBraces"/><!--Checkstyle-->
-    <exclude name="IfStmtsMustUseBraces"/><!--Checkstyle-->
-    <exclude name="WhileLoopsMustUseBraces"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/clone.xml">
-    <exclude name="CloneMethodMustImplementCloneable"/>
+    <exclude name="ImportFromSamePackage"/><!--Eclipse-->
+    <exclude name="JumbledIncrementer"/><!--Checkstyle-->
+    <exclude name="MissingBreakInSwitch"/>
+    <exclude name="NullAssignment"/>
+    <exclude name="SingleMethodSingleton"/>
+    <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
+    <exclude name="UseLocaleWithCaseConversions"/>
+    <exclude name="UseProperClassLoader"/>
     <exclude name="ProperCloneImplementation"/><!--Checkstyle-->
   </rule>
-  <rule ref="rulesets/java/codesize.xml">
-    <exclude name="CyclomaticComplexity"/>
-    <!--exclude name="NPathComplexity"/--><!--Checkstyle-->
-    <exclude name="ExcessiveMethodLength"/>
-    <exclude name="ModifiedCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
-    <exclude name="NcssMethodCount"/>
-    <exclude name="StdCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
-    <exclude name="TooManyFields"/>
-    <exclude name="TooManyMethods"/>
-  </rule>
-  <rule ref="rulesets/java/controversial.xml">
-    <exclude name="AssignmentInOperand"/><!--Checkstyle-->
-    <exclude name="AtLeastOneConstructor"/>
-    <exclude name="AvoidFinalLocalVariable"/>
-    <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
-    <exclude name="AvoidPrefixingMethodParameters"/><!--New after PMD 5.3 upgrade, only false positives-->
-    <exclude name="CallSuperInConstructor"/>
-    <exclude name="DataflowAnomalyAnalysis"/>
-    <exclude name="DefaultPackage"/>
-    <exclude name="DontImportSun"/><!--Checkstyle-->
-    <exclude name="NullAssignment"/>
-    <exclude name="OnlyOneReturn"/>
+  <rule ref="category/java/multithreading.xml">
+    <exclude name="AvoidSynchronizedAtMethodLevel"/>
+    <exclude name="DoNotUseThreads"/>
     <exclude name="UseConcurrentHashMap"/><!--New after PMD 5.3 upgrade, but not intelligent enough-->
   </rule>
-  <rule ref="rulesets/java/coupling.xml">
+  <rule ref="category/java/design.xml">
+    <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
+    <exclude name="AvoidDeeplyNestedIfStmts"/>
+    <exclude name="AvoidRethrowingException"/>
     <exclude name="ExcessiveImports"/>
+    <exclude name="ExcessiveMethodLength"/>
+    <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
+    <exclude name="CyclomaticComplexity"/>
+    <exclude name="GodClass"/><!--New after PMD 5.3 upgrade, not to be activated by default-->
     <exclude name="LawOfDemeter"/><!--New after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
     <exclude name="LoosePackageCoupling"/>
-  </rule>
-  <rule ref="rulesets/java/design.xml">
-    <exclude name="AbstractClassWithoutAbstractMethod"/>
-    <exclude name="AvoidConstantsInterface"/><!--Checkstyle-->
-    <exclude name="AvoidDeeplyNestedIfStmts"/>
-    <exclude name="AvoidReassigningParameters"/><!--Checkstyle-->
-    <exclude name="AvoidSynchronizedAtMethodLevel"/>
-    <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
-    <exclude name="ConfusingTernary"/>
-    <!--exclude name="ConstantsInInterface"/--><!--New when upgrading to PMD 5.5, many markers (2'000+), done by Checkstyle, see AvoidConstantsInterface-->
-    <exclude name="DefaultLabelNotLastInSwitchStmt"/><!--Checkstyle-->
-    <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
-    <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/><!--New after PMD 5.3 upgrade, many markers (1'400+), not needed because of Outline and Formatter-->
-    <exclude name="GodClass"/><!--New after PMD 5.3 upgrade, not to be activated by default-->
-    <exclude name="MissingBreakInSwitch"/><!--Replaced by MissingBreakOrReturnInSwitch (custom rule see below)-->
-    <exclude name="PreserveStackTrace"/>
+    <exclude name="ModifiedCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
+    <exclude name="NcssMethodCount"/>
+    <exclude name="NPathComplexity"/><!--Checkstyle-->
+    <exclude name="StdCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
     <exclude name="SimplifyBooleanExpressions"/><!--Checkstyle-->
-    <exclude name="SwitchStmtsShouldHaveDefault"/><!--Checkstyle-->
-    <exclude name="TooFewBranchesForASwitchStatement"/>
-    <exclude name="UncommentedEmptyMethodBody"/><!--Checkstyle-->
-    <exclude name="UncommentedEmptyConstructor"/><!--Checkstyle-->
+    <exclude name="TooManyFields"/>
+    <exclude name="TooManyMethods"/>
     <exclude name="UseUtilityClass"/>
   </rule>
-  <rule ref="rulesets/java/finalizers.xml"/>
-  <rule ref="rulesets/java/imports.xml">
-    <exclude name="DontImportJavaLang"/><!--Eclipse-->
-    <exclude name="DuplicateImports"/><!--Eclipse-->
-    <exclude name="ImportFromSamePackage"/><!--Eclipse-->
-    <exclude name="TooManyStaticImports"/>
-    <exclude name="UnusedImports"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/junit.xml">
+  <rule ref="category/java/bestpractices.xml">
     <exclude name="JUnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
     <exclude name="JUnitTestsShouldIncludeAssert"/>
-    <exclude name="TestClassWithoutTestCases"/><!--Wrong with JUnit4-->
-  </rule>
-  <rule ref="rulesets/java/naming.xml">
-    <exclude name="AbstractNaming"/><!--Checkstyle-->
-    <exclude name="LongVariable"/>
-    <exclude name="MethodNamingConventions"/><!--Checkstyle-->
-    <exclude name="NoPackage"/><!--Checkstyle-->
-    <exclude name="ShortClassName"/><!--New after PMD 5.3 upgrade, not sensible/only false positives-->
-    <exclude name="ShortVariable"/>
-    <exclude name="SuspiciousConstantFieldName"/><!--Checkstyle-->
-    <exclude name="SuspiciousEqualsMethodName"/><!--Checkstyle-->
-    <exclude name="VariableNamingConventions"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/optimizations.xml">
-    <exclude name="AvoidInstantiatingObjectsInLoops"/>
-    <exclude name="LocalVariableCouldBeFinal"/>
-    <exclude name="MethodArgumentCouldBeFinal"/><!--Checkstyle-->
-    <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/strictexception.xml">
-    <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
-    <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
-    <exclude name="AvoidRethrowingException"/>
-  </rule>
-  <rule ref="rulesets/java/strings.xml">
-    <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
-    <exclude name="ConsecutiveAppendsShouldReuse"/><!--New after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
-    <exclude name="ConsecutiveLiteralAppends"/>
-    <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/sunsecure.xml"/>
-  <rule ref="rulesets/java/unusedcode.xml">
-    <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
-    <exclude name="UnusedModifier"/><!--Checkstyle-->
-  </rule>
-  <rule ref="rulesets/java/logging-java.xml">
-    <exclude name="GuardLogStatementJavaUtil"/><!--New after PMD 5.3 upgrade, memory effect uncertain, impairs readability-->
-  </rule>
-  <rule ref="rulesets/java/migrating.xml">
     <exclude name="JUnit4TestShouldUseAfterAnnotation"/><!--Checkstyle-->
     <exclude name="JUnit4TestShouldUseBeforeAnnotation"/><!--Checkstyle-->
     <exclude name="JUnit4TestShouldUseTestAnnotation"/>
+    <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
+  </rule>
+  <rule ref="category/java/codestyle.xml">
+    <exclude name="AbstractNaming"/><!--Checkstyle-->
+    <exclude name="AtLeastOneConstructor"/>
+    <exclude name="AvoidFinalLocalVariable"/>
+    <exclude name="AvoidPrefixingMethodParameters"/><!--New after PMD 5.3 upgrade, only false positives-->
+    <exclude name="CallSuperInConstructor"/>
+    <exclude name="ControlStatementBraces"/><!--Checkstyle-->
+    <exclude name="DefaultPackage"/>
+    <exclude name="DontImportJavaLang"/><!--Eclipse-->
+    <exclude name="DuplicateImports"/><!--Eclipse-->
+    <exclude name="LocalVariableCouldBeFinal"/> <!--  not sensible -->
+    <exclude name="LongVariable"/> <!--  not sensible -->
+    <exclude name="MethodNamingConventions"/><!-- TODO: 40 markers -->
+    <exclude name="NoPackage"/><!--Checkstyle-->
+    <exclude name="OnlyOneReturn"/>
+    <exclude name="ShortClassName"/><!--New after PMD 5.3 upgrade, not sensible/only false positives-->
+    <exclude name="ShortVariable"/> <!--  not sensible -->
+    <exclude name="SuspiciousConstantFieldName"/><!--Checkstyle-->
+    <exclude name="TooManyStaticImports"/>
+    <exclude name="UnnecessaryFinalModifier"/><!--Checkstyle-->
+    <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
+  </rule>
+  <rule ref="category/java/performance.xml">
+    <exclude name="AvoidInstantiatingObjectsInLoops"/>
+    <exclude name="ConsecutiveAppendsShouldReuse"/><!--New after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
+    <exclude name="ConsecutiveLiteralAppends"/>
+    <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
   </rule>
 
   <rule
