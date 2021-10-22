@@ -45,6 +45,7 @@
     <exclude name="UseLocaleWithCaseConversions"/>
     <exclude name="UseProperClassLoader"/>
     <exclude name="ProperCloneImplementation"/><!--Checkstyle-->
+    <exclude name="TestClassWithoutTestCases"/>
   </rule>
   <rule ref="category/java/multithreading.xml">
     <exclude name="AvoidSynchronizedAtMethodLevel"/>
@@ -55,6 +56,7 @@
     <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
     <exclude name="AvoidDeeplyNestedIfStmts"/>
     <exclude name="AvoidRethrowingException"/>
+    <exclude name="AvoidUncheckedExceptionsInSignatures"/>
     <exclude name="DataClass"/>
     <exclude name="ExcessiveImports"/>
     <exclude name="ExcessiveMethodLength"/>
@@ -64,6 +66,7 @@
     <exclude name="LawOfDemeter"/><!--New after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
     <exclude name="LoosePackageCoupling"/>
     <exclude name="ModifiedCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
+    <exclude name="NcssCount"/>
     <exclude name="NcssMethodCount"/>
     <exclude name="NPathComplexity"/><!--Checkstyle-->
     <exclude name="StdCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
@@ -73,15 +76,20 @@
     <exclude name="UseUtilityClass"/>
   </rule>
   <rule ref="category/java/bestpractices.xml">
+    <exclude name="ArrayIsStoredDirectly"/>
     <exclude name="AccessorMethodGeneration"/>
+    <exclude name="AvoidReassigningParameters"/>
+    <exclude name="ForLoopCanBeForeach"/>
     <exclude name="GuardLogStatement"/><!--TODO-->
     <exclude name="JUnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
     <exclude name="JUnitTestsShouldIncludeAssert"/>
     <exclude name="JUnit4TestShouldUseAfterAnnotation"/><!--Checkstyle-->
     <exclude name="JUnit4TestShouldUseBeforeAnnotation"/><!--Checkstyle-->
     <exclude name="JUnit4TestShouldUseTestAnnotation"/>
+    <exclude name="SwitchStmtsShouldHaveDefault"/>
+    <exclude name="PreserveStackTrace"/><!--TODO-->
     <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
-    <exclude name="UseTryWithResources"/>
+    <exclude name="UseTryWithResources"/><!--TODO-->
   </rule>
   <rule ref="category/java/codestyle.xml">
     <exclude name="AbstractNaming"/><!--Checkstyle-->
@@ -89,6 +97,7 @@
     <exclude name="AvoidFinalLocalVariable"/>
     <exclude name="AvoidPrefixingMethodParameters"/><!--New after PMD 5.3 upgrade, only false positives-->
     <exclude name="CallSuperInConstructor"/>
+    <exclude name="ClassNamingConventions"/>
     <exclude name="CommentDefaultAccessModifier"/>
     <exclude name="ConfusingTernary"/>
     <exclude name="ControlStatementBraces"/><!--Checkstyle-->
@@ -98,6 +107,7 @@
     <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
     <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
     <exclude name="FieldNamingConventions"/>
+    <exclude name="IdenticalCatchBranches"/>
     <exclude name="LinguisticNaming"/>
     <exclude name="LocalVariableCouldBeFinal"/> <!--  not sensible -->
     <exclude name="LongVariable"/> <!--  not sensible -->
@@ -110,6 +120,7 @@
     <exclude name="TooManyStaticImports"/>
     <exclude name="UnnecessaryAnnotationValueElement"/>
     <exclude name="UnnecessaryFinalModifier"/><!--Checkstyle-->
+    <exclude name="UnnecessaryLocalBeforeReturn"/>
     <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
     <exclude name="UseDiamondOperator"/>
     <exclude name="UseShortArrayInitializer"/>
@@ -119,6 +130,7 @@
     <exclude name="AvoidInstantiatingObjectsInLoops"/>
     <exclude name="ConsecutiveAppendsShouldReuse"/><!--New after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
     <exclude name="ConsecutiveLiteralAppends"/>
+    <exclude name="OptimizableToArrayCall"/>
     <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
   </rule>
 
