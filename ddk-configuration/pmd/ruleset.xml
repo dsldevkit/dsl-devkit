@@ -80,7 +80,7 @@
     <exclude name="ArrayIsStoredDirectly"/>
     <exclude name="AccessorMethodGeneration"/>
     <exclude name="AvoidReassigningParameters"/>
-    <exclude name="Rule:UnusedPrivateMethod"/><!-- false positives-->
+    <exclude name="UnusedPrivateMethod"/><!-- false positives-->
     <exclude name="DefaultLabelNotLastInSwitchStmt"/>
     <exclude name="ForLoopCanBeForeach"/>
     <exclude name="GuardLogStatement"/><!--TODO-->
@@ -138,6 +138,7 @@
     <exclude name="ConsecutiveLiteralAppends"/>
     <exclude name="OptimizableToArrayCall"/>
     <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
+    <exclude name="TooFewBranchesForASwitchStatement"/>
   </rule>
 
   <rule
