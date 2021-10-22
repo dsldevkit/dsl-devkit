@@ -49,7 +49,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
   // @Format-Off
   /** Cache of the available eClasses and parameter types to make proposals more responsive. */
   private static final Set<String> REGISTERED_ECLASS_NAMES = ImmutableSet.copyOf(()->{
-      do {
+      while (true) { // keep trying to cache it.
         try {
           return EPackage.Registry.INSTANCE.keySet().stream()
           .map(nsUri -> EPackage.Registry.INSTANCE.getEPackage(nsUri).getEClassifiers())
@@ -59,7 +59,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
           .collect(Collectors.toList())
           .iterator();
         } catch (ConcurrentModificationException unused) {} // In case the registry resolves some packages,
-      } while (true);                                       // keep trying to cache it.
+      } 
     });
   // @Format-On
   private static final Filter FORMAL_PARAMETER_JVM_CLASS_FILTER = new Filter() {

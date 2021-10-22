@@ -58,6 +58,7 @@
     <exclude name="AvoidRethrowingException"/>
     <exclude name="AvoidUncheckedExceptionsInSignatures"/>
     <exclude name="DataClass"/>
+    <exclude name="DoNotExtendJavaLangError"/>
     <exclude name="ExcessiveImports"/>
     <exclude name="ExcessiveMethodLength"/>
     <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
@@ -79,6 +80,8 @@
     <exclude name="ArrayIsStoredDirectly"/>
     <exclude name="AccessorMethodGeneration"/>
     <exclude name="AvoidReassigningParameters"/>
+    <exclude name="Rule:UnusedPrivateMethod"/><!-- false positives-->
+    <exclude name="DefaultLabelNotLastInSwitchStmt"/>
     <exclude name="ForLoopCanBeForeach"/>
     <exclude name="GuardLogStatement"/><!--TODO-->
     <exclude name="JUnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
@@ -120,13 +123,16 @@
     <exclude name="TooManyStaticImports"/>
     <exclude name="UnnecessaryAnnotationValueElement"/>
     <exclude name="UnnecessaryFinalModifier"/><!--Checkstyle-->
+    <exclude name="UnnecessaryFullyQualifiedName"/>
     <exclude name="UnnecessaryLocalBeforeReturn"/>
     <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
+    <exclude name="UselessQualifiedThis"/>
     <exclude name="UseDiamondOperator"/>
     <exclude name="UseShortArrayInitializer"/>
     <exclude name="UseUnderscoresInNumericLiterals"/>
   </rule>
   <rule ref="category/java/performance.xml">
+    <exclude name="AvoidFileStream"/>
     <exclude name="AvoidInstantiatingObjectsInLoops"/>
     <exclude name="ConsecutiveAppendsShouldReuse"/><!--New after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
     <exclude name="ConsecutiveLiteralAppends"/>
