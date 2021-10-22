@@ -40,7 +40,6 @@ public class QualifiedNamePattern extends QualifiedName {
    * Comparator which sorts name patterns in front of every name they match.
    */
   public static final class Comparator implements java.util.Comparator<QualifiedName> {
-    /** {@inheritDoc} */
     @Override
     public int compare(final QualifiedName o1, final QualifiedName o2) {
       return o1 instanceof QualifiedNamePattern ? o1.compareTo(o2) : -o2.compareTo(o1);
@@ -471,4 +470,5 @@ public class QualifiedNamePattern extends QualifiedName {
       return Iterables.concat(from.subMap(lowerInclusive(), upperExclusive()).values());
     }
   }
+
 }

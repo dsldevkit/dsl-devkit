@@ -9,23 +9,44 @@
   </Match>
   <Match>
       <Bug code="UwF" />
-      <Class name="~.*Action.*" />
+      <Or>
+        <Class name="~.*Action.*" />
+        <Class name="~.*WizardPage.*" />
+        <Class name="~.*View.*" />
+      </Or>
+   </Match>
+  <Match>
+     <Bug code="EI,EI2" />
   </Match>
   <Match>
-      <Bug code="Nm" />
-      <Method name="propertyChange" />
+     <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
   </Match>
   <Match>
-     <Bug code="UwF" />
-     <Class name="~.*Dialog.*" />
+     <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
   </Match>
   <Match>
-     <Bug code="UwF" />
-     <Class name="~.*View.*" />
+     <Bug pattern="SIC_INNER_SHOULD_BE_STATIC" />
+     <Class name="com.avaloq.tools.ddk.caching.CacheManager$MultiCacheStatistics.*" />
   </Match>
   <Match>
-     <Bug code="UwF" />
-     <Class name="~.*WizardPage.*" />
+     <Bug pattern="IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION" />
+     <Class name="com.avaloq.tools.ddk.xtext.modelinference.ModelInferenceFactory.*" />
+  </Match>
+  <Match>
+     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT" />
+  </Match>
+  <Match>
+     <Bug pattern="IMSE_DONT_CATCH_IMSE" />
+  </Match>
+  <Match>
+     <Bug pattern="IS2_INCONSISTENT_SYNC" />
+  </Match>
+  <Match>
+     <Bug pattern="MS_PKGPROTECT" />
+     <Or>
+       <Class name="~.*\.ModelInferenceSwitch.*" />
+       <Class name="~.*\.ModelInferenceAdapterFactory.*" />
+     </Or>
   </Match>
   <Match>
      <Bug code="Nm,EC" />
@@ -36,7 +57,7 @@
      <Class name="~.*\.generator\..*Generator" />
   </Match>
   <Match>
-     <Bug code="EC" />
+     <Bug code="EC,IC" />
      <Class name="~.*\.impl\..*Impl" />
   </Match>
 </FindBugsFilter>

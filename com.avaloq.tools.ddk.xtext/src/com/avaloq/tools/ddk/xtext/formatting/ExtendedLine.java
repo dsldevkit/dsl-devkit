@@ -310,7 +310,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
       if (charactersInLastLine != -1) {
         column = charactersInLastLine;
       } else {
-        if (entry.isFormattingDisabled()) {
+        if (entry != null && entry.isFormattingDisabled()) {
           final String preservedWS = lineEntry.getPreservedWS();
           final int preservedWSLength = preservedWS != null ? preservedWS.length() : 0;
           column = lineEntry.getIndent() + (lineEntry.getLength() + preservedWSLength);
@@ -357,17 +357,18 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
           // column and the given entry) not necessarily in the same line AND the previous entry is within column alignment
         } else if (previousEntry.getColumnIndent() > 0 && !previousEntry.isFixedLocatorClosing() && !previousEntry.isFixedLocatorOpening()
             && entry.isFixedLocatorOpening()) {
-          if (!existsIndirectColumnAlignedPredecessor(entry, previousEntry)) {
-            lineLength += previousEntry.getColumnIndent();
+              if (!existsIndirectColumnAlignedPredecessor(entry, previousEntry)) {
+                lineLength += previousEntry.getColumnIndent();
+              }
+              // case when the given entry is the first entry in the line
+            } else
+          if (previousEntryIndex == 0 && entry.isFixedLocatorOpening() && previousEntry.getColumnIndent() > 0) {
+            lineLength = entry.getColumnIndent();
+            // case when the entry is relative to column alignment of the other entry which is not a direct predecessor (some entries between entry aligned with
+            // column and the given entry) AND the previous entry is NOT within column alignment
+          } else if (lineEntries.get(0) != previousEntry && lineEntries.get(0) != entry && lineEntries.get(0).getColumnIndent() > 0) {
+            lineLength += lineEntries.get(0).getColumnIndent();
           }
-          // case when the given entry is the first entry in the line
-        } else if (previousEntryIndex == 0 && entry.isFixedLocatorOpening() && previousEntry.getColumnIndent() > 0) {
-          lineLength = entry.getColumnIndent();
-          // case when the entry is relative to column alignment of the other entry which is not a direct predecessor (some entries between entry aligned with
-          // column and the given entry) AND the previous entry is NOT within column alignment
-        } else if (lineEntries.get(0) != previousEntry && lineEntries.get(0) != entry && lineEntries.get(0).getColumnIndent() > 0) {
-          lineLength += lineEntries.get(0).getColumnIndent();
-        }
         // TODO add here other cases when (if) identified
       } else {
         // case when the entry is the first entry in the new line and it is aligned with the column
@@ -381,7 +382,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
       }
       // all other cases
     } else {
-      lineLength = getColumn(entry);
+      lineLength = getColumn(null);
     }
     return lineLength;
   }

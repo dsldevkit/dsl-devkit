@@ -140,7 +140,9 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       break;
     case PROXY:
       LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
-      // fall through
+      positioner.position(Constituent.CONTENT);
+      readContents(resource, new BufferedInputStream(zipIn));
+      break;
     case LOAD:
       positioner.position(Constituent.CONTENT);
       readContents(resource, new BufferedInputStream(zipIn));

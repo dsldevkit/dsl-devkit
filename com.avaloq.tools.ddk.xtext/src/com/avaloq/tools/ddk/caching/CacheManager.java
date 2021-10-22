@@ -225,11 +225,11 @@ public final class CacheManager {
 
     private void printStatistics(final Map<String, MultiCacheStatistics> allStatistics) {
       StringBuilder builder = new StringBuilder("Active caches:\n");
-      builder.append(String.format("%70s | %6s | %9s | %9s | %9s | %4s\n", "name", "caches", "items", "hit", "miss", "rate"));
+      builder.append(String.format("%70s | %6s | %9s | %9s | %9s | %4s%n", "name", "caches", "items", "hit", "miss", "rate"));
 
       for (Entry<String, MultiCacheStatistics> entry : allStatistics.entrySet()) {
         final MultiCacheStatistics statistics = entry.getValue();
-        builder.append(String.format("%70s | %,6d | %,9d | %,9d | %,9d | %3.0f%%\n", entry.getKey(), statistics.getCacheCounter(), statistics.getEntries(), statistics.getHits(), statistics.getMisses(), statistics.getRatio()
+        builder.append(String.format("%70s | %,6d | %,9d | %,9d | %,9d | %3.0f%%%n", entry.getKey(), statistics.getCacheCounter(), statistics.getEntries(), statistics.getHits(), statistics.getMisses(), statistics.getRatio()
             * PERCENT));
       }
 
@@ -256,7 +256,7 @@ public final class CacheManager {
   /**
    * {@link CacheStatistics} representing the statistics coming from multiple caches.
    */
-  private class MultiCacheStatistics extends CacheStatistics {
+  private static class MultiCacheStatistics extends CacheStatistics {
     private int counter;
 
     @Override
@@ -269,4 +269,5 @@ public final class CacheManager {
       return counter;
     }
   }
+
 }

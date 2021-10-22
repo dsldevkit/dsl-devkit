@@ -140,7 +140,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       final EObject result = super.getEObject(uriFragment);
       if (result == null && getEncoder().isCrossLinkFragment(this, uriFragment)) {
         final ResourceSet rs = getResourceSet();
-        if (rs.getLoadOptions().get(MARK_UNRESOLVABLE_XREFS) == Boolean.FALSE) {
+        if (rs.getLoadOptions().get(MARK_UNRESOLVABLE_XREFS).equals(Boolean.FALSE)) {
           if (LOGGER.isDebugEnabled()) {
             Triple<EObject, EReference, INode> refInfo = getEncoder().decode(this, uriFragment);
             EReference reference = refInfo.getSecond();

@@ -97,7 +97,7 @@ public class ResourceChangeListener implements IResourceChangeListener {
       @Override
       public boolean apply(final IResourceDelta delta) {
         final IResource resource = delta.getResource();
-        return !Strings.isNullOrEmpty(resource.getFileExtension()) && resource.getName().charAt(0) != '.';
+        return !Strings.isNullOrEmpty(resource.getFileExtension()) && resource.getName() != null && resource.getName().charAt(0) != '.';
       };
     });
   }

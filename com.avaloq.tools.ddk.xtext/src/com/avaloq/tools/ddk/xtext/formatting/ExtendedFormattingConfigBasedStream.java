@@ -513,14 +513,16 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
    *         true if given collection of locators contains complementary locator to the given one
    */
   public boolean containsOpposite(final List<ElementLocator> locators, final ElementLocator locator) {
-    for (ElementLocator candidateLocator : locators) {
-      boolean isSameIndentColumnLocator = candidateLocator instanceof FixedLocator
-          && ((FixedLocator) candidateLocator).getColumn() == ((FixedLocator) locator).getColumn();
-      if (isSameIndentColumnLocator) {
-        boolean isOppositeToAfter = ((FixedLocator) candidateLocator).getRight() != null && ((FixedLocator) locator).getRight() == null;
-        boolean isOppositeToBefore = ((FixedLocator) candidateLocator).getLeft() != null && ((FixedLocator) locator).getLeft() == null;
-        if (isOppositeToAfter || isOppositeToBefore) {
-          return true;
+    if (locator instanceof FixedLocator) {
+      for (ElementLocator candidateLocator : locators) {
+        boolean isSameIndentColumnLocator = candidateLocator instanceof FixedLocator
+            && ((FixedLocator) candidateLocator).getColumn() == ((FixedLocator) locator).getColumn();
+        if (isSameIndentColumnLocator) {
+          boolean isOppositeToAfter = ((FixedLocator) candidateLocator).getRight() != null && ((FixedLocator) locator).getRight() == null;
+          boolean isOppositeToBefore = ((FixedLocator) candidateLocator).getLeft() != null && ((FixedLocator) locator).getLeft() == null;
+          if (isOppositeToAfter || isOppositeToBefore) {
+            return true;
+          }
         }
       }
     }
@@ -555,7 +557,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
           } else if (o1.getLeft() == null && o2.getLeft() != null) {
             return -1;
           } else {
-            return Integer.valueOf(((FixedLocator) o1).getColumn()).compareTo(((FixedLocator) o2).getColumn());
+            return Integer.compare(((FixedLocator) o1).getColumn(), ((FixedLocator) o2).getColumn());
           }
         } else {
           return 0;
@@ -619,6 +621,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
 
     @Override
     public final Line add(final LineEntry lineEntry) throws IOException {
+      assert (lineEntry instanceof ExtendedLineEntry);
       return addEntry((ExtendedLineEntry) lineEntry);
     }
 

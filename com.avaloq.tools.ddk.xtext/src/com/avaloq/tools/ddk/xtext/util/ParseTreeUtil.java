@@ -123,7 +123,7 @@ public final class ParseTreeUtil {
   public static String getParsedString(final EObject object, final String featureName, final boolean convert) {
     EStructuralFeature feature = object.eClass().getEStructuralFeature(featureName);
     if (feature == null) {
-      throw new IllegalArgumentException(MessageFormat.format(UNKNOWN_FEATURE_MESSAGE, feature, object.eClass().getName()));
+      throw new IllegalArgumentException(MessageFormat.format(UNKNOWN_FEATURE_MESSAGE, "null", object.eClass().getName())); //$NON-NLS-1$
     }
     return getParsedStringUnchecked(object, feature, convert);
   }

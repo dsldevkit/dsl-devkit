@@ -32,7 +32,7 @@ public class TemplatesFirstCompletionProposalComparator implements ICompletionPr
       if (t1.getRelevance() == t2.getRelevance()) {
         return o1.getDisplayString().compareTo(o2.getDisplayString());
       }
-      return ((Integer) t1.getRelevance()).compareTo(t1.getRelevance());
+      return Integer.compare(t1.getRelevance(), t1.getRelevance());
     }
     // Templates always first
     if (o1 instanceof TemplateProposal) {
