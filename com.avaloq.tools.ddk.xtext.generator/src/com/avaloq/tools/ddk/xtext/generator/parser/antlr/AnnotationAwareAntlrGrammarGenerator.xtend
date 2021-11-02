@@ -648,7 +648,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
           «ENDFOR»
         ;
         «FOR kw:  allKeywords»
-          fragment FRAGMENT_�keywordHelper.getRuleName(kw)» : '�kw.toAntlrString()»';
+          fragment FRAGMENT_«keywordHelper.getRuleName(kw)» : '«kw.toAntlrString()»';
         «ENDFOR»
       «ELSE»
         «FOR rule:allKeywords»
