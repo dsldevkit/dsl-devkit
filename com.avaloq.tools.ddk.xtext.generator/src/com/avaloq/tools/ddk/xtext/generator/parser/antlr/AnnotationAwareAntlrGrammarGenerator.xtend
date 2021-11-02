@@ -624,4 +624,37 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
       }
     }
   '''
+
+  override compileKeywordRules(Grammar it, AntlrOptions options) {
+    var customKeywordHelper = new AcfKeywordHelper(it, options.ignoreCase)
+    val allKeywords = customKeywordHelper.allKeywords
+    val allTerminalRules = allTerminalRules
+
+    val synthetic_kw_alternatives = newArrayList
+    synthetic_kw_alternatives.addAll(allKeywords.indexed.map[
+      val ruleName = keywordHelper.getRuleName(value)
+      return '''(FRAGMENT_«ruleName»)=> FRAGMENT_«ruleName» {$type = «ruleName»; }'''
+    ])
+    synthetic_kw_alternatives.addAll(allTerminalRules.indexed.map[
+      if (!isSyntheticTerminalRule(value) && !value.fragment) {
+        return '''(FRAGMENT_«value.ruleName»)=> FRAGMENT_«value.ruleName» {$type = «value.ruleName»; }'''
+      }
+    ].filterNull.toList)
+    '''
+      «IF options.isBacktrackLexer»
+        SYNTHETIC_ALL_KEYWORDS :
+          «FOR kw: synthetic_kw_alternatives SEPARATOR ' |'»
+            «kw»
+          «ENDFOR»
+        ;
+        «FOR kw:  allKeywords»
+          fragment FRAGMENT_�keywordHelper.getRuleName(kw)» : '�kw.toAntlrString()»';
+        «ENDFOR»
+      «ELSE»
+        «FOR rule:allKeywords»
+          «rule.compileRule(it, options)»
+        «ENDFOR»
+      «ENDIF»
+    '''
+  }
 }
