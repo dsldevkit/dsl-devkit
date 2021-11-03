@@ -126,8 +126,6 @@ public final class ParserSemanticPredicatesUtil {
    *         Keyword3. This requires an extra analysis which might be a next step. Gated predicates we can safely insert before Keyword1 and Keyword2. This will
    *         have no negative impact. We still need validating predicates in Keyword rules themselves.
    *         </p>
-   *         <p>
-   *         </p>
    */
   public static String getRulePredicate(final AbstractRule rule, final boolean gated) {
     String text = getText(rule);
@@ -463,14 +461,7 @@ public final class ParserSemanticPredicatesUtil {
    * @return {@code true} if there is an annotation, {@code false} otherwise
    */
   public static boolean isKeywordRulePredicate(final AbstractRule rule) {
-    String text = getText(rule);
-    if (text != null) {
-      Matcher matcher = KEYWORD_RULE_ANNOTATION_PATTERN.matcher(text);
-      if (matcher.find()) {
-        return true;
-      }
-    }
-    return false;
+    return matches(rule, KEYWORD_RULE_ANNOTATION_PATTERN);
   }
 
   /**
@@ -481,14 +472,7 @@ public final class ParserSemanticPredicatesUtil {
    * @return {@code true} if there is an annotation, {@code false} otherwise
    */
   public static boolean isSemanticPredicate(final AbstractRule rule) {
-    String text = getText(rule);
-    if (text != null) {
-      Matcher matcher = SEMANTIC_PREDICATE_PATTERN.matcher(text);
-      if (matcher.find()) {
-        return true;
-      }
-    }
-    return false;
+    return matches(rule, SEMANTIC_PREDICATE_PATTERN);
   }
 
   /**
@@ -499,12 +483,13 @@ public final class ParserSemanticPredicatesUtil {
    * @return {@code true} if there is an annotation, {@code false} otherwise
    */
   public static boolean isNoBacktrack(final AbstractRule rule) {
+    return matches(rule, NO_BACKTRACK_ANNOTATION_PATTERN);
+  }
+
+  private static boolean matches(final AbstractRule rule, final Pattern pattern) {
     String text = getText(rule);
     if (text != null) {
-      Matcher matcher = NO_BACKTRACK_ANNOTATION_PATTERN.matcher(text);
-      if (matcher.find()) {
-        return true;
-      }
+      return pattern.matcher(text).find();
     }
     return false;
   }

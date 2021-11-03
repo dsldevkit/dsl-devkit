@@ -32,7 +32,6 @@ import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.generator.parser.antlr.ex.common.KeywordHelper;
 
 import com.google.common.base.Ascii;
-import com.google.common.base.Function;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Iterators;
@@ -190,19 +189,11 @@ public class AcfKeywordHelper implements Adapter {
     List<EnumRule> enumRules = ParserSemanticPredicatesUtil.allReachableEnumRules(grammar);
     Iterator<EObject> iter = Iterators.concat(EcoreUtil.<EObject> getAllContents(parserRules), EcoreUtil.<EObject> getAllContents(enumRules));
     Iterator<Keyword> filtered = Iterators.filter(iter, Keyword.class);
-    Iterator<String> transformed = Iterators.transform(filtered, new Function<Keyword, String>() {
-      @Override
-      public String apply(final Keyword from) {
-        return from.getValue();
-      }
-    });
+    Iterator<String> transformed = Iterators.transform(filtered, Keyword::getValue);
     TreeSet<String> treeSet = Sets.newTreeSet(new Comparator<String>() {
       @Override
       public int compare(final String o1, final String o2) {
-        if (o1.length() == o2.length()) {
-          return o1.compareTo(o2);
-        }
-        return Integer.valueOf(o1.length()).compareTo(Integer.valueOf(o2.length()));
+        return Integer.compare(o1.length(), o2.length());
       }
     });
     Iterators.addAll(treeSet, transformed);
@@ -258,32 +249,20 @@ public class AcfKeywordHelper implements Adapter {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Notifier getTarget() {
     return null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean isAdapterForType(final Object type) {
     return false;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void notifyChanged(final Notification notification) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setTarget(final Notifier newTarget) {
   }

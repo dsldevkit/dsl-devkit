@@ -33,49 +33,31 @@ public class IgnoreCaseString implements CharSequence {
     this.value = value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public char charAt(final int index) {
     return value.charAt(index);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int length() {
     return value.length();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public CharSequence subSequence(final int start, final int end) {
     return value.subSequence(start, end);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
     return value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int hashCode() {
     return value.length();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean equals(final Object obj) {
     if (this == obj) {
@@ -97,7 +79,6 @@ public class IgnoreCaseString implements CharSequence {
     }
     return true;
   }
-
 }
 
 /* Copyright (c) Avaloq Evolution AG */
