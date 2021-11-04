@@ -44,6 +44,7 @@ import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming
 import org.eclipse.xtext.xtext.generator.CodeConfig
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.avaloq.tools.ddk.xtext.generator.util.AcfKeywordHelper
 
 /**
  *

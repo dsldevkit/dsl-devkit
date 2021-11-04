@@ -9,7 +9,7 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
+package com.avaloq.tools.ddk.xtext.generator.util;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -266,7 +266,6 @@ public class AcfKeywordHelper implements Adapter {
   @Override
   public void setTarget(final Notifier newTarget) {
   }
-
 }
 
 /* Copyright (c) Avaloq Evolution AG */

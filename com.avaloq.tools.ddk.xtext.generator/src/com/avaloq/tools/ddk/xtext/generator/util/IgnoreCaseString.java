@@ -9,7 +9,7 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
+package com.avaloq.tools.ddk.xtext.generator.util;
 
 import com.google.common.base.Preconditions;
 
