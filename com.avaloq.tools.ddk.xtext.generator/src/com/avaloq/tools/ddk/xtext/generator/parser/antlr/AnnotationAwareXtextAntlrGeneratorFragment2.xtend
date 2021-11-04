@@ -48,19 +48,6 @@ import com.google.inject.name.Names
 import org.eclipse.xtext.parser.antlr.ITokenDefProvider
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider
-import org.eclipse.xtext.parser.IParser
-import org.eclipse.xtext.parser.ITokenToStringConverter
-import org.eclipse.xtext.parser.antlr.AntlrTokenToStringConverter
-import org.eclipse.xtext.parser.antlr.IAntlrTokenFileProvider
-import org.eclipse.xtext.parser.antlr.IUnorderedGroupHelper
-import org.eclipse.xtext.parser.antlr.UnorderedGroupHelper
-import org.eclipse.xtext.parsetree.reconstr.ITokenSerializer
-import org.eclipse.xtext.conversion.impl.IgnoreCaseIDValueConverter
-import org.eclipse.xtext.conversion.impl.AbstractIDValueConverter
-import org.eclipse.xtext.parsetree.reconstr.impl.IgnoreCaseKeywordSerializer
-import org.eclipse.xtext.serializer.tokens.IKeywordSerializer
-import org.eclipse.xtext.parser.antlr.LexerProvider
-import org.eclipse.xtext.parser.antlr.LexerBindings
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
