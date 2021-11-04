@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
 public class JobChangeListener extends JobChangeAdapter {
   public static final String JOB_REFRESHING_WORKSPACE = "Refreshing workspace";
   public static final String JOB_REFRESHING_CONTEXT = "Refreshing Context";
-  public static final String JOB_BUILDING_WORKSPACE = "Building workspace";
+  public static final String JOB_BUILDING_WORKSPACE = "Building";
   public static final String JOB_UPDATING_PROJECTS = "Updating projects";
   public static final String JOB_LOAD_PLATFORM = "Load Platform";
   public static final String JOB_INITIALIZING_JAVA_TOOLING = "Initializing Java Tooling";
