@@ -9,7 +9,7 @@
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
+package com.avaloq.tools.ddk.xtext.generator.util;
 
 import static org.eclipse.xtext.EcoreUtil2.typeSelect;
 
@@ -607,7 +607,6 @@ public final class ParserSemanticPredicatesUtil {
     }
     return result;
   }
-
 }
 
 /* Copyright (c) Avaloq Evolution AG */
