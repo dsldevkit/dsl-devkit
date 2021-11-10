@@ -18,13 +18,13 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.pde.source.feature.group" version="3.13.400.v20190307-0943"/>
-<unit id="org.eclipse.jdt.source.feature.group" version="3.17.0.v20190307-0500"/>
-<unit id="org.eclipse.platform.feature.group" version="4.11.0.v20190307-0500"/>
-<unit id="org.eclipse.platform.source.feature.group" version="4.11.0.v20190307-0500"/>
-<unit id="org.eclipse.emf.codegen.ecore.ui.feature.group" version="2.17.0.v20190226-1307"/>
+<unit id="org.eclipse.pde.source.feature.group" version="3.14.400.v20200604-0540"/>
+<unit id="org.eclipse.jdt.source.feature.group" version="3.18.400.v20200604-0540"/>
+<unit id="org.eclipse.platform.feature.group" version="4.16.0.v20200604-0951"/>
+<unit id="org.eclipse.platform.source.feature.group" version="4.16.0.v20200604-0951"/>
+<unit id="org.eclipse.emf.codegen.ecore.ui.feature.group" version="2.22.0.v20200324-0947"/>
 <unit id="org.eclipse.xpand.sdk.feature.group" version="2.2.0.v201605260315"/>
-<repository location="https://download.eclipse.org/releases/2019-03/201903201000/"/>
+<repository location="https://download.eclipse.org/releases/2020-06/202006171000/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.12.1.v20210218-2134"/>
