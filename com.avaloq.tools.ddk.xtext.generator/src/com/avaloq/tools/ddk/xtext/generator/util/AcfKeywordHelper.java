@@ -193,6 +193,9 @@ public class AcfKeywordHelper implements Adapter {
     TreeSet<String> treeSet = Sets.newTreeSet(new Comparator<String>() {
       @Override
       public int compare(final String o1, final String o2) {
+        if (o1.length() == o2.length()) {
+          return o1.compareTo(o2);
+        }
         return Integer.compare(o1.length(), o2.length());
       }
     });
