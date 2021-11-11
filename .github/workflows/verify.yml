@@ -18,7 +18,7 @@ jobs:
       - name: Set up Workspace Enviroment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV        
       - name: Build with Maven  within a virtual X Server Environment
-        run: xvfb-run mvn clean verify checkstyle:check pmd:check pmd:cpd-check findbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        run: xvfb-run mvn clean verify checkstyle:check pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Archive Tycho Surefire Plugin
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
