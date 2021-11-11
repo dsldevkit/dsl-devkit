@@ -50,8 +50,8 @@
     <checkstyle.version>8.42</checkstyle.version>
     <clean.version>2.4.1</clean.version>
     <deploy.version>2.8.2</deploy.version>
-    <spotbugs.plugin.version>4.4.1</spotbugs.plugin.version>
-    <spotbugs.version>4.4.1</spotbugs.version>
+    <spotbugs.plugin.version>4.4.2</spotbugs.plugin.version>
+    <spotbugs.version>4.4.2</spotbugs.version>
     <pmd.plugin.version>3.13.0</pmd.plugin.version><!-- Maven plug-in 3.13.0 uses PMD 6.21.0 -->
     <tycho.version>1.6.0</tycho.version>
     <xtend.version>2.25.0</xtend.version>

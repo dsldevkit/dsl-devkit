@@ -165,7 +165,7 @@ public class CheckMarkerUpdateJob extends Job {
         Resource eResource = null;
         try {
           eResource = resourceSet.getResource(uri, false);
-          if ((eResource == null) || (eResource != null && !eResource.isLoaded())) {
+          if (eResource == null || !eResource.isLoaded()) {
             // if the resource does not exist in the resource set, or is not loaded yet
             // load it.
             eResource = resourceSet.getResource(uri, true);

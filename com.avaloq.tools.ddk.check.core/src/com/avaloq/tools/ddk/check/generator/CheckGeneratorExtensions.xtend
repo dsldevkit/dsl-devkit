@@ -112,11 +112,14 @@ class CheckGeneratorExtensions {
   }
 
   def checkType(Context context) {
-    val kind = if (context.eContainer instanceof Check) {
-        (context.eContainer as Check).kind
-      } else {
-        TriggerKind::FAST // TODO handle the case of independent check implementations
-      }
+    var TriggerKind kind;
+    if (context.eContainer instanceof Check) {
+      kind = (context.eContainer as Check).kind
+    }
+
+    if (kind === null) {
+      kind = TriggerKind::FAST // TODO handle the case of independent check implementations
+    }
 
     return "CheckType." + switch (kind) {
       case TriggerKind::EXPENSIVE: CheckType::EXPENSIVE

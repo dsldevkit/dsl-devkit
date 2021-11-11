@@ -46,10 +46,10 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
     @Override
     protected ExportItem fingerprint(final EObject obj) {
       final StringBuilder profile = new StringBuilder();
-      if (obj.eContainer() != null) {
-        addProfile(profile, obj.eContainer().toString());
-      }
       if (obj != null) {
+        if (obj.eContainer() != null) {
+          addProfile(profile, obj.eContainer().toString());
+        }
         addProfile(profile, NodeModelUtils.getTokenText(NodeModelUtils.getNode(obj)));
       }
       return new ExportItem(profile);
@@ -111,9 +111,11 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
     INode semanticNode = NodeModelUtils.getNode(eObject);
     if (semanticNode != null) {
       INode leafNode = NodeModelUtils.findLeafNodeAtOffset(semanticNode, semanticNode.getTotalOffset());
-      AbstractRule containingRule = GrammarUtil.containingRule(leafNode.getGrammarElement());
-      if (leafNode != null && containingRule != null && "ValidID".equals(containingRule.getName())) {
-        return true;
+      if (leafNode != null) {
+        AbstractRule containingRule = GrammarUtil.containingRule(leafNode.getGrammarElement());
+        if (containingRule != null && "ValidID".equals(containingRule.getName())) {
+          return true;
+        }
       }
     }
     return false;

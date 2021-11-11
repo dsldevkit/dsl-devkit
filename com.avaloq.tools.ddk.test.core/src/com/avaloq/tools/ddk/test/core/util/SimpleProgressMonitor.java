@@ -43,9 +43,10 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * {@inheritDoc} This implementation does nothing.
    * Subclasses may override this method to do interesting
    * processing when a task begins.
-   * 
+   *
    * @see IProgressMonitor#beginTask(String, int)
    */
+  @Override
   public void beginTask(final String name, final int totalWork) {
     setDoneState(false);
   }
@@ -54,9 +55,10 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * {@inheritDoc} This implementation does nothing.
    * Subclasses may override this method to do interesting
    * processing when a task is done.
-   * 
+   *
    * @see IProgressMonitor#done()
    */
+  @Override
   public void done() {
     setDoneState(true);
   }
@@ -64,9 +66,10 @@ public class SimpleProgressMonitor implements IProgressMonitor {
   /**
    * {@inheritDoc} This implementation does nothing.
    * Subclasses may override this method.
-   * 
+   *
    * @see IProgressMonitor#internalWorked(double)
    */
+  @Override
   public void internalWorked(final double work) {
     setDoneState(false);
   }
@@ -76,10 +79,11 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * state variable set by <code>setCanceled</code>.
    * Subclasses which override this method should
    * override <code>setCanceled</code> as well.
-   * 
+   *
    * @see IProgressMonitor#isCanceled()
    * @see IProgressMonitor#setCanceled(boolean)
    */
+  @Override
   public boolean isCanceled() {
     synchronized (this) {
       return cancelled;
@@ -89,10 +93,11 @@ public class SimpleProgressMonitor implements IProgressMonitor {
   /**
    * {@inheritDoc} This implementation sets the value of an internal state variable.
    * Subclasses which override this method should override <code>isCanceled</code> as well.
-   * 
+   *
    * @see IProgressMonitor#isCanceled()
    * @see IProgressMonitor#setCanceled(boolean)
    */
+  @Override
   public void setCanceled(final boolean paramCancelled) {
     synchronized (this) {
       this.cancelled = paramCancelled;
@@ -104,9 +109,10 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * {@inheritDoc} This implementation does nothing.
    * Subclasses may override this method to do something
    * with the name of the task.
-   * 
+   *
    * @see IProgressMonitor#setTaskName(String)
    */
+  @Override
   public void setTaskName(final String name) {
     setDoneState(false);
   }
@@ -115,9 +121,10 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * {@inheritDoc} This implementation does nothing.
    * Subclasses may override this method to do interesting
    * processing when a subtask begins.
-   * 
+   *
    * @see IProgressMonitor#subTask(String)
    */
+  @Override
   public void subTask(final String name) {
     setDoneState(false);
   }
@@ -126,16 +133,17 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * {@inheritDoc} This implementation does nothing.
    * Subclasses may override this method to do interesting
    * processing when some work has been completed.
-   * 
+   *
    * @see IProgressMonitor#worked(int)
    */
+  @Override
   public void worked(final int work) {
     setDoneState(false);
   }
 
   /**
    * Test whether the monitored task is done.
-   * 
+   *
    * @return true when the task is done, false otherwise
    */
   public boolean isDone() {
@@ -146,7 +154,7 @@ public class SimpleProgressMonitor implements IProgressMonitor {
 
   /**
    * Test whether the monitored task is done or cancelled.
-   * 
+   *
    * @return true when the task is done or cancelled, false otherwise
    */
   public boolean isTerminated() {
@@ -162,24 +170,21 @@ public class SimpleProgressMonitor implements IProgressMonitor {
     synchronized (this) {
       final long timeStarted = System.currentTimeMillis();
       while (!isTerminated()) {
-        try {
-          long remainingWaitTime = TIMEOUT + timeStarted - System.currentTimeMillis();
-          if (remainingWaitTime <= 0) {
-            Assert.fail(PROGRESS_MONITOR_DID_NOT_GET_DONE_SIGNAL);
-          }
-          try {
-            this.wait(remainingWaitTime);
-          } catch (InterruptedException e) /* CHECKSTYLE:OFF */{}/* CHECKSTYLE:ON */
-        } catch (IllegalMonitorStateException e) {
+        long remainingWaitTime = TIMEOUT + timeStarted - System.currentTimeMillis();
+        if (remainingWaitTime <= 0) {
           Assert.fail(PROGRESS_MONITOR_DID_NOT_GET_DONE_SIGNAL);
         }
+        try {
+          this.wait(remainingWaitTime);
+        } catch (InterruptedException e) /* CHECKSTYLE:OFF */ {
+        } /* CHECKSTYLE:ON */
       }
     }
   }
 
   /**
    * Thread safe setter for done state.
-   * 
+   *
    * @param paramDone
    *          new state of done
    */
@@ -191,4 +196,3 @@ public class SimpleProgressMonitor implements IProgressMonitor {
     }
   }
 }
-
