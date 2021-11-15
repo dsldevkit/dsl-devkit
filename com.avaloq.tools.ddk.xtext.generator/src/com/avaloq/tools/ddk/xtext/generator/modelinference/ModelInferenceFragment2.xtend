@@ -41,6 +41,9 @@ class ModelInferenceFragment2 extends AbstractXtextGeneratorFragment {
     if (projectConfig.eclipsePlugin.manifest !== null) {
       projectConfig.eclipsePlugin.manifest.requiredBundles += "com.avaloq.tools.ddk.xtext.ui"
     }
+    if (projectConfig.genericIde.manifest !== null) {
+      projectConfig.genericIde.manifest.requiredBundles += "com.avaloq.tools.ddk.xtext.ide"
+    }
   }
 
 }
