@@ -272,6 +272,23 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     file
   }
 
+  override protected void addIdeBindingsAndImports() {
+    /* Overridden to prevent conflicting bindings related to Content Assist. */
+
+    val ideBindings = new GuiceModuleAccess.BindingFactory()
+      .addConfiguredBinding("HighlightingLexer", '''
+        binder.bind(«Lexer».class)
+          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
+          .to(«productionNaming.getLexerClass(grammar)».class);
+      ''')
+      .addConfiguredBinding("HighlightingTokenDefProvider", '''
+        binder.bind(«ITokenDefProvider».class)
+          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
+          .to(«AntlrTokenDefProvider».class);
+      ''')
+    ideBindings.contributeTo(language.ideGenModule)
+  }
+
   override protected void addUiBindingsAndImports() {
     /* Overridden to prevent conflicting bindings related to Content Assist. */
 
