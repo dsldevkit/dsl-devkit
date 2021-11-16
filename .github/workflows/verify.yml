@@ -13,7 +13,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '11'
           cache: 'maven'
       - name: Set up Workspace Enviroment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV        
