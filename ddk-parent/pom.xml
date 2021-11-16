@@ -311,7 +311,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <targetJdk>1.8</targetJdk>
+          <targetJdk>11</targetJdk>
           <minimumTokens>${pmd.cpd.min}</minimumTokens>
           <renderProcessingErrors>false</renderProcessingErrors>
           <aggregate>true</aggregate>
