@@ -77,7 +77,6 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
       projectConfig.runtime.manifest.exportedPackages += resourcePackage
     }
-    projectConfig.eclipsePlugin.manifest?.requiredBundles += DDK_XTEXT_RUNTIME_BUNDLE
     if (projectConfig.eclipsePlugin.manifest !== null) {
       projectConfig.eclipsePlugin.manifest.requiredBundles += DDK_XTEXT_RUNTIME_BUNDLE
     }

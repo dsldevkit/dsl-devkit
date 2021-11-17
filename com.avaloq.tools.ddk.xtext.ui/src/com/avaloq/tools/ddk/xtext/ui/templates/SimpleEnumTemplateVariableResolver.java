@@ -1,7 +1,6 @@
 package com.avaloq.tools.ddk.xtext.ui.templates;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.jface.text.templates.TemplateVariable;
 import org.eclipse.xtext.ui.editor.templates.AbstractTemplateVariableResolver;
@@ -19,7 +18,7 @@ public class SimpleEnumTemplateVariableResolver extends AbstractTemplateVariable
 
   @Override
   public List<String> resolveValues(final TemplateVariable variable, final XtextTemplateContext castedContext) {
-    return variable.getVariableType().getParams().stream().filter(param -> param instanceof String).collect(Collectors.toList());
+    return variable.getVariableType().getParams();
   }
 
 }

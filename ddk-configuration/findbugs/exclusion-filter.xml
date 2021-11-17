@@ -8,6 +8,10 @@
       <Class name="~.*Test.*" />
   </Match>
   <Match>
+     <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+     <Class name="~.*Test.*" />
+  </Match>
+  <Match>
       <Bug code="UwF" />
       <Class name="~.*Action.*" />
   </Match>
@@ -38,5 +42,36 @@
   <Match>
      <Bug code="EC" />
      <Class name="~.*\.impl\..*Impl" />
+  </Match>
+  <Match>
+     <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
+     <Or>
+       <Class name="~.*\.builder\.RegistryBuilderParticipant" />
+       <Class name="~.*\.builder\.BuilderIntegrationFragment" />
+       <Class name="~.*\.util\.StandaloneSetup" />
+       <Class name="~.*\.formatting\.FormatterFragment" />
+     </Or>
+  </Match>
+  <Match>
+     <Bug pattern="MF_CLASS_MASKS_FIELD" />
+     <Class name="~.*\.CheckHoverProvider" />
+  </Match>
+  <Match>
+     <Bug pattern="SIO_SUPERFLUOUS_INSTANCEOF" />
+     <Class name="~.*\.LibraryChecksCheckImpl" />
+  </Match>
+  <Match>
+     <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE" />
+     <Or>
+       <Class name="~.*\.generator\.CheckGeneratorNaming" />
+       <Class name="~.*\.util\.CheckProjectHelper" />
+     </Or>
+  </Match>
+  <Match>
+     <Bug pattern="NP_NULL_ON_SOME_PATH" />
+     <Or>
+       <Class name="~.*\.generator\.CheckGenerator" />
+       <Class name="~.*\.generator\.CheckGeneratorExtensions" />
+     </Or>
   </Match>
 </FindBugsFilter>

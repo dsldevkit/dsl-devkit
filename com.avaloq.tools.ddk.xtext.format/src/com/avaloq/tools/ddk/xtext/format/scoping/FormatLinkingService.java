@@ -58,15 +58,13 @@ public class FormatLinkingService extends AbstractFastLinkingService {
       }
     } else if ((ref == FormatPackage.Literals.INT_VALUE__REFERENCE || ref == FormatPackage.Literals.STRING_VALUE__REFERENCE)
         && !(resourceSet instanceof SynchronizedXtextResourceSet)) {
-      List<EObject> res = super.getLinkedObjects(context, ref, node);
-      if (res == null || res.isEmpty()) {
-        return getConstant(resourceSet, node);
-      } else {
-        return res;
-      }
-    } else if (ref == FormatPackage.Literals.RULE__OVERRIDE) {
-      return getExtendedFormatConfiguration(resourceSet, node);
-    }
+          List<EObject> res = super.getLinkedObjects(context, ref, node);
+          if (res == null || res.isEmpty()) {
+            return getConstant(resourceSet, node);
+          } else {
+            return res;
+          }
+        }
 
     return super.getLinkedObjects(context, ref, node);
   }

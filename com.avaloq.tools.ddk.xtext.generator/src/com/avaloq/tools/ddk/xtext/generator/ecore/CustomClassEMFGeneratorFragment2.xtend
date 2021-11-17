@@ -180,9 +180,11 @@ class CustomClassEMFGeneratorFragment2 extends EMFGeneratorFragment2 {
       this.fragment = fragment
     }
 
-    /** {@inheritDoc} */
     @SuppressWarnings("nls")
     override apply(String from) {
+      if (from === null) {
+      	return null;
+      }
       if (from.startsWith("org.eclipse.emf.ecore")) {
         return null;
       }
