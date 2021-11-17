@@ -76,7 +76,7 @@ class ScopeProviderGenerator {
       import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
       import com.google.common.base.Predicate;
-      «IF it !== null && !allInjections().isEmpty»
+      «IF !allInjections().isEmpty»
       import com.google.inject.Inject;
       «ENDIF»
 
@@ -85,15 +85,11 @@ class ScopeProviderGenerator {
 
         /** Class-wide logger. */
         private static final Logger LOGGER = Logger.getLogger(«getScopeProvider().toSimpleName()».class);
-        «IF it !== null»
-
         «IF !allInjections().isEmpty»
           «FOR i : allInjections()»
             @Inject
             private «i.type» «i.name»;
           «ENDFOR»
-
-        «ENDIF»
         «scopeMethods(it, name.toSimpleName())»
       «ENDIF»
 

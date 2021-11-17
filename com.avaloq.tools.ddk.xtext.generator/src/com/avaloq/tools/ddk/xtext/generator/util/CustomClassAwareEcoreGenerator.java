@@ -13,7 +13,6 @@ package com.avaloq.tools.ddk.xtext.generator.util;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -27,7 +26,6 @@ import org.eclipse.emf.mwe2.ecore.EcoreGenerator;
 import org.eclipse.emf.mwe2.runtime.Mandatory;
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowComponent;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
@@ -42,12 +40,6 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator implements IW
 
   private String genModel;
   private final List<String> suppressedSrcPaths = Lists.newLinkedList();
-  private boolean generateCustomClasses;
-
-  @Override
-  public void setGenerateCustomClasses(final boolean generateCustomClasses) {
-    this.generateCustomClasses = generateCustomClasses;
-  }
 
   @Override
   @Mandatory
@@ -111,39 +103,4 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator implements IW
     }
     this.srcPaths.add(path);
   }
-
-  /** {@inheritDoc} */
-  @Override
-  protected Function<String, String> getTypeMapper() {
-    return new GetMapperClass();
-  }
-
-  /**
-   * TODO DSL-1584: Remove this workaround patch from https://bugs.eclipse.org/bugs/show_bug.cgi?id=471231.
-   */
-  protected final class GetMapperClass implements Function<String, String> {
-    @Override
-    public String apply(final String from) {
-      if (from.startsWith("org.eclipse.emf.ecore")) {
-        return null;
-      }
-      String customClassName = from + "Custom";
-      String fromPath = from.replace('.', '/');
-      for (String srcPath : srcPaths) {
-        URI createURI = URI.createURI(srcPath + "/" + fromPath + "Custom.java");
-        if (URIConverter.INSTANCE.exists(createURI, null)) {
-          return customClassName;
-        }
-        if (from.endsWith("Impl") && generateCustomClasses) {
-          generate(from, customClassName, createURI);
-          return customClassName;
-        }
-      }
-      if (getClass().getClassLoader().getResourceAsStream(fromPath + "Custom.class") != null) {
-        return customClassName;
-      }
-      return null;
-    }
-  }
 }
-

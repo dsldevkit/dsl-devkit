@@ -67,9 +67,9 @@ public abstract class AbstractXtextUiTest extends AbstractXtextTest {
   @Override
   protected void afterAllTests() {
     final SWTBotEclipseEditor editor = getEditor();
-    final IEditorPart editorPart = editor.getReference().getEditor(false);
-    Object editorJobs = getTestUtil().getEditorJobFamily(editorPart);
     if (editor != null) {
+      final IEditorPart editorPart = editor.getReference().getEditor(false);
+      Object editorJobs = getTestUtil().getEditorJobFamily(editorPart);
       editor.close();
       if (editorJobs != null) {
         waitForJobsOfFamily(editorJobs);

@@ -47,11 +47,12 @@ public class EClassComparator implements Comparator<EClass> {
    * @return sorted list
    */
   public static <T> ListMultimap<EPackage, T> sortedEPackageGroups(final Iterable<T> objects, final Function<T, EClass> mapping) {
-    ListMultimap<EPackage, T> index = Multimaps.index(objects, new Function<T, EPackage>() {
-      @Override
-      public EPackage apply(final T from) {
-        return mapping.apply(from).getEPackage();
+    ListMultimap<EPackage, T> index = Multimaps.index(objects, (Function<T, EPackage>) from -> {
+      EClass eClass = mapping.apply(from);
+      if (eClass != null) {
+        return eClass.getEPackage();
       }
+      return null;
     });
     ListMultimap<EPackage, T> result = LinkedListMultimap.create(index.keySet().size());
     for (EPackage pkg : index.keySet()) {

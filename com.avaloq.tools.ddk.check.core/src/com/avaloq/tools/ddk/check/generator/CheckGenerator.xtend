@@ -50,7 +50,7 @@ class CheckGenerator extends JvmModelGenerator {
         catalog.generateServiceRegistry(CheckUtil::serviceRegistryClassName, fsa)
       )
       // generate documentation for SCA-checks only
-      if(config.doGenerateDocumentationForAllChecks || !config.generateLanguageInternalChecks){
+      if(config !== null && (config.doGenerateDocumentationForAllChecks || !config.generateLanguageInternalChecks)){
         // change output path for html files to docs/
         fsa.generateFile(catalog.docFileName, CheckGeneratorConstants::CHECK_DOC_OUTPUT, catalog.compileDoc)
       }
