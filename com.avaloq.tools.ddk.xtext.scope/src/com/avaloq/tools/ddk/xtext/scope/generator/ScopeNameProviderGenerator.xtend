@@ -55,7 +55,7 @@ class ScopeNameProviderGenerator {
         /** {@inheritDoc} */
         @Override
         public Iterable<INameFunction> internalGetNameFunctions(final EClass eClass) {
-          «IF it !== null && it.naming !== null»
+          «IF it.naming !== null»
             «FOR p : it.naming.namings.map[type.EPackage].toSet()»
               if («p.qualifiedPackageInterfaceName()».eINSTANCE == eClass.getEPackage()) {
                 switch (eClass.getClassifierID()) {

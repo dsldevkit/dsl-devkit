@@ -408,6 +408,9 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
         }
       }
       val metamodelPackage = EcoreUtil2::getURI(metamodel.EPackage)?.segment(1)
+      if (metamodelPackage === null) {
+      	return actualRuleName
+      }
       return metamodelPackage.substring(0,metamodelPackage.lastIndexOf('.core')) + '.' + metamodel.EPackage?.name + '.' + actualRuleName
     }
   }
@@ -447,7 +450,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   def String getLocatorName(EObject locator) {
-    locator?.class.simpleName ?: ""
+    locator?.class?.simpleName ?: ""
   }
 
   def convertNonAlphaNumeric(String str) {
