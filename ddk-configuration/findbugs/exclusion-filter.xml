@@ -45,12 +45,6 @@
   </Match>
   <Match>
      <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
-     <Or>
-       <Class name="~.*\.builder\.RegistryBuilderParticipant" />
-       <Class name="~.*\.builder\.BuilderIntegrationFragment" />
-       <Class name="~.*\.util\.StandaloneSetup" />
-       <Class name="~.*\.formatting\.FormatterFragment" />
-     </Or>
   </Match>
   <Match>
      <Bug pattern="MF_CLASS_MASKS_FIELD" />
