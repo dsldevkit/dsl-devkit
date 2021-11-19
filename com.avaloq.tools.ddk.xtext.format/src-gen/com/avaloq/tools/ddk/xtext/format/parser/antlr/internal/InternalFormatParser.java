@@ -648,7 +648,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getConstantRule());
                       						}
-                      						setWithLastConsumed(current, "intType", true, "int");
+                      						setWithLastConsumed(current, "intType", lv_intType_0_0 != null, "int");
                       					
                     }
 
@@ -680,7 +680,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getConstantRule());
                       						}
-                      						setWithLastConsumed(current, "stringType", true, "String");
+                      						setWithLastConsumed(current, "stringType", lv_stringType_1_0 != null, "String");
                       					
                     }
 
@@ -1458,7 +1458,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getGrammarRuleRule());
                       					}
-                      					setWithLastConsumed(current, "override", true, "override");
+                      					setWithLastConsumed(current, "override", lv_override_0_0 != null, "override");
                       				
                     }
 
@@ -1734,7 +1734,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getWildcardRuleRule());
                       					}
-                      					setWithLastConsumed(current, "override", true, "override");
+                      					setWithLastConsumed(current, "override", lv_override_1_0 != null, "override");
                       				
                     }
 
@@ -4908,7 +4908,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getSpaceLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "noSpace", true, "no_space");
+                      					setWithLastConsumed(current, "noSpace", lv_noSpace_2_0 != null, "no_space");
                       				
                     }
 
@@ -5371,7 +5371,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getLinewrapLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "noLinewrap", true, "no_linewrap");
+                      					setWithLastConsumed(current, "noLinewrap", lv_noLinewrap_6_0 != null, "no_linewrap");
                       				
                     }
 
@@ -5502,7 +5502,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getColumnLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "fixed", true, "fixed");
+                      					setWithLastConsumed(current, "fixed", lv_fixed_1_0 != null, "fixed");
                       				
                     }
 
@@ -5642,7 +5642,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getColumnLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "relative", true, "relative");
+                      					setWithLastConsumed(current, "relative", lv_relative_4_0 != null, "relative");
                       				
                     }
 
@@ -5679,7 +5679,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getColumnLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "nobreak", true, "nobreak");
+                      					setWithLastConsumed(current, "nobreak", lv_nobreak_5_0 != null, "nobreak");
                       				
                     }
 
@@ -5807,7 +5807,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getOffsetLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "fixed", true, "fixed");
+                      					setWithLastConsumed(current, "fixed", lv_fixed_1_0 != null, "fixed");
                       				
                     }
 
@@ -5879,7 +5879,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       					if (current==null) {
                       						current = createModelElement(grammarAccess.getOffsetLocatorRule());
                       					}
-                      					setWithLastConsumed(current, "nobreak", true, "nobreak");
+                      					setWithLastConsumed(current, "nobreak", lv_nobreak_3_0 != null, "nobreak");
                       				
                     }
 
@@ -6028,7 +6028,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getIndentLocatorRule());
                       						}
-                      						setWithLastConsumed(current, "increment", true, "increment");
+                      						setWithLastConsumed(current, "increment", lv_increment_1_0 != null, "increment");
                       					
                     }
 
@@ -13336,7 +13336,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
             	              										if (current==null) {
             	              											current = createModelElement(grammarAccess.getXMemberFeatureCallRule());
             	              										}
-            	              										setWithLastConsumed(current, "explicitStatic", true, "::");
+            	              										setWithLastConsumed(current, "explicitStatic", lv_explicitStatic_3_0 != null, "::");
             	              									
             	            }
 
@@ -13531,7 +13531,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
             	              										if (current==null) {
             	              											current = createModelElement(grammarAccess.getXMemberFeatureCallRule());
             	              										}
-            	              										setWithLastConsumed(current, "nullSafe", true, "?.");
+            	              										setWithLastConsumed(current, "nullSafe", lv_nullSafe_9_0 != null, "?.");
             	              									
             	            }
 
@@ -13563,7 +13563,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
             	              										if (current==null) {
             	              											current = createModelElement(grammarAccess.getXMemberFeatureCallRule());
             	              										}
-            	              										setWithLastConsumed(current, "explicitStatic", true, "::");
+            	              										setWithLastConsumed(current, "explicitStatic", lv_explicitStatic_10_0 != null, "::");
             	              									
             	            }
 
@@ -13771,7 +13771,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
             	              								if (current==null) {
             	              									current = createModelElement(grammarAccess.getXMemberFeatureCallRule());
             	              								}
-            	              								setWithLastConsumed(current, "explicitOperationCall", true, "(");
+            	              								setWithLastConsumed(current, "explicitOperationCall", lv_explicitOperationCall_17_0 != null, "(");
             	              							
             	            }
 
@@ -15634,7 +15634,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       							if (current==null) {
                       								current = createModelElement(grammarAccess.getXClosureRule());
                       							}
-                      							setWithLastConsumed(current, "explicitSyntax", true, "|");
+                      							setWithLastConsumed(current, "explicitSyntax", lv_explicitSyntax_5_0 != null, "|");
                       						
                     }
 
@@ -16112,7 +16112,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
               							if (current==null) {
               								current = createModelElement(grammarAccess.getXShortClosureRule());
               							}
-              							setWithLastConsumed(current, "explicitSyntax", true, "|");
+              							setWithLastConsumed(current, "explicitSyntax", lv_explicitSyntax_4_0 != null, "|");
               						
             }
 
@@ -17305,7 +17305,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getXCasePartRule());
                       						}
-                      						setWithLastConsumed(current, "fallThrough", true, ",");
+                      						setWithLastConsumed(current, "fallThrough", lv_fallThrough_6_0 != null, ",");
                       					
                     }
 
@@ -18881,7 +18881,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getXVariableDeclarationRule());
                       						}
-                      						setWithLastConsumed(current, "writeable", true, "var");
+                      						setWithLastConsumed(current, "writeable", lv_writeable_1_0 != null, "var");
                       					
                     }
 
@@ -19815,7 +19815,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getXFeatureCallRule());
                       						}
-                      						setWithLastConsumed(current, "explicitOperationCall", true, "(");
+                      						setWithLastConsumed(current, "explicitOperationCall", lv_explicitOperationCall_7_0 != null, "(");
                       					
                     }
 
@@ -20679,7 +20679,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getXConstructorCallRule());
                       						}
-                      						setWithLastConsumed(current, "explicitConstructorCall", true, "(");
+                      						setWithLastConsumed(current, "explicitConstructorCall", lv_explicitConstructorCall_8_0 != null, "(");
                       					
                     }
 
@@ -21047,7 +21047,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       						if (current==null) {
                       							current = createModelElement(grammarAccess.getXBooleanLiteralRule());
                       						}
-                      						setWithLastConsumed(current, "isTrue", true, "true");
+                      						setWithLastConsumed(current, "isTrue", lv_isTrue_2_0 != null, "true");
                       					
                     }
 
@@ -25428,7 +25428,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                       							if (current==null) {
                       								current = createModelElement(grammarAccess.getXImportDeclarationRule());
                       							}
-                      							setWithLastConsumed(current, "static", true, "static");
+                      							setWithLastConsumed(current, "static", lv_static_1_0 != null, "static");
                       						
                     }
 
@@ -25462,7 +25462,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                               							if (current==null) {
                               								current = createModelElement(grammarAccess.getXImportDeclarationRule());
                               							}
-                              							setWithLastConsumed(current, "extension", true, "extension");
+                              							setWithLastConsumed(current, "extension", lv_extension_2_0 != null, "extension");
                               						
                             }
 
@@ -25546,7 +25546,7 @@ public class InternalFormatParser extends AbstractInternalAntlrParser {
                               								if (current==null) {
                               									current = createModelElement(grammarAccess.getXImportDeclarationRule());
                               								}
-                              								setWithLastConsumed(current, "wildcard", true, "*");
+                              								setWithLastConsumed(current, "wildcard", lv_wildcard_4_0 != null, "*");
                               							
                             }
 

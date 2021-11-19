@@ -39,6 +39,7 @@ Workflow {
         baseName = projectName
         rootPath = rootPath
         createEclipseMetaData = true
+        forceDisableIdeProject = false
         runtimeTest = {
           enabled = true
         }

@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 	<extension point="org.eclipse.emf.ecore.generated_package">
-		<package 
+		<package
 			uri = "http://www.avaloq.com/tools/ddk/xtext/format/Format"
 			class = "com.avaloq.tools.ddk.xtext.format.format.FormatPackage"
 			genModel = "model/generated/Format.genmodel" />

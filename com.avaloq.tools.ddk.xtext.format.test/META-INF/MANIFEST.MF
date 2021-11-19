@@ -14,8 +14,8 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.format,
  org.mockito,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.xbase.testing,
- org.objectweb.asm;bundle-version="[6.1.1,6.2.0)";resolution:=optional,
+ org.objectweb.asm;resolution:=optional,
  org.eclipse.xtext.testing
-Export-Package: com.avaloq.tools.ddk.xtext.test.format;x-internal=true
+Export-Package: com.avaloq.tools.ddk.xtext.test.format;x-internal=true,
+ com.avaloq.tools.ddk.xtext.format;x-internal=true
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.test
-
