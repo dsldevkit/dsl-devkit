@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common,
- org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.antlr.runtime,
  org.eclipse.osgi,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -25,7 +25,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.common.types,
  org.eclipse.xtext.xbase,
  org.eclipse.xtext.xbase.lib,
- org.objectweb.asm;bundle-version="[9.1.0,9.2.0)";resolution:=optional
+ org.objectweb.asm;resolution:=optional
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.format,
  com.avaloq.tools.ddk.xtext.format.format,

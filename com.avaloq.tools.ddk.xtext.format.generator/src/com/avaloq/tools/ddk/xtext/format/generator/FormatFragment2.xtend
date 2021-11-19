@@ -105,6 +105,10 @@ class FormatFragment2 extends AbstractStubGeneratingFragment {
       projectConfig.eclipsePlugin.manifest.requiredBundles += RUNTIME_PLUGIN
     }
 
+    if (projectConfig.genericIde.manifest !== null) {
+      projectConfig.genericIde.manifest.requiredBundles+= RUNTIME_PLUGIN
+    }
+
     FormatStandaloneSetup.doSetup()
     doGenerateStubFiles()
   }

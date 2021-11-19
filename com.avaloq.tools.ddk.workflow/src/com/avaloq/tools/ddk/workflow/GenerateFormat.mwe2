@@ -90,6 +90,14 @@ Workflow {
         generateStub = true
         generateXtendStub = false
       }
+
+      // Strip bundle-version introduced e.g. by SerializerFragment2
+      fragment = BundleVersionStripperFragment {
+        bundle = "org.eclipse.xtext.xbase.lib"
+        bundle = "org.eclipse.xtend.lib"
+        bundle = "org.antlr.runtime"
+        bundle = "org.objectweb.asm"
+      }
     }
   }
 
