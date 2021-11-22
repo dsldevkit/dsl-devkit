@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-
 <plugin>
-
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "http://www.avaloq.com/tools/ddk/xtext/format/Format" 
-       class = "com.avaloq.tools.ddk.xtext.format.format.FormatPackage"
-       genModel = "com/avaloq/tools/ddk/xtext/format/Format.genmodel" /> 
-	
-  </extension>
-
-
-
-
-
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package
+			uri = "http://www.avaloq.com/tools/ddk/xtext/format/Format"
+			class = "com.avaloq.tools.ddk.xtext.format.format.FormatPackage"
+			genModel = "model/generated/Format.genmodel" />
+	</extension>
 </plugin>

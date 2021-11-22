@@ -3,7 +3,6 @@ package com.avaloq.tools.ddk.sample.helloworld.validation;
 import com.avaloq.tools.ddk.check.lib.IResourceCache;
 import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting;
-import com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksCheckCatalog;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;

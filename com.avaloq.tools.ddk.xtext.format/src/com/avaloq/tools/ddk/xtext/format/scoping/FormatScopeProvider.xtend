@@ -36,12 +36,11 @@ import org.eclipse.xtext.resource.IEObjectDescription
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.impl.MapBasedScope
 import org.eclipse.xtext.scoping.impl.SimpleScope
-import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider
 
 /**
  * The scope provider for the Format language.
  */
-class FormatScopeProvider extends XImportSectionNamespaceScopeProvider {
+class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   @Inject
   FormatScopeUtil scopeUtil;

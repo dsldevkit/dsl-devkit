@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.format.ui.test
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.format.ui.test;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: com.avaloq.tools.ddk.xtext.format.ui;x-internal=true
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui.workbench;resolution:=optional,
+ org.eclipse.xtext.junit4,
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.junit,
+ org.eclipse.xtext.xbase.testing,
+ org.eclipse.xtext.ui.testing
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.ui.test

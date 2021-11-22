@@ -2,7 +2,6 @@ package com.avaloq.tools.ddk.sample.helloworld.validation;
 
 import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting;
-import com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentCheckCatalog;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import org.eclipse.xtext.validation.Check;

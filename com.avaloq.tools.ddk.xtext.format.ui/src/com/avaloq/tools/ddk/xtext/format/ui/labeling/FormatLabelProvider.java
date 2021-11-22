@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.xtext.format.ui.labeling;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
+import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider;
 
 import com.avaloq.tools.ddk.xtext.format.format.GrammarRule;
 import com.avaloq.tools.ddk.xtext.format.format.WildcardRule;
@@ -22,7 +22,7 @@ import com.google.inject.Inject;
  * Provides labels for a EObjects.
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#labelProvider
  */
-public class FormatLabelProvider extends DefaultEObjectLabelProvider {
+public class FormatLabelProvider extends XbaseLabelProvider {
 
   /**
    * Instantiates a new format label provider.

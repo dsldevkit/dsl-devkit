@@ -164,7 +164,7 @@ ValidID:
 /**
  * Overwrite INT rule one more time (exactly as in Xbase.xtext) to avoid false-positive error.
  */
-@Override
+ @Override
 terminal INT returns ecore::EInt:
   '0'..'9' ('0'..'9'|'_')*;
 

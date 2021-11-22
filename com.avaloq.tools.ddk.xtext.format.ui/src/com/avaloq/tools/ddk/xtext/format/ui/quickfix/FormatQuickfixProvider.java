@@ -22,7 +22,7 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.eclipse.xtext.validation.Issue;
 
 import com.avaloq.tools.ddk.xtext.format.format.Rule;
-import com.avaloq.tools.ddk.xtext.format.validation.FormatJavaValidator;
+import com.avaloq.tools.ddk.xtext.format.validation.FormatValidator;
 
 
 /**
@@ -38,7 +38,7 @@ public class FormatQuickfixProvider extends DefaultQuickfixProvider {
    * @param acceptor
    *          the acceptor
    */
-  @Fix(FormatJavaValidator.OVERRIDE_ILLEGAL_CODE)
+  @Fix(FormatValidator.OVERRIDE_ILLEGAL_CODE)
   public void removeOverride(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, "Remove override", "Remove override.", null, new IModification() {
       @Override
@@ -63,7 +63,7 @@ public class FormatQuickfixProvider extends DefaultQuickfixProvider {
    * @param acceptor
    *          the acceptor
    */
-  @Fix(FormatJavaValidator.OVERRIDE_MISSING_CODE)
+  @Fix(FormatValidator.OVERRIDE_MISSING_CODE)
   public void setOverride(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, "Set override", "Set override flag.", null, new IModification() {
       @Override
@@ -88,7 +88,7 @@ public class FormatQuickfixProvider extends DefaultQuickfixProvider {
    * @param acceptor
    *          the acceptor
    */
-  @Fix(FormatJavaValidator.GRAMMAR_RULE_MISSING_CODE)
+  @Fix(FormatValidator.GRAMMAR_RULE_MISSING_CODE)
   public void addGrammarRule(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, "Create rule", "Create rule " + issue.getData()[0], null, new IModification() {
       @Override
