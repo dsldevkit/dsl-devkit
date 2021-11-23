@@ -20,7 +20,7 @@ class ProjectConfig extends StandardProjectConfig {
   @Accessors var String runtimeSuffix = ""
   @Accessors var String testSuffix = "test"
   @Accessors var String eclipsePluginSuffix = "ui"
-  @Accessors var String genericIdeSuffix = eclipsePluginSuffix
+  @Accessors var String genericIdeSuffix = "ide"
   @Accessors var boolean forceDisableIdeProject = true
 
   override protected computeName(SubProjectConfig project) {
@@ -41,6 +41,7 @@ class ProjectConfig extends StandardProjectConfig {
     super.setDefaults
     if (forceDisableIdeProject) {
       genericIde.enabled = false
+      genericIdeSuffix = eclipsePluginSuffix
     }
   }
 
