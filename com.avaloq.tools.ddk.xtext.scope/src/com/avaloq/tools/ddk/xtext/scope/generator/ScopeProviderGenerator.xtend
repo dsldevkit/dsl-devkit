@@ -90,8 +90,9 @@ class ScopeProviderGenerator {
             @Inject
             private «i.type» «i.name»;
           «ENDFOR»
-        «scopeMethods(it, name.toSimpleName())»
-      «ENDIF»
+        «ENDIF»
+
+      «scopeMethods(it, name.toSimpleName())»
 
       }
     '''
