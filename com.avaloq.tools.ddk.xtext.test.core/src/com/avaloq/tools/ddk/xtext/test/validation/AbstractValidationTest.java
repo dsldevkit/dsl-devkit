@@ -767,11 +767,14 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Assert that the given EObject model contains a diagnostic of the given issueCode.
    *
    * @param model
-   *          the model in which to look for issues
+   *          the model in which to look for issues, may be {@code null}
    * @param issueCode
    *          the code of the issue to look for
    */
   protected void assertDiagnostic(final EObject model, final String issueCode) {
+    if (model == null) {
+      fail("Issue with code '" + issueCode + "' cannot be found because the model is null");
+    }
     assertDiagnostic(getXtextTestUtil().getDiagnostician().validate(model), issueCode);
   }
 
@@ -789,11 +792,15 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Assert that the given EObject model does not contain a diagnostic of the given issueCode.
    *
    * @param model
-   *          the model in which to look for issues
+   *          the model in which to look for issues, may be {@code null}
    * @param issueCode
    *          the code of the issue to look for
    */
   protected void assertNoDiagnostic(final EObject model, final String issueCode) {
+    if (model == null) {
+      fail("Issue with code '" + issueCode + "' cannot be found because the model is null");
+    }
+
     assertNoDiagnostic(getXtextTestUtil().getDiagnostician().validate(model), issueCode);
   }
 
@@ -808,9 +815,13 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Assert that the given EObject model does not contain any diagnostic.
    *
    * @param model
-   *          the model in which to look for issues
+   *          the model in which to look for issues, may be {@code null}
    */
   protected void assertNoDiagnostics(final EObject model) {
+    if (model == null) {
+      fail("Assertion cannot be checked because the model is null");
+    }
+
     assertNoDiagnostics(getXtextTestUtil().getDiagnostician().validate(model));
   }
 
@@ -828,11 +839,15 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Assert that the given EObject model contains a diagnostic with the given message.
    *
    * @param model
-   *          the model in which to look for issues
+   *          the model in which to look for issues, may be {@code null}
    * @param message
    *          the message of the issue to look for
    */
   protected void assertDiagnosticMessage(final EObject model, final String message) {
+    if (model == null) {
+      fail("Message '" + message + "' cannot be found because the model is null");
+    }
+
     assertDiagnosticMessage(getXtextTestUtil().getDiagnostician().validate(model), message);
   }
 
