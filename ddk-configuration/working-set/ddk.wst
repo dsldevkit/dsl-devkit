@@ -17,6 +17,7 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.generator.test" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.test" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.ide" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.ui" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.ui.test" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.common.types" type="4"/>

@@ -13,6 +13,13 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.xtext.ide.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.xtext.ui.source"
          download-size="0"
          install-size="0"

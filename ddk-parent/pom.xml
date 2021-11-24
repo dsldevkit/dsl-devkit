@@ -83,6 +83,7 @@
     <module>../com.avaloq.tools.ddk.xtext.format.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.generator.test</module>
+    <module>../com.avaloq.tools.ddk.xtext.ide</module>
     <module>../com.avaloq.tools.ddk.xtext.scope</module>
     <module>../com.avaloq.tools.ddk.xtext.scope.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.scope.ui</module>
