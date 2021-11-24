@@ -16,6 +16,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtext.util
 Export-Package: com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.xtext.build,
+ com.avaloq.tools.ddk.xtext.delegation,
  com.avaloq.tools.ddk.xtext.documentation,
  com.avaloq.tools.ddk.xtext.extension,
  com.avaloq.tools.ddk.xtext.formatting,
