@@ -24,4 +24,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tycho-surefire-plugin
-          path: ${{ env.GITHUB_WORKSPACE }}/dsl-devkit/com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
+          path: ${{ env.GITHUB_WORKSPACE }}/com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
