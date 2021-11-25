@@ -182,7 +182,7 @@ public class FastReferenceSearchResultContentProvider extends ReferenceSearchRes
         @Override
         public void run() {
           synchronized (viewer) {
-            viewer.remove(viewer.getInput(), Iterables.toArray(rootNodes.values(), ReferenceSearchViewTreeNode.class));
+            viewer.remove(viewer.getInput(), (Object[]) Iterables.toArray(rootNodes.values(), ReferenceSearchViewTreeNode.class));
             rootNodes.clear();
           }
           viewer.refresh();
@@ -262,7 +262,7 @@ public class FastReferenceSearchResultContentProvider extends ReferenceSearchRes
                     viewer.remove(rootNode);
                     break;
                   } else {
-                    viewer.remove(rootNode, Iterables.toArray(removedReferenceNodes, ReferenceSearchViewTreeNode.class));
+                    viewer.remove(rootNode, (Object[]) Iterables.toArray(removedReferenceNodes, ReferenceSearchViewTreeNode.class));
                   }
                 }
               }
@@ -274,4 +274,3 @@ public class FastReferenceSearchResultContentProvider extends ReferenceSearchRes
   }
 
 }
-

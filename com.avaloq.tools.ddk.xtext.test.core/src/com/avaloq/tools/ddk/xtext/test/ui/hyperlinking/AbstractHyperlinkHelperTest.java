@@ -27,6 +27,7 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.hyperlinking.XtextHyperlink;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 
 import com.avaloq.tools.ddk.xtext.test.ui.AbstractXtextEditorTest;
@@ -110,7 +111,7 @@ public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTes
         actualTargets.add(((XtextHyperlink) hyperlink).getURI());
       }
     }
-    Assert.assertThat(actualTargets, CoreMatchers.hasItem(target));
+    MatcherAssert.assertThat(actualTargets, CoreMatchers.hasItem(target));
   }
 
   /**
