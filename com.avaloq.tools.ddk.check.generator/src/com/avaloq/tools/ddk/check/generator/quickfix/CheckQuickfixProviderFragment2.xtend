@@ -11,14 +11,14 @@
 
 package com.avaloq.tools.ddk.check.generator.quickfix
 
-import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import com.google.inject.Inject
+import org.eclipse.xtext.Grammar
+import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
 import org.eclipse.xtext.xtext.generator.model.FileAccessFactory
 import org.eclipse.xtext.xtext.generator.model.TypeReference
-import org.eclipse.xtext.Grammar
 
-import static extension org.eclipse.xtext.xtext.generator.util.GrammarUtil2.*
+import static extension org.eclipse.xtext.GrammarUtil.*
 
 class CheckQuickfixProviderFragment2 extends AbstractXtextGeneratorFragment {
 
