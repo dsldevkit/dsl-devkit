@@ -92,7 +92,7 @@ class ScopeProviderGenerator {
           «ENDFOR»
         «ENDIF»
 
-      «scopeMethods(it, name.toSimpleName())»
+        «scopeMethods(it, name.toSimpleName())»
 
       }
     '''
