@@ -133,14 +133,14 @@ public final class ProblemsViewTestUtil {
    */
   public static void bulkApplyQuickfix(final SwtWorkbenchBot bot, final String quickfixLabel, final SWTBotTreeItem... markers) {
 
-    // Select markers. Keep retrying if focus is lost at an inopportune moment.
-    final SWTBotTree markersTreeBot = getMarkersTree(bot);
-    do {
-      markersTreeBot.select(markers);
-    } while (markersTreeBot.selectionCount() != markers.length);
-
     // Open the Quick Fix dialog
-    DynamicContextActionUiTestUtil.clickContextMenu(markersTreeBot, DynamicMenuPredicate.ALWAYS_WAITING, QUICK_FIX_CONTEXT_MENU_ITEM_LABEL);
+    final SWTBotTree markersTreeBot = getMarkersTree(bot);
+    DynamicContextActionUiTestUtil.clickContextMenu(() -> {
+      // Select markers. Keep retrying if focus is lost at an inopportune moment.
+      do {
+        markersTreeBot.select(markers);
+      } while (markersTreeBot.selectionCount() != markers.length);
+    }, markersTreeBot, DynamicMenuPredicate.ALWAYS_WAITING, QUICK_FIX_CONTEXT_MENU_ITEM_LABEL);
     bot.waitUntil(Conditions.shellIsActive(QUICK_FIX_DIALOG_TEXT));
 
     // Select the quickfix
