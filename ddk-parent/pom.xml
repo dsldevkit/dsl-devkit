@@ -182,14 +182,18 @@
         <artifactId>tycho-compiler-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <showDeprecation>${compiler.showWarnings}</showDeprecation>
+          <showDeprecation>false</showDeprecation>
           <showWarnings>${compiler.showWarnings}</showWarnings>
+          <failOnWarning>true</failOnWarning>
           <useProjectSettings>false</useProjectSettings>
           <source>1.8</source>
           <target>1.8</target>
           <!-- Disable 'Unsupported @SuppressWarnings' warnings More information
             about the eclipse compiler warning configuration: http://www.jarvana.com/jarvana/view/org/eclipse/jdt/doc/isv/3.2.1-r321_v20060907/isv-3.2.1-r321_v20060907.jar!/guide/jdt_api_compile.htm -->
-          <compilerArgument>-warn:-warningToken,discouraged</compilerArgument>
+          <compilerArgs>
+            <arg>-warn:-warningToken,discouraged</arg>
+            <arg>-Xlint:-deprecation</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
