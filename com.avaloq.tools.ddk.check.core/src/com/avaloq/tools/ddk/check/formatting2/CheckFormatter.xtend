@@ -25,6 +25,7 @@ import com.avaloq.tools.ddk.check.services.CheckGrammarAccess
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.formatting2.IFormattableDocument
+import org.eclipse.xtext.formatting2.regionaccess.IEObjectRegion
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XIfExpression
 import org.eclipse.xtext.xbase.XListLiteral
@@ -64,11 +65,11 @@ class CheckFormatter extends XbaseWithAnnotationsFormatter {
    * @param document
    *          the formattable document.
    */
-  def private void globalFormatting(CheckCatalog checkcatalog, extension IFormattableDocument document) {
+  def private void globalFormatting(IEObjectRegion requestRoot, extension IFormattableDocument document) {
     // autowrap everywhere. default to one-space between semantic regions.
     // low priority so that it can be overridden by other custom formatting rules.
     var firstRegion = true
-    for(region : checkcatalog.regionForEObject.allSemanticRegions) {
+    for(region : requestRoot.allSemanticRegions) {
       if (firstRegion) {
         region.prepend[lowPriority autowrap(132)]
         firstRegion = false
@@ -108,7 +109,7 @@ class CheckFormatter extends XbaseWithAnnotationsFormatter {
     }
 
     // ADDED: only fill in the gaps after any high priority formatting has been applied.
-    globalFormatting(checkcatalog, document)
+    textRegionAccess.regionForRootEObject?.globalFormatting(document)
   }
 
   override dispatch void format(XImportSection ximportsection, extension IFormattableDocument document) {
