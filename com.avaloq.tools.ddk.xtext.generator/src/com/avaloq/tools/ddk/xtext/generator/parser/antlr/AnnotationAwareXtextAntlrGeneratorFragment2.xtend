@@ -48,12 +48,15 @@ import com.google.inject.name.Names
 import org.eclipse.xtext.parser.antlr.ITokenDefProvider
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider
+import org.eclipse.xtext.parser.antlr.LexerProvider
+import org.eclipse.xtext.xtext.generator.parser.antlr.ContentAssistGrammarNaming
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
   @Inject AnnotationAwareAntlrGrammarGenerator productionGenerator
   @Inject GrammarNaming productionNaming
   @Inject FileAccessFactory fileFactory
+  @Inject ContentAssistGrammarNaming contentAssistNaming
 
   @Inject extension PredicatesNaming predicatesNaming
   @Inject extension GrammarAccessExtensions grammarUtil
@@ -289,14 +292,33 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     ideBindings.contributeTo(language.ideGenModule)
   }
 
-  override protected void addUiBindingsAndImports() {
+  override protected addUiBindingsAndImports() {
     /* Overridden to prevent conflicting bindings related to Content Assist. */
+    val extension naming = contentAssistNaming
+    val caLexerClass = grammar.lexerClass
 
+    if (projectConfig.genericIde.manifest !== null) {
+      projectConfig.genericIde.manifest=>[
+        exportedPackages += #[
+          caLexerClass.packageName,
+          grammar.parserClass.packageName,
+          grammar.internalParserClass.packageName
+        ]
+      ]
+    }
     val uiBindings = new GuiceModuleAccess.BindingFactory()
       .addTypeToType(
         "org.eclipse.xtext.ui.editor.contentassist.IProposalConflictHelper".typeRef,
         "org.eclipse.xtext.ui.editor.contentassist.antlr.AntlrProposalConflictHelper".typeRef
       )
+      .addConfiguredBinding("ContentAssistLexer", '''
+        binder.bind(«grammar.lexerSuperClass».class)
+          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».CONTENT_ASSIST))
+          .to(«caLexerClass».class);
+      ''')
+      // registration of the 'ContentAssistLexer' is put in front of the 'HighlightingLexer'
+      //  in order to let 'caLexerClass' get added to the imports, since it is referenced
+      //  several times and the lexer classes' simple names are usually identical
       .addConfiguredBinding("HighlightingLexer", '''
         binder.bind(«Lexer».class)
           .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
@@ -307,6 +329,20 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
           .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
           .to(«AntlrTokenDefProvider».class);
       ''')
+      .addTypeToType(
+        new TypeReference("org.eclipse.xtext.ui.editor.contentassist", "ContentAssistContext.Factory"),
+        "org.eclipse.xtext.ui.editor.contentassist.antlr.DelegatingContentAssistContextFactory".typeRef
+      )
+      .addConfiguredBinding("ContentAssistLexerProvider", '''
+        binder.bind(«caLexerClass».class).toProvider(«LexerProvider».create(«caLexerClass».class));
+      ''')
+
+    if (hasSyntheticTerminalRule) {
+      uiBindings.addTypeToType(
+        "org.eclipse.xtext.ide.editor.contentassist.CompletionPrefixProvider".typeRef,
+        "org.eclipse.xtext.ide.editor.contentassist.IndentationAwareCompletionPrefixProvider".typeRef
+      )
+    }
     uiBindings.contributeTo(language.eclipsePluginGenModule)
   }
 }
