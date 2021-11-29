@@ -293,6 +293,10 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     /* Overridden to prevent conflicting bindings related to Content Assist. */
 
     val uiBindings = new GuiceModuleAccess.BindingFactory()
+      .addTypeToType(
+        "org.eclipse.xtext.ui.editor.contentassist.IProposalConflictHelper".typeRef,
+        "org.eclipse.xtext.ui.editor.contentassist.antlr.AntlrProposalConflictHelper".typeRef
+      )
       .addConfiguredBinding("HighlightingLexer", '''
         binder.bind(«Lexer».class)
           .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
