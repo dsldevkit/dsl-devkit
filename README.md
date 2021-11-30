@@ -1,6 +1,6 @@
 [DSL Developer Kit and Runtime Library](https://github.com/dsldevkit/dsl-devkit)
 ===================================
-[![Build Status](https://travis-ci.org/dsldevkit/dsl-devkit.svg?branch=master)](https://travis-ci.org/dsldevkit/dsl-devkit)
+[![Build Status](https://github.com/dsldevkit/dsl-devkit/actions/workflows/verify.yml/badge.svg?branch=master)]
 
 Copyright 2016 Avaloq Evolution AG
 
@@ -10,8 +10,8 @@ You can find more detailed documentation and examples at [ddk.tools.avaloq.com](
 
 # Installation
 
-* Take [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/neon3) (i.e. Neon)
-* Install [Xtext SDK 2.14](http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/) (currenlty DDK is based on Xtext 2.14)
+* Take [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/packages/release/2020-06) (i.e. 2020-06)
+* Install [Xtext SDK 2.25](http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/) (currenlty DDK is based on Xtext 2.25)
 * There is no public update site for DDK yet, so 
   * import all plugins from this repository into a new Eclipse workspace
   * change current target to ddk.target
