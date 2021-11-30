@@ -1,0 +1,13 @@
+# Basic dependabot.yml file 
+# with minimum configuration for maven and github-actions
+
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
