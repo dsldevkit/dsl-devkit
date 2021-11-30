@@ -41,7 +41,6 @@ class ProjectConfig extends StandardProjectConfig {
     super.setDefaults
     if (forceDisableIdeProject) {
       genericIde.enabled = false
-      genericIdeSuffix = eclipsePluginSuffix
     }
   }
 
