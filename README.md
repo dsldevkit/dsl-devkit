@@ -1,6 +1,6 @@
 [DSL Developer Kit and Runtime Library](https://github.com/dsldevkit/dsl-devkit)
 ===================================
-[![Build Status](https://github.com/dsldevkit/dsl-devkit/actions/workflows/verify.yml/badge.svg?branch=master)]
+![Build Status](https://github.com/dsldevkit/dsl-devkit/actions/workflows/verify.yml/badge.svg?branch=master)
 
 Copyright 2016 Avaloq Evolution AG
 
