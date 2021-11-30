@@ -25,7 +25,7 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext.generator;resolution:=optional,
  org.eclipse.xtext.xtext.generator;resolution:=optional,
  org.eclipse.xtext.generator;resolution:=optional
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.helloWorld,
  com.avaloq.tools.ddk.sample.helloworld.serializer,
  com.avaloq.tools.ddk.sample.helloworld.helloWorld.util,

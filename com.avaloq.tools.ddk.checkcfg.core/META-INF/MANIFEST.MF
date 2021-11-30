@@ -5,7 +5,7 @@ Bundle-Vendor: Avaloq Evolution AG
 Bundle-Version: 9.1.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core; singleton:=true
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.util,
  org.eclipse.emf.ecore,

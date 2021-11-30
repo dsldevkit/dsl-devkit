@@ -22,7 +22,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.sample.helloworld.ide
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ui.quickfix,
  com.avaloq.tools.ddk.sample.helloworld.ui.contentassist,
  com.avaloq.tools.ddk.sample.helloworld.ui.internal
