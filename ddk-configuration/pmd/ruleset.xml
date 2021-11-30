@@ -38,7 +38,6 @@
     <exclude name="EmptyWhileStmt"/><!--Checkstyle-->
     <exclude name="ImportFromSamePackage"/><!--Eclipse-->
     <exclude name="JumbledIncrementer"/><!--Checkstyle-->
-    <exclude name="MissingBreakInSwitch"/>
     <exclude name="NullAssignment"/>
     <exclude name="SingleMethodSingleton"/>
     <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
