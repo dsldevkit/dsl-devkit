@@ -26,13 +26,13 @@
     <exclude name="DataflowAnomalyAnalysis"/>
     <exclude name="DetachedTestCase"/>
     <exclude name="DontImportSun"/><!--Checkstyle-->
-    <exclude name="DoNotCallSystemExit"/>
+    <exclude name="DoNotTerminateVM"/>
     <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
     <exclude name="EmptyFinallyBlock"/><!--Checkstyle-->
     <exclude name="EmptyIfStmt"/><!--Checkstyle-->
     <exclude name="EmptyInitializer"/><!--Checkstyle-->
     <exclude name="EmptyStatementNotInLoop"/><!--Checkstyle-->
-    <exclude name="EmptyStaticInitializer"/><!--Checkstyle-->
+    <exclude name="EmptyInitializer"/><!--Checkstyle-->
     <exclude name="EmptySwitchStatements"/><!--Checkstyle-->
     <exclude name="EmptyTryBlock"/><!--Checkstyle-->
     <exclude name="EmptyWhileStmt"/><!--Checkstyle-->
@@ -122,7 +122,7 @@
     <exclude name="SuspiciousConstantFieldName"/><!--Checkstyle-->
     <exclude name="TooManyStaticImports"/>
     <exclude name="UnnecessaryAnnotationValueElement"/>
-    <exclude name="UnnecessaryFinalModifier"/><!--Checkstyle-->
+    <exclude name="UnnecessaryModifier"/><!--Checkstyle-->
     <exclude name="UnnecessaryFullyQualifiedName"/>
     <exclude name="UnnecessaryLocalBeforeReturn"/>
     <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
