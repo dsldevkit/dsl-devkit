@@ -4,7 +4,7 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
-    directory: "/"
+    directory: "/ddk-parent/"
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"
