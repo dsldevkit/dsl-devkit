@@ -275,25 +275,10 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
     file
   }
 
-  override protected void addIdeBindingsAndImports() {
-    /* Overridden to prevent conflicting bindings related to Content Assist. */
-
-    val ideBindings = new GuiceModuleAccess.BindingFactory()
-      .addConfiguredBinding("HighlightingLexer", '''
-        binder.bind(«Lexer».class)
-          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
-          .to(«productionNaming.getLexerClass(grammar)».class);
-      ''')
-      .addConfiguredBinding("HighlightingTokenDefProvider", '''
-        binder.bind(«ITokenDefProvider».class)
-          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».HIGHLIGHTING))
-          .to(«AntlrTokenDefProvider».class);
-      ''')
-    ideBindings.contributeTo(language.ideGenModule)
-  }
-
   override protected addUiBindingsAndImports() {
-    /* Overridden to prevent conflicting bindings related to Content Assist. */
+    /* Overridden to remove the binding for IContentAssistParser, which we bind at a different place.
+     * If we would register it here, we would have conflicting bindings for IContentAssistParser.
+     */
     val extension naming = contentAssistNaming
     val caLexerClass = grammar.lexerClass
 
@@ -333,6 +318,9 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
         new TypeReference("org.eclipse.xtext.ui.editor.contentassist", "ContentAssistContext.Factory"),
         "org.eclipse.xtext.ui.editor.contentassist.antlr.DelegatingContentAssistContextFactory".typeRef
       )
+      // .addTypeToType(
+      //  "org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser".typeRef,
+      //  grammar.parserClass
       .addConfiguredBinding("ContentAssistLexerProvider", '''
         binder.bind(«caLexerClass».class).toProvider(«LexerProvider».create(«caLexerClass».class));
       ''')
