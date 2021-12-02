@@ -174,7 +174,7 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
       return true;
     }
     for (EClass exported : exportedEClasses) {
-      if (type.isSuperTypeOf(exported)) {
+      if (exported.isSuperTypeOf(type)) {
         return true;
       }
     }
