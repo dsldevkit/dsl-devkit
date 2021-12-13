@@ -211,7 +211,6 @@ public final class KeywordAnalysisHelper {
         writer.print("RULE: ");
         writer.println(ruleName);
         Set<String> kwSet = keywordsViolatingSpec.get(ruleName);
-        Set<String> rwSet = keywordsSofterThanSpec.get(ruleName);
         writer.println("    Identifiers rejected (PROBLEM if non empty): ");
         for (String kw : Sets.difference(kwSet, keywordsSpec)) {
           problemsReported = true; // only rejected are real problems
@@ -219,6 +218,7 @@ public final class KeywordAnalysisHelper {
           writer.println(kw);
         }
         writer.println();
+        Set<String> rwSet = keywordsSofterThanSpec.get(ruleName);
         writer.println("    Reserved words rejected: ");
         for (String kw : Sets.difference(reservedWords, rwSet)) {
           writer.print(indent);
