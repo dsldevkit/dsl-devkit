@@ -100,9 +100,9 @@ public class XtextGMFDocumentProvider extends ResponsiveXtextDocumentProvider {
 
       document.setQuietly(buffer.toString());
 
-    } catch (IOException x) {
-      String message = (x.getMessage() != null ? x.getMessage() : ""); //$NON-NLS-1$
-      IStatus s = new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, IStatus.OK, message, x);
+    } catch (IOException e) {
+      String message = (e.getMessage() != null ? e.getMessage() : ""); //$NON-NLS-1$
+      IStatus s = new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, IStatus.OK, message, e);
       throw new CoreException(s);
     } finally {
       try {
@@ -111,7 +111,7 @@ public class XtextGMFDocumentProvider extends ResponsiveXtextDocumentProvider {
         } else {
           contentStream.close();
         }
-      } catch (IOException x) {
+      } catch (IOException e) {
         // Nothing
       }
     }
