@@ -46,7 +46,7 @@ public interface IParameterMatchChecker {
     /** The actual parameter was a named actual parameter and no formal parameter had a matching name. */
     NO_MATCH_FOR_NAMED_ACTUAL,
     /** The actual parameter does not match a formal parameter for any reason (generic). */
-    MISMATCH,
+    MISMATCH
   }
 
   // CHECKSTYLE:ON-JavaDocMethod

@@ -38,14 +38,14 @@ public class ModificationContextRegistry implements IModificationContextRegistry
     @Override
     protected XtextResourceSet initialValue() {
       return resourceSetProvider.get();
-    };
+    }
   };
 
   private final ThreadLocal<Map<URI, ICoreXtextDocument>> xtextDocuments = new ThreadLocal<Map<URI, ICoreXtextDocument>>() {
     @Override
     protected Map<URI, ICoreXtextDocument> initialValue() {
       return Maps.newHashMap();
-    };
+    }
   };
 
   /** {@inheritDoc} */
