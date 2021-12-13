@@ -47,7 +47,7 @@ public class AbstractFragmentProviderTest {
     public String unescape(final String text) {
       return super.unescape(text);
     }
-  };
+  }
 
   private final TestAbstractFragmentProvider fragmentProvider = new TestAbstractFragmentProvider();
 
