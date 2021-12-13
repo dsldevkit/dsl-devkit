@@ -61,5 +61,5 @@ public class IndentationLocatorEndFacade extends FormattingConfig.IndentationLoc
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.ADDITIVE;
-  };
+  }
 }

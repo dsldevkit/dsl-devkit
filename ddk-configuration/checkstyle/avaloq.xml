@@ -11,7 +11,6 @@
     <property name="tabWidth" value="2"/>
     <module name="EmptyCatchBlock"/>
     <module name="AvoidDoubleBraceInitialization"/>
-    <module name="AvoidNoArgumentSuperConstructorCall"/>
     <module name="NoArrayTrailingComma"/>
     <module name="NoEnumTrailingComma"/>
     <module name="OneStatementPerLine"/>
@@ -22,7 +21,9 @@
     <module name="VariableDeclarationUsageDistance"/>
     <module name="CatchParameterName"/>
     <module name="LambdaParameterName"/>
-    <module name="LambdaBodyLength"/>
+    <module name="LambdaBodyLength">
+      <property name="max" value="20"/>
+    </module>
     <module name="AbstractClassName">
       <property name="ignoreModifier" value="true"/>
     </module>

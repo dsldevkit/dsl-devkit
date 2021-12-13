@@ -52,7 +52,7 @@ public abstract class AbstractSystemTest implements TestStepListener {
     SETUP,
     TEST,
     TEARDOWN
-  };
+  }
 
   private TestRunState testRunState = TestRunState.SETUP;
 

@@ -22,7 +22,7 @@ public interface IExtendedLocator {
     OVERRIDE,
     COMBINED_MAXIMUM,
     ADDITIVE
-  };
+  }
 
   /**
    * Get the locator's aggregation policy. OVERRIDE locators (e.g. NoLinewrapLocatorFacade)
