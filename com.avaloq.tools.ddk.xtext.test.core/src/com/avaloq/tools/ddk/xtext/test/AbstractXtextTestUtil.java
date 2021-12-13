@@ -312,7 +312,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
       @Override
       public boolean apply(final Diagnostic input) {
         return input.getSeverity() == Diagnostic.ERROR;
-      };
+      }
     }));
 
     Map<Integer, String> errorMessages = Maps.newHashMap();
