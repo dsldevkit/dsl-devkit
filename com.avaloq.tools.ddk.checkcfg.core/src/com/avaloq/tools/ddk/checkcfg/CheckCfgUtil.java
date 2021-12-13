@@ -31,7 +31,7 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
 import com.google.common.collect.Sets;
-import com.google.inject.ConfigurationException;;;
+import com.google.inject.ConfigurationException;
 
 
 /**
