@@ -18,7 +18,7 @@ package com.avaloq.tools.ddk.typesystem;
  */
 public class IncompleteTypeInformationException extends Exception {
 
-  private static final long serialVersionUID = 5032053653991144734L;IncompleteTypeInformationException
+  private static final long serialVersionUID = 5032053653991144734L;
 
   /**
    * Creates a new instance of {@link IncompleteTypeInformationException} with the given message.
