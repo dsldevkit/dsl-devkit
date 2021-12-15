@@ -11,6 +11,7 @@
     <property name="tabWidth" value="2"/>
     <module name="EmptyCatchBlock"/>
     <module name="AvoidDoubleBraceInitialization"/>
+    <module name="AvoidNoArgumentSuperConstructorCall"/>
     <module name="NoArrayTrailingComma"/>
     <module name="NoEnumTrailingComma"/>
     <module name="OneStatementPerLine"/>

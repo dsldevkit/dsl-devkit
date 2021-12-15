@@ -28,7 +28,6 @@ public class XtextSpyModule extends AbstractGenericModule implements Module {
   private final AbstractUIPlugin plugin;
 
   public XtextSpyModule(final AbstractUIPlugin plugin) {
-    super();
     this.plugin = plugin;
   }
 

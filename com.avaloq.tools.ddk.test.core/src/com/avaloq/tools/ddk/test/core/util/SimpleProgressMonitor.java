@@ -35,7 +35,6 @@ public class SimpleProgressMonitor implements IProgressMonitor {
    * Constructs a new progress monitor.
    */
   public SimpleProgressMonitor() {
-    super();
     this.workDone = false;
   }
 

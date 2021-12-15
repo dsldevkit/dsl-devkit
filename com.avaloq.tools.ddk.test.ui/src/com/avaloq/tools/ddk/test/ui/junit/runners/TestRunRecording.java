@@ -123,7 +123,6 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    *          the interval in milliseconds between two consecutive screenshots
    */
   public TestRunRecording(final Class<?> testClass, final String screenshotFolder, final long recordingInterval) {
-    super();
     this.testClass = testClass;
     this.screenshotFolder = screenshotFolder;
     setRecordingInterval(recordingInterval);

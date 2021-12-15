@@ -44,7 +44,6 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
     private final Map<String, String> userData;
 
     public DetachedEObjectDescription(final QualifiedName qualifiedName, final URI eObjectURI, final EClass eClass, final Map<String, String> userData) {
-      super();
       this.qualifiedName = qualifiedName;
       this.eObjectURI = eObjectURI;
       this.eClass = eClass;

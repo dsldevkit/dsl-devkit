@@ -25,7 +25,6 @@ public final class TestData {
    * {@link TestData} should NOT be constructed.
    */
   private TestData() {
-    super();
   }
 
   /**

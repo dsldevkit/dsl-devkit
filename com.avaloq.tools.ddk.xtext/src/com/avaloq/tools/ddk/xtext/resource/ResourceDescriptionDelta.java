@@ -67,7 +67,6 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
    *          index
    */
   public ResourceDescriptionDelta(final IResourceDescription oldDesc, final IResourceDescription newDesc, final IResourceDescriptions index) {
-    super();
     if (oldDesc == newDesc) {
       throw new AssertionError("'old != new' constraint violated"); //$NON-NLS-1$
     }

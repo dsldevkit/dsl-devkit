@@ -33,7 +33,6 @@ public class ForwardingResourceDescriptions extends ForwardingObject implements 
   private final IResourceDescriptions2 baseDescriptions;
 
   protected ForwardingResourceDescriptions(final IResourceDescriptions2 baseDescriptions) {
-    super();
     this.baseDescriptions = baseDescriptions;
   }
 

@@ -40,7 +40,6 @@ public final class ParseTreeUtil {
   private static final String UNKNOWN_FEATURE_MESSAGE = "Unknown feature {0} for object of class {1}"; //$NON-NLS-1$
 
   private ParseTreeUtil() {
-    super(); // private
   }
 
   /**

@@ -47,7 +47,6 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
   private final ImmutableList<IEObjectDescription> exported;
 
   public FixedCopiedResourceDescription(final IResourceDescription original) {
-    super();
     this.uri = original.getURI();
     this.exported = ImmutableList.copyOf(Iterables.transform(original.getExportedObjects(), new Function<IEObjectDescription, IEObjectDescription>() {
       @Override
