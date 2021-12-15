@@ -418,6 +418,10 @@ public class DeployJob extends Job {
     /** The serialVersionUID. */
     private static final long serialVersionUID = 5396061810970195802L;
 
+    /** Constructor without cause exception. */
+    DeployException() {
+    }
+    
     /** Constructor with cause exception. */
     DeployException(final Exception e) {
       super(e);
