@@ -35,7 +35,6 @@ public final class StepResult<T> implements IStepData<T> {
    * Creates a new instance of {@link StepResult}.
    */
   private StepResult() {
-    super();
   }
 
   /** {@inheritDoc} */

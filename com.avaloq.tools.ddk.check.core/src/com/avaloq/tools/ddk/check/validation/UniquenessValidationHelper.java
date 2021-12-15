@@ -41,7 +41,6 @@ public class UniquenessValidationHelper<T extends EObject> {
    *          a function that returns a representation of a T object that can be compared by means of equals
    */
   public UniquenessValidationHelper(final Function<T, QualifiedName> nameFunction) {
-    super();
     if (nameFunction == null) {
       throw new IllegalArgumentException("nameFunction can't be null"); //$NON-NLS-1$
     }
