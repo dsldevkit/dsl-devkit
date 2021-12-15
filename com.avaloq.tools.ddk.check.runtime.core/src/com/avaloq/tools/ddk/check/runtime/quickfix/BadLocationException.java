@@ -33,13 +33,6 @@ public class BadLocationException extends Exception {
 
   /**
    * Creates a new bad location exception.
-   */
-  public BadLocationException() {
-    super();
-  }
-
-  /**
-   * Creates a new bad location exception.
    * 
    * @param message
    *          the exception message
