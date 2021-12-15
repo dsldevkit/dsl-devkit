@@ -32,7 +32,7 @@ public interface TestStepListener {
     /** The {@link ERRORED} state means an unexpected execution error occurred. */
     ERRORED,
     /** The {@link END} state is always the last state. */
-    END;
+    END
   }
 
   /**

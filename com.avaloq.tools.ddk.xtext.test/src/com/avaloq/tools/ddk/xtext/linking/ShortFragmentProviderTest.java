@@ -46,7 +46,7 @@ public class ShortFragmentProviderTest extends AbstractTest {
     public EObject getEObject(final String fragment) {
       return null;
     }
-  };
+  }
 
   private final ShortFragmentProvider fragmentProvider = new ShortFragmentProvider();
   private final TestFallbackFragmentProvider fragmentFallback = new TestFallbackFragmentProvider();

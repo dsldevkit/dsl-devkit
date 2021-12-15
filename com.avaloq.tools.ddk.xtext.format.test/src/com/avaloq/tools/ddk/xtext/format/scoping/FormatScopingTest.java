@@ -112,10 +112,10 @@ public class FormatScopingTest extends AbstractScopingTest {
   @Test
   public void keywordScoped() {
     AbstractRule parserRuleA = grammarA.getRules().get(0);
-    AbstractRule parserRuleC = grammarC.getRules().get(0);
     Set<URI> keywordURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedKeywords(parserRuleA), TO_URI));
     assertFalse("No keywords found", keywordURIs.isEmpty());
     assertScope(formatC.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD, keywordURIs);
+    AbstractRule parserRuleC = grammarC.getRules().get(0);
     assertScope(formatA.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD, keywordURIs);
 
     keywordURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedKeywords(parserRuleC), TO_URI));
@@ -157,29 +157,29 @@ public class FormatScopingTest extends AbstractScopingTest {
   @Test
   public void groupScoped() {
     ParserRule parserRuleA = (ParserRule) grammarA.getRules().get(0);
+
     CompoundElement group1 = findSemanticElementByString("(", CompoundElement.class, parserRuleA); // ('-' b=STRING | ('-'c=ID ('-'d=INT | '-'e=STRING)))?
+    GroupBlock groupRef1 = findSemanticElementByString("/*@G1*/", GroupBlock.class, formatA);
+    assertScope(groupRef1, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group1));
     CompoundElement group11 = findSemanticElementByString("b", CompoundElement.class, group1);// '-' b=STRING
+    GroupBlock groupRef12 = findSemanticElementByString("/*@G12*/", GroupBlock.class, formatA);
     CompoundElement group12 = findSemanticElementByString("(", CompoundElement.class, group1);// ('-'c=ID ('-'d=INT | '-'e=STRING))
+    assertScope(groupRef12, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group11), TO_URI.apply(group12));
     CompoundElement group121 = findSemanticElementByString("(", CompoundElement.class, group12);// ('-'d=INT | '-'e=STRING)
+    GroupBlock groupRef121 = findSemanticElementByString("/*@G121*/", GroupBlock.class, formatA);
+    assertScope(groupRef121, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group121));
     CompoundElement group1211 = findSemanticElementByString("d", CompoundElement.class, group121);// '-'d=INT
     CompoundElement group1212 = findSemanticElementByString("e", CompoundElement.class, group121);// '-'e=STRING
-
-    GroupBlock groupRef1 = findSemanticElementByString("/*@G1*/", GroupBlock.class, formatA);
-    GroupBlock groupRef12 = findSemanticElementByString("/*@G12*/", GroupBlock.class, formatA);
-    GroupBlock groupRef121 = findSemanticElementByString("/*@G121*/", GroupBlock.class, formatA);
     GroupBlock groupRef1212 = findSemanticElementByString("/*@G1212*/", GroupBlock.class, formatA);
-    assertScope(groupRef1, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group1));
-    assertScope(groupRef12, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group11), TO_URI.apply(group12));
-    assertScope(groupRef121, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group121));
     assertScope(groupRef1212, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group1211), TO_URI.apply(group1212));
 
     groupRef1 = findSemanticElementByString("/*@G1*/", GroupBlock.class, formatC);
-    groupRef12 = findSemanticElementByString("/*@G12*/", GroupBlock.class, formatC);
-    groupRef121 = findSemanticElementByString("/*@G121*/", GroupBlock.class, formatC);
-    groupRef1212 = findSemanticElementByString("/*@G1212*/", GroupBlock.class, formatC);
     assertScope(groupRef1, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group1));
+    groupRef12 = findSemanticElementByString("/*@G12*/", GroupBlock.class, formatC);
     assertScope(groupRef12, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group11), TO_URI.apply(group12));
+    groupRef121 = findSemanticElementByString("/*@G121*/", GroupBlock.class, formatC);
     assertScope(groupRef121, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group121));
+    groupRef1212 = findSemanticElementByString("/*@G1212*/", GroupBlock.class, formatC);
     assertScope(groupRef1212, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT, TO_URI.apply(group1211), TO_URI.apply(group1212));
 
   }

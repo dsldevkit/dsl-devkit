@@ -37,12 +37,12 @@ public class FormatScopeNameProvider {
       @Override
       public String caseGrammar(final org.eclipse.xtext.Grammar object) {
         return GrammarUtil.getSimpleName(object);
-      };
+      }
 
       @Override
       public String caseAbstractRule(final org.eclipse.xtext.AbstractRule object) {
         return object.getName();
-      };
+      }
 
       @Override
       public String caseKeyword(final Keyword object) {
@@ -62,7 +62,7 @@ public class FormatScopeNameProvider {
       @Override
       public String caseCompoundElement(final org.eclipse.xtext.CompoundElement object) {
         return "";
-      };
+      }
     };
 
     @Override

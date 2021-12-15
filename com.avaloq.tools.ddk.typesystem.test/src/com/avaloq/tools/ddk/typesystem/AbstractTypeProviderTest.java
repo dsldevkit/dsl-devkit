@@ -74,13 +74,13 @@ public class AbstractTypeProviderTest {
     testModelPackage.setName("TypeProviderTestEPackage");
     testModelPackage.setNsPrefix("typeprovidertestpackage");
     testModelPackage.setNsURI("http://testabstracttype");
-    EFactory instanceFactory = testModelPackage.getEFactoryInstance();
     EClass clazz = createEClass("ExpressionContainer");
     expressionContainerReference = modelFactory.createEReference();
     clazz.getEStructuralFeatures().add(expressionContainerReference);
     expressionContainerReference.setName("expression");
     expressionContainerReference.setEType(typeModelPackage.getIExpression());
     expressionContainerReference.setContainment(true);
+    EFactory instanceFactory = testModelPackage.getEFactoryInstance();
     expression1Container = instanceFactory.create(clazz);
     expression1Container.eSet(expressionContainerReference, expression1);
     expression2Container = instanceFactory.create(clazz);

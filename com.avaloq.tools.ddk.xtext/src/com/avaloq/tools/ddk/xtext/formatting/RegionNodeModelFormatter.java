@@ -48,7 +48,7 @@ public class RegionNodeModelFormatter extends DefaultNodeModelFormatter {
      */
     public void start() {
       enabled = true;
-    };
+    }
 
     private boolean firstPassed;
 

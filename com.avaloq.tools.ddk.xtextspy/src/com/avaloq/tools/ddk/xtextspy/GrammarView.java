@@ -111,12 +111,12 @@ public class GrammarView extends Composite implements ISelectionChangedListener 
     XtextElementSelectionListener source = (XtextElementSelectionListener) event.getSelectionProvider();
     AbstractRule rule = source.getRule();
     EObject nodeAbstractElement = source.getNodeGrammarElement();
-    Integer offset = source.getOffset();
     String grammarName = rule == null ? (nodeAbstractElement == null ? EMPTY_STRING : GrammarUtil.getGrammar(nodeAbstractElement).getName())
         : GrammarUtil.getGrammar(rule).getName();
     ruleText.setText(rule == null ? EMPTY_STRING : rule.getName());
     grammarText.setText(grammarName);
     nodeText.setText(getText(nodeAbstractElement));
+    Integer offset = source.getOffset();
     offsetText.setText(offset == null ? EMPTY_STRING : offset.toString());
   }
 
