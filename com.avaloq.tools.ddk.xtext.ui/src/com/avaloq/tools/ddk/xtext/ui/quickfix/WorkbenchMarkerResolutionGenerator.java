@@ -166,7 +166,6 @@ public class WorkbenchMarkerResolutionGenerator extends MarkerResolutionGenerato
     }
 
     public WorkbenchResolutionAdapter(final IssueResolution resolution, final IMarker marker) {
-      super();
       this.resolution = resolution;
       this.resolutionMarker = marker;
       this.markerCode = getIssueUtil().getCode(marker);
