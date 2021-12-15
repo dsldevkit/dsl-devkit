@@ -99,7 +99,7 @@ public final class FormatFragmentUtil {
       uri = getDefaultFormatLocation(grammar, context);
       try {
         formatResource = resourceSet.getResource(uri, true);
-      } catch (WrappedException e1) {
+      } catch (WrappedException ex) {
         formatResource = resourceSet.getResource(uri, false);
         if (formatResource != null) {
           resourceSet.getResources().remove(formatResource);

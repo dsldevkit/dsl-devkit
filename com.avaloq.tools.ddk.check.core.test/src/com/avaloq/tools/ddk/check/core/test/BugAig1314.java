@@ -61,7 +61,7 @@ public class BugAig1314 {
   private URL createURL() {
     try {
       return new URL("http://" + TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION);
-    } catch (MalformedURLException e1) {
+    } catch (MalformedURLException e) {
       fail("Cannot create URL");
     }
     return null;

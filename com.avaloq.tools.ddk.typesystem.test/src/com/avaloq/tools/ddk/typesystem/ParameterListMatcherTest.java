@@ -741,8 +741,6 @@ public class ParameterListMatcherTest {
 
   @Test
   public void testPositionalAfterNamed2() {
-    ParameterList container1 = new ParameterList();
-    ParameterList container2 = new ParameterList();
     List<NamedFormalParameter> formals = new ArrayList<NamedFormalParameter>();
     formals.add(new NamedFormalParameter(NAME_1, intType));
     formals.add(new NamedFormalParameter(NAME_2, textType));
@@ -751,6 +749,8 @@ public class ParameterListMatcherTest {
     actuals.add(new NamedActualParameter(NAME_1, intType));
     actuals.add(new ActualParameter(textType));
     actuals.add(new ActualParameter(intType));
+    ParameterList container1 = new ParameterList();
+    ParameterList container2 = new ParameterList();
     actuals.get(0).eBasicSetContainer(container1, 0, null);
     actuals.get(1).eBasicSetContainer(container1, 0, null);
     actuals.get(2).eBasicSetContainer(container2, 0, null);

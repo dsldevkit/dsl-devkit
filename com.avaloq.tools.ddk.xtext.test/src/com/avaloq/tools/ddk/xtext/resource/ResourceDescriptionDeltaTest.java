@@ -86,7 +86,6 @@ public class ResourceDescriptionDeltaTest {
   @Test
   public void testOldReconstruction() {
     IResourceDescription oldRes = createDescription("a");
-    IResourceDescription newRes = createDescription("a", "b");
 
     ResourceDescriptionDelta delta = new ResourceDescriptionDelta(oldRes, createDescription("a"), null);
     assertFalse(delta.haveEObjectDescriptionsChanged());
@@ -96,6 +95,7 @@ public class ResourceDescriptionDeltaTest {
     assertDeltaEquals(0, 0, 0, delta);
     assertSame(delta.getNew(), delta.getOld());
 
+    IResourceDescription newRes = createDescription("a", "b");
     delta = new ResourceDescriptionDelta(oldRes, newRes, null);
     assertTrue(delta.haveEObjectDescriptionsChanged());
     assertDeltaEquals(1, 0, 0, delta);

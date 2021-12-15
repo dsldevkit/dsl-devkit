@@ -303,8 +303,8 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   protected EObject handleCyclicResolution(final Triple<EObject, EReference, INode> triple) {
     try {
       return super.handleCyclicResolution(triple);
-    } catch (AssertionError ae) {
-      throw new IllegalStateException(ae.getMessage() + " in resource " + getURI(), ae); //$NON-NLS-1$
+    } catch (AssertionError e) {
+      throw new IllegalStateException(e.getMessage() + " in resource " + getURI(), e); //$NON-NLS-1$
     }
   }
 

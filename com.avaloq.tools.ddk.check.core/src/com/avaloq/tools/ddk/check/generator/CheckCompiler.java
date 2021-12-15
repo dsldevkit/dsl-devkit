@@ -239,7 +239,6 @@ public class CheckCompiler extends XbaseCompiler {
   protected void _toJavaStatement(final XIssueExpression expr, final ITreeAppendable b, final boolean isReferenced) { // NOPMD NPath complexity
     // CHECKSTYLE:ON
     XExpression markerObject = expr.getMarkerObject();
-    Check check = generatorExtensions.issuedCheck(expr);
 
     for (XExpression param : expr.getMessageParameters()) {
       internalToJavaStatement(param, b, true);
@@ -299,6 +298,7 @@ public class CheckCompiler extends XbaseCompiler {
 
     b.append(", // EStructuralFeature").newLine();
     // message
+    Check check = generatorExtensions.issuedCheck(expr);
     b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(Strings.toFirstUpper(check.getName())).append("Message(");
     if (!expr.getMessageParameters().isEmpty()) {
       boolean first = true;
