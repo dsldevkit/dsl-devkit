@@ -112,7 +112,6 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          the domainMapper to use
    */
   public AbstractScopingTest(final IDomain.Mapper domainMapper) {
-    super();
     this.domainMapper = domainMapper;
   }
 
