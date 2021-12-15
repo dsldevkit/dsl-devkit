@@ -54,7 +54,6 @@ public class EObjectContentProviderTest extends AbstractXtextTests {
     private final XtextElementSelectionListener selectionListener;
 
     public TestModule(final XtextElementSelectionListener selectionListener) {
-      super();
       this.selectionListener = selectionListener;
     }
 

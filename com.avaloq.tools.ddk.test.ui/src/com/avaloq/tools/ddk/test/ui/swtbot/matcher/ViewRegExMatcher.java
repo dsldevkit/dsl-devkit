@@ -27,7 +27,6 @@ public class ViewRegExMatcher extends BaseMatcher<IViewReference> {
   private final Matcher regExMatcher;
 
   public ViewRegExMatcher(final String regex) {
-    super();
     Pattern pattern = Pattern.compile(regex);
     this.regExMatcher = pattern.matcher("");
   }
