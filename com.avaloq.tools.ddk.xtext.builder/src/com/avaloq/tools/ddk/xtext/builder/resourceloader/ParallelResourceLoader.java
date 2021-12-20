@@ -127,7 +127,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     Resource resource = super.loadResource(uri, localResourceSet, parentResourceSet);
     if (localResourceSet.getResources().size() > 1) {
       for (Resource loadedResource : Lists.newArrayList(localResourceSet.getResources())) {
-        if (!loadedResource.equals(resource)) {
+        if (loadedResource != null && !loadedResource.equals(resource)) {
           loadedResource.unload();
         }
       }
