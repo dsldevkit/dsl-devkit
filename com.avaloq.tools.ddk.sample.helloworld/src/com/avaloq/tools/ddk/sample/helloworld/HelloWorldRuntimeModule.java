@@ -15,22 +15,22 @@ import com.avaloq.tools.ddk.xtext.parser.ISemanticPredicates;
  * Equinox extension registry.
  */
 public class HelloWorldRuntimeModule extends AbstractHelloWorldRuntimeModule {
-	/**
-	 * The check validator to be bound.
-	 * 
-	 * @return the check validator
-	 */
-	@SingletonBinding(eager = true)
-	public Class<? extends AbstractCheckValidator> bindAbstractCheckValidator() {
-		return HelloWorldCheckValidator.class;
-	}
+    /**
+     * The check validator to be bound.
+     *
+     * @return the check validator
+     */
+    @SingletonBinding(eager = true)
+    public Class<? extends AbstractCheckValidator> bindAbstractCheckValidator() {
+        return HelloWorldCheckValidator.class;
+    }
 
-	/**
-	 * The semantic predicates for the grammar to be bound.
-	 * 
-	 * @return the semantic predicates
-	 */
-	public Class<? extends ISemanticPredicates> bindISemanticPredicates() {
-		return AbstractHelloWorldSemanticPredicates.class;
-	}
+    /**
+     * The semantic predicates for the grammar to be bound.
+     *
+     * @return the semantic predicates
+     */
+    public Class<? extends ISemanticPredicates> bindISemanticPredicates() {
+        return AbstractHelloWorldSemanticPredicates.class;
+    }
 }

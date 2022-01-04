@@ -178,5 +178,6 @@
     <property name="optional" value="false"/>
   </module>
   <module name="FileLength"/>
+  <module name="FileTabCharacter"/>
   <module name="Translation"/>
 </module>

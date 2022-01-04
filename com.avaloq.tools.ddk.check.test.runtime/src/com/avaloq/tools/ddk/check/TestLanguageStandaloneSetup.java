@@ -14,14 +14,12 @@ package com.avaloq.tools.ddk.check;
  * Initialization support for running Xtext languages
  * without equinox extension registry.
  */
-public class TestLanguageStandaloneSetup extends TestLanguageStandaloneSetupGenerated{
+public class TestLanguageStandaloneSetup extends TestLanguageStandaloneSetupGenerated {
 
-	/**
-	 * Do setup.
-	 */
-	public static void doSetup() {
-		new TestLanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
-	}
+  /**
+   * Do setup.
+   */
+  public static void doSetup() {
+    new TestLanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
+  }
 }
-
-
