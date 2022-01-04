@@ -22,15 +22,12 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.xbase,
  org.eclipse.xtext.xbase.lib;visibility:=reexport,
- org.hamcrest.text;bundle-version="1.1.0",
  org.junit,
  org.mockito,
  org.hamcrest.library,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.emf.common
-Import-Package: org.apache.log4j,
- org.hamcrest,
- org.hamcrest.text
+Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.test,
  com.avaloq.tools.ddk.xtext.test.contentassist,
  com.avaloq.tools.ddk.xtext.test.conversion,
