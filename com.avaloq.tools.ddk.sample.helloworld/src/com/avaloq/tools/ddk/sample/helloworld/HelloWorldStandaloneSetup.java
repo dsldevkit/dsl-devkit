@@ -9,11 +9,11 @@ package com.avaloq.tools.ddk.sample.helloworld;
  */
 public class HelloWorldStandaloneSetup extends HelloWorldStandaloneSetupGenerated {
 
-	/**
-	 * Creates an {@link com.google.inject.Injector} and registers EPackages as
-	 * required.
-	 */
-	public static void doSetup() {
-		new HelloWorldStandaloneSetup().createInjectorAndDoEMFRegistration();
-	}
+    /**
+     * Creates an {@link com.google.inject.Injector} and registers EPackages as
+     * required.
+     */
+    public static void doSetup() {
+        new HelloWorldStandaloneSetup().createInjectorAndDoEMFRegistration();
+    }
 }

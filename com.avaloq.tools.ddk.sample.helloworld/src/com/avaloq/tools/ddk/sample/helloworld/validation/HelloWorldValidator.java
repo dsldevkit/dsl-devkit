@@ -16,16 +16,16 @@ import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage;
  */
 public class HelloWorldValidator extends AbstractHelloWorldValidator {
 
-	/**
-	 * Checks that the Greeting starts with a capital letter.
-	 * 
-	 * @param greeting the greeting, never {@code null}
-	 */
-	@Check
-	void checkGreetingStartsWithCapital(final Greeting greeting) {
-		if (greeting.getName() != null && greeting.getName().startsWith("Greeting")) {
-			warning("Name should not start with \"Greeting\"", HelloWorldPackage.Literals.GREETING__NAME,
-					IssueCodes.GREETING_NAME_PREFIX);
-		}
-	}
+    /**
+     * Checks that the Greeting starts with a capital letter.
+     *
+     * @param greeting the greeting, never {@code null}
+     */
+    @Check
+    void checkGreetingStartsWithCapital(final Greeting greeting) {
+        if (greeting.getName() != null && greeting.getName().startsWith("Greeting")) {
+            warning("Name should not start with \"Greeting\"", HelloWorldPackage.Literals.GREETING__NAME,
+                    IssueCodes.GREETING_NAME_PREFIX);
+        }
+    }
 }

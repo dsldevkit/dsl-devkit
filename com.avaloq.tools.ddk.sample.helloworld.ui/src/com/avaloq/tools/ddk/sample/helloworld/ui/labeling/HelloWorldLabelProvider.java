@@ -3,20 +3,21 @@
  */
 package com.avaloq.tools.ddk.sample.helloworld.ui.labeling;
 
-import com.google.inject.Inject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
+import com.google.inject.Inject;
+
 /**
  * Provides labels for EObjects.
- * 
+ *
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#label-provider
  */
 public class HelloWorldLabelProvider extends DefaultEObjectLabelProvider {
 
-	@Inject
-	public HelloWorldLabelProvider(final AdapterFactoryLabelProvider delegate) {
-		super(delegate);
-	}
+    @Inject
+    public HelloWorldLabelProvider(final AdapterFactoryLabelProvider delegate) {
+        super(delegate);
+    }
 
 }

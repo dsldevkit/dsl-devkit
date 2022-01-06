@@ -15,22 +15,22 @@ import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStore
 @FinalFieldsConstructor
 public class HelloWorldUiModule extends AbstractHelloWorldUiModule {
 
-	/**
-	 * Constructor for base parameter definition specific UI module.
-	 *
-	 * @param plugin the UI plugin
-	 */
-	public HelloWorldUiModule(final AbstractUIPlugin plugin) {
-		super(plugin);
-	}
+    /**
+     * Constructor for base parameter definition specific UI module.
+     *
+     * @param plugin the UI plugin
+     */
+    public HelloWorldUiModule(final AbstractUIPlugin plugin) {
+        super(plugin);
+    }
 
-	/**
-	 * Adds a binding to the context aware configuration store. This enables using
-	 * the check configuration scope.
-	 *
-	 * @return the check configuration store
-	 */
-	public Class<? extends ICheckConfigurationStore> bindICheckConfigurationStore() {
-		return CheckConfigurationStore.class;
-	}
+    /**
+     * Adds a binding to the context aware configuration store. This enables using
+     * the check configuration scope.
+     *
+     * @return the check configuration store
+     */
+    public Class<? extends ICheckConfigurationStore> bindICheckConfigurationStore() {
+        return CheckConfigurationStore.class;
+    }
 }
