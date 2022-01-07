@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
@@ -52,7 +53,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
 
   private static final int VISITED_CLASSES_INIT_CAPACITY = 4;
 
-  private static final Logger LOGGER = Logger.getLogger(DefaultCheckImpl.class);
+  private static final Logger LOGGER = LogManager.getLogger(DefaultCheckImpl.class);
 
   private volatile Set<MethodWrapper> checkMethods; // NOPMD: may be modified by different threads; thread safety guaranteed by double-checked locking
 

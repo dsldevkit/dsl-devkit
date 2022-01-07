@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.util.NLS;
@@ -27,7 +28,7 @@ import com.google.inject.Provider;
  */
 public class CheckCatalogDescriptor implements Provider<BundleAwareModelLocation>, ICheckImplDescriptor {
 
-  private static final Logger LOG = Logger.getLogger(CheckCatalogDescriptor.class);
+  private static final Logger LOG = LogManager.getLogger(CheckCatalogDescriptor.class);
 
   private static final String CATALOG_ATTRIBUTE = "catalog"; //$NON-NLS-1$
   private final IConfigurationElement element;

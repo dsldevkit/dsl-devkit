@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.builder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -31,7 +32,7 @@ import com.google.inject.Inject;
  */
 public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
 
-  private static final Logger LOGGER = Logger.getLogger(CheckBuilderParticipant.class);
+  private static final Logger LOGGER = LogManager.getLogger(CheckBuilderParticipant.class);
 
   @Inject
   private IResourceServiceProvider resourceServiceProvider;

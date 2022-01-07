@@ -12,7 +12,8 @@ package com.avaloq.tools.ddk.check.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -29,7 +30,7 @@ import com.google.inject.Inject;
  */
 public class NewCheckCatalogWizard extends XtextNewProjectWizard {
 
-  private static final Logger LOGGER = Logger.getLogger(NewCheckCatalogWizard.class);
+  private static final Logger LOGGER = LogManager.getLogger(NewCheckCatalogWizard.class);
 
   @Inject
   private FileOpener fileOpener;

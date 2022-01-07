@@ -347,7 +347,7 @@ public class CheckCompiler extends XbaseCompiler {
     if (!issueExpressionEqualsImplicitVariable) {
       b.append(");").decreaseIndentation().newLine();
       b.append("} else {").increaseIndentation().newLine();
-      b.append("org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
+      b.append("org.apache.log4j.Logger logger = org.apache.log4j.LogManager.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
       b.append("StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();").newLine();
       b.append("logger.warn(").append(getLoggerString(expr)).append(");").decreaseIndentation().newLine();
       b.append("}").newLine();
