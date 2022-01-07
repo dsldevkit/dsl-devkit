@@ -16,7 +16,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -34,7 +35,7 @@ import com.google.common.collect.Lists;
  */
 class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
 
-  private static final Logger LOG = Logger.getLogger(DirectLinkingEObjectOutputStream.class);
+  private static final Logger LOG = LogManager.getLogger(DirectLinkingEObjectOutputStream.class);
 
   static final boolean LOCAL_EOBJECT = true;
 

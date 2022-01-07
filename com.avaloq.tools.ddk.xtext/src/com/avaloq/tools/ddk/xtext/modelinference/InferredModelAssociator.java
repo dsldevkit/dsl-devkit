@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -50,7 +51,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class InferredModelAssociator implements IInferredModelAssociations, IInferredModelAssociator, IDerivedStateComputer {
 
-  private static final Logger LOGGER = Logger.getLogger(InferredModelAssociator.class);
+  private static final Logger LOGGER = LogManager.getLogger(InferredModelAssociator.class);
 
   private final ThreadLocal<Deque<Resource>> inferenceStackLocal = ThreadLocal.withInitial(ArrayDeque::new);
 

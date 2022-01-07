@@ -16,7 +16,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
@@ -39,7 +40,7 @@ public class SwtWizardBot extends SwtWorkbenchBot {
   public static final String NEXT = "Next >";
   public static final String CANCEL = "Cancel";
 
-  private static final Logger LOG = Logger.getLogger("SwtWizardBot");
+  private static final Logger LOG = LogManager.getLogger("SwtWizardBot");
 
   /**
    * Close the wizard.

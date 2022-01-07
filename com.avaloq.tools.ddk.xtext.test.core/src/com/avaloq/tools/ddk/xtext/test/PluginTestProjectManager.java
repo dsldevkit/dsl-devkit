@@ -15,7 +15,8 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -40,7 +41,7 @@ import com.google.inject.Injector;
  * The Test Project Manager for Plugins.
  */
 public class PluginTestProjectManager extends XtextTestProjectManager {
-  private static final Logger LOGGER = Logger.getLogger(PluginTestProjectManager.class);
+  private static final Logger LOGGER = LogManager.getLogger(PluginTestProjectManager.class);
 
   public static final String DEFAULT_SOURCE_FOLDER = "src"; //$NON-NLS-1$
   public static final String DEFAULT_SOURCE_GEN_FOLDER = "src-gen"; //$NON-NLS-1$

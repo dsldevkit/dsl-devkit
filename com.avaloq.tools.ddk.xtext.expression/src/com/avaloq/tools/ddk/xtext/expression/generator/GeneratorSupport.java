@@ -16,7 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -36,7 +37,7 @@ import org.eclipse.jdt.core.JavaCore;
 public class GeneratorSupport {
 
   /** Class-wide logger. */
-  private static final Logger LOG = Logger.getLogger(GeneratorSupport.class);
+  private static final Logger LOG = LogManager.getLogger(GeneratorSupport.class);
 
   /**
    * Executes a given operation using a custom resource loader which will load resources using the classpath of the given project, provided that it is a Java

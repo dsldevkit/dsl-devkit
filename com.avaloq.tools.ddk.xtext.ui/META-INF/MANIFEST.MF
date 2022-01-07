@@ -30,5 +30,5 @@ Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.templates,
  com.avaloq.tools.ddk.xtext.ui.util,
  com.avaloq.tools.ddk.xtext.ui.validation
-Import-Package: org.apache.log4j
+Import-Package: org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui

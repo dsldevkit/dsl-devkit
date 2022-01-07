@@ -14,8 +14,9 @@ package com.avaloq.tools.ddk.xtext.builder.ui.shared;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.xtext.service.AbstractGenericModule;
@@ -31,7 +32,7 @@ import com.google.inject.util.Modules;
  */
 public class OverridingGuiceModule extends AbstractGenericModule {
 
-  private static final Logger LOGGER = Logger.getLogger(OverridingGuiceModule.class);
+  private static final Logger LOGGER = LogManager.getLogger(OverridingGuiceModule.class);
 
   public static final String OVERRIDING_GUICE_MODULE_EXTENSION_POINT = "com.avaloq.tools.ddk.xtext.builder.ui.overridingGuiceModule"; //$NON-NLS-1$
   public static final String OVERRIDING_GUICE_MODULE_EXTENSION_CLASS = "class"; //$NON-NLS-1$
@@ -50,7 +51,8 @@ public class OverridingGuiceModule extends AbstractGenericModule {
         LOGGER.log(Level.ERROR, "Overriding guice module from " + element.getContributor() + " could not be instatiated and has been skipped.", e); //$NON-NLS-1$ //$NON-NLS-2$
         return null;
       }
-    }).filter(Objects::nonNull).reduce((dummy) -> {}, (previous, next) -> {
+    }).filter(Objects::nonNull).reduce((dummy) -> {
+    }, (previous, next) -> {
       LOGGER.log(Level.DEBUG, "Overriding guice module with " + next.getClass().getName()); //$NON-NLS-1$
       return Modules.override(previous).with(next);
     }).configure(binder);

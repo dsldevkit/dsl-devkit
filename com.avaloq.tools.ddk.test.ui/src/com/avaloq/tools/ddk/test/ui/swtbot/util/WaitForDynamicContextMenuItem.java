@@ -14,7 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Widget;
@@ -32,7 +33,7 @@ import org.hamcrest.Matcher;
  * items to wait for.
  */
 public class WaitForDynamicContextMenuItem extends WaitForMenuItem {
-  private static final Logger LOGGER = Logger.getLogger(WaitForDynamicContextMenuItem.class);
+  private static final Logger LOGGER = LogManager.getLogger(WaitForDynamicContextMenuItem.class);
 
   /**
    * Custom wrapper around a given {@link Matcher} that collects data about waiting dynamic menu items as

@@ -13,7 +13,8 @@ package com.avaloq.tools.ddk.xtext.scope.resource;
 
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -35,7 +36,7 @@ import com.google.common.hash.Hashing;
  */
 public class ScopeResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {
 
-  private static final Logger LOG = Logger.getLogger(ScopeResourceDescriptionStrategy.class);
+  private static final Logger LOG = LogManager.getLogger(ScopeResourceDescriptionStrategy.class);
 
   private static final int HASHER_CAPACITY = 2048;
 

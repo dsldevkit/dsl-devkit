@@ -16,7 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.URI;
 
 import com.avaloq.tools.ddk.xtext.util.EmfResourceUtil;
@@ -29,7 +30,7 @@ import com.google.common.collect.Maps;
  */
 public class BuilderWatchdog extends Thread {
 
-  private static final Logger LOGGER = Logger.getLogger(BuilderWatchdog.class);
+  private static final Logger LOGGER = LogManager.getLogger(BuilderWatchdog.class);
 
   private static final String NEW_LINE = "\n"; //$NON-NLS-1$
   private static final String INDENTATION = "\t"; //$NON-NLS-1$

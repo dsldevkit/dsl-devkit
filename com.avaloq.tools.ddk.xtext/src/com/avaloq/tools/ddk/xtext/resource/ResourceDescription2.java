@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -50,7 +51,7 @@ import com.google.common.collect.ImmutableMap;
  */
 public class ResourceDescription2 extends DefaultResourceDescription implements IResourceDescription2 {
 
-  private static final Logger LOG = Logger.getLogger(ResourceDescription2.class);
+  private static final Logger LOG = LogManager.getLogger(ResourceDescription2.class);
 
   private final IDefaultResourceDescriptionStrategy strategy;
 

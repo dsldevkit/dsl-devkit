@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.typesystem;singleton:=true
 Bundle-Version: 8.5.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.apache.log4j
+Import-Package: org.apache.logging.log4j
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.runtime,
  org.eclipse.emf.edit,

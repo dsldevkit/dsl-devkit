@@ -12,7 +12,8 @@ package com.avaloq.tools.ddk.xtext.test.ui;
 
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.asyncExec;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
@@ -48,7 +49,7 @@ import com.avaloq.tools.ddk.xtext.ui.util.UiAssert;
 public abstract class AbstractUiTest extends AbstractTest {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(AbstractUiTest.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractUiTest.class);
   private static final int TEST_TIMEOUT = 600000; // 10 minutes timeout for each test
 
   /**

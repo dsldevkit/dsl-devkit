@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 /**
@@ -25,7 +26,7 @@ import org.apache.log4j.Logger;
 public class XtextGMFResourceUtil {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(XtextGMFResourceUtil.class);
+  private static final Logger LOGGER = LogManager.getLogger(XtextGMFResourceUtil.class);
 
   /** Size of local input buffer to allocate. */
   private static final int INPUT_BUFFER_SIZE = 2048;

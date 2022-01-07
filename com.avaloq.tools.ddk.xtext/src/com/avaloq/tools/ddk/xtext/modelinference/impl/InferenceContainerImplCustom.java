@@ -18,7 +18,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
@@ -37,7 +38,7 @@ import com.google.common.collect.HashBiMap;
  */
 public class InferenceContainerImplCustom extends InferenceContainerImpl {
 
-  private static final Logger LOG = Logger.getLogger(InferenceContainerImplCustom.class);
+  private static final Logger LOG = LogManager.getLogger(InferenceContainerImplCustom.class);
 
   private final BiMap<String, EObject> fragmentToObjectMap = HashBiMap.create();
   private final Set<String> fragmentSet = Collections.unmodifiableSet(fragmentToObjectMap.keySet());

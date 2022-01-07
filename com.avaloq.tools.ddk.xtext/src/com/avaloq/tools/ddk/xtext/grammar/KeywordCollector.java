@@ -13,7 +13,8 @@ package com.avaloq.tools.ddk.xtext.grammar;
 import java.util.Locale;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.osgi.util.NLS;
@@ -38,7 +39,7 @@ import com.google.common.collect.Sets;
  * </p>
  */
 public class KeywordCollector extends XtextSwitch<Boolean> {
-  private static final Logger LOGGER = Logger.getLogger(KeywordCollector.class);
+  private static final Logger LOGGER = LogManager.getLogger(KeywordCollector.class);
   private final boolean ignoreCase;
   private final AbstractRule rule;
   private Set<String> ruleKeywords;

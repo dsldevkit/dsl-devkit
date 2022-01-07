@@ -24,7 +24,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -64,7 +65,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   private static final long SLOW_LOADING_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(60);
   private static final String SLOW_LOADING_TIME_PROPERTY = "resourceloader.slowloadingtime"; //$NON-NLS-1$
 
-  private static final Logger LOGGER = Logger.getLogger(ParallelResourceLoader.class);
+  private static final Logger LOGGER = LogManager.getLogger(ParallelResourceLoader.class);
 
   private static final Key<Boolean> PARALLEL_LOADING_SUPPORT_KEY = Key.get(Boolean.class, Names.named(ILazyLinkingResource2.PARALLEL_LOADING_SUPPORT));
 

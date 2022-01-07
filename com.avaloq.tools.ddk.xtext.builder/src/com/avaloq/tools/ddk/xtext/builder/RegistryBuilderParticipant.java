@@ -15,7 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -52,7 +53,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
   private static final String PARTICIPANT = "participant"; //$NON-NLS-1$
   private static final String EXTENSION_POINT_ID = PARTICIPANT;
   private static final String ATT_CLASS = "class"; //$NON-NLS-1$
-  private static final Logger LOG = Logger.getLogger(RegistryBuilderParticipant.class);
+  private static final Logger LOG = LogManager.getLogger(RegistryBuilderParticipant.class);
 
   @Inject
   private IExtensionRegistry extensionRegistry;
