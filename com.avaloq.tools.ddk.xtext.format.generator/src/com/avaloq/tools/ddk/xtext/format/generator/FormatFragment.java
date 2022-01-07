@@ -14,7 +14,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.formatting.IFormatter;
@@ -41,7 +42,7 @@ public class FormatFragment extends AbstractGeneratorFragment {
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(FormatFragment.class);
+  private static final Logger LOGGER = LogManager.getLogger(FormatFragment.class);
 
   /** The model for the format resource. */
   private FormatConfiguration model;

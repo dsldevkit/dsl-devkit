@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.compare,
  org.eclipse.jdt.ui
-Import-Package: org.apache.log4j
+Import-Package: org.apache.logging.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export.ui.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.export.ui.contentassist,
  com.avaloq.tools.ddk.xtext.export.ui.quickfix,
