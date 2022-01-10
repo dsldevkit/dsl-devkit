@@ -223,7 +223,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    */
   @Inject
   public MonitoredClusteringBuilderState(final IXtextTargetPlatformManager manager) {
-    super();
     this.targetPlatformManager = manager;
     manager.addListener(this);
   }

@@ -62,8 +62,6 @@ public class CheckExtensionHelperManager {
 
   @Inject
   public CheckExtensionHelperManager(final Injector injector) {
-    super();
-
     final CheckValidatorExtensionHelper validatorHelper = new CheckValidatorExtensionHelper();
     final CheckContextsExtensionHelper contextsHelper = new CheckContextsExtensionHelper();
     final CheckMarkerHelpExtensionHelper markerHelpHelper = new CheckMarkerHelpExtensionHelper();

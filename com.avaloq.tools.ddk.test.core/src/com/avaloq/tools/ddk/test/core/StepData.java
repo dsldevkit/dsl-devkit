@@ -39,7 +39,6 @@ public final class StepData<T> implements IStepData<T> {
    *          the value of this step data
    */
   private StepData(final T value) {
-    super();
     this.value = value;
   }
 

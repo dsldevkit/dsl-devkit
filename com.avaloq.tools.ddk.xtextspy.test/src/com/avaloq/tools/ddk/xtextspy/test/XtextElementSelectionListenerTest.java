@@ -54,7 +54,6 @@ public class XtextElementSelectionListenerTest extends AbstractXtextTests {
     private final IEditorUtils editorUtils;
 
     public TestModule(final IEditorUtils editorUtils) {
-      super();
       this.editorUtils = editorUtils;
     }
 

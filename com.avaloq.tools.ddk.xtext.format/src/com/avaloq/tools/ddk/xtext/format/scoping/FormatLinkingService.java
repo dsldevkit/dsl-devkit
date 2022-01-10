@@ -149,10 +149,10 @@ public class FormatLinkingService extends AbstractFastLinkingService {
    */
   private URI buildExtendedFormatConfigurationURI(final String formatName) {
     URI formatURI = URI.createPlatformResourceURI(formatName, true);
-    String[] formatSegments = formatName.split("\\.");
     formatURI = formatURI.trimFileExtension();
     formatURI = formatURI.appendFileExtension("core");
     formatURI = formatURI.appendSegment("src");
+    String[] formatSegments = formatName.split("\\.");
     formatURI = formatURI.appendSegments(formatSegments);
     formatURI = formatURI.trimSegments(1);
     formatURI = formatURI.appendSegment("formatting");

@@ -58,7 +58,9 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
           .filter(Objects::nonNull) // immutable set copies cannot contain null
           .collect(Collectors.toList())
           .iterator();
-        } catch (ConcurrentModificationException unused) {} // In case the registry resolves some packages,
+        } catch (ConcurrentModificationException unused) {
+          // In case the registry resolves some packages
+        } 
       } 
     });
   // @Format-On

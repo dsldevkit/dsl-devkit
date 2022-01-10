@@ -94,8 +94,8 @@ public class CheckCatalogWizardTest {
         IPackageFragmentRoot root = javaProject.getPackageFragmentRoot(sourceFolder);
         try {
           root.createPackageFragment(VALID_PACKAGE_NAME, false, null);
-        } catch (JavaModelException e1) {
-          LOG.error("create package" + e1.getMessage());
+        } catch (JavaModelException e) {
+          LOG.error("create package" + e.getMessage());
         }
       }
     };

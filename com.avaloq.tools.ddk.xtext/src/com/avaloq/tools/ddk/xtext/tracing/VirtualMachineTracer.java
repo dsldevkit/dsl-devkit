@@ -99,7 +99,7 @@ public class VirtualMachineTracer {
           } catch (InvalidKeyException e) {
             // ignore
           }
-        };
+        }
       };
       emitter.addNotificationListener(listener, null, null);
       gcListenerMap.put(emitter, listener);

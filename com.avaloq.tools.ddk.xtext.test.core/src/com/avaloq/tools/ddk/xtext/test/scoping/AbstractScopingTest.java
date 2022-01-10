@@ -112,7 +112,6 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          the domainMapper to use
    */
   public AbstractScopingTest(final IDomain.Mapper domainMapper) {
-    super();
     this.domainMapper = domainMapper;
   }
 
@@ -798,8 +797,6 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          CrossReference object, can be {@code null}
    */
   protected void assertEObjectsAreEqual(final EObject sourceObject, final EObject targetObject, final CrossReference crossReference) {
-    String sourceObjectUri = EcoreUtil.getURI(sourceObject).toString();
-    URI targetUri = EcoreUtil.getURI(targetObject);
     StringBuilder expected = new StringBuilder();
     StringBuilder found = new StringBuilder();
     if (crossReference != null) {
@@ -809,7 +806,9 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     }
     expected.append(LINKS_TO);
     found.append(LINKS_TO);
+    URI targetUri = EcoreUtil.getURI(targetObject);
     expected.append(targetUri);
+    String sourceObjectUri = EcoreUtil.getURI(sourceObject).toString();
     found.append(sourceObjectUri);
     expected.append(WHICH_CORRESPONDS_TO);
     INode node;

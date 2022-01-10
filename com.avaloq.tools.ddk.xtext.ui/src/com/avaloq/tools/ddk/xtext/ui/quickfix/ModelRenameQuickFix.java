@@ -39,7 +39,6 @@ public class ModelRenameQuickFix extends IUnitOfWork.Void<XtextResource> {
    *          issue for the model element's name feature to be modified
    */
   public ModelRenameQuickFix(final IXtextDocument xtextDocument, final Issue issue) {
-    super();
     this.xtextDocument = xtextDocument;
     this.issue = issue;
   }

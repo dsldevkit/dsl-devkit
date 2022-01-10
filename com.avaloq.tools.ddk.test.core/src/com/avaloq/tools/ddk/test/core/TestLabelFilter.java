@@ -22,7 +22,6 @@ public class TestLabelFilter extends Filter {
   private final String label;
 
   public TestLabelFilter(final String label) {
-    super();
     this.label = label;
   }
 

@@ -57,10 +57,10 @@ public class IndentationLocatorStartFacade extends FormattingConfig.IndentationL
   @Override
   public void setIndentation(final int indentation) {
     this.indentation = indentation;
-  };
+  }
 
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.ADDITIVE;
-  };
+  }
 }

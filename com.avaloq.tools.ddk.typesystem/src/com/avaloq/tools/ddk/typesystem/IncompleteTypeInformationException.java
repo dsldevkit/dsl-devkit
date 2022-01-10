@@ -24,7 +24,6 @@ public class IncompleteTypeInformationException extends Exception {
    * Creates a new instance of {@link IncompleteTypeInformationException}.
    */
   public IncompleteTypeInformationException() {
-    super();
   }
 
   /**

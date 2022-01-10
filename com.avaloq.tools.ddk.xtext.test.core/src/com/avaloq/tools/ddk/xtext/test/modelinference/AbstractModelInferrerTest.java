@@ -41,7 +41,7 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
   protected void afterAllTests() {
     getTestProjectManager().setAutobuild(oldAutoBuildState);
     super.afterAllTests();
-  };
+  }
 
   /**
    * Returns the inferred elements for the given source element.

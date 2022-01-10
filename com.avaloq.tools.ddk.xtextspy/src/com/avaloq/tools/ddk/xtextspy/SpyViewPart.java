@@ -93,12 +93,12 @@ public class SpyViewPart extends ViewPart {
     grammarView.setLayoutData(gridData);
 
     // Sash containing EClassType and EObjectContent views
-    SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL);
     gridData = new GridData();
     gridData.verticalAlignment = GridData.FILL;
     gridData.grabExcessHorizontalSpace = true;
     gridData.grabExcessVerticalSpace = true;
     gridData.horizontalAlignment = GridData.FILL;
+    SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL);
     sashForm.setLayoutData(gridData);
     eClassTypeView = new EClassTypeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
     eClassTypeView.setContentProvider(typeContentProvider);

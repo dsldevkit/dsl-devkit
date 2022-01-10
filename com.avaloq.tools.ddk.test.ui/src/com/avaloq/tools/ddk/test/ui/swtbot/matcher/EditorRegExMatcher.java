@@ -27,7 +27,6 @@ public class EditorRegExMatcher extends BaseMatcher<IEditorReference> {
   private final Matcher regExMatcher;
 
   public EditorRegExMatcher(final String regex) {
-    super();
     Pattern pattern = Pattern.compile(regex);
     this.regExMatcher = pattern.matcher("");
   }

@@ -30,7 +30,6 @@ public class SimpleResourceDescription extends AbstractResourceDescription {
   private final List<IEObjectDescription> exported;
 
   public SimpleResourceDescription(final URI uri, final List<IEObjectDescription> exportedObjects) {
-    super();
     this.uri = uri;
     this.exported = exportedObjects;
   }

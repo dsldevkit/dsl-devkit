@@ -37,7 +37,6 @@ public class DescriptionAtEndAddingContainer extends AbstractContainer {
    *          the container to be wrapped.
    */
   public DescriptionAtEndAddingContainer(final IResourceDescription addMe, final IContainer delegate) {
-    super();
     this.description = addMe;
     this.delegate = delegate;
   }

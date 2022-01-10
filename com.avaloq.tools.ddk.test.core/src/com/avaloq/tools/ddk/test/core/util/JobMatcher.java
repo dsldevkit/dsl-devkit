@@ -147,7 +147,6 @@ public class JobMatcher extends JobChangeAdapter {
   }
 
   public JobMatcher(final JobFinder finder, final long waitTimeout) {
-    super();
     this.finder = finder;
     this.waitTimeout = waitTimeout;
   }

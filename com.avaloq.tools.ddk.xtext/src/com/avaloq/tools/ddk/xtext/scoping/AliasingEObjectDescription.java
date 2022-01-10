@@ -37,7 +37,6 @@ public class AliasingEObjectDescription extends AbstractEObjectDescription {
    *          The original, now aliased, IEObjectDescription.
    */
   public AliasingEObjectDescription(final QualifiedName name, final IEObjectDescription delegate) {
-    super();
     this.delegate = delegate;
     this.alias = name;
   }

@@ -17,7 +17,6 @@ public final class NullStep extends AbstractStep {
   public static final NullStep INSTANCE = new NullStep();
 
   private NullStep() {
-    super();
   }
 
   @Override
