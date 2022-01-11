@@ -6,7 +6,6 @@ Bundle-Version: 8.5.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.test.runtime;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
- org.apache.log4j;visibility:=reexport,
  org.apache.commons.logging;resolution:=optional;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
@@ -24,8 +23,8 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  com.avaloq.tools.ddk.check.lib,
  com.avaloq.tools.ddk.check.core,
  org.eclipse.xtext.xbase.lib
-Import-Package: org.eclipse.xtext.xbase.lib,
- org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.services,

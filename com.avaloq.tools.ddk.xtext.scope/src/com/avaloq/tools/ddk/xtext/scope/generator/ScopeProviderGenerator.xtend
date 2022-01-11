@@ -58,7 +58,7 @@ class ScopeProviderGenerator {
       import java.util.Arrays;
 
       import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+      import org.apache.logging.log4j.LogManager;
       import org.eclipse.emf.ecore.EClass;
       import org.eclipse.emf.ecore.EObject;
       import org.eclipse.emf.ecore.EPackage;
