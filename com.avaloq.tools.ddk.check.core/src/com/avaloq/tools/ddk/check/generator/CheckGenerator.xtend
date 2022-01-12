@@ -150,7 +150,7 @@ class CheckGenerator extends JvmModelGenerator {
     «ENDIF»
 
     import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+    import org.apache.logging.log4j.LogManager;
 
     import com.avaloq.tools.ddk.check.runtime.configuration.ModelLocation;
     import com.avaloq.tools.ddk.check.runtime.registry.ICheckCatalogRegistry;
