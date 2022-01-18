@@ -23,6 +23,7 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
+import com.avaloq.tools.ddk.xtext.builder.layered.NullResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.ResourceDescriptions2;
@@ -38,7 +39,7 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
 
   /**
    * Create a new index based on an old one.
-   * 
+   *
    * @param resourceSet
    *          The resource set
    * @param oldState
@@ -50,27 +51,29 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
     super(resourceSet, newData);
     if (newData instanceof IResourceDescriptionsData) {
       data = (IResourceDescriptionsData) newData;
-    } else {
+    } else if (newData != null) {
       data = new DelegatingResourceDescriptionsData(newData);
+    } else {
+      data = new NullResourceDescriptionsData();
     }
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Set<URI> getAllURIs() {
     return data.getAllURIs();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     return data.findAllReferencingResources(targetResources, matchPolicy);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     return data.findExactReferencingResources(targetObjects, matchPolicy);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     return data.findReferencesToObjects(targetObjects);
   }
@@ -88,7 +91,7 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
 
     /**
      * Set the context.
-     * 
+     *
      * @param ctx
      *          The context
      */
@@ -109,22 +112,22 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
       return delegate;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Set<URI> getAllURIs() {
       return delegate.getAllURIs();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
       return delegate.findAllReferencingResources(targetResources, matchPolicy);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
       return delegate.findExactReferencingResources(targetObjects, matchPolicy);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
       return delegate.findReferencesToObjects(targetObjects);
     }
@@ -132,4 +135,3 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
   }
 
 }
-
