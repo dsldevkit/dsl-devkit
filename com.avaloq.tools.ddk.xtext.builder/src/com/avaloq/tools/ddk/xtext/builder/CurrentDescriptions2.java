@@ -81,7 +81,7 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
   /**
    * Context-aware instance of our index.
    * FIXME: This is needed only because our ContainerManager needs access to the delegate as it uses it for its cache key. If we could do away with this, we
-   * couls remove this whole class and also its Guice binding in all languages. This class is used *only* when linking; it doesn't need to support the new
+   * could remove this whole class and also its Guice binding in all languages. This class is used *only* when linking; it doesn't need to support the new
    * IResourceDEscriptions2 interface with the findReferences operations.
    */
   public static class ResourceSetAware extends CurrentDescriptions.ResourceSetAware implements IResourceDescriptions2 {
@@ -102,8 +102,10 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
       IResourceDescriptions adapter = (IResourceDescriptions) EcoreUtil2.getAdapter(resourceSet.eAdapters(), CurrentDescriptions.class);
       if (adapter instanceof IResourceDescriptions2) {
         delegate = (IResourceDescriptions2) adapter;
-      } else {
+      } else if (adapter != null) {
         delegate = new ResourceDescriptions2(adapter);
+      } else {
+        delegate = new NullResourceDescriptionsData();
       }
     }
 
