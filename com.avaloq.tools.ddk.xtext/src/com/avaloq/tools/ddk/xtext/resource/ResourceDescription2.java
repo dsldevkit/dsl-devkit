@@ -174,7 +174,8 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
       return true;
     }
     for (EClass exported : exportedEClasses) {
-      if (type.isSuperTypeOf(exported)) {
+      // if its direct superclass in java is exported
+      if (type.isSuperTypeOf(exported) || type.getESuperTypes().contains(exported)) {
         return true;
       }
     }
