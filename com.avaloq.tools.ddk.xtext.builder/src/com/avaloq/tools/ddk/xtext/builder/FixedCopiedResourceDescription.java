@@ -15,10 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.builder.clustering.CopiedResourceDescription;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -30,7 +32,6 @@ import org.eclipse.xtext.resource.impl.EObjectDescriptionLookUp;
 import com.avaloq.tools.ddk.xtext.resource.IDetachableDescription;
 import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUp;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescription2;
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -38,33 +39,38 @@ import com.google.common.collect.Maps;
 
 
 /**
- * Fix a contract-breaking default implementation in Xtext 2.0.1. Further use LinkedHashMap instead of HashMap to preserve order of user data entries.
+ * Fix a contract-breaking default implementation ({@link CopiedResourceDescription}) in Xtext 2.0.1. Further use LinkedHashMap instead of HashMap to preserve
+ * order of user data entries.
  * Also the {@link IDetachableDescription} is respected in order to reuse descriptions and computed data where possible.
+ * This descriptor, like {@link CopiedResourceDescription} should be local to a single build run and never survive that single build cycle.
+ * Within the build loop, imported names and reference descriptions should never be necessary, thus the original implementation logs an error
+ * if getImportedNames or getReferenceDescriptions are ever called.
+ * The ASMD builder calls though getReferenceDescriptions when exporting descriptors to the database, so at the time being we cannot guard this method as we
+ * would like to.
  */
 public class FixedCopiedResourceDescription extends AbstractResourceDescription implements IResourceDescription2 {
+
+  private static final Logger LOG = Logger.getLogger(FixedCopiedResourceDescription.class);
 
   private final URI uri;
   private final ImmutableList<IEObjectDescription> exported;
 
+  @SuppressWarnings("unchecked")
   public FixedCopiedResourceDescription(final IResourceDescription original) {
     this.uri = original.getURI();
-    this.exported = ImmutableList.copyOf(Iterables.transform(original.getExportedObjects(), new Function<IEObjectDescription, IEObjectDescription>() {
-      @Override
-      @SuppressWarnings("unchecked")
-      public IEObjectDescription apply(final IEObjectDescription from) {
-        if (from.getEObjectOrProxy().eIsProxy()) {
-          return from;
-        } else if (from instanceof IDetachableDescription) {
-          return ((IDetachableDescription<IEObjectDescription>) from).detach();
-        }
-        InternalEObject result = (InternalEObject) EcoreUtil.create(from.getEClass());
-        result.eSetProxyURI(from.getEObjectURI());
-        ImmutableMap.Builder<String, String> userData = ImmutableMap.builder();
-        for (final String key : from.getUserDataKeys()) {
-          userData.put(key, from.getUserData(key));
-        }
-        return EObjectDescription.create(from.getName(), result, userData.build());
+    this.exported = ImmutableList.copyOf(Iterables.transform(original.getExportedObjects(), from -> {
+      if (from.getEObjectOrProxy().eIsProxy()) {
+        return from;
+      } else if (from instanceof IDetachableDescription) {
+        return ((IDetachableDescription<IEObjectDescription>) from).detach();
       }
+      InternalEObject result = (InternalEObject) EcoreUtil.create(from.getEClass());
+      result.eSetProxyURI(from.getEObjectURI());
+      ImmutableMap.Builder<String, String> userData = ImmutableMap.builder();
+      for (final String key : from.getUserDataKeys()) {
+        userData.put(key, from.getUserData(key));
+      }
+      return EObjectDescription.create(from.getName(), result, userData.build());
     }));
   }
 
@@ -86,17 +92,15 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
     return lookup;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<QualifiedName> getImportedNames() {
-    // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=344373
+    IllegalStateException exception = new IllegalStateException("getImportedNames " + getURI()); //$NON-NLS-1$
+    LOG.warn(exception, exception);
     return Collections.emptyList();
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IReferenceDescription> getReferenceDescriptions() {
-    // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=344373
     return Collections.emptyList();
   }
 
@@ -113,13 +117,8 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
     return result.toString();
   }
 
-  /**
-   * {@inheritDoc}
-   * see https://bugs.eclipse.org/bugs/show_bug.cgi?id=344373
-   */
   @Override
   public Map<QualifiedName, Set<EClass>> getImportedNamesTypes() {
     return Maps.newHashMap();
   }
 }
-
