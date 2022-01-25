@@ -13,7 +13,8 @@ package com.avaloq.tools.ddk.xtext.expression.generator;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.internal.xtend.xtend.ast.Extension;
 import org.eclipse.internal.xtend.xtend.ast.JavaExtensionStatement;
@@ -40,7 +41,7 @@ import com.google.common.collect.Sets;
 public class CompilationContext {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(CompilationContext.class);
+  private static final Logger LOGGER = LogManager.getLogger(CompilationContext.class);
 
   /** Xtend execution context. */
   private final ExecutionContext context;

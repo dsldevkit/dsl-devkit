@@ -12,7 +12,8 @@ package com.avaloq.tools.ddk.xtext.generator.util;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -36,7 +37,7 @@ import com.google.common.collect.Lists;
  * order not to show a warning.
  */
 public class CustomClassAwareEcoreGenerator extends EcoreGenerator implements IWorkflowComponent {
-  private static final Logger LOGGER = Logger.getLogger(EcoreGenerator.class);
+  private static final Logger LOGGER = LogManager.getLogger(EcoreGenerator.class);
 
   private String genModel;
   private final List<String> suppressedSrcPaths = Lists.newLinkedList();

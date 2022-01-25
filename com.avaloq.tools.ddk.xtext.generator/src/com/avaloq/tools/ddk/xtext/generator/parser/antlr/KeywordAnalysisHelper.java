@@ -22,7 +22,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -53,7 +54,7 @@ public final class KeywordAnalysisHelper {
   private static final int WORDS_PADDING = 20;
   private static final int WORDS_PER_ROW = 4;
 
-  private static final Logger LOGGER = Logger.getLogger(KeywordAnalysisHelper.class);
+  private static final Logger LOGGER = LogManager.getLogger(KeywordAnalysisHelper.class);
 
   private final String parserGrammarFileName;
   private final Grammar grammar;

@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
@@ -21,7 +22,7 @@ import org.eclipse.xtext.resource.IEObjectDescription;
  */
 public abstract class AbstractNameFunction implements INameFunction {
 
-  private static final Logger LOG = Logger.getLogger(AbstractNameFunction.class);
+  private static final Logger LOG = LogManager.getLogger(AbstractNameFunction.class);
 
   /**
    * String value used in {@link #toString()} representation and {@link #hashCode()}. Used to support comparing NameFunctions when

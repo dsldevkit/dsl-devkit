@@ -24,7 +24,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -122,7 +123,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   private static final int COMMIT_WARN_WAIT_SEC = 30;
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(MonitoredClusteringBuilderState.class);
+  private static final Logger LOGGER = LogManager.getLogger(MonitoredClusteringBuilderState.class);
 
   @Inject
   private ITraceSet traceSet;

@@ -23,7 +23,8 @@ import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -47,7 +48,7 @@ import com.google.common.io.CharStreams;
  */
 public class DirectLinkingResourceStorageWritable extends ResourceStorageWritable {
 
-  private static final Logger LOG = Logger.getLogger(DirectLinkingResourceStorageWritable.class);
+  private static final Logger LOG = LogManager.getLogger(DirectLinkingResourceStorageWritable.class);
 
   private final boolean storeNodeModel;
 

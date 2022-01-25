@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -30,7 +31,7 @@ import com.google.inject.Inject;
 public class DefaultCrossReferenceHelper implements ICrossReferenceHelper {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(DefaultCrossReferenceHelper.class);
+  private static final Logger LOGGER = LogManager.getLogger(DefaultCrossReferenceHelper.class);
 
   @Inject
   private LazyURIEncoder uriEncoder;

@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.core;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
@@ -20,7 +21,7 @@ import org.junit.runner.Description;
  */
 public final class LoggingRule extends TestWatcher {
 
-  private static final Logger LOGGER = Logger.getLogger(LoggingRule.class);
+  private static final Logger LOGGER = LogManager.getLogger(LoggingRule.class);
 
   /** The singleton instance, or {@code null} if not cached. */
   private static LoggingRule instance;

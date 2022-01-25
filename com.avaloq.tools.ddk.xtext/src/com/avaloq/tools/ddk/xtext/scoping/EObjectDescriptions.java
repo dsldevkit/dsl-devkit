@@ -12,7 +12,8 @@ package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.util.Collections;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -32,7 +33,7 @@ import com.google.common.collect.Iterables;
 public final class EObjectDescriptions {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(NameFunctions.class);
+  private static final Logger LOGGER = LogManager.getLogger(NameFunctions.class);
 
   /** No public instantiation. */
   private EObjectDescriptions() {

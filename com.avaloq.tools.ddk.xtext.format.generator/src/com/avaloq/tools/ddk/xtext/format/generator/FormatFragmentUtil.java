@@ -14,7 +14,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -42,7 +43,7 @@ import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
 public final class FormatFragmentUtil {
 
   /** Class-wide logger. */
-  private static final Logger LOG = Logger.getLogger(FormatFragmentUtil.class);
+  private static final Logger LOG = LogManager.getLogger(FormatFragmentUtil.class);
 
   /** Resource checker used to validate loaded model. */
   private static ModelValidator modelValidator;

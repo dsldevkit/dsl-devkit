@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
@@ -24,7 +25,7 @@ import com.google.inject.Provider;
  */
 public class CheckValidatorDescriptor implements Provider<ICheckValidatorImpl>, ICheckImplDescriptor {
 
-  private static final Logger LOGGER = Logger.getLogger(CheckValidatorDescriptor.class);
+  private static final Logger LOGGER = LogManager.getLogger(CheckValidatorDescriptor.class);
 
   private final IConfigurationElement element;
   private final String attClass;

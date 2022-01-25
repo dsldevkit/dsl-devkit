@@ -9,7 +9,6 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.generator;resolution:=optional,
  com.avaloq.tools.ddk.check.runtime.core
-Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.check.generator,
  com.avaloq.tools.ddk.check.generator.quickfix
 Automatic-Module-Name: com.avaloq.tools.ddk.check.generator

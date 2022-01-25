@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -43,7 +44,7 @@ import com.google.common.collect.Maps;
 public class ContainerQuery {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(ContainerQuery.class);
+  private static final Logger LOGGER = LogManager.getLogger(ContainerQuery.class);
 
   /** Our "glob"-expression have only one wildcard character, signifying zero or more occurrences of any character. */
   public static final char WILDCARD = '*';

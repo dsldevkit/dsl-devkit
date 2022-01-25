@@ -12,7 +12,8 @@ package com.avaloq.tools.ddk.test.core.junit.runners;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.osgi.util.NLS;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -46,7 +47,7 @@ public final class FilterRegistry extends Filter {
   private static final String PACKAGE_PREFIX = FilterRegistry.class.getCanonicalName().substring(0, FilterRegistry.class.getCanonicalName().length()
       - FilterRegistry.class.getSimpleName().length());
   private static final FilterRegistry INSTANCE = new FilterRegistry();
-  private static final Logger LOGGER = Logger.getLogger(FilterRegistry.class);
+  private static final Logger LOGGER = LogManager.getLogger(FilterRegistry.class);
   /** The list of test suite filters. */
   private final List<Filter> suiteFilters;
   /** The list of test class filters. */

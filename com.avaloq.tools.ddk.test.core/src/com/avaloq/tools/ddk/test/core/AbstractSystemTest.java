@@ -13,7 +13,8 @@ package com.avaloq.tools.ddk.test.core;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,7 +31,7 @@ import org.junit.runner.Description;
 public abstract class AbstractSystemTest implements TestStepListener {
   // The particular suppress warnings annotation is needed because we WANT to have a unique logger for each of the subclasses
   @SuppressWarnings("PMD.LoggerIsNotStaticFinal")
-  private final Logger logger = Logger.getLogger(getClass());
+  private final Logger logger = LogManager.getLogger(getClass());
   private int stepCounter = 1;
   private final MultipleTestProblems multipleTestProblems = new MultipleTestProblems();
 

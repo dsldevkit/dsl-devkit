@@ -23,7 +23,8 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
@@ -56,7 +57,7 @@ import com.google.common.io.CharStreams;
 public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadable {
   // CHECKSTYLE:COUPLING-ON
 
-  private static final Logger LOG = Logger.getLogger(DirectLinkingResourceStorageLoadable.class);
+  private static final Logger LOG = LogManager.getLogger(DirectLinkingResourceStorageLoadable.class);
 
   private static final int SOURCE_BUFFER_CAPACITY = 0x10000; // 64 KiB
 
