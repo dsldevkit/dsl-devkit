@@ -33,7 +33,8 @@ import com.google.common.collect.Sets;
  */
 public final class ResourceDescriptionsUtil {
 
-  private ResourceDescriptionsUtil() {}
+  private ResourceDescriptionsUtil() {
+  }
 
   /**
    * Returns all URIs in the given resource descriptions object.
@@ -85,23 +86,25 @@ public final class ResourceDescriptionsUtil {
       }
     }
 
-    return Iterables.filter(descriptions.getAllResourceDescriptions(), input -> {
-      if (matchNames) {
-        for (QualifiedName name : input.getImportedNames()) {
-          if (exportedNames.contains(name.toLowerCase())) { // NOPMD
-            return true;
+    return Iterables.filter(//
+        Iterables.filter(descriptions.getAllResourceDescriptions(), input -> !targetResources.contains(input)) //
+        , input -> {
+          if (matchNames) {
+            for (QualifiedName name : input.getImportedNames()) {
+              if (exportedNames.contains(name.toLowerCase())) { // NOPMD
+                return true;
+              }
+            }
           }
-        }
-      }
-      if (matchPolicy.includes(ReferenceMatchPolicy.REFERENCES)) {
-        for (IReferenceDescription ref : input.getReferenceDescriptions()) {
-          if (targetUris.contains(ref.getTargetEObjectUri().trimFragment())) {
-            return true;
+          if (matchPolicy.includes(ReferenceMatchPolicy.REFERENCES)) {
+            for (IReferenceDescription ref : input.getReferenceDescriptions()) {
+              if (targetUris.contains(ref.getTargetEObjectUri().trimFragment())) {
+                return true;
+              }
+            }
           }
-        }
-      }
-      return false;
-    });
+          return false;
+        });
   }
 
   /**

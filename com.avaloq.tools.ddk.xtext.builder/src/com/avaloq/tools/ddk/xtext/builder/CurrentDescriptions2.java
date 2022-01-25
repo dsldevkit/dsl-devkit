@@ -23,6 +23,7 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
+import com.avaloq.tools.ddk.xtext.builder.layered.NullResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.extensions.ResourceDescriptions2;
@@ -38,7 +39,7 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
 
   /**
    * Create a new index based on an old one.
-   * 
+   *
    * @param resourceSet
    *          The resource set
    * @param oldState
@@ -50,27 +51,29 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
     super(resourceSet, newData);
     if (newData instanceof IResourceDescriptionsData) {
       data = (IResourceDescriptionsData) newData;
-    } else {
+    } else if (newData != null) {
       data = new DelegatingResourceDescriptionsData(newData);
+    } else {
+      data = new NullResourceDescriptionsData();
     }
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Set<URI> getAllURIs() {
     return data.getAllURIs();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     return data.findAllReferencingResources(targetResources, matchPolicy);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     return data.findExactReferencingResources(targetObjects, matchPolicy);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     return data.findReferencesToObjects(targetObjects);
   }
@@ -78,7 +81,7 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
   /**
    * Context-aware instance of our index.
    * FIXME: This is needed only because our ContainerManager needs access to the delegate as it uses it for its cache key. If we could do away with this, we
-   * couls remove this whole class and also its Guice binding in all languages. This class is used *only* when linking; it doesn't need to support the new
+   * could remove this whole class and also its Guice binding in all languages. This class is used *only* when linking; it doesn't need to support the new
    * IResourceDEscriptions2 interface with the findReferences operations.
    */
   public static class ResourceSetAware extends CurrentDescriptions.ResourceSetAware implements IResourceDescriptions2 {
@@ -88,7 +91,7 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
 
     /**
      * Set the context.
-     * 
+     *
      * @param ctx
      *          The context
      */
@@ -99,8 +102,10 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
       IResourceDescriptions adapter = (IResourceDescriptions) EcoreUtil2.getAdapter(resourceSet.eAdapters(), CurrentDescriptions.class);
       if (adapter instanceof IResourceDescriptions2) {
         delegate = (IResourceDescriptions2) adapter;
-      } else {
+      } else if (adapter != null) {
         delegate = new ResourceDescriptions2(adapter);
+      } else {
+        delegate = new NullResourceDescriptionsData();
       }
     }
 
@@ -109,22 +114,22 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
       return delegate;
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Set<URI> getAllURIs() {
       return delegate.getAllURIs();
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
       return delegate.findAllReferencingResources(targetResources, matchPolicy);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
       return delegate.findExactReferencingResources(targetObjects, matchPolicy);
     }
 
-    /** {@inheritDoc} */
+    @Override
     public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
       return delegate.findReferencesToObjects(targetObjects);
     }
@@ -132,4 +137,3 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
   }
 
 }
-
