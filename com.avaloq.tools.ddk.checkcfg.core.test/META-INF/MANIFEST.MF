@@ -5,7 +5,7 @@ Bundle-Vendor: Avaloq Evolution AG
 Bundle-Version: 9.0.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core.test; singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: com.avaloq.tools.ddk.test.core,
+Require-Bundle: com.avaloq.tools.ddk.test.core, 
  com.avaloq.tools.ddk.checkcfg.core,
  com.avaloq.tools.ddk.checkcfg.ui,
  com.avaloq.tools.ddk.xtext.test.core,
@@ -22,6 +22,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.junit,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.ui.workbench;resolution:=optional,
+ org.apache.log4j,
  org.objectweb.asm;resolution:=optional
 Import-Package: org.hamcrest.core,
  org.junit.runner;version="4.5.0",

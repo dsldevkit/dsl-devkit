@@ -10,8 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.core.util;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.osgi.util.NLS;
@@ -23,7 +22,7 @@ import org.eclipse.osgi.util.NLS;
 public class LoggingJobListener implements IJobChangeListener {
 
   /** The logger. */
-  private static final Logger LOGGER = LogManager.getLogger(LoggingJobListener.class);
+  private static final Logger LOGGER = Logger.getLogger(LoggingJobListener.class);
 
   /** {@inheritDoc} */
   @Override

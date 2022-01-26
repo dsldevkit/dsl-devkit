@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.test.ui.swtbot.util;
 
 import java.util.Arrays;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
@@ -29,7 +28,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
  * where the bot can't find a dynamically created context menu.
  */
 public final class DynamicContextActionUiTestUtil {
-  private static final Logger LOGGER = LogManager.getLogger(DynamicContextActionUiTestUtil.class);
+  private static final Logger LOGGER = Logger.getLogger(DynamicContextActionUiTestUtil.class);
 
   /**
    * Clicks the context menu matching the given labels.

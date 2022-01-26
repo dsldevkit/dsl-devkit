@@ -57,8 +57,7 @@ class ScopeProviderGenerator {
 
       import java.util.Arrays;
 
-      import org.apache.logging.log4j.Logger;
-      import org.apache.logging.log4j.LogManager;
+      import org.apache.log4j.Logger;
       import org.eclipse.emf.ecore.EClass;
       import org.eclipse.emf.ecore.EObject;
       import org.eclipse.emf.ecore.EPackage;
@@ -85,7 +84,7 @@ class ScopeProviderGenerator {
       public class «getScopeProvider().toSimpleName()» extends AbstractPolymorphicScopeProvider {
 
         /** Class-wide logger. */
-        private static final Logger LOGGER = LogManager.getLogger(«getScopeProvider().toSimpleName()».class);
+        private static final Logger LOGGER = Logger.getLogger(«getScopeProvider().toSimpleName()».class);
         «IF !allInjections().isEmpty»
           «FOR i : allInjections()»
             @Inject

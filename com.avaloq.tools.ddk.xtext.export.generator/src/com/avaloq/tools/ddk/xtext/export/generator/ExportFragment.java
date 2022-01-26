@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.xtext.export.generator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -50,7 +49,7 @@ import com.google.common.collect.Iterables;
 public class ExportFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(ExportFragment.class);
+  private static final Logger LOGGER = Logger.getLogger(ExportFragment.class);
 
   /** Our file extension. */
   private static final String EXPORT_FILE_EXTENSION = "export"; //$NON-NLS-1$

@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.xtext.ui.util;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
@@ -32,7 +31,7 @@ import com.google.common.collect.Iterables;
  */
 public final class RuntimeProjectUtil {
 
-  private static final Logger LOGGER = LogManager.getLogger(RuntimeProjectUtil.class);
+  private static final Logger LOGGER = Logger.getLogger(RuntimeProjectUtil.class);
 
   /**
    * Private constructor for utility classes.

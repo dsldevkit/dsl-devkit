@@ -17,8 +17,7 @@ import static org.junit.Assert.assertSame;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -63,7 +62,7 @@ public class CheckCatalogWizardTest {
   /** input strings for wizard testing. */
   private static final String VALID_PACKAGE_NAME = "p.p";
 
-  private static final Logger LOG = LogManager.getLogger(CheckCatalogWizardTest.class);
+  private static final Logger LOG = Logger.getLogger(CheckCatalogWizardTest.class);
 
   private SwtWizardBot wizard;
   private static IProject project;

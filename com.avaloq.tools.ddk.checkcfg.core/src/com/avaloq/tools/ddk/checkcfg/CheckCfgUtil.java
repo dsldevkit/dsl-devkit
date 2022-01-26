@@ -17,8 +17,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -39,7 +39,7 @@ import com.google.inject.ConfigurationException;
  */
 public class CheckCfgUtil {
 
-  private static final Logger LOGGER = LogManager.getLogger(CheckCfgUtil.class);
+  private static final Logger LOGGER = Logger.getLogger(CheckCfgUtil.class);
 
   /**
    * Gets the all languages available in the workbench.
@@ -80,7 +80,7 @@ public class CheckCfgUtil {
         try {
           contributions.add((ICheckCfgPropertySpecification) element.createExecutableExtension(PROPERTY_EXECUTABLE_EXTENSION_ATTRIBUTE));
         } catch (CoreException e) {
-          LOGGER.warn("Failed to instantiate property from " + element.getContributor(), e);
+          LOGGER.log(Level.WARN, "Failed to instantiate property from " + element.getContributor(), e);
         }
       }
     }

@@ -17,6 +17,6 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.valid;visibility:=reexport,
  org.eclipse.xtext.ui,
  org.apache.commons.lang,
  com.avaloq.tools.ddk.xtext.generator
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.valid.generator
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.valid.generator

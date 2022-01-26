@@ -10,8 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.util;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -21,7 +20,7 @@ import org.apache.logging.log4j.LogManager;
 public final class BuilderParticipantSettings {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(BuilderParticipantSettings.class);
+  private static final Logger LOGGER = Logger.getLogger(BuilderParticipantSettings.class);
 
   /**
    * BuilderParticipantStatus shows if generator is activated.

@@ -19,8 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -102,7 +101,7 @@ public class ExecTimeLogger {
     if (startTime == -1 || stopTime == -1 || caller == null) {
       throw new IllegalStateException("No stopped run to log available");
     }
-    Logger logger = LogManager.getLogger(getCallingClass());
+    Logger logger = Logger.getLogger(getCallingClass());
     Date interval = new Date(getExecTime());
     logger.info("Execution statistics: " + getCallingMethod() + " took " + df.format(interval));
   }

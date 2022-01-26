@@ -16,8 +16,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.templates.ContextTypeRegistry;
 import org.eclipse.jface.text.templates.persistence.TemplatePersistenceData;
@@ -38,7 +37,7 @@ import com.google.inject.name.Named;
 @SuppressWarnings("deprecation")
 public class ConfigurableTemplateStore extends TemplateStore {
 
-  private static final Logger LOG = LogManager.getLogger(ConfigurableTemplateStore.class);
+  private static final Logger LOG = Logger.getLogger(ConfigurableTemplateStore.class);
   private final URL res;
   private final IPreferenceStore preferenceStore;
   private final String key;

@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.xtext.generator.ecore;
 
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -117,7 +116,7 @@ class GeneratorAdapterDescriptor extends CvsIdFilteringGeneratorAdapterFactoryDe
 
   private final Function<String, String> typeMapper;
   private final Set<String> loggedTypeMappings;
-  private static final Logger LOGGER = LogManager.getLogger(GeneratorAdapterDescriptor.class);
+  private static final Logger LOGGER = Logger.getLogger(GeneratorAdapterDescriptor.class);
 
   protected GeneratorAdapterDescriptor(final Set<String> loggedTypeMappings, final Function<String, String> typeMapper) { // NOPMD
     this.typeMapper = typeMapper;

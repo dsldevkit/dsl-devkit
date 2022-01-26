@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.xtext.ui.editor.model;
 
 import java.util.Iterator;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -52,7 +51,7 @@ public class ResponsiveXtextDocumentProvider extends XtextDocumentProvider imple
   private IssueUtil issueUtil;
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(ResponsiveXtextDocumentProvider.class);
+  private static final Logger LOGGER = Logger.getLogger(ResponsiveXtextDocumentProvider.class);
 
   /** The preferenceStore. */
   private IPreferenceStore preferenceStore;

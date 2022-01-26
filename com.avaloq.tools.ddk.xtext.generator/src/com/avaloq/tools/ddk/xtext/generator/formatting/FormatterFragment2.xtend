@@ -14,8 +14,7 @@ package com.avaloq.tools.ddk.xtext.generator.formatting
 import com.avaloq.tools.ddk.xtext.formatting.DirectNodeModelStreamer
 import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter
 import com.google.inject.Inject
-import org.apache.logging.log4j.Logger
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger
 import org.eclipse.osgi.util.NLS
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.formatting.IFormatter
@@ -41,7 +40,7 @@ class FormatterFragment2 extends AbstractStubGeneratingFragment {
   /**
    * Class-wide logger.
    */
-  static final Logger LOGGER = LogManager::getLogger(typeof(FormatterFragment2))
+  static final Logger LOGGER = Logger::getLogger(typeof(FormatterFragment2))
 
   protected def TypeReference getFormatterStub(Grammar grammar) {
     new TypeReference(grammar.runtimeBasePackage + '.formatting.' + getSimpleName(grammar) + 'Formatter')

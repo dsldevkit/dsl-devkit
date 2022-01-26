@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.xtext.format.resource;
 
 import java.lang.reflect.Method;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.xbase.resource.BatchLinkableResource;
@@ -30,7 +29,7 @@ import org.eclipse.xtext.xtext.ecoreInference.Xtext2EcoreTransformer;
 @SuppressWarnings("restriction")
 public class FormatResource extends BatchLinkableResource {
 
-  private static final Logger LOGGER = LogManager.getLogger(FormatResource.class);
+  private static final Logger LOGGER = Logger.getLogger(FormatResource.class);
 
   private static Method removeGeneratedPackagesMethod;
 

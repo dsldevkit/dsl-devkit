@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -59,7 +58,7 @@ import com.google.inject.name.Named;
 public class LazyLinkingResource2 extends DerivedStateAwareResource implements ILazyLinkingResource2 {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(LazyLinkingResource2.class);
+  private static final Logger LOGGER = Logger.getLogger(LazyLinkingResource2.class);
 
   @Inject
   private ITraceSet traceSet;

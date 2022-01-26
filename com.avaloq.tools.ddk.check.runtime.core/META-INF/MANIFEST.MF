@@ -18,7 +18,7 @@ Export-Package: com.avaloq.tools.ddk.check.runtime,
  com.avaloq.tools.ddk.check.runtime.quickfix,
  com.avaloq.tools.ddk.check.runtime.registry,
  com.avaloq.tools.ddk.check.runtime.validation
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.log4j
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.avaloq.tools.ddk.check.runtime.internal.Activator
 Automatic-Module-Name: com.avaloq.tools.ddk.check.runtime.core

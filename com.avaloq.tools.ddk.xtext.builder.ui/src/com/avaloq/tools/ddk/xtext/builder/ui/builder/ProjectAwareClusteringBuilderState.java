@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.xtext.builder.ui.builder;
 
 import java.util.stream.StreamSupport;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -36,7 +35,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class ProjectAwareClusteringBuilderState extends ClusteringBuilderState {
 
-  private static final Logger LOGGER = LogManager.getLogger(ProjectAwareClusteringBuilderState.class);
+  private static final Logger LOGGER = Logger.getLogger(ProjectAwareClusteringBuilderState.class);
 
   @Inject
   private IStorage2UriMapper mapper;

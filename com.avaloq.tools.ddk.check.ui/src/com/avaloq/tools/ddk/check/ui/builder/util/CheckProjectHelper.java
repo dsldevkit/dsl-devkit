@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.check.ui.builder.util;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -49,7 +48,7 @@ import com.google.inject.name.Named;
 @Singleton
 public class CheckProjectHelper {
 
-  private static final Logger LOGGER = LogManager.getLogger(CheckProjectHelper.class);
+  private static final Logger LOGGER = Logger.getLogger(CheckProjectHelper.class);
 
   @Inject
   private IStorage2UriMapper mapper;

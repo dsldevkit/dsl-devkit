@@ -10,5 +10,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext.ui
 Export-Package: com.avaloq.tools.ddk.xtext.builder.ui.shared
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.builder.ui

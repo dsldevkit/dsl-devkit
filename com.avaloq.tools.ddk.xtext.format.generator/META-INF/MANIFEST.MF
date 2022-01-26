@@ -13,7 +13,7 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
  com.avaloq.tools.ddk.xtext,
  org.eclipse.jdt.core;visibility:=reexport,
  org.apache.commons.logging
-Import-Package: org.apache.logging.log4j,org.apache.log4j
+Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.xtext.format.generator
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.generator

@@ -17,8 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -53,7 +52,7 @@ import com.google.inject.Inject;
 public final class CheckConfigurationPropertiesGenerator {
 
   /** Class-wide logger. */
-  private static final Logger LOG = LogManager.getLogger(CheckConfigurationPropertiesGenerator.class);
+  private static final Logger LOG = Logger.getLogger(CheckConfigurationPropertiesGenerator.class);
 
   @Inject
   private IExpressionInterpreter interpreter;

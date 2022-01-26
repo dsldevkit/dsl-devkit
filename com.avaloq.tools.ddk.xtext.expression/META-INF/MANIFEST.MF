@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.jdt.launching,
  org.eclipse.core.resources,
  org.eclipse.core.runtime
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.expression.conversion,
  com.avaloq.tools.ddk.xtext.expression.expression,

@@ -10,8 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
@@ -28,7 +27,7 @@ import com.avaloq.tools.ddk.check.runtime.registry.ICheckImplDescriptor;
 class LanguageCheckCatalogRegistryReader extends AbstractCheckRegistryReader {
 
   /** The logger. */
-  private static final Logger LOGGER = LogManager.getLogger(LanguageCheckCatalogRegistryReader.class);
+  private static final Logger LOGGER = Logger.getLogger(LanguageCheckCatalogRegistryReader.class);
 
   @Override
   protected Logger getLogger() {

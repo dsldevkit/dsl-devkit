@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.test.core;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Assert;
 
 import com.google.common.collect.Lists;
@@ -30,7 +29,7 @@ public class CompoundStep extends AbstractStep {
   // The particular suppress warnings annotation is needed because we WANT to have a unique logger for each of the subclasses
   @SuppressWarnings("PMD.LoggerIsNotStaticFinal")
   /** The logger, never {@code null}. */
-  private final Logger logger = LogManager.getLogger(getClass());
+  private final Logger logger = Logger.getLogger(getClass());
   /** A list of {@link AbstractStep}s, which this {@link CompoundStep} consists of. */
   private final List<AbstractStep> plannedSteps = Lists.newLinkedList();
   /** Holds the so far executed {@link AbstractStep}s. */

@@ -40,6 +40,5 @@ Export-Package: com.avaloq.tools.ddk.check.ui;x-friends:="com.avaloq.tools.ddk.c
  com.avaloq.tools.ddk.check.ui.wizard,
  com.avaloq.tools.ddk.check.ui.quickfix,
  com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal
-Import-Package: org.apache.log4j,
- org.apache.logging.log4j
+Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.check.ui
