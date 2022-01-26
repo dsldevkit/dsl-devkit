@@ -12,8 +12,7 @@
 package com.avaloq.tools.ddk.xtext.generator.languageconstants
 
 import com.google.inject.Inject
-import org.apache.logging.log4j.Logger
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger
 import org.eclipse.osgi.util.NLS
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.GrammarUtil
@@ -33,7 +32,7 @@ class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
   @Inject extension XtextGeneratorNaming
 
   /** Class-wide logger. */
-  val static Logger LOGGER = LogManager.getLogger(LanguageConstantsFragment2);
+  val static Logger LOGGER = Logger.getLogger(LanguageConstantsFragment2);
 
   /**
    * An alternative implementation is to use

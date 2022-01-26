@@ -14,8 +14,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -43,7 +42,7 @@ import com.google.inject.Inject;
 public abstract class AbstractResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(AbstractResourceDescriptionStrategy.class);
+  private static final Logger LOGGER = Logger.getLogger(AbstractResourceDescriptionStrategy.class);
 
   @Inject
   private ICrossReferenceHelper crossReferenceHelper;

@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -43,7 +42,7 @@ import com.google.inject.Inject;
 public class CachingStateBasedContainerManager extends StateBasedContainerManager {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(CachingStateBasedContainerManager.class);
+  private static final Logger LOGGER = Logger.getLogger(CachingStateBasedContainerManager.class);
 
   @Inject
   private IDomain.Mapper mapper;

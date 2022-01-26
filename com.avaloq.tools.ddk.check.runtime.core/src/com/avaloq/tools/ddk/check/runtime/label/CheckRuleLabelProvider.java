@@ -22,8 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorRegistry;
@@ -39,7 +38,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
 
-  private static final Logger LOGGER = LogManager.getLogger(CheckRuleLabelProvider.class);
+  private static final Logger LOGGER = Logger.getLogger(CheckRuleLabelProvider.class);
 
   private static final String CHECK_ISSUE_CODE_SUBSTRING = ISSUE_CODES_CLASS_NAME_SUFFIX + "."; //$NON-NLS-1$
 

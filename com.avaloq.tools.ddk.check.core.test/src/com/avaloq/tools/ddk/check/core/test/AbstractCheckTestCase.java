@@ -19,8 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -63,7 +62,7 @@ import junit.framework.TestCase;
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "restriction"})
 public abstract class AbstractCheckTestCase extends TestCase {
   private static final int TWO_KILO_BYTES = 2048;
-  protected static final Logger LOGGER = LogManager.getLogger(AbstractCheckTestCase.class);
+  protected static final Logger LOGGER = Logger.getLogger(AbstractCheckTestCase.class);
   private static final PluginTestProjectManager PROJECT_MANAGER = new PluginTestProjectManager(CheckActivator.getInstance().getInjector(CheckConstants.GRAMMAR));
 
   private final Set<IFile> files = newHashSet();

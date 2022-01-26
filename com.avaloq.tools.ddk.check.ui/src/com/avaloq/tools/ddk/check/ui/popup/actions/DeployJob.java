@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IPathVariableManager;
@@ -71,7 +70,7 @@ import com.google.common.io.Files;
 public class DeployJob extends Job {
   // CHECKSTYLE:ON
 
-  private static final Logger LOGGER = LogManager.getLogger(DeployJob.class);
+  private static final Logger LOGGER = Logger.getLogger(DeployJob.class);
 
   private static final String MANIFEST_MF = "MANIFEST.MF"; //$NON-NLS-1$
   private static final String META_INF = "META-INF"; //$NON-NLS-1$

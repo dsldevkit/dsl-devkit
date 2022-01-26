@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.xtext.ui.validation;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 
@@ -40,7 +39,7 @@ public abstract class AbstractValidElementBase {
   private static final String MISSING_ATTRIBUTE_0 = "Missing attribute '{0}'"; //$NON-NLS-1$
 
   /** Logging. */
-  protected static final Logger LOGGER = LogManager.getLogger(AbstractValidElementBase.class);
+  protected static final Logger LOGGER = Logger.getLogger(AbstractValidElementBase.class);
 
   private final IConfigurationElement configurationElement;
 

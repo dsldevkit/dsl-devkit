@@ -22,8 +22,7 @@ import java.util.Locale;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -91,7 +90,7 @@ import com.google.inject.Inject;
 @SuppressWarnings({"restriction"})
 class CheckExtensionGenerator {
   // CHECKSTYLE:ON
-  private static final Logger LOGGER = LogManager.getLogger(CheckExtensionGenerator.class);
+  private static final Logger LOGGER = Logger.getLogger(CheckExtensionGenerator.class);
 
   public static final String PREFERENCE_PLUGIN_XML_FILENAME = "PluginXmlFilename";
   public static final String STANDARD_PLUGIN_FILENAME = ICoreConstants.PLUGIN_FILENAME_DESCRIPTOR;

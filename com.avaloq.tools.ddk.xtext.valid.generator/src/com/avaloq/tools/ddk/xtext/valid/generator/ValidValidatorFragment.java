@@ -16,8 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -60,7 +59,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
   private static final String XTEXT_EXTENSION = "xtext"; //$NON-NLS-1$
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(ValidValidatorFragment.class);
+  private static final Logger LOGGER = Logger.getLogger(ValidValidatorFragment.class);
 
   /** Resource checker used to validate loaded model. */
   private static final ModelValidator VALIDATOR = new ValidStandaloneSetup().createInjector().getInstance(ModelValidator.class);

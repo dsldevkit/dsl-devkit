@@ -24,25 +24,24 @@ import com.avaloq.tools.ddk.xtext.linking.LinkingService
 
 class ScopingFragment2 extends AbstractXtextGeneratorFragment {
 
-  static val RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext"
+	static val RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext"
 
-  override generate() {
-    val prefix = grammar.namespace + ".scoping." + grammar.simpleName
-    new GuiceModuleAccess.BindingFactory()
-      .addTypeToType(IScopeProvider.typeRef, new TypeReference(prefix + "ScopeProvider"))
-      .addTypeToType(IScopeNameProvider.typeRef, new TypeReference(prefix + "ScopeNameProvider"))
-      .addTypeToType(ILinkingService.typeRef, LinkingService.typeRef)
-      .contributeTo(language.runtimeGenModule)
+	override generate() {
+		val prefix = grammar.namespace + ".scoping." + grammar.simpleName
+		new GuiceModuleAccess.BindingFactory()
+			.addTypeToType(IScopeProvider.typeRef, new TypeReference(prefix + "ScopeProvider"))
+			.addTypeToType(IScopeNameProvider.typeRef, new TypeReference(prefix + "ScopeNameProvider"))
+			.addTypeToType(ILinkingService.typeRef, LinkingService.typeRef)
+			.contributeTo(language.runtimeGenModule)
 
-    if (projectConfig.runtime.manifest !== null) {
-      projectConfig.runtime.manifest.requiredBundles += "org.eclipse.emf.ecore"
-      projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
-      projectConfig.runtime.manifest.exportedPackages += grammar.namespace + ".scoping"
-      projectConfig.runtime.manifest.importedPackages += "org.apache.logging.log4j"
-    }
+		if (projectConfig.runtime.manifest !== null) {
+			projectConfig.runtime.manifest.requiredBundles += "org.eclipse.emf.ecore"
+			projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
+			projectConfig.runtime.manifest.exportedPackages += grammar.namespace + ".scoping"
+		}
 
-    if (projectConfig.eclipsePlugin.manifest !== null) {
-      projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
-    }
-  }
+		if (projectConfig.eclipsePlugin.manifest !== null) {
+			projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
+		}
+	}
 }

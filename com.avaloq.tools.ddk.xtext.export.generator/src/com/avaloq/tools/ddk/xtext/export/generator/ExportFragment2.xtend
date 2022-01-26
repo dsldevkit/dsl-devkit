@@ -15,8 +15,7 @@ package com.avaloq.tools.ddk.xtext.export.generator
 import com.avaloq.tools.ddk.xtext.export.ExportStandaloneSetup
 import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer
 import com.google.inject.Inject
-import org.apache.logging.log4j.Logger
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy
 import org.eclipse.xtext.resource.IFragmentProvider
@@ -37,7 +36,7 @@ class ExportFragment2 extends AbstractXtextGeneratorFragment {
   /**
    * Class-wide logger.
    */
-  static final Logger LOGGER = LogManager::getLogger(ExportFragment2)
+  static final Logger LOGGER = Logger::getLogger(ExportFragment2)
 
   val DDK_XTEXT_RUNTIME_BUNDLE = "com.avaloq.tools.ddk.xtext"
 

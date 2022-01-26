@@ -17,8 +17,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.xtext.testing.XtextRunner;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -99,7 +98,7 @@ public class ClassRunner extends XtextRunner {
   /** The system property to specify whether unstable tests shall fail. */
   public static final String PROPERTY_UNSTABLE_FAIL = "com.avaloq.test.unstablefail"; //$NON-NLS-1$
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(ClassRunner.class);
+  private static final Logger LOGGER = Logger.getLogger(ClassRunner.class);
   @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> TEST_ANNOTATIONS = Lists.newArrayList(Test.class, UnitTest.class, ModuleTest.class, IntegrationTest.class, SystemTest.class, PerformanceTest.class, BugTest.class);
   private List<FrameworkMethod> expectedMethods;

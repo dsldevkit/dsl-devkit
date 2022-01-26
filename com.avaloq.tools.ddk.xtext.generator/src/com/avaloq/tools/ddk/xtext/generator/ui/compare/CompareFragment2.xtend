@@ -12,8 +12,7 @@
 package com.avaloq.tools.ddk.xtext.generator.ui.compare
 
 import com.google.inject.Inject
-import org.apache.logging.log4j.Logger
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger
 import org.eclipse.compare.IViewerCreator
 import org.eclipse.emf.mwe2.runtime.Mandatory
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
@@ -29,7 +28,7 @@ class CompareFragment2 extends ResourceFactoryFragment2 {
   @Inject
   extension XtextGeneratorNaming
 
-  val static Logger LOGGER = LogManager.getLogger(CompareFragment2);
+  val static Logger LOGGER = Logger.getLogger(CompareFragment2);
 
   var String viewCreator;
   var String bundleName;

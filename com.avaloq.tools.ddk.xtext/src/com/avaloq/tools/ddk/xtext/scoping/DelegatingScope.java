@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.util.Collections;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -35,7 +34,7 @@ import com.google.common.collect.Iterables;
  */
 public class DelegatingScope extends AbstractRecursiveScope {
 
-  private static final Logger LOGGER = LogManager.getLogger(DelegatingScope.class);
+  private static final Logger LOGGER = Logger.getLogger(DelegatingScope.class);
 
   /**
    * Stores the scope ID to be logged by {@link #STACK_OVERFLOW_EOBJECT_DESCRIPTION}.

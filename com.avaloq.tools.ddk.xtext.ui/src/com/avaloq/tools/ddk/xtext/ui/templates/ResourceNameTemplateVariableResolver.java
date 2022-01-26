@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.xtext.ui.templates;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.jdt.core.IJavaProject;
@@ -36,7 +35,7 @@ import com.google.common.collect.Lists;
  */
 public class ResourceNameTemplateVariableResolver extends AbstractTemplateVariableResolver {
 
-  private static final Logger LOGGER = LogManager.getLogger(ResourceNameTemplateVariableResolver.class);
+  private static final Logger LOGGER = Logger.getLogger(ResourceNameTemplateVariableResolver.class);
 
   public ResourceNameTemplateVariableResolver() {
     super("ResourceName", "Resolves a resource name"); //$NON-NLS-1$ //$NON-NLS-2$

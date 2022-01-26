@@ -149,8 +149,7 @@ class CheckGenerator extends JvmModelGenerator {
     package «catalog.packageName»;
     «ENDIF»
 
-    import org.apache.logging.log4j.Logger;
-    import org.apache.logging.log4j.LogManager;
+    import org.apache.log4j.Logger;
 
     import com.avaloq.tools.ddk.check.runtime.configuration.ModelLocation;
     import com.avaloq.tools.ddk.check.runtime.registry.ICheckCatalogRegistry;
@@ -163,7 +162,7 @@ class CheckGenerator extends JvmModelGenerator {
     @SuppressWarnings("nls")
     public class «catalog.standaloneSetupClassName» implements ICheckValidatorStandaloneSetup {
 
-      private static final Logger LOG = LogManager.getLogger(«catalog.standaloneSetupClassName».class);
+      private static final Logger LOG = Logger.getLogger(«catalog.standaloneSetupClassName».class);
       «IF catalog.grammar !== null»
       private static final String GRAMMAR_NAME = "«catalog.grammar.name»";
       «ENDIF»

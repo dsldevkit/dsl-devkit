@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -51,7 +50,7 @@ import com.google.common.collect.Maps;
  */
 public class FixedCopiedResourceDescription extends AbstractResourceDescription implements IResourceDescription2 {
 
-  private static final Logger LOG = LogManager.getLogger(FixedCopiedResourceDescription.class);
+  private static final Logger LOG = Logger.getLogger(FixedCopiedResourceDescription.class);
 
   private final URI uri;
   private final ImmutableList<IEObjectDescription> exported;

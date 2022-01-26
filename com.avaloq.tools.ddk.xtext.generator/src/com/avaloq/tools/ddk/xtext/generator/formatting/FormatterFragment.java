@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.xtext.generator.formatting;
 
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtext.Grammar;
@@ -34,7 +33,7 @@ import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter;
 public class FormatterFragment extends org.eclipse.xtext.generator.formatting.FormatterFragment {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(FormatterFragment.class);
+  private static final Logger LOGGER = Logger.getLogger(FormatterFragment.class);
 
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {

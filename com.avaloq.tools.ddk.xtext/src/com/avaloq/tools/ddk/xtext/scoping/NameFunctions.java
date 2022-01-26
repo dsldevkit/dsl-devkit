@@ -12,8 +12,7 @@ package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.text.MessageFormat;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -42,7 +41,7 @@ public final class NameFunctions {
   private static final String NO_USER_DATA_0_FOUND_FOR_1 = "No user data \'\'{0}\'\' found for {1}."; //$NON-NLS-1$
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(NameFunctions.class);
+  private static final Logger LOGGER = Logger.getLogger(NameFunctions.class);
 
   private static final INameFunction EXPORT_NAME_FUNCTION = new AbstractNameFunction("Export") { //$NON-NLS-1$
 

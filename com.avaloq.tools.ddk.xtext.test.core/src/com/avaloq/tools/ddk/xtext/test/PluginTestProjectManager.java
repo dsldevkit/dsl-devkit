@@ -15,8 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -41,17 +40,17 @@ import com.google.inject.Injector;
  * The Test Project Manager for Plugins.
  */
 public class PluginTestProjectManager extends XtextTestProjectManager {
-  private static final Logger LOGGER = LogManager.getLogger(PluginTestProjectManager.class);
+  private static final Logger LOGGER = Logger.getLogger(PluginTestProjectManager.class);
 
   public static final String DEFAULT_SOURCE_FOLDER = "src"; //$NON-NLS-1$
   public static final String DEFAULT_SOURCE_GEN_FOLDER = "src-gen"; //$NON-NLS-1$
   public static final String TEST_PROJECT_NAME = "test.project"; //$NON-NLS-1$
 
   // org.eclipse.osgi needed for NLS
-  // org.apache.logging.log4j needed for logging in generated StandaloneSetup
+  // org.apache.log4j needed for logging in generated StandaloneSetup
   private static final List<String> REQUIRED_BUNDLES = newArrayList("org.eclipse.xtext.xbase.lib", "org.eclipse.xtend.lib", // //$NON-NLS-1$ //$NON-NLS-2$
       "org.eclipse.emf.ecore", "com.avaloq.tools.ddk.check.core", "com.avaloq.tools.ddk.check.runtime.core", "com.avaloq.tools.ddk.check.lib", // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-      "org.eclipse.xtext", "org.eclipse.osgi", "org.eclipse.xtend", "org.eclipse.core.runtime", "org.eclipse.xtext.xbase", "org.apache.logging.log4j"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+      "org.eclipse.xtext", "org.eclipse.osgi", "org.eclipse.xtend", "org.eclipse.core.runtime", "org.eclipse.xtext.xbase", "org.apache.log4j"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 
   private final Injector injector;
 

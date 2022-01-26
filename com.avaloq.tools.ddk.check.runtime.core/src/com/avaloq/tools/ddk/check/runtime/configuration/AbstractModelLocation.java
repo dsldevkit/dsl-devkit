@@ -16,8 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 
 
@@ -26,7 +25,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public abstract class AbstractModelLocation implements IModelLocation {
 
-  private static final Logger LOG = LogManager.getLogger(AbstractModelLocation.class);
+  private static final Logger LOG = Logger.getLogger(AbstractModelLocation.class);
 
   private final URL catalogUrl;
 
