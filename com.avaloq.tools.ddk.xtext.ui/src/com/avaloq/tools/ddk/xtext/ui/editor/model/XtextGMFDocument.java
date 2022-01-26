@@ -13,7 +13,8 @@ package com.avaloq.tools.ddk.xtext.ui.editor.model;
 import java.io.InputStream;
 import java.nio.charset.CharacterCodingException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.xtext.resource.XtextResource;
@@ -31,7 +32,7 @@ import com.google.inject.Inject;
 public class XtextGMFDocument extends ResponsiveXtextDocument implements IExtendedContentProvider {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(XtextGMFDocument.class);
+  private static final Logger LOGGER = LogManager.getLogger(XtextGMFDocument.class);
 
   private IXtextGMFResource myResource; // shadows private resource of supertype
 

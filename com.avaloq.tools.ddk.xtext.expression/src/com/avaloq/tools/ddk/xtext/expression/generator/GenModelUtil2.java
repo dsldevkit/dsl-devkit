@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.generator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -42,7 +43,7 @@ import com.google.common.base.Preconditions;
 public final class GenModelUtil2 {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(GenModelUtil2.class);
+  private static final Logger LOGGER = LogManager.getLogger(GenModelUtil2.class);
 
   /**
    * Private Constructor (singleton).

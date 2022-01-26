@@ -20,7 +20,8 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import org.eclipse.xtext.resource.XtextResource;
 
@@ -37,7 +38,7 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
   private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(XtextGMFLazyLinkingResource.class);
+  private static final Logger LOGGER = LogManager.getLogger(XtextGMFLazyLinkingResource.class);
 
   /** Encoding used to load resource. */
   private String encoding;

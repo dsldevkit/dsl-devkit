@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.emf.common.util.URI;
@@ -49,7 +50,7 @@ public class CheckResourceUtil {
 
   // TODO refactor into GrammarHelper
 
-  private static final Logger LOGGER = Logger.getLogger(CheckResourceUtil.class);
+  private static final Logger LOGGER = LogManager.getLogger(CheckResourceUtil.class);
 
   /**
    * Gets the name of the resource related to given document.

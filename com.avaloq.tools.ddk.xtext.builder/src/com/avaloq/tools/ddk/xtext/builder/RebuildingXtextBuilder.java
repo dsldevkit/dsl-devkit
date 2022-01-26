@@ -12,7 +12,8 @@ package com.avaloq.tools.ddk.xtext.builder;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.internal.events.ResourceDelta;
 import org.eclipse.core.internal.events.ResourceDeltaFactory;
 import org.eclipse.core.internal.resources.Workspace;
@@ -62,7 +63,7 @@ import com.google.inject.Inject;
 public class RebuildingXtextBuilder extends XtextBuilder {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(RebuildingXtextBuilder.class);
+  private static final Logger LOGGER = LogManager.getLogger(RebuildingXtextBuilder.class);
 
   @Inject
   private ToBeBuiltComputer toBeBuiltComputer;

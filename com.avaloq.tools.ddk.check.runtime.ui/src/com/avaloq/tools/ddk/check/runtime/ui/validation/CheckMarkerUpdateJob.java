@@ -14,7 +14,8 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -48,7 +49,7 @@ import com.google.common.collect.Iterables;
 public class CheckMarkerUpdateJob extends Job {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(CheckMarkerUpdateJob.class);
+  private static final Logger LOGGER = LogManager.getLogger(CheckMarkerUpdateJob.class);
 
   private final Set<URI> uris;
 

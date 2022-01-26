@@ -46,6 +46,6 @@ Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.typing,
  com.avaloq.tools.ddk.check.util,
  com.avaloq.tools.ddk.check.validation
-Import-Package: org.apache.log4j,
+Import-Package: org.apache.logging.log4j,
  org.eclipse.jdt.internal.ui.text
 Automatic-Module-Name: com.avaloq.tools.ddk.check.core

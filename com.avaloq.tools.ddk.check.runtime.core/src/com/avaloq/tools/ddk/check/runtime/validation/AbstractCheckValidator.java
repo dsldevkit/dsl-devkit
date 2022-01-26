@@ -14,7 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -35,7 +36,7 @@ public abstract class AbstractCheckValidator extends AbstractInjectableValidator
 
   private static final String VALIDATORS_CONTEXT_KEY = "CHECK_VALIDATORS"; //$NON-NLS-1$
 
-  private static final Logger LOGGER = Logger.getLogger(AbstractCheckValidator.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractCheckValidator.class);
 
   @Inject
   private Injector injector;

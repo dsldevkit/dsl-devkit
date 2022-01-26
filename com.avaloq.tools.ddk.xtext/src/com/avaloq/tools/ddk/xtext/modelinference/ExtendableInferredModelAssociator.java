@@ -10,7 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.modelinference;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.IAcceptor;
 
@@ -25,7 +26,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class ExtendableInferredModelAssociator extends InferredModelAssociator {
 
-  private static final Logger LOGGER = Logger.getLogger(ExtendableInferredModelAssociator.class);
+  private static final Logger LOGGER = LogManager.getLogger(ExtendableInferredModelAssociator.class);
 
   @Inject
   private IModelInferrerFeatureExtensionService additionalInferrers;

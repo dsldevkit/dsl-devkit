@@ -41,6 +41,6 @@ Export-Package: com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.xtext.tracing,
  com.avaloq.tools.ddk.xtext.util,
  com.avaloq.tools.ddk.xtext.validation
-Import-Package: org.apache.log4j
+Import-Package: org.apache.logging.log4j,org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext
 

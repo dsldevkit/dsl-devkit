@@ -6,7 +6,8 @@ package com.avaloq.tools.ddk.xtext.export.ui.internal;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.eclipse.xtext.util.Modules2;
@@ -25,7 +26,7 @@ public class ExportActivator extends AbstractUIPlugin {
 	
 	public static final String COM_AVALOQ_TOOLS_DDK_XTEXT_EXPORT_EXPORT = "com.avaloq.tools.ddk.xtext.export.Export";
 	
-	private static final Logger logger = Logger.getLogger(ExportActivator.class);
+	private static final Logger logger = LogManager.getLogger(ExportActivator.class);
 	
 	private static ExportActivator INSTANCE;
 	

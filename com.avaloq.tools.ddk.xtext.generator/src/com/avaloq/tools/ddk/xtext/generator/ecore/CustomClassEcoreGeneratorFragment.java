@@ -15,7 +15,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -52,7 +53,7 @@ import com.google.common.collect.Sets;
 public class CustomClassEcoreGeneratorFragment extends EMFGeneratorFragment {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(CustomClassEcoreGeneratorFragment.class);
+  private static final Logger LOGGER = LogManager.getLogger(CustomClassEcoreGeneratorFragment.class);
   private final Set<String> loggedTypeMappings = Sets.newHashSet();
 
   private final List<String> javaModelSrcDirectories = Lists.newArrayList();

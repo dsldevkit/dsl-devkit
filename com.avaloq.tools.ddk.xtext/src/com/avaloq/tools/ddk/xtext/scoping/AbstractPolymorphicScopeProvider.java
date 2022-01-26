@@ -14,7 +14,8 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -62,7 +63,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   private static final String DELEGATE_SCOPE_RESOURCE_ERR_MSG = "Delegate scope cannot delegate to another resource"; //$NON-NLS-1$
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(AbstractPolymorphicScopeProvider.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractPolymorphicScopeProvider.class);
 
   /** Guice injected name provider to determine names for a given type. */
   @Inject

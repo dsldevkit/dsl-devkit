@@ -19,7 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
@@ -33,7 +34,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  * Instantiates and keeps track of Caches, allowing statistics to be collected and reported.
  */
 public final class CacheManager {
-  private static final Logger LOGGER = Logger.getLogger(CacheManager.class);
+  private static final Logger LOGGER = LogManager.getLogger(CacheManager.class);
 
   private static final CacheManager INSTANCE = new CacheManager();
 
