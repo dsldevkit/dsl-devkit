@@ -13,7 +13,8 @@ package com.avaloq.tools.ddk.check.runtime.ui.editor;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
@@ -55,7 +56,7 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
   /** Bundle resource URL protocol. */
   public static final String OSGI_RESOURCE_URL_PROTOCOL = "bundleresource"; //$NON-NLS-1$
 
-  private static final Logger LOG = Logger.getLogger(PlatformPluginAwareEditorOpener.class);
+  private static final Logger LOG = LogManager.getLogger(PlatformPluginAwareEditorOpener.class);
 
   @Inject
   @Named(Constants.LANGUAGE_NAME)

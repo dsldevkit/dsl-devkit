@@ -24,7 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.AbstractElement;
@@ -67,7 +68,7 @@ import com.google.common.collect.Sets;
  */
 public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedStream implements IDelegatingTokenStream {
 
-  private static final Logger LOGGER = Logger.getLogger(ExtendedFormattingConfigBasedStream.class);
+  private static final Logger LOGGER = LogManager.getLogger(ExtendedFormattingConfigBasedStream.class);
   private final Stack<Integer> columnIndents = new Stack<Integer>();
   private final Stack<Integer> initialIndents = new Stack<Integer>();
   private final Set<NoFormatLocator> noFormatLocators = new HashSet<NoFormatLocator>();

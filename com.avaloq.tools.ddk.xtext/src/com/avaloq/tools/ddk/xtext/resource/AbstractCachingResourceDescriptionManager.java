@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.Constants;
@@ -57,7 +58,7 @@ import com.google.inject.name.Named;
 public abstract class AbstractCachingResourceDescriptionManager extends DerivedStateAwareResourceDescriptionManager {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(AbstractCachingResourceDescriptionManager.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractCachingResourceDescriptionManager.class);
 
   /** Cache key for the resource description of a resource. */
   public static final String CACHE_KEY = DefaultResourceDescriptionManager.class.getName() + "#getResourceDescription"; //$NON-NLS-1$

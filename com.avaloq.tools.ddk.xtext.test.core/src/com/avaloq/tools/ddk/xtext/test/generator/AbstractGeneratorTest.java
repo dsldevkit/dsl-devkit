@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -66,7 +67,7 @@ public abstract class AbstractGeneratorTest {
 
   private static final String FORWARD_SLASH = "/"; //$NON-NLS-1$
 
-  private static final Logger LOGGER = Logger.getLogger(AbstractGeneratorTest.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractGeneratorTest.class);
 
   private static Map<String, IProject> projects = new HashMap<String, IProject>();
 

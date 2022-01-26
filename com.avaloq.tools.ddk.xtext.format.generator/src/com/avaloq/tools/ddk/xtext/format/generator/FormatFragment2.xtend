@@ -14,7 +14,8 @@ import com.avaloq.tools.ddk.xtext.formatting.AbstractExtendedFormatter
 import com.avaloq.tools.ddk.xtext.formatting.DirectNodeModelStreamer
 import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter
 import com.google.inject.Inject
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Logger
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.formatting.IFormatter
 import org.eclipse.xtext.formatting.INodeModelFormatter
@@ -55,7 +56,7 @@ class FormatFragment2 extends AbstractStubGeneratingFragment {
   /**
    * Class-wide logger.
    */
-  static final Logger LOGGER = Logger::getLogger(typeof(FormatFragment2))
+  static final Logger LOGGER = LogManager::getLogger(typeof(FormatFragment2))
 
   /**
    * The model for the format resource.

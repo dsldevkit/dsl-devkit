@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -65,7 +66,7 @@ import com.google.inject.Inject;
 @SuppressWarnings({"nls", "PMD"})
 public class FixedPartialParsingHelper implements IPartialParsingHelper {
 
-  private static final Logger log = Logger.getLogger(FixedPartialParsingHelper.class);
+  private static final Logger log = LogManager.getLogger(FixedPartialParsingHelper.class);
 
   @Inject
   private IReferableElementsUnloader unloader;

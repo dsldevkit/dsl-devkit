@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -54,7 +55,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
 
   // CHECKSTYL:OFF - code copied (with modifications) from org.eclipse.xtext.common.types.access.AbstractTypeProviderFactory
 
-  private static final Logger LOGGER = Logger.getLogger(AbstractTypeProvider.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractTypeProvider.class);
 
   /**
    * A linked list item whose hash depends on both the content and previous linked items.

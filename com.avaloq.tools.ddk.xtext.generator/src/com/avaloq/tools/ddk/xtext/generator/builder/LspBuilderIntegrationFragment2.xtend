@@ -12,7 +12,8 @@
 package com.avaloq.tools.ddk.xtext.generator.builder
 
 import com.google.inject.Inject
-import org.apache.log4j.Logger
+import org.apache.logging.log4j.Logger
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.osgi.util.NLS
 import org.eclipse.xtext.GeneratedMetamodel
 import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
@@ -26,7 +27,7 @@ import org.eclipse.xtext.GrammarUtil
 
 class LspBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragment {
 
-  static val LOGGER = Logger.getLogger(LspBuilderIntegrationFragment2)
+  static val LOGGER = LogManager.getLogger(LspBuilderIntegrationFragment2)
 
   @Inject FileAccessFactory fileAccessFactory
 

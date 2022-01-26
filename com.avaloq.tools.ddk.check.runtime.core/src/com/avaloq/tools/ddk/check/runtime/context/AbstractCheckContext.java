@@ -15,7 +15,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.HashMultimap;
@@ -31,7 +32,7 @@ import com.google.common.collect.Sets;
 public class AbstractCheckContext implements ICheckContext {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = Logger.getLogger(AbstractCheckContext.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractCheckContext.class);
 
   /** A constant that easily reads that this check should be enabled. */
   public static final boolean ENABLED = true;
