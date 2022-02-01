@@ -77,7 +77,6 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
     return CheckCatalogCreator.class;
   }
 
-  @Override
   public Class<? extends XtextTemplateContextType> bindXtextTemplateContextType() {
     return CheckTemplateContextType.class;
   }

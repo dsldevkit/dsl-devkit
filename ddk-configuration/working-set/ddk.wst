@@ -41,6 +41,7 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.core" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.test.runtime.ui" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.runtime.core.test" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.ide" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.ui" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.core.test" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.check.generator" type="4"/>

@@ -13,9 +13,6 @@ package com.avaloq.tools.ddk.xtext.generator;
 
 import org.eclipse.xtext.xtext.generator.DefaultGeneratorModule;
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
-import org.eclipse.xtext.xtext.generator.xbase.XbaseUsageDetector;
-
-import com.avaloq.tools.ddk.xtext.generator.xbase.FixedXbaseUsageDetector;
 
 
 /**
@@ -31,12 +28,4 @@ public class GeneratorModule extends DefaultGeneratorModule {
     return GeneratorNaming.class;
   }
 
-  /**
-   * Override of {@link XbaseUsageDetector}, to fix usesXImportSection() for languages which override XImportSection.
-   *
-   * @return {@link FixedXbaseUsageDetector}
-   */
-  public Class<? extends XbaseUsageDetector> bindXbaseUsageDetector() {
-    return FixedXbaseUsageDetector.class;
-  }
 }

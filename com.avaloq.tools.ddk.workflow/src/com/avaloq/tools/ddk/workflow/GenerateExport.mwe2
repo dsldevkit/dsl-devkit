@@ -16,103 +16,13 @@ import org.eclipse.xtext.ui.generator.*
 
 import com.avaloq.tools.ddk.xtext.generator.*
 
-var grammarURI = "classpath:/com/avaloq/tools/ddk/xtext/export/Export.xtext"
-var file.extensions = "export"
 var projectName = "com.avaloq.tools.ddk.xtext.export"
 var runtimeProject = "../${projectName}"
 
-Workflow {
+var export.genmodel = "platform:/plugin/com.avaloq.tools.ddk.check.core/metamodel/com/avaloq/tools/ddk/export/Export.genmodel"
 
-    bean = StandaloneSetup {
-        scanClassPath = true
-        platformUri = "${runtimeProject}/.."
-        uriMap = {from = "platform:/plugin/" to = "platform:/resource/"}
-        registerGenModelFile = "platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel"
-        registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
-        registerGenModelFile = "platform:/resource/com.avaloq.tools.ddk.xtext.expression/src-gen/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel"
-    }
-
-    component = DirectoryCleaner {
-        directory = "${runtimeProject}/src-gen"
-    }
-
-    component = DirectoryCleaner {
-        directory = "${runtimeProject}.ui/src-gen"
-    }
-
-    component = Generator {
-        pathRtProject = runtimeProject
-        pathUiProject = "${runtimeProject}.ui"
-        projectNameRt = projectName
-        projectNameUi = "${projectName}.ui"
-        language = {
-            uri = grammarURI
-            fileExtensions = file.extensions
-
-            // Java API to access grammar elements (required by several other fragments)
-            fragment = grammarAccess.GrammarAccessFragment {}
-
-            // Generate java classes for Ecore models
-            fragment = ecore.CustomClassEcoreGeneratorFragment auto-inject {}
-
-            // the serialization component
-            fragment = serializer.SerializerFragment {}
-
-            // a custom ResourceFactory for use with EMF
-            fragment = resourceFactory.ResourceFactoryFragment {
-                fileExtensions = file.extensions
-            }
-
-            // the following fragment generates an Antlr parser -->
-            fragment = parser.antlr.XtextAntlrGeneratorFragment {
-            }
-
-            // java-based API for validation
-            fragment = validation.JavaValidatorFragment {
-            // composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
-            // composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
-            // registerForImportedPackages = true
-            }
-
-            // scoping and exporting API
-            fragment = scoping.ImportNamespacesScopingFragment {}
-            fragment = exporting.SimpleNamesFragment {}
-            fragment = org.eclipse.xtext.generator.builder.BuilderIntegrationFragment {}
-
-            // formatter API
-            fragment = org.eclipse.xtext.generator.formatting.FormatterFragment {}
-
-            // labeling API
-            fragment = labeling.LabelProviderFragment {}
-
-            // outline API
-            fragment = outline.OutlineTreeProviderFragment {}
-            fragment = outline.QuickOutlineFragment {}
-
-            // quickfix API
-            fragment = quickfix.QuickfixProviderFragment {}
-
-            // content assist API
-            fragment = contentAssist.JavaBasedContentAssistFragment {}
-
-            // generates a more lightweight Antlr parser and lexer tailored for content assist
-            fragment = parser.antlr.XtextAntlrUiGeneratorFragment {
-                options = {
-                    backtrack = true // see above
-                }
-            }
-
-            // rename refactoring
-            // fragment = refactoring.RefactorElementNameFragment {}
-
-            // Code generator
-            fragment = generator.GeneratorFragment {}
-
-            // provides a compare view
-            fragment = compare.CompareFragment {
-                fileExtensions = file.extensions
-            }
-
-        }
-    }
+@com.avaloq.tools.ddk.workflow.CommonXbase auto-inject {
+    languageName = "CheckCfg"
+    registerGenModelFiles = "${export.genmodel}"
+    editorFileExtensions = "export"
 }
