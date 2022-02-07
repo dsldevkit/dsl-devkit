@@ -35,360 +35,360 @@ import org.eclipse.emf.ecore.EAttribute;
  */
 public interface Export extends DeclarationForType
 {
-	/**
-	 * Returns the value of the '<em><b>Lookup</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Lookup</em>' attribute.
-	 * @see #isSetLookup()
-	 * @see #unsetLookup()
-	 * @see #setLookup(boolean)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Lookup()
-	 * @model default="false" unsettable="true"
-	 * @generated
-	 */
-	boolean isLookup();
+  /**
+   * Returns the value of the '<em><b>Lookup</b></em>' attribute.
+   * The default value is <code>"false"</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Lookup</em>' attribute.
+   * @see #isSetLookup()
+   * @see #unsetLookup()
+   * @see #setLookup(boolean)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Lookup()
+   * @model default="false" unsettable="true"
+   * @generated
+   */
+  boolean isLookup();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Lookup</em>' attribute.
-	 * @see #isSetLookup()
-	 * @see #unsetLookup()
-	 * @see #isLookup()
-	 * @generated
-	 */
-	void setLookup(boolean value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Lookup</em>' attribute.
+   * @see #isSetLookup()
+   * @see #unsetLookup()
+   * @see #isLookup()
+   * @generated
+   */
+  void setLookup(boolean value);
 
-	/**
-	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetLookup()
-	 * @see #isLookup()
-	 * @see #setLookup(boolean)
-	 * @generated
-	 */
-	void unsetLookup();
+  /**
+   * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetLookup()
+   * @see #isLookup()
+   * @see #setLookup(boolean)
+   * @generated
+   */
+  void unsetLookup();
 
-	/**
-	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Lookup</em>' attribute is set.
-	 * @see #unsetLookup()
-	 * @see #isLookup()
-	 * @see #setLookup(boolean)
-	 * @generated
-	 */
-	boolean isSetLookup();
+  /**
+   * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isLookup <em>Lookup</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Lookup</em>' attribute is set.
+   * @see #unsetLookup()
+   * @see #isLookup()
+   * @see #setLookup(boolean)
+   * @generated
+   */
+  boolean isSetLookup();
 
-	/**
-	 * Returns the value of the '<em><b>Lookup Predicate</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Lookup Predicate</em>' containment reference.
-	 * @see #setLookupPredicate(Expression)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_LookupPredicate()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Expression getLookupPredicate();
+  /**
+   * Returns the value of the '<em><b>Lookup Predicate</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Lookup Predicate</em>' containment reference.
+   * @see #setLookupPredicate(Expression)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_LookupPredicate()
+   * @model containment="true"
+   * @generated
+   */
+  Expression getLookupPredicate();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getLookupPredicate <em>Lookup Predicate</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Lookup Predicate</em>' containment reference.
-	 * @see #getLookupPredicate()
-	 * @generated
-	 */
-	void setLookupPredicate(Expression value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getLookupPredicate <em>Lookup Predicate</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Lookup Predicate</em>' containment reference.
+   * @see #getLookupPredicate()
+   * @generated
+   */
+  void setLookupPredicate(Expression value);
 
-	/**
-	 * Returns the value of the '<em><b>Qualified Name</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Qualified Name</em>' attribute.
-	 * @see #isSetQualifiedName()
-	 * @see #unsetQualifiedName()
-	 * @see #setQualifiedName(boolean)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_QualifiedName()
-	 * @model default="false" unsettable="true"
-	 * @generated
-	 */
-	boolean isQualifiedName();
+  /**
+   * Returns the value of the '<em><b>Qualified Name</b></em>' attribute.
+   * The default value is <code>"false"</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Qualified Name</em>' attribute.
+   * @see #isSetQualifiedName()
+   * @see #unsetQualifiedName()
+   * @see #setQualifiedName(boolean)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_QualifiedName()
+   * @model default="false" unsettable="true"
+   * @generated
+   */
+  boolean isQualifiedName();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Qualified Name</em>' attribute.
-	 * @see #isSetQualifiedName()
-	 * @see #unsetQualifiedName()
-	 * @see #isQualifiedName()
-	 * @generated
-	 */
-	void setQualifiedName(boolean value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Qualified Name</em>' attribute.
+   * @see #isSetQualifiedName()
+   * @see #unsetQualifiedName()
+   * @see #isQualifiedName()
+   * @generated
+   */
+  void setQualifiedName(boolean value);
 
-	/**
-	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetQualifiedName()
-	 * @see #isQualifiedName()
-	 * @see #setQualifiedName(boolean)
-	 * @generated
-	 */
-	void unsetQualifiedName();
+  /**
+   * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetQualifiedName()
+   * @see #isQualifiedName()
+   * @see #setQualifiedName(boolean)
+   * @generated
+   */
+  void unsetQualifiedName();
 
-	/**
-	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Qualified Name</em>' attribute is set.
-	 * @see #unsetQualifiedName()
-	 * @see #isQualifiedName()
-	 * @see #setQualifiedName(boolean)
-	 * @generated
-	 */
-	boolean isSetQualifiedName();
+  /**
+   * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isQualifiedName <em>Qualified Name</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Qualified Name</em>' attribute is set.
+   * @see #unsetQualifiedName()
+   * @see #isQualifiedName()
+   * @see #setQualifiedName(boolean)
+   * @generated
+   */
+  boolean isSetQualifiedName();
 
-	/**
-	 * Returns the value of the '<em><b>Naming</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Naming</em>' containment reference.
-	 * @see #setNaming(Expression)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Naming()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Expression getNaming();
+  /**
+   * Returns the value of the '<em><b>Naming</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Naming</em>' containment reference.
+   * @see #setNaming(Expression)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Naming()
+   * @model containment="true"
+   * @generated
+   */
+  Expression getNaming();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getNaming <em>Naming</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Naming</em>' containment reference.
-	 * @see #getNaming()
-	 * @generated
-	 */
-	void setNaming(Expression value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getNaming <em>Naming</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Naming</em>' containment reference.
+   * @see #getNaming()
+   * @generated
+   */
+  void setNaming(Expression value);
 
-	/**
-	 * Returns the value of the '<em><b>Fragment Unique</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Fragment Unique</em>' attribute.
-	 * @see #isSetFragmentUnique()
-	 * @see #unsetFragmentUnique()
-	 * @see #setFragmentUnique(boolean)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_FragmentUnique()
-	 * @model default="false" unsettable="true"
-	 * @generated
-	 */
-	boolean isFragmentUnique();
+  /**
+   * Returns the value of the '<em><b>Fragment Unique</b></em>' attribute.
+   * The default value is <code>"false"</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Fragment Unique</em>' attribute.
+   * @see #isSetFragmentUnique()
+   * @see #unsetFragmentUnique()
+   * @see #setFragmentUnique(boolean)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_FragmentUnique()
+   * @model default="false" unsettable="true"
+   * @generated
+   */
+  boolean isFragmentUnique();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Fragment Unique</em>' attribute.
-	 * @see #isSetFragmentUnique()
-	 * @see #unsetFragmentUnique()
-	 * @see #isFragmentUnique()
-	 * @generated
-	 */
-	void setFragmentUnique(boolean value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Fragment Unique</em>' attribute.
+   * @see #isSetFragmentUnique()
+   * @see #unsetFragmentUnique()
+   * @see #isFragmentUnique()
+   * @generated
+   */
+  void setFragmentUnique(boolean value);
 
-	/**
-	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetFragmentUnique()
-	 * @see #isFragmentUnique()
-	 * @see #setFragmentUnique(boolean)
-	 * @generated
-	 */
-	void unsetFragmentUnique();
+  /**
+   * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetFragmentUnique()
+   * @see #isFragmentUnique()
+   * @see #setFragmentUnique(boolean)
+   * @generated
+   */
+  void unsetFragmentUnique();
 
-	/**
-	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Fragment Unique</em>' attribute is set.
-	 * @see #unsetFragmentUnique()
-	 * @see #isFragmentUnique()
-	 * @see #setFragmentUnique(boolean)
-	 * @generated
-	 */
-	boolean isSetFragmentUnique();
+  /**
+   * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFragmentUnique <em>Fragment Unique</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Fragment Unique</em>' attribute is set.
+   * @see #unsetFragmentUnique()
+   * @see #isFragmentUnique()
+   * @see #setFragmentUnique(boolean)
+   * @generated
+   */
+  boolean isSetFragmentUnique();
 
-	/**
-	 * Returns the value of the '<em><b>Fragment Attribute</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Fragment Attribute</em>' reference.
-	 * @see #setFragmentAttribute(EAttribute)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_FragmentAttribute()
-	 * @model
-	 * @generated
-	 */
-	EAttribute getFragmentAttribute();
+  /**
+   * Returns the value of the '<em><b>Fragment Attribute</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Fragment Attribute</em>' reference.
+   * @see #setFragmentAttribute(EAttribute)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_FragmentAttribute()
+   * @model
+   * @generated
+   */
+  EAttribute getFragmentAttribute();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getFragmentAttribute <em>Fragment Attribute</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Fragment Attribute</em>' reference.
-	 * @see #getFragmentAttribute()
-	 * @generated
-	 */
-	void setFragmentAttribute(EAttribute value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#getFragmentAttribute <em>Fragment Attribute</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Fragment Attribute</em>' reference.
+   * @see #getFragmentAttribute()
+   * @generated
+   */
+  void setFragmentAttribute(EAttribute value);
 
-	/**
-	 * Returns the value of the '<em><b>Fingerprint</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Fingerprint</em>' attribute.
-	 * @see #isSetFingerprint()
-	 * @see #unsetFingerprint()
-	 * @see #setFingerprint(boolean)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Fingerprint()
-	 * @model default="false" unsettable="true"
-	 * @generated
-	 */
-	boolean isFingerprint();
+  /**
+   * Returns the value of the '<em><b>Fingerprint</b></em>' attribute.
+   * The default value is <code>"false"</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Fingerprint</em>' attribute.
+   * @see #isSetFingerprint()
+   * @see #unsetFingerprint()
+   * @see #setFingerprint(boolean)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Fingerprint()
+   * @model default="false" unsettable="true"
+   * @generated
+   */
+  boolean isFingerprint();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFingerprint <em>Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Fingerprint</em>' attribute.
-	 * @see #isSetFingerprint()
-	 * @see #unsetFingerprint()
-	 * @see #isFingerprint()
-	 * @generated
-	 */
-	void setFingerprint(boolean value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFingerprint <em>Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Fingerprint</em>' attribute.
+   * @see #isSetFingerprint()
+   * @see #unsetFingerprint()
+   * @see #isFingerprint()
+   * @generated
+   */
+  void setFingerprint(boolean value);
 
-	/**
-	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFingerprint <em>Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetFingerprint()
-	 * @see #isFingerprint()
-	 * @see #setFingerprint(boolean)
-	 * @generated
-	 */
-	void unsetFingerprint();
+  /**
+   * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFingerprint <em>Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetFingerprint()
+   * @see #isFingerprint()
+   * @see #setFingerprint(boolean)
+   * @generated
+   */
+  void unsetFingerprint();
 
-	/**
-	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFingerprint <em>Fingerprint</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Fingerprint</em>' attribute is set.
-	 * @see #unsetFingerprint()
-	 * @see #isFingerprint()
-	 * @see #setFingerprint(boolean)
-	 * @generated
-	 */
-	boolean isSetFingerprint();
+  /**
+   * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isFingerprint <em>Fingerprint</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Fingerprint</em>' attribute is set.
+   * @see #unsetFingerprint()
+   * @see #isFingerprint()
+   * @see #setFingerprint(boolean)
+   * @generated
+   */
+  boolean isSetFingerprint();
 
-	/**
-	 * Returns the value of the '<em><b>Resource Fingerprint</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Resource Fingerprint</em>' attribute.
-	 * @see #isSetResourceFingerprint()
-	 * @see #unsetResourceFingerprint()
-	 * @see #setResourceFingerprint(boolean)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_ResourceFingerprint()
-	 * @model default="false" unsettable="true"
-	 * @generated
-	 */
-	boolean isResourceFingerprint();
+  /**
+   * Returns the value of the '<em><b>Resource Fingerprint</b></em>' attribute.
+   * The default value is <code>"false"</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Resource Fingerprint</em>' attribute.
+   * @see #isSetResourceFingerprint()
+   * @see #unsetResourceFingerprint()
+   * @see #setResourceFingerprint(boolean)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_ResourceFingerprint()
+   * @model default="false" unsettable="true"
+   * @generated
+   */
+  boolean isResourceFingerprint();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isResourceFingerprint <em>Resource Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Resource Fingerprint</em>' attribute.
-	 * @see #isSetResourceFingerprint()
-	 * @see #unsetResourceFingerprint()
-	 * @see #isResourceFingerprint()
-	 * @generated
-	 */
-	void setResourceFingerprint(boolean value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isResourceFingerprint <em>Resource Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Resource Fingerprint</em>' attribute.
+   * @see #isSetResourceFingerprint()
+   * @see #unsetResourceFingerprint()
+   * @see #isResourceFingerprint()
+   * @generated
+   */
+  void setResourceFingerprint(boolean value);
 
-	/**
-	 * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isResourceFingerprint <em>Resource Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetResourceFingerprint()
-	 * @see #isResourceFingerprint()
-	 * @see #setResourceFingerprint(boolean)
-	 * @generated
-	 */
-	void unsetResourceFingerprint();
+  /**
+   * Unsets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isResourceFingerprint <em>Resource Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetResourceFingerprint()
+   * @see #isResourceFingerprint()
+   * @see #setResourceFingerprint(boolean)
+   * @generated
+   */
+  void unsetResourceFingerprint();
 
-	/**
-	 * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isResourceFingerprint <em>Resource Fingerprint</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Resource Fingerprint</em>' attribute is set.
-	 * @see #unsetResourceFingerprint()
-	 * @see #isResourceFingerprint()
-	 * @see #setResourceFingerprint(boolean)
-	 * @generated
-	 */
-	boolean isSetResourceFingerprint();
+  /**
+   * Returns whether the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Export#isResourceFingerprint <em>Resource Fingerprint</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Resource Fingerprint</em>' attribute is set.
+   * @see #unsetResourceFingerprint()
+   * @see #isResourceFingerprint()
+   * @see #setResourceFingerprint(boolean)
+   * @generated
+   */
+  boolean isSetResourceFingerprint();
 
-	/**
-	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Attribute}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Attributes</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Attributes()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Attribute> getAttributes();
+  /**
+   * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.Attribute}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Attributes</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_Attributes()
+   * @model containment="true"
+   * @generated
+   */
+  EList<Attribute> getAttributes();
 
-	/**
-	 * Returns the value of the '<em><b>User Data</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.UserData}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>User Data</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_UserData()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<UserData> getUserData();
+  /**
+   * Returns the value of the '<em><b>User Data</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.UserData}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>User Data</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExport_UserData()
+   * @model containment="true"
+   * @generated
+   */
+  EList<UserData> getUserData();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<EAttribute> getEAttributes();
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @model kind="operation"
+   * @generated
+   */
+  EList<EAttribute> getEAttributes();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<EAttribute> getAllEAttributes();
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @model kind="operation"
+   * @generated
+   */
+  EList<EAttribute> getAllEAttributes();
 
 } // Export

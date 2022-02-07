@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: com.avaloq.tools.ddk.checkcfg.ui.internal.Activator
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.checkcfg.core,
+ com.avaloq.tools.ddk.checkcfg.ide,
  com.avaloq.tools.ddk.check.core,
  com.avaloq.tools.ddk.check.runtime.core,
  com.avaloq.tools.ddk.check.runtime.ui,
@@ -30,9 +31,8 @@ Require-Bundle: com.avaloq.tools.ddk.checkcfg.core,
  com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.jdt.debug.ui
 Export-Package: com.avaloq.tools.ddk.checkcfg.ui.internal,
- com.avaloq.tools.ddk.checkcfg.ui.contentassist.antlr,
  com.avaloq.tools.ddk.checkcfg.ui.contentassist,
  com.avaloq.tools.ddk.checkcfg.ui.quickfix,
- com.avaloq.tools.ddk.checkcfg.ui.contentassist.antlr.internal
+ com.avaloq.tools.ddk.checkcfg.ui.editor
 Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.ui

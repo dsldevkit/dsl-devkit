@@ -83,4 +83,8 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
     return ScopeResourceDescriptionStrategy.class;
   }
 
+  @Override
+  public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
+    return com.avaloq.tools.ddk.xtext.scope.formatting.ScopeFormatter.class;
+  }
 }

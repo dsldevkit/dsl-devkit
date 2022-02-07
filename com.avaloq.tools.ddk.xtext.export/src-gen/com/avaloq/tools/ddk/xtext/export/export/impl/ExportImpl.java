@@ -49,898 +49,898 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ExportImpl extends DeclarationForTypeImpl implements Export
 {
-	/**
-	 * The default value of the '{@link #isLookup() <em>Lookup</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isLookup()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean LOOKUP_EDEFAULT = false;
+  /**
+   * The default value of the '{@link #isLookup() <em>Lookup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isLookup()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean LOOKUP_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isLookup() <em>Lookup</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isLookup()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean lookup = LOOKUP_EDEFAULT;
+  /**
+   * The cached value of the '{@link #isLookup() <em>Lookup</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isLookup()
+   * @generated
+   * @ordered
+   */
+  protected boolean lookup = LOOKUP_EDEFAULT;
 
-	/**
-	 * This is true if the Lookup attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean lookupESet;
+  /**
+   * This is true if the Lookup attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean lookupESet;
 
-	/**
-	 * The cached value of the '{@link #getLookupPredicate() <em>Lookup Predicate</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLookupPredicate()
-	 * @generated
-	 * @ordered
-	 */
-	protected Expression lookupPredicate;
+  /**
+   * The cached value of the '{@link #getLookupPredicate() <em>Lookup Predicate</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLookupPredicate()
+   * @generated
+   * @ordered
+   */
+  protected Expression lookupPredicate;
 
-	/**
-	 * The default value of the '{@link #isQualifiedName() <em>Qualified Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isQualifiedName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean QUALIFIED_NAME_EDEFAULT = false;
+  /**
+   * The default value of the '{@link #isQualifiedName() <em>Qualified Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isQualifiedName()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean QUALIFIED_NAME_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isQualifiedName() <em>Qualified Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isQualifiedName()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean qualifiedName = QUALIFIED_NAME_EDEFAULT;
+  /**
+   * The cached value of the '{@link #isQualifiedName() <em>Qualified Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isQualifiedName()
+   * @generated
+   * @ordered
+   */
+  protected boolean qualifiedName = QUALIFIED_NAME_EDEFAULT;
 
-	/**
-	 * This is true if the Qualified Name attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean qualifiedNameESet;
+  /**
+   * This is true if the Qualified Name attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean qualifiedNameESet;
 
-	/**
-	 * The cached value of the '{@link #getNaming() <em>Naming</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getNaming()
-	 * @generated
-	 * @ordered
-	 */
-	protected Expression naming;
+  /**
+   * The cached value of the '{@link #getNaming() <em>Naming</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getNaming()
+   * @generated
+   * @ordered
+   */
+  protected Expression naming;
 
-	/**
-	 * The default value of the '{@link #isFragmentUnique() <em>Fragment Unique</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isFragmentUnique()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean FRAGMENT_UNIQUE_EDEFAULT = false;
+  /**
+   * The default value of the '{@link #isFragmentUnique() <em>Fragment Unique</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFragmentUnique()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean FRAGMENT_UNIQUE_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isFragmentUnique() <em>Fragment Unique</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isFragmentUnique()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean fragmentUnique = FRAGMENT_UNIQUE_EDEFAULT;
+  /**
+   * The cached value of the '{@link #isFragmentUnique() <em>Fragment Unique</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFragmentUnique()
+   * @generated
+   * @ordered
+   */
+  protected boolean fragmentUnique = FRAGMENT_UNIQUE_EDEFAULT;
 
-	/**
-	 * This is true if the Fragment Unique attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean fragmentUniqueESet;
+  /**
+   * This is true if the Fragment Unique attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean fragmentUniqueESet;
 
-	/**
-	 * The cached value of the '{@link #getFragmentAttribute() <em>Fragment Attribute</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFragmentAttribute()
-	 * @generated
-	 * @ordered
-	 */
-	protected EAttribute fragmentAttribute;
+  /**
+   * The cached value of the '{@link #getFragmentAttribute() <em>Fragment Attribute</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFragmentAttribute()
+   * @generated
+   * @ordered
+   */
+  protected EAttribute fragmentAttribute;
 
-	/**
-	 * The default value of the '{@link #isFingerprint() <em>Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isFingerprint()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean FINGERPRINT_EDEFAULT = false;
+  /**
+   * The default value of the '{@link #isFingerprint() <em>Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFingerprint()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean FINGERPRINT_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isFingerprint() <em>Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isFingerprint()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean fingerprint = FINGERPRINT_EDEFAULT;
+  /**
+   * The cached value of the '{@link #isFingerprint() <em>Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFingerprint()
+   * @generated
+   * @ordered
+   */
+  protected boolean fingerprint = FINGERPRINT_EDEFAULT;
 
-	/**
-	 * This is true if the Fingerprint attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean fingerprintESet;
+  /**
+   * This is true if the Fingerprint attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean fingerprintESet;
 
-	/**
-	 * The default value of the '{@link #isResourceFingerprint() <em>Resource Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isResourceFingerprint()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean RESOURCE_FINGERPRINT_EDEFAULT = false;
+  /**
+   * The default value of the '{@link #isResourceFingerprint() <em>Resource Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isResourceFingerprint()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean RESOURCE_FINGERPRINT_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isResourceFingerprint() <em>Resource Fingerprint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isResourceFingerprint()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean resourceFingerprint = RESOURCE_FINGERPRINT_EDEFAULT;
+  /**
+   * The cached value of the '{@link #isResourceFingerprint() <em>Resource Fingerprint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isResourceFingerprint()
+   * @generated
+   * @ordered
+   */
+  protected boolean resourceFingerprint = RESOURCE_FINGERPRINT_EDEFAULT;
 
-	/**
-	 * This is true if the Resource Fingerprint attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean resourceFingerprintESet;
+  /**
+   * This is true if the Resource Fingerprint attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean resourceFingerprintESet;
 
-	/**
-	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAttributes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Attribute> attributes;
+  /**
+   * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAttributes()
+   * @generated
+   * @ordered
+   */
+  protected EList<Attribute> attributes;
 
-	/**
-	 * The cached value of the '{@link #getUserData() <em>User Data</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUserData()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UserData> userData;
+  /**
+   * The cached value of the '{@link #getUserData() <em>User Data</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getUserData()
+   * @generated
+   * @ordered
+   */
+  protected EList<UserData> userData;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ExportImpl()
-	{
-		super();
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected ExportImpl()
+  {
+    super();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass()
-	{
-		return ExportPackage.Literals.EXPORT;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return ExportPackage.Literals.EXPORT;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isLookup()
-	{
-		return lookup;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isLookup()
+  {
+    return lookup;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setLookup(boolean newLookup)
-	{
-		boolean oldLookup = lookup;
-		lookup = newLookup;
-		boolean oldLookupESet = lookupESet;
-		lookupESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP, oldLookup, lookup, !oldLookupESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setLookup(boolean newLookup)
+  {
+    boolean oldLookup = lookup;
+    lookup = newLookup;
+    boolean oldLookupESet = lookupESet;
+    lookupESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP, oldLookup, lookup, !oldLookupESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetLookup()
-	{
-		boolean oldLookup = lookup;
-		boolean oldLookupESet = lookupESet;
-		lookup = LOOKUP_EDEFAULT;
-		lookupESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__LOOKUP, oldLookup, LOOKUP_EDEFAULT, oldLookupESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void unsetLookup()
+  {
+    boolean oldLookup = lookup;
+    boolean oldLookupESet = lookupESet;
+    lookup = LOOKUP_EDEFAULT;
+    lookupESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__LOOKUP, oldLookup, LOOKUP_EDEFAULT, oldLookupESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetLookup()
-	{
-		return lookupESet;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isSetLookup()
+  {
+    return lookupESet;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Expression getLookupPredicate()
-	{
-		return lookupPredicate;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Expression getLookupPredicate()
+  {
+    return lookupPredicate;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetLookupPredicate(Expression newLookupPredicate, NotificationChain msgs)
-	{
-		Expression oldLookupPredicate = lookupPredicate;
-		lookupPredicate = newLookupPredicate;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP_PREDICATE, oldLookupPredicate, newLookupPredicate);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetLookupPredicate(Expression newLookupPredicate, NotificationChain msgs)
+  {
+    Expression oldLookupPredicate = lookupPredicate;
+    lookupPredicate = newLookupPredicate;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP_PREDICATE, oldLookupPredicate, newLookupPredicate);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setLookupPredicate(Expression newLookupPredicate)
-	{
-		if (newLookupPredicate != lookupPredicate)
-		{
-			NotificationChain msgs = null;
-			if (lookupPredicate != null)
-				msgs = ((InternalEObject)lookupPredicate).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__LOOKUP_PREDICATE, null, msgs);
-			if (newLookupPredicate != null)
-				msgs = ((InternalEObject)newLookupPredicate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__LOOKUP_PREDICATE, null, msgs);
-			msgs = basicSetLookupPredicate(newLookupPredicate, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP_PREDICATE, newLookupPredicate, newLookupPredicate));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setLookupPredicate(Expression newLookupPredicate)
+  {
+    if (newLookupPredicate != lookupPredicate)
+    {
+      NotificationChain msgs = null;
+      if (lookupPredicate != null)
+        msgs = ((InternalEObject)lookupPredicate).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__LOOKUP_PREDICATE, null, msgs);
+      if (newLookupPredicate != null)
+        msgs = ((InternalEObject)newLookupPredicate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__LOOKUP_PREDICATE, null, msgs);
+      msgs = basicSetLookupPredicate(newLookupPredicate, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__LOOKUP_PREDICATE, newLookupPredicate, newLookupPredicate));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isQualifiedName()
-	{
-		return qualifiedName;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isQualifiedName()
+  {
+    return qualifiedName;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setQualifiedName(boolean newQualifiedName)
-	{
-		boolean oldQualifiedName = qualifiedName;
-		qualifiedName = newQualifiedName;
-		boolean oldQualifiedNameESet = qualifiedNameESet;
-		qualifiedNameESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__QUALIFIED_NAME, oldQualifiedName, qualifiedName, !oldQualifiedNameESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setQualifiedName(boolean newQualifiedName)
+  {
+    boolean oldQualifiedName = qualifiedName;
+    qualifiedName = newQualifiedName;
+    boolean oldQualifiedNameESet = qualifiedNameESet;
+    qualifiedNameESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__QUALIFIED_NAME, oldQualifiedName, qualifiedName, !oldQualifiedNameESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetQualifiedName()
-	{
-		boolean oldQualifiedName = qualifiedName;
-		boolean oldQualifiedNameESet = qualifiedNameESet;
-		qualifiedName = QUALIFIED_NAME_EDEFAULT;
-		qualifiedNameESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__QUALIFIED_NAME, oldQualifiedName, QUALIFIED_NAME_EDEFAULT, oldQualifiedNameESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void unsetQualifiedName()
+  {
+    boolean oldQualifiedName = qualifiedName;
+    boolean oldQualifiedNameESet = qualifiedNameESet;
+    qualifiedName = QUALIFIED_NAME_EDEFAULT;
+    qualifiedNameESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__QUALIFIED_NAME, oldQualifiedName, QUALIFIED_NAME_EDEFAULT, oldQualifiedNameESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetQualifiedName()
-	{
-		return qualifiedNameESet;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isSetQualifiedName()
+  {
+    return qualifiedNameESet;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Expression getNaming()
-	{
-		return naming;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Expression getNaming()
+  {
+    return naming;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetNaming(Expression newNaming, NotificationChain msgs)
-	{
-		Expression oldNaming = naming;
-		naming = newNaming;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__NAMING, oldNaming, newNaming);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetNaming(Expression newNaming, NotificationChain msgs)
+  {
+    Expression oldNaming = naming;
+    naming = newNaming;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__NAMING, oldNaming, newNaming);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setNaming(Expression newNaming)
-	{
-		if (newNaming != naming)
-		{
-			NotificationChain msgs = null;
-			if (naming != null)
-				msgs = ((InternalEObject)naming).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__NAMING, null, msgs);
-			if (newNaming != null)
-				msgs = ((InternalEObject)newNaming).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__NAMING, null, msgs);
-			msgs = basicSetNaming(newNaming, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__NAMING, newNaming, newNaming));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setNaming(Expression newNaming)
+  {
+    if (newNaming != naming)
+    {
+      NotificationChain msgs = null;
+      if (naming != null)
+        msgs = ((InternalEObject)naming).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__NAMING, null, msgs);
+      if (newNaming != null)
+        msgs = ((InternalEObject)newNaming).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ExportPackage.EXPORT__NAMING, null, msgs);
+      msgs = basicSetNaming(newNaming, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__NAMING, newNaming, newNaming));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isFragmentUnique()
-	{
-		return fragmentUnique;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isFragmentUnique()
+  {
+    return fragmentUnique;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setFragmentUnique(boolean newFragmentUnique)
-	{
-		boolean oldFragmentUnique = fragmentUnique;
-		fragmentUnique = newFragmentUnique;
-		boolean oldFragmentUniqueESet = fragmentUniqueESet;
-		fragmentUniqueESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__FRAGMENT_UNIQUE, oldFragmentUnique, fragmentUnique, !oldFragmentUniqueESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setFragmentUnique(boolean newFragmentUnique)
+  {
+    boolean oldFragmentUnique = fragmentUnique;
+    fragmentUnique = newFragmentUnique;
+    boolean oldFragmentUniqueESet = fragmentUniqueESet;
+    fragmentUniqueESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__FRAGMENT_UNIQUE, oldFragmentUnique, fragmentUnique, !oldFragmentUniqueESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetFragmentUnique()
-	{
-		boolean oldFragmentUnique = fragmentUnique;
-		boolean oldFragmentUniqueESet = fragmentUniqueESet;
-		fragmentUnique = FRAGMENT_UNIQUE_EDEFAULT;
-		fragmentUniqueESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__FRAGMENT_UNIQUE, oldFragmentUnique, FRAGMENT_UNIQUE_EDEFAULT, oldFragmentUniqueESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void unsetFragmentUnique()
+  {
+    boolean oldFragmentUnique = fragmentUnique;
+    boolean oldFragmentUniqueESet = fragmentUniqueESet;
+    fragmentUnique = FRAGMENT_UNIQUE_EDEFAULT;
+    fragmentUniqueESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__FRAGMENT_UNIQUE, oldFragmentUnique, FRAGMENT_UNIQUE_EDEFAULT, oldFragmentUniqueESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetFragmentUnique()
-	{
-		return fragmentUniqueESet;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isSetFragmentUnique()
+  {
+    return fragmentUniqueESet;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getFragmentAttribute()
-	{
-		if (fragmentAttribute != null && fragmentAttribute.eIsProxy())
-		{
-			InternalEObject oldFragmentAttribute = (InternalEObject)fragmentAttribute;
-			fragmentAttribute = (EAttribute)eResolveProxy(oldFragmentAttribute);
-			if (fragmentAttribute != oldFragmentAttribute)
-			{
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE, oldFragmentAttribute, fragmentAttribute));
-			}
-		}
-		return fragmentAttribute;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getFragmentAttribute()
+  {
+    if (fragmentAttribute != null && fragmentAttribute.eIsProxy())
+    {
+      InternalEObject oldFragmentAttribute = (InternalEObject)fragmentAttribute;
+      fragmentAttribute = (EAttribute)eResolveProxy(oldFragmentAttribute);
+      if (fragmentAttribute != oldFragmentAttribute)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE, oldFragmentAttribute, fragmentAttribute));
+      }
+    }
+    return fragmentAttribute;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute basicGetFragmentAttribute()
-	{
-		return fragmentAttribute;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute basicGetFragmentAttribute()
+  {
+    return fragmentAttribute;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setFragmentAttribute(EAttribute newFragmentAttribute)
-	{
-		EAttribute oldFragmentAttribute = fragmentAttribute;
-		fragmentAttribute = newFragmentAttribute;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE, oldFragmentAttribute, fragmentAttribute));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setFragmentAttribute(EAttribute newFragmentAttribute)
+  {
+    EAttribute oldFragmentAttribute = fragmentAttribute;
+    fragmentAttribute = newFragmentAttribute;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE, oldFragmentAttribute, fragmentAttribute));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isFingerprint()
-	{
-		return fingerprint;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isFingerprint()
+  {
+    return fingerprint;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setFingerprint(boolean newFingerprint)
-	{
-		boolean oldFingerprint = fingerprint;
-		fingerprint = newFingerprint;
-		boolean oldFingerprintESet = fingerprintESet;
-		fingerprintESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__FINGERPRINT, oldFingerprint, fingerprint, !oldFingerprintESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setFingerprint(boolean newFingerprint)
+  {
+    boolean oldFingerprint = fingerprint;
+    fingerprint = newFingerprint;
+    boolean oldFingerprintESet = fingerprintESet;
+    fingerprintESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__FINGERPRINT, oldFingerprint, fingerprint, !oldFingerprintESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetFingerprint()
-	{
-		boolean oldFingerprint = fingerprint;
-		boolean oldFingerprintESet = fingerprintESet;
-		fingerprint = FINGERPRINT_EDEFAULT;
-		fingerprintESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__FINGERPRINT, oldFingerprint, FINGERPRINT_EDEFAULT, oldFingerprintESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void unsetFingerprint()
+  {
+    boolean oldFingerprint = fingerprint;
+    boolean oldFingerprintESet = fingerprintESet;
+    fingerprint = FINGERPRINT_EDEFAULT;
+    fingerprintESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__FINGERPRINT, oldFingerprint, FINGERPRINT_EDEFAULT, oldFingerprintESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetFingerprint()
-	{
-		return fingerprintESet;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isSetFingerprint()
+  {
+    return fingerprintESet;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isResourceFingerprint()
-	{
-		return resourceFingerprint;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isResourceFingerprint()
+  {
+    return resourceFingerprint;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setResourceFingerprint(boolean newResourceFingerprint)
-	{
-		boolean oldResourceFingerprint = resourceFingerprint;
-		resourceFingerprint = newResourceFingerprint;
-		boolean oldResourceFingerprintESet = resourceFingerprintESet;
-		resourceFingerprintESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__RESOURCE_FINGERPRINT, oldResourceFingerprint, resourceFingerprint, !oldResourceFingerprintESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setResourceFingerprint(boolean newResourceFingerprint)
+  {
+    boolean oldResourceFingerprint = resourceFingerprint;
+    resourceFingerprint = newResourceFingerprint;
+    boolean oldResourceFingerprintESet = resourceFingerprintESet;
+    resourceFingerprintESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ExportPackage.EXPORT__RESOURCE_FINGERPRINT, oldResourceFingerprint, resourceFingerprint, !oldResourceFingerprintESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void unsetResourceFingerprint()
-	{
-		boolean oldResourceFingerprint = resourceFingerprint;
-		boolean oldResourceFingerprintESet = resourceFingerprintESet;
-		resourceFingerprint = RESOURCE_FINGERPRINT_EDEFAULT;
-		resourceFingerprintESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__RESOURCE_FINGERPRINT, oldResourceFingerprint, RESOURCE_FINGERPRINT_EDEFAULT, oldResourceFingerprintESet));
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void unsetResourceFingerprint()
+  {
+    boolean oldResourceFingerprint = resourceFingerprint;
+    boolean oldResourceFingerprintESet = resourceFingerprintESet;
+    resourceFingerprint = RESOURCE_FINGERPRINT_EDEFAULT;
+    resourceFingerprintESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, ExportPackage.EXPORT__RESOURCE_FINGERPRINT, oldResourceFingerprint, RESOURCE_FINGERPRINT_EDEFAULT, oldResourceFingerprintESet));
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSetResourceFingerprint()
-	{
-		return resourceFingerprintESet;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean isSetResourceFingerprint()
+  {
+    return resourceFingerprintESet;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EList<Attribute> getAttributes()
-	{
-		if (attributes == null)
-		{
-			attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, ExportPackage.EXPORT__ATTRIBUTES);
-		}
-		return attributes;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<Attribute> getAttributes()
+  {
+    if (attributes == null)
+    {
+      attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, ExportPackage.EXPORT__ATTRIBUTES);
+    }
+    return attributes;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EList<UserData> getUserData()
-	{
-		if (userData == null)
-		{
-			userData = new EObjectContainmentEList<UserData>(UserData.class, this, ExportPackage.EXPORT__USER_DATA);
-		}
-		return userData;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<UserData> getUserData()
+  {
+    if (userData == null)
+    {
+      userData = new EObjectContainmentEList<UserData>(UserData.class, this, ExportPackage.EXPORT__USER_DATA);
+    }
+    return userData;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EList<EAttribute> getEAttributes()
-	{
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<EAttribute> getEAttributes()
+  {
+    // TODO: implement this method
+    // Ensure that you remove @generated or mark it @generated NOT
+    throw new UnsupportedOperationException();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EList<EAttribute> getAllEAttributes()
-	{
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<EAttribute> getAllEAttributes()
+  {
+    // TODO: implement this method
+    // Ensure that you remove @generated or mark it @generated NOT
+    throw new UnsupportedOperationException();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
-				return basicSetLookupPredicate(null, msgs);
-			case ExportPackage.EXPORT__NAMING:
-				return basicSetNaming(null, msgs);
-			case ExportPackage.EXPORT__ATTRIBUTES:
-				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
-			case ExportPackage.EXPORT__USER_DATA:
-				return ((InternalEList<?>)getUserData()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+        return basicSetLookupPredicate(null, msgs);
+      case ExportPackage.EXPORT__NAMING:
+        return basicSetNaming(null, msgs);
+      case ExportPackage.EXPORT__ATTRIBUTES:
+        return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
+      case ExportPackage.EXPORT__USER_DATA:
+        return ((InternalEList<?>)getUserData()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case ExportPackage.EXPORT__LOOKUP:
-				return isLookup();
-			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
-				return getLookupPredicate();
-			case ExportPackage.EXPORT__QUALIFIED_NAME:
-				return isQualifiedName();
-			case ExportPackage.EXPORT__NAMING:
-				return getNaming();
-			case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
-				return isFragmentUnique();
-			case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
-				if (resolve) return getFragmentAttribute();
-				return basicGetFragmentAttribute();
-			case ExportPackage.EXPORT__FINGERPRINT:
-				return isFingerprint();
-			case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
-				return isResourceFingerprint();
-			case ExportPackage.EXPORT__ATTRIBUTES:
-				return getAttributes();
-			case ExportPackage.EXPORT__USER_DATA:
-				return getUserData();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case ExportPackage.EXPORT__LOOKUP:
+        return isLookup();
+      case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+        return getLookupPredicate();
+      case ExportPackage.EXPORT__QUALIFIED_NAME:
+        return isQualifiedName();
+      case ExportPackage.EXPORT__NAMING:
+        return getNaming();
+      case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
+        return isFragmentUnique();
+      case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
+        if (resolve) return getFragmentAttribute();
+        return basicGetFragmentAttribute();
+      case ExportPackage.EXPORT__FINGERPRINT:
+        return isFingerprint();
+      case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
+        return isResourceFingerprint();
+      case ExportPackage.EXPORT__ATTRIBUTES:
+        return getAttributes();
+      case ExportPackage.EXPORT__USER_DATA:
+        return getUserData();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case ExportPackage.EXPORT__LOOKUP:
-				setLookup((Boolean)newValue);
-				return;
-			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
-				setLookupPredicate((Expression)newValue);
-				return;
-			case ExportPackage.EXPORT__QUALIFIED_NAME:
-				setQualifiedName((Boolean)newValue);
-				return;
-			case ExportPackage.EXPORT__NAMING:
-				setNaming((Expression)newValue);
-				return;
-			case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
-				setFragmentUnique((Boolean)newValue);
-				return;
-			case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
-				setFragmentAttribute((EAttribute)newValue);
-				return;
-			case ExportPackage.EXPORT__FINGERPRINT:
-				setFingerprint((Boolean)newValue);
-				return;
-			case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
-				setResourceFingerprint((Boolean)newValue);
-				return;
-			case ExportPackage.EXPORT__ATTRIBUTES:
-				getAttributes().clear();
-				getAttributes().addAll((Collection<? extends Attribute>)newValue);
-				return;
-			case ExportPackage.EXPORT__USER_DATA:
-				getUserData().clear();
-				getUserData().addAll((Collection<? extends UserData>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case ExportPackage.EXPORT__LOOKUP:
+        setLookup((Boolean)newValue);
+        return;
+      case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+        setLookupPredicate((Expression)newValue);
+        return;
+      case ExportPackage.EXPORT__QUALIFIED_NAME:
+        setQualifiedName((Boolean)newValue);
+        return;
+      case ExportPackage.EXPORT__NAMING:
+        setNaming((Expression)newValue);
+        return;
+      case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
+        setFragmentUnique((Boolean)newValue);
+        return;
+      case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
+        setFragmentAttribute((EAttribute)newValue);
+        return;
+      case ExportPackage.EXPORT__FINGERPRINT:
+        setFingerprint((Boolean)newValue);
+        return;
+      case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
+        setResourceFingerprint((Boolean)newValue);
+        return;
+      case ExportPackage.EXPORT__ATTRIBUTES:
+        getAttributes().clear();
+        getAttributes().addAll((Collection<? extends Attribute>)newValue);
+        return;
+      case ExportPackage.EXPORT__USER_DATA:
+        getUserData().clear();
+        getUserData().addAll((Collection<? extends UserData>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case ExportPackage.EXPORT__LOOKUP:
-				unsetLookup();
-				return;
-			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
-				setLookupPredicate((Expression)null);
-				return;
-			case ExportPackage.EXPORT__QUALIFIED_NAME:
-				unsetQualifiedName();
-				return;
-			case ExportPackage.EXPORT__NAMING:
-				setNaming((Expression)null);
-				return;
-			case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
-				unsetFragmentUnique();
-				return;
-			case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
-				setFragmentAttribute((EAttribute)null);
-				return;
-			case ExportPackage.EXPORT__FINGERPRINT:
-				unsetFingerprint();
-				return;
-			case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
-				unsetResourceFingerprint();
-				return;
-			case ExportPackage.EXPORT__ATTRIBUTES:
-				getAttributes().clear();
-				return;
-			case ExportPackage.EXPORT__USER_DATA:
-				getUserData().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case ExportPackage.EXPORT__LOOKUP:
+        unsetLookup();
+        return;
+      case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+        setLookupPredicate((Expression)null);
+        return;
+      case ExportPackage.EXPORT__QUALIFIED_NAME:
+        unsetQualifiedName();
+        return;
+      case ExportPackage.EXPORT__NAMING:
+        setNaming((Expression)null);
+        return;
+      case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
+        unsetFragmentUnique();
+        return;
+      case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
+        setFragmentAttribute((EAttribute)null);
+        return;
+      case ExportPackage.EXPORT__FINGERPRINT:
+        unsetFingerprint();
+        return;
+      case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
+        unsetResourceFingerprint();
+        return;
+      case ExportPackage.EXPORT__ATTRIBUTES:
+        getAttributes().clear();
+        return;
+      case ExportPackage.EXPORT__USER_DATA:
+        getUserData().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case ExportPackage.EXPORT__LOOKUP:
-				return isSetLookup();
-			case ExportPackage.EXPORT__LOOKUP_PREDICATE:
-				return lookupPredicate != null;
-			case ExportPackage.EXPORT__QUALIFIED_NAME:
-				return isSetQualifiedName();
-			case ExportPackage.EXPORT__NAMING:
-				return naming != null;
-			case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
-				return isSetFragmentUnique();
-			case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
-				return fragmentAttribute != null;
-			case ExportPackage.EXPORT__FINGERPRINT:
-				return isSetFingerprint();
-			case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
-				return isSetResourceFingerprint();
-			case ExportPackage.EXPORT__ATTRIBUTES:
-				return attributes != null && !attributes.isEmpty();
-			case ExportPackage.EXPORT__USER_DATA:
-				return userData != null && !userData.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case ExportPackage.EXPORT__LOOKUP:
+        return isSetLookup();
+      case ExportPackage.EXPORT__LOOKUP_PREDICATE:
+        return lookupPredicate != null;
+      case ExportPackage.EXPORT__QUALIFIED_NAME:
+        return isSetQualifiedName();
+      case ExportPackage.EXPORT__NAMING:
+        return naming != null;
+      case ExportPackage.EXPORT__FRAGMENT_UNIQUE:
+        return isSetFragmentUnique();
+      case ExportPackage.EXPORT__FRAGMENT_ATTRIBUTE:
+        return fragmentAttribute != null;
+      case ExportPackage.EXPORT__FINGERPRINT:
+        return isSetFingerprint();
+      case ExportPackage.EXPORT__RESOURCE_FINGERPRINT:
+        return isSetResourceFingerprint();
+      case ExportPackage.EXPORT__ATTRIBUTES:
+        return attributes != null && !attributes.isEmpty();
+      case ExportPackage.EXPORT__USER_DATA:
+        return userData != null && !userData.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString()
-	{
-		if (eIsProxy()) return super.toString();
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (lookup: ");
-		if (lookupESet) result.append(lookup); else result.append("<unset>");
-		result.append(", qualifiedName: ");
-		if (qualifiedNameESet) result.append(qualifiedName); else result.append("<unset>");
-		result.append(", fragmentUnique: ");
-		if (fragmentUniqueESet) result.append(fragmentUnique); else result.append("<unset>");
-		result.append(", fingerprint: ");
-		if (fingerprintESet) result.append(fingerprint); else result.append("<unset>");
-		result.append(", resourceFingerprint: ");
-		if (resourceFingerprintESet) result.append(resourceFingerprint); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
-	}
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (lookup: ");
+    if (lookupESet) result.append(lookup); else result.append("<unset>");
+    result.append(", qualifiedName: ");
+    if (qualifiedNameESet) result.append(qualifiedName); else result.append("<unset>");
+    result.append(", fragmentUnique: ");
+    if (fragmentUniqueESet) result.append(fragmentUnique); else result.append("<unset>");
+    result.append(", fingerprint: ");
+    if (fingerprintESet) result.append(fingerprint); else result.append("<unset>");
+    result.append(", resourceFingerprint: ");
+    if (resourceFingerprintESet) result.append(resourceFingerprint); else result.append("<unset>");
+    result.append(')');
+    return result.toString();
+  }
 
 } //ExportImpl

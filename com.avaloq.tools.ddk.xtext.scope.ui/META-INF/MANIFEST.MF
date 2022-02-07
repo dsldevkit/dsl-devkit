@@ -15,14 +15,13 @@ Require-Bundle: org.eclipse.xtext.ui,
  org.antlr.runtime,
  com.avaloq.tools.ddk.xtext.expression.ui,
  com.avaloq.tools.ddk.xtext.scope,
+ com.avaloq.tools.ddk.xtext.scope.ide,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.compare,
  org.eclipse.jdt.ui
 Export-Package: com.avaloq.tools.ddk.xtext.scope.ui,
- com.avaloq.tools.ddk.xtext.scope.ui.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.scope.ui.contentassist,
- com.avaloq.tools.ddk.xtext.scope.ui.quickfix,
- com.avaloq.tools.ddk.xtext.scope.ui.contentassist.antlr.internal
+ com.avaloq.tools.ddk.xtext.scope.ui.quickfix
 Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope.ui

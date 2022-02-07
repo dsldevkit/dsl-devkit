@@ -22,26 +22,26 @@ import org.eclipse.xtext.xbase.XExpression;
  */
 public interface XGuardExpression extends XExpression
 {
-	/**
-	 * Returns the value of the '<em><b>Guard</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Guard</em>' containment reference.
-	 * @see #setGuard(XExpression)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXGuardExpression_Guard()
-	 * @model containment="true"
-	 * @generated
-	 */
-	XExpression getGuard();
+  /**
+   * Returns the value of the '<em><b>Guard</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Guard</em>' containment reference.
+   * @see #setGuard(XExpression)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXGuardExpression_Guard()
+   * @model containment="true"
+   * @generated
+   */
+  XExpression getGuard();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.XGuardExpression#getGuard <em>Guard</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Guard</em>' containment reference.
-	 * @see #getGuard()
-	 * @generated
-	 */
-	void setGuard(XExpression value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.XGuardExpression#getGuard <em>Guard</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Guard</em>' containment reference.
+   * @see #getGuard()
+   * @generated
+   */
+  void setGuard(XExpression value);
 
 } // XGuardExpression

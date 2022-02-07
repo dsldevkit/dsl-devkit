@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.jface,
  com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.xtend.lib,
  org.eclipse.jdt.core,
- org.eclipse.compare
+ org.eclipse.compare,
+ org.eclipse.xtext.xbase
 Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.ecore,
  com.avaloq.tools.ddk.xtext.generator.expression,
@@ -30,7 +31,6 @@ Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.languageconstants,
  com.avaloq.tools.ddk.xtext.generator.modelinference,
  com.avaloq.tools.ddk.xtext.generator.util,
- com.avaloq.tools.ddk.xtext.generator.xbase,
  com.avaloq.tools.ddk.xtext.generator,
  com.avaloq.tools.ddk.xtext.generator.model.project,
  com.avaloq.tools.ddk.xtext.generator.resourceFactory

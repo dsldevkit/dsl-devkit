@@ -12,11 +12,17 @@ package com.avaloq.tools.ddk.xtext.generator.util;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -26,6 +32,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.mwe2.ecore.EcoreGenerator;
 import org.eclipse.emf.mwe2.runtime.Mandatory;
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowComponent;
+import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -36,11 +43,93 @@ import com.google.common.collect.Lists;
  * It also checks that the path is indeed available and reports a warning otherwise. Paths may be suppressed in
  * order not to show a warning.
  */
+@SuppressWarnings("nls")
 public class CustomClassAwareEcoreGenerator extends EcoreGenerator implements IWorkflowComponent {
   private static final Logger LOGGER = LogManager.getLogger(EcoreGenerator.class);
 
   private String genModel;
   private final List<String> suppressedSrcPaths = Lists.newLinkedList();
+
+  // CHECKSTYLE:OFF
+  private boolean generateModel = true;
+  private boolean generateEdit = false;
+  private boolean generateEditor = false;
+  // CHECKSTYLE:ON
+  private ResourceSet resourceSet;
+
+  @Override
+  public void setGenerateModel(final boolean generateModel) {
+    this.generateModel = generateModel;
+    super.setGenerateModel(generateModel);
+  }
+
+  @Override
+  public void setGenerateEdit(final boolean generateEdit) {
+    this.generateEdit = generateEdit;
+    super.setGenerateEdit(generateEdit);
+  }
+
+  @Override
+  public void setGenerateEditor(final boolean generateEditor) {
+    this.generateEditor = generateEditor;
+    super.setGenerateEditor(generateEditor);
+  }
+
+  @Override
+  public void setResourceSet(final ResourceSet resourceSet) {
+    this.resourceSet = resourceSet;
+    super.setResourceSet(resourceSet);
+  }
+
+  private ResourceSet getResourceSet() {
+    return resourceSet == null ? new ResourceSetImpl() : resourceSet;
+  }
+
+  @Override
+  public void invoke(final IWorkflowContext ctx) {
+    ResourceSet resSet = getResourceSet();
+    Resource resource = resSet.getResource(URI.createURI(genModel), true);
+    final GenModel model = (GenModel) resource.getContents().get(0);
+    model.setCanGenerate(true);
+    model.reconcile();
+    createGenModelSetup().registerGenModel(model);
+
+    Generator generator = new Generator() {
+      @Override
+      public JControlModel getJControlModel() {
+        if (jControlModel == null) {
+          jControlModel = new JControlModel();
+          jControlModel.initialize(null, options.mergeRulesURI);
+        }
+        return jControlModel;
+      }
+    };
+    LOGGER.info("generating EMF code for " + this.genModel);
+    generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(getTypeMapper(), getLineDelimiter()));
+    generator.setInput(model);
+
+    if (generateModel) {
+      Diagnostic diagnostic = generator.generate(model, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
+
+      if (diagnostic.getSeverity() != Diagnostic.OK) {
+        LOGGER.info(diagnostic);
+      }
+    }
+
+    if (generateEdit) {
+      Diagnostic editDiag = generator.generate(model, GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, new BasicMonitor());
+      if (editDiag.getSeverity() != Diagnostic.OK) {
+        LOGGER.info(editDiag);
+      }
+    }
+
+    if (generateEditor) {
+      Diagnostic editorDiag = generator.generate(model, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, new BasicMonitor());
+      if (editorDiag.getSeverity() != Diagnostic.OK) {
+        LOGGER.info(editorDiag);
+      }
+    }
+  }
 
   @Override
   @Mandatory

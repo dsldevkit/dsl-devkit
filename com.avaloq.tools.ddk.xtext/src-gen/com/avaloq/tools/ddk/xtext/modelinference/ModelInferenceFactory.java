@@ -14,30 +14,30 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface ModelInferenceFactory extends EFactory
 {
-	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	ModelInferenceFactory eINSTANCE = com.avaloq.tools.ddk.xtext.modelinference.impl.ModelInferenceFactoryImpl.init();
+  /**
+   * The singleton instance of the factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  ModelInferenceFactory eINSTANCE = com.avaloq.tools.ddk.xtext.modelinference.impl.ModelInferenceFactoryImpl.init();
 
-	/**
-	 * Returns a new object of class '<em>Inference Container</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Inference Container</em>'.
-	 * @generated
-	 */
-	InferenceContainer createInferenceContainer();
+  /**
+   * Returns a new object of class '<em>Inference Container</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Inference Container</em>'.
+   * @generated
+   */
+  InferenceContainer createInferenceContainer();
 
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
-	ModelInferencePackage getModelInferencePackage();
+  /**
+   * Returns the package supported by this factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the package supported by this factory.
+   * @generated
+   */
+  ModelInferencePackage getModelInferencePackage();
 
 } //ModelInferenceFactory

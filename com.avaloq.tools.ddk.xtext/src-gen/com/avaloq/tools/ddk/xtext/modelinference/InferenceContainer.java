@@ -25,44 +25,44 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface InferenceContainer extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Contents</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.xtext.modelinference.ModelInferencePackage#getInferenceContainer_Contents()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<EObject> getContents();
+  /**
+   * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Contents</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.xtext.modelinference.ModelInferencePackage#getInferenceContainer_Contents()
+   * @model containment="true"
+   * @generated
+   */
+  EList<EObject> getContents();
 
-	/**
-	 * Returns the value of the '<em><b>Fragments</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.String}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Fragments</em>' attribute list.
-	 * @see com.avaloq.tools.ddk.xtext.modelinference.ModelInferencePackage#getInferenceContainer_Fragments()
-	 * @model
-	 * @generated
-	 */
-	EList<String> getFragments();
+  /**
+   * Returns the value of the '<em><b>Fragments</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Fragments</em>' attribute list.
+   * @see com.avaloq.tools.ddk.xtext.modelinference.ModelInferencePackage#getInferenceContainer_Fragments()
+   * @model
+   * @generated
+   */
+  EList<String> getFragments();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	String getFragmentSegment(EObject object);
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  String getFragmentSegment(EObject object);
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	EObject getEObject(String fragmentSegment);
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  EObject getEObject(String fragmentSegment);
 
 } // InferenceContainer

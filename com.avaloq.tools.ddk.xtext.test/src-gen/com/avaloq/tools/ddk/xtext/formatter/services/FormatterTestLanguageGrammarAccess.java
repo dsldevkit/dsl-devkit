@@ -40,7 +40,7 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		//"test"
 		public Keyword getTestKeyword_0() { return cTestKeyword_0; }
 
-		//TestLinewrap | TestIndentation | TestLinewrapMinMax | TestColumn | TestOffset | TestRightPadding
+		//(TestLinewrap | TestIndentation | TestLinewrapMinMax | TestColumn | TestOffset | TestRightPadding)
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
 
 		//TestLinewrap
@@ -86,7 +86,7 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		//(Decl | Assign | Meth | FqnObj | FqnRef | Enumeration | SuppressedHidden "post" | Space | Datatypes) ";"
 		public Group getGroup() { return cGroup; }
 
-		//Decl | Assign | Meth | FqnObj | FqnRef | Enumeration | SuppressedHidden "post" | Space | Datatypes
+		//(Decl | Assign | Meth | FqnObj | FqnRef | Enumeration | SuppressedHidden "post" | Space | Datatypes)
 		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 
 		//Decl
@@ -351,10 +351,12 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		private final RuleCall cItemsLineParserRuleCall_2_0 = (RuleCall)cItemsAssignment_2.eContents().get(0);
 		
 		//TestLinewrap:
-		//	{TestLinewrap} "linewrap" items+=Line*;
+		//	{TestLinewrap}
+		//	"linewrap" items+=Line*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{TestLinewrap} "linewrap" items+=Line*
+		//{TestLinewrap}
+		//"linewrap" items+=Line*
 		public Group getGroup() { return cGroup; }
 
 		//{TestLinewrap}
@@ -379,10 +381,12 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		private final RuleCall cItemsLineParserRuleCall_2_0 = (RuleCall)cItemsAssignment_2.eContents().get(0);
 		
 		//TestLinewrapMinMax:
-		//	{TestLinewrapMinMax} "wrapminmax" items+=Line*;
+		//	{TestLinewrapMinMax}
+		//	"wrapminmax" items+=Line*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{TestLinewrapMinMax} "wrapminmax" items+=Line*
+		//{TestLinewrapMinMax}
+		//"wrapminmax" items+=Line*
 		public Group getGroup() { return cGroup; }
 
 		//{TestLinewrapMinMax}
@@ -414,10 +418,12 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		private final Keyword cSemiSemicolonKeyword_5_0 = (Keyword)cSemiAssignment_5.eContents().get(0);
 		
 		//TestIndentation:
-		//	{TestIndentation} "indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?;
+		//	{TestIndentation}
+		//	"indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{TestIndentation} "indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?
+		//{TestIndentation}
+		//"indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?
 		public Group getGroup() { return cGroup; }
 
 		//{TestIndentation}
@@ -467,10 +473,12 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		private final RuleCall cItemsLineParserRuleCall_3_1_0 = (RuleCall)cItemsAssignment_3_1.eContents().get(0);
 		
 		//TestColumn:
-		//	{TestColumn} "column" name=ID? ("item" items+=Line)*;
+		//	{TestColumn}
+		//	"column" name=ID? ("item" items+=Line)*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{TestColumn} "column" name=ID? ("item" items+=Line)*
+		//{TestColumn}
+		//"column" name=ID? ("item" items+=Line)*
 		public Group getGroup() { return cGroup; }
 
 		//{TestColumn}
@@ -513,10 +521,16 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 		private final RuleCall cSecondIDTerminalRuleCall_6_0 = (RuleCall)cSecondAssignment_6.eContents().get(0);
 		
 		//TestOffset:
-		//	{TestOffset} "offset" "value" value=ID "pair" first=ID second=ID;
+		//	{TestOffset}
+		//	"offset"
+		//	"value" value=ID
+		//	"pair" first=ID second=ID;
 		@Override public ParserRule getRule() { return rule; }
 
-		//{TestOffset} "offset" "value" value=ID "pair" first=ID second=ID
+		//{TestOffset}
+		//"offset"
+		//"value" value=ID
+		//"pair" first=ID second=ID
 		public Group getGroup() { return cGroup; }
 
 		//{TestOffset}
@@ -1105,7 +1119,8 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 	}
 
 	//TestLinewrap:
-	//	{TestLinewrap} "linewrap" items+=Line*;
+	//	{TestLinewrap}
+	//	"linewrap" items+=Line*;
 	public TestLinewrapElements getTestLinewrapAccess() {
 		return pTestLinewrap;
 	}
@@ -1115,7 +1130,8 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 	}
 
 	//TestLinewrapMinMax:
-	//	{TestLinewrapMinMax} "wrapminmax" items+=Line*;
+	//	{TestLinewrapMinMax}
+	//	"wrapminmax" items+=Line*;
 	public TestLinewrapMinMaxElements getTestLinewrapMinMaxAccess() {
 		return pTestLinewrapMinMax;
 	}
@@ -1125,7 +1141,8 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 	}
 
 	//TestIndentation:
-	//	{TestIndentation} "indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?;
+	//	{TestIndentation}
+	//	"indentation" "{" (sub+=TestIndentation | items+=Line)* "}" semi?=";"?;
 	public TestIndentationElements getTestIndentationAccess() {
 		return pTestIndentation;
 	}
@@ -1135,7 +1152,8 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 	}
 
 	//TestColumn:
-	//	{TestColumn} "column" name=ID? ("item" items+=Line)*;
+	//	{TestColumn}
+	//	"column" name=ID? ("item" items+=Line)*;
 	public TestColumnElements getTestColumnAccess() {
 		return pTestColumn;
 	}
@@ -1145,7 +1163,10 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 	}
 
 	//TestOffset:
-	//	{TestOffset} "offset" "value" value=ID "pair" first=ID second=ID;
+	//	{TestOffset}
+	//	"offset"
+	//	"value" value=ID
+	//	"pair" first=ID second=ID;
 	public TestOffsetElements getTestOffsetAccess() {
 		return pTestOffset;
 	}
@@ -1307,7 +1328,8 @@ public class FormatterTestLanguageGrammarAccess extends AbstractGrammarElementFi
 	} 
 
 	//terminal STRING:
-	//	'"' ('\\' . | !('\\' | '"'))* '"' | "'" ('\\' . | !('\\' | "'"))* "'";
+	//	'"' ('\\' . | !('\\' | '"'))* '"' |
+	//	"'" ('\\' . | !('\\' | "'"))* "'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	} 

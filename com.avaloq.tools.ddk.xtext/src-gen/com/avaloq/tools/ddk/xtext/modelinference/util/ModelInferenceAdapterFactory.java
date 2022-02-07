@@ -21,112 +21,112 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class ModelInferenceAdapterFactory extends AdapterFactoryImpl
 {
-	/**
-	 * The cached model package.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected static ModelInferencePackage modelPackage;
+  /**
+   * The cached model package.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected static ModelInferencePackage modelPackage;
 
-	/**
-	 * Creates an instance of the adapter factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ModelInferenceAdapterFactory()
-	{
-		if (modelPackage == null)
-		{
-			modelPackage = ModelInferencePackage.eINSTANCE;
-		}
-	}
+  /**
+   * Creates an instance of the adapter factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ModelInferenceAdapterFactory()
+  {
+    if (modelPackage == null)
+    {
+      modelPackage = ModelInferencePackage.eINSTANCE;
+    }
+  }
 
-	/**
-	 * Returns whether this factory is applicable for the type of the object.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
-	 * <!-- end-user-doc -->
-	 * @return whether this factory is applicable for the type of the object.
-	 * @generated
-	 */
-	@Override
-	public boolean isFactoryForType(Object object)
-	{
-		if (object == modelPackage)
-		{
-			return true;
-		}
-		if (object instanceof EObject)
-		{
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
-		}
-		return false;
-	}
+  /**
+   * Returns whether this factory is applicable for the type of the object.
+   * <!-- begin-user-doc -->
+   * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
+   * <!-- end-user-doc -->
+   * @return whether this factory is applicable for the type of the object.
+   * @generated
+   */
+  @Override
+  public boolean isFactoryForType(Object object)
+  {
+    if (object == modelPackage)
+    {
+      return true;
+    }
+    if (object instanceof EObject)
+    {
+      return ((EObject)object).eClass().getEPackage() == modelPackage;
+    }
+    return false;
+  }
 
-	/**
-	 * The switch that delegates to the <code>createXXX</code> methods.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ModelInferenceSwitch<Adapter> modelSwitch =
-		new ModelInferenceSwitch<Adapter>()
-		{
-			@Override
-			public Adapter caseInferenceContainer(InferenceContainer object)
-			{
-				return createInferenceContainerAdapter();
-			}
-			@Override
-			public Adapter defaultCase(EObject object)
-			{
-				return createEObjectAdapter();
-			}
-		};
+  /**
+   * The switch that delegates to the <code>createXXX</code> methods.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected ModelInferenceSwitch<Adapter> modelSwitch =
+    new ModelInferenceSwitch<Adapter>()
+    {
+      @Override
+      public Adapter caseInferenceContainer(InferenceContainer object)
+      {
+        return createInferenceContainerAdapter();
+      }
+      @Override
+      public Adapter defaultCase(EObject object)
+      {
+        return createEObjectAdapter();
+      }
+    };
 
-	/**
-	 * Creates an adapter for the <code>target</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param target the object to adapt.
-	 * @return the adapter for the <code>target</code>.
-	 * @generated
-	 */
-	@Override
-	public Adapter createAdapter(Notifier target)
-	{
-		return modelSwitch.doSwitch((EObject)target);
-	}
+  /**
+   * Creates an adapter for the <code>target</code>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param target the object to adapt.
+   * @return the adapter for the <code>target</code>.
+   * @generated
+   */
+  @Override
+  public Adapter createAdapter(Notifier target)
+  {
+    return modelSwitch.doSwitch((EObject)target);
+  }
 
 
-	/**
-	 * Creates a new adapter for an object of class '{@link com.avaloq.tools.ddk.xtext.modelinference.InferenceContainer <em>Inference Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.avaloq.tools.ddk.xtext.modelinference.InferenceContainer
-	 * @generated
-	 */
-	public Adapter createInferenceContainerAdapter()
-	{
-		return null;
-	}
+  /**
+   * Creates a new adapter for an object of class '{@link com.avaloq.tools.ddk.xtext.modelinference.InferenceContainer <em>Inference Container</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.avaloq.tools.ddk.xtext.modelinference.InferenceContainer
+   * @generated
+   */
+  public Adapter createInferenceContainerAdapter()
+  {
+    return null;
+  }
 
-	/**
-	 * Creates a new adapter for the default case.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @generated
-	 */
-	public Adapter createEObjectAdapter()
-	{
-		return null;
-	}
+  /**
+   * Creates a new adapter for the default case.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @generated
+   */
+  public Adapter createEObjectAdapter()
+  {
+    return null;
+  }
 
 } //ModelInferenceAdapterFactory

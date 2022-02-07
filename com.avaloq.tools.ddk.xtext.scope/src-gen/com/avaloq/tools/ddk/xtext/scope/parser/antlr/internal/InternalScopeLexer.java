@@ -1669,10 +1669,10 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_REAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4637:11: ( ( '0' .. '9' )* '.' ( '0' .. '9' )* )
-            // InternalScope.g:4637:13: ( '0' .. '9' )* '.' ( '0' .. '9' )*
+            // InternalScope.g:4625:11: ( ( '0' .. '9' )* '.' ( '0' .. '9' )* )
+            // InternalScope.g:4625:13: ( '0' .. '9' )* '.' ( '0' .. '9' )*
             {
-            // InternalScope.g:4637:13: ( '0' .. '9' )*
+            // InternalScope.g:4625:13: ( '0' .. '9' )*
             loop1:
             do {
                 int alt1=2;
@@ -1685,7 +1685,7 @@ public class InternalScopeLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalScope.g:4637:14: '0' .. '9'
+            	    // InternalScope.g:4625:14: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1698,7 +1698,7 @@ public class InternalScopeLexer extends Lexer {
             } while (true);
 
             match('.'); 
-            // InternalScope.g:4637:29: ( '0' .. '9' )*
+            // InternalScope.g:4625:29: ( '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -1711,7 +1711,7 @@ public class InternalScopeLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // InternalScope.g:4637:30: '0' .. '9'
+            	    // InternalScope.g:4625:30: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1739,10 +1739,10 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4639:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // InternalScope.g:4639:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalScope.g:4627:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalScope.g:4627:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // InternalScope.g:4639:11: ( '^' )?
+            // InternalScope.g:4627:11: ( '^' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1751,7 +1751,7 @@ public class InternalScopeLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // InternalScope.g:4639:11: '^'
+                    // InternalScope.g:4627:11: '^'
                     {
                     match('^'); 
 
@@ -1769,7 +1769,7 @@ public class InternalScopeLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalScope.g:4639:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalScope.g:4627:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -1818,10 +1818,10 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4641:10: ( ( '0' .. '9' )+ )
-            // InternalScope.g:4641:12: ( '0' .. '9' )+
+            // InternalScope.g:4629:10: ( ( '0' .. '9' )+ )
+            // InternalScope.g:4629:12: ( '0' .. '9' )+
             {
-            // InternalScope.g:4641:12: ( '0' .. '9' )+
+            // InternalScope.g:4629:12: ( '0' .. '9' )+
             int cnt5=0;
             loop5:
             do {
@@ -1835,7 +1835,7 @@ public class InternalScopeLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // InternalScope.g:4641:13: '0' .. '9'
+            	    // InternalScope.g:4629:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1867,10 +1867,10 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4643:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // InternalScope.g:4643:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalScope.g:4631:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalScope.g:4631:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // InternalScope.g:4643:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalScope.g:4631:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1888,10 +1888,10 @@ public class InternalScopeLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // InternalScope.g:4643:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalScope.g:4631:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // InternalScope.g:4643:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalScope.g:4631:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop6:
                     do {
                         int alt6=3;
@@ -1907,7 +1907,7 @@ public class InternalScopeLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // InternalScope.g:4643:21: '\\\\' .
+                    	    // InternalScope.g:4631:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1915,7 +1915,7 @@ public class InternalScopeLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalScope.g:4643:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalScope.g:4631:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1940,10 +1940,10 @@ public class InternalScopeLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalScope.g:4643:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalScope.g:4631:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // InternalScope.g:4643:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalScope.g:4631:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop7:
                     do {
                         int alt7=3;
@@ -1959,7 +1959,7 @@ public class InternalScopeLexer extends Lexer {
 
                         switch (alt7) {
                     	case 1 :
-                    	    // InternalScope.g:4643:54: '\\\\' .
+                    	    // InternalScope.g:4631:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1967,7 +1967,7 @@ public class InternalScopeLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalScope.g:4643:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalScope.g:4631:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2010,12 +2010,12 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4645:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalScope.g:4645:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalScope.g:4633:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalScope.g:4633:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalScope.g:4645:24: ( options {greedy=false; } : . )*
+            // InternalScope.g:4633:24: ( options {greedy=false; } : . )*
             loop9:
             do {
                 int alt9=2;
@@ -2040,7 +2040,7 @@ public class InternalScopeLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // InternalScope.g:4645:52: .
+            	    // InternalScope.g:4633:52: .
             	    {
             	    matchAny(); 
 
@@ -2070,12 +2070,12 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4647:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalScope.g:4647:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalScope.g:4635:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalScope.g:4635:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalScope.g:4647:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalScope.g:4635:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop10:
             do {
                 int alt10=2;
@@ -2088,7 +2088,7 @@ public class InternalScopeLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // InternalScope.g:4647:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalScope.g:4635:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -2108,7 +2108,7 @@ public class InternalScopeLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalScope.g:4647:40: ( ( '\\r' )? '\\n' )?
+            // InternalScope.g:4635:40: ( ( '\\r' )? '\\n' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -2117,9 +2117,9 @@ public class InternalScopeLexer extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // InternalScope.g:4647:41: ( '\\r' )? '\\n'
+                    // InternalScope.g:4635:41: ( '\\r' )? '\\n'
                     {
-                    // InternalScope.g:4647:41: ( '\\r' )?
+                    // InternalScope.g:4635:41: ( '\\r' )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -2128,7 +2128,7 @@ public class InternalScopeLexer extends Lexer {
                     }
                     switch (alt11) {
                         case 1 :
-                            // InternalScope.g:4647:41: '\\r'
+                            // InternalScope.g:4635:41: '\\r'
                             {
                             match('\r'); 
 
@@ -2160,10 +2160,10 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4649:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalScope.g:4649:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalScope.g:4637:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalScope.g:4637:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalScope.g:4649:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalScope.g:4637:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt13=0;
             loop13:
             do {
@@ -2217,8 +2217,8 @@ public class InternalScopeLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalScope.g:4651:16: ( . )
-            // InternalScope.g:4651:18: .
+            // InternalScope.g:4639:16: ( . )
+            // InternalScope.g:4639:18: .
             {
             matchAny(); 
 

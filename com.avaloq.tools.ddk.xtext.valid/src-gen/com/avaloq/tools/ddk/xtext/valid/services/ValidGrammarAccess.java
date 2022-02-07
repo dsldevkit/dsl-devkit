@@ -31,7 +31,8 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//	categories+=Category*;
 		@Override public ParserRule getRule() { return rule; }
 
-		//imports+=Import* categories+=Category*
+		//imports+=Import*
+		//categories+=Category*
 		public Group getGroup() { return cGroup; }
 
 		//imports+=Import*
@@ -225,11 +226,15 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?='optional'? & checkKind=CheckKind?) severity=SeverityKind name=ID 'label' label=STRING ('description'
-		//description=STRING)? 'message' message=STRING 'context' '{' contexts+=NativeContext+ '}'
+		//(optional?='optional'? & checkKind=CheckKind?) severity=SeverityKind name=ID
+		//'label' label=STRING ('description' description=STRING)?
+		//'message' message=STRING
+		//'context' '{'
+		//contexts+=NativeContext+
+		//'}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?='optional'? & checkKind=CheckKind?
+		//(optional?='optional'? & checkKind=CheckKind?)
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
 		//optional?='optional'?
@@ -348,12 +353,15 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?='optional'? & checkKind=CheckKind?) 'size' severity=SeverityKind name=ID 'label' label=STRING ('description'
-		//description=STRING)? ('message' message=STRING)? 'size' (min=INT '..')? max=INT 'context' '{' contexts+=SimpleContext+
+		//(optional?='optional'? & checkKind=CheckKind?) 'size' severity=SeverityKind name=ID
+		//'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+		//'size' (min=INT '..')? max=INT
+		//'context' '{'
+		//contexts+=SimpleContext+
 		//'}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?='optional'? & checkKind=CheckKind?
+		//(optional?='optional'? & checkKind=CheckKind?)
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
 		//optional?='optional'?
@@ -499,12 +507,15 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?='optional'? & checkKind=CheckKind?) 'range' severity=SeverityKind name=ID 'label' label=STRING ('description'
-		//description=STRING)? ('message' message=STRING)? 'range' (min=INT '..')? max=INT 'context' '{'
-		//contexts+=SimpleContext+ '}'
+		//(optional?='optional'? & checkKind=CheckKind?) 'range' severity=SeverityKind name=ID
+		//'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+		//'range' (min=INT '..')? max=INT
+		//'context' '{'
+		//contexts+=SimpleContext+
+		//'}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?='optional'? & checkKind=CheckKind?
+		//(optional?='optional'? & checkKind=CheckKind?)
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
 		//optional?='optional'?
@@ -642,11 +653,14 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
 
-		//(optional?='optional'? & checkKind=CheckKind?) 'unique' severity=SeverityKind name=ID 'label' label=STRING
-		//('description' description=STRING)? ('message' message=STRING)? 'context' '{' contexts+=DuplicateContext+ '}'
+		//(optional?='optional'? & checkKind=CheckKind?) 'unique' severity=SeverityKind name=ID
+		//'label' label=STRING ('description' description=STRING)? ('message' message=STRING)?
+		//'context' '{'
+		//contexts+=DuplicateContext+
+		//'}'
 		public Group getGroup() { return cGroup; }
 
-		//optional?='optional'? & checkKind=CheckKind?
+		//(optional?='optional'? & checkKind=CheckKind?)
 		public UnorderedGroup getUnorderedGroup_0() { return cUnorderedGroup_0; }
 
 		//optional?='optional'?
@@ -921,9 +935,11 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//	";";
 		@Override public ParserRule getRule() { return rule; }
 
-		//contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? (named?='as' givenName=ID)?
-		//('marker' markerType=[ecore::EClass|QualifiedID] ('#' markerFeature=[ecore::EStructuralFeature]))? ('quickfixes' '{'
-		//quickFixes+=QuickFix+ '}')? ";"
+		//contextType=[ecore::EClass|QualifiedID] ('#' contextFeature=[ecore::EStructuralFeature])? (named?='as' givenName=ID)? (
+		//'marker' markerType=[ecore::EClass|QualifiedID] ('#' markerFeature=[ecore::EStructuralFeature]))? ('quickfixes' '{'
+		//quickFixes+=QuickFix+
+		//'}')?
+		//";"
 		public Group getGroup() { return cGroup; }
 
 		//contextType=[ecore::EClass|QualifiedID]
@@ -980,7 +996,7 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getMarkerTypeEClassQualifiedIDParserRuleCall_3_1_0_1() { return cMarkerTypeEClassQualifiedIDParserRuleCall_3_1_0_1; }
 
-		//'#' markerFeature=[ecore::EStructuralFeature]
+		//('#' markerFeature=[ecore::EStructuralFeature])
 		public Group getGroup_3_2() { return cGroup_3_2; }
 
 		//'#'
@@ -995,7 +1011,9 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getMarkerFeatureEStructuralFeatureIDTerminalRuleCall_3_2_1_0_1() { return cMarkerFeatureEStructuralFeatureIDTerminalRuleCall_3_2_1_0_1; }
 
-		//('quickfixes' '{' quickFixes+=QuickFix+ '}')?
+		//('quickfixes' '{'
+		//quickFixes+=QuickFix+
+		//'}')?
 		public Group getGroup_4() { return cGroup_4; }
 
 		//'quickfixes'
@@ -1492,7 +1510,8 @@ public class ValidGrammarAccess extends AbstractGrammarElementFinder {
 	} 
 
 	//terminal STRING:
-	//	'"' ('\\' . | !('\\' | '"'))* '"' | "'" ('\\' . | !('\\' | "'"))* "'";
+	//	'"' ('\\' . | !('\\' | '"'))* '"' |
+	//	"'" ('\\' . | !('\\' | "'"))* "'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	} 

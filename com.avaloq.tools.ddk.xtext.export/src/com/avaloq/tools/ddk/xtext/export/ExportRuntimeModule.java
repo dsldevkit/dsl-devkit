@@ -61,4 +61,8 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
     return ExportOutputConfigurationProvider.class;
   }
 
+  @Override
+  public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
+    return com.avaloq.tools.ddk.xtext.export.formatting.ExportFormatter.class;
+  }
 }

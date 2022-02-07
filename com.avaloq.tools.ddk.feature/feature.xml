@@ -21,6 +21,13 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.xtext.export.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.xtext.export.ui"
          download-size="0"
          install-size="0"
@@ -36,6 +43,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.scope"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.scope.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -78,6 +92,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.export.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.expression.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -147,6 +168,13 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.check.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.check.ui"
          download-size="0"
          install-size="0"
@@ -155,6 +183,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.checkcfg.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.checkcfg.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"

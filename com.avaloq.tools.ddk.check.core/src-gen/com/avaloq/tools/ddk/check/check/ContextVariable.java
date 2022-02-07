@@ -25,48 +25,48 @@ import org.eclipse.xtext.common.types.JvmTypeReference;
  */
 public interface ContextVariable extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Type</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Type</em>' containment reference.
-	 * @see #setType(JvmTypeReference)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getContextVariable_Type()
-	 * @model containment="true"
-	 * @generated
-	 */
-	JvmTypeReference getType();
+  /**
+   * Returns the value of the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Type</em>' containment reference.
+   * @see #setType(JvmTypeReference)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getContextVariable_Type()
+   * @model containment="true"
+   * @generated
+   */
+  JvmTypeReference getType();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.ContextVariable#getType <em>Type</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' containment reference.
-	 * @see #getType()
-	 * @generated
-	 */
-	void setType(JvmTypeReference value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.ContextVariable#getType <em>Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type</em>' containment reference.
+   * @see #getType()
+   * @generated
+   */
+  void setType(JvmTypeReference value);
 
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getContextVariable_Name()
-	 * @model
-	 * @generated
-	 */
-	String getName();
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getContextVariable_Name()
+   * @model
+   * @generated
+   */
+  String getName();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.ContextVariable#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.ContextVariable#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
 
 } // ContextVariable

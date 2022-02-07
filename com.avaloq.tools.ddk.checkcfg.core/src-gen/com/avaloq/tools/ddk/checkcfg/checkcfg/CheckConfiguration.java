@@ -27,70 +27,70 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface CheckConfiguration extends ConfigurableSection
 {
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_Name()
-	 * @model
-	 * @generated
-	 */
-	String getName();
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_Name()
+   * @model
+   * @generated
+   */
+  String getName();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
 
-	/**
-	 * Returns the value of the '<em><b>Language Validator Configurations</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Language Validator Configurations</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_LanguageValidatorConfigurations()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<ConfiguredLanguageValidator> getLanguageValidatorConfigurations();
+  /**
+   * Returns the value of the '<em><b>Language Validator Configurations</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Language Validator Configurations</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_LanguageValidatorConfigurations()
+   * @model containment="true"
+   * @generated
+   */
+  EList<ConfiguredLanguageValidator> getLanguageValidatorConfigurations();
 
-	/**
-	 * Returns the value of the '<em><b>Legacy Catalog Configurations</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Legacy Catalog Configurations</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_LegacyCatalogConfigurations()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<ConfiguredCatalog> getLegacyCatalogConfigurations();
+  /**
+   * Returns the value of the '<em><b>Legacy Catalog Configurations</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Legacy Catalog Configurations</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_LegacyCatalogConfigurations()
+   * @model containment="true"
+   * @generated
+   */
+  EList<ConfiguredCatalog> getLegacyCatalogConfigurations();
 
-	/**
-	 * Returns the value of the '<em><b>Properties</b></em>' reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.check.check.FormalParameter}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Properties</em>' reference list.
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_Properties()
-	 * @model transient="true" volatile="true" derived="true"
-	 * @generated
-	 */
-	EList<FormalParameter> getProperties();
+  /**
+   * Returns the value of the '<em><b>Properties</b></em>' reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.check.check.FormalParameter}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Properties</em>' reference list.
+   * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getCheckConfiguration_Properties()
+   * @model transient="true" volatile="true" derived="true"
+   * @generated
+   */
+  EList<FormalParameter> getProperties();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<ConfigurableSection> getConfigurableSections();
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @model kind="operation"
+   * @generated
+   */
+  EList<ConfigurableSection> getConfigurableSections();
 
 } // CheckConfiguration

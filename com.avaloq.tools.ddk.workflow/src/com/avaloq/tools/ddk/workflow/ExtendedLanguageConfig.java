@@ -19,12 +19,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.xtext.generator.GenModelAccess;
-import org.eclipse.xtext.generator.LanguageConfig;
+import org.eclipse.xtext.xtext.generator.XtextGeneratorLanguage;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -34,8 +34,7 @@ import com.google.common.collect.Sets;
 /**
  * Registers EPackages for referenced GenModls. Supports content types.
  */
-@SuppressWarnings("deprecation")
-public class ExtendedLanguageConfig extends LanguageConfig {
+public class ExtendedLanguageConfig extends XtextGeneratorLanguage {
 
   private List<String> contentTypes;
   private String languageName;
@@ -67,23 +66,62 @@ public class ExtendedLanguageConfig extends LanguageConfig {
     return preferencePagesCategory;
   }
 
-  @Override
-  protected boolean isCheckFileExtension() {
-    return false;
+  @SuppressWarnings("nls")
+  public static Resource getGenModelResource(final String nsURI, final ResourceSet resourceSet) {
+    URI genModelURI = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false).get(nsURI);
+    if (genModelURI == null) {
+      if (EcorePackage.eNS_URI.equals(nsURI)) {
+        return null;
+      }
+
+      // look into the resource set to find a genpackage for the given URI
+      for (Resource res : resourceSet.getResources()) {
+
+        // we only look into the first level, as genmodels are usually among the top level elements.
+        // this just to avoid traversing all eobjects in the resource set.
+        for (EObject obj : res.getContents()) {
+          if (obj instanceof GenModel) {
+            for (GenPackage genPackage : ((GenModel) obj).getGenPackages()) {
+              if (genPackage.getNSURI().equals(nsURI)) {
+                return genPackage.eResource();
+              }
+            }
+          }
+        }
+      }
+
+      StringBuilder buf = new StringBuilder();
+      buf.append("Could not find a GenModel for EPackage '").append(nsURI).append("'").append("\n");
+      throw new RuntimeException(buf.toString());
+    }
+    if (resourceSet == null) {
+      throw new RuntimeException("There is no ResourceSet for EPackage '" + nsURI + "'. " + "Please make sure the EPackage has been loaded from a .ecore file "
+          + "and not from the generated Java file.");
+    }
+    Resource genModelResource = resourceSet.getResource(genModelURI, true);
+    if (genModelResource == null) {
+      throw new RuntimeException("Error loading GenModel " + genModelURI);
+    }
+    for (EObject content : genModelResource.getContents()) {
+      if (content instanceof GenModel) {
+        ((GenModel) content).reconcile();
+      }
+    }
+    return genModelResource;
   }
 
   /**
    * {@inheritDoc}
    * <p>
-   * Registers all EPackages (transitively) referenced by registered GenModels prior to calling {@link LanguageConfig#setUri(String)}.
+   * Registers all EPackages (transitively) referenced by registered GenModels prior to calling {@link XtextGeneratorLanguage#setGrammarUri(String)}.
    */
   @Override
-  public void setUri(final String uri) {
+  public void setGrammarUri(final String uri) {
     ResourceSet rs = new ResourceSetImpl();
     Set<URI> result = Sets.newHashSet();
-    Map<String, URI> genModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+    Map<String, URI> genModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
     for (Map.Entry<String, URI> entry : genModelLocationMap.entrySet()) {
-      Resource resource = GenModelAccess.getGenModelResource(null, entry.getKey(), rs);
+      Resource resource = getGenModelResource(entry.getKey(), rs);
       if (resource != null) {
         for (EObject model : resource.getContents()) {
           if (model instanceof GenModel) {
@@ -94,9 +132,9 @@ public class ExtendedLanguageConfig extends LanguageConfig {
       }
     }
     for (URI u : result) {
-      addLoadedResource(u.toString());
+      addReferencedResource(u.toString());
     }
-    super.setUri(uri);
+    super.setGrammarUri(uri);
   }
 
   /**

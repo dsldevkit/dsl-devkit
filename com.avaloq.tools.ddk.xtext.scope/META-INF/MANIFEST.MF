@@ -6,7 +6,7 @@ Bundle-Version: 9.1.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.xtext,
- com.avaloq.tools.ddk.xtext.expression,
+ com.avaloq.tools.ddk.xtext.expression;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,
  org.eclipse.emf.mwe2.launch;resolution:=optional,
  org.eclipse.xtext.util,
@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.runtime,
  org.eclipse.xtend.shared.ui;resolution:=optional,
  org.eclipse.xtext.xbase.lib
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.logging.log4j,
+ org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.scope,
  com.avaloq.tools.ddk.xtext.scope.parser.antlr,
  com.avaloq.tools.ddk.xtext.scope.parser.antlr.internal,
@@ -33,4 +34,3 @@ Export-Package: com.avaloq.tools.ddk.xtext.scope,
  com.avaloq.tools.ddk.xtext.scope.serializer,
  com.avaloq.tools.ddk.xtext.scope.generator
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope
-

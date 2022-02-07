@@ -12,7 +12,6 @@
 package com.avaloq.tools.ddk.xtext.generator.builder
 
 import com.google.inject.Inject
-import org.apache.logging.log4j.Logger
 import org.apache.logging.log4j.LogManager;
 import org.eclipse.osgi.util.NLS
 import org.eclipse.xtext.GeneratedMetamodel

@@ -22,16 +22,16 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface Interface extends DeclarationForType
 {
-	/**
-	 * Returns the value of the '<em><b>Items</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.InterfaceItem}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Items</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getInterface_Items()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<InterfaceItem> getItems();
+  /**
+   * Returns the value of the '<em><b>Items</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.xtext.export.export.InterfaceItem}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Items</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getInterface_Items()
+   * @model containment="true"
+   * @generated
+   */
+  EList<InterfaceItem> getItems();
 
 } // Interface

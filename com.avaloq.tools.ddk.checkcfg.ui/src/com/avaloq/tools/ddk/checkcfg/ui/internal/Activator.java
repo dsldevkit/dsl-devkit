@@ -10,21 +10,18 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.ui.internal;
 
-
-
 /**
  * Configures a custom Check Configuration plug-in activator.
  */
-public class Activator extends CheckCfgActivator {
+public class Activator extends CheckcfgActivator {
 
   /**
    * Gets the Check Configuration plug-in ID.
-   * 
+   *
    * @return the plugin ID
    */
   public static String getPluginId() {
-    return CheckCfgActivator.getInstance().getBundle().getSymbolicName();
+    return CheckcfgActivator.getInstance().getBundle().getSymbolicName();
   }
 
 }
-

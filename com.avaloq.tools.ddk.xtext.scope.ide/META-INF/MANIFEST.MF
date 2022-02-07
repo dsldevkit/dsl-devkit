@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.xtext.scope.ide
+Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope.ide;singleton:=true
+Bundle-Version: 9.0.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr,
+ com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.internal
+Require-Bundle: org.antlr.runtime,
+ org.eclipse.xtext.ide,
+ com.avaloq.tools.ddk.xtext.scope
+Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope.ide

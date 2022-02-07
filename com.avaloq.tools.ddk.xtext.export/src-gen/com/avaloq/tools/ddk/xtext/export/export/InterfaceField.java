@@ -22,26 +22,26 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public interface InterfaceField extends InterfaceItem
 {
-	/**
-	 * Returns the value of the '<em><b>Field</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Field</em>' reference.
-	 * @see #setField(EStructuralFeature)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getInterfaceField_Field()
-	 * @model
-	 * @generated
-	 */
-	EStructuralFeature getField();
+  /**
+   * Returns the value of the '<em><b>Field</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Field</em>' reference.
+   * @see #setField(EStructuralFeature)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getInterfaceField_Field()
+   * @model
+   * @generated
+   */
+  EStructuralFeature getField();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.InterfaceField#getField <em>Field</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Field</em>' reference.
-	 * @see #getField()
-	 * @generated
-	 */
-	void setField(EStructuralFeature value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.InterfaceField#getField <em>Field</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Field</em>' reference.
+   * @see #getField()
+   * @generated
+   */
+  void setField(EStructuralFeature value);
 
 } // InterfaceField

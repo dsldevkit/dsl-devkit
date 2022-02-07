@@ -7,11 +7,12 @@ import org.eclipse.xtext.testing.IInjectorProvider;
 
 import com.google.inject.Injector;
 
+
 public class CheckCfgUiInjectorProvider implements IInjectorProvider {
 
-	@Override
-	public Injector getInjector() {
-		return com.avaloq.tools.ddk.checkcfg.ui.internal.CheckCfgActivator.getInstance().getInjector("com.avaloq.tools.ddk.checkcfg.CheckCfg");
-	}
+  @Override
+  public Injector getInjector() {
+    return com.avaloq.tools.ddk.checkcfg.ui.internal.CheckcfgActivator.getInstance().getInjector("com.avaloq.tools.ddk.checkcfg.CheckCfg");
+  }
 
 }

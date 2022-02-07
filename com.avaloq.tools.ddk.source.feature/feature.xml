@@ -13,6 +13,13 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.xtext.export.ide.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.xtext.export.ui.source"
          download-size="0"
          install-size="0"
@@ -28,6 +35,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.scope.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.scope.ide.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -77,6 +91,13 @@
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.expression.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.expression.ide.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

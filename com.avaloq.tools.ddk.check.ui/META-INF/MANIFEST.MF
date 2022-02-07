@@ -11,6 +11,7 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.builder,
  com.avaloq.tools.ddk.xtext.common.types.ui,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.check.core,
+ com.avaloq.tools.ddk.check.ide,
  com.avaloq.tools.ddk.check.runtime.core,
  org.antlr.runtime,
  org.eclipse.xtext.ui,
@@ -34,12 +35,11 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.builder,
 Export-Package: com.avaloq.tools.ddk.check.ui;x-friends:="com.avaloq.tools.ddk.check.ui.test",
  com.avaloq.tools.ddk.check.ui.builder.util,
  com.avaloq.tools.ddk.check.ui.contentassist,
- com.avaloq.tools.ddk.check.ui.contentassist.antlr,
  com.avaloq.tools.ddk.check.ui.internal;x-friends:="com.avaloq.tools.ddk.check.ui.test",
  com.avaloq.tools.ddk.check.ui.util,
  com.avaloq.tools.ddk.check.ui.wizard,
  com.avaloq.tools.ddk.check.ui.quickfix,
- com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal
+ com.avaloq.tools.ddk.check.ui.editor
 Import-Package: org.apache.log4j,
  org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.check.ui
