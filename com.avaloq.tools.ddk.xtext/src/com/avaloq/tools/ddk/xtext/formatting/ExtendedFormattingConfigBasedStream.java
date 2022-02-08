@@ -31,6 +31,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.AbstractElement;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.ParserRule;
+import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.formatting.IElementMatcherProvider.IElementMatcher;
 import org.eclipse.xtext.formatting.impl.AbstractFormattingConfig.ElementLocator;
 import org.eclipse.xtext.formatting.impl.AbstractFormattingConfig.ElementPattern;
@@ -728,7 +729,9 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   private boolean isCommentNode(final INode node) {
     if (node instanceof ILeafNode && node.getGrammarElement() != null) {
       EObject grammarElement = node.getGrammarElement();
-      return grammarElement.equals(formatter.getSLCommentRule()) || grammarElement.equals(formatter.getMLCommentRule());
+      if (grammarElement instanceof TerminalRule) {
+        return hiddenTokenHelper.isComment((TerminalRule) grammarElement);
+      }
     }
     return false;
   }
