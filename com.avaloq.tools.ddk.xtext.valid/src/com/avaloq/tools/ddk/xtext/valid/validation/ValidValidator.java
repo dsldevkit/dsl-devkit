@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
+import org.eclipse.xtext.validation.ComposedChecks;
 
 import com.avaloq.tools.ddk.xtext.valid.valid.Category;
 import com.avaloq.tools.ddk.xtext.valid.valid.NativeContext;
@@ -32,7 +33,8 @@ import com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage;
  * The Class ValidJavaValidator.
  */
 @SuppressWarnings("nls")
-public class ValidJavaValidator extends AbstractValidJavaValidator {
+@ComposedChecks(validators = {org.eclipse.xtext.validation.NamesAreUniqueValidator.class})
+public class ValidValidator extends AbstractValidValidator {
 
   private static final String LABEL_SHOULD_NOT_END_WITH_A_DOT = "Label should not end with a '.'";
   private static final String DESCRIPTION_SHOULD_END_WITH_A_DOT = "Description should end with a '.'";
@@ -353,4 +355,3 @@ public class ValidJavaValidator extends AbstractValidJavaValidator {
   }
 
 }
-

@@ -28,94 +28,92 @@ public class ValidValidationTest extends AbstractValidationTest {
 
   @Test
   public final void testCheckNoSizeRule() {
-    assertDiagnostic(ValidJavaValidator.NO_PREDEFINED_RULE);
+    assertDiagnostic(ValidValidator.NO_PREDEFINED_RULE);
   }
 
   @Test
   public final void testCheckCategoryFirstUpperName() {
-    assertDiagnostic(ValidJavaValidator.CATEGORY_FIRST_UPPER_NAME);
+    assertDiagnostic(ValidValidator.CATEGORY_FIRST_UPPER_NAME);
   }
 
   @Test
   public final void testCheckRuleFirstUpperName() {
-    assertDiagnostic(ValidJavaValidator.RULE_FIRST_UPPER_NAME);
+    assertDiagnostic(ValidValidator.RULE_FIRST_UPPER_NAME);
   }
 
   @Test
   public final void testCheckQuickFixFirstUpperName() {
-    assertDiagnostic(ValidJavaValidator.QUICK_FIX_FIRST_UPPER_NAME);
+    assertDiagnostic(ValidValidator.QUICK_FIX_FIRST_UPPER_NAME);
   }
 
   @Test
   public final void testCheckNativeContextFirstUpperName() {
-    assertDiagnostic(ValidJavaValidator.NATIVE_CONTEXT_FIRST_UPPER_NAME);
+    assertDiagnostic(ValidValidator.NATIVE_CONTEXT_FIRST_UPPER_NAME);
   }
 
   @Test
   public final void testCheckCategoryEmpty() {
-    assertDiagnostic(ValidJavaValidator.CATEGORY_EMPTY);
+    assertDiagnostic(ValidValidator.CATEGORY_EMPTY);
   }
 
   @Test
   public final void testCheckNativeContextContextFeature() {
-    assertDiagnostic(ValidJavaValidator.NATIVE_CONTEXT_CONTEXT_FEATURE);
+    assertDiagnostic(ValidValidator.NATIVE_CONTEXT_CONTEXT_FEATURE);
   }
 
   @Test
   public final void testCheckCategoryLabel() {
-    assertDiagnostic(ValidJavaValidator.CATEGORY_LABEL);
+    assertDiagnostic(ValidValidator.CATEGORY_LABEL);
   }
 
   @Test
   public final void testCheckRuleLabel() {
-    assertDiagnostic(ValidJavaValidator.RULE_LABEL);
+    assertDiagnostic(ValidValidator.RULE_LABEL);
   }
 
   @Test
   public final void testCheckQuickFixLabel() {
-    assertDiagnostic(ValidJavaValidator.QUICK_FIX_LABEL);
+    assertDiagnostic(ValidValidator.QUICK_FIX_LABEL);
   }
 
   @Test
   public final void testCheckCategoryDescription() {
-    assertDiagnostic(ValidJavaValidator.CATEGORY_DESCRIPTION);
+    assertDiagnostic(ValidValidator.CATEGORY_DESCRIPTION);
   }
 
   @Test
   public final void testCheckCheckDescriptionRule() {
-    assertDiagnostic(ValidJavaValidator.CHECK_DESCRIPTION_RULE);
+    assertDiagnostic(ValidValidator.CHECK_DESCRIPTION_RULE);
   }
 
   @Test
   public final void testCheckUniqueNativeContextName() {
-    assertDiagnostic(ValidJavaValidator.UNIQUE_NATIVE_CONTEXT_NAME);
+    assertDiagnostic(ValidValidator.UNIQUE_NATIVE_CONTEXT_NAME);
   }
 
   @Test
   public final void testCheckCategoryDescriptionEndsWithDot() {
-    assertDiagnostic(ValidJavaValidator.CATEGORY_DESCRIPTION_ENDS_WITH_DOT);
+    assertDiagnostic(ValidValidator.CATEGORY_DESCRIPTION_ENDS_WITH_DOT);
   }
 
   @Test
   public final void testCheckRuleDescriptionEndsWithDot() {
-    assertDiagnostic(ValidJavaValidator.RULE_DESCRIPTION_ENDS_WITH_DOT);
+    assertDiagnostic(ValidValidator.RULE_DESCRIPTION_ENDS_WITH_DOT);
   }
 
   @Test
   public final void testCheckCategoryLabelEndsWithDot() {
-    assertDiagnostic(ValidJavaValidator.CATEGORY_LABEL_ENDS_WITH_DOT);
+    assertDiagnostic(ValidValidator.CATEGORY_LABEL_ENDS_WITH_DOT);
   }
 
   @Test
   public final void testCheckRuleLabelEndsWithDot() {
-    assertDiagnostic(ValidJavaValidator.RULE_LABEL_ENDS_WITH_DOT);
+    assertDiagnostic(ValidValidator.RULE_LABEL_ENDS_WITH_DOT);
   }
 
   @Test
   public final void testCheckQuickFixLabelEndsWithDot() {
-    assertDiagnostic(ValidJavaValidator.QUICK_FIX_LABEL_ENDS_WITH_DOT);
+    assertDiagnostic(ValidValidator.QUICK_FIX_LABEL_ENDS_WITH_DOT);
   }
 
 }
-
-
