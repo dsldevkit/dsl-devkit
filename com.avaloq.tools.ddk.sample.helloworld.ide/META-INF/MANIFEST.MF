@@ -17,7 +17,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.xtext,
  org.eclipse.xtext.ide
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ide,
  com.avaloq.tools.ddk.sample.helloworld.ide.contentassist.antlr,
  com.avaloq.tools.ddk.sample.helloworld.ide.contentassist.antlr.internal

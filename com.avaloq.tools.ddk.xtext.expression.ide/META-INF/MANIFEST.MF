@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.expression.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.expression.ide;singleton:=true
 Bundle-Version: 9.1.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: com.avaloq.tools.ddk.xtext.expression.ide.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.expression.ide.contentassist.antlr.internal
