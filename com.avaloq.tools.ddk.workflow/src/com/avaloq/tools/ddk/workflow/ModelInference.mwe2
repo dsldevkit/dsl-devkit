@@ -16,7 +16,6 @@ import org.eclipse.emf.mwe.utils.*
 
 var projectName       = "com.avaloq.tools.ddk.xtext"
 var runtimeProject    = "com.avaloq.tools.ddk.xtext"
-// var uiProject         = "com.avaloq.tools.ddk.xtext.ui"
 
 Workflow {
   bean = StandaloneSetup {

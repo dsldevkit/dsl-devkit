@@ -29,92 +29,92 @@ import org.eclipse.xtext.xbase.XExpression;
  */
 public interface FormalParameter extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Type</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Type</em>' containment reference.
-	 * @see #setType(JvmTypeReference)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Type()
-	 * @model containment="true"
-	 * @generated
-	 */
-	JvmTypeReference getType();
+  /**
+   * Returns the value of the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Type</em>' containment reference.
+   * @see #setType(JvmTypeReference)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Type()
+   * @model containment="true"
+   * @generated
+   */
+  JvmTypeReference getType();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getType <em>Type</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' containment reference.
-	 * @see #getType()
-	 * @generated
-	 */
-	void setType(JvmTypeReference value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getType <em>Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type</em>' containment reference.
+   * @see #getType()
+   * @generated
+   */
+  void setType(JvmTypeReference value);
 
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Name()
-	 * @model
-	 * @generated
-	 */
-	String getName();
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Name()
+   * @model
+   * @generated
+   */
+  String getName();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
+   * @generated
+   */
+  void setName(String value);
 
-	/**
-	 * Returns the value of the '<em><b>Right</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Right</em>' containment reference.
-	 * @see #setRight(XExpression)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Right()
-	 * @model containment="true"
-	 * @generated
-	 */
-	XExpression getRight();
+  /**
+   * Returns the value of the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Right</em>' containment reference.
+   * @see #setRight(XExpression)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Right()
+   * @model containment="true"
+   * @generated
+   */
+  XExpression getRight();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getRight <em>Right</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Right</em>' containment reference.
-	 * @see #getRight()
-	 * @generated
-	 */
-	void setRight(XExpression value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getRight <em>Right</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Right</em>' containment reference.
+   * @see #getRight()
+   * @generated
+   */
+  void setRight(XExpression value);
 
-	/**
-	 * Returns the value of the '<em><b>Label</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label</em>' attribute.
-	 * @see #setLabel(String)
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Label()
-	 * @model
-	 * @generated
-	 */
-	String getLabel();
+  /**
+   * Returns the value of the '<em><b>Label</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Label</em>' attribute.
+   * @see #setLabel(String)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getFormalParameter_Label()
+   * @model
+   * @generated
+   */
+  String getLabel();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getLabel <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label</em>' attribute.
-	 * @see #getLabel()
-	 * @generated
-	 */
-	void setLabel(String value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.FormalParameter#getLabel <em>Label</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Label</em>' attribute.
+   * @see #getLabel()
+   * @generated
+   */
+  void setLabel(String value);
 
 } // FormalParameter

@@ -287,10 +287,10 @@ public class FormatPackageImpl extends EPackageImpl implements FormatPackage
     isInited = true;
 
     // Initialize simple dependencies
+    XtextPackage.eINSTANCE.eClass();
     EcorePackage.eINSTANCE.eClass();
     TypesPackage.eINSTANCE.eClass();
     XbasePackage.eINSTANCE.eClass();
-    XtextPackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theFormatPackage.createPackageContents();

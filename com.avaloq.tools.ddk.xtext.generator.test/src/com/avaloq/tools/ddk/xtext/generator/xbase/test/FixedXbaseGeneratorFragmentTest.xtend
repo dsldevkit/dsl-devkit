@@ -12,7 +12,6 @@
 package com.avaloq.tools.ddk.xtext.generator.xbase.test
 
 import com.avaloq.tools.ddk.test.core.BugTest
-import com.avaloq.tools.ddk.xtext.generator.xbase.FixedXbaseGeneratorFragment
 import junit.framework.TestCase
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.ecore.EPackage
@@ -32,9 +31,10 @@ import org.junit.runner.RunWith
 
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
+import com.avaloq.tools.ddk.xtext.generator.xbase.FixedXbaseUsageDetector
 
 /**
- * Tests for {@link FixedXbaseGeneratorFragment}.
+ * Tests for {@link FixedXbaseUsageDetector}.
  */
 @RunWith(XtextRunner)
 class FixedXbaseGeneratorFragmentTest extends TestCase {
@@ -43,7 +43,7 @@ class FixedXbaseGeneratorFragmentTest extends TestCase {
   val xtypePackageName = "xtype"
   val xImportSectionRuleName = "XImportSection"
 
-  val fragment = new FixedXbaseGeneratorFragment
+  val detector = new FixedXbaseUsageDetector
 
   /**
    * Set expectations prior to calling usesXImportSection.apply().
@@ -136,7 +136,7 @@ class FixedXbaseGeneratorFragmentTest extends TestCase {
    */
   @Test(expected=NullPointerException)
   def void testUsesXImportSectionWithNullGrammar() {
-    fragment.usesXImportSection(null)
+    detector.usesXImportSection(null)
   }
 
   /**
@@ -158,7 +158,7 @@ class FixedXbaseGeneratorFragmentTest extends TestCase {
     )
 
     // ACT
-    val usesXImportSection = fragment.usesXImportSection(mockGrammar)
+    val usesXImportSection = detector.usesXImportSection(mockGrammar)
 
     // ASSERT
     assertFalse("usesXImportSection() should return false when the grammar does not use XImportSection", usesXImportSection)
@@ -184,34 +184,10 @@ class FixedXbaseGeneratorFragmentTest extends TestCase {
     )
 
     // ACT
-    val usesXImportSection = fragment.usesXImportSection(mockGrammar)
+    val usesXImportSection = detector.usesXImportSection(mockGrammar)
 
     // ASSERT
     assertTrue("usesXImportSection() should return true when the grammar uses XImportSection", usesXImportSection)
-  }
-
-  /**
-   * Class to access protected members of {@link XbaseGeneratorFragmentOverride}.
-   */
-  private static class FragmentAccessor extends FixedXbaseGeneratorFragment {
-    override getTemplate() {
-      return super.getTemplate
-    }
-  }
-
-  /**
-   * Really basic regression test for getTemplate()
-   */
-  @Test
-  def void testGetTemplate() {
-    // ARRANGE
-    val fragment = new FragmentAccessor
-
-    // ACT
-    val template = fragment.getTemplate
-
-    // ASSERT
-    assertEquals("getTemplate() should return the expected string", "org::eclipse::xtext::generator::xbase::XbaseGeneratorFragment", template)
   }
 
 }

@@ -10,19 +10,19 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.validation
 
-import com.avaloq.tools.ddk.checkcfg.CheckCfgUiInjectorProvider
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage
 import com.google.inject.Inject
 import junit.framework.TestCase
-import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.eclipse.xtext.testing.InjectWith
+import com.avaloq.tools.ddk.checkcfg.CheckCfgUiInjectorProvider
 
-@InjectWith(CheckCfgUiInjectorProvider)
+@InjectWith(typeof(CheckCfgUiInjectorProvider))
 @RunWith(XtextRunner)
 class CheckCfgTest extends TestCase {
 

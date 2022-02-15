@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.check.ide
+Bundle-SymbolicName: com.avaloq.tools.ddk.check.ide;singleton:=true
+Bundle-Version: 9.1.0.qualifier
+Bundle-Vendor: Avaloq Evolution AG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.avaloq.tools.ddk.check.core,
+ com.avaloq.tools.ddk.check.runtime.core,
+ org.eclipse.xtext,
+ org.eclipse.xtext.util,
+ com.google.inject,
+ org.antlr.runtime,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide
+Export-Package: com.avaloq.tools.ddk.check.ide.contentassist.antlr,
+ com.avaloq.tools.ddk.check.ide.contentassist.antlr.internal
+Import-Package: org.apache.log4j,
+ org.apache.logging.log4j
+Automatic-Module-Name: com.avaloq.tools.ddk.check.ide

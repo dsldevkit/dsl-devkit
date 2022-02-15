@@ -23,5 +23,4 @@ var projectNameTest="com.avaloq.tools.ddk.${grammar}.core.test"
     languageName = "CheckCfg"
     registerGenModelFiles = "${check.genmodel}"
     editorFileExtensions = "checkcfg"
-    resourceFactoryFileExtensions = "checkcfg"
 }

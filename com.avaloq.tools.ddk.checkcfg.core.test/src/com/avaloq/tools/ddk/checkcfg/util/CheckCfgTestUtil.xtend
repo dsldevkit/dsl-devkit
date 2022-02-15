@@ -12,9 +12,9 @@
 package com.avaloq.tools.ddk.checkcfg.util
 
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil
-import com.avaloq.tools.ddk.checkcfg.ui.internal.CheckCfgActivator
 import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager
 import com.avaloq.tools.ddk.xtext.test.ITestProjectManager
+import com.avaloq.tools.ddk.checkcfg.ui.internal.CheckcfgActivator
 
 class CheckCfgTestUtil extends AbstractXtextTestUtil{
 
@@ -23,7 +23,7 @@ class CheckCfgTestUtil extends AbstractXtextTestUtil{
   def static AbstractXtextTestUtil getInstance(){UTIL_INSTANCE}
 
   override protected getInjector() {
-    CheckCfgActivator.getInstance().getInjector(CheckCfgActivator.COM_AVALOQ_TOOLS_DDK_CHECKCFG_CHECKCFG)
+    CheckcfgActivator.getInstance().getInjector(CheckcfgActivator.COM_AVALOQ_TOOLS_DDK_CHECKCFG_CHECKCFG)
   }
 
   override protected ITestProjectManager createTestProjectManager() {

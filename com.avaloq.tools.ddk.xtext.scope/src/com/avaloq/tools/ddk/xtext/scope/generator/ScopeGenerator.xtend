@@ -21,13 +21,15 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.scoping.IScopeProvider
+import org.eclipse.xtext.generator.IGenerator2
+import org.eclipse.xtext.generator.IFileSystemAccess2
+import org.eclipse.xtext.generator.IGeneratorContext
 
 /**
  * Scope generator generating the {@link IScopeProvider} implementation for a given scope file.
  */
-class ScopeGenerator implements IGenerator {
+class ScopeGenerator implements IGenerator2 {
 
   @Inject
   extension Naming
@@ -42,7 +44,7 @@ class ScopeGenerator implements IGenerator {
 
   CompilationContext compilationContext
 
-  override doGenerate(Resource input, IFileSystemAccess fsa) {
+  override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
     if (input === null || input.contents.empty || !(input.contents.head instanceof ScopeModel)) {
       return
     }
@@ -73,5 +75,9 @@ class ScopeGenerator implements IGenerator {
     val fileName = (model.name.toJavaPackage + ".scoping.").replace('.', '/') + model.name.toSimpleName + "ScopeNameProvider.java";
     fsa.generateFile(fileName, nameProvider.generate(model, compilationContext, genModelUtil))
   }
+
+  override afterGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {}
+
+  override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {}
 
 }

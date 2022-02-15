@@ -29,11 +29,16 @@ public class ExpressionRuntimeModule extends AbstractExpressionRuntimeModule {
 
   /**
    * Workaround for Bug 416913. To be removed with DSL-596
-   * 
+   *
    * @return {@link FixedPartialParsingHelper}
    */
   @Override
   public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
     return FixedPartialParsingHelper.class;
+  }
+
+  @Override
+  public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
+    return com.avaloq.tools.ddk.xtext.expression.formatting.ExpressionFormatter.class;
   }
 }

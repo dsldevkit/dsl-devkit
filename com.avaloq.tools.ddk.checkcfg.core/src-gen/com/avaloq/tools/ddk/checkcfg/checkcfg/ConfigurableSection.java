@@ -24,16 +24,16 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ConfigurableSection extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Parameter Configurations</b></em>' containment reference list.
-	 * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredParameter}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parameter Configurations</em>' containment reference list.
-	 * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfigurableSection_ParameterConfigurations()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<ConfiguredParameter> getParameterConfigurations();
+  /**
+   * Returns the value of the '<em><b>Parameter Configurations</b></em>' containment reference list.
+   * The list contents are of type {@link com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredParameter}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Parameter Configurations</em>' containment reference list.
+   * @see com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage#getConfigurableSection_ParameterConfigurations()
+   * @model containment="true"
+   * @generated
+   */
+  EList<ConfiguredParameter> getParameterConfigurations();
 
 } // ConfigurableSection

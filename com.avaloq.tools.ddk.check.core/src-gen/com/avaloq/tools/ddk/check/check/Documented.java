@@ -22,15 +22,15 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Documented extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getDocumented_Description()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
-	 * @generated
-	 */
-	String getDescription();
+  /**
+   * Returns the value of the '<em><b>Description</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Description</em>' attribute.
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getDocumented_Description()
+   * @model transient="true" changeable="false" volatile="true" derived="true"
+   * @generated
+   */
+  String getDescription();
 
 } // Documented

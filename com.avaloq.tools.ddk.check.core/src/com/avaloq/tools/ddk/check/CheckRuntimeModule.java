@@ -15,6 +15,7 @@ import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
+import org.eclipse.xtext.preferences.IPreferenceValuesProvider;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -43,7 +44,7 @@ import com.google.inject.name.Names;
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
-@SuppressWarnings("PMD.CouplingBetweenObjects")
+@SuppressWarnings({"PMD.CouplingBetweenObjects", "restriction"})
 public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheckRuntimeModule {
 
   @Override
@@ -150,6 +151,14 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
    */
   public Class<? extends RewritableImportSection.Factory> bindRewritableImportSectionFactory() {
     return CheckRewritableImportSectionFactory.class;
+  }
+
+  public Class<? extends org.eclipse.xtext.formatting2.IFormatter2> bindIFormatter2() {
+    return com.avaloq.tools.ddk.check.formatting2.CheckFormatter.class;
+  }
+
+  public void configureFormatterPreferences(final com.google.inject.Binder binder) {
+    binder.bind(IPreferenceValuesProvider.class).annotatedWith(org.eclipse.xtext.formatting2.FormatterPreferences.class).to(org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider.class);
   }
 
 }

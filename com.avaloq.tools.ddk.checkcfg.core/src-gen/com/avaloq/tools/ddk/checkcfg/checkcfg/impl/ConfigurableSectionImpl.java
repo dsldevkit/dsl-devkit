@@ -35,134 +35,134 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ConfigurableSectionImpl extends MinimalEObjectImpl.Container implements ConfigurableSection
 {
-	/**
-	 * The cached value of the '{@link #getParameterConfigurations() <em>Parameter Configurations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParameterConfigurations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ConfiguredParameter> parameterConfigurations;
+  /**
+   * The cached value of the '{@link #getParameterConfigurations() <em>Parameter Configurations</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getParameterConfigurations()
+   * @generated
+   * @ordered
+   */
+  protected EList<ConfiguredParameter> parameterConfigurations;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ConfigurableSectionImpl()
-	{
-		super();
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected ConfigurableSectionImpl()
+  {
+    super();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass()
-	{
-		return CheckcfgPackage.Literals.CONFIGURABLE_SECTION;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return CheckcfgPackage.Literals.CONFIGURABLE_SECTION;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EList<ConfiguredParameter> getParameterConfigurations()
-	{
-		if (parameterConfigurations == null)
-		{
-			parameterConfigurations = new EObjectContainmentEList<ConfiguredParameter>(ConfiguredParameter.class, this, CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS);
-		}
-		return parameterConfigurations;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EList<ConfiguredParameter> getParameterConfigurations()
+  {
+    if (parameterConfigurations == null)
+    {
+      parameterConfigurations = new EObjectContainmentEList<ConfiguredParameter>(ConfiguredParameter.class, this, CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS);
+    }
+    return parameterConfigurations;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
-				return ((InternalEList<?>)getParameterConfigurations()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
+        return ((InternalEList<?>)getParameterConfigurations()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
-				return getParameterConfigurations();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
+        return getParameterConfigurations();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
-				getParameterConfigurations().clear();
-				getParameterConfigurations().addAll((Collection<? extends ConfiguredParameter>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
+        getParameterConfigurations().clear();
+        getParameterConfigurations().addAll((Collection<? extends ConfiguredParameter>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
-				getParameterConfigurations().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
+        getParameterConfigurations().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
-				return parameterConfigurations != null && !parameterConfigurations.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case CheckcfgPackage.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS:
+        return parameterConfigurations != null && !parameterConfigurations.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
 } //ConfigurableSectionImpl

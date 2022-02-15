@@ -12,14 +12,16 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.eclipse.xtext.generator.IGenerator
+import org.eclipse.xtext.generator.IGenerator2
+import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.xtext.generator.IFileSystemAccess2
 
 /**
  * Generates code from your model files on save.
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
-class ExportGenerator implements IGenerator {
+class ExportGenerator implements IGenerator2 {
 
   @Inject
   extension ExportGeneratorSupport generatorSupport
@@ -48,7 +50,7 @@ class ExportGenerator implements IGenerator {
 
   CompilationContext compilationContext
 
-  override void doGenerate(Resource input, IFileSystemAccess fsa) {
+  override void doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
     if (input === null || input.contents.empty || !(input.contents.head instanceof ExportModel)) {
       return
     }
@@ -126,5 +128,9 @@ class ExportGenerator implements IGenerator {
       fsa.generateFile(fileName, exportFeatureExtensionGenerator.generate(model, compilationContext, genModelUtil))
     }
   }
+
+  override afterGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {}
+
+  override beforeGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {}
 
 }

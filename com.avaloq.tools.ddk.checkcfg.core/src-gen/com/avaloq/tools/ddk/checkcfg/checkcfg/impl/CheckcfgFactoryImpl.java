@@ -21,210 +21,210 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  */
 public class CheckcfgFactoryImpl extends EFactoryImpl implements CheckcfgFactory
 {
-	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static CheckcfgFactory init()
-	{
-		try
-		{
-			CheckcfgFactory theCheckcfgFactory = (CheckcfgFactory)EPackage.Registry.INSTANCE.getEFactory(CheckcfgPackage.eNS_URI);
-			if (theCheckcfgFactory != null)
-			{
-				return theCheckcfgFactory;
-			}
-		}
-		catch (Exception exception)
-		{
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new CheckcfgFactoryImpl();
-	}
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static CheckcfgFactory init()
+  {
+    try
+    {
+      CheckcfgFactory theCheckcfgFactory = (CheckcfgFactory)EPackage.Registry.INSTANCE.getEFactory(CheckcfgPackage.eNS_URI);
+      if (theCheckcfgFactory != null)
+      {
+        return theCheckcfgFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new CheckcfgFactoryImpl();
+  }
 
-	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CheckcfgFactoryImpl()
-	{
-		super();
-	}
+  /**
+   * Creates an instance of the factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public CheckcfgFactoryImpl()
+  {
+    super();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EObject create(EClass eClass)
-	{
-		switch (eClass.getClassifierID())
-		{
-			case CheckcfgPackage.CHECK_CONFIGURATION: return createCheckConfiguration();
-			case CheckcfgPackage.CONFIGURED_LANGUAGE_VALIDATOR: return createConfiguredLanguageValidator();
-			case CheckcfgPackage.CONFIGURED_CATALOG: return createConfiguredCatalog();
-			case CheckcfgPackage.CONFIGURED_CHECK: return createConfiguredCheck();
-			case CheckcfgPackage.CONFIGURED_PARAMETER: return createConfiguredParameter();
-			case CheckcfgPackage.CONFIGURABLE_SECTION: return createConfigurableSection();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EObject create(EClass eClass)
+  {
+    switch (eClass.getClassifierID())
+    {
+      case CheckcfgPackage.CHECK_CONFIGURATION: return createCheckConfiguration();
+      case CheckcfgPackage.CONFIGURED_LANGUAGE_VALIDATOR: return createConfiguredLanguageValidator();
+      case CheckcfgPackage.CONFIGURED_CATALOG: return createConfiguredCatalog();
+      case CheckcfgPackage.CONFIGURED_CHECK: return createConfiguredCheck();
+      case CheckcfgPackage.CONFIGURED_PARAMETER: return createConfiguredParameter();
+      case CheckcfgPackage.CONFIGURABLE_SECTION: return createConfigurableSection();
+      default:
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+    }
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object createFromString(EDataType eDataType, String initialValue)
-	{
-		switch (eDataType.getClassifierID())
-		{
-			case CheckcfgPackage.SEVERITY_KIND:
-				return createSeverityKindFromString(eDataType, initialValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object createFromString(EDataType eDataType, String initialValue)
+  {
+    switch (eDataType.getClassifierID())
+    {
+      case CheckcfgPackage.SEVERITY_KIND:
+        return createSeverityKindFromString(eDataType, initialValue);
+      default:
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+    }
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String convertToString(EDataType eDataType, Object instanceValue)
-	{
-		switch (eDataType.getClassifierID())
-		{
-			case CheckcfgPackage.SEVERITY_KIND:
-				return convertSeverityKindToString(eDataType, instanceValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String convertToString(EDataType eDataType, Object instanceValue)
+  {
+    switch (eDataType.getClassifierID())
+    {
+      case CheckcfgPackage.SEVERITY_KIND:
+        return convertSeverityKindToString(eDataType, instanceValue);
+      default:
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+    }
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public CheckConfiguration createCheckConfiguration()
-	{
-		CheckConfigurationImplCustom checkConfiguration = new CheckConfigurationImplCustom();
-		return checkConfiguration;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public CheckConfiguration createCheckConfiguration()
+  {
+    CheckConfigurationImplCustom checkConfiguration = new CheckConfigurationImplCustom();
+    return checkConfiguration;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ConfiguredLanguageValidator createConfiguredLanguageValidator()
-	{
-		ConfiguredLanguageValidatorImpl configuredLanguageValidator = new ConfiguredLanguageValidatorImpl();
-		return configuredLanguageValidator;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ConfiguredLanguageValidator createConfiguredLanguageValidator()
+  {
+    ConfiguredLanguageValidatorImpl configuredLanguageValidator = new ConfiguredLanguageValidatorImpl();
+    return configuredLanguageValidator;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ConfiguredCatalog createConfiguredCatalog()
-	{
-		ConfiguredCatalogImpl configuredCatalog = new ConfiguredCatalogImpl();
-		return configuredCatalog;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ConfiguredCatalog createConfiguredCatalog()
+  {
+    ConfiguredCatalogImpl configuredCatalog = new ConfiguredCatalogImpl();
+    return configuredCatalog;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ConfiguredCheck createConfiguredCheck()
-	{
-		ConfiguredCheckImpl configuredCheck = new ConfiguredCheckImpl();
-		return configuredCheck;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ConfiguredCheck createConfiguredCheck()
+  {
+    ConfiguredCheckImpl configuredCheck = new ConfiguredCheckImpl();
+    return configuredCheck;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ConfiguredParameter createConfiguredParameter()
-	{
-		ConfiguredParameterImpl configuredParameter = new ConfiguredParameterImpl();
-		return configuredParameter;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ConfiguredParameter createConfiguredParameter()
+  {
+    ConfiguredParameterImpl configuredParameter = new ConfiguredParameterImpl();
+    return configuredParameter;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ConfigurableSection createConfigurableSection()
-	{
-		ConfigurableSectionImpl configurableSection = new ConfigurableSectionImpl();
-		return configurableSection;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ConfigurableSection createConfigurableSection()
+  {
+    ConfigurableSectionImpl configurableSection = new ConfigurableSectionImpl();
+    return configurableSection;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public SeverityKind createSeverityKindFromString(EDataType eDataType, String initialValue)
-	{
-		SeverityKind result = SeverityKind.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SeverityKind createSeverityKindFromString(EDataType eDataType, String initialValue)
+  {
+    SeverityKind result = SeverityKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertSeverityKindToString(EDataType eDataType, Object instanceValue)
-	{
-		return instanceValue == null ? null : instanceValue.toString();
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertSeverityKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public CheckcfgPackage getCheckcfgPackage()
-	{
-		return (CheckcfgPackage)getEPackage();
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public CheckcfgPackage getCheckcfgPackage()
+  {
+    return (CheckcfgPackage)getEPackage();
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
-	@Deprecated
-	public static CheckcfgPackage getPackage()
-	{
-		return CheckcfgPackage.eINSTANCE;
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @deprecated
+   * @generated
+   */
+  @Deprecated
+  public static CheckcfgPackage getPackage()
+  {
+    return CheckcfgPackage.eINSTANCE;
+  }
 
 } //CheckcfgFactoryImpl

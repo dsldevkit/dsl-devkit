@@ -74,8 +74,10 @@
     <module>../com.avaloq.tools.ddk.xtext.export</module>
     <module>../com.avaloq.tools.ddk.xtext.export.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.export.test</module>
+    <module>../com.avaloq.tools.ddk.xtext.export.ide</module>
     <module>../com.avaloq.tools.ddk.xtext.export.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.expression</module>
+    <module>../com.avaloq.tools.ddk.xtext.expression.ide</module>
     <module>../com.avaloq.tools.ddk.xtext.expression.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.format</module>
     <module>../com.avaloq.tools.ddk.xtext.format.generator</module>
@@ -87,12 +89,14 @@
     <module>../com.avaloq.tools.ddk.xtext.ide</module>
     <module>../com.avaloq.tools.ddk.xtext.scope</module>
     <module>../com.avaloq.tools.ddk.xtext.scope.generator</module>
+    <module>../com.avaloq.tools.ddk.xtext.scope.ide</module>
     <module>../com.avaloq.tools.ddk.xtext.scope.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.test</module>
     <module>../com.avaloq.tools.ddk.xtext.test.core</module>
     <module>../com.avaloq.tools.ddk.xtext.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.ui.test</module>
     <module>../com.avaloq.tools.ddk.xtext.valid</module>
+    <module>../com.avaloq.tools.ddk.xtext.valid.ide</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.test</module>
     <module>../com.avaloq.tools.ddk.xtext.valid.ui</module>
@@ -102,6 +106,7 @@
     <module>../com.avaloq.tools.ddk.check.core</module>
     <module>../com.avaloq.tools.ddk.check.generator</module>
     <module>../com.avaloq.tools.ddk.check.lib</module>
+    <module>../com.avaloq.tools.ddk.check.ide</module>
     <module>../com.avaloq.tools.ddk.check.ui</module>
     <module>../com.avaloq.tools.ddk.check.runtime.core</module>
     <module>../com.avaloq.tools.ddk.check.runtime.ui</module>
@@ -112,6 +117,7 @@
     <module>../com.avaloq.tools.ddk.check.test.runtime.tests</module>
     <module>../com.avaloq.tools.ddk.check.test.runtime.ui</module>
     <module>../com.avaloq.tools.ddk.checkcfg.core</module>
+    <module>../com.avaloq.tools.ddk.checkcfg.ide</module>
     <module>../com.avaloq.tools.ddk.checkcfg.core.test</module>
     <module>../com.avaloq.tools.ddk.checkcfg.ui</module>
     <module>../com.avaloq.tools.ddk.checkcfg.ui.test</module>

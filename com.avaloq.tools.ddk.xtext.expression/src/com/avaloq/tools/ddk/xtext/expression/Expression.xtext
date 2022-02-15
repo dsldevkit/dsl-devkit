@@ -6,7 +6,7 @@ grammar com.avaloq.tools.ddk.xtext.expression.Expression with org.eclipse.xtext.
 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
-generate expression "http://www.avaloq.com/tools/ddk/xtext/expression/Expression"
+import "http://www.avaloq.com/tools/ddk/xtext/expression/Expression"
 
 
 // this is a translation of the expression part of

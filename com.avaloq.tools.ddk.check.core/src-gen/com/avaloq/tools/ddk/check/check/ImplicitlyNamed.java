@@ -22,15 +22,15 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ImplicitlyNamed extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see com.avaloq.tools.ddk.check.check.CheckPackage#getImplicitlyNamed_Name()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
-	 * @generated
-	 */
-	String getName();
+  /**
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getImplicitlyNamed_Name()
+   * @model transient="true" changeable="false" volatile="true" derived="true"
+   * @generated
+   */
+  String getName();
 
 } // ImplicitlyNamed

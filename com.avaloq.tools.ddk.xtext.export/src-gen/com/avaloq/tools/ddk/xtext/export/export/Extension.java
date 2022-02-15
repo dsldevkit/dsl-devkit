@@ -22,26 +22,26 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Extension extends EObject
 {
-	/**
-	 * Returns the value of the '<em><b>Extension</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Extension</em>' attribute.
-	 * @see #setExtension(String)
-	 * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExtension_Extension()
-	 * @model
-	 * @generated
-	 */
-	String getExtension();
+  /**
+   * Returns the value of the '<em><b>Extension</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Extension</em>' attribute.
+   * @see #setExtension(String)
+   * @see com.avaloq.tools.ddk.xtext.export.export.ExportPackage#getExtension_Extension()
+   * @model
+   * @generated
+   */
+  String getExtension();
 
-	/**
-	 * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Extension#getExtension <em>Extension</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Extension</em>' attribute.
-	 * @see #getExtension()
-	 * @generated
-	 */
-	void setExtension(String value);
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.xtext.export.export.Extension#getExtension <em>Extension</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Extension</em>' attribute.
+   * @see #getExtension()
+   * @generated
+   */
+  void setExtension(String value);
 
 } // Extension
