@@ -7,7 +7,7 @@
     <package
        uri = "http://www.avaloq.com/tools/ddk/xtext/expression/Expression"
        class = "com.avaloq.tools.ddk.xtext.expression.expression.ExpressionPackage"
-       genModel = "com/avaloq/tools/ddk/xtext/expression/Expression.genmodel" />
+       genModel = "metamodel/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel" />
 
   </extension>
 

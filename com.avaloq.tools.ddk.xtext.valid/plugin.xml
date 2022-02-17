@@ -2,16 +2,11 @@
 <?eclipse version="3.0"?>
 
 <plugin>
-
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package
        uri = "http://www.paranor.ch/au/xtext/valid/Valid"
        class = "com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage"
-       genModel = "com/avaloq/tools/ddk/xtext/valid/Valid.genmodel" />
+       genModel = "metamodel/com/avaloq/tools/ddk/xtext/valid/Valid.genmodel" />
 
   </extension>
-
-
-
-
 </plugin>
