@@ -7,7 +7,7 @@
     <package
        uri = "http://www.avaloq.com/tools/ddk/xtext/Scope"
        class = "com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage"
-       genModel = "com/avaloq/tools/ddk/xtext/scope/Scope.genmodel" />
+       genModel = "metamodel/com/avaloq/tools/ddk/xtext/scope/Scope.genmodel" />
 
   </extension>
 

@@ -7,11 +7,8 @@
     <package
        uri = "http://www.avaloq.com/tools/ddk/xtext/export/Export"
        class = "com.avaloq.tools.ddk.xtext.export.export.ExportPackage"
-       genModel = "com/avaloq/tools/ddk/xtext/export/Export.genmodel" />
+       genModel = "metamodel/com/avaloq/tools/ddk/xtext/export/Export.genmodel" />
 
   </extension>
-
-
-
 
 </plugin>
