@@ -13,7 +13,7 @@ public abstract class AbstractValidValidator extends AbstractDeclarativeValidato
 	@Override
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>();
-		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.paranor.ch/au/xtext/valid/Valid"));
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.avaloq.com/tools/ddk/xtext/valid/Valid"));
 		return result;
 	}
 }
