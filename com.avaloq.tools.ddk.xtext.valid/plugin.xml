@@ -4,7 +4,7 @@
 <plugin>
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package
-       uri = "http://www.paranor.ch/au/xtext/valid/Valid"
+       uri = "http://www.avaloq.com/tools/ddk/xtext/valid/Valid"
        class = "com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage"
        genModel = "metamodel/com/avaloq/tools/ddk/xtext/valid/Valid.genmodel" />
 

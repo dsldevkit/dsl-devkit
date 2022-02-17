@@ -3,9 +3,10 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.avaloq.tools.ddk.xtext.valid/src-gen" editDirectory="/com.avaloq.tools.ddk.xtext.valid.edit/src"
     editorDirectory="/com.avaloq.tools.ddk.xtext.valid.editor/src" modelPluginID="com.avaloq.tools.ddk.xtext.valid"
     forceOverwrite="true" modelName="Valid" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    complianceLevel="6.0" copyrightFields="false" editPluginID="com.avaloq.tools.ddk.xtext.valid.edit"
-    editorPluginID="com.avaloq.tools.ddk.xtext.valid.editor" runtimeVersion="2.12"
-    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    editPluginID="com.avaloq.tools.ddk.xtext.valid.edit" editorPluginID="com.avaloq.tools.ddk.xtext.valid.editor"
+    runtimeVersion="2.12" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>Valid.ecore</foreignModel>
   <genPackages prefix="Valid" basePackage="com.avaloq.tools.ddk.xtext.valid" disposableProviderFactory="true"
       ecorePackage="Valid.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="Valid.ecore#//CheckKind">

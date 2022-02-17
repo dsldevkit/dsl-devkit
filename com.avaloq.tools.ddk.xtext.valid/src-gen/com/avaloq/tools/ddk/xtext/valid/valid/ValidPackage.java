@@ -39,7 +39,7 @@ public interface ValidPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "http://www.paranor.ch/au/xtext/valid/Valid";
+  String eNS_URI = "http://www.avaloq.com/tools/ddk/xtext/valid/Valid";
 
   /**
    * The package namespace name.
