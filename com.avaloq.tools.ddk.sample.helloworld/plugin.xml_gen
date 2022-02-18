@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 	<extension point="org.eclipse.emf.ecore.generated_package">
-		<package 
+		<package
 			uri = "http://www.avaloq.com/tools/ddk/sample/helloworld/HelloWorld"
 			class = "com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage"
 			genModel = "model/generated/HelloWorld.genmodel" />

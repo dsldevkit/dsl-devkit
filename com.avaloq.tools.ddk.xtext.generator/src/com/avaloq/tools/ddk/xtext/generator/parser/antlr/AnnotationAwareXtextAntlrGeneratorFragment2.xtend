@@ -318,12 +318,13 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
         new TypeReference("org.eclipse.xtext.ui.editor.contentassist", "ContentAssistContext.Factory"),
         "org.eclipse.xtext.ui.editor.contentassist.antlr.DelegatingContentAssistContextFactory".typeRef
       )
-      // .addTypeToType(
-      //  "org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser".typeRef,
-      //  grammar.parserClass
       .addConfiguredBinding("ContentAssistLexerProvider", '''
         binder.bind(«caLexerClass».class).toProvider(«LexerProvider».create(«caLexerClass».class));
       ''')
+
+    if (projectConfig.genericIde.srcGen !== null) {
+      uiBindings.addTypeToType("org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser".typeRef, grammar.parserClass)
+    }
 
     if (hasSyntheticTerminalRule) {
       uiBindings.addTypeToType(
