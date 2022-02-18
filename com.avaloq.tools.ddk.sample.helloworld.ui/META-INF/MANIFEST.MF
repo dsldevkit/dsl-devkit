@@ -19,12 +19,11 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.xtend.lib;resolution:=optional,
  org.antlr.runtime,
  com.avaloq.tools.ddk.check.runtime.core,
- com.avaloq.tools.ddk.xtext.ui
+ com.avaloq.tools.ddk.xtext.ui,
+ com.avaloq.tools.ddk.sample.helloworld.ide
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ui.quickfix,
  com.avaloq.tools.ddk.sample.helloworld.ui.contentassist,
- com.avaloq.tools.ddk.sample.helloworld.ui.internal,
- com.avaloq.tools.ddk.sample.helloworld.ide.contentassist.antlr.internal,
- com.avaloq.tools.ddk.sample.helloworld.ide.contentassist.antlr
+ com.avaloq.tools.ddk.sample.helloworld.ui.internal
 Bundle-Activator: com.avaloq.tools.ddk.sample.helloworld.ui.internal.HelloworldActivator

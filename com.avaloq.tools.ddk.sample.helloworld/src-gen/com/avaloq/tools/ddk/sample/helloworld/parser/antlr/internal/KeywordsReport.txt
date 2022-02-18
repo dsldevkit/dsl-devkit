@@ -1,0 +1,18 @@
+Please check in this file, so a diff can be used to detect unexpected changes
+
+  identifiers rejected    - are not listed in MWE2 file as reserved words
+                            (or keywords), but are not accepted by the rule.
+  reserved words accepted - listed in MWE2 as reserved, but accepted.
+
+Read more on https://ddk.tools.avaloq.com/keywords.html
+
+Specification
+
+RESERVED WORDS
+
+
+KEYWORDS
+
+
+The following rules were not checked, but might also be relevant
+if any of them is used to parse identifiers, add them to identifierRules in MWE2 file
