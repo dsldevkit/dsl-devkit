@@ -10,6 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.valid;
 
+import org.eclipse.emf.ecore.EPackage;
+
+import com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage;
+import com.google.inject.Injector;
+
+
 /**
  * Initialization support for running Xtext languages without equinox extension registry.
  */
@@ -20,5 +26,9 @@ public class ValidStandaloneSetup extends ValidStandaloneSetupGenerated {
     new ValidStandaloneSetup().createInjectorAndDoEMFRegistration();
   }
 
+  @Override
+  public void register(final Injector injector) {
+    EPackage.Registry.INSTANCE.put(ValidPackage.eINSTANCE.getNsURI(), ValidPackage.eINSTANCE);
+    super.register(injector);
+  }
 }
-
