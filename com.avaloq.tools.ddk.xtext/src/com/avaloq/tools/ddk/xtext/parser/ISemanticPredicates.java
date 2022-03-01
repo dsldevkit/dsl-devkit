@@ -20,7 +20,7 @@ import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
 
 
 /**
- * Provides messages to be displayed as diagnostic messages when predicate is violated.
+ * Provides interface to generated semantic predicate methods.
  */
 public interface ISemanticPredicates {
 
@@ -34,6 +34,15 @@ public interface ISemanticPredicates {
    * @return Message
    */
   String getMessage(final String key, final Token token);
+
+  /**
+   * Test if the rule of the given name is a keyword rule.
+   *
+   * @param ruleName
+   *          the name of the rule to test.
+   * @return {@code true} if the named rule is a keyword rule, {@code false}.
+   */
+  boolean isKeywordRule(String ruleName);
 
   /**
    * Default implementation of predicate violation. Searches with reflection method with the matching key.
@@ -64,6 +73,18 @@ public interface ISemanticPredicates {
         }
       }
       return message;
+    }
+
+    @Override
+    public boolean isKeywordRule(final String ruleName) {
+      // if the rule is a keyword, then we will have generated a method for handling its syntax message.
+      String methodName = "get" + ruleName + "EnabledMessage"; //$NON-NLS-1$//$NON-NLS-2$
+      for (Method method : this.getClass().getDeclaredMethods()) {
+        if (methodName.equals(method.getName())) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /**

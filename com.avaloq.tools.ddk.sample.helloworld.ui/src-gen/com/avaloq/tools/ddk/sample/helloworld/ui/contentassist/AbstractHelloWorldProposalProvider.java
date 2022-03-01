@@ -57,4 +57,19 @@ public abstract class AbstractHelloWorldProposalProvider extends TerminalsPropos
   public void complete_OptionTwo(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
     // subclasses may override
   }
+  public void complete_OptionThree(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    // subclasses may override
+  }
+  public void complete_OptionFour(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    // subclasses may override
+  }
+  public void complete_SimpleKeyFour(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    // subclasses may override
+  }
+  public void complete_SimpleKeyFive(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    // subclasses may override
+  }
+  public void complete_EnumLikeOther(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    // subclasses may override
+  }
 }
