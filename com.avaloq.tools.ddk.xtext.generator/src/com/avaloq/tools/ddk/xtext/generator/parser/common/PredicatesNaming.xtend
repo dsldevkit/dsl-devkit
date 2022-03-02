@@ -21,7 +21,11 @@ class PredicatesNaming {
   @Inject extension XtextGeneratorNaming naming
 
   def String getSemanticPredicatesFullName(Grammar grammar) {
-    return naming.getRuntimeBasePackage(grammar) + ".grammar." + getSemanticPredicatesSimpleName(grammar);
+    return getSemanticPredicatesPackageName(grammar) + "." + getSemanticPredicatesSimpleName(grammar);
+  }
+
+  def String getSemanticPredicatesPackageName(Grammar grammar) {
+    return naming.getRuntimeBasePackage(grammar) + ".grammar"
   }
 
   def String getSemanticPredicatesSimpleName(Grammar grammar) {

@@ -13,41 +13,30 @@ package com.avaloq.tools.ddk.xtext.generator.parser.antlr
 
 import com.google.inject.Inject
 import com.google.inject.Singleton
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractRule
+import org.eclipse.xtext.Action
 import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.CrossReference
+import org.eclipse.xtext.EnumLiteralDeclaration
 import org.eclipse.xtext.EnumRule
 import org.eclipse.xtext.Grammar
+import org.eclipse.xtext.Keyword
 import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.TerminalRule
 import org.eclipse.xtext.UnorderedGroup
-import org.eclipse.xtext.xtext.FlattenedGrammarAccess
-import org.eclipse.xtext.xtext.RuleFilter
-import org.eclipse.xtext.xtext.RuleNames
-import org.eclipse.xtext.xtext.generator.model.IXtextGeneratorFileSystemAccess
-import org.eclipse.xtext.xtext.generator.parser.antlr.AbstractAntlrGrammarWithActionsGenerator
 import org.eclipse.xtext.xtext.generator.parser.antlr.AntlrOptions
-import org.eclipse.xtext.xtext.generator.parser.antlr.CombinedGrammarMarker
 import org.eclipse.xtext.xtext.generator.parser.antlr.GrammarNaming
-import org.eclipse.xtext.xtext.generator.parser.antlr.KeywordHelper
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
 import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
-import org.eclipse.xtext.Keyword
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.EnumLiteralDeclaration
-import org.eclipse.xtext.Action
-import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
-import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming
-import org.eclipse.xtext.xtext.generator.CodeConfig
-import org.eclipse.xtend.lib.annotations.Accessors
-import com.avaloq.tools.ddk.xtext.generator.util.AcfKeywordHelper
 
 /**
- *
+ * This implementation is strongly based on AntlrGrammarGenerator but with a different base class.
  * The following extension is supported:
  *
  *   A datatype grammar rule containing only one ID terminal rule can be annotated
@@ -84,44 +73,15 @@ import com.avaloq.tools.ddk.xtext.generator.util.AcfKeywordHelper
  *     - Error messages will be adjusted correspondingly
  */
 @Singleton
-class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActionsGenerator {
+class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwareAntlrGrammarGenerator {
 
-  @Inject extension GrammarRuleAnnotations annotations
   @Inject extension GrammarNaming naming
-  @Inject extension PredicatesNaming predicatesNaming
-  @Inject CodeConfig codeConfig
 
   @Accessors(PUBLIC_SETTER) String lexerSuperClassName = "";
-
-  Grammar originalGrammar
-  AcfKeywordHelper customKeywordHelper
 
   protected override getGrammarNaming() {
     naming
   }
-
-  override generate(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
-    this.keywordHelper = KeywordHelper.getHelper(it)
-    this.originalGrammar = it
-    val RuleFilter filter = new RuleFilter();
-    filter.discardUnreachableRules = true // options.skipUnusedRules
-    filter.discardTerminalRules = false // options.skipUnusedRules
-    val RuleNames ruleNames = RuleNames.getRuleNames(it, true);
-    val Grammar flattened = new FlattenedGrammarAccess(ruleNames, filter).getFlattenedGrammar();
-    new CombinedGrammarMarker(combinedGrammar).attachToEmfObject(flattened)
-    fsa.generateFile(grammarNaming.getParserGrammar(it).grammarFileName, flattened.compileParser(options))
-    if (!isCombinedGrammar) {
-      fsa.generateFile(grammarNaming.getLexerGrammar(it).grammarFileName, flattened.compileLexer(options))
-    }
-  }
-
-  protected override isCombinedGrammar() {
-    grammarNaming.isCombinedGrammar(originalGrammar)
-  }
-
-  // *****************************************************************************
-  // Methods without modification from AntrlrGrammarGeneratorFragment
-  // *****************************************************************************
 
   protected override compileParserImports(Grammar it, AntlrOptions options) '''
 
@@ -141,8 +101,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     «ENDIF»
     import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
     import «grammarAccess.name»;
-    import «grammar.semanticPredicatesFullName»;
-    import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
+    «super.compileParserImports(it, options)»
 
   '''
 
@@ -157,9 +116,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
     */
 
     «ENDIF»
-        private «grammarAccess.simpleName» grammarAccess;
-        private «getSemanticPredicatesSimpleName()» predicates;
-        private ParserContext parserContext;
+        «compileParserMemberDeclarations("private")»
 
         public «internalParserClass.simpleName»(TokenStream input, «grammarAccess.simpleName» grammarAccess, ParserContext parserContext, «getSemanticPredicatesSimpleName()» predicates) {
             this(input);
@@ -170,17 +127,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
             registerRules(grammarAccess.getGrammar());
         }
 
-        /**
-         * Set token stream in parser context.
-         * @param input Token stream
-         */
-        @Override
-        public void setTokenStream(TokenStream input) {
-          super.setTokenStream(input);
-          if(parserContext != null){
-            parserContext.setTokenStream(input);
-          }
-        }
+        «compileParserSetTokenStreamMethod»
 
         @Override
         protected String getFirstRuleName() {
@@ -357,9 +304,8 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
           $current = «assignment.createModelElement»;
         }
         «assignment.setOrAdd»WithLastConsumed($current, "«assignment.feature»", «
-              IF assignment.isBooleanAssignment»true«
-              ELSE»«assignment.localVar(it)»«
-              ENDIF», «assignment.terminal.toStringLiteral»);
+            assignment.localVar(it)»«IF assignment.isBooleanAssignment» != null«ENDIF
+            », «assignment.terminal.toStringLiteral»);
       }
     '''
     else
@@ -379,10 +325,6 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
   protected def newCompositeNode(EObject it) '''newCompositeNode(grammarAccess.«originalElement.grammarElementAccess»);'''
 
   protected def newLeafNode(EObject it, String token) '''newLeafNode(«token», grammarAccess.«originalElement.grammarElementAccess»);'''
-
-  // *****************************************************************************
-  // Methods with modification compared to AntrlGrammarGenerator
-  // *****************************************************************************
 
  /**
   * Add gated predicate, if necessary, before the action preceding the rule call.
@@ -481,7 +423,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
             «assignment.setOrAdd»(
               $current,
               "«assignment.feature»",
-              «IF assignment.isBooleanAssignment»true«ELSE»«assignment.localVar(it)»«ENDIF»,
+              «assignment.localVar(it)»«IF assignment.isBooleanAssignment» != null«ENDIF»,
               «toStringLiteral»);
             afterParserOrEnumRuleCall();
           }
@@ -498,7 +440,7 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
             «assignment.setOrAdd»WithLastConsumed(
               $current,
               "«assignment.feature»",
-              «IF assignment.isBooleanAssignment»true«ELSE»«assignment.localVar(it)»«ENDIF»,
+              «assignment.localVar(it)»«IF assignment.isBooleanAssignment» != null«ENDIF»,
               «toStringLiteral»);
           }
         '''
@@ -599,64 +541,4 @@ class AnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActio
       import «grammarNaming.getLexerSuperClass(it)»;
     «ENDIF»
   '''
-
-  protected override compileLexer(Grammar it, AntlrOptions options) '''
-    «codeConfig.fileHeader»
-    lexer grammar «grammarNaming.getLexerGrammar(it).simpleName»;
-    «compileLexerOptions(options)»
-    «compileTokens(options)»
-    «compileLexerHeader(options)»
-    «compileLexerMembers(options)»
-    «compileKeywordRules(options)»
-    «compileTerminalRules(options)»
-  '''
-
-  protected def compileLexerMembers(Grammar it, AntlrOptions options) '''
-    @members {
-      protected int getSingleLineCommentRule() {
-        return RULE_SL_COMMENT;
-      }
-
-      protected int getMultiLineCommentRule() {
-        return RULE_ML_COMMENT;
-      }
-
-      protected int getEndOfFileRule() {
-        return EOF;
-      }
-    }
-  '''
-
-  override compileKeywordRules(Grammar it, AntlrOptions options) {
-    customKeywordHelper = new AcfKeywordHelper(it, options.ignoreCase)
-    val allKeywords = customKeywordHelper.allKeywords
-    val allTerminalRules = allTerminalRules
-
-    val synthetic_kw_alternatives = newArrayList
-    synthetic_kw_alternatives.addAll(allKeywords.indexed.map[
-      val ruleName = customKeywordHelper.getRuleName(value)
-      return '''(FRAGMENT_«ruleName»)=> FRAGMENT_«ruleName» {$type = «ruleName»; }'''
-    ])
-    synthetic_kw_alternatives.addAll(allTerminalRules.indexed.map[
-      if (!isSyntheticTerminalRule(value) && !value.fragment) {
-        return '''(FRAGMENT_«value.ruleName»)=> FRAGMENT_«value.ruleName» {$type = «value.ruleName»; }'''
-      }
-    ].filterNull.toList)
-    '''
-      «IF options.isBacktrackLexer»
-        SYNTHETIC_ALL_KEYWORDS :
-          «FOR kw: synthetic_kw_alternatives SEPARATOR ' |'»
-            «kw»
-          «ENDFOR»
-        ;
-        «FOR kw:  allKeywords»
-          fragment FRAGMENT_«customKeywordHelper.getRuleName(kw)» : '«kw.toAntlrString()»';
-        «ENDFOR»
-      «ELSE»
-        «FOR rule:allKeywords»
-          «rule.compileRule(it, options)»
-        «ENDFOR»
-      «ENDIF»
-    '''
-  }
 }

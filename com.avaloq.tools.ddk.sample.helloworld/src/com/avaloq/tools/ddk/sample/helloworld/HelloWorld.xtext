@@ -17,7 +17,7 @@ Greeting:
  * Predicates are propagated into alternative before Xtext-generated actions.
  */
 KeywordsExample:
- option = OptionOne | option = OptionTwo
+ option = OptionOne | option = OptionTwo | option = OptionThree | option = OptionFour
 ;
 
 OptionOne:
@@ -30,6 +30,14 @@ OptionOne:
  */
 OptionTwo:
   KeyTwo KeyOther
+;
+
+OptionThree:
+  SimpleKeyFour
+;
+
+OptionFour:
+  SimpleKeyFive EnumLikeOther
 ;
 
 /**
@@ -51,4 +59,16 @@ KeyTwo:
  */
 KeyOther:
   ID
+;
+
+SimpleKeyFour:
+  "four"
+;
+
+SimpleKeyFive:
+  "five"
+;
+
+EnumLikeOther:
+  "four" | "five" | "six"
 ;

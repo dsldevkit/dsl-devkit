@@ -23,17 +23,20 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'Hello'", "'!'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'Hello'", "'!'", "'four'", "'five'", "'six'"
     };
     public static final int RULE_ID=4;
     public static final int RULE_WS=9;
     public static final int RULE_STRING=6;
     public static final int RULE_ANY_OTHER=10;
     public static final int RULE_SL_COMMENT=8;
+    public static final int T__15=15;
     public static final int RULE_INT=5;
     public static final int T__11=11;
     public static final int RULE_ML_COMMENT=7;
     public static final int T__12=12;
+    public static final int T__13=13;
+    public static final int T__14=14;
     public static final int EOF=-1;
 
     // delegates
@@ -201,7 +204,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==RULE_ID) ) {
+            if ( (LA2_0==RULE_ID||(LA2_0>=13 && LA2_0<=14)) ) {
                 alt2=1;
             }
             switch (alt2) {
@@ -409,7 +412,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleKeywordsExample"
-    // InternalHelloWorld.g:192:1: ruleKeywordsExample returns [EObject current=null] : ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) ) ;
+    // InternalHelloWorld.g:192:1: ruleKeywordsExample returns [EObject current=null] : ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) | ( (lv_option_2_0= ruleOptionThree ) ) | ( (lv_option_3_0= ruleOptionFour ) ) ) ;
     public final EObject ruleKeywordsExample() throws RecognitionException {
         EObject current = null;
 
@@ -417,16 +420,20 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
         AntlrDatatypeRuleToken lv_option_1_0 = null;
 
+        AntlrDatatypeRuleToken lv_option_2_0 = null;
+
+        AntlrDatatypeRuleToken lv_option_3_0 = null;
+
 
 
           enterRule();
 
         try {
-            // InternalHelloWorld.g:198:2: ( ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) ) )
-            // InternalHelloWorld.g:199:3: ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) )
+            // InternalHelloWorld.g:198:2: ( ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) | ( (lv_option_2_0= ruleOptionThree ) ) | ( (lv_option_3_0= ruleOptionFour ) ) ) )
+            // InternalHelloWorld.g:199:3: ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) | ( (lv_option_2_0= ruleOptionThree ) ) | ( (lv_option_3_0= ruleOptionFour ) ) )
             {
-            // InternalHelloWorld.g:199:3: ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) )
-            int alt3=2;
+            // InternalHelloWorld.g:199:3: ( ( ({...}? =>lv_option_0_0= ruleOptionOne ) ) | ( ({...}? =>lv_option_1_0= ruleOptionTwo ) ) | ( (lv_option_2_0= ruleOptionThree ) ) | ( (lv_option_3_0= ruleOptionFour ) ) )
+            int alt3=4;
             int LA3_0 = input.LA(1);
 
             if ( (LA3_0==RULE_ID) && (((predicates.isKeyTwoEnabled(parserContext))||(predicates.isKeyOneEnabled(parserContext))))) {
@@ -444,6 +451,12 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
                     throw nvae;
                 }
+            }
+            else if ( (LA3_0==13) ) {
+                alt3=3;
+            }
+            else if ( (LA3_0==14) ) {
+                alt3=4;
             }
             else {
                 NoViableAltException nvae =
@@ -532,6 +545,80 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
+                case 3 :
+                    // InternalHelloWorld.g:242:5: ( (lv_option_2_0= ruleOptionThree ) )
+                    {
+                    // InternalHelloWorld.g:242:5: ( (lv_option_2_0= ruleOptionThree ) )
+                    // InternalHelloWorld.g:243:7: (lv_option_2_0= ruleOptionThree )
+                    {
+                    // InternalHelloWorld.g:243:7: (lv_option_2_0= ruleOptionThree )
+                    // InternalHelloWorld.g:244:8: lv_option_2_0= ruleOptionThree
+                    {
+
+                          	  newCompositeNode(grammarAccess.getKeywordsExampleAccess().getOptionOptionThreeParserRuleCall_2_0());
+                          	
+                    pushFollow(FOLLOW_2);
+                    lv_option_2_0=ruleOptionThree();
+
+                    state._fsp--;
+
+
+                          	  if (current==null) {
+                          	    current = createModelElementForParent(grammarAccess.getKeywordsExampleRule());
+                          	  }
+                          	  set(
+                          	    current,
+                          	    "option",
+                          	    lv_option_2_0,
+                          	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionThree");
+                          	  afterParserOrEnumRuleCall();
+                          	
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+                case 4 :
+                    // InternalHelloWorld.g:262:5: ( (lv_option_3_0= ruleOptionFour ) )
+                    {
+                    // InternalHelloWorld.g:262:5: ( (lv_option_3_0= ruleOptionFour ) )
+                    // InternalHelloWorld.g:263:7: (lv_option_3_0= ruleOptionFour )
+                    {
+                    // InternalHelloWorld.g:263:7: (lv_option_3_0= ruleOptionFour )
+                    // InternalHelloWorld.g:264:8: lv_option_3_0= ruleOptionFour
+                    {
+
+                          	  newCompositeNode(grammarAccess.getKeywordsExampleAccess().getOptionOptionFourParserRuleCall_3_0());
+                          	
+                    pushFollow(FOLLOW_2);
+                    lv_option_3_0=ruleOptionFour();
+
+                    state._fsp--;
+
+
+                          	  if (current==null) {
+                          	    current = createModelElementForParent(grammarAccess.getKeywordsExampleRule());
+                          	  }
+                          	  set(
+                          	    current,
+                          	    "option",
+                          	    lv_option_3_0,
+                          	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionFour");
+                          	  afterParserOrEnumRuleCall();
+                          	
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
@@ -555,7 +642,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOptionOne"
-    // InternalHelloWorld.g:245:1: entryRuleOptionOne returns [String current=null] : iv_ruleOptionOne= ruleOptionOne EOF ;
+    // InternalHelloWorld.g:285:1: entryRuleOptionOne returns [String current=null] : iv_ruleOptionOne= ruleOptionOne EOF ;
     public final String entryRuleOptionOne() throws RecognitionException {
         String current = null;
 
@@ -563,8 +650,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHelloWorld.g:245:49: (iv_ruleOptionOne= ruleOptionOne EOF )
-            // InternalHelloWorld.g:246:3: iv_ruleOptionOne= ruleOptionOne EOF
+            // InternalHelloWorld.g:285:49: (iv_ruleOptionOne= ruleOptionOne EOF )
+            // InternalHelloWorld.g:286:3: iv_ruleOptionOne= ruleOptionOne EOF
             {
              newCompositeNode(grammarAccess.getOptionOneRule()); 
             pushFollow(FOLLOW_1);
@@ -591,7 +678,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOptionOne"
-    // InternalHelloWorld.g:252:1: ruleOptionOne returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : this_KeyOne_0= ruleKeyOne ;
+    // InternalHelloWorld.g:292:1: ruleOptionOne returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : this_KeyOne_0= ruleKeyOne ;
     public final AntlrDatatypeRuleToken ruleOptionOne() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -602,8 +689,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
           enterRule();
 
         try {
-            // InternalHelloWorld.g:258:2: (this_KeyOne_0= ruleKeyOne )
-            // InternalHelloWorld.g:259:3: this_KeyOne_0= ruleKeyOne
+            // InternalHelloWorld.g:298:2: (this_KeyOne_0= ruleKeyOne )
+            // InternalHelloWorld.g:299:3: this_KeyOne_0= ruleKeyOne
             {
 
                 newCompositeNode(grammarAccess.getOptionOneAccess().getKeyOneParserRuleCall());
@@ -639,7 +726,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleOptionTwo"
-    // InternalHelloWorld.g:272:1: entryRuleOptionTwo returns [String current=null] : iv_ruleOptionTwo= ruleOptionTwo EOF ;
+    // InternalHelloWorld.g:312:1: entryRuleOptionTwo returns [String current=null] : iv_ruleOptionTwo= ruleOptionTwo EOF ;
     public final String entryRuleOptionTwo() throws RecognitionException {
         String current = null;
 
@@ -647,8 +734,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHelloWorld.g:272:49: (iv_ruleOptionTwo= ruleOptionTwo EOF )
-            // InternalHelloWorld.g:273:3: iv_ruleOptionTwo= ruleOptionTwo EOF
+            // InternalHelloWorld.g:312:49: (iv_ruleOptionTwo= ruleOptionTwo EOF )
+            // InternalHelloWorld.g:313:3: iv_ruleOptionTwo= ruleOptionTwo EOF
             {
              newCompositeNode(grammarAccess.getOptionTwoRule()); 
             pushFollow(FOLLOW_1);
@@ -675,7 +762,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleOptionTwo"
-    // InternalHelloWorld.g:279:1: ruleOptionTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther ) ;
+    // InternalHelloWorld.g:319:1: ruleOptionTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther ) ;
     public final AntlrDatatypeRuleToken ruleOptionTwo() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -688,11 +775,11 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
           enterRule();
 
         try {
-            // InternalHelloWorld.g:285:2: ( (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther ) )
-            // InternalHelloWorld.g:286:3: (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther )
+            // InternalHelloWorld.g:325:2: ( (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther ) )
+            // InternalHelloWorld.g:326:3: (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther )
             {
-            // InternalHelloWorld.g:286:3: (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther )
-            // InternalHelloWorld.g:287:5: this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther
+            // InternalHelloWorld.g:326:3: (this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther )
+            // InternalHelloWorld.g:327:5: this_KeyTwo_0= ruleKeyTwo this_KeyOther_1= ruleKeyOther
             {
 
                   newCompositeNode(grammarAccess.getOptionTwoAccess().getKeyTwoParserRuleCall_0());
@@ -744,8 +831,198 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleOptionTwo"
 
 
+    // $ANTLR start "entryRuleOptionThree"
+    // InternalHelloWorld.g:351:1: entryRuleOptionThree returns [String current=null] : iv_ruleOptionThree= ruleOptionThree EOF ;
+    public final String entryRuleOptionThree() throws RecognitionException {
+        String current = null;
+
+        AntlrDatatypeRuleToken iv_ruleOptionThree = null;
+
+
+        try {
+            // InternalHelloWorld.g:351:51: (iv_ruleOptionThree= ruleOptionThree EOF )
+            // InternalHelloWorld.g:352:3: iv_ruleOptionThree= ruleOptionThree EOF
+            {
+             newCompositeNode(grammarAccess.getOptionThreeRule()); 
+            pushFollow(FOLLOW_1);
+            iv_ruleOptionThree=ruleOptionThree();
+
+            state._fsp--;
+
+             current =iv_ruleOptionThree.getText(); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleOptionThree"
+
+
+    // $ANTLR start "ruleOptionThree"
+    // InternalHelloWorld.g:358:1: ruleOptionThree returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : this_SimpleKeyFour_0= ruleSimpleKeyFour ;
+    public final AntlrDatatypeRuleToken ruleOptionThree() throws RecognitionException {
+        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
+
+        AntlrDatatypeRuleToken this_SimpleKeyFour_0 = null;
+
+
+
+          enterRule();
+
+        try {
+            // InternalHelloWorld.g:364:2: (this_SimpleKeyFour_0= ruleSimpleKeyFour )
+            // InternalHelloWorld.g:365:3: this_SimpleKeyFour_0= ruleSimpleKeyFour
+            {
+
+                newCompositeNode(grammarAccess.getOptionThreeAccess().getSimpleKeyFourParserRuleCall());
+              
+            pushFollow(FOLLOW_2);
+            this_SimpleKeyFour_0=ruleSimpleKeyFour();
+
+            state._fsp--;
+
+
+                current.merge(this_SimpleKeyFour_0);
+              
+
+                afterParserOrEnumRuleCall();
+              
+
+            }
+
+
+              leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleOptionThree"
+
+
+    // $ANTLR start "entryRuleOptionFour"
+    // InternalHelloWorld.g:378:1: entryRuleOptionFour returns [String current=null] : iv_ruleOptionFour= ruleOptionFour EOF ;
+    public final String entryRuleOptionFour() throws RecognitionException {
+        String current = null;
+
+        AntlrDatatypeRuleToken iv_ruleOptionFour = null;
+
+
+        try {
+            // InternalHelloWorld.g:378:50: (iv_ruleOptionFour= ruleOptionFour EOF )
+            // InternalHelloWorld.g:379:3: iv_ruleOptionFour= ruleOptionFour EOF
+            {
+             newCompositeNode(grammarAccess.getOptionFourRule()); 
+            pushFollow(FOLLOW_1);
+            iv_ruleOptionFour=ruleOptionFour();
+
+            state._fsp--;
+
+             current =iv_ruleOptionFour.getText(); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleOptionFour"
+
+
+    // $ANTLR start "ruleOptionFour"
+    // InternalHelloWorld.g:385:1: ruleOptionFour returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_SimpleKeyFive_0= ruleSimpleKeyFive this_EnumLikeOther_1= ruleEnumLikeOther ) ;
+    public final AntlrDatatypeRuleToken ruleOptionFour() throws RecognitionException {
+        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
+
+        AntlrDatatypeRuleToken this_SimpleKeyFive_0 = null;
+
+        AntlrDatatypeRuleToken this_EnumLikeOther_1 = null;
+
+
+
+          enterRule();
+
+        try {
+            // InternalHelloWorld.g:391:2: ( (this_SimpleKeyFive_0= ruleSimpleKeyFive this_EnumLikeOther_1= ruleEnumLikeOther ) )
+            // InternalHelloWorld.g:392:3: (this_SimpleKeyFive_0= ruleSimpleKeyFive this_EnumLikeOther_1= ruleEnumLikeOther )
+            {
+            // InternalHelloWorld.g:392:3: (this_SimpleKeyFive_0= ruleSimpleKeyFive this_EnumLikeOther_1= ruleEnumLikeOther )
+            // InternalHelloWorld.g:393:5: this_SimpleKeyFive_0= ruleSimpleKeyFive this_EnumLikeOther_1= ruleEnumLikeOther
+            {
+
+                  newCompositeNode(grammarAccess.getOptionFourAccess().getSimpleKeyFiveParserRuleCall_0());
+                
+            pushFollow(FOLLOW_6);
+            this_SimpleKeyFive_0=ruleSimpleKeyFive();
+
+            state._fsp--;
+
+
+                  current.merge(this_SimpleKeyFive_0);
+                
+
+                  afterParserOrEnumRuleCall();
+                
+
+                  newCompositeNode(grammarAccess.getOptionFourAccess().getEnumLikeOtherParserRuleCall_1());
+                
+            pushFollow(FOLLOW_2);
+            this_EnumLikeOther_1=ruleEnumLikeOther();
+
+            state._fsp--;
+
+
+                  current.merge(this_EnumLikeOther_1);
+                
+
+                  afterParserOrEnumRuleCall();
+                
+
+            }
+
+
+            }
+
+
+              leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleOptionFour"
+
+
     // $ANTLR start "entryRuleKeyOne"
-    // InternalHelloWorld.g:311:1: entryRuleKeyOne returns [String current=null] : iv_ruleKeyOne= ruleKeyOne EOF ;
+    // InternalHelloWorld.g:417:1: entryRuleKeyOne returns [String current=null] : iv_ruleKeyOne= ruleKeyOne EOF ;
     public final String entryRuleKeyOne() throws RecognitionException {
         String current = null;
 
@@ -753,8 +1030,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHelloWorld.g:311:46: (iv_ruleKeyOne= ruleKeyOne EOF )
-            // InternalHelloWorld.g:312:3: iv_ruleKeyOne= ruleKeyOne EOF
+            // InternalHelloWorld.g:417:46: (iv_ruleKeyOne= ruleKeyOne EOF )
+            // InternalHelloWorld.g:418:3: iv_ruleKeyOne= ruleKeyOne EOF
             {
              newCompositeNode(grammarAccess.getKeyOneRule()); 
             pushFollow(FOLLOW_1);
@@ -781,7 +1058,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleKeyOne"
-    // InternalHelloWorld.g:318:1: ruleKeyOne returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : {...}?this_ID_0= RULE_ID ;
+    // InternalHelloWorld.g:424:1: ruleKeyOne returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : {...}?this_ID_0= RULE_ID ;
     public final AntlrDatatypeRuleToken ruleKeyOne() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -791,8 +1068,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
           enterRule();
 
         try {
-            // InternalHelloWorld.g:324:2: ({...}?this_ID_0= RULE_ID )
-            // InternalHelloWorld.g:325:3: {...}?this_ID_0= RULE_ID
+            // InternalHelloWorld.g:430:2: ({...}?this_ID_0= RULE_ID )
+            // InternalHelloWorld.g:431:3: {...}?this_ID_0= RULE_ID
             {
             if ( !((predicates.isKeyOneEnabled(parserContext) /* @ErrorMessage(getKeyOneEnabledMessage) */)) ) {
                 throw new FailedPredicateException(input, "ruleKeyOne", "predicates.isKeyOneEnabled(parserContext) /* @ErrorMessage(getKeyOneEnabledMessage) */");
@@ -824,7 +1101,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleKeyTwo"
-    // InternalHelloWorld.g:336:1: entryRuleKeyTwo returns [String current=null] : iv_ruleKeyTwo= ruleKeyTwo EOF ;
+    // InternalHelloWorld.g:442:1: entryRuleKeyTwo returns [String current=null] : iv_ruleKeyTwo= ruleKeyTwo EOF ;
     public final String entryRuleKeyTwo() throws RecognitionException {
         String current = null;
 
@@ -832,8 +1109,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHelloWorld.g:336:46: (iv_ruleKeyTwo= ruleKeyTwo EOF )
-            // InternalHelloWorld.g:337:3: iv_ruleKeyTwo= ruleKeyTwo EOF
+            // InternalHelloWorld.g:442:46: (iv_ruleKeyTwo= ruleKeyTwo EOF )
+            // InternalHelloWorld.g:443:3: iv_ruleKeyTwo= ruleKeyTwo EOF
             {
              newCompositeNode(grammarAccess.getKeyTwoRule()); 
             pushFollow(FOLLOW_1);
@@ -860,7 +1137,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleKeyTwo"
-    // InternalHelloWorld.g:343:1: ruleKeyTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : {...}?this_ID_0= RULE_ID ;
+    // InternalHelloWorld.g:449:1: ruleKeyTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : {...}?this_ID_0= RULE_ID ;
     public final AntlrDatatypeRuleToken ruleKeyTwo() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -870,8 +1147,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
           enterRule();
 
         try {
-            // InternalHelloWorld.g:349:2: ({...}?this_ID_0= RULE_ID )
-            // InternalHelloWorld.g:350:3: {...}?this_ID_0= RULE_ID
+            // InternalHelloWorld.g:455:2: ({...}?this_ID_0= RULE_ID )
+            // InternalHelloWorld.g:456:3: {...}?this_ID_0= RULE_ID
             {
             if ( !((predicates.isKeyTwoEnabled(parserContext) /* @ErrorMessage(getKeyTwoEnabledMessage) */)) ) {
                 throw new FailedPredicateException(input, "ruleKeyTwo", "predicates.isKeyTwoEnabled(parserContext) /* @ErrorMessage(getKeyTwoEnabledMessage) */");
@@ -903,7 +1180,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleKeyOther"
-    // InternalHelloWorld.g:361:1: entryRuleKeyOther returns [String current=null] : iv_ruleKeyOther= ruleKeyOther EOF ;
+    // InternalHelloWorld.g:467:1: entryRuleKeyOther returns [String current=null] : iv_ruleKeyOther= ruleKeyOther EOF ;
     public final String entryRuleKeyOther() throws RecognitionException {
         String current = null;
 
@@ -911,8 +1188,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalHelloWorld.g:361:48: (iv_ruleKeyOther= ruleKeyOther EOF )
-            // InternalHelloWorld.g:362:3: iv_ruleKeyOther= ruleKeyOther EOF
+            // InternalHelloWorld.g:467:48: (iv_ruleKeyOther= ruleKeyOther EOF )
+            // InternalHelloWorld.g:468:3: iv_ruleKeyOther= ruleKeyOther EOF
             {
              newCompositeNode(grammarAccess.getKeyOtherRule()); 
             pushFollow(FOLLOW_1);
@@ -939,7 +1216,7 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleKeyOther"
-    // InternalHelloWorld.g:368:1: ruleKeyOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : {...}?this_ID_0= RULE_ID ;
+    // InternalHelloWorld.g:474:1: ruleKeyOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : {...}?this_ID_0= RULE_ID ;
     public final AntlrDatatypeRuleToken ruleKeyOther() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -949,8 +1226,8 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
           enterRule();
 
         try {
-            // InternalHelloWorld.g:374:2: ({...}?this_ID_0= RULE_ID )
-            // InternalHelloWorld.g:375:3: {...}?this_ID_0= RULE_ID
+            // InternalHelloWorld.g:480:2: ({...}?this_ID_0= RULE_ID )
+            // InternalHelloWorld.g:481:3: {...}?this_ID_0= RULE_ID
             {
             if ( !((predicates.isKeyOtherEnabled(parserContext) /* @ErrorMessage(getKeyOtherEnabledMessage) */)) ) {
                 throw new FailedPredicateException(input, "ruleKeyOther", "predicates.isKeyOtherEnabled(parserContext) /* @ErrorMessage(getKeyOtherEnabledMessage) */");
@@ -980,6 +1257,285 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
     }
     // $ANTLR end "ruleKeyOther"
 
+
+    // $ANTLR start "entryRuleSimpleKeyFour"
+    // InternalHelloWorld.g:492:1: entryRuleSimpleKeyFour returns [String current=null] : iv_ruleSimpleKeyFour= ruleSimpleKeyFour EOF ;
+    public final String entryRuleSimpleKeyFour() throws RecognitionException {
+        String current = null;
+
+        AntlrDatatypeRuleToken iv_ruleSimpleKeyFour = null;
+
+
+        try {
+            // InternalHelloWorld.g:492:53: (iv_ruleSimpleKeyFour= ruleSimpleKeyFour EOF )
+            // InternalHelloWorld.g:493:3: iv_ruleSimpleKeyFour= ruleSimpleKeyFour EOF
+            {
+             newCompositeNode(grammarAccess.getSimpleKeyFourRule()); 
+            pushFollow(FOLLOW_1);
+            iv_ruleSimpleKeyFour=ruleSimpleKeyFour();
+
+            state._fsp--;
+
+             current =iv_ruleSimpleKeyFour.getText(); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleSimpleKeyFour"
+
+
+    // $ANTLR start "ruleSimpleKeyFour"
+    // InternalHelloWorld.g:499:1: ruleSimpleKeyFour returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : kw= 'four' ;
+    public final AntlrDatatypeRuleToken ruleSimpleKeyFour() throws RecognitionException {
+        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
+
+        Token kw=null;
+
+
+          enterRule();
+
+        try {
+            // InternalHelloWorld.g:505:2: (kw= 'four' )
+            // InternalHelloWorld.g:506:3: kw= 'four'
+            {
+            kw=(Token)match(input,13,FOLLOW_2); 
+
+                current.merge(kw);
+                newLeafNode(kw, grammarAccess.getSimpleKeyFourAccess().getFourKeyword());
+              
+
+            }
+
+
+              leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleSimpleKeyFour"
+
+
+    // $ANTLR start "entryRuleSimpleKeyFive"
+    // InternalHelloWorld.g:514:1: entryRuleSimpleKeyFive returns [String current=null] : iv_ruleSimpleKeyFive= ruleSimpleKeyFive EOF ;
+    public final String entryRuleSimpleKeyFive() throws RecognitionException {
+        String current = null;
+
+        AntlrDatatypeRuleToken iv_ruleSimpleKeyFive = null;
+
+
+        try {
+            // InternalHelloWorld.g:514:53: (iv_ruleSimpleKeyFive= ruleSimpleKeyFive EOF )
+            // InternalHelloWorld.g:515:3: iv_ruleSimpleKeyFive= ruleSimpleKeyFive EOF
+            {
+             newCompositeNode(grammarAccess.getSimpleKeyFiveRule()); 
+            pushFollow(FOLLOW_1);
+            iv_ruleSimpleKeyFive=ruleSimpleKeyFive();
+
+            state._fsp--;
+
+             current =iv_ruleSimpleKeyFive.getText(); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleSimpleKeyFive"
+
+
+    // $ANTLR start "ruleSimpleKeyFive"
+    // InternalHelloWorld.g:521:1: ruleSimpleKeyFive returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : kw= 'five' ;
+    public final AntlrDatatypeRuleToken ruleSimpleKeyFive() throws RecognitionException {
+        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
+
+        Token kw=null;
+
+
+          enterRule();
+
+        try {
+            // InternalHelloWorld.g:527:2: (kw= 'five' )
+            // InternalHelloWorld.g:528:3: kw= 'five'
+            {
+            kw=(Token)match(input,14,FOLLOW_2); 
+
+                current.merge(kw);
+                newLeafNode(kw, grammarAccess.getSimpleKeyFiveAccess().getFiveKeyword());
+              
+
+            }
+
+
+              leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleSimpleKeyFive"
+
+
+    // $ANTLR start "entryRuleEnumLikeOther"
+    // InternalHelloWorld.g:536:1: entryRuleEnumLikeOther returns [String current=null] : iv_ruleEnumLikeOther= ruleEnumLikeOther EOF ;
+    public final String entryRuleEnumLikeOther() throws RecognitionException {
+        String current = null;
+
+        AntlrDatatypeRuleToken iv_ruleEnumLikeOther = null;
+
+
+        try {
+            // InternalHelloWorld.g:536:53: (iv_ruleEnumLikeOther= ruleEnumLikeOther EOF )
+            // InternalHelloWorld.g:537:3: iv_ruleEnumLikeOther= ruleEnumLikeOther EOF
+            {
+             newCompositeNode(grammarAccess.getEnumLikeOtherRule()); 
+            pushFollow(FOLLOW_1);
+            iv_ruleEnumLikeOther=ruleEnumLikeOther();
+
+            state._fsp--;
+
+             current =iv_ruleEnumLikeOther.getText(); 
+            match(input,EOF,FOLLOW_2); 
+
+            }
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleEnumLikeOther"
+
+
+    // $ANTLR start "ruleEnumLikeOther"
+    // InternalHelloWorld.g:543:1: ruleEnumLikeOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'four' | kw= 'five' | kw= 'six' ) ;
+    public final AntlrDatatypeRuleToken ruleEnumLikeOther() throws RecognitionException {
+        AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
+
+        Token kw=null;
+
+
+          enterRule();
+
+        try {
+            // InternalHelloWorld.g:549:2: ( (kw= 'four' | kw= 'five' | kw= 'six' ) )
+            // InternalHelloWorld.g:550:3: (kw= 'four' | kw= 'five' | kw= 'six' )
+            {
+            // InternalHelloWorld.g:550:3: (kw= 'four' | kw= 'five' | kw= 'six' )
+            int alt4=3;
+            switch ( input.LA(1) ) {
+            case 13:
+                {
+                alt4=1;
+                }
+                break;
+            case 14:
+                {
+                alt4=2;
+                }
+                break;
+            case 15:
+                {
+                alt4=3;
+                }
+                break;
+            default:
+                NoViableAltException nvae =
+                    new NoViableAltException("", 4, 0, input);
+
+                throw nvae;
+            }
+
+            switch (alt4) {
+                case 1 :
+                    // InternalHelloWorld.g:551:5: kw= 'four'
+                    {
+                    kw=(Token)match(input,13,FOLLOW_2); 
+
+                          current.merge(kw);
+                          newLeafNode(kw, grammarAccess.getEnumLikeOtherAccess().getFourKeyword_0());
+                        
+
+                    }
+                    break;
+                case 2 :
+                    // InternalHelloWorld.g:557:5: kw= 'five'
+                    {
+                    kw=(Token)match(input,14,FOLLOW_2); 
+
+                          current.merge(kw);
+                          newLeafNode(kw, grammarAccess.getEnumLikeOtherAccess().getFiveKeyword_1());
+                        
+
+                    }
+                    break;
+                case 3 :
+                    // InternalHelloWorld.g:563:5: kw= 'six'
+                    {
+                    kw=(Token)match(input,15,FOLLOW_2); 
+
+                          current.merge(kw);
+                          newLeafNode(kw, grammarAccess.getEnumLikeOtherAccess().getSixKeyword_2());
+                        
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+
+              leaveRule();
+
+        }
+
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleEnumLikeOther"
+
     // Delegated rules
 
 
@@ -987,8 +1543,9 @@ public class InternalHelloWorldParser extends AbstractInternalAntlrParser {
 
     public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000812L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000006812L});
     public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x000000000000E000L});
 
 }

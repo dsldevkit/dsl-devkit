@@ -238,6 +238,46 @@ ruleKeywordsExample returns [EObject current=null]
       	}
       )
     )
+        |
+    (
+      (
+      	{
+      	  newCompositeNode(grammarAccess.getKeywordsExampleAccess().getOptionOptionThreeParserRuleCall_2_0());
+      	}
+      	lv_option_2_0=ruleOptionThree
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElementForParent(grammarAccess.getKeywordsExampleRule());
+      	  }
+      	  set(
+      	    $current,
+      	    "option",
+      	    lv_option_2_0,
+      	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionThree");
+      	  afterParserOrEnumRuleCall();
+      	}
+      )
+    )
+        |
+    (
+      (
+      	{
+      	  newCompositeNode(grammarAccess.getKeywordsExampleAccess().getOptionOptionFourParserRuleCall_3_0());
+      	}
+      	lv_option_3_0=ruleOptionFour
+      	{
+      	  if ($current==null) {
+      	    $current = createModelElementForParent(grammarAccess.getKeywordsExampleRule());
+      	  }
+      	  set(
+      	    $current,
+      	    "option",
+      	    lv_option_3_0,
+      	    "com.avaloq.tools.ddk.sample.helloworld.HelloWorld.OptionFour");
+      	  afterParserOrEnumRuleCall();
+      	}
+      )
+    )
   )
 ;
 
@@ -300,6 +340,72 @@ ruleOptionTwo returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken
     this_KeyOther_1=ruleKeyOther
     {
       $current.merge(this_KeyOther_1);
+    }
+    {
+      afterParserOrEnumRuleCall();
+    }
+  )
+;
+
+// Entry rule entryRuleOptionThree
+entryRuleOptionThree returns [String current=null]:
+  { newCompositeNode(grammarAccess.getOptionThreeRule()); }
+  iv_ruleOptionThree=ruleOptionThree
+  { $current=$iv_ruleOptionThree.current.getText(); }
+  EOF;
+
+// Rule OptionThree
+ruleOptionThree returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  {
+    newCompositeNode(grammarAccess.getOptionThreeAccess().getSimpleKeyFourParserRuleCall());
+  }
+  this_SimpleKeyFour_0=ruleSimpleKeyFour
+  {
+    $current.merge(this_SimpleKeyFour_0);
+  }
+  {
+    afterParserOrEnumRuleCall();
+  }
+;
+
+// Entry rule entryRuleOptionFour
+entryRuleOptionFour returns [String current=null]:
+  { newCompositeNode(grammarAccess.getOptionFourRule()); }
+  iv_ruleOptionFour=ruleOptionFour
+  { $current=$iv_ruleOptionFour.current.getText(); }
+  EOF;
+
+// Rule OptionFour
+ruleOptionFour returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  (
+    {
+      newCompositeNode(grammarAccess.getOptionFourAccess().getSimpleKeyFiveParserRuleCall_0());
+    }
+    this_SimpleKeyFive_0=ruleSimpleKeyFive
+    {
+      $current.merge(this_SimpleKeyFive_0);
+    }
+    {
+      afterParserOrEnumRuleCall();
+    }
+    {
+      newCompositeNode(grammarAccess.getOptionFourAccess().getEnumLikeOtherParserRuleCall_1());
+    }
+    this_EnumLikeOther_1=ruleEnumLikeOther
+    {
+      $current.merge(this_EnumLikeOther_1);
     }
     {
       afterParserOrEnumRuleCall();
@@ -380,6 +486,86 @@ ruleKeyOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken(
   {
     newLeafNode(this_ID_0, grammarAccess.getKeyOtherAccess().getIDTerminalRuleCall());
   }
+;
+
+// Entry rule entryRuleSimpleKeyFour
+entryRuleSimpleKeyFour returns [String current=null]:
+  { newCompositeNode(grammarAccess.getSimpleKeyFourRule()); }
+  iv_ruleSimpleKeyFour=ruleSimpleKeyFour
+  { $current=$iv_ruleSimpleKeyFour.current.getText(); }
+  EOF;
+
+// Rule SimpleKeyFour
+ruleSimpleKeyFour returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  kw='four'
+  {
+    $current.merge(kw);
+    newLeafNode(kw, grammarAccess.getSimpleKeyFourAccess().getFourKeyword());
+  }
+;
+
+// Entry rule entryRuleSimpleKeyFive
+entryRuleSimpleKeyFive returns [String current=null]:
+  { newCompositeNode(grammarAccess.getSimpleKeyFiveRule()); }
+  iv_ruleSimpleKeyFive=ruleSimpleKeyFive
+  { $current=$iv_ruleSimpleKeyFive.current.getText(); }
+  EOF;
+
+// Rule SimpleKeyFive
+ruleSimpleKeyFive returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  kw='five'
+  {
+    $current.merge(kw);
+    newLeafNode(kw, grammarAccess.getSimpleKeyFiveAccess().getFiveKeyword());
+  }
+;
+
+// Entry rule entryRuleEnumLikeOther
+entryRuleEnumLikeOther returns [String current=null]:
+  { newCompositeNode(grammarAccess.getEnumLikeOtherRule()); }
+  iv_ruleEnumLikeOther=ruleEnumLikeOther
+  { $current=$iv_ruleEnumLikeOther.current.getText(); }
+  EOF;
+
+// Rule EnumLikeOther
+ruleEnumLikeOther returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+  enterRule();
+}
+@after {
+  leaveRule();
+}:
+  (
+    kw='four'
+    {
+      $current.merge(kw);
+      newLeafNode(kw, grammarAccess.getEnumLikeOtherAccess().getFourKeyword_0());
+    }
+        |
+    kw='five'
+    {
+      $current.merge(kw);
+      newLeafNode(kw, grammarAccess.getEnumLikeOtherAccess().getFiveKeyword_1());
+    }
+        |
+    kw='six'
+    {
+      $current.merge(kw);
+      newLeafNode(kw, grammarAccess.getEnumLikeOtherAccess().getSixKeyword_2());
+    }
+  )
 ;
 
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
