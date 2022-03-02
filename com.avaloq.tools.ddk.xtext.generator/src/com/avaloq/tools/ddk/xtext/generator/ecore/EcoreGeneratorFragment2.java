@@ -14,7 +14,6 @@ package com.avaloq.tools.ddk.xtext.generator.ecore;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.mwe2.ecore.EcoreGenerator;
 import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment;
 
 import com.avaloq.tools.ddk.xtext.generator.util.CustomClassAwareEcoreGenerator;
@@ -22,8 +21,8 @@ import com.google.common.collect.Lists;
 
 
 /**
- * A copied and extended {@link EcoreGenerator} with automatic discovery of source paths to custom classes of parent
- * languages to be called as an fragment.
+ * A copied and extended {@link org.eclipse.emf.mwe2.ecore.EcoreGenerator} with automatic discovery of source paths 
+ * to custom classes of parent languages to be called as an fragment.
  */
 public class EcoreGeneratorFragment2 extends AbstractXtextGeneratorFragment {
 
