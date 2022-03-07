@@ -44,7 +44,6 @@ public class AnnotationAwareFollowElementCalculator extends FollowElementCalcula
 
   private boolean canContainKeywordRule(final ParserRule rule) {
     Set<AbstractRule> visitedRules = Sets.newHashSet(rule);
-    visitedRules.add(rule);
     Deque<RuleCall> ruleCallsToVisit = new ArrayDeque<>(EcoreUtil2.getAllContentsOfType(rule, RuleCall.class));
     while (!ruleCallsToVisit.isEmpty()) {
       AbstractRule referencedRule = ruleCallsToVisit.pollFirst().getRule();
