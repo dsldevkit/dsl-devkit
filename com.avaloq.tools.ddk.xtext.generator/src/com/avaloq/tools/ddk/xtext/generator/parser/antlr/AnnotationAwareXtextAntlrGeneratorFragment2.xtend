@@ -51,6 +51,7 @@ import org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragmen
 import static extension org.eclipse.xtext.GrammarUtil.*
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
@@ -65,6 +66,8 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   @Inject extension PredicatesNaming predicatesNaming
   @Inject extension GrammarAccessExtensions grammarUtil
   @Inject extension GrammarRuleAnnotations annotations
+
+  @Accessors boolean generateContentAssistIfIdeMissing
 
   boolean removeBacktrackingGuards
   int lookaheadThreshold
@@ -123,7 +126,7 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   protected override doGenerate() {
     super.doGenerate()
     // if there is no ide plugin, write the content assist parser to the ui plugin.
-    if (projectConfig.genericIde.srcGen === null) {
+    if (generateContentAssistIfIdeMissing && projectConfig.genericIde.srcGen === null) {
       generateUiContentAssistGrammar()
       generateContentAssistParser().writeTo(projectConfig.eclipsePlugin.srcGen)
       if (hasSyntheticTerminalRule()) {
