@@ -26,7 +26,7 @@ public final class LoggingRule extends TestWatcher {
   /** The singleton instance, or {@code null} if not cached. */
   private static LoggingRule instance;
 
-  private static final Object lock = new Object();
+  private static final Object LOCK = new Object();
 
   /**
    * Creates a new instance of {@link LoggingRule}.
@@ -41,7 +41,7 @@ public final class LoggingRule extends TestWatcher {
    * @return a shared instance, never {@code null}
    */
   public static LoggingRule getInstance() {
-    synchronized (lock) {
+    synchronized (LOCK) {
       if (instance == null) {
         instance = new LoggingRule();
       }
