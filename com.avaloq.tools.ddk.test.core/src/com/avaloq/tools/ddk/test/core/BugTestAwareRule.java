@@ -51,6 +51,7 @@ public final class BugTestAwareRule implements TestRule {
   private static final String ERROR_TEST_MUST_FAIL = "The unresolved bug test must fail:";
   /** The singleton instance, or {@code null} if not cached. */
   private static BugTestAwareRule instance;
+  private static final Object LOCK = new Object();
 
   /**
    * Creates a new instance of {@link BugTestAwareRule}.
@@ -65,7 +66,7 @@ public final class BugTestAwareRule implements TestRule {
    * @return a shared instance, never {@code null}
    */
   public static BugTestAwareRule getInstance() {
-    synchronized (BugTestAwareRule.class) {
+    synchronized (LOCK) {
       if (instance == null) {
         instance = new BugTestAwareRule();
       }
