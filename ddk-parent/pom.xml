@@ -54,7 +54,7 @@
     <spotbugs.version>4.6.0</spotbugs.version>
     <pmd.plugin.version>3.16.0</pmd.plugin.version>
     <pmd.version>6.44.0</pmd.version>
-    <tycho.version>1.6.0</tycho.version>
+    <tycho.version>2.7.0</tycho.version>
     <xtend.version>2.26.0</xtend.version>
   </properties>
 
