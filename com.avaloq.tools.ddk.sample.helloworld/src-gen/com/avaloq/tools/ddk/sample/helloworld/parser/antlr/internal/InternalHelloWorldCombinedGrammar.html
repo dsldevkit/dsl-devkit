@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<body><h1>Combined grammar for HelloWorld</h1><p><i>Reachable rules only</i></p> <a href="#ruleModel"><kbd>ruleModel</kbd></a> <a href="#ruleGreeting"><kbd>ruleGreeting</kbd></a> <a href="#ruleKeywordsExample"><kbd>ruleKeywordsExample</kbd></a> <a href="#ruleOptionOne"><kbd>ruleOptionOne</kbd></a> <a href="#ruleOptionTwo"><kbd>ruleOptionTwo</kbd></a> <a href="#ruleKeyOne"><kbd>ruleKeyOne</kbd></a> <a href="#ruleKeyTwo"><kbd>ruleKeyTwo</kbd></a> <a href="#ruleKeyOther"><kbd>ruleKeyOther</kbd></a>
+<body><h1>Combined grammar for HelloWorld</h1><p><i>Reachable rules only</i></p> <a href="#ruleModel"><kbd>ruleModel</kbd></a> <a href="#ruleGreeting"><kbd>ruleGreeting</kbd></a> <a href="#ruleKeywordsExample"><kbd>ruleKeywordsExample</kbd></a> <a href="#ruleOptionOne"><kbd>ruleOptionOne</kbd></a> <a href="#ruleOptionTwo"><kbd>ruleOptionTwo</kbd></a> <a href="#ruleOptionThree"><kbd>ruleOptionThree</kbd></a> <a href="#ruleOptionFour"><kbd>ruleOptionFour</kbd></a> <a href="#ruleKeyOne"><kbd>ruleKeyOne</kbd></a> <a href="#ruleKeyTwo"><kbd>ruleKeyTwo</kbd></a> <a href="#ruleKeyOther"><kbd>ruleKeyOther</kbd></a> <a href="#ruleSimpleKeyFour"><kbd>ruleSimpleKeyFour</kbd></a> <a href="#ruleSimpleKeyFive"><kbd>ruleSimpleKeyFive</kbd></a> <a href="#ruleEnumLikeOther"><kbd>ruleEnumLikeOther</kbd></a>
 
 <h2><a name="ruleModel">ruleModel</a> (HelloWorld)</h2><pre>
 
@@ -25,7 +25,7 @@ Greeting:
  * Predicates are propagated into alternative before Xtext-generated actions.
  */
 KeywordsExample:
- option = OptionOne | option = OptionTwo
+ option = OptionOne | option = OptionTwo | option = OptionThree | option = OptionFour
 ;
 </pre>
 
@@ -44,6 +44,20 @@ OptionOne:
  */
 OptionTwo:
   KeyTwo KeyOther
+;
+</pre>
+
+<h2><a name="ruleOptionThree">ruleOptionThree</a> (HelloWorld)</h2><pre>
+
+OptionThree:
+  SimpleKeyFour
+;
+</pre>
+
+<h2><a name="ruleOptionFour">ruleOptionFour</a> (HelloWorld)</h2><pre>
+
+OptionFour:
+  SimpleKeyFive EnumLikeOther
 ;
 </pre>
 
@@ -74,6 +88,27 @@ KeyTwo:
  */
 KeyOther:
   ID
+;
+</pre>
+
+<h2><a name="ruleSimpleKeyFour">ruleSimpleKeyFour</a> (HelloWorld)</h2><pre>
+
+SimpleKeyFour:
+  "four"
+;
+</pre>
+
+<h2><a name="ruleSimpleKeyFive">ruleSimpleKeyFive</a> (HelloWorld)</h2><pre>
+
+SimpleKeyFive:
+  "five"
+;
+</pre>
+
+<h2><a name="ruleEnumLikeOther">ruleEnumLikeOther</a> (HelloWorld)</h2><pre>
+
+EnumLikeOther:
+  "four" | "five" | "six"
 ;
 </pre>
 </body>

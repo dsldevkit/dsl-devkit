@@ -31,19 +31,19 @@ import org.junit.runner.RunWith
 
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
-import com.avaloq.tools.ddk.xtext.generator.xbase.FixedXbaseUsageDetector
+import org.eclipse.xtext.xtext.generator.xbase.XbaseUsageDetector
 
 /**
- * Tests for {@link FixedXbaseUsageDetector}.
+ * Tests for {@link XbaseUsageDetector}.
  */
 @RunWith(XtextRunner)
-class FixedXbaseGeneratorFragmentTest extends TestCase {
+class XbaseGeneratorFragmentTest extends TestCase {
 
   val thisPackageName = "thisPackage"
   val xtypePackageName = "xtype"
   val xImportSectionRuleName = "XImportSection"
 
-  val detector = new FixedXbaseUsageDetector
+  val detector = new XbaseUsageDetector
 
   /**
    * Set expectations prior to calling usesXImportSection.apply().

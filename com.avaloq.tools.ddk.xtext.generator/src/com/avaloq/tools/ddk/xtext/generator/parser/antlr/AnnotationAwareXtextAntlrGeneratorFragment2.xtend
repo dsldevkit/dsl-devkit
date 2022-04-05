@@ -11,49 +11,54 @@
 
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr
 
+import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations.SemanticPredicate
 import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming
 import com.avaloq.tools.ddk.xtext.parser.ISemanticPredicates
 import com.avaloq.tools.ddk.xtext.parser.antlr.AbstractContextualAntlrParser
 import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext
 import com.google.common.base.Joiner
+import com.google.common.collect.ImmutableSet
 import com.google.inject.Inject
 import com.google.inject.Singleton
+import com.google.inject.name.Names
+import java.util.Arrays
+import java.util.Set
 import java.util.stream.Collectors
 import org.antlr.runtime.CharStream
 import org.antlr.runtime.Token
 import org.antlr.runtime.TokenSource
+import org.eclipse.xtext.AbstractElement
+import org.eclipse.xtext.GrammarUtil
+import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider
+import org.eclipse.xtext.parser.antlr.ITokenDefProvider
+import org.eclipse.xtext.parser.antlr.Lexer
+import org.eclipse.xtext.parser.antlr.LexerProvider
 import org.eclipse.xtext.parser.antlr.XtextTokenStream
-import org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessExtensions
-import org.eclipse.xtext.xtext.generator.model.FileAccessFactory
-import org.eclipse.xtext.xtext.generator.model.JavaFileAccess
-import org.eclipse.xtext.xtext.generator.model.TypeReference
-import org.eclipse.xtext.xtext.generator.parser.antlr.GrammarNaming
-import org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
 import org.eclipse.xtext.xtext.FlattenedGrammarAccess
 import org.eclipse.xtext.xtext.RuleFilter
 import org.eclipse.xtext.xtext.RuleNames
+import org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessExtensions
+import org.eclipse.xtext.xtext.generator.model.FileAccessFactory
+import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
+import org.eclipse.xtext.xtext.generator.model.IXtextGeneratorFileSystemAccess
+import org.eclipse.xtext.xtext.generator.model.JavaFileAccess
+import org.eclipse.xtext.xtext.generator.model.TypeReference
+import org.eclipse.xtext.xtext.generator.parser.antlr.ContentAssistGrammarNaming
+import org.eclipse.xtext.xtext.generator.parser.antlr.GrammarNaming
+import org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
 
 import static extension org.eclipse.xtext.GrammarUtil.*
-import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
-import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
-import com.avaloq.tools.ddk.xtext.generator.parser.antlr.KeywordAnalysisHelper
-import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
-import java.util.Set
-import com.google.common.collect.ImmutableSet
-import java.util.Arrays
-import org.eclipse.xtext.GrammarUtil
-import org.eclipse.xtext.parser.antlr.Lexer
-import com.google.inject.name.Names
-import org.eclipse.xtext.parser.antlr.ITokenDefProvider
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
-import org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider
-import org.eclipse.xtext.parser.antlr.LexerProvider
-import org.eclipse.xtext.xtext.generator.parser.antlr.ContentAssistGrammarNaming
+import static extension org.eclipse.xtext.xtext.generator.parser.antlr.AntlrGrammarGenUtil.*
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
+  static val ADDITIONAL_CA_REQUIRED_BUNDLE = "com.avaloq.tools.ddk.xtext"
+
   @Inject AnnotationAwareAntlrGrammarGenerator productionGenerator
+  @Inject AnnotationAwareAntlrContentAssistGrammarGenerator contentAssistGenerator
   @Inject GrammarNaming productionNaming
   @Inject FileAccessFactory fileFactory
   @Inject ContentAssistGrammarNaming contentAssistNaming
@@ -61,6 +66,12 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   @Inject extension PredicatesNaming predicatesNaming
   @Inject extension GrammarAccessExtensions grammarUtil
   @Inject extension GrammarRuleAnnotations annotations
+
+  @Accessors boolean generateContentAssistIfIdeMissing
+
+  boolean removeBacktrackingGuards
+  int lookaheadThreshold
+  boolean partialParsing
 
   Set<String> reservedWords = ImmutableSet.of();
   Set<String> keywords = ImmutableSet.of();
@@ -71,6 +82,21 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
    * Suffix used in the naming convention for the classes responsible for semantic predicates.
    */
   static val CLASS_SUFFIX = "SemanticPredicates";
+
+  override setRemoveBacktrackingGuards(boolean removeBacktrackingGuards) {
+    this.removeBacktrackingGuards = removeBacktrackingGuards
+    super.setRemoveBacktrackingGuards(removeBacktrackingGuards)
+  }
+
+  override setLookaheadThreshold(String lookaheadThreshold) {
+    this.lookaheadThreshold = Integer.parseInt(lookaheadThreshold)
+    super.setLookaheadThreshold(lookaheadThreshold)
+  }
+
+  override setPartialParsing(boolean partialParsing) {
+    this.partialParsing = partialParsing
+    super.setPartialParsing(partialParsing)
+  }
 
   def setReservedWords(String words) {
     reservedWords = toSet(words);
@@ -98,8 +124,175 @@ class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFra
   }
 
   protected override doGenerate() {
-      super.doGenerate()
-      generateAbstractSemanticPredicate().writeTo(projectConfig.runtime.srcGen)
+    super.doGenerate()
+    // if there is no ide plugin, write the content assist parser to the ui plugin.
+    if (generateContentAssistIfIdeMissing && projectConfig.genericIde.srcGen === null) {
+      generateUiContentAssistGrammar()
+      generateContentAssistParser().writeTo(projectConfig.eclipsePlugin.srcGen)
+      if (hasSyntheticTerminalRule()) {
+        generateContentAssistTokenSource().writeTo(projectConfig.eclipsePlugin.src)
+      }
+      addIdeUiBindingsAndImports()
+    }
+
+    generateAbstractSemanticPredicate().writeTo(projectConfig.runtime.srcGen)
+  }
+
+  override protected addRuntimeBindingsAndImports() {
+    super.addRuntimeBindingsAndImports
+    if (projectConfig.runtime.manifest !== null) {
+      projectConfig.runtime.manifest=>[
+        exportedPackages += #[
+          grammar.semanticPredicatesPackageName
+        ]
+      ]
+    }
+  }
+
+  protected override generateContentAssistGrammar() {
+    generateContentAssistGrammar(projectConfig.genericIde.srcGen)
+  }
+
+  protected def generateContentAssistGrammar(IXtextGeneratorFileSystemAccess fsa) {
+    val extension naming = contentAssistNaming
+
+    contentAssistGenerator.generate(grammar, options, fsa)
+
+    runAntlr(grammar.parserGrammar, grammar.lexerGrammar, fsa)
+
+    simplifyUnorderedGroupPredicatesIfRequired(grammar, fsa, grammar.internalParserClass)
+    splitParserAndLexerIfEnabled(fsa, grammar.internalParserClass, grammar.lexerClass)
+    normalizeTokens(fsa, grammar.lexerGrammar.tokensFileName)
+    suppressWarnings(fsa, grammar.internalParserClass, grammar.lexerClass)
+    normalizeLineDelimiters(fsa, grammar.lexerClass, grammar.internalParserClass)
+    if (removeBacktrackingGuards) {
+      removeBackTrackingGuards(fsa, grammar.internalParserClass, lookaheadThreshold)
+    }
+  }
+
+  override protected void addIdeBindingsAndImports() {
+    super.addIdeBindingsAndImports
+    if (projectConfig.genericIde.manifest !== null) {
+      projectConfig.genericIde.manifest=>[
+        requiredBundles += ADDITIONAL_CA_REQUIRED_BUNDLE
+      ]
+    }
+  }
+
+  protected def generateUiContentAssistGrammar() {
+    generateContentAssistGrammar(projectConfig.eclipsePlugin.srcGen)
+  }
+
+  def protected void addIdeUiBindingsAndImports() {
+    val extension naming = contentAssistNaming
+    if (projectConfig.eclipsePlugin.manifest !== null) {
+      projectConfig.eclipsePlugin.manifest=>[
+        exportedPackages += #[
+          grammar.lexerClass.packageName,
+          grammar.parserClass.packageName,
+          grammar.internalParserClass.packageName
+        ]
+        requiredBundles += #[
+          "org.antlr.runtime;bundle-version=\"[3.2.0,3.2.1)\"",
+          ADDITIONAL_CA_REQUIRED_BUNDLE
+        ]
+      ]
+    }
+    val ideBindings = new GuiceModuleAccess.BindingFactory()
+      .addConfiguredBinding("ContentAssistLexer", '''
+        binder.bind(«grammar.lexerSuperClass».class)
+          .annotatedWith(«Names».named(«"org.eclipse.xtext.ide.LexerIdeBindings".typeRef».CONTENT_ASSIST))
+          .to(«grammar.lexerClass».class);
+      ''')
+      .addTypeToType('org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser'.typeRef, grammar.parserClass)
+      .addConfiguredBinding("IProposalConflictHelper", '''
+        binder.bind(org.eclipse.xtext.ide.editor.contentassist.IProposalConflictHelper.class)
+          .to(org.eclipse.xtext.ide.editor.contentassist.antlr.AntlrProposalConflictHelper.class);
+      ''')
+    if (partialParsing) {
+      ideBindings.addTypeToType(
+        "org.eclipse.xtext.ide.editor.contentassist.antlr.ContentAssistContextFactory".typeRef,
+        "org.eclipse.xtext.ide.editor.contentassist.antlr.PartialContentAssistContextFactory".typeRef
+      )
+    }
+    if (hasSyntheticTerminalRule) {
+      ideBindings.addTypeToType(
+        "org.eclipse.xtext.ide.editor.contentassist.CompletionPrefixProvider".typeRef,
+        "org.eclipse.xtext.ide.editor.contentassist.IndentationAwareCompletionPrefixProvider".typeRef
+      )
+    }
+    ideBindings.contributeTo(language.eclipsePluginGenModule)
+  }
+
+  override JavaFileAccess generateContentAssistParser() {
+    val extension naming = contentAssistNaming
+    val file = fileFactory.createGeneratedJavaFile(grammar.parserClass)
+    file.content = '''
+      public class «grammar.parserClass.simpleName» extends «grammar.getParserSuperClass(partialParsing)» {
+
+        «grammar.initNameMappings()»
+
+        @«Inject»
+        private «grammar.grammarAccess» grammarAccess;
+
+        @«Inject»
+        private «ISemanticPredicates.typeRef» predicates;
+
+        /**
+         * Creates compilation context.
+         *
+         * @param Input
+         *          Stream
+         * @return Compilation context
+         */
+        protected «ParserContext.typeRef» createParserContext() {
+          return new ParserContext();
+        }
+
+        @Override
+        protected «grammar.internalParserClass» createParser() {
+          «grammar.internalParserClass» result = new «grammar.internalParserClass»(null);
+          result.setGrammarAccess(grammarAccess);
+          result.setParserContext(createParserContext());
+          result.setPredicates((«grammar.semanticPredicatesFullName.typeRef»)predicates);
+          return result;
+        }
+
+       «IF hasSyntheticTerminalRule»
+          @Override
+          protected «TokenSource» createLexer(«CharStream» stream) {
+            return new «grammar.tokenSourceClass»(super.createLexer(stream));
+          }
+
+        «ENDIF»
+        @Override
+        protected String getRuleName(«AbstractElement» element) {
+          return nameMappings.getRuleName(element);
+        }
+
+        @Override
+        protected String[] getInitialHiddenTokens() {
+          return new String[] { «FOR hidden : grammar.initialHiddenTokens SEPARATOR ", "»"«hidden»"«ENDFOR» };
+        }
+
+        public «grammar.grammarAccess» getGrammarAccess() {
+          return this.grammarAccess;
+        }
+
+        public void setGrammarAccess(«grammar.grammarAccess» grammarAccess) {
+          this.grammarAccess = grammarAccess;
+        }
+
+        public NameMappings getNameMappings() {
+          return nameMappings;
+        }
+
+        public void setNameMappings(NameMappings nameMappings) {
+          this.nameMappings = nameMappings;
+        }
+      }
+    '''
+    return file
   }
 
   protected override generateProductionGrammar() {

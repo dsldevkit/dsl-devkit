@@ -15,22 +15,16 @@ import java.util.Iterator;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.ui.editor.model.XtextDocument;
 import org.eclipse.xtext.ui.editor.model.XtextDocumentProvider;
-import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
-import org.eclipse.xtext.ui.util.IssueUtil;
 
-import com.avaloq.tools.ddk.xtext.ui.quickfix.FixedXtextResourceMarkerAnnotationModel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -44,12 +38,6 @@ public class ResponsiveXtextDocumentProvider extends XtextDocumentProvider imple
   @Inject
   @Named(Constants.LANGUAGE_NAME)
   private String languageName;
-
-  @Inject
-  private IssueResolutionProvider issueResolutionProvider;
-
-  @Inject
-  private IssueUtil issueUtil;
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(ResponsiveXtextDocumentProvider.class);
@@ -101,15 +89,6 @@ public class ResponsiveXtextDocumentProvider extends XtextDocumentProvider imple
     for (Iterator<?> i = getConnectedElements(); i.hasNext();) {
       ((XtextDocument) getDocument(i.next())).checkAndUpdateAnnotations();
     }
-  }
-
-  @Override
-  protected IAnnotationModel createAnnotationModel(final Object element) throws CoreException {
-    if (element instanceof IFileEditorInput) {
-      IFileEditorInput input = (IFileEditorInput) element;
-      return new FixedXtextResourceMarkerAnnotationModel(input.getFile(), issueResolutionProvider, issueUtil);
-    }
-    return super.createAnnotationModel(element);
   }
 
 }

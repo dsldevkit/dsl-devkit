@@ -13,8 +13,8 @@ import org.eclipse.xtext.util.Modules2
  */
 class FormatIdeSetup extends FormatStandaloneSetup {
 
-	override createInjector() {
-		Guice.createInjector(Modules2.mixin(new FormatRuntimeModule, new FormatIdeModule))
-	}
-	
+  override createInjector() {
+    Guice.createInjector(Modules2.mixin(new FormatRuntimeModule, new FormatIdeModule))
+  }
+
 }

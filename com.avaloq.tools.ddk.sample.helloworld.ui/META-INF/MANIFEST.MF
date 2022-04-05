@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld.ui
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 9.1.0.qualifier
+Bundle-Version: 9.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
@@ -20,7 +20,8 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.antlr.runtime,
  com.avaloq.tools.ddk.check.runtime.core,
  com.avaloq.tools.ddk.xtext.ui,
- com.avaloq.tools.ddk.sample.helloworld.ide
+ com.avaloq.tools.ddk.sample.helloworld.ide,
+ com.avaloq.tools.ddk.xtext.generator
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ui.quickfix,

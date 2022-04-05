@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.generator
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.generator;singleton:=true
-Bundle-Version: 9.1.0.qualifier
+Bundle-Version: 9.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.jface,
@@ -33,7 +33,8 @@ Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.util,
  com.avaloq.tools.ddk.xtext.generator,
  com.avaloq.tools.ddk.xtext.generator.model.project,
- com.avaloq.tools.ddk.xtext.generator.resourceFactory
+ com.avaloq.tools.ddk.xtext.generator.resourceFactory,
+ com.avaloq.tools.ddk.xtext.generator.ide.contentAssist
 Import-Package: org.apache.logging.log4j
 Eclipse-ExtensibleAPI: true
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator

@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld.ide
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 9.1.0.qualifier
+Bundle-Version: 9.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ide;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
@@ -15,7 +15,9 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  com.avaloq.tools.ddk.check.runtime.core,
  com.google.inject,
  org.eclipse.xtext,
- org.eclipse.xtext.ide
+ org.eclipse.xtext.ide,
+ com.avaloq.tools.ddk.xtext.generator,
+ com.avaloq.tools.ddk.xtext
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ide,

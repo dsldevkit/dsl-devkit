@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.format.ui
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 9.1.0.qualifier
+Bundle-Version: 9.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.format.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
@@ -15,6 +15,7 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.compare,
  com.avaloq.tools.ddk.xtext,
+ com.avaloq.tools.ddk.xtext.format.ide,
  org.eclipse.xtext.common.types.ui,
  com.avaloq.tools.ddk.xtext.format.generator,
  com.avaloq.tools.ddk.xtext.format.ide,

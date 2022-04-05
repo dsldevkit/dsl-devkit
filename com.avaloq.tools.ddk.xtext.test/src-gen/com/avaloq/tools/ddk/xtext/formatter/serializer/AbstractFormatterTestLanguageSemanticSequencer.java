@@ -109,12 +109,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	}
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns Assign
 	 *     Assign returns Assign
 	 *
 	 * Constraint:
 	 *     (var=ID (op='=' | op='+=') (val+=INT val+=INT*)?)
+	 * </pre>
 	 */
 	protected void sequence_Assign(ISerializationContext context, Assign semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -122,12 +124,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns Datatypes
 	 *     Datatypes returns Datatypes
 	 *
 	 * Constraint:
 	 *     (val1=Datatype1 val2=Datatype2 val3=Datatype3)
+	 * </pre>
 	 */
 	protected void sequence_Datatypes(ISerializationContext context, Datatypes semanticObject) {
 		if (errorAcceptor != null) {
@@ -147,12 +151,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns Decl
 	 *     Decl returns Decl
 	 *
 	 * Constraint:
 	 *     (type+=ID name+=ID)
+	 * </pre>
 	 */
 	protected void sequence_Decl(ISerializationContext context, Decl semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -160,12 +166,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns Enumeration
 	 *     Enumeration returns Enumeration
 	 *
 	 * Constraint:
 	 *     (val+=Enum1+ val+=Enum1*)
+	 * </pre>
 	 */
 	protected void sequence_Enumeration(ISerializationContext context, Enumeration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -173,12 +181,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns FqnObj
 	 *     FqnObj returns FqnObj
 	 *
 	 * Constraint:
 	 *     name=FQN
+	 * </pre>
 	 */
 	protected void sequence_FqnObj(ISerializationContext context, FqnObj semanticObject) {
 		if (errorAcceptor != null) {
@@ -192,12 +202,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns FqnRef
 	 *     FqnRef returns FqnRef
 	 *
 	 * Constraint:
 	 *     ref=[FqnObj|FQN]
+	 * </pre>
 	 */
 	protected void sequence_FqnRef(ISerializationContext context, FqnRef semanticObject) {
 		if (errorAcceptor != null) {
@@ -211,12 +223,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns Meth
 	 *     Meth returns Meth
 	 *
 	 * Constraint:
 	 *     (name=ID (param+=Param param+=Param*)?)
+	 * </pre>
 	 */
 	protected void sequence_Meth(ISerializationContext context, Meth semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -224,11 +238,13 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Param returns Param
 	 *
 	 * Constraint:
 	 *     (name+=ID type+=ID)
+	 * </pre>
 	 */
 	protected void sequence_Param(ISerializationContext context, Param semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -236,12 +252,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns Space
 	 *     Space returns Space
 	 *
 	 * Constraint:
 	 *     val=ID
+	 * </pre>
 	 */
 	protected void sequence_Space(ISerializationContext context, Space semanticObject) {
 		if (errorAcceptor != null) {
@@ -255,12 +273,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     SuppressedHiddenSub returns SuppressedHiddenSubID
 	 *     SuppressedHiddenSubID returns SuppressedHiddenSubID
 	 *
 	 * Constraint:
 	 *     idval=ID
+	 * </pre>
 	 */
 	protected void sequence_SuppressedHiddenSubID(ISerializationContext context, SuppressedHiddenSubID semanticObject) {
 		if (errorAcceptor != null) {
@@ -274,12 +294,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     SuppressedHiddenSub returns SuppressedHiddenSubSub
 	 *     SuppressedHiddenSubSub returns SuppressedHiddenSubSub
 	 *
 	 * Constraint:
 	 *     idval=ID
+	 * </pre>
 	 */
 	protected void sequence_SuppressedHiddenSubSub(ISerializationContext context, SuppressedHiddenSubSub semanticObject) {
 		if (errorAcceptor != null) {
@@ -293,12 +315,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Line returns SuppressedHidden
 	 *     SuppressedHidden returns SuppressedHidden
 	 *
 	 * Constraint:
 	 *     (vals+=SuppressedHiddenSub vals+=SuppressedHiddenSub*)?
+	 * </pre>
 	 */
 	protected void sequence_SuppressedHidden(ISerializationContext context, SuppressedHidden semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -306,12 +330,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Root returns TestColumn
 	 *     TestColumn returns TestColumn
 	 *
 	 * Constraint:
 	 *     (name=ID? items+=Line*)
+	 * </pre>
 	 */
 	protected void sequence_TestColumn(ISerializationContext context, TestColumn semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -319,12 +345,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Root returns TestIndentation
 	 *     TestIndentation returns TestIndentation
 	 *
 	 * Constraint:
 	 *     ((sub+=TestIndentation | items+=Line)* semi?=';'?)
+	 * </pre>
 	 */
 	protected void sequence_TestIndentation(ISerializationContext context, TestIndentation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -332,12 +360,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Root returns TestLinewrapMinMax
 	 *     TestLinewrapMinMax returns TestLinewrapMinMax
 	 *
 	 * Constraint:
 	 *     items+=Line*
+	 * </pre>
 	 */
 	protected void sequence_TestLinewrapMinMax(ISerializationContext context, TestLinewrapMinMax semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -345,12 +375,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Root returns TestLinewrap
 	 *     TestLinewrap returns TestLinewrap
 	 *
 	 * Constraint:
 	 *     items+=Line*
+	 * </pre>
 	 */
 	protected void sequence_TestLinewrap(ISerializationContext context, TestLinewrap semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -358,12 +390,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Root returns TestOffset
 	 *     TestOffset returns TestOffset
 	 *
 	 * Constraint:
 	 *     (value=ID first=ID second=ID)
+	 * </pre>
 	 */
 	protected void sequence_TestOffset(ISerializationContext context, TestOffset semanticObject) {
 		if (errorAcceptor != null) {
@@ -383,12 +417,14 @@ public abstract class AbstractFormatterTestLanguageSemanticSequencer extends Abs
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     Root returns TestRightPadding
 	 *     TestRightPadding returns TestRightPadding
 	 *
 	 * Constraint:
 	 *     (p1=ID p2=ID)
+	 * </pre>
 	 */
 	protected void sequence_TestRightPadding(ISerializationContext context, TestRightPadding semanticObject) {
 		if (errorAcceptor != null) {

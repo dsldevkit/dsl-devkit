@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-Version: 9.1.0.qualifier
+Bundle-Version: 9.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
@@ -35,6 +35,7 @@ Export-Package: com.avaloq.tools.ddk.sample.helloworld.helloWorld,
  com.avaloq.tools.ddk.sample.helloworld.parser.antlr,
  com.avaloq.tools.ddk.sample.helloworld.services,
  com.avaloq.tools.ddk.sample.helloworld.parser.antlr.internal,
- com.avaloq.tools.ddk.sample.helloworld.validation
+ com.avaloq.tools.ddk.sample.helloworld.validation,
+ com.avaloq.tools.ddk.sample.helloworld.grammar
 Import-Package: org.apache.log4j,
  org.apache.logging.log4j
