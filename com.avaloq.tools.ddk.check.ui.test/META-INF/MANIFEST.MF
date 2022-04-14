@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.check.ui.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.ui.test
 Bundle-Version: 9.3.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.junit,
  com.avaloq.tools.ddk.check.ui,
  com.avaloq.tools.ddk.xtext.test.core,

@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ui;singleton:=true
 Bundle-Version: 9.3.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.jdt.core,

@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.scope
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope;singleton:=true
 Bundle-Version: 9.3.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext.expression;visibility:=reexport,
  org.eclipse.xtext.generator;resolution:=optional,

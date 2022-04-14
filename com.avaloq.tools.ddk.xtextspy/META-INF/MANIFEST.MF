@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui,
  org.eclipse.jdt.ui,
  org.eclipse.ui.ide
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: com.avaloq.tools.ddk.xtextspy
 Automatic-Module-Name: com.avaloq.tools.ddk.xtextspy

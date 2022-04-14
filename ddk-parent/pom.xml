@@ -213,8 +213,8 @@
           <showDeprecation>${compiler.showWarnings}</showDeprecation>
           <showWarnings>${compiler.showWarnings}</showWarnings>
           <useProjectSettings>false</useProjectSettings>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>11</source>
+          <target>11</target>
           <!-- Disable 'Unsupported @SuppressWarnings' warnings More information
             about the eclipse compiler warning configuration: http://www.jarvana.com/jarvana/view/org/eclipse/jdt/doc/isv/3.2.1-r321_v20060907/isv-3.2.1-r321_v20060907.jar!/guide/jdt_api_compile.htm -->
           <compilerArgument>-warn:-warningToken,discouraged</compilerArgument>
@@ -311,7 +311,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <targetJdk>1.8</targetJdk>
+          <targetJdk>11</targetJdk>
           <minimumTokens>${pmd.cpd.min}</minimumTokens>
           <renderProcessingErrors>false</renderProcessingErrors>
           <aggregate>true</aggregate>
@@ -438,4 +438,3 @@
     </profile>
   </profiles>
 </project>
-
