@@ -16,6 +16,11 @@ jobs:
           java-version: '11'
       - name: Set up Workspace Enviroment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV        
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with: 
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
       - name: Build with Maven  within a virtual X Server Environment
         run: xvfb-run mvn clean verify checkstyle:check pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Archive Tycho Surefire Plugin
