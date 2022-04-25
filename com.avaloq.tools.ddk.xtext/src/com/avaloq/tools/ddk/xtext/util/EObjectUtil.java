@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.linking.impl.DefaultLinkingService;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
@@ -57,9 +58,9 @@ public final class EObjectUtil {
    *          the type
    * @return The container, as described above.
    */
-  @SuppressWarnings("unchecked")
+  @Deprecated
   public static <T extends EObject> T eContainer(final EObject obj, final Class<T> type) {
-    return (T) eContainer(obj, e -> type.isInstance(e));
+    return EcoreUtil2.getContainerOfType(obj, type);
   }
 
   /**

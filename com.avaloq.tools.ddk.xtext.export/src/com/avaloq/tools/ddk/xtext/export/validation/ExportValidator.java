@@ -23,6 +23,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtend.expression.Resource;
 import org.eclipse.xtend.expression.ResourceManager;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.validation.Check;
 
@@ -38,7 +39,6 @@ import com.avaloq.tools.ddk.xtext.export.export.InterfaceNavigation;
 import com.avaloq.tools.ddk.xtext.export.export.UserData;
 import com.avaloq.tools.ddk.xtext.scoping.AbstractNameFunction;
 import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.avaloq.tools.ddk.xtext.validation.UniquenessJavaValidationHelper;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -252,7 +252,7 @@ public class ExportValidator extends AbstractExportValidator {
   @Check
   public void checkFingerprintInterfaceDefined(final Export context) {
     if (context.isFingerprint() || context.isResourceFingerprint()) {
-      ExportModel model = EObjectUtil.eContainer(context, ExportModel.class);
+      ExportModel model = EcoreUtil2.getContainerOfType(context, ExportModel.class);
       Interface match = null;
       for (Interface iface : model.getInterfaces()) {
         if (iface.getType().isSuperTypeOf(context.getType())) {
@@ -278,7 +278,7 @@ public class ExportValidator extends AbstractExportValidator {
     if (context.getRef() == null || context.getRef().getEReferenceType() == null) {
       return;
     }
-    ExportModel model = EObjectUtil.eContainer(context, ExportModel.class);
+    ExportModel model = EcoreUtil2.getContainerOfType(context, ExportModel.class);
     EClass type = context.getRef().getEReferenceType();
     if (findMatchingInterfaces(model, type).isEmpty()) {
       error("No interface specification declared matching type " + type.getName(), ExportPackage.Literals.INTERFACE_NAVIGATION__REF);

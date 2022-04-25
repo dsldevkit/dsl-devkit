@@ -24,6 +24,7 @@ import org.eclipse.xtend.expression.TypeSystemImpl;
 import org.eclipse.xtend.expression.Variable;
 import org.eclipse.xtend.typesystem.Type;
 import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
+import org.eclipse.xtext.EcoreUtil2;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator;
@@ -212,7 +213,7 @@ public final class ScopingGeneratorUtil {
     if (expr.isCaseDef()) {
       casing = expr.getCasing();
     } else {
-      NamingSection naming = EObjectUtil.eContainer(expr, ScopeModel.class).getNaming();
+      NamingSection naming = EcoreUtil2.getContainerOfType(expr, ScopeModel.class).getNaming();
       casing = naming != null ? naming.getCasing() : Casing.SENSITIVE;
     }
     return casing == Casing.INSENSITIVE;

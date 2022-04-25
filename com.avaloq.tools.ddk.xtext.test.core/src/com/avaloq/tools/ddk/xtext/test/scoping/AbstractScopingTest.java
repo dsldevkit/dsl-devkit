@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -61,7 +62,6 @@ import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQuery;
 import com.avaloq.tools.ddk.xtext.scoping.IDomain;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextMarkerBasedTest;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.avaloq.tools.ddk.xtext.util.Regexps;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
@@ -851,7 +851,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       throw new IllegalArgumentException(NLS.bind("Cross reference on object ''{0}'' could not be resolved.", context.toString())); //$NON-NLS-1$
     }
     // We only handle references in assignments
-    Assignment assignment = EObjectUtil.eContainer(crossReference, Assignment.class);
+    Assignment assignment = EcoreUtil2.getContainerOfType(crossReference, Assignment.class);
     EObject sourceObject = null;
     String featureName = assignment.getFeature();
     EReference reference = (EReference) context.eClass().getEStructuralFeature(featureName);

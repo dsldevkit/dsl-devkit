@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.Region;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.nodemodel.INode;
@@ -29,7 +30,6 @@ import com.avaloq.tools.ddk.xtext.format.format.GrammarRule;
 import com.avaloq.tools.ddk.xtext.format.format.Rule;
 import com.avaloq.tools.ddk.xtext.format.format.WildcardRule;
 import com.avaloq.tools.ddk.xtext.format.services.FormatGrammarAccess;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
@@ -74,7 +74,7 @@ public class FormatHyperlinkHelper extends HyperlinkHelper {
    * @return list with all extended rules
    */
   private List<Rule> getExtendedRules(final Rule rule) {
-    FormatConfiguration model = EObjectUtil.eContainer(rule, FormatConfiguration.class);
+    FormatConfiguration model = EcoreUtil2.getContainerOfType(rule, FormatConfiguration.class);
     List<Rule> result = Lists.newArrayList();
     for (FormatConfiguration extendedModel : getExtendedModels(model)) {
       for (Rule candidate : extendedModel.getRules()) {

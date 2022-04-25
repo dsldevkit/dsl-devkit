@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.GenModelAccess;
 
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
@@ -104,7 +105,7 @@ public final class CheckGenModelUtil {
    */
   public static GenModel findGenModel(final EModelElement eModelElement, final ResourceSet resourceSet) {
     Preconditions.checkNotNull(eModelElement);
-    EPackage ePackage = EObjectUtil.eContainer(eModelElement, EPackage.class);
+    EPackage ePackage = EcoreUtil2.getContainerOfType(eModelElement, EPackage.class);
     if (ePackage == EcorePackage.eINSTANCE) {
       return null;
     }
