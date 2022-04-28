@@ -20,7 +20,6 @@ import org.eclipse.xtext.util.IResourceScopeCache;
 import org.eclipse.xtext.util.OnChangeEvictingCache;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.resource.ResourceDescription2;
 import com.google.common.collect.Lists;
 
 
@@ -44,4 +43,3 @@ public class BugAig1084 {
     }.getExportedObjects();
   }
 }
-

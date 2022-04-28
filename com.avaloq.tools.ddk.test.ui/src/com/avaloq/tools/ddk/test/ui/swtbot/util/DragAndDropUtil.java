@@ -200,7 +200,7 @@ public class DragAndDropUtil {
         @Override
         public void run() {
           awtRobot.mouseMove(source.x, source.y);
-          awtRobot.mousePress(InputEvent.BUTTON1_MASK);
+          awtRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
           awtRobot.mouseMove(source.x + DRAG_THRESHOLD, source.y);
         }
       });
@@ -222,7 +222,7 @@ public class DragAndDropUtil {
       syncExec(new VoidResult() {
         @Override
         public void run() {
-          awtRobot.mouseRelease(InputEvent.BUTTON1_MASK);
+          awtRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         }
       });
     } catch (final AWTException e) {
