@@ -10,10 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.core.junit.runners;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -122,10 +123,10 @@ public final class FilterRegistry extends Filter {
         try {
           Class<?> filterClass = Class.forName(qualifiedClassName);
           if (Filter.class.isAssignableFrom(filterClass)) {
-            final Object filterInstance = filterClass.newInstance();
+            final Object filterInstance = filterClass.getConstructor().newInstance();
             filter = (Filter) filterInstance;
           }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
           // If no class exists with this name, interpret the String as a label and create a label filter for it
           filter = new TestLabelFilter(filterClassOrLabel);
         }

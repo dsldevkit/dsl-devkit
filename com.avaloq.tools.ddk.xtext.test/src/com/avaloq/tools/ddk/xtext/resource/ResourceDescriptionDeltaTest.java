@@ -28,8 +28,6 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.impl.AbstractResourceDescription;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDelta;
-import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -122,14 +120,17 @@ public class ResourceDescriptionDeltaTest {
     final URI resourceURI = URI.createURI("foo:/foo.foo");
     return new AbstractResourceDescription() {
 
+      @Override
       public Iterable<QualifiedName> getImportedNames() {
         return ImmutableSet.of();
       }
 
+      @Override
       public Iterable<IReferenceDescription> getReferenceDescriptions() {
         return ImmutableSet.of();
       }
 
+      @Override
       public URI getURI() {
         return resourceURI;
       }
@@ -137,27 +138,33 @@ public class ResourceDescriptionDeltaTest {
       @Override
       protected List<IEObjectDescription> computeExportedObjects() {
         return Lists.transform(Lists.newArrayList(fragmentsAndFingerprints), new Function<String, IEObjectDescription>() {
+          @Override
           public IEObjectDescription apply(final String from) {
             final String fragment = from.split(":")[0];
             final String fingerprint = from.indexOf(':') != -1 ? from.split(":")[1] : from;
             return new AbstractEObjectDescription() {
 
+              @Override
               public QualifiedName getQualifiedName() {
                 return QualifiedName.create(fragment);
               }
 
+              @Override
               public QualifiedName getName() {
                 return getQualifiedName();
               }
 
+              @Override
               public URI getEObjectURI() {
                 return resourceURI.appendFragment(fragment);
               }
 
+              @Override
               public EObject getEObjectOrProxy() {
                 return null;
               }
 
+              @Override
               public EClass getEClass() {
                 return null;
               }
@@ -179,4 +186,3 @@ public class ResourceDescriptionDeltaTest {
   }
 
 }
-
