@@ -57,9 +57,9 @@ public class InternalHelloWorldParser extends AbstractInternalContentAssistParse
     public String getGrammarFileName() { return "InternalHelloWorld.g"; }
 
 
-      private HelloWorldGrammarAccess grammarAccess;
-      private AbstractHelloWorldSemanticPredicates predicates;
-      private ParserContext parserContext;
+      protected HelloWorldGrammarAccess grammarAccess;
+      protected AbstractHelloWorldSemanticPredicates predicates;
+      protected ParserContext parserContext;
 
       /**
        * Set token stream in parser context.
