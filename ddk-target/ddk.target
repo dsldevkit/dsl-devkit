@@ -23,15 +23,15 @@
   <repository location="https://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-  <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.13.0.v20220408-0848"/>
-  <unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="2.13.0.v20220408-0848"/>
-  <repository location="https://download.eclipse.org/modeling/emft/mwe/updates/milestones/S202204080848/"/>
+  <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="2.13.0.v20220429-1234"/>
+  <unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="2.13.0.v20220429-1234"/>
+  <repository location="https://download.eclipse.org/modeling/emft/mwe/updates/milestones/S202204291234/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-  <unit id="org.eclipse.xtend.sdk.feature.group" version="2.27.0.v20220411-1217"/>
-  <unit id="org.eclipse.xtext.sdk.feature.group" version="2.27.0.v20220411-1217"/>
-  <unit id="org.eclipse.xtext.generator.feature.group" version="2.27.0.v20220411-1217"/>
-  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202204111217/"/>
+  <unit id="org.eclipse.xtend.sdk.feature.group" version="2.27.0.v20220501-1041"/>
+  <unit id="org.eclipse.xtext.sdk.feature.group" version="2.27.0.v20220501-1041"/>
+  <unit id="org.eclipse.xtext.generator.feature.group" version="2.27.0.v20220501-1041"/>
+  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202205011041/"/>
 </location>
   <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
     <repository location="https://download.eclipse.org/lsp4j/updates/releases/0.12.0/"/>
