@@ -48,7 +48,7 @@ class ProjectBasedTests extends AbstractCheckTestCase {
       addSourcesToWorkspace(typeof(ProjectBasedTests), requiredSourceFileNames)
 
       // wait for build to finish, otherwise included catalog may not be resolvable
-      IResourcesSetupUtil.reallyWaitForAutoBuild
+      IResourcesSetupUtil.waitForBuild
     }
   }
 

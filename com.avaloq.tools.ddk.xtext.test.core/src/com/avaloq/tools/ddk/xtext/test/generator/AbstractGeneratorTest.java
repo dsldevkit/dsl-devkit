@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -141,7 +141,7 @@ public abstract class AbstractGeneratorTest {
     addSourcesToWorkspace(projectName, sourceFileNames);
 
     // wait for build to finish, otherwise included catalog may not be resolvable
-    IResourcesSetupUtil.reallyWaitForAutoBuild();
+    IResourcesSetupUtil.waitForBuild();
   }
 
   /**
