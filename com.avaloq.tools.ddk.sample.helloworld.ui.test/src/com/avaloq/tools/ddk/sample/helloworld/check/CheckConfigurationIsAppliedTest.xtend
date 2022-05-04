@@ -56,7 +56,7 @@ class CheckConfigurationIsAppliedTest extends AbstractCheckTestCase {
     // sources are copied into the project and then built by the Xtext builder
     addSourcesToWorkspace(typeof(CheckConfigurationIsAppliedTest), requiredSourceFileNames)
     // wait for build to finish, otherwise included catalog may not be resolvable
-    IResourcesSetupUtil::reallyWaitForAutoBuild
+    IResourcesSetupUtil::waitForBuild
     val model = getModel("Greetings") as Model
     helper.assertWarning(model.greetings.get(0), HelloWorldPackage$Literals::GREETING, ExecutionEnvironmentIssueCodes::FRANZNAME)
   }

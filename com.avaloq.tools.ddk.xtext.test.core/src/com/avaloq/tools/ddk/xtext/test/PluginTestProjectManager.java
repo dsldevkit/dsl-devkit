@@ -111,7 +111,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
   @Override
   public void setup(final Iterable<? extends TestSource> initialSources) {
     try {
-      IResourcesSetupUtil.reallyWaitForAutoBuild();
+      IResourcesSetupUtil.waitForBuild();
       createPluginProject(injector, TEST_PROJECT_NAME);
     } catch (CoreException e) {
       throw new IllegalStateException("Failed to create plugin project"); //$NON-NLS-1$
@@ -121,7 +121,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
   /** {@inheritDoc} */
   @Override
   public void teardown() {
-    IResourcesSetupUtil.reallyWaitForAutoBuild();
+    IResourcesSetupUtil.waitForBuild();
     // Remove natures from our project first, otherwise PDE's PluginModelManager will try to update the classpath when we
     // delete things.
     WorkspaceModifyOperation removeAllNatures = new WorkspaceModifyOperation() {
@@ -143,9 +143,9 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     };
     try {
       removeAllNatures.run(new NullProgressMonitor());
-      IResourcesSetupUtil.reallyWaitForAutoBuild();
+      IResourcesSetupUtil.waitForBuild();
       cleanProjects.run(new NullProgressMonitor());
-      IResourcesSetupUtil.reallyWaitForAutoBuild();
+      IResourcesSetupUtil.waitForBuild();
     } catch (InvocationTargetException e) {
       LOGGER.error(e.getCause().getMessage());
     } catch (InterruptedException e) {

@@ -74,7 +74,7 @@ public class XtextTestProjectManager implements ITestProjectManager {
   /** {@inheritDoc} */
   @Override
   public void build() {
-    IResourcesSetupUtil.reallyWaitForAutoBuild();
+    IResourcesSetupUtil.waitForBuild();
   }
 
   /** {@inheritDoc} */
