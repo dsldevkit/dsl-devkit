@@ -22,6 +22,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtend.expression.Resource;
 import org.eclipse.xtend.expression.ResourceManager;
 import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.serializer.ISerializer;
@@ -40,7 +41,6 @@ import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
 import com.avaloq.tools.ddk.xtext.scope.scope.SimpleScopeExpression;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -119,7 +119,7 @@ public class ScopeValidator extends AbstractScopeValidator {
     if (delegation.getScope() != null && DEFAULT_SCOPE_NAME.equals(delegation.getScope().getName())) {
       warning("Delegating to default scope doesn't require named scope syntax", ScopePackage.Literals.SCOPE_DELEGATION__SCOPE);
     } else if (delegation.getScope() == null) {
-      ScopeDefinition containingScopeDefinition = EObjectUtil.eContainer(delegation, ScopeDefinition.class);
+      ScopeDefinition containingScopeDefinition = EcoreUtil2.getContainerOfType(delegation, ScopeDefinition.class);
       if (!isDefaultScope(containingScopeDefinition)
           && findMatchingUnnamedScope(containingScopeDefinition, (ScopeModel) containingScopeDefinition.eContainer()) == null) {
         error("No matching unnamed scope found for delegation", null);
@@ -289,8 +289,8 @@ public class ScopeValidator extends AbstractScopeValidator {
     if (expr.getNaming() != null && !expr.getNaming().getNames().isEmpty()) {
       return;
     }
-    ScopeDefinition def = EObjectUtil.eContainer(expr, ScopeDefinition.class);
-    ScopeModel model = EObjectUtil.eContainer(expr, ScopeModel.class);
+    ScopeDefinition def = EcoreUtil2.getContainerOfType(expr, ScopeDefinition.class);
+    ScopeModel model = EcoreUtil2.getContainerOfType(expr, ScopeModel.class);
     if (def != null && model != null) {
       EClass scopeType = getType(def);
       NamingSection namingSection = model.getNaming();
@@ -327,7 +327,7 @@ public class ScopeValidator extends AbstractScopeValidator {
   public void checkReturnTypeCompatibility(final GlobalScopeExpression expr) {
     EClass actual = expr.getType();
     if (expr.eContainer() instanceof ScopeRule && actual != null) {
-      EClass expected = getType(EObjectUtil.eContainer(expr, ScopeDefinition.class));
+      EClass expected = getType(EcoreUtil2.getContainerOfType(expr, ScopeDefinition.class));
       if (!expected.isSuperTypeOf(actual)) {
         error(NLS.bind(Messages.typeMismatch, actual.getName(), expected.getName()), ScopePackage.Literals.GLOBAL_SCOPE_EXPRESSION__TYPE);
       }
@@ -343,7 +343,7 @@ public class ScopeValidator extends AbstractScopeValidator {
   @Check
   public void checkReturnTypeCompatibility(final ScopeDelegation delegation) {
     if (delegation.getScope() != null && !isDefaultScope(delegation.getScope())) {
-      EClass expected = getType(EObjectUtil.eContainer(delegation, ScopeDefinition.class));
+      EClass expected = getType(EcoreUtil2.getContainerOfType(delegation, ScopeDefinition.class));
       EClass actual = getType(delegation.getScope());
       if (!expected.isSuperTypeOf(actual)) {
         warning(NLS.bind(Messages.typeMismatch, actual.getName(), expected.getName()), ScopePackage.Literals.SCOPE_DELEGATION__SCOPE);
@@ -363,7 +363,7 @@ public class ScopeValidator extends AbstractScopeValidator {
       return;
     }
 
-    ScopeDefinition def = EObjectUtil.eContainer(context, ScopeDefinition.class);
+    ScopeDefinition def = EcoreUtil2.getContainerOfType(context, ScopeDefinition.class);
     ScopeContext ctx = context.getContext();
     boolean defaultFound = false;
 

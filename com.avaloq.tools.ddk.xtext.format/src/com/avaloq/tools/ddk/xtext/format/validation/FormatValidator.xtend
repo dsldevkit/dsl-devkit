@@ -23,7 +23,6 @@ import com.avaloq.tools.ddk.xtext.format.format.Rule
 import com.avaloq.tools.ddk.xtext.format.format.SpecificDirective
 import com.avaloq.tools.ddk.xtext.format.format.StringValue
 import com.avaloq.tools.ddk.xtext.format.format.WildcardRule
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil
 import com.google.common.collect.Iterables
 import com.google.common.collect.Iterators
 import com.google.common.collect.Lists
@@ -33,6 +32,7 @@ import java.util.Iterator
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.osgi.util.NLS
 import org.eclipse.xtext.AbstractRule
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.EnumRule
 import org.eclipse.xtext.Grammar
 import org.eclipse.xtext.GrammarUtil
@@ -140,7 +140,7 @@ class FormatValidator extends AbstractFormatValidator {
     if (elementReference.getRule() === null) {
       return
     }
-    val directive = EObjectUtil.eContainer(elementReference, SpecificDirective);
+    val directive = EcoreUtil2.getContainerOfType(elementReference, SpecificDirective);
     if (directive.getMatcherList() !== null) {
       val twoArgumentMatcherTypesOnly = Iterables.all(directive.getMatcherList().getMatchers(), new Predicate<Matcher>() {
         override apply(Matcher input) {
@@ -351,7 +351,7 @@ class FormatValidator extends AbstractFormatValidator {
    */
   private def void checkTwoArgumentMatcherType(Matcher matcher, MatcherType matcherType) {
     if (matcher.getType() == matcherType) {
-      val directive = EObjectUtil.eContainer(matcher, SpecificDirective)
+      val directive = EcoreUtil2.getContainerOfType(matcher, SpecificDirective)
       if (directive === null || directive.getGrammarElements().size() != 2) {
         error(NLS.bind("\"{0}\" may only be used with exactly two elements", matcherType.getName()), FormatPackage::Literals::MATCHER__TYPE)
       }

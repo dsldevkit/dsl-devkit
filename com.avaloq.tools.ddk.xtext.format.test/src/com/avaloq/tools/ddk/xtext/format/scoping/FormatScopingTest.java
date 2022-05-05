@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.CompoundElement;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.ParserRule;
@@ -28,12 +29,11 @@ import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
 import com.avaloq.tools.ddk.xtext.format.format.GroupBlock;
 import com.avaloq.tools.ddk.xtext.test.format.util.FormatTestUtil;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
+import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -202,7 +202,7 @@ public class FormatScopingTest extends AbstractScopingTest {
     ILeafNode leafNode = findLeafNode(string, NodeModelUtils.getNode(context));
     if (leafNode != null) {
       EObject nearestSemanticElement = NodeModelUtils.findActualSemanticObjectFor(leafNode);
-      return nearestSemanticElement == null ? null : EObjectUtil.eContainer(nearestSemanticElement, elementType);
+      return nearestSemanticElement == null ? null : EcoreUtil2.getContainerOfType(nearestSemanticElement, elementType);
     }
     return null;
   }

@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 
 import com.avaloq.tools.ddk.xtext.scope.scope.Import;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
 
 /**
@@ -78,7 +78,7 @@ public final class ScopeUtil {
    */
   public static String getSignature(final ScopeRule rule) { // NOPMD NPathComplexity
     StringBuffer result = new StringBuffer();
-    final ScopeDefinition def = EObjectUtil.eContainer(rule, ScopeDefinition.class);
+    final ScopeDefinition def = EcoreUtil2.getContainerOfType(rule, ScopeDefinition.class);
     result.append(def.getName()).append('_');
     final EClass type = def.getReference() != null ? def.getReference().getEReferenceType() : def.getTargetType();
     final EReference ref = def.getReference();
