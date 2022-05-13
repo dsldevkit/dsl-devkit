@@ -1133,12 +1133,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     @Override
     public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
       Pair<Set<IResourceDescription>, ReferenceMatchPolicy> key = Tuples.create(targetResources, matchPolicy);
-      Iterable<IResourceDescription> result = findAllReferencingResourcesCache.get(key);
-      if (result == null) {
-        result = Lists.newArrayList(delegate().findAllReferencingResources(targetResources, matchPolicy));
-        findAllReferencingResourcesCache.put(key, result);
-      }
-      return result;
+      return findAllReferencingResourcesCache.computeIfAbsent(key, k -> Lists.newArrayList(delegate().findAllReferencingResources(targetResources, matchPolicy)));
     }
 
     private final Map<Pair<Set<IEObjectDescription>, ReferenceMatchPolicy>, Iterable<IResourceDescription>> findExactReferencingResourcesCache = CacheManager.getInstance().createMapCache("FindReferenceCachingState#findExactReferencingResourcesCache"); //$NON-NLS-1$
@@ -1146,17 +1141,10 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     @Override
     public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
       Pair<Set<IEObjectDescription>, ReferenceMatchPolicy> key = Tuples.create(targetObjects, matchPolicy);
-      Iterable<IResourceDescription> result = findExactReferencingResourcesCache.get(key);
-      if (result == null) {
-        result = Lists.newArrayList(delegate().findExactReferencingResources(targetObjects, matchPolicy));
-        findExactReferencingResourcesCache.put(key, result);
-      }
-      return result;
+      return findExactReferencingResourcesCache.computeIfAbsent(key, k -> Lists.newArrayList(delegate().findExactReferencingResources(targetObjects, matchPolicy)));
     }
-
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void queueAffectedResources(final Set<URI> allRemainingURIs, final IResourceDescriptions oldState, final CurrentDescriptions newState, final Collection<Delta> changedDeltas, final Collection<Delta> allDeltas, final BuildData buildData, final IProgressMonitor monitor) {
     if (allDeltas.isEmpty() || allRemainingURIs.isEmpty()) {
