@@ -137,7 +137,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
             if (initializeParticipant(languageSpecificBuilderParticipant)) {
               languageSpecificBuilderParticipant.build(entryBuildContext, progress.newChild(workUnits));
               if (entryBuildContext.isRebuildRequired()) {
-                buildContext.needRebuild();
+                buildContext.needRebuild(buildContext.getBuiltProject());
               }
             }
             // CHECKSTYLE:CHECK-OFF IllegalCatchCheck we need to recover from any exception and continue the build
