@@ -36,7 +36,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.generator.GenModelAccess;
 
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 
