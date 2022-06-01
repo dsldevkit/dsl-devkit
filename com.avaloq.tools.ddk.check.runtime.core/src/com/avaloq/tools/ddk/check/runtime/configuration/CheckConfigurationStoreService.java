@@ -15,11 +15,13 @@ import static org.eclipse.xtext.diagnostics.Diagnostic.SYNTAX_DIAGNOSTIC;
 
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -58,7 +60,6 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
     // does nothing yet
   }
 
-  /** {@inheritDoc} */
   @Override
   public ICheckConfigurationStore getCheckConfigurationStore(final Object context) {
     setProject(context);
@@ -67,7 +68,17 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
       // project can be null!
       ((CheckConfigurationStore) store).setProject(this.project);
     }
-    String language = getLanguage(context);
+    String language = null;
+    if (context instanceof EObject) {
+      Resource resource = ((EObject) context).eResource();
+      if (resource instanceof LazyLinkingResource) {
+        language = ((LazyLinkingResource) resource).getLanguageName();
+      }
+    } else if (context instanceof Issue && !LANGUAGE_AGNOSTIC_DIAGNOSTICS.contains(((Issue) context).getCode())) {
+      language = getLanguage(((Issue) context).getUriToProblem());
+    } else if (context instanceof IMarker && !LANGUAGE_AGNOSTIC_DIAGNOSTICS.contains(getCode((IMarker) context))) {
+      language = getLanguage(getUri((IMarker) context));
+    }
     if (language != null) {
       return new LanguageSpecificCheckConfigurationStore(store, language);
     } else {
@@ -75,34 +86,36 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
     }
   }
 
-  /**
-   * Gets the language for the given object.
-   *
-   * @param context
-   *          object
-   * @return the language the corresponding resource was parsed from, may be {@code null}
-   */
-  private String getLanguage(final Object context) {
-    if (context instanceof EObject) {
-      Resource resource = ((EObject) context).eResource();
-      if (resource instanceof LazyLinkingResource) {
-        return ((LazyLinkingResource) resource).getLanguageName();
-      }
-    } else if (context instanceof Issue && !LANGUAGE_AGNOSTIC_DIAGNOSTICS.contains(((Issue) context).getCode())) {
-      URI uri = ((Issue) context).getUriToProblem();
-      if (uri != null) {
-        Registry registry = IResourceServiceProvider.Registry.INSTANCE;
-        IResourceServiceProvider resourceServiceProvider = registry.getResourceServiceProvider(uri);
-        if (resourceServiceProvider != null) {
-          return resourceServiceProvider.get(Injector.class).getInstance(Key.get(String.class, Names.named(Constants.LANGUAGE_NAME)));
-        } else {
-          LOGGER.error("Could not fetch a ResourceServiceProvider for URI: " + uri); //$NON-NLS-1$
-        }
-      } else {
-        LOGGER.warn("Could not fetch eResource from issue: URI to problem is null"); //$NON-NLS-1$
-      }
+  private String getCode(final IMarker marker) {
+    try {
+      return (String) marker.getAttribute(Issue.CODE_KEY);
+    } catch (CoreException e) {
+      LOGGER.error("Could not get code for marker: " + marker, e); //$NON-NLS-1$
+      return null;
     }
+  }
 
+  private URI getUri(final IMarker marker) {
+    try {
+      return URI.createURI((String) marker.getAttribute(Issue.URI_KEY));
+    } catch (CoreException e) {
+      LOGGER.error("Could not get uri for marker: " + marker, e); //$NON-NLS-1$
+      return null;
+    }
+  }
+
+  private String getLanguage(final URI uri) {
+    if (uri != null) {
+      Registry registry = IResourceServiceProvider.Registry.INSTANCE;
+      IResourceServiceProvider resourceServiceProvider = registry.getResourceServiceProvider(uri);
+      if (resourceServiceProvider != null) {
+        return resourceServiceProvider.get(Injector.class).getInstance(Key.get(String.class, Names.named(Constants.LANGUAGE_NAME)));
+      } else {
+        LOGGER.error("Could not fetch a ResourceServiceProvider for URI: " + uri); //$NON-NLS-1$
+      }
+    } else {
+      LOGGER.warn("Could not fetch eResource from issue: URI to problem is null"); //$NON-NLS-1$
+    }
     return null;
   }
 
@@ -142,6 +155,9 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
       }
       if (context instanceof Issue) {
         uri = ((Issue) context).getUriToProblem();
+      }
+      if (context instanceof IMarker) {
+        uri = getUri((IMarker) context);
       }
       if (uri != null && uri.isPlatform()) {
         final IFile file = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
