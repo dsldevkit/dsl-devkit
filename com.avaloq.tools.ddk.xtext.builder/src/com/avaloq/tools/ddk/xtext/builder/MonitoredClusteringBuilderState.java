@@ -24,8 +24,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -443,6 +444,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // CHECKSTYLE:CONSTANTS-ON
 
     // clear resource set to wipe out derived state of phase 1 model inference and all corresponding references
+    LOGGER.info("Clearing initial resource set"); //$NON-NLS-1$
     clearResourceSet(resourceSet);
 
     LOGGER.info(Messages.MonitoredClusteringBuilderState_PHASE_ONE_DONE);
@@ -588,6 +590,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
             if (resource != null) {
               resourceSet.getResources().remove(resource);
+              /* CF-2308 logging for null resourceSet that causes an NPE in DirectLinkingResourceStorageWritable */
+              LOGGER.log(Level.INFO, "resourceSet removed for " + resource); //$NON-NLS-1$
             }
             final IResourceDescription oldDescription = getSavedResourceDescription(oldDescriptions, changedURI);
             if (oldDescription != null) {
@@ -1080,6 +1084,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     try {
       EmfResourceSetUtil.clearResourceSetWithoutNotifications(resourceSet);
     } finally {
+      LOGGER.info("clearResourceSet: " + resourceSet.toString()); //$NON-NLS-1$
       traceSet.ended(BuildResourceSetClearEvent.class);
     }
   }

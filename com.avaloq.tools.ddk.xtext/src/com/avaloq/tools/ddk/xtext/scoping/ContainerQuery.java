@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -188,6 +189,10 @@ public class ContainerQuery {
    * @return The query results
    */
   public Iterable<IEObjectDescription> execute(final EObject context) {
+    /* CF-2308 logging for null resourceSet that causes an NPE in DirectLinkingResourceStorageWritable */
+    if (context.eResource().getResourceSet() == null) {
+      LOGGER.log(Level.INFO, "null resourceSet found for " + context.toString() + " - " + context.eResource().getURI()); //$NON-NLS-1$ //$NON-NLS-2$
+    }
     return execute(context.eResource());
   }
 
@@ -245,11 +250,15 @@ public class ContainerQuery {
   @SuppressWarnings("nls")
   public Iterable<IEObjectDescription> execute(final Resource resource) {
     if (!(resource instanceof LazyLinkingResource)) {
-      throw new IllegalStateException("Resource is not a LazyLinkingResource " + (resource != null ? resource.getURI() : ""));
+      throw new IllegalStateException("Resource is not a LazyLinkingResource " + (resource != null ? resource.getURI() : "")); //$NON-NLS-1$ //$NON-NLS-2$
     }
     final IScopeProvider scopeProvider = EObjectUtil.getScopeProviderByResource((LazyLinkingResource) resource);
     if (!(scopeProvider instanceof AbstractPolymorphicScopeProvider)) {
-      throw new IllegalStateException("Scope provider is not an AbstractPolymorphicScopeProvider scope provider.");
+      throw new IllegalStateException("Scope provider is not an AbstractPolymorphicScopeProvider scope provider."); //$NON-NLS-1$
+    }
+    /* CF-2308 logging for null resourceSet that causes an NPE in DirectLinkingResourceStorageWritable */
+    if (resource.getResourceSet() == null) {
+      LOGGER.log(Level.INFO, "null resourceSet found for " + this.toString() + " - " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
     }
     return execute(((AbstractPolymorphicScopeProvider) scopeProvider).getVisibleContainers((LazyLinkingResource) resource));
   }
@@ -320,21 +329,21 @@ public class ContainerQuery {
     result.append('@');
     result.append(Integer.toHexString(hashCode()));
 
-    result.append(" (type: ");
-    result.append(getType().getEPackage().getName()).append("::").append(getType().getName());
+    result.append(" (type: "); //$NON-NLS-1$
+    result.append(getType().getEPackage().getName()).append("::").append(getType().getName()); //$NON-NLS-1$
 
     if (getNamePattern() != null) {
-      result.append(", name: ");
+      result.append(", name: "); //$NON-NLS-1$
       result.append(getNamePattern());
     }
 
     if (getUserData() != null && !getUserData().isEmpty()) {
-      result.append(", data: ");
+      result.append(", data: "); //$NON-NLS-1$
       result.append(getUserData());
     }
 
     if (getDomains() != null && !getDomains().isEmpty()) {
-      result.append(", domains: ");
+      result.append(", domains: "); //$NON-NLS-1$
       result.append(getDomains());
     }
 
