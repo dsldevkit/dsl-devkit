@@ -24,8 +24,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -696,26 +696,31 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   protected void storeBinaryResource(final Resource resource, final BuildData buildData) {
     if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
-      CompletableFuture.runAsync(() -> {
-        final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
 
-        try {
-          long elapsed = System.nanoTime();
+      if (resource.getResourceSet() != null) {
+        CompletableFuture.runAsync(() -> {
+          final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
 
-          IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
-          storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
-          buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+          try {
+            long elapsed = System.nanoTime();
 
-          elapsed = System.nanoTime() - elapsed;
-          if (elapsed > maxTaskExecutionNanos) {
-            LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
+            IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
+            storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
+            buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+
+            elapsed = System.nanoTime() - elapsed;
+            if (elapsed > maxTaskExecutionNanos) {
+              LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
+            }
+            // CHECKSTYLE:OFF
+          } catch (Throwable ex) {
+            // CHECKSTYLE:ON
+            LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
           }
-          // CHECKSTYLE:OFF
-        } catch (Throwable ex) {
-          // CHECKSTYLE:ON
-          LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
-        }
-      }, binaryStorageExecutor);
+        }, binaryStorageExecutor);
+      } else {
+        LOGGER.info("No resourceSet found for " + resource.getURI()); //$NON-NLS-1$
+      }
     }
   }
 
