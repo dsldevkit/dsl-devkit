@@ -632,9 +632,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (resource instanceof XtextResource) {
             ((XtextResource) resource).getCache().clear(resource);
           }
-          if (resource != null) {
-            storeBinaryResource(resource, buildData);
-          }
+          storeBinaryResource(resource, buildData);
           traceSet.ended(ResourceProcessingEvent.class);
           buildData.getSourceLevelURICache().getSources().remove(changedURI);
           subProgress.worked(1);
