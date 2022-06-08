@@ -696,31 +696,34 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          build data, must not be {@code null}
    */
   protected void storeBinaryResource(final Resource resource, final BuildData buildData) {
-    if (resource.getResourceSet() == null) {
-      LOGGER.info("null resourceSet found for " + resource.getURI()); //$NON-NLS-1$
-    } else if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
+    if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
-          CompletableFuture.runAsync(() -> {
-            final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
 
-            try {
-              long elapsed = System.nanoTime();
+      if (resource.getResourceSet() != null) {
+        CompletableFuture.runAsync(() -> {
+          final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
 
-              IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
-              storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
-              buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+          try {
+            long elapsed = System.nanoTime();
 
-              elapsed = System.nanoTime() - elapsed;
-              if (elapsed > maxTaskExecutionNanos) {
-                LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
-              }
-              // CHECKSTYLE:OFF
-            } catch (Throwable ex) {
-              // CHECKSTYLE:ON
-              LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
+            IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
+            storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
+            buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+
+            elapsed = System.nanoTime() - elapsed;
+            if (elapsed > maxTaskExecutionNanos) {
+              LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
             }
-          }, binaryStorageExecutor);
-        }
+            // CHECKSTYLE:OFF
+          } catch (Throwable ex) {
+            // CHECKSTYLE:ON
+            LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
+          }
+        }, binaryStorageExecutor);
+      } else {
+        LOGGER.info("No resourceSet found for " + resource.getURI()); //$NON-NLS-1$
+      }
+    }
   }
 
   /**
