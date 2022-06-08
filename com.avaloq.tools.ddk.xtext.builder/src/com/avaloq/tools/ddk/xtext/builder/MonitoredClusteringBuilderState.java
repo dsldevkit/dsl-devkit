@@ -563,7 +563,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 logStackOverflowErrorStackTrace(ex, changedURI);
               }
             }
-            // CHECKSTYLE:CHECK-OFF IllegalCatch - guard against ill behaved implementations
+            // CHECKSTYLE:CHECK-.OFF IllegalCatch - guard against ill behaved implementations
           } catch (final Exception ex) {
             // CHECKSTYLE:CHECK-ON IllegalCatch
             pollForCancellation(monitor);
@@ -632,7 +632,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           if (resource instanceof XtextResource) {
             ((XtextResource) resource).getCache().clear(resource);
           }
-          storeBinaryResource(resource, buildData);
+          if (resource != null) {
+            storeBinaryResource(resource, buildData);
+          }
           traceSet.ended(ResourceProcessingEvent.class);
           buildData.getSourceLevelURICache().getSources().remove(changedURI);
           subProgress.worked(1);
