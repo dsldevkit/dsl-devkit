@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
@@ -444,7 +443,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // CHECKSTYLE:CONSTANTS-ON
 
     // clear resource set to wipe out derived state of phase 1 model inference and all corresponding references
-    LOGGER.info("Clearing initial resource set"); //$NON-NLS-1$
     clearResourceSet(resourceSet);
 
     LOGGER.info(Messages.MonitoredClusteringBuilderState_PHASE_ONE_DONE);
@@ -590,8 +588,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
             if (resource != null) {
               resourceSet.getResources().remove(resource);
-              /* CF-2308 logging for null resourceSet that causes an NPE in DirectLinkingResourceStorageWritable */
-              LOGGER.log(Level.INFO, "resourceSet removed for " + resource); //$NON-NLS-1$
             }
             final IResourceDescription oldDescription = getSavedResourceDescription(oldDescriptions, changedURI);
             if (oldDescription != null) {
@@ -698,29 +694,31 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          build data, must not be {@code null}
    */
   protected void storeBinaryResource(final Resource resource, final BuildData buildData) {
-    if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
+    if (resource.getResourceSet() == null) {
+      LOGGER.info("null resourceSet found for " + resource.getURI()); //$NON-NLS-1$
+    } else if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
-      CompletableFuture.runAsync(() -> {
-        final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
+          CompletableFuture.runAsync(() -> {
+            final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
 
-        try {
-          long elapsed = System.nanoTime();
+            try {
+              long elapsed = System.nanoTime();
 
-          IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
-          storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
-          buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+              IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
+              storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
+              buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
 
-          elapsed = System.nanoTime() - elapsed;
-          if (elapsed > maxTaskExecutionNanos) {
-            LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
-          }
-          // CHECKSTYLE:OFF
-        } catch (Throwable ex) {
-          // CHECKSTYLE:ON
-          LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
+              elapsed = System.nanoTime() - elapsed;
+              if (elapsed > maxTaskExecutionNanos) {
+                LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
+              }
+              // CHECKSTYLE:OFF
+            } catch (Throwable ex) {
+              // CHECKSTYLE:ON
+              LOGGER.error("Failed to save binary for " + resource.getURI(), ex); //$NON-NLS-1$
+            }
+          }, binaryStorageExecutor);
         }
-      }, binaryStorageExecutor);
-    }
   }
 
   /**
@@ -1084,7 +1082,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     try {
       EmfResourceSetUtil.clearResourceSetWithoutNotifications(resourceSet);
     } finally {
-      LOGGER.info("clearResourceSet: " + resourceSet.toString()); //$NON-NLS-1$
       traceSet.ended(BuildResourceSetClearEvent.class);
     }
   }
