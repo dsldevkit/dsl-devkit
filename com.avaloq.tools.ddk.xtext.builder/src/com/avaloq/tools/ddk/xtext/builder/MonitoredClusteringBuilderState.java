@@ -563,7 +563,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 logStackOverflowErrorStackTrace(ex, changedURI);
               }
             }
-            // CHECKSTYLE:CHECK-.OFF IllegalCatch - guard against ill behaved implementations
+            // CHECKSTYLE:CHECK-OFF IllegalCatch - guard against ill behaved implementations
           } catch (final Exception ex) {
             // CHECKSTYLE:CHECK-ON IllegalCatch
             pollForCancellation(monitor);
