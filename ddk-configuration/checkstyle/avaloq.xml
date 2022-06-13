@@ -6,9 +6,11 @@
     Description: Avaloq Tools Checkstyle configuration
 -->
 <module name="Checker">
+  <module name="SuppressWarningsFilter"/>
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <property name="tabWidth" value="2"/>
+    <module name="SuppressWarningsHolder"/>
     <module name="EmptyCatchBlock"/>
     <module name="AvoidDoubleBraceInitialization"/>
     <module name="AvoidNoArgumentSuperConstructorCall"/>
