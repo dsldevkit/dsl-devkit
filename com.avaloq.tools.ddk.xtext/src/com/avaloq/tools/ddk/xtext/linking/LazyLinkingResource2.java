@@ -42,6 +42,7 @@ import com.avaloq.tools.ddk.xtext.resource.ServiceCacheAdapter;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
+import com.avaloq.tools.ddk.xtext.util.ThrowableUtil;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -133,7 +134,44 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     isLoading = loading;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Like the superclass implementation, but additionally handles any {@link StackOverflowError}s.
+   * Stack overflows can occur for deeply nested models.
+   * {@inheritDoc}
+   */
+  @Override
+  public void load(final Map<?, ?> options) throws IOException {
+    try {
+      super.load(options);
+    } catch (StackOverflowError e) {
+      ThrowableUtil.trimStackOverflowErrorStackTrace(e);
+      LOGGER.warn("Failed to load " + uri + " from storage", e); //$NON-NLS-1$//$NON-NLS-2$
+
+      /*
+       * As for IOExceptions in the superclass implementation,
+       * clear and unload so that can fall back to reloading.
+       */
+      if (contents != null) {
+        contents.clear();
+      }
+      if (eAdapters != null) {
+        eAdapters.clear();
+      }
+      unload();
+
+      /*
+       * We actually want to call the super super class method.
+       * This should do something similar.
+       */
+      isLoading = true;
+      try {
+        super.load(options);
+      } finally {
+        isLoading = false;
+      }
+    }
+  }
+
   @Override
   public synchronized EObject getEObject(final String uriFragment) {
     try {

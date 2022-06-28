@@ -91,6 +91,7 @@ import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
+import com.avaloq.tools.ddk.xtext.util.ThrowableUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -118,7 +119,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   public static final long CANCELLATION_POLLING_TIMEOUT = 5000; // ms
   public static final long CANCELLATION_POLLING_DELAY = 200; // ms
 
-  public static final int STACK_TRACE_LIMIT = 10;
   private static final int COMMIT_WARN_WAIT_SEC = 30;
 
   /** Class-wide logger. */
@@ -560,7 +560,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
                 }
               } catch (StackOverflowError ex) {
                 queue.remove(changedURI);
-                logStackOverflowErrorStackTrace(ex, changedURI);
+                ThrowableUtil.trimStackOverflowErrorStackTrace(ex);
+                LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR, changedURI), ex);
               }
             }
             // CHECKSTYLE:CHECK-OFF IllegalCatch - guard against ill behaved implementations
@@ -612,7 +613,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               updateMarkers(newDelta, resourceSet, subProgress.newChild(1, SubMonitor.SUPPRESS_ALL_LABELS));
             } catch (StackOverflowError ex) {
               queue.remove(changedURI);
-              logStackOverflowErrorStackTrace(ex, changedURI);
+              ThrowableUtil.trimStackOverflowErrorStackTrace(ex);
+              LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR, changedURI), ex);
             }
           } else {
             subProgress.worked(2);
@@ -747,24 +749,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with task / queue %d / %d; now have %d / %d", //$NON-NLS-1$
           activeThreadCount, queuedTaskCount, binaryStorageExecutor.getActiveThreadCount(), binaryStorageExecutor.getQueuedTaskCount()));
     }
-  }
-
-  /**
-   * Log the first and last 10 StackOverflowError Stack Trace.
-   *
-   * @param ex
-   *          the StackOverflowError
-   * @param binding
-   *          the object to be inserted into the message
-   */
-  protected void logStackOverflowErrorStackTrace(final StackOverflowError ex, final URI binding) {
-    int stackTraceLength = ex.getStackTrace().length;
-    StackTraceElement[] stackTraceElements = new StackTraceElement[(STACK_TRACE_LIMIT * 2) + 1];
-    System.arraycopy(ex.getStackTrace(), 0, stackTraceElements, 0, STACK_TRACE_LIMIT);
-    stackTraceElements[STACK_TRACE_LIMIT] = new StackTraceElement("", "\n\t\t\t <Skipped multiple lines> \n", null, -1); //$NON-NLS-1$ //$NON-NLS-2$
-    System.arraycopy(ex.getStackTrace(), stackTraceLength - STACK_TRACE_LIMIT, stackTraceElements, STACK_TRACE_LIMIT + 1, STACK_TRACE_LIMIT);
-    ex.setStackTrace(stackTraceElements);
-    LOGGER.warn(NLS.bind(Messages.MonitoredClusteringBuilderState_COULD_NOT_PROCESS_DUE_TO_STACK_OVERFLOW_ERROR, binding), ex);
   }
 
   /**
