@@ -56,6 +56,7 @@ import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionDelta;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionChangeEvent;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
+import org.eclipse.xtext.resource.persistence.SourceLevelURIsAdapter;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.service.OperationCanceledManager;
 import org.eclipse.xtext.util.CancelIndicator;
@@ -87,7 +88,6 @@ import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionDelta;
 import com.avaloq.tools.ddk.xtext.resource.extensions.ForwardingResourceDescriptions;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade;
-import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
 import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
@@ -1386,8 +1386,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   }
 
   /**
-   * Override which installs an {@link DirectLinkingSourceLevelURIsAdapter} instead of Xtext's
-   * {@link org.eclipse.xtext.resource.persistence.SourceLevelURIsAdapter} so that the builder can modify
+   * Override which installs the source level URIs without copying it to an unmodifiable list so that the builder can modify
    * {@link org.eclipse.xtext.builder.impl.SourceLevelURICache#getSources()} and get these changes reflected in the adapter.
    */
   @Override
@@ -1403,7 +1402,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         }
       }
     }
-    DirectLinkingSourceLevelURIsAdapter.setSourceLevelUris(resourceSet, buildData.getSourceLevelURICache().getSources());
+    SourceLevelURIsAdapter.setSourceLevelUrisWithoutCopy(resourceSet, buildData.getSourceLevelURICache().getSources());
   }
 
   /**

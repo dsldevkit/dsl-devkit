@@ -24,8 +24,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.builder.resourceloader.AbstractResourceLoader;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
+import org.eclipse.xtext.resource.persistence.SourceLevelURIsAdapter;
 import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.Triple;
 import org.eclipse.xtext.util.Tuples;
@@ -42,7 +43,6 @@ import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLoadEvent;
 import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
-import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingSourceLevelURIsAdapter;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
 import com.google.common.base.Joiner;
@@ -166,7 +166,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         protected ResourceSet initialValue() {
           ResourceSet resourceSet = getResourceSetProvider().get(project);
           BuildPhases.setIndexing(resourceSet, BuildPhases.isIndexing(parent));
-          DirectLinkingSourceLevelURIsAdapter.setSourceLevelUris(resourceSet, DirectLinkingSourceLevelURIsAdapter.findInstalledAdapter(parent).getSourceLevelURIs());
+          SourceLevelURIsAdapter.setSourceLevelUrisWithoutCopy(resourceSet, SourceLevelURIsAdapter.findInstalledAdapter(parent).getSourceLevelURIs());
           resourceSet.getLoadOptions().putAll(parent.getLoadOptions());
           // we are not loading as part of a build
           resourceSet.getLoadOptions().remove(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE);

@@ -45,15 +45,10 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   @Override
   public boolean shouldLoadFromStorage(final StorageAwareResource resource) {
-    DirectLinkingSourceLevelURIsAdapter adapter = DirectLinkingSourceLevelURIsAdapter.findInstalledAdapter(resource.getResourceSet());
-    if (adapter == null) {
-      return false;
-    } else if (adapter.getSourceLevelURIs().contains(resource.getURI())) {
-      return false;
-    } else if (ResourceLoadMode.get(resource).instruction(Constituent.RESOURCE) == Instruction.SKIP) {
+    if (ResourceLoadMode.get(resource).instruction(Constituent.RESOURCE) == Instruction.SKIP) {
       return false;
     }
-    return doesStorageExist(resource);
+    return super.shouldLoadFromStorage(resource);
   }
 
   /**
