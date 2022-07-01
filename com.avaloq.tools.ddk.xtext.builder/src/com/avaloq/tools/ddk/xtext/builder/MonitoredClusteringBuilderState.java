@@ -128,13 +128,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Inject
   private ITraceSet traceSet;
 
-  /** Cluster size. */
-  @Inject(optional = true)
-  @Named("org.eclipse.xtext.builder.clustering.ClusteringBuilderState.clusterSize")
-  // CHECKSTYLE:CONSTANTS-OFF
-  private int clusterSize = 20; // NOPMD Cannot be static because of the way Guice injection works.
-  // CHECKSTYLE:CONSTANTS-ON
-
   @Inject
   @Named(RESOURCELOADER_GLOBAL_INDEX)
   private IResourceLoader globalIndexResourceLoader;
@@ -228,12 +221,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     manager.addListener(this);
   }
 
-  // note that this setter is required as otherwise the clusterSize field will be marked final
-  public void setClusterSize(final int clusterSize) {
-    this.clusterSize = clusterSize;
-  }
-
-  /** {@inheritDoc} */
   @Override
   public synchronized void load() {
     if (!isLoaded) {
@@ -508,8 +495,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         // CHECKSTYLE:CONSTANTS-OFF
         subProgress.setWorkRemaining(queue.size() * 3);
         // CHECKSTYLE:CONSTANTS-ON
-        final List<Delta> newDeltas = Lists.newArrayListWithExpectedSize(clusterSize);
-        final List<Delta> changedDeltas = Lists.newArrayListWithExpectedSize(clusterSize);
+        final List<Delta> newDeltas = Lists.newArrayList();
+        final List<Delta> changedDeltas = Lists.newArrayList();
         while (!queue.isEmpty()) {
           if (subProgress.isCanceled() || !loadOperation.hasNext()) {
             if (!loadOperation.hasNext()) {
@@ -1371,10 +1358,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (mustRebuild) {
       buildTrigger.scheduleFullBuild();
     }
-  }
-
-  protected int getClusterSize() {
-    return clusterSize;
   }
 
   protected IResourceLoader getCrossLinkingResourceLoader() {
