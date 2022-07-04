@@ -156,8 +156,8 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
         throw new WrappedException(e);
       }
       ICompositeNode compositeNode = NodeModelUtils.getNode(semanticElement);
-      if (compositeNode == null) {
-        throw new IllegalStateException("No node found for " + EObjectUtil.getLocationString(semanticElement)); //$NON-NLS-1$
+      if (!(compositeNode instanceof CompositeNode)) {
+        throw new IllegalStateException("No composite node found for " + EObjectUtil.getLocationString(semanticElement) + ". Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$
       }
       delegate = (CompositeNode) compositeNode;
     }
