@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.builder;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -50,12 +51,9 @@ public interface IBuildSorter {
    */
   class NullBuildSorter implements IBuildSorter {
 
-    /** {@inheritDoc} */
     @Override
     public List<List<URI>> sort(final Collection<URI> uris) {
-      List<List<URI>> sortedCopy = Lists.newLinkedList();
-      sortedCopy.add(Lists.newLinkedList(uris));// Make a copy
-      return sortedCopy;
+      return Collections.singletonList(Lists.newLinkedList(uris)); // Make a copy
     }
 
   }
