@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.scope.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope.ide;singleton:=true
-Bundle-Version: 9.4.1.v20220706-0931-REL
+Bundle-Version: 9.4.2.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
