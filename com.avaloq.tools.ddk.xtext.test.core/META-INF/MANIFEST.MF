@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.test.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.test.core;singleton:=true
-Bundle-Version: 9.4.1.qualifier
+Bundle-Version: 9.4.1.v20220706-0931-REL
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.avaloq.tools.ddk.xtext,

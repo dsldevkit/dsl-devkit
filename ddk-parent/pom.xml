@@ -4,7 +4,7 @@
 
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>ddk-parent</artifactId>
-  <version>9.4.1-SNAPSHOT</version>
+  <version>9.4.1.v20220706-0931-REL</version>
   <packaging>pom</packaging>
 
   <properties>
