@@ -708,6 +708,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           }
         }, binaryStorageExecutor);
       } else {
+        CompletableFuture.runAsync(() -> {
+          IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
+          if (storageFacade instanceof DirectLinkingResourceStorageFacade) {
+            ((DirectLinkingResourceStorageFacade) storageFacade).deleteStorage(resource.getURI(), fileSystemAccess);
+          }
+        }, binaryStorageExecutor);
         LOGGER.info("No resourceSet found for " + resource.getURI()); //$NON-NLS-1$
       }
     }
