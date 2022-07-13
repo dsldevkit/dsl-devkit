@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.export.generator
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.export.generator;singleton:=true
-Bundle-Version: 9.4.2.v20220713-1521-REL
+Bundle-Version: 9.4.3.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.xtext,
