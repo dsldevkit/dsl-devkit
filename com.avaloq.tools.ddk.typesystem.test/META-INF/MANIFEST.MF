@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.typesystem.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.typesystem.test;singleton:=true
-Bundle-Version: 9.4.2.qualifier
+Bundle-Version: 9.4.2.v20220713-1521-REL
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
