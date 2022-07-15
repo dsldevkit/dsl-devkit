@@ -10,8 +10,8 @@ import org.eclipse.xtext.ide.editor.contentassist.antlr.FollowElementComputer;
 
 import com.avaloq.tools.ddk.check.runtime.configuration.CheckConfigurationStore;
 import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStore;
-import com.avaloq.tools.ddk.xtext.generator.ide.contentAssist.AnnotationAwareFollowElementCalculator;
-import com.avaloq.tools.ddk.xtext.generator.ide.contentAssist.AnnotationAwareFollowElementComputer;
+import com.avaloq.tools.ddk.xtext.ide.contentAssist.AnnotationAwareFollowElementCalculator;
+import com.avaloq.tools.ddk.xtext.ide.contentAssist.AnnotationAwareFollowElementComputer;
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.

@@ -16,7 +16,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  com.google.inject,
  org.eclipse.xtext,
  org.eclipse.xtext.ide,
- com.avaloq.tools.ddk.xtext.generator,
+ com.avaloq.tools.ddk.xtext.ide,
  com.avaloq.tools.ddk.xtext
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-11
