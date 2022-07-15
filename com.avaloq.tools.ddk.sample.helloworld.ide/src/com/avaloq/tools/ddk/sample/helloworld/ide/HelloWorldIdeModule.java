@@ -6,8 +6,8 @@ package com.avaloq.tools.ddk.sample.helloworld.ide;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.FollowElementCalculator;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.FollowElementComputer;
 
-import com.avaloq.tools.ddk.xtext.generator.ide.contentAssist.AnnotationAwareFollowElementCalculator;
-import com.avaloq.tools.ddk.xtext.generator.ide.contentAssist.AnnotationAwareFollowElementComputer;
+import com.avaloq.tools.ddk.xtext.ide.contentAssist.AnnotationAwareFollowElementCalculator;
+import com.avaloq.tools.ddk.xtext.ide.contentAssist.AnnotationAwareFollowElementComputer;
 
 /**
  * Use this class to register ide components.
