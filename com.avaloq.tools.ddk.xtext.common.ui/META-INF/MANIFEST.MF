@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.common.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.common.ui;singleton:=true
-Bundle-Version: 9.5.0.qualifier
+Bundle-Version: 9.5.0.v20220718-1139-REL
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.xtext.common.ui.contentassist
