@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Evolution AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.ui.editor.findrefs;
+package com.avaloq.tools.ddk.xtext.findrefs;
 
 import java.util.List;
 import java.util.Set;
@@ -20,7 +20,6 @@ import org.eclipse.xtext.findReferences.TargetURIs;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
-import org.eclipse.xtext.ui.editor.findrefs.Messages;
 
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.google.common.collect.Iterables;
@@ -35,6 +34,7 @@ import com.google.inject.Inject;
 // CHECKSTYLE:CONSTANTS-OFF
 @SuppressWarnings("restriction")
 public class ReferenceFinder2 extends ReferenceFinder {
+  private static final String FIND_REFERENCES_PROGRESS = "Find Xtext references"; //$NON-NLS-1$
 
   @Inject
   public ReferenceFinder2(final IResourceServiceProvider.Registry serviceProviderRegistry) {
@@ -70,7 +70,7 @@ public class ReferenceFinder2 extends ReferenceFinder {
   protected void findAllIndexedReferences(final TargetURIs targetURIs, final IResourceDescriptions indexData, final Acceptor referenceAcceptor, final SubMonitor subMonitor) {
     IResourceDescriptions2 idx = (IResourceDescriptions2) indexData;
     List<IReferenceDescription> refs = uniqueReferences(Lists.newArrayList(idx.findReferencesToObjects(targetURIs.asSet())));
-    final SubMonitor monitor = SubMonitor.convert(subMonitor, Messages.ReferenceQuery_monitor, refs.size());
+    final SubMonitor monitor = SubMonitor.convert(subMonitor, FIND_REFERENCES_PROGRESS, refs.size());
     for (IReferenceDescription desc : refs) {
       if (monitor.isCanceled()) {
         return;
