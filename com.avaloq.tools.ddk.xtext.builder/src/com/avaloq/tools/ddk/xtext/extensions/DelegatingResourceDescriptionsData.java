@@ -49,6 +49,11 @@ public class DelegatingResourceDescriptionsData extends AbstractResourceDescript
   }
 
   @Override
+  public boolean isEmpty() {
+    return delegate.isEmpty();
+  }
+
+  @Override
   public Iterable<IResourceDescription> getAllResourceDescriptions() {
     return delegate.getAllResourceDescriptions();
   }
@@ -64,6 +69,11 @@ public class DelegatingResourceDescriptionsData extends AbstractResourceDescript
   }
 
   @Override
+  public Iterable<IEObjectDescription> getExportedObjects() {
+    return delegate.getExportedObjects();
+  }
+
+  @Override
   public Iterable<IEObjectDescription> getExportedObjects(final EClass type, final QualifiedName qualifiedName, final boolean ignoreCase) {
     return delegate.getExportedObjects(type, qualifiedName, ignoreCase);
   }
@@ -71,6 +81,11 @@ public class DelegatingResourceDescriptionsData extends AbstractResourceDescript
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByObject(final EObject object) {
     return delegate.getExportedObjectsByObject(object);
+  }
+
+  @Override
+  public Iterable<IEObjectDescription> getExportedObjectsByType(final EClass type) {
+    return delegate.getExportedObjectsByType(type);
   }
 
   @Override
