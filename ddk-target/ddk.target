@@ -16,7 +16,7 @@
   <unit id="org.eclipse.platform.feature.group" version="4.23.0.v20220308-0722"/>
   <unit id="org.eclipse.platform.source.feature.group" version="4.23.0.v20220308-0722"/>
   <unit id="org.eclipse.emf.codegen.ecore.ui.feature.group" version="2.29.0.v20220226-1304"/>
-  <repository location="https://download.eclipse.org/releases/2022-03/S202208220610/"/>
+  <repository location="https://download.eclipse.org/releases/2022-03/202203161000/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.xpand.sdk.feature.group" version="0.0.0"/>
@@ -31,7 +31,7 @@
   <unit id="org.eclipse.xtend.sdk.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.xtext.generator.feature.group" version="0.0.0"/>
-  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202208010720/"/>
+  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202208220610/"/>
 </location>
   <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
     <repository location="https://download.eclipse.org/lsp4j/updates/releases/0.14.0/"/>
