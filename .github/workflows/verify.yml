@@ -2,7 +2,7 @@ name: verify
 on: [push, pull_request]
 jobs:
   maven-verify:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4.4
