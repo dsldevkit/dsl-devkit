@@ -31,7 +31,6 @@ public class CheckValidatorFragment extends AbstractGeneratorFragment {
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     BindFactory factory = new BindFactory();
 
-    factory.addTypeToTypeEagerSingleton(AbstractCheckValidator.class.getName(), DefaultCheckValidator.class.getName());
     // Uncomment once not conflicting with ValidValidatorFragment anymore
     // factory.addTypeToType(CompositeEValidator.class.getName(), CheckCompositeEValidator.class.getName()).getBindings();
 
