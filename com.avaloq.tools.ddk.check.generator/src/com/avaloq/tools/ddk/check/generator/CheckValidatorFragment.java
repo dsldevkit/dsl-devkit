@@ -17,10 +17,6 @@ import org.eclipse.xtext.generator.AbstractGeneratorFragment;
 import org.eclipse.xtext.generator.BindFactory;
 import org.eclipse.xtext.generator.Binding;
 
-import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator;
-import com.avaloq.tools.ddk.check.runtime.validation.DefaultCheckValidator;
-
-
 /**
  * This generator fragment supplies default bindings for languages using Static Code Analysis.
  */
