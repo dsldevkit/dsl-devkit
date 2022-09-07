@@ -285,7 +285,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
 
-    return new BindFactory().addTypeToTypeEagerSingleton(getJavaValidatorName(grammar, ""), getJavaValidatorName(grammar, "")).addTypeToType(CompositeEValidator.class.getName(), ValidCompositeEValidator.class.getName()).getBindings(); //$NON-NLS-1$ //$NON-NLS-2$
+    return new BindFactory().addTypeToTypeSingleton(getJavaValidatorName(grammar, ""), getJavaValidatorName(grammar, "")).addTypeToType(CompositeEValidator.class.getName(), ValidCompositeEValidator.class.getName()).getBindings(); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
