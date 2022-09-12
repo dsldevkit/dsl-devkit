@@ -12,14 +12,18 @@
 package com.avaloq.tools.ddk.check.generator
 
 import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
+import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess
+import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator
+import com.avaloq.tools.ddk.check.runtime.validation.DefaultCheckValidator
 
 class CheckValidatorFragment2 extends AbstractXtextGeneratorFragment {
 
   static val RUNTIME_PLUGIN = "com.avaloq.tools.ddk.check.runtime.core"
 
   override generate() {
-    new GuiceModuleAccess.BindingFactory().contributeTo(language.runtimeGenModule)
+    new GuiceModuleAccess.BindingFactory().addTypeToTypeEagerSingleton(AbstractCheckValidator.typeRef,
+      DefaultCheckValidator.typeRef).contributeTo(language.runtimeGenModule)
 
     if (projectConfig.runtime.manifest !== null) {
       projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN

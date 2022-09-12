@@ -17,6 +17,10 @@ import org.eclipse.xtext.generator.AbstractGeneratorFragment;
 import org.eclipse.xtext.generator.BindFactory;
 import org.eclipse.xtext.generator.Binding;
 
+import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator;
+import com.avaloq.tools.ddk.check.runtime.validation.DefaultCheckValidator;
+
+
 /**
  * This generator fragment supplies default bindings for languages using Static Code Analysis.
  */
@@ -27,6 +31,7 @@ public class CheckValidatorFragment extends AbstractGeneratorFragment {
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     BindFactory factory = new BindFactory();
 
+    factory.addTypeToTypeEagerSingleton(AbstractCheckValidator.class.getName(), DefaultCheckValidator.class.getName());
     // Uncomment once not conflicting with ValidValidatorFragment anymore
     // factory.addTypeToType(CompositeEValidator.class.getName(), CheckCompositeEValidator.class.getName()).getBindings();
 
