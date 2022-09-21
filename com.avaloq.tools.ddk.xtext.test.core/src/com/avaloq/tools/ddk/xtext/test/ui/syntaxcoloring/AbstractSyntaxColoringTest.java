@@ -38,7 +38,7 @@ import com.google.common.collect.Iterables;
  * Base class for syntax coloring tests.
  */
 public abstract class AbstractSyntaxColoringTest extends AbstractXtextEditorUiTest {
-  private static final String STYLE_ASSERTION_FAILURE_MESSAGE = "The text style at the offset must match the expected style.";
+  private static final String STYLE_ASSERTION_FAILURE_MESSAGE = "The text style at the offset %d must match the expected style.";
 
   /** The Constant LEAF_NOT_FOUND_VALUE is returned when a leaf node is not found. */
   protected static final int LEAF_NOT_FOUND_VALUE = -1;
@@ -113,7 +113,7 @@ public abstract class AbstractSyntaxColoringTest extends AbstractXtextEditorUiTe
 
       @Override
       public String getFailureMessage() {
-        return STYLE_ASSERTION_FAILURE_MESSAGE;
+        return String.format(STYLE_ASSERTION_FAILURE_MESSAGE, offset);
       }
     });
   }
@@ -153,7 +153,7 @@ public abstract class AbstractSyntaxColoringTest extends AbstractXtextEditorUiTe
 
       @Override
       public String getFailureMessage() {
-        return STYLE_ASSERTION_FAILURE_MESSAGE;
+        return String.format(STYLE_ASSERTION_FAILURE_MESSAGE, offset);
       }
     });
   }
