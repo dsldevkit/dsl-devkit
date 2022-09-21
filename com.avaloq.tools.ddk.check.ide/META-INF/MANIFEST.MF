@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.ide;singleton:=true
-Bundle-Version: 10.1.0.v20220921-1341-REL
+Bundle-Version: 10.2.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
