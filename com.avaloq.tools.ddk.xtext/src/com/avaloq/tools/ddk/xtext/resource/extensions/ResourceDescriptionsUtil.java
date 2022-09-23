@@ -62,8 +62,27 @@ public final class ResourceDescriptionsUtil {
    *          match policy
    * @return An {@link Iterable} of all {@link IResourceDescription}s that reference any of the objects.
    */
-  @SuppressWarnings("PMD.NPathComplexity")
   public static Iterable<IResourceDescription> findReferencesToResources(final IResourceDescriptions descriptions, final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
+    if (targetResources.isEmpty()) {
+      return ImmutableSet.of();
+    }
+
+    return findReferencesToResources(descriptions.getAllResourceDescriptions(), targetResources, matchPolicy);
+  }
+
+  /**
+   * Find all {@link IResourceDescription}s of all resources containing cross-references to any of the objects.
+   *
+   * @param descriptions
+   *          The {@link IResourceDescription}s to find the references in.
+   * @param targetResources
+   *          Target objects.
+   * @param matchPolicy
+   *          match policy
+   * @return An {@link Iterable} of all {@link IResourceDescription}s that reference any of the objects.
+   */
+  @SuppressWarnings("PMD.NPathComplexity")
+  public static Iterable<IResourceDescription> findReferencesToResources(final Iterable<IResourceDescription> descriptions, final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     if (targetResources.isEmpty()) {
       return ImmutableSet.of();
     }
@@ -87,7 +106,7 @@ public final class ResourceDescriptionsUtil {
     }
 
     return Iterables.filter(//
-        Iterables.filter(descriptions.getAllResourceDescriptions(), input -> !targetResources.contains(input)) //
+        Iterables.filter(descriptions, input -> !targetResources.contains(input)) //
         , input -> {
           if (matchNames) {
             for (QualifiedName name : input.getImportedNames()) {
@@ -124,6 +143,26 @@ public final class ResourceDescriptionsUtil {
       return ImmutableSet.of();
     }
 
+    return findExactReferencingResources(descriptions.getAllResourceDescriptions(), targetObjects, matchPolicy);
+  }
+
+  /**
+   * Utility implementation to find all exact references to a set of objects.
+   *
+   * @param descriptions
+   *          context
+   * @param targetObjects
+   *          objects to find references to
+   * @param matchPolicy
+   *          match policy
+   * @return all resources containing outgoing references to one of the objects
+   */
+  @SuppressWarnings("PMD.NPathComplexity")
+  public static Iterable<IResourceDescription> findExactReferencingResources(final Iterable<IResourceDescription> descriptions, final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
+    if (targetObjects.isEmpty()) {
+      return ImmutableSet.of();
+    }
+
     final Set<URI> targetUris = Sets.newHashSetWithExpectedSize(targetObjects.size());
     final Set<QualifiedName> exportedNames = Sets.newHashSet();
     for (IEObjectDescription obj : targetObjects) {
@@ -136,7 +175,7 @@ public final class ResourceDescriptionsUtil {
       }
     }
 
-    return Iterables.filter(descriptions.getAllResourceDescriptions(), input -> {
+    return Iterables.filter(descriptions, input -> {
       if (matchPolicy.includes(ReferenceMatchPolicy.IMPORTED_NAMES) || matchPolicy.includes(ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES)) {
         for (QualifiedName name : input.getImportedNames()) {
           if (exportedNames.contains(name)) {
@@ -165,7 +204,20 @@ public final class ResourceDescriptionsUtil {
    * @return An {@link Iterable} of all {@link IReferenceDescription}s of all cross-references that reference the given objects.
    */
   public static Iterable<IReferenceDescription> findReferencesToObjects(final IResourceDescriptions descriptions, final Set<URI> targetObjects) {
-    return Iterables.concat(Iterables.transform(descriptions.getAllResourceDescriptions(), new Function<IResourceDescription, Iterable<IReferenceDescription>>() {
+    return findReferencesToObjects(descriptions.getAllResourceDescriptions(), targetObjects);
+  }
+
+  /**
+   * Find all {@link IReferenceDescription}s of cross-references to a set of {@link org.eclipse.emf.ecore.EObject EObjects} identified by {@link URI}.
+   *
+   * @param descriptions
+   *          The {@link IReferenceDescription}s to find the references in.
+   * @param targetObjects
+   *          {@link URI} of the target object
+   * @return An {@link Iterable} of all {@link IReferenceDescription}s of all cross-references that reference the given objects.
+   */
+  public static Iterable<IReferenceDescription> findReferencesToObjects(final Iterable<IResourceDescription> descriptions, final Set<URI> targetObjects) {
+    return Iterables.concat(Iterables.transform(descriptions, new Function<IResourceDescription, Iterable<IReferenceDescription>>() {
       @Override
       public Iterable<IReferenceDescription> apply(final IResourceDescription from) {
         return Iterables.filter(from.getReferenceDescriptions(), new Predicate<IReferenceDescription>() {
