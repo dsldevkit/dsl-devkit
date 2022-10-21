@@ -11,12 +11,15 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -441,4 +444,49 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     });
     return unresolveableProxies;
   }
+
+  @Override
+  public EList<Adapter> eAdapters() {
+    if (eAdapters == null) {
+      eAdapters = new CustomAdapterList(this);
+    }
+    return eAdapters;
+  }
+
+  /**
+   * Re-implementation of BasicNotifierImpl.EAdapterList.
+   * Necessary because that class is not thread safe in a scenario we cannot avoid in the builder.
+   */
+  private static final class CustomAdapterList extends EAdapterList<Adapter> {
+    private static final long serialVersionUID = 1L;
+
+    public CustomAdapterList(final Notifier notifier) {
+      super(notifier);
+    }
+
+    @Override
+    public Object[] data() {
+      return Arrays.copyOf(data, size);
+    }
+
+    @Override
+    protected void ensureSafety() {
+      // do nothing
+    }
+
+    @Override
+    public Adapter getAdapterForType(final Object type) {
+      Adapter[] adapters = (Adapter[]) data;
+      if (adapters != null) {
+        for (int i = 0; i < size; i++) {
+          if (adapters[i] != null && adapters[i].isAdapterForType(type)) {
+            return adapters[i];
+          }
+        }
+      }
+      return null;
+    }
+
+  }
+
 }
