@@ -24,6 +24,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.mockito,
  com.google.guava,
  org.apache.commons.lang,
+ org.slf4j.ext,
  org.eclipse.emf.common
 Export-Package: com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.test.ui.junit.runners,

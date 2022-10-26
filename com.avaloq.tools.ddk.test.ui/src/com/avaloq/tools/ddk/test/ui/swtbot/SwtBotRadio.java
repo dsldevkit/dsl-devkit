@@ -10,16 +10,14 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.swtbot;
 
-import org.hamcrest.SelfDescribing;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
-import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
+import org.hamcrest.SelfDescribing;
 
 
 /**
@@ -29,7 +27,7 @@ public class SwtBotRadio extends SWTBotRadio {
 
   /**
    * Instantiates a new {@link SwtBotRadio} with the given widget.
-   * 
+   *
    * @param w
    *          the widget, must not be {@code null}
    */
@@ -39,7 +37,7 @@ public class SwtBotRadio extends SWTBotRadio {
 
   /**
    * Instantiates a new {@link SwtBotRadio} with the given widget.
-   * 
+   *
    * @param w
    *          the widget, must not be {@code null}
    * @param description
@@ -55,17 +53,18 @@ public class SwtBotRadio extends SWTBotRadio {
   @Override
   public SwtBotRadio click() {
     if (isSelected()) {
-      log.debug(MessageFormat.format("Widget {0} is already selected, not clicking again.", this)); //$NON-NLS-1$
+      log.debug("Widget {} is already selected, not clicking again.", this); //$NON-NLS-1$
       return this;
     }
     waitForEnabled();
 
-    log.debug(MessageFormat.format("Clicking on {0}", this)); //$NON-NLS-1$
+    log.debug("Clicking on {}", this); //$NON-NLS-1$
 
     final SwtBotRadio otherSelectedButton = otherSelectedButton();
     if (otherSelectedButton != null) {
       otherSelectedButton.notify(SWT.Deactivate);
       asyncExec(new VoidResult() {
+        @Override
         public void run() {
           otherSelectedButton.widget.setSelection(false);
         }
@@ -76,23 +75,25 @@ public class SwtBotRadio extends SWTBotRadio {
     notify(SWT.MouseDown, createMouseEvent(0, 0, 1, 0, 1));
     notify(SWT.MouseUp, createMouseEvent(0, 0, 1, SWT.BUTTON1, 1));
     asyncExec(new VoidResult() {
+      @Override
       public void run() {
         widget.setSelection(true);
       }
     });
     notify(SWT.Selection);
 
-    log.debug(MessageFormat.format("Clicked on {0}", this)); //$NON-NLS-1$
+    log.debug("Clicked on {}", this); //$NON-NLS-1$
     return this;
   }
 
   /**
    * Returns button that is selected in widget.
-   * 
+   *
    * @return the other selected button or {@code null} if none
    */
   private SwtBotRadio otherSelectedButton() {
     Button button = syncExec(new WidgetResult<Button>() {
+      @Override
       public Button run() {
         if (hasStyle(widget.getParent(), SWT.NO_RADIO_GROUP)) {
           return null;
@@ -113,4 +114,3 @@ public class SwtBotRadio extends SWTBotRadio {
     return null;
   }
 }
-

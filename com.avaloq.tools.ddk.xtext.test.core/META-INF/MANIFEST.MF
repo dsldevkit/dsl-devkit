@@ -25,6 +25,7 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.junit,
  org.mockito,
  org.hamcrest.library,
+ org.slf4j.ext,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.emf.common
 Import-Package: org.apache.logging.log4j,org.apache.log4j
