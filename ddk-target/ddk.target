@@ -25,16 +25,16 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.emf.mwe2.runtime.sdk.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="0.0.0"/>
-  <repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.13.0/"/>
+  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202211141328/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.xtend.sdk.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.xtext.generator.feature.group" version="0.0.0"/>
-  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202210240854/"/>
+  <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/milestones/S202211141328/"/>
 </location>
   <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-    <repository location="https://download.eclipse.org/lsp4j/updates/releases/0.17.0/"/>
+    <repository location="https://download.eclipse.org/lsp4j/updates/releases/0.18.0/"/>
     <unit id="org.eclipse.lsp4j.sdk.feature.group" version="0.0.0"/>
   </location>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
