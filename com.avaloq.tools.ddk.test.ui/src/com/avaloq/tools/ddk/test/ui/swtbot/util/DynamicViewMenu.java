@@ -98,7 +98,6 @@ public class DynamicViewMenu {
           break;
         }
       }
-      int dummy = 0;
     }
     return theItem;
   }
