@@ -17,10 +17,12 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.preferences.IPreferenceValuesProvider;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
+import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
+import org.eclipse.xtext.xbase.resource.BatchLinkableResourceStorageFacade;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.util.XExpressionHelper;
@@ -46,6 +48,10 @@ import com.google.inject.name.Names;
  */
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "restriction"})
 public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheckRuntimeModule {
+
+  public Class<? extends IResourceStorageFacade> bindIResourceStorageFacade() {
+    return BatchLinkableResourceStorageFacade.class;
+  }
 
   @Override
   public Class<? extends ILinkingService> bindILinkingService() {
