@@ -23,8 +23,6 @@ import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -47,8 +45,6 @@ import com.google.common.io.CharStreams;
  * but instead the source text is also included so that it doesn't need to be loaded with an additional I/O call.
  */
 public class DirectLinkingResourceStorageWritable extends ResourceStorageWritable {
-
-  private static final Logger LOG = LogManager.getLogger(DirectLinkingResourceStorageWritable.class);
 
   private final boolean storeNodeModel;
 
@@ -108,7 +104,6 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
       // CHECKSTYLE:OFF
     } catch (RuntimeException e) {
       // CHECKSTYLE:ON
-      LOG.error("Error storing " + resource.getURI(), e); //$NON-NLS-1$
       throw e instanceof WrappedException ? e : new WrappedException(e); // NOPMD
     }
   }
