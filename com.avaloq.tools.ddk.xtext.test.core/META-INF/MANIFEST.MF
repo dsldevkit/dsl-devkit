@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.test.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.test.core;singleton:=true
-Bundle-Version: 10.3.0.qualifier
+Bundle-Version: 10.4.0.qualifier
 Bundle-Vendor: Avaloq Evolution AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.avaloq.tools.ddk.xtext,
@@ -25,6 +25,7 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.junit,
  org.mockito,
  org.hamcrest.library,
+ org.slf4j.ext,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.emf.common
 Import-Package: org.apache.logging.log4j,org.apache.log4j

@@ -4,7 +4,7 @@
 
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>ddk-parent</artifactId>
-  <version>10.3.0-SNAPSHOT</version>
+  <version>10.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -47,13 +47,13 @@
 
     <!-- maven plugin versions -->
     <checkstyle.plugin.version>3.2.0</checkstyle.plugin.version>
-    <checkstyle.version>10.3.4</checkstyle.version>
+    <checkstyle.version>10.4</checkstyle.version>
     <clean.version>3.2.0</clean.version>
     <deploy.version>3.0.0</deploy.version>
-    <spotbugs.plugin.version>4.7.2.1</spotbugs.plugin.version>
+    <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
     <spotbugs.version>4.7.3</spotbugs.version>
     <pmd.plugin.version>3.19.0</pmd.plugin.version>
-    <pmd.version>6.50.0</pmd.version>
+    <pmd.version>6.51.0</pmd.version>
     <tycho.version>2.6.0</tycho.version>
     <xtend.version>2.28.0</xtend.version>
   </properties>
