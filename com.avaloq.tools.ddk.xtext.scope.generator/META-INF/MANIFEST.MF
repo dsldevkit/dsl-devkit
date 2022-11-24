@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.scope.generator
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope.generator;singleton:=true
 Bundle-Version: 10.4.0.qualifier
-Bundle-Vendor: Avaloq Evolution AG
+Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.avaloq.tools.ddk.xtext.scope;visibility:=reexport,
  org.eclipse.xtext.generator,

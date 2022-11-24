@@ -5,7 +5,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtextspy
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtextspy; singleton:=true
 Bundle-Version: 10.4.0.qualifier
 Bundle-Activator: com.avaloq.tools.ddk.xtextspy.internal.Activator
-Bundle-Vendor: Avaloq Evolution AG
+Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.xtext,

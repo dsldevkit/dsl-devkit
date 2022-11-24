@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.scope.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope.ui;singleton:=true
 Bundle-Version: 10.4.0.qualifier
-Bundle-Vendor: Avaloq Evolution AG
+Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Activator: com.avaloq.tools.ddk.xtext.scope.ui.internal.ScopeActivator
 Bundle-ActivationPolicy: lazy

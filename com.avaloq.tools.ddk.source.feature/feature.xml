@@ -3,7 +3,7 @@
       id="com.avaloq.tools.ddk.source.feature"
       label="com.avaloq.tools.ddk.source.feature"
       version="10.4.0.qualifier"
-      provider-name="Avaloq Evolution AG">
+      provider-name="Avaloq Group AG">
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.export.source"

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.common.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.common.ui;singleton:=true
 Bundle-Version: 10.4.0.qualifier
-Bundle-Vendor: Avaloq Evolution AG
+Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.xtext.common.ui.contentassist
 Require-Bundle: org.eclipse.xtext.ui

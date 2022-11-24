@@ -2,7 +2,7 @@
 ===================================
 ![Build Status](https://github.com/dsldevkit/dsl-devkit/actions/workflows/verify.yml/badge.svg?branch=master)
 
-Copyright 2016 Avaloq Evolution AG
+Copyright 2016 Avaloq Group AG
 
 # Documentation
 
