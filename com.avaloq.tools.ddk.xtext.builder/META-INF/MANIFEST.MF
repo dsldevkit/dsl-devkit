@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.builder
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.builder;singleton:=true
 Bundle-Version: 10.4.0.qualifier
-Bundle-Vendor: Avaloq Evolution AG
+Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.xtext.builder,
  org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext,
