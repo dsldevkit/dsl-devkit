@@ -20,6 +20,7 @@ Require-Bundle: org.junit,
  org.eclipse.xtext.junit4,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.core.runtime,
+ org.slf4j.ext,
  org.eclipse.ui.workbench;resolution:=optional,
  org.objectweb.asm;resolution:=optional
 Export-Package: com.avaloq.tools.ddk.check.ui.test,
