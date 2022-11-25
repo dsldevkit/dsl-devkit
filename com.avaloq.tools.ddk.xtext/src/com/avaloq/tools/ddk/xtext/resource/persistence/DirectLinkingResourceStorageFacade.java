@@ -55,11 +55,17 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
    * If the resource contains errors, any existing storage will be deleted.
    */
   @Override
+  @SuppressWarnings({"checkstyle:IllegalCatch"})
   public void saveResource(final StorageAwareResource resource, final IFileSystemAccessExtension3 fsa) {
-    // delete storage first in case saving fails
-    deleteStorage(resource.getURI(), (IFileSystemAccess) fsa);
-    if (resource.getErrors().isEmpty()) {
-      super.saveResource(resource, fsa);
+    try {
+      if (resource.getErrors().isEmpty()) {
+        super.saveResource(resource, fsa);
+      } else {
+        deleteStorage(resource.getURI(), (IFileSystemAccess) fsa);
+      }
+    } catch (Exception e) {
+      deleteStorage(resource.getURI(), (IFileSystemAccess) fsa);
+      throw e;
     }
   }
 
