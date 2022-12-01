@@ -18,7 +18,6 @@
     <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
     <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
     <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
-    <exclude name="BeanMembersShouldSerialize"/>
     <exclude name="CloneMethodMustImplementCloneable"/>
     <exclude name="CloseResource"/>
     <exclude name="CompareObjectsWithEquals"/>
