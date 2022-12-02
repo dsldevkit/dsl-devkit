@@ -17,6 +17,7 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.preferences.IPreferenceValuesProvider;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
@@ -31,6 +32,7 @@ import com.avaloq.tools.ddk.check.generator.CheckCompiler;
 import com.avaloq.tools.ddk.check.generator.CheckOutputConfigurationProvider;
 import com.avaloq.tools.ddk.check.imports.CheckRewritableImportSectionFactory;
 import com.avaloq.tools.ddk.check.naming.CheckDeclarativeQualifiedNameProvider;
+import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResource;
 import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResourceStorageFacade;
 import com.avaloq.tools.ddk.check.resource.CheckLocationInFileProvider;
 import com.avaloq.tools.ddk.check.resource.CheckResourceDescriptionStrategy;
@@ -48,6 +50,10 @@ import com.google.inject.name.Names;
  */
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "restriction"})
 public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheckRuntimeModule {
+  @Override
+  public Class<? extends XtextResource> bindXtextResource() {
+    return CheckBatchLinkableResource.class;
+  }
 
   public Class<? extends IResourceStorageFacade> bindIResourceStorageFacade() {
     return CheckBatchLinkableResourceStorageFacade.class;

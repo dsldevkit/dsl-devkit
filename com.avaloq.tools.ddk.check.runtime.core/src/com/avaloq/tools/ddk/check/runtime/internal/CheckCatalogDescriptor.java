@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.util.NLS;
@@ -38,6 +38,7 @@ public class CheckCatalogDescriptor implements Provider<BundleAwareModelLocation
     this.element = element;
   }
 
+  @Override
   public IConfigurationElement getElement() {
     return element;
   }
@@ -48,10 +49,11 @@ public class CheckCatalogDescriptor implements Provider<BundleAwareModelLocation
    * <p>
    * Will log error and return {@code null} if no implementation could be found.
    * </p>
-   * 
+   *
    * @return the model location or {@code null} (may happen if the plugin
    *         extension has not been correctly configured)
    */
+  @Override
   public synchronized BundleAwareModelLocation get() {
     if (this.catalog == null && element.isValid()) { // the element may have become invalid if the plugin was updated or uninstalled
       this.catalog = getLocation();
@@ -61,19 +63,22 @@ public class CheckCatalogDescriptor implements Provider<BundleAwareModelLocation
 
   /**
    * Gets the check model location instance.
-   * 
+   *
    * @return the check model location instance or {@code null} if none could be defined
    */
   private BundleAwareModelLocation getLocation() {
     final String bundleName = element.getDeclaringExtension().getContributor().getName();
     final Bundle bundle = Platform.getBundle(bundleName);
     final String catalogPath = element.getAttribute(CATALOG_ATTRIBUTE);
-    if (bundleName != null && bundle != null) {
-      return new BundleAwareModelLocation(bundle.getResource(catalogPath), bundle);
+    try {
+      if (bundleName != null && bundle != null) {
+        return new BundleAwareModelLocation(bundle.getResource(catalogPath), bundle);
+      }
+    } catch (IllegalArgumentException e) {
+      // Error logged below
     }
     LOG.error(NLS.bind("Could not find a catalog resource in {0} of bundle {1}", catalogPath, bundleName)); //$NON-NLS-1$
     return null;
   }
 
 }
-

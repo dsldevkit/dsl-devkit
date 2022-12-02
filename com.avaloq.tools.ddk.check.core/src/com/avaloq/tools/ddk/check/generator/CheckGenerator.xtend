@@ -141,7 +141,7 @@ class CheckGenerator extends JvmModelGenerator {
   }
 
   /*
-   * Generates the Java standalone setup class which will be called by the ServiceReigstry.
+   * Generates the Java standalone setup class which will be called by the ServiceRegistry.
    */
   def compileStandaloneSetup(CheckCatalog catalog) {
     '''

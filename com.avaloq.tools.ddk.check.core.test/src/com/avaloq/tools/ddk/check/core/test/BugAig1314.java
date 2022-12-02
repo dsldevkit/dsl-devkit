@@ -32,6 +32,7 @@ import org.junit.runner.RunWith;
 import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
 import com.avaloq.tools.ddk.check.runtime.configuration.ModelLocation;
+import com.avaloq.tools.ddk.check.runtime.registry.ICheckCatalogRegistry;
 import com.avaloq.tools.ddk.check.scoping.CatalogFromExtensionPointScope;
 import com.google.common.collect.Iterables;
 
@@ -75,12 +76,15 @@ public class BugAig1314 {
    * @return the ModelLocation
    */
   private ModelLocation createModelLocation(final URL url) {
-    return new ModelLocation(url, TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION) {
+    ModelLocation ml = new ModelLocation(url, TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION) {
       @Override
       public InputStream getCatalogStream() {
         return BugAig1314.class.getResourceAsStream(TEST_CATALOG_FILE);
       }
     };
+    ICheckCatalogRegistry.INSTANCE.registerCatalog(TEST_CATALOG_FILE, ml);
+
+    return ml;
   }
 
   /**
