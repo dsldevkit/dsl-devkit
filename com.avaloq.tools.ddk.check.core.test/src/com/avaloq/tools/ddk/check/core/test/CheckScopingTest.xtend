@@ -35,7 +35,7 @@ class CheckScopingTest extends AbstractCheckTestCase {
    * The model names are deliberately not including file extension, the actual resources
    * are also missing them. The reason for this is that if current development instance of
    * Eclipse has the Check runtime plugins installed, code will automatically be generated
-   * for those resources. In order to avoid that the file extensions have been ommitted.
+   * for those resources. In order to avoid that the file extensions have been omitted.
    */
   def List<String> getRequiredSourceFileNames() {
     Lists::newArrayList("CommonChecks", "SampleChecks")
