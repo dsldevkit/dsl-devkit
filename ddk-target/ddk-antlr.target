@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="DDK Target - ANTLR" sequenceNumber="1">
+  <locations>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.itemis.com/updates/releases/2.1.1/" />
+      <unit id="de.itemis.xtext.antlr.feature.feature.group" version="0.0.0" />
+    </location>
+    <location type="Target" uri="file:${project_loc:/ddk-target}/ddk.target" />
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <repository location="http://download.eclipse.org/technology/swtbot/releases/4.0.0/" />
+      <repository location="https://download.eclipse.org/releases/2022-03/202203161000/" />
+      <repository location="https://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315/" />
+      <repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.14.0/" />
+      <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.29.0/" />
+      <repository location="https://download.eclipse.org/lsp4j/updates/releases/0.19.0/" />
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository" />
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20220302172233/repository" />
+    </location>
+  </locations>
+</target>

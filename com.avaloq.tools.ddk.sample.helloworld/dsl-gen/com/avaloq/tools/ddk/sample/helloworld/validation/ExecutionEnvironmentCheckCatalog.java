@@ -16,13 +16,13 @@ import org.eclipse.emf.ecore.EObject;
 public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
   @Inject
   private ICheckConfigurationStoreService checkConfigurationStoreService;
-  
+
   private static final ImmutableMap<String, String> issueCodeToLabelMap = ImmutableMap.<String, String>builder()
       .put(ExecutionEnvironmentIssueCodes.FRANZNAME, "Greeting name length")
       .put(ExecutionEnvironmentIssueCodes.NAMELENGTH, "Greeting name length")
       .build()
     ;
-  
+
   /**
    * Get map of issue code to label for ExecutionEnvironment.
    * 
@@ -32,7 +32,7 @@ public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
   public static final ImmutableMap<String, String> getIssueCodeToLabelMap() {
     return issueCodeToLabelMap;
   }
-  
+
   /**
    * Gets the run-time value of formal parameter <em>defaultName</em>. The value
    * returned is either the default as defined in the check definition, or the
@@ -46,7 +46,7 @@ public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
   public String getGreetingNameLength_DefaultName(final EObject context) {
     return checkConfigurationStoreService.getCheckConfigurationStore(context).getString("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.EXECUTIONENVIRONMENTISSUECODES.GREETING.NAME.LENGTH.DEFAULTNAME$PARAMETER", ExecutionEnvironmentPreferenceInitializer.GET_GREETING_NAME_LENGTH_DEFAULT_NAME_DEFAULT);
   }
-  
+
   /**
    * Gets the message associated with a violation of this check.
    * 
@@ -57,7 +57,7 @@ public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
   public String getGreetingNameLengthMessage(final Object... bindings) {
     return org.eclipse.osgi.util.NLS.bind("Greeting name {0}", bindings);
   }
-  
+
   /**
    * Gets the {@link SeverityKind severity kind} of check
    * <em>Greeting name length</em>. The severity kind returned is either the
