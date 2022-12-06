@@ -21,18 +21,18 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 public class LibraryChecksCheckImpl extends DefaultCheckImpl {
   @Inject
   private LibraryChecksCheckCatalog libraryChecksCatalog;
-  
+
   @Inject
   private IResourceCache cache;
-  
+
   public String getQualifiedCatalogName() {
     return "com.avaloq.tools.ddk.check.validation.LibraryChecks";
   }
-  
+
   public final ImmutableMap<String, String> getIssueCodeToLabelMap() {
     return LibraryChecksCheckCatalog.getIssueCodeToLabelMap();
   }
-  
+
   /**
    * checkCatalogIsActiveGreeting.
    */
@@ -47,7 +47,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       LibraryChecksIssueCodes.CHECK_CATALOG_IS_ACTIVE // Issue code & data
     );
   }
-  
+
   /**
    * cacheInjectionFailedGreeting.
    */
@@ -64,7 +64,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       );
     }
   }
-  
+
   /**
    * cacheDoesntWorkGreeting.
    */
@@ -106,13 +106,13 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       }
     }
   }
-  
+
   private class FormalParametersClass {
-    
-    
-    
-    
-    
+
+
+
+
+
     public void runGreeting(final Greeting it) {
       final String p1 = libraryChecksCatalog.getFormalParameters_Param1(it);
       final boolean p2 = false;
@@ -229,9 +229,9 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       }
     }
   }
-  
+
   private LibraryChecksCheckImpl.FormalParametersClass formalParametersImpl = new FormalParametersClass();
-  
+
   /**
    * formalParametersGreeting.
    */

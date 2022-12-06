@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 public class LibraryChecksCheckCatalog extends AbstractIssue {
   @Inject
   private ICheckConfigurationStoreService checkConfigurationStoreService;
-  
+
   private static final ImmutableMap<String, String> issueCodeToLabelMap = ImmutableMap.<String, String>builder()
       .put(LibraryChecksIssueCodes.CACHE_DOESNT_WORK, "Cache doesn't work")
       .put(LibraryChecksIssueCodes.CACHE_INJECTION_FAILED, "Cache injection failed")
@@ -25,7 +25,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
       .put(LibraryChecksIssueCodes.FORMAL_PARAMETERS, "Formal Parameters")
       .build()
     ;
-  
+
   /**
    * Get map of issue code to label for LibraryChecks.
    * 
@@ -35,7 +35,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public static final ImmutableMap<String, String> getIssueCodeToLabelMap() {
     return issueCodeToLabelMap;
   }
-  
+
   /**
    * Gets the message associated with a violation of this check.
    * 
@@ -46,7 +46,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public String getCheckCatalogIsActiveMessage(final Object... bindings) {
     return org.eclipse.osgi.util.NLS.bind("Catalog is active", bindings);
   }
-  
+
   /**
    * Gets the {@link SeverityKind severity kind} of check
    * <em>Check catalog is active</em>. The severity kind returned is either the
@@ -64,7 +64,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
     final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.CHECK.CATALOG.IS.ACTIVE$SEVERITY", 1);
     return SeverityKind.values()[result];
   }
-  
+
   /**
    * Gets the message associated with a violation of this check.
    * 
@@ -75,7 +75,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public String getCacheInjectionFailedMessage(final Object... bindings) {
     return org.eclipse.osgi.util.NLS.bind("Cache was not injected", bindings);
   }
-  
+
   /**
    * Gets the {@link SeverityKind severity kind} of check
    * <em>Cache injection failed</em>. The severity kind returned is either the
@@ -93,7 +93,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
     final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.CACHE.INJECTION.FAILED$SEVERITY", 0);
     return SeverityKind.values()[result];
   }
-  
+
   /**
    * Gets the message associated with a violation of this check.
    * 
@@ -104,7 +104,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public String getCacheDoesntWorkMessage(final Object... bindings) {
     return org.eclipse.osgi.util.NLS.bind("{0}", bindings);
   }
-  
+
   /**
    * Gets the {@link SeverityKind severity kind} of check
    * <em>Cache doesn't work</em>. The severity kind returned is either the
@@ -122,7 +122,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
     final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.CACHE.DOESNT.WORK$SEVERITY", 0);
     return SeverityKind.values()[result];
   }
-  
+
   /**
    * Gets the run-time value of formal parameter <em>param1</em>. The value
    * returned is either the default as defined in the check definition, or the
@@ -136,7 +136,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public String getFormalParameters_Param1(final EObject context) {
     return checkConfigurationStoreService.getCheckConfigurationStore(context).getString("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM1$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT);
   }
-  
+
   /**
    * Gets the run-time value of formal parameter <em>param2</em>. The value
    * returned is either the default as defined in the check definition, or the
@@ -150,7 +150,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public boolean getFormalParameters_Param2(final EObject context) {
     return checkConfigurationStoreService.getCheckConfigurationStore(context).getBoolean("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM2$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT);
   }
-  
+
   /**
    * Gets the run-time value of formal parameter <em>param3</em>. The value
    * returned is either the default as defined in the check definition, or the
@@ -164,7 +164,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public Boolean getFormalParameters_Param3(final EObject context) {
     return checkConfigurationStoreService.getCheckConfigurationStore(context).getBoolean("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM3$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_3_DEFAULT);
   }
-  
+
   /**
    * Gets the run-time value of formal parameter <em>names</em>. The value
    * returned is either the default as defined in the check definition, or the
@@ -178,7 +178,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public List<String> getFormalParameters_Names(final EObject context) {
     return checkConfigurationStoreService.getCheckConfigurationStore(context).getStrings("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.NAMES$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_NAMES_DEFAULT);
   }
-  
+
   /**
    * Gets the run-time value of formal parameter <em>ints</em>. The value
    * returned is either the default as defined in the check definition, or the
@@ -192,7 +192,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public List<Integer> getFormalParameters_Ints(final EObject context) {
     return checkConfigurationStoreService.getCheckConfigurationStore(context).getIntegers("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.INTS$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_INTS_DEFAULT);
   }
-  
+
   /**
    * Gets the message associated with a violation of this check.
    * 
@@ -203,7 +203,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
   public String getFormalParametersMessage(final Object... bindings) {
     return org.eclipse.osgi.util.NLS.bind("{0}", bindings);
   }
-  
+
   /**
    * Gets the {@link SeverityKind severity kind} of check
    * <em>Formal Parameters</em>. The severity kind returned is either the

@@ -9,17 +9,17 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 @SuppressWarnings("all")
 public class LibraryChecksPreferenceInitializer extends AbstractPreferenceInitializer {
   private static final String RUNTIME_NODE_NAME = "com.avaloq.tools.ddk.sample.helloworld";
-  
+
   public static final String GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT = "param1";
-  
+
   public static final boolean GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT = (!(!true));
-  
+
   public static final Boolean GET_FORMAL_PARAMETERS_PARAM_3_DEFAULT = Boolean.valueOf(false);
-  
+
   public static final List<String> GET_FORMAL_PARAMETERS_NAMES_DEFAULT = Collections.<String>unmodifiableList(CollectionLiterals.<String>newArrayList("foo", "bar", "ba\u0001\nz"));
-  
+
   public static final List<Integer> GET_FORMAL_PARAMETERS_INTS_DEFAULT = Collections.<Integer>unmodifiableList(CollectionLiterals.<Integer>newArrayList(Integer.valueOf(5), Integer.valueOf((-42)), Integer.valueOf(7)));
-  
+
   @Override
   public void initializeDefaultPreferences() {
     IEclipsePreferences preferences = org.eclipse.core.runtime.preferences.InstanceScope.INSTANCE.getNode(RUNTIME_NODE_NAME);
@@ -27,7 +27,7 @@ public class LibraryChecksPreferenceInitializer extends AbstractPreferenceInitia
     initializeSeverities(preferences);
     initializeFormalParameters(preferences);
   }
-  
+
   private void initializeSeverities(final IEclipsePreferences preferences) {
     preferences.putInt("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.CHECK.CATALOG.IS.ACTIVE$SEVERITY", 1);
     preferences.putInt("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.CACHE.INJECTION.FAILED$SEVERITY", 0);
@@ -35,7 +35,7 @@ public class LibraryChecksPreferenceInitializer extends AbstractPreferenceInitia
     preferences.putInt("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS$SEVERITY", 0);
     
   }
-  
+
   private void initializeFormalParameters(final IEclipsePreferences preferences) {
     preferences.put("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM1$PARAMETER", GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT);
     preferences.putBoolean("COM.AVALOQ.TOOLS.DDK.SAMPLE.HELLOWORLD.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM2$PARAMETER", GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT);

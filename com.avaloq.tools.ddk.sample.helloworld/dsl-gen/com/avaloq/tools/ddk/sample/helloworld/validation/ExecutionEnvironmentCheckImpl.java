@@ -15,17 +15,17 @@ import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
   @Inject
   private ExecutionEnvironmentCheckCatalog executionEnvironmentCatalog;
-  
+
   public String getQualifiedCatalogName() {
     return "com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironment";
   }
-  
+
   public final ImmutableMap<String, String> getIssueCodeToLabelMap() {
     return ExecutionEnvironmentCheckCatalog.getIssueCodeToLabelMap();
   }
-  
+
   private class GreetingNameLengthClass {
-    
+
     public void runGreeting(final Greeting g) {
       int _length = g.getName().length();
       boolean _greaterThan = (_length > 5);
@@ -57,9 +57,9 @@ public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
       }
     }
   }
-  
+
   private ExecutionEnvironmentCheckImpl.GreetingNameLengthClass greetingNameLengthImpl = new GreetingNameLengthClass();
-  
+
   /**
    * greetingNameLengthGreeting.
    */
