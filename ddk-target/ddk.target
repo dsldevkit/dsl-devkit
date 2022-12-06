@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="DDK Target" sequenceNumber="16">
+<target name="DDK Target" sequenceNumber="17">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
@@ -52,6 +52,10 @@
     <unit id="org.apache.logging.log4j" version="2.17.1.v20220106-2156"/>
     <unit id="org.apache.commons.lang" version="2.6.0.v201404270220"/>
     <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
+  </location>
+  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+    <repository location="https://download.itemis.com/updates/releases/2.1.1/"/>
+    <unit id="de.itemis.xtext.antlr.feature.feature.group" version="0.0.0"/>
   </location>
 </locations>
 </target>
