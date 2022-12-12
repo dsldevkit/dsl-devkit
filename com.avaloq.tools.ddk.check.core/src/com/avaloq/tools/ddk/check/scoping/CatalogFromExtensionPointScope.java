@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.check.scoping;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Collections;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,6 +24,7 @@ import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
+import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResource;
 import com.avaloq.tools.ddk.check.runtime.configuration.BundleAwareModelLocation;
 import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
 import com.google.common.collect.ImmutableList;
@@ -59,7 +60,7 @@ public class CatalogFromExtensionPointScope extends AbstractScope {
 
   /**
    * Loads a resource using the scope's resourceSet from the given uri, which must be based on the scope's locationData.
-   * 
+   *
    * @param uri
    *          to load the resource with
    * @return the resource, if it could be loaded, or {@code null} if not.
@@ -68,27 +69,22 @@ public class CatalogFromExtensionPointScope extends AbstractScope {
     if (resourceSet == null) {
       return null;
     }
+
     Resource resource = resourceSet.getResource(uri, false);
+
     if (resource == null) {
       resource = resourceSet.createResource(uri);
-      InputStream stream = locationData.getCatalogStream();
       try {
-        resource.load(stream, null);
+        resource.load(Collections.singletonMap(CheckBatchLinkableResource.MAYBE_LOCATION_DATA, locationData));
       } catch (IOException e) {
         resource = null; // NOPMD
-      } finally {
-        if (stream != null) {
-          try {
-            stream.close();
-            // CHECKSTYLE:OFF
-          } catch (IOException e) {} // NOPMD
-          // CHECKSTYLE:ON
-        }
       }
+
       if (resource != null) {
         resourceSet.getURIResourceMap().put(uri, resource); // Neither createResource() nor load() registers the resource in the map
       }
     }
+
     return resource;
   }
 
