@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -62,23 +63,28 @@ public class DynamicViewMenu {
    */
   public void click(final String... menuPath) {
     final IViewSite viewSite = (IViewSite) viewReference.getPart(false).getSite();
-    final IMenuManager mgr = viewSite.getActionBars().getMenuManager();
+    final IMenuManager m = viewSite.getActionBars().getMenuManager();
 
-    if (!(mgr instanceof MenuManager)) {
-      throw new IllegalStateException("cannot work with " + mgr); //$NON-NLS-1$
+    if (!(m instanceof MenuManager)) {
+      throw new IllegalStateException("cannot work with " + m); //$NON-NLS-1$
     }
 
-    UIThreadRunnable.syncExec(() -> {
-      mgr.updateAll(true);
-      MenuItem[] initialItems = ((MenuManager) mgr).getMenu().getItems();
-      MenuItem theItem = findItem(initialItems, menuPath);
+    MenuItem theItem = UIThreadRunnable.syncExec(() -> {
+      MenuManager mgr = (MenuManager) m;
+      mgr.createMenuBar((Decorations) viewSite.getShell());
+      m.updateAll(true);
+      MenuItem[] initialItems = ((MenuManager) m).getMenu().getItems();
+      MenuItem item = findItem(initialItems, menuPath);
 
-      if (theItem == null || !theItem.getText().equals(menuPath[menuPath.length - 1])) {
+      if (item == null || !item.getText().equals(menuPath[menuPath.length - 1])) {
         throw new WidgetNotFoundException("Could not find menu " + Arrays.toString(menuPath)); //$NON-NLS-1$
       }
 
-      new SWTBotMenu(theItem).click();
+      return item;
+
     });
+
+    new SWTBotMenu(theItem).click();
   }
 
   private MenuItem findItem(final MenuItem[] startWith, final String... menuPath) {
