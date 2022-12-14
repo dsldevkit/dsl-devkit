@@ -10,15 +10,19 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.builder;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
+import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
+import org.eclipse.xtext.util.CancelIndicator;
 
 import com.avaloq.tools.ddk.check.compiler.CheckGeneratorConfig;
 import com.avaloq.tools.ddk.check.compiler.ICheckGeneratorConfigProvider;
@@ -131,4 +135,9 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
     }
   }
 
+  @Override
+  protected void saveResourceStorage(final Resource resource, final IFileSystemAccess access) {
+    EcoreUtil2.resolveLazyCrossReferences(resource, CancelIndicator.NullImpl);
+    super.saveResourceStorage(resource, access);
+  }
 }
