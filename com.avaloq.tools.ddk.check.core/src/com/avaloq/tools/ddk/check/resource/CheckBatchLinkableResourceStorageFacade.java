@@ -1,6 +1,7 @@
 package com.avaloq.tools.ddk.check.resource;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collections;
 
 import org.eclipse.emf.common.util.URI;
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IFileSystemAccessExtension3;
 import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
+import org.eclipse.xtext.resource.persistence.ResourceStorageWritable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.util.RuntimeIOException;
 import org.eclipse.xtext.xbase.resource.BatchLinkableResourceStorageFacade;
@@ -55,6 +57,11 @@ public class CheckBatchLinkableResourceStorageFacade extends BatchLinkableResour
       ((IFileSystemAccess) fsa).deleteFile(computeOutputPath(resource));
       throw e;
     }
+  }
+
+  @Override
+  public ResourceStorageWritable createResourceStorageWritable(final OutputStream out) {
+    return new CheckBatchLinkableResourceStorageWritable(out, isStoreNodeModel());
   }
 
   @Override
