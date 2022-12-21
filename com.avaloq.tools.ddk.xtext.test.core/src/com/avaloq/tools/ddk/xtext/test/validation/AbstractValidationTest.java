@@ -31,6 +31,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.diagnostics.AbstractDiagnostic;
 import org.eclipse.xtext.linking.impl.XtextLinkingDiagnostic;
+import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.XtextResource;
@@ -484,7 +485,12 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         sb.append(avd.getIssueCode());
         if (displayPathToTargetObject) {
           sb.append(" at line: ");
-          sb.append(NodeModelUtils.findActualNodeFor(avd.getSourceEObject()).getStartLine());
+          ICompositeNode compositeNode = NodeModelUtils.findActualNodeFor(avd.getSourceEObject());
+          if (compositeNode != null) {
+            sb.append(compositeNode.getStartLine());
+          } else {
+            sb.append("Unknown");
+          }
           sb.append(" on \n");
           sb.append(pathFromRootAsString(avd.getSourceEObject(), "      "));
         }
