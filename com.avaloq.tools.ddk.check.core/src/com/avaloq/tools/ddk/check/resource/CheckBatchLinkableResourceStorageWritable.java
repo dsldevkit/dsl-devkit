@@ -73,15 +73,8 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
       zipOut.closeEntry();
     }
 
-    zipEntry = new ZipEntry("resource-description");
-    zipEntry.setLastModifiedTime(FIXED_LAST_MODIFIED_DATETIME); // Unique to this class
-    zipOut.putNextEntry(zipEntry);
-    try {
-      writeResourceDescription(resource, bufferedOutput);
-    } finally {
-      bufferedOutput.flush();
-      zipOut.closeEntry();
-    }
+    // "resource-description" entry would go here but is skipped in this class's implementation
+
     if (storeNodeModel) {
       zipEntry = new ZipEntry("node-model");
       zipEntry.setLastModifiedTime(FIXED_LAST_MODIFIED_DATETIME); // Unique to this class
