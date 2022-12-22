@@ -1,6 +1,7 @@
 package com.avaloq.tools.ddk.check.resource;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
 
@@ -20,6 +21,16 @@ import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
 
 @SuppressWarnings("restriction")
 public class CheckBatchLinkableResourceStorageFacade extends BatchLinkableResourceStorageFacade {
+
+  @Override
+  public ResourceStorageLoadable createResourceStorageLoadable(final InputStream in) {
+    return new CheckBatchLinkableResourceStorageLoadable(in, isStoreNodeModel());
+  }
+
+  @Override
+  public ResourceStorageWritable createResourceStorageWritable(final OutputStream out) {
+    return new CheckBatchLinkableResourceStorageWritable(out, isStoreNodeModel());
+  }
 
   /**
    * Returns a generated URI corresponding to the location on disk of
@@ -57,11 +68,6 @@ public class CheckBatchLinkableResourceStorageFacade extends BatchLinkableResour
       ((IFileSystemAccess) fsa).deleteFile(computeOutputPath(resource));
       throw e;
     }
-  }
-
-  @Override
-  public ResourceStorageWritable createResourceStorageWritable(final OutputStream out) {
-    return new CheckBatchLinkableResourceStorageWritable(out, isStoreNodeModel());
   }
 
   @Override
