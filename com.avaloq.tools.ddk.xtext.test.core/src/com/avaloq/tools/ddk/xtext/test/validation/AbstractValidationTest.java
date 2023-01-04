@@ -243,7 +243,10 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         List<INode> nodes = NodeModelUtils.findNodesForFeature(avd.getSourceEObject(), ((FeatureBasedDiagnostic) avd).getFeature());
         if (nodes.isEmpty()) {
           INode node = NodeModelUtils.getNode(avd.getSourceEObject());
-          if (getXtextTestUtil().findFirstNonHiddenLeafNode(node).getTotalOffset() == pos) {
+          INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(node);
+          if (firstNonHiddenLeafNode == null) {
+            return issueMustBeFound;
+          } else if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
             return true;
           }
         } else {
@@ -251,7 +254,9 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
           for (int i = 0; i < nodes.size(); i++) {
             if (avdIndex == INSIGNIFICANT_INDEX || avdIndex == i) {
               INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(nodes.get(i));
-              if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
+              if (firstNonHiddenLeafNode == null) {
+                return issueMustBeFound;
+              } else if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
                 return true;
               }
             }
@@ -263,7 +268,10 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         }
       } else {
         INode node = NodeModelUtils.getNode(avd.getSourceEObject());
-        if (getXtextTestUtil().findFirstNonHiddenLeafNode(node).getTotalOffset() == pos) {
+        INode firstNonHiddenLeafNode = getXtextTestUtil().findFirstNonHiddenLeafNode(node);
+        if (firstNonHiddenLeafNode == null) {
+          return issueMustBeFound;
+        } else if (firstNonHiddenLeafNode.getTotalOffset() == pos) {
           return true;
         }
       }
