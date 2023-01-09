@@ -3,7 +3,7 @@ Automatic-Module-Name: com.avaloq.tools.ddk.sample.helloworld
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.sample.helloworld
 Bundle-Vendor: Avaloq Group AG
-Bundle-Version: 10.4.0.qualifier
+Bundle-Version: 10.4.0.v20230109-1121-REL
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
