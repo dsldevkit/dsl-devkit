@@ -47,7 +47,7 @@
 
     <!-- maven plugin versions -->
     <checkstyle.plugin.version>3.2.0</checkstyle.plugin.version>
-    <checkstyle.version>10.5.0</checkstyle.version>
+    <checkstyle.version>10.6.0</checkstyle.version>
     <clean.version>3.2.0</clean.version>
     <deploy.version>3.0.0</deploy.version>
     <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
