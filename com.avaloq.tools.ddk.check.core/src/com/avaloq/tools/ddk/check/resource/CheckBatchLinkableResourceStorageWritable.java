@@ -14,8 +14,6 @@ package com.avaloq.tools.ddk.check.resource;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.attribute.FileTime;
-import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -33,10 +31,7 @@ import org.eclipse.xtext.xbase.resource.BatchLinkableResourceStorageWritable;
  * A more detailed description of this issue is given in the Javadoc {@link #writeEntries(String)}.
  */
 public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableResourceStorageWritable {
-  private static final long MODIFIED_DATE_MILLIS = 1671969600000L; // Arbitrary value - 25 December 2022, 12:00:00 UTC
-  private static final int SYSTEM_UTC_OFFSET = TimeZone.getDefault().getOffset(MODIFIED_DATE_MILLIS);
-  private static final FileTime LAST_MODIFIED_DATETIME_LOCALTZ = FileTime.fromMillis(MODIFIED_DATE_MILLIS - SYSTEM_UTC_OFFSET);
-
+  private static final long CONSTANT_DATETIME_MILLIS = 0; // Arbitrary value
   private final boolean storeNodeModel;
 
   public CheckBatchLinkableResourceStorageWritable(final OutputStream out, final boolean storeNodeModel) {
@@ -59,6 +54,7 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
    * <p>
    * For more information about ZIP headers, see https://en.wikipedia.org/wiki/ZIP_(file_format)#File_headers
    * For a bit-level description of each field, see https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip.html
+   * This is a relevant SO question: https://stackoverflow.com/questions/26525936/java-creating-two-identical-zip-files-if-content-are-the-same
    */
   protected void writeEntries(final StorageAwareResource resource, final ZipOutputStream zipOut) throws IOException {
     ZipEntry zipEntry;
@@ -67,7 +63,7 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
     BufferedOutputStream bufferedOutput = new BufferedOutputStream(zipOut);
 
     zipEntry = new ZipEntry("emf-contents");
-    zipEntry.setLastModifiedTime(LAST_MODIFIED_DATETIME_LOCALTZ); // Unique to this class
+    zipEntry.setTime(CONSTANT_DATETIME_MILLIS); // Unique to this class
     zipOut.putNextEntry(zipEntry);
     try {
       writeContents(resource, bufferedOutput);
@@ -80,7 +76,7 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
 
     if (storeNodeModel) {
       zipEntry = new ZipEntry("node-model");
-      zipEntry.setLastModifiedTime(LAST_MODIFIED_DATETIME_LOCALTZ); // Unique to this class
+      zipEntry.setTime(CONSTANT_DATETIME_MILLIS); // Unique to this class
       zipOut.putNextEntry(zipEntry);
       try {
         writeNodeModel(resource, bufferedOutput);
@@ -93,7 +89,7 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
     // Adapted from the BatchLinkableResourceStorageWritable base class
     if (resource instanceof BatchLinkableResource) {
       zipEntry = new ZipEntry("associations");
-      zipEntry.setLastModifiedTime(LAST_MODIFIED_DATETIME_LOCALTZ); // Unique to this class
+      zipEntry.setTime(CONSTANT_DATETIME_MILLIS); // Unique to this class
       zipOut.putNextEntry(zipEntry);
       BufferedOutputStream buffOut = new BufferedOutputStream(zipOut);
       try {
