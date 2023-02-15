@@ -91,7 +91,7 @@ public class InferredModelUtil {
   public static <T extends EObject> Collection<T> getInferredModelElements(final @Nullable EObject source, @NonNull final Class<T> clazz) {
     IInferredModelAssociations modelAssociations = getModelAssociations(source);
     if (modelAssociations != null) {
-      return modelAssociations.getInferredModelElements(source).stream().filter(clazz::isInstance).collect(Collectors.toSet());
+      return (Collection<T>) modelAssociations.getInferredModelElements(source).stream().filter(clazz::isInstance).collect(Collectors.toSet());
     }
     return Collections.emptySet();
   }
