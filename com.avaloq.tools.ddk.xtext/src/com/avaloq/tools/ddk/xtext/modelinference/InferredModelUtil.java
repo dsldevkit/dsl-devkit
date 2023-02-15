@@ -12,9 +12,12 @@ package com.avaloq.tools.ddk.xtext.modelinference;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.xtext.resource.XtextResource;
 
 import com.google.common.base.Predicate;
@@ -39,7 +42,7 @@ public class InferredModelUtil {
    *          the object to get the model associations from
    * @return the model associations for {@code eObject} or null if there aren't any
    */
-  public static IInferredModelAssociations getModelAssociations(final EObject eObject) {
+  public static @Nullable IInferredModelAssociations getModelAssociations(final @Nullable EObject eObject) {
     if (eObject != null) {
       Resource resource = eObject.eResource();
       if (resource instanceof XtextResource) {
@@ -55,13 +58,13 @@ public class InferredModelUtil {
    * @param <T>
    *          the type of inferred model element to return
    * @param source
-   *          the source of the inferred model element. Must not be null.
+   *          the source of the inferred model element.
    * @param clazz
    *          the class of the inferred model element to return
    * @return the inferred model element or null if there is none.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends EObject> T getInferredModelElement(final EObject source, final Class<T> clazz) {
+  public static @Nullable <T extends EObject> T getInferredModelElement(final @Nullable EObject source, @NonNull final Class<T> clazz) {
     IInferredModelAssociations modelAssociations = getModelAssociations(source);
     if (modelAssociations != null) {
       for (EObject eObj : modelAssociations.getInferredModelElements(source)) {
@@ -79,22 +82,16 @@ public class InferredModelUtil {
    * @param <T>
    *          the type of inferred model elements to return
    * @param source
-   *          the source of the inferred model elements. Must not be {@code null}.
+   *          the source of the inferred model elements.
    * @param clazz
    *          the class of the inferred model elements to return
    * @return the collection of inferred model elements or an empty set if there are none.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends EObject> Collection<T> getInferredModelElements(final EObject source, final Class<T> clazz) {
+  public static <T extends EObject> @NonNull Collection<T> getInferredModelElements(final @Nullable EObject source, @NonNull final Class<T> clazz) {
     IInferredModelAssociations modelAssociations = getModelAssociations(source);
     if (modelAssociations != null) {
-      Collection<EObject> inferredModelElements = modelAssociations.getInferredModelElements(source);
-      return (Collection<T>) Collections2.filter(inferredModelElements, new Predicate<EObject>() {
-        @Override
-        public boolean apply(final EObject input) {
-          return clazz.isInstance(input);
-        }
-      });
+      return (Collection<T>) modelAssociations.getInferredModelElements(source).stream().filter(clazz::isInstance).collect(Collectors.toSet());
     }
     return Collections.emptySet();
   }
@@ -106,7 +103,7 @@ public class InferredModelUtil {
    *          the object to get the primary source for
    * @return the primary source model element for {@code eObject} or null if there isn't one
    */
-  public static EObject getPrimarySource(final EObject eObject) {
+  public static @Nullable EObject getPrimarySource(final @Nullable EObject eObject) {
     IInferredModelAssociations modelAssociations = getModelAssociations(eObject);
     if (modelAssociations != null) {
       return modelAssociations.getPrimarySourceModelElement(eObject);
