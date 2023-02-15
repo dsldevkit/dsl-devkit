@@ -88,7 +88,7 @@ public class InferredModelUtil {
    * @return the collection of inferred model elements or an empty set if there are none.
    */
   @SuppressWarnings("unchecked")
-  public static <T extends EObject> Collection<T> getInferredModelElements(final @Nullable EObject source, @NonNull final Class<T> clazz) {
+  public static <T extends EObject> @NonNull Collection<T> getInferredModelElements(final @Nullable EObject source, @NonNull final Class<T> clazz) {
     IInferredModelAssociations modelAssociations = getModelAssociations(source);
     if (modelAssociations != null) {
       return (Collection<T>) modelAssociations.getInferredModelElements(source).stream().filter(clazz::isInstance).collect(Collectors.toSet());
