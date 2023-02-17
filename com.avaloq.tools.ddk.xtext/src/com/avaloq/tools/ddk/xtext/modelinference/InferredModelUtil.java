@@ -20,9 +20,6 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.xtext.resource.XtextResource;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-
 
 /**
  * Utility methods for inferred models.
