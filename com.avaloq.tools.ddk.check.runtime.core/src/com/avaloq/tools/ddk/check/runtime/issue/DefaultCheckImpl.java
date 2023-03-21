@@ -353,10 +353,11 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
    *          the collection in which to store method wrappers found
    */
   private void collectMethodsImpl(final DefaultCheckImpl instance, final Collection<Class<?>> visitedClasses, final Collection<MethodWrapper> result) {
-    if (!visitedClasses.add(instance.getClass())) {
+    Class<?> clazz = instance.getClass();
+    if (!visitedClasses.add(clazz)) {
       return;
     }
-    Method[] methods = instance.getClass().getDeclaredMethods();
+    Method[] methods = clazz.getDeclaredMethods();
     for (Method method : methods) {
       if (method.getAnnotation(Check.class) != null && method.getParameterTypes().length == 1) {
         result.add(new MethodWrapper(instance, method));
