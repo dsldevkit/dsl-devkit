@@ -3,9 +3,78 @@
  */
 package com.avaloq.tools.ddk.checkcfg.ide;
 
+import org.eclipse.xtext.ide.LexerIdeBindings;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
+import org.eclipse.xtext.ide.server.formatting.FormattingService;
+
+import com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal.InternalCheckCfgLexer;
+import com.avaloq.tools.ddk.xtext.ide.formatting.FormattingService1;
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
+
 
 /**
  * Use this class to register ide components.
  */
+@SuppressWarnings("restriction")
 public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
+
+  @Override
+  public void configureIResourceDescriptionsLiveScope(final Binder binder) {
+    // Don't configure anything to avoid conflict with DefaultRuntimeModule.
+  }
+
+  /**
+   * Configures {@link FormattingService}.
+   *
+   * @return the class to bind
+   */
+  public Class<? extends FormattingService> bindFormattingService() {
+    return FormattingService1.class;
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  public void configureContentAssistLexerProvider(final Binder binder) {
+    binder.bind(InternalCheckCfgLexer.class).toProvider(org.eclipse.xtext.parser.antlr.LexerProvider.create(InternalCheckCfgLexer.class));
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  public void configureHighlightingTokenDefProvider(final Binder binder) {
+    binder.bind(org.eclipse.xtext.parser.antlr.ITokenDefProvider.class).annotatedWith(Names.named(LexerIdeBindings.HIGHLIGHTING)).to(org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider.class);
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  public void configureHighlightingLexer(final Binder binder) {
+    binder.bind(org.eclipse.xtext.parser.antlr.Lexer.class).annotatedWith(Names.named(LexerIdeBindings.HIGHLIGHTING)).to(com.avaloq.tools.ddk.checkcfg.parser.antlr.internal.InternalCheckCfgLexer.class);
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  @Override
+  public void configureContentAssistLexer(final Binder binder) {
+    binder.bind(Lexer.class).annotatedWith(Names.named(LexerIdeBindings.CONTENT_ASSIST)).to(InternalCheckCfgLexer.class);
+  }
 }
