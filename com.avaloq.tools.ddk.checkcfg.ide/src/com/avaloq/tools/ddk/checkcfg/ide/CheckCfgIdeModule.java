@@ -6,8 +6,12 @@ package com.avaloq.tools.ddk.checkcfg.ide;
 import org.eclipse.xtext.ide.LexerIdeBindings;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 import org.eclipse.xtext.ide.server.formatting.FormattingService;
+import org.eclipse.xtext.ide.server.symbol.DocumentSymbolMapper.DocumentSymbolKindProvider;
+import org.eclipse.xtext.ide.server.symbol.DocumentSymbolMapper.DocumentSymbolNameProvider;
 
 import com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal.InternalCheckCfgLexer;
+import com.avaloq.tools.ddk.checkcfg.ide.outline.CheckCfgDocumentSymbolKindProvider;
+import com.avaloq.tools.ddk.checkcfg.ide.outline.CheckCfgDocumentSymbolNameProvider;
 import com.avaloq.tools.ddk.xtext.ide.formatting.FormattingService1;
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
@@ -76,5 +80,23 @@ public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
   @Override
   public void configureContentAssistLexer(final Binder binder) {
     binder.bind(Lexer.class).annotatedWith(Names.named(LexerIdeBindings.CONTENT_ASSIST)).to(InternalCheckCfgLexer.class);
+  }
+
+  /**
+   * Bind document symbol name provider.
+   *
+   * @return the class<? extends document symbol name provider>
+   */
+  public final Class<? extends DocumentSymbolNameProvider> bindDocumentSymbolNameProvider() {
+    return CheckCfgDocumentSymbolNameProvider.class;
+  }
+
+  /**
+   * Bind document symbol kind provider.
+   *
+   * @return the class<? extends document symbol name provider>
+   */
+  public final Class<? extends DocumentSymbolKindProvider> bindDocumentSymbolKindProvider() {
+    return CheckCfgDocumentSymbolKindProvider.class;
   }
 }

@@ -15,7 +15,9 @@ Require-Bundle: com.avaloq.tools.ddk.checkcfg.core,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide,
  com.avaloq.tools.ddk.xtext,
- com.avaloq.tools.ddk.xtext.ide
+ com.avaloq.tools.ddk.xtext.ide,
+ com.avaloq.tools.ddk.check.core,
+ org.eclipse.lsp4j
 Export-Package: com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr,
  com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal
 Import-Package: org.apache.log4j,
