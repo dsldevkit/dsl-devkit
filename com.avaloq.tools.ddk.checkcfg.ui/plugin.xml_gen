@@ -216,17 +216,30 @@
 	</extension>
 	<!-- adding resource factories -->
 	<extension
-		point="org.eclipse.emf.ecore.extension_parser">
-		<parser
-			class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="checkcfg">
-		</parser>
+	  point="org.eclipse.emf.ecore.extension_parser">
+	  <parser
+	    class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+	    type="checkcfg">
+	  </parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
-		<resourceServiceProvider
-			class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-			uriExtension="checkcfg">
-		</resourceServiceProvider>
+	  <resourceServiceProvider
+	    class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+	    uriExtension="checkcfg">
+	  </resourceServiceProvider>
+	</extension>
+	<extension
+	  point="org.eclipse.emf.ecore.extension_parser">
+	  <parser
+	    class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+	    type="CHECKCFG">
+	  </parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+	  <resourceServiceProvider
+	    class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+	    uriExtension="CHECKCFG">
+	  </resourceServiceProvider>
 	</extension>
 	<!-- marker definitions for com.avaloq.tools.ddk.checkcfg.CheckCfg -->
 	<extension

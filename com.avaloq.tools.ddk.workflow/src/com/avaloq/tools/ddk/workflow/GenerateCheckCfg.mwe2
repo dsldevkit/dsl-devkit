@@ -19,8 +19,11 @@ var modelDirectory = "metamodel/com/avaloq/tools/ddk/${grammar}"
 var metamodelPlugin = "com.avaloq.tools.ddk.${grammar}.core"
 var projectNameTest="com.avaloq.tools.ddk.${grammar}.core.test"
 
+var generateLspSetup = true
+
 @com.avaloq.tools.ddk.workflow.CommonXbase auto-inject {
     languageName = "CheckCfg"
     registerGenModelFiles = "${check.genmodel}"
     editorFileExtensions = "checkcfg"
+    resourceFactoryFileExtensions = "checkcfg, CHECKCFG"
 }
