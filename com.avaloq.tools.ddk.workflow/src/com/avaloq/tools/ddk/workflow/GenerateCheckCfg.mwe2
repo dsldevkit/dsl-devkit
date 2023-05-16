@@ -25,5 +25,4 @@ var generateLspSetup = true
     languageName = "CheckCfg"
     registerGenModelFiles = "${check.genmodel}"
     editorFileExtensions = "checkcfg"
-    resourceFactoryFileExtensions = "checkcfg, CHECKCFG"
 }
