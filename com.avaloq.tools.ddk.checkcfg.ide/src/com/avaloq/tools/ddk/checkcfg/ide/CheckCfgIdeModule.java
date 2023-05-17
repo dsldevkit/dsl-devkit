@@ -4,11 +4,13 @@
 package com.avaloq.tools.ddk.checkcfg.ide;
 
 import org.eclipse.xtext.ide.LexerIdeBindings;
+import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalProvider;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 import org.eclipse.xtext.ide.server.formatting.FormattingService;
 import org.eclipse.xtext.ide.server.symbol.DocumentSymbolMapper.DocumentSymbolKindProvider;
 import org.eclipse.xtext.ide.server.symbol.DocumentSymbolMapper.DocumentSymbolNameProvider;
 
+import com.avaloq.tools.ddk.checkcfg.ide.contentassist.CheckCfgIdeContentProposalProvider;
 import com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal.InternalCheckCfgLexer;
 import com.avaloq.tools.ddk.checkcfg.ide.outline.CheckCfgDocumentSymbolKindProvider;
 import com.avaloq.tools.ddk.checkcfg.ide.outline.CheckCfgDocumentSymbolNameProvider;
@@ -98,5 +100,10 @@ public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
    */
   public final Class<? extends DocumentSymbolKindProvider> bindDocumentSymbolKindProvider() {
     return CheckCfgDocumentSymbolKindProvider.class;
+  }
+
+  @Override
+  public Class<? extends IdeContentProposalProvider> bindIdeContentProposalProvider() {
+    return CheckCfgIdeContentProposalProvider.class;
   }
 }
