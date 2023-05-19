@@ -18,6 +18,7 @@ import java.util.StringJoiner;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.RuleCall;
@@ -80,6 +81,15 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
     } else {
       super._createProposals(assignment, context, acceptor);
     }
+  }
+
+  @Override
+  protected Predicate<IEObjectDescription> getCrossrefFilter(final CrossReference reference, final ContentAssistContext context) {
+    // we don't want references to dummy java classes to be proposed, and 'real' proposals come from completeParameterValue() anyway.
+    if (context.getCurrentModel() instanceof ConfiguredParameter) {
+      return Predicates.alwaysFalse();
+    }
+    return Predicates.alwaysTrue();
   }
 
   @Override
