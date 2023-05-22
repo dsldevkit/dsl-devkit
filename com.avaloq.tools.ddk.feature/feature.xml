@@ -2,7 +2,7 @@
 <feature
       id="com.avaloq.tools.ddk.feature"
       label="com.avaloq.tools.ddk.feature"
-      version="11.3.0.qualifier"
+      version="11.3.0.v20230522-1244-REL"
       provider-name="Avaloq Group AG">
 
    <description>
