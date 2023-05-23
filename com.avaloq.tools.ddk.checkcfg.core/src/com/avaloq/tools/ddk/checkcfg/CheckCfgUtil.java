@@ -15,6 +15,8 @@ import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.ServiceConfigurationError;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +51,7 @@ public class CheckCfgUtil {
   public Set<String> getAllLanguages() {
     Set<String> languages = new HashSet<String>();
     for (String extension : Registry.INSTANCE.getExtensionToFactoryMap().keySet()) {
-      final URI dummyUri = URI.createURI("foo:/foo." + extension);
+      final URI dummyUri = URI.createURI("foo:/foo." + extension); //$NON-NLS-1$
       IResourceServiceProvider resourceServiceProvider = Registry.INSTANCE.getResourceServiceProvider(dummyUri);
       // By checking that description manager is AbstractCachingResourceDescriptionManager we exclude technical languages of the framework
       if (resourceServiceProvider != null && resourceServiceProvider.getResourceDescriptionManager() instanceof AbstractCachingResourceDescriptionManager) {
@@ -80,8 +82,17 @@ public class CheckCfgUtil {
         try {
           contributions.add((ICheckCfgPropertySpecification) element.createExecutableExtension(PROPERTY_EXECUTABLE_EXTENSION_ATTRIBUTE));
         } catch (CoreException e) {
-          LOGGER.warn("Failed to instantiate property from " + element.getContributor(), e);
+          LOGGER.warn("Failed to instantiate property from " + element.getContributor(), e); //$NON-NLS-1$
         }
+      }
+    } else {
+      // if there is no extension registry, try finding the contributions with the service loader
+      try {
+        for (ICheckCfgPropertySpecification contribution : ServiceLoader.load(ICheckCfgPropertySpecification.class)) {
+          contributions.add(contribution);
+        }
+      } catch (ServiceConfigurationError e) {
+        LOGGER.warn("Failed to instantiate property from loaded service.", e); //$NON-NLS-1$
       }
     }
     return contributions;

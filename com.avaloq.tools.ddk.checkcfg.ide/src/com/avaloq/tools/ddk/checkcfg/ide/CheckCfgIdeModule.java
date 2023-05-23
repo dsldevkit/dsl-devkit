@@ -24,6 +24,7 @@ import com.google.inject.name.Names;
  */
 @SuppressWarnings("restriction")
 public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
+  private static final String LANGUAGE_LABEL = "languageLabel"; //$NON-NLS-1$
 
   @Override
   public void configureIResourceDescriptionsLiveScope(final Binder binder) {
@@ -105,5 +106,9 @@ public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
   @Override
   public Class<? extends IdeContentProposalProvider> bindIdeContentProposalProvider() {
     return CheckCfgIdeContentProposalProvider.class;
+  }
+
+  public void configureLanguageLabel(final Binder binder) {
+    binder.bind(String.class).annotatedWith(Names.named(LANGUAGE_LABEL)).toInstance("CheckCfg"); //$NON-NLS-1$
   }
 }
