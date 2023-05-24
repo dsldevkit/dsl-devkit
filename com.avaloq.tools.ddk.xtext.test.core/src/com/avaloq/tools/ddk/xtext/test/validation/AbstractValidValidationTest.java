@@ -20,12 +20,16 @@ import org.eclipse.xtext.junit4.validation.AssertableDiagnostics.DiagnosticPredi
 import org.eclipse.xtext.junit4.validation.ValidatorTester;
 import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
 
+import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
+import com.avaloq.tools.ddk.xtext.validation.AbstractDeclarativeValidValidator;
 import com.google.common.collect.Iterables;
+import com.google.inject.Injector;
 
 
 /**
  * Base class for valid validation tests.
  */
+@SuppressWarnings({"deprecation", "removal"})
 public abstract class AbstractValidValidationTest extends AbstractValidationTest {
 
   // --------------------------------------------------------------------------
@@ -67,12 +71,24 @@ public abstract class AbstractValidValidationTest extends AbstractValidationTest
     }
   }
 
+  /** The tester. */
+  private ValidatorTester<?> tester;
+
+  protected abstract Class<? extends AbstractDeclarativeValidValidator> getValidator();
+
   /**
    * Returns the validation tester generated for this test.
    *
    * @return the validation tester generated for this test
    */
-  protected abstract ValidatorTester<?> getTester();
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  protected ValidatorTester<?> getTester() {
+    if (tester == null) {
+      AbstractXtextTestUtil testUtil = getTestUtil();
+      tester = new ValidatorTester(testUtil.get(getValidator()), testUtil.get(Injector.class));
+    }
+    return tester;
+  }
 
   // --------------------------------------------------------------------------
   // Validation methods
