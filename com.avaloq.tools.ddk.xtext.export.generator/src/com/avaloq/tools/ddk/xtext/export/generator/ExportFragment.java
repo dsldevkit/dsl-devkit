@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.export.generator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -46,7 +46,7 @@ import com.google.common.collect.Iterables;
 /**
  * MWE fragment for the export language.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class ExportFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */

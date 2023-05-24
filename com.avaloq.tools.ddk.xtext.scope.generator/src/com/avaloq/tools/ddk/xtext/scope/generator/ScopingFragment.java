@@ -26,7 +26,7 @@ import com.avaloq.tools.ddk.xtext.scoping.IScopeNameProvider;
 /**
  * MWE fragment for the scoping language.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class ScopingFragment extends AbstractGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext"; //$NON-NLS-1$

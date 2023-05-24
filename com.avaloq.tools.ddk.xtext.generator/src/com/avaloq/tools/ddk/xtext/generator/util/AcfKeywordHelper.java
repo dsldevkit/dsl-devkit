@@ -29,7 +29,7 @@ import org.eclipse.xtext.EnumRule;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.ParserRule;
-import org.eclipse.xtext.generator.parser.antlr.ex.common.KeywordHelper;
+import org.eclipse.xtext.xtext.generator.parser.antlr.KeywordHelper;
 
 import com.google.common.base.Ascii;
 import com.google.common.collect.BiMap;
@@ -49,7 +49,6 @@ import com.google.common.collect.Sets;
  * because of multiple dependencies on that prefix. We kept the numbering.
  * </p>
  */
-@SuppressWarnings("deprecation")
 public class AcfKeywordHelper implements Adapter {
 
   private final BiMap<CharSequence, String> keywordValueToToken;

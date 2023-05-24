@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 /**
  * Testing EClassTypeContentProvider.
  */
+@SuppressWarnings({"deprecation", "removal"})
 public class EClassTypeContentProviderTest extends AbstractXtextTests {
 
   private static final String NO_CHILDREN_EXPECTED = "No children expected";

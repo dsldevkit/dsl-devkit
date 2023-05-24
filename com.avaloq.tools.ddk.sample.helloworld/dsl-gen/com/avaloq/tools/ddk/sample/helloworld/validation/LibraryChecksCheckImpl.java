@@ -73,8 +73,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
     String _qualifiedCatalogName = this.getQualifiedCatalogName();
     final String key = (_qualifiedCatalogName + ".testValue");
     try {
-      Boolean _boolean = new Boolean(true);
-      LibraryChecksCheckImpl.this.cache.<Boolean>put(it, key, _boolean);
+      LibraryChecksCheckImpl.this.cache.<Boolean>put(it, key, Boolean.TRUE);
       final Boolean value = LibraryChecksCheckImpl.this.cache.<Boolean>get(it, key);
       if (((value == null) || (!(value).booleanValue()))) {
         // Issue diagnostic

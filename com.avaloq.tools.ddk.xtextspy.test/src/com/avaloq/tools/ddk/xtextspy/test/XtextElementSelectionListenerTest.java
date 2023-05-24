@@ -45,6 +45,7 @@ import com.google.inject.AbstractModule;
 /**
  * Testing of XtextElementSelectionListener.
  */
+@SuppressWarnings({"deprecation", "removal"})
 public class XtextElementSelectionListenerTest extends AbstractXtextTests {
 
   /**
