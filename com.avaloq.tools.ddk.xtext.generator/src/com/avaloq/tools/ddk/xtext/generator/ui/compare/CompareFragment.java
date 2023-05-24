@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.generator.ui.compare;
 
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.mwe2.runtime.Mandatory;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtext.Grammar;
@@ -25,7 +25,7 @@ import org.eclipse.xtext.generator.resourceFactory.ResourceFactoryFragment;
 /**
  * This fragment has the same interface as the Xtext 2.0 CompareFragment. It will make the transition smoother.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class CompareFragment extends ResourceFactoryFragment {
   private static final Logger LOGGER = LogManager.getLogger(CompareFragment.class);
 

@@ -41,7 +41,7 @@ for grammar com.avaloq.tools.ddk.check.TestLanguage {
       for Greeting {
         val String key = this.qualifiedCatalogName + ".testValue";
         try {
-          cache.put(it, key, new Boolean(true));
+          cache.put(it, key, Boolean.TRUE);
           val Boolean value = cache.get(it, key);
           if (value === null || !value) {
             issue bind ("Could not read value from cache: " + value);

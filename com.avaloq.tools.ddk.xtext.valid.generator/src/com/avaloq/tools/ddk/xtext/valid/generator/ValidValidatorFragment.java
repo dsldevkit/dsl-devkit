@@ -16,8 +16,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -52,7 +52,7 @@ import com.google.common.base.Preconditions;
  * {@link org.eclipse.xtext.generator.IGeneratorFragment} implementation to generate a java based validity checker for a
  * given grammar and .valid File.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class ValidValidatorFragment extends JavaValidatorFragment {
 
   private static final String VALID_EXTENSION = "valid"; //$NON-NLS-1$

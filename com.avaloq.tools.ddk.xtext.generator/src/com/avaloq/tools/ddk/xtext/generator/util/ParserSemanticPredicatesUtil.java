@@ -46,7 +46,7 @@ import com.google.common.collect.Sets;
 /**
  * Utility for semantic predicates in Xtext grammars.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public final class ParserSemanticPredicatesUtil {
 
   /**

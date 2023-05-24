@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.generator.formatting;
 
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtext.Grammar;
@@ -30,7 +30,7 @@ import com.avaloq.tools.ddk.xtext.formatting.RegionNodeModelFormatter;
  * This class overrides {@link FormatterFragment}.
  * Presently the added functionality is to replace the stock NodeModelFormatter with {@link RegionNodeModelFormatter}.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class FormatterFragment extends org.eclipse.xtext.generator.formatting.FormatterFragment {
 
   /** Class-wide logger. */

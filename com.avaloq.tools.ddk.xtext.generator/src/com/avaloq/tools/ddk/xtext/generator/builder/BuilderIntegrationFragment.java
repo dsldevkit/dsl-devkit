@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 /**
  * Fragment to properly include the DSL DevKit clustering builder support in generated languages.
  */
-@SuppressWarnings({"nls", "deprecation"})
+@SuppressWarnings({"nls", "deprecation", "removal"})
 public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.builder.BuilderIntegrationFragment {
 
   private static final String BUILDER_BUNDLE_NAME = "com.avaloq.tools.ddk.xtext.builder";

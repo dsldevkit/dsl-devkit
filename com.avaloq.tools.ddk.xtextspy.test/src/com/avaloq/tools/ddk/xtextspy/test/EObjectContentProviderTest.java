@@ -45,6 +45,7 @@ import com.google.inject.AbstractModule;
 /**
  * Testing EObjectContentProvider.
  */
+@SuppressWarnings({"deprecation", "removal"})
 public class EObjectContentProviderTest extends AbstractXtextTests {
 
   /**

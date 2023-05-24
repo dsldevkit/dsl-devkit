@@ -14,8 +14,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -39,7 +39,7 @@ import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
 /**
  * Various utility functions for the format generator.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public final class FormatFragmentUtil {
 
   /** Class-wide logger. */
