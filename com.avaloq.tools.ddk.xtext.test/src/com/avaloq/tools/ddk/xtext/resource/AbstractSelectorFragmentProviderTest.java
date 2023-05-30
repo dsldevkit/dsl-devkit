@@ -34,7 +34,7 @@ import com.google.inject.AbstractModule;
  * Tests for {@code AbstractSelectorFragmentProvider}.
  */
 // CHECKSTYLE:OFF
-@SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
+@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "removal"})
 public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
   // CHECKSTYLE:ON
 

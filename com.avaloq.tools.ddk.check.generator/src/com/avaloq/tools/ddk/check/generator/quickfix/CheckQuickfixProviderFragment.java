@@ -20,7 +20,7 @@ import org.eclipse.xtext.ui.generator.quickfix.QuickfixProviderFragment;
  * <p>
  * Note that the {@link QuickfixProviderFragment superclass} creates the necessary IssueResolutionProvider binding.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class CheckQuickfixProviderFragment extends QuickfixProviderFragment {
 
   /**
