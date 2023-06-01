@@ -33,7 +33,7 @@ import com.avaloq.tools.ddk.xtext.builder.layered.XtextBuildTrigger;
 import com.google.inject.AbstractModule;
 
 
-@SuppressWarnings({"restriction", "deprecation"})
+@SuppressWarnings({"restriction", "deprecation", "removal"})
 public class XtextBuildTriggerTest extends AbstractXtextTests {
 
   private IWorkspace workspace;
