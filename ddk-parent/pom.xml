@@ -105,7 +105,6 @@
     <module>../com.avaloq.tools.ddk.test.ui</module>
     <module>../com.avaloq.tools.ddk.test.ui.test</module>
     <module>../com.avaloq.tools.ddk.check.core</module>
-    <module>../com.avaloq.tools.ddk.check.generator</module>
     <module>../com.avaloq.tools.ddk.check.lib</module>
     <module>../com.avaloq.tools.ddk.check.ide</module>
     <module>../com.avaloq.tools.ddk.check.ui</module>
