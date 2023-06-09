@@ -10,8 +10,8 @@ You can find more detailed documentation and examples at [ddk.tools.avaloq.com](
 
 # Installation
 
-* Take [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/packages/release/2020-06) (i.e. 2020-06)
-* Install [Xtext SDK 2.25](http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/) (currenlty DDK is based on Xtext 2.25)
+* Take [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/packages/release/2022-12) (i.e. 2022-12)
+* Install [Xtext SDK 2.31](http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/) (currenlty DDK is based on Xtext 2.31)
 * There is no public update site for DDK yet, so 
   * import all plugins from this repository into a new Eclipse workspace
   * change current target to ddk.target
