@@ -275,10 +275,11 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
      *           if the method called throws an exception
      */
     public void invoke(final State state) throws InvocationTargetException {
-      if (instance.state.get() != null && instance.state.get() != state) {
+      State instanceState = instance.state.get();
+      if (instanceState != null && instanceState != state) {
         throw new IllegalStateException("State is already assigned."); //$NON-NLS-1$
       }
-      boolean wasNull = instance.state.get() == null;
+      boolean wasNull = instanceState == null;
       if (wasNull) {
         instance.state.set(state);
       }
@@ -292,9 +293,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
           state.currentCheckType = annotation.value();
           method.setAccessible(true);
           method.invoke(instance, state.currentObject);
-        } catch (IllegalArgumentException e) {
-          LOGGER.error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
           LOGGER.error(e.getMessage(), e);
         }
       } finally {
@@ -354,10 +353,11 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
    *          the collection in which to store method wrappers found
    */
   private void collectMethodsImpl(final DefaultCheckImpl instance, final Collection<Class<?>> visitedClasses, final Collection<MethodWrapper> result) {
-    if (!visitedClasses.add(instance.getClass())) {
+    Class<?> clazz = instance.getClass();
+    if (!visitedClasses.add(clazz)) {
       return;
     }
-    Method[] methods = instance.getClass().getDeclaredMethods();
+    Method[] methods = clazz.getDeclaredMethods();
     for (Method method : methods) {
       if (method.getAnnotation(Check.class) != null && method.getParameterTypes().length == 1) {
         result.add(new MethodWrapper(instance, method));
@@ -430,39 +430,35 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   // Implementation of the Validation message acceptor below
   // ////////////////////////////////////////////////////////
 
-  /** {@inheritDoc} */
   @Override
   public void acceptError(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
-    this.state.get().hasErrors = true;
-    state.get().chain.add(createDiagnostic(Severity.ERROR, message, object, feature, index, code, issueData));
+    State localState = state.get();
+    localState.hasErrors = true;
+    localState.chain.add(createDiagnostic(Severity.ERROR, message, object, feature, index, code, issueData));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void acceptWarning(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
     state.get().chain.add(createDiagnostic(Severity.WARNING, message, object, feature, index, code, issueData));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void acceptInfo(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
     state.get().chain.add(createDiagnostic(Severity.INFO, message, object, feature, index, code, issueData));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void acceptError(final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
-    this.state.get().hasErrors = true;
-    state.get().chain.add(createDiagnostic(Severity.ERROR, message, object, offset, length, code, issueData));
+    State localState = state.get();
+    localState.hasErrors = true;
+    localState.chain.add(createDiagnostic(Severity.ERROR, message, object, offset, length, code, issueData));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void acceptWarning(final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
     state.get().chain.add(createDiagnostic(Severity.WARNING, message, object, offset, length, code, issueData));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void acceptInfo(final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
     state.get().chain.add(createDiagnostic(Severity.INFO, message, object, offset, length, code, issueData));

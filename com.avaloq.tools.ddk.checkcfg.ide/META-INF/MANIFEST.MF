@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.checkcfg.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.ide;singleton:=true
-Bundle-Version: 11.0.0.qualifier
+Bundle-Version: 11.4.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
@@ -13,7 +13,11 @@ Require-Bundle: com.avaloq.tools.ddk.checkcfg.core,
  com.google.inject,
  org.antlr.runtime,
  org.eclipse.xtext.ide,
- org.eclipse.xtext.xbase.ide
+ org.eclipse.xtext.xbase.ide,
+ com.avaloq.tools.ddk.xtext,
+ com.avaloq.tools.ddk.xtext.ide,
+ com.avaloq.tools.ddk.check.core,
+ org.eclipse.lsp4j
 Export-Package: com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr,
  com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal
 Import-Package: org.apache.log4j,

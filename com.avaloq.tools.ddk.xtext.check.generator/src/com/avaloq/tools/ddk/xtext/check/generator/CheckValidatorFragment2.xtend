@@ -9,7 +9,7 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.check.generator
+package com.avaloq.tools.ddk.xtext.check.generator
 
 import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment
 import static extension org.eclipse.xtext.xtext.generator.model.TypeReference.*

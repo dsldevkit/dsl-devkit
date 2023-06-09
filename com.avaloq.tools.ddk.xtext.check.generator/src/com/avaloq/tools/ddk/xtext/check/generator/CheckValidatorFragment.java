@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.generator;
+package com.avaloq.tools.ddk.xtext.check.generator;
 
 import java.util.Set;
 
@@ -24,7 +24,7 @@ import com.avaloq.tools.ddk.check.runtime.validation.DefaultCheckValidator;
 /**
  * This generator fragment supplies default bindings for languages using Static Code Analysis.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class CheckValidatorFragment extends AbstractGeneratorFragment {
 
   @Override

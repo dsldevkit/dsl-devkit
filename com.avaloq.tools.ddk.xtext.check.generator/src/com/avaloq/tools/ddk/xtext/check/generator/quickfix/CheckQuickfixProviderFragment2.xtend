@@ -9,7 +9,7 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.check.generator.quickfix
+package com.avaloq.tools.ddk.xtext.check.generator.quickfix
 
 import com.google.inject.Inject
 import org.eclipse.xtext.Grammar

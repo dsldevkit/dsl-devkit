@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.generator.builder;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xtext.Grammar;
@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 /**
  * Fragment to properly include the DSL DevKit clustering builder support in generated languages.
  */
-@SuppressWarnings({"nls", "deprecation"})
+@SuppressWarnings({"nls", "deprecation", "removal"})
 public class StandaloneBuilderIntegrationFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */

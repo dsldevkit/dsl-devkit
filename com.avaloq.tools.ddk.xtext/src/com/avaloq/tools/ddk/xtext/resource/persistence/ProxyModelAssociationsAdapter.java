@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
 final class ProxyModelAssociationsAdapter extends InferredModelAssociator.Adapter {
 
   private final StorageAwareResource resource;
+  private boolean loaded;
 
   private ProxyModelAssociationsAdapter(final StorageAwareResource resource) {
     this.resource = resource;
@@ -50,32 +51,30 @@ final class ProxyModelAssociationsAdapter extends InferredModelAssociator.Adapte
 
   @Override
   public Map<EObject, Deque<EObject>> getSourceToInferredModelMap() {
-    if (uninstall()) {
-      DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
-      try {
-        loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
-      } catch (IOException e) {
-        throw new WrappedException(e);
-      }
-    }
+    ensureAssociationsLoaded();
     return ((InferredModelAssociator.Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class)).getSourceToInferredModelMap();
   }
 
   @Override
   public Map<EObject, Deque<EObject>> getInferredModelToSourceMap() {
-    if (uninstall()) {
-      DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
-      try {
-        loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
-      } catch (IOException e) {
-        throw new WrappedException(e);
-      }
-    }
+    ensureAssociationsLoaded();
     return ((InferredModelAssociator.Adapter) EcoreUtil.getAdapter(resource.eAdapters(), InferredModelAssociator.Adapter.class)).getInferredModelToSourceMap();
   }
 
-  private boolean uninstall() {
-    return resource.eAdapters().remove(this);
+  private void ensureAssociationsLoaded() {
+    if (loaded) {
+      return;
+    }
+    synchronized (resource) {
+      if (resource.eAdapters().remove(this)) {
+        DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
+        try {
+          loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
+        } catch (IOException e) {
+          throw new WrappedException(e);
+        }
+      }
+      loaded = true;
+    }
   }
-
 }

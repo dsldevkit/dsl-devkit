@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.generator.quickfix;
+package com.avaloq.tools.ddk.xtext.check.generator.quickfix;
 
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.ui.generator.quickfix.QuickfixProviderFragment;
@@ -20,7 +20,7 @@ import org.eclipse.xtext.ui.generator.quickfix.QuickfixProviderFragment;
  * <p>
  * Note that the {@link QuickfixProviderFragment superclass} creates the necessary IssueResolutionProvider binding.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class CheckQuickfixProviderFragment extends QuickfixProviderFragment {
 
   /**

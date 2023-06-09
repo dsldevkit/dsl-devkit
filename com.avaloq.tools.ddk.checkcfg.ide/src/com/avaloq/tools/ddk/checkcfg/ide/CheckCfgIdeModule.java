@@ -3,9 +3,112 @@
  */
 package com.avaloq.tools.ddk.checkcfg.ide;
 
+import org.eclipse.xtext.ide.LexerIdeBindings;
+import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalProvider;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
+import org.eclipse.xtext.ide.server.formatting.FormattingService;
+import org.eclipse.xtext.ide.server.symbol.DocumentSymbolMapper.DocumentSymbolKindProvider;
+import org.eclipse.xtext.ide.server.symbol.DocumentSymbolMapper.DocumentSymbolNameProvider;
+
+import com.avaloq.tools.ddk.checkcfg.ide.contentassist.CheckCfgIdeContentProposalProvider;
+import com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal.InternalCheckCfgLexer;
+import com.avaloq.tools.ddk.checkcfg.ide.outline.CheckCfgDocumentSymbolKindProvider;
+import com.avaloq.tools.ddk.checkcfg.ide.outline.CheckCfgDocumentSymbolNameProvider;
+import com.avaloq.tools.ddk.xtext.ide.formatting.FormattingService1;
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
+
 
 /**
  * Use this class to register ide components.
  */
+@SuppressWarnings("restriction")
 public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
+  private static final String LANGUAGE_LABEL = "languageLabel"; //$NON-NLS-1$
+
+  @Override
+  public void configureIResourceDescriptionsLiveScope(final Binder binder) {
+    // Don't configure anything to avoid conflict with DefaultRuntimeModule.
+  }
+
+  /**
+   * Configures {@link FormattingService}.
+   *
+   * @return the class to bind
+   */
+  public Class<? extends FormattingService> bindFormattingService() {
+    return FormattingService1.class;
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  public void configureContentAssistLexerProvider(final Binder binder) {
+    binder.bind(InternalCheckCfgLexer.class).toProvider(org.eclipse.xtext.parser.antlr.LexerProvider.create(InternalCheckCfgLexer.class));
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  public void configureHighlightingTokenDefProvider(final Binder binder) {
+    binder.bind(org.eclipse.xtext.parser.antlr.ITokenDefProvider.class).annotatedWith(Names.named(LexerIdeBindings.HIGHLIGHTING)).to(org.eclipse.xtext.parser.antlr.AntlrTokenDefProvider.class);
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  public void configureHighlightingLexer(final Binder binder) {
+    binder.bind(org.eclipse.xtext.parser.antlr.Lexer.class).annotatedWith(Names.named(LexerIdeBindings.HIGHLIGHTING)).to(com.avaloq.tools.ddk.checkcfg.parser.antlr.internal.InternalCheckCfgLexer.class);
+  }
+
+  /**
+   * From AbstractCheckCfgUiModule.
+   * Does not depend on the Eclipse UI, and can be included here.
+   *
+   * @param binder
+   *          the binder to use
+   */
+  @Override
+  public void configureContentAssistLexer(final Binder binder) {
+    binder.bind(Lexer.class).annotatedWith(Names.named(LexerIdeBindings.CONTENT_ASSIST)).to(InternalCheckCfgLexer.class);
+  }
+
+  /**
+   * Bind document symbol name provider.
+   *
+   * @return the class<? extends document symbol name provider>
+   */
+  public final Class<? extends DocumentSymbolNameProvider> bindDocumentSymbolNameProvider() {
+    return CheckCfgDocumentSymbolNameProvider.class;
+  }
+
+  /**
+   * Bind document symbol kind provider.
+   *
+   * @return the class<? extends document symbol name provider>
+   */
+  public final Class<? extends DocumentSymbolKindProvider> bindDocumentSymbolKindProvider() {
+    return CheckCfgDocumentSymbolKindProvider.class;
+  }
+
+  @Override
+  public Class<? extends IdeContentProposalProvider> bindIdeContentProposalProvider() {
+    return CheckCfgIdeContentProposalProvider.class;
+  }
+
+  public void configureLanguageLabel(final Binder binder) {
+    binder.bind(String.class).annotatedWith(Names.named(LANGUAGE_LABEL)).toInstance("CheckCfg"); //$NON-NLS-1$
+  }
 }

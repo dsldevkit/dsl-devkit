@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.test.runtime
 Bundle-Vendor: Avaloq Group AG
-Bundle-Version: 11.0.0.qualifier
+Bundle-Version: 11.4.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.test.runtime;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
@@ -28,16 +28,16 @@ Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: com.avaloq.tools.ddk.check,
+ com.avaloq.tools.ddk.check.formatting,
+ com.avaloq.tools.ddk.check.generator,
+ com.avaloq.tools.ddk.check.parser.antlr,
+ com.avaloq.tools.ddk.check.parser.antlr.internal,
+ com.avaloq.tools.ddk.check.scoping,
+ com.avaloq.tools.ddk.check.serializer,
  com.avaloq.tools.ddk.check.services,
  com.avaloq.tools.ddk.check.testLanguage,
  com.avaloq.tools.ddk.check.testLanguage.impl,
  com.avaloq.tools.ddk.check.testLanguage.util,
- com.avaloq.tools.ddk.check.serializer,
- com.avaloq.tools.ddk.check.parser.antlr,
- com.avaloq.tools.ddk.check.parser.antlr.internal,
- com.avaloq.tools.ddk.check.validation,
- com.avaloq.tools.ddk.check.scoping,
- com.avaloq.tools.ddk.check.generator,
- com.avaloq.tools.ddk.check.formatting
+ com.avaloq.tools.ddk.check.validation
 Automatic-Module-Name: com.avaloq.tools.ddk.check.test.runtime
 

@@ -13,10 +13,13 @@ package com.avaloq.tools.ddk.checkcfg.checkcfg.impl;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.XtextResource;
 
 import com.avaloq.tools.ddk.check.check.FormalParameter;
+import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfigurableSection;
 import com.avaloq.tools.ddk.checkcfg.util.PropertiesInferenceHelper;
@@ -26,13 +29,17 @@ import com.avaloq.tools.ddk.checkcfg.util.PropertiesInferenceHelper;
  * The Class CheckConfigurationImplCustom.
  */
 public class CheckConfigurationImplCustom extends CheckConfigurationImpl {
+  private static final String PROPERTIES_KEY = CheckConfiguration.class.getName() + "#properties"; //$NON-NLS-1$
 
   /** {@inheritDoc} */
   @Override
   public EList<FormalParameter> getProperties() {
-    EList<FormalParameter> properties = new EObjectContainmentEList<FormalParameter>(FormalParameter.class, this, CheckcfgPackage.CHECK_CONFIGURATION__PROPERTIES);
-    PropertiesInferenceHelper helper = PropertiesInferenceHelper.getHelper();
-    return helper.getProperties(this, properties);
+    Resource resource = eResource();
+    return ((XtextResource) resource).getCache().get(PROPERTIES_KEY, resource, () -> {
+      EList<FormalParameter> properties = new EObjectContainmentEList<FormalParameter>(FormalParameter.class, this, CheckcfgPackage.CHECK_CONFIGURATION__PROPERTIES);
+      PropertiesInferenceHelper helper = PropertiesInferenceHelper.getHelper();
+      return helper.getProperties(this, properties);
+    });
   }
 
   @Override

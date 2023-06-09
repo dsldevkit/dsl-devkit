@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.generator.languageconstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xpand2.XpandExecutionContext;
 import org.eclipse.xpand2.output.Outlet;
@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
 /**
  * Fragment for configuring language specific constants.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class LanguageConstantsFragment extends AbstractGeneratorFragment {
 
   /** Class-wide logger. */

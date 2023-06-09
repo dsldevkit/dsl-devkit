@@ -2,7 +2,7 @@
 <feature
       id="com.avaloq.tools.ddk.feature"
       label="com.avaloq.tools.ddk.feature"
-      version="11.0.0.qualifier"
+      version="11.4.0.qualifier"
       provider-name="Avaloq Group AG">
 
    <description>
@@ -12,6 +12,13 @@
    <includes
          id="com.avaloq.tools.ddk.runtime.feature"
          version="0.0.0"/>
+
+   <plugin
+         id="com.avaloq.tools.ddk.xtext.check.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="com.avaloq.tools.ddk.xtext.export"
@@ -204,13 +211,6 @@
 
    <plugin
          id="com.avaloq.tools.ddk.checkcfg.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.avaloq.tools.ddk.check.generator"
          download-size="0"
          install-size="0"
          version="0.0.0"

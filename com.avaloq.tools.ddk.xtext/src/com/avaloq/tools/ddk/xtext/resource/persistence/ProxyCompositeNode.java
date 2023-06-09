@@ -147,19 +147,25 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
       if (!(resource instanceof StorageAwareResource)) {
         throw new IllegalStateException("Unexpected resource type '" + resource.getClass() + "' for resource " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
       }
-      StorageAwareResource storageAwareResource = (StorageAwareResource) resource;
-      IResourceStorageFacade storageFacade = storageAwareResource.getResourceStorageFacade();
-      DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) storageFacade.getOrCreateResourceStorageLoadable(storageAwareResource);
-      try {
-        loadable.loadIntoResource(storageAwareResource, ResourceLoadMode.ONLY_NODE_MODEL);
-      } catch (IOException e) {
-        throw new WrappedException(e);
+      synchronized (resource) {
+        // delegate may have been set while we were waiting, so check again
+        if (delegate != null) {
+          return delegate;
+        }
+        StorageAwareResource storageAwareResource = (StorageAwareResource) resource;
+        IResourceStorageFacade storageFacade = storageAwareResource.getResourceStorageFacade();
+        DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) storageFacade.getOrCreateResourceStorageLoadable(storageAwareResource);
+        try {
+          loadable.loadIntoResource(storageAwareResource, ResourceLoadMode.ONLY_NODE_MODEL);
+        } catch (IOException e) {
+          throw new WrappedException(e);
+        }
+        ICompositeNode compositeNode = NodeModelUtils.getNode(semanticElement);
+        if (!(compositeNode instanceof CompositeNode)) {
+          throw new IllegalStateException("No composite node found for " + EObjectUtil.getLocationString(semanticElement) + ". Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        delegate = (CompositeNode) compositeNode;
       }
-      ICompositeNode compositeNode = NodeModelUtils.getNode(semanticElement);
-      if (!(compositeNode instanceof CompositeNode)) {
-        throw new IllegalStateException("No composite node found for " + EObjectUtil.getLocationString(semanticElement) + ". Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-      delegate = (CompositeNode) compositeNode;
     }
     return delegate;
   }

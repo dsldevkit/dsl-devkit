@@ -4,7 +4,7 @@
 
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>ddk-parent</artifactId>
-  <version>11.0.0-SNAPSHOT</version>
+  <version>11.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -46,16 +46,16 @@
     <maven-enforcer-rule.version>3.3.9</maven-enforcer-rule.version>
 
     <!-- maven plugin versions -->
-    <checkstyle.plugin.version>3.2.1</checkstyle.plugin.version>
-    <checkstyle.version>10.7.0</checkstyle.version>
+    <checkstyle.plugin.version>3.3.0</checkstyle.plugin.version>
+    <checkstyle.version>10.12.0</checkstyle.version>
     <clean.version>3.2.0</clean.version>
-    <deploy.version>3.1.0</deploy.version>
-    <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
+    <deploy.version>3.1.1</deploy.version>
+    <spotbugs.plugin.version>4.7.3.4</spotbugs.plugin.version>
     <spotbugs.version>4.7.3</spotbugs.version>
-    <pmd.plugin.version>3.20.0</pmd.plugin.version>
-    <pmd.version>6.54.0</pmd.version>
-    <tycho.version>2.6.0</tycho.version>
-    <xtend.version>2.29.0</xtend.version>
+    <pmd.plugin.version>3.21.0</pmd.plugin.version>
+    <pmd.version>6.55.0</pmd.version>
+    <tycho.version>3.0.4</tycho.version>
+    <xtend.version>2.31.0</xtend.version>
   </properties>
 
   <modules>
@@ -68,6 +68,7 @@
     <module>../com.avaloq.tools.ddk.xtext</module>
     <module>../com.avaloq.tools.ddk.xtext.builder</module>
     <module>../com.avaloq.tools.ddk.xtext.builder.ui</module>
+    <module>../com.avaloq.tools.ddk.xtext.check.generator</module>
     <module>../com.avaloq.tools.ddk.xtext.common.types</module>
     <module>../com.avaloq.tools.ddk.xtext.common.types.ui</module>
     <module>../com.avaloq.tools.ddk.xtext.common.ui</module>
@@ -104,7 +105,6 @@
     <module>../com.avaloq.tools.ddk.test.ui</module>
     <module>../com.avaloq.tools.ddk.test.ui.test</module>
     <module>../com.avaloq.tools.ddk.check.core</module>
-    <module>../com.avaloq.tools.ddk.check.generator</module>
     <module>../com.avaloq.tools.ddk.check.lib</module>
     <module>../com.avaloq.tools.ddk.check.ide</module>
     <module>../com.avaloq.tools.ddk.check.ui</module>
@@ -149,7 +149,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>enforce-versions</id>
@@ -312,7 +312,7 @@
           <dependency>
               <groupId>org.ow2.asm</groupId>
               <artifactId>asm</artifactId>
-              <version>9.4</version>
+              <version>9.5</version>
           </dependency>
         </dependencies>
         <configuration>

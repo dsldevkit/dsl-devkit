@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 /**
  * Build trigger that actually does trigger a full build. Assumes we have a {@link IWorkspace} and a {@link BuildScheduler}.
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class XtextBuildTrigger implements IXtextBuildTrigger {
 
   @Inject
