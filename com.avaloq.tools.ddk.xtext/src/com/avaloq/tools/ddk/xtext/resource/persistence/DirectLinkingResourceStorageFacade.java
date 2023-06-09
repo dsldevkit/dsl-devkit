@@ -26,6 +26,7 @@ import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constitu
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 
 /**
@@ -34,13 +35,18 @@ import com.google.inject.Inject;
  */
 public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
+ 	public static final String STORE_NODE_MODEL = "com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade.STORE_NODE_MODEL";
+
+	@Inject(optional=true)
+	@Named(value=STORE_NODE_MODEL)
+ 	private boolean storeNodeModel = true;
+
   @Inject
   private ITraceSet traceSet;
 
   @Override
   public boolean isStoreNodeModel() {
-    // TODO do we always need the node model?
-    return true;
+    return storeNodeModel;
   }
 
   @Override
