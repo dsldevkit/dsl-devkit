@@ -39,7 +39,7 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   @Inject(optional=true)
   @Named(value=STORE_NODE_MODEL)
- 	private boolean storeNodeModel = true;
+  private boolean storeNodeModel = true;
 
   @Inject
   private ITraceSet traceSet;
