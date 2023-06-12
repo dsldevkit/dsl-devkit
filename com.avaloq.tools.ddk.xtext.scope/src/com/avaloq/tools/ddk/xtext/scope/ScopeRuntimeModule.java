@@ -17,7 +17,6 @@ import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
@@ -62,16 +61,6 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
   @Override
   public Class<? extends ILocationInFileProvider> bindILocationInFileProvider() {
     return ScopeLocationInFileProvider.class;
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
   }
 
   /**
