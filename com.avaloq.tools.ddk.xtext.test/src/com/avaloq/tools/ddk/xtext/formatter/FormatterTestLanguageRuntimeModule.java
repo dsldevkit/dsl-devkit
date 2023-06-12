@@ -13,8 +13,6 @@ package com.avaloq.tools.ddk.xtext.formatter;
 import org.eclipse.xtext.formatting.IFormatter;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
-
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -33,13 +31,4 @@ public class FormatterTestLanguageRuntimeModule extends com.avaloq.tools.ddk.xte
     return FormatterTestValueConverters.class;
   }
 
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   * 
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
-  }
 }

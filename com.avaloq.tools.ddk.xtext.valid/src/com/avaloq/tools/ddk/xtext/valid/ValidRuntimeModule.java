@@ -15,7 +15,6 @@ import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.avaloq.tools.ddk.xtext.valid.conversion.ValidValueConverterService;
 import com.avaloq.tools.ddk.xtext.valid.naming.ValidQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.valid.scoping.ValidScopeProvider;
@@ -43,16 +42,6 @@ public class ValidRuntimeModule extends com.avaloq.tools.ddk.xtext.valid.Abstrac
    */
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
     return ValidQualifiedNameConverter.class;
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
   }
 
   @Override
