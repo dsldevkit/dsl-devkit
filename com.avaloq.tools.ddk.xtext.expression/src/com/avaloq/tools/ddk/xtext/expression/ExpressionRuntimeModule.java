@@ -14,7 +14,6 @@ import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 
 import com.avaloq.tools.ddk.xtext.expression.conversion.ExpressionValueConverterService;
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 
 
 /**
@@ -25,16 +24,6 @@ public class ExpressionRuntimeModule extends AbstractExpressionRuntimeModule {
   @Override
   public Class<? extends IValueConverterService> bindIValueConverterService() {
     return ExpressionValueConverterService.class;
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
   }
 
   @Override

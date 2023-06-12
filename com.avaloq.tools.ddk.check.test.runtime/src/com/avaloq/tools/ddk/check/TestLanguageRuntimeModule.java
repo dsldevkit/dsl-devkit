@@ -14,7 +14,6 @@ import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.service.SingletonBinding;
 
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.avaloq.tools.ddk.check.resource.TestLanguageResourceDescriptionManager;
 import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator;
 import com.avaloq.tools.ddk.check.validation.TestLanguageCheckValidator;
@@ -33,16 +32,6 @@ public class TestLanguageRuntimeModule extends com.avaloq.tools.ddk.check.Abstra
   @SingletonBinding(eager = true)
   public Class<? extends AbstractCheckValidator> bindAbstractCheckValidator() {
     return TestLanguageCheckValidator.class;
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   * 
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
   }
 
   /**
