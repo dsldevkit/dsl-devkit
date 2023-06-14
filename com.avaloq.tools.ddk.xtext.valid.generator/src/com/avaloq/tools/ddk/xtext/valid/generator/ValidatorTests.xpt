@@ -35,11 +35,8 @@
  */
 package «getJavaValidatorName("").toJavaPackage()»;
 
-import org.eclipse.xtext.junit4.validation.ValidatorTester;
-
 import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidValidationTest;
 import com.avaloq.tools.dsl.«this.name.toSimpleName().toLowerCase()».ui.test.internal.«this.name.toSimpleName()»TestUtil;
-import com.google.inject.Injector;
 
 
 /**
@@ -47,16 +44,9 @@ import com.google.inject.Injector;
  */
 public class Abstract«this.name.toSimpleName()»ValidTest extends AbstractValidValidationTest {
 
-  /** The tester. */
-  private ValidatorTester<«getJavaValidatorName("").toSimpleName()»> tester;
-
   @Override
-  protected ValidatorTester<?> getTester() {
-    if (tester == null) {
-      «this.name.toSimpleName()»TestUtil testUtil = getXtextTestUtil();
-      tester = new ValidatorTester<«getJavaValidatorName("").toSimpleName()»>(testUtil.get(«getJavaValidatorName("").toSimpleName()».class), testUtil.get(Injector.class));
-    }
-    return tester;
+  protected Class<«getJavaValidatorName("").toSimpleName()».class> getValidator() {
+    return «getJavaValidatorName("").toSimpleName()».class;
   }
 
   @Override
