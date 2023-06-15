@@ -61,12 +61,15 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
   private static final int SOURCE_BUFFER_CAPACITY = 0x10000; // 64 KiB
 
+  private final boolean loadNodeModel;
+
   private final ITraceSet traceSet;
 
   private ResourceLoadMode mode;
 
   public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final ITraceSet traceSet) {
     super(in, loadNodeModel);
+    this.loadNodeModel = loadNodeModel;
     this.traceSet = traceSet;
   }
 
@@ -179,16 +182,18 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     }
 
     // 4. node model
-    switch (mode.instruction(Constituent.NODE_MODEL)) {
-    case SKIP:
-      break;
-    case PROXY:
-      ProxyCompositeNode.installProxyNodeModel(resource);
-      break;
-    case LOAD:
-      positioner.position(Constituent.NODE_MODEL);
-      readNodeModel(resource, new BufferedInputStream(zipIn), content);
-      break;
+    if (loadNodeModel) {
+      switch (mode.instruction(Constituent.NODE_MODEL)) {
+      case SKIP:
+        break;
+      case PROXY:
+        ProxyCompositeNode.installProxyNodeModel(resource);
+        break;
+      case LOAD:
+        positioner.position(Constituent.NODE_MODEL);
+        readNodeModel(resource, new BufferedInputStream(zipIn), content);
+        break;
+      }
     }
   }
 
