@@ -177,7 +177,6 @@
 <setEntry value="org.eclipse.equinox.simpleconfigurator.manipulator@default:default"/>
 <setEntry value="org.eclipse.equinox.simpleconfigurator@1:true"/>
 <setEntry value="org.eclipse.equinox.util@default:default"/>
-<setEntry value="org.eclipse.gef@default:default"/>
 <setEntry value="org.eclipse.help.base@default:default"/>
 <setEntry value="org.eclipse.help.ui@default:default"/>
 <setEntry value="org.eclipse.help.webapp@default:default"/>
@@ -220,7 +219,6 @@
 <setEntry value="org.eclipse.swt@default:default"/>
 <setEntry value="org.eclipse.swtbot.eclipse.core@default:default"/>
 <setEntry value="org.eclipse.swtbot.eclipse.finder@default:default"/>
-<setEntry value="org.eclipse.swtbot.eclipse.gef.finder@default:default"/>
 <setEntry value="org.eclipse.swtbot.eclipse.spy@default:default"/>
 <setEntry value="org.eclipse.swtbot.eclipse.ui@default:default"/>
 <setEntry value="org.eclipse.swtbot.forms.finder@default:default"/>
