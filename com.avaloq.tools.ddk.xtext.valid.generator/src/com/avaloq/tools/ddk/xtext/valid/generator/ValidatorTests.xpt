@@ -45,7 +45,7 @@ import com.avaloq.tools.dsl.«this.name.toSimpleName().toLowerCase()».ui.test.int
 public class Abstract«this.name.toSimpleName()»ValidTest extends AbstractValidValidationTest {
 
   @Override
-  protected Class<«getJavaValidatorName("").toSimpleName()».class> getValidator() {
+  protected Class<«getJavaValidatorName("").toSimpleName()»> getValidator() {
     return «getJavaValidatorName("").toSimpleName()».class;
   }
 
