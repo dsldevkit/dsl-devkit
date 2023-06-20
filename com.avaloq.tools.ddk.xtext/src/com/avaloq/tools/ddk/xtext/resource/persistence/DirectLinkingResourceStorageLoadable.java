@@ -23,12 +23,15 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
 import org.eclipse.xtext.nodemodel.serialization.DeserializationConversionContext;
 import org.eclipse.xtext.parser.ParseResult;
@@ -36,6 +39,7 @@ import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
+import com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
@@ -101,9 +105,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     } catch (IOException | RuntimeException e) {
       // CHECKSTYLE:ON
       LOG.info("Error loading " + resource.getURI() + " from binary storage", e); //$NON-NLS-1$ //$NON-NLS-2$
-      // TODO: remove with upgrade to Xtext x.x (https://github.com/eclipse/xtext/issues/1651)
-      resource.getContents();
-      resource.eAdapters();
       if (e instanceof IOException) { // NOPMD
         throw e;
       }
@@ -328,6 +329,30 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
           throw e;
         }
       }
+
+      @Override
+      public void loadResource(final Resource resource) throws IOException {
+        this.resource = resource;
+        resourceSet = resource.getResourceSet();
+        URI uri = resource.getURI();
+        if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
+          baseURI = uri;
+        }
+        int size = readCompressedInt();
+        if (!ResourceSetOptions.installDerivedState(resourceSet) && size == 2) { // the InfererenceContainer is always in the second slot
+          size--;
+        }
+        InternalEObject[] values = allocateInternalEObjectArray(size);
+        for (int i = 0; i < size; ++i) {
+          values[i] = loadEObject();
+        }
+        internalEObjectList.setData(size, values);
+        @SuppressWarnings("unchecked")
+        InternalEList<InternalEObject> internalEObjects = (InternalEList<InternalEObject>) (InternalEList<?>) resource.getContents();
+        internalEObjects.addAllUnique(internalEObjectList);
+        recycle(values);
+      }
+
     };
     in.loadResource(resource);
   }
