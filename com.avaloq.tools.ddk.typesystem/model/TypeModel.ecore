@@ -76,4 +76,6 @@
       <details key="documentation" value="The reason for this class is technical and,  in general, one should use the interface ICallable instead&#xD;&#xA;of this class. This class is defined in the model because Xtext needs to find an instantiable class for&#xD;&#xA;ICallable during the first phase of linking."/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IDeclaration" abstract="true" interface="true"
+      eSuperTypes="#//ICallable"/>
 </ecore:EPackage>

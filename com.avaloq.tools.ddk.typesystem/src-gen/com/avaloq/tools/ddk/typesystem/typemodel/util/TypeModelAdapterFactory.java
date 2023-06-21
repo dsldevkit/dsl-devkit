@@ -170,6 +170,11 @@ public class TypeModelAdapterFactory extends AdapterFactoryImpl
 				return createCallableAdapter();
 			}
 			@Override
+			public Adapter caseIDeclaration(IDeclaration object)
+			{
+				return createIDeclarationAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object)
 			{
 				return createEObjectAdapter();
@@ -472,6 +477,21 @@ public class TypeModelAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createCallableAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration <em>IDeclaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration
+	 * @generated
+	 */
+	public Adapter createIDeclarationAdapter()
 	{
 		return null;
 	}
