@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.swtbot.util;
 
-import org.eclipse.swtbot.eclipse.gef.finder.SWTGefBot;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
@@ -44,16 +43,6 @@ public final class SwtBotUtil {
   public static SwtWorkbenchBot initializeBot() {
     initializeBotPreferences();
     return new SwtWorkbenchBot();
-  }
-
-  /**
-   * Initializes an {@link SWTGefBot}.
-   *
-   * @return initialized {@link SWTGefBot}
-   */
-  public static SWTGefBot initializeGefBot() {
-    initializeBotPreferences();
-    return new SWTGefBot();
   }
 
   private SwtBotUtil() {}
