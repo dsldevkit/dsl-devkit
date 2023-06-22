@@ -41,7 +41,6 @@ import com.avaloq.tools.ddk.check.scoping.CheckScopeProvider;
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.check.typing.CheckExpressionHelper;
 import com.avaloq.tools.ddk.check.typing.CheckTypeComputer;
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
 
@@ -144,16 +143,6 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
    */
   public Class<? extends XbaseCompiler> bindXbaseCompiler() {
     return CheckCompiler.class;
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
   }
 
   /**

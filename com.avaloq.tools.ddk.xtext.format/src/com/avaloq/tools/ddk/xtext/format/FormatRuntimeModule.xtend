@@ -18,7 +18,6 @@ import com.avaloq.tools.ddk.xtext.format.resource.FormatResource
 import com.avaloq.tools.ddk.xtext.format.resource.FormatResourceDescriptionStrategy
 import com.avaloq.tools.ddk.xtext.format.scoping.FormatLinkingService
 import com.avaloq.tools.ddk.xtext.format.scoping.FormatScopeProvider
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper
 import com.google.inject.Binder
 import com.google.inject.name.Names
 import org.eclipse.xtext.generator.IOutputConfigurationProvider
@@ -62,15 +61,6 @@ class FormatRuntimeModule extends AbstractFormatRuntimeModule {
   /** {@inheritDoc} */
   override bindIQualifiedNameProvider() {
     return FormatQualifiedNameProvider
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  override bindIPartialParserHelper() {
-    return FixedPartialParsingHelper
   }
 
   /** {@inheritDoc} */

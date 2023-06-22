@@ -27,7 +27,6 @@ import com.avaloq.tools.ddk.checkcfg.naming.CheckCfgDeclarativeQualifiedNameProv
 import com.avaloq.tools.ddk.checkcfg.resource.CheckCfgLocationInFileProvider;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgBatchLinkingService;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProvider;
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
 import com.google.inject.name.Names;
 
 
@@ -97,13 +96,4 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
     return CheckCfgBatchLinkingService.class;
   }
 
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
-  }
 }

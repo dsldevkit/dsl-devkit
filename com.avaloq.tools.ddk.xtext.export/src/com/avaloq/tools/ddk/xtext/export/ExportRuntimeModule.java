@@ -17,8 +17,6 @@ import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
-import com.avaloq.tools.ddk.xtext.parser.FixedPartialParsingHelper;
-
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -40,16 +38,6 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
    */
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
     return ExportQualifiedNameConverter.class;
-  }
-
-  /**
-   * Workaround for Bug 416913. To be removed with DSL-596
-   *
-   * @return {@link FixedPartialParsingHelper}
-   */
-  @Override
-  public Class<? extends IPartialParsingHelper> bindIPartialParserHelper() {
-    return FixedPartialParsingHelper.class;
   }
 
   /**
