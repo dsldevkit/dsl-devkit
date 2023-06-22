@@ -42,6 +42,7 @@ import org.eclipse.xtext.util.Triple;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
 import com.avaloq.tools.ddk.xtext.resource.IResourceSetServiceCache;
+import com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions;
 import com.avaloq.tools.ddk.xtext.resource.ServiceCacheAdapter;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
@@ -334,7 +335,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       try {
         traceSet.started(ResourceInferenceEvent.class, getURI());
         isInitializing = true;
-        derivedStateComputer.installDerivedState(this, isPrelinkingPhase);
+        if (ResourceSetOptions.installDerivedState(resourceSet)) {
+          derivedStateComputer.installDerivedState(this, isPrelinkingPhase);
+        }
         fullyInitialized = true;
       } finally {
         isInitializing = false;
