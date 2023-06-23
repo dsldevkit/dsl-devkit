@@ -131,10 +131,6 @@ public class SpaceEntry {
    * @return String - a white-space string of specified length
    */
   public static String createPadding(final int length) {
-    final StringBuilder sb = new StringBuilder(""); //$NON-NLS-1$
-    for (int i = 0; i < length; i++) {
-      sb.append(' ');
-    }
-    return sb.toString();
+    return " ".repeat(length); //$NON-NLS-1$
   }
 }
