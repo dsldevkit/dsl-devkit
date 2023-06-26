@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.test.core;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import com.avaloq.tools.ddk.check.core.generator.IssueCodeValueTest;
 import com.avaloq.tools.ddk.check.core.test.BasicModelTest;
 import com.avaloq.tools.ddk.check.core.test.BugAig1314;
 import com.avaloq.tools.ddk.check.core.test.BugAig830;
@@ -44,7 +45,8 @@ import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
   BugDsl27.class,
   ProjectBasedTests.class,
   CheckApiAccessValidationsTest.class,
-  IssueCodeToLabelMapGenerationTest.class
+  IssueCodeToLabelMapGenerationTest.class,
+  IssueCodeValueTest.class
 // @Format-On
 })
 public class CheckCoreTestSuite {

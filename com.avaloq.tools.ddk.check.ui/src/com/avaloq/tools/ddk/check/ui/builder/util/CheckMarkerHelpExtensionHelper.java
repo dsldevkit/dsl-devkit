@@ -113,8 +113,8 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
     return Iterables.transform(generatorExtension.issues(check), new Function<XIssueExpression, String>() {
       @Override
       public String apply(final XIssueExpression input) {
-        String issueCode = CheckGeneratorExtensions.issueCode(input);
-        return CheckGeneratorExtensions.issueCodeValue(input, issueCode);
+        String issueName = CheckGeneratorExtensions.issueName(input);
+        return CheckGeneratorExtensions.issueCodeValue(input, issueName);
       }
     });
   }
@@ -131,8 +131,8 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
     return Iterables.transform(generatorExtension.issues(catalog), new Function<XIssueExpression, String>() {
       @Override
       public String apply(final XIssueExpression input) {
-        String issueCode = CheckGeneratorExtensions.issueCode(input);
-        return CheckGeneratorExtensions.issueCodeValue(input, issueCode);
+        String issueName = CheckGeneratorExtensions.issueName(input);
+        return CheckGeneratorExtensions.issueCodeValue(input, issueName);
       }
     });
   }

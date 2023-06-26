@@ -86,7 +86,7 @@ public final class CheckPropertiesGenerator {
    * @return the key prefix, in this case the runtime issue code value
    */
   public static String issueCodeKeyPrefix(final EObject object) {
-    String issueName = CheckGeneratorExtensions.issueCode(object);
+    String issueName = CheckGeneratorExtensions.issueName(object);
     return CheckGeneratorExtensions.issueCodeValue(EcoreUtil2.getContainerOfType(object, CheckCatalog.class), issueName);
   }
 
