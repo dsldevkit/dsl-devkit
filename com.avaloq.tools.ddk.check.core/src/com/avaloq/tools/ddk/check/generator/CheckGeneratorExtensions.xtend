@@ -72,14 +72,36 @@ class CheckGeneratorExtensions {
     }
   }
 
+  /* Gets the simple issue code name for a check. */
+  def static dispatch String issueName(Check check) {
+    if (null !== check.name) {
+      check.name
+    } else {
+      "ErrorIssueCodeNameCheck" // should only happen if the ID is missing, which will fail a validation
+    }
+  }
+
+  /* Gets the simple issue code name for an issue expression. */
+  def static dispatch String issueName(XIssueExpression issue) {
+    if (issue.issueCode !== null) {
+      issue.issueCode
+    } else if (issue.check !== null && !issue.check.eIsProxy) {
+      issueName(issue.check)
+    } else if (issue.parent(Check) !== null) {
+      issueName(issue.parent(Check))
+    } else {
+      "ErrorIssueCodeName_XIssueExpresion" // should not happen
+    }
+  }
+
   def static issueCodePrefix(CheckCatalog catalog) {
     catalog.packageName + "." + catalog.issueCodesClassName + "."
   }
 
   /* Returns the <b>value</b> of an issue code. */
-  def static issueCodeValue(EObject object, String issueCode) {
+  def static issueCodeValue(EObject object, String issueName) {
     val catalog = object.parent(typeof(CheckCatalog))
-    catalog.issueCodePrefix + issueCode.replaceAll("_", ".").toLowerCase
+    catalog.issueCodePrefix + issueName
   }
 
   /* Gets the issue label for a Check. */

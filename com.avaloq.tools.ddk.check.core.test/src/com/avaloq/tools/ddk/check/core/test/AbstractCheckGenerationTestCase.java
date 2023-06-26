@@ -40,6 +40,7 @@ import com.google.inject.Injector;
 /**
  * An abstract test class for tests on Check models. Allows creating a project, adding files, and generating and compiling the project.
  */
+@SuppressWarnings("nls")
 public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
 
   @Inject
@@ -53,7 +54,8 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
 
   protected static final String VALIDATOR_NAME_SUFFIX = "CheckImpl";
   protected static final String CATALOG_NAME_SUFFIX = "CheckCatalog";
-  protected static final ImmutableSet<String> GENERATED_FILES = ImmutableSet.of(VALIDATOR_NAME_SUFFIX, CATALOG_NAME_SUFFIX, "IssueCodes", "PreferenceInitializer", "StandaloneSetup");
+  protected static final String ISSUE_CODES_SUFFIX = "IssueCodes";
+  protected static final ImmutableSet<String> GENERATED_FILES = ImmutableSet.of(VALIDATOR_NAME_SUFFIX, CATALOG_NAME_SUFFIX, ISSUE_CODES_SUFFIX, "PreferenceInitializer", "StandaloneSetup");
 
   /**
    * Generate and compile a Check.

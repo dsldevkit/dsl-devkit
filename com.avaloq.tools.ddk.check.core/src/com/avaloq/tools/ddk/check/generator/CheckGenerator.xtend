@@ -116,7 +116,7 @@ class CheckGenerator extends JvmModelGenerator {
     */
   def compileIssueCodes(CheckCatalog catalog) {
     val allIssues = catalog.checkAndImplementationIssues // all Issue instances
-    val allIssueNames = allIssues.map(issue|issue.issueCode()).toSet // *all* issue names, unordered
+    val allIssueNames = allIssues.toMap([issue|issue.issueCode()], [issue|issue.issueName()]) // *all* issue names, unordered
 
     '''
     «IF !(catalog.packageName.isNullOrEmpty)»
@@ -129,8 +129,8 @@ class CheckGenerator extends JvmModelGenerator {
     @SuppressWarnings("all")
     public final class «catalog.issueCodesClassName» {
 
-      «FOR name:allIssueNames.sort»
-      public static final String «name» = "«issueCodeValue(catalog, name)»";
+      «FOR issueCode:allIssueNames.keySet.sort»
+      public static final String «issueCode» = "«issueCodeValue(catalog, allIssueNames.get(issueCode))»";
       «ENDFOR»
 
       private «catalog.issueCodesClassName»() {

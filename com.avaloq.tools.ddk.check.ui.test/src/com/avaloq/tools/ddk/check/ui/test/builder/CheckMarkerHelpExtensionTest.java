@@ -173,7 +173,7 @@ public class CheckMarkerHelpExtensionTest {
 
     List<String> issueCodesOfCheck = Lists.newArrayList();
     for (final XIssueExpression i : generatorExtension.issues(twoIssueCodes.getChecks().get(0))) {
-      issueCodesOfCheck.add(CheckGeneratorExtensions.issueCodeValue(twoIssueCodes.getChecks().get(0), CheckGeneratorExtensions.issueCode(i)));
+      issueCodesOfCheck.add(CheckGeneratorExtensions.issueCodeValue(twoIssueCodes.getChecks().get(0), CheckGeneratorExtensions.issueName(i)));
     }
     List<String> issueCodesInExtension = Lists.newArrayList();
     for (IPluginObject obj : extension.getChildren()) {
