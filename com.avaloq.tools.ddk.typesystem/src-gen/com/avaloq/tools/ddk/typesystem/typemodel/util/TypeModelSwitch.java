@@ -232,6 +232,15 @@ public class TypeModelSwitch<T> extends Switch<T>
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TypeModelPackage.IDECLARATION:
+			{
+				IDeclaration iDeclaration = (IDeclaration)theEObject;
+				T result = caseIDeclaration(iDeclaration);
+				if (result == null) result = caseICallable(iDeclaration);
+				if (result == null) result = caseINamedElement(iDeclaration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -536,6 +545,22 @@ public class TypeModelSwitch<T> extends Switch<T>
 	 * @generated
 	 */
 	public T caseCallable(Callable object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IDeclaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IDeclaration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIDeclaration(IDeclaration object)
 	{
 		return null;
 	}

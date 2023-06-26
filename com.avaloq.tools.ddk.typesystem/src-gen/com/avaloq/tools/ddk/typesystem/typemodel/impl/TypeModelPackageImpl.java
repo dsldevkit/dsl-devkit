@@ -6,6 +6,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.Callable;
 import com.avaloq.tools.ddk.typesystem.typemodel.IActualParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.ICallable;
 import com.avaloq.tools.ddk.typesystem.typemodel.ICaseSensitiveNamedElement;
+import com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration;
 import com.avaloq.tools.ddk.typesystem.typemodel.IExpression;
 import com.avaloq.tools.ddk.typesystem.typemodel.IFormalParameter;
 import com.avaloq.tools.ddk.typesystem.typemodel.IFunction;
@@ -168,6 +169,13 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * @generated
 	 */
 	private EClass callableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iDeclarationEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -427,6 +435,16 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIDeclaration()
+	{
+		return iDeclarationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public TypeModelFactory getTypeModelFactory()
 	{
 		return (TypeModelFactory)getEFactoryInstance();
@@ -489,6 +507,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		iCallableEClass = createEClass(ICALLABLE);
 
 		callableEClass = createEClass(CALLABLE);
+
+		iDeclarationEClass = createEClass(IDECLARATION);
 	}
 
 	/**
@@ -537,6 +557,7 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		iCallableEClass.getESuperTypes().add(this.getINamedElement());
 		callableEClass.getESuperTypes().add(this.getNamedElement());
 		callableEClass.getESuperTypes().add(this.getICallable());
+		iDeclarationEClass.getESuperTypes().add(this.getICallable());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(iExpressionEClass, IExpression.class, "IExpression", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -596,6 +617,8 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 		initEClass(iCallableEClass, ICallable.class, "ICallable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(callableEClass, Callable.class, "Callable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(iDeclarationEClass, IDeclaration.class, "IDeclaration", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

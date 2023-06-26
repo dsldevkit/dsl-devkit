@@ -415,6 +415,25 @@ public interface TypeModelPackage extends EPackage
 	 */
 	int CALLABLE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration <em>IDeclaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIDeclaration()
+	 * @generated
+	 */
+	int IDECLARATION = 19;
+
+	/**
+	 * The number of structural features of the '<em>IDeclaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDECLARATION_FEATURE_COUNT = ICALLABLE_FEATURE_COUNT + 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.IExpression <em>IExpression</em>}'.
@@ -606,6 +625,16 @@ public interface TypeModelPackage extends EPackage
 	 * @generated
 	 */
 	EClass getCallable();
+
+	/**
+	 * Returns the meta object for class '{@link com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration <em>IDeclaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IDeclaration</em>'.
+	 * @see com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration
+	 * @generated
+	 */
+	EClass getIDeclaration();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -819,6 +848,16 @@ public interface TypeModelPackage extends EPackage
 		 * @generated
 		 */
 		EClass CALLABLE = eINSTANCE.getCallable();
+
+		/**
+		 * The meta object literal for the '{@link com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration <em>IDeclaration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.IDeclaration
+		 * @see com.avaloq.tools.ddk.typesystem.typemodel.impl.TypeModelPackageImpl#getIDeclaration()
+		 * @generated
+		 */
+		EClass IDECLARATION = eINSTANCE.getIDeclaration();
 
 	}
 
