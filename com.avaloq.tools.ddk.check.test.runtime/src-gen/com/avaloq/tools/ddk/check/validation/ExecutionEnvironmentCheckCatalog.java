@@ -44,7 +44,7 @@ public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
    * @return the run-time value of <em>defaultName</em>
    */
   public String getGreetingNameLength_DefaultName(final EObject context) {
-    return checkConfigurationStoreService.getCheckConfigurationStore(context).getString("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.EXECUTIONENVIRONMENTISSUECODES.GREETING.NAME.LENGTH.DEFAULTNAME$PARAMETER", ExecutionEnvironmentPreferenceInitializer.GET_GREETING_NAME_LENGTH_DEFAULT_NAME_DEFAULT);
+    return checkConfigurationStoreService.getCheckConfigurationStore(context).getString("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.EXECUTIONENVIRONMENTISSUECODES.GREETINGNAMELENGTH.DEFAULTNAME$PARAMETER", ExecutionEnvironmentPreferenceInitializer.GET_GREETING_NAME_LENGTH_DEFAULT_NAME_DEFAULT);
   }
 
   /**
@@ -72,7 +72,7 @@ public class ExecutionEnvironmentCheckCatalog extends AbstractIssue {
    *         value looked up in the configuration store
    */
   public SeverityKind getGreetingNameLengthSeverityKind(final EObject context) {
-    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.EXECUTIONENVIRONMENTISSUECODES.GREETING.NAME.LENGTH$SEVERITY", 0);
+    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.EXECUTIONENVIRONMENTISSUECODES.GREETINGNAMELENGTH$SEVERITY", 0);
     return SeverityKind.values()[result];
   }
 }

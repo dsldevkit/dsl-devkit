@@ -61,7 +61,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    *         value looked up in the configuration store
    */
   public SeverityKind getCheckCatalogIsActiveSeverityKind(final EObject context) {
-    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.CHECK.CATALOG.IS.ACTIVE$SEVERITY", 1);
+    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.CHECKCATALOGISACTIVE$SEVERITY", 1);
     return SeverityKind.values()[result];
   }
 
@@ -90,7 +90,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    *         value looked up in the configuration store
    */
   public SeverityKind getCacheInjectionFailedSeverityKind(final EObject context) {
-    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.CACHE.INJECTION.FAILED$SEVERITY", 0);
+    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.CACHEINJECTIONFAILED$SEVERITY", 0);
     return SeverityKind.values()[result];
   }
 
@@ -119,7 +119,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    *         value looked up in the configuration store
    */
   public SeverityKind getCacheDoesntWorkSeverityKind(final EObject context) {
-    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.CACHE.DOESNT.WORK$SEVERITY", 0);
+    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.CACHEDOESNTWORK$SEVERITY", 0);
     return SeverityKind.values()[result];
   }
 
@@ -134,7 +134,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    * @return the run-time value of <em>param1</em>
    */
   public String getFormalParameters_Param1(final EObject context) {
-    return checkConfigurationStoreService.getCheckConfigurationStore(context).getString("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM1$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT);
+    return checkConfigurationStoreService.getCheckConfigurationStore(context).getString("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMALPARAMETERS.PARAM1$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_1_DEFAULT);
   }
 
   /**
@@ -148,7 +148,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    * @return the run-time value of <em>param2</em>
    */
   public boolean getFormalParameters_Param2(final EObject context) {
-    return checkConfigurationStoreService.getCheckConfigurationStore(context).getBoolean("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM2$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT);
+    return checkConfigurationStoreService.getCheckConfigurationStore(context).getBoolean("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMALPARAMETERS.PARAM2$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_2_DEFAULT);
   }
 
   /**
@@ -162,7 +162,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    * @return the run-time value of <em>param3</em>
    */
   public Boolean getFormalParameters_Param3(final EObject context) {
-    return checkConfigurationStoreService.getCheckConfigurationStore(context).getBoolean("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.PARAM3$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_3_DEFAULT);
+    return checkConfigurationStoreService.getCheckConfigurationStore(context).getBoolean("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMALPARAMETERS.PARAM3$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_PARAM_3_DEFAULT);
   }
 
   /**
@@ -176,7 +176,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    * @return the run-time value of <em>names</em>
    */
   public List<String> getFormalParameters_Names(final EObject context) {
-    return checkConfigurationStoreService.getCheckConfigurationStore(context).getStrings("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.NAMES$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_NAMES_DEFAULT);
+    return checkConfigurationStoreService.getCheckConfigurationStore(context).getStrings("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMALPARAMETERS.NAMES$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_NAMES_DEFAULT);
   }
 
   /**
@@ -190,7 +190,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    * @return the run-time value of <em>ints</em>
    */
   public List<Integer> getFormalParameters_Ints(final EObject context) {
-    return checkConfigurationStoreService.getCheckConfigurationStore(context).getIntegers("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS.INTS$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_INTS_DEFAULT);
+    return checkConfigurationStoreService.getCheckConfigurationStore(context).getIntegers("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMALPARAMETERS.INTS$PARAMETER", LibraryChecksPreferenceInitializer.GET_FORMAL_PARAMETERS_INTS_DEFAULT);
   }
 
   /**
@@ -218,7 +218,7 @@ public class LibraryChecksCheckCatalog extends AbstractIssue {
    *         value looked up in the configuration store
    */
   public SeverityKind getFormalParametersSeverityKind(final EObject context) {
-    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMAL.PARAMETERS$SEVERITY", 0);
+    final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt("COM.AVALOQ.TOOLS.DDK.CHECK.VALIDATION.LIBRARYCHECKSISSUECODES.FORMALPARAMETERS$SEVERITY", 0);
     return SeverityKind.values()[result];
   }
 }

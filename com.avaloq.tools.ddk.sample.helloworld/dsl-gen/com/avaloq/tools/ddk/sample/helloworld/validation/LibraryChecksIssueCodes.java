@@ -6,10 +6,10 @@ package com.avaloq.tools.ddk.sample.helloworld.validation;
 @SuppressWarnings("all")
 public final class LibraryChecksIssueCodes {
 
-  public static final String CACHE_DOESNT_WORK = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.cache.doesnt.work";
-  public static final String CACHE_INJECTION_FAILED = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.cache.injection.failed";
-  public static final String CHECK_CATALOG_IS_ACTIVE = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.check.catalog.is.active";
-  public static final String FORMAL_PARAMETERS = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.formal.parameters";
+  public static final String CACHE_DOESNT_WORK = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.CacheDoesntWork";
+  public static final String CACHE_INJECTION_FAILED = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.CacheInjectionFailed";
+  public static final String CHECK_CATALOG_IS_ACTIVE = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.CheckCatalogIsActive";
+  public static final String FORMAL_PARAMETERS = "com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksIssueCodes.FormalParameters";
 
   private LibraryChecksIssueCodes() {
     // Prevent instantiation.
