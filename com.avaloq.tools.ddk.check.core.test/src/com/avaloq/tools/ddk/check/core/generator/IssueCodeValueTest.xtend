@@ -55,7 +55,7 @@ class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
           }
         }
 
-        live error MyCheck2 "Label 2"
+        live error MyCheck_2 "Label 2"
         message "Message 2" {
           for Documented elem {
             switch elem {
