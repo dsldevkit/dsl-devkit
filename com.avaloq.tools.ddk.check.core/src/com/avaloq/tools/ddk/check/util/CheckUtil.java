@@ -10,6 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.util;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
+
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorStandaloneSetup;
 
 
@@ -55,5 +58,17 @@ public final class CheckUtil {
    */
   public static String serviceRegistryClassName() {
     return ICheckValidatorStandaloneSetup.class.getName();
+  }
+
+  /**
+   * Convert the given issue name into an issue code name by removing any underscores and
+   * making camel case.
+   *
+   * @param issueName
+   *          the name of the issue to convert.
+   * @return the issue code name for the given issue name.
+   */
+  public static String toIssueCodeName(final String issueName) {
+    return StringUtils.remove(WordUtils.capitalize(issueName, new char[] {'_'}), '_');
   }
 }

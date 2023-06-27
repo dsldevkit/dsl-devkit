@@ -33,6 +33,7 @@ import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.CheckType
 
 import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.*
+import static extension com.avaloq.tools.ddk.check.util.CheckUtil.*
 
 class CheckGeneratorExtensions {
 
@@ -101,7 +102,7 @@ class CheckGeneratorExtensions {
   /* Returns the <b>value</b> of an issue code. */
   def static issueCodeValue(EObject object, String issueName) {
     val catalog = object.parent(typeof(CheckCatalog))
-    catalog.issueCodePrefix + issueName
+    catalog.issueCodePrefix + issueName.toIssueCodeName
   }
 
   /* Gets the issue label for a Check. */
