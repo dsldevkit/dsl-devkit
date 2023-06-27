@@ -340,8 +340,9 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
           baseURI = uri;
         }
+        boolean installDerivedState = ResourceSetOptions.installDerivedState(resourceSet); // must be read before readCompressedInt, see HACK comment inside readCompressedInt
         int size = readCompressedInt();
-        if (!ResourceSetOptions.installDerivedState(resourceSet) && size == 2) { // the InfererenceContainer is always in the second slot
+        if (!installDerivedState && size == 2) { // the InfererenceContainer is always in the second slot
           size--;
         }
         InternalEObject[] values = allocateInternalEObjectArray(size);
