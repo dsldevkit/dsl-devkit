@@ -12,7 +12,6 @@ package com.avaloq.tools.ddk.xtext.valid;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
-import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
 import com.avaloq.tools.ddk.xtext.valid.conversion.ValidValueConverterService;

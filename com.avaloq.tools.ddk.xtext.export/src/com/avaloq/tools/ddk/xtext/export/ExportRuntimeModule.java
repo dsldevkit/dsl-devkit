@@ -12,11 +12,11 @@ package com.avaloq.tools.ddk.xtext.export;
 
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
-import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 
 import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
+
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
