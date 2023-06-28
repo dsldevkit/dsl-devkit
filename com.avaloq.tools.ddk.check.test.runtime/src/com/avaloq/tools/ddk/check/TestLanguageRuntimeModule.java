@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check;
 
-import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.service.SingletonBinding;
 
@@ -26,7 +25,7 @@ public class TestLanguageRuntimeModule extends com.avaloq.tools.ddk.check.Abstra
 
   /**
    * Allows Check clients to register validators for this language.
-   * 
+   *
    * @return the default check validator
    */
   @SingletonBinding(eager = true)
@@ -36,7 +35,7 @@ public class TestLanguageRuntimeModule extends com.avaloq.tools.ddk.check.Abstra
 
   /**
    * Binds resource description manager.
-   * 
+   *
    * @return {@link TestLanguageResourceDescriptionManager}
    */
   // CHECKSTYLE:OFF
@@ -46,4 +45,3 @@ public class TestLanguageRuntimeModule extends com.avaloq.tools.ddk.check.Abstra
     return TestLanguageResourceDescriptionManager.class;
   }
 }
-

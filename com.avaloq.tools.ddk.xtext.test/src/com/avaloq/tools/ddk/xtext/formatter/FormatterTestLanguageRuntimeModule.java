@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.xtext.formatter;
 
 import org.eclipse.xtext.formatting.IFormatter;
-import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 
 
 /**

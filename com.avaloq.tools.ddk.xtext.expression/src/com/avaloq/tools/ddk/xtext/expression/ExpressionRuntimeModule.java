@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.xtext.expression;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
-import org.eclipse.xtext.parser.antlr.IPartialParsingHelper;
 
 import com.avaloq.tools.ddk.xtext.expression.conversion.ExpressionValueConverterService;
 
