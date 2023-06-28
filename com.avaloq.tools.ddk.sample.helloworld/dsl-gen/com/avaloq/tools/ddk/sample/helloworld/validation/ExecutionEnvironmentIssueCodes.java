@@ -6,8 +6,8 @@ package com.avaloq.tools.ddk.sample.helloworld.validation;
 @SuppressWarnings("all")
 public final class ExecutionEnvironmentIssueCodes {
 
-  public static final String FRANZNAME = "com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentIssueCodes.franzname";
-  public static final String NAMELENGTH = "com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentIssueCodes.namelength";
+  public static final String FRANZNAME = "com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentIssueCodes.Franzname";
+  public static final String NAMELENGTH = "com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentIssueCodes.Namelength";
 
   private ExecutionEnvironmentIssueCodes() {
     // Prevent instantiation.
