@@ -64,11 +64,21 @@ class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
             }
           }
         }
+
+        live error MYCheck3 "Label 3"
+        message "Message 3" {
+          for Documented elem {
+            switch elem {
+              Context : issue on elem
+              Check : issue on elem
+            }
+          }
+        }
       }
     ''';
     // @Format-On
 
-    val expectedIssueCodeValues = #{'MY_CHECK_1' -> 'MyCheck1', 'MY_CHECK_2' -> 'MyCheck2'}
+    val expectedIssueCodeValues = #{'MY_CHECK_1' -> 'MyCheck1', 'MY_CHECK_2' -> 'MyCheck2', 'MY_CHECK_3' -> 'MyCheck3'}
 
     // ACT
     var List<JavaSource> compiledClassesList
@@ -86,7 +96,7 @@ class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
 
     for (issueCode: expectedIssueCodeValues.entrySet) {
       val expectedIssueCodeAssignment = '''public static final String «issueCode.key» = "«PACKAGE_NAME».«CATALOG_NAME»«ISSUE_CODES_SUFFIX».«issueCode.value»";'''
-      assertTrue('''«issueCodesClassName» was generated correctly''', issueCodesClass.contains(expectedIssueCodeAssignment))
+      assertTrue('''«issueCodesClassName» contains correct initialization of «issueCode.key»''', issueCodesClass.contains(expectedIssueCodeAssignment))
     }
   }
 

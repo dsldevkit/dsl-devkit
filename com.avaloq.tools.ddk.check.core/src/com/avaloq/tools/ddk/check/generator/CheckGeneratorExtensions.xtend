@@ -102,7 +102,7 @@ class CheckGeneratorExtensions {
   /* Returns the <b>value</b> of an issue code. */
   def static issueCodeValue(EObject object, String issueName) {
     val catalog = object.parent(typeof(CheckCatalog))
-    catalog.issueCodePrefix + issueName.toIssueCodeName
+    catalog.issueCodePrefix + issueName.splitCamelCase.toIssueCodeName
   }
 
   /* Gets the issue label for a Check. */
