@@ -69,6 +69,6 @@ public final class CheckUtil {
    * @return the issue code name for the given issue name.
    */
   public static String toIssueCodeName(final String issueName) {
-    return StringUtils.remove(WordUtils.capitalize(issueName, new char[] {'_'}), '_');
+    return StringUtils.remove(WordUtils.capitalizeFully(issueName, new char[] {'_'}), '_');
   }
 }
