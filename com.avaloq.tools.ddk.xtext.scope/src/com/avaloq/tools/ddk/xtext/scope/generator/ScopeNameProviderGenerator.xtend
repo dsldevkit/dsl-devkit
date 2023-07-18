@@ -84,7 +84,7 @@ class ScopeNameProviderGenerator {
   }
 
   def nameFunctions(Naming it, ScopeModel model, String contextName, EClass contextType) {
-    '''Arrays.<INameFunction> asList(«FOR n : names SEPARATOR ", "»«nameFunction(n, model, contextName, contextType)»«ENDFOR»)'''
+    '''Arrays.asList(«FOR n : names SEPARATOR ", "»«nameFunction(n, model, contextName, contextType)»«ENDFOR»)'''
   }
 
   def dispatch String nameFunction(NamingExpression it, ScopeModel model, String contextName, EClass contextType) {
