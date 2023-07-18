@@ -31,7 +31,7 @@ import com.google.common.collect.ImmutableMap;
  * Implementation of {@ink IEObjectDescription} which can be {@link IDetachableDescription#detach() detached} for better performance.
  */
 public class DetachableEObjectDescription extends EObjectDescription implements IDetachableDescription<IEObjectDescription> {
-  public static final String ALLOW_LOOKUP = "allow_lookup"; //$NON-NLS-1$
+  public static final String ALLOW_LOOKUP = "aL"; //$NON-NLS-1$
 
   /**
    * Detached view of an {@link DetachableEObjectDescription}.
