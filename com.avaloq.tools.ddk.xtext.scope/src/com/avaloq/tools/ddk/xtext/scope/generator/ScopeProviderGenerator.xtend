@@ -307,18 +307,14 @@ class ScopeProviderGenerator {
     «val matchData = data.filter(LambdaDataExpression)»
     «IF matchData.isEmpty && prefix === null»newContainerScope(«ELSEIF matchData.isEmpty && prefix !== null»newPrefixedContainerScope(«ELSE»newDataMatchScope(«ENDIF»"«it.locatorString()»", scope, ctx, «query (it, model, typeOrRef, scope)», originalResource«
     IF !matchData.isEmpty», //
-      Arrays.<Predicate<IEObjectDescription>> asList(
+      Arrays.asList(
     «FOR d : matchData SEPARATOR ","»
     «val CompilationContext cc = compilationContext.cloneWithVariable('ctx', eContainer(ScopeRule).context.contextType, d.desc, 'org::eclipse::xtext::resource::IEObjectDescription')»
-        new Predicate<IEObjectDescription>() {
-          public boolean apply (final IEObjectDescription «d.desc») {
     «IF d.value.isCompilable(cc.clone('ctx'))»
-            return «d.value.javaExpression(cc.clone('ctx'))»;
+        «d.desc» -> «d.value.javaExpression(cc.clone('ctx'))»
     «ELSE»
-            EXPRESSION_NOT_SUPPORTED("«serialize()»");
+        «d.desc» -> EXPRESSION_NOT_SUPPORTED("«serialize()»")
     «ENDIF»
-          }
-        }«
     ENDFOR»)«
     ELSEIF prefix !== null», «doExpression (prefix, model, 'ctx', eContainer(ScopeRule).context.contextType)», «recursivePrefix»«
     ENDIF
