@@ -314,8 +314,8 @@ class ScopeProviderGenerator {
         «d.desc» -> «d.value.javaExpression(cc.clone('ctx'))»
     «ELSE»
         «d.desc» -> EXPRESSION_NOT_SUPPORTED("«serialize()»")
-    «ENDIF»
-    «ENDFOR»)«
+    «ENDIF»«
+    ENDFOR»)«
     ELSEIF prefix !== null», «doExpression (prefix, model, 'ctx', eContainer(ScopeRule).context.contextType)», «recursivePrefix»«
     ENDIF
   »'''
