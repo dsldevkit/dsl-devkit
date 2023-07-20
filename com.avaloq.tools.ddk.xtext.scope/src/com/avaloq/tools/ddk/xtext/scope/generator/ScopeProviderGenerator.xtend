@@ -315,7 +315,7 @@ class ScopeProviderGenerator {
     «ELSE»
         «d.desc» -> EXPRESSION_NOT_SUPPORTED("«serialize()»")
     «ENDIF»«
-    ENDFOR»)«
+    ENDFOR»  )«
     ELSEIF prefix !== null», «doExpression (prefix, model, 'ctx', eContainer(ScopeRule).context.contextType)», «recursivePrefix»«
     ENDIF
   »'''

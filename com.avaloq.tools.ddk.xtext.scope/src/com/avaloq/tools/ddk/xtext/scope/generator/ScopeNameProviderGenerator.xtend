@@ -116,7 +116,7 @@ class ScopeNameProviderGenerator {
     «IF (target === null || target.isThisCall()) && isSimpleFeatureCall(currentContext)»NameFunctions.fromFeature(«literalIdentifier(feature())»)«
     ELSEIF isSimpleNavigation(currentContext)»
       object -> {
-        final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
+          final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
           return toQualifiedName(«javaExpression(currentContext)»);
         }
       «
@@ -127,9 +127,9 @@ class ScopeNameProviderGenerator {
     «val currentContext = if (contextName === null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
     «IF isCompilable(currentContext)»
       object -> {
-        final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
-        return toQualifiedName(«javaExpression(currentContext)»);
-      }
+          final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
+          return toQualifiedName(«javaExpression(currentContext)»);
+        }
     «
     ELSE»EXPRESSION_NOT_SUPPORTED("«serialize()»")«ENDIF
   »'''
