@@ -10,11 +10,13 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
+import java.util.function.Function;
+
+import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
-
-import com.google.common.base.Function;
 
 
 /**
@@ -29,6 +31,10 @@ public interface INameFunction extends Function<EObject, QualifiedName> {
    *          The IEObjectDescription
    * @return The name.
    */
-  QualifiedName apply(final IEObjectDescription from);
+  default QualifiedName apply(final IEObjectDescription from) {
+    LogManager.getLogger(INameFunction.class).warn("No explicit name function for description " + from.getEObjectURI() + " of type " //$NON-NLS-1$ //$NON-NLS-2$
+        + EcoreUtil.getURI(from.getEClass()));
+    return from.getName();
+  }
 
 }
