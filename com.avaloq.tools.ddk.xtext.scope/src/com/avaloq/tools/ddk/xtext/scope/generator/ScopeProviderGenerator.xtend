@@ -103,13 +103,17 @@ class ScopeProviderGenerator {
     /** {@inheritDoc} */
     @Override
     protected IScope doGetScope(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
-      «FOR name : allScopes().filter(s|s.reference !== null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
-     »if ("«name»".equals(scopeName)) {
+      switch (scopeName) {
+      «FOR name : allScopes().filter(s|s.reference !== null).map(s|s.getScopeName()).toSet()
+     »case "«name»":
         «FOR scope : allScopes().filter(s|s.reference !== null).filter(s|s.getScopeName()==name)»
         if (reference == «scope.reference.literalIdentifier()») return «scope.scopeMethodName()»(context, reference, originalResource);
         «ENDFOR»
-      }«
+        break;
+      «
       ENDFOR»
+        default: break;
+      }
       return null;
     }
 
