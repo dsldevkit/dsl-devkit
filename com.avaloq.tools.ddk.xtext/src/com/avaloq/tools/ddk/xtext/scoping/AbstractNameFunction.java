@@ -10,19 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.resource.IEObjectDescription;
-
-
 /**
  * A name function maps IEObjectDescriptions or EObjects to names.
  */
 public abstract class AbstractNameFunction implements INameFunction {
-
-  private static final Logger LOG = LogManager.getLogger(AbstractNameFunction.class);
 
   /**
    * String value used in {@link #toString()} representation and {@link #hashCode()}. Used to support comparing NameFunctions when
@@ -45,13 +36,6 @@ public abstract class AbstractNameFunction implements INameFunction {
    */
   public AbstractNameFunction(final String representation) {
     this.representation = representation;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public QualifiedName apply(final IEObjectDescription from) {
-    LOG.warn("No explicit name function for description " + from.getEObjectURI() + " of type " + EcoreUtil.getURI(from.getEClass())); //$NON-NLS-1$ //$NON-NLS-2$
-    return from.getName();
   }
 
   @Override

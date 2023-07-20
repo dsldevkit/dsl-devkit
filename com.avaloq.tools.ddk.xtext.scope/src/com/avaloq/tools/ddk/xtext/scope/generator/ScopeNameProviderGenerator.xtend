@@ -36,11 +36,9 @@ class ScopeNameProviderGenerator {
       import java.util.Arrays;
 
       import org.eclipse.emf.ecore.EClass;
-      import org.eclipse.emf.ecore.EObject;
-
+      
       import org.eclipse.xtext.naming.QualifiedName;
 
-      import com.avaloq.tools.ddk.xtext.scoping.AbstractNameFunction;
       import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider;
       import com.avaloq.tools.ddk.xtext.scoping.INameFunction;
       import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
@@ -116,23 +114,23 @@ class ScopeNameProviderGenerator {
   def dispatch String nameFunction(FeatureCall it, ScopeModel model, String contextName, EClass contextType) '''
     «val currentContext = if (contextName === null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
     «IF (target === null || target.isThisCall()) && isSimpleFeatureCall(currentContext)»NameFunctions.fromFeature(«literalIdentifier(feature())»)«
-    ELSEIF isSimpleNavigation(currentContext)»new AbstractNameFunction() {
-      public QualifiedName apply(final EObject object) {
+    ELSEIF isSimpleNavigation(currentContext)»
+      object -> {
         final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
           return toQualifiedName(«javaExpression(currentContext)»);
         }
-      }«
+      «
     ELSE»EXPRESSION_NOT_SUPPORTED("«serialize()»")«ENDIF
   »'''
 
   def dispatch String nameFunction(OperationCall it, ScopeModel model, String contextName, EClass contextType) '''
     «val currentContext = if (contextName === null) compilationContext.clone('obj', scopeType()) else compilationContext.clone('obj', scopeType(), 'ctx', contextType)»
-    «IF isCompilable(currentContext)»new AbstractNameFunction() {
-      public QualifiedName apply(final EObject object) {
+    «IF isCompilable(currentContext)»
+      object -> {
         final «scopeType().instanceClassName()» obj = («scopeType().instanceClassName()») object;
         return toQualifiedName(«javaExpression(currentContext)»);
       }
-    }«
+    «
     ELSE»EXPRESSION_NOT_SUPPORTED("«serialize()»")«ENDIF
   »'''
 
