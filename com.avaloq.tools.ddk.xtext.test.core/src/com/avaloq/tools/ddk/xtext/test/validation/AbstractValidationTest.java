@@ -337,7 +337,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         if (diagnosticPositionEquals(pos, diag)) {
           // Add issue to the list of issues at the given position
           diagnosticsOnTargetPosition.add(diag);
-          if (diag.getCode().equals(issueCode)) {
+          if (diag.getCode() != null && diag.getCode().equals(issueCode)) {
             issueFound = true;
             if (expectedSeverity == SEVERITY_UNDEFINED) {
               actualSeverity = root.eResource().getErrors().contains(diag) ? Diagnostic.ERROR : Diagnostic.WARNING;
