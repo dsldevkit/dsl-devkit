@@ -743,7 +743,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
   /**
    * Auxiliary leaf node subtype used to indicate that a new line must be inserted at some point.
    */
-  private static class LeadingCommentsMarkerNode extends LeafNode {
+  private static final class LeadingCommentsMarkerNode extends LeafNode {
     @Override
     public String getText() {
       return NEW_LINE;

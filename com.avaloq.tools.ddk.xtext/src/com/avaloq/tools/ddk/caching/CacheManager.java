@@ -257,7 +257,7 @@ public final class CacheManager {
   /**
    * {@link CacheStatistics} representing the statistics coming from multiple caches.
    */
-  private class MultiCacheStatistics extends CacheStatistics {
+  private final class MultiCacheStatistics extends CacheStatistics {
     private int counter;
 
     @Override
