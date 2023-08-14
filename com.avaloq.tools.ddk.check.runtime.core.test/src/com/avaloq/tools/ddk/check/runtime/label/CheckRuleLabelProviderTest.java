@@ -253,7 +253,7 @@ public class CheckRuleLabelProviderTest {
    * {@inheritDoc}
    * Override with invalidateCache() method exposed.
    */
-  private static class CheckRuleLabelProviderWithInvalidateCacheExposed extends CheckRuleLabelProvider {
+  private static final class CheckRuleLabelProviderWithInvalidateCacheExposed extends CheckRuleLabelProvider {
     /**
      * Call protected method {link CheckRuleLabelProvider.invalidateCache}.
      */
