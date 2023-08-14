@@ -62,7 +62,7 @@ public final class BuiltInTypeModelAccess {
   /**
    * The singleton instance.
    */
-  private static class InstanceHolder {
+  private static final class InstanceHolder {
     // Initialize-on-demand holder pattern.
     @SuppressWarnings("PMD.AccessorClassGeneration")
     // This is a common idiom, and PMD even says to use it, see http://pmd.sourceforge.net/pmd-5.1.0/rules/java/design.html, Rule NonThreadSafeSingleton
