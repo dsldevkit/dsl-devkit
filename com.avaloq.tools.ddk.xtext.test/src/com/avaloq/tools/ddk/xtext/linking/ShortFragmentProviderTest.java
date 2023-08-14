@@ -35,7 +35,7 @@ public class ShortFragmentProviderTest extends AbstractTest {
 
   private static AbstractTestUtil testUtil = new AbstractTestUtil() {};
 
-  private static class TestFallbackFragmentProvider implements IFragmentProvider.Fallback {
+  private static final class TestFallbackFragmentProvider implements IFragmentProvider.Fallback {
 
     @Override
     public String getFragment(final EObject obj) {

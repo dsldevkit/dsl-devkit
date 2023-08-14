@@ -79,7 +79,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
   /**
    * Stores occurrences to be checked.
    */
-  private static class OccurrencesToCheck {
+  private static final class OccurrencesToCheck {
     private int cursorOffset;
     private final Set<Integer> semanticMarkers = Sets.newHashSet();
     private final Set<Integer> noSemanticMarkers = Sets.newHashSet();

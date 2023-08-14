@@ -201,7 +201,7 @@ public class ErrorLogListener {
   /**
    * A log listeners listening for logged {@link IStatus}.
    */
-  private class LogListener implements ILogListener {
+  private final class LogListener implements ILogListener {
     /** The list holding the logged status. */
     private final List<IStatus> loggedStatus = new ArrayList<IStatus>();
 
