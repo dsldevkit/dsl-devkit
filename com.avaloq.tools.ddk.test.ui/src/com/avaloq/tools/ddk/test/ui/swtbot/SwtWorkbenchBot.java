@@ -627,7 +627,7 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
   }
 
   /** Helper that doesn't wait for widgets to appear as long as the default settings. */
-  private static class ImpatientSwtWorkbenchBot extends SWTWorkbenchBot {
+  private final static class ImpatientSwtWorkbenchBot extends SWTWorkbenchBot {
     static final long MAX_RETRIES = 4; // Actual number of retries will almost certainly be at least 1 fewer than this.
     static final long SHORT_TIME_OUT = 64;
     static final long SHORT_INTERVAL = SHORT_TIME_OUT / MAX_RETRIES;
