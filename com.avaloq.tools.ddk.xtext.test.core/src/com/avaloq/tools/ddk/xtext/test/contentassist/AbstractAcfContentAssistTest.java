@@ -330,7 +330,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    * This class preserves information about tags in the sources for all tests within
    * a content assist test class.
    */
-  private class AcfContentAssistMarkerTagsInfo extends MarkerTagsInfo {
+  private final class AcfContentAssistMarkerTagsInfo extends MarkerTagsInfo {
     private final Map<Integer, String[]> expectedProposalMap = Maps.newHashMap();
     private final Map<Integer, String[]> notExpectedProposalMap = Maps.newHashMap();
     private final Map<Integer, String[]> expectedExactlyProposalMap = Maps.newHashMap();
