@@ -89,7 +89,7 @@ public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
     assertSame(obj, res.getEObject(fragment));
   }
 
-  private static class TestSelectorFragmentProvider extends AbstractSelectorFragmentProvider {
+  private static final class TestSelectorFragmentProvider extends AbstractSelectorFragmentProvider {
 
     @Override
     public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {

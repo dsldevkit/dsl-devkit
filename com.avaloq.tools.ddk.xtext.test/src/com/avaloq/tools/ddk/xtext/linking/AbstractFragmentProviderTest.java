@@ -22,7 +22,7 @@ public class AbstractFragmentProviderTest {
 
   private static final String[] SPECIAL_ESCAPE_CASES = new String[] {"\\", "\\\\", "\\\\\\", "\\#", "\\\\#", "\\\\\\#", "#", "##", "#\\"};
 
-  private static class TestAbstractFragmentProvider extends AbstractFragmentProvider {
+  private static final class TestAbstractFragmentProvider extends AbstractFragmentProvider {
 
     @Override
     public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
