@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinWorkerThread;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -114,6 +115,7 @@ import com.google.inject.name.Named;
 public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     implements IResourceDescriptions2, IXtextTargetPlatformManager.Listener, ILayeredResourceDescriptions {
 
+  private static final int BINARY_STORAGE_EXECUTOR_PARALLELISM = 4;
   public static final String PHASE_ONE_BUILD_SORTER = "com.avaloq.tools.ddk.xtext.builder.phaseOneBuildSorter"; //$NON-NLS-1$
   public static final String PHASE_TWO_BUILD_SORTER = "com.avaloq.tools.ddk.xtext.builder.phaseTwoBuildSorter"; //$NON-NLS-1$
 
@@ -170,7 +172,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return worker;
   };
 
-  private final ForkJoinPool binaryStorageExecutor = new ForkJoinPool(4, factory, null, false);
+  private ForkJoinPool binaryStorageExecutor = new ForkJoinPool(BINARY_STORAGE_EXECUTOR_PARALLELISM, factory, null, false);
 
   /**
    * Handle to the ResourceDescriptionsData we use viewed as a IResourceDescriptions2 (with findReferences()). Parent class does not provide direct access to
@@ -234,7 +236,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void ensureLoaded() {
     if (!isLoaded) {
@@ -395,7 +396,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   // CHECKSTYLE:CHECK-OFF NestedTryDepth
   protected Collection<Delta> doUpdate(final BuildData buildData, final ResourceDescriptionsData newData, final IProgressMonitor monitor) { // NOPMD
@@ -653,7 +653,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       }
       traceSet.ended(BuildLinkingEvent.class);
       watchdog.interrupt();
-      awaitBinaryStorageExecutorQuiescence();
+      awaitBinaryStorageExecutorTermination();
     }
     return allDeltas;
     // CHECKSTYLE:CHECK-ON NestedTryDepth
@@ -688,38 +688,40 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
 
-      CompletableFuture.runAsync(() -> doStoreBinaryResource(resource, buildData), binaryStorageExecutor);
+      try {
+        CompletableFuture.runAsync(() -> doStoreBinaryResource(resource, buildData), binaryStorageExecutor);
+      } catch (RejectedExecutionException e) {
+        String errorMessage = "Unable to submit a new task to store a binary resource."; //$NON-NLS-1$
+        if (binaryStorageExecutor.isShutdown()) {
+          LOGGER.info(errorMessage + " The worker pool has shut down."); //$NON-NLS-1$
+        } else {
+          LOGGER.error(errorMessage + " Exception information: " + e.getMessage()); //$NON-NLS-1$
+        }
+      }
     }
   }
 
   protected void doStoreBinaryResource(final Resource resource, final BuildData buildData) {
     IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
-    if (resource.getResourceSet() != null) {
-      final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
+    final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
 
-      try {
-        long elapsed = System.nanoTime();
+    try {
+      long elapsed = System.nanoTime();
 
-        storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
-        buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
+      storageFacade.saveResource((StorageAwareResource) resource, (IFileSystemAccessExtension3) fileSystemAccess);
+      buildData.getSourceLevelURICache().getSources().remove(resource.getURI());
 
-        elapsed = System.nanoTime() - elapsed;
-        if (elapsed > maxTaskExecutionNanos) {
-          LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-      } catch (WrappedException ex) {
-        LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex.exception());
-
-        // CHECKSTYLE:OFF
-      } catch (Throwable ex) {
-        // CHECKSTYLE:ON
-        LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex);
+      elapsed = System.nanoTime() - elapsed;
+      if (elapsed > maxTaskExecutionNanos) {
+        LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
       }
-    } else {
-      if (storageFacade instanceof DirectLinkingResourceStorageFacade) {
-        ((DirectLinkingResourceStorageFacade) storageFacade).deleteStorage(resource.getURI(), fileSystemAccess);
-      }
-      LOGGER.info("No resourceSet found for " + resource.getURI()); //$NON-NLS-1$
+    } catch (WrappedException ex) {
+      LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex.exception());
+
+      // CHECKSTYLE:OFF
+    } catch (Throwable ex) {
+      // CHECKSTYLE:ON
+      LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex);
     }
   }
 
@@ -744,13 +746,29 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   /**
    * Waits until binary models are stored.
    */
-  protected void awaitBinaryStorageExecutorQuiescence() {
+  protected void awaitBinaryStorageExecutorTermination() {
+    LOGGER.info("Waiting for binary resource storage tasks to complete..."); //$NON-NLS-1$
+
+    // Stop accepting additional work
+    binaryStorageExecutor.shutdown();
     int activeThreadCount = binaryStorageExecutor.getActiveThreadCount();
     long queuedTaskCount = binaryStorageExecutor.getQueuedTaskCount();
-    if (!binaryStorageExecutor.awaitQuiescence(1, TimeUnit.MINUTES)) {
+
+    // Attempt to wait for queued work to complete
+    try {
+      if (!binaryStorageExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
+        throw new InterruptedException();
+      }
+    } catch (InterruptedException e) {
       LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with task / queue %d / %d; now have %d / %d", //$NON-NLS-1$
           activeThreadCount, queuedTaskCount, binaryStorageExecutor.getActiveThreadCount(), binaryStorageExecutor.getQueuedTaskCount()));
+      binaryStorageExecutor.shutdownNow();
     }
+
+    LOGGER.info("Binary resource storage executor completed."); //$NON-NLS-1$
+
+    // Be ready to accept additional work
+    binaryStorageExecutor = new ForkJoinPool(BINARY_STORAGE_EXECUTOR_PARALLELISM, factory, null, false);
   }
 
   /**
@@ -1014,7 +1032,6 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return toBuild;
   }
 
-  /** {@inheritDoc} */
   protected void writeNewResourceDescriptions(final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final ResourceDescriptionsData newData, final IProgressMonitor monitor) {
     final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated());
     final List<URI> toBuild = Lists.newLinkedList();
@@ -1059,9 +1076,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Override
   protected void clearResourceSet(final ResourceSet resourceSet) {
     // this is important as otherwise the resources would unexpectedly become detached from the resource set
-    while (!binaryStorageExecutor.awaitQuiescence(1, TimeUnit.SECONDS)) {
-      LOGGER.warn("Waiting for binary resource storage tasks to complete."); //$NON-NLS-1$
-    }
+    awaitBinaryStorageExecutorTermination();
     traceSet.started(BuildResourceSetClearEvent.class, resourceSet.getResources().size());
     try {
       EmfResourceSetUtil.clearResourceSetWithoutNotifications(resourceSet);
@@ -1297,34 +1312,29 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   // IResourceDescriptions2 interface implementation
 
-  /** {@inheritDoc} */
   @Override
   public Set<URI> getAllURIs() {
     return myData.getAllURIs();
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     ensureLoaded();
     return myData.findAllReferencingResources(targetResources, matchPolicy);
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     ensureLoaded();
     return myData.findExactReferencingResources(targetObjects, matchPolicy);
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     ensureLoaded();
     return myData.findReferencesToObjects(targetObjects);
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IResourceDescription> getLocalResourceDescriptions() {
     ensureLoaded();
