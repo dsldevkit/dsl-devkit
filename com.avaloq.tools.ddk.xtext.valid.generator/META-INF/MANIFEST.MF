@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.valid.generator
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.valid.generator;singleton:=true
-Bundle-Version: 12.0.0.qualifier
+Bundle-Version: 12.1.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.avaloq.tools.ddk.xtext.valid;visibility:=reexport,
