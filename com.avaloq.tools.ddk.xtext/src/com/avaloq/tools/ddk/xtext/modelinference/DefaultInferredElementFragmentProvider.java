@@ -40,7 +40,7 @@ public class DefaultInferredElementFragmentProvider implements IInferredElementF
   @Inject
   private IQualifiedNameProvider qualifiedNameProvider;
 
-  private final HashFunction hashFunction = Hashing.murmur3_32();
+  private final HashFunction hashFunction = Hashing.murmur3_32_fixed();
 
   private final Map<EClass, byte[]> eClassToUriBytesMap = Maps.newHashMap();
 
