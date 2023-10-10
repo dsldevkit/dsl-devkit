@@ -49,7 +49,7 @@ public class ScopeResourceDescriptionStrategy extends DefaultResourceDescription
     try {
       QualifiedName qualifiedName = getQualifiedNameProvider().getFullyQualifiedName(model);
       if (qualifiedName != null) {
-        Hasher hasher = Hashing.murmur3_32().newHasher(HASHER_CAPACITY);
+        Hasher hasher = Hashing.murmur3_32_fixed().newHasher(HASHER_CAPACITY);
         hasher.putUnencodedChars(getSourceText(model));
         for (ScopeModel include : model.getIncludedScopes()) {
           hasher.putUnencodedChars(getSourceText(include));
