@@ -37,20 +37,14 @@
     <unit id="org.eclipse.lsp4j.sdk.feature.group" version="0.0.0"/>
   </location>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-    <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
-    <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
-    <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
-    <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
-    <unit id="org.hamcrest.library.source" version="1.3.0.v20180524-2246"/>
-    <unit id="org.mockito" version="2.23.0.v20200310-1642"/>
-    <unit id="org.mockito.source" version="2.23.0.v20200310-1642"/>
-    <unit id="org.slf4j.ext" version="1.7.30.v20200204-2150"/>
-  </location>
-  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-    <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20220302172233/repository"/>
+    <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20221123021534/repository"/>
+    <unit id="org.apache.log4j" version="1.2.19.v20220208-1728"/>
     <unit id="org.apache.logging.log4j" version="2.17.1.v20220106-2156"/>
-    <unit id="org.apache.commons.lang" version="2.6.0.v201404270220"/>
-    <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
+    <unit id="org.apache.commons.lang" version="2.6.0.v20220406-2305"/>
+    <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
+    <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
+    <unit id="org.mockito.mockito-core" version="4.8.1.v20221103-2317"/>
+    <unit id="org.slf4j.ext" version="1.7.30.v20221112-0806"/>
   </location>
 </locations>
 </target>
