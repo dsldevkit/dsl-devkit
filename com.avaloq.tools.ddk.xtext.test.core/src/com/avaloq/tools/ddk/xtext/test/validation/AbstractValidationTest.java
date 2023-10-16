@@ -832,10 +832,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the model in which to look for issues, may be {@code null}
    */
   protected void assertNoDiagnostics(final EObject model) {
-    if (model == null) {
-      fail("Assertion cannot be checked because the model is null");
-    }
-
+    assertNotNull("Assertion cannot be checked because the model is null", model == null);
     assertNoDiagnostics(getXtextTestUtil().getDiagnostician().validate(model));
   }
 
