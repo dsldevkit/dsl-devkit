@@ -269,7 +269,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
     // Check that the converter is for the correct type
     try {
       getValueConverterService().toString("false", rule.getName());
-      fail("Converter must not accept String.");
+      throw new AssertionError("Converter must not accept String.");
     } catch (final ClassCastException expected) {
       // expected; do nothing
     } catch (final ValueConverterException expected) {
