@@ -32,7 +32,6 @@ import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil;
 import org.eclipse.xtext.ui.util.IProjectFactoryContributor;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
-import org.junit.Assert;
 
 import com.google.inject.Injector;
 
@@ -149,7 +148,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     } catch (InvocationTargetException e) {
       LOGGER.error(e.getCause().getMessage());
     } catch (InterruptedException e) {
-      Assert.fail("Interrupted"); //$NON-NLS-1$
+      throw new AssertionError("Interrupted"); //$NON-NLS-1$
     }
   }
 
