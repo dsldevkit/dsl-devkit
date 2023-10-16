@@ -1089,7 +1089,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     if (!errors.isEmpty()) {
       StringBuilder sb = new StringBuilder("Syntax error is present in the test source.\nList of all found syntax errors:");
       errors.forEach(err -> sb.append("\n\t " + err.getMessage()));
-      fail(sb.toString());
+      throw new AssertionError(sb.toString());
     }
   }
 
