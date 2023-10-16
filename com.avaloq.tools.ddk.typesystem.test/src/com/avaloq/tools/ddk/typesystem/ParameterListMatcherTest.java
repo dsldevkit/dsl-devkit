@@ -13,7 +13,6 @@ package com.avaloq.tools.ddk.typesystem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,13 +178,9 @@ public class ParameterListMatcherTest {
         } else {
           return matchResultTypeError;
         }
-      } else {
-        fail("incorrect parameters");
-        return null;
-      }
-
+      } 
+      throw new AssertionError("incorrect parameters");
     }
-
   }
 
   private final ParameterListMatcher parameterListMatcher = new ParameterListMatcher();
