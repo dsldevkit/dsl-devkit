@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 /**
  * Tests for {@code AbstractFragmentProvider}.
  */
@@ -55,12 +54,12 @@ public class AbstractFragmentProviderTest {
   public void testEscape() {
     StringBuilder builder = new StringBuilder();
     fragmentProvider.appendEscaped("foo/bar#\\", builder);
-    Assert.assertEquals("foo\\/bar#\\\\", builder.toString());
+    Assert.assertEquals("Fragment not properly scaped", builder.toString(), "foo\\/bar#\\\\");
   }
 
   @Test
   public void testUnescape() {
-    Assert.assertEquals("foo//bar##\\", fragmentProvider.unescape("foo\\/\\/bar##\\\\"));
+    Assert.assertEquals("Fragment not properly unscaped", "foo//bar##\\", fragmentProvider.unescape("foo\\/\\/bar##\\\\"));
   }
 
   @Test

@@ -864,7 +864,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
         sourceObject = EcoreUtil.resolve(objects.get(0), context);
       } else {
         // TODO DSL-166: Handle this case when needed for tests.
-        fail("Multiple references not supported yet"); //$NON-NLS-1$
+        throw new AssertionError("Multiple references not supported yet"); //$NON-NLS-1$
       }
     } else {
       sourceObject = (EObject) context.eGet(reference, true);

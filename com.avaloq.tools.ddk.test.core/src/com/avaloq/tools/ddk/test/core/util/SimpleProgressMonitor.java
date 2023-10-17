@@ -18,7 +18,6 @@ import org.junit.Assert;
  * Simple progress monitor which can be queried on is done state.
  */
 public class SimpleProgressMonitor implements IProgressMonitor {
-  private static final String PROGRESS_MONITOR_DID_NOT_GET_DONE_SIGNAL = "Progress monitor did not get done signal";
   private static final int TIMEOUT = 10000;
 
   /**
@@ -170,9 +169,7 @@ public class SimpleProgressMonitor implements IProgressMonitor {
       final long timeStarted = System.currentTimeMillis();
       while (!isTerminated()) {
         long remainingWaitTime = TIMEOUT + timeStarted - System.currentTimeMillis();
-        if (remainingWaitTime <= 0) {
-          Assert.fail(PROGRESS_MONITOR_DID_NOT_GET_DONE_SIGNAL);
-        }
+        Assert.assertFalse("Progress monitor did not get done signal", remainingWaitTime <= 0);
         try {
           this.wait(remainingWaitTime);
         } catch (InterruptedException e) /* CHECKSTYLE:OFF */ {

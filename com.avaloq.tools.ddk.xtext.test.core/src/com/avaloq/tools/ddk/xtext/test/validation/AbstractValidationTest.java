@@ -786,9 +786,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the code of the issue to look for
    */
   protected void assertDiagnostic(final EObject model, final String issueCode) {
-    if (model == null) {
-      fail("Issue with code '" + issueCode + "' cannot be found because the model is null");
-    }
+    assertNotNull("Issue with code '" + issueCode + "' cannot be found because the model is null", model);
     assertDiagnostic(getXtextTestUtil().getDiagnostician().validate(model), issueCode);
   }
 
@@ -811,10 +809,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the code of the issue to look for
    */
   protected void assertNoDiagnostic(final EObject model, final String issueCode) {
-    if (model == null) {
-      fail("Issue with code '" + issueCode + "' cannot be found because the model is null");
-    }
-
+    assertNotNull("Issue with code '" + issueCode + "' cannot be found because the model is null", model);
     assertNoDiagnostic(getXtextTestUtil().getDiagnostician().validate(model), issueCode);
   }
 
@@ -832,10 +827,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the model in which to look for issues, may be {@code null}
    */
   protected void assertNoDiagnostics(final EObject model) {
-    if (model == null) {
-      fail("Assertion cannot be checked because the model is null");
-    }
-
+    assertNotNull("Assertion cannot be checked because the model is null", model);
     assertNoDiagnostics(getXtextTestUtil().getDiagnostician().validate(model));
   }
 
@@ -858,10 +850,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the message of the issue to look for
    */
   protected void assertDiagnosticMessage(final EObject model, final String message) {
-    if (model == null) {
-      fail("Message '" + message + "' cannot be found because the model is null");
-    }
-
+    assertNotNull("Message '" + message + "' cannot be found because the model is null", model);
     assertDiagnosticMessage(getXtextTestUtil().getDiagnostician().validate(model), message);
   }
 
@@ -1092,7 +1081,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     if (!errors.isEmpty()) {
       StringBuilder sb = new StringBuilder("Syntax error is present in the test source.\nList of all found syntax errors:");
       errors.forEach(err -> sb.append("\n\t " + err.getMessage()));
-      fail(sb.toString());
+      throw new AssertionError(sb.toString());
     }
   }
 

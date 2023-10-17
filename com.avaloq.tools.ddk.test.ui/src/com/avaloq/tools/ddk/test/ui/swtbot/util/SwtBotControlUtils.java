@@ -60,7 +60,7 @@ public final class SwtBotControlUtils {
         try {
           Thread.sleep(THREAD_SLEEP_TIME);
         } catch (InterruptedException e) {
-          e.fillInStackTrace();
+          // do nothing
         }
       }
     }
@@ -86,7 +86,7 @@ public final class SwtBotControlUtils {
         try {
           Thread.sleep(THREAD_SLEEP_TIME);
         } catch (InterruptedException e) {
-          e.fillInStackTrace();
+          // do nothing
         }
       }
     }

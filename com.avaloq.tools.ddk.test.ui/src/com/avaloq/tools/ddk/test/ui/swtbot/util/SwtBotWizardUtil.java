@@ -11,8 +11,6 @@
 
 package com.avaloq.tools.ddk.test.ui.swtbot.util;
 
-import static org.junit.Assert.fail;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
@@ -20,6 +18,7 @@ import org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.eclipse.ui.PlatformUI;
+import org.junit.Assert;
 
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 
@@ -48,9 +47,7 @@ public final class SwtBotWizardUtil {
     final Tree tree = bot.widget(WidgetMatcherFactory.widgetOfType(Tree.class), comp);
     PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
       SWTBotTree botTree = new SWTBotTree(tree);
-      if (!selectItem(botTree, folderName)) {
-        fail("folder was not found");
-      }
+      Assert.assertTrue("folder was not found", selectItem(botTree, folderName));
     });
   }
 

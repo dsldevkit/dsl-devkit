@@ -95,14 +95,11 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
     errorsOnPosition.clear();
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void beforeEachTest() {
     localMarkerIdCounter = 0;
     super.beforeEachTest();
-    if (getMarkerTagsInfo().isInvalidTestClass()) {
-      fail(INVALID_TEST_CONFIGURATION);
-    }
+    Assert.assertFalse(INVALID_TEST_CONFIGURATION, getMarkerTagsInfo().isInvalidTestClass());
   }
 
   // --------------------------------------------------------------------------
@@ -277,7 +274,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
     usedTags.add(id);
     if (id < 1) {
       getMarkerTagsInfo().setTestClassInvalid();
-      fail(INVALID_TEST_CONFIGURATION);
+      throw new AssertionError(INVALID_TEST_CONFIGURATION);
     }
     return MARKER_START_GUARD + id + MARKER_END_GUARD;
   }
