@@ -99,7 +99,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
   protected void beforeEachTest() {
     localMarkerIdCounter = 0;
     super.beforeEachTest();
-    Assert.assetFalse(INVALID_TEST_CONFIGURATION, getMarkerTagsInfo().isInvalidTestClass());
+    Assert.assertFalse(INVALID_TEST_CONFIGURATION, getMarkerTagsInfo().isInvalidTestClass());
   }
 
   // --------------------------------------------------------------------------
