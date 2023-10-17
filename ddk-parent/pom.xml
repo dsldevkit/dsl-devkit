@@ -370,7 +370,6 @@
           </dependency>
         </dependencies>
         <configuration>
-          <spotbugsXmlOutput>false</spotbugsXmlOutput>
           <failOnError>true</failOnError>
           <maxHeap>${spotbugs.maxHeap}</maxHeap>
           <maxRank>15</maxRank>
