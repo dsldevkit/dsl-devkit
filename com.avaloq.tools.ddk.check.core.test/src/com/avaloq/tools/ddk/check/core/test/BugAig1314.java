@@ -59,12 +59,7 @@ public class BugAig1314 {
    * @return Some syntactically correct but otherwise meaningless URL.
    */
   private URL createURL() {
-    try {
-      return new URL("http://" + TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION);
-    } catch (MalformedURLException e) {
-      fail("Cannot create URL");
-    }
-    return null;
+    return new URL("http://" + TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION);
   }
 
   /**
@@ -127,7 +122,7 @@ public class BugAig1314 {
    * Tests that querying the same scope twice doesn't make the resource set grow.
    */
   @Test
-  public void testSameScopeUseTwice() {
+  public void testSameScopeUseTwice() throws MalformedURLException {
     XtextResourceSet rs = new XtextResourceSet();
     URL url = createURL();
     ModelLocation modelLocation = createModelLocation(url);
@@ -146,7 +141,7 @@ public class BugAig1314 {
    * Tests that querying two different scopes doesn't make the resource set grow. That one was the real cause of bug AIG-1314.
    */
   @Test
-  public void testDifferentScopeUseTwice() {
+  public void testDifferentScopeUseTwice() throws MalformedURLException {
     XtextResourceSet rs = new XtextResourceSet();
     URL url = createURL();
     ModelLocation modelLocation = createModelLocation(url);
