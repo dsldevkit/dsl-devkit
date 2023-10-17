@@ -58,7 +58,7 @@ public class BugAig1314 {
    *
    * @return Some syntactically correct but otherwise meaningless URL.
    */
-  private URL createURL() {
+  private URL createURL() throws MalformedURLException {
     return new URL("http://" + TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION);
   }
 
