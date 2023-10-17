@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Assert;
 import org.junit.Test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Tests for {@code AbstractFragmentProvider}.
@@ -52,6 +53,7 @@ public class AbstractFragmentProviderTest {
   private final TestAbstractFragmentProvider fragmentProvider = new TestAbstractFragmentProvider();
 
   @Test
+  @SuppressFBWarnings("DMI_DOH") // Flaky spotbugs check
   public void testEscape() {
     StringBuilder builder = new StringBuilder();
     fragmentProvider.appendEscaped("foo/bar#\\", builder);
