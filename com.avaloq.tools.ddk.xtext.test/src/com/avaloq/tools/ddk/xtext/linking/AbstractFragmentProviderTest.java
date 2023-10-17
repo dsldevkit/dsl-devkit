@@ -51,6 +51,7 @@ public class AbstractFragmentProviderTest {
   private final TestAbstractFragmentProvider fragmentProvider = new TestAbstractFragmentProvider();
 
   @Test
+  @SuppressWarnings("all") // Flaky Spotbugs MDI_DOH
   public void testEscape() {
     StringBuilder builder = new StringBuilder();
     fragmentProvider.appendEscaped("foo/bar#\\", builder);
