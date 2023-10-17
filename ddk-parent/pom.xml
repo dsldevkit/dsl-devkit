@@ -319,7 +319,6 @@
           <targetJdk>11</targetJdk>
           <minimumTokens>${pmd.cpd.min}</minimumTokens>
           <renderProcessingErrors>false</renderProcessingErrors>
-          <aggregate>true</aggregate>
           <failOnViolation>true</failOnViolation>
           <printFailingErrors>true</printFailingErrors>
           <verbose>true</verbose>
