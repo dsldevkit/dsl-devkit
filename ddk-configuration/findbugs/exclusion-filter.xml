@@ -68,4 +68,8 @@
        <Class name="~.*\.generator\.CheckGeneratorExtensions" />
      </Or>
   </Match>
+  <Match>
+     <Bug pattern="DMI_DOH" />
+     <Class name="~.*AbstractFragmentProviderTest.*" />
+  </Match>
 </FindBugsFilter>
