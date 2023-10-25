@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.Constants;
@@ -243,14 +243,14 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
 
     for (Delta delta : deltas) {
       if (delta.haveEObjectDescriptionsChanged()) {
-        if (delta instanceof ResourceDescriptionDelta && ((ResourceDescriptionDelta) delta).hasObjectFingerprints()) {
+        IResourceDescription oldDesc = delta.getOld();
+        IResourceDescription newDesc = delta.getNew();
+        if (oldDesc != null && newDesc != null && delta instanceof ResourceDescriptionDelta && ((ResourceDescriptionDelta) delta).hasObjectFingerprints()) {
           ResourceDescriptionDelta detailedDelta = (ResourceDescriptionDelta) delta;
           changedOrDeletedObjects.addAll(detailedDelta.getChangedObjects());
           changedOrDeletedObjects.addAll(detailedDelta.getDeletedObjects());
           addedObjects.putAll(containersState.getContainerHandle(delta.getUri()), detailedDelta.getAddedObjects());
         } else {
-          IResourceDescription oldDesc = delta.getOld();
-          IResourceDescription newDesc = delta.getNew();
           if (oldDesc != null) {
             changedOrDeletedResources.add(newDesc != null ? newDesc : oldDesc);
           } else {
