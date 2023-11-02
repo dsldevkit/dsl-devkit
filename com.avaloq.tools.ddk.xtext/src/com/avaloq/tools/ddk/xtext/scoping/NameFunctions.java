@@ -84,7 +84,7 @@ public final class NameFunctions {
 
       @Override
       public QualifiedName apply(final EObject from) {
-        Object value = null;
+        Object value;
         try {
           value = from.eGet(feature);
           // CHECKSTYLE:OFF
@@ -167,7 +167,7 @@ public final class NameFunctions {
         if (feature == null && LOGGER.isDebugEnabled()) {
           LOGGER.debug(MessageFormat.format(UNKNOWN_FEATURE_0_FROM_1, featureName, from));
         }
-        Object value = null;
+        Object value;
         try {
           value = from.eGet(feature);
           // CHECKSTYLE:OFF

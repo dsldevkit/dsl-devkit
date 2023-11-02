@@ -186,7 +186,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
     InputStream inputStream = file.getContents();
     try {
       byte[] buffer = new byte[TWO_KILO_BYTES];
-      int bytesRead = 0;
+      int bytesRead;
       StringBuffer b = new StringBuffer();
       do {
         bytesRead = inputStream.read(buffer);

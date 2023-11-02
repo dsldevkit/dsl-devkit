@@ -84,9 +84,7 @@ public class NewCheckCatalogWizard extends XtextNewProjectWizard {
    */
   @Override
   public IProjectInfo getProjectInfo() {
-    CheckProjectInfo projectInfo = new CheckProjectInfo();
-    projectInfo = catalogPage.getProjectInfo();
-    return projectInfo;
+    return catalogPage.getProjectInfo();
   }
 
 }

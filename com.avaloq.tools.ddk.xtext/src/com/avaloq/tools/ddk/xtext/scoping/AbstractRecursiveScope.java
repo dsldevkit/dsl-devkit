@@ -124,8 +124,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
         throw new IllegalStateException(Messages.bind(CYCLIC_DEPENDENCY_MESSAGE, String.valueOf(name)));
       }
       final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name; // NOPMD UseLocaleWithCaseConversions
-      IEObjectDescription result = null;
-      result = nameCache.get(lookupName);
+      IEObjectDescription result = nameCache.get(lookupName);
       if (result != null) {
         return result == NULL_DESCRIPTION ? null : result; // NOPMD CompareObjectsWithEquals
       }

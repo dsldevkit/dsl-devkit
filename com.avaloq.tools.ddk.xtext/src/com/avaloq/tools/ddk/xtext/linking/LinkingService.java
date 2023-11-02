@@ -242,7 +242,7 @@ public class LinkingService extends DefaultLinkingService {
    *         may by {@code null}
    */
   protected IEObjectDescription getSingleElement(final EObject context, final EReference reference, final QualifiedName qualifiedLinkName) {
-    IEObjectDescription desc = null;
+    IEObjectDescription desc;
     IScope scope = getScope(context, reference);
     if (scope instanceof WrappingTypedScope) {
       desc = ((WrappingTypedScope) scope).getSingleElement(qualifiedLinkName, reference);

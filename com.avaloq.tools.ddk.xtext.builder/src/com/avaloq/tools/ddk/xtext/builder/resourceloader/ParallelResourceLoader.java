@@ -219,7 +219,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           Thread.currentThread().interrupt();
         }
         if (result == null) {
-          String currentUris = null;
+          String currentUris;
           synchronized (currentlyProcessedUris) {
             currentUris = Joiner.on(", ").join(currentlyProcessedUris); //$NON-NLS-1$
           }

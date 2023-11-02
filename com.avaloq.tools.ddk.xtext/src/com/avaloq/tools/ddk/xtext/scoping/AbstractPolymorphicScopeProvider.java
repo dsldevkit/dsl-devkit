@@ -332,10 +332,9 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    */
   protected List<IContainer> getVisibleContainers(final XtextResource resource) {
     URI uri = resource.getURI();
-    List<IContainer> result = null;
     final ResourceCache<URI, List<IContainer>> cache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", resource); //$NON-NLS-1$
     if (cache != null) {
-      result = cache.get(uri);
+      List<IContainer> result = cache.get(uri);
       if (result != null) {
         return result;
       }
@@ -347,7 +346,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
 
     final IResourceDescription description = descriptionManager.getResourceDescription(resource);
     final IResourceDescriptions resourceDescriptions = getResourceDescriptions(resource);
-    result = containerManager.getVisibleContainers(description, resourceDescriptions);
+    List<IContainer> result = containerManager.getVisibleContainers(description, resourceDescriptions);
     if (cache != null) {
       cache.set(uri, result);
     }

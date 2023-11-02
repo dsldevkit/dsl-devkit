@@ -253,14 +253,12 @@ public final class GenModelUtil2 {
     }
 
     if (uriConverter.exists(uri, null)) {
-      Resource genModelResource = null;
       try {
-        genModelResource = resourceSet.getResource(uri, true);
+        return resourceSet.getResource(uri, true);
       } catch (final WrappedException e) {
         throw new IllegalStateException("could not retrieve resource for URI " + uri //$NON-NLS-1$
             + " please add URI maps for all relevant Ecore models to the workflow.", e); //$NON-NLS-1$
       }
-      return genModelResource;
     } else {
       return null;
     }
