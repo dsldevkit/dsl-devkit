@@ -305,7 +305,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
       return null;
     }
 
-    List<INode> out = null;
+    List<INode> out;
     Set<EObject> deletedSemanticElements = Sets.newHashSet();
 
     if (to == null) {

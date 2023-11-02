@@ -93,7 +93,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
         progress.worked(MONITOR_PARTICIPANTS_PER_LANGUAGE);
         continue;
       }
-      IGrammarAccess grammarAccess = null;
+      IGrammarAccess grammarAccess;
       try {
         grammarAccess = resourceServiceProvider.get(IGrammarAccess.class);
       } catch (ConfigurationException e) {

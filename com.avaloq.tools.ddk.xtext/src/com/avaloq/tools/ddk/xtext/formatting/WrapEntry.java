@@ -185,11 +185,9 @@ public class WrapEntry {
    */
   protected int createWrap(final int minWrap, final int defaultWrap, final int maxWrap) {
     int def = 0;
-    int min = def;
-    int max = def;
-    min = Math.max(def, minWrap);
+    int min = Math.max(def, minWrap);
     def = Math.max(def, defaultWrap);
-    max = Math.max(def, maxWrap);
+    int max = Math.max(def, maxWrap);
     if (min != max) {
       final int existing = entry.countExistingLeadingNewlines();
       if (existing >= 0) {

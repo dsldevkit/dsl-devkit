@@ -49,11 +49,11 @@ public class CoreIssueResolution {
 
   public ICoreModification getModification() {
     return modification;
-  };
+  }
 
   public ICoreModificationContext getModificationContext() {
     return modificationContext;
-  };
+  }
 
   public void apply() {
     try {

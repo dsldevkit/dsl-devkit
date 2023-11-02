@@ -174,10 +174,10 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
 
   @Override
   public LineEntry createLineEntry(final EObject grammarElement, final String value, final boolean isHidden, final Set<ElementLocator> beforeLocators, final String leadingWS, final int indent, final ParserRule hiddenTokenDefinition) {
-    Set<ElementLocator> activeLocators = null;
     String newValue = value;
     String newLeadingWS = leadingWS;
 
+    Set<ElementLocator> activeLocators;
     if (isFormattingDisabled() || formatter.isUnformattedContent(value)) {
       activeLocators = Collections.emptySet();
     } else {

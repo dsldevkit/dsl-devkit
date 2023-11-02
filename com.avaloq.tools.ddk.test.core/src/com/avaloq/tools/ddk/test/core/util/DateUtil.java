@@ -69,12 +69,10 @@ public final class DateUtil {
    */
   public static Date stringToDate(final String date, final String dateFormat) {
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.GERMANY);
-    Date d = null;
     try {
-      d = sdf.parse(date);
+      return sdf.parse(date);
     } catch (ParseException e) {
       throw new WrappedException("Error during parsing string to date", e);
     }
-    return d;
   }
 }

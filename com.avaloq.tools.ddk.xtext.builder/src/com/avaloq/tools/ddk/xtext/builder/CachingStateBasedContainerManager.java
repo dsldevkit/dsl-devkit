@@ -163,13 +163,12 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
       }
       // the IResourceDescription was found nowhere, add it to the first one that matches the description's domain.
       IDomain descDomain = mapper.map(descURI);
-      IContainer wrappedContainer = null;
       int index = 0;
       for (int i = 0; i < result.size(); i++) {
         IContainer container = result.get(i);
         IDomain containerDomain = mapper.map(container);
         if (containerDomain != null && containerDomain.equals(descDomain)) {
-          wrappedContainer = new DescriptionAddingContainer(desc, container);
+          IContainer wrappedContainer = new DescriptionAddingContainer(desc, container);
           result.set(index, wrappedContainer);
           return result;
         }
@@ -177,7 +176,7 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
       }
       // If we get here, we found no container with a matching domain. Add to the first, but use a DescriptionAddingContainer that
       // will add the description at the end.
-      wrappedContainer = new DescriptionAtEndAddingContainer(desc, result.get(0));
+      IContainer wrappedContainer = new DescriptionAtEndAddingContainer(desc, result.get(0));
       result.set(0, wrappedContainer);
     }
     return result;

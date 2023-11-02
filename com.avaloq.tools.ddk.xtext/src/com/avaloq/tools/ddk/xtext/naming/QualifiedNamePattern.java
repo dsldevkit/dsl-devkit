@@ -214,8 +214,8 @@ public class QualifiedNamePattern extends QualifiedName {
       return super.compareTo(other, ignoreCase);
     }
     int o1SegmentCount = getSegmentCount();
-    String seg1 = null;
-    String seg2 = null;
+    String seg1;
+    String seg2;
     int o2SegmentCount = other.getSegmentCount();
     for (int i = 0; i < o1SegmentCount; i++) {
       if (i == o2SegmentCount) {

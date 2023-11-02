@@ -46,7 +46,7 @@ public final class BuilderParticipantSettings {
     if (languageName == null) {
       return true;
     }
-    BuilderParticipantStatus result = null;
+    BuilderParticipantStatus result;
     String value = System.getProperty(languageName, BuilderParticipantStatus.ENABLED.name()).trim().toUpperCase();
     try {
       result = BuilderParticipantStatus.valueOf(value);

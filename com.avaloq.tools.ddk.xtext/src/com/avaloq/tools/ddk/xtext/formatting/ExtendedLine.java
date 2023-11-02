@@ -342,7 +342,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
    * @return int - the length of this line
    */
   public int getAbsoluteLineLength(final ExtendedLineEntry entry) {
-    int lineLength = 0;
+    int lineLength;
     int previousEntryIndex = findPredecessorOrLastEntryIndex(entry);
 
     if (entry != null) {

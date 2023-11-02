@@ -109,7 +109,7 @@ public class ExportFragment extends AbstractGeneratorFragment {
     }
 
     final ResourceSet resourceSet = resource.getResourceSet();
-    URI uri = null;
+    URI uri;
     if (getExportFileURI() != null) {
       uri = URI.createURI(getExportFileURI());
     } else {

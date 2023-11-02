@@ -321,7 +321,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     checkForCancellation(monitor);
 
     final ResourceDescriptionsData newData = getCopiedResourceDescriptionsData();
-    Collection<IResourceDescription.Delta> result = null;
+    Collection<IResourceDescription.Delta> result;
     try {
       result = doUpdate(buildData, newData, subMonitor.newChild(1));
       // update the reference
@@ -1177,7 +1177,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           for (URI candidateURI : candidatesByManager.get(manager)) {
             checkForCancellation(monitor);
             if (allRemainingURIs.contains(candidateURI)) {
-              boolean affected = false;
+              boolean affected;
               if (manager instanceof IResourceDescription.Manager.AllChangeAware) {
                 affected = ((IResourceDescription.Manager.AllChangeAware) manager).isAffectedByAny(deltas, oldState.getResourceDescription(candidateURI), cachingIndex);
               } else {

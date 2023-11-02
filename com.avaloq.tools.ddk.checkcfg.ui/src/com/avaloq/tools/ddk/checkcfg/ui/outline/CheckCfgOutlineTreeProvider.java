@@ -48,7 +48,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
   // CHECKSTYLE:OFF
   protected Object _text(final ConfiguredCatalog configuredCatalog) {
     // CHECKSTYLE:ON
-    StyledString ruleText = null;
+    StyledString ruleText;
     if (configuredCatalog.getCatalog() == null || configuredCatalog.getCatalog().eIsProxy()) {
       // Unresolved reference
       ruleText = new StyledString("<Unresolved catalog>", //
@@ -74,7 +74,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
   // CHECKSTYLE:OFF
   protected Object _text(final ConfiguredCheck configuredCheck) {
     // CHECKSTYLE:ON
-    StyledString ruleText = null;
+    StyledString ruleText;
     if (configuredCheck.getCheck() == null || configuredCheck.getCheck().eIsProxy()) {
       // Unresolved reference
       ruleText = new StyledString("<Unresolved check>", //

@@ -70,7 +70,7 @@ public abstract class AbstractFastLinkingService extends DefaultLinkingService {
           }
         }
         URI classpathURI = URI.createURI(ClasspathUriUtil.CLASSPATH_SCHEME + ":/" + grammarName.replace('.', '/') + ".xtext"); //$NON-NLS-1$ //$NON-NLS-2$
-        URI normalizedURI = null;
+        URI normalizedURI;
         if (resourceSet instanceof XtextResourceSet) {
           XtextResourceSet set = (XtextResourceSet) resourceSet;
           normalizedURI = set.getClasspathUriResolver().resolve(set.getClasspathURIContext(), classpathURI);
