@@ -20,13 +20,12 @@ import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
  */
 public class GeneratorNaming extends XtextGeneratorNaming {
   private static final String PACKAGE_SEPARATOR = "."; //$NON-NLS-1$
-  private static final String TESTS_PACKAGE_SUFFIX = ""; //$NON-NLS-1$
   private static final String IDE_PACKAGE_SUFFIX = PACKAGE_SEPARATOR + "ide"; //$NON-NLS-1$
   private static final String UI_PACKAGE_SUFFIX = PACKAGE_SEPARATOR + "ui"; //$NON-NLS-1$
 
   @Override
   public String getRuntimeTestBasePackage(final Grammar grammar) {
-    return getRuntimeBasePackage(grammar) + TESTS_PACKAGE_SUFFIX;
+    return getRuntimeBasePackage(grammar);
   }
 
   @Override
@@ -36,7 +35,7 @@ public class GeneratorNaming extends XtextGeneratorNaming {
 
   @Override
   public String getGenericIdeTestBasePackage(final Grammar grammar) {
-    return getGenericIdeBasePackage(grammar) + TESTS_PACKAGE_SUFFIX;
+    return getGenericIdeBasePackage(grammar);
   }
 
   @Override
@@ -46,6 +45,6 @@ public class GeneratorNaming extends XtextGeneratorNaming {
 
   @Override
   public String getEclipsePluginTestBasePackage(final Grammar grammar) {
-    return getEclipsePluginBasePackage(grammar) + TESTS_PACKAGE_SUFFIX;
+    return getEclipsePluginBasePackage(grammar);
   }
 }
