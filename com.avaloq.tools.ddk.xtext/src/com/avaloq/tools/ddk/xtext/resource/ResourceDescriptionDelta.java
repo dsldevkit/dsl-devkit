@@ -50,7 +50,7 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
 
   private final URI uri;
   private IResourceDescription oldDesc;
-  private SoftReference<IResourceDescription> newDesc;
+  private final SoftReference<IResourceDescription> newDesc;
   private final IResourceDescriptions index;
 
   private Boolean hasChanges;
@@ -82,6 +82,8 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     this.oldDesc = oldDesc;
     if (newDesc != null) {
       this.newDesc = new SoftReference<IResourceDescription>(newDesc);
+    } else {
+      this.newDesc = null;
     }
     this.index = index;
   }

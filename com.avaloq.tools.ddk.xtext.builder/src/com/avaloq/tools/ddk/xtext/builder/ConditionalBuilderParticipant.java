@@ -24,7 +24,7 @@ public class ConditionalBuilderParticipant extends BuilderParticipant {
 
   /**
    * Checks whether {@link BuilderParticipant} should run for a given {@link Delta} and it has no errors.
-   * 
+   *
    * @param delta
    *          structure corresponding to the changed file
    * @param resourceServiceProvider
@@ -37,7 +37,7 @@ public class ConditionalBuilderParticipant extends BuilderParticipant {
 
   /**
    * Checks whether a file described by given delta has a correct extension to be handled by concrete BuilderParticipan.
-   * 
+   *
    * @param delta
    *          structure corresponding to the changed file
    * @param resourceServiceProvider
@@ -51,13 +51,13 @@ public class ConditionalBuilderParticipant extends BuilderParticipant {
   /**
    * Checks whether a file described by given delta belongs only to the source path. Generation should not be performed for deltas stored e.g. in "bin"
    * directory
-   * 
+   *
    * @param delta
    *          structure corresponding to the changed file
    * @return true if file belongs to the "src" directory
    */
   public boolean isSourceOriginated(final Delta delta) {
-    return delta.getUri().segments().length > 2 && delta.getUri().segments()[2].toLowerCase().trim().equals(GENERATION_FILE_SRC_DIRECTORY);
+    return delta.getUri().segments().length > 2 && delta.getUri().segments()[2].trim().equalsIgnoreCase(GENERATION_FILE_SRC_DIRECTORY);
   }
 
 }

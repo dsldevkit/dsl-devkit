@@ -14,6 +14,7 @@
   <rule ref="category/java/errorprone.xml">
     <exclude name="AssignmentInOperand"/><!--Checkstyle-->
     <exclude name="AssignmentToNonFinalStatic"/>
+    <exclude name="AvoidAccessibilityAlteration"/>
     <exclude name="AvoidBranchingStatementAsLastInLoop"/>
     <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
     <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
@@ -60,11 +61,13 @@
     <exclude name="ExcessiveImports"/>
     <exclude name="ExcessiveMethodLength"/>
     <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
+    <exclude name="CognitiveComplexity"/>
     <exclude name="CyclomaticComplexity"/>
     <exclude name="GodClass"/><!--New after PMD 5.3 upgrade, not to be activated by default-->
     <exclude name="LawOfDemeter"/><!--New after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
     <exclude name="LoosePackageCoupling"/>
     <exclude name="ModifiedCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
+    <exclude name="MutableStaticState"/>
     <exclude name="NcssCount"/>
     <exclude name="NcssMethodCount"/>
     <exclude name="NPathComplexity"/><!--Checkstyle-->

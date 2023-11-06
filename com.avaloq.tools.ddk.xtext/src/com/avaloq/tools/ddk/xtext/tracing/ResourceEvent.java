@@ -23,7 +23,7 @@ public abstract class ResourceEvent extends TraceEvent {
   private static final String RESOURCE_PREFIX = "Resource"; //$NON-NLS-1$
   private static final String EVENT_SUFFIX = "Event"; //$NON-NLS-1$
 
-  private URI uri;
+  private final URI uri;
 
   /**
    * Creates a new instance of {@link ResourceEvent}.
@@ -37,6 +37,8 @@ public abstract class ResourceEvent extends TraceEvent {
     super(trigger, data);
     if (data.length > 0) {
       uri = (URI) data[0];
+    } else {
+      uri = null;
     }
   }
 
