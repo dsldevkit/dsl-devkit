@@ -166,9 +166,7 @@ public class CheckCompiler extends XbaseCompiler {
   protected void _toJavaStatement(final XAbstractFeatureCall expr, final ITreeAppendable b, final boolean isReferenced) {
     // CHECKSTYLE:ON
     FormalParameter parameter = getFormalParameter(expr);
-    if (parameter != null) {
-      // Nothing to do.
-    } else {
+    if (parameter == null) {
       super._toJavaStatement(expr, b, isReferenced);
     }
   }

@@ -134,9 +134,7 @@ public class CompoundStep extends AbstractStep {
     Assert.isNotNull(multipleTestProblems, "multipleTestProblems");
     Assert.isNotNull(step, ARGUMENT_STEP);
     Assert.isNotNull(throwable, ARGUMENT_THROWABLE);
-    if (throwable instanceof PreconditionViolation) {
-      // ignore precondition violations and continue with the undo operations.
-    } else if (throwable instanceof MultipleTestProblems) {
+    if (throwable instanceof MultipleTestProblems) {
       MultipleTestProblems caughtMultipleTestProblems = (MultipleTestProblems) throwable;
       for (Throwable problem : caughtMultipleTestProblems.getProblems()) {
         // discard all precondition violations and continue with the undo operations.
@@ -145,7 +143,7 @@ public class CompoundStep extends AbstractStep {
           logError(step, problem);
         }
       }
-    } else {
+    } else if (!(throwable instanceof PreconditionViolation)){
       multipleTestProblems.addProblem(throwable);
       logError(step, throwable);
     }

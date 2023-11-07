@@ -46,8 +46,8 @@ public class CompilationContext {
   /** Xtend execution context. */
   private final ExecutionContext context;
   private final GenModelUtilX genModelUtil;
-  /** The name of the Java variable the implicit "this" variable is bound to. By default "obj". */
-  private String implicitVariable = "obj"; //$NON-NLS-1$
+  /** The name of the Java variable the implicit "this" variable is bound to. */
+  private final String implicitVariable;
   /** The type of the implicit "this" variable. */
   private Type implicitContextType;
 
@@ -76,6 +76,7 @@ public class CompilationContext {
 
   /**
    * Creates a new compilation context for the given Xtend context.
+   * The name of the Java variable to bind "this" is set to "obj".
    *
    * @param context
    *          xtend context to wrap
@@ -83,6 +84,7 @@ public class CompilationContext {
   public CompilationContext(final ExecutionContext context, final GenModelUtilX genModelUtil) {
     this.context = context;
     this.genModelUtil = genModelUtil;
+    this.implicitVariable = "obj"; //$NON-NLS-1$
   }
 
   /**
