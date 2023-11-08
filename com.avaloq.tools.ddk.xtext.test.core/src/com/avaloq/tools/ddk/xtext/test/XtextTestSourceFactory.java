@@ -37,6 +37,7 @@ public class XtextTestSourceFactory implements ITestSourceFactory {
   public XtextTestSourceFactory(final IResourceServiceProvider.Registry resourceServiceProviderRegistry, final ResourceSet resourceSet) {
     final List<String> extensions = Lists.newArrayList(resourceServiceProviderRegistry.getExtensionToFactoryMap().keySet());
     this.xtextExtensions = Lists.transform(extensions, new Function<String, String>() {
+      @Override
       public String apply(final String from) {
         return URI.decode(from);
       }
@@ -44,14 +45,13 @@ public class XtextTestSourceFactory implements ITestSourceFactory {
     this.resourceSet = resourceSet;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean isFactoryFor(final String name) {
     return name.indexOf('.') != -1 && xtextExtensions.contains(name.substring(name.lastIndexOf('.') + 1));
   }
 
-  /** {@inheritDoc} */
+  @Override
   public TestSource createTestSource(final String name, final String content) {
     return new XtextTestSource(name, content, resourceSet);
   }
 }
-

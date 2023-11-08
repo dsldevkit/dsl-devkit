@@ -46,6 +46,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   private static final String MANY_DECORATOR = "EOccurrenceZeroToUnbounded.gif";
   private final PolymorphicDispatcher<Pair<Object, Integer>> decoratorDispatcher = new PolymorphicDispatcher<Pair<Object, Integer>>("decorate", 1, 1, Collections.singletonList(this), new ErrorHandler<Pair<Object, Integer>>() {
+    @Override
     public Pair<Object, Integer> handle(final Object[] params, final Throwable e) {
       return null;
     }
@@ -69,7 +70,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Gets a decoration for an element.
-   * 
+   *
    * @param element
    *          the element
    * @return Pair with decoration object and quadrant or null
@@ -80,7 +81,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Decorate Object.
-   * 
+   *
    * @param obj
    *          the obj
    * @return null
@@ -91,7 +92,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Decorate Void.
-   * 
+   *
    * @param obj
    *          the obj
    * @return null
@@ -102,7 +103,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Decorate EStructuralFeature - if feature has multiplicity add * decoration.
-   * 
+   *
    * @param feature
    *          the feature
    * @return multiplicity decorator if feature is many, else null
@@ -116,7 +117,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Decorate EOperation - if operation has multiplicity add * decoration.
-   * 
+   *
    * @param operation
    *          the operation
    * @return multiplicity decorator if feature is many, else null
@@ -130,7 +131,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Simple name of a Class unless it is EOperation, EAttribute or EStructuralFeature.
-   * 
+   *
    * @param clazz
    *          the clazz
    * @return the name
@@ -150,7 +151,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Icon for a Class if it is EOperation, EAttribute or EStructuralFeature - null otherwise.
-   * 
+   *
    * @param clazz
    *          the clazz
    * @return the image or null
@@ -167,7 +168,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for ENamedElement.
-   * 
+   *
    * @param eNamedElement
    *          the ENamedElement
    * @return the name
@@ -178,7 +179,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for EClassifier.
-   * 
+   *
    * @param eClassifier
    *          the EClassifier
    * @return the image name
@@ -190,7 +191,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for EDataType.
-   * 
+   *
    * @param eDataType
    *          the EDataType
    * @return the primitive name
@@ -201,7 +202,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for EDataType.
-   * 
+   *
    * @param eDataType
    *          the EDataType
    * @return the image name
@@ -212,7 +213,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for EStructuralFeature.
-   * 
+   *
    * @param eStructuralFeature
    *          the EStructuralFeature
    * @return the name
@@ -223,7 +224,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for attribute-value pair provided by {@link EObjectContentProvider}.
-   * 
+   *
    * @param attributeValuePair
    *          the attribute-value pair
    * @return name of attribute and value
@@ -236,7 +237,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for attribute-value pair provided by {@link EObjectContentProvider}.
-   * 
+   *
    * @param attributeValuePair
    *          the attribute-value pair
    * @return image for attribute
@@ -247,7 +248,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for EStructuralFeature.
-   * 
+   *
    * @param eStructuralFeature
    *          the EStructuralFeature
    * @return the image name
@@ -258,7 +259,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for EAttribute.
-   * 
+   *
    * @param eAttribute
    *          the EAttribute
    * @return the image name
@@ -271,13 +272,14 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for EOperation.
-   * 
+   *
    * @param eOperation
    *          the EOperation
    * @return the name and types of all EParameters
    */
   protected String text(final EOperation eOperation) {
     return eOperation.getName() + "(" + Joiner.on(", ").join(Iterables.transform(eOperation.getEParameters(), new Function<EParameter, String>() {
+      @Override
       public String apply(final EParameter input) {
         return getText(input.getEType());
       }
@@ -286,7 +288,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for EOperation.
-   * 
+   *
    * @param eOperation
    *          the EOperation
    * @return the image name
@@ -298,7 +300,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Text for an EClassNode.
-   * 
+   *
    * @param eClassNode
    *          the EClassNode
    * @return text for the EClass
@@ -309,7 +311,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for an EClassNode.
-   * 
+   *
    * @param eClassNode
    *          the EClassNode
    * @return image for the EClass
@@ -320,7 +322,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for an EEnum.
-   * 
+   *
    * @param eEnum
    *          the EEnum
    * @return image for the EEnum
@@ -331,7 +333,7 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
 
   /**
    * Image for an EEnumLiteral.
-   * 
+   *
    * @param eEnumLiteral
    *          the EEnumLiteral
    * @return image for the EEnumLiteral
@@ -340,4 +342,3 @@ public class XtextSpyLabelProvider extends DeclarativeLabelProvider {
     return getImage("EEnumLiteral.gif");
   }
 }
-

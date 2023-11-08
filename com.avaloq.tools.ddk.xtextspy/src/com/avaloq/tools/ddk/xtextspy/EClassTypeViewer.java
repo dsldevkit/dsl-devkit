@@ -27,7 +27,7 @@ public class EClassTypeViewer extends TreeViewer implements ISelectionProvider, 
     setAutoExpandLevel(ALL_LEVELS);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void selectionChanged(final SelectionChangedEvent event) {
     if (!event.getSelection().isEmpty() && event.getSource() instanceof XtextElementSelectionListener) {
       setInput(((XtextElementSelectionListener) event.getSource()).getSelectedElementType());

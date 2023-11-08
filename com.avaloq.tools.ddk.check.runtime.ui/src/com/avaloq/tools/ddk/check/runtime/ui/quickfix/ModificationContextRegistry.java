@@ -48,18 +48,18 @@ public class ModificationContextRegistry implements IModificationContextRegistry
     }
   };
 
-  /** {@inheritDoc} */
+  @Override
   public Map<URI, ICoreXtextDocument> getAllDocuments() {
     return xtextDocuments.get();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void clear() {
     xtextDocuments.remove();
     resourceSet.remove();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public ICoreXtextDocument getXtextDocument(final URI uri) {
     final URI trimmedUri = uri.trimFragment();
     ICoreXtextDocument xtextDocument = xtextDocuments.get().get(trimmedUri);
@@ -73,7 +73,7 @@ public class ModificationContextRegistry implements IModificationContextRegistry
 
   /**
    * Creates a new document with the contents of the given {@link XtextResource}.
-   * 
+   *
    * @param resource
    *          the resource to be used as input to the document
    * @return the created document
@@ -89,7 +89,7 @@ public class ModificationContextRegistry implements IModificationContextRegistry
 
   /**
    * Fetches the Resource matching the given URI.
-   * 
+   *
    * @param uri
    *          the URI to be loaded
    * @return the loaded resource
@@ -98,4 +98,3 @@ public class ModificationContextRegistry implements IModificationContextRegistry
     return (XtextResource) resourceSet.get().getResource(uri, true);
   }
 }
-

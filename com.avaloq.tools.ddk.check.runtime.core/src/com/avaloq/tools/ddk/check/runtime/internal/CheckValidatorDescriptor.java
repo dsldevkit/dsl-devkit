@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
@@ -36,6 +36,7 @@ public class CheckValidatorDescriptor implements Provider<ICheckValidatorImpl>, 
     this.attClass = attClass;
   }
 
+  @Override
   public IConfigurationElement getElement() {
     return element;
   }
@@ -46,6 +47,7 @@ public class CheckValidatorDescriptor implements Provider<ICheckValidatorImpl>, 
    * <p>
    * {@inheritDoc}
    */
+  @Override
   public synchronized ICheckValidatorImpl get() {
     if (this.validator == null && element.isValid()) {
       try {
@@ -58,4 +60,3 @@ public class CheckValidatorDescriptor implements Provider<ICheckValidatorImpl>, 
   }
 
 }
-

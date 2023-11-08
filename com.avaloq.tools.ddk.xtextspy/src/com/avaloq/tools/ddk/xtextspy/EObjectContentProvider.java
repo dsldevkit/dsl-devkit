@@ -45,10 +45,11 @@ public class EObjectContentProvider implements ITreeContentProvider {
   @Inject
   private XtextElementSelectionListener xtextElementSelectionListener;
 
-  /** {@inheritDoc} */
-  public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {}
+  @Override
+  public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
+  }
 
-  /** {@inheritDoc} */
+  @Override
   public Object[] getElements(final Object inputElement) {
     EClass selectionElementType = xtextElementSelectionListener.getSelectedElementType();
     if (inputElement instanceof EClass && selectionElementType != null && ((EClass) inputElement).isSuperTypeOf(selectionElementType)) {
@@ -57,7 +58,7 @@ public class EObjectContentProvider implements ITreeContentProvider {
     return new Object[] {};
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Object[] getChildren(final Object parentElement) {
     EClass selectionElementType = xtextElementSelectionListener.getSelectedElementType();
     if (selectionElementType != null) {
@@ -68,7 +69,7 @@ public class EObjectContentProvider implements ITreeContentProvider {
 
   /**
    * Gets all EStructuralFeatures that are not EAttributes.
-   * 
+   *
    * @param eClass
    *          the EClass
    * @return EStructuralFeatures
@@ -79,7 +80,7 @@ public class EObjectContentProvider implements ITreeContentProvider {
 
   /**
    * Retrieve the object's values for the given EAttributes.
-   * 
+   *
    * @param attributes
    *          the EAttributes
    * @return List<Pair<EAttribute, Object>> the attribute+values - possibly containing null entries
@@ -89,10 +90,12 @@ public class EObjectContentProvider implements ITreeContentProvider {
     XtextEditor editor = xtextElementSelectionListener.getEditor();
     if (editor != null && elementUri != null) {
       return editor.getDocument().readOnly(new IUnitOfWork<List<AttributeValuePair>, XtextResource>() {
+        @Override
         @SuppressWarnings("PMD.SignatureDeclareThrowsException")
         public List<AttributeValuePair> exec(final XtextResource state) throws Exception {
           final EObject eObject = state.getEObject(elementUri.fragment());
           List<AttributeValuePair> pairs = Lists.transform(attributes, new Function<EAttribute, AttributeValuePair>() {
+            @Override
             public AttributeValuePair apply(final EAttribute from) {
               return new AttributeValuePair(from, eObject.eGet(from));
             }
@@ -104,15 +107,16 @@ public class EObjectContentProvider implements ITreeContentProvider {
     return newArrayList();
   }
 
-  /** {@inheritDoc} */
-  public void dispose() {}
+  @Override
+  public void dispose() {
+  }
 
-  /** {@inheritDoc} */
+  @Override
   public Object getParent(final Object element) {
     return null;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean hasChildren(final Object element) {
     return false;
   }

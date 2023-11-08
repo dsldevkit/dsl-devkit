@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.builder;
 
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.internal.events.ResourceDelta;
 import org.eclipse.core.internal.events.ResourceDeltaFactory;
 import org.eclipse.core.internal.resources.Workspace;
@@ -79,6 +79,7 @@ public class RebuildingXtextBuilder extends XtextBuilder {
 
   private int rebuilds;
 
+  @Override
   protected ToBeBuiltComputer getToBeBuiltComputer() {
     return toBeBuiltComputer;
   }
@@ -139,7 +140,6 @@ public class RebuildingXtextBuilder extends XtextBuilder {
     }
   }
 
-  /** {@inheritDoc} */
   @SuppressWarnings("rawtypes")
   @Override
   protected IProject[] build(final int kind, final Map args, final IProgressMonitor monitor) throws CoreException { // NOPMD (copied

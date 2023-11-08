@@ -16,7 +16,6 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -26,13 +25,12 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
 
+import com.avaloq.tools.ddk.xtext.scoping.EObjectDescriptions;
+import com.avaloq.tools.ddk.xtext.scoping.EPackageScopeProvider;
 import com.avaloq.tools.ddk.xtext.valid.valid.Import;
 import com.avaloq.tools.ddk.xtext.valid.valid.NativeContext;
 import com.avaloq.tools.ddk.xtext.valid.valid.ValidModel;
 import com.avaloq.tools.ddk.xtext.valid.valid.ValidPackage;
-import com.avaloq.tools.ddk.xtext.scoping.AbstractNameFunction;
-import com.avaloq.tools.ddk.xtext.scoping.EObjectDescriptions;
-import com.avaloq.tools.ddk.xtext.scoping.EPackageScopeProvider;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
@@ -47,7 +45,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
 
   /**
    * Gets the imported namespaces (i.e. the list of packages imported in the given model).
-   * 
+   *
    * @param validModel
    *          the valid model
    * @return the imported packages
@@ -66,7 +64,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
   /**
    * Scope for {@link EPackage}. These are read from the registry as well as from the {@link org.eclipse.xtext.Grammar Xtext
    * grammar} corresponding to the scope model (if any).
-   * 
+   *
    * @param context
    *          context scope DSL model
    * @param reference
@@ -81,7 +79,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
 
   /**
    * Scope provider for EClass (all classes in the imported models).
-   * 
+   *
    * @param validModel
    *          the valid model
    * @param reference
@@ -100,7 +98,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
 
   /**
    * Scope provider for EStructuralFeature (all "attributes" of an EClas in a native context.
-   * 
+   *
    * @param nativeContext
    *          the valid model
    * @param reference
@@ -122,7 +120,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
 
   /**
    * Creates a scope in which the elements are referenced by their name.
-   * 
+   *
    * @param elements
    *          the elements
    * @return the i scope
@@ -133,7 +131,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
 
   /**
    * Creates the Eclass scope provider (all EClasses from the parent classifiers, referenced by their fully qualified (::) names.
-   * 
+   *
    * @param parent
    *          the parent
    * @param classifiers
@@ -143,13 +141,10 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
   private IScope createEClassScope(final IScope parent, final Iterable<EClassifier> classifiers) {
     final Iterable<EClass> classes = Iterables.filter(classifiers, EClass.class);
     Iterable<IEObjectDescription> elements = EObjectDescriptions.all(classes, EcorePackage.Literals.ENAMED_ELEMENT__NAME);
-    elements = Iterables.concat(elements, EObjectDescriptions.all(classes, new AbstractNameFunction() {
-      public QualifiedName apply(final EObject from) {
-        final EClass param = (EClass) from;
-        return QualifiedName.create(param.getEPackage().getNsPrefix(), param.getName());
-      }
+    elements = Iterables.concat(elements, EObjectDescriptions.all(classes, from -> {
+      final EClass param = (EClass) from;
+      return QualifiedName.create(param.getEPackage().getNsPrefix(), param.getName());
     }));
     return new SimpleScope(parent, elements);
   }
 }
-

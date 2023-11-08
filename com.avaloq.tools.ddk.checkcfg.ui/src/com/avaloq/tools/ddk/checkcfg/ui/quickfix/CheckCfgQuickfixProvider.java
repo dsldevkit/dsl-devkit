@@ -39,7 +39,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
 
   /**
    * Removes a duplicate catalog configuration.
-   * 
+   *
    * @param issue
    *          the issue
    * @param acceptor
@@ -48,6 +48,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
   @Fix(IssueCodes.DUPLICATE_CATALOG_CONFIGURATION)
   public void removeDuplicateCatalogConfiguration(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CATALOG_LABEL, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CATALOG_DESCN, null, new ISemanticModification() {
+      @Override
       public void apply(final EObject element, final IModificationContext context) {
         CheckConfiguration configuration = EcoreUtil2.getContainerOfType(element, CheckConfiguration.class);
         configuration.getLegacyCatalogConfigurations().remove(element);
@@ -58,7 +59,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
   /**
    * Fix severity by setting it to a legal value as is defined by severity range of referenced check. Legal
    * severities are passed as issue data (org.eclipse.xtext.validation.Issue#getData()).
-   * 
+   *
    * @param issue
    *          the issue
    * @param acceptor
@@ -72,6 +73,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
         final String descn = NLS.bind(Messages.CheckCfgQuickfixProvider_CORRECT_SEVERITY_DESCN, severityProposal);
 
         acceptor.accept(issue, label, descn, NO_IMAGE, new IModification() {
+          @Override
           public void apply(final IModificationContext context) throws BadLocationException {
             IXtextDocument xtextDocument = context.getXtextDocument();
             xtextDocument.replace(issue.getOffset(), issue.getLength(), severityProposal);
@@ -83,7 +85,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
 
   /**
    * Removes a duplicate check configuration.
-   * 
+   *
    * @param issue
    *          the issue
    * @param acceptor
@@ -92,6 +94,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
   @Fix(IssueCodes.DUPLICATE_CHECK_CONFIGURATION)
   public void removeDuplicateCheckConfiguration(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CHECK_LABEL, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CHECK_DESCN, null, new ISemanticModification() {
+      @Override
       public void apply(final EObject element, final IModificationContext context) {
         ConfiguredCatalog catalog = EcoreUtil2.getContainerOfType(element, ConfiguredCatalog.class);
         catalog.getCheckConfigurations().remove(element);
@@ -101,7 +104,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
 
   /**
    * Removes a duplicate parameter configuration.
-   * 
+   *
    * @param issue
    *          the issue
    * @param acceptor
@@ -110,6 +113,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
   @Fix(IssueCodes.DUPLICATE_PARAMETER_CONFIGURATION)
   public void removeDuplicateParameterConfiguration(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_PARAM_LABEL, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_PARAM_DESCN, null, new ISemanticModification() {
+      @Override
       public void apply(final EObject element, final IModificationContext context) {
         ConfiguredCheck check = EcoreUtil2.getContainerOfType(element, ConfiguredCheck.class);
         check.getParameterConfigurations().remove(element);
@@ -119,7 +123,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
 
   /**
    * Removes the configured values of a disabled check.
-   * 
+   *
    * @param issue
    *          the issue
    * @param acceptor
@@ -128,6 +132,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
   @Fix(IssueCodes.DISABLED_CHECK_NOT_CONFIGURED)
   public void removeConfiguredParamsOfDisabledCheck(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_REMOVE_CONFIGURED_PARAM_LABEL, Messages.CheckCfgQuickfixProvider_REMOVE_CONFIGURED_PARAM_DESCN, null, new ISemanticModification() {
+      @Override
       public void apply(final EObject element, final IModificationContext context) {
         ConfiguredCheck check = EcoreUtil2.getContainerOfType(element, ConfiguredCheck.class);
         check.getParameterConfigurations().removeAll(check.getParameterConfigurations());
@@ -137,7 +142,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
 
   /**
    * Reset the severity of a configured check which is final to {@code default}.
-   * 
+   *
    * @param issue
    *          the issue
    * @param acceptor
@@ -146,6 +151,7 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
   @Fix(IssueCodes.FINAL_CHECK_NOT_CONFIGURABLE)
   public void resetSeverityOfFinalCheck(final Issue issue, final IssueResolutionAcceptor acceptor) {
     acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_CORRECT_SEVERITY_OF_FINAL_CHECK_LABEL, Messages.CheckCfgQuickfixProvider_CORRECT_SEVERITY_OF_FINAL_CHECK_DESCN, null, new ISemanticModification() {
+      @Override
       public void apply(final EObject element, final IModificationContext context) {
         ConfiguredCheck check = EcoreUtil2.getContainerOfType(element, ConfiguredCheck.class);
         check.setSeverity(SeverityKind.DEFAULT);
@@ -153,4 +159,3 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
     });
   }
 }
-

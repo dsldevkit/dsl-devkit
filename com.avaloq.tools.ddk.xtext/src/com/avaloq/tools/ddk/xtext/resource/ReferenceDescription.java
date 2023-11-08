@@ -30,7 +30,7 @@ public final class ReferenceDescription implements IReferenceDescription, IDetac
 
   /**
    * Creates a new instance of {@link ReferenceDescription}.
-   * 
+   *
    * @param from
    * @param to
    * @param eReference
@@ -46,7 +46,7 @@ public final class ReferenceDescription implements IReferenceDescription, IDetac
 
   /**
    * Creates a new instance of {@link ReferenceDescription}.
-   * 
+   *
    * @param sourceEObjectURI
    * @param targetEObjectUri
    * @param eReference
@@ -60,34 +60,33 @@ public final class ReferenceDescription implements IReferenceDescription, IDetac
     this.indexInList = indexInList;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public int getIndexInList() {
     return indexInList;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public URI getSourceEObjectUri() {
     return sourceEObjectURI;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public URI getTargetEObjectUri() {
     return this.targetEObjectUri;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public EReference getEReference() {
     return this.eReference;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public URI getContainerEObjectURI() {
     return this.containerEObjectURI;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public IReferenceDescription detach() {
     return this;
   }
 }
-

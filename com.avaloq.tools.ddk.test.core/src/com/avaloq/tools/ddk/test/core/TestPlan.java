@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.junit.Assert;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
@@ -39,11 +38,12 @@ final class TestPlan {
   /**
    * Instantiates a new {@link TestPlan} with empty {@link CompoundStep}s.
    */
-  private TestPlan() {}
+  private TestPlan() {
+  }
 
   /**
    * Instantiates a new {@link TestPlan} with the given test-steps and setup-steps.
-   * 
+   *
    * @param setupSteps
    *          the setup steps, must not be {@code null}
    * @param testSteps
@@ -56,7 +56,7 @@ final class TestPlan {
 
   /**
    * Returns a new instance of {@link TestPlan} with empty {@link CompoundStep}s.
-   * 
+   *
    * @return a new test plan instance, never {@code null}
    */
   public static TestPlan create() {
@@ -65,7 +65,7 @@ final class TestPlan {
 
   /**
    * Adds a setup step to this {@link TestPlan} and asserts that it is not added after a test step.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param setupStep
@@ -80,7 +80,7 @@ final class TestPlan {
 
   /**
    * Adds a test step to this {@link TestPlan}.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param testStep
@@ -94,7 +94,7 @@ final class TestPlan {
 
   /**
    * Returns the {@link TestEntityAction}s contained in the given {@link CompoundStep}.
-   * 
+   *
    * @param compoundStep
    *          the compound step, must not be {@code null}
    * @return the {@link TestEntityAction}s, never {@code null}
@@ -111,7 +111,7 @@ final class TestPlan {
 
   /**
    * Returns all {@link TestEntityAction}s contained in the setup and test compound steps.
-   * 
+   *
    * @return all {@link TestEntityAction}s, never {@code null}
    */
   private List<TestEntityAction> getAllTestEntityActions() {
@@ -124,7 +124,7 @@ final class TestPlan {
 
   /**
    * Creates a {@link TestPlan} which contains the previous test steps that need to be undone, before the current test can be executed.
-   * 
+   *
    * @param testPlan
    *          current {@link TestPlan}, must not be {@code null}
    * @param previousTestPlan
@@ -150,7 +150,7 @@ final class TestPlan {
 
   /**
    * Returns a set containing all steps of a {@link TestPlan} that need a {@link ITestEntity} that is still available from a previous test.
-   * 
+   *
    * @param previousTestPlan
    *          the previous test plan, must not be {@code null}
    * @param testPlan
@@ -166,7 +166,7 @@ final class TestPlan {
 
   /**
    * Returns a set containing all steps of a {@link CompoundStep} that need a {@link ITestEntity} that is still available from a previous test.
-   * 
+   *
    * @param testPlan
    *          the test plan, must not be {@code null}
    * @param compoundStep
@@ -185,7 +185,7 @@ final class TestPlan {
 
   /**
    * Utility method that checks if the {@link TestPlan} contains all {@link ITestEntity}s of the given {@link ITestEntityActionProvider}.
-   * 
+   *
    * @param step
    *          the step, must not be {@code null}
    * @return {@code true}, if this {@link TestPlan} contains all {@link ITestEntity}s
@@ -204,7 +204,7 @@ final class TestPlan {
 
   /**
    * Returns all executed steps of the given {@link TestPlan}.
-   * 
+   *
    * @return all executed steps, never {@code null}
    */
   public Set<AbstractStep> getAllExecutedSteps() {
@@ -216,7 +216,7 @@ final class TestPlan {
 
   /**
    * Creates a {@link TestPlan} that contains only the {@link AbstractStep}s contained in the filter.
-   * 
+   *
    * @param testPlan
    *          the test plan, must not be {@code null}
    * @param filter
@@ -231,7 +231,7 @@ final class TestPlan {
 
   /**
    * Creates a {@link TestPlan} where all the {@link AbstractStep}s of the {@link CompoundStep}s of the given {@link TestPlan} are put in reverse order.
-   * 
+   *
    * @param testPlan
    *          the test plan, must not be {@code null}
    * @return the test reverse test plan, never {@code null}
@@ -246,7 +246,7 @@ final class TestPlan {
 
   /**
    * Filters a {@link CompoundStep} and returns a list of {@link AbstractStep}s that are contained in the filter {@link Set}.
-   * 
+   *
    * @param filter
    *          the filter, must not be {@code null}
    * @param compoundStep
@@ -265,7 +265,7 @@ final class TestPlan {
 
   /**
    * Creates a {@link TestPlan} that contains the undo-steps of all {@link AbstractStep}s of the given {@link TestPlan}.
-   * 
+   *
    * @param testPlan
    *          the test plan, must not be {@code null}
    * @return the test plan containing all undo-steps, never {@code null}
@@ -278,7 +278,7 @@ final class TestPlan {
 
   /**
    * Utility method that returns a list of all undo steps from a list of {@link AbstractStep}.
-   * 
+   *
    * @param stepsToUndo
    *          list of steps to undo, must not be {@code null}
    * @return list of undo steps in reverse order, never {@code null}
@@ -295,7 +295,7 @@ final class TestPlan {
 
   /**
    * Utility method that returns a list of steps steps of the previous test that need to be undone before executing the current test.
-   * 
+   *
    * @param previousSteps
    *          previous steps, must not be {@code null}
    * @param testPlan
@@ -316,7 +316,7 @@ final class TestPlan {
 
   /**
    * Utility method that checks if is step to undo.
-   * 
+   *
    * @param step
    *          step, must not be {@code null}
    * @return true, if is step to undo
@@ -337,7 +337,7 @@ final class TestPlan {
 
   /**
    * Checks if this {@link TestPlan} contains the {@link ITestEntity} of the given {@link TestEntityAction}.
-   * 
+   *
    * @param testEntityAction
    *          the test entity action, must not be {@code null}
    * @return whether this {@link TestPlan} has {@link ITestEntity} of the given {@link TestEntityAction}
@@ -353,7 +353,7 @@ final class TestPlan {
 
   /**
    * Creates a {@link TestPlan} with the steps that actually need to be executed for this test.
-   * 
+   *
    * @param testPlan
    *          current test plan, must not be {@code null}
    * @param previousTestPlan
@@ -361,20 +361,14 @@ final class TestPlan {
    * @return executable test plan, never {@code null}
    */
   public static TestPlan createExecutableTestPlan(final TestPlan testPlan, final TestPlan previousTestPlan) {
-    final List<AbstractStep> setupStepsToExecute = Lists.newArrayList(Collections2.filter(testPlan.getCompoundSetupStep().getSteps(), new Predicate<AbstractStep>() {
-      public boolean apply(final AbstractStep input) {
-        if (input != null) {
-          return isStepToExecute(input, previousTestPlan);
-        }
-        return false;
-      }
-    }));
+    final List<AbstractStep> setupStepsToExecute = Lists.newArrayList(Collections2.filter(testPlan.getCompoundSetupStep().getSteps(), input -> input != null
+        && isStepToExecute(input, previousTestPlan)));
     return new TestPlan(setupStepsToExecute, testPlan.getCompoundTestStep().getSteps());
   }
 
   /**
    * Utility method that checks whether the given {@link AbstractStep} should be executed.
-   * 
+   *
    * @param setupStep
    *          the setup step, must not be {@code null}
    * @param previousTestPlan
@@ -396,7 +390,7 @@ final class TestPlan {
 
   /**
    * Returns the compound setup step.
-   * 
+   *
    * @return the compound setup step, never {@code null}
    */
   public CompoundStep getCompoundSetupStep() {
@@ -405,11 +399,10 @@ final class TestPlan {
 
   /**
    * Returns the compound test step.
-   * 
+   *
    * @return the compound test step, never {@code null}
    */
   public CompoundStep getCompoundTestStep() {
     return compoundTestStep;
   }
 }
-

@@ -26,7 +26,7 @@ public final class ShellUiTestUtil {
 
   /**
    * Tests if a shell with a specific type of data contained (e.g. Window).
-   * 
+   *
    * @param bot
    *          to use
    * @param clazz
@@ -35,9 +35,11 @@ public final class ShellUiTestUtil {
   @SuppressWarnings("rawtypes")
   public static void assertShellWithDataTypeVisible(final SWTWorkbenchBot bot, final Class clazz) {
     bot.waitUntil(Conditions.waitForShell(new BaseMatcher<Shell>() {
+      @Override
       @SuppressWarnings("unchecked")
       public boolean matches(final Object item) {
         return UIThreadRunnable.syncExec(new Result<Boolean>() {
+          @Override
           public Boolean run() {
             if (item instanceof Shell) {
               Object shellData = ((Shell) item).getData();
@@ -50,12 +52,13 @@ public final class ShellUiTestUtil {
         });
       }
 
+      @Override
       public void describeTo(final Description description) {
         description.appendText("Shell for " + clazz.getName());
       }
     }));
   }
 
-  private ShellUiTestUtil() {}
+  private ShellUiTestUtil() {
+  }
 }
-

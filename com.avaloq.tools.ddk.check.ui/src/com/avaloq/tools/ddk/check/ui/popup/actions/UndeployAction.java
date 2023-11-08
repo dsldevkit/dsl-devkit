@@ -24,15 +24,17 @@ import com.avaloq.tools.ddk.check.ui.util.ProjectUtil;
  */
 public class UndeployAction implements IObjectActionDelegate {
 
-  /** {@inheritDoc} */
-  public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {}
+  @Override
+  public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
+  }
 
-  /** {@inheritDoc} */
+  @Override
   public void run(final IAction action) {
     new UndeployJob(Messages.UndeployAction_UndeployLocalBundle, ProjectUtil.getProject()).schedule();
   }
 
-  /** {@inheritDoc} */
-  public void selectionChanged(final IAction action, final ISelection selection) {}
+  @Override
+  public void selectionChanged(final IAction action, final ISelection selection) {
+  }
 
 }

@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.EList;
 
 import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -29,13 +28,8 @@ public class CheckCatalogImplCustom extends CheckCatalogImpl {
   public EList<Check> getAllChecks() {
     final EList<Check> result = new BasicEList<Check>();
     result.addAll(Lists.newArrayList(Iterables.concat(this.getChecks(), Iterables.concat(Iterables.transform(this.getCategories(), //
-        new Function<Category, Iterable<Check>>() {
-          public Iterable<Check> apply(final Category from) {
-            return from.getChecks();
-          }
-        })))));
+        Category::getChecks)))));
     return result;
   }
 
 }
-

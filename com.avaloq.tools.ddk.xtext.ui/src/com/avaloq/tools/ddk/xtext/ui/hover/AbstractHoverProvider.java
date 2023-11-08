@@ -28,6 +28,7 @@ public abstract class AbstractHoverProvider extends DefaultEObjectHoverProvider 
   private static final String GET_FIRST_LINE_METHOD_NAME = "firstLine"; //$NON-NLS-1$
 
   private final PolymorphicDispatcher<String> getFirstLineMethodDispatcher = new PolymorphicDispatcher<String>(GET_FIRST_LINE_METHOD_NAME, 1, 1, Collections.singletonList(this), new ErrorHandler<String>() {
+    @Override
     public String handle(final Object[] params, final Throwable e) {
       return null;
     }
@@ -35,31 +36,22 @@ public abstract class AbstractHoverProvider extends DefaultEObjectHoverProvider 
 
   /**
    * {@link ENamedElement}s with hover.
-   * 
+   *
    * @return {@link ENamedElement}s with hover
    */
   protected abstract List<ENamedElement> getHoverElements();
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String getHoverInfoAsHtml(final EObject o) {
     String hover = super.getHoverInfoAsHtml(o);
     return hover != null ? hover.replaceAll("\\r?\\n", "<br/>") : null; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected boolean hasHover(final EObject modelElement) {
     return getHoverElements().contains(modelElement.eClass());
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String getFirstLine(final EObject modelElement) {
     return getFirstLineMethodDispatcher.invoke(modelElement);
@@ -67,11 +59,10 @@ public abstract class AbstractHoverProvider extends DefaultEObjectHoverProvider 
 
   /**
    * This function only exists for testing purposes. It provides access to stylesheets which are used in test class.
-   * 
+   *
    * @return CSS stylesheet for hovering info in HTML form, never {@code null}.
    */
   public String getCSS() {
     return getStyleSheet();
   }
 }
-

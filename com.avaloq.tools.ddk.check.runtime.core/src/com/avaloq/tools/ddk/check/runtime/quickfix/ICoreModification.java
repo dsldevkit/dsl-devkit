@@ -19,7 +19,7 @@ public interface ICoreModification {
 
   /**
    * Applies a textual quickfix.
-   * 
+   *
    * @param context
    *          the modification context instance
    * @throws Exception
@@ -28,7 +28,8 @@ public interface ICoreModification {
   void apply(ICoreModificationContext context) throws Exception; // NOPMD copy of IModification
 
   ICoreModification NULL = new ICoreModification() {
-    public void apply(final ICoreModificationContext context) {}
+    @Override
+    public void apply(final ICoreModificationContext context) {
+    }
   };
 }
-

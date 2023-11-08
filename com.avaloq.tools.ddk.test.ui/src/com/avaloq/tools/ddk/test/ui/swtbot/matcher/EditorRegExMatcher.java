@@ -31,7 +31,7 @@ public class EditorRegExMatcher extends BaseMatcher<IEditorReference> {
     this.regExMatcher = pattern.matcher("");
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean matches(final Object item) {
     if (item instanceof IEditorReference) {
       IEditorReference ref = (IEditorReference) item;
@@ -45,17 +45,18 @@ public class EditorRegExMatcher extends BaseMatcher<IEditorReference> {
 
   /**
    * Describe to.
-   * 
+   *
    * @param description
    *          the description {@inheritDoc}
    */
+  @Override
   public void describeTo(final Description description) {
     description.appendText("an editor with name matching regex");
   }
 
   /**
    * Convenience method to obtain a matcher of this type.
-   * 
+   *
    * @param regex
    *          the regex
    * @return the base matcher

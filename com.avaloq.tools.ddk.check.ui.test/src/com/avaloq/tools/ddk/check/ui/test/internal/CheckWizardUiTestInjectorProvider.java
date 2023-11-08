@@ -20,6 +20,7 @@ import com.google.inject.Injector;
  */
 public class CheckWizardUiTestInjectorProvider implements IInjectorProvider {
 
+  @Override
   public Injector getInjector() {
     return com.avaloq.tools.ddk.check.ui.internal.CheckActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.Check");
   }

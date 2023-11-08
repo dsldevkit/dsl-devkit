@@ -111,7 +111,6 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     grammarStatus = new StatusInfo();
   }
 
-  /** {@inheritDoc} */
   @Override
   protected String getTypeNameLabel() {
     return Messages.CATALOG_FIELD_NAME_LABEL;
@@ -119,7 +118,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the catalog name.
-   * 
+   *
    * @return the catalog name
    */
   public String getCatalogName() {
@@ -128,7 +127,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the resource.
-   * 
+   *
    * @return the resource
    */
   public IResource getResource() {
@@ -137,14 +136,13 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the package name.
-   * 
+   *
    * @return the package name
    */
   public String getPackageName() {
     return getPackageText();
   }
 
-  /** {@inheritDoc} */
   @Override
   protected String getPackageLabel() {
     return Messages.PACKAGE_NAME_LABEL;
@@ -156,7 +154,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Validate grammar.
-   * 
+   *
    * @return the status (ERROR or OK)
    */
   private IStatus validateGrammarAccess() {
@@ -171,7 +169,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     return status;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void createControl(final Composite parent) {
     initializeDialogUnits(parent);
 
@@ -206,7 +204,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Creates the grammars controls.
-   * 
+   *
    * @param composite
    *          the composite
    */
@@ -237,6 +235,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     // Note that the viewer return the real object and not just a string
     // representation
     grammars.addSelectionChangedListener(new ISelectionChangedListener() {
+      @Override
       public void selectionChanged(final SelectionChangedEvent event) {
         if (event.getSelection() instanceof StructuredSelection) {
           grammar = (Grammar) ((StructuredSelection) event.getSelection()).getFirstElement();
@@ -250,7 +249,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Initializes the page with selected elements.
-   * 
+   *
    * @param selection
    *          the selection
    */
@@ -285,7 +284,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * ensures that an entered value is still inserted in the field after a page change ("< back", "next >").
-   * 
+   *
    * @param catalogName
    *          the catalog name to be set
    * @param canBeModified
@@ -303,7 +302,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Sets the package fragment. Sets an initial package, if possible.
-   * 
+   *
    * @param pack
    *          the package fragment to be set
    * @param canBeModified
@@ -318,7 +317,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
   /**
    * Creates a fragment with the same name as the project name.
    * It is used to show an initial package name in the project wizard.
-   * 
+   *
    * @param name
    *          name of the initial package
    * @return the initial package fragment
@@ -333,7 +332,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Checks if the previous page is the first page of the new project wizard.
-   * 
+   *
    * @return true, if the previous page is the project wizard's first page
    */
   private boolean previousPageIsProjectPage() {
@@ -348,7 +347,6 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     updateStatus(status);
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void handleFieldChanged(final String fieldName) {
     super.handleFieldChanged(fieldName);
@@ -358,7 +356,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the output file name.
-   * 
+   *
    * @return the output file name
    */
   public String getOutputFileName() {
@@ -367,7 +365,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the output folder. Returns <code>null</code> if no package has been specified.
-   * 
+   *
    * @return the output folder or <code>null</code>
    */
   public IFolder getOutputFolder() {
@@ -379,14 +377,13 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the project info.
-   * 
+   *
    * @return the project info
    */
   public CheckProjectInfo getProjectInfo() {
     return projectInfo;
   }
 
-  /** {@inheritDoc} */
   @Override
   protected IStatus packageChanged() {
     super.packageChanged(); // makes modifications to read-only field in parent class; required!
@@ -400,7 +397,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
   /**
    * Ensures that the project creation is done with the current package fragment.
    * Especially when the package name is changed.
-   * 
+   *
    * @return the current package fragment.
    */
   @Override
@@ -427,7 +424,6 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     return packageFragment;
   }
 
-  /** {@inheritDoc} */
   @Override
   public IStatus typeNameChanged() {
     super.typeNameChanged();
@@ -449,7 +445,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
 
   /**
    * Checks if a given catalog name already exists in the project.
-   * 
+   *
    * @param packageFragment
    *          the package in which the file is looked for
    * @return true, if catalog exists
@@ -458,6 +454,7 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     final Set<IResource> foundResources = Sets.newHashSet();
     final String catalogName = getCatalogName() + '.' + CheckConstants.FILE_EXTENSION;
     IResourceVisitor catalogNameVisitor = new IResourceVisitor() {
+      @Override
       public boolean visit(final IResource res) throws CoreException {
         String resourceName = res.getName();
         if (catalogName.equalsIgnoreCase(resourceName)) {
@@ -497,4 +494,3 @@ public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
     super.updateStatus(result);
   }
 }
-

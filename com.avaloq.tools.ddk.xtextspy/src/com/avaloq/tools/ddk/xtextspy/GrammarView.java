@@ -44,7 +44,7 @@ public class GrammarView extends Composite implements ISelectionChangedListener 
 
   /**
    * Instantiates a new grammar view.
-   * 
+   *
    * @param parent
    *          the parent
    * @param style
@@ -102,10 +102,11 @@ public class GrammarView extends Composite implements ISelectionChangedListener 
 
   /**
    * Set the parser rule name corresponding to the selection. {@inheritDoc}
-   * 
+   *
    * @param event
    *          the event
    */
+  @Override
   @SuppressWarnings("PMD.NPathComplexity")
   public void selectionChanged(final SelectionChangedEvent event) {
     XtextElementSelectionListener source = (XtextElementSelectionListener) event.getSelectionProvider();
@@ -122,7 +123,7 @@ public class GrammarView extends Composite implements ISelectionChangedListener 
 
   /**
    * Gets the text.
-   * 
+   *
    * @param grammarElement
    *          the grammar element
    * @return the text
@@ -171,4 +172,3 @@ public class GrammarView extends Composite implements ISelectionChangedListener 
   }
 
 }
-

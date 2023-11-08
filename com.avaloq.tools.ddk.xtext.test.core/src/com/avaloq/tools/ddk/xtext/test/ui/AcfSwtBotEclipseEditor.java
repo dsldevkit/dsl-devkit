@@ -41,7 +41,7 @@ public class AcfSwtBotEclipseEditor extends SWTBotEclipseEditor {
 
   /**
    * Synchronously wait until the cursor is on the given position.
-   * 
+   *
    * @param line
    *          line number
    * @param column
@@ -50,11 +50,13 @@ public class AcfSwtBotEclipseEditor extends SWTBotEclipseEditor {
   private void waitUntilCursorIsOnPosition(final int line, final int column) {
     bot.waitUntil(new DefaultCondition() {
 
+      @Override
       public boolean test() {
         Position position = cursorPosition();
         return isActive() && position.line == line && position.column == column;
       }
 
+      @Override
       public String getFailureMessage() {
         return NLS.bind("The cursor should be on the position ({0}, {1}) and the editor should have focus.", line, column);
       }
@@ -63,4 +65,3 @@ public class AcfSwtBotEclipseEditor extends SWTBotEclipseEditor {
   }
 
 }
-

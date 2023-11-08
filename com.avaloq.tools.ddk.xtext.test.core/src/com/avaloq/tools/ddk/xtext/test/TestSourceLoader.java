@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
@@ -40,7 +39,7 @@ public final class TestSourceLoader {
 
   /**
    * Loads the given set of test sources from the classpath.
-   * 
+   *
    * @param clazz
    *          context class
    * @param sourceNames
@@ -48,16 +47,12 @@ public final class TestSourceLoader {
    * @return an iterable of the sources
    */
   public Iterable<TestSource> loadFromClasspath(final Class<?> clazz, final String... sourceNames) {
-    return Lists.transform(Lists.newArrayList(sourceNames), new Function<String, TestSource>() {
-      public TestSource apply(final String input) {
-        return testSourceFactory.createTestSource(input, TestSource.getResourceContent(clazz, input));
-      }
-    });
+    return Lists.transform(Lists.newArrayList(sourceNames), input -> testSourceFactory.createTestSource(input, TestSource.getResourceContent(clazz, input)));
   }
 
   /**
    * Loads all test sources from the classpath. It will load all test sources residing in the same Java package as the given class.
-   * 
+   *
    * @param clazz
    *          context class
    * @return an iterable of the sources
@@ -95,7 +90,7 @@ public final class TestSourceLoader {
 
   /**
    * Retrieves all Xtext test sources found in a given directory.
-   * 
+   *
    * @param url
    *          URL to directory containing test sources
    * @return list of all test sources in that directory
@@ -123,4 +118,3 @@ public final class TestSourceLoader {
     }
   }
 }
-
