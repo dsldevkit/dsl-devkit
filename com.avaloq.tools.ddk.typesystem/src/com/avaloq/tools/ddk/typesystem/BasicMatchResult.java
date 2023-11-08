@@ -35,6 +35,7 @@ public class BasicMatchResult implements IMatchResult {
     this.status = status;
   }
 
+  @Override
   public MatchStatus getStatus() {
     return status;
   }
@@ -44,4 +45,3 @@ public class BasicMatchResult implements IMatchResult {
   }
 
 }
-

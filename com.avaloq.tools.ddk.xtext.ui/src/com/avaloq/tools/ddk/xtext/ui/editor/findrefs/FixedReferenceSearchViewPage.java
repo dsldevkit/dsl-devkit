@@ -24,18 +24,22 @@ public class FixedReferenceSearchViewPage extends ReferenceSearchViewPage {
   protected IQueryListener createQueryListener() {
     return new IQueryListener() {
 
+      @Override
       public void queryStarting(final ISearchQuery query) {
         showBusyLabel(false);
       }
 
+      @Override
       public void queryRemoved(final ISearchQuery query) {
         showBusyLabel(false);
       }
 
+      @Override
       public void queryFinished(final ISearchQuery query) {
         showBusyLabel(false);
       }
 
+      @Override
       public void queryAdded(final ISearchQuery query) {
         showBusyLabel(false);
       }
@@ -43,4 +47,3 @@ public class FixedReferenceSearchViewPage extends ReferenceSearchViewPage {
   }
 
 }
-

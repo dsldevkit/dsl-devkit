@@ -50,7 +50,7 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   /**
    * Constructor for NewCheckProjectWizardPage.
-   * 
+   *
    * @param selection
    */
   @Inject
@@ -64,6 +64,7 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   private IDialogFieldListener getProjectValueListener() {
     return new IDialogFieldListener() {
+      @Override
       public void dialogFieldChanged(final DialogField field) {
         projectNameStatus = validator.checkProjectName(getProjectName());
         handleFieldChanged(field.toString());
@@ -73,11 +74,12 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   /**
    * Creates the control.
-   * 
+   *
    * @param parent
    *          the parent
    * @see org.eclipse.jface.dialogs.IDialogPage#createControl(Composite)
    */
+  @Override
   public void createControl(final Composite parent) {
     initializeDialogUnits(parent);
     Composite composite = new Composite(parent, SWT.NONE);
@@ -112,7 +114,7 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   /**
    * Creates the grammars controls.
-   * 
+   *
    * @param composite
    *          the composite
    * @param columns
@@ -131,7 +133,6 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
     projectName.setFocus();
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void handleFieldChanged(final String fieldName) {
     super.handleFieldChanged(fieldName);
@@ -141,7 +142,7 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   /**
    * Gets the project name.
-   * 
+   *
    * @return the project name
    */
   public String getProjectName() {

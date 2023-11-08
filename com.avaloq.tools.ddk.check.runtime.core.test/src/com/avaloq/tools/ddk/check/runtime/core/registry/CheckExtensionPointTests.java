@@ -13,16 +13,15 @@ package com.avaloq.tools.ddk.check.runtime.core.registry;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.junit.Test;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -38,7 +37,7 @@ public class CheckExtensionPointTests extends TestCase {
 
   /**
    * Finds all registered extension points.
-   * 
+   *
    * @return the list of registered extension points
    */
   private List<IExtensionPoint> findExtensionPoints() {
@@ -47,7 +46,7 @@ public class CheckExtensionPointTests extends TestCase {
 
   /**
    * Finds the check extension point.
-   * 
+   *
    * @param extensionPoints
    *          the collection of extension points in which to search
    * @return the check extension point
@@ -55,16 +54,13 @@ public class CheckExtensionPointTests extends TestCase {
    * @see #CHECK_EXTENSION_POINT_SIMPLE_NAME
    */
   private IExtensionPoint findCheckExtensionPoint(final List<IExtensionPoint> extensionPoints) {
-    return Iterables.find(extensionPoints, new Predicate<IExtensionPoint>() {
-      public boolean apply(final IExtensionPoint input) {
-        return CHECK_EXTENSION_ID.equals(input.getNamespaceIdentifier()) && CHECK_EXTENSION_POINT_SIMPLE_NAME.equals(input.getSimpleIdentifier());
-      }
-    });
+    return Iterables.find(extensionPoints, input -> //
+    CHECK_EXTENSION_ID.equals(input.getNamespaceIdentifier()) && CHECK_EXTENSION_POINT_SIMPLE_NAME.equals(input.getSimpleIdentifier()));
   }
 
   /**
    * Finds a configuration element with given attribute value.
-   * 
+   *
    * @param elements
    *          the configuration elements of an extension point
    * @param attributeName
@@ -85,7 +81,7 @@ public class CheckExtensionPointTests extends TestCase {
   /**
    * Tests that the check extension point can be found in the global registry
    * of extension points.
-   * 
+   *
    * @see Platform#getExtensionRegistry()
    */
   @Test
@@ -133,4 +129,3 @@ public class CheckExtensionPointTests extends TestCase {
     assertNotNull("Found a configuration element with attribute \"language\"", findConfigurationElement(point.getConfigurationElements(), LANGUAGE_ATTRIBUTE));
   }
 }
-

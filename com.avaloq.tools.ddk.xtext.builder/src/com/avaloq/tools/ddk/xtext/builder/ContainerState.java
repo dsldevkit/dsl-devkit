@@ -30,19 +30,19 @@ class ContainerState implements IContainerState {
     this.globalState = globalState;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Collection<URI> getContents() {
     return globalState.getContainedURIs(root);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean contains(final URI uri) {
     return getContents().contains(uri);
   }
 
+  @Override
   public boolean isEmpty() {
     return globalState.isEmpty(root);
   }
 
 }
-

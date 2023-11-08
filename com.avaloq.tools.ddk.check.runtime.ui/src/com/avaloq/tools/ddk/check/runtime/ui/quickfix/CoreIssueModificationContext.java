@@ -47,10 +47,12 @@ public class CoreIssueModificationContext implements ICoreModificationContext {
     return issue;
   }
 
+  @Override
   public ICoreXtextDocument getXtextDocument() {
     return getXtextDocument(issue.getUriToProblem());
   }
 
+  @Override
   public ICoreXtextDocument getXtextDocument(final URI uri) {
     // On UI threads make use of the editor
     if (Display.getCurrent() != null) {
@@ -75,6 +77,7 @@ public class CoreIssueModificationContext implements ICoreModificationContext {
       @Inject
       private Provider<CoreIssueModificationContext> provider;
 
+      @Override
       public ICoreModificationContext createModificationContext(final Issue issue) {
         CoreIssueModificationContext modificationContext = provider.get();
         modificationContext.setIssue(issue);
@@ -85,4 +88,3 @@ public class CoreIssueModificationContext implements ICoreModificationContext {
   }
 
 }
-

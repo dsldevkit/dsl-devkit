@@ -21,7 +21,6 @@ import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
 
@@ -41,7 +40,7 @@ public class InferredJvmModelUtil {
    * <p>
    * Model associations are maintained per resource. This returns the model associations for the EObject's containing resource.
    * </p>
-   * 
+   *
    * @param eObject
    *          the object to get the model associations from, must not be {@code null}
    * @return the model associations for {@code eObject}, or null if there are none
@@ -58,7 +57,7 @@ public class InferredJvmModelUtil {
 
   /**
    * Returns an inferred model element of a given type for a given source element.
-   * 
+   *
    * @param <T>
    *          the type of inferred model element to return
    * @param source
@@ -82,7 +81,7 @@ public class InferredJvmModelUtil {
 
   /**
    * Returns an inferred element of specified name and type for a given source element.
-   * 
+   *
    * @param sourceElement
    *          a source {@link EObject}, must not be {@code null}
    * @param name
@@ -106,7 +105,7 @@ public class InferredJvmModelUtil {
 
   /**
    * Returns all inferred model elements of a given type for a given source element.
-   * 
+   *
    * @param <T>
    *          the type of inferred model elements to return
    * @param source
@@ -120,18 +119,14 @@ public class InferredJvmModelUtil {
     final IJvmModelAssociations modelAssociations = getModelAssociations(source);
     if (modelAssociations != null) {
       final Set<EObject> inferredModelElements = modelAssociations.getJvmElements(source);
-      return (Set<T>) Sets.filter(inferredModelElements, new Predicate<EObject>() {
-        public boolean apply(final EObject input) {
-          return clazz.isInstance(input);
-        }
-      });
+      return (Set<T>) Sets.filter(inferredModelElements, input -> clazz.isInstance(input));
     }
     return Collections.emptySet();
   }
 
   /**
    * Returns all inferred model elements for a given source element.
-   * 
+   *
    * @param source
    *          the source of the inferred model elements, must not be {@code null}
    * @return the set of inferred model elements or an empty set if there are none
@@ -146,7 +141,7 @@ public class InferredJvmModelUtil {
 
   /**
    * Gets the primary source model element that inferred a given {@link EObject}, if there is one.
-   * 
+   *
    * @param eObject
    *          the object to get the primary source for, must not be {@code null}
    * @return the primary source model element for the given {link EObject}, or null if there is none
@@ -160,4 +155,3 @@ public class InferredJvmModelUtil {
     }
   }
 }
-

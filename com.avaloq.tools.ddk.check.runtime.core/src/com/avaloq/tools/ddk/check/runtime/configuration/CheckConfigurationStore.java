@@ -46,7 +46,7 @@ public class CheckConfigurationStore implements ICheckConfigurationStore {
    * Instantiates a new check configuration store with a given collection of nodes. The nodes
    * will be traversed in given order. The first node with a given key having a value which is
    * different from the default will be returned.
-   * 
+   *
    * @param nodes
    *          the nodes
    */
@@ -60,7 +60,7 @@ public class CheckConfigurationStore implements ICheckConfigurationStore {
 
   /**
    * Gets the scope context to be used. Returns {@code null} if the {@link IProject project} is {@code null}.
-   * 
+   *
    * @return the scope context
    */
   private IScopeContext getProjectScope() {
@@ -73,7 +73,7 @@ public class CheckConfigurationStore implements ICheckConfigurationStore {
     return projectScope;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean getBoolean(final String key, final boolean defaultValue) {
     IScopeContext scope = getProjectScope();
     if (scope != null) {
@@ -87,7 +87,7 @@ public class CheckConfigurationStore implements ICheckConfigurationStore {
     return defaultValue;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public int getInt(final String key, final int defaultValue) {
     IScopeContext scope = getProjectScope();
     if (scope != null) {
@@ -101,7 +101,7 @@ public class CheckConfigurationStore implements ICheckConfigurationStore {
     return defaultValue;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getString(final String key, final String defaultValue) {
     IScopeContext scope = getProjectScope();
     if (scope != null) {
@@ -115,23 +115,22 @@ public class CheckConfigurationStore implements ICheckConfigurationStore {
     return defaultValue;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public List<String> getStrings(final String key, final List<String> defaultValue) {
     String marshaled = getString(key, null);
     return marshaled == null ? defaultValue : CheckPreferencesHelper.unmarshalStrings(marshaled);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public List<Boolean> getBooleans(final String key, final List<Boolean> defaultValue) {
     String marshaled = getString(key, null);
     return marshaled == null ? defaultValue : CheckPreferencesHelper.unmarshalBooleans(marshaled);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public List<Integer> getIntegers(final String key, final List<Integer> defaultValue) {
     String marshaled = getString(key, null);
     return marshaled == null ? defaultValue : CheckPreferencesHelper.unmarshalIntegers(marshaled);
   }
 
 }
-

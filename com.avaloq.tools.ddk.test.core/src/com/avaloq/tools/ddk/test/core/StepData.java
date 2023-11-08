@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.test.core;
 
 /**
  * Representation of a step data.
- * 
+ *
  * @param <T>
  *          the type of the data value
  */
@@ -21,7 +21,7 @@ public final class StepData<T> implements IStepData<T> {
 
   /**
    * Creates and returns a {@link StepData}.
-   * 
+   *
    * @param <T>
    *          the type of the step data value
    * @param value
@@ -34,7 +34,7 @@ public final class StepData<T> implements IStepData<T> {
 
   /**
    * Creates a new instance of {@link StepData}.
-   * 
+   *
    * @param value
    *          the value of this step data
    */
@@ -42,20 +42,18 @@ public final class StepData<T> implements IStepData<T> {
     this.value = value;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public T getValue() {
     return value;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean isValueSet() {
     return true;
   }
 
-  /** {@inheritDoc} */
   @Override
   public String toString() {
     return value.toString();
   }
 }
-

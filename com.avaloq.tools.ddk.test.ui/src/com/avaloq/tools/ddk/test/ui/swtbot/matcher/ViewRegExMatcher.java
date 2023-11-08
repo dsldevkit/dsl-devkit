@@ -31,7 +31,7 @@ public class ViewRegExMatcher extends BaseMatcher<IViewReference> {
     this.regExMatcher = pattern.matcher("");
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean matches(final Object item) {
     if (item instanceof IViewReference) {
       IViewReference ref = (IViewReference) item;
@@ -43,14 +43,14 @@ public class ViewRegExMatcher extends BaseMatcher<IViewReference> {
     return false;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void describeTo(final Description description) {
     description.appendText("a view with title matching regex");
   }
 
   /**
    * Convenience method to obtain a matcher of this type.
-   * 
+   *
    * @param regex
    *          the regex
    * @return the base matcher

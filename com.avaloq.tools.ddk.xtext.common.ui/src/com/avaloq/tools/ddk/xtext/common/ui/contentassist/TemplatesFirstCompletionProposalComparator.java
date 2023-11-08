@@ -21,7 +21,7 @@ import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalComparator;
  */
 public class TemplatesFirstCompletionProposalComparator implements ICompletionProposalComparator {
 
-  /** {@inheritDoc} */
+  @Override
   @SuppressWarnings({"rawtypes", "unchecked"})
   public int compare(final ICompletionProposal o1, final ICompletionProposal o2) {
 
@@ -47,4 +47,3 @@ public class TemplatesFirstCompletionProposalComparator implements ICompletionPr
     return o1.getDisplayString().compareTo(o2.getDisplayString());
   }
 }
-

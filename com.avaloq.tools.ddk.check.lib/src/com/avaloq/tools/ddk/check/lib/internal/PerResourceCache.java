@@ -33,18 +33,14 @@ public final class PerResourceCache implements IResourceCache {
   }
 
   /** Cache creator. */
-  private final Provider<Map<Object, Object>> cacheProvider = new Provider<Map<Object, Object>>() {
-    public Map<Object, Object> get() {
-      return Maps.newHashMap();
-    }
-  };
+  private final Provider<Map<Object, Object>> cacheProvider = Maps::newHashMap;
 
   /**
    * Retrieves the user-accessible cache for the resource the given context object is in.
    * <p>
    * <em>Note:</em> throws {@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.
    * </p>
-   * 
+   *
    * @param context
    *          determining the resource.
    * @return the cache, if any
@@ -60,7 +56,7 @@ public final class PerResourceCache implements IResourceCache {
     return ((XtextResource) res).getCache().get(this, res, cacheProvider);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public <T> Object put(final EObject context, final Object key, final T value) {
     if (key == null) {
       // Let's explicitly forbid null keys.
@@ -69,7 +65,7 @@ public final class PerResourceCache implements IResourceCache {
     return getCache(context).put(key, value);
   }
 
-  /** {@inheritDoc} */
+  @Override
   @SuppressWarnings("unchecked")
   public <T extends Object> T get(final EObject context, final Object key) {
     if (key == null) {
@@ -78,7 +74,7 @@ public final class PerResourceCache implements IResourceCache {
     return (T) getCache(context).get(key);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean containsKey(final EObject context, final Object key) {
     if (key == null) {
       throw new IllegalArgumentException(Messages.PerResourceCache_NullKey);
@@ -86,9 +82,8 @@ public final class PerResourceCache implements IResourceCache {
     return getCache(context).containsKey(key);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void clear(final EObject context) {
     getCache(context).clear();
   }
 }
-

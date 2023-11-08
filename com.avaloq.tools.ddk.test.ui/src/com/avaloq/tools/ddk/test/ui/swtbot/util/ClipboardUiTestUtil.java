@@ -24,13 +24,14 @@ public final class ClipboardUiTestUtil {
 
   /**
    * Content from the clipboard.
-   * 
+   *
    * @param bot
    *          to work with
    * @return clipboard content
    */
   public static String clipboardContent(final SWTWorkbenchBot bot) {
     return UIThreadRunnable.syncExec(new Result<String>() {
+      @Override
       public String run() {
         Clipboard clipboard = new Clipboard(bot.getDisplay());
         return (String) clipboard.getContents(TextTransfer.getInstance());
@@ -41,6 +42,6 @@ public final class ClipboardUiTestUtil {
   /**
    * Utility classes should not have a public or default constructor.
    */
-  private ClipboardUiTestUtil() {}
+  private ClipboardUiTestUtil() {
+  }
 }
-

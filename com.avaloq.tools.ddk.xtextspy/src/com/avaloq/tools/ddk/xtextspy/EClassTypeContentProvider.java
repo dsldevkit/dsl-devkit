@@ -26,13 +26,15 @@ import com.google.inject.Singleton;
 @Singleton
 public class EClassTypeContentProvider implements ITreeContentProvider {
 
-  /** {@inheritDoc} */
-  public void dispose() {}
+  @Override
+  public void dispose() {
+  }
 
-  /** {@inheritDoc} */
-  public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {}
+  @Override
+  public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
+  }
 
-  /** {@inheritDoc} */
+  @Override
   public Object[] getElements(final Object inputElement) {
     if (inputElement instanceof EClass) {
       return new EClassNode[] {new EClassNode((EClass) inputElement, null)};
@@ -42,7 +44,7 @@ public class EClassTypeContentProvider implements ITreeContentProvider {
     return new Object[] {};
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Object[] getChildren(final Object parentElement) {
     if (parentElement instanceof EClassNode) {
       Collection<EClassNode> children = ((EClassNode) parentElement).getChildren();
@@ -51,7 +53,7 @@ public class EClassTypeContentProvider implements ITreeContentProvider {
     return new Object[] {};
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Object getParent(final Object element) {
     if (element instanceof EClassNode) {
       return ((EClassNode) element).getParent();
@@ -59,7 +61,7 @@ public class EClassTypeContentProvider implements ITreeContentProvider {
     return null;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean hasChildren(final Object element) {
     if (element instanceof EClassNode) {
       return ((EClassNode) element).hasChildren();
@@ -68,4 +70,3 @@ public class EClassTypeContentProvider implements ITreeContentProvider {
   }
 
 }
-

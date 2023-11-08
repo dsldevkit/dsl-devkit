@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.Assert;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 
@@ -29,7 +28,7 @@ public class ModelUtil {
 
   /**
    * Gets the all instances of given type <code>type</code>.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param context
@@ -40,6 +39,7 @@ public class ModelUtil {
    */
   public <T extends EObject> Iterable<T> getAllInstancesOf(final EObject context, final Class<T> type) {
     return new Iterable<T>() {
+      @Override
       public Iterator<T> iterator() {
         return Iterators.filter(context.eAllContents(), type);
       }
@@ -48,7 +48,7 @@ public class ModelUtil {
 
   /**
    * Gets the first instance of the given type.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param context
@@ -64,7 +64,7 @@ public class ModelUtil {
 
   /**
    * Gets all instances of given type <code>type</code> having given value <code>value</code> on structural feature <code>feature</code>.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param context
@@ -82,20 +82,18 @@ public class ModelUtil {
   // CHECKSTYLE:OFF
   public <T extends EObject> Iterable<T> getAllInstancesOf(final EObject context, final Class<T> type, final EStructuralFeature feature, final Object value) throws AssertionError {
     // CHECKSTYLE:ON
-    return Iterables.filter(getAllInstancesOf(context, type), new Predicate<T>() {
-      public boolean apply(final T input) {
-        if (input.eClass().getEStructuralFeature(feature.getFeatureID()) != feature) {
-          Assert.fail("Feature " + feature + " is not a feature of " + input.eClass());
-        }
-        final Object valueOfFeature = input.eGet(feature);
-        return valueOfFeature != null && valueOfFeature.equals(value);
+    return Iterables.filter(getAllInstancesOf(context, type), input -> {
+      if (input.eClass().getEStructuralFeature(feature.getFeatureID()) != feature) {
+        Assert.fail("Feature " + feature + " is not a feature of " + input.eClass());
       }
+      final Object valueOfFeature = input.eGet(feature);
+      return valueOfFeature != null && valueOfFeature.equals(value);
     });
   }
 
   /**
    * Gets the first instance of given type containing a given structural feature with given value using a given context object.
-   * 
+   *
    * @param <T>
    *          the generic type
    * @param context
@@ -118,4 +116,3 @@ public class ModelUtil {
   }
 
 }
-

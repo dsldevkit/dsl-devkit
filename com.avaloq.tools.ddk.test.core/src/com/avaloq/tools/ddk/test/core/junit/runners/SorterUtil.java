@@ -30,7 +30,7 @@ public final class SorterUtil {
 
   /**
    * Returns the singleton instance of {@link SorterUtil}.
-   * 
+   *
    * @return the singleton instance of {@link SorterUtil}, never {@code null}
    */
   public static SorterUtil getInstance() {
@@ -44,6 +44,7 @@ public final class SorterUtil {
     final String propertySorter = System.getProperty(PROPERTY_SORTER, EMPTY);
     if (SORTER_ALPHANUMERIC.equalsIgnoreCase(propertySorter)) {
       sorter = new Sorter(new Comparator<Description>() {
+        @Override
         public int compare(final Description o1, final Description o2) {
           return o1.getDisplayName().compareTo(o2.getDisplayName());
         }
@@ -55,7 +56,7 @@ public final class SorterUtil {
 
   /**
    * Initializes the test sorter.
-   * 
+   *
    * @param parentRunner
    *          the {@link ParentRunner} to initialize, must not be {@code null}
    */
@@ -63,4 +64,3 @@ public final class SorterUtil {
     parentRunner.sort(sorter);
   }
 }
-

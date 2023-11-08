@@ -30,7 +30,7 @@ public class DescriptionAtEndAddingContainer extends AbstractContainer {
 
   /**
    * Wrap a given container and add a new resource description to it.
-   * 
+   *
    * @param addMe
    *          the resource description.
    * @param delegate
@@ -41,12 +41,12 @@ public class DescriptionAtEndAddingContainer extends AbstractContainer {
     this.delegate = delegate;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> getResourceDescriptions() {
     return Iterables.concat(delegate.getResourceDescriptions(), Collections.singleton(description));
   }
 
-  /** {@inheritDoc} */
+  @Override
   public IResourceDescription getResourceDescription(final URI uri) {
     if (description.getURI().equals(uri)) {
       return description;
@@ -55,4 +55,3 @@ public class DescriptionAtEndAddingContainer extends AbstractContainer {
   }
 
 }
-

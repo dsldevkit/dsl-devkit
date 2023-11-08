@@ -24,7 +24,7 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
  */
 public class ASMDEditorUtils implements IEditorUtils {
 
-  /** {@inheritDoc} */
+  @Override
   public XtextEditor getActiveXtextEditor() {
     IWorkbench workbench = PlatformUI.getWorkbench();
     IWorkbenchWindow workbenchWindow = workbench.getActiveWorkbenchWindow();
@@ -45,7 +45,7 @@ public class ASMDEditorUtils implements IEditorUtils {
     return null;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public XtextEditor getXtextEditor(final IEditorPart openEditor) {
     if (openEditor instanceof XtextEditor) {
       return (XtextEditor) openEditor;
@@ -54,4 +54,3 @@ public class ASMDEditorUtils implements IEditorUtils {
   }
 
 }
-

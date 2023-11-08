@@ -47,7 +47,7 @@ public class ErrorLogListener {
 
   /**
    * Returns the logged status of all severities (OK, CANCEL, INFO, WARNING, ERROR).
-   * 
+   *
    * @return the logged status, never {@code null}
    */
   public Collection<IStatus> getLoggedStatuses() {
@@ -60,7 +60,7 @@ public class ErrorLogListener {
    * <p>
    * <em>Note</em>: Ignored exceptions are not considered.
    * </p>
-   * 
+   *
    * @return the logged exceptions, never {@code null}
    */
   public List<Throwable> getLoggedExceptions() {
@@ -78,7 +78,7 @@ public class ErrorLogListener {
    * <p>
    * <em>Note</em>: Subclasses of the given class are not ignored and thus must be specifically ignored.
    * </p>
-   * 
+   *
    * @param exceptionClass
    *          the class of exceptions to ignore, must not be {@code null}
    */
@@ -94,11 +94,11 @@ public class ErrorLogListener {
    * <p>
    * <em>Note</em>: The location is matched against the start of the fully qualified class name and method name (without parentheses), where the exception was
    * thrown. Examples:
-   * <li> {@code org.eclipse.ui.internal.views.markers.MarkerCategory.getChildren}
-   * <li> {@code org.eclipse.ui.internal.views.markers.MarkerCategory}
-   * <li> {@code org.eclipse}
+   * <li>{@code org.eclipse.ui.internal.views.markers.MarkerCategory.getChildren}
+   * <li>{@code org.eclipse.ui.internal.views.markers.MarkerCategory}
+   * <li>{@code org.eclipse}
    * </p>
-   * 
+   *
    * @param exceptionClass
    *          the class of exceptions to ignore, must not be {@code null}
    * @param location
@@ -113,7 +113,7 @@ public class ErrorLogListener {
    * <p>
    * <em>Note</em>: Ignored exceptions are not considered.
    * </p>
-   * 
+   *
    * @return {@code true} if any exception is logged, else {@code false}
    */
   public boolean isAnyExceptionLogged() {
@@ -130,7 +130,7 @@ public class ErrorLogListener {
    * <p>
    * <em>Note</em>: Ignored exceptions are not considered.
    * </p>
-   * 
+   *
    * @param loggedStatus
    *          the logged status, must not be {@code null}
    * @return {@code true} if the given status represents an exception, else {@code false}
@@ -141,7 +141,7 @@ public class ErrorLogListener {
 
   /**
    * Whether the exception (or any causes of the exception) are in the list of exceptions to be ignored.
-   * 
+   *
    * @param exception
    *          the logged {@link Throwable}, must not be {@code null}
    * @return {@code true} if the exception is ignored, else {@code false}
@@ -169,7 +169,7 @@ public class ErrorLogListener {
 
   /**
    * Whether an exception of the given exception type is logged.
-   * 
+   *
    * @param exceptionType
    *          the type of the exception to be checked, must not be {@code null}
    * @return {@code true} if an exception of the given type is logged, else {@code false}
@@ -205,9 +205,7 @@ public class ErrorLogListener {
     /** The list holding the logged status. */
     private final List<IStatus> loggedStatus = new ArrayList<IStatus>();
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void logging(final IStatus status, final String plugin) {
       loggedStatus.add(status);
     }
@@ -221,7 +219,7 @@ public class ErrorLogListener {
 
     /**
      * Returns the status being logged.
-     * 
+     *
      * @return the status being logged
      */
     private Collection<IStatus> getLoggedStatuses() {
@@ -229,4 +227,3 @@ public class ErrorLogListener {
     }
   }
 }
-

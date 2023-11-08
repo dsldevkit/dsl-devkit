@@ -39,18 +39,20 @@ public class CoreIssueResolutionAcceptor implements ICoreIssueResolutionAcceptor
     this.modificationContextFactory = modificationContextFactory;
   }
 
+  @Override
   public void accept(final Issue issue, final String label, final String description, final String image, final ICoreModification modification) {
     issueResolutions.add(new CoreIssueResolution(label, description, image, modificationContextFactory.createModificationContext(issue), modification));
   }
 
+  @Override
   public void accept(final Issue issue, final String label, final String description, final String image, final ICoreSemanticModification semanticModification) {
     CoreSemanticModificationWrapper modificationWrapper = new CoreSemanticModificationWrapper(issue.getUriToProblem(), semanticModification);
     issueResolutions.add(new CoreIssueResolution(label, description, image, modificationContextFactory.createModificationContext(issue), modificationWrapper));
   }
 
+  @Override
   public List<CoreIssueResolution> getIssueResolutions() {
     return issueResolutions;
   }
 
 }
-

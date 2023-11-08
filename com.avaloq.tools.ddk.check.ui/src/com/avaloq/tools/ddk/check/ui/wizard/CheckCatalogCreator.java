@@ -42,14 +42,14 @@ public class CheckCatalogCreator extends WorkspaceModifyOperation implements ICh
   @Inject
   private CheckCatalogGenerator generatorUtil;
 
-  /** {@inheritDoc} */
+  @Override
   public IFile getResult() {
     return result;
   }
 
   /**
    * Sets the result.
-   * 
+   *
    * @param result
    *          the new result
    */
@@ -57,21 +57,20 @@ public class CheckCatalogCreator extends WorkspaceModifyOperation implements ICh
     this.result = result;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void setProjectInfo(final IProjectInfo projectInfo) {
     this.projectInfo = (CheckProjectInfo) projectInfo;
   }
 
   /**
    * Gets the project info.
-   * 
+   *
    * @return the project info
    */
   public CheckProjectInfo getProjectInfo() {
     return this.projectInfo;
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void execute(final IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
     SubMonitor subMonitor = SubMonitor.convert(monitor, "create new Catalog:" + getProjectInfo().getCatalogName(), 2);
@@ -90,4 +89,3 @@ public class CheckCatalogCreator extends WorkspaceModifyOperation implements ICh
   }
 
 }
-

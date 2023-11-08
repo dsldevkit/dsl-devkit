@@ -25,7 +25,6 @@ import org.eclipse.xtext.ui.editor.IDirtyStateManager;
 import org.eclipse.xtext.ui.notification.IStateChangeEventBroker;
 
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -71,25 +70,24 @@ public class DirtyStateAwareResourceDescriptions2 extends DirtyStateAwareResourc
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   protected IResourceDescription.Event.Listener createDirtyStateListener() {
     return new DirtyStateListener2();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Set<URI> getAllURIs() {
     Set<URI> allURIs = Sets.newHashSet(dirtyResources);
     allURIs.addAll(globalDescriptions.getAllURIs());
     return allURIs;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     return merge(globalDescriptions.findAllReferencingResources(targetResources, matchPolicy), targetResources);
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     // FIXME merge
     return globalDescriptions.findExactReferencingResources(targetObjects, matchPolicy);
@@ -97,7 +95,7 @@ public class DirtyStateAwareResourceDescriptions2 extends DirtyStateAwareResourc
 
   /**
    * Merge globally found referencing resources with those from the dirty state.
-   * 
+   *
    * @param referencingDescriptions
    *          global referencing resources
    * @param targetResources
@@ -135,7 +133,7 @@ public class DirtyStateAwareResourceDescriptions2 extends DirtyStateAwareResourc
 
   /**
    * determine whether a given resource description contains any reference to a set of other resources identified by their URIs.
-   * 
+   *
    * @param desc
    *          Resource description to test
    * @param targetResources
@@ -146,14 +144,10 @@ public class DirtyStateAwareResourceDescriptions2 extends DirtyStateAwareResourc
     if (desc == null || targetResources.contains(desc.getURI())) {
       return false;
     }
-    return !Iterables.isEmpty(Iterables.filter(desc.getReferenceDescriptions(), new Predicate<IReferenceDescription>() {
-      public boolean apply(final IReferenceDescription input) {
-        return targetResources.contains(input.getTargetEObjectUri().trimFragment());
-      }
-    }));
+    return !Iterables.isEmpty(Iterables.filter(desc.getReferenceDescriptions(), input -> targetResources.contains(input.getTargetEObjectUri().trimFragment())));
   }
 
-  /** {@inheritDoc} */
+  @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     final Set<URI> dirtyReferencingUris = Sets.newHashSet();
     Iterable<IReferenceDescription> dirtyReferences = Collections.emptyList();
@@ -162,22 +156,13 @@ public class DirtyStateAwareResourceDescriptions2 extends DirtyStateAwareResourc
       if (desc == null) {
         continue;
       }
-      Iterable<IReferenceDescription> local = Iterables.filter(desc.getReferenceDescriptions(), new Predicate<IReferenceDescription>() {
-        public boolean apply(final IReferenceDescription input) {
-          return targetObjects.contains(input.getTargetEObjectUri());
-        }
-      });
+      Iterable<IReferenceDescription> local = Iterables.filter(desc.getReferenceDescriptions(), input -> targetObjects.contains(input.getTargetEObjectUri()));
       if (!Iterables.isEmpty(local)) {
         dirtyReferences = Iterables.concat(dirtyReferences, local);
         dirtyReferencingUris.add(desc.getURI());
       }
     }
-    return Iterables.concat(dirtyReferences, Iterables.filter(globalDescriptions.findReferencesToObjects(targetObjects), new Predicate<IReferenceDescription>() {
-      public boolean apply(final IReferenceDescription input) {
-        return !dirtyReferencingUris.contains(input.getSourceEObjectUri().trimQuery().trimFragment());
-      }
-    }));
+    return Iterables.concat(dirtyReferences, Iterables.filter(globalDescriptions.findReferencesToObjects(targetObjects), input -> !dirtyReferencingUris.contains(input.getSourceEObjectUri().trimQuery().trimFragment())));
   }
 
 }
-

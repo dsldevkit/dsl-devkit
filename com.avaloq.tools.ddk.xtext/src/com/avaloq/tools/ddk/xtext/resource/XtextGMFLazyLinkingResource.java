@@ -20,9 +20,8 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
+import org.apache.logging.log4j.Logger;
 import org.eclipse.xtext.resource.XtextResource;
 
 import com.avaloq.tools.ddk.xtext.linking.LazyLinkingResource2;
@@ -54,7 +53,7 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
 
   /**
    * Load the complete combined resource and split it into Xtext and Diagram parts.
-   * 
+   *
    * @param input
    *          the input stream to read the resource from.
    * @param encodingForLoad
@@ -82,7 +81,7 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
 
   /**
    * Get encoding options for loading.
-   * 
+   *
    * @param loadOptions
    *          options map from which to obtain encoding options
    * @return returns encoding options from <code>loadOptions</code> if present, otherwise default encoding options.
@@ -95,18 +94,17 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
     return resultEncoding;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public InputStream getXtextInput() {
     return new ByteArrayInputStream(xtextBuffer != null ? xtextBuffer : new byte[0]);
   }
 
-  /** {@inheritDoc} */
   @Override
   public String getSourceText() throws IOException {
     return new String(xtextBuffer != null ? xtextBuffer : new byte[0], getEncoding());
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getDiagramText() {
     if (isLoaded()) {
       StringBuffer result = new StringBuffer();
@@ -137,7 +135,7 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
     super.reparse(newContent + getDiagramText());
   }
 
-  /** {@inheritDoc} */
+  @Override
   public boolean isCombinedResource() {
     return diagramBuffer != null && diagramBuffer.length > 0;
   }
@@ -150,7 +148,7 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
     separator = null; // NOPMD
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void updateDiagram(final IXtextGMFResource fromResource) throws CharacterCodingException {
     if (fromResource instanceof XtextGMFLazyLinkingResource && encoding.equals(((XtextGMFLazyLinkingResource) fromResource).encoding)) {
       // Note that the content of the diagram buffer is never modified. So it
@@ -168,4 +166,3 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
     }
   }
 }
-

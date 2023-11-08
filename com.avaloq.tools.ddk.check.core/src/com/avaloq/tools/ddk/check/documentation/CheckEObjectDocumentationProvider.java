@@ -19,7 +19,6 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
@@ -50,11 +49,8 @@ public class CheckEObjectDocumentationProvider extends JavaDocCommentDocumentati
     if (object instanceof CheckCatalog) {
       ICompositeNode node = NodeModelUtils.getNode(object);
       try {
-        INode find = Iterables.find(node.getAsTreeIterable(), new Predicate<INode>() {
-          public boolean apply(final INode abstractNode) {
-            return abstractNode.getSemanticElement() instanceof CheckCatalog && abstractNode.getGrammarElement() == grammarAccess.getML_COMMENTRule();
-          }
-        });
+        INode find = Iterables.find(node.getAsTreeIterable(), abstractNode -> //
+        abstractNode.getSemanticElement() instanceof CheckCatalog && abstractNode.getGrammarElement() == grammarAccess.getML_COMMENTRule());
         return getJavaDocComment(find);
       } catch (NoSuchElementException e) {
         return null;
@@ -64,4 +60,3 @@ public class CheckEObjectDocumentationProvider extends JavaDocCommentDocumentati
   }
 
 }
-

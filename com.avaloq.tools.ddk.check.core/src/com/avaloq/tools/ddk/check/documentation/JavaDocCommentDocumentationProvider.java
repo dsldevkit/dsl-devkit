@@ -62,7 +62,7 @@ public class JavaDocCommentDocumentationProvider implements IEObjectDocumentatio
 
   /**
    * Returns the textual value of the node, if it is a JavaDoc-like comment.
-   * 
+   *
    * @param node
    *          a node
    * @return the comment as a string if any, else null
@@ -83,7 +83,7 @@ public class JavaDocCommentDocumentationProvider implements IEObjectDocumentatio
 
   /**
    * Returns true if the node is a JavaDoc-like comment.
-   * 
+   *
    * @param node
    *          a node
    * @return the comment as a string if any, else null
@@ -94,7 +94,7 @@ public class JavaDocCommentDocumentationProvider implements IEObjectDocumentatio
 
   /**
    * Retrieves a comment for the given object.
-   * 
+   *
    * @param object
    *          an object
    * @return the comment corresponding to the closest JavaDoc-like comment
@@ -117,11 +117,12 @@ public class JavaDocCommentDocumentationProvider implements IEObjectDocumentatio
 
   /**
    * Retrieves a comment for the given object.
-   * 
+   *
    * @param object
    *          an object
    * @return the description corresponding to the closest JavaDoc-like comment
    */
+  @Override
   public String getDocumentation(final EObject object) {
     String returnValue = findComment(object);
     if (returnValue != null) {
@@ -135,4 +136,3 @@ public class JavaDocCommentDocumentationProvider implements IEObjectDocumentatio
     }
   }
 }
-

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
@@ -38,6 +38,7 @@ public class CheckQuickfixImplDescriptor implements Provider<ICoreQuickfixProvid
     this.attClass = attClass;
   }
 
+  @Override
   public IConfigurationElement getElement() {
     return element;
   }
@@ -48,6 +49,7 @@ public class CheckQuickfixImplDescriptor implements Provider<ICoreQuickfixProvid
    * <p>
    * {@inheritDoc}
    */
+  @Override
   public synchronized ICoreQuickfixProvider get() {
     if (this.provider == null && element.isValid()) {
       try {
@@ -60,4 +62,3 @@ public class CheckQuickfixImplDescriptor implements Provider<ICoreQuickfixProvid
   }
 
 }
-

@@ -29,7 +29,7 @@ public class IsContextMenuVisibleCondition implements ICondition {
     this.ctx = ctx;
   }
 
-  /** {@inheritDoc} */
+  @Override
   public void init(final SWTBot bot) {
     // this.bot = bot;
   }
@@ -37,12 +37,13 @@ public class IsContextMenuVisibleCondition implements ICondition {
   /**
    * {@inheritDoc} Checks whether this context menu is visible, e.g. has been loaded.
    */
+  @Override
   @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public boolean test() {
     return ctx.isVisible();
   }
 
-  /** {@inheritDoc} */
+  @Override
   public String getFailureMessage() {
     StringBuilder msg = new StringBuilder("Error in ");
     msg.append(getClass().getName());
@@ -51,7 +52,7 @@ public class IsContextMenuVisibleCondition implements ICondition {
 
   /**
    * Convenience method to obtain a new condition of this type.
-   * 
+   *
    * @param ctx
    *          the ctx
    * @return the i condition

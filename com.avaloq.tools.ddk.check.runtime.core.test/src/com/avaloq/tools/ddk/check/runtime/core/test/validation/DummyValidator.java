@@ -19,10 +19,12 @@ import com.google.common.collect.ImmutableMap;
  */
 public class DummyValidator extends DefaultCheckImpl {
 
+  @Override
   public String getQualifiedCatalogName() {
     return null;
   }
 
+  @Override
   public final ImmutableMap<String, String> getIssueCodeToLabelMap() {
     return null;
   }

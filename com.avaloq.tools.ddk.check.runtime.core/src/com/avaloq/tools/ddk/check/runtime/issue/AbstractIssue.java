@@ -21,7 +21,7 @@ import org.eclipse.xtext.validation.ValidationMessageAcceptor;
  */
 public abstract class AbstractIssue implements IIssue {
 
-  /** {@inheritDoc} */
+  @Override
   public void accept(final ValidationMessageAcceptor acceptor, final EObject object, final EStructuralFeature feature, final String message, final SeverityKind severityKind, final int index, final String issueCode, final String... issueData) {
     switch (severityKind) {
     case ERROR:
@@ -40,4 +40,3 @@ public abstract class AbstractIssue implements IIssue {
   }
 
 }
-

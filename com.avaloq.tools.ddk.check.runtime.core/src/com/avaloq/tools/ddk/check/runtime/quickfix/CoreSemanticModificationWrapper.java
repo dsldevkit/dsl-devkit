@@ -34,6 +34,7 @@ public class CoreSemanticModificationWrapper implements ICoreModification {
     this.uriToProblem = uriToProblem;
   }
 
+  @Override
   public void apply(final ICoreModificationContext context) {
     context.getXtextDocument().modify(new IUnitOfWork.Void<XtextResource>() {
       @Override
@@ -45,4 +46,3 @@ public class CoreSemanticModificationWrapper implements ICoreModification {
   }
 
 }
-

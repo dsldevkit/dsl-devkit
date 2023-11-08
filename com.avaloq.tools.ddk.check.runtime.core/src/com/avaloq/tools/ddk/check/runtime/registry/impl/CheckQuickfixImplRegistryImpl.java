@@ -26,7 +26,7 @@ import com.google.inject.Provider;
  */
 public class CheckQuickfixImplRegistryImpl extends AbstractCheckImplDescriptorRegistry implements ICheckQuickfixRegistry {
 
-  /** {@inheritDoc} */
+  @Override
   @SuppressWarnings("unchecked")
   public Collection<ICoreQuickfixProvider> getCoreQuickfixProviders(final String language) {
     Collection<ICoreQuickfixProvider> providers = Lists.newArrayList();
@@ -44,4 +44,3 @@ public class CheckQuickfixImplRegistryImpl extends AbstractCheckImplDescriptorRe
   }
 
 }
-
