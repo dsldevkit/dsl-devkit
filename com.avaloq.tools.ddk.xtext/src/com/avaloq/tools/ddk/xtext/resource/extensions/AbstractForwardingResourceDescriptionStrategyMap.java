@@ -30,7 +30,7 @@ public abstract class AbstractForwardingResourceDescriptionStrategyMap extends F
    * @param builder
    *          the builder
    */
-  protected abstract void fill(final ImmutableMap.Builder<String, String> builder);
+  protected abstract void fill(ImmutableMap.Builder<String, String> builder);
 
   @Override
   public Map<String, String> delegate() {

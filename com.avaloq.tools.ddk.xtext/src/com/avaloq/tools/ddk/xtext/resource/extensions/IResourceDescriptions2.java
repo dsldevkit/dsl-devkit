@@ -101,7 +101,7 @@ public interface IResourceDescriptions2 extends IResourceDescriptions {
    *          match policy applied to find matches
    * @return An {@link Iterable} of all {@link IResourceDescription}s that reference any of the resources.
    */
-  Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, ReferenceMatchPolicy matchPolicy);
+  Iterable<IResourceDescription> findAllReferencingResources(Set<IResourceDescription> targetResources, ReferenceMatchPolicy matchPolicy);
 
   /**
    * Find all {@link IResourceDescription}s of all resources containing cross-references to any of the objects. This may include any of the resources
@@ -113,7 +113,7 @@ public interface IResourceDescriptions2 extends IResourceDescriptions {
    *          match policy applied to find matches
    * @return An {@link Iterable} of all {@link IResourceDescription}s that reference any of the resources.
    */
-  Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, ReferenceMatchPolicy matchPolicy);
+  Iterable<IResourceDescription> findExactReferencingResources(Set<IEObjectDescription> targetObjects, ReferenceMatchPolicy matchPolicy);
 
   /**
    * Find all {@link IReferenceDescription}s of cross-references to a set of {@link org.eclipse.emf.ecore.EObject EObjects} identified by {@link URI}.
@@ -122,6 +122,6 @@ public interface IResourceDescriptions2 extends IResourceDescriptions {
    *          {@link URI} of the target objects
    * @return An {@link Iterable} of all {@link IReferenceDescription}s of all cross-references that reference the given objects.
    */
-  Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects);
+  Iterable<IReferenceDescription> findReferencesToObjects(Set<URI> targetObjects);
 
 }

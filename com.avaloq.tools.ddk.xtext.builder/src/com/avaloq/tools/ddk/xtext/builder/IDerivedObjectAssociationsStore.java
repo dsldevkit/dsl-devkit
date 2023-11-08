@@ -30,6 +30,6 @@ public interface IDerivedObjectAssociationsStore extends IDerivedObjectAssociati
    * @param derivedObjectAssociations
    *          The consumer function that receives URI associations as input
    */
-  void forEach(final Collection<URI> allURIs, final BiConsumer<URI, DerivedObjectAssociations> derivedObjectAssociations);
+  void forEach(Collection<URI> allURIs, BiConsumer<URI, DerivedObjectAssociations> derivedObjectAssociations);
 
 }

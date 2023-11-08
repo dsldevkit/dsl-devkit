@@ -376,7 +376,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @param node
      *          node to visit, never {@code null}
      */
-    public abstract void visit(final SegmentNode node);
+    public abstract void visit(SegmentNode node);
   }
 
   private final SegmentNode root;

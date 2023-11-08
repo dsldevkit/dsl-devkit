@@ -101,7 +101,6 @@ public interface IParameterMatchChecker {
    *          the formal parameter to check against
    * @return a match result describing the results of the check
    */
-  IMatchResult checkMatch(final IActualParameter actual, final IFormalParameter formal);
+  IMatchResult checkMatch(IActualParameter actual, IFormalParameter formal);
 
 }
-

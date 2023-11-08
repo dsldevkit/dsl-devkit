@@ -41,7 +41,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    * @param triple
    *          triple <EObject, EReference, INode>, must not be {@code null}
    */
-  void createAndAddDiagnostic(final Triple<EObject, EReference, INode> triple);
+  void createAndAddDiagnostic(Triple<EObject, EReference, INode> triple);
 
   /**
    * Fetches the source text for this resource.
@@ -61,7 +61,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    * @param loading
    *          whether the resource is being loaded
    */
-  void setLoading(final boolean loading);
+  void setLoading(boolean loading);
 
   /**
    * Sets the parse result for this resource.
@@ -71,7 +71,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    * @param refreshSyntaxErrors
    *          whether diagnostics should be created for syntax errors
    */
-  void setParseResult(final ParseResult parseResult, final boolean refreshSyntaxErrors);
+  void setParseResult(ParseResult parseResult, boolean refreshSyntaxErrors);
 
   /**
    * Sets the parse result for this resource.
@@ -101,7 +101,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    * @param isPrelinkingPhase
    *          indicates that this resource is in prelinking phase
    */
-  void installDerivedState(final boolean isPrelinkingPhase);
+  void installDerivedState(boolean isPrelinkingPhase);
 
   /**
    * Returns an instance from the {@link #injector Guice injector} for the given key (class).
@@ -112,7 +112,7 @@ public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
    *          class to look up service with
    * @return Guice injected service matching given key
    */
-  <T> T getService(final Class<? extends T> key);
+  <T> T getService(Class<? extends T> key);
 
   /**
    * Gets the parse result containing the EMF and Node model.

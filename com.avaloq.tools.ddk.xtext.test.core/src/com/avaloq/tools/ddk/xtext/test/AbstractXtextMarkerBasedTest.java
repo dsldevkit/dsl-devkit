@@ -78,7 +78,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
 
     /** {@inheritDoc} */
     @Override
-    public abstract void apply(final EObject semanticModel, final Integer pos);
+    public abstract void apply(EObject semanticModel, Integer pos);
 
   }
 
@@ -623,7 +623,8 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    * @param testSource
    *          the test source, not {@code null}
    */
-  protected void beforeApplyAssertions(final XtextTestSource testSource) {}
+  protected void beforeApplyAssertions(final XtextTestSource testSource) {
+  }
 
   /**
    * Gets additional error message information.
@@ -646,5 +647,6 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
   /**
    * Processing after validations.
    */
-  protected void afterValidate() {}
+  protected void afterValidate() {
+  }
 }

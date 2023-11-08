@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.AbstractElement;
@@ -635,7 +635,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
      * @throws IOException
      *           - the exception propagated from the underlying {@link ITokenStream}
      */
-    public abstract ExtendedLine addEntry(final ExtendedLineEntry lineEntry) throws IOException;
+    public abstract ExtendedLine addEntry(ExtendedLineEntry lineEntry) throws IOException;
 
     public boolean isPreserveSpaces() {
       return preserveSpaces;

@@ -24,7 +24,7 @@ public interface ICheckConfigurationStore {
    * Return the value stored in the configuration store for the given key.
    * If the key is not defined then return the specified default value.
    * Use the canonical scope lookup order for finding the preference value.
-   * 
+   *
    * @param key
    *          the name of the preference (optionally including its path)
    * @param defaultValue
@@ -38,7 +38,7 @@ public interface ICheckConfigurationStore {
    * Return the value stored in the configuration store for the given key.
    * If the key is not defined then return the specified default value.
    * Use the canonical scope lookup order for finding the preference value.
-   * 
+   *
    * @param key
    *          the name of the preference (optionally including its path)
    * @param defaultValue
@@ -51,7 +51,7 @@ public interface ICheckConfigurationStore {
    * Return the value stored in the configuration store for the given key.
    * If the key is not defined then return the specified default value.
    * Use the canonical scope lookup order for finding the preference value.
-   * 
+   *
    * @param key
    *          the name of the preference (optionally including its path)
    * @param defaultValue
@@ -62,36 +62,35 @@ public interface ICheckConfigurationStore {
 
   /**
    * Gets a list of strings from the preference identified by the key. If the preference is not set, returns the default value given.
-   * 
+   *
    * @param key
    *          to look for
    * @param defaultValue
    *          to use if the preference identified by the key is not set
    * @return the value of the preference, or the default value if the preference is not set.
    */
-  List<String> getStrings(final String key, final List<String> defaultValue);
+  List<String> getStrings(String key, List<String> defaultValue);
 
   /**
    * Gets a list of booleans from the preference identified by the key. If the preference is not set, returns the default value given.
-   * 
+   *
    * @param key
    *          to look for
    * @param defaultValue
    *          to use if the preference identified by the key is not set
    * @return the value of the preference, or the default value if the preference is not set.
    */
-  List<Boolean> getBooleans(final String key, final List<Boolean> defaultValue);
+  List<Boolean> getBooleans(String key, List<Boolean> defaultValue);
 
   /**
    * Gets a list of integers from the preference identified by the key. If the preference is not set, returns the default value given.
-   * 
+   *
    * @param key
    *          to look for
    * @param defaultValue
    *          to use if the preference identified by the key is not set
    * @return the value of the preference, or the default value if the preference is not set.
    */
-  List<Integer> getIntegers(final String key, final List<Integer> defaultValue);
+  List<Integer> getIntegers(String key, List<Integer> defaultValue);
 
 }
-

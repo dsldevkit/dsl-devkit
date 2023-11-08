@@ -199,7 +199,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
    *          builder to append fragment segment to, must not be {@code null}
    * @return {@code true} if a fragment segment was appended to {@code builder}
    */
-  public abstract boolean appendFragmentSegment(final EObject object, StringBuilder builder);
+  public abstract boolean appendFragmentSegment(EObject object, StringBuilder builder);
 
   /** {@inheritDoc} */
   @Override
@@ -257,7 +257,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
    *          the URI fragment segment, must not be {@code null}
    * @return the contained object, or {@code null} if none
    */
-  public abstract EObject getEObjectFromSegment(final EObject container, final String segment);
+  public abstract EObject getEObjectFromSegment(EObject container, String segment);
 
   /**
    * Returns the index of the next unescaped occurrence matching {@code ch} in {@code str} (after {@code fromIndex}). If no such match exists the method must

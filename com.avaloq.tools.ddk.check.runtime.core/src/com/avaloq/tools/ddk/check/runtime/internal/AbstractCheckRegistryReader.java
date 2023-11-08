@@ -52,7 +52,7 @@ abstract class AbstractCheckRegistryReader extends RegistryReader {
    *          the implementing class
    * @return the descriptor
    */
-  protected abstract ICheckImplDescriptor newDescriptor(final IConfigurationElement element, final String attClass);
+  protected abstract ICheckImplDescriptor newDescriptor(IConfigurationElement element, String attClass);
 
   /**
    * Get the registry for managing registered providers.

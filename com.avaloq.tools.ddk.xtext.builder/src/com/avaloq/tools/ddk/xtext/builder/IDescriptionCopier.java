@@ -31,7 +31,7 @@ public interface IDescriptionCopier {
    *          description to copy
    * @return copied description
    */
-  IResourceDescription copy(final IResourceDescription desc);
+  IResourceDescription copy(IResourceDescription desc);
 
   /**
    * Returns a copy of the given object description.
@@ -40,7 +40,7 @@ public interface IDescriptionCopier {
    *          description to copy
    * @return copied description
    */
-  IEObjectDescription copy(final IEObjectDescription desc);
+  IEObjectDescription copy(IEObjectDescription desc);
 
   /**
    * Returns a copy of the given reference description.
@@ -49,26 +49,23 @@ public interface IDescriptionCopier {
    *          description to copy
    * @return copied description
    */
-  IReferenceDescription copy(final IReferenceDescription desc);
+  IReferenceDescription copy(IReferenceDescription desc);
 
   /**
    * Default implementation of {@link IDescriptionCopier} which uses the Xtext default {@link BuilderStateUtil} helper.
    */
   class BuilderStateDescriptionCopier implements IDescriptionCopier {
 
-    /** {@inheritDoc} */
     @Override
     public IResourceDescription copy(final IResourceDescription desc) {
       return BuilderStateUtil.create(desc);
     }
 
-    /** {@inheritDoc} */
     @Override
     public IEObjectDescription copy(final IEObjectDescription desc) {
       return BuilderStateUtil.create(desc);
     }
 
-    /** {@inheritDoc} */
     @Override
     public IReferenceDescription copy(final IReferenceDescription desc) {
       return BuilderStateUtil.create(desc);

@@ -55,7 +55,7 @@ public interface IResourceSetCache<V> {
    *         previously associated {@code null} with the key,
    *         if the implementation supports null values.)
    */
-  V putIfAbsent(final Object key, final V value);
+  V putIfAbsent(Object key, V value);
 
   /**
    * If the specified key is not already associated with a value (or is mapped

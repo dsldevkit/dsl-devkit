@@ -45,7 +45,7 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
    * @return
    *         collection of registered validators
    */
-  Collection<ICheckValidatorImpl> getValidators(final String language);
+  Collection<ICheckValidatorImpl> getValidators(String language);
 
   /**
    * Get validators for a given language.
@@ -63,7 +63,7 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
    * @param validator
    *          validator for the given language
    */
-  void registerValidator(final String language, final ICheckValidatorImpl validator);
+  void registerValidator(String language, ICheckValidatorImpl validator);
 
   /**
    * Add a validator that is not attached to the language.
@@ -71,7 +71,7 @@ public interface ICheckValidatorRegistry extends ICheckImplDescriptorRegistry {
    * @param validator
    *          validator for the given language
    */
-  void registerValidator(final ICheckValidatorImpl validator);
+  void registerValidator(ICheckValidatorImpl validator);
 
   /**
    * Clear the list of registered providers.

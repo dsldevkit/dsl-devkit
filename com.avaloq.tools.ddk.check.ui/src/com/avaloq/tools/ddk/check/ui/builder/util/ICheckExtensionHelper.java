@@ -26,7 +26,7 @@ public interface ICheckExtensionHelper {
 
   /**
    * Updates a given extension.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param extension
@@ -34,27 +34,27 @@ public interface ICheckExtensionHelper {
    * @throws CoreException
    *           the core exception
    */
-  void updateExtension(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException;
+  void updateExtension(CheckCatalog catalog, IPluginExtension extension) throws CoreException;
 
   /**
    * Gets the extension point id.
-   * 
+   *
    * @return the extension point id
    */
   String getExtensionPointId();
 
   /**
    * Gets the extension point name.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @return the extension point name
    */
-  String getExtensionPointName(final CheckCatalog catalog);
+  String getExtensionPointName(CheckCatalog catalog);
 
   /**
    * Gets the plugin elements belonging to an extension of a given check catalog.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param extension
@@ -63,11 +63,11 @@ public interface ICheckExtensionHelper {
    * @throws CoreException
    *           the core exception
    */
-  Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException;
+  Iterable<IPluginElement> getElements(CheckCatalog catalog, IPluginExtension extension) throws CoreException;
 
   /**
    * Adds an extension of given type to plugin base.
-   * 
+   *
    * @param base
    *          the base
    * @param catalog
@@ -80,11 +80,11 @@ public interface ICheckExtensionHelper {
    * @throws CoreException
    *           the core exception
    */
-  IPluginExtension addExtensionToPluginBase(final IPluginModelBase base, final CheckCatalog catalog, final ExtensionType type, final String extensionId) throws CoreException;
+  IPluginExtension addExtensionToPluginBase(IPluginModelBase base, CheckCatalog catalog, ExtensionType type, String extensionId) throws CoreException;
 
   /**
    * Removes the extension from plugin base. Called when a whole catalog has been removed.
-   * 
+   *
    * @param base
    *          the base
    * @param extension
@@ -96,11 +96,11 @@ public interface ICheckExtensionHelper {
    * @throws CoreException
    *           the core exception
    */
-  void removeExtensionFromPluginBase(final IPluginModelBase base, final IPluginExtension extension, final IEObjectDescription obj, final ExtensionType type) throws CoreException;
+  void removeExtensionFromPluginBase(IPluginModelBase base, IPluginExtension extension, IEObjectDescription obj, ExtensionType type) throws CoreException;
 
   /**
    * Removes the extension from plugin base. Called when a catalog has become invalid (no longer validates).
-   * 
+   *
    * @param base
    *          the base
    * @param extension
@@ -112,6 +112,5 @@ public interface ICheckExtensionHelper {
    * @throws CoreException
    *           the core exception
    */
-  void removeExtensionFromPluginBase(final IPluginModelBase base, final IPluginExtension extension, final CheckCatalog catalog, final ExtensionType type) throws CoreException;
+  void removeExtensionFromPluginBase(IPluginModelBase base, IPluginExtension extension, CheckCatalog catalog, ExtensionType type) throws CoreException;
 }
-

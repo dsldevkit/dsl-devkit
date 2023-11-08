@@ -27,6 +27,6 @@ public interface ICheckRuleLabelProvider {
    *          issue code for the Check, may be {@code null}
    * @return the label, or {@code null} if the Check is not found
    */
-  String getLabel(final String issueCode);
+  String getLabel(String issueCode);
 
 }

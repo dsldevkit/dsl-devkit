@@ -23,7 +23,7 @@ public interface ICheckImplDescriptorRegistry {
 
   /**
    * Get a copy of the map of languages mapped to catalog descriptor providers.
-   * 
+   *
    * @see com.avaloq.tools.ddk.check.runtime.internal.CheckCatalogDescriptor
    * @return the language to catalog descriptor map
    */
@@ -31,17 +31,17 @@ public interface ICheckImplDescriptorRegistry {
 
   /**
    * Get catalog descriptor provider by language.
-   * 
+   *
    * @param language
    *          the language to get descriptor provider for.
    * @return
    *         descriptor provider
    */
-  Collection<ICheckImplDescriptor> getDescriptors(final String language);
+  Collection<ICheckImplDescriptor> getDescriptors(String language);
 
   /**
    * Get catalog descriptor provider by language.
-   * 
+   *
    * @return
    *         descriptor provider
    */
@@ -49,36 +49,35 @@ public interface ICheckImplDescriptorRegistry {
 
   /**
    * Register a new catalog descriptor provider by language.
-   * 
+   *
    * @param language
    *          the language
    * @param descriptor
    *          descriptor
    */
-  void registerCatalogDescriptor(final String language, final ICheckImplDescriptor descriptor);
+  void registerCatalogDescriptor(String language, ICheckImplDescriptor descriptor);
 
   /**
    * Remove a new catalog descriptor provider by language.
-   * 
+   *
    * @param language
    *          the language
    * @param descriptor
    *          descriptor
    * @return {@code TRUE} if the provider for the given language was found in the list of providers and could be removed, {@code FALSE} otherwise.
    */
-  boolean removeLanguageDescriptor(final String language, final ICheckImplDescriptor descriptor);
+  boolean removeLanguageDescriptor(String language, ICheckImplDescriptor descriptor);
 
   /**
    * Remove a catalog descriptor provider.
    * <p>
    * <em>Note:</em> Only removes descriptors for catalogs that did not specify any particular language.
    * </p>
-   * 
+   *
    * @param descriptor
    *          descriptor
    * @return {@code TRUE} if the provider for the given check catalog descriptor could be removed, {@code FALSE} otherwise.
    */
-  boolean removeLanguageDescriptor(final ICheckImplDescriptor descriptor);
+  boolean removeLanguageDescriptor(ICheckImplDescriptor descriptor);
 
 }
-

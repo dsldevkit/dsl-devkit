@@ -26,13 +26,12 @@ public interface ICheckQuickfixRegistry extends ICheckImplDescriptorRegistry {
 
   /**
    * Get quickfix providers for a given language.
-   * 
+   *
    * @param language
    *          language name
    * @return
    *         collection of quickfix providers
    */
-  Collection<ICoreQuickfixProvider> getCoreQuickfixProviders(final String language);
+  Collection<ICoreQuickfixProvider> getCoreQuickfixProviders(String language);
 
 }
-

@@ -65,7 +65,7 @@ public interface IIndex {
    *          arbitrary characters". The wildcard, if any, must appear only at the end.
    * @return the {@link Query} object to run the query.
    */
-  Query newQuery(final EClass type, final String namePattern);
+  Query newQuery(EClass type, String namePattern);
 
   /**
    * Creates a new query on the index, looking for index entries for objects of the given type and the given name (pattern).
@@ -79,7 +79,7 @@ public interface IIndex {
    *          of model objects to look for; must not be {@code null}.
    * @return the {@link Query} object to run the query.
    */
-  Query newQuery(final EClass type, final QualifiedName namePattern);
+  Query newQuery(EClass type, QualifiedName namePattern);
 
   /**
    * A query to run against the model cache. Queries retrieve objects based on their type and name, and possibly based on additional index data.
@@ -106,7 +106,7 @@ public interface IIndex {
      *          to look for; must not be {@code null}.
      * @return this object
      */
-    Query withData(final String key, final String value);
+    Query withData(String key, String value);
 
     /**
      * Runs the query against the index and returns the index entries found.
@@ -120,7 +120,7 @@ public interface IIndex {
      *          needs a context object. In a check, you may use the check context object.
      * @return An {@link Iterable} of all index entries found. Never returns {@code null}, but may return an empty result.
      */
-    Iterable<Entry> run(final EObject context);
+    Iterable<Entry> run(EObject context);
 
   } // end Query
 
@@ -175,7 +175,7 @@ public interface IIndex {
      *          to get the data for; must not be {@code null}.
      * @return the value stored, or {@code null} if none.
      */
-    String getData(final String key);
+    String getData(String key);
 
     /**
      * Gets the name of the source the object described is in, in the form "SOURCE_NAME.SOURCE_TYPE", in upper case. Note that the returned string may contain

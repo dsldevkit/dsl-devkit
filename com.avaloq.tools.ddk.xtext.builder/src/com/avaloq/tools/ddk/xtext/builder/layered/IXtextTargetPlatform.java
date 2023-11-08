@@ -60,7 +60,7 @@ public interface IXtextTargetPlatform {
    *          to report progress
    * @return the metadata. May return {@code null} if the platform doesn't store metadata.
    */
-  Map<String, String> getMetadata(Collection<String> keys, final IProgressMonitor monitor);
+  Map<String, String> getMetadata(Collection<String> keys, IProgressMonitor monitor);
 
   /**
    * A new platform must be opened before being used.
@@ -73,7 +73,7 @@ public interface IXtextTargetPlatform {
    * @throws IOException
    *           if the platform cannot be opened.
    */
-  void open(final boolean clean, final IProgressMonitor monitor) throws IOException;
+  void open(boolean clean, IProgressMonitor monitor) throws IOException;
 
   /**
    * Store the given metadata in the platform.
@@ -124,5 +124,5 @@ public interface IXtextTargetPlatform {
    * @param monitor
    *          to report progress
    */
-  void close(final IProgressMonitor monitor);
+  void close(IProgressMonitor monitor);
 }
