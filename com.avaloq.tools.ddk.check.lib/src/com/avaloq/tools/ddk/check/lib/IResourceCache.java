@@ -38,7 +38,7 @@ public interface IResourceCache {
    * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@©ode null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * </ul>
-   * 
+   *
    * @param <T>
    *          type of the object to be stored in the cache
    * @param context
@@ -49,7 +49,7 @@ public interface IResourceCache {
    *          to store under the key; may be {@code null}.
    * @return the previous value stored under that key, if any, or {@code null} if none or if {@code null} was the previous value.
    */
-  <T> Object put(final EObject context, final Object key, final T value);
+  <T> Object put(EObject context, Object key, T value);
 
   /**
    * Retrieves the value stored under the given key from the cache of the resource identified by the context object.
@@ -61,7 +61,7 @@ public interface IResourceCache {
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * <li>{@link ClassCastException} if the value cannot be converted to type T.</li>
    * </ul>
-   * 
+   *
    * @param <T>
    *          expected type of the stored value
    * @param context
@@ -70,7 +70,7 @@ public interface IResourceCache {
    *          to look up; must not be {@code null}.
    * @return the value stored under the given key, or {@code null} if none or if {@code null} is stored under that key.
    */
-  <T extends Object> T get(final EObject context, final Object key);
+  <T extends Object> T get(EObject context, Object key);
 
   /**
    * Determines whether there is any value stored under the given key in the cache of the resource containing the context object.
@@ -81,14 +81,14 @@ public interface IResourceCache {
    * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@©ode null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * </ul>
-   * 
+   *
    * @param context
    *          object determining the resource; must not be {@code null}.
    * @param key
    *          to look up; must not be {@code null}.
    * @return {@code true}, if a value is stored under that key, or {@code false} otherwise
    */
-  boolean containsKey(final EObject context, final Object key);
+  boolean containsKey(EObject context, Object key);
 
   /**
    * Removes all entries stored in the cache of the resource containing the context object.
@@ -99,11 +99,10 @@ public interface IResourceCache {
    * <li>{@link IllegalArgumentException} if {@code context} is {@©ode null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * </ul>
-   * 
+   *
    * @param context
    *          object determining the resource; must not be {@code null}.
    */
-  void clear(final EObject context);
+  void clear(EObject context);
 
 }
-

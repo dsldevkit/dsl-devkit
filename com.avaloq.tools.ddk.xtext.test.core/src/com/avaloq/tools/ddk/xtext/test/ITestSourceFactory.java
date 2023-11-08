@@ -21,22 +21,21 @@ public interface ITestSourceFactory {
 
   /**
    * Determines if this factory can create a test source for the given test source name.
-   * 
+   *
    * @param name
    *          name to check
    * @return {@code true} if a test source with the given name can be created using this factory
    */
-  boolean isFactoryFor(final String name);
+  boolean isFactoryFor(String name);
 
   /**
    * Creates a test source with the given name and content.
-   * 
+   *
    * @param name
    *          name of test source
    * @param content
    *          test source content
    * @return created test source
    */
-  TestSource createTestSource(final String name, final String content);
+  TestSource createTestSource(String name, String content);
 }
-

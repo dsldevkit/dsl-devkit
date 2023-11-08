@@ -33,7 +33,7 @@ public interface ISemanticPredicates {
    *          Affecting token in the input stream
    * @return Message
    */
-  String getMessage(final String key, final Token token);
+  String getMessage(String key, Token token);
 
   /**
    * Test if the rule of the given name is a keyword rule.
@@ -49,9 +49,6 @@ public interface ISemanticPredicates {
    */
   class AbstractSemanticPredicates implements ISemanticPredicates {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getMessage(final String key, final Token token) {
       Method[] methods = this.getClass().getDeclaredMethods();

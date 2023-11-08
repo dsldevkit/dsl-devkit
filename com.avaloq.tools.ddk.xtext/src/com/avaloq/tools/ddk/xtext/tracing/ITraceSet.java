@@ -42,7 +42,7 @@ public interface ITraceSet {
    * @param <T>
    *          type of the event
    */
-  <T extends TraceEvent> void started(final Class<T> eventClass, final Object... data);
+  <T extends TraceEvent> void started(Class<T> eventClass, Object... data);
 
   /**
    * Signifies the trace set that the event of the given type has ended.
@@ -54,7 +54,7 @@ public interface ITraceSet {
    * @param <T>
    *          type of the event
    */
-  <T extends TraceEvent> void ended(final Class<T> eventClass, final Object... data);
+  <T extends TraceEvent> void ended(Class<T> eventClass, Object... data);
 
   /**
    * Signifies the trace set that the instantaneous event of the given type has happened.
@@ -66,7 +66,7 @@ public interface ITraceSet {
    * @param <T>
    *          type of the event
    */
-  <T extends TraceEvent> void trace(final Class<T> eventClass, final Object... data);
+  <T extends TraceEvent> void trace(Class<T> eventClass, Object... data);
 
   /**
    * Used to collect intermediate data which will typically later be used as payload for a posted event. The intermediate data is maintained separately for each
@@ -108,7 +108,7 @@ public interface ITraceSet {
 
   /**
    * Configures this trace set to trace according to the given {@link TraceConfiguration}.
-   * 
+   *
    * @param configuration
    *          trace configuration, must not be {@code null}
    */
@@ -121,7 +121,7 @@ public interface ITraceSet {
    * @param handler
    *          event handler to register
    */
-  void registerAsync(final Object handler);
+  void registerAsync(Object handler);
 
   /**
    * Unregisters the given event handler for asynchronous event notification. After this method has been called it will not be notified of any more events,
@@ -130,7 +130,7 @@ public interface ITraceSet {
    * @param handler
    *          event handler to register
    */
-  void unregisterAsync(final Object handler);
+  void unregisterAsync(Object handler);
 
   /**
    * Registers a trace event handler for synchronous notification. This means that the event producer will be <em>blocked</em> until all registered and
@@ -141,7 +141,7 @@ public interface ITraceSet {
    * @param handler
    *          event handler to register
    */
-  void registerSync(final Object handler);
+  void registerSync(Object handler);
 
   /**
    * Unregisters the given event handler for synchronous event notification. After this method has been called it will not be notified of any more events.
@@ -149,7 +149,7 @@ public interface ITraceSet {
    * @param handler
    *          event handler to register
    */
-  void unregisterSync(final Object handler);
+  void unregisterSync(Object handler);
 
   /**
    * Posts the given event to all registered handlers.
@@ -159,6 +159,6 @@ public interface ITraceSet {
    * @param event
    *          event to post
    */
-  <T extends TraceEvent> void post(final T event);
+  <T extends TraceEvent> void post(T event);
 
 }

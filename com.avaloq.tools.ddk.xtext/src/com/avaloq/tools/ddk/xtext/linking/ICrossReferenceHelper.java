@@ -37,7 +37,7 @@ public interface ICrossReferenceHelper {
    *          node model corresponding to reference instance which may be <code>null</code>
    * @return <code>true</code> if the given reference instance is optional
    */
-  boolean isOptionalReference(final EObject context, final EReference reference, final INode node);
+  boolean isOptionalReference(EObject context, EReference reference, INode node);
 
   /**
    * Determines whether the given cross reference instance (context object together with {@link EReference reference}) should be
@@ -51,7 +51,7 @@ public interface ICrossReferenceHelper {
    *          target object of cross-reference, could be {@code null} or a proxy
    * @return <code>true</code> if the given reference instance should be exported
    */
-  boolean exportReference(final EObject context, final EReference reference, EObject target);
+  boolean exportReference(EObject context, EReference reference, EObject target);
 
   /**
    * Creates an unresolved name for the given qualified name (last segment taken only).
@@ -63,5 +63,5 @@ public interface ICrossReferenceHelper {
    *          potentially qualified name for an unresolved reference
    * @return an unresolved qualified name
    */
-  QualifiedName toUnresolvedReferenceName(final String name);
+  QualifiedName toUnresolvedReferenceName(String name);
 }

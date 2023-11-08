@@ -157,7 +157,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
    * @throws CoreException
    *           a core exception
    */
-  protected abstract void doUpdateExtension(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) throws CoreException;
+  protected abstract void doUpdateExtension(CheckCatalog catalog, IPluginExtension extension, Iterable<IPluginElement> elements) throws CoreException;
 
   /**
    * Updates a given extension to values calculated using given check catalog.

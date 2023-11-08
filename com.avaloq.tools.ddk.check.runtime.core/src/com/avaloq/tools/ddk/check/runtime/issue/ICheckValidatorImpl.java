@@ -52,6 +52,6 @@ public interface ICheckValidatorImpl {
    *          the context
    * @return {@code true} if the object validates without issues, else {@code false}
    */
-  boolean validate(final EClass eClass, final EObject eObject, final DiagnosticChain diagnostics, final Map<Object, Object> context);
+  boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context);
 
 }

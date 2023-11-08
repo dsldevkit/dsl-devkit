@@ -64,7 +64,7 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
    *          the context type
    * @return a list of name functions
    */
-  protected abstract Iterable<INameFunction> internalGetNameFunctions(final EClass type);
+  protected abstract Iterable<INameFunction> internalGetNameFunctions(EClass type);
 
   /**
    * Returns the default name to be used if no names were returned by {@link #internalGetNameFunctions(EClass)}. This implementation returns a

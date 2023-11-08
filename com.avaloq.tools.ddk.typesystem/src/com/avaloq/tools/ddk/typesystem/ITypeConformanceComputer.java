@@ -30,7 +30,7 @@ public interface ITypeConformanceComputer {
    * and/or implicit type casts. Note that, in many languages, binding an actual parameter to a formal parameter in a function/procedure call has the same
    * semantics as assignment.
    * </p>
-   * 
+   *
    * @param lType
    *          the type of an l-value, must not be {@code null}.
    * @param rType
@@ -47,7 +47,7 @@ public interface ITypeConformanceComputer {
    * An ordered relational operator is one of <, <=, >, >=. <br>
    * An unordered relational operator tests for equality or inequality.
    * </p>
-   * 
+   *
    * @param lType
    *          the type of the left operand to compare, must not be {@code null}.
    * @param rType
@@ -59,7 +59,6 @@ public interface ITypeConformanceComputer {
    * @throws IncompleteTypeInformationException
    *           if {@code lType} or {@code rType} are incomplete.
    */
-  boolean isComparable(final IType lType, final IType rType, final boolean isOrdered) throws IncompleteTypeInformationException;
+  boolean isComparable(IType lType, IType rType, boolean isOrdered) throws IncompleteTypeInformationException;
 
 }
-

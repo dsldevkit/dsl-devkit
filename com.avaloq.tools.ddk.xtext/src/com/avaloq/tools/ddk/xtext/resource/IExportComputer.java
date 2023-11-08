@@ -59,7 +59,7 @@ public interface IExportComputer {
    *          builder to append fragment segment to, must not be {@code null}
    * @return {@code true} if a fragment segment was appended to {@code builder}
    */
-  boolean appendFragmentSegment(final EObject object, StringBuilder builder);
+  boolean appendFragmentSegment(EObject object, StringBuilder builder);
 
   /**
    * Returns additional exported classes by this extension.
@@ -68,7 +68,7 @@ public interface IExportComputer {
    *          the resource, must not be {@code null}
    * @return the set of {@link EClass}es, may be empty, never {@code null}
    */
-  Set<EClass> getExportedEClasses(final Resource resource);
+  Set<EClass> getExportedEClasses(Resource resource);
 
   /**
    * Retrieve qualified name and add it to the acceptor.
@@ -83,6 +83,6 @@ public interface IExportComputer {
    *          Acceptor to store retrieved qualified names
    * @return true if this object's content should be processed
    */
-  boolean createEObjectDescriptions(final EObject object, final IAcceptor<IEObjectDescription> acceptor);
+  boolean createEObjectDescriptions(EObject object, IAcceptor<IEObjectDescription> acceptor);
 
 }

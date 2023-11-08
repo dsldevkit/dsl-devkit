@@ -27,7 +27,7 @@ public interface ICoreIssueResolutionAcceptor {
 
   /**
    * Interface for accepting diagnostics, typically textual quickfixes.
-   * 
+   *
    * @param issue
    *          the issue
    * @param label
@@ -39,11 +39,11 @@ public interface ICoreIssueResolutionAcceptor {
    * @param modification
    *          the modification
    */
-  void accept(final Issue issue, final String label, final String description, final String image, final ICoreModification modification);
+  void accept(Issue issue, String label, String description, String image, ICoreModification modification);
 
   /**
    * Interface for accepting diagnostics, typically semantic quickfixes.
-   * 
+   *
    * @param issue
    *          the issue
    * @param label
@@ -55,14 +55,13 @@ public interface ICoreIssueResolutionAcceptor {
    * @param semanticModification
    *          the semantic modification
    */
-  void accept(final Issue issue, final String label, final String description, final String image, final ICoreSemanticModification semanticModification);
+  void accept(Issue issue, String label, String description, String image, ICoreSemanticModification semanticModification);
 
   /**
    * Gets the issue resolutions.
-   * 
+   *
    * @return the issue resolutions
    */
   List<CoreIssueResolution> getIssueResolutions();
 
 }
-

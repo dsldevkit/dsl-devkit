@@ -55,7 +55,7 @@ public interface ILanguageDelegate {
    *          type of token
    * @return Reference of the language, or {@code null} if not delegated
    */
-  ILanguageReference getDelegatedLanguage(final int tokenType);
+  ILanguageReference getDelegatedLanguage(int tokenType);
 
   /**
    * Checks if is delegate token type.
@@ -64,7 +64,7 @@ public interface ILanguageDelegate {
    *          the token type, might be either original or a delegate
    * @return true, if the token type is an encoded delegate type
    */
-  ILanguageReference findDelegatedLanguage(final int type);
+  ILanguageReference findDelegatedLanguage(int type);
 
   /**
    * Gets the original token type be decoding the delegate token type.
@@ -73,7 +73,7 @@ public interface ILanguageDelegate {
    *          the delegate token type
    * @return the original token type
    */
-  int getType(final int delegate);
+  int getType(int delegate);
 
   /**
    * Transform token into a delegate token.
@@ -84,7 +84,7 @@ public interface ILanguageDelegate {
    *          the language to encode token for
    * @return the token with adjusted type code
    */
-  Token delegateToken(final Token nextToken, ILanguageReference delegateLanguage);
+  Token delegateToken(Token nextToken, ILanguageReference delegateLanguage);
 
   /**
    * Checks if is delegate rule.

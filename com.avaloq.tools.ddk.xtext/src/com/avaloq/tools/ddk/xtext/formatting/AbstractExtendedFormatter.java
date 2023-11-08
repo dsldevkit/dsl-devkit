@@ -68,7 +68,7 @@ public abstract class AbstractExtendedFormatter extends AbstractDeclarativeForma
    * @param config
    *          - the ExtendedFormattingConfig provided by Guice
    */
-  protected abstract void configureAcsFormatting(final ExtendedFormattingConfig config);
+  protected abstract void configureAcsFormatting(ExtendedFormattingConfig config);
 
   /**
    * Checks whether the specific given content is not to be formatted.
@@ -77,7 +77,7 @@ public abstract class AbstractExtendedFormatter extends AbstractDeclarativeForma
    *          the content to check
    * @return {@code true} if the content given should not be formatted, {@code false} otherwise
    */
-  protected abstract boolean isUnformattedContent(final String content);
+  protected abstract boolean isUnformattedContent(String content);
 
   /**
    * Get SL-comment rule.
@@ -113,5 +113,5 @@ public abstract class AbstractExtendedFormatter extends AbstractDeclarativeForma
    *          all the entries preceding the entry to process
    * @return the new {@link String} value of the given {@link ExtendedLineEntry}, {@code null} if no custom action was executed.
    */
-  public abstract String executeCustomPostFormatAction(final ExtendedLineEntry lineEntry, final List<ExtendedLineEntry> previousEntries);
+  public abstract String executeCustomPostFormatAction(ExtendedLineEntry lineEntry, List<ExtendedLineEntry> previousEntries);
 }

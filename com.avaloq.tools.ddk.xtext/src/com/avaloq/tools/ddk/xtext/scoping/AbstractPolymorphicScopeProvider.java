@@ -14,8 +14,8 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -201,7 +201,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource
    * @return the scope
    */
-  protected abstract IScope doGetScope(final EObject context, final EReference reference, final String scopeName, final Resource originalResource);
+  protected abstract IScope doGetScope(EObject context, EReference reference, String scopeName, Resource originalResource);
 
   /**
    * Gets the scope given a context object and an expected type.
@@ -300,7 +300,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return the scope, or {@code null}
    */
-  protected abstract IScope doGetScope(final EObject context, final EClass type, final String scopeName, final Resource originalResource);
+  protected abstract IScope doGetScope(EObject context, EClass type, String scopeName, Resource originalResource);
 
   /**
    * Return the visible containers given a context object and an originalResource.

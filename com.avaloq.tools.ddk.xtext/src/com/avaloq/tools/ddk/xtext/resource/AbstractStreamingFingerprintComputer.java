@@ -368,7 +368,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
    * @param hasher
    *          hasher to stream to
    */
-  protected abstract void fingerprint(final EObject eObject, Hasher hasher);
+  protected abstract void fingerprint(EObject eObject, Hasher hasher);
 
   /**
    * Generate a fingerprint for a possibly many-valued EReference using generated operations.

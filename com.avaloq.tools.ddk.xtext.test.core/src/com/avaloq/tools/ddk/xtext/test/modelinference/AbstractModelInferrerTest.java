@@ -50,7 +50,7 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
    *          a source {@link EObject}, must not be {@code null} *
    * @return the inferred elements for the given source element, never {@code null}
    */
-  protected abstract Set<EObject> getInferredElements(final EObject sourceElement);
+  protected abstract Set<EObject> getInferredElements(EObject sourceElement);
 
   /**
    * Validates the list of sources for correctness.
@@ -139,4 +139,3 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
     return target;
   }
 }
-

@@ -431,7 +431,7 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
    *          the eObject to get fingerprint for, must not be {@code null}
    * @return the computed fingerprint for {@code eObject} if it has one, otherwise {@code null}
    */
-  protected abstract ExportItem fingerprint(final EObject eObject);
+  protected abstract ExportItem fingerprint(EObject eObject);
 
   /**
    * Generate a fingerprint for a possibly many-valued EReference using generated operations.
@@ -585,4 +585,3 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
   }
 
 }
-
