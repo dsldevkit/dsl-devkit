@@ -86,22 +86,23 @@ public class CheckProjectFactory extends PluginProjectFactory {
   @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   @Override
   protected void createManifest(final IProject project, final IProgressMonitor progressMonitor) throws CoreException {
-    final StringBuilder content = new StringBuilder("Manifest-Version: 1.0\n");
-    content.append("Bundle-ManifestVersion: 2\n");
-    content.append("Bundle-Name: " + projectName + "\n");
-    content.append("Bundle-Vendor: %Bundle-Vendor\n");
-    content.append("Bundle-Version: 1.0.0.qualifier\n");
-    content.append("Bundle-SymbolicName: " + projectName + ";singleton:=true\n");
+    String newLine = "\n";
+    final StringBuilder content = new StringBuilder("Manifest-Version: 1.0").append(newLine);
+    content.append("Bundle-ManifestVersion: 2").append(newLine);
+    content.append("Bundle-Name: ").append(projectName).append(newLine);
+    content.append("Bundle-Vendor: %Bundle-Vendor").append(newLine);
+    content.append("Bundle-Version: 1.0.0.qualifier").append(newLine);
+    content.append("Bundle-SymbolicName: ").append(projectName).append(";singleton:=true").append(newLine);
     if (null != activatorClassName) {
-      content.append("Bundle-Activator: " + activatorClassName + "\n");
+      content.append("Bundle-Activator: ").append(activatorClassName).append(newLine);
     }
-    content.append("Bundle-ActivationPolicy: lazy\n");
+    content.append("Bundle-ActivationPolicy: lazy").append(newLine);
 
     addToContent(content, requiredBundles, "Require-Bundle");
     addToContent(content, exportedPackages, "Export-Package");
     addToContent(content, importedPackages, "Import-Package");
 
-    content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.7\n");
+    content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.7").append(newLine);
 
     final IFolder metaInf = project.getFolder("META-INF");
     SubMonitor subMonitor = SubMonitor.convert(progressMonitor, 2);

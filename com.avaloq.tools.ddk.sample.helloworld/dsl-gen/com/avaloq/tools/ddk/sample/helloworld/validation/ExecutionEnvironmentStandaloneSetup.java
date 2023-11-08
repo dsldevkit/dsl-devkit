@@ -18,7 +18,7 @@ public class ExecutionEnvironmentStandaloneSetup implements ICheckValidatorStand
   private static final String GRAMMAR_NAME = "com.avaloq.tools.ddk.sample.helloworld.HelloWorld";
   private static final String CATALOG_FILE_PATH = "com/avaloq/tools/ddk/sample/helloworld/validation/ExecutionEnvironment.check";
 
-  /** {@inheritDoc} */
+  @Override
   public void doSetup() {
     ICheckValidatorRegistry.INSTANCE.registerValidator(GRAMMAR_NAME, new ExecutionEnvironmentCheckImpl());
     ICheckCatalogRegistry.INSTANCE.registerCatalog(GRAMMAR_NAME, new ModelLocation(

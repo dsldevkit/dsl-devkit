@@ -1080,7 +1080,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     final List<Resource.Diagnostic> errors = testSource.getModel().eResource().getErrors().stream().filter(error -> error instanceof XtextSyntaxDiagnostic).collect(Collectors.toList());
     if (!errors.isEmpty()) {
       StringBuilder sb = new StringBuilder("Syntax error is present in the test source.\nList of all found syntax errors:");
-      errors.forEach(err -> sb.append("\n\t " + err.getMessage()));
+      errors.forEach(err -> sb.append("\n\t ").append(err.getMessage()));
       throw new AssertionError(sb.toString());
     }
   }

@@ -57,6 +57,7 @@ import com.google.common.primitives.Longs;
  */
 // CHECKSTYLE:OFF
 public class TestRunRecording extends RunListener implements TestStepListener, MouseListener {
+  private static final String NEW_LINE = "\r\n";
   private static final String FILE_INFORMATION_SEPARATOR = "__";
   private static final int MOUSE_POINTER_SIZE = 24;
   private static final int INFO_BORDER_SIZE = 3;
@@ -344,11 +345,12 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
   private String captureCallStack() {
     StringBuilder trace = new StringBuilder();
     // Same info as on the screenshot
-    trace.append("TEST: " + testClassName + "." + testMethodName + "\r\n");
+    trace.append("TEST: ").append(testClassName).append(".").append(testMethodName).append(NEW_LINE);
     if (testStepStarted && currentTestStep != null && currentTestStepState != null) {
-      trace.append("TEST STEP: " + currentTestStep.getName() + ": " + currentTestStepState.toString() + "\r\n");
+      String colonWithSpace = ": ";
+      trace.append("TEST STEP: ").append(currentTestStep.getName()).append(colonWithSpace).append(currentTestStepState.toString()).append(NEW_LINE);
       if (testFailed && exception != null) {
-        trace.append("TEST FAILED: " + exception.getClass().getSimpleName() + ": " + exception.getMessage() + "\r\n");
+        trace.append("TEST FAILED: ").append(exception.getClass().getSimpleName()).append(colonWithSpace).append(exception.getMessage()).append(NEW_LINE);
       }
     }
     trace.append(getThreadInfo());
@@ -398,12 +400,12 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    * @return the owned lock information
    */
   private static String getOwnedLockInfo(final ThreadInfo info) {
-    StringBuilder trace = new StringBuilder("  Holding locks for:\r\n");
+    StringBuilder trace = new StringBuilder("  Holding locks for:").append(NEW_LINE);
     for (LockInfo lock : info.getLockedSynchronizers()) {
-      trace.append("    " + lock.toString() + "\r\n");
+      trace.append("    ").append(lock.toString()).append(NEW_LINE);
     }
     for (MonitorInfo monitor : info.getLockedMonitors()) {
-      trace.append("    " + monitor.toString() + "\r\n");
+      trace.append("    ").append(monitor.toString()).append(NEW_LINE);
     }
     return trace.toString();
   }
@@ -417,13 +419,13 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    */
   @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   private static String getCallStackTrace(final ThreadInfo info) {
-    StringBuilder trace = new StringBuilder("  Stack:\r\n");
+    StringBuilder trace = new StringBuilder("  Stack:").append(NEW_LINE);
     int frameCount = 0;
     for (StackTraceElement frame : info.getStackTrace()) {
-      trace.append("    " + frame.toString() + "\r\n");
+      trace.append("    ").append(frame.toString()).append(NEW_LINE);
       // Can't request lock information AND limit call stack size with only one ThreadInfo request. Fake it instead.
       if (frameCount++ >= STACK_DEPTH) {
-        trace.append("    ...\r\n");
+        trace.append("    ...").append(NEW_LINE);
         break;
       }
     }
@@ -439,10 +441,10 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     boolean contention = THREAD_BEAN.isThreadContentionMonitoringEnabled();
     Set<Long> deadlockedThreads = getDeadlockThreadIds();
     ThreadInfo[] threadInfos = THREAD_BEAN.dumpAllThreads(true, true);
-    StringBuilder trace = new StringBuilder().append(threadInfos.length).append(" active threads\r\n");
+    StringBuilder trace = new StringBuilder().append(threadInfos.length).append(" active threads").append(NEW_LINE);
     for (ThreadInfo info : threadInfos) {
       if (info == null) {
-        trace.append("  Inactive\r\n");
+        trace.append("  Inactive").append(NEW_LINE);
         continue;
       }
       boolean isDeadlocked = deadlockedThreads.contains(Long.valueOf(info.getThreadId()));
@@ -450,20 +452,20 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
       if (isDeadlocked) {
         trace.append(" <<DEADLOCK>>");
       }
-      trace.append("\r\n");
+      trace.append(NEW_LINE);
       Thread.State state = info.getThreadState();
-      trace.append("  State: " + state + "\r\n");
-      trace.append("  Blocked count: " + info.getBlockedCount() + "\r\n");
-      trace.append("  Waited count: " + info.getWaitedCount() + "\r\n");
+      trace.append("  State: ").append(state).append(NEW_LINE);
+      trace.append("  Blocked count: ").append(info.getBlockedCount()).append(NEW_LINE);
+      trace.append("  Waited count: ").append(info.getWaitedCount()).append(NEW_LINE);
       if (contention) {
-        trace.append("  Blocked time: " + info.getBlockedTime() + "\r\n");
-        trace.append("  Waited time: " + info.getWaitedTime() + "\r\n");
+        trace.append("  Blocked time: ").append(info.getBlockedTime()).append(NEW_LINE);
+        trace.append("  Waited time: ").append(info.getWaitedTime()).append(NEW_LINE);
       }
       if (state == Thread.State.WAITING) {
-        trace.append("  Waiting on " + info.getLockName() + "\r\n");
+        trace.append("  Waiting on ").append(info.getLockName()).append(NEW_LINE);
       } else if (state == Thread.State.BLOCKED) {
-        trace.append("  Blocked on " + info.getLockName() + "\r\n");
-        trace.append("  Blocked by " + getTaskName(info.getLockOwnerId(), info.getLockOwnerName()) + "\r\n");
+        trace.append("  Blocked on ").append(info.getLockName()).append(NEW_LINE);
+        trace.append("  Blocked by ").append(getTaskName(info.getLockOwnerId(), info.getLockOwnerName())).append(NEW_LINE);
       }
       if (state == Thread.State.WAITING || state == Thread.State.BLOCKED || isDeadlocked) {
         trace.append(getOwnedLockInfo(info));
