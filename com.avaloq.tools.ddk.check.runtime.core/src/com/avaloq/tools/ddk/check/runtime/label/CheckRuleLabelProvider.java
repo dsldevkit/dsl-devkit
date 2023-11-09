@@ -22,8 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorRegistry;
@@ -62,7 +62,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
 
     // Get the label
     final String label = issueCodeToLabelMap.get().get(issueCode);
-    
+
     return label;
   }
 
@@ -99,7 +99,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
       return validator.getIssueCodeToLabelMap();
     } catch (AbstractMethodError e) {
       LOGGER.warn(String.format("Method not found: %1$s.getIssueCodeToLabelMap(). To fix this problem, recompile and deploy %1$s.", validator.getQualifiedCatalogName())); //$NON-NLS-1$
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
   }
 

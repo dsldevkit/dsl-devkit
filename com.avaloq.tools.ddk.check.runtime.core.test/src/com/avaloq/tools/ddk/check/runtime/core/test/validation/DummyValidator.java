@@ -26,6 +26,6 @@ public class DummyValidator extends DefaultCheckImpl {
 
   @Override
   public final ImmutableMap<String, String> getIssueCodeToLabelMap() {
-    return null;
+    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 }

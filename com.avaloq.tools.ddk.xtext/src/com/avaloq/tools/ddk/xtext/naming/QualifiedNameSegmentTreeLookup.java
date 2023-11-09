@@ -402,12 +402,11 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     size = 0;
   }
 
-  /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
   public Collection<T> get(final QualifiedName name) {
     if (name.isEmpty()) {
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
     SegmentNode result = root.find(name, 0, true);
     if (result != null && result.values != null) {
@@ -415,11 +414,10 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       return (Collection<T>) Arrays.asList(result.values);
     } else {
       misses++;
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void removeMappings(final T value) {
     root.accept(new Visitor() {
@@ -434,19 +432,16 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     });
   }
 
-  /** {@inheritDoc} */
   @Override
   public void clear() {
     init();
   }
 
-  /** {@inheritDoc} */
   @Override
   public Collection<T> get(final QualifiedNamePattern pattern, final boolean excludeDuplicates) {
     return root.matches(pattern.lowerInclusive(), 0, root.find(pattern.upperExclusive(), 0, false), pattern.isRecursivePattern(), excludeDuplicates);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void put(final QualifiedName name, final T value) {
     if (name == null || value == null) {
@@ -458,7 +453,6 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     root.merge(name, 0, values);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void putAll(final QualifiedName name, final Collection<T> values) {
     if (name == null || values == null || values.contains(null)) {
@@ -469,7 +463,6 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     root.merge(name, 0, values.toArray(ArrayUtils.newArray(values.size())));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void remove(final QualifiedName name, final T value) {
     SegmentNode node = root.find(name, 0, true);

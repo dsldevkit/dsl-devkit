@@ -47,7 +47,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
    */
   // TODO : make this abstract once all tests have been refactored (and change all Object to ENamedElement in this class)
   protected List<? extends ENamedElement> getExpectedElements() {
-    return null;
+    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 
   /**
@@ -69,7 +69,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
    *
    * @return directory of outline nodes indexed by the class of the represented semantic model node
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "PMD.ReturnEmptyCollectionRatherThanNull"})
   private Map<Object, ArrayList<IOutlineNode>> getOutlineMap() {
     Object obj = getTestInformation().getTestObject(IOutlineNode.class);
     if (obj instanceof Map<?, ?>) {
