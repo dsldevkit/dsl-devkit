@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.test.validation;
 
 import static org.eclipse.xtext.validation.ValidationMessageAcceptor.INSIGNIFICANT_INDEX;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -936,7 +937,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the diagnostic to check for issues
    */
   private void assertNoDiagnostics(final Diagnostic diagnostics) {
-    assertTrue("Diagnostics should be in OK state.", diagnostics.getCode() == Diagnostic.OK);
+    assertEquals("Diagnostics should be in OK state.", diagnostics.getCode(), Diagnostic.OK);
     assertTrue("There should be no diagnostics. Instead found " + diagnostics.getChildren().size(), diagnostics.getChildren().isEmpty());
   }
 

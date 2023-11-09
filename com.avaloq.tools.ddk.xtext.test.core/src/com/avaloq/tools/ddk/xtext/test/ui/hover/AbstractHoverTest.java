@@ -167,8 +167,8 @@ public abstract class AbstractHoverTest extends AbstractXtextTest {
    */
   protected void assertHoverDoesNotContainText(final ENamedElement element, final String text) {
     assertElementExistInHoverMap(element);
-    Assert.assertTrue("Element '" + element.toString() + "' first line of hover must not have '" + text + "'. " + "\n\nHoverMap contains:\n"
-        + getHoverMap().get(element), !hasTextOnFirstLine(getHoverMap().get(element), text));
+    Assert.assertFalse("Element '" + element.toString() + "' first line of hover must not have '" + text + "'. " + "\n\nHoverMap contains:\n"
+        + getHoverMap().get(element), hasTextOnFirstLine(getHoverMap().get(element), text));
   }
 
   /**
