@@ -209,7 +209,7 @@ public final class ScopingGeneratorUtil {
    * @return true, if the expression is case insensitive; false otherwise.
    */
   public static boolean isCaseInsensitive(final NamedScopeExpression expr) {
-    Casing casing = null;
+    Casing casing;
     if (expr.isCaseDef()) {
       casing = expr.getCasing();
     } else {

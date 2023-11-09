@@ -320,7 +320,7 @@ public class DragAndDropUtil {
    * @return a bounding {@link Rectangle} for the given {@link AbstractSWTBot}
    */
   private static <T extends Widget> Rectangle absoluteLocation(final AbstractSWTBot<T> item) {
-    AbstractSWTBot<?> bot = null;
+    AbstractSWTBot<?> bot;
     if (item instanceof SWTBotTreeItem) {
       bot = new SWTBotTreeItemForDnd(((SWTBotTreeItem) item).widget);
     } else if (item instanceof SWTBotTableItem) {

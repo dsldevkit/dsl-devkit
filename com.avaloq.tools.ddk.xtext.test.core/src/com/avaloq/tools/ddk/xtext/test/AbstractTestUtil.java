@@ -52,7 +52,7 @@ public abstract class AbstractTestUtil { // NOPMD we really do want default impl
    *          to wait for.
    */
   protected void waitForJobsOfFamily(final Object family) {
-    boolean wasInterrupted = false;
+    boolean wasInterrupted;
     do {
       try {
         Job.getJobManager().join(family, null);
@@ -104,4 +104,3 @@ public abstract class AbstractTestUtil { // NOPMD we really do want default impl
   }
 
 }
-

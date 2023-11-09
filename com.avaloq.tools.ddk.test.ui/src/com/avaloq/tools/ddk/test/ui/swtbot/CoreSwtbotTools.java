@@ -223,15 +223,13 @@ public final class CoreSwtbotTools {
   public static boolean checkOpenWindow(final SWTWorkbenchBot bot, final String windowName) {
     Assert.isNotNull(bot, ARGUMENT_BOT);
     Assert.isNotNull(windowName, "windowName");
-    Boolean windowFound = false;
     try {
       final SWTBotShell shell = bot.shell(windowName);
       shell.isActive();
-      windowFound = true;
+      return true;
     } catch (WidgetNotFoundException exception) {
       throw new WrappedException("Error during searching for window", exception);
     }
-    return windowFound;
   }
 
   /**
@@ -265,7 +263,7 @@ public final class CoreSwtbotTools {
       public void run() {
         final IWorkbench workbench = PlatformUI.getWorkbench();
         final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-        IWorkbenchPage page = null;
+        IWorkbenchPage page;
         try {
           page = workbench.showPerspective("com.avaloq.ice.perspectives.Development", window);
         } catch (final WorkbenchException exception) {

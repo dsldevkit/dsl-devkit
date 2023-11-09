@@ -59,7 +59,7 @@ public final class FormatGeneratorUtil {
    * @return String fully qualified name of the formatter class
    */
   public static String getFormatterName(final FormatConfiguration format, final String classNamePrefix) {
-    String qualifiedName = null;
+    String qualifiedName;
     List<INode> nodes = NodeModelUtils.findNodesForFeature(format, FormatPackage.Literals.FORMAT_CONFIGURATION__TARGET_GRAMMAR);
     if (nodes.isEmpty()) {
       qualifiedName = format.getTargetGrammar().getName();
@@ -82,7 +82,8 @@ public final class FormatGeneratorUtil {
    * @return String fully qualified name of the formatter class
    */
   public static String getFormatterName(final Grammar grammar, final String classNamePrefix) {
-    return GrammarUtil.getNamespace(grammar) + ".formatting." + (classNamePrefix == null ? "" : classNamePrefix) + GrammarUtil.getSimpleName(grammar) + "Formatter";
+    return GrammarUtil.getNamespace(grammar) + ".formatting." + (classNamePrefix == null ? "" : classNamePrefix) + GrammarUtil.getSimpleName(grammar)
+        + "Formatter";
   }
 
   /**
