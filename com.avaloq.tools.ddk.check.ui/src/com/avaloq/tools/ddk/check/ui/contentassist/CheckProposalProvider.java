@@ -60,8 +60,8 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
           .iterator();
         } catch (ConcurrentModificationException unused) {
           // In case the registry resolves some packages
-        } 
-      } 
+        }
+      }
     });
   // @Format-On
   private static final Filter FORMAL_PARAMETER_JVM_CLASS_FILTER = new Filter() {
@@ -123,7 +123,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     // CHECKSTYLE:OFF
     public void complete_ID(final EObject model, final RuleCall ruleCall, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
       // CHECKSTYLE:ON
-      if (getAssignedFeature(ruleCall).equalsIgnoreCase(CheckConstants.IT)) { // TODO this is ugly
+      if (CheckConstants.IT.equalsIgnoreCase(getAssignedFeature(ruleCall))) { // TODO this is ugly
         acceptor.accept(createCompletionProposal(getAssignedFeature(ruleCall).toLowerCase(), getAssignedFeature(ruleCall).toLowerCase(), null, context));
         return;
       }

@@ -105,7 +105,7 @@ public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
         case XtextPackage.TERMINAL_RULE:
           return appendFragmentSegment((AbstractRule) object, builder);
         case XtextPackage.KEYWORD:
-          if (((Keyword) object).getValue().equals("selectCardinality")) {
+          if ("selectCardinality".equals(((Keyword) object).getValue())) {
             return appendFragmentSegment((AbstractElement) object, builder);
           } else {
             return appendFragmentSegment((Keyword) object, builder);

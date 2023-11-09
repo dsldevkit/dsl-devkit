@@ -74,9 +74,9 @@ public class CheckContextsExtensionHelper extends AbstractCheckDocumentationExte
 
   @Override
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
-    if (extension.getPoint().equals(CONTEXTS_EXTENSION_POINT_ID) && extension.getName().equals(getExtensionPointName(catalog))) {
+    if (CONTEXTS_EXTENSION_POINT_ID.equals(extension.getPoint()) && extension.getName().equals(getExtensionPointName(catalog))) {
       for (IPluginElement element : elements) {
-        if (element.getAttribute(FILE_ATTRIBUTE_TAG).getValue().equals(CONTEXTS_FILE_NAME)) {
+        if (CONTEXTS_FILE_NAME.equals(element.getAttribute(FILE_ATTRIBUTE_TAG).getValue())) {
           return false;
         }
       }

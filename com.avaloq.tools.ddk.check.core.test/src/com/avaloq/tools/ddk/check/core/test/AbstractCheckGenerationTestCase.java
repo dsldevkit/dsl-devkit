@@ -105,7 +105,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
 
       final InMemoryJavaCompiler.Result result = javaCompiler.compile(sources.toArray(new JavaSource[sources.size()]));
       // Due to https://bugs.eclipse.org/bugs/show_bug.cgi?id=541225 we must ignore this warning here
-      if (result.getCompilationProblems().stream().anyMatch(p -> p.getMessage().equals("Pb(1102) At least one of the problems in category 'nls' is not analysed due to a compiler option being ignored"))) {
+      if (result.getCompilationProblems().stream().anyMatch(p -> "Pb(1102) At least one of the problems in category 'nls' is not analysed due to a compiler option being ignored".equals(p.getMessage()))) {
         assertTrue("All sources should have been compiled without errors " + result.getCompilationProblems(), result.getCompilationProblems().isEmpty());
       }
 

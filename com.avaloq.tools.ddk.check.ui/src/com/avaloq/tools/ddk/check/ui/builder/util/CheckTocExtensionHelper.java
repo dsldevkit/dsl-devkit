@@ -78,9 +78,9 @@ public class CheckTocExtensionHelper extends AbstractCheckDocumentationExtension
 
   @Override
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
-    if (extension.getPoint().equals(TOC_EXTENSION_POINT_ID) && extension.getName().equals(getExtensionPointName(catalog))) {
+    if (TOC_EXTENSION_POINT_ID.equals(extension.getPoint()) && extension.getName().equals(getExtensionPointName(catalog))) {
       for (IPluginElement element : elements) {
-        if (element.getAttribute(FILE_ATTRIBUTE_TAG).getValue().equals(TOC_FILE_NAME)) {
+        if (TOC_FILE_NAME.equals(element.getAttribute(FILE_ATTRIBUTE_TAG).getValue())) {
           return false;
         }
       }

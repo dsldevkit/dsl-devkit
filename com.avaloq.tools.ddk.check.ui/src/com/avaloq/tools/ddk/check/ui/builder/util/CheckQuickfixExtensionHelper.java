@@ -127,7 +127,7 @@ public final class CheckQuickfixExtensionHelper extends AbstractCheckExtensionHe
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // CHECKSTYLE:OFF
     // @Format-Off
-    final boolean result = extension.getPoint().equals(QUICKFIX_EXTENSION_POINT_ID)
+    final boolean result = QUICKFIX_EXTENSION_POINT_ID.equals(extension.getPoint())
         && (!extensionNameMatches(extension, catalog)
         || Iterables.size(elements) != 1
         || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
