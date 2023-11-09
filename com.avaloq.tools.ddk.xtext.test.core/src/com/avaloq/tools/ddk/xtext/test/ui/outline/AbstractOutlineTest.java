@@ -128,7 +128,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
   protected IOutlineNode assertHasOutlineNode(final String nodeName, final String nodeType) {
     IOutlineTreeProvider provider = getXtextTestUtil().get(IOutlineTreeProvider.class);
     IOutlineNode field = findNode(provider.createRoot(getDocument()), nodeName, nodeType);
-    Assert.assertTrue("Outline must contain element '" + nodeName + "'.", field != null);
+    Assert.assertNotNull("Outline must contain element '" + nodeName + "'.", field);
     return field;
   }
 
@@ -145,7 +145,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
   protected void assertHasOutlineNode(final String nodeName, final String nodeType, final String parentName) {
     IOutlineNode field = assertHasOutlineNode(nodeName, nodeType);
     IOutlineNode parent = field.getParent();
-    Assert.assertTrue("The element '" + nodeName + "' doesn't belong to the '" + parentName + "' group.", parentName.equals(parent.getText().toString()));
+    Assert.assertEquals("The element '" + nodeName + "' doesn't belong to the '" + parentName + "' group.", parentName, parent.getText().toString());
   }
 
   /**
@@ -265,4 +265,3 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
     }
   }
 }
-

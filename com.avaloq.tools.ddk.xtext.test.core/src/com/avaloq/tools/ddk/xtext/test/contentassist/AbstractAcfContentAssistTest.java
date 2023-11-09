@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.test.contentassist;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
@@ -88,7 +89,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    *          the expected proposals as display strings
    */
   private void assertCompletionProposal(final ICompletionProposal[] computedProposals, final boolean positiveTest, final String... proposals) {
-    assertFalse(AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED, proposals.length == 0);
+    assertNotEquals(AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED, proposals.length, 0);
     for (final String s : proposals) {
       boolean foundProposal = false;
       for (ICompletionProposal p : computedProposals) {
@@ -153,7 +154,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    *          the expected proposals as display strings
    */
   protected void assertExactlyCompletionProposal(final ICompletionProposal[] computedProposals, final String... expectedProposals) {
-    assertFalse(AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED, expectedProposals.length == 0);
+    assertNotEquals(AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED, expectedProposals.length, 0);
 
     Set<String> computedProposalsAsSet = new HashSet<String>();
     for (ICompletionProposal p : computedProposals) {
