@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.ui.templates;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.jdt.core.IJavaProject;
@@ -67,6 +67,7 @@ public class ResourceNameTemplateVariableResolver extends AbstractTemplateVariab
       case "file": //$NON-NLS-1$
         final String fileName = file.getName();
         result.add(fileName.indexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName);
+        break;
       }
     }
     return Lists.newArrayList(Iterables.filter(result, Predicates.notNull()));

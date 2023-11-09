@@ -142,7 +142,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
     ZipPositioner positioner = new ZipPositioner(zipIn);
     // 1. resource contents
-    switch (mode.instruction(Constituent.CONTENT)) {
+    switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough
     case SKIP:
       break;
     case PROXY:
@@ -340,7 +340,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
           baseURI = uri;
         }
-        boolean installDerivedState = ResourceSetOptions.installDerivedState(resourceSet); // must be read before readCompressedInt, see HACK comment inside readCompressedInt
+        boolean installDerivedState = ResourceSetOptions.installDerivedState(resourceSet); // must be read before readCompressedInt, see HACK comment inside
+                                                                                           // readCompressedInt
         int size = readCompressedInt();
         if (!installDerivedState && size == 2) { // the InfererenceContainer is always in the second slot
           size--;
