@@ -41,6 +41,8 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTest {
 
+  private static final String OFFSET_MUST_BE_EQUAL = "Offset must be equal";
+  private static final String NUMBER_OF_HYPERLINKS_MUST_BE_EQUAL = "Number of hyperlinks must be equal";
   /** The Constant LEAF_NOT_FOUND_VALUE is returned when a leaf node is not found. */
   protected static final int LEAF_NOT_FOUND_VALUE = -1;
 
@@ -51,7 +53,7 @@ public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTes
    *          the position at which to look for a hyperlink
    */
   protected void assertOffsetHasHyperlink(final int offset) {
-    Assert.assertEquals(1, getOffsetHyperlinks(offset).size());
+    Assert.assertEquals(OFFSET_MUST_BE_EQUAL, 1, getOffsetHyperlinks(offset).size());
   }
 
   /**
@@ -61,7 +63,7 @@ public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTes
    *          the position at which to look for hyperlinks
    */
   protected void assertOffsetHasNoHyperlink(final int offset) {
-    Assert.assertEquals(0, getOffsetHyperlinks(offset).size());
+    Assert.assertEquals(OFFSET_MUST_BE_EQUAL, 0, getOffsetHyperlinks(offset).size());
   }
 
   /**
@@ -93,7 +95,7 @@ public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTes
    *          number of expected hyperlinks
    */
   protected void assertHasHyperlinks(final int tag, final int numberOfHyperlinks) {
-    Assert.assertEquals(numberOfHyperlinks, getHyperlinks(tag).size());
+    Assert.assertEquals(NUMBER_OF_HYPERLINKS_MUST_BE_EQUAL, numberOfHyperlinks, getHyperlinks(tag).size());
   }
 
   /**
@@ -111,7 +113,7 @@ public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTes
         actualTargets.add(((XtextHyperlink) hyperlink).getURI());
       }
     }
-    MatcherAssert.assertThat(actualTargets, CoreMatchers.hasItem(target));
+    MatcherAssert.assertThat("The target must have items", actualTargets, CoreMatchers.hasItem(target));
   }
 
   /**
@@ -125,7 +127,7 @@ public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTes
    *          number of expected hyperlinks
    */
   protected void assertHasHyperlinks(final XtextResource resource, final int tag, final int numberOfHyperlinks) {
-    Assert.assertEquals(numberOfHyperlinks, getHyperlinks(resource, tag).size());
+    Assert.assertEquals(NUMBER_OF_HYPERLINKS_MUST_BE_EQUAL, numberOfHyperlinks, getHyperlinks(resource, tag).size());
   }
 
   /**

@@ -112,9 +112,9 @@ public abstract class AbstractContentAssistUiTest extends AbstractXtextEditorTes
   protected void assertContentAssist(final List<String> contentassistProposals, final int offset) {
     evaluateCompletionProposals(offset);
     Arrays.sort(getCompletionProposals(), new TemplatesFirstCompletionProposalComparator());
-    Assert.assertEquals(contentassistProposals.size(), getCompletionProposals().length);
+    Assert.assertEquals("Same length", contentassistProposals.size(), getCompletionProposals().length);
     for (int i = 0; i < contentassistProposals.size(); i++) {
-      Assert.assertEquals(contentassistProposals.get(i), getCompletionProposals()[i].getDisplayString());
+      Assert.assertEquals("Same displayed string", contentassistProposals.get(i), getCompletionProposals()[i].getDisplayString());
     }
   }
 

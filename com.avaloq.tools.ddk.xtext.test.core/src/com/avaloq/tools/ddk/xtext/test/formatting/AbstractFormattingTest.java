@@ -145,7 +145,7 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
    */
   private void assertFormattedParseTreeConstructor(final EObject model, final String expected) {
     String actual = getXtextTestUtil().getSerializer().serialize(model, SaveOptions.newBuilder().format().getOptions());
-    Assert.assertEquals(expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF));
+    Assert.assertEquals("Formatted ParseTree", expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF));
   }
 
   /**
@@ -166,8 +166,7 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
     ICompositeNode node = NodeModelUtils.getNode(model).getRootNode();
     IFormattedRegion region = getXtextTestUtil().get(INodeModelFormatter.class).format(node, offset, length);
     String actual = input.substring(0, offset) + region.getFormattedText() + input.substring(length + offset);
-    Assert.assertEquals(expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF));
+    Assert.assertEquals("Formatted NodeModel", expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF));
   }
 
 }
-

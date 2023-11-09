@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Assert;
 import org.junit.Test;
 
+
 /**
  * Tests for {@code AbstractFragmentProvider}.
  */
@@ -67,7 +68,7 @@ public class AbstractFragmentProviderTest {
     for (String text : SPECIAL_ESCAPE_CASES) {
       StringBuilder builder = new StringBuilder();
       fragmentProvider.appendEscaped(text, builder);
-      Assert.assertEquals(text, fragmentProvider.unescape(builder.toString()));
+      Assert.assertEquals("Escaped Characters must be equal", text, fragmentProvider.unescape(builder.toString()));
     }
   }
 
