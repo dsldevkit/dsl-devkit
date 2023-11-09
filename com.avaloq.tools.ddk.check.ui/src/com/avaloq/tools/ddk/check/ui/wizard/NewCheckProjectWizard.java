@@ -52,7 +52,7 @@ public class NewCheckProjectWizard extends XtextNewProjectWizard { // extends Wi
 
   /**
    * Get the project info instance from the new file page. It contains all information except for the project name.
-   * 
+   *
    * @return the project info instance
    */
   @Override
@@ -60,7 +60,7 @@ public class NewCheckProjectWizard extends XtextNewProjectWizard { // extends Wi
     CheckProjectInfo projectInfo = newCatalogPage.getProjectInfo();
     projectInfo.setProjectName(newProjectPage.getProjectName()); // the project name is only required by the project creator; in case of the new file wizard,
                                                                  // the project name is neither available nor needed
-    if (projectInfo.getPackageName().trim().length() == 0) {
+    if (projectInfo.getPackageName().isBlank()) {
       // If no package name was provided, set the project name as package name
       // Should not happen as package name is mandatory
       projectInfo.setPackageName(projectInfo.getProjectName());

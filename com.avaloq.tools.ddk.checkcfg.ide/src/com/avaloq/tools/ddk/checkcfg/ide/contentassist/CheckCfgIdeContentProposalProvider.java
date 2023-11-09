@@ -307,7 +307,9 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
 
   private void addEmptyCheckConfig(final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
     String modelName = context.getResource().getURI().trimFileExtension().lastSegment();
-    StringBuilder proposal = new StringBuilder();
+    // CHECKSTYLE:OFF MagicNumber
+    StringBuilder proposal = new StringBuilder(34);
+    // CHECKSTYLE:ON
     proposal.append("check configuration ${1:").append(modelName).append("} {").append(Strings.newLine()); //$NON-NLS-1$ //$NON-NLS-2$
     proposal.append("  ${0}").append(Strings.newLine()).append('}'); //$NON-NLS-1$
     ContentAssistEntry entry = getProposalCreator().createProposal(proposal.toString(), context, (final ContentAssistEntry it) -> {

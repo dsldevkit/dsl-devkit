@@ -16,8 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 
 import com.avaloq.tools.ddk.xtext.util.EmfResourceUtil;
@@ -123,7 +123,7 @@ public class BuilderWatchdog extends Thread {
   private void logStackTrace(final String headerMessage) {
     final StringBuilder stackTraceBuilder = new StringBuilder(headerMessage).append(NEW_LINE);
     if (currentURI != null) {
-      stackTraceBuilder.append("Was processing " + currentURI + " when this occurred.").append(NEW_LINE); //$NON-NLS-1$ //$NON-NLS-2$
+      stackTraceBuilder.append("Was processing ").append(currentURI).append(" when this occurred.").append(NEW_LINE); //$NON-NLS-1$ //$NON-NLS-2$
     }
     stackTraceBuilder.append("This batch contained ").append(processedTypeList()).append(". Dumping stack traces:").append(NEW_LINE); //$NON-NLS-1$ //$NON-NLS-2$
 
