@@ -471,7 +471,7 @@ public class FormatterTest extends AbstractFormatterTest {
     m.getItems().add(d);
     String actual = getSerializer().serialize(m, SaveOptions.newBuilder().format().getOptions());
     String expected = "test wrapminmax\n\n\nxxx yyy;";
-    Assert.assertEquals(expected, actual);
+    Assert.assertEquals("Default Linewrap", expected, actual);
   }
 
   /**

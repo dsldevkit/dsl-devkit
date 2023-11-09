@@ -33,7 +33,9 @@ import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
  */
 public class ShortFragmentProviderTest extends AbstractTest {
 
-  private static AbstractTestUtil testUtil = new AbstractTestUtil() {};
+  private static final String FRAGMENT_MUST_BE_EQUAL = "Fragment must be equal";
+  private static AbstractTestUtil testUtil = new AbstractTestUtil() {
+  };
 
   private static final class TestFallbackFragmentProvider implements IFragmentProvider.Fallback {
 
@@ -98,9 +100,9 @@ public class ShortFragmentProviderTest extends AbstractTest {
     resource.getContents().add(root);
 
     String fragment = fragmentProvider.getFragment(parent, fragmentFallback);
-    Assert.assertEquals("/0*" + (reps + 1), fragment);
+    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, "/0*" + (reps + 1), fragment);
 
-    Assert.assertEquals(parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback));
+    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback));
   }
 
   @Test
@@ -122,9 +124,9 @@ public class ShortFragmentProviderTest extends AbstractTest {
     resource.getContents().add(root);
 
     String fragment = fragmentProvider.getFragment(parent, fragmentFallback);
-    Assert.assertEquals("/0*" + (reps + 1) + "/1", fragment);
+    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, "/0*" + (reps + 1) + "/1", fragment);
 
-    Assert.assertEquals(parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback));
+    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback));
   }
 
   @Override
