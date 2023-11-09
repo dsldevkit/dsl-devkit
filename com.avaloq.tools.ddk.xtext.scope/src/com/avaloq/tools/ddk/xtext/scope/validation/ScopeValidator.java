@@ -165,7 +165,7 @@ public class ScopeValidator extends AbstractScopeValidator {
   public void checkScopeDefinitionUniqueness(final ScopeModel context) { // NOPMD
     final Map<String, ScopeDefinition> profileMap = Maps.newHashMap();
     for (ScopeDefinition def : context.getScopes()) {
-      String profile = null;
+      String profile;
       if (isDefaultScope(def)) {
         profile = def.getTargetType() != null ? def.getTargetType().toString() : def.getReference().toString();
       } else {

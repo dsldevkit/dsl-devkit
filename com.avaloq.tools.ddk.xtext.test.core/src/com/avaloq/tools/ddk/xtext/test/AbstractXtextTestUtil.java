@@ -297,7 +297,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
    */
   public void validateSource(final String sourceFileName, final CharSequence sourceContent) {
     String sourceContentAsString = sourceContent.toString();
-    EObject root = null;
+    EObject root;
     try {
       root = getModel(sourceFileName, sourceContentAsString);
     } catch (IOException e) {

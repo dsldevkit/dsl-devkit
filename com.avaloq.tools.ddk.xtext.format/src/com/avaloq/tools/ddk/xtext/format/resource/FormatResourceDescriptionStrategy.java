@@ -56,9 +56,6 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
     }
   };
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean createEObjectDescriptions(final EObject eObject, final IAcceptor<IEObjectDescription> acceptor) {
 
@@ -67,7 +64,6 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
     }
 
     boolean indexObject = false;
-    boolean indexDefault = false;
     String objectFingerprint = null;
     if (fingerprintComputer != null && eObject.eContainer() instanceof FormatConfiguration && NodeModelUtils.getNode(eObject) != null) {
       objectFingerprint = fingerprintComputer.computeFingerprint(eObject);
@@ -77,8 +73,7 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
       acceptor.accept(EObjectDescription.create(objectFingerprint, eObject));
       indexObject = true;
     }
-
-    indexDefault = createDescriptionsForNonXbaseFormalParameters(eObject, acceptor);
+    boolean indexDefault = createDescriptionsForNonXbaseFormalParameters(eObject, acceptor);
 
     return indexDefault || indexObject;
   }

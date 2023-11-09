@@ -44,12 +44,11 @@ public final class TestConfiguration {
    * Load properties.
    */
   private static void loadProperties() {
-    URL pluginUrl = null;
     String absolutePath;
     String completePath;
     BufferedInputStream stream;
     try {
-      pluginUrl = FileLocator.toFileURL(Activator.getInstallURL());
+      URL pluginUrl = FileLocator.toFileURL(Activator.getInstallURL());
 
       absolutePath = new File(pluginUrl.getPath()).getAbsolutePath();
       completePath = absolutePath + SEPARATOR + FILE_NAME;

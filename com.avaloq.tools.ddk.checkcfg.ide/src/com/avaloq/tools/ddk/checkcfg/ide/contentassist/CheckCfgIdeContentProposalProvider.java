@@ -158,6 +158,7 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
    * @param acceptor
    *          the acceptor
    */
+  @SuppressWarnings("nls")
   private void addConfiguredCheckTemplates(final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
     ConfiguredCatalog configuredCatalog = EcoreUtil2.getContainerOfType(context.getCurrentModel(), ConfiguredCatalog.class);
     Iterable<String> alreadyConfiguredCheckNames = Iterables.filter(Iterables.transform(configuredCatalog.getCheckConfigurations(), new Function<ConfiguredCheck, String>() {
@@ -175,21 +176,21 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
       final String checkName = check.getName();
       if (!Iterables.contains(alreadyConfiguredCheckNames, checkName)) {
         int paramTabStop = 1;
-        final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : getSeverityKindChoice(paramTabStop++); //$NON-NLS-1$
+        final String severity = (catalog.isFinal() || check.isFinal()) ? "default " : getSeverityKindChoice(paramTabStop++); // NOPMD false UnusedAssignment
 
         // check if referenced check has configurable parameters
-        final StringJoiner paramsJoiner = new StringJoiner(", ", " (", ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        paramsJoiner.setEmptyValue(""); //$NON-NLS-1$
+        final StringJoiner paramsJoiner = new StringJoiner(", ", " (", ")");
+        paramsJoiner.setEmptyValue("");
         for (final FormalParameter param : check.getFormalParameters()) {
           final String paramName = param.getName();
           final Object defaultValue = interpreter.evaluate(param.getRight()).getResult();
 
           final String valuePlaceholder = createPlaceholderPattern(paramTabStop++, defaultValue);
-          paramsJoiner.add(paramName + " = " + valuePlaceholder); //$NON-NLS-1$
+          paramsJoiner.add(paramName + " = " + valuePlaceholder);
         }
 
-        final String description = "Configures the check \"" + check.getLabel() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
-        final String pattern = severity + qualifiedNameValueConverter.toString(checkName) + paramsJoiner + "${0}"; //$NON-NLS-1$
+        final String description = "Configures the check \"" + check.getLabel() + "\"";
+        final String pattern = severity + qualifiedNameValueConverter.toString(checkName) + paramsJoiner + "${0}";
 
         ContentAssistEntry entry = getProposalCreator().createProposal(pattern, context, (final ContentAssistEntry it) -> {
           it.setKind(ContentAssistEntry.KIND_SNIPPET);

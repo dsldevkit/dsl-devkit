@@ -92,7 +92,7 @@ public final class FormatFragmentUtil {
     URI uri = (URI) resourceUriVariable.getValue();
     final Resource grammarResource = grammar.eResource();
     final ResourceSet resourceSet = grammarResource.getResourceSet();
-    Resource formatResource = null;
+    Resource formatResource;
     try {
       formatResource = resourceSet.getResource(uri, true);
     } catch (final ClasspathUriResolutionException e) {
