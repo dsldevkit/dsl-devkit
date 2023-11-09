@@ -100,10 +100,10 @@ public class CheckCfgTemplateProposalProvider extends DefaultTemplateProposalPro
 
   @Override
   protected void createTemplates(final TemplateContext templateContext, final ContentAssistContext context, final ITemplateAcceptor acceptor) {
-    if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck")) { //$NON-NLS-1$
+    if ("com.avaloq.tools.ddk.checkcfg.CheckCfg.ConfiguredCheck".equals(templateContext.getContextType().getId())) { //$NON-NLS-1$
       addConfiguredCheckTemplates(templateContext, context, acceptor);
       return;
-    } else if (templateContext.getContextType().getId().equals("com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog")) { //$NON-NLS-1$
+    } else if ("com.avaloq.tools.ddk.checkcfg.CheckCfg.kw_catalog".equals(templateContext.getContextType().getId())) { //$NON-NLS-1$
       addCatalogConfigurations(templateContext, context, acceptor);
     }
     TemplateContextType contextType = templateContext.getContextType();

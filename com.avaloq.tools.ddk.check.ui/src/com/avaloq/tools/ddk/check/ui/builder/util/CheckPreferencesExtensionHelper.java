@@ -172,7 +172,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
    */
   private IPluginElement getInitializerElement(final Iterable<IPluginElement> elements) {
     for (IPluginElement e : elements) {
-      if (e.getName().equals(INITIALIZER_ELEMENT_TAG)) {
+      if (INITIALIZER_ELEMENT_TAG.equals(e.getName())) {
         return e;
       }
     }
@@ -182,7 +182,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
   @Override
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // @Format-Off
-    final boolean result = extension.getPoint().equals(PREFERENCES_EXTENSION_POINT_ID)
+    final boolean result = PREFERENCES_EXTENSION_POINT_ID.equals(extension.getPoint())
         && (!extensionNameMatches(extension, catalog)
         || Iterables.size(elements) != 2
         || !initializerClassMatches(getInitializerElement(elements), getTargetClassName(catalog)));
