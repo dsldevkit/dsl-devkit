@@ -64,7 +64,7 @@ public abstract class AbstractHoverTest extends AbstractXtextTest {
     if (obj instanceof Map<?, ?>) {
       return (Map<Object, ArrayList<String>>) obj;
     } else {
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
   }
 

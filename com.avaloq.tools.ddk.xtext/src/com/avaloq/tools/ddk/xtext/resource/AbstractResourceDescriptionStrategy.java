@@ -51,7 +51,6 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   @Inject(optional = true)
   private IFingerprintComputer fingerprintComputer;
 
-  /** {@inheritDoc} */
   @Override
   public boolean createEObjectDescriptions(final EObject from, final IAcceptor<IEObjectDescription> acceptor) {
     final IQualifiedNameProvider nameProvider = getQualifiedNameProvider();
@@ -206,7 +205,6 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
     return new ReferenceDescription(owner, target, eReference, exportedContainerURI, indexInList);
   }
 
-  /** {@inheritDoc} */
   protected boolean isIndexable(final EObject from, final EReference eReference) {
     return !eReference.isContainment() && !eReference.isContainer();
   }
@@ -234,7 +232,8 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
    * @return the set of types, or {@code null} if all types are allowed (or if no information available).
    */
   public Set<EClass> getExportedEClasses(final Resource resource) {
-    return null; // TODO: once ASMD is regenerated, make this operation abstract.
+    // TODO: once ASMD is regenerated, make this operation abstract.
+    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 
 }

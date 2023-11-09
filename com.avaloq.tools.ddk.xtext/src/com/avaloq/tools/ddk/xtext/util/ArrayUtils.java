@@ -106,11 +106,11 @@ public final class ArrayUtils {
    */
   public static Object[] remove(final Object[] array, final Object value) {
     if (array == null) {
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
     int i = find(array, value);
     if (i == 0 && array.length == 1) {
-      return null;
+      return null;// NOPMD ReturnEmptyCollectionRatherThanNull
     }
     if (i >= 0) {
       // Found it: remove value. i is guaranteed to be < array.length here.

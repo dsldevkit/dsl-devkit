@@ -41,7 +41,7 @@ public abstract class AbstractLabelingTest extends AbstractXtextTest {
    * @return a list of pairs with the expected {@link ENamedElement} and the corresponding label string
    */
   // TODO : make abstract when refactoring all tests (and change from Object to ENamedElement everywhere in this class). remove the suppresswarnings
-  @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+  @SuppressWarnings({"PMD.EmptyMethodInAbstractClassShouldBeAbstract", "PMD.ReturnEmptyCollectionRatherThanNull"})
   protected List<Pair<ENamedElement, String>> getExpectedElementLabels() {
     return null;
   }
@@ -87,7 +87,7 @@ public abstract class AbstractLabelingTest extends AbstractXtextTest {
    * @return directory of semantic nodes indexed by the class of the represented semantic model node
    */
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "PMD.ReturnEmptyCollectionRatherThanNull"})
   private Map<Object, ArrayList<String>> getLabelMap() {
     Object obj = getTestInformation().getTestObject(AbstractLabelingTest.class);
     if (obj instanceof Map<?, ?>) {

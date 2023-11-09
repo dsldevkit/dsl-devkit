@@ -135,8 +135,8 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
    *
    * @return a set of file extensions or <code>null</code> if all resources are interesting
    */
-  protected Set<String> getInterestingExtensions() { // NOPMD
-    return null;
+  protected Set<String> getInterestingExtensions() {
+    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 
   @Override
@@ -467,8 +467,8 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
    *
    * @return all extensions ({@code null})
    */
-  protected static ImmutableSet<String> all() { // NOPMD
-    return null;
+  protected static ImmutableSet<String> all() {
+    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 
   /**

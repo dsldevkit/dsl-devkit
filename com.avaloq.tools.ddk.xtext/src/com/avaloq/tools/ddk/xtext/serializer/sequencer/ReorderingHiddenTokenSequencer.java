@@ -302,7 +302,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
    */
   private List<INode> getHiddenNodesBetween(final INode from, final INode to) {
     if (from == null && to == null) {
-      return null;
+      return null;// NOPMD ReturnEmptyCollectionRatherThanNull
     }
 
     List<INode> out;
@@ -317,7 +317,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
     }
 
     if (out.isEmpty()) {
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     } else {
       return filterNodesOfDeletedElements(out, deletedSemanticElements);
     }

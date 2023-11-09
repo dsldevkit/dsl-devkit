@@ -36,19 +36,16 @@ public class TreeSetLookup<T> implements QualifiedNameLookup<T> {
   private long hits;
   private long misses;
 
-  /** {@inheritDoc} */
   @Override
   public void putAll(final QualifiedName name, final Collection<T> values) {
     lookupMap.put(name, ArrayUtils.addAll(lookupMap.get(name), values.toArray(ArrayUtils.newArray(values.size()))));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void clear() {
     lookupMap.clear();
   }
 
-  /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
   public Collection<T> get(final QualifiedName name) {
@@ -58,11 +55,10 @@ public class TreeSetLookup<T> implements QualifiedNameLookup<T> {
       return (Collection<T>) Lists.newArrayList(values);
     } else {
       misses++;
-      return null;
+      return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public Collection<T> get(final QualifiedNamePattern pattern, final boolean excludeDuplicates) {
     @SuppressWarnings("unchecked")
@@ -75,7 +71,6 @@ public class TreeSetLookup<T> implements QualifiedNameLookup<T> {
     return result;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void removeMappings(final T value) {
     Iterator<Map.Entry<QualifiedName, Object[]>> iter = lookupMap.entrySet().iterator();
@@ -96,13 +91,11 @@ public class TreeSetLookup<T> implements QualifiedNameLookup<T> {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void put(final QualifiedName name, final T value) {
     lookupMap.put(name, ArrayUtils.add(lookupMap.get(name), value));
   }
 
-  /** {@inheritDoc} */
   @Override
   public void remove(final QualifiedName name, final T value) {
     Object[] values = lookupMap.get(name);

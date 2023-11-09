@@ -25,25 +25,21 @@ import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
  */
 public class NullXtextTargetPlatform implements IXtextTargetPlatform {
 
-  /** {@inheritDoc} */
   @Override
   public IResourceDescriptionsData getIResourceDescriptionsData() {
     return new NullResourceDescriptionsData();
   }
 
-  /** {@inheritDoc} */
   @Override
   public void open(final boolean clean, final IProgressMonitor monitor) {
     // Nothing to do
   }
 
-  /** {@inheritDoc} */
   @Override
   public void close(final IProgressMonitor monitor) {
     // Nothing to do.
   }
 
-  /** {@inheritDoc} */
   @Override
   public IIssueStore getIssueStore() {
     return null;
@@ -59,13 +55,11 @@ public class NullXtextTargetPlatform implements IXtextTargetPlatform {
     return null;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Map<String, String> getMetadata(final Collection<String> keys, final IProgressMonitor monitor) {
-    return null;
+    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 
-  /** {@inheritDoc} */
   @Override
   public void setMetadata(final Map<String, String> options) {
     // Nothing to do.
