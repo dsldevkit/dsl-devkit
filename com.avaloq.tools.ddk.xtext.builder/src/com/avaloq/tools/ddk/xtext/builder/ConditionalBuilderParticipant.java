@@ -57,8 +57,7 @@ public class ConditionalBuilderParticipant extends BuilderParticipant {
    * @return true if file belongs to the "src" directory
    */
   public boolean isSourceOriginated(final Delta delta) {
-    return delta.getUri().segments().length > 2 && delta.getUri().segments()[2].trim().equalsIgnoreCase(GENERATION_FILE_SRC_DIRECTORY);
+    return delta.getUri().segments().length > 2 && GENERATION_FILE_SRC_DIRECTORY.equalsIgnoreCase(delta.getUri().segments()[2].trim());
   }
 
 }
-

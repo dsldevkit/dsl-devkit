@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -272,7 +272,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
      */
     @Override
     protected boolean readElement(final IConfigurationElement element, final boolean add) {
-      if (!element.getName().equals(PARTICIPANT)) {
+      if (!PARTICIPANT.equals(element.getName())) {
         return false;
       }
       String className = element.getAttribute(ATT_CLASS);

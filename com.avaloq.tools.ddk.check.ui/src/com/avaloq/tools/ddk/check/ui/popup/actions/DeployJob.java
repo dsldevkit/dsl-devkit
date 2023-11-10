@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IPathVariableManager;
@@ -276,10 +276,10 @@ public class DeployJob extends Job {
           if (resource instanceof IProject) {
             return true;
           }
-          if (resource.getName().equals(META_INF)) {
+          if (META_INF.equals(resource.getName())) {
             return true;
           }
-          if (resource.getName().equals(MANIFEST_MF)) {
+          if (MANIFEST_MF.equals(resource.getName())) {
             manifest.add(resource);
             return false;
           }
@@ -422,7 +422,7 @@ public class DeployJob extends Job {
     /** Constructor without cause exception. */
     DeployException() {
     }
-    
+
     /** Constructor with cause exception. */
     DeployException(final Exception e) {
       super(e);

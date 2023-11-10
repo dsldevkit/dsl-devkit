@@ -143,7 +143,7 @@ class FixedDefaultWorkbench {
    * @return true, if is limbo shell
    */
   private boolean isLimboShell(final SWTBotShell shell) {
-    return shell.getText().equals(LIMBO_SHELL);
+    return shell.getText().equals(LIMBO_SHELL); // NOPMD LiteralsFirstInComparisons
   }
 
   /**
@@ -154,7 +154,7 @@ class FixedDefaultWorkbench {
    * @return true, if is quick access shell
    */
   private boolean isQuickAccess(final SWTBotShell shell) {
-    return shell.getText().equals(QUIK_ACCESS_SHELL);
+    return shell.getText().equals(QUIK_ACCESS_SHELL); // NOPMD LiteralsFirstInComparisons
   }
 
   private IWorkbenchWindow getActiveWorkbenchWindow() {

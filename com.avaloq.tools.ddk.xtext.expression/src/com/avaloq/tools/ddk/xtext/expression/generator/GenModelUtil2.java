@@ -247,7 +247,7 @@ public final class GenModelUtil2 {
     uri = uriConverter.normalize(uri);
     uri = uri.trimFileExtension().appendFileExtension("genmodel"); //$NON-NLS-1$
     uri = uriConverter.normalize(uri);
-    if (uri.scheme().equals("http")/* toString().equals(EcorePackage.eNS_URI) */) { //$NON-NLS-1$
+    if ("http".equals(uri.scheme())/* toString().equals(EcorePackage.eNS_URI) */) { //$NON-NLS-1$
       return null; // optimization, because we are not interested in the extension for the Ecore model.
                    // otherwise getResource will go on the internet to load the model and we loose 20 seconds on each call!
     }

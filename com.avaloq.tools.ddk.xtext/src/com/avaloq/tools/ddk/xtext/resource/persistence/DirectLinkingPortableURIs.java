@@ -43,7 +43,7 @@ public class DirectLinkingPortableURIs extends PortableURIs {
 
   @Override
   public EObject resolve(final StorageAwareResource resource, final String portableFragment) {
-    if (portableFragment.equals(UNRESOLVED_LAZY_LINK)) {
+    if (UNRESOLVED_LAZY_LINK.equals(portableFragment)) {
       return null;
     }
     return super.resolve(resource, portableFragment);
