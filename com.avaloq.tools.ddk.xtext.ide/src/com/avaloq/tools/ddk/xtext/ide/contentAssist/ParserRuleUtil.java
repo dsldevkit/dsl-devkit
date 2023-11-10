@@ -9,7 +9,7 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.ide.contentAssist;
+package com.avaloq.tools.ddk.xtext.ide.contentAssist; // NOPMD PACKAGE CASE
 
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.ParserRule;
