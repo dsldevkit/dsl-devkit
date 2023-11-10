@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.xtext.ui,
  org.mockito,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.test.core,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ com.avaloq.tools.ddk.xtext.test.core
 Export-Package: com.avaloq.tools.ddk.xtext.ui.test
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui.test

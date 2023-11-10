@@ -21,10 +21,10 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.xtext.ui.editor.GlobalURIEditorOpener;
 import org.junit.runner.RunWith;
 
-import com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 import com.avaloq.tools.ddk.test.ui.swtbot.util.SwtBotUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.SwtBotRecordingXtextTestRunner;
 import com.avaloq.tools.ddk.xtext.ui.util.UiAssert;
 
 
@@ -37,7 +37,7 @@ import com.avaloq.tools.ddk.xtext.ui.util.UiAssert;
  * ID.<br>
  * Provides {@link #closeEditor(IEditorPart, boolean)} for closing the running editor instance.
  */
-@RunWith(SwtBotRecordingTestRunner.class)
+@RunWith(SwtBotRecordingXtextTestRunner.class)
 public abstract class AbstractXtextUiTest extends AbstractXtextTest {
 
   private static final long EDITOR_ENABLED_TIMEOUT = 30000L;

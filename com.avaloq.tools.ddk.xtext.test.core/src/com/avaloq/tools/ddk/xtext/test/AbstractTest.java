@@ -38,9 +38,9 @@ import com.avaloq.tools.ddk.test.core.BeforeAll;
 import com.avaloq.tools.ddk.test.core.BugTestAwareRule;
 import com.avaloq.tools.ddk.test.core.IssueAwareRule;
 import com.avaloq.tools.ddk.test.core.LoggingRule;
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 import com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock;
 import com.avaloq.tools.ddk.test.core.mock.ServiceMock;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 import com.google.common.collect.ImmutableList;
 
 
@@ -48,7 +48,7 @@ import com.google.common.collect.ImmutableList;
  * Provides a test class specific custom test framework for tests that run in the ACF environment.
  * All exceptions are wrapped and handed over to the JUnit framework.
  */
-@RunWith(ClassRunner.class)
+@RunWith(XtextClassRunner.class)
 public abstract class AbstractTest {
 
   /**
@@ -298,8 +298,8 @@ public abstract class AbstractTest {
       new WorkspaceModifyOperation() {
         @Override
         protected void execute(final IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
-          for (int i = 0; i < sourceFileNames.size(); i++) {
-            addSourceToWorkspace(sourceFileNames.get(i));
+          for (String sourceFileName : sourceFileNames) {
+            addSourceToWorkspace(sourceFileName);
           }
         }
       }.run(new NullProgressMonitor());

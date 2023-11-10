@@ -17,8 +17,8 @@ import static org.junit.Assert.assertSame;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -43,8 +43,8 @@ import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.util.CheckResourceUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
 import com.avaloq.tools.ddk.test.core.BugTest;
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -53,7 +53,7 @@ import com.google.inject.Provider;
  * The CheckProjectWizardTestBackup tests the Check Project Wizard.
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(ClassRunner.class)
+@RunWith(XtextClassRunner.class)
 public class CheckCatalogWizardTest {
 
   /** This is the name of the catalog wizard. It's the name SWTBot uses to look up the wizard. */
