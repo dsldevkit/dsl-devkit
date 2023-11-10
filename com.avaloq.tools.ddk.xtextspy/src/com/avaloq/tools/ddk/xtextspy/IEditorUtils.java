@@ -47,13 +47,13 @@ public interface IEditorUtils {
    */
   class DefaultEditorUtils implements IEditorUtils {
 
-    /** {@inheritDoc} */
+    
     @Override
     public XtextEditor getActiveXtextEditor() {
       return EditorUtils.getActiveXtextEditor();
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public XtextEditor getXtextEditor(final IEditorPart openEditor) {
       return EditorUtils.getXtextEditor(openEditor);

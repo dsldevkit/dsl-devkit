@@ -20,7 +20,7 @@ import org.eclipse.xtext.util.Strings;
  */
 public class DocumentedImplCustom extends DocumentedImpl {
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getDescription() {
     if (!this.eIsProxy() && this.eResource() != null) {

@@ -158,7 +158,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     return model;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void generate(final Grammar grammar, final XpandExecutionContext ctx) {
     if (LOGGER.isInfoEnabled()) {
@@ -190,7 +190,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void addToPluginXmlUi(final Grammar grammar, final XpandExecutionContext ctx) {
     XpandFacade.create(ctx).evaluate(getTemplate() + "::addToPluginXmlUi", grammar, getParameters(grammar), getValidModel(grammar)); //$NON-NLS-1$
@@ -248,7 +248,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     return naming.basePackageRuntime(grammar) + ".validation." + GrammarUtil.getSimpleName(grammar) + "CheckValidator"; //$NON-NLS-1$//$NON-NLS-2$
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
     // For Checks
@@ -256,14 +256,14 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     return new String[] {"com.avaloq.tools.ddk.xtext", "org.apache.commons.logging"}; //$NON-NLS-1$//$NON-NLS-2$
   } // CHECKSTYLE:ON
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getRequiredBundlesUi(final Grammar grammar) {
     // For Checks
     return new String[] {"com.avaloq.tools.ddk.xtext.ui"}; //$NON-NLS-1$
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getExportedPackagesRt(final Grammar grammar) {
     final Set<String> exportedPackages = new LinkedHashSet<String>();
@@ -281,7 +281,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     return exportedPackages.toArray(new String[exportedPackages.size()]);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
 
@@ -310,7 +310,7 @@ public class ValidValidatorFragment extends JavaValidatorFragment {
     return false;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Set<Binding> getGuiceBindingsUi(final Grammar grammar) {
     if (hasQuickfixes(getValidModel(grammar))) {

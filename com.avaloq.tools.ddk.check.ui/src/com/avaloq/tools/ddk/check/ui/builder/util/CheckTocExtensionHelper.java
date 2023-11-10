@@ -47,7 +47,7 @@ public class CheckTocExtensionHelper extends AbstractCheckDocumentationExtension
     return TOC_EXTENSION_POINT_ID;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getExtensionPointName(final CheckCatalog catalog) {
     return "Help extension for Check";

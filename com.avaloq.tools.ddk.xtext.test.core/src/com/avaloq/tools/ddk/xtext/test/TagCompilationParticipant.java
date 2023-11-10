@@ -59,7 +59,7 @@ public class TagCompilationParticipant implements TransformationParticipant<Muta
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void doTransform(final List<? extends MutableFieldDeclaration> annotatedTargetElements, @Extension final TransformationContext context) {
     int counter = COUNTER_BASE;

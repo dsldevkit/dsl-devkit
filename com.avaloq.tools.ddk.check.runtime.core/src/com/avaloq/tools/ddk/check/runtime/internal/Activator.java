@@ -21,7 +21,7 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends Plugin {
 
-  /** {@inheritDoc} */
+  
   @Override
   public void start(final BundleContext context) throws Exception { // NOPMD
     super.start(context);

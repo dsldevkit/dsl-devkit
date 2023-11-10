@@ -44,7 +44,7 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
     return platformFactory;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public synchronized IXtextTargetPlatform getPlatform() {
     ensureLoaded();
@@ -99,19 +99,19 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
     listeners = new CopyOnWriteArraySet<IXtextTargetPlatformManager.Listener>();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void addListener(final IXtextTargetPlatformManager.Listener listener) {
     listeners.add(listener);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void removeListener(final IXtextTargetPlatformManager.Listener listener) {
     listeners.remove(listener);
   }
 
-  /** {@inheritDoc} */
+  
   public void shutdown() {
     shutdownInProgress = true;
     listeners.clear();

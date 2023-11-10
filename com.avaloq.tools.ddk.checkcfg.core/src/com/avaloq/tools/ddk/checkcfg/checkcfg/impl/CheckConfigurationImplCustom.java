@@ -31,7 +31,7 @@ import com.avaloq.tools.ddk.checkcfg.util.PropertiesInferenceHelper;
 public class CheckConfigurationImplCustom extends CheckConfigurationImpl {
   private static final String PROPERTIES_KEY = CheckConfiguration.class.getName() + "#properties"; //$NON-NLS-1$
 
-  /** {@inheritDoc} */
+  
   @Override
   public EList<FormalParameter> getProperties() {
     Resource resource = eResource();

@@ -116,13 +116,13 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     this.currentColumn = columnOffset;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public ITokenStream getDelegateStream() {
     return this.out;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void setDelegateStream(final ITokenStream delegate) {
     this.out = delegate;

@@ -60,7 +60,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
       return qualifiedName;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public EObject getEObjectOrProxy() {
       InternalEObject result = (InternalEObject) EcoreUtil.create(eClass);
@@ -94,7 +94,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
       return userData.keySet().toArray(new String[userData.size()]);
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public IEObjectDescription detach() {
       return this;
@@ -138,7 +138,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
     return new DetachableEObjectDescription(qualifiedName, element, ImmutableMap.<String, String> of());
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public IEObjectDescription detach() {
     Map<String, String> copiedData;

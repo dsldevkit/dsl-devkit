@@ -193,7 +193,7 @@ public class CheckCompiler extends XbaseCompiler {
     }
   }
 
-  /** {@inheritDoc} */
+  
   // CHECKSTYLE:OFF
   protected void _toJavaStatement(final XGuardExpression expr, final ITreeAppendable b, final boolean isReferenced) {
     // CHECKSTYLE:ON
@@ -225,14 +225,14 @@ public class CheckCompiler extends XbaseCompiler {
     super.appendImmutableCollectionExpression(literal, b, collectionsMethod, guavaHelper, guavaHelperMethod);
   }
 
-  /** {@inheritDoc} */
+  
   // CHECKSTYLE:OFF
   protected void _toJavaExpression(final XGuardExpression expr, final ITreeAppendable b) {
     // CHECKSTYLE:ON
     b.append(getVarName(expr, b));
   }
 
-  /** {@inheritDoc} */
+  
   // CHECKSTYLE:OFF
   protected void _toJavaStatement(final XIssueExpression expr, final ITreeAppendable b, final boolean isReferenced) { // NOPMD NPath complexity
     // CHECKSTYLE:ON
@@ -364,7 +364,7 @@ public class CheckCompiler extends XbaseCompiler {
         + " for \" + " + getContextImplicitVariableName(expr) + ".eResource().getURI() + \" at \" + stackTraceElements[1].toString()";
   }
 
-  /** {@inheritDoc} */
+  
   // CHECKSTYLE:OFF
   @SuppressWarnings("restriction")
   protected JvmType findEPackageInterfaceType(final ENamedElement element, final EObject context) {
@@ -374,7 +374,7 @@ public class CheckCompiler extends XbaseCompiler {
     return getTypeComputationServices().getTypeReferences().findDeclaredType(qualifiedPackageInterfaceName, context);
   }
 
-  /** {@inheritDoc} */
+  
   // CHECKSTYLE:OFF
   protected void _toJavaExpression(final XIssueExpression expr, final ITreeAppendable b) {
     // CHECKSTYLE:ON

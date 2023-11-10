@@ -21,25 +21,25 @@ public final class TestPropertySpecificationWithExpectedValues implements ICheck
 
   private TestPropertySpecificationWithExpectedValues() {}
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getName() {
     return "testProperty";
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public PropertyType getType() {
     return PropertyType.STRING;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getInfo() {
     return "Test Info";
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getExpectedValues() {
     return new String[] {"allowed"};

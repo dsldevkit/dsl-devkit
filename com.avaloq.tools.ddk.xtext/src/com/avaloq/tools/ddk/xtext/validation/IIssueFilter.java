@@ -39,7 +39,7 @@ public interface IIssueFilter {
   @Singleton
   class NullIssueFilter implements IIssueFilter {
 
-    /** {@inheritDoc} */
+    
     @Override
     public boolean includeIssue(final Issue issue) {
       return issue != null;

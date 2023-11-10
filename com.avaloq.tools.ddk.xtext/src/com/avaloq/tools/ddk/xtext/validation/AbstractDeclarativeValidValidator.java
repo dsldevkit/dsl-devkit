@@ -471,19 +471,19 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void checkDone() {
     throw new ValidGuardException();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void acceptError(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
     super.acceptError(StringEscapeUtils.unescapeXml(message), object, feature, index, code, issueData);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void acceptWarning(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
     super.acceptWarning(StringEscapeUtils.unescapeXml(message), object, feature, index, code, issueData);

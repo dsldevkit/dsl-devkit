@@ -123,7 +123,7 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       this.model = model;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public String getFullyQualifiedName() {
       if (qualifiedName == null) {
@@ -132,7 +132,7 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       return qualifiedName;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public String[] getImportedExtensions() {
       if (importedExtensions == null) {
@@ -147,7 +147,7 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       return importedExtensions.toArray(new String[importedExtensions.size()]);
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public String[] getImportedNamespaces() {
       if (importedNamespaces == null) {

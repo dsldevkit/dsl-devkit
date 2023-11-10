@@ -140,7 +140,7 @@ public class ExportFragment extends AbstractGeneratorFragment {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void generate(final Grammar grammar, final XpandExecutionContext ctx) {
     if (LOGGER.isInfoEnabled()) {
@@ -150,7 +150,7 @@ public class ExportFragment extends AbstractGeneratorFragment {
     model = getModel(grammar);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     final BindFactory bindFactory = new BindFactory();
@@ -182,19 +182,19 @@ public class ExportFragment extends AbstractGeneratorFragment {
   /** Bundle name for our DDK xtext runtime. */
   private static final String DDK_XTEXT_RUNTIME_BUNDLE = "com.avaloq.tools.ddk.xtext"; //$NON-NLS-1$
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
     return new String[] {"org.eclipse.emf.ecore", DDK_XTEXT_RUNTIME_BUNDLE}; //$NON-NLS-1$
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getRequiredBundlesUi(final Grammar grammar) {
     return new String[] {DDK_XTEXT_RUNTIME_BUNDLE};
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String[] getExportedPackagesRt(final Grammar grammar) {
     if (getModel(grammar) != null) {

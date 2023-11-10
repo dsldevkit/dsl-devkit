@@ -86,7 +86,7 @@ public abstract class AbstractSyntaxColoringTest extends AbstractXtextEditorUiTe
       this.textStyle = textStyle;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public void apply(final EObject root, final Integer pos) {
       assertTextStyle(pos, textStyle);

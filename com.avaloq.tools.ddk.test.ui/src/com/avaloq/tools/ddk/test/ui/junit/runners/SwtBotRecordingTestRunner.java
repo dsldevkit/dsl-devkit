@@ -67,7 +67,7 @@ public class SwtBotRecordingTestRunner extends ClassRunner {
     // (by default test failures are reported only after the teardown has taken place)
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void run(final RunNotifier notifier) {
     try {
@@ -79,14 +79,14 @@ public class SwtBotRecordingTestRunner extends ClassRunner {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void runChild(final FrameworkMethod method, final RunNotifier notifier) {
     testRunRecording.setRecordingInterval(getRecordingInterval(method));
     super.runChild(method, notifier);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected Statement methodInvoker(final FrameworkMethod method, final Object test) {
     return new InvokeMethod(method, test) {

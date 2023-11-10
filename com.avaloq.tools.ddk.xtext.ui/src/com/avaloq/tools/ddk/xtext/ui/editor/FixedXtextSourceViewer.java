@@ -33,7 +33,7 @@ public class FixedXtextSourceViewer extends XtextSourceViewer {
   // CHECKSTYLE:OFF
   public static class Factory implements XtextSourceViewer.Factory {
     // CHECKSTYLE:ON
-    /** {@inheritDoc} */
+    
     @Override
     public XtextSourceViewer createSourceViewer(final Composite parent, final IVerticalRuler ruler, final IOverviewRuler overviewRuler, final boolean showsAnnotationOverview, final int styles) {
       return new FixedXtextSourceViewer(parent, ruler, overviewRuler, showsAnnotationOverview, styles);

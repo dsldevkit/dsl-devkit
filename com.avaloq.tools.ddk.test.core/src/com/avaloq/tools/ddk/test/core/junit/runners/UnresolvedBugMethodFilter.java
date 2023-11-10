@@ -21,7 +21,7 @@ import com.avaloq.tools.ddk.test.core.BugTest;
  */
 public class UnresolvedBugMethodFilter extends Filter {
 
-  /** {@inheritDoc} */
+  
   @Override
   public boolean shouldRun(final Description description) {
     assert FilterRegistry.isTestMethod(description);
@@ -29,7 +29,7 @@ public class UnresolvedBugMethodFilter extends Filter {
     return bugTestAnnotation != null && bugTestAnnotation.unresolved();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String describe() {
     return UnresolvedBugMethodFilter.class.getSimpleName();

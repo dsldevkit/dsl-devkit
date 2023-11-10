@@ -53,7 +53,7 @@ public class CheckCatalogRegistryImpl extends AbstractCheckImplDescriptorRegistr
     return result;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void registerCatalog(final String language, final IModelLocation modelLocation) {
     concreteModelLocations.put(language, modelLocation);

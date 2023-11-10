@@ -154,7 +154,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
       this.type = type;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public void apply(final IModificationContext context) throws BadLocationException {
       final IXtextDocument xtextDocument = context.getXtextDocument();

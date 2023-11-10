@@ -40,13 +40,13 @@ public class WaitForTable extends WaitForObjectCondition<TableItem> {
     this.parent = parent;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getFailureMessage() {
     return "Could not find table item matching: " + this.matcher;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected java.util.List<TableItem> findMatches() {
     return UIThreadRunnable.syncExec(new ListResult<TableItem>() {

@@ -45,7 +45,7 @@ public interface IModelInferrer {
    */
   class NullImpl implements IModelInferrer {
 
-    /** {@inheritDoc} */
+    
     @Override
     public void inferTargetModel(final EObject sourceModelElement, final IAcceptor<EObject> acceptor, final boolean isPrelinkingPhase) {}
 

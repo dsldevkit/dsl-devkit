@@ -42,7 +42,7 @@ public class BundleAwareTypeProvider extends ClasspathTypeProvider {
     super(classLoader, resourceSet, indexedJvmTypeAccess, typeResourceServices);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected BinaryClassFinder createBinaryClassFinder(final ClassLoader classLoader) {
     if (getResourceSet() instanceof XtextResourceSet) {

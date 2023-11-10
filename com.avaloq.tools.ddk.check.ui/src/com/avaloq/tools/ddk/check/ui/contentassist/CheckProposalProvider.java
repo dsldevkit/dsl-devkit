@@ -118,7 +118,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
    */
   static class InternalTerminalsProposalProvider extends TerminalsProposalProvider {
 
-    /** {@inheritDoc} */
+    
     @Override
     // CHECKSTYLE:OFF
     public void complete_ID(final EObject model, final RuleCall ruleCall, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
@@ -164,7 +164,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     return keyword.getValue().length() > 1 || "()[]{}@#".contains(keyword.getValue());
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   // CHECKSTYLE:OFF
   public void complete_ValidID(final EObject model, final RuleCall ruleCall, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
@@ -173,7 +173,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     terminalsProposalProvider.complete_ID(model, ruleCall, context, acceptor);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   // CHECKSTYLE:OFF
   public void complete_ID(final EObject model, final RuleCall ruleCall, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
@@ -182,7 +182,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     terminalsProposalProvider.complete_ID(model, ruleCall, context, acceptor);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   // CHECKSTYLE:OFF
   public void completeContextVariable_Type(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
@@ -214,7 +214,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     shortCircuit();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   // CHECKSTYLE:OFF
   public void completeFormalParameter_Type(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
@@ -223,7 +223,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     shortCircuit();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   // CHECKSTYLE:OFF
   public void completeCheckCatalog_PackageName(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
@@ -236,7 +236,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     super.completeCheckCatalog_PackageName(model, assignment, context, acceptor);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   // CHECKSTYLE:OFF
   public void completeCheckCatalog_Name(final EObject model, final Assignment assignment, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {

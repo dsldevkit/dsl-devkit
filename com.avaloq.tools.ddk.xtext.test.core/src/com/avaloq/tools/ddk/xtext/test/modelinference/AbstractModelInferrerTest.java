@@ -36,7 +36,7 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
     oldAutoBuildState = getTestProjectManager().setAutobuild(true);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void afterAllTests() {
     getTestProjectManager().setAutobuild(oldAutoBuildState);
@@ -64,7 +64,7 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected List<String> getRequiredSourceFileNames() {
     return Lists.newArrayList(); // Override the behavior of the parent

@@ -69,13 +69,13 @@ public class FormatScopingTest extends AbstractScopingTest {
     }
   };
 
-  /** {@inheritDoc} */
+  
   @Override
   protected FormatTestUtil getXtextTestUtil() {
     return FormatTestUtil.getInstance();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected List<String> getRequiredSourceFileNames() {
     return Lists.newArrayList(A_XTEXT, A_FORMAT, B_XTEXT, C_XTEXT, C_FORMAT);

@@ -44,7 +44,7 @@ public class FormatHyperlinkHelper extends HyperlinkHelper {
   @Inject
   private IGrammarAccess grammarAccess;
 
-  /** {@inheritDoc} */
+  
   @Override
   public void createHyperlinksByOffset(final XtextResource resource, final int offset, final IHyperlinkAcceptor acceptor) {
     final IParseResult parseResult = resource.getParseResult();

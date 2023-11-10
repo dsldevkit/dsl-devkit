@@ -74,7 +74,7 @@ public final class BugTestAwareRule implements TestRule {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Statement apply(final Statement base, final Description description) {
     BugTest bugTestAnnotation = description.getAnnotation(BugTest.class);

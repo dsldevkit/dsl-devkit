@@ -28,7 +28,7 @@ public class CheckCfgFormatter extends XbaseFormatter {
 
   private static final int LINE_WRAP_LENGTH = 132;
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void configureFormatting(final FormattingConfig c) {
     configure(c, checkConfigGrammarAccess());

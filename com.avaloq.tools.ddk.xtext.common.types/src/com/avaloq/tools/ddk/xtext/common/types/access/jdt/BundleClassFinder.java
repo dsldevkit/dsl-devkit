@@ -35,7 +35,7 @@ public class BundleClassFinder extends BinaryClassFinder {
     this.bundle = bundle;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public BinaryClass forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException {
     // getClassLoader may return null for bootstrap class loader

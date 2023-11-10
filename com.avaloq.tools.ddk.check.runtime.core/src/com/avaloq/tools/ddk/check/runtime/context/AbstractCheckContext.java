@@ -42,7 +42,7 @@ public class AbstractCheckContext implements ICheckContext {
   /** Maps issue codes to the predicate methods that contain that issue code in their annotation. */
   private Multimap<String, Method> predicatesForIssueCode;
 
-  /** {@inheritDoc} */
+  
   @Override
   public boolean isCheckValid(final EObject context, final String issueCode) {
     if (predicatesForIssueCode == null) {

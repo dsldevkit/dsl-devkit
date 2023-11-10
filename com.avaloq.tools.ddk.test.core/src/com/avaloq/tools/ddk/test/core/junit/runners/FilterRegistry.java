@@ -181,7 +181,7 @@ public final class FilterRegistry extends Filter {
     return description.getMethodName() != null;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public boolean shouldRun(final Description description) {
     if (isSuite(description)) {
@@ -231,7 +231,7 @@ public final class FilterRegistry extends Filter {
     return false;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String describe() {
     final StringBuilder description = new StringBuilder("FilterRegistry");

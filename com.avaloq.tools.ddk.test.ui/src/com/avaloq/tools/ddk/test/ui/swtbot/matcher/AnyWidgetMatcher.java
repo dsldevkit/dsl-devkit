@@ -20,13 +20,13 @@ import org.hamcrest.Description;
  */
 public class AnyWidgetMatcher extends BaseMatcher<Widget> {
 
-  /** {@inheritDoc} */
+  
   @Override
   public boolean matches(final Object item) {
     return item instanceof Widget;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void describeTo(final Description description) {
     description.appendText("any widget not null");

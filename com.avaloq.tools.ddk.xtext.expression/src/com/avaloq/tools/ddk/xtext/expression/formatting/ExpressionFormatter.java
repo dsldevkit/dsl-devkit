@@ -36,7 +36,7 @@ import com.avaloq.tools.ddk.xtext.expression.services.ExpressionGrammarAccess.Un
  */
 public class ExpressionFormatter extends AbstractDeclarativeFormatter {
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void configureFormatting(final FormattingConfig config) {
     final ExpressionGrammarAccess grammarAccess = (ExpressionGrammarAccess) getGrammarAccess();

@@ -58,13 +58,13 @@ public interface IDomain {
    */
   class NullMapper implements Mapper {
 
-    /** {@inheritDoc} */
+    
     @Override
     public IDomain map(final URI uri) {
       return null;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public IDomain map(final IContainer container) {
       return null;

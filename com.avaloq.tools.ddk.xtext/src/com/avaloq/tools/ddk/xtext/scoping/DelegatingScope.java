@@ -222,13 +222,13 @@ public class DelegatingScope extends AbstractRecursiveScope {
     return delegates;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Iterable<IEObjectDescription> getAllLocalElements() {
     return Iterables.concat(Iterables.transform(getDelegates(), IScope::getAllElements));
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public IEObjectDescription getSingleElement(final QualifiedName name) {
     // We don't use caching here because we typically have only one delegate which does the caching itself, so caching

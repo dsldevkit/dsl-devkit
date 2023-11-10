@@ -47,7 +47,7 @@ public class LinewrapLocatorFacade extends FormattingConfig.LinewrapLocator impl
     formattingConfig.super(wrap);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.COMBINED_MAXIMUM;

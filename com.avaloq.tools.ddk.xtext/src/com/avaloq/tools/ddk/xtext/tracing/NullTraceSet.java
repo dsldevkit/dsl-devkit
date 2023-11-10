@@ -31,19 +31,19 @@ public class NullTraceSet implements ITraceSet {
     return false;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public <T extends TraceEvent> void started(final Class<T> eventClass, final Object... data) {
     // Do nothing
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public <T extends TraceEvent> void ended(final Class<T> eventClass, final Object... data) {
     // Do nothing
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public <T extends TraceEvent> void trace(final Class<T> eventClass, final Object... data) {}
 

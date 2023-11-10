@@ -144,7 +144,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
     return "mytestmodel";
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public XtextResource getResourceFor(final InputStream stream) {
     XtextResourceSet rs = getResourceSet();

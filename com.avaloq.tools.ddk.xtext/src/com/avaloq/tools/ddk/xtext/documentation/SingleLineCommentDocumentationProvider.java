@@ -82,7 +82,7 @@ public class SingleLineCommentDocumentationProvider implements IEObjectDocumenta
     return builder.toString();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public List<INode> getDocumentationNodes(final EObject object) {
     ICompositeNode node = NodeModelUtils.getNode(object);

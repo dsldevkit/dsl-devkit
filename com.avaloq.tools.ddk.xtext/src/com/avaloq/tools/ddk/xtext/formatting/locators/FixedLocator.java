@@ -114,7 +114,7 @@ public class FixedLocator extends AbstractFormattingConfig.ElementLocator implem
     return SpaceEntry.createPadding(distanceFromLastLineCharacterToColumn);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.COMBINED_MAXIMUM;

@@ -55,7 +55,7 @@ public class NewCheckCatalogWizard extends XtextNewProjectWizard {
     setWindowTitle(Messages.CATALOG_WIZARD_WINDOW_TITLE);
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void addPages() {
     super.addPages();

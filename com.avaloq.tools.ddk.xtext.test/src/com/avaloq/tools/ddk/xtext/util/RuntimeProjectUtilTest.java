@@ -48,7 +48,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
   private static URI uriInCorrect;
   private static IStorage2UriMapper mapperInCorrect;
 
-  /** {@inheritDoc} */
+  
   @Override
   protected AbstractXtextTestUtil getXtextTestUtil() {
     return new AbstractXtextTestUtil() {
@@ -62,7 +62,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
     };
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected List<String> getRequiredSourceFileNames() {
     return SOURCE_NAMES;

@@ -26,7 +26,7 @@ import com.avaloq.tools.ddk.test.core.Issues;
  */
 public class FixedIssueFilter extends Filter {
 
-  /** {@inheritDoc} */
+  
   @Override
   public boolean shouldRun(final Description description) {
     if (FilterRegistry.isSuite(description)) {
@@ -52,7 +52,7 @@ public class FixedIssueFilter extends Filter {
     return FilterRegistry.isTestMethod(description); // if it is a test class we still want to check (and maybe run) its children
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String describe() {
     return FixedIssueFilter.class.getSimpleName();

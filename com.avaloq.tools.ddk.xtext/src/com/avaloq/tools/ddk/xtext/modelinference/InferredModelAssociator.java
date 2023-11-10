@@ -140,7 +140,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return getOrInstall(resource).getInferredModelToSourceMap();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void associate(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
@@ -153,7 +153,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void associatePrimary(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
@@ -166,7 +166,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Set<EObject> getInferredModelElements(final EObject sourceModelElement) {
     if (sourceModelElement == null) {
@@ -177,7 +177,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Set<EObject> getSourceModelElements(final EObject inferredModelElement) {
     if (inferredModelElement == null) {
@@ -188,7 +188,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public EObject getPrimarySourceModelElement(final EObject inferredModelElement) {
     if (inferredModelElement == null) {
@@ -199,7 +199,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return result != null && !result.isEmpty() ? result.getFirst() : null;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public final void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
     if (resource.getContents().isEmpty()) {
@@ -279,7 +279,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     };
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void discardDerivedState(final DerivedStateAwareResource resource) {
     List<EObject> derived = newArrayList();

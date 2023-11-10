@@ -45,7 +45,7 @@ public class CompoundStep extends AbstractStep {
     return plannedSteps;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void run() {
     getExecutedSteps().clear();
@@ -193,13 +193,13 @@ public class CompoundStep extends AbstractStep {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getDescription() {
     return "A compound step.";
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public AbstractStep getUndoStep() {
     return NullStep.INSTANCE;

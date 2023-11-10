@@ -46,7 +46,7 @@ public class EmptyResourceDescriptionImpl extends AbstractResourceDescription {
     return Collections.emptySet();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected List<IEObjectDescription> computeExportedObjects() {
     return Collections.emptyList();

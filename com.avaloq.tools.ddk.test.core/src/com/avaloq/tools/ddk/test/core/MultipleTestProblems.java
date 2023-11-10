@@ -102,7 +102,7 @@ public class MultipleTestProblems extends AssertionError {
     return !problems.isEmpty();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void printStackTrace(final PrintWriter writer) {
     int i = 1;
@@ -113,7 +113,7 @@ public class MultipleTestProblems extends AssertionError {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void printStackTrace(final PrintStream stream) {
     int i = 1;

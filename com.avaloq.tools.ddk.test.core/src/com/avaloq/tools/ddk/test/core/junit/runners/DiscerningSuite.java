@@ -131,7 +131,7 @@ public class DiscerningSuite extends Suite {
     descriptionOutdated = true;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void filter(final Filter filter) throws NoTestsRemainException {
     if (testFilter == null || !testFilter.equals(filter)) {

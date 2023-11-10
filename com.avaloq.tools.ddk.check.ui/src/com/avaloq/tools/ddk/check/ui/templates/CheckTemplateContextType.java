@@ -20,7 +20,7 @@ import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResol
  */
 public class CheckTemplateContextType extends XtextTemplateContextType {
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void addDefaultTemplateVariables() {
     super.addDefaultTemplateVariables();

@@ -156,7 +156,7 @@ public final class ScopingGeneratorUtil {
       this.model = model;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public String getFullyQualifiedName() {
       if (qualifiedName == null) {
@@ -165,7 +165,7 @@ public final class ScopingGeneratorUtil {
       return qualifiedName;
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public String[] getImportedExtensions() {
       if (importedExtensions == null) {
@@ -177,7 +177,7 @@ public final class ScopingGeneratorUtil {
       return importedExtensions.toArray(new String[importedExtensions.size()]);
     }
 
-    /** {@inheritDoc} */
+    
     @Override
     public String[] getImportedNamespaces() {
       if (importedNamespaces == null) {

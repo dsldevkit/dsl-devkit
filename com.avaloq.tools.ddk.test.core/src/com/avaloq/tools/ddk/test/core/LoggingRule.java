@@ -60,7 +60,7 @@ public final class LoggingRule extends TestWatcher {
     return description.getClassName() + '.' + description.getMethodName();
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public void starting(final Description description) {
     if (LOGGER.isInfoEnabled()) {
@@ -68,7 +68,7 @@ public final class LoggingRule extends TestWatcher {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void finished(final Description description) {
     if (LOGGER.isInfoEnabled()) {
@@ -76,7 +76,7 @@ public final class LoggingRule extends TestWatcher {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected void succeeded(final Description description) {
     if (LOGGER.isInfoEnabled()) {

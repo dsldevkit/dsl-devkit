@@ -128,7 +128,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     return (Boolean) eClassToCaseSensitive.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   @SuppressWarnings({"unchecked", "PMD.NPathComplexity"})
   public EObject getEObjectFromSegment(final EObject container, final String segment) {

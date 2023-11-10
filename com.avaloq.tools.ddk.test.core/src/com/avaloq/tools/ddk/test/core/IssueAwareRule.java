@@ -74,7 +74,7 @@ public final class IssueAwareRule implements TestRule {
     }
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public Statement apply(final Statement base, final Description description) {
     Issue issueAnnotation = description.getAnnotation(Issue.class);

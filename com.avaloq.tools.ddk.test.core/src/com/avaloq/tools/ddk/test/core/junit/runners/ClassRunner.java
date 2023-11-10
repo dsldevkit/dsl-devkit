@@ -341,7 +341,7 @@ public class ClassRunner extends XtextRunner {
     return statement;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected List<FrameworkMethod> computeTestMethods() {
     final Collection<FrameworkMethod> result = Sets.newHashSet();

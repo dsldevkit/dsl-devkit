@@ -40,13 +40,13 @@ public class WaitForTree extends WaitForObjectCondition<TreeItem> {
     this.parent = parent;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   public String getFailureMessage() {
     return "Could not find tree item matching: " + this.matcher;
   }
 
-  /** {@inheritDoc} */
+  
   @Override
   protected java.util.List<TreeItem> findMatches() {
     return UIThreadRunnable.syncExec(new ListResult<TreeItem>() {
