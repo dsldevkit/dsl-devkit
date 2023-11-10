@@ -20,6 +20,7 @@ import org.junit.runners.ParentRunner;
 /**
  * Utility to specify a {@link Sorter}.
  */
+@SuppressWarnings("nls")
 public final class SorterUtil {
 
   public static final String SORTER_ALPHANUMERIC = "alphanumeric";
