@@ -61,4 +61,3 @@ public interface ITypeProvider {
   IType getTypeForNamedElement(INamedElement element);
 
 }
-

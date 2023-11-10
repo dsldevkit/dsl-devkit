@@ -32,16 +32,13 @@ public class NegatedFilter extends Filter {
     this.underlyingFilter = filter;
   }
 
-  
   @Override
   public boolean shouldRun(final Description description) {
     return !underlyingFilter.shouldRun(description);
   }
 
-  
   @Override
   public String describe() {
     return "!" + underlyingFilter.describe();
   }
 }
-

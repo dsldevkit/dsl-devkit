@@ -53,7 +53,6 @@ public class BasicScope extends AbstractRecursiveScope {
     this.elements = elements;
   }
 
-  
   @Override
   protected Iterable<IEObjectDescription> getAllLocalElements() {
     return elements;

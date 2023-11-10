@@ -41,7 +41,6 @@ import org.junit.runners.model.Statement;
  *   }
  * }
  * </pre>
- * 
  * </p>
  * 
  * @see BugTest
@@ -74,7 +73,6 @@ public final class BugTestAwareRule implements TestRule {
     }
   }
 
-  
   @Override
   public Statement apply(final Statement base, final Description description) {
     BugTest bugTestAnnotation = description.getAnnotation(BugTest.class);
@@ -89,4 +87,3 @@ public final class BugTestAwareRule implements TestRule {
     }
   }
 }
-

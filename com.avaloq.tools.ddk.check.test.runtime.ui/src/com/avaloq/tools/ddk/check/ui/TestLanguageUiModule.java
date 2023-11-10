@@ -33,4 +33,3 @@ public class TestLanguageUiModule extends com.avaloq.tools.ddk.check.ui.Abstract
     return CheckConfigurationStore.class;
   }
 }
-

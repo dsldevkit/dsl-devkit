@@ -22,4 +22,3 @@ public enum ExtensionType {
   CONTEXTS, // Extension for context sensitive help
   MARKERHELP // Extension for marker help
 }
-

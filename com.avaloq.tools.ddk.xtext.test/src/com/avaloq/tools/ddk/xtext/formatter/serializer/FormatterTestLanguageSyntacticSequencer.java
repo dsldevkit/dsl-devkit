@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.formatter.serializer;
+package com.avaloq.tools.ddk.xtext.formatter.serializer;
 
 /**
  * Syntactic sequencer for FormatterTestLanguage DSL.

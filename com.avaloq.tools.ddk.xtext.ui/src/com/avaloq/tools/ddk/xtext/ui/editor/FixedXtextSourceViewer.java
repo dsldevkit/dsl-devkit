@@ -33,7 +33,7 @@ public class FixedXtextSourceViewer extends XtextSourceViewer {
   // CHECKSTYLE:OFF
   public static class Factory implements XtextSourceViewer.Factory {
     // CHECKSTYLE:ON
-    
+
     @Override
     public XtextSourceViewer createSourceViewer(final Composite parent, final IVerticalRuler ruler, final IOverviewRuler overviewRuler, final boolean showsAnnotationOverview, final int styles) {
       return new FixedXtextSourceViewer(parent, ruler, overviewRuler, showsAnnotationOverview, styles);
@@ -74,7 +74,8 @@ public class FixedXtextSourceViewer extends XtextSourceViewer {
       if (event instanceof SlaveDocumentEvent) {
         event = ((SlaveDocumentEvent) event).getMasterEvent();
       }
-      TextEvent e = new TextEvent(cmd.start, cmd.length, cmd.text, cmd.preservedText, event, redraws()) {};
+      TextEvent e = new TextEvent(cmd.start, cmd.length, cmd.text, cmd.preservedText, event, redraws()) {
+      };
       for (int i = 0; i < textListeners.size(); i++) {
         ITextListener l = textListeners.get(i);
         l.textChanged(e);

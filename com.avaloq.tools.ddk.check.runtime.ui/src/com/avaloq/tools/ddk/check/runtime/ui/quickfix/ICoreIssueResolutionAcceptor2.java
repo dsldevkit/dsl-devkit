@@ -23,4 +23,3 @@ import com.google.inject.ImplementedBy;
 public interface ICoreIssueResolutionAcceptor2 extends ICoreIssueResolutionAcceptor {
   // Deliberately empty
 }
-

@@ -41,7 +41,6 @@ import org.junit.runners.model.Statement;
  *   }
  * }
  * </pre>
- * 
  * </p>
  * 
  * @see Issue
@@ -74,7 +73,6 @@ public final class IssueAwareRule implements TestRule {
     }
   }
 
-  
   @Override
   public Statement apply(final Statement base, final Description description) {
     Issue issueAnnotation = description.getAnnotation(Issue.class);
@@ -88,4 +86,3 @@ public final class IssueAwareRule implements TestRule {
     }
   }
 }
-

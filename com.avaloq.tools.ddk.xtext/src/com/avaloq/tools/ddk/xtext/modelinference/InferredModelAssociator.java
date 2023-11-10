@@ -85,7 +85,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   /**
    * An adapter that has a empty maps.
    */
-  public static class EmptyAdapter extends Adapter{
+  public static class EmptyAdapter extends Adapter {
 
     @Override
     public Map<EObject, Deque<EObject>> getSourceToInferredModelMap() {
@@ -140,7 +140,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return getOrInstall(resource).getInferredModelToSourceMap();
   }
 
-  
   @Override
   public void associate(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
@@ -153,7 +152,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     }
   }
 
-  
   @Override
   public void associatePrimary(final EObject sourceModelElement, final EObject inferredModelElement) {
     if (sourceModelElement != null) {
@@ -166,7 +164,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     }
   }
 
-  
   @Override
   public Set<EObject> getInferredModelElements(final EObject sourceModelElement) {
     if (sourceModelElement == null) {
@@ -177,7 +174,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
-  
   @Override
   public Set<EObject> getSourceModelElements(final EObject inferredModelElement) {
     if (inferredModelElement == null) {
@@ -188,7 +184,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return result != null ? ImmutableSet.copyOf(result) : Collections.emptySet();
   }
 
-  
   @Override
   public EObject getPrimarySourceModelElement(final EObject inferredModelElement) {
     if (inferredModelElement == null) {
@@ -199,7 +194,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     return result != null && !result.isEmpty() ? result.getFirst() : null;
   }
 
-  
   @Override
   public final void installDerivedState(final DerivedStateAwareResource resource, final boolean isPreLinkingPhase) {
     if (resource.getContents().isEmpty()) {
@@ -279,7 +273,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
     };
   }
 
-  
   @Override
   public void discardDerivedState(final DerivedStateAwareResource resource) {
     List<EObject> derived = newArrayList();

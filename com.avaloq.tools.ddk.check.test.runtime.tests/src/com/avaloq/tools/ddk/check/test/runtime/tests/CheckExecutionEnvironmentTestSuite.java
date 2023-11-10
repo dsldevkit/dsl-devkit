@@ -25,4 +25,3 @@ import com.avaloq.tools.ddk.check.test.runtime.CheckExecutionEnvironmentProjectT
 public class CheckExecutionEnvironmentTestSuite {
 
 }
-

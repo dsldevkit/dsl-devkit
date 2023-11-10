@@ -113,7 +113,6 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
     return getStyledLabelMethod.invoke(object);
   }
 
-  
   @Override
   protected Object doGetImage(final Object object) {
     if (object instanceof Pair<?, ?>) {

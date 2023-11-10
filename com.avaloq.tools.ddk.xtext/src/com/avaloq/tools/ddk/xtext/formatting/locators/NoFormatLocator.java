@@ -26,7 +26,6 @@ public class NoFormatLocator extends ElementLocator implements IExtendedLocator 
     formattingConfig.super();
   }
 
-  
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.OVERRIDE;

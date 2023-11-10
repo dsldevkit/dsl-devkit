@@ -59,25 +59,21 @@ public interface IResourceDescriptions2 extends IResourceDescriptions {
    */
   class NullImpl extends IResourceDescriptions.NullImpl implements IResourceDescriptions2 {
 
-    
     @Override
     public Set<URI> getAllURIs() {
       return ImmutableSet.of();
     }
 
-    
     @Override
     public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
       return ImmutableSet.of();
     }
 
-    
     @Override
     public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
       return ImmutableSet.of();
     }
 
-    
     @Override
     public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
       return ImmutableSet.of();

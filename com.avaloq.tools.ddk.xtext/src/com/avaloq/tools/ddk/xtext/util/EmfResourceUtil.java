@@ -29,7 +29,8 @@ public final class EmfResourceUtil {
   private static final Logger LOGGER = LogManager.getLogger(EmfResourceUtil.class);
 
   /** Prevents instantiation. */
-  private EmfResourceUtil() {}
+  private EmfResourceUtil() {
+  }
 
   /**
    * Gets the file name from the given URI.

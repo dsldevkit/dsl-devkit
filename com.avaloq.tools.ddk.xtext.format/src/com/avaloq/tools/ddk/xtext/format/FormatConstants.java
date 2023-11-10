@@ -19,5 +19,6 @@ public final class FormatConstants {
   public static final String FORMATTER = "FORMATTER"; //$NON-NLS-1$
   public static final String ABSTRACT_FORMATTER = "ABSTRACT_FORMATTER"; //$NON-NLS-1$
 
-  private FormatConstants() {}
+  private FormatConstants() {
+  }
 }

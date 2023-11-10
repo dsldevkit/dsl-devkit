@@ -113,4 +113,3 @@ public abstract class AbstractXtextTest extends AbstractTest {
   }
 
 }
-

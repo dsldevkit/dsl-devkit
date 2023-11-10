@@ -29,7 +29,6 @@ import org.eclipse.xtext.serializer.impl.Serializer;
  */
 public class IndentingSerializer extends Serializer implements IIndentingSerializer {
 
-  
   @Override
   public void serialize(final EObject obj, final ITokenStream tokenStream, final SaveOptions options) throws IOException {
     serialize(obj, tokenStream, options, null);

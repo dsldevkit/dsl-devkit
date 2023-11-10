@@ -14,4 +14,5 @@ package com.avaloq.tools.ddk.xtext.validation;
  * Exception to be thrown by guards in the Valid framework. (Unfortunately, itemis' GuardException is private.)
  */
 @SuppressWarnings("serial")
-public class ValidGuardException extends RuntimeException {}
+public class ValidGuardException extends RuntimeException {
+}

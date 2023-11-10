@@ -38,4 +38,3 @@ public class CheckCfgDeclarativeQualifiedNameProvider extends DefaultDeclarative
   }
 
 }
-

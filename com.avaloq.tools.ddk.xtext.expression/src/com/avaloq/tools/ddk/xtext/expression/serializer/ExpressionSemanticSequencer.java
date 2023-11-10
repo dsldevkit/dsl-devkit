@@ -8,10 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.expression.serializer;
+package com.avaloq.tools.ddk.xtext.expression.serializer;
+
 /**
  * Semantic sequencer for Expression DSL.
  */
-public class ExpressionSemanticSequencer  extends AbstractExpressionSemanticSequencer {
+public class ExpressionSemanticSequencer extends AbstractExpressionSemanticSequencer {
 
 }

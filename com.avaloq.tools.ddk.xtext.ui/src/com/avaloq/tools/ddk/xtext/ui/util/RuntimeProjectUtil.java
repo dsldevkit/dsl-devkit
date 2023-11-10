@@ -37,7 +37,8 @@ public final class RuntimeProjectUtil {
   /**
    * Private constructor for utility classes.
    */
-  private RuntimeProjectUtil() {}
+  private RuntimeProjectUtil() {
+  }
 
   /**
    * Returns the file {@link IFile} based on its {@link URI}.

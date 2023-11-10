@@ -104,7 +104,6 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
       }
     }
 
-    
     @Override
     public void descriptionsChanged(final Event event) {
       for (Delta d : event.getDeltas()) {

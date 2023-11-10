@@ -24,7 +24,8 @@ public final class URIUtil {
   /**
    * Private constructor for utility classes.
    */
-  private URIUtil() {}
+  private URIUtil() {
+  }
 
   /**
    * Gets the workspace file corresponding to the given URI. Returns null if

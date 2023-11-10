@@ -43,7 +43,6 @@ public class SpaceLocatorFacade extends FormattingConfig.SpaceLocator implements
     this(formattingConfig, ""); //$NON-NLS-1$
   }
 
-  
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.COMBINED_MAXIMUM;

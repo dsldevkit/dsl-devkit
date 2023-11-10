@@ -24,7 +24,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 public final class EmfResourceSetUtil {
 
   /** Prevents instantiation. */
-  private EmfResourceSetUtil() {}
+  private EmfResourceSetUtil() {
+  }
 
   /**
    * Clear the contents of the given {@link ResourceSet} without sending any notifications to the {@link ResourceSet}'s adapters.

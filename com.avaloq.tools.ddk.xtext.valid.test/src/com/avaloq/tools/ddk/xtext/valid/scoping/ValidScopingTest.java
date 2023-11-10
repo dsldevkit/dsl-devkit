@@ -48,7 +48,6 @@ public class ValidScopingTest extends AbstractScopingTest {
 
   private final ValidScopeProvider scopeProvider = (ValidScopeProvider) getScopeProvider();
 
-  
   @Override
   protected void beforeAllTests() {
     // The ValidScopingTest model must be loaded
@@ -56,7 +55,6 @@ public class ValidScopingTest extends AbstractScopingTest {
     super.beforeAllTests();
   }
 
-  
   @Override
   protected ValidTestUtil getXtextTestUtil() {
     return ValidTestUtil.getInstance();
@@ -122,4 +120,3 @@ public class ValidScopingTest extends AbstractScopingTest {
   }
 
 }
-

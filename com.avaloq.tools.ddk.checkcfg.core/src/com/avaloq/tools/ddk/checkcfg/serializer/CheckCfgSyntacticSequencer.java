@@ -8,11 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.checkcfg.serializer;
+package com.avaloq.tools.ddk.checkcfg.serializer;
 
 /**
  * Syntactic sequencer for CheckCfg DSL.
  */
-public class CheckCfgSyntacticSequencer  extends AbstractCheckCfgSyntacticSequencer {
+public class CheckCfgSyntacticSequencer extends AbstractCheckCfgSyntacticSequencer {
 
 }

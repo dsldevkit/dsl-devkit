@@ -26,4 +26,3 @@ public class CheckCfgLabelProvider extends DefaultEObjectLabelProvider {
     super(delegate);
   }
 }
-

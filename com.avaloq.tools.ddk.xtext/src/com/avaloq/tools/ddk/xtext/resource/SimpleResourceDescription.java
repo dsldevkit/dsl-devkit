@@ -52,13 +52,11 @@ public class SimpleResourceDescription extends AbstractResourceDescription {
     return lookup;
   }
 
-  
   @Override
   public Iterable<QualifiedName> getImportedNames() {
     return Collections.emptyList();
   }
 
-  
   @Override
   public Iterable<IReferenceDescription> getReferenceDescriptions() {
     return Collections.emptyList();

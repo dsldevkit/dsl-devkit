@@ -400,14 +400,12 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     setIsLoadedFromStorage(false);
   }
 
-  
   @Override
   public void setURI(final URI uri) {
     initializeParser(getParser(), uri);
     super.setURI(uri);
   }
 
-  
   @Override
   public void setParser(final IParser parser) {
     initializeParser(parser, getURI());

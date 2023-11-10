@@ -24,4 +24,3 @@ class IllegalJUnitAnnotation extends RuntimeException {
     super(message);
   }
 }
-

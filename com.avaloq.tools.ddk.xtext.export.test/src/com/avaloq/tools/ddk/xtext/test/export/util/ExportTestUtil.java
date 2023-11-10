@@ -29,4 +29,3 @@ public class ExportTestUtil extends AbstractXtextTestUtil {
   }
 
 }
-

@@ -36,4 +36,3 @@ public class ExportOutlineNodeComparator extends SortOutlineContribution.Default
     return 0;
   }
 }
-

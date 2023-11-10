@@ -129,7 +129,6 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
       this.location = location;
     }
 
-    
     @Override
     public <T> T getAdapter(final Class<T> adapter) {
       return null;
@@ -158,7 +157,6 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
       return "<unknown plugin>"; //$NON-NLS-1$
     }
 
-    
     @Override
     public InputStream getContents() throws CoreException {
       try {

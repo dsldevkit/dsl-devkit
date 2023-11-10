@@ -60,4 +60,3 @@ public class FormalParameterCheckBase extends AbstractDeclarativeValidator {
   }
 
 }
-

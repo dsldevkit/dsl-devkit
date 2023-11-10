@@ -26,4 +26,3 @@ public class PostconditionViolation extends ContractViolation {
     super(cause);
   }
 }
-

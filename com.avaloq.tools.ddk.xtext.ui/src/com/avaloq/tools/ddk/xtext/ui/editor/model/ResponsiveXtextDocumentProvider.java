@@ -92,4 +92,3 @@ public class ResponsiveXtextDocumentProvider extends XtextDocumentProvider imple
   }
 
 }
-

@@ -47,13 +47,11 @@ public interface IEditorUtils {
    */
   class DefaultEditorUtils implements IEditorUtils {
 
-    
     @Override
     public XtextEditor getActiveXtextEditor() {
       return EditorUtils.getActiveXtextEditor();
     }
 
-    
     @Override
     public XtextEditor getXtextEditor(final IEditorPart openEditor) {
       return EditorUtils.getXtextEditor(openEditor);
@@ -61,4 +59,3 @@ public interface IEditorUtils {
 
   }
 }
-

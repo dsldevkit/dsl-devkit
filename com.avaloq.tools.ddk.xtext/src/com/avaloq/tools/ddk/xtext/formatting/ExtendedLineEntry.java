@@ -40,7 +40,7 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
 
   // CHECKSTYLE:OFF - Checkstyle is disabled to suppress warning about excessive number of parameters
   public ExtendedLineEntry(final ExtendedFormattingConfigBasedStream configBasedStream, final EObject grammarElement, // NOPMD - false positive
-  final String value, final boolean isHidden, final Set<ElementLocator> beforeLocators, final String leadingWS, final int indent, final ParserRule hiddenTokenDefinition) {
+      final String value, final boolean isHidden, final Set<ElementLocator> beforeLocators, final String leadingWS, final int indent, final ParserRule hiddenTokenDefinition) {
     // CHECKSTYLE:ON
     configBasedStream.super(grammarElement, value, isHidden, beforeLocators, leadingWS, indent, hiddenTokenDefinition);
     this.noFormat = configBasedStream.isFormattingDisabled();

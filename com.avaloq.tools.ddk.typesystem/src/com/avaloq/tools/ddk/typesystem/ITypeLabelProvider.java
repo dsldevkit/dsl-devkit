@@ -28,4 +28,3 @@ public interface ITypeLabelProvider {
   String getText(IType type);
 
 }
-

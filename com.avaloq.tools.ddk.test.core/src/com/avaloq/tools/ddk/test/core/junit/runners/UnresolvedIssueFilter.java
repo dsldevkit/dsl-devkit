@@ -26,7 +26,6 @@ import com.avaloq.tools.ddk.test.core.Issues;
  */
 public class UnresolvedIssueFilter extends Filter {
 
-  
   @Override
   public boolean shouldRun(final Description description) {
     if (FilterRegistry.isSuite(description)) {
@@ -52,7 +51,6 @@ public class UnresolvedIssueFilter extends Filter {
     return FilterRegistry.isTestClass(description); // if it is a test class we still want to check (and maybe run) its children
   }
 
-  
   @Override
   public String describe() {
     return UnresolvedIssueFilter.class.getSimpleName();

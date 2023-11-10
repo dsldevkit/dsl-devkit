@@ -47,4 +47,3 @@ public interface TestStepListener {
    */
   void stepStateChanged(AbstractTestStep testStep, TestStepState testStepState, Throwable throwable);
 }
-

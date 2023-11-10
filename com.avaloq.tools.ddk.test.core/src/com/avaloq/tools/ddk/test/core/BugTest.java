@@ -37,4 +37,3 @@ public @interface BugTest {
   boolean unresolved() default false;
 
 }
-

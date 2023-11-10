@@ -29,4 +29,3 @@ public @interface Issues {
    */
   Issue[] value();
 }
-

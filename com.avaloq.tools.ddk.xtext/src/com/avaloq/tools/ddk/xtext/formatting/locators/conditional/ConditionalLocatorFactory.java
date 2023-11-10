@@ -33,7 +33,8 @@ import com.avaloq.tools.ddk.xtext.formatting.locators.RightPaddingLocator;
 // CHECKSTYLE:COUPLING-OFF
 public final class ConditionalLocatorFactory {
   // CHECKSTYLE:COUPLING-ON
-  private ConditionalLocatorFactory() {}
+  private ConditionalLocatorFactory() {
+  }
 
   /**
    * Creates a conditional {@link LinewrapLocator} that is activated depending on given locator activator.

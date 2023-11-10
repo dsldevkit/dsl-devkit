@@ -29,4 +29,3 @@ public interface IIndentationInformationWithDefaults extends IIndentationInforma
    */
   int getDefaultIndentation();
 }
-

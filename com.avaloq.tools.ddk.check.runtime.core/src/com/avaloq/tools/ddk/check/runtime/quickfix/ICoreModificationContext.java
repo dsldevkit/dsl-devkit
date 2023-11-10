@@ -37,4 +37,3 @@ public interface ICoreModificationContext {
   ICoreXtextDocument getXtextDocument(URI uri);
 
 }
-

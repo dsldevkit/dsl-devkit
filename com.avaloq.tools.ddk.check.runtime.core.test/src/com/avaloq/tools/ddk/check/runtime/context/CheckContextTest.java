@@ -43,4 +43,3 @@ public class CheckContextTest extends TestCase {
 
   }
 }
-

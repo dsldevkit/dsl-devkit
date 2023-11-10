@@ -42,5 +42,5 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   RuntimeProjectUtilTest.class,
   QualifiedNameSegmentTreeLookupTest.class})
 // @Format-On
-public class XtextTestSuite {}
-
+public class XtextTestSuite {
+}

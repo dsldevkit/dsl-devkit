@@ -46,4 +46,3 @@ public interface IIssue {
   void accept(ValidationMessageAcceptor acceptor, EObject object, EStructuralFeature feature, String message, SeverityKind severityKind, int index, String issueCode, String... issueData);
 
 }
-

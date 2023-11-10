@@ -37,4 +37,3 @@ public class ResponsiveXtextDocument extends XtextDocument {
     }
   }
 }
-

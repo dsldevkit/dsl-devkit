@@ -27,4 +27,5 @@ import com.avaloq.tools.ddk.test.ui.test.swtbot.SwtBotRadioTest;
   SwtBotRadioTest.class
 // @Format-On
 })
-public class AllTests {}
+public class AllTests {
+}

@@ -41,67 +41,56 @@ public class ForwardingResourceDescriptions extends ForwardingObject implements 
     return baseDescriptions;
   }
 
-  
   @Override
   public Iterable<IResourceDescription> getAllResourceDescriptions() {
     return delegate().getAllResourceDescriptions();
   }
 
-  
   @Override
   public IResourceDescription getResourceDescription(final URI normalizedURI) {
     return delegate().getResourceDescription(normalizedURI);
   }
 
-  
   @Override
   public boolean isEmpty() {
     return delegate().isEmpty();
   }
 
-  
   @Override
   public Iterable<IEObjectDescription> getExportedObjects() {
     return delegate().getExportedObjects();
   }
 
-  
   @Override
   public Iterable<IEObjectDescription> getExportedObjects(final EClass type, final QualifiedName name, final boolean ignoreCase) {
     return delegate().getExportedObjects(type, name, ignoreCase);
   }
 
-  
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByType(final EClass type) {
     return delegate().getExportedObjectsByType(type);
   }
 
-  
   @Override
   public Iterable<IEObjectDescription> getExportedObjectsByObject(final EObject object) {
     return delegate().getExportedObjectsByObject(object);
   }
 
-  
   @Override
   public Set<URI> getAllURIs() {
     return delegate().getAllURIs();
   }
 
-  
   @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     return delegate().findAllReferencingResources(targetResources, matchPolicy);
   }
 
-  
   @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     return delegate().findExactReferencingResources(targetObjects, matchPolicy);
   }
 
-  
   @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     return delegate().findReferencesToObjects(targetObjects);

@@ -122,7 +122,6 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
     }
   }
 
-  
   @Override
   protected Iterable<IEObjectDescription> getAllLocalElements() {
     Iterable<IEObjectDescription> result = criteria.execute(container);

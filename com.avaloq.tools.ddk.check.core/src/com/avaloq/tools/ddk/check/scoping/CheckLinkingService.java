@@ -46,4 +46,3 @@ public class CheckLinkingService extends AbstractFastLinkingService {
   }
 
 }
-

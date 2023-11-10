@@ -118,7 +118,6 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
     return allKeywords;
   }
 
-  
   @Override
   public Boolean caseGroup(final Group group) {
     for (final AbstractElement element : group.getElements()) {
@@ -129,7 +128,6 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
     return true;
   }
 
-  
   @Override
   public Boolean caseParserRule(final ParserRule object) {
     if (!GrammarUtil.isDatatypeRule(object)) {
@@ -141,13 +139,11 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
     return true;
   }
 
-  
   @Override
   public Boolean caseTerminalRule(final TerminalRule object) {
     return true;
   }
 
-  
   @Override
   public Boolean caseAlternatives(final Alternatives object) {
     for (final AbstractElement element : object.getElements()) {
@@ -158,13 +154,11 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
     return true;
   }
 
-  
   @Override
   public Boolean caseRuleCall(final RuleCall object) {
     return doSwitch(object.getRule());
   }
 
-  
   @Override
   public Boolean caseKeyword(final Keyword keyword) {
     final String keywordText = keyword.getValue();
@@ -172,7 +166,6 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
     return true;
   }
 
-  
   @Override
   public Boolean defaultCase(final EObject object) {
     return false;

@@ -25,7 +25,6 @@ public abstract class AbstractCheckImplDescriptorRegistry implements ICheckImplD
 
   private final Multimap<String, ICheckImplDescriptor> map = HashMultimap.create();
 
-  
   @Override
   public Multimap<String, ICheckImplDescriptor> getLanguageToDescriptorMap() {
     return HashMultimap.create(map);
@@ -33,31 +32,26 @@ public abstract class AbstractCheckImplDescriptorRegistry implements ICheckImplD
 
   // TODO Remove Provider to Descriptor and inherit from ICheckImplDescriptor
 
-  
   @Override
   public Collection<ICheckImplDescriptor> getDescriptors(final String language) {
     return map.get(language);
   }
 
-  
   @Override
   public Collection<ICheckImplDescriptor> getDescriptors() {
     return map.values();
   }
 
-  
   @Override
   public void registerCatalogDescriptor(final String language, final ICheckImplDescriptor descriptor) {
     map.put(language, descriptor);
   }
 
-  
   @Override
   public boolean removeLanguageDescriptor(final String language, final ICheckImplDescriptor descriptor) {
     return map.remove(language, descriptor);
   }
 
-  
   @Override
   public boolean removeLanguageDescriptor(final ICheckImplDescriptor descriptor) {
     return map.remove(null, descriptor);

@@ -17,6 +17,6 @@ public final class ValidConstants {
   public static final String GRAMMAR = "com.avaloq.tools.ddk.xtext.valid.Valid"; //$NON-NLS-1$
   public static final String FILE_EXTENSION = "valid"; //$NON-NLS-1$
 
-  private ValidConstants() {}
+  private ValidConstants() {
+  }
 }
-

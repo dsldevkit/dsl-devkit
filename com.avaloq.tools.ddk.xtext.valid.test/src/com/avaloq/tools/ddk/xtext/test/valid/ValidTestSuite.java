@@ -24,5 +24,5 @@ import com.avaloq.tools.ddk.xtext.valid.validation.ValidValidationTest;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ValidFormattingTest.class, ValidValidationTest.class, ValidValidationOkTest.class, ValidScopingTest.class})
-public class ValidTestSuite {}
-
+public class ValidTestSuite {
+}

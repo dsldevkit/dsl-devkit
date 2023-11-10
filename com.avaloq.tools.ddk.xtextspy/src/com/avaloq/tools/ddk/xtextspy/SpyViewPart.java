@@ -113,7 +113,8 @@ public class SpyViewPart extends ViewPart {
   }
 
   @Override
-  public void setFocus() {}
+  public void setFocus() {
+  }
 
   /**
    * Contribute menu actions "Group by EClass", "Group by feature/operation" and "Limit to EClass selection".

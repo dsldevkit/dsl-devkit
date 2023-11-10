@@ -73,7 +73,6 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
     return name;
   }
 
-  
   @Override
   public CacheStatistics getStatistics() {
     CacheStats stats = backend.stats();

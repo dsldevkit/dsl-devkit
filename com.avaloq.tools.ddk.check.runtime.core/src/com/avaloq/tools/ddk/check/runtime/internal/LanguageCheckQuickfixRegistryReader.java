@@ -70,4 +70,3 @@ class LanguageCheckQuickfixRegistryReader extends AbstractCheckRegistryReader {
   }
 
 }
-

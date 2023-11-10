@@ -31,7 +31,6 @@ public abstract class AbstractIssueCodeFilter implements IIssueFilter {
    */
   protected abstract Collection<String> getIgnoredCodes();
 
-  
   @Override
   public boolean includeIssue(final Issue issue) {
     if (issue == null) {

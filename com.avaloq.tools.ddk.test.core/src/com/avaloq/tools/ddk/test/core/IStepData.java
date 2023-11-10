@@ -31,4 +31,3 @@ public interface IStepData<T> {
    */
   boolean isValueSet();
 }
-

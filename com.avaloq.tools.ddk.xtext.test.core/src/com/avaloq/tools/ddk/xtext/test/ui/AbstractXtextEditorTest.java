@@ -41,7 +41,6 @@ public abstract class AbstractXtextEditorTest extends AbstractXtextMarkerBasedTe
   protected static final String CR_LF = "\r\n";
   protected static final String LF = "\n";
 
-  
   @Override
   protected void beforeAllTests() {
     super.beforeAllTests();
@@ -52,7 +51,6 @@ public abstract class AbstractXtextEditorTest extends AbstractXtextMarkerBasedTe
     }
   }
 
-  
   @Override
   protected void afterAllTests() {
     closeOpenEditor();
@@ -194,7 +192,6 @@ public abstract class AbstractXtextEditorTest extends AbstractXtextMarkerBasedTe
     assertFalse("Editor must not allow 'Save as...'", editor.isSaveAsAllowed());
   }
 
-  
   @Override
   protected void waitForValidation() {
     // Editor tests frequently work by modifying the document. We first need to wait for the reconciler to run, otherwise we may
@@ -204,4 +201,3 @@ public abstract class AbstractXtextEditorTest extends AbstractXtextMarkerBasedTe
     super.waitForValidation();
   }
 }
-

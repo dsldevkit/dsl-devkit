@@ -31,7 +31,6 @@ public class ExportFormatter extends AbstractDeclarativeFormatter {
    */
   private static final int MAXIMUM_LINE_LENGTH = 140;
 
-  
   @Override
   protected void configureFormatting(final FormattingConfig config) { // NOPMD NPathComplexity by wth on 24.11.10 07:39
     final ExportGrammarAccess grammar = (ExportGrammarAccess) getGrammarAccess();

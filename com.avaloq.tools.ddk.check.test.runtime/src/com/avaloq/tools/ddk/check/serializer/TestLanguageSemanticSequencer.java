@@ -15,4 +15,3 @@ package com.avaloq.tools.ddk.check.serializer;
  */
 public class TestLanguageSemanticSequencer extends AbstractTestLanguageSemanticSequencer {
 }
-

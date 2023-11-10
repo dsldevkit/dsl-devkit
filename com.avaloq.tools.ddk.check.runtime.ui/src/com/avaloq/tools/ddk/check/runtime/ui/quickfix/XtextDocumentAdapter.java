@@ -37,25 +37,21 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     return document.get();
   }
 
-  
   @Override
   public <T> T readOnly(final IUnitOfWork<T, XtextResource> work) {
     return document.readOnly(work);
   }
 
-  
   @Override
   public <T> T modify(final IUnitOfWork<T, XtextResource> work) {
     return document.modify(work);
   }
 
-  
   @Override
   public <T> T getAdapter(final Class<T> adapterType) {
     return document.getAdapter(adapterType);
   }
 
-  
   @Override
   public char getChar(final int offset) throws BadLocationException {
     try {
@@ -65,19 +61,16 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public int getLength() {
     return document.getLength();
   }
 
-  
   @Override
   public String get() {
     return document.get();
   }
 
-  
   @Override
   public String get(final int offset, final int length) throws BadLocationException {
     try {
@@ -87,13 +80,11 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public void set(final String text) {
     document.set(text);
   }
 
-  
   @Override
   public void replace(final int offset, final int length, final String text) throws BadLocationException {
     try {
@@ -103,7 +94,6 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public int getLineLength(final int line) throws BadLocationException {
     try {
@@ -114,7 +104,6 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public int getLineOfOffset(final int offset) throws BadLocationException {
     try {
@@ -124,7 +113,6 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public int getLineOffset(final int line) throws BadLocationException {
     try {
@@ -134,7 +122,6 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public IRegion getLineInformation(final int line) throws BadLocationException {
     try {
@@ -155,7 +142,6 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public IRegion getLineInformationOfOffset(final int offset) throws BadLocationException {
     try {
@@ -177,13 +163,11 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
 
   }
 
-  
   @Override
   public int getNumberOfLines() {
     return document.getNumberOfLines();
   }
 
-  
   @Override
   public int getNumberOfLines(final int offset, final int length) throws BadLocationException {
     try {
@@ -193,19 +177,16 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   public int computeNumberOfLines(final String text) {
     return document.computeNumberOfLines(text);
   }
 
-  
   @Override
   public String[] getLegalLineDelimiters() {
     return document.getLegalLineDelimiters();
   }
 
-  
   @Override
   public String getLineDelimiter(final int line) throws BadLocationException {
     try {
@@ -215,7 +196,6 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 
-  
   @Override
   @Deprecated
   public int search(final int startOffset, final String findString, final boolean forwardSearch, final boolean caseSensitive, final boolean wholeWord) throws BadLocationException {
@@ -226,4 +206,3 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     }
   }
 }
-

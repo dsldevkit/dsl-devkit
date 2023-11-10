@@ -52,7 +52,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
     if (configuredCatalog.getCatalog() == null || configuredCatalog.getCatalog().eIsProxy()) {
       // Unresolved reference
       ruleText = new StyledString("<Unresolved catalog>", //
-      stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.errorTextStyle()));
+          stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.errorTextStyle()));
     } else {
       // Default
       ruleText = new StyledString(safeName(configuredCatalog.getCatalog().getName()));
@@ -78,11 +78,11 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
     if (configuredCheck.getCheck() == null || configuredCheck.getCheck().eIsProxy()) {
       // Unresolved reference
       ruleText = new StyledString("<Unresolved check>", //
-      stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.errorTextStyle()));
+          stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.errorTextStyle()));
     } else if (configuredCheck.getSeverity().equals(SeverityKind.IGNORE)) {
       // Disabled
       ruleText = new StyledString(safeName(configuredCheck.getCheck().getLabel()), //
-      stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.disabledValue()));
+          stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.disabledValue()));
     } else {
       // Default
       ruleText = new StyledString(safeName(configuredCheck.getCheck().getLabel()));
@@ -115,4 +115,3 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
   }
 
 }
-

@@ -47,4 +47,3 @@ public class ValidValueConverterService extends DefaultTerminalConverters {
   }
 
 }
-

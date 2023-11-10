@@ -22,7 +22,6 @@ import com.avaloq.tools.ddk.xtext.test.modelinference.AbstractModelInferrerTest;
  */
 public abstract class AbstractJvmModelInferrerTest extends AbstractModelInferrerTest {
 
-  
   @Override
   protected Set<EObject> getInferredElements(final EObject sourceElement) {
     return InferredJvmModelUtil.getInferredElements(sourceElement);
@@ -44,4 +43,3 @@ public abstract class AbstractJvmModelInferrerTest extends AbstractModelInferrer
     return InferredJvmModelUtil.getInferredElement(sourceElement, name, clazz);
   }
 }
-

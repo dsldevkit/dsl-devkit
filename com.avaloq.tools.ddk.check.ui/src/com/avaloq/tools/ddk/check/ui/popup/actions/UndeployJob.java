@@ -107,4 +107,3 @@ public class UndeployJob extends Job {
     managedBundle.uninstall();
   }
 }
-

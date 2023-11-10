@@ -40,7 +40,7 @@ public class QualifiedNamePattern extends QualifiedName {
    * Comparator which sorts name patterns in front of every name they match.
    */
   public static final class Comparator implements java.util.Comparator<QualifiedName> {
-    
+
     @Override
     public int compare(final QualifiedName o1, final QualifiedName o2) {
       return o1 instanceof QualifiedNamePattern ? o1.compareTo(o2) : -o2.compareTo(o1);
@@ -152,31 +152,26 @@ public class QualifiedNamePattern extends QualifiedName {
     return getLastSegment().endsWith(RECURSIVE_WILDCARD_SEGMENT);
   }
 
-  
   @Override
   public QualifiedName append(final String segment) {
     return new QualifiedNamePattern(super.append(segment));
   }
 
-  
   @Override
   public QualifiedName append(final QualifiedName relativeQualifiedName) {
     return new QualifiedNamePattern(super.append(relativeQualifiedName));
   }
 
-  
   @Override
   public QualifiedName skipFirst(final int skipCount) {
     return new QualifiedNamePattern(super.skipFirst(skipCount));
   }
 
-  
   @Override
   public QualifiedName skipLast(final int skipCount) {
     return new QualifiedNamePattern(super.skipLast(skipCount));
   }
 
-  
   @Override
   public QualifiedName toLowerCase() {
     if (lowerCase == null) {
@@ -193,7 +188,6 @@ public class QualifiedNamePattern extends QualifiedName {
     return lowerCase;
   }
 
-  
   @Override
   public QualifiedName toUpperCase() {
     QualifiedNamePattern upperCase = new QualifiedNamePattern(super.toUpperCase()) {

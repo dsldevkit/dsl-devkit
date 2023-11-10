@@ -32,7 +32,7 @@ public abstract class AbstractValidElementBase {
   protected static final String DESCRIPTION = "description"; //$NON-NLS-1$
   protected static final String LABEL = "label"; //$NON-NLS-1$
   protected static final String NAME = "name"; //$NON-NLS-1$
-  protected static final String EVALUATION_MODE = "evaluationMode"; //$NON-NLS-1$  
+  protected static final String EVALUATION_MODE = "evaluationMode"; //$NON-NLS-1$
   protected static final String RULE = "rule"; //$NON-NLS-1$
   protected static final String CATEGORY = "category"; //$NON-NLS-1$
   protected static final String LANGUAGE = "language"; //$NON-NLS-1$

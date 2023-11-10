@@ -79,7 +79,6 @@ public class DefaultCrossReferenceHelper implements ICrossReferenceHelper {
     }
   }
 
-  
   @Override
   public QualifiedName toUnresolvedReferenceName(final String name) {
     int lastSegment = name.lastIndexOf('.');

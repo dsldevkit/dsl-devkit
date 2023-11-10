@@ -8,10 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.formatter.serializer;
+package com.avaloq.tools.ddk.xtext.formatter.serializer;
+
 /**
  * Semantic sequencer for FormatterTestLanguage DSL.
  */
-public class FormatterTestLanguageSemanticSequencer  extends AbstractFormatterTestLanguageSemanticSequencer {
+public class FormatterTestLanguageSemanticSequencer extends AbstractFormatterTestLanguageSemanticSequencer {
 
 }

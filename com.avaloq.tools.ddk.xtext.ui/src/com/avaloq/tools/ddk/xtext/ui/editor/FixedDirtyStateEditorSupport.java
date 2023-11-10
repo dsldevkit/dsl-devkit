@@ -43,7 +43,6 @@ public class FixedDirtyStateEditorSupport extends DirtyStateEditorSupport {
   @Inject(optional = true)
   private DescriptionUtils descriptionUtils;
 
-  
   @Override
   protected boolean isReparseRequired(final XtextResource resource, final Event event) { // NOPMD (NPath complexity)
     IResourceDescription.Manager resourceDescriptionManager = resource.getResourceServiceProvider().getResourceDescriptionManager();

@@ -19,4 +19,3 @@ import org.eclipse.xtext.ui.label.DefaultDescriptionLabelProvider;
 public class CheckCfgDescriptionLabelProvider extends DefaultDescriptionLabelProvider {
 
 }
-

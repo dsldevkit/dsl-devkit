@@ -8,10 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.export.serializer;
+package com.avaloq.tools.ddk.xtext.export.serializer;
+
 /**
  * Semantic sequencer for Export DSL.
  */
-public class ExportSemanticSequencer  extends AbstractExportSemanticSequencer {
+public class ExportSemanticSequencer extends AbstractExportSemanticSequencer {
 
 }

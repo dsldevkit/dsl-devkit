@@ -88,13 +88,11 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     this.index = index;
   }
 
-  
   @Override
   public URI getUri() {
     return uri;
   }
 
-  
   @Override
   public IResourceDescription getNew() {
     if (newDesc == null) {
@@ -104,7 +102,6 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     return res != null ? res : index.getResourceDescription(uri);
   }
 
-  
   @Override
   public IResourceDescription getOld() {
     if (oldDesc != null) {
@@ -119,7 +116,6 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     return oldDesc;
   }
 
-  
   @Override
   public boolean haveEObjectDescriptionsChanged() {
     if (hasChanges == null) {
@@ -140,7 +136,6 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     oldDesc = null; // NOPMD
   }
 
-  
   @SuppressWarnings({"PMD.CompareObjectsWithEquals", "PMD.NPathComplexity"})
   protected boolean internalHasChanges() {
     if (getNew() == null || oldDesc == null) {

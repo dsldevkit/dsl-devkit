@@ -28,4 +28,3 @@ public @interface ComposedCheckValidator {
   Class<? extends ICheckValidatorImpl>[] validators();
 
 }
-

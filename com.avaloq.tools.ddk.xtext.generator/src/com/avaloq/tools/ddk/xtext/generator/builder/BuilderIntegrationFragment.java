@@ -47,7 +47,6 @@ public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.buil
     return result;
   }
 
-  
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
     final String[] bundles = super.getRequiredBundlesRt(grammar);
@@ -59,7 +58,6 @@ public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.buil
     return new String[] {BUILDER_BUNDLE_NAME};
   }
 
-  
   @Override
   public Set<Binding> getGuiceBindingsUi(final Grammar grammar) {
     final Set<Binding> bindings = super.getGuiceBindingsUi(grammar);
@@ -72,7 +70,6 @@ public class BuilderIntegrationFragment extends org.eclipse.xtext.generator.buil
     return result;
   }
 
-  
   @Override
   public String[] getRequiredBundlesUi(final Grammar grammar) {
     final String[] bundles = super.getRequiredBundlesUi(grammar);

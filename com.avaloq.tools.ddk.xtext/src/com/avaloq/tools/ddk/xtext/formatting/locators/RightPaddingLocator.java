@@ -60,7 +60,6 @@ public class RightPaddingLocator extends ElementLocator implements ISpaceLocator
     return SpaceEntry.createPadding(Math.max(length, 1));
   }
 
-  
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.COMBINED_MAXIMUM;

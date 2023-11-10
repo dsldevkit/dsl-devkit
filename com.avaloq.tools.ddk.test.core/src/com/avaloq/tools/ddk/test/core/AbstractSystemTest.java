@@ -94,13 +94,12 @@ public abstract class AbstractSystemTest implements TestStepListener {
   // CHECKSTYLE:OFF
   public TestWatcher testWatchman = new TestWatcher() {
     // CHECKSTYLE:ON
-    
+
     @Override
     public void starting(final Description description) {
       logger.info(description.getMethodName() + " started.");
     }
 
-    
     @Override
     public void succeeded(final Description description) {
       if (multipleTestProblems.hasProblems()) {
@@ -110,7 +109,6 @@ public abstract class AbstractSystemTest implements TestStepListener {
       }
     }
 
-    
     @Override
     public void failed(final Throwable e, final Description description) {
       if (e instanceof AssumptionViolatedException) {
@@ -120,7 +118,6 @@ public abstract class AbstractSystemTest implements TestStepListener {
       }
     }
 
-    
     @Override
     public void finished(final Description description) {
     }

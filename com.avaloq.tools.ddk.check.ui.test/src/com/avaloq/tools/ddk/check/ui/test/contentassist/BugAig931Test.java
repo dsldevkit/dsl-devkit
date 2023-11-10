@@ -81,4 +81,3 @@ public class BugAig931Test extends AbstractCheckContentAssistBugTest implements 
     };
   }
 }
-

@@ -35,4 +35,3 @@ public final class Messages extends NLS {
     super();
   }
 }
-

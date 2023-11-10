@@ -45,5 +45,6 @@ public final class SwtBotUtil {
     return new SwtWorkbenchBot();
   }
 
-  private SwtBotUtil() {}
+  private SwtBotUtil() {
+  }
 }

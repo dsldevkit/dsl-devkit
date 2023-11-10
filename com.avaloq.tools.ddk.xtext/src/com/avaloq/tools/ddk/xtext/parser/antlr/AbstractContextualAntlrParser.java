@@ -50,13 +50,11 @@ public abstract class AbstractContextualAntlrParser extends AbstractAntlrParser 
   private ParserContextProvider parserContextProvider;
   private String fileExtension;
 
-  
   @Override
   public void setFileExtension(final String fileExtension) {
     this.fileExtension = fileExtension;
   }
 
-  
   @Override
   public String getFileExtension() {
     return fileExtension;
@@ -75,7 +73,6 @@ public abstract class AbstractContextualAntlrParser extends AbstractAntlrParser 
     return parserContext;
   }
 
-  
   @Override
   public IParseResult doParse(final Reader reader) {
     IParseResult parseResult = super.doParse(reader);
@@ -88,7 +85,6 @@ public abstract class AbstractContextualAntlrParser extends AbstractAntlrParser 
     return parseResult;
   }
 
-  
   @Override
   protected IParseResult doParse(final String ruleName, final CharStream in, final NodeModelBuilder nodeModelBuilder, final int initialLookAhead) {
     final IParseResult parseResult = super.doParse(ruleName, in, nodeModelBuilder, initialLookAhead);

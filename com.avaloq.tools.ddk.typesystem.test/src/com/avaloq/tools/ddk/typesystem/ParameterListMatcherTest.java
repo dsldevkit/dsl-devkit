@@ -178,7 +178,7 @@ public class ParameterListMatcherTest {
         } else {
           return matchResultTypeError;
         }
-      } 
+      }
       throw new AssertionError("incorrect parameters");
     }
   }

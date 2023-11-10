@@ -42,13 +42,11 @@ public class JdtFallbackTypeProvider implements IJdtTypeProvider, Resource.Facto
     this.second = second;
   }
 
-  
   @Override
   public JvmType findTypeByName(final String name) {
     return findTypeByName(name, true);
   }
 
-  
   @Override
   public JvmType findTypeByName(final String name, final boolean binaryNestedTypeDelimiter) {
     JvmType result = null;
@@ -62,7 +60,6 @@ public class JdtFallbackTypeProvider implements IJdtTypeProvider, Resource.Facto
     }
   }
 
-  
   @Override
   public ResourceSet getResourceSet() {
     if (first != null) {
@@ -71,7 +68,6 @@ public class JdtFallbackTypeProvider implements IJdtTypeProvider, Resource.Facto
     return second.getResourceSet();
   }
 
-  
   @Override
   public TypeURIHelper getTypeUriHelper() {
     if (first != null) {
@@ -80,7 +76,6 @@ public class JdtFallbackTypeProvider implements IJdtTypeProvider, Resource.Facto
     return new TypeURIHelper();
   }
 
-  
   @Override
   public IJavaProject getJavaProject() {
     if (first != null) {
@@ -89,7 +84,6 @@ public class JdtFallbackTypeProvider implements IJdtTypeProvider, Resource.Facto
     return null;
   }
 
-  
   @Override
   public Resource createResource(final URI uri) {
     if (first instanceof Resource.Factory) {
@@ -101,4 +95,3 @@ public class JdtFallbackTypeProvider implements IJdtTypeProvider, Resource.Facto
     return null;
   }
 }
-

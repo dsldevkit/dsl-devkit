@@ -19,7 +19,6 @@ import org.eclipse.xtext.resource.IResourceDescription;
  */
 public class NullPersistedStateProvider implements PersistedStateProvider {
 
-  
   @Override
   public Iterable<IResourceDescription> load() {
     throw new UnsupportedOperationException();

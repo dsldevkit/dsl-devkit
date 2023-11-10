@@ -27,7 +27,8 @@ import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator
 // CHECKSTYLE:COUPLING-OFF
 public final class ParameterizedLocatorFactory {
   // CHECKSTYLE:COUPLING-ON
-  private ParameterizedLocatorFactory() {}
+  private ParameterizedLocatorFactory() {
+  }
 
   /**
    * Creates the parameterized {@link ColumnLocator} that gets its column value from the given {@link LocatorParameterCalculator}.

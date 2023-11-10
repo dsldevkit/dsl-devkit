@@ -79,7 +79,6 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   // Copied and adapted from AbstractDeclarativeValidator below
   // ////////////////////////////////////////////////
 
-  
   @Override
   public boolean validate(final EClass eClass, final EObject eObject, final DiagnosticChain diagnostics, final Map<Object, Object> context) {
     return internalValidate(eClass, eObject, diagnostics, context);

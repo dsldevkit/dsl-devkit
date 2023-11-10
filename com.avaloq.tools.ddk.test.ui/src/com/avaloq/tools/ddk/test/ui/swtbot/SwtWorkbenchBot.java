@@ -245,7 +245,8 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
       }
 
       @Override
-      public void init(final SWTBot paramSWTBot) {}
+      public void init(final SWTBot paramSWTBot) {
+      }
 
       @Override
       public String getFailureMessage() {
@@ -261,7 +262,8 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
       }
 
       @Override
-      public void init(final SWTBot bot) {}
+      public void init(final SWTBot bot) {
+      }
 
       @Override
       public String getFailureMessage() {
@@ -365,7 +367,8 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
       }
 
       @Override
-      public void describeTo(final Description description) {}
+      public void describeTo(final Description description) {
+      }
     });
     if (labels.isEmpty()) {
       return null;

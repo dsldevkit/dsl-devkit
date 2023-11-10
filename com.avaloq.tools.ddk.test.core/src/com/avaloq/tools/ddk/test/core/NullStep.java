@@ -39,4 +39,3 @@ public final class NullStep extends AbstractStep {
     return INSTANCE;
   }
 }
-

@@ -141,4 +141,3 @@ public class CheckTocExtensionTest extends TestCase {
     assertFalse("No toc extension update is required", tocUtil.isExtensionUpdateRequired(catalog, extension, elements));
   }
 }
-

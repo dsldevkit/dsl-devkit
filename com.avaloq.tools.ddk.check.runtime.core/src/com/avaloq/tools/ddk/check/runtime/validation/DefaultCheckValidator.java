@@ -45,7 +45,8 @@ public class DefaultCheckValidator extends AbstractCheckValidator {
    * Override with empty implementation since indirectly referenced {@link #grammarAccess} has not been injected at this point. {@inheritDoc}
    */
   @Override
-  public void register(final EValidatorRegistrar registrar) {}
+  public void register(final EValidatorRegistrar registrar) {
+  }
 
   /**
    * At this point, {@link #grammarAccess} has been injected. See {@link #register(EValidatorRegistrar)}.

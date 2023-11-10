@@ -89,4 +89,3 @@ public class CheckHoverProvider extends XbaseHoverProvider {
     }
   }
 }
-

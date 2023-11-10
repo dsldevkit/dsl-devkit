@@ -35,7 +35,6 @@ public class BundleClassFinder extends BinaryClassFinder {
     this.bundle = bundle;
   }
 
-  
   @Override
   public BinaryClass forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException {
     // getClassLoader may return null for bootstrap class loader
@@ -47,4 +46,3 @@ public class BundleClassFinder extends BinaryClassFinder {
     }
   }
 }
-

@@ -231,4 +231,3 @@ public class DefaultCheckQuickfixProvider extends DefaultQuickfixProvider {
   }
 
 }
-

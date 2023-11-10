@@ -17,4 +17,3 @@ import org.eclipse.xtext.xbase.ui.contentassist.XbaseReferenceProposalCreator;
 public class CheckReferenceProposalCreator extends XbaseReferenceProposalCreator {
 
 }
-

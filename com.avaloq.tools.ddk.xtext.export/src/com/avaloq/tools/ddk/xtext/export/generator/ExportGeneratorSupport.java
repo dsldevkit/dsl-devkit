@@ -123,7 +123,6 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       this.model = model;
     }
 
-    
     @Override
     public String getFullyQualifiedName() {
       if (qualifiedName == null) {
@@ -132,7 +131,6 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       return qualifiedName;
     }
 
-    
     @Override
     public String[] getImportedExtensions() {
       if (importedExtensions == null) {
@@ -147,7 +145,6 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       return importedExtensions.toArray(new String[importedExtensions.size()]);
     }
 
-    
     @Override
     public String[] getImportedNamespaces() {
       if (importedNamespaces == null) {

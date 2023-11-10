@@ -25,40 +25,33 @@ public class LoggingJobListener implements IJobChangeListener {
   /** The logger. */
   private static final Logger LOGGER = LogManager.getLogger(LoggingJobListener.class);
 
-  
   @Override
   public void aboutToRun(final IJobChangeEvent event) {
     LOGGER.info(NLS.bind("Job ''{0}'' family ''{1}'': about to run.", event.getJob().getName(), event.getJob().getClass().getName())); //$NON-NLS-1$
   }
 
-  
   @Override
   public void awake(final IJobChangeEvent event) {
     LOGGER.info(NLS.bind("Job ''{0}'' family ''{1}'': awake.", event.getJob().getName(), event.getJob().getClass().getName())); //$NON-NLS-1$
   }
 
-  
   @Override
   public void done(final IJobChangeEvent event) {
     LOGGER.info(NLS.bind("Job ''{0}'' family ''{1}'': done.", event.getJob().getName(), event.getJob().getClass().getName())); //$NON-NLS-1$
   }
 
-  
   @Override
   public void running(final IJobChangeEvent event) {
     LOGGER.info(NLS.bind("Job ''{0}'' family ''{1}'': running.", event.getJob().getName(), event.getJob().getClass().getName())); //$NON-NLS-1$
   }
 
-  
   @Override
   public void scheduled(final IJobChangeEvent event) {
     LOGGER.info(NLS.bind("Job ''{0}'' family ''{1}'': scheduled.", event.getJob().getName(), event.getJob().getClass().getName())); //$NON-NLS-1$
   }
 
-  
   @Override
   public void sleeping(final IJobChangeEvent event) {
     LOGGER.info(NLS.bind("Job ''{0}'' family ''{1}'': sleeping.", event.getJob().getName(), event.getJob().getClass().getName())); //$NON-NLS-1$
   }
 }
-

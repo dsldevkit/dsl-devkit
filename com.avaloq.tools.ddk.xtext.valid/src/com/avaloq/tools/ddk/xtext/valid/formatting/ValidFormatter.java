@@ -39,7 +39,6 @@ public class ValidFormatter extends AbstractDeclarativeFormatter {
    */
   private static final int MAX_LINE_LENGTH = 140;
 
-  
   @Override
   protected void configureFormatting(final FormattingConfig config) {
     final ValidGrammarAccess grammarAccess = (ValidGrammarAccess) getGrammarAccess();
@@ -148,4 +147,3 @@ public class ValidFormatter extends AbstractDeclarativeFormatter {
     config.setLinewrap(2).before(categoryElements.getRulesAssignment_6());
   }
 }
-

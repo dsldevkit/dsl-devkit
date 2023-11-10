@@ -31,4 +31,3 @@ public class CheckExpressionHelper extends XExpressionHelper {
   }
 
 }
-

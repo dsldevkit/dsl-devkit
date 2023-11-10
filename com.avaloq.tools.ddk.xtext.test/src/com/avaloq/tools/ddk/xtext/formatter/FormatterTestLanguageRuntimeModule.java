@@ -18,13 +18,11 @@ import org.eclipse.xtext.formatting.IFormatter;
  */
 public class FormatterTestLanguageRuntimeModule extends com.avaloq.tools.ddk.xtext.formatter.AbstractFormatterTestLanguageRuntimeModule {
 
-  
   @Override
   public Class<? extends IFormatter> bindIFormatter() {
     return FormatterTestConfig.class;
   }
 
-  
   @Override
   public Class<? extends org.eclipse.xtext.conversion.IValueConverterService> bindIValueConverterService() {
     return FormatterTestValueConverters.class;

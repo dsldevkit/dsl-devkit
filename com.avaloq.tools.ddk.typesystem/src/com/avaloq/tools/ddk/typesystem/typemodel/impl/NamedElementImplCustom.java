@@ -28,4 +28,3 @@ public class NamedElementImplCustom extends NamedElementImpl {
     return UNRESOLVED_NAME;
   }
 }
-

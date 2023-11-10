@@ -117,7 +117,6 @@ public class EClassComparator implements Comparator<EClass> {
     }
   }
 
-  
   @Override
   public int compare(final EClass o1, final EClass o2) {
     if (o1 == o2) { // NOPMD

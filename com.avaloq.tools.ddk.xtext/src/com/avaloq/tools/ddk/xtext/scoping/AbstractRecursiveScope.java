@@ -113,7 +113,6 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
     return contents;
   }
 
-  
   @Override
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) { // NOPMD NPathComplexity
     if (name == null) {
@@ -183,7 +182,6 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
     contents = null; // NOPMD NullAssignment
   }
 
-  
   @Override
   public synchronized IEObjectDescription getSingleElement(final EObject object) {
     try {

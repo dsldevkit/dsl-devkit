@@ -25,25 +25,21 @@ public class CheckNature implements IProjectNature {
   /** The project. */
   private IProject project;
 
-  
   @Override
   public void configure() throws CoreException {
     // nothing to do here.
   }
 
-  
   @Override
   public void deconfigure() throws CoreException {
     // nothing to do here.
   }
 
-  
   @Override
   public IProject getProject() {
     return project;
   }
 
-  
   @Override
   public void setProject(final IProject project) {
     this.project = project;

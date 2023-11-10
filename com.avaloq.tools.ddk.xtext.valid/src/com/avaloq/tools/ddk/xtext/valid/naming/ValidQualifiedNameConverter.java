@@ -24,4 +24,3 @@ public class ValidQualifiedNameConverter extends IQualifiedNameConverter.Default
   }
 
 }
-

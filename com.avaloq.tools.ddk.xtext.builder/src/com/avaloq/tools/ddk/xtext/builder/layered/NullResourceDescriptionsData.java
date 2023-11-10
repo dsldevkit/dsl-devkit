@@ -32,19 +32,16 @@ public class NullResourceDescriptionsData extends DelegatingResourceDescriptions
     super(new ResourceDescriptionsData(Collections.<IResourceDescription> emptyList()));
   }
 
-  
   @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     return Collections.emptyList();
   }
 
-  
   @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     return Collections.emptyList();
   }
 
-  
   @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     return Collections.emptyList();

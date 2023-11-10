@@ -23,4 +23,3 @@ public final class CheckGeneratorConstants {
   }
 
 }
-

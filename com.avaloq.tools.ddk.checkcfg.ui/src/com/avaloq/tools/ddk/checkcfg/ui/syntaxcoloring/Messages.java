@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.checkcfg.ui.syntaxcoloring;
 
 import org.eclipse.osgi.util.NLS;
 
-
 // CHECKSTYLE:OFF
+
 
 public class Messages extends NLS {
   private static final String BUNDLE_NAME = "com.avaloq.tools.ddk.checkcfg.ui.syntaxcoloring.messages"; //$NON-NLS-1$
@@ -26,6 +26,6 @@ public class Messages extends NLS {
     NLS.initializeMessages(BUNDLE_NAME, Messages.class);
   }
 
-  private Messages() {} // NOPMD
+  private Messages() {
+  } // NOPMD
 }
-

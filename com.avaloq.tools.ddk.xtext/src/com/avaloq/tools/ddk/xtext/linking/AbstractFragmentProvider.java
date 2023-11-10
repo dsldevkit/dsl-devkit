@@ -97,14 +97,12 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       return reps;
     }
 
-    
     @Override
     public void remove() {
       throw new UnsupportedOperationException();
     }
   }
 
-  
   @Override
   public String getFragment(final EObject object, final Fallback fallback) {
     final Deque<EObject> containingObjects = new ArrayDeque<>();
@@ -201,7 +199,6 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
    */
   public abstract boolean appendFragmentSegment(EObject object, StringBuilder builder);
 
-  
   @Override
   public EObject getEObject(final Resource resource, final String fragment, final Fallback fallback) {
     try {

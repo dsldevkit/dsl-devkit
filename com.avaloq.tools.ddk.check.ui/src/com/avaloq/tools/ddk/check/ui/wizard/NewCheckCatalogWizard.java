@@ -55,7 +55,6 @@ public class NewCheckCatalogWizard extends XtextNewProjectWizard {
     setWindowTitle(Messages.CATALOG_WIZARD_WINDOW_TITLE);
   }
 
-  
   @Override
   public void addPages() {
     super.addPages();
@@ -88,4 +87,3 @@ public class NewCheckCatalogWizard extends XtextNewProjectWizard {
   }
 
 }
-

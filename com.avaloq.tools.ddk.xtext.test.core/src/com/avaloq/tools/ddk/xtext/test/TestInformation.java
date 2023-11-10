@@ -66,4 +66,3 @@ public class TestInformation {
     return testObjects.get(objectClass);
   }
 }
-

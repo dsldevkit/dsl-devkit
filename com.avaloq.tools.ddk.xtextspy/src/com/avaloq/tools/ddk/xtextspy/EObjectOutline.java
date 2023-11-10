@@ -40,7 +40,6 @@ public class EObjectOutline extends TreeViewer implements ISelectionChangedListe
     setComparator(sorter);
   }
 
-  
   @Override
   public void selectionChanged(final SelectionChangedEvent event) {
     if (!event.getSelection().isEmpty() && event.getSelectionProvider() instanceof XtextElementSelectionListener) {

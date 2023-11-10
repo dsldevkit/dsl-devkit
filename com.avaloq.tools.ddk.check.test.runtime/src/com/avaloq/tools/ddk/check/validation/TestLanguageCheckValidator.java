@@ -56,4 +56,3 @@ public class TestLanguageCheckValidator extends DefaultCheckValidator {
     return result;
   }
 }
-

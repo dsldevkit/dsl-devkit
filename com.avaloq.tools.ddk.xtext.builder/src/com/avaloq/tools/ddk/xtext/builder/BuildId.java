@@ -16,4 +16,3 @@ package com.avaloq.tools.ddk.xtext.builder;
 public interface BuildId {
 
 }
-

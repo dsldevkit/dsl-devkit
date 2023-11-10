@@ -86,7 +86,6 @@ public class BuildContext implements IBuildContext {
     this.builtProject = builtProject;
   }
 
-  
   @Override
   public IProject getBuiltProject() {
     if (builder != null) {
@@ -95,7 +94,6 @@ public class BuildContext implements IBuildContext {
     return builtProject;
   }
 
-  
   @Override
   public List<Delta> getDeltas() {
     return deltas;
@@ -111,13 +109,11 @@ public class BuildContext implements IBuildContext {
     deltas.add(delta);
   }
 
-  
   @Override
   public ResourceSet getResourceSet() {
     return resourceSet;
   }
 
-  
   @Override
   public void needRebuild() {
     rebuildRequired = true;
@@ -135,16 +131,13 @@ public class BuildContext implements IBuildContext {
     return rebuildRequired;
   }
 
-  
   @Override
   public BuildType getBuildType() {
     return type;
   }
 
-  
   @Override
   public boolean isSourceLevelURI(final URI uri) {
     return true;
   }
 }
-

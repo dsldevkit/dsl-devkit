@@ -35,7 +35,6 @@ import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "restriction"})
 public abstract class AbstractCheckContentAssistBugTest extends AbstractCheckTestCase implements IJavaProjectProvider, ResourceLoadHelper {
 
-  
   @Override
   public IJavaProject getJavaProject(final ResourceSet resourceSet) {
     IJavaProject javaProject = findJavaProject(PluginTestProjectManager.TEST_PROJECT_NAME);
@@ -45,7 +44,6 @@ public abstract class AbstractCheckContentAssistBugTest extends AbstractCheckTes
     return javaProject;
   }
 
-  
   @Override
   public XtextResource getResourceFor(final InputStream stream) {
     try {

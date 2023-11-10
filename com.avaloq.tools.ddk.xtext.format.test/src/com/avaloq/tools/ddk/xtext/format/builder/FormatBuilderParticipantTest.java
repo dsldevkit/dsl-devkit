@@ -110,11 +110,9 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
    */
   public static class IsUri implements ArgumentMatcher<URI> {
 
-    
     @Override
     public boolean matches(final URI argument) {
       return true;
     }
   }
 }
-

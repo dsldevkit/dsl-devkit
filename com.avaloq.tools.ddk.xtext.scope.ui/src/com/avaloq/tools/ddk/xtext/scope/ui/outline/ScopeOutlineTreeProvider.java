@@ -37,9 +37,9 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * @param modelElement
    *          the scope model
    */
-  //CHECKSTYLE:OFF
+  // CHECKSTYLE:OFF
   protected void _createChildren(final DocumentRootNode parentNode, final ScopeModel modelElement) {
-    //CHECKSTYLE:ON
+    // CHECKSTYLE:ON
     Image importContainerImage = JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_IMPCONT);
 
     if (!modelElement.getImports().isEmpty()) {
@@ -58,9 +58,9 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
    *          the expression
    * @return true
    */
-  //CHECKSTYLE:OFF
+  // CHECKSTYLE:OFF
   protected boolean _isLeaf(final Expression modelElement) {
-    //CHECKSTYLE:ON
+    // CHECKSTYLE:ON
     return true;
   }
 
@@ -71,9 +71,9 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
    *          the rule
    * @return true
    */
-  //CHECKSTYLE:OFF
+  // CHECKSTYLE:OFF
   protected boolean _isLeaf(final ScopeRule modelElement) {
-    //CHECKSTYLE:ON
+    // CHECKSTYLE:ON
     return true;
   }
 

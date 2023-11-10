@@ -144,7 +144,6 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     this.recordingInterval = Math.max(recordingInterval, MINIMAL_RECORDING_INTERVAL);
   }
 
-  
   @Override
   @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public void testStarted(final Description description) {
@@ -170,7 +169,6 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     start();
   }
 
-  
   @Override
   @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public void testFinished(final Description description) {
@@ -187,14 +185,12 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     }
   }
 
-  
   @Override
   @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public void testFailure(final Failure failure) {
     methodInvokeFailure(failure.getException());
   }
 
-  
   @Override
   public void stepStateChanged(final AbstractTestStep testStep, final TestStepState testStepState, final Throwable throwable) {
     synchronized (lock) {
@@ -700,20 +696,17 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     return success;
   }
 
-  
   @Override
   public void mouseDoubleClick(final MouseEvent e) {
     // do nothing special, it will be displayed as 1 total click.
   }
 
-  
   @Override
   public void mouseDown(final MouseEvent e) {
     mouseEvent = e;
     mousePressedDown = true;
   }
 
-  
   @Override
   public void mouseUp(final MouseEvent e) {
     mousePressedDown = false;

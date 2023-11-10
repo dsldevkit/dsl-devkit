@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.export.serializer;
+package com.avaloq.tools.ddk.xtext.export.serializer;
 
 /**
  * Syntactic sequencer for Export DSL.

@@ -19,4 +19,3 @@ import org.eclipse.xtext.ui.wizard.IProjectCreator;
 public interface ICheckCatalogCreator extends IProjectCreator {
 
 }
-

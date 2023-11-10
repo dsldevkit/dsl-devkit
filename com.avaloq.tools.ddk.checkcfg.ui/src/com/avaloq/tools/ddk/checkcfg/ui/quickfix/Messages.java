@@ -40,4 +40,3 @@ public class Messages extends NLS {
     super();
   }
 }
-

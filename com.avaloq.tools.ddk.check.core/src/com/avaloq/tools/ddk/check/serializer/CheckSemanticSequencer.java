@@ -8,10 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.check.serializer;
+package com.avaloq.tools.ddk.check.serializer;
+
 /**
  * Semantic sequencer for Check DSL.
  */
-public class CheckSemanticSequencer  extends AbstractCheckSemanticSequencer {
+public class CheckSemanticSequencer extends AbstractCheckSemanticSequencer {
 
 }

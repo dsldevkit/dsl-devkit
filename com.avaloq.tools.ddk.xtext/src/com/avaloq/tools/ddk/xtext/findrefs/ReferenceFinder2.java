@@ -41,7 +41,6 @@ public class ReferenceFinder2 extends ReferenceFinder {
     super(serviceProviderRegistry);
   }
 
-  
   @Override
   public void findAllReferences(final TargetURIs targetURIs, final IResourceAccess resourceAccess, final IResourceDescriptions indexData, final Acceptor acceptor, final IProgressMonitor monitor) {
     final SubMonitor subMonitor = SubMonitor.convert(monitor, 10);

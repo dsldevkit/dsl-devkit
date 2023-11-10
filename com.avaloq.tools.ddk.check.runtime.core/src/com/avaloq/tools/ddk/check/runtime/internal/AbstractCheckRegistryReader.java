@@ -69,7 +69,6 @@ abstract class AbstractCheckRegistryReader extends RegistryReader {
    */
   protected abstract Logger getLogger();
 
-  
   @Override
   protected void logError(final IConfigurationElement element, final String text) {
     IExtension extension = element.getDeclaringExtension();
@@ -104,7 +103,6 @@ abstract class AbstractCheckRegistryReader extends RegistryReader {
    */
   abstract String getAttribute();
 
-  
   @Override
   protected boolean readElement(final IConfigurationElement element, final boolean add) {
     if (element.getName().equals(topLevelElementName())) {

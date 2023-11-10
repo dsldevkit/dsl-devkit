@@ -58,7 +58,6 @@ public class OffsetLocator extends ElementLocator implements ISpaceLocator {
     return SpaceEntry.createPadding(length);
   }
 
-  
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.COMBINED_MAXIMUM;
