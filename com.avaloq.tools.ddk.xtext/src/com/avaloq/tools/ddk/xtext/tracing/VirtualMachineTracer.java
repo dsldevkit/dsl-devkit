@@ -45,7 +45,7 @@ public class VirtualMachineTracer {
 
   @SuppressWarnings("nls")
   public static boolean isHotSpotVM() {
-    return System.getProperty("java.vm.vendor").equals("Oracle Corporation") && System.getProperty("java.vm.name").indexOf("HotSpot") != -1;
+    return "Oracle Corporation".equals(System.getProperty("java.vm.vendor")) && System.getProperty("java.vm.name").indexOf("HotSpot") != -1;
   }
 
   /**
@@ -73,7 +73,7 @@ public class VirtualMachineTracer {
     long vmStartTime = getApproximateNanoStartTime();
 
     for (GarbageCollectorMXBean gcBean : ManagementFactory.getGarbageCollectorMXBeans()) {
-      Class<? extends TraceEvent> eventType = gcBean.getName().equals("ConcurrentMarkSweep") || gcBean.getName().equals("MarkSweepCompact") //$NON-NLS-1$ //$NON-NLS-2$
+      Class<? extends TraceEvent> eventType = "ConcurrentMarkSweep".equals(gcBean.getName()) || "MarkSweepCompact".equals(gcBean.getName()) //$NON-NLS-1$ //$NON-NLS-2$
           ? FullGarbageCollectionEvent.class
           : MinorGarbageCollectionEvent.class;
       NotificationEmitter emitter = (NotificationEmitter) gcBean;
@@ -83,7 +83,7 @@ public class VirtualMachineTracer {
         public void handleNotification(final Notification notification, final Object handback) {
           try {
             // we only handle GARBAGE_COLLECTION_NOTIFICATION notifications here
-            if (notification.getType().equals("com.sun.management.gc.notification")) { //$NON-NLS-1$
+            if ("com.sun.management.gc.notification".equals(notification.getType())) { //$NON-NLS-1$
               CompositeData cd = (CompositeData) notification.getUserData();
               String gcAction = (String) cd.get("gcAction"); //$NON-NLS-1$
               String gcCause = (String) cd.get("gcCause"); //$NON-NLS-1$

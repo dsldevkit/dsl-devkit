@@ -852,7 +852,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     }
     // We only handle references in assignments
     Assignment assignment = EcoreUtil2.getContainerOfType(crossReference, Assignment.class);
-    EObject sourceObject = null;
+    EObject sourceObject;
     String featureName = assignment.getFeature();
     EReference reference = (EReference) context.eClass().getEStructuralFeature(featureName);
     if (reference.isMany()) {

@@ -55,7 +55,7 @@ public final class ValidExtension {
       IConfigurationElement[] configurationElements = extension.getConfigurationElements();
       ArrayList<ValidElement> elements = new ArrayList<ValidElement>();
       for (IConfigurationElement ce : configurationElements) {
-        if (ce.getName().equals(XML_TOP_ELEMENT_NAME)) {
+        if (XML_TOP_ELEMENT_NAME.equals(ce.getName())) {
           ValidElement e = new ValidElement(ce);
           elements.add(e);
         }

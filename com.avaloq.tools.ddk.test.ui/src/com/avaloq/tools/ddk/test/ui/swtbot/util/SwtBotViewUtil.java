@@ -34,7 +34,7 @@ public final class SwtBotViewUtil {
       @Override
       public boolean test() {
         SWTBotTreeItem[] allItems = view.bot().tree().getAllItems();
-        return allItems.length == 0 || !allItems[0].getText().equals(LOADING_VIEW_MESSAGE);
+        return allItems.length == 0 || !LOADING_VIEW_MESSAGE.equals(allItems[0].getText());
       }
 
       @Override
@@ -48,6 +48,6 @@ public final class SwtBotViewUtil {
   /**
    * Utility classes should have a private constructor.
    */
-  private SwtBotViewUtil() {}
+  private SwtBotViewUtil() {
+  }
 }
-

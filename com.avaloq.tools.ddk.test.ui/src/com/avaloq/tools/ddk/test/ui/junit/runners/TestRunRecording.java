@@ -345,7 +345,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
   private String captureCallStack() {
     StringBuilder trace = new StringBuilder();
     // Same info as on the screenshot
-    trace.append("TEST: ").append(testClassName).append(".").append(testMethodName).append(NEW_LINE);
+    trace.append("TEST: ").append(testClassName).append('.').append(testMethodName).append(NEW_LINE);
     if (testStepStarted && currentTestStep != null && currentTestStepState != null) {
       String colonWithSpace = ": ";
       trace.append("TEST STEP: ").append(currentTestStep.getName()).append(colonWithSpace).append(currentTestStepState.toString()).append(NEW_LINE);
