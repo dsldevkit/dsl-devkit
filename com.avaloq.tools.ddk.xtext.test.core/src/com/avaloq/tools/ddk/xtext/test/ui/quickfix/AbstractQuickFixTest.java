@@ -43,7 +43,7 @@ import com.google.common.collect.Ordering;
  * Besides overriding the abstract method getQuickFixFileName(), subclasses have to implement
  * the test method itself which tests for existence and resolutions of the diagnostic issues.
  */
-@SuppressWarnings("PMD.UseObjectForClearerAPI")
+@SuppressWarnings({"PMD.UseObjectForClearerAPI", "nls"})
 public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
 
   private IssueResolutionProvider getIssueResolutionProvider() {
@@ -89,7 +89,7 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
    *          the code of the expected issue, may be {@code null}
    */
   protected void assertHasIssue(final String issueCode) {
-    Assert.assertFalse(issuesWith(issueCode).isEmpty());
+    Assert.assertFalse("Issue " + issueCode + " is empty", issuesWith(issueCode).isEmpty());
   }
 
   /**
@@ -125,8 +125,8 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
    *          the number of expected quickfix proposal, must not be {@code null}
    */
   protected void assertHasQuickFix(final String issueCode, final String quickfixLabel, final int numberOfQuickfixProposal) {
-    Assert.assertFalse("Number of resolutions found for issue " + issueCode
-        + " does not match the expected number of quickfix proposal", resolutionsFor(issueCode, quickfixLabel).size() != numberOfQuickfixProposal);
+    Assert.assertEquals("Number of resolutions found for issue " + issueCode
+        + " does not match the expected number of quickfix proposal", resolutionsFor(issueCode, quickfixLabel).size(), numberOfQuickfixProposal);
   }
 
   /**
@@ -193,7 +193,8 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
       });
     }
     waitForValidation();
-    Assert.assertTrue(resolutionsFor(issueCode, quickfixLabel).isEmpty());
+    Assert.assertTrue("Resolutions for issue " + issueCode + " with quickfix " + quickfixLabel
+        + "are not empty", resolutionsFor(issueCode, quickfixLabel).isEmpty());
   }
 
   /**
@@ -352,7 +353,7 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
   private void assertQuickFixExistsAndSuccessful(final String issueCode, final String quickfixLabel, final String expectedContent, final boolean ignoreFormatting) {
     // Assert amount of quickfixes
     int resolutionCount = resolutionsFor(issueCode, quickfixLabel).size();
-    Assert.assertTrue(String.format("There must be exactly one quickfix with label '%s' for issue '%s', but found '%d'.", quickfixLabel, issueCode, resolutionCount), resolutionCount == 1);
+    Assert.assertEquals(String.format("There must be exactly one quickfix with label '%s' for issue '%s', but found '%d'.", quickfixLabel, issueCode, resolutionCount), resolutionCount, 1);
     // Apply quickfix
     UiThreadDispatcher.dispatchAndWait(new Runnable() {
       @Override
@@ -364,7 +365,8 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
       }
     });
     waitForValidation();
-    Assert.assertTrue(resolutionsFor(issueCode, quickfixLabel).isEmpty());
+    Assert.assertTrue("Resolutions for issue " + issueCode + " with quickfix " + quickfixLabel
+        + "are not empty", resolutionsFor(issueCode, quickfixLabel).isEmpty());
     String actualContent = getDocument().get();
     assertQuickFixProducesExpectedOutput(expectedContent, actualContent, ignoreFormatting);
   }
