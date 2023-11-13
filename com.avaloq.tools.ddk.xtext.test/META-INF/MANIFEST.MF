@@ -28,7 +28,8 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.pde.core,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.junit4,
- org.eclipse.emf.ecore
+ org.eclipse.emf.ecore,
+ org.slf4j.ext
 Import-Package: org.apache.log4j,
  com.avaloq.tools.ddk.check.runtime.test.core,
  com.avaloq.tools.ddk.check.test.core,

@@ -13,7 +13,7 @@ package com.avaloq.tools.ddk.xtext.ui.templates
 
 import com.avaloq.tools.ddk.test.core.AfterAll
 import com.avaloq.tools.ddk.test.core.BeforeAll
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner
 import com.google.inject.Guice
 import org.eclipse.jface.text.IDocument
 import org.eclipse.jface.text.IRegion
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
-@RunWith(ClassRunner)
+@RunWith(XtextClassRunner)
 class TemplateProposalProviderHelperTest {
 
   static val SIMPLE_ENUM_VARIABLE_TYPE = new SimpleEnumTemplateVariableResolver().type

@@ -12,15 +12,15 @@ package com.avaloq.tools.ddk.xtext.test.ui;
 
 import org.junit.runner.RunWith;
 
-import com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 import com.avaloq.tools.ddk.test.ui.swtbot.util.SwtBotUtil;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.SwtBotRecordingXtextTestRunner;
 
 
 /**
  * AbstractXtextEditorUITest extends AbstractXtextEditorTest by providing SWT bot functionalities.
  */
-@RunWith(SwtBotRecordingTestRunner.class)
+@RunWith(SwtBotRecordingXtextTestRunner.class)
 public abstract class AbstractXtextEditorUiTest extends AbstractXtextEditorTest {
 
   /**

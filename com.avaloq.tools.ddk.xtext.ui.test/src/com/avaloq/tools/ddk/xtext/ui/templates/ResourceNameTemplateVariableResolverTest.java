@@ -24,12 +24,12 @@ import org.mockito.Mockito;
 
 import com.avaloq.tools.ddk.test.core.AfterAll;
 import com.avaloq.tools.ddk.test.core.BeforeAll;
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 import com.google.common.collect.Iterables;
 import com.google.inject.Guice;
 
 
-@RunWith(ClassRunner.class)
+@RunWith(XtextClassRunner.class)
 public class ResourceNameTemplateVariableResolverTest {
 
   private static final Object[] FILE = new Object[] {"file"}; //$NON-NLS-1$

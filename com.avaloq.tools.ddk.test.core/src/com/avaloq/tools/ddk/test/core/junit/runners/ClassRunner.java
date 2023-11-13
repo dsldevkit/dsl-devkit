@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.xtext.testing.XtextRunner;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,6 +31,7 @@ import org.junit.runner.manipulation.Filter;
 import org.junit.runner.manipulation.NoTestsRemainException;
 import org.junit.runner.manipulation.Sorter;
 import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
@@ -55,7 +55,7 @@ import com.google.common.collect.Sets;
 
 
 /**
- * A JUnit runner extending the {@link XtextRunner} with support for @BeforeAll and @AfterAll annotated methods. These methods will be run once for a
+ * A JUnit runner extending the {@link BlockJUnit4ClassRunner} with support for @BeforeAll and @AfterAll annotated methods. These methods will be run once for a
  * given test class before the first test method and after the last test method respectively.
  * <p>
  * <h1>Test Methods</h1> Considered are all those methods of the test class that are annotated with one (or more) of the following test annotations:
@@ -91,7 +91,7 @@ import com.google.common.collect.Sets;
  * </p>
  */
 @SuppressWarnings({"restriction", "deprecation"})
-public class ClassRunner extends XtextRunner {
+public class ClassRunner extends BlockJUnit4ClassRunner {
   /** The system property for the number of test runs. */
   public static final String PROPERTY_TEST_RUNS = "com.avaloq.test.runs"; //$NON-NLS-1$
   /** The system property for the number of times a failing test shall be retried. */

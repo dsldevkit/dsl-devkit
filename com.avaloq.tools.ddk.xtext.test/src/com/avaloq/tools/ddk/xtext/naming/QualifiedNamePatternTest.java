@@ -21,10 +21,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.avaloq.tools.ddk.test.core.BugTest;
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 
 
-@RunWith(ClassRunner.class)
+@RunWith(XtextClassRunner.class)
 @SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
 // CHECKSTYLE:CONSTANTS-OFF
 public class QualifiedNamePatternTest {

@@ -25,11 +25,11 @@ import org.junit.runner.RunWith;
 
 import com.avaloq.tools.ddk.test.core.AfterAll;
 import com.avaloq.tools.ddk.test.core.BeforeAll;
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 import com.google.inject.Guice;
 
 
-@RunWith(ClassRunner.class)
+@RunWith(XtextClassRunner.class)
 public class SimpleEnumTemplateVariableResolverTest {
 
   private static XtextTemplateContext mockContext;

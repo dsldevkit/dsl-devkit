@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.test.ui;
 
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.asyncExec;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
@@ -30,10 +30,10 @@ import org.junit.Rule;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 
-import com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 import com.avaloq.tools.ddk.test.ui.swtbot.util.SwtBotUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractTest;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.SwtBotRecordingXtextTestRunner;
 import com.avaloq.tools.ddk.xtext.ui.util.UiAssert;
 
 
@@ -45,7 +45,7 @@ import com.avaloq.tools.ddk.xtext.ui.util.UiAssert;
  * ID.<br>
  * Provides {@link #closeEditor(IEditorPart, boolean)} for closing the running editor instance.
  */
-@RunWith(SwtBotRecordingTestRunner.class)
+@RunWith(SwtBotRecordingXtextTestRunner.class)
 public abstract class AbstractUiTest extends AbstractTest {
 
   /** Class-wide logger. */

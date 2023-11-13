@@ -25,15 +25,15 @@ import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProv
 import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
 import com.avaloq.tools.ddk.test.core.BugTest;
-import com.avaloq.tools.ddk.test.core.junit.runners.ClassRunner;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
+import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 
 
 /**
  * The CheckProjectWizardTest tests the Check Project Wizard.
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(ClassRunner.class)
+@RunWith(XtextClassRunner.class)
 public class CheckProjectWizardTest {
 
   /** This is the name of the project wizard. It's the name SWTBot uses to look up the wizard. */
