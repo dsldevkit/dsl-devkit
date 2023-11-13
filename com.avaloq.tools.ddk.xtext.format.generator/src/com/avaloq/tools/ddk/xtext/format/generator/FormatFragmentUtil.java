@@ -120,7 +120,7 @@ public final class FormatFragmentUtil {
       }
     }
 
-    return formatResource.getContents().size() == 0 ? null : (FormatConfiguration) formatResource.getContents().get(0);
+    return formatResource.getContents().isEmpty() ? null : (FormatConfiguration) formatResource.getContents().get(0);
   }
 
   /**
