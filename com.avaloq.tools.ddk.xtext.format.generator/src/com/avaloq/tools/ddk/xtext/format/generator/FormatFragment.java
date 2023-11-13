@@ -59,7 +59,6 @@ public class FormatFragment extends AbstractGeneratorFragment {
     this.baseFormatterClassName = baseFormatterClass;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void generate(final Grammar grammar, final XpandExecutionContext ctx) {
     if (LOGGER.isInfoEnabled()) {
@@ -80,7 +79,6 @@ public class FormatFragment extends AbstractGeneratorFragment {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     final BindFactory bindFactory = new BindFactory();
@@ -90,19 +88,16 @@ public class FormatFragment extends AbstractGeneratorFragment {
     return bindFactory.getBindings();
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
     return new String[] {"org.eclipse.emf.ecore", RUNTIME_PLUGIN};
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getRequiredBundlesUi(final Grammar grammar) {
     return new String[] {RUNTIME_PLUGIN};
   }
 
-  /** {@inheritDoc} */
   @Override
   protected List<Object> getParameters(final Grammar grammar) {
     return Lists.newArrayList(model, baseFormatterClassName);

@@ -26,4 +26,3 @@ public interface ICheckImplDescriptor {
   IConfigurationElement getElement();
 
 }
-

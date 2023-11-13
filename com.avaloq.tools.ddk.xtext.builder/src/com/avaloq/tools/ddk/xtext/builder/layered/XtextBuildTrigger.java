@@ -30,7 +30,6 @@ public class XtextBuildTrigger implements IXtextBuildTrigger {
   @Inject
   private IWorkspace workspace;
 
-  /** {@inheritDoc} */
   @Override
   public void scheduleFullBuild() {
     if (workspace != null && workspace.isAutoBuilding()) {

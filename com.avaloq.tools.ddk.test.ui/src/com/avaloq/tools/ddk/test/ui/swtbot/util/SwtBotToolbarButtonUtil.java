@@ -41,6 +41,6 @@ public final class SwtBotToolbarButtonUtil {
   /**
    * Creates a new instance of {@link SwtBotToolbarButtonUtil}.
    */
-  private SwtBotToolbarButtonUtil() {}
+  private SwtBotToolbarButtonUtil() {
+  }
 }
-

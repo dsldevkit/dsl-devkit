@@ -85,7 +85,6 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
     throw new UnsupportedOperationException();
   }
 
-  /** {@inheritDoc} */
   protected QualifiedNameLookup<IEObjectDescription> getNameToObjectsLookup() {
     if (nameToObjectsLookup == null) {
       synchronized (this) {

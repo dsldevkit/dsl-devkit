@@ -43,7 +43,6 @@ public interface IXtextTargetPlatformFactory {
     @Inject
     private Provider<IXtextTargetPlatform> platformProvider;
 
-    /** {@inheritDoc} */
     @Override
     public IXtextTargetPlatform get(final IProgressMonitor monitor) throws CoreException {
       return platformProvider.get();

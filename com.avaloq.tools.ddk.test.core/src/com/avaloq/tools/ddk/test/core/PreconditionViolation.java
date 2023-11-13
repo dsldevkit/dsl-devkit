@@ -26,4 +26,3 @@ public class PreconditionViolation extends ContractViolation {
     super(cause);
   }
 }
-

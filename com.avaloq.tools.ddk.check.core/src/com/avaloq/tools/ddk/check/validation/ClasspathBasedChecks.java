@@ -74,7 +74,8 @@ public class ClasspathBasedChecks extends AbstractDeclarativeValidator {
     }
     String catalogName = catalog.getName();
     if (catalogName != null && !equal(resourceURI.trimFileExtension().lastSegment(), catalogName)) {
-      error("The catalog '" + (packageName != null ? notNull(packageName) + DOT : "") + catalogName + "' must be defined in its own file", catalog, CheckPackage.Literals.CHECK_CATALOG__NAME, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.WRONG_FILE);
+      error("The catalog '" + (packageName != null ? notNull(packageName) + DOT : "") + catalogName
+          + "' must be defined in its own file", catalog, CheckPackage.Literals.CHECK_CATALOG__NAME, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.WRONG_FILE);
     }
   }
 
@@ -90,9 +91,11 @@ public class ClasspathBasedChecks extends AbstractDeclarativeValidator {
    */
   protected void reportInvalidPackage(final CheckCatalog catalog, final String givenPackageName, final String expectedPackageName) {
     if (expectedPackageName != null) {
-      error("The declared package '" + notNull(givenPackageName) + "' does not match the expected package", catalog, CheckPackage.Literals.CHECK_CATALOG__PACKAGE_NAME, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.WRONG_PACKAGE, expectedPackageName);
+      error("The declared package '" + notNull(givenPackageName)
+          + "' does not match the expected package", catalog, CheckPackage.Literals.CHECK_CATALOG__PACKAGE_NAME, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.WRONG_PACKAGE, expectedPackageName);
     } else {
-      error("The declared package '" + notNull(givenPackageName) + "' does not match the expected package", catalog, CheckPackage.Literals.CHECK_CATALOG__PACKAGE_NAME, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.WRONG_PACKAGE);
+      error("The declared package '" + notNull(givenPackageName)
+          + "' does not match the expected package", catalog, CheckPackage.Literals.CHECK_CATALOG__PACKAGE_NAME, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.WRONG_PACKAGE);
     }
   }
 }

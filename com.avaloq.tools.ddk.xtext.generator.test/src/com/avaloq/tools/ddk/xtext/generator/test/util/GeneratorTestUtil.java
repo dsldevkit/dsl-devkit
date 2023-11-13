@@ -28,4 +28,3 @@ public class GeneratorTestUtil extends AbstractXtextTestUtil {
   }
 
 }
-

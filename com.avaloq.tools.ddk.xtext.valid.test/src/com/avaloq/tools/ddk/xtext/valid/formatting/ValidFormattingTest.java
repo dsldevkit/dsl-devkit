@@ -45,4 +45,3 @@ public class ValidFormattingTest extends AbstractFormattingTest {
     super.preservedNodeModel();
   }
 }
-

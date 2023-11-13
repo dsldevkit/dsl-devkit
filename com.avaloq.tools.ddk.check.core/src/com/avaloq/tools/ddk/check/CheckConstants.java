@@ -23,5 +23,6 @@ public final class CheckConstants {
   public static final String IT = "it"; //$NON-NLS-1$
   public static final QualifiedName QNIT = QualifiedName.create(IT);
 
-  private CheckConstants() {}
+  private CheckConstants() {
+  }
 }

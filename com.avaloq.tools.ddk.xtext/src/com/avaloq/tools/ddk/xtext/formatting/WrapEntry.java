@@ -206,7 +206,6 @@ public class WrapEntry {
     return hiddenTokenHelper.getWhitespaceRuleFor(entry.getHiddenTokenDefinition(), getValue());
   }
 
-  /** {@inheritDoc} */
   public boolean isBreakable() {
     return false;
   }

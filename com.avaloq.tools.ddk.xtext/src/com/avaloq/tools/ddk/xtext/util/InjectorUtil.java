@@ -61,5 +61,6 @@ public final class InjectorUtil {
   /**
    * Creates a new instance of {@link InjectorUtil}.
    */
-  private InjectorUtil() {}
+  private InjectorUtil() {
+  }
 }

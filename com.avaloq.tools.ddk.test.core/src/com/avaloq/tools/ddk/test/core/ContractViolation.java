@@ -26,4 +26,3 @@ public class ContractViolation extends AssertionError {
     super(cause);
   }
 }
-

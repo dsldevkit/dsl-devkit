@@ -77,4 +77,3 @@ public class BuiltInTypeModelAccessTest {
     assertSame("type " + typeName + " is unique", instance.getInternalType(typeName), instance.getInternalType(typeName));
   }
 }
-

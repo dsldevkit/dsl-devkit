@@ -79,7 +79,6 @@ public abstract class AbstractUiTest extends AbstractTest {
     return this.getTestSourceModelName() + "." + getFileExtension();
   }
 
-  /** {@inheritDoc} */
   @Override
   protected void beforeAllTests() {
     super.beforeAllTests();

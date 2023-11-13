@@ -24,5 +24,5 @@ import com.avaloq.tools.ddk.xtext.export.validation.ExportValidationTest;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ExportFormattingTest.class, ExportValidationTest.class, ExportScopingTest.class, ExportExportingTest.class})
-public class ExportTestSuite {}
-
+public class ExportTestSuite {
+}

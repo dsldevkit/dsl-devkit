@@ -65,4 +65,3 @@ public class XtextSpyModule extends AbstractGenericModule implements Module {
   }
 
 }
-

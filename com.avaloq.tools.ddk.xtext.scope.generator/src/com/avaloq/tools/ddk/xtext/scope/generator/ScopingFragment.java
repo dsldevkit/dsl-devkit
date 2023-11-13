@@ -31,7 +31,6 @@ public class ScopingFragment extends AbstractGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext"; //$NON-NLS-1$
 
-  /** {@inheritDoc} */
   @Override
   public Set<Binding> getGuiceBindingsRt(final Grammar grammar) {
     final BindFactory bindFactory = new BindFactory();
@@ -44,19 +43,16 @@ public class ScopingFragment extends AbstractGeneratorFragment {
     return bindFactory.getBindings();
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getRequiredBundlesRt(final Grammar grammar) {
     return new String[] {"org.eclipse.emf.ecore", RUNTIME_PLUGIN}; //$NON-NLS-1$
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getRequiredBundlesUi(final Grammar grammar) {
     return new String[] {RUNTIME_PLUGIN};
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getExportedPackagesRt(final Grammar grammar) {
     return new String[] {GrammarUtil.getNamespace(grammar) + ".scoping"}; //$NON-NLS-1$

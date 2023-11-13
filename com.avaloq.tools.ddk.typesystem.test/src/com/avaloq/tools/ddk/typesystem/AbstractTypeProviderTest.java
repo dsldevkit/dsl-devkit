@@ -33,9 +33,11 @@ import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage;
 
 public class AbstractTypeProviderTest {
 
-  protected class TypeImpl extends EObjectImpl implements IType {}
+  protected class TypeImpl extends EObjectImpl implements IType {
+  }
 
-  protected class ExpressionImpl extends EObjectImpl implements IExpression {}
+  protected class ExpressionImpl extends EObjectImpl implements IExpression {
+  }
 
   private final IType type1 = new TypeImpl();
   private final IType type2 = new TypeImpl();
@@ -371,4 +373,3 @@ public class AbstractTypeProviderTest {
   }
 
 }
-

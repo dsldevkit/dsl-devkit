@@ -177,4 +177,3 @@ public class CheckLabelProvider extends XbaseLabelProvider {
     return context.getImportedTypeName();
   }
 }
-

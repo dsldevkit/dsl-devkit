@@ -98,7 +98,6 @@ public class MultiScope extends AbstractRecursiveScope {
     return names;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getAllLocalElements() {
     return EObjectDescriptions.all(elements, getNames());

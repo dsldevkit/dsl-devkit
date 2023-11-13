@@ -47,4 +47,3 @@ public class CheckLocationInFileProvider extends JvmLocationInFileProvider {
   }
 
 }
-

@@ -37,8 +37,8 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   public static final String STORE_NODE_MODEL = "com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade.STORE_NODE_MODEL";
 
-  @Inject(optional=true)
-  @Named(value=STORE_NODE_MODEL)
+  @Inject(optional = true)
+  @Named(value = STORE_NODE_MODEL)
   private boolean storeNodeModel = true; // NOPMD ImmutableField
 
   @Inject

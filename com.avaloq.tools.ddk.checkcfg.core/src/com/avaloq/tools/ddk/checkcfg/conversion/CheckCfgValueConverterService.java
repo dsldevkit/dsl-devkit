@@ -22,4 +22,3 @@ import com.google.inject.Singleton;
 public class CheckCfgValueConverterService extends XbaseValueConverterService {
 
 }
-

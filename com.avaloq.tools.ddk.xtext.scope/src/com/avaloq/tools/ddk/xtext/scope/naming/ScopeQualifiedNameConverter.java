@@ -24,4 +24,3 @@ public class ScopeQualifiedNameConverter extends IQualifiedNameConverter.Default
   }
 
 }
-

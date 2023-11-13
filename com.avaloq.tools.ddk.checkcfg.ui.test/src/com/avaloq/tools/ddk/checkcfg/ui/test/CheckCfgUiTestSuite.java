@@ -22,4 +22,5 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 })
 // @Format-On
-public class CheckCfgUiTestSuite {}
+public class CheckCfgUiTestSuite {
+}

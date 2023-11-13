@@ -20,7 +20,6 @@ import org.eclipse.xtext.xbase.ui.highlighting.XbaseHighlightingConfiguration;
 public class CheckAntlrTokenToAttributeIdMapper extends DefaultAntlrTokenToAttributeIdMapper {
   // XbaseAntlrTokenToAttributeMapper is deprecated and empty anyway, so we may safely use the default mapper as super type here.
 
-  /** {@inheritDoc} */
   @Override
   protected String calculateId(final String tokenName, final int tokenType) {
     if ("'SeverityRange'".equals(tokenName)) {
@@ -32,4 +31,3 @@ public class CheckAntlrTokenToAttributeIdMapper extends DefaultAntlrTokenToAttri
     }
   }
 }
-

@@ -40,4 +40,3 @@ public class NamedFormalParameterImplCustom extends NamedFormalParameterImpl {
   }
 
 }
-

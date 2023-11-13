@@ -32,4 +32,3 @@ public class ExportFormattingTest extends AbstractFormattingTest {
   }
 
 }
-

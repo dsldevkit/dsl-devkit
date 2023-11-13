@@ -22,5 +22,6 @@ public final class CheckRuntimeConstants {
   /** Suffix used in issue codes class names. */
   public static final String ISSUE_CODES_CLASS_NAME_SUFFIX = "IssueCodes"; //$NON-NLS-1$
 
-  private CheckRuntimeConstants() {}
+  private CheckRuntimeConstants() {
+  }
 }

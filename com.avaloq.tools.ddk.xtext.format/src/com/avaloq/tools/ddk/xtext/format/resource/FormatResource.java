@@ -72,4 +72,3 @@ public class FormatResource extends BatchLinkableResource {
     return false;
   }
 }
-

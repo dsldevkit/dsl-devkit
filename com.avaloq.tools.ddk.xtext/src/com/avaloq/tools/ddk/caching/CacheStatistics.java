@@ -65,4 +65,3 @@ public class CacheStatistics {
     this.misses += statistics.misses;
   }
 }
-

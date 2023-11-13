@@ -20,5 +20,6 @@ public final class CheckCfgConstants {
   public static final String FILE_EXTENSION = "checkcfg"; //$NON-NLS-1$
   public static final String CHECK_CFG_VAR_NAME = "CHECK_CONFIGURATION_LOCATION"; //$NON-NLS-1$
 
-  private CheckCfgConstants() {}
+  private CheckCfgConstants() {
+  }
 }

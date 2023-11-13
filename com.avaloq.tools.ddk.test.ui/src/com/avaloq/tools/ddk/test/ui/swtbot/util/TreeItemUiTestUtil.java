@@ -83,6 +83,6 @@ public final class TreeItemUiTestUtil {
     }
   }
 
-  private TreeItemUiTestUtil() {}
+  private TreeItemUiTestUtil() {
+  }
 }
-

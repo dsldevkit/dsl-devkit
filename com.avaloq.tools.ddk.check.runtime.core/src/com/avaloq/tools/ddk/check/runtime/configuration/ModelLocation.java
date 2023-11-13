@@ -31,4 +31,3 @@ public class ModelLocation extends AbstractModelLocation {
   }
 
 }
-

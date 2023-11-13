@@ -48,7 +48,6 @@ public class LanguageConstantsFragment extends AbstractGeneratorFragment {
   /** The corresponding outlet. */
   private Outlet metamodelSrcGenOulet;
 
-  /** {@inheritDoc} */
   @Override
   public void generate(final Grammar grammar, final XpandExecutionContext ctx) {
     if (LOGGER.isInfoEnabled()) {

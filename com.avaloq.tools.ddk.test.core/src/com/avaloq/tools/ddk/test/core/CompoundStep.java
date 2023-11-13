@@ -45,7 +45,6 @@ public class CompoundStep extends AbstractStep {
     return plannedSteps;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void run() {
     getExecutedSteps().clear();
@@ -143,7 +142,7 @@ public class CompoundStep extends AbstractStep {
           logError(step, problem);
         }
       }
-    } else if (!(throwable instanceof PreconditionViolation)){
+    } else if (!(throwable instanceof PreconditionViolation)) {
       multipleTestProblems.addProblem(throwable);
       logError(step, throwable);
     }
@@ -193,13 +192,11 @@ public class CompoundStep extends AbstractStep {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public String getDescription() {
     return "A compound step.";
   }
 
-  /** {@inheritDoc} */
   @Override
   public AbstractStep getUndoStep() {
     return NullStep.INSTANCE;
@@ -214,4 +211,3 @@ public class CompoundStep extends AbstractStep {
     return executedSteps;
   }
 }
-

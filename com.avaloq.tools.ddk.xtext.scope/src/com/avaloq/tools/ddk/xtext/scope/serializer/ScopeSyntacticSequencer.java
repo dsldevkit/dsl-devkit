@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.scope.serializer;
+package com.avaloq.tools.ddk.xtext.scope.serializer;
 
 /**
  * Syntactic sequencer for Scope DSL.

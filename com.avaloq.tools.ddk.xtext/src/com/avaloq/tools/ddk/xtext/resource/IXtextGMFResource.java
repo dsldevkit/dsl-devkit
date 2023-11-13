@@ -71,4 +71,3 @@ public interface IXtextGMFResource extends Resource {
   void updateDiagram(IXtextGMFResource fromResource) throws CharacterCodingException;
 
 }
-

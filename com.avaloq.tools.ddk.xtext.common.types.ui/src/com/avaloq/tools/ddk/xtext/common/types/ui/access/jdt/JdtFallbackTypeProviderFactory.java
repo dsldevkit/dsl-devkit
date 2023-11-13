@@ -80,7 +80,6 @@ public class JdtFallbackTypeProviderFactory extends JdtTypeProviderFactory {
     return result;
   }
 
-  /** {@inheritDoc} */
   @Override
   public IJvmTypeProvider findTypeProvider(final ResourceSet resourceSet) {
     IJvmTypeProvider result = super.findTypeProvider(resourceSet);
@@ -90,4 +89,3 @@ public class JdtFallbackTypeProviderFactory extends JdtTypeProviderFactory {
     return result;
   }
 }
-

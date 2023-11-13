@@ -103,25 +103,21 @@ public class DelegatingResourceDescriptionsData extends AbstractResourceDescript
     delegate.addDescription(uri, newDescription);
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IResourceDescription> findAllReferencingResources(final Set<IResourceDescription> targetResources, final ReferenceMatchPolicy matchPolicy) {
     return wrapped.findAllReferencingResources(targetResources, matchPolicy);
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final ReferenceMatchPolicy matchPolicy) {
     return wrapped.findExactReferencingResources(targetObjects, matchPolicy);
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IReferenceDescription> findReferencesToObjects(final Set<URI> targetObjects) {
     return wrapped.findReferencesToObjects(targetObjects);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void importData(final Iterable<IResourceDescription> descriptions) {
     for (IResourceDescription desc : descriptions) {
@@ -129,7 +125,6 @@ public class DelegatingResourceDescriptionsData extends AbstractResourceDescript
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void clear() {
     for (URI uri : Sets.newHashSet(delegate.getAllURIs())) {
@@ -137,25 +132,21 @@ public class DelegatingResourceDescriptionsData extends AbstractResourceDescript
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void beginChanges() {
     // No-op.
   }
 
-  /** {@inheritDoc} */
   @Override
   public void flushChanges() {
     // No-op.
   }
 
-  /** {@inheritDoc} */
   @Override
   public void commitChanges() {
     // No-op.
   }
 
-  /** {@inheritDoc} */
   @Override
   public void rollbackChanges() {
     // No-op.

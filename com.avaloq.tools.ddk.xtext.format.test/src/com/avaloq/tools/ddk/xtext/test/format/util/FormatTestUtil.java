@@ -97,4 +97,3 @@ public class FormatTestUtil extends AbstractXtextTestUtil {
     return resourceSet;
   }
 }
-

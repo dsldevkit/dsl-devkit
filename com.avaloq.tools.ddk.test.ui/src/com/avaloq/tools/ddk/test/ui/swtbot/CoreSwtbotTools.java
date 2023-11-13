@@ -147,7 +147,7 @@ public final class CoreSwtbotTools {
         bot.waitUntilFocused();
       } else if (WorkbenchFocusPolicy.REFOCUS == getWorkbenchFocusPolicy()) {
         PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-          /** {@inheritDoc} */
+
           @Override
           public void run() {
             final Shell[] shells = PlatformUI.getWorkbench().getDisplay().getShells();

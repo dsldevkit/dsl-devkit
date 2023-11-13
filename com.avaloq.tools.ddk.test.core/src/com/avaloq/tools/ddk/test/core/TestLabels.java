@@ -22,6 +22,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface TestLabels {
-  String[]value() default {};
+  String[] value() default {};
 }
-

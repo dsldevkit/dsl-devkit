@@ -53,6 +53,7 @@ public final class BuildPhases {
   /**
    * Inhibit instantiation.
    */
-  private BuildPhases() {}
+  private BuildPhases() {
+  }
 
 }

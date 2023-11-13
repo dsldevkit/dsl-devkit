@@ -37,4 +37,3 @@ public interface ITestEntity {
   void dispose();
 
 }
-

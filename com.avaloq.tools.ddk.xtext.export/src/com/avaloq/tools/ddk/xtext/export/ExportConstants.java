@@ -17,6 +17,6 @@ public final class ExportConstants {
   public static final String GRAMMAR = "com.avaloq.tools.ddk.xtext.export.Export"; //$NON-NLS-1$
   public static final String FILE_EXTENSION = "export"; //$NON-NLS-1$
 
-  private ExportConstants() {}
+  private ExportConstants() {
+  }
 }
-

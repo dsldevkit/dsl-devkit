@@ -3,7 +3,6 @@
  */
 package com.avaloq.tools.ddk.xtext.export.ide;
 
-
 /**
  * Use this class to register ide components.
  */

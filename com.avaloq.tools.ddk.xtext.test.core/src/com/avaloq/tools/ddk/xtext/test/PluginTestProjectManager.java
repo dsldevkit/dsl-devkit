@@ -106,7 +106,6 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     return result[0];
   }
 
-  /** {@inheritDoc} */
   @Override
   public void setup(final Iterable<? extends TestSource> initialSources) {
     try {
@@ -117,7 +116,6 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void teardown() {
     IResourcesSetupUtil.waitForBuild();
@@ -152,7 +150,6 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public URI createPlatformUri(final String encodedFileName) {
     return URI.createPlatformResourceURI('/' + TEST_PROJECT_NAME + "/" + DEFAULT_SOURCE_FOLDER + "/" + encodedFileName, true); //$NON-NLS-1$ //$NON-NLS-2$

@@ -38,7 +38,6 @@ public class XtextTestProjectManager implements ITestProjectManager {
   private final Map<String, TestSource> testSources = Maps.newHashMap();
   private final Object autoBuildMutex = new Object();
 
-  /** {@inheritDoc} */
   @Override
   public void setup(final Iterable<? extends TestSource> initialSources) {
     try {
@@ -57,7 +56,6 @@ public class XtextTestProjectManager implements ITestProjectManager {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void teardown() {
     testSources.clear();
@@ -71,13 +69,11 @@ public class XtextTestProjectManager implements ITestProjectManager {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void build() {
     IResourcesSetupUtil.waitForBuild();
   }
 
-  /** {@inheritDoc} */
   @Override
   public boolean setAutobuild(final boolean autoBuildStatus) {
     synchronized (autoBuildMutex) {
@@ -101,13 +97,11 @@ public class XtextTestProjectManager implements ITestProjectManager {
     return testSources.values();
   }
 
-  /** {@inheritDoc} */
   @Override
   public TestSource getTestSource(final String sourceName) {
     return testSources.get(sourceName);
   }
 
-  /** {@inheritDoc} */
   @Override
   public IFile addSourceToProject(final TestSource testSource) {
     try {
@@ -128,7 +122,6 @@ public class XtextTestProjectManager implements ITestProjectManager {
 
   }
 
-  /** {@inheritDoc} */
   @Override
   public void removeTestSource(final TestSource testSource) {
     IFile file = testSource.getiFile();
@@ -141,7 +134,6 @@ public class XtextTestProjectManager implements ITestProjectManager {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public URI createTestSourceUri(final String encodedFileName) {
     return createPlatformUri(encodedFileName);

@@ -207,7 +207,6 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
 
     final Function<IssueResolution, Integer> getLocationFunction = new Function<IssueResolution, Integer>() {
 
-      /** {@inheritDoc} */
       @Override
       public Integer apply(final IssueResolution from) {
         if (from != null) {

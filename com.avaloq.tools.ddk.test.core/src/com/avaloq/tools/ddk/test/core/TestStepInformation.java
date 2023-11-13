@@ -22,7 +22,7 @@ public class TestStepInformation {
   protected TestStepInformation(final String testStepIdentifier) {
     this.testStepIdentifier = testStepIdentifier;
   }
-  
+
   /**
    * Returns the number of times the test step has been executed.
    * 
@@ -48,4 +48,3 @@ public class TestStepInformation {
     executeCount++;
   }
 }
-

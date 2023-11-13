@@ -56,7 +56,6 @@ public class ScopeLinkingService extends DefaultLinkingService {
   @Inject
   private ScopeGrammarAccess grammarAccess;
 
-  /** {@inheritDoc} */
   @Override
   public List<EObject> getLinkedObjects(final EObject context, final EReference ref, final INode node) {
     if (ref == ScopePackage.Literals.SCOPE_MODEL__INCLUDED_SCOPES) {

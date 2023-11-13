@@ -76,7 +76,6 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    */
   protected abstract class AbstractModelAssertion implements Procedures.Procedure2<EObject, Integer> {
 
-    /** {@inheritDoc} */
     @Override
     public abstract void apply(EObject semanticModel, Integer pos);
 

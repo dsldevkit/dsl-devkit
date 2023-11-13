@@ -54,4 +54,3 @@ public class CheckHyperlinkHelper extends TypeAwareHyperlinkHelper {
     super.createHyperlinksByOffset(resource, offset, acceptor);
   }
 }
-

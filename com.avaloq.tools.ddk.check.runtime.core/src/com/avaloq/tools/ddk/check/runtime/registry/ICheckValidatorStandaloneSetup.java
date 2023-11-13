@@ -23,4 +23,3 @@ public interface ICheckValidatorStandaloneSetup {
   void doSetup();
 
 }
-

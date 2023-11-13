@@ -116,13 +116,11 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     return nThreads;
   }
 
-  /** {@inheritDoc} */
   @Override
   public LoadOperation create(final ResourceSet parent, final IProject project) {
     return new CheckedLoadOperation(new ParallelLoadOperation(parent, project));
   }
 
-  /** {@inheritDoc} */
   @Override
   protected Resource loadResource(final URI uri, final ResourceSet localResourceSet, final ResourceSet parentResourceSet) {
     Resource resource = super.loadResource(uri, localResourceSet, parentResourceSet);
@@ -196,14 +194,12 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         this.uri = uri;
       }
 
-      /** {@inheritDoc} */
       @Override
       public void run() {
         loadResource(uri);
       }
     }
 
-    /** {@inheritDoc} */
     @Override
     public LoadResult next() {
       try {
@@ -257,13 +253,11 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
       }
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean hasNext() {
       return toProcess > 0;
     }
 
-    /** {@inheritDoc} */
     @Override
     public void load(final Collection<URI> uris) {
       toProcess += uris.size();
@@ -281,7 +275,6 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
       executor.shutdown();
     }
 
-    /** {@inheritDoc} */
     @Override
     public Collection<URI> cancel() {
       toProcess = 0;

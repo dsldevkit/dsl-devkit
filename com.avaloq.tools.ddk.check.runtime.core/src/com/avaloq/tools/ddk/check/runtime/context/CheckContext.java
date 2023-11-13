@@ -31,4 +31,3 @@ public @interface CheckContext {
   String[] issueCodes();
 
 }
-

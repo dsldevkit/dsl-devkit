@@ -28,14 +28,12 @@ public class NameMethodFilter extends Filter {
   private static final String REGULAR_EXPRESSION = System.getProperty(PROPERTY_NAME_PREFIX, "");
   private static final Pattern PATTERN = Pattern.compile(REGULAR_EXPRESSION);
 
-  /** {@inheritDoc} */
   @Override
   public boolean shouldRun(final Description description) {
     assert FilterRegistry.isTestMethod(description);
     return PATTERN.matcher(getQualifiedMethodName(description)).matches();
   }
 
-  /** {@inheritDoc} */
   @Override
   public String describe() {
     return NameMethodFilter.class.getSimpleName();
@@ -53,4 +51,3 @@ public class NameMethodFilter extends Filter {
     return description.getClassName() + "." + description.getMethodName();
   }
 }
-

@@ -50,4 +50,3 @@ public class CheckValidatorTest extends AbstractCheckValidator {
     assertEquals("Dummy validator found", "DummyValidator", dummyValidator.getClass().getSimpleName());
   }
 }
-

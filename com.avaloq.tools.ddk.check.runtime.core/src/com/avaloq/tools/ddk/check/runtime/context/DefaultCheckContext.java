@@ -28,4 +28,3 @@ public class DefaultCheckContext implements ICheckContext {
   }
 
 }
-

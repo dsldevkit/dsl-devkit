@@ -37,7 +37,6 @@ public class DefaultXtextTargetPlatform implements IXtextTargetPlatform {
 
   private volatile IResourceDescriptionsData index; // NOPMD: volatile
 
-  /** {@inheritDoc} */
   @Override
   public IResourceDescriptionsData getIResourceDescriptionsData() {
     if (index == null) {
@@ -46,19 +45,16 @@ public class DefaultXtextTargetPlatform implements IXtextTargetPlatform {
     return index;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void open(final boolean clean, final IProgressMonitor monitor) throws IOException {
     // nothing to do
   }
 
-  /** {@inheritDoc} */
   @Override
   public void close(final IProgressMonitor monitor) {
     // nothing to do
   }
 
-  /** {@inheritDoc} */
   @Override
   public IIssueStore getIssueStore() {
     // No issue store needed; Eclipse stores markers by itself.
@@ -71,13 +67,11 @@ public class DefaultXtextTargetPlatform implements IXtextTargetPlatform {
     return null;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Map<String, String> getMetadata(final Collection<String> keys, final IProgressMonitor monitor) {
     return Collections.emptyMap();
   }
 
-  /** {@inheritDoc} */
   @Override
   public void setMetadata(final Map<String, String> options) {
     // nothing to do

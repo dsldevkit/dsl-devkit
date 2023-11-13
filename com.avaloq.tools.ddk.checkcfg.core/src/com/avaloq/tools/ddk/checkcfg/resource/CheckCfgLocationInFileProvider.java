@@ -34,4 +34,3 @@ public class CheckCfgLocationInFileProvider extends JvmLocationInFileProvider {
     return super.getIdentifierFeature(object);
   }
 }
-

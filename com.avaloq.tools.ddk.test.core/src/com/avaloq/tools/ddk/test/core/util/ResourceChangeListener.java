@@ -40,7 +40,6 @@ public class ResourceChangeListener implements IResourceChangeListener {
     sources.clear();
   }
 
-  /** {@inheritDoc} */
   @Override
   public void resourceChanged(final IResourceChangeEvent event) {
     final IResourceDelta delta = event.getDelta();

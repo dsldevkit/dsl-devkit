@@ -99,7 +99,6 @@ public class JobChangeListener extends JobChangeAdapter {
     jobNames.clear();
   }
 
-  /** {@inheritDoc} */
   @Override
   public synchronized void done(final IJobChangeEvent event) {
     final String jobName = event.getJob().getName();
@@ -108,7 +107,6 @@ public class JobChangeListener extends JobChangeAdapter {
     completedJobs.put(jobName, event.getResult());
   }
 
-  /** {@inheritDoc} */
   @Override
   public synchronized void scheduled(final IJobChangeEvent event) {
     jobNames.add(event.getJob().getName());

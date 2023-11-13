@@ -277,4 +277,3 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
     }
   }
 }
-

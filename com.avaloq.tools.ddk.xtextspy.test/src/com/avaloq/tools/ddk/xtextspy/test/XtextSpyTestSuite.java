@@ -19,5 +19,5 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({XtextElementSelectionListenerTest.class, EClassTypeContentProviderTest.class, EObjectContentProviderTest.class})
-public class XtextSpyTestSuite {}
-
+public class XtextSpyTestSuite {
+}

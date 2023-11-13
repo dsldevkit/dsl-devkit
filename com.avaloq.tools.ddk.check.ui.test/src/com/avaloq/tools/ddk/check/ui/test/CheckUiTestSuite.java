@@ -35,4 +35,5 @@ import com.avaloq.tools.ddk.check.ui.test.quickfix.CheckQuickfixTest;
   BugAig931Test.class
 })
 // @Format-On
-public class CheckUiTestSuite {}
+public class CheckUiTestSuite {
+}

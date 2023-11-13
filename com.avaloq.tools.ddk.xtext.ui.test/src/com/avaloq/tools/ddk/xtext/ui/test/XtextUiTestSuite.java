@@ -26,7 +26,7 @@ import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelperTes
  */
 @RunWith(DiscerningSuite.class)
 @DiscerningSuite.SuiteClasses({
-  // @Format-Off
+// @Format-Off
   WorkbenchResolutionAdaptorTest.class,
   WorkbenchResolutionAdaptorRunTest.class,
   SimpleEnumTemplateVariableResolverTest.class,
@@ -34,4 +34,5 @@ import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelperTes
   TemplateProposalProviderHelperTest.class
   // @Format-On
 })
-public class XtextUiTestSuite {}
+public class XtextUiTestSuite {
+}

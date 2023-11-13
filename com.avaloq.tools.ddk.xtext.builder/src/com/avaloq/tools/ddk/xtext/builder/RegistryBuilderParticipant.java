@@ -67,7 +67,6 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
   private final Map<String, Set<ILanguageSpecificBuilderParticipant>> serviceProviderToParticipants = Maps.newHashMap();
   private final Set<IXtextBuilderParticipant> initializedParticipants = Sets.newHashSet();
 
-  /** {@inheritDoc} */
   @Override
   public void build(final IBuildContext buildContext, final IProgressMonitor monitor) throws CoreException {
     SubMonitor progress = SubMonitor.convert(monitor, 2);
@@ -221,7 +220,6 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
     return true;
   }
 
-  /** {@inheritDoc} */
   @Override
   public ImmutableList<IXtextBuilderParticipant> getParticipants() {
     return initParticipants();
@@ -239,7 +237,6 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
     initializedParticipants.clear();
   }
 
-  /** {@inheritDoc} */
   @Override
   protected synchronized ImmutableList<IXtextBuilderParticipant> initParticipants() {
     if (immutableCommonParticipants == null) {

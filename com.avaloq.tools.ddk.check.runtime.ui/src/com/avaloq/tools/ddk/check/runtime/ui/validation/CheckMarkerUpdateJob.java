@@ -120,7 +120,6 @@ public class CheckMarkerUpdateJob extends Job {
     return null;
   }
 
-  /** {@inheritDoc} */
   @Override
   protected IStatus run(final IProgressMonitor monitor) {
 

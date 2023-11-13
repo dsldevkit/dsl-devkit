@@ -16,4 +16,5 @@ import com.avaloq.tools.ddk.xtext.resource.IResourceSetCache;
 /**
  * A resource set cache for generic objects that is intended to be used in validations.
  */
-public interface IValidationCache extends IResourceSetCache<Object> {}
+public interface IValidationCache extends IResourceSetCache<Object> {
+}

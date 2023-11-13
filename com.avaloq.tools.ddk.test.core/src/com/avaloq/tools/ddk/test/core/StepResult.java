@@ -37,7 +37,6 @@ public final class StepResult<T> implements IStepData<T> {
   private StepResult() {
   }
 
-  /** {@inheritDoc} */
   @Override
   public T getValue() {
     return value;
@@ -57,13 +56,11 @@ public final class StepResult<T> implements IStepData<T> {
     valueSet = true;
   }
 
-  /** {@inheritDoc} */
   @Override
   public boolean isValueSet() {
     return valueSet;
   }
 
-  /** {@inheritDoc} */
   @Override
   public String toString() {
     if (!isValueSet()) {

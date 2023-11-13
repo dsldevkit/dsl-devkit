@@ -36,4 +36,3 @@ public @interface Issue {
    */
   boolean fixed() default true;
 }
-

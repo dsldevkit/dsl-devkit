@@ -41,4 +41,3 @@ public class QualifiedNameConverter extends DefaultImpl implements IQualifiedNam
   }
 
 }
-

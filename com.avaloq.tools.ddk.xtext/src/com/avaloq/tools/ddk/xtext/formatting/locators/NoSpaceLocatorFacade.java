@@ -31,7 +31,6 @@ public class NoSpaceLocatorFacade extends FormattingConfig.NoSpaceLocator implem
     formattingConfig.super();
   }
 
-  /** {@inheritDoc} */
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.OVERRIDE;

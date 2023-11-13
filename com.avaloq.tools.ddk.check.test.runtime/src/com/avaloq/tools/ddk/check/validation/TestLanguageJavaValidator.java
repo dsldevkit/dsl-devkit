@@ -15,8 +15,8 @@ import org.eclipse.xtext.validation.Check;
 import com.avaloq.tools.ddk.check.testLanguage.Greeting;
 import com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage;
 
-
 //CHECKSTYLE:OFF generated code
+
 
 /**
  * The Class TestLanguageJavaValidator.
@@ -31,4 +31,3 @@ public class TestLanguageJavaValidator extends AbstractTestLanguageJavaValidator
   }
 
 }
-

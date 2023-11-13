@@ -42,7 +42,8 @@ public final class ExtensionRegistryMock {
   private static Multimap<String, IConfigurationElement> configurationElements = LinkedHashMultimap.create();
   private static Map<String, Answer<IConfigurationElement[]>> configurationAnswers = Maps.newHashMap();
 
-  private ExtensionRegistryMock() {}
+  private ExtensionRegistryMock() {
+  }
 
   /**
    * Mocks the extension registry.

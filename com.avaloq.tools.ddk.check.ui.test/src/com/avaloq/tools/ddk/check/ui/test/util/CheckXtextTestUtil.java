@@ -38,4 +38,3 @@ public class CheckXtextTestUtil extends AbstractXtextTestUtil {
     return new PluginTestProjectManager(getInjector());
   }
 }
-

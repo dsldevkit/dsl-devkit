@@ -90,13 +90,11 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
   /** Marker for unresolved references in the fingerprint. */
   private static final String UNRESOLVED_STRING = "unresolved"; //$NON-NLS-1$
 
-  /** {@inheritDoc} */
   @Override
   public String computeFingerprint(final Resource resource) {
     return computeFingerprint(resource.getContents());
   }
 
-  /** {@inheritDoc} */
   @Override
   public String computeFingerprint(final EObject object) {
     if (object == null) {

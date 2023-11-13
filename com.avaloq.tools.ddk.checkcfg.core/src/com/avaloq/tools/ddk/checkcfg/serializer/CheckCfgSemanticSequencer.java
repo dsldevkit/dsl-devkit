@@ -8,10 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.checkcfg.serializer;
+package com.avaloq.tools.ddk.checkcfg.serializer;
+
 /**
  * Semantic sequencer for CheckCfg DSL.
  */
-public class CheckCfgSemanticSequencer  extends AbstractCheckCfgSemanticSequencer {
+public class CheckCfgSemanticSequencer extends AbstractCheckCfgSemanticSequencer {
 
 }

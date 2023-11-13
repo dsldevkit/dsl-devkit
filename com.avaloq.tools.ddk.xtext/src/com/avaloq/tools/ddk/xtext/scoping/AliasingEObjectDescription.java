@@ -55,43 +55,36 @@ public class AliasingEObjectDescription extends AbstractEObjectDescription {
     return delegate.getQualifiedName();
   }
 
-  /** {@inheritDoc} */
   @Override
   public QualifiedName getName() {
     return alias;
   }
 
-  /** {@inheritDoc} */
   @Override
   public QualifiedName getQualifiedName() {
     return alias;
   }
 
-  /** {@inheritDoc} */
   @Override
   public EObject getEObjectOrProxy() {
     return delegate.getEObjectOrProxy();
   }
 
-  /** {@inheritDoc} */
   @Override
   public URI getEObjectURI() {
     return delegate.getEObjectURI();
   }
 
-  /** {@inheritDoc} */
   @Override
   public String getUserData(final String name) {
     return delegate.getUserData(name);
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getUserDataKeys() {
     return delegate.getUserDataKeys();
   }
 
-  /** {@inheritDoc} */
   @Override
   public EClass getEClass() {
     return delegate.getEClass();

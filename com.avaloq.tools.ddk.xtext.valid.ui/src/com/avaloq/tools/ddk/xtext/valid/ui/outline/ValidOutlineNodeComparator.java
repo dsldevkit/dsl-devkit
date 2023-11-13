@@ -36,4 +36,3 @@ public class ValidOutlineNodeComparator extends SortOutlineContribution.DefaultC
     return 0;
   }
 }
-

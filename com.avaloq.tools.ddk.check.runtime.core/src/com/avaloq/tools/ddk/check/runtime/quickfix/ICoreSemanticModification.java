@@ -30,4 +30,3 @@ public interface ICoreSemanticModification {
   void apply(EObject element, ICoreModificationContext context);
 
 }
-

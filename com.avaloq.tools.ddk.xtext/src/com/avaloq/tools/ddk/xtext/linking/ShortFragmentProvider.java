@@ -23,7 +23,6 @@ import com.google.common.base.CharMatcher;
  */
 public class ShortFragmentProvider extends AbstractFragmentProvider {
 
-  /** {@inheritDoc} */
   @Override
   public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
     final EReference containmentFeature = object.eContainmentFeature();
@@ -40,7 +39,6 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
     return true;
   }
 
-  /** {@inheritDoc} */
   @Override
   public EObject getEObjectFromSegment(final EObject container, final String segment) {
     final int listSeparatorIndex = segment.indexOf(LIST_SEPARATOR);
@@ -72,7 +70,6 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   protected int indexOfUnescapedChar(final String str, final CharMatcher ch, final int fromIndex) {
     int nextIndex = ch.indexIn(str, fromIndex);

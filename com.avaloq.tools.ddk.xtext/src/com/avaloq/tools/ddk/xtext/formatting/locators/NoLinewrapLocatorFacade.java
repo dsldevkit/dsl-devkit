@@ -28,7 +28,6 @@ public class NoLinewrapLocatorFacade extends FormattingConfig.NoLinewrapLocator 
     formattingConfig.super(0);
   }
 
-  /** {@inheritDoc} */
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.OVERRIDE;

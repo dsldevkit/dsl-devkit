@@ -115,19 +115,16 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
       return keyAsString;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int compareTo(final ExportItem other) {
       return getKeyAsString().compareTo(other.getKeyAsString());
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object other) {
       return other == this || (other instanceof ExportItem && getKeyAsString().equals(((ExportItem) other).getKeyAsString()));
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
       return getKeyAsString().hashCode();
@@ -147,13 +144,11 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
   /** Marker for unresolved references in the fingerprint. */
   private static final String UNRESOLVED_STRING = "unresolved"; //$NON-NLS-1$
 
-  /** {@inheritDoc} */
   @Override
   public String computeFingerprint(final Resource resource) {
     return computeFingerprint(resource.getContents());
   }
 
-  /** {@inheritDoc} */
   @Override
   public String computeFingerprint(final EObject object) {
     if (object == null) {

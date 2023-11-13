@@ -58,4 +58,3 @@ public abstract class AbstractStep {
    */
   public abstract AbstractStep getUndoStep();
 }
-

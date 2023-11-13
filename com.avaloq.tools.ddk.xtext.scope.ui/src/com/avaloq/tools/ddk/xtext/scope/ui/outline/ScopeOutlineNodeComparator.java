@@ -36,4 +36,3 @@ public class ScopeOutlineNodeComparator extends SortOutlineContribution.DefaultC
     return 0;
   }
 }
-

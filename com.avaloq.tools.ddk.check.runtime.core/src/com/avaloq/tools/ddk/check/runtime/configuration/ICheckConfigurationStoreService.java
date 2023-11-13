@@ -38,4 +38,3 @@ public interface ICheckConfigurationStoreService {
   ICheckConfigurationStore getCheckConfigurationStore(Object context);
 
 }
-

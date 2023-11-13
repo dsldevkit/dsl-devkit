@@ -27,4 +27,3 @@ import com.avaloq.tools.ddk.xtext.format.validation.FormatValidationTest;
 public class FormatTestSuite {
 
 }
-

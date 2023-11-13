@@ -26,4 +26,3 @@ public interface ITestEntityActionProvider {
   List<TestEntityAction> getTestEntityActions();
 
 }
-

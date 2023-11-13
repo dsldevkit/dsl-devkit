@@ -96,7 +96,6 @@ public abstract class AbstractTestStep extends AbstractStep {
     return testStepInformation;
   }
 
-  /** {@inheritDoc} */
   @Override
   public final void undo() {
     cleanUp();
@@ -112,7 +111,6 @@ public abstract class AbstractTestStep extends AbstractStep {
     return NullStep.INSTANCE;
   }
 
-  /** {@inheritDoc} */
   @Override
   public final void run() {
     getTestStepInformation().incrementExecuteCount();

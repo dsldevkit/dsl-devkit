@@ -8,10 +8,11 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.xtext.valid.serializer;
+package com.avaloq.tools.ddk.xtext.valid.serializer;
+
 /**
  * Semantic sequencer for Valid DSL.
  */
-public class ValidSemanticSequencer  extends AbstractValidSemanticSequencer {
+public class ValidSemanticSequencer extends AbstractValidSemanticSequencer {
 
 }

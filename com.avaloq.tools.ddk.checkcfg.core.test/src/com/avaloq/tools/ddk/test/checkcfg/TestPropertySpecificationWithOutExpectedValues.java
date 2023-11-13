@@ -19,27 +19,24 @@ public final class TestPropertySpecificationWithOutExpectedValues implements ICh
 
   public static final TestPropertySpecificationWithOutExpectedValues INSTANCE = new TestPropertySpecificationWithOutExpectedValues();
 
-  private TestPropertySpecificationWithOutExpectedValues() {}
+  private TestPropertySpecificationWithOutExpectedValues() {
+  }
 
-  /** {@inheritDoc} */
   @Override
   public String getName() {
     return "testPropertyWithoutExpectations";
   }
 
-  /** {@inheritDoc} */
   @Override
   public PropertyType getType() {
     return PropertyType.STRING;
   }
 
-  /** {@inheritDoc} */
   @Override
   public String getInfo() {
     return "Test Info";
   }
 
-  /** {@inheritDoc} */
   @Override
   public String[] getExpectedValues() {
     return new String[] {};

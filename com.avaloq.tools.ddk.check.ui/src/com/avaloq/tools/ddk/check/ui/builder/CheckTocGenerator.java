@@ -194,7 +194,7 @@ public class CheckTocGenerator {
     }
 
   }
-  
+
   /**
    * Updates the toc model with initial toc field label and anchor point. Saves and returns the model.
    * 
@@ -229,4 +229,3 @@ public class CheckTocGenerator {
   }
 
 }
-

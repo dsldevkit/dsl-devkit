@@ -16,4 +16,3 @@ package com.avaloq.tools.ddk.check.runtime.issue;
 public interface ICheckQuickfixImpl {
 
 }
-

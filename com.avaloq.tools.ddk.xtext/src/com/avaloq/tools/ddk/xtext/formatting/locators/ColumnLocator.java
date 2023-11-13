@@ -65,7 +65,6 @@ public class ColumnLocator extends AbstractFormattingConfig.ElementLocator imple
     return SpaceEntry.createPadding(length);
   }
 
-  /** {@inheritDoc} */
   @Override
   public AggregationPolicy getPolicy() {
     return AggregationPolicy.COMBINED_MAXIMUM;

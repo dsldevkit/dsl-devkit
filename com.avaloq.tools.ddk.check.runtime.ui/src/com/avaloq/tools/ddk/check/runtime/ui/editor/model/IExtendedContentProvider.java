@@ -24,4 +24,3 @@ public interface IExtendedContentProvider {
    */
   IDocument createFullContentsDocument();
 }
-

@@ -47,7 +47,6 @@ class LanguageCheckValidatorRegistryReader extends AbstractCheckRegistryReader {
     return new CheckValidatorDescriptor(element, attClass);
   }
 
-  /** {@inheritDoc} */
   @Override
   protected ICheckValidatorRegistry getRegistry() {
     return ICheckValidatorRegistry.INSTANCE;
@@ -66,4 +65,3 @@ class LanguageCheckValidatorRegistryReader extends AbstractCheckRegistryReader {
   }
 
 }
-

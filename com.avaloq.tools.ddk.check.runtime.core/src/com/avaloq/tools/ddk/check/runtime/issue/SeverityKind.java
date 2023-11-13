@@ -20,4 +20,3 @@ public enum SeverityKind {
   INFO,
   IGNORE
 }
-

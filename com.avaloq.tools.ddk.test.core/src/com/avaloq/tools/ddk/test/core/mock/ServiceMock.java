@@ -54,5 +54,6 @@ public final class ServiceMock {
     }
   }
 
-  private ServiceMock() {}
+  private ServiceMock() {
+  }
 }

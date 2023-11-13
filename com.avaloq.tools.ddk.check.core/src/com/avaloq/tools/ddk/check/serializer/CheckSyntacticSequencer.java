@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package  com.avaloq.tools.ddk.check.serializer;
+package com.avaloq.tools.ddk.check.serializer;
 
 /**
  * Syntactic sequencer for Check DSL.

@@ -29,4 +29,3 @@ public class FormatterTestUtil extends AbstractXtextTestUtil {
   }
 
 }
-

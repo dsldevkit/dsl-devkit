@@ -37,7 +37,6 @@ public abstract class AbstractModelLocation implements IModelLocation {
     this.catalogUrl = catalogUrl;
   }
 
-  /** {@inheritDoc} */
   @Override
   public InputStream getCatalogStream() {
     InputStream stream = null;
@@ -49,19 +48,16 @@ public abstract class AbstractModelLocation implements IModelLocation {
     return stream;
   }
 
-  /** {@inheritDoc} */
   @Override
   public String getCatalogPath() {
     return catalogUrl.getPath();
   }
 
-  /** {@inheritDoc} */
   @Override
   public URL getCatalogUrl() {
     return catalogUrl;
   }
 
-  /** {@inheritDoc} */
   @Override
   public URI getCatalogUri() {
     try {

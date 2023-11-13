@@ -37,7 +37,6 @@ public class SemanticHighlightingCalculator implements ISemanticHighlightingCalc
 
   // NOTE: will never be called, is currently disabled (see UI module)
 
-  /** {@inheritDoc} */
   @Override
   public void provideHighlightingFor(final XtextResource resource, final IHighlightedPositionAcceptor acceptor, final CancelIndicator cancelIndicator) {
     if (resource == null) {

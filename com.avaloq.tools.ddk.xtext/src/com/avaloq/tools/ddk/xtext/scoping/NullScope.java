@@ -34,31 +34,26 @@ public final class NullScope implements IScope {
     return INSTANCE;
   }
 
-  /** {@inheritDoc} */
   @Override
   public IEObjectDescription getSingleElement(final QualifiedName name) {
     return null;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getElements(final QualifiedName name) {
     return Collections.emptyList();
   }
 
-  /** {@inheritDoc} */
   @Override
   public IEObjectDescription getSingleElement(final EObject object) {
     return null;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getElements(final EObject object) {
     return Collections.emptyList();
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getAllElements() {
     return Collections.emptyList();
@@ -67,5 +62,6 @@ public final class NullScope implements IScope {
   /**
    * Creates a new instance of {@link NullScope}.
    */
-  private NullScope() {}
+  private NullScope() {
+  }
 }

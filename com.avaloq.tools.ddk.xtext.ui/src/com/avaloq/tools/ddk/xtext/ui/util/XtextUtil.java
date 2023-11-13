@@ -36,5 +36,6 @@ public final class XtextUtil {
     });
   }
 
-  private XtextUtil() {}
+  private XtextUtil() {
+  }
 }

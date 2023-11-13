@@ -21,4 +21,3 @@ public class CheckStandaloneSetup extends CheckStandaloneSetupGenerated {
     new CheckStandaloneSetup().createInjectorAndDoEMFRegistration();
   }
 }
-

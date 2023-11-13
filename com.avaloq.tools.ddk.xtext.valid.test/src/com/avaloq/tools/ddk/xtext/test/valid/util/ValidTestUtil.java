@@ -29,4 +29,3 @@ public class ValidTestUtil extends AbstractXtextTestUtil {
   }
 
 }
-

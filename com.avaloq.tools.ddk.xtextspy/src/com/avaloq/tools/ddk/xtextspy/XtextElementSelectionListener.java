@@ -62,7 +62,6 @@ public class XtextElementSelectionListener implements ISelectionListener, ISelec
     }
   };
 
-  /** {@inheritDoc} */
   @Override
   public void selectionChanged(final IWorkbenchPart part, final ISelection sel) {
     editor = editorUtils.getActiveXtextEditor();
@@ -102,25 +101,21 @@ public class XtextElementSelectionListener implements ISelectionListener, ISelec
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void addSelectionChangedListener(final ISelectionChangedListener listener) {
     listenerList.add(listener);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void removeSelectionChangedListener(final ISelectionChangedListener listener) {
     listenerList.remove(listener);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void setSelection(final ISelection selection) {
     throw new UnsupportedOperationException();
   }
 
-  /** {@inheritDoc} */
   @Override
   public ISelection getSelection() {
     if (selection != null) {

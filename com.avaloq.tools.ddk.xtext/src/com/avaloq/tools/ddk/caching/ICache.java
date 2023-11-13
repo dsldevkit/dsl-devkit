@@ -30,4 +30,3 @@ public interface ICache<K, V> {
    */
   CacheStatistics getStatistics();
 }
-

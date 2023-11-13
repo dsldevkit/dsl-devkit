@@ -36,7 +36,6 @@ public class BranchingScope implements IScope {
     return Iterables.concat(contents.getAllElements(), parent.getAllElements());
   }
 
-  /** {@inheritDoc} */
   @Override
   public IEObjectDescription getSingleElement(final QualifiedName name) {
     IEObjectDescription result = contents.getSingleElement(name);
@@ -46,7 +45,6 @@ public class BranchingScope implements IScope {
     return result;
   }
 
-  /** {@inheritDoc} */
   @Override
   public IEObjectDescription getSingleElement(final EObject object) {
     IEObjectDescription result = contents.getSingleElement(object);
@@ -56,13 +54,11 @@ public class BranchingScope implements IScope {
     return result;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getElements(final QualifiedName name) {
     return Iterables.concat(contents.getElements(name), parent.getElements(name));
   }
 
-  /** {@inheritDoc} */
   @Override
   public Iterable<IEObjectDescription> getElements(final EObject object) {
     return Iterables.concat(contents.getElements(object), parent.getElements(object));

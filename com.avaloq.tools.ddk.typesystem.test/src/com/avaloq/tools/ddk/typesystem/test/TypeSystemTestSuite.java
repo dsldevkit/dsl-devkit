@@ -32,4 +32,3 @@ import com.avaloq.tools.ddk.typesystem.ParameterListMatcherTest;
 public class TypeSystemTestSuite {
 
 }
-

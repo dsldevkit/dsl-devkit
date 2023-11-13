@@ -23,7 +23,6 @@ import org.junit.runner.manipulation.Filter;
  */
 public class SwtBotClassFilter extends Filter {
 
-  /** {@inheritDoc} */
   @Override
   public boolean shouldRun(final Description description) {
     assert FilterRegistry.isTestClass(description);
@@ -31,7 +30,6 @@ public class SwtBotClassFilter extends Filter {
     return runWithAnnotation != null && "com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner".equals(runWithAnnotation.value().getName());
   }
 
-  /** {@inheritDoc} */
   @Override
   public String describe() {
     return SwtBotClassFilter.class.getSimpleName();

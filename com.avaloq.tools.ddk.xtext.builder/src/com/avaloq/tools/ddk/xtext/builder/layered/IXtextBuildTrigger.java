@@ -27,9 +27,9 @@ public interface IXtextBuildTrigger {
   /** A null implementation of a build trigger (i.e., do not rebuild). */
   class NullXtextBuildTrigger implements IXtextBuildTrigger {
 
-    /** {@inheritDoc} */
     @Override
-    public void scheduleFullBuild() {}
+    public void scheduleFullBuild() {
+    }
 
   }
 }

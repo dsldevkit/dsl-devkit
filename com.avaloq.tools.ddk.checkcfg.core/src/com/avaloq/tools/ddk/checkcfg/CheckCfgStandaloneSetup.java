@@ -20,4 +20,3 @@ public class CheckCfgStandaloneSetup extends CheckCfgStandaloneSetupGenerated {
     new CheckCfgStandaloneSetup().createInjectorAndDoEMFRegistration();
   }
 }
-

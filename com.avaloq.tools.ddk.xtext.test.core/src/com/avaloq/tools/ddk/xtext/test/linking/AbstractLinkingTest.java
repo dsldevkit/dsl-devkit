@@ -37,4 +37,3 @@ public abstract class AbstractLinkingTest extends AbstractXtextTest {
     assertEquals(NOT_RESOLVED_MESSAGE, EcoreUtil.getURI(expectedObject), EcoreUtil.getURI(actualObject));
   }
 }
-

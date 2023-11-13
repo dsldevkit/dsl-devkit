@@ -122,7 +122,6 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   // may be back-references from auxiliary scopes to the main scope (named "scope"), and thus loops are
   // possible.
 
-  /** {@inheritDoc} */
   @Override
   public IScope getScope(final EObject context, final EReference reference) {
     return getScope(context, reference, null, context.eResource());
@@ -1086,7 +1085,6 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
       this.originalResource = originalResource;
     }
 
-    /** {@inheritDoc} */
     @Override
     public Iterable<? extends EObject> get() {
       return EObjectUtil.filterProxies(Iterables.transform(items, new Function<IEObjectDescription, EObject>() {

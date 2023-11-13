@@ -31,4 +31,3 @@ public interface AssistedProvider<T, C> {
   T get(C context);
 
 }
-

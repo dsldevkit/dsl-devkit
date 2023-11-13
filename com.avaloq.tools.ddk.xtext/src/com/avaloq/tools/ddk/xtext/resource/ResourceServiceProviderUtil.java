@@ -44,5 +44,6 @@ public final class ResourceServiceProviderUtil {
   /**
    * Creates a new instance of {@link ResourceServiceProviderUtil}.
    */
-  private ResourceServiceProviderUtil() {}
+  private ResourceServiceProviderUtil() {
+  }
 }

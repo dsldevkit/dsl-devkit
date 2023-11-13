@@ -45,7 +45,6 @@ public final class Index implements IIndex {
     // Prevent explicit instantiations. To be used via injection.
   }
 
-  /** {@inheritDoc} */
   @Override
   public IIndex.Query newQuery(final EClass type, final String namePattern) {
     if (type == null || namePattern == null || namePattern.length() == 0) {
@@ -54,7 +53,6 @@ public final class Index implements IIndex {
     return new Query(domainMapper, nameConverter, type).withName(namePattern);
   }
 
-  /** {@inheritDoc} */
   @Override
   public IIndex.Query newQuery(final EClass type, final QualifiedName namePattern) {
     if (type == null || namePattern == null || namePattern.isEmpty()) {
@@ -114,7 +112,6 @@ public final class Index implements IIndex {
       return this;
     }
 
-    /** {@inheritDoc} */
     @Override
     public Query withData(final String key, final String value) {
       if (key == null || value == null) {
@@ -124,7 +121,6 @@ public final class Index implements IIndex {
       return this;
     }
 
-    /** {@inheritDoc} */
     @Override
     public Iterable<IIndex.Entry> run(final EObject context) {
       if (context == null) {
@@ -165,25 +161,21 @@ public final class Index implements IIndex {
       this.delegate = internalDescription;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String getName() {
       return nameConverter.toString(getQualifiedName());
     }
 
-    /** {@inheritDoc} */
     @Override
     public QualifiedName getQualifiedName() {
       return delegate.getQualifiedName();
     }
 
-    /** {@inheritDoc} */
     @Override
     public EClass getType() {
       return delegate.getEClass();
     }
 
-    /** {@inheritDoc} */
     @Override
     public EObject getModelObject() {
       EObject result = delegate.getEObjectOrProxy();
@@ -193,7 +185,6 @@ public final class Index implements IIndex {
       return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String[] getDataKeys() {
       String[] result = delegate.getUserDataKeys();
@@ -203,7 +194,6 @@ public final class Index implements IIndex {
       return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String getData(final String key) {
       if (key == null) {
@@ -212,7 +202,6 @@ public final class Index implements IIndex {
       return delegate.getUserData(key);
     }
 
-    /** {@inheritDoc} */
     @Override
     public String getSourceName() {
       final URI uri = delegate.getEObjectURI().trimFragment();

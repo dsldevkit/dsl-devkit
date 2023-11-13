@@ -23,4 +23,3 @@ import org.eclipse.emf.ecore.resource.Resource;
 public interface ICheckCatalogImpl extends Resource {
 
 }
-

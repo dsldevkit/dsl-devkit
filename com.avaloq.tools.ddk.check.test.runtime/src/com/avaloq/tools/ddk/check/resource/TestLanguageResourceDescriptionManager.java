@@ -22,4 +22,3 @@ import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionMan
 public class TestLanguageResourceDescriptionManager extends AbstractCachingResourceDescriptionManager {
 
 }
-
