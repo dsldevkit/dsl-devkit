@@ -15,18 +15,16 @@ import org.junit.runner.RunWith;
 import org.junit.runner.manipulation.Filter;
 
 import com.avaloq.tools.ddk.test.core.junit.runners.FilterRegistry;
-import com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner;
 
 
 /**
  * A test filter that makes sure only SWT bot tests are run.
  * <p>
- * <em>Note</em>: The SWT bot test classes must use the {@link SwtBotRecordingTestRunner} for them to be recognized.
+ * <em>Note</em>: The SWT bot test classes must use the {@link SwtBotRecordingXtextTestRunner} for them to be recognized.
  * </p>
  */
 public class SwtBotXtextClassFilter extends Filter {
 
-  /** {@inheritDoc} */
   @Override
   public boolean shouldRun(final Description description) {
     assert FilterRegistry.isTestClass(description);
@@ -35,7 +33,6 @@ public class SwtBotXtextClassFilter extends Filter {
         && "com.avaloq.tools.ddk.xtext.test.junit.runners.SwtBotRecordingXtextTestRunner".equals(runWithAnnotation.value().getName());
   }
 
-  /** {@inheritDoc} */
   @Override
   public String describe() {
     return SwtBotXtextClassFilter.class.getSimpleName();
