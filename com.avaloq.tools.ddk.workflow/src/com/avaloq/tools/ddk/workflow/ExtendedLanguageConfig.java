@@ -90,8 +90,10 @@ public class ExtendedLanguageConfig extends XtextGeneratorLanguage {
         }
       }
 
-      StringBuilder buf = new StringBuilder();
-      buf.append("Could not find a GenModel for EPackage '").append(nsURI).append("'").append("\n");
+      // CHECKSTYLE:OFF MagicNumber
+      StringBuilder buf = new StringBuilder(100);
+      // CHECKSTYLE:ON
+      buf.append("Could not find a GenModel for EPackage '").append(nsURI).append('\'').append('\n');
       throw new RuntimeException(buf.toString());
     }
     if (resourceSet == null) {
