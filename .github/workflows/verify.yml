@@ -8,7 +8,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
       - name: PMD
         uses: pmd/pmd-github-action@v1.4.1
         id: pmd
