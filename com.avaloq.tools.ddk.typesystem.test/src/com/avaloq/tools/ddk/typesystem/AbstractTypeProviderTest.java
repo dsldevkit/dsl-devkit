@@ -14,6 +14,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Arrays;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
@@ -31,6 +33,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelFactory;
 import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage;
 
 
+@SuppressWarnings("nls")
 public class AbstractTypeProviderTest {
 
   protected class TypeImpl extends EObjectImpl implements IType {
@@ -62,9 +65,7 @@ public class AbstractTypeProviderTest {
     EcoreFactory modelFactory = EcoreFactory.eINSTANCE;
     EClass clazz = modelFactory.createEClass();
     clazz.setName(name);
-    for (EClass superType : superTypes) {
-      clazz.getESuperTypes().add(superType);
-    }
+    clazz.getESuperTypes().addAll(Arrays.asList(superTypes));
     testModelPackage.getEClassifiers().add(clazz);
     return clazz;
   }

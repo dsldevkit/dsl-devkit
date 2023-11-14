@@ -145,7 +145,6 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
         });
         acceptor.accept(entry, getProposalPriorities().getDefaultPriority(entry));
       }
-      return;
     }
   }
 
