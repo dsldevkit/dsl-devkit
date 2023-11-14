@@ -124,7 +124,7 @@ public class ExportFragment extends AbstractGeneratorFragment {
           throw new WorkflowInterruptedException(NLS.bind(Messages.ExportFragment_EXPORT_ERRORS, uri));
         }
       }
-      if (resource.getContents().size() == 0) {
+      if (resource.getContents().isEmpty()) {
         return null;
       }
       model = (ExportModel) resource.getContents().get(0);
