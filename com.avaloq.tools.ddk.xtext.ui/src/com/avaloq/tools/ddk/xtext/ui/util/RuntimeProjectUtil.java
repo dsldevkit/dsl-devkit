@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.ui.util;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
@@ -56,10 +56,7 @@ public final class RuntimeProjectUtil {
         @Override
         public boolean apply(final Pair<IStorage, IProject> input) {
           IStorage storage = input.getFirst();
-          if (storage instanceof IFile) {
-            return true;
-          }
-          return false;
+          return storage instanceof IFile;
         }
       });
 

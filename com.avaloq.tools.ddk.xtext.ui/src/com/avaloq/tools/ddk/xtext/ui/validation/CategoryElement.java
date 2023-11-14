@@ -82,7 +82,7 @@ public final class CategoryElement extends AbstractValidElementBase {
 
   @Override
   protected AbstractValidElementBase createChildElement(final IConfigurationElement ce) {
-    if (ce.getName().equals(RULE)) {
+    if (RULE.equals(ce.getName())) {
       return new RuleElement(ce);
     }
     return null;

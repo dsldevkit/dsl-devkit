@@ -312,7 +312,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
     while (m.find()) {
       withoutMarkers.append(sourceContent.subSequence(lastEnd, m.start()));
       lastEnd = m.end();
-      int markerId = Integer.valueOf(m.group(1));
+      int markerId = Integer.parseInt(m.group(1));
       // save the position of the marker only if we are dealing with an assertion marker
       AbstractModelAssertion assertionMarker = assertions.get(markerId);
       if (assertionMarker != null) {
@@ -365,7 +365,9 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    */
   protected void processErrorsFound(final String sourceWithoutMarkers) {
     if (!errorsOnPosition.isEmpty()) {
-      StringBuilder sb = new StringBuilder();
+      // CHECKSTYLE:OFF MagicNumber
+      StringBuilder sb = new StringBuilder(50);
+      // CHECKSTYLE:ON
       sb.append(memorizedErrorsToString(sourceWithoutMarkers));
       sb.append(SPLITTING_LINE);
       sb.append("List of all found diagnostics:\n");

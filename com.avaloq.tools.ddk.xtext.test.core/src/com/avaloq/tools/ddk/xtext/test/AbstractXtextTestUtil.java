@@ -66,6 +66,7 @@ import com.google.inject.Injector;
 /**
  * Utility for Xtext tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements ResourceLoadHelper /* , IInjectorProvider */ {
 
   private final ModelUtil modelUtil = new ModelUtil();
@@ -361,7 +362,9 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
    *         offset and error message
    */
   private Pair<Integer, String> processDiagnostic(final Diagnostic diagnostic) {
-    StringBuilder errorMessage = new StringBuilder();
+    // CHECKSTYLE:OFF MagicNumber
+    StringBuilder errorMessage = new StringBuilder(50);
+    // CHECKSTYLE:ON
     if (diagnostic instanceof AbstractValidationDiagnostic) {
       AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;
       errorMessage.append("Unexpected issue found. Code '");

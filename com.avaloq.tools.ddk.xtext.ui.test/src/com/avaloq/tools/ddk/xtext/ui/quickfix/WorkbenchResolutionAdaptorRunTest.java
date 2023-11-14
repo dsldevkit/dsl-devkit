@@ -93,7 +93,6 @@ public class WorkbenchResolutionAdaptorRunTest {
   private IMarkerResolution[] mockMarkerResolutions;
   private IFile mockFile;
 
-  private WorkbenchResolutionAdapter adapter;
   private final WorkbenchMarkerResolutionGenerator wmrg = injector.getInstance(WorkbenchMarkerResolutionGenerator.class);
 
   @Before
@@ -130,7 +129,7 @@ public class WorkbenchResolutionAdaptorRunTest {
 
   @Test
   public void testRun() throws CoreException {
-    adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
+    WorkbenchResolutionAdapter adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
     when(mockMarkerHelpRegistry.getResolutions(mockMarker)).thenReturn(mockMarkerResolutions);
 
     mockMarkerResource(URI.createURI("platform://dummy/" + TEST_FILE_NAME)); //$NON-NLS-1$
@@ -144,7 +143,7 @@ public class WorkbenchResolutionAdaptorRunTest {
 
   @Test
   public void testSingleRun() throws CoreException {
-    adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
+    WorkbenchResolutionAdapter adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
     when(mockMarkerHelpRegistry.getResolutions(mockMarker)).thenReturn(mockMarkerResolutions);
 
     mockMarkerResource(URI.createURI("platform://dummy/" + TEST_FILE_NAME)); //$NON-NLS-1$
