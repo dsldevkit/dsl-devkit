@@ -90,19 +90,15 @@ public class ExtendedLanguageConfig extends XtextGeneratorLanguage {
         }
       }
 
-      // CHECKSTYLE:OFF MagicNumber
-      StringBuilder buf = new StringBuilder(100);
-      // CHECKSTYLE:ON
-      buf.append("Could not find a GenModel for EPackage '").append(nsURI).append('\'').append('\n');
-      throw new RuntimeException(buf.toString());
+      throw new IllegalStateException("Could not find a GenModel for EPackage '" + nsURI + "'\n");
     }
     if (resourceSet == null) {
-      throw new RuntimeException("There is no ResourceSet for EPackage '" + nsURI + "'. " + "Please make sure the EPackage has been loaded from a .ecore file "
-          + "and not from the generated Java file.");
+      throw new IllegalStateException("There is no ResourceSet for EPackage '" + nsURI + "'. "
+          + "Please make sure the EPackage has been loaded from a .ecore file and not from the generated Java file.");
     }
     Resource genModelResource = resourceSet.getResource(genModelURI, true);
     if (genModelResource == null) {
-      throw new RuntimeException("Error loading GenModel " + genModelURI);
+      throw new IllegalStateException("Error loading GenModel " + genModelURI);
     }
     for (EObject content : genModelResource.getContents()) {
       if (content instanceof GenModel) {

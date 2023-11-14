@@ -30,7 +30,6 @@
     <!-- analysis parameter -->
     <compiler.showWarnings>true</compiler.showWarnings>
     <pmd.ruleset>${workspace}/ddk-configuration/pmd/ruleset.xml</pmd.ruleset>
-    <pmd.test.ruleset>${workspace}/ddk-configuration/pmd/ruleset-test.xml</pmd.test.ruleset>
     <pmd.cpd.min>100000</pmd.cpd.min>
     <checkstyle.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq.xml</checkstyle.configLocation>
     <checkstyle.test.configLocation>${workspace}/ddk-configuration/checkstyle/avaloq-test.xml</checkstyle.test.configLocation>
