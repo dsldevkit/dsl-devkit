@@ -36,7 +36,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.impl.NamedTypeImpl;
 
 
 // You can't have too many tests
-@SuppressWarnings({"PMD.ExcessivePublicCount"})
+@SuppressWarnings({"PMD.ExcessivePublicCount", "nls"})
 public class ParameterListMatcherTest {
 
   private static final String WRONG_NUMBER_OF_UNNAMED_FORMALS_AFTER_NAMED_FORMALS = "wrong number of unnamed formals after named formals";
@@ -58,8 +58,8 @@ public class ParameterListMatcherTest {
 
   private static final boolean FORCE_MATCH_BY_POSITION = true;
 
-  private final IMatchResult matchResultMatch = IParameterMatchChecker.MATCH;
-  private final IMatchResult matchResultTypeError = IParameterMatchChecker.TYPE_ERROR;
+  private static final IMatchResult MATCH_RESULT_MATCH = IParameterMatchChecker.MATCH;
+  private static final IMatchResult MATCH_RESULT_TYPE_ERROR = IParameterMatchChecker.TYPE_ERROR;
 
   protected class NamedType extends NamedTypeImpl {
 
@@ -174,9 +174,9 @@ public class ParameterListMatcherTest {
     public IMatchResult checkMatch(final IActualParameter actual, final IFormalParameter formal) {
       if (actual instanceof ActualParameter && formal instanceof FormalParameter) {
         if (((ActualParameter) actual).getType() == ((FormalParameter) formal).getType()) {
-          return matchResultMatch;
+          return MATCH_RESULT_MATCH;
         } else {
-          return matchResultTypeError;
+          return MATCH_RESULT_TYPE_ERROR;
         }
       }
       throw new AssertionError("incorrect parameters");

@@ -54,7 +54,7 @@ public class AbstractTypeProviderTest {
   private EReference expressionContainerReference;
 
   private EPackage testModelPackage;
-  private final TypeModelPackage typeModelPackage = TypeModelPackage.eINSTANCE;
+  private static final TypeModelPackage TYPE_MODEL_PACKAGE = TypeModelPackage.eINSTANCE;
 
   private ITypeProvider delegateProvider;
 
@@ -80,7 +80,7 @@ public class AbstractTypeProviderTest {
     expressionContainerReference = modelFactory.createEReference();
     clazz.getEStructuralFeatures().add(expressionContainerReference);
     expressionContainerReference.setName("expression");
-    expressionContainerReference.setEType(typeModelPackage.getIExpression());
+    expressionContainerReference.setEType(TYPE_MODEL_PACKAGE.getIExpression());
     expressionContainerReference.setContainment(true);
     EFactory instanceFactory = testModelPackage.getEFactoryInstance();
     expression1Container = instanceFactory.create(clazz);
