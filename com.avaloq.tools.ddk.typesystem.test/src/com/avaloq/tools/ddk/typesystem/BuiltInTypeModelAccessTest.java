@@ -15,7 +15,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.EList;
 import org.junit.Test;
@@ -28,6 +27,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.INamedType;
 /**
  * Tests that the BuiltInType model instance is correct and complete.
  */
+@SuppressWarnings("nls")
 public class BuiltInTypeModelAccessTest {
 
   @Test
@@ -36,10 +36,10 @@ public class BuiltInTypeModelAccessTest {
     BuiltInTypeModel model = typeModelInstance.getModel();
     assertNotNull("Model was created", model);
     EList<InternalType> types = model.getInternalTypes();
-    assertTrue("Model has built-in internal types", types.size() > 0);
+    assertFalse("Model has built-in internal types", types.isEmpty());
     for (InternalType type : types) {
       String typeName = type.getName();
-      assertFalse("Internal type has name", typeName == null || typeName.equals(""));
+      assertFalse("Internal type has name", typeName == null || "".equals(typeName));
     }
   }
 
