@@ -226,10 +226,7 @@ public abstract class AbstractOutlineTreeProvider extends BackgroundOutlineTreeP
    */
   @Override
   protected boolean isLeaf(final EObject modelElement) {
-    if (modelElement == null) {
-      return true;
-    }
-    return isLeafDispatcher.invoke(modelElement);
+    return modelElement == null || isLeafDispatcher.invoke(modelElement);
   }
 
   /**

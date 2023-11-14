@@ -15,6 +15,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +36,7 @@ import com.google.inject.Injector;
  * would also use it when defining a new model in the corresponding editor.
  */
 // CHECKSTYLE:OFF
+@SuppressWarnings("nls")
 public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBasedTest {
   private final AcfContentAssistMarkerTagsInfo acfContentAssistMarkerTagInfo = new AcfContentAssistMarkerTagsInfo();
   private static final String AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED = "At least one proposal was provided";
@@ -162,9 +164,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
     }
 
     Set<String> expectedProposalsAsSet = new HashSet<String>();
-    for (final String s : expectedProposals) {
-      expectedProposalsAsSet.add(s);
-    }
+    expectedProposalsAsSet.addAll(Arrays.asList(expectedProposals));
 
     if (computedProposalsAsSet.size() != expectedProposalsAsSet.size()) {
       // Calculate missing templates

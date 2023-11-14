@@ -36,6 +36,7 @@ import com.google.common.collect.Lists;
 /**
  * Base class for folding tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractFoldingTest extends AbstractXtextEditorTest {
 
   /**
@@ -77,7 +78,9 @@ public abstract class AbstractFoldingTest extends AbstractXtextEditorTest {
         }
       }));
       Collections.sort(unmatchedActualPositions, comparator);
-      StringBuffer message = new StringBuffer();
+      // CHECKSTYLE:OFF MagicNumber
+      StringBuffer message = new StringBuffer(100);
+      // CHECKSTYLE:ON
       message.append("Unmatched Expected Positions:").append(unmatchedExpectedPositions).append('\n');
       message.append("Unmatched Actual Positions:").append(unmatchedActualPositions);
       Assert.assertTrue(message.toString(), unmatchedExpectedPositions.isEmpty());

@@ -63,10 +63,7 @@ public class EClassTypeContentProvider implements ITreeContentProvider {
 
   @Override
   public boolean hasChildren(final Object element) {
-    if (element instanceof EClassNode) {
-      return ((EClassNode) element).hasChildren();
-    }
-    return false;
+    return element instanceof EClassNode && ((EClassNode) element).hasChildren();
   }
 
 }

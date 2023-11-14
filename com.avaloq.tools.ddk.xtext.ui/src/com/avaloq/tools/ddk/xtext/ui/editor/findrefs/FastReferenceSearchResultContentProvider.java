@@ -89,10 +89,7 @@ public class FastReferenceSearchResultContentProvider extends ReferenceSearchRes
 
   @Override
   public boolean hasChildren(final Object element) {
-    if (element instanceof ReferenceSearchViewTreeNode) {
-      return !((ReferenceSearchViewTreeNode) element).getChildren().isEmpty();
-    }
-    return false;
+    return element instanceof ReferenceSearchViewTreeNode && !((ReferenceSearchViewTreeNode) element).getChildren().isEmpty();
   }
 
   @Override
