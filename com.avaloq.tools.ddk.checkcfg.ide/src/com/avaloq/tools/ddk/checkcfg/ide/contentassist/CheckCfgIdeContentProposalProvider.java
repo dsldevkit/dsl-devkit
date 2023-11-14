@@ -264,7 +264,9 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
         acceptor.accept(allEntry, getProposalPriorities().getDefaultPriority(allEntry));
 
         // propose to configure one from a choice of the unconfigured catalogs
-        StringBuilder oneBuilder = new StringBuilder();
+        // CHECKSTYLE:OFF MagicNumber
+        StringBuilder oneBuilder = new StringBuilder(50);
+        // CHECKSTYLE:ON
         oneBuilder.append("catalog ${1|").append(choiceBuilder).append("|} {").append(Strings.newLine()).append(indentation); //$NON-NLS-1$ //$NON-NLS-2$
         oneBuilder.append("  ${0}").append(Strings.newLine()).append(indentation).append('}'); //$NON-NLS-1$
         ContentAssistEntry oneEntry = getProposalCreator().createProposal(oneBuilder.toString(), context, (final ContentAssistEntry it) -> {
