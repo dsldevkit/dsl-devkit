@@ -8,6 +8,7 @@
   <packaging>pom</packaging>
 
   <properties>
+    <java-version>17</java-version>
 
     <!-- build parameter -->
     <maven.deploy.skip>true</maven.deploy.skip>
@@ -212,8 +213,8 @@
           <showDeprecation>${compiler.showWarnings}</showDeprecation>
           <showWarnings>${compiler.showWarnings}</showWarnings>
           <useProjectSettings>false</useProjectSettings>
-          <source>11</source>
-          <target>11</target>
+          <source>${java-version}</source>
+          <target>${java-version}</target>
           <!-- Disable 'Unsupported @SuppressWarnings' warnings More information
             about the eclipse compiler warning configuration: http://www.jarvana.com/jarvana/view/org/eclipse/jdt/doc/isv/3.2.1-r321_v20060907/isv-3.2.1-r321_v20060907.jar!/guide/jdt_api_compile.htm -->
           <compilerArgument>-warn:-warningToken,discouraged</compilerArgument>
@@ -315,7 +316,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <targetJdk>11</targetJdk>
+          <targetJdk>${java-version}</targetJdk>
           <minimumTokens>${pmd.cpd.min}</minimumTokens>
           <renderProcessingErrors>false</renderProcessingErrors>
           <failOnViolation>true</failOnViolation>
