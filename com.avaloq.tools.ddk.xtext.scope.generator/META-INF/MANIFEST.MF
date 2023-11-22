@@ -6,7 +6,6 @@ Bundle-Version: 12.3.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.avaloq.tools.ddk.xtext.scope;visibility:=reexport,
- org.eclipse.xtext.generator,
  org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext.generator,
  org.eclipse.osgi,
