@@ -27,7 +27,7 @@ public class SwtBotClassFilter extends Filter {
   public boolean shouldRun(final Description description) {
     assert FilterRegistry.isTestClass(description);
     final RunWith runWithAnnotation = description.getAnnotation(RunWith.class);
-    return runWithAnnotation != null && "com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner".equals(runWithAnnotation.value().getName());
+    return runWithAnnotation != null && "com.avaloq.tools.ddk.xtext.test.junit.runners.SwtBotRecordingTestRunner".equals(runWithAnnotation.value().getName());
   }
 
   @Override
