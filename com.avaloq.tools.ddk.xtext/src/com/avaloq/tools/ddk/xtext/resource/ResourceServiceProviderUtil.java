@@ -11,13 +11,10 @@
 package com.avaloq.tools.ddk.xtext.resource;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 
 
 /**
@@ -31,14 +28,7 @@ public final class ResourceServiceProviderUtil {
    * @return the registered resource extensions, never {@code null}
    */
   public static Collection<String> getExtensions() {
-    final Set<String> extensions = IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().keySet();
-    Collection<String> decodedExtensions = Collections2.transform(extensions, new Function<String, String>() {
-      @Override
-      public String apply(final String from) {
-        return URI.decode(from);
-      }
-    });
-    return decodedExtensions;
+    return IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap().keySet().stream().map(URI::decode).collect(Collectors.toSet());
   }
 
   /**
