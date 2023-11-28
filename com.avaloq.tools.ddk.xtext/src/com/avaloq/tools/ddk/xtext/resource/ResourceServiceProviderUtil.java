@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.xtext.resource;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
