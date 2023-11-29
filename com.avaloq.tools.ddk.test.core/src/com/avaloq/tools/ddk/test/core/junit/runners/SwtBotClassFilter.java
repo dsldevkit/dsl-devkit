@@ -18,7 +18,8 @@ import org.junit.runner.manipulation.Filter;
 /**
  * A test filter that makes sure only SWT bot tests are run.
  * <p>
- * <em>Note</em>: The SWT bot test classes must use the {@link SwtBotRecordingTestRunner} for them to be recognized.
+ * <em>Note</em>: The SWT bot test classes must use the test runner class specified in the VM argument
+ * `com.avaloq.tools.ddk.test.core.junit.runners.SwtBotClassFilter.runwithannotation` for them to be recognized.
  * </p>
  */
 public class SwtBotClassFilter extends Filter {
@@ -27,7 +28,9 @@ public class SwtBotClassFilter extends Filter {
   public boolean shouldRun(final Description description) {
     assert FilterRegistry.isTestClass(description);
     final RunWith runWithAnnotation = description.getAnnotation(RunWith.class);
-    return runWithAnnotation != null && "com.avaloq.tools.ddk.test.ui.junit.runners.SwtBotRecordingTestRunner".equals(runWithAnnotation.value().getName());
+
+    return runWithAnnotation != null
+        && System.getProperty(SwtBotClassFilter.class.getCanonicalName() + ".runwithannotation").equals(runWithAnnotation.value().getName());
   }
 
   @Override
