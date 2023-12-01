@@ -310,6 +310,16 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return rawData;
   }
 
+  /**
+   * Provide access to the resourceServiceProviderRegistry to subclasses.
+   *
+   * @return the resourceServiceProviderRegistry.
+   */
+  protected IResourceServiceProvider.Registry getResourceServiceProviderRegistry() {
+    ensureLoaded();
+    return resourceServiceProviderRegistry;
+  }
+
   @Override
   @SuppressWarnings("PMD.AvoidInstanceofChecksInCatchClause")
   public synchronized ImmutableList<Delta> update(final BuildData buildData, final IProgressMonitor monitor) {
