@@ -3,7 +3,7 @@ Eclipse-ExtensibleAPI: true
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtextspy
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtextspy; singleton:=true
-Bundle-Version: 12.0.1.qualifier
+Bundle-Version: 12.0.1.v20231201-1209-REL
 Bundle-Activator: com.avaloq.tools.ddk.xtextspy.internal.Activator
 Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.ui,
