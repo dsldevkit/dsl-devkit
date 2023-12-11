@@ -45,7 +45,7 @@ public final class IndentationHelper {
     }
     int lastNLIndex = nodeText.lastIndexOf('\n', fromOffset);
     StringBuffer result = new StringBuffer();
-    Matcher m = PATTERN.matcher(nodeText.substring(lastNLIndex));
+    Matcher m = PATTERN.matcher(nodeText.substring(lastNLIndex + 1));
     if (m.find()) {
       result.append(m.group());
     }
