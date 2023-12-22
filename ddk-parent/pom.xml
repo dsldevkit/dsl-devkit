@@ -215,9 +215,6 @@
           <useProjectSettings>false</useProjectSettings>
           <source>${java-version}</source>
           <target>${java-version}</target>
-          <!-- Disable 'Unsupported @SuppressWarnings' warnings More information
-            about the eclipse compiler warning configuration: http://www.jarvana.com/jarvana/view/org/eclipse/jdt/doc/isv/3.2.1-r321_v20060907/isv-3.2.1-r321_v20060907.jar!/guide/jdt_api_compile.htm -->
-          <compilerArgument>-warn:-warningToken,discouraged</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
