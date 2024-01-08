@@ -31,7 +31,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment2 {
 
   /**
-   * Whether the Java Proposal Provider should be generated preference page extensions should be generated - default is not / false.
+   * Whether the Proposal Provider extensions should be generated - default is true.
    */
   @Accessors boolean generateProposalProvider = true;
 
