@@ -26,8 +26,14 @@ import org.eclipse.xtext.xtext.generator.ui.contentAssist.ContentAssistFragment2
 
 import static extension org.eclipse.xtext.GrammarUtil.*
 import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment2 {
+
+  /**
+   * Whether the Java Proposal Provider should be generated preference page extensions should be generated - default is not / false.
+   */
+  @Accessors boolean generateProposalProvider = true;
 
   @Inject
   FileAccessFactory fileAccessFactory
@@ -35,7 +41,12 @@ class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment2 {
   @Inject
   extension GrammarRuleAnnotations annotations
 
-    // generation of the 'Abstract...ProposalProvider'
+  override generate() {
+    if (generateProposalProvider)
+      super.generate
+  }
+
+  // generation of the 'Abstract...ProposalProvider'
 
   protected override generateGenJavaProposalProvider() {
     // excluded features are those that stem from inherited grammars,
