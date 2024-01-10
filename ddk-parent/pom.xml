@@ -215,6 +215,9 @@
           <useProjectSettings>false</useProjectSettings>
           <source>${java-version}</source>
           <target>${java-version}</target>
+          <compilerArgs>
+            <arg>-warn:-warningToken,discouraged</arg> <!-- Disable unhandled or unused warning token in @SuppressWarnings, discouraged access -->
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
