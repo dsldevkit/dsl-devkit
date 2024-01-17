@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder;
 
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinWorkerThread;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -100,6 +101,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -115,7 +117,9 @@ import com.google.inject.name.Named;
 public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     implements IResourceDescriptions2, IXtextTargetPlatformManager.Listener, ILayeredResourceDescriptions {
 
-  private static final int BINARY_STORAGE_EXECUTOR_PARALLELISM = 4;
+  private static final int BINARY_STORAGE_EXECUTOR_PARALLELISM = Integer.getInteger("com.avaloq.tools.ddk.xtext.builder.binaryStorageExecutor.parallelDegree", 4); //$NON-NLS-1$
+  private static final int BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY = Integer.getInteger("com.avaloq.tools.ddk.xtext.builder.binaryStorageExecutor.queueCapacity", 15_000); //$NON-NLS-1$
+
   public static final String PHASE_ONE_BUILD_SORTER = "com.avaloq.tools.ddk.xtext.builder.phaseOneBuildSorter"; //$NON-NLS-1$
   public static final String PHASE_TWO_BUILD_SORTER = "com.avaloq.tools.ddk.xtext.builder.phaseTwoBuildSorter"; //$NON-NLS-1$
 
@@ -166,13 +170,22 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   @Inject(optional = true)
   private IFileSystemAccess fileSystemAccess;
 
-  private final ForkJoinPool.ForkJoinWorkerThreadFactory factory = pool -> {
-    ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
-    worker.setName("binary-storage-executor-" + worker.getPoolIndex()); //$NON-NLS-1$
-    return worker;
-  };
+  private static final ThreadFactory makeThreadFactory() {
+    return new ThreadFactoryBuilder().setNameFormat("binary-storage-executor-%d").build(); //$NON-NLS-1$
+  }
 
-  private ForkJoinPool binaryStorageExecutor = new ForkJoinPool(BINARY_STORAGE_EXECUTOR_PARALLELISM, factory, null, false);
+  private static final ThreadPoolExecutor makeBinaryStorageExecutor() {
+    // @Format-Off
+    return new ThreadPoolExecutor(
+        BINARY_STORAGE_EXECUTOR_PARALLELISM, BINARY_STORAGE_EXECUTOR_PARALLELISM, // corePoolSize, maximumPoolSize
+        0, TimeUnit.MILLISECONDS,                                                 // keepAliveTime
+        new LinkedBlockingQueue<>(BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY), makeThreadFactory());
+    // @Format-On
+  }
+
+  private int binaryStorageHighWaterMark = 0;
+  private LocalTime hwmTimeStamp = null;
+  private ThreadPoolExecutor binaryStorageExecutor = makeBinaryStorageExecutor();
 
   /**
    * Handle to the ResourceDescriptionsData we use viewed as a IResourceDescriptions2 (with findReferences()). Parent class does not provide direct access to
@@ -699,7 +712,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
 
       try {
-        CompletableFuture.runAsync(() -> doStoreBinaryResource(resource, buildData), binaryStorageExecutor);
+        int currentQueueSize = binaryStorageExecutor.getQueue().size();
+        if (currentQueueSize > binaryStorageHighWaterMark) {
+          binaryStorageHighWaterMark = currentQueueSize;
+          hwmTimeStamp = LocalTime.now();
+        }
+        binaryStorageExecutor.execute(() -> doStoreBinaryResource(resource, buildData));
       } catch (RejectedExecutionException e) {
         String errorMessage = "Unable to submit a new task to store a binary resource."; //$NON-NLS-1$
         if (binaryStorageExecutor.isShutdown()) {
@@ -723,7 +741,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
       elapsed = System.nanoTime() - elapsed;
       if (elapsed > maxTaskExecutionNanos) {
-        LOGGER.info("saving binary taking longer than expected (" + elapsed + " ns) : " + resource.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
+        double elapsedMillis = elapsed / 1_000_000.0; // ns values are hard to read
+        LOGGER.info("saving binary taking longer than expected ({} ms): {}", elapsedMillis, resource.getURI()); //$NON-NLS-1$
       }
     } catch (WrappedException ex) {
       LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex.exception());
@@ -757,12 +776,15 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * Waits until binary models are stored.
    */
   protected void awaitBinaryStorageExecutorTermination() {
-    LOGGER.info("Waiting for binary resource storage tasks to complete..."); //$NON-NLS-1$
+    LOGGER.info("Waiting for binary resource storage tasks to complete"); //$NON-NLS-1$
+    if (hwmTimeStamp != null) {
+      LOGGER.info("high water mark was {} at {}", binaryStorageHighWaterMark, hwmTimeStamp); //$NON-NLS-1$
+    }
 
     // Stop accepting additional work
     binaryStorageExecutor.shutdown();
-    int activeThreadCount = binaryStorageExecutor.getActiveThreadCount();
-    long queuedTaskCount = binaryStorageExecutor.getQueuedTaskCount();
+    long queuedTaskCount = binaryStorageExecutor.getQueue().size();
+    long activeTaskCount = binaryStorageExecutor.getActiveCount();
 
     // Attempt to wait for queued work to complete
     try {
@@ -770,15 +792,17 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         throw new InterruptedException();
       }
     } catch (InterruptedException e) {
-      LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with task / queue %d / %d; now have %d / %d", //$NON-NLS-1$
-          activeThreadCount, queuedTaskCount, binaryStorageExecutor.getActiveThreadCount(), binaryStorageExecutor.getQueuedTaskCount()));
+      LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with %d queued / %d active; now have %d / %d", //$NON-NLS-1$
+          queuedTaskCount, activeTaskCount, binaryStorageExecutor.getQueue().size(), binaryStorageExecutor.getActiveCount()));
       binaryStorageExecutor.shutdownNow();
     }
 
     LOGGER.info("Binary resource storage executor completed."); //$NON-NLS-1$
 
     // Be ready to accept additional work
-    binaryStorageExecutor = new ForkJoinPool(BINARY_STORAGE_EXECUTOR_PARALLELISM, factory, null, false);
+    binaryStorageExecutor = makeBinaryStorageExecutor();
+    binaryStorageHighWaterMark = 0;
+    hwmTimeStamp = null;
   }
 
   /**
