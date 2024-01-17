@@ -183,8 +183,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     // @Format-On
   }
 
-  private int binaryStorageHighWaterMark = 0;
-  private LocalTime hwmTimeStamp = null;
+  private int binaryStorageHighWaterMark;
+  private LocalTime hwmTimeStamp;
   private ThreadPoolExecutor binaryStorageExecutor = makeBinaryStorageExecutor();
 
   /**
@@ -741,7 +741,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
       elapsed = System.nanoTime() - elapsed;
       if (elapsed > maxTaskExecutionNanos) {
-        double elapsedMillis = elapsed / 1_000_000.0; // ns values are hard to read
+        double elapsedMillis = elapsed / (double) TimeUnit.MILLISECONDS.toNanos(1); // ns values are hard to read
         LOGGER.info("saving binary taking longer than expected ({} ms): {}", elapsedMillis, resource.getURI()); //$NON-NLS-1$
       }
     } catch (WrappedException ex) {
