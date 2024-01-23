@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ide;singleton:=true
-Bundle-Version: 12.5.0.qualifier
+Bundle-Version: 12.5.0.v20240123-0719-REL
 Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.lsp4j,
  org.eclipse.xtext.ide,
