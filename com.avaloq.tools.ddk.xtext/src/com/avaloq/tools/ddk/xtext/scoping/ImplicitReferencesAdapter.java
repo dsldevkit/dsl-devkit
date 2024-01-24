@@ -10,7 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -20,6 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IReferenceDescription;
 
 import com.avaloq.tools.ddk.xtext.resource.ReferenceDescription;
+import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -121,4 +125,22 @@ public class ImplicitReferencesAdapter extends AdapterImpl {
     inferenceDependencies.clear();
   }
 
+  /**
+   * Get the implicit inference dependencies for the given collection of target resources.
+   *
+   * @param targets
+   *          the uris of the resources that may be targets of implicit dependencies.
+   * @param resourceDescriptions
+   *          the resource descriptions to find the implicit reference descriptions in.
+   * @return the uris of resources that have an implicit dependency on any of the target resources.
+   */
+  public static Set<URI> getImplicitInferredDependencies(final Collection<URI> targets, final IResourceDescriptions2 resourceDescriptions) {
+    final Set<URI> candidateDependencies = targets.stream().map(uri -> uri.appendFragment(ImplicitReferencesAdapter.INFERRED_FRAGMENT)).collect(Collectors.toSet());
+    final Set<URI> sources = new HashSet<>();
+    for (final IReferenceDescription referenceDescription : resourceDescriptions.findReferencesToObjects(candidateDependencies)) {
+      final URI dependency = referenceDescription.getSourceEObjectUri().trimFragment();
+      sources.add(dependency);
+    }
+    return sources;
+  }
 }

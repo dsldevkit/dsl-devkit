@@ -24,7 +24,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -375,11 +374,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          descriptions of the complete set of built resources
    */
   protected void propagateDependencyChains(final Set<URI> toBeUpdated, final IResourceDescriptions2 resourceDescriptions) {
-    final Set<URI> candidateDependencies = toBeUpdated.stream().map(uri -> uri.appendFragment(ImplicitReferencesAdapter.INFERRED_FRAGMENT)).collect(Collectors.toSet());
-    for (final IReferenceDescription referenceDescription : resourceDescriptions.findReferencesToObjects(candidateDependencies)) {
-      final URI dependency = referenceDescription.getSourceEObjectUri().trimFragment();
-      toBeUpdated.add(dependency);
-    }
+    toBeUpdated.addAll(ImplicitReferencesAdapter.getImplicitInferredDependencies(toBeUpdated, resourceDescriptions));
   }
 
   @Override
