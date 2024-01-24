@@ -10,19 +10,14 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
-import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.util.Triple;
 import org.eclipse.xtext.util.Tuples;
-
-import com.avaloq.tools.ddk.xtext.util.Strings;
 
 
 /**
@@ -32,8 +27,6 @@ public class FastLazyURIEncoder extends LazyURIEncoder {
 
   private static final String SEP = "::"; //$NON-NLS-1$
   private static final int DECODE_START_IDX = 12;
-
-  private static final String PARENT_SEG = ".."; //$NON-NLS-1$
 
   @Override
   public Triple<EObject, EReference, INode> decode(final Resource res, final String uriFragment) {
@@ -61,54 +54,6 @@ public class FastLazyURIEncoder extends LazyURIEncoder {
       // CHECKSTYLE:ON
       throw new DecodingError(ex);
     }
-  }
-
-  @Override
-  public EObject resolveShortFragment(final Resource res, final String shortFragment) {
-    List<String> split = Strings.split(shortFragment, '.');
-    int contentsIdx = Integer.parseInt(split.get(0));
-    EObject result = res.getContents().get(contentsIdx);
-    int splitIdx = 1;
-    while (splitIdx < split.size()) {
-      int featureId = Integer.parseInt(split.get(splitIdx++));
-      EReference reference = (EReference) result.eClass().getEStructuralFeature(featureId);
-      if (reference.isMany()) {
-        List<?> list = (List<?>) result.eGet(reference);
-        int listIdx = Integer.parseInt(split.get(splitIdx++));
-        result = (EObject) list.get(listIdx);
-      } else {
-        result = (EObject) result.eGet(reference);
-      }
-    }
-    return result;
-  }
-
-  @Override
-  public INode getNode(final INode node, final String path) {
-    INode result = node;
-    List<String> segments = Strings.split(path, '/');
-    for (int i = 0; i < segments.size(); i++) {
-      String seg = segments.get(i);
-      if (seg.length() > 0) {
-        if (PARENT_SEG.equals(seg)) {
-          if (result.getParent() == null) {
-            throw new IllegalStateException("node has no parent"); //$NON-NLS-1$
-          }
-          result = result.getParent();
-        } else {
-          int index = Integer.parseInt(seg);
-          if (index >= 0) {
-            INode child = ((ICompositeNode) result).getFirstChild();
-            while (index > 0) {
-              child = child.getNextSibling();
-              index--;
-            }
-            result = child;
-          }
-        }
-      }
-    }
-    return result;
   }
 
   /**
