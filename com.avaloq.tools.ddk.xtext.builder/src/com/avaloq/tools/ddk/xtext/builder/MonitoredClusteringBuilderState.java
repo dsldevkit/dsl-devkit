@@ -178,7 +178,10 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return new ThreadPoolExecutor(
         BINARY_STORAGE_EXECUTOR_PARALLELISM, BINARY_STORAGE_EXECUTOR_PARALLELISM, // corePoolSize, maximumPoolSize
         0, TimeUnit.MILLISECONDS,                                                 // keepAliveTime
-        new LinkedBlockingQueue<>(BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY), makeThreadFactory());
+        new LinkedBlockingQueue<>(BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY),
+        makeThreadFactory(),
+        new ThreadPoolExecutor.CallerRunsPolicy()
+        );
     // @Format-On
   }
 
