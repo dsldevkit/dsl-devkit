@@ -33,6 +33,7 @@ import org.eclipse.xtext.scoping.IScope;
 
 import com.avaloq.tools.ddk.xtext.linking.ImportedNamesTypesAdapter.WrappingTypedScope;
 import com.avaloq.tools.ddk.xtext.scoping.AliasingEObjectDescription;
+import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -200,8 +201,8 @@ public class LinkingService extends DefaultLinkingService {
   private IEObjectDescription safeGetSingleElement(final EObject context, final EReference ref, final QualifiedName qualifiedLinkName) {
     try {
       return getSingleElement(context, ref, qualifiedLinkName);
-    } catch (Exception e) {  // NOPMD
-      LOGGER.error("Exception in getSingleElement", e);
+    } catch (Exception e) {  // IllegalCatchCheck OFF
+      LOGGER.error("Exception in getSingleElement for " + qualifiedLinkName.toString() + " at " + EObjectUtil.getLocationString(context), e);
     }
     return null;
   }
