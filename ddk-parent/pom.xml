@@ -195,7 +195,6 @@
               <classifier>${target.platform}</classifier>
             </artifact>
           </target>
-          <ignoreTychoRepositories>true</ignoreTychoRepositories>
           <environments>
             <environment>
               <os>${osgi.os}</os>
@@ -216,7 +215,7 @@
           <source>${java-version}</source>
           <target>${java-version}</target>
           <compilerArgs>
-            <arg>-warn:-warningToken,discouraged</arg> <!-- Disable unhandled or unused warning token in @SuppressWarnings, discouraged access -->
+            <arg>-warn:-warningToken,discouraged</arg>            <!-- Disable unhandled or unused warning token in @SuppressWarnings, discouraged access -->
           </compilerArgs>
         </configuration>
       </plugin>
@@ -256,7 +255,7 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <skip>true</skip> <!-- activated only in/for com.avaloq.tools.ddk.xtext.test bundle -->
+          <skip>true</skip>          <!-- activated only in/for com.avaloq.tools.ddk.xtext.test bundle -->
         </configuration>
       </plugin>
       <plugin>
@@ -310,9 +309,9 @@
             <version>${pmd.version}</version>
           </dependency>
           <dependency>
-              <groupId>org.ow2.asm</groupId>
-              <artifactId>asm</artifactId>
-              <version>9.6</version>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.6</version>
           </dependency>
         </dependencies>
         <configuration>
@@ -380,7 +379,7 @@
     </plugins>
     <pluginManagement>
       <plugins>
-    <plugin>
+        <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>${clean.version}</version>
           <configuration>
