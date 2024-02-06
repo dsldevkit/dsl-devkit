@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -50,6 +52,8 @@ import com.google.inject.Provider;
  * resources may need to call importObject explicitly.
  */
 public class LinkingService extends DefaultLinkingService {
+
+  private static final Logger LOGGER = LogManager.getLogger(LinkingService.class);
 
   @Inject
   private ICrossReferenceHelper crossRefHelper;
@@ -193,6 +197,15 @@ public class LinkingService extends DefaultLinkingService {
     return desc.getEObjectOrProxy();
   }
 
+  private IEObjectDescription safeGetSingleElement(final EObject context, final EReference ref, final QualifiedName qualifiedLinkName) {
+    try {
+      return getSingleElement(context, ref, qualifiedLinkName);
+    } catch (Exception e) {  // NOPMD
+      LOGGER.error("Exception in getSingleElement", e);
+    }
+    return null;
+  }
+
   @Override
   public List<EObject> getLinkedObjects(final EObject context, final EReference ref, final INode node) {
     final EClass requiredType = ref.getEReferenceType();
@@ -203,7 +216,7 @@ public class LinkingService extends DefaultLinkingService {
     final String linkName = getCrossRefNodeAsString(node);
     if (linkName != null && !linkName.isEmpty()) {
       final QualifiedName qualifiedLinkName = qualifiedNameConverter.toQualifiedName(linkName);
-      final IEObjectDescription desc = getSingleElement(context, ref, qualifiedLinkName);
+      final IEObjectDescription desc = safeGetSingleElement(context, ref, qualifiedLinkName);
       final EObject target = desc == null ? null : getEObjectOrProxy(context, desc, ref);
 
       if (target != null) {
