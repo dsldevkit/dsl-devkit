@@ -54,7 +54,7 @@
     <spotbugs.version>4.8.3</spotbugs.version>
     <pmd.plugin.version>3.21.2</pmd.plugin.version>
     <pmd.version>6.55.0</pmd.version>
-    <tycho.version>3.0.5</tycho.version>
+    <tycho.version>4.0.6</tycho.version>
     <xtend.version>2.31.0</xtend.version>
   </properties>
 
@@ -270,17 +270,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <archive>
-            <manifestEntries>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.tycho.extras</groupId>
-        <artifactId>tycho-source-feature-plugin</artifactId>
-        <version>${tycho.version}</version>
         <configuration>
           <archive>
             <manifestEntries>
