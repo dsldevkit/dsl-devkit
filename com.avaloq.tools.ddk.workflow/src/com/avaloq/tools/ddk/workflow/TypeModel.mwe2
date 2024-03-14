@@ -17,7 +17,6 @@ import org.eclipse.emf.mwe.utils.*
 var projectName       = "com.avaloq.tools.ddk.typesystem"
 var runtimeProject    = "com.avaloq.tools.ddk.typesystem"
 var srcPath           = "platform:/resource/${runtimeProject}/src"
-// var uiProject         = "com.avaloq.tools.ddk.typesystem.ui"
 
 Workflow {
   bean = StandaloneSetup {
@@ -28,12 +27,12 @@ Workflow {
   directory = "../${runtimeProject}/src-gen"
   }
 
-  component = EcoreGenerator auto-inject {
+  component = org.eclipse.emf.mwe2.ecore.EcoreGenerator auto-inject {
     genModel = "platform:/resource/${projectName}/model/TypeModel.genmodel"
     generateEdit=true
   }
 
-  component = EcoreGenerator auto-inject {
+  component = org.eclipse.emf.mwe2.ecore.EcoreGenerator auto-inject {
     genModel = "platform:/resource/${projectName}/model/BuiltInTypeModel.genmodel"
     generateEdit=false
   }

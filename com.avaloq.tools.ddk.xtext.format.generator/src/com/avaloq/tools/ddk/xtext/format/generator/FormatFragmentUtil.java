@@ -26,7 +26,6 @@ import org.eclipse.xtend.expression.Variable;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.diagnostics.Severity;
-import org.eclipse.xtext.generator.Generator;
 import org.eclipse.xtext.resource.ClasspathUriResolutionException;
 import org.eclipse.xtext.validation.Issue;
 
@@ -39,7 +38,6 @@ import com.avaloq.tools.ddk.xtext.generator.util.ModelValidator;
 /**
  * Various utility functions for the format generator.
  */
-@SuppressWarnings({"deprecation", "removal"})
 public final class FormatFragmentUtil {
 
   /** Class-wide logger. */
@@ -47,6 +45,8 @@ public final class FormatFragmentUtil {
 
   /** Resource checker used to validate loaded model. */
   private static ModelValidator modelValidator;
+
+  public static final String SRC = "SRC"; //$NON-NLS-1$
 
   /**
    * Inhibit public instantiation.
@@ -66,7 +66,7 @@ public final class FormatFragmentUtil {
    */
   private static URI getDefaultFormatLocation(final Grammar grammar, final XpandExecutionContext ctx) {
     final String xmiPath = GrammarUtil.getClasspathRelativePathToXmi(grammar);
-    return URI.createFileURI(new File(ctx.getOutput().getOutlet(Generator.SRC).getPath(), xmiPath).getAbsolutePath()).trimFileExtension().appendFileExtension(FormatConstants.FILE_EXTENSION);
+    return URI.createFileURI(new File(ctx.getOutput().getOutlet(SRC).getPath(), xmiPath).getAbsolutePath()).trimFileExtension().appendFileExtension(FormatConstants.FILE_EXTENSION);
   }
 
   /**
@@ -85,7 +85,7 @@ public final class FormatFragmentUtil {
    */
   @SuppressWarnings("PMD.NPathComplexity")
   public static FormatConfiguration getFormatModel(final Grammar grammar, final XpandExecutionContext context) throws FileNotFoundException {
-    Variable resourceUriVariable = context.getVariable("resourceUri");
+    Variable resourceUriVariable = context.getVariable("resourceUri"); //$NON-NLS-1$
     if (resourceUriVariable == null) {
       return null;
     }
@@ -116,7 +116,7 @@ public final class FormatFragmentUtil {
 
     for (final Issue issue : issues) {
       if (issue.isSyntaxError() || issue.getSeverity() == Severity.ERROR) {
-        throw new WorkflowInterruptedException("Errors found in " + uri.toString() + ": " + issue.getMessage());
+        throw new WorkflowInterruptedException("Errors found in " + uri.toString() + ": " + issue.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
       }
     }
 

@@ -7,7 +7,7 @@ Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
- org.eclipse.xtext.generator;resolution:=optional,
+ org.eclipse.xtend,
  org.apache.commons.logging;resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.runtime,
  org.eclipse.xtend.shared.ui;resolution:=optional,
  org.eclipse.xtext.ui.codetemplates;resolution:=optional,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.typesystem.emf
 Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.export.export,

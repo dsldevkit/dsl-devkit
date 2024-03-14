@@ -27,7 +27,6 @@ import com.avaloq.tools.ddk.typesystem.test.TypeSystemTestSuite;
 import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
 import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
 import com.avaloq.tools.ddk.xtext.test.format.FormatTestSuite;
-import com.avaloq.tools.ddk.xtext.test.valid.ValidTestSuite;
 import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
 
@@ -43,7 +42,6 @@ import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
   XtextTestSuite.class,
   XtextUiTestSuite.class,
   GeneratorTestSuite.class,
-  ValidTestSuite.class,
   FormatTestSuite.class,
   ExportTestSuite.class,
   HelloWorldSampleTestSuite.class,

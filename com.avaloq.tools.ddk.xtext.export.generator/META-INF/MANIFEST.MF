@@ -6,7 +6,7 @@ Bundle-Version: 13.1.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.xtext,
- org.eclipse.xtext.generator;resolution:=optional,
+ org.eclipse.xtext.xtext.generator,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
  org.eclipse.emf.mwe2.launch;resolution:=optional,

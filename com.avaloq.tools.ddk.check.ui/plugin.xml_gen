@@ -216,17 +216,17 @@
 	</extension>
 	<!-- adding resource factories -->
 	<extension
-		point="org.eclipse.emf.ecore.extension_parser">
-		<parser
-			class="com.avaloq.tools.ddk.check.ui.CheckExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="check">
-		</parser>
+	  point="org.eclipse.emf.ecore.extension_parser">
+	  <parser
+	    class="com.avaloq.tools.ddk.check.ui.CheckExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+	    type="check">
+	  </parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
-		<resourceServiceProvider
-			class="com.avaloq.tools.ddk.check.ui.CheckExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-			uriExtension="check">
-		</resourceServiceProvider>
+	  <resourceServiceProvider
+	    class="com.avaloq.tools.ddk.check.ui.CheckExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+	    uriExtension="check">
+	  </resourceServiceProvider>
 	</extension>
 	<!-- marker definitions for com.avaloq.tools.ddk.check.Check -->
 	<extension
