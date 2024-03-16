@@ -10,8 +10,6 @@
   <internalTypes
       name="*"/>
   <internalTypes
-      name="*&lt;>"/>
-  <internalTypes
       name="error"/>
   <internalTypes
       name="undetermined"/>
