@@ -51,8 +51,6 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.check.generator" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.valid.ide" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.valid.ui" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.valid.generator" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.valid.test" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.valid" type="4"/>
 </workingSet>
 <workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1311162054647_4" label="DDK - Format" name="DDK - Format">
