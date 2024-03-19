@@ -305,7 +305,6 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
       return;
     }
 
-    StringBuilder sourceContentWithErrors = new StringBuilder(sourceContent);
     // Store all the validation errors
     Set<Diagnostic> errors = Sets.newHashSet();
     errors.addAll(Collections2.filter(getDiagnostician().validate(root).getChildren(), new Predicate<Diagnostic>() {
@@ -335,6 +334,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
     // Append all the error messages to the end of the source
     int errorNumber = 1;
     ListIterator<Integer> offsetIterator = offsets.listIterator();
+    StringBuilder sourceContentWithErrors = new StringBuilder(sourceContent);
     while (offsetIterator.hasNext()) {
       sourceContentWithErrors.append(SPLITTER);
       sourceContentWithErrors.append(String.format(ERROR, errorNumber++));

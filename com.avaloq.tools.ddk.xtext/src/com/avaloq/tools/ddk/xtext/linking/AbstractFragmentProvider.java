@@ -116,12 +116,12 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       return fallback.getFragment(object);
     }
     final StringBuilder result = new StringBuilder(containingObjects.size() * FRAGMENT_BUFFER_CAPACITY);
-    StringBuilder previousSegment = new StringBuilder(FRAGMENT_BUFFER_CAPACITY);
     StringBuilder segment = new StringBuilder(FRAGMENT_BUFFER_CAPACITY);
     internalAppendFragmentSegment(containingObjects.pop(), segment);
     int reps = 1;
     result.append(SEGMENT_SEPARATOR);
     result.append(segment);
+    StringBuilder previousSegment = new StringBuilder(FRAGMENT_BUFFER_CAPACITY);
     while (!containingObjects.isEmpty()) {
       StringBuilder temp = previousSegment;
       previousSegment = segment;
