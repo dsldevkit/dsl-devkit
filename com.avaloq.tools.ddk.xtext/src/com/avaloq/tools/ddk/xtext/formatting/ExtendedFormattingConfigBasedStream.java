@@ -255,7 +255,6 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   @Override
   @SuppressWarnings("PMD.NPathComplexity")
   protected Set<ElementLocator> collectLocators(final EObject grammarElement) {
-    List<ElementLocator> result = Lists.newArrayList(activeRangeLocators);
     Collection<ElementLocator> locators = Sets.newHashSet();
     Set<ElementLocator> noFormatBaseLocators = Sets.newHashSet();
     List<ElementLocator> conditionalLocators = Lists.newArrayList();
@@ -296,6 +295,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
       }
     }
 
+    List<ElementLocator> result = Lists.newArrayList(activeRangeLocators);
     last = grammarElement;
     for (ElementLocator locator : locators) {
       if (locator.getType() == LocatorType.RANGE && !activeRangeLocators.add(locator)) {
