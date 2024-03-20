@@ -196,7 +196,6 @@ public class TypeModelPackageImpl extends EPackageImpl implements TypeModelPacka
 	{
 		super(eNS_URI, TypeModelFactory.eINSTANCE);
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

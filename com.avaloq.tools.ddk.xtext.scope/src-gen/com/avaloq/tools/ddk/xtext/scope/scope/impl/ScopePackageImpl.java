@@ -211,7 +211,6 @@ public class ScopePackageImpl extends EPackageImpl implements ScopePackage
   {
     super(eNS_URI, ScopeFactory.eINSTANCE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

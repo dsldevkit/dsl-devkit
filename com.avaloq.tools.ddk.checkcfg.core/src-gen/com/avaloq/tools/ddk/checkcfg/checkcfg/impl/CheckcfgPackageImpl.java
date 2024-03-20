@@ -109,7 +109,6 @@ public class CheckcfgPackageImpl extends EPackageImpl implements CheckcfgPackage
   {
     super(eNS_URI, CheckcfgFactory.eINSTANCE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

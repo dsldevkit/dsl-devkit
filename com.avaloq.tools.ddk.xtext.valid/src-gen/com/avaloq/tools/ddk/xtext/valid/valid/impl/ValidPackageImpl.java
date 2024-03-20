@@ -177,7 +177,6 @@ public class ValidPackageImpl extends EPackageImpl implements ValidPackage
   {
     super(eNS_URI, ValidFactory.eINSTANCE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

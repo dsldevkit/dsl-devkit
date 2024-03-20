@@ -1,7 +1,0 @@
-import org::eclipse::xtext;
-
-extension org::eclipse::xtext::generator::Naming;
-
-String getStandaloneBuilderPluginXmlGenFile() :
-	"plugin.xml_gen"
-;
