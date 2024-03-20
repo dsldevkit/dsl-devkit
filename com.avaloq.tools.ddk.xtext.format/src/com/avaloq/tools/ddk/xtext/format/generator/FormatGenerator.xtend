@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.common.types.JvmField
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.eclipse.xtext.generator.Naming
 import org.eclipse.xtext.xbase.compiler.DocumentationAdapter
 import org.eclipse.xtext.xbase.compiler.ErrorSafeExtensions
 import org.eclipse.xtext.xbase.compiler.GeneratorConfig
@@ -27,6 +26,7 @@ import static com.avaloq.tools.ddk.xtext.format.generator.FormatGeneratorUtil.*
 import static org.eclipse.xtext.xbase.lib.IteratorExtensions.*
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration
 import com.avaloq.tools.ddk.xtext.format.FormatConstants
+import org.eclipse.xtext.util.Strings
 
 /**
  * Generates code from your model files on save.
@@ -39,7 +39,6 @@ import com.avaloq.tools.ddk.xtext.format.FormatConstants
  */
 class FormatGenerator extends JvmModelGenerator {
 
-    @Inject extension Naming naming
     @Inject extension TreeAppendableUtil
     @Inject extension ErrorSafeExtensions
 
@@ -75,19 +74,18 @@ class FormatGenerator extends JvmModelGenerator {
         super.doGenerate(resource, fsa); // Generate the abstract formatter from inferred Jvm models.
 
         for (model : toIterable(resource.allContents).filter(typeof(FormatConfiguration))) {
-            fsa.generateFile(getFormatterName(model, "").asPath + ".java", FormatConstants.FORMATTER,
+            fsa.generateFile(getFormatterName(model, "").replace('.', '/') + ".java", FormatConstants.FORMATTER,
                 model.generateSrc)
         }
     }
 
     def generateSrc(FormatConfiguration model) '''
-        package «getFormatterName(model, "").toPackageName»;
+        package «Strings.skipLastToken(getFormatterName(model, ""), ".")»;
 
         /**
-         * The formatting configuration for «model.targetGrammar.name.toSimpleName».
+         * The formatting configuration for «Strings.lastToken(model.targetGrammar.name,".")».
          */
-        public class «getFormatterName(model, "").toSimpleName» extends «getFormatterName(
-            model, "Abstract").toSimpleName» {
+        public class «Strings.lastToken(getFormatterName(model, ""),".")» extends «Strings.lastToken(getFormatterName(model, "Abstract"),".")» {
           // TODO: Provide a correct implementation of getSLCommentRule() and getMLCommentRule() in this class
         }
     '''

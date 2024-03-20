@@ -171,7 +171,6 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
   {
     super(eNS_URI, CheckFactory.eINSTANCE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

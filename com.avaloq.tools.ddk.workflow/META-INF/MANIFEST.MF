@@ -25,10 +25,11 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.mwe.utils,
+ org.eclipse.emf.mwe2.lib,
  org.eclipse.emf.mwe2.launch,
  org.eclipse.xtext,
  org.eclipse.xtext.ecore,
- org.eclipse.xtext.generator,
+ org.eclipse.xtext.xtext.generator,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.xbase.lib
 Automatic-Module-Name: com.avaloq.tools.ddk.workflow

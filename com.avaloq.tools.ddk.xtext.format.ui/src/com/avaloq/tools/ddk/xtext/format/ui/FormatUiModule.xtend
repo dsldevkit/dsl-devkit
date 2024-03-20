@@ -8,6 +8,9 @@ import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResol
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver
 import com.avaloq.tools.ddk.xtext.format.ui.hyperlinking.FormatHyperlinkHelper
 import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant
+import org.eclipse.xtext.xtext.generator.model.project.IXtextProjectConfig
+import org.eclipse.xtext.xtext.generator.model.project.XtextProjectConfig
+import com.google.inject.Binder
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
@@ -40,5 +43,11 @@ class FormatUiModule extends AbstractFormatUiModule {
     return FormatBuilderParticipant
   }
 
-
+  /**
+   * {@inheritDoc}
+   */
+  override configure(Binder binder) {
+    super.configure(binder);
+    binder.bind(IXtextProjectConfig).to(XtextProjectConfig);
+  }
 }

@@ -224,7 +224,6 @@ public class ExpressionPackageImpl extends EPackageImpl implements ExpressionPac
   {
     super(eNS_URI, ExpressionFactory.eINSTANCE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

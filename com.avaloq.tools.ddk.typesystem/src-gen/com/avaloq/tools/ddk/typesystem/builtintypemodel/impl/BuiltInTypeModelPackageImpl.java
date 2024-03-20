@@ -57,7 +57,6 @@ public class BuiltInTypeModelPackageImpl extends EPackageImpl implements BuiltIn
 	{
 		super(eNS_URI, BuiltInTypeModelFactory.eINSTANCE);
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

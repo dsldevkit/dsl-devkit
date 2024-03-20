@@ -31,10 +31,9 @@ import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Group;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
-import org.eclipse.xtext.generator.Naming;
-import org.eclipse.xtext.generator.grammarAccess.GrammarAccessUtil;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessExtensions;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -46,7 +45,6 @@ import com.google.common.collect.Sets;
 /**
  * Utility for semantic predicates in Xtext grammars.
  */
-@SuppressWarnings({"deprecation", "removal"})
 public final class ParserSemanticPredicatesUtil {
 
   /**
@@ -73,6 +71,8 @@ public final class ParserSemanticPredicatesUtil {
    * Suffix used in the naming convention for the classes responsible for semantic predicates.
    */
   private static final String CLASS_SUFFIX = "SemanticPredicates"; //$NON-NLS-1$
+
+  private final static GrammarAccessExtensions grammarExtensions = new GrammarAccessExtensions();
 
   /**
    * Prevents instantiation of {@link AcfAntlrGeneratorFragmentUtil}.
@@ -161,7 +161,7 @@ public final class ParserSemanticPredicatesUtil {
 
   private static String getText(final AbstractRule rule) {
     INode node = NodeModelUtils.getNode(rule);
-    return node != null ? node.getText() : GrammarAccessUtil.serialize(rule, ""); //$NON-NLS-1$
+    return node != null ? node.getText() : grammarExtensions.grammarFragmentToString(rule, ""); //$NON-NLS-1$
   }
 
   /**
@@ -532,12 +532,10 @@ public final class ParserSemanticPredicatesUtil {
    *
    * @param grammar
    *          Grammar
-   * @param naming
-   *          Naming
    * @return Name of the predicates class
    */
-  public static String getSemanticPredicatesFullName(final Grammar grammar, final Naming naming) {
-    return naming.basePackageRuntime(grammar) + ".grammar.Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates"; //$NON-NLS-1$ //$NON-NLS-2$
+  public static String getSemanticPredicatesFullName(final Grammar grammar) {
+    return GrammarUtil.getNamespace(grammar) + ".grammar.Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
@@ -556,16 +554,14 @@ public final class ParserSemanticPredicatesUtil {
    *
    * @param grammar
    *          Root grammar
-   * @param naming
-   *          naming
    * @return Full name of the classes that implement an inherited semantic predicate
    */
-  public static Set<String> allInheritedSemanticPredicates(final Grammar grammar, final Naming naming) {
+  public static Set<String> allInheritedSemanticPredicates(final Grammar grammar) {
     final Set<String> result = Sets.newHashSet();
     for (AbstractRule rule : GrammarUtil.allParserRules(grammar)) {
       final Grammar ruleGrammar = GrammarUtil.getGrammar(rule);
       if (isSemanticPredicate(rule) && !ruleGrammar.equals(grammar)) {
-        result.add(naming.basePackageRuntime(ruleGrammar) + ".grammar." + getSemanticPredicatesName(ruleGrammar)); //$NON-NLS-1$
+        result.add(GrammarUtil.getNamespace(ruleGrammar) + ".grammar." + getSemanticPredicatesName(ruleGrammar)); //$NON-NLS-1$
       }
     }
     return result;

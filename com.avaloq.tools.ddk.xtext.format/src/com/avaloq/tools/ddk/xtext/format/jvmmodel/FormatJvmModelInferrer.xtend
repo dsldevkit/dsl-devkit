@@ -51,6 +51,7 @@ import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.EnumRule
 import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.TerminalRule
+import org.eclipse.xtext.util.Strings
 import org.eclipse.xtext.common.types.JvmAnnotationReference
 import org.eclipse.xtext.common.types.JvmAnnotationType
 import org.eclipse.xtext.common.types.JvmDeclaredType
@@ -59,8 +60,6 @@ import org.eclipse.xtext.common.types.JvmMember
 import org.eclipse.xtext.common.types.JvmVisibility
 import org.eclipse.xtext.common.types.TypesFactory
 import org.eclipse.xtext.common.types.util.TypeReferences
-import org.eclipse.xtext.generator.Naming
-import org.eclipse.xtext.generator.grammarAccess.GrammarAccess
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
@@ -76,6 +75,8 @@ import java.util.regex.Pattern
 import org.eclipse.xtext.xtext.RuleNames
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.GrammarUtil
+import org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessExtensions
+import org.eclipse.xtext.Grammar
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -84,12 +85,11 @@ import org.eclipse.xtext.GrammarUtil
  * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
  */
 class FormatJvmModelInferrer extends AbstractModelInferrer {
-  @Inject extension Naming naming
   @Inject extension JvmTypesBuilder
   @Inject extension TypeReferences
-  @Inject extension GrammarAccess grammarAccess
-  @Inject TypesFactory typesFactory;
-  @Inject XbaseCompiler xbaseCompiler;
+  @Inject extension GrammarAccessExtensions grammarAccess
+  @Inject TypesFactory typesFactory
+  @Inject XbaseCompiler xbaseCompiler
 
   static final String BASE_FORMATTER_CLASS_NAME = AbstractExtendedFormatter.name
   static final String BASE_FORMAT_CONFIG = ExtendedFormattingConfig.name
@@ -123,15 +123,15 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
    if (isPreIndexingPhase) return
    val context = format.targetGrammar
     if (EcoreUtil.getAdapter(context.eAdapters(), typeof(RuleNames)) === null) {
-    	val allRules = GrammarUtil.allRules(context);
-    	for(AbstractRule rule: allRules) {
-    		val adpt =EcoreUtil.getAdapter(rule.eAdapters(), typeof(RuleNames));
-    		if(adpt!==null) rule.eAdapters().remove(adpt)
-    	}
-		RuleNames.getRuleNames(context, true);
-	}
+      val allRules = GrammarUtil.allRules(context);
+      for(AbstractRule rule: allRules) {
+        val adpt =EcoreUtil.getAdapter(rule.eAdapters(), typeof(RuleNames));
+        if(adpt!==null) rule.eAdapters().remove(adpt)
+      }
+    RuleNames.getRuleNames(context, true);
+  }
     acceptor.accept(
-      format.toClass(getFormatterName(format, "Abstract").toSimpleName), [
+      format.toClass(Strings.lastToken(getFormatterName(format, "Abstract"),".")), [
         inferClass(format, it)
         inferConstants(format, it)
         inferGetGrammarAccess(format, it)
@@ -144,13 +144,14 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   def inferClass(FormatConfiguration format, JvmGenericType it) {
-    documentation = '''The abstract formatting configuration for «format.targetGrammar?.name?.toPackageName».«format.targetGrammar?.name?.toSimpleName» as declared in «format.targetGrammar?.name?.toSimpleName».format.'''
+    val targetGrammarName = format.targetGrammar?.name
+    documentation = '''The abstract formatting configuration for «Strings.skipLastToken(targetGrammarName, ".")».«Strings.lastToken(targetGrammarName,".")» as declared in «Strings.lastToken(targetGrammarName,".")».format.'''
     if(format.formatterBaseClass !== null) {
       superTypes += typeRef(format.formatterBaseClass.packageName + '.' + format.formatterBaseClass.simpleName)
     } else {
       superTypes += typeRef(BASE_FORMATTER_CLASS_NAME)
     }
-    packageName = getFormatterName(format, "").toPackageName
+    packageName = Strings.skipLastToken(getFormatterName(format, ""), ".")
     abstract = true
   }
 
@@ -160,14 +161,18 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     }
   }
 
+  def getFullyQualifiedName(Grammar g) {
+    GrammarUtil.getNamespace(g) + ".services." + GrammarUtil.getSimpleName(g) + "GrammarAccess";
+  }
+
   def inferGetGrammarAccess(FormatConfiguration format, JvmGenericType it) {
-    members += format.toMethod('getGrammarAccess', format.targetGrammar.gaFQName.getTypeForName(format.targetGrammar)) [
+    members += format.toMethod('getGrammarAccess', format.targetGrammar.getFullyQualifiedName.getTypeForName(format.targetGrammar)) [
       visibility = JvmVisibility::PROTECTED
       val JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format)
       if(overrideAnnotation !== null) {
         annotations += overrideAnnotation;
       }
-      body = [append('''return («format.targetGrammar.gaSimpleName») super.getGrammarAccess();''')]
+      body = [append('''return («GrammarUtil.getSimpleName(format.targetGrammar)») super.getGrammarAccess();''')]
     ]
   }
 
@@ -191,7 +196,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       ))
       visibility = JvmVisibility::PROTECTED
       parameters += format.toParameter(PARAMETER_CONFIG, typeRef(BASE_FORMAT_CONFIG))
-      parameters += format.toParameter(PARAMETER_GRAMMAR_ACCESS, typeRef(format.targetGrammar.gaFQName))
+      parameters += format.toParameter(PARAMETER_GRAMMAR_ACCESS, typeRef(format.targetGrammar.getFullyQualifiedName))
       body = [
         val rules = listConfigRules(format)
         for (i : 0 ..< rules.length()) {
@@ -214,7 +219,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
         ))
         visibility = JvmVisibility::PROTECTED
         parameters += format.toParameter(PARAMETER_CONFIG, typeRef(BASE_FORMAT_CONFIG))
-        parameters += format.toParameter(PARAMETER_ELEMENTS, typeRef(getGrammar(format.targetGrammar).gaFQName))
+        parameters += format.toParameter(PARAMETER_ELEMENTS, typeRef(getGrammar(format.targetGrammar).getFullyQualifiedName))
         body = [
           val directives = format.wildcardRule.directives.map(d|directive(d, format.wildcardRule.getRuleName).toString)
           append(fixLastLine(directives.join))
@@ -409,7 +414,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       }
       val metamodelPackage = EcoreUtil2::getURI(metamodel.EPackage)?.segment(1)
       if (metamodelPackage === null) {
-      	return actualRuleName
+        return actualRuleName
       }
       return metamodelPackage.substring(0,metamodelPackage.lastIndexOf('.core')) + '.' + metamodel.EPackage?.name + '.' + actualRuleName
     }
@@ -474,7 +479,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
     var directiveName = ''
     for (grammarElementReference : directive.grammarElements) {
       if(grammarElementReference.assignment !== null) {
-        directiveName = directiveName + grammarElementReference.assignment.gaElementAccessMethodeName.replaceFirst("get","").replaceFirst("(?s)(.*)" + "Assignment","$1" + "")
+        directiveName = directiveName + grammarElementReference.assignment.gaElementAccessMethodName.replaceFirst("get","").replaceFirst("(?s)(.*)" + "Assignment","$1" + "")
       }
       if(grammarElementReference.ruleCall !== null) {
         directiveName = directiveName + grammarElementReference.ruleCall.rule.name.toFirstUpper
@@ -518,7 +523,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       parameters += format.toParameter(PARAMETER_CONFIG, typeRef(BASE_FORMAT_CONFIG))
       switch rule.targetRule {
         ParserRule: {
-          val ruleName = (getGrammar(rule.targetRule).gaFQName + "$" + rule.targetRule.gaRuleAccesorClassName)
+          val ruleName = (getGrammar(rule.targetRule).getFullyQualifiedName + "$" + rule.targetRule.gaRuleAccessorClassName)
           parameters += format.toParameter(PARAMETER_ELEMENTS, ruleName.getTypeForName(rule.targetRule))
           documentation = generateJavaDoc('''Configuration for «rule.targetRule.name».''', newLinkedHashMap(
             PARAMETER_CONFIG   -> 'the format configuration',
@@ -702,6 +707,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       elementAccess(grammarElementReference.rule)
     }
   }
+
   def dispatch elementAccess(AbstractRule abstractRule) '''
     getGrammarAccess().«abstractRule.gaRuleAccessor»'''
   def dispatch elementAccess(AbstractElement abstractElement) '''

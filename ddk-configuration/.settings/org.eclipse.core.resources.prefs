@@ -1,17 +1,2 @@
 eclipse.preferences.version=1
-encoding//src/com/avaloq/tools/ddk/check/generator/quickfix/CheckQuickfixProviderFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/export/generator/ExportFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/format/generator/FormatFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/generator/builder/StandaloneBuilderIntegrationFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/generator/languageconstants/LanguageConstants.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/generator/languageconstants/LanguageConstantsFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/generator/ui/compare/CompareFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/scope/generator/ScopingFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/Documentation.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/JavaValidators.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/Messages.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/QuickfixTests.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/Quickfixes.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/ValidValidatorFragment.xpt=ISO-8859-1
-encoding//src/com/avaloq/tools/ddk/xtext/valid/generator/ValidatorTests.xpt=ISO-8859-1
 encoding/<project>=UTF-8
