@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.workflow
 Bundle-SymbolicName: com.avaloq.tools.ddk.workflow
-Bundle-Version: 13.1.0.qualifier
+Bundle-Version: 13.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: com.avaloq.tools.ddk.xtext,
