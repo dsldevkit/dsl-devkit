@@ -18,7 +18,6 @@ public class LibraryChecksStandaloneSetup implements ICheckValidatorStandaloneSe
   private static final String GRAMMAR_NAME = "com.avaloq.tools.ddk.sample.helloworld.HelloWorld";
   private static final String CATALOG_FILE_PATH = "com/avaloq/tools/ddk/sample/helloworld/validation/LibraryChecks.check";
 
-  @Override
   public void doSetup() {
     ICheckValidatorRegistry.INSTANCE.registerValidator(GRAMMAR_NAME, new LibraryChecksCheckImpl());
     ICheckCatalogRegistry.INSTANCE.registerCatalog(GRAMMAR_NAME, new ModelLocation(

@@ -269,7 +269,7 @@
 <setEntry value="org.eclipse.xtext.common.types@default:default"/>
 <setEntry value="org.eclipse.xtext.doc@default:default"/>
 <setEntry value="org.eclipse.xtext.ecore@default:default"/>
-<setEntry value="org.eclipse.xtext.generator@default:default"/>
+<setEntry value="org.eclipse.xtext.xtext.generator@default:default"/>
 <setEntry value="org.eclipse.xtext.junit4@default:default"/>
 <setEntry value="org.eclipse.xtext.logging@default:false"/>
 <setEntry value="org.eclipse.xtext.purexbase.ui@default:default"/>

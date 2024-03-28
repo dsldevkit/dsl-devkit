@@ -48,7 +48,6 @@ public class ModelInferencePackageImpl extends EPackageImpl implements ModelInfe
   {
     super(eNS_URI, ModelInferenceFactory.eINSTANCE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

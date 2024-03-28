@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.generator.GenModelAccess;
+import org.eclipse.xtext.xtext.generator.util.GenModelUtil2;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
@@ -43,7 +43,6 @@ import com.google.common.collect.Iterables;
 /**
  * Utility class for querying GenModels.
  */
-@SuppressWarnings({"deprecation", "removal"})
 public final class CheckGenModelUtil {
 
   private static final String GENMODEL_EXTENSION = "genmodel"; //$NON-NLS-1$
@@ -111,7 +110,7 @@ public final class CheckGenModelUtil {
 
     GenModel resultGenModel = null;
     try {
-      GenPackage genPackage = GenModelAccess.getGenPackage(ePackage, resourceSet);
+      GenPackage genPackage = GenModelUtil2.getGenPackage(ePackage, resourceSet);
       resultGenModel = genPackage.getGenModel();
       if (resultGenModel != null) {
         return resultGenModel;
