@@ -26,6 +26,8 @@ import org.eclipse.xtext.resource.containers.ResourceSetBasedAllContainersStateP
 import org.eclipse.xtext.scoping.IScopeProvider
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider
+import org.eclipse.xtext.xtext.generator.model.project.IXtextProjectConfig
+import org.eclipse.xtext.xtext.generator.model.project.XtextProjectConfig
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -105,4 +107,9 @@ class FormatRuntimeModule extends AbstractFormatRuntimeModule {
     binder.bind(IScopeProvider).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider)
   }
 
+  override configure(Binder binder) {
+    super.configure(binder);
+    binder.bind(IXtextProjectConfig).to(XtextProjectConfig);
+  }
 }
+

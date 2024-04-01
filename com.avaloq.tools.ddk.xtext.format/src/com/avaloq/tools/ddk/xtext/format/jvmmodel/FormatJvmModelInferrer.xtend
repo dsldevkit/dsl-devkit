@@ -172,7 +172,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
       if(overrideAnnotation !== null) {
         annotations += overrideAnnotation;
       }
-      body = [append('''return («GrammarUtil.getSimpleName(format.targetGrammar)») super.getGrammarAccess();''')]
+      body = [append('''return («GrammarUtil.getSimpleName(format.targetGrammar) + "GrammarAccess"») super.getGrammarAccess();''')]
     ]
   }
 
