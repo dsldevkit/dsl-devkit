@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.junit4.AbstractXtextTests;
 import org.eclipse.xtext.nodemodel.ILeafNode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
@@ -195,6 +196,7 @@ public class XtextElementSelectionListenerTest extends AbstractXtextTests {
     ILeafNode mockNode = mockNodeAtSelection(mockActiveEditor());
     when(mockNode.hasDirectSemanticElement()).thenReturn(true);
     EObject mockEObject = mock(EObject.class);
+    when(mockNode.utils()).thenReturn(NodeModelUtils.Implementation.Default.INSTANCE); // fixes NPE
     when(mockNode.getSemanticElement()).thenReturn(mockEObject);
     selectionListener.getSelectedElementType();
     verify(mockEObject).eClass();
@@ -226,6 +228,7 @@ public class XtextElementSelectionListenerTest extends AbstractXtextTests {
     when(mockNode.hasDirectSemanticElement()).thenReturn(true);
     InternalEObject mockEObject = mock(InternalEObject.class);
     when(mockNode.getSemanticElement()).thenReturn(mockEObject);
+    when(mockNode.utils()).thenReturn(NodeModelUtils.Implementation.Default.INSTANCE); // fixes NPE
     when(mockEObject.eProxyURI()).thenReturn(URI.createURI("")); // this prevents NPE in EcoreUtil
     selectionListener.getSelectedElementUri();
     verify(mockEObject).eProxyURI();
