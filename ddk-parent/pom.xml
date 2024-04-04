@@ -55,7 +55,7 @@
     <pmd.plugin.version>3.21.2</pmd.plugin.version>
     <pmd.version>6.55.0</pmd.version>
     <tycho.version>4.0.7</tycho.version>
-    <xtend.version>2.33.0</xtend.version>
+    <xtend.version>2.34.0</xtend.version>
   </properties>
 
   <modules>
