@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.scope.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope.ide;singleton:=true
 Bundle-Version: 13.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.internal

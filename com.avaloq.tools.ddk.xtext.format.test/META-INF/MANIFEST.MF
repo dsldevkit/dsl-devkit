@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.format.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.format.test;singleton:=true
 Bundle-Version: 13.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.xtext.format.ui
 Require-Bundle: com.avaloq.tools.ddk.xtext.format,

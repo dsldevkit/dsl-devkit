@@ -11,14 +11,18 @@
 package com.avaloq.tools.ddk.xtext.validation;
 
 /**
- * Default implementation of DefaultCheckSequencer. It will never break a sequence.
+ * Default implementation of DefaultCheckSequencer. It will never break a
+ * sequence.
  */
 public class DefaultCheckSequencer implements ICheckSequencer {
 
-  /**
-   * The singletone.
-   */
-  private static final DefaultCheckSequencer INSTANCE = new DefaultCheckSequencer();
+  private static final class SingletonHolder {
+    private static DefaultCheckSequencer instance = new DefaultCheckSequencer();
+
+    public static DefaultCheckSequencer get() {
+      return instance;
+    }
+  }
 
   /**
    * The singletone instance for the default check sequencer.
@@ -26,7 +30,8 @@ public class DefaultCheckSequencer implements ICheckSequencer {
    * @return the singletone instance
    */
   public static DefaultCheckSequencer getInstance() {
-    return INSTANCE;
+    return SingletonHolder.get();
+
   }
 
   /**

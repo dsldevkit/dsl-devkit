@@ -64,9 +64,11 @@ public final class BuiltInTypeModelAccess {
    */
   private static final class InstanceHolder {
     // Initialize-on-demand holder pattern.
-    @SuppressWarnings("PMD.AccessorClassGeneration")
-    // This is a common idiom, and PMD even says to use it, see http://pmd.sourceforge.net/pmd-5.1.0/rules/java/design.html, Rule NonThreadSafeSingleton
     private static final BuiltInTypeModelAccess INSTANCE = new BuiltInTypeModelAccess();
+
+    public static BuiltInTypeModelAccess get() {
+        return INSTANCE;
+    }
   }
 
   /** In-memory representation of the internal type model's contents. */
@@ -85,7 +87,7 @@ public final class BuiltInTypeModelAccess {
    * @return The singleton instance of the built-in type model.
    */
   public static BuiltInTypeModelAccess getInstance() {
-    return InstanceHolder.INSTANCE;
+    return InstanceHolder.get();
   }
 
   /**
