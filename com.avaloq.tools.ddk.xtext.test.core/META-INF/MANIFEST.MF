@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.test.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.test.core;singleton:=true
 Bundle-Version: 13.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.common.ui,
  com.avaloq.tools.ddk.xtext.ui,

@@ -36,7 +36,13 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 public final class CacheManager {
   private static final Logger LOGGER = LogManager.getLogger(CacheManager.class);
 
-  private static final CacheManager INSTANCE = new CacheManager();
+  private static final class SingletonHolder {
+    private static CacheManager instance = new CacheManager();
+
+    public static CacheManager get() {
+        return instance;
+    }
+  }
 
   private static final int CLEANUP_DELAY = 5;
   private static final int REPORT_DELAY = 10;
@@ -58,7 +64,7 @@ public final class CacheManager {
   }
 
   public static CacheManager getInstance() {
-    return INSTANCE;
+    return SingletonHolder.get();
   }
 
   /**

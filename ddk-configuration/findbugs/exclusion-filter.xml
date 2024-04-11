@@ -72,4 +72,7 @@
      <Bug pattern="DMI_DOH" />
      <Class name="~.*AbstractFragmentProviderTest.*" />
   </Match>
+  <Match>
+     <Class name="~.*Activator.*" />
+  </Match>
 </FindBugsFilter>

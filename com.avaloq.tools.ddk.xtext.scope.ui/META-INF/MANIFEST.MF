@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.scope.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.scope.ui;singleton:=true
 Bundle-Version: 13.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Activator: com.avaloq.tools.ddk.xtext.scope.ui.internal.ScopeActivator
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext.ui,

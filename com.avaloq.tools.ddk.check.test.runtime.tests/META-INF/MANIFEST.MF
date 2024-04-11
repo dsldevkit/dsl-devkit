@@ -25,7 +25,7 @@ Import-Package: org.junit.runner;version="4.5.0",
  org.junit.runners;version="4.5.0",
  org.junit.runners.model;version="4.5.0",
  org.hamcrest.core
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: com.avaloq.tools.ddk.check.test.runtime,
  com.avaloq.tools.ddk.check.test.runtime.tests,
  com.avaloq.tools.ddk.check

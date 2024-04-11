@@ -26,8 +26,15 @@ public final class SorterUtil {
   public static final String SORTER_ALPHANUMERIC = "alphanumeric";
   public static final String PROPERTY_SORTER = "com.avaloq.test.sorter";
   private static final String EMPTY = "";
-  private static final SorterUtil INSTANCE = new SorterUtil();
   private final Sorter sorter;
+
+  private static final class SingletonHolder {
+    private static SorterUtil instance = new SorterUtil();
+
+    public static SorterUtil get() {
+      return instance;
+    }
+  }
 
   /**
    * Returns the singleton instance of {@link SorterUtil}.
@@ -35,7 +42,7 @@ public final class SorterUtil {
    * @return the singleton instance of {@link SorterUtil}, never {@code null}
    */
   public static SorterUtil getInstance() {
-    return INSTANCE;
+    return SingletonHolder.get();
   }
 
   /**

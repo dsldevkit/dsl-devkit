@@ -16,11 +16,25 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.google.inject.Injector;
 
 
-public class ExportTestUtil extends AbstractXtextTestUtil {
-  private static final ExportTestUtil INSTANCE = new ExportTestUtil();
+public final class ExportTestUtil extends AbstractXtextTestUtil {
+  private ExportTestUtil() {
+    // private constructor
+  }
+
+  /**
+   * The singleton instance.
+   */
+  private static final class InstanceHolder {
+    // Initialize-on-demand holder pattern.
+    private static final ExportTestUtil INSTANCE = new ExportTestUtil();
+
+    public static ExportTestUtil get() {
+        return INSTANCE;
+    }
+  }
 
   public static ExportTestUtil getInstance() {
-    return INSTANCE;
+    return InstanceHolder.get();
   }
 
   @Override

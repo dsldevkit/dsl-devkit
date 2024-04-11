@@ -15,12 +15,27 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.google.inject.Injector;
 
 
-public class FormatterTestUtil extends AbstractXtextTestUtil {
-  private static final FormatterTestUtil INSTANCE = new FormatterTestUtil();
+public final class FormatterTestUtil extends AbstractXtextTestUtil {
   private final Injector injector = new FormatterTestLanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
 
+  private FormatterTestUtil() {
+    // private constructor
+  }
+
+  /**
+   * The singleton instance.
+   */
+  private static final class InstanceHolder {
+    // Initialize-on-demand holder pattern.
+    private static final FormatterTestUtil INSTANCE = new FormatterTestUtil();
+
+    public static FormatterTestUtil get() {
+        return INSTANCE;
+    }
+  }
+
   public static FormatterTestUtil getInstance() {
-    return INSTANCE;
+    return InstanceHolder.get();
   }
 
   @Override

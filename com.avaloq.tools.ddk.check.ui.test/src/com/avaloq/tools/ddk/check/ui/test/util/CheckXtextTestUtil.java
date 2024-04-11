@@ -21,11 +21,25 @@ import com.google.inject.Injector;
 /**
  * Test utility class for Check.
  */
-public class CheckXtextTestUtil extends AbstractXtextTestUtil {
-  private static final CheckXtextTestUtil INSTANCE = new CheckXtextTestUtil();
+public final class CheckXtextTestUtil extends AbstractXtextTestUtil {
+  private CheckXtextTestUtil() {
+    // private constructor
+  }
 
-  public static CheckXtextTestUtil getInstance() {
-    return INSTANCE;
+  /**
+   * The singleton instance.
+   */
+  private static final class InstanceHolder {
+    // Initialize-on-demand holder pattern.
+    private static final CheckXtextTestUtil INSTANCE = new CheckXtextTestUtil();
+
+    public static CheckXtextTestUtil get() {
+        return INSTANCE;
+    }
+  }
+
+  public static synchronized CheckXtextTestUtil getInstance() {
+    return InstanceHolder.get();
   }
 
   @Override

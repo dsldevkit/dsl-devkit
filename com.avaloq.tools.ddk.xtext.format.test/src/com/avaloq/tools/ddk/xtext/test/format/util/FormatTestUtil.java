@@ -26,14 +26,29 @@ import com.avaloq.tools.ddk.xtext.format.ui.internal.FormatActivator;
 import com.google.inject.Injector;
 
 
-public class FormatTestUtil extends AbstractXtextTestUtil {
-  private static final FormatTestUtil INSTANCE = new FormatTestUtil();
+public final class FormatTestUtil extends AbstractXtextTestUtil {
   public static final String TEST_MODEL_NAME = "FormatterTestLanguage";
   public static final String NEW_LINE = "\n";
   private XtextResourceSet resourceSet;
 
+  private FormatTestUtil() {
+    // private constructor
+  }
+
+  /**
+   * The singleton instance.
+   */
+  private static final class InstanceHolder {
+    // Initialize-on-demand holder pattern.
+    private static final FormatTestUtil INSTANCE = new FormatTestUtil();
+
+    public static FormatTestUtil get() {
+        return INSTANCE;
+    }
+  }
+
   public static FormatTestUtil getInstance() {
-    return INSTANCE;
+    return InstanceHolder.get();
   }
 
   @Override
