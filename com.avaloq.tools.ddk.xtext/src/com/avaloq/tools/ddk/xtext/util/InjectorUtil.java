@@ -22,6 +22,67 @@ public final class InjectorUtil {
 
   /**
    * A language specific way to obtain an implementation for a certain type.
+   * <p>
+   * <em>Note</em>: Throws {@link IllegalStateException} if the implementation cannot be retrieved.
+   * </p>
+   *
+   * @param <T>
+   *          the type for which to get the implementation instance for, or a subtype of that
+   * @param context
+   *          the context {@link EObject}, must not be {@code null}
+   * @param clazz
+   *          the type clazz, must not be {@code null}
+   * @return the implementation instance, never {@code null}
+   */
+  public static <T> T get(final EObject context, final Class<? extends T> clazz) {
+    final Resource resource = context.eResource();
+    if (resource == null) {
+      final URI uri = EcoreUtil.getURI(context);
+      final IResourceServiceProvider resourceServiceProvider = IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(uri);
+      if (resourceServiceProvider != null) {
+        final T result = resourceServiceProvider.get(clazz);
+        if (result != null) {
+          return result;
+        } else {
+          throw new IllegalStateException(NLS.bind("Cannot inject class '{0}' for uri '{1}'", clazz.getSimpleName(), uri.toString())); //$NON-NLS-1$
+        }
+      } else {
+        throw new IllegalStateException(NLS.bind("Cannot get IResourceServiceProvider for uri '{1}' ", uri.toString())); //$NON-NLS-1$
+      }
+    } else {
+      return get(resource, clazz);
+    }
+  }
+
+  /**
+   * A language specific way to obtain an implementation for a certain type.
+   * <p>
+   * <em>Note</em>: Throws {@link IllegalStateException} if the implementation cannot be retrieved.
+   * </p>
+   *
+   * @param <T>
+   *          the type for which to get the implementation instance for, or a subtype of that
+   * @param resource
+   *          the context {@link Resource}, must not be {@code null}
+   * @param clazz
+   *          the type clazz, must not be {@code null}
+   * @return the implementation instance, never {@code null}
+   */
+  public static <T> T get(final Resource resource, final Class<? extends T> clazz) {
+    if (resource instanceof XtextResource xtextResource) {
+      final IResourceServiceProvider resourceServiceProvider = xtextResource.getResourceServiceProvider();
+      if (resourceServiceProvider != null) {
+        final T result = resourceServiceProvider.get(clazz);
+        if (result != null) {
+          return result;
+        }
+      }
+    }
+    throw new IllegalStateException("Cannot get implementation for class: " + clazz.getName()); //$NON-NLS-1$
+  }
+
+  /**
+   * A language specific way to obtain an implementation for a certain type.
    *
    * @param <T>
    *          the type for which to get the implementation instance for, or a subtype of that
