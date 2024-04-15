@@ -10,7 +10,13 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.util;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.resource.XtextResource;
 
 import com.avaloq.tools.ddk.xtext.resource.ResourceServiceProviderLocator;
 
