@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.lsp4j,
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Export-Package: com.avaloq.tools.ddk.xtext.ide.contentAssist,
- com.avaloq.tools.ddk.xtext.ide.formatting
+ com.avaloq.tools.ddk.xtext.ide.formatting,
+ com.avaloq.tools.ddk.xtext.ide.findrefs
 Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ide
