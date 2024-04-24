@@ -15,7 +15,8 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.ui.ide,
  org.apache.commons.lang,
  com.avaloq.tools.ddk.check.runtime.ui;visibility:=reexport,
- com.google.guava
+ com.google.guava,
+ com.avaloq.tools.ddk.xtext.ide
 Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.editor,
  com.avaloq.tools.ddk.xtext.ui.editor.findrefs,
