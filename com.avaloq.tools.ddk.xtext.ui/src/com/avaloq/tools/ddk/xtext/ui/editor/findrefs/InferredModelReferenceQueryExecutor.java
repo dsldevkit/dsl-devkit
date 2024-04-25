@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.ui.editor.findrefs.ReferenceQueryExecutor;
 
+import com.avaloq.tools.ddk.xtext.ide.findrefs.InferredModelReferenceFilter;
 import com.avaloq.tools.ddk.xtext.modelinference.IInferredModelAssociations;
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
