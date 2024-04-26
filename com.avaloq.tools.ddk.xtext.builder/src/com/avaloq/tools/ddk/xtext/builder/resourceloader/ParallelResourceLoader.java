@@ -159,12 +159,14 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
       } else {
         this.resourceQueue = new ArrayBlockingQueue<Triple<URI, Resource, Throwable>>(queueSize);
       }
+      final boolean parentIsIndexing = BuildPhases.isIndexing(parent);
+      final Set<URI> parentSourceLevelUris = SourceLevelURIsAdapter.findInstalledAdapter(parent).getSourceLevelURIs();
       this.resourceSetProvider = new ThreadLocal<ResourceSet>() {
         @Override
         protected ResourceSet initialValue() {
           ResourceSet resourceSet = getResourceSetProvider().get(project);
-          BuildPhases.setIndexing(resourceSet, BuildPhases.isIndexing(parent));
-          SourceLevelURIsAdapter.setSourceLevelUrisWithoutCopy(resourceSet, SourceLevelURIsAdapter.findInstalledAdapter(parent).getSourceLevelURIs());
+          BuildPhases.setIndexing(resourceSet, parentIsIndexing);
+          SourceLevelURIsAdapter.setSourceLevelUrisWithoutCopy(resourceSet, parentSourceLevelUris);
           resourceSet.getLoadOptions().putAll(parent.getLoadOptions());
           // we are not loading as part of a build
           resourceSet.getLoadOptions().remove(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE);
