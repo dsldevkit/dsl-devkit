@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.test.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.test.ui;singleton:=true
-Bundle-Version: 13.3.0.v20240521-1309-REL
+Bundle-Version: 13.4.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Activator: com.avaloq.tools.ddk.test.ui.Activator
