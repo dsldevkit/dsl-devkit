@@ -71,7 +71,7 @@ public class EClassComparatorTest {
     sorted = EClassComparator.sortedEPackageGroups(Lists.newArrayList(XtextPackage.Literals.ABSTRACT_ELEMENT, XtextPackage.Literals.ACTION, ECLASS), mapping);
     assertEquals(3, sorted.size());
     assertEquals(2, sorted.keySet().size());
-    assertEquals(Lists.newArrayList(ECLASS), sorted.get(EcorePackage.eINSTANCE));
+    assertEquals(Lists.newArrayList(ECLASS), sorted.get(EcorePackage.eINSTANCE)); // NOPMD ConfusingArgumentToVarargsMethod
     assertEquals(Lists.newArrayList(XtextPackage.Literals.ACTION, XtextPackage.Literals.ABSTRACT_ELEMENT), sorted.get(XtextPackage.eINSTANCE));
   }
 

@@ -43,7 +43,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
 
   private static final String WORKSPACE_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().getPath();
 
-  public static final ImmutableList<String> SOURCE_NAMES = ImmutableList.of("FormatBuilderParticipantInput.format", "FormatBuilderParticipantOutput.format");
+  public static final List<String> SOURCE_NAMES = ImmutableList.of("FormatBuilderParticipantInput.format", "FormatBuilderParticipantOutput.format");
 
   private static URI uriInCorrect;
   private static IStorage2UriMapper mapperInCorrect;

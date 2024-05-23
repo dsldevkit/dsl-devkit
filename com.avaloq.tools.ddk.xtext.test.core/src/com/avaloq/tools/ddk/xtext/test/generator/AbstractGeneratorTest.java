@@ -48,7 +48,6 @@ import org.junit.Assert;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.io.CharStreams;
@@ -111,7 +110,7 @@ public abstract class AbstractGeneratorTest {
    * @throws CoreException
    *           the {@link CoreException}
    */
-  public void initializeProject(final String projectName, final ImmutableMap<String, String> sourceFileNames) throws CoreException {
+  public void initializeProject(final String projectName, final Map<String, String> sourceFileNames) throws CoreException {
     initializeProject(projectName, null, REQUIRED_BUNDLES, null, null, sourceFileNames);
   }
 
@@ -134,7 +133,7 @@ public abstract class AbstractGeneratorTest {
    * @throws CoreException
    *           the {@link CoreException}
    */
-  public void initializeProject(final String projectName, final List<String> folders, final List<String> requiredBundles, final List<String> importedPackages, final List<String> exportedPackages, final ImmutableMap<String, String> sourceFileNames) throws CoreException {
+  public void initializeProject(final String projectName, final List<String> folders, final List<String> requiredBundles, final List<String> importedPackages, final List<String> exportedPackages, final Map<String, String> sourceFileNames) throws CoreException {
     // a project must be created
     createPluginProject(projectName, folders, requiredBundles, importedPackages, exportedPackages);
     // sources are copied into the project and then built by the Xtext builder
@@ -306,7 +305,7 @@ public abstract class AbstractGeneratorTest {
    * @param sourceFileNames
    *          the source file names, mapping input filename to output filename
    */
-  public void addSourcesToWorkspace(final String projectName, final ImmutableMap<String, String> sourceFileNames) {
+  public void addSourcesToWorkspace(final String projectName, final Map<String, String> sourceFileNames) {
     try {
       new WorkspaceModifyOperation() {
         @Override

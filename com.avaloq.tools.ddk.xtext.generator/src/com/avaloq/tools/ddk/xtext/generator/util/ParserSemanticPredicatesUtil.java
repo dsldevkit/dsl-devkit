@@ -45,6 +45,7 @@ import com.google.common.collect.Sets;
 /**
  * Utility for semantic predicates in Xtext grammars.
  */
+// CHECKSTYLE:OFF MagicNumber
 public final class ParserSemanticPredicatesUtil {
 
   /**
@@ -141,7 +142,7 @@ public final class ParserSemanticPredicatesUtil {
         }
       }
       if (condition != null) {
-        StringBuilder predicate = new StringBuilder();
+        StringBuilder predicate = new StringBuilder(25);
         predicate.append('{');
         predicate.append(condition);
         if (!gated) { // This does not bring anything in gated predicates
@@ -224,7 +225,7 @@ public final class ParserSemanticPredicatesUtil {
     if (text != null) {
       Matcher matcher = KEYWORD_RULE_ANNOTATION_PATTERN.matcher(text);
       if (matcher.find()) {
-        StringBuilder predicate = new StringBuilder();
+        StringBuilder predicate = new StringBuilder(60);
         predicate.append("return \"Unexpected: \" + token.getText() + \". Expected: '"); //$NON-NLS-1$
         predicate.append(Joiner.on("', '").join(KEYWORDS_SPLITTER.split(matcher.group(1)))); //$NON-NLS-1$
         predicate.append("'\";\n"); //$NON-NLS-1$
@@ -251,7 +252,7 @@ public final class ParserSemanticPredicatesUtil {
     if (text != null) {
       Matcher matcher = KEYWORD_RULE_ANNOTATION_PATTERN.matcher(text);
       if (matcher.find()) {
-        StringBuilder predicate = new StringBuilder();
+        StringBuilder predicate = new StringBuilder(100);
         predicate.append("String text = parserContext.getInput().LT(1).getText();"); //$NON-NLS-1$
         predicate.append('\n');
         predicate.append("    return "); //$NON-NLS-1$
@@ -427,7 +428,7 @@ public final class ParserSemanticPredicatesUtil {
     if (text != null) {
       Matcher matcher = KEYWORD_RULE_ANNOTATION_PATTERN.matcher(text);
       if (matcher.find()) {
-        StringBuilder predicate = new StringBuilder();
+        StringBuilder predicate = new StringBuilder(60);
         boolean passedFirst = false;
         for (String kw : KEYWORDS_SPLITTER.split(matcher.group(1))) {
           if (passedFirst) {
@@ -488,10 +489,7 @@ public final class ParserSemanticPredicatesUtil {
 
   private static boolean matches(final AbstractRule rule, final Pattern pattern) {
     String text = getText(rule);
-    if (text != null) {
-      return pattern.matcher(text).find();
-    }
-    return false;
+    return text != null && pattern.matcher(text).find();
   }
 
   /**

@@ -109,7 +109,7 @@ public class ResourceValidationRuleSummaryEvent extends ResourceEvent {
      */
     public void postEvents(final URI uri, final ITraceSet traceSet) {
       for (Map.Entry<String, long[]> entry : ruleExecutionData.entrySet()) {
-        traceSet.post(new ResourceValidationRuleSummaryEvent(Trigger.TRACE, new Object[] {uri, entry.getKey(), entry.getValue()[0], entry.getValue()[1]}));
+        traceSet.post(new ResourceValidationRuleSummaryEvent(Trigger.TRACE, uri, entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
       }
     }
 

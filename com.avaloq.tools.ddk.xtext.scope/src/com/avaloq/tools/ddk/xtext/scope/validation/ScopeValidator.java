@@ -219,7 +219,7 @@ public class ScopeValidator extends AbstractScopeValidator {
    * @return {@code true} if it is the default scope
    */
   private boolean isDefaultScope(final ScopeDefinition def) {
-    return def.getName() == null || def.getName().equals(DEFAULT_SCOPE_NAME);
+    return def.getName() == null || DEFAULT_SCOPE_NAME.equals(def.getName());
   }
 
   /**

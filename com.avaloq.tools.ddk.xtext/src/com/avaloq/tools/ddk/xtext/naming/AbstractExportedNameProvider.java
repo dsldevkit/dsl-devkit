@@ -29,7 +29,7 @@ import com.google.inject.Inject;
 public abstract class AbstractExportedNameProvider extends IQualifiedNameProvider.AbstractImpl {
 
   @Inject
-  private final IResourceScopeCache cache = IResourceScopeCache.NullImpl.INSTANCE;
+  private static final IResourceScopeCache CACHE = IResourceScopeCache.NullImpl.INSTANCE;
 
   @Inject
   private final IQualifiedNameConverter converter = new IQualifiedNameConverter.DefaultImpl();
@@ -39,7 +39,7 @@ public abstract class AbstractExportedNameProvider extends IQualifiedNameProvide
    */
   @Override
   public QualifiedName getFullyQualifiedName(final EObject obj) {
-    return cache.get(Tuples.pair(obj, this.getClass()), obj.eResource(), () -> qualifiedName(obj));
+    return CACHE.get(Tuples.pair(obj, this.getClass()), obj.eResource(), () -> qualifiedName(obj));
   }
 
   /**

@@ -45,7 +45,7 @@ public class UnresolvedIssueFilter extends Filter {
       return true;
     }
     final BugTest bugTestAnnotation = description.getAnnotation(BugTest.class);
-    if (bugTestAnnotation != null && bugTestAnnotation.unresolved()) {
+    if (bugTestAnnotation != null && bugTestAnnotation.unresolved()) { // NOPMD SimplifyBooleanReturns
       return true;
     }
     return FilterRegistry.isTestClass(description); // if it is a test class we still want to check (and maybe run) its children

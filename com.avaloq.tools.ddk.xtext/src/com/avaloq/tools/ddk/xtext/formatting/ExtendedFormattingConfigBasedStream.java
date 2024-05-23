@@ -70,8 +70,8 @@ import com.google.common.collect.Sets;
 public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedStream implements IDelegatingTokenStream {
 
   private static final Logger LOGGER = LogManager.getLogger(ExtendedFormattingConfigBasedStream.class);
-  private final Stack<Integer> columnIndents = new Stack<Integer>();
-  private final Stack<Integer> initialIndents = new Stack<Integer>();
+  private final Stack<Integer> columnIndents = new Stack<Integer>(); // NOPMD LooseCoupling, ReplaceVectorWithList
+  private final Stack<Integer> initialIndents = new Stack<Integer>(); // NOPMD LooseCoupling, ReplaceVectorWithList
   private final Set<NoFormatLocator> noFormatLocators = new HashSet<NoFormatLocator>();
 
   private INode currentNode;
@@ -197,7 +197,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
    * @return
    *         top element or 0 if stack empty
    */
-  private int emptySafeStackPeek(final Stack<Integer> stack) {
+  private int emptySafeStackPeek(final Stack<Integer> stack) { // NOPMD LooseCoupling
     if (!stack.empty()) {
       return stack.peek();
     }
@@ -210,7 +210,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
    * @param stack
    *          stack of integers
    */
-  private void emptySafeStackPop(final Stack<Integer> stack) {
+  private void emptySafeStackPop(final Stack<Integer> stack) { // NOPMD LooseCoupling
     if (!stack.empty()) {
       stack.pop();
     }
@@ -295,7 +295,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
       }
     }
 
-    List<ElementLocator> result = Lists.newArrayList(activeRangeLocators);
+    List<ElementLocator> result = Lists.newArrayList(activeRangeLocators); // NOPMD ConfusingArgumentToVarargsMethod
     last = grammarElement;
     for (ElementLocator locator : locators) {
       if (locator.getType() == LocatorType.RANGE && !activeRangeLocators.add(locator)) {
@@ -354,10 +354,10 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
           }
           Integer parameter = (Integer) calculateParameterMethod.invoke(parameterCalculator, semanticNode, columnMap.get(semanticNode));
           if (locator instanceof ColumnLocator) {
-            ((ColumnLocator) locator).setColumn(parameter.intValue());
+            ((ColumnLocator) locator).setColumn(parameter);
             parameterizedLocators.add(locator);
           } else if (locator instanceof FixedLocator) {
-            ((FixedLocator) locator).setColumn(parameter.intValue());
+            ((FixedLocator) locator).setColumn(parameter);
             parameterizedLocators.add(locator);
           } else if (locator instanceof IIndentationLocator) {
             ((IIndentationLocator) locator).setIndentation(parameter);

@@ -57,7 +57,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.getChar(offset);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -76,7 +76,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.get(offset, length);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -90,7 +90,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       document.replace(offset, length, text);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -100,7 +100,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
       return document.getLineLength(line);
     } catch (org.eclipse.jface.text.BadLocationException e) {
 
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -109,7 +109,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.getLineOfOffset(offset);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -118,7 +118,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.getLineOffset(line);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -138,7 +138,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
         }
       };
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -158,7 +158,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
         }
       };
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
 
   }
@@ -173,7 +173,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.getNumberOfLines(offset, length);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -192,7 +192,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.getLineDelimiter(line);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 
@@ -202,7 +202,7 @@ public class XtextDocumentAdapter implements ICoreXtextDocument {
     try {
       return document.search(startOffset, findString, forwardSearch, caseSensitive, wholeWord);
     } catch (org.eclipse.jface.text.BadLocationException e) {
-      throw new BadLocationException(e);
+      throw new BadLocationException(e); // NOPMD AvoidThrowingNewInstanceOfSameException
     }
   }
 }

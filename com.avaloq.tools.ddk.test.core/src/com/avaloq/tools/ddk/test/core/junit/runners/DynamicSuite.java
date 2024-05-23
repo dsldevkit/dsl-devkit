@@ -73,7 +73,7 @@ public class DynamicSuite extends Suite {
     // get annotation
     SuiteClasses annotation = clazz.getAnnotation(SuiteClasses.class);
     if (annotation == null) {
-      throw new InitializationError(String.format("class '%s' must have a SuiteClasses annotation", new Object[] {clazz.getName()}));
+      throw new InitializationError(String.format("class '%s' must have a SuiteClasses annotation", clazz.getName()));
     }
 
     // get classes from class names

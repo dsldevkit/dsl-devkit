@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.check.runtime.registry.impl;
 
 import java.util.NavigableSet;
-import java.util.TreeSet;
 
 import com.avaloq.tools.ddk.check.runtime.configuration.BundleAwareModelLocation;
 import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
@@ -39,7 +38,7 @@ public class CheckCatalogRegistryImpl extends AbstractCheckImplDescriptorRegistr
   @Override
   @SuppressWarnings("unchecked")
   public NavigableSet<IModelLocation> getAllCheckModelLocations() {
-    TreeSet<IModelLocation> result = Sets.newTreeSet(concreteModelLocations.values());
+    NavigableSet<IModelLocation> result = Sets.newTreeSet(concreteModelLocations.values());
     for (Object v : getLanguageToDescriptorMap().values()) {
       if (v instanceof Provider<?>) {
         final BundleAwareModelLocation location = ((Provider<BundleAwareModelLocation>) v).get();

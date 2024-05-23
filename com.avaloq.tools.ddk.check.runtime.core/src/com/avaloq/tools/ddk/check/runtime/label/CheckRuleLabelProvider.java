@@ -27,7 +27,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorRegistry;
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -79,7 +78,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
     final Collection<ICheckValidatorImpl> validators = checkValidatorRegistry.getValidators();
 
     // Get the maps from all validators
-    final Stream<ImmutableMap<String, String>> issueCodeToLabelMaps = validators.stream().map(validatorClass -> getIssueCodeToLabelMap(validatorClass)).filter(Objects::nonNull);
+    final Stream<Map<String, String>> issueCodeToLabelMaps = validators.stream().map(validatorClass -> getIssueCodeToLabelMap(validatorClass)).filter(Objects::nonNull);
 
     // Munge the maps together
     final Map<String, String> issueCodeToLabelMap = merge(issueCodeToLabelMaps);
@@ -94,7 +93,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
    *          validator from which to get the map, must not be {@code null}
    * @return map for translating Check rule issue codes into human-readable labels, or {@code null} if an error occurs
    */
-  private static ImmutableMap<String, String> getIssueCodeToLabelMap(final ICheckValidatorImpl validator) {
+  private static Map<String, String> getIssueCodeToLabelMap(final ICheckValidatorImpl validator) {
     try {
       return validator.getIssueCodeToLabelMap();
     } catch (AbstractMethodError e) {

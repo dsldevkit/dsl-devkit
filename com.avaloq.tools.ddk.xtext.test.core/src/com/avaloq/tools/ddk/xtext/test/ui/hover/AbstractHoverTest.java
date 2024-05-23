@@ -40,7 +40,7 @@ public abstract class AbstractHoverTest extends AbstractXtextTest {
   @Override
   protected void beforeAllTests() {
     super.beforeAllTests();
-    getTestInformation().putTestObject(AbstractHoverTest.class, new HashMap<Object, ArrayList<String>>());
+    getTestInformation().putTestObject(AbstractHoverTest.class, new HashMap<Object, ArrayList<String>>()); // NOPMD LooseCoupling
     buildHoverMap(getSemanticModel());
   }
 
@@ -59,10 +59,10 @@ public abstract class AbstractHoverTest extends AbstractXtextTest {
    * @return directory of semantic nodes indexed by the class of the represented semantic model node, or {@code null} if none was set up
    */
   @SuppressWarnings("unchecked")
-  protected Map<Object, ArrayList<String>> getHoverMap() {
+  protected Map<Object, ArrayList<String>> getHoverMap() { // NOPMD LooseCoupling
     Object obj = getTestInformation().getTestObject(AbstractHoverTest.class);
     if (obj instanceof Map<?, ?>) {
-      return (Map<Object, ArrayList<String>>) obj;
+      return (Map<Object, ArrayList<String>>) obj; // NOPMD LooseCoupling
     } else {
       return null; // NOPMD ReturnEmptyCollectionRatherThanNull
     }
@@ -77,7 +77,7 @@ public abstract class AbstractHoverTest extends AbstractXtextTest {
    *          the hover string of the element, must not be {@code null}
    */
   private void addToHoverMap(final Object element, final String hover) {
-    Map<Object, ArrayList<String>> hoverMap = getHoverMap();
+    Map<Object, ArrayList<String>> hoverMap = getHoverMap(); // NOPMD LooseCoupling
 
     if (hoverMap == null) {
       return;

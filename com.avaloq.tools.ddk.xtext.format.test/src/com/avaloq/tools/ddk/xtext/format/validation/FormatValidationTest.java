@@ -104,7 +104,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void testNegativeACF1000() {
-    setFormattingRules(new String[0], new String[] {"INT_EXP { \"e\" : no_space around;}"});
+    setFormattingRules(new String[0], "INT_EXP { \"e\" : no_space around;}");
     assertDiagnostic(parentFormat, FormatValidator.ILLEGAL_DIRECTIVE_CODE);
   }
 
@@ -113,7 +113,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void testPositiveACF1000() {
-    setFormattingRules(new String[0], new String[] {"INT_EXP { rule : no_space around;}"});
+    setFormattingRules(new String[0], "INT_EXP { rule : no_space around;}");
     assertNoDiagnostic(parentFormat, FormatValidator.ILLEGAL_DIRECTIVE_CODE);
   }
 
@@ -122,7 +122,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void illegalWildcardRuleOverride() {
-    setFormattingRules(new String[] {OVERRIDE_WILDCARD_RULE}, new String[] {});
+    setFormattingRules(new String[] {OVERRIDE_WILDCARD_RULE});
     assertDiagnostic(extendingFormat, FormatValidator.OVERRIDE_ILLEGAL_CODE);
   }
 
@@ -131,7 +131,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void illegalGrammarRuleOverride() {
-    setFormattingRules(new String[] {OVERRIDE_INT_EXP_RULE}, new String[] {});
+    setFormattingRules(new String[] {OVERRIDE_INT_EXP_RULE});
     assertDiagnostic(extendingFormat, FormatValidator.OVERRIDE_ILLEGAL_CODE);
   }
 
@@ -140,7 +140,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void missingWildcardRuleOverride() {
-    setFormattingRules(new String[] {WILDCARD_RULE}, new String[] {WILDCARD_RULE});
+    setFormattingRules(new String[] {WILDCARD_RULE}, WILDCARD_RULE);
 
     assertDiagnostic(extendingFormat, FormatValidator.OVERRIDE_MISSING_CODE);
   }
@@ -150,7 +150,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void missingGrammarRuleOverride() {
-    setFormattingRules(new String[] {INT_EXP_RULE}, new String[] {INT_EXP_RULE});
+    setFormattingRules(new String[] {INT_EXP_RULE}, INT_EXP_RULE);
     assertDiagnostic(extendingFormat, FormatValidator.OVERRIDE_MISSING_CODE);
   }
 
@@ -159,7 +159,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void wildcardRuleOverrideOK() {
-    setFormattingRules(new String[] {OVERRIDE_WILDCARD_RULE}, new String[] {WILDCARD_RULE});
+    setFormattingRules(new String[] {OVERRIDE_WILDCARD_RULE}, WILDCARD_RULE);
     assertNoDiagnostic(extendingFormat, FormatValidator.OVERRIDE_MISSING_CODE);
     assertNoDiagnostic(extendingFormat, FormatValidator.OVERRIDE_ILLEGAL_CODE);
   }
@@ -169,7 +169,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void grammarRuleOverrideOK() {
-    setFormattingRules(new String[] {OVERRIDE_INT_EXP_RULE}, new String[] {INT_EXP_RULE});
+    setFormattingRules(new String[] {OVERRIDE_INT_EXP_RULE}, INT_EXP_RULE);
     assertNoDiagnostic(extendingFormat, FormatValidator.OVERRIDE_MISSING_CODE);
     assertNoDiagnostic(extendingFormat, FormatValidator.OVERRIDE_ILLEGAL_CODE);
   }
@@ -184,7 +184,7 @@ public class FormatValidationTest extends AbstractValidationTest {
     } catch (IOException e) {
       fail("Could not create MyDsl model: " + e.getMessage());
     }
-    FormatConfiguration myDslModel = createModel("MyDsl", PARENT_MODEL_NAME, new String[] {});
+    FormatConfiguration myDslModel = createModel("MyDsl", PARENT_MODEL_NAME);
     assertDiagnostic(myDslModel, FormatValidator.EXTENDED_GRAMMAR_INCOMPATIBLE_CODE);
   }
 
@@ -193,8 +193,8 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void extendedGrammarCompatibleOK() {
-    createModel(PARENT_MODEL_NAME, null, new String[] {});
-    FormatConfiguration extendModel = createModel(EXTENDING_MODEL_NAME, PARENT_MODEL_NAME, new String[] {});
+    createModel(PARENT_MODEL_NAME, null);
+    FormatConfiguration extendModel = createModel(EXTENDING_MODEL_NAME, PARENT_MODEL_NAME);
     assertNoDiagnostic(extendModel, FormatValidator.EXTENDED_GRAMMAR_INCOMPATIBLE_CODE);
   }
 
@@ -204,7 +204,7 @@ public class FormatValidationTest extends AbstractValidationTest {
    */
   @Test
   public void requiredRulesImplemented() {
-    setFormattingRules(new String[0], new String[] {"Rule {}"});
+    setFormattingRules(new String[0], "Rule {}");
     assertDiagnostic(extendingFormat, FormatValidator.GRAMMAR_RULE_MISSING_CODE);
   }
 }

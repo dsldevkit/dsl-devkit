@@ -234,14 +234,13 @@ public class DeployJob extends Job {
           if (isProjectJarIgnoreResource(resource)) {
             return false;
           }
-          if (resource instanceof IFolder && "bin".equals(resource.getName())) {
+          if (resource instanceof IFolder && "bin".equals(resource.getName())) { // NOPMD SimplifyBooleanReturns
             return false;
           }
           return true;
         }
       });
     } catch (CoreException e) {
-      LOGGER.error(e.getMessage(), e);
       throw new DeployException(e);
     }
     return checkCfgFiles;
@@ -263,7 +262,6 @@ public class DeployJob extends Job {
     try {
       buildProject();
     } catch (CoreException e) {
-      LOGGER.error("Failed to build project", e); //$NON-NLS-1$
       throw new DeployException(e);
     }
 
@@ -341,10 +339,7 @@ public class DeployJob extends Job {
    * @return true, if is project jar ignore resource
    */
   private boolean isProjectJarIgnoreResource(final IResource resource) {
-    if (IGNORED_RESOURCES.contains(resource.getName())) {
-      return true;
-    }
-    return getJavaOutputDirectory().toOSString().equals(resource.getLocation().toOSString());
+    return IGNORED_RESOURCES.contains(resource.getName()) && getJavaOutputDirectory().toOSString().equals(resource.getLocation().toOSString());
   }
 
   /**
@@ -360,7 +355,7 @@ public class DeployJob extends Job {
         outputLocation = javaProject.getOutputLocation();
       }
     } catch (JavaModelException e) {
-      LOGGER.error("Failed to get java output of the project", e); //$NON-NLS-1$
+      LOGGER.error("Failed to get java output of the project", e); //$NON-NLS-1$ // NOPMD InvalidLogMessageFormat
       return null;
     }
     return outputLocation;

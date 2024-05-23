@@ -78,21 +78,24 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   private final int nThreads;
   private final int queueSize;
   private long timeout;
-  private long slowLoadingTime;
+  private final long slowLoadingTime;
 
   public ParallelResourceLoader(final IResourceSetProvider resourceSetProvider, final Sorter sorter, final int nThreads, final int queueSize) {
     super(resourceSetProvider, sorter);
     this.nThreads = nThreads;
     this.queueSize = queueSize;
     this.timeout = MAX_WAIT_TIME;
-    String slowLoadingTimeString = System.getProperty(SLOW_LOADING_TIME_PROPERTY);
+    this.slowLoadingTime = parseSlowLoadingTimeString(System.getProperty(SLOW_LOADING_TIME_PROPERTY));
+  }
+
+  private long parseSlowLoadingTimeString(final String slowLoadingTimeString) {
     try {
-      slowLoadingTime = Long.parseLong(slowLoadingTimeString);
+      return Long.parseLong(slowLoadingTimeString);
     } catch (NumberFormatException e) {
       if (slowLoadingTimeString != null) {
         LOGGER.warn(String.format("Slow loading timeout property '%s' is set to invalid value '%s'. Using default value of %d ms instead.", SLOW_LOADING_TIME_PROPERTY, slowLoadingTimeString, SLOW_LOADING_TIME_DEFAULT)); //$NON-NLS-1$
       }
-      slowLoadingTime = SLOW_LOADING_TIME_DEFAULT;
+      return SLOW_LOADING_TIME_DEFAULT;
     }
   }
 

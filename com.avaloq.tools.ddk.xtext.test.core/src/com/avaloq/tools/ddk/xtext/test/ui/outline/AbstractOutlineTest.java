@@ -70,10 +70,10 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
    * @return directory of outline nodes indexed by the class of the represented semantic model node
    */
   @SuppressWarnings({"unchecked", "PMD.ReturnEmptyCollectionRatherThanNull"})
-  private Map<Object, ArrayList<IOutlineNode>> getOutlineMap() {
+  private Map<Object, ArrayList<IOutlineNode>> getOutlineMap() { // NOPMD LooseCoupling
     Object obj = getTestInformation().getTestObject(IOutlineNode.class);
     if (obj instanceof Map<?, ?>) {
-      return (Map<Object, ArrayList<IOutlineNode>>) obj;
+      return (Map<Object, ArrayList<IOutlineNode>>) obj; // NOPMD LooseCoupling
     } else {
       return null;
     }
@@ -86,7 +86,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
   protected final void beforeAllTests() {
     super.beforeAllTests();
     IOutlineTreeProvider provider = getXtextTestUtil().get(IOutlineTreeProvider.class);
-    getTestInformation().putTestObject(IOutlineNode.class, new HashMap<Object, ArrayList<IOutlineNode>>());
+    getTestInformation().putTestObject(IOutlineNode.class, new HashMap<Object, ArrayList<IOutlineNode>>()); // NOPMD LooseCoupling
     buildOutlineMap(provider.createRoot(getDocument()));
   }
 
@@ -214,7 +214,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
    *          the array of classes which constitute the entire outline tree.
    */
   protected void assertOutlineNodeTreeConsistsOf(final Object... classes) {
-    ArrayList<Object> outlineMapKeySet = new ArrayList<Object>(getOutlineMap().keySet());
+    List<Object> outlineMapKeySet = new ArrayList<Object>(getOutlineMap().keySet());
     outlineMapKeySet.removeAll(Arrays.asList(classes));
     // assert that only EStructuralFeatures remain
     for (Object object : outlineMapKeySet) {

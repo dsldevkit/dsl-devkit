@@ -37,7 +37,7 @@ public interface ICheckValidatorImpl {
    *
    * @return Map of issue code to label.
    */
-  ImmutableMap<String, String> getIssueCodeToLabelMap();
+  ImmutableMap<String, String> getIssueCodeToLabelMap(); // NOPMD LooseCoupling
 
   /**
    * Validate given object of given class. Return {@code true} if the object validates without issues.

@@ -74,7 +74,7 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
       return;
     }
 
-    ArrayList<EObject> idToEObjectMap = Lists.newArrayList();
+    ArrayList<EObject> idToEObjectMap = Lists.newArrayList(); // NOPMD LooseCoupling
     EObject root = resource.getContents().get(0);
 
     ProxyCompositeNode rootNode = installProxyNodeModel(root, idToEObjectMap);

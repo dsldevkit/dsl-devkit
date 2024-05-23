@@ -131,10 +131,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
    * @return true if object fingerprints can be computed
    */
   protected boolean doComputeObjectFingerprint(final EObject object) {
-    if (fingerprintComputer == null) {
-      return false;
-    }
-    return !BuildPhases.isIndexing(object);
+    return fingerprintComputer != null && !BuildPhases.isIndexing(object);
   }
 
   @Override

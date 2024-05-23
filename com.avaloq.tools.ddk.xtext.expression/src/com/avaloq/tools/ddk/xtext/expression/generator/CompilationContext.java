@@ -11,15 +11,13 @@
 package com.avaloq.tools.ddk.xtext.expression.generator;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.internal.xtend.xtend.ast.Extension;
 import org.eclipse.internal.xtend.xtend.ast.JavaExtensionStatement;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.xtend.expression.AnalysationIssue;
 import org.eclipse.xtend.expression.ExecutionContext;
 import org.eclipse.xtend.expression.ExpressionFacade;
 import org.eclipse.xtend.expression.Variable;
@@ -70,8 +68,7 @@ public class CompilationContext {
    * @return type of expression
    */
   public Type analyze(final String expression) {
-    final HashSet<AnalysationIssue> issues = Sets.newHashSet();
-    return new ExpressionFacade(context).analyze(expression, issues);
+    return new ExpressionFacade(context).analyze(expression, Sets.newHashSet());
   }
 
   /**

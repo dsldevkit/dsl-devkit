@@ -16,8 +16,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -388,7 +388,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
     StringBuilder result = new StringBuilder();
     StringBuilder errorBuffer = new StringBuilder();
     // Sort positions
-    ArrayList<Integer> positions = Lists.newArrayList(errorsOnPosition.keySet());
+    List<Integer> positions = Lists.newArrayList(errorsOnPosition.keySet());
 
     int posIdx = 0;
     int sourceIdx = 0;

@@ -26,16 +26,16 @@ public abstract class AbstractIssue implements IIssue {
     switch (severityKind) {
     case ERROR:
       acceptor.acceptError(message, object, feature, index, issueCode, issueData);
-      return;
+      break;
     case WARNING:
       acceptor.acceptWarning(message, object, feature, index, issueCode, issueData);
-      return;
+      break;
     case INFO:
       acceptor.acceptInfo(message, object, feature, index, issueCode, issueData);
-      return;
+      break;
     case IGNORE:
     default:
-      return;
+      // empty
     }
   }
 

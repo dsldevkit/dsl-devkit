@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.scope.linking;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -80,8 +80,7 @@ public class ScopeLinkingService extends DefaultLinkingService {
       if (scopeModelName != null) {
         final ResourceSet resourceSet = context.eResource().getResourceSet();
         List<Resource> resources = resourceSet.getResources();
-        for (int i = 0; i < resources.size(); i++) {
-          Resource resource = resources.get(i);
+        for (Resource resource : resources) {
           EObject rootElement = null;
           if (resource instanceof XtextResource && ((XtextResource) resource).getLanguageName().equals(languageName) && !resource.getContents().isEmpty()) {
             rootElement = resource.getContents().get(0);
@@ -105,10 +104,10 @@ public class ScopeLinkingService extends DefaultLinkingService {
       }
       return Collections.emptyList();
     } catch (ClasspathUriResolutionException e) {
-      LOG.warn("Cannot load included scope.", e);
+      LOG.warn("Cannot load included scope.", e); // NOPMD InvalidLogMessageFormat
       return Collections.emptyList();
     } catch (ValueConverterException e) {
-      LOG.warn("Cannot convert included scope name.", e);
+      LOG.warn("Cannot convert included scope name.", e); // NOPMD InvalidLogMessageFormat
       return Collections.emptyList();
     }
   }

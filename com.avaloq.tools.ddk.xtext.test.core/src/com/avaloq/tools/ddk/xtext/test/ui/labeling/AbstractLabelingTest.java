@@ -73,7 +73,7 @@ public abstract class AbstractLabelingTest extends AbstractXtextTest {
   @Override
   protected void beforeAllTests() {
     super.beforeAllTests();
-    getTestInformation().putTestObject(AbstractLabelingTest.class, new HashMap<Object, ArrayList<String>>());
+    getTestInformation().putTestObject(AbstractLabelingTest.class, new HashMap<Object, ArrayList<String>>()); // NOPMD LooseCoupling
     buildLabelMap(getSemanticModel());
   }
 
@@ -88,10 +88,10 @@ public abstract class AbstractLabelingTest extends AbstractXtextTest {
    */
 
   @SuppressWarnings({"unchecked", "PMD.ReturnEmptyCollectionRatherThanNull"})
-  private Map<Object, ArrayList<String>> getLabelMap() {
+  private Map<Object, ArrayList<String>> getLabelMap() { // NOPMD LooseCoupling
     Object obj = getTestInformation().getTestObject(AbstractLabelingTest.class);
     if (obj instanceof Map<?, ?>) {
-      return (Map<Object, ArrayList<String>>) obj;
+      return (Map<Object, ArrayList<String>>) obj; // NOPMD LooseCoupling
     } else {
       return null;
     }

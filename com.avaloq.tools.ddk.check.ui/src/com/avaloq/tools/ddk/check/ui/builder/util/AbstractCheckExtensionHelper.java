@@ -218,7 +218,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
       return false; // disabled until https://bugs.eclipse.org/bugs/show_bug.cgi?id=369534 is fixed
     }
     String projectSetting = projectHelper.getProjectPreference(base.getUnderlyingResource().getProject(), getExtensionEnablementPreferenceName());
-    return projectSetting == null || Boolean.valueOf(projectSetting);
+    return projectSetting == null || Boolean.parseBoolean(projectSetting);
   }
 
   /**

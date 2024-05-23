@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.ui.validation;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -53,7 +54,7 @@ public final class ValidExtension {
     ValidElement[] topLevelElements = null;
     if (topLevelElements == null) {
       IConfigurationElement[] configurationElements = extension.getConfigurationElements();
-      ArrayList<ValidElement> elements = new ArrayList<ValidElement>();
+      List<ValidElement> elements = new ArrayList<ValidElement>();
       for (IConfigurationElement ce : configurationElements) {
         if (XML_TOP_ELEMENT_NAME.equals(ce.getName())) {
           ValidElement e = new ValidElement(ce);
@@ -84,8 +85,7 @@ public final class ValidExtension {
       // CHECKSTYLE:OFF
     } catch (Exception e) {
       // CHECKSTYLE:ON
-      final String message = MessageFormat.format(FAILED_TO_LOAD_EXTENSION, new Object[] {ValidExtension.class.getSimpleName(), id,
-          extension.getNamespaceIdentifier()});
+      final String message = MessageFormat.format(FAILED_TO_LOAD_EXTENSION, ValidExtension.class.getSimpleName(), id, extension.getNamespaceIdentifier());
       AbstractValidElementBase.logException(e, message);
       return null;
     }

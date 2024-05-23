@@ -77,7 +77,9 @@ public final class ScopeUtil {
    * @return string signature
    */
   public static String getSignature(final ScopeRule rule) { // NOPMD NPathComplexity
-    StringBuffer result = new StringBuffer();
+    // CHECKSTYLE:OFF MagicNumber
+    StringBuffer result = new StringBuffer(60);
+    // CHECKSTYLE:ON
     final ScopeDefinition def = EcoreUtil2.getContainerOfType(rule, ScopeDefinition.class);
     result.append(def.getName()).append('_');
     final EClass type = def.getReference() != null ? def.getReference().getEReferenceType() : def.getTargetType();

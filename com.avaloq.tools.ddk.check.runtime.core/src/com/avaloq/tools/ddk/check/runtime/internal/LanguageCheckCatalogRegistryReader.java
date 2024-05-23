@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.internal;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
@@ -84,7 +84,7 @@ class LanguageCheckCatalogRegistryReader extends AbstractCheckRegistryReader {
 
   @Override
   protected boolean readElement(final IConfigurationElement element, final boolean add) {
-    if (element.getAttribute(getAttribute()) == null) {
+    if (element.getAttribute(getAttribute()) == null) { // NOPMD SimplifyBooleanReturns
       return true; // the element is optional, no need to log an error
     }
     return super.readElement(element, add);
