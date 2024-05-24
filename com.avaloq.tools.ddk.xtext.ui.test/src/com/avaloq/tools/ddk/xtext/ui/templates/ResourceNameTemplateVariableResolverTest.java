@@ -36,7 +36,6 @@ public class ResourceNameTemplateVariableResolverTest {
   private static final String FILENAME = "filename"; //$NON-NLS-1$
 
   private static XtextTemplateContext mockContext;
-  private static IXtextDocument mockDocument;
   private static IFile mockFile;
 
   private static TemplateVariableResolverTestHelper helper;
@@ -46,13 +45,13 @@ public class ResourceNameTemplateVariableResolverTest {
   @BeforeAll
   public void beforeAll() {
     mockContext = Mockito.mock(XtextTemplateContext.class);
-    mockDocument = Mockito.mock(IXtextDocument.class);
     mockFile = Mockito.mock(IFile.class);
 
     helper = Guice.createInjector(new XtextRuntimeModule()).getInstance(TemplateVariableResolverTestHelper.class);
 
     resolver = new ResourceNameTemplateVariableResolver();
 
+    IXtextDocument mockDocument = Mockito.mock(IXtextDocument.class);
     Mockito.when(mockContext.getDocument()).thenReturn(mockDocument);
     Mockito.when(mockDocument.getAdapter(IFile.class)).thenReturn(mockFile);
   }
@@ -60,7 +59,6 @@ public class ResourceNameTemplateVariableResolverTest {
   @AfterAll
   public void afterAll() {
     mockContext = null;
-    mockDocument = null;
     mockFile = null;
 
     helper = null;

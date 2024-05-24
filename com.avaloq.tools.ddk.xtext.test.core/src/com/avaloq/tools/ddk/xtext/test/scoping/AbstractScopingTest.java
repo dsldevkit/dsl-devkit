@@ -423,7 +423,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    * @return the expected uris for the given sources in the given context
    */
   private Set<URI> getExpectedURIs(final EObject context, final EClass modelElementClass, final String... sources) {
-    HashSet<URI> expectedURIs = new HashSet<URI>();
+    Set<URI> expectedURIs = new HashSet<URI>();
     for (String source : sources) {
       expectedURIs.add(Iterables.get(getExportedObjects(context, modelElementClass, source), 0).getEObjectURI());
     }

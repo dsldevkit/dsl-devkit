@@ -34,7 +34,7 @@ public class GrammarHelper {
 
   /**
    * Instantiates a new grammar helper.
-   * 
+   *
    * @param grammar
    *          the grammar
    */
@@ -44,7 +44,7 @@ public class GrammarHelper {
 
   /**
    * Gets the bundle symbolic name.
-   * 
+   *
    * @param classe
    *          the class
    * @return the bundle symbolic name
@@ -66,12 +66,12 @@ public class GrammarHelper {
    */
   public String getLabelName() {
     String name = getGrammar().getName();
-    return name.substring(name.lastIndexOf('.') == -1 ? 0 : name.lastIndexOf('.') + 1) + " - " + name;
+    return name.substring(name.lastIndexOf('.') == -1 ? 0 : name.lastIndexOf('.') + 1) + " - " + name; //$NON-NLS-1$
   }
 
   /**
    * Gets the Java interface that corresponds to a grammar's top-level grammar rule.
-   * 
+   *
    * @param metamodelDeclaration
    *          the metamodel declaration
    * @return the first interface corresponding to a grammar's top-level grammar rule
@@ -82,7 +82,7 @@ public class GrammarHelper {
 
   /**
    * Gets the Java interface that corresponds to a grammar's top-level grammar rule.
-   * 
+   *
    * @param ePackage
    *          the EPackage for the grammar
    * @return the first interface corresponding to a grammar's top-level grammar rule
@@ -93,7 +93,7 @@ public class GrammarHelper {
 
   /**
    * Gets the grammar.
-   * 
+   *
    * @return the grammar
    */
   public Grammar getGrammar() {
@@ -103,7 +103,7 @@ public class GrammarHelper {
 
   /**
    * Gets the name of the bundles required for this grammar.
-   * 
+   *
    * @return the required bundle symbolic names
    */
   public Set<String> getRequiredBundleSymbolicNames() {
@@ -123,11 +123,11 @@ public class GrammarHelper {
 
   /**
    * Returns the list of metamodel declarations Java packages.
-   * 
+   *
    * @return the metamodel packages
    */
   public List<String> getMetamodelPackages() {
-    ArrayList<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<String>();
     for (AbstractMetamodelDeclaration metamodelDeclaration : getGrammar().getMetamodelDeclarations()) {
       list.add(getFirstInterface(metamodelDeclaration).getPackage().getName());
     }

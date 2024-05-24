@@ -17,14 +17,15 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.ValueConverterException;
 
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 import com.avaloq.tools.ddk.xtext.grammar.KeywordCollector;
+import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -41,7 +42,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
   public static final String INVALID_ID_NONALPHANUM = "#";
   /** ID regular expression does not allow any '.'. */
   public static final String INVALID_ID_WITHDOT = "someValidIdentifier.something";
-  protected static final ImmutableSet<String> INVALID_IDENTIFIERS = ImmutableSet.of(
+  protected static final Set<String> INVALID_IDENTIFIERS = ImmutableSet.of(
 // @Format-Off
     INVALID_ID_NUMBER,
     INVALID_ID_NONALPHANUM,
@@ -53,7 +54,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Returns the {@link IGrammarAccess}.
-   * 
+   *
    * @return the {@link IGrammarAccess}, never {@code null}
    */
   protected IGrammarAccess getGrammarAccess() {
@@ -67,7 +68,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
    * <p>
    * <em>Note</em>: The default is {@code true}, i.e. keyword case is ignored.
    * </p>
-   * 
+   *
    * @return whether keyword case is ignored
    */
   protected boolean isIgnoreCase() {
@@ -76,7 +77,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Gets or creates the {@link KeywordCollector} instance for the given {@link AbstractRule}.
-   * 
+   *
    * @param rule
    *          the {@link AbstractRule}, must not be {@code null}
    * @return the {@link KeywordCollector} instance for the given {@link AbstractRule}, never {@code null}
@@ -92,7 +93,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Returns the {@link IValueConverterService}.
-   * 
+   *
    * @return the {@link IValueConverterService}, never {@code null}
    */
   protected IValueConverterService getValueConverterService() {
@@ -103,7 +104,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that the value-to-string conversion resulted in a string that is equal to the specified input value.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    * @param value
@@ -116,7 +117,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that the value-to-string conversion resulted in a string that is equal to the specified input value surrounded by double-quotes.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    * @param value
@@ -130,7 +131,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
   /**
    * Asserts that the value-to-string conversion for all the specified values results in strings that are equal to the specified input values surrounded by
    * double-quotes.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    * @param values
@@ -151,7 +152,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that the value-to-string conversion for the keywords listed by the specified rule (or one of rules it calls) leaves them unchanged.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion and whose keywords are tested, must not be {@code null}
    */
@@ -161,7 +162,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that the value-to-string conversion for the keywords listed by the specified rule (or one of rules it calls) leaves them unchanged.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion and whose keywords are tested, must not be {@code null}
    * @param exceptions
@@ -180,7 +181,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
   /**
    * Asserts that the value-to-string conversion for values that do not match the ID terminal rule regular expression results in the values surrounded by
    * double-quotes.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    */
@@ -190,7 +191,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that the value-to-string conversion for all of the specified values results in a {@link ValueConverterException} thrown.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    * @param valueList
@@ -213,7 +214,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
   /**
    * Asserts that the value-to-string conversion for values that do not match the ID terminal rule regular expression results in a
    * {@link ValueConverterException} thrown.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    */
@@ -224,7 +225,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
   /**
    * Asserts that the value-to-string conversion for values that are part of the rule language but are not listed by the rule results in a
    * {@link ValueConverterException} thrown.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    */
@@ -234,7 +235,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that the value-to-string conversion for values that are part of the rule language but are not listed by the rule results in quoted strings.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    */
@@ -245,7 +246,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
   /**
    * Asserts that the value-to-string conversion for values that keywords listed by the rule leaves them unchanged while other language keywords or invalid IDs
    * result in a {@link ValueConverterException} thrown.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    */
@@ -257,7 +258,7 @@ public abstract class AbstractValueConverterServiceTest extends AbstractXtextTes
 
   /**
    * Asserts that boolean values convert to "true" for {@link Boolean#TRUE} and "false" for {@link Boolean#FALSE}.
-   * 
+   *
    * @param rule
    *          the rule used for the value-to-string conversion, must not be {@code null}
    */

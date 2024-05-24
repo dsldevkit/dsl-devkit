@@ -415,9 +415,7 @@ public class QualifiedNamePattern extends QualifiedName {
       }
     } else {
       for (T[] values : lookupMap.subMap(lowerInclusive(), upperExclusive()).values()) {
-        for (T element : values) {
-          candidates.add(element);
-        }
+        candidates.addAll(Arrays.asList(values));
       }
     }
     return candidates;

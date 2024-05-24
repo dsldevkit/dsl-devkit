@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -229,11 +229,7 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     IResourceDescription desc = newDesc == null ? oldDesc : getNew();
     final Iterator<IEObjectDescription> objectIter = desc.getExportedObjects().iterator();
 
-    if (!objectIter.hasNext()) {
-      return false;
-    } else {
-      return objectIter.next().getUserData(IFingerprintComputer.OBJECT_FINGERPRINT) != null;
-    }
+    return objectIter.hasNext() && objectIter.next().getUserData(IFingerprintComputer.OBJECT_FINGERPRINT) != null;
   }
 
   public Collection<IEObjectDescription> getDeletedObjects() {

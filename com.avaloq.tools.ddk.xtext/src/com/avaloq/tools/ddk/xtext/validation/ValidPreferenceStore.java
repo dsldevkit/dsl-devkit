@@ -89,7 +89,7 @@ public class ValidPreferenceStore {
    * The default context is the context where getDefault and setDefault
    * methods will search. This context is also used in the search.
    */
-  private final IScopeContext defaultContext = DefaultScope.INSTANCE;
+  private static final IScopeContext DEFAULT_CONTEXT = DefaultScope.INSTANCE;
 
   /**
    * The nodeQualifer is the string used to look up the node in the contexts.
@@ -178,7 +178,7 @@ public class ValidPreferenceStore {
    * @return this store's default preference node
    */
   private IEclipsePreferences getDefaultPreferences() {
-    return defaultContext.getNode(defaultQualifier);
+    return DEFAULT_CONTEXT.getNode(defaultQualifier);
   }
 
   /**
@@ -244,7 +244,7 @@ public class ValidPreferenceStore {
     // Assert that the default was not included (we automatically add it to
     // the end)
     for (final IScopeContext scope : scopes) {
-      if (scope.equals(defaultContext)) {
+      if (scope.equals(DEFAULT_CONTEXT)) {
         Assert.isTrue(false, "Do not add the default to the search contexts"); //$NON-NLS-1$
       }
     }
@@ -257,10 +257,7 @@ public class ValidPreferenceStore {
    * @return <code>true</code> if either a current value or a default
    */
   public boolean contains(final String name) {
-    if (name == null) {
-      return false;
-    }
-    return (Platform.getPreferencesService().get(name, null, getPreferenceNodes(true))) != null;
+    return name != null && Platform.getPreferencesService().get(name, null, getPreferenceNodes(true)) != null;
   }
 
   /**
@@ -440,10 +437,7 @@ public class ValidPreferenceStore {
    *         (including the case where the preference is unknown to this store)
    */
   public boolean isDefault(final String name) {
-    if (name == null) {
-      return false;
-    }
-    return (Platform.getPreferencesService().get(name, null, getPreferenceNodes(false))) == null;
+    return name != null && Platform.getPreferencesService().get(name, null, getPreferenceNodes(false)) == null;
   }
 
 }

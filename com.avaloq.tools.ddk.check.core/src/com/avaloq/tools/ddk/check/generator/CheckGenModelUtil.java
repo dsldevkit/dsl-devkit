@@ -45,6 +45,7 @@ import com.google.common.collect.Iterables;
  */
 public final class CheckGenModelUtil {
 
+  private static final String EXCEPTION_IN_GENERATION = "Exception in generation ({0})"; //$NON-NLS-1$
   private static final String GENMODEL_EXTENSION = "genmodel"; //$NON-NLS-1$
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(CheckGenModelUtil.class);
@@ -117,6 +118,7 @@ public final class CheckGenModelUtil {
       }
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (RuntimeException e) {
+      LOGGER.error(NLS.bind(EXCEPTION_IN_GENERATION, eModelElement), e);
       // CHECKSTYLE:CHECK-ON IllegalCatch
     }
     try {
@@ -162,6 +164,7 @@ public final class CheckGenModelUtil {
       }
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (Exception ex) {
+      LOGGER.error(NLS.bind(EXCEPTION_IN_GENERATION, uri), ex);
       // CHECKSTYLE:CHECK-ON IllegalCatch
     }
     return null;

@@ -39,7 +39,7 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   @Inject(optional = true)
   @Named(value = STORE_NODE_MODEL)
-  private boolean storeNodeModel = true; // NOPMD ImmutableField
+  private final boolean storeNodeModel = true; // NOPMD ImmutableField
 
   @Inject
   private ITraceSet traceSet;
@@ -51,7 +51,7 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   @Override
   public boolean shouldLoadFromStorage(final StorageAwareResource resource) {
-    if (ResourceLoadMode.get(resource).instruction(Constituent.RESOURCE) == Instruction.SKIP) {
+    if (ResourceLoadMode.get(resource).instruction(Constituent.RESOURCE) == Instruction.SKIP) { // NOPMD SimplifyBooleanReturns
       return false;
     }
     return super.shouldLoadFromStorage(resource);

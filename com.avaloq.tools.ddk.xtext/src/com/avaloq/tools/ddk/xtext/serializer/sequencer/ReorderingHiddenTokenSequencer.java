@@ -691,7 +691,7 @@ public class ReorderingHiddenTokenSequencer implements IHiddenTokenSequencer, IS
     if (!tokenUtil.isCommentNode(comment)) {
       return false;
     }
-    if (node.getText().endsWith(NEW_LINE)) {
+    if (node.getText().endsWith(NEW_LINE)) { // NOPMD SimplifyBooleanReturns
       return false;
     }
     return comment.getStartLine() == node.getEndLine();

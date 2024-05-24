@@ -32,7 +32,7 @@ public class FormatQualifiedNameConverter extends IQualifiedNameConverter.Defaul
 
   @Override
   public QualifiedName toQualifiedName(final String qualifiedNameAsString) {
-    if (qualifiedNameAsString == null || qualifiedNameAsString.equals("") || Strings.isEmpty(getDelimiter())) {
+    if (qualifiedNameAsString == null || "".equals(qualifiedNameAsString) || Strings.isEmpty(getDelimiter())) {
       return super.toQualifiedName(qualifiedNameAsString);
     }
     Matcher m = STRING_PATTERN.matcher(qualifiedNameAsString);

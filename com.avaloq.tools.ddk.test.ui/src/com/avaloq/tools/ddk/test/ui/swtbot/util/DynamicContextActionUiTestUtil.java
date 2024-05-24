@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.test.ui.swtbot.util;
 
 import java.util.Arrays;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
@@ -74,7 +74,7 @@ public final class DynamicContextActionUiTestUtil {
       new SwtBotDynamicContextMenu(bot.contextMenu(), predicate).menu(labels).click();
       return;
     } catch (WidgetNotFoundException widgetNotFound) {
-      LOGGER.debug("Menu item not found on first attempt.", widgetNotFound); //$NON-NLS-1$
+      LOGGER.debug("Menu item not found on first attempt.", widgetNotFound); //$NON-NLS-1$ // NOPMD InvalidLogMessageFormat
     }
 
     // maybe the UI was unstable at the point we set the selection - include delays between events to allow UI to catch up.
@@ -88,7 +88,7 @@ public final class DynamicContextActionUiTestUtil {
       new SwtBotDynamicContextMenu(bot.contextMenu(), predicate).menu(labels).click();
       return;
     } catch (WidgetNotFoundException widgetNotFound) {
-      LOGGER.debug("Menu item not found on second attempt.", widgetNotFound); //$NON-NLS-1$
+      LOGGER.debug("Menu item not found on second attempt.", widgetNotFound); //$NON-NLS-1$ // NOPMD InvalidLogMessageFormat
     }
 
     // maybe the item takes longer than the dynamic sub-menus to be added to the parent menu - give the item until TIMEOUT to appear.

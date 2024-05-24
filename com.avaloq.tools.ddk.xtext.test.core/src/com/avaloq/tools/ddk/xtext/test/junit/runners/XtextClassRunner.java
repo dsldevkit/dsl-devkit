@@ -251,7 +251,7 @@ public class XtextClassRunner extends XtextRunner {
           LOGGER.info(stringWriter.toString());
         }
       }
-    } catch (AssumptionViolatedException e) {
+    } catch (AssumptionViolatedException e) { // NOPMD ExceptionAsFlowControl
       eachNotifier.addFailedAssumption(e);
       // CHECKSTYLE:CHECK-OFF IllegalCatch // we want to catch all possible errors
     } catch (Throwable e) {

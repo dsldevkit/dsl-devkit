@@ -40,11 +40,9 @@ public class InferredModelReferenceFilter implements Predicate<IReferenceDescrip
    */
   protected boolean isInferredModelElement(final URI elementURI) {
     String fragment = elementURI.fragment();
-    if (fragment.length() > 1) {
-      // URI fragments of non-inferred elements look like: /0/x/y/z/
-      return fragment.charAt(1) != '0';
-    }
-    return false;
+    return fragment.length() > 1
+        // URI fragments of non-inferred elements look like: /0/x/y/z/
+        && fragment.charAt(1) != '0';
   }
 
 }

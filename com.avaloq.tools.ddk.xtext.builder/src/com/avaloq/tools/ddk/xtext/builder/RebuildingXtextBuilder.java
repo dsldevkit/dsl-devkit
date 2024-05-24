@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -44,7 +45,6 @@ import org.eclipse.xtext.builder.impl.XtextBuilder;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -174,7 +174,7 @@ public class RebuildingXtextBuilder extends XtextBuilder {
         ((ResourceSetImpl) resourceSet).setURIResourceMap(Maps.<URI, Resource> newHashMap());
       }
       BuildData buildData = new BuildData(getProject().getName(), resourceSet, toBeBuilt, queuedBuildData);
-      ImmutableList<Delta> deltas = builderState.update(buildData, progress.newChild(1));
+      List<Delta> deltas = builderState.update(buildData, progress.newChild(1));
       if (participant != null) {
         final BuildContext buildContext = new BuildContext(this, resourceSet, deltas, type);
         // remember the current workspace tree

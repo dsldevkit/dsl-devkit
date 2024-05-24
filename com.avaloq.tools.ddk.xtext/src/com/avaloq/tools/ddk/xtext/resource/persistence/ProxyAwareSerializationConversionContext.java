@@ -37,7 +37,7 @@ class ProxyAwareSerializationConversionContext extends SerializationConversionCo
   @SuppressWarnings("unchecked")
   @Override
   protected void fillEObjectToIdMap(final Resource resource) {
-    ArrayList<EObject> idToEObjectMap = new ArrayList<EObject>();
+    List<EObject> idToEObjectMap = new ArrayList<EObject>();
 
     fillIdToEObjectMap(resource, idToEObjectMap);
 

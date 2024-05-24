@@ -437,13 +437,15 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     boolean contention = THREAD_BEAN.isThreadContentionMonitoringEnabled();
     Set<Long> deadlockedThreads = getDeadlockThreadIds();
     ThreadInfo[] threadInfos = THREAD_BEAN.dumpAllThreads(true, true);
-    StringBuilder trace = new StringBuilder().append(threadInfos.length).append(" active threads").append(NEW_LINE);
+    // CHECKSTYLE:OFF MagicNumber
+    StringBuilder trace = new StringBuilder(150).append(threadInfos.length).append(" active threads").append(NEW_LINE);
+    // CHECKSTYLE:ON
     for (ThreadInfo info : threadInfos) {
       if (info == null) {
         trace.append("  Inactive").append(NEW_LINE);
         continue;
       }
-      boolean isDeadlocked = deadlockedThreads.contains(Long.valueOf(info.getThreadId()));
+      boolean isDeadlocked = deadlockedThreads.contains(info.getThreadId());
       trace.append("Thread ").append(getTaskName(info.getThreadId(), info.getThreadName()));
       if (isDeadlocked) {
         trace.append(" <<DEADLOCK>>");

@@ -189,7 +189,7 @@ public class AcfKeywordHelper implements Adapter {
     Iterator<EObject> iter = Iterators.concat(EcoreUtil.<EObject> getAllContents(parserRules), EcoreUtil.<EObject> getAllContents(enumRules));
     Iterator<Keyword> filtered = Iterators.filter(iter, Keyword.class);
     Iterator<String> transformed = Iterators.transform(filtered, Keyword::getValue);
-    TreeSet<String> treeSet = Sets.newTreeSet(new Comparator<String>() {
+    Set<String> treeSet = Sets.newTreeSet(new Comparator<String>() {
       @Override
       public int compare(final String o1, final String o2) {
         if (o1.length() == o2.length()) {

@@ -269,9 +269,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     if (isValidationDisabled()) {
       return;
     }
-    if (diagnosticFilter.suppressDiagnostic(triple)) {
-      return;
-    } else {
+    if (!diagnosticFilter.suppressDiagnostic(triple)) {
       super.createAndAddDiagnostic(triple);
       if (LOGGER.isDebugEnabled()) {
         // call to super does not return the new diagnostic so create a temporary one
@@ -437,13 +435,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   @Override
   protected Set<String> getUnresolvableURIFragments() {
-    Set<String> unresolveableProxies = getCache().get(UNRESOLVEABLE_PROXIES_KEY, this, new Provider<Set<String>>() {
-      @Override
-      public Set<String> get() {
-        return isLoadedFromStorage() ? Sets.newHashSet(StorageAwareResource.UNRESOLVABLE_FRAGMENT) : Sets.newHashSet();
-      }
-    });
-    return unresolveableProxies;
+    return getCache().get(UNRESOLVEABLE_PROXIES_KEY, this, () -> //
+    isLoadedFromStorage() ? Sets.newHashSet(StorageAwareResource.UNRESOLVABLE_FRAGMENT) : Sets.newHashSet()// NOPMD ConfusingArgumentToVarargsMethod
+    );
   }
 
   @Override

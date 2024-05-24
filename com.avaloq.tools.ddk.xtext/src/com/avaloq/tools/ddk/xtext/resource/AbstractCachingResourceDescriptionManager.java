@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.function.Predicate;
@@ -76,7 +77,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
   private IFileExtensionResolver fileExtensionResolver;
 
   /** The file extensions of the DSL this resource description manager is for. */
-  private ImmutableSet<String> fileExtensions;
+  private Set<String> fileExtensions;
 
   /**
    * Set the file extensions of our own language.
@@ -359,8 +360,8 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
   }
 
   /** Cache for the exported names from a delta. */
-  private static final WeakHashMap<Delta, Set<QualifiedName>> RESOLVED_EXPORTED_NAMES = new WeakHashMap<Delta, Set<QualifiedName>>();
-  private static final WeakHashMap<Delta, Set<QualifiedName>> UNRESOLVED_EXPORTED_NAMES = new WeakHashMap<Delta, Set<QualifiedName>>();
+  private static final Map<Delta, Set<QualifiedName>> RESOLVED_EXPORTED_NAMES = new WeakHashMap<Delta, Set<QualifiedName>>();
+  private static final Map<Delta, Set<QualifiedName>> UNRESOLVED_EXPORTED_NAMES = new WeakHashMap<Delta, Set<QualifiedName>>();
 
   @Override
   // PMD : readability ok, nesting level of "returns" is always one
@@ -467,7 +468,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
    *
    * @return all extensions ({@code null})
    */
-  protected static ImmutableSet<String> all() {
+  protected static ImmutableSet<String> all() { // NOPMD LooseCoupling
     return null; // NOPMD ReturnEmptyCollectionRatherThanNull
   }
 

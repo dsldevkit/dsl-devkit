@@ -24,21 +24,11 @@
     <exclude name="CloseResource"/>
     <exclude name="CompareObjectsWithEquals"/>
     <exclude name="ConstructorCallsOverridableMethod"/>
-    <exclude name="DataflowAnomalyAnalysis"/>
     <exclude name="DetachedTestCase"/>
     <exclude name="DontImportSun"/><!--Checkstyle-->
     <exclude name="DoNotTerminateVM"/>
-    <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
-    <exclude name="EmptyFinallyBlock"/><!--Checkstyle-->
-    <exclude name="EmptyIfStmt"/><!--Checkstyle-->
-    <exclude name="EmptyInitializer"/><!--Checkstyle-->
-    <exclude name="EmptyStatementNotInLoop"/><!--Checkstyle-->
-    <exclude name="EmptyInitializer"/><!--Checkstyle-->
-    <exclude name="EmptySwitchStatements"/><!--Checkstyle-->
-    <exclude name="EmptyTryBlock"/><!--Checkstyle-->
-    <exclude name="EmptyWhileStmt"/><!--Checkstyle-->
-    <exclude name="ImportFromSamePackage"/><!--Eclipse-->
     <exclude name="JumbledIncrementer"/><!--Checkstyle-->
+    <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
     <exclude name="NullAssignment"/>
     <exclude name="SingleMethodSingleton"/>
     <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
@@ -60,19 +50,17 @@
     <exclude name="DataClass"/>
     <exclude name="DoNotExtendJavaLangError"/>
     <exclude name="ExcessiveImports"/>
-    <exclude name="ExcessiveMethodLength"/>
+    <exclude name="ExcessivePublicCount"/>
     <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
     <exclude name="CognitiveComplexity"/>
+    <exclude name="CouplingBetweenObjects"/>
     <exclude name="CyclomaticComplexity"/>
     <exclude name="GodClass"/><!--New after PMD 5.3 upgrade, not to be activated by default-->
     <exclude name="LawOfDemeter"/><!--New after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
     <exclude name="LoosePackageCoupling"/>
-    <exclude name="ModifiedCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
     <exclude name="MutableStaticState"/>
     <exclude name="NcssCount"/>
-    <exclude name="NcssMethodCount"/>
     <exclude name="NPathComplexity"/><!--Checkstyle-->
-    <exclude name="StdCyclomaticComplexity"/><!--New after PMD 5.3 upgrade, see CyclomaticComplexity-->
     <exclude name="SimplifyBooleanExpressions"/><!--Checkstyle-->
     <exclude name="TooManyFields"/>
     <exclude name="TooManyMethods"/>
@@ -98,23 +86,18 @@
     <exclude name="UseTryWithResources"/><!--TODO-->
   </rule>
   <rule ref="category/java/codestyle.xml">
-    <exclude name="AbstractNaming"/><!--Checkstyle-->
     <exclude name="AtLeastOneConstructor"/>
-    <exclude name="AvoidFinalLocalVariable"/>
-    <exclude name="AvoidPrefixingMethodParameters"/><!--New after PMD 5.3 upgrade, only false positives-->
     <exclude name="CallSuperInConstructor"/>
     <exclude name="ClassNamingConventions"/>
     <exclude name="CommentDefaultAccessModifier"/>
     <exclude name="ConfusingTernary"/>
     <exclude name="ControlStatementBraces"/><!--Checkstyle-->
-    <exclude name="DefaultPackage"/>
-    <exclude name="DontImportJavaLang"/><!--Eclipse-->
-    <exclude name="DuplicateImports"/><!--Eclipse-->
     <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
     <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
     <exclude name="FieldNamingConventions"/>
     <exclude name="IdenticalCatchBranches"/>
     <exclude name="LinguisticNaming"/>
+    <exclude name="LambdaCanBeMethodReference"/>
     <exclude name="LocalVariableCouldBeFinal"/> <!--  not sensible -->
     <exclude name="LongVariable"/> <!--  not sensible -->
     <exclude name="MethodNamingConventions"/>
@@ -122,9 +105,9 @@
     <exclude name="OnlyOneReturn"/>
     <exclude name="ShortClassName"/><!--New after PMD 5.3 upgrade, not sensible/only false positives-->
     <exclude name="ShortVariable"/> <!--  not sensible -->
-    <exclude name="SuspiciousConstantFieldName"/><!--Checkstyle-->
     <exclude name="TooManyStaticImports"/>
     <exclude name="UnnecessaryAnnotationValueElement"/>
+    <exclude name="UnnecessaryImport"/><!--Too many false positives after PMD 7 -->
     <exclude name="UnnecessaryModifier"/><!--Checkstyle-->
     <exclude name="UnnecessaryFullyQualifiedName"/>
     <exclude name="UnnecessaryLocalBeforeReturn"/>
@@ -142,95 +125,6 @@
     <exclude name="OptimizableToArrayCall"/>
     <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
     <exclude name="TooFewBranchesForASwitchStatement"/>
-  </rule>
-
-  <rule
-      language="java"
-      name="MissingBreakOrReturnInSwitch"
-      message="A switch statement does not contain a break or return statement"
-      class="net.sourceforge.pmd.lang.rule.XPathRule"
-      dfa="false"
-      typeResolution="true">
-    <description>A switch statement without an enclosed break or return statement may be a bug.</description>
-    <priority>3</priority>
-    <properties>
-      <property name="xpath">
-        <value>
-          <![CDATA[
-//SwitchStatement
-[count(SwitchLabel) > 0]
-[count(.//BreakStatement)+count(.//ReturnStatement)=0]
-[count(BlockStatement/Statement/ReturnStatement)
- + count(BlockStatement/Statement/ThrowStatement)
-     < count (SwitchLabel)]
-]]>
-        </value>
-      </property>
-    </properties>
-    <example><![CDATA[
-public class Foo {
-  public void bar(int status) {
-    switch(status) {
-      case CANCELLED:
-        doCancelled();
-        // break; hm, should this be commented out?
-      case NEW:
-        doNew();
-      case REMOVED:
-        doRemoved();
-    }
-  }
-}
-]]>
-    </example>
-  </rule>
-
-  <rule
-      language="java"
-      name="BeforeAfterClassStatic"
-      message="Methods annotated with @BeforeClass or @AfterClass need to be static."
-      class="net.sourceforge.pmd.lang.rule.XPathRule"
-      dfa="false"
-      typeResolution="true">
-    <description>Test methods annotated with @BeforeClass or @AfterClass need to be static.</description>
-    <priority>3</priority>
-    <properties>
-      <property name="xpath">
-        <value>
-          <![CDATA[
-//ClassOrInterfaceBodyDeclaration[Annotation/MarkerAnnotation/Name[@Image='BeforeClass' or @Image='AfterClass']]
-[count(MethodDeclaration[@Static='true'])=0]]]>
-        </value>
-      </property>
-    </properties>
-    <example>
-      <![CDATA[
-]]>
-    </example>
-  </rule>
-
-  <rule
-      language="java"
-      name="BeforeAfterNotStatic"
-      message="Methods annotated with @Before or @After must not be static."
-      class="net.sourceforge.pmd.lang.rule.XPathRule"
-      dfa="false"
-      typeResolution="true">
-    <description>Test methods annotated with @Before or @After must not be static.</description>
-    <priority>3</priority>
-    <properties>
-      <property name="xpath">
-        <value>
-          <![CDATA[
-//ClassOrInterfaceBodyDeclaration[Annotation/MarkerAnnotation/Name[@Image='Before' or @Image='After']]
-[count(MethodDeclaration[@Static='false'])=0]]]>
-        </value>
-      </property>
-    </properties>
-    <example>
-      <![CDATA[
-]]>
-    </example>
   </rule>
 
 </ruleset>

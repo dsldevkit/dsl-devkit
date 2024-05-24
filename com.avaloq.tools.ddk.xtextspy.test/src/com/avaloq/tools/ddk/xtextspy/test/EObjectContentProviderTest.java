@@ -112,7 +112,7 @@ public class EObjectContentProviderTest extends AbstractXtextTests {
     when(mockSelectionListener.getEditor()).thenReturn(mockEditor);
     IXtextDocument mockDocument = mock(IXtextDocument.class);
     when(mockEditor.getDocument()).thenReturn(mockDocument);
-    when(mockDocument.<ArrayList<AttributeValuePair>> readOnly(any(IUnitOfWork.class))).thenReturn(newArrayList(attributeValuePair));
+    when(mockDocument.<ArrayList<AttributeValuePair>> readOnly(any(IUnitOfWork.class))).thenReturn(newArrayList(attributeValuePair)); // NOPMD LooseCoupling
     // Mockups for returning EOperation
     BasicEList<EOperation> mockEOperationsList = new BasicEList<EOperation>();
     mockEOperationsList.add(operation);

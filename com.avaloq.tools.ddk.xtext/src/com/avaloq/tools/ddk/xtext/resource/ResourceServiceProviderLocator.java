@@ -52,8 +52,7 @@ public class ResourceServiceProviderLocator {
    * @return the {@link IResourceServiceProvider} for the given language id
    */
   public IResourceServiceProvider getResourceServiceProviderById(final String languageId) {
-    ImmutableMap<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> resourceProvidersMap = getProviderMaps();
-    for (Map.Entry<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> mapEntry : resourceProvidersMap.entrySet()) {
+    for (Map.Entry<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> mapEntry : getProviderMaps().entrySet()) {
       Map<String, Object> map = mapEntry.getKey();
       for (Map.Entry<String, Object> entry : map.entrySet()) {
         try {
@@ -80,28 +79,27 @@ public class ResourceServiceProviderLocator {
    *
    * @return the resource service provider's maps
    */
-  private ImmutableMap<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> getProviderMaps() {
-    ImmutableMap<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> resourceProvidersMap = //
-        ImmutableMap.of(IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap(), new Function<String, IResourceServiceProvider>() {
-          @Override
-          public IResourceServiceProvider apply(final String input) {
-            URI fake = URI.createURI("fake:/foo." + input); //$NON-NLS-1$
-            return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
-          }
-        }, IResourceServiceProvider.Registry.INSTANCE.getContentTypeToFactoryMap(), new Function<String, IResourceServiceProvider>() {
-          @Override
-          public IResourceServiceProvider apply(final String input) {
-            URI fake = URI.createURI("fake:/foo"); //$NON-NLS-1$
-            return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, input);
-          }
-        }, IResourceServiceProvider.Registry.INSTANCE.getProtocolToFactoryMap(), new Function<String, IResourceServiceProvider>() {
-          @Override
-          public IResourceServiceProvider apply(final String input) {
-            URI fake = URI.createURI(input + ":/foo"); //$NON-NLS-1$
-            return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
-          }
-        });
-    return resourceProvidersMap;
+  private Map<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> getProviderMaps() {
+    return //
+    ImmutableMap.of(IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap(), new Function<String, IResourceServiceProvider>() {
+      @Override
+      public IResourceServiceProvider apply(final String input) {
+        URI fake = URI.createURI("fake:/foo." + input); //$NON-NLS-1$
+        return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
+      }
+    }, IResourceServiceProvider.Registry.INSTANCE.getContentTypeToFactoryMap(), new Function<String, IResourceServiceProvider>() {
+      @Override
+      public IResourceServiceProvider apply(final String input) {
+        URI fake = URI.createURI("fake:/foo"); //$NON-NLS-1$
+        return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, input);
+      }
+    }, IResourceServiceProvider.Registry.INSTANCE.getProtocolToFactoryMap(), new Function<String, IResourceServiceProvider>() {
+      @Override
+      public IResourceServiceProvider apply(final String input) {
+        URI fake = URI.createURI(input + ":/foo"); //$NON-NLS-1$
+        return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
+      }
+    });
   }
 
 }

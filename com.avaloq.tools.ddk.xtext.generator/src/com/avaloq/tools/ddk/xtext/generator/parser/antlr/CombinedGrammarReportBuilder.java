@@ -94,7 +94,7 @@ public class CombinedGrammarReportBuilder {
    */
 
   private void addRuleToDoc(final AbstractRule rule, final StringBuilder doc) {
-    doc.append("\n\n<h2><a name=\"" + rule.getName() + "\">" + rule.getName() + "</a> (" + GrammarUtil.getSimpleName(GrammarUtil.getGrammar(rule)) + ")</h2>");
+    doc.append("\n\n<h2><a name=\"").append(rule.getName()).append("\">").append(rule.getName()).append("</a> (").append(GrammarUtil.getSimpleName(GrammarUtil.getGrammar(rule))).append(")</h2>");
     doc.append("<pre>");
     doc.append(getText(rule));
     doc.append("\n</pre>");

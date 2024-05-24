@@ -22,8 +22,8 @@ import java.util.Locale;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -261,7 +261,7 @@ class CheckExtensionGenerator {
       void checkLoad(final Node node) {
         fName = node.getNodeName();
         if (fAttributes == null) {
-          fAttributes = new Hashtable();
+          fAttributes = new Hashtable(); // NOPMD LooseCoupling
         }
         NamedNodeMap attributes = node.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {

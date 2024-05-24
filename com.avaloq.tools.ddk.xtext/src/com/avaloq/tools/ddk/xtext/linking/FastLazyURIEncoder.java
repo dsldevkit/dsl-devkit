@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -41,9 +43,7 @@ public class FastLazyURIEncoder extends LazyURIEncoder {
       idx = idx2 + 2;
       idx2 = uriFragment.indexOf(SEP, idx);
       INode node = NodeModelUtils.getNode(source);
-      if (node == null) {
-        throw new IllegalStateException("Couldn't resolve lazy link, because no node model is attached."); //$NON-NLS-1$
-      }
+      Objects.requireNonNull(node, "Couldn't resolve lazy link, because no node model is attached."); //$NON-NLS-1$
 
       EReference ref = fromShortExternalForm(source.eClass(), uriFragment.substring(idx, idx2));
       idx = idx2 + 2;

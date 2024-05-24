@@ -61,7 +61,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
   @Inject
   private ResourceServiceProviderLocator resourceServiceProviderLocator;
 
-  private ImmutableList<IXtextBuilderParticipant> immutableCommonParticipants;
+  private ImmutableList<IXtextBuilderParticipant> immutableCommonParticipants; // NOPMD LooseCoupling
 
   private final Map<String, IXtextBuilderParticipant> classToParticipant = Maps.newHashMap();
   private final Map<String, Set<ILanguageSpecificBuilderParticipant>> serviceProviderToParticipants = Maps.newHashMap();
@@ -163,7 +163,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
    *           caused by an {@link IXtextBuilderParticipant}
    */
   protected void buildOtherParticipants(final IBuildContext buildContext, final IProgressMonitor monitor) throws CoreException {
-    ImmutableList<IXtextBuilderParticipant> otherBuilderParticipants = getParticipants();
+    List<IXtextBuilderParticipant> otherBuilderParticipants = getParticipants();
     if (otherBuilderParticipants.isEmpty()) {
       return;
     }
@@ -238,7 +238,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
   }
 
   @Override
-  protected synchronized ImmutableList<IXtextBuilderParticipant> initParticipants() {
+  protected synchronized ImmutableList<IXtextBuilderParticipant> initParticipants() { // NOPMD LooseCoupling
     if (immutableCommonParticipants == null) {
       String pluginID = "org.eclipse.xtext.builder"; //$NON-NLS-1$ // Activator.getDefault().getBundle().getSymbolicName();
       String extensionPointID = EXTENSION_POINT_ID;
@@ -260,7 +260,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
       super(pluginRegistry, pluginID, extensionPointID);
     }
 
-    protected ImmutableList<IXtextBuilderParticipant> getCommonParticipants() {
+    protected ImmutableList<IXtextBuilderParticipant> getCommonParticipants() { // NOPMD LooseCoupling
       return ImmutableList.copyOf(commonParticipants);
     }
 
@@ -344,10 +344,7 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
      */
     private boolean unregisterLanguageSpecificBuilderParticipant(final String languageId, final ILanguageSpecificBuilderParticipant languageSpecificBuilderParticipant) {
       Set<ILanguageSpecificBuilderParticipant> languageSpecificBuilderParticipants = serviceProviderToParticipants.get(languageId);
-      if (languageSpecificBuilderParticipants != null) {
-        return languageSpecificBuilderParticipants.remove(languageSpecificBuilderParticipant);
-      }
-      return false;
+      return languageSpecificBuilderParticipants != null && languageSpecificBuilderParticipants.remove(languageSpecificBuilderParticipant);
     }
   }
 }

@@ -82,10 +82,10 @@ public class CheckHoverProvider extends XbaseHoverProvider {
 
   private void appendSection(final StringBuffer buffer, final String title, final String content) {
     if (title != null && title.length() > 0) {
-      buffer.append("<p><b>" + title + ":</b></p>");
+      buffer.append("<p><b>").append(title).append(":</b></p>");
     }
     if (content != null && content.length() > 0) {
-      buffer.append("<p>" + content + "</p>");
+      buffer.append("<p>").append(content).append("</p>");
     }
   }
 }

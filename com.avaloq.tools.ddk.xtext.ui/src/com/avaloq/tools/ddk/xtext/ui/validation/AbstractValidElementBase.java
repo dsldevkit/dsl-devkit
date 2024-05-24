@@ -12,16 +12,17 @@ package com.avaloq.tools.ddk.xtext.ui.validation;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 
 /**
  * This class serves as the implementation base for the element classes of the
  * plug-in extension point <code>ch.paranor.au.xtext.valid.core.valid</code>.
- * 
+ *
  * @see ValidExtensionPointManager
  */
 public abstract class AbstractValidElementBase {
@@ -52,14 +53,14 @@ public abstract class AbstractValidElementBase {
    * Return all child elements of this element that conform to the hierarchy of the
    * XML schema that goes with this extension point. The order the returned elements
    * is not specified here.
-   * 
+   *
    * @return the child elements of this element
    */
   public AbstractValidElementBase[] getChildElements() {
     AbstractValidElementBase[] childElements = null;
     if (childElements == null) {
       IConfigurationElement[] ce = getConfigurationElement().getChildren();
-      ArrayList<AbstractValidElementBase> elements = new ArrayList<AbstractValidElementBase>();
+      List<AbstractValidElementBase> elements = new ArrayList<AbstractValidElementBase>();
       for (IConfigurationElement element : ce) {
         AbstractValidElementBase e = createChildElement(element);
         if (e != null) {
@@ -90,7 +91,7 @@ public abstract class AbstractValidElementBase {
    * represents. All attributes of this element are provided
    * via getters of this class. Child elements of this
    * element can be obtained via {@link #getChildElements}.
-   * 
+   *
    * @return never null
    */
   public IConfigurationElement getConfigurationElement() {
@@ -99,7 +100,7 @@ public abstract class AbstractValidElementBase {
 
   /**
    * Creates a child element inside the container (configuration element).
-   * 
+   *
    * @param container
    *          the parent of the newly created element
    * @return the created element
@@ -117,7 +118,7 @@ public abstract class AbstractValidElementBase {
 
   /**
    * Log a problem.
-   * 
+   *
    * @param ex
    *          exception manifesting the problem
    * @param msg
@@ -130,7 +131,7 @@ public abstract class AbstractValidElementBase {
   /**
    * Reads the named attribute value from the configuration element. Throws IllegalArgumentException
    * if the name of the attribute is not known
-   * 
+   *
    * @param configurationElement
    *          the container (configuration element)
    * @param name

@@ -121,9 +121,9 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
   public ClassRunner(final Class<?> klass) throws InitializationError {
     super(klass);
     SorterUtil.getInstance().initializeSorter(this);
-    testRuns = Integer.valueOf(System.getProperty(PROPERTY_TEST_RUNS, "1")); //$NON-NLS-1$
-    testRetries = Integer.valueOf(System.getProperty(PROPERTY_TEST_RETRIES, "0")); //$NON-NLS-1$
-    unstableFail = Boolean.valueOf(System.getProperty(PROPERTY_UNSTABLE_FAIL, "false")); //$NON-NLS-1$
+    testRuns = Integer.parseInt(System.getProperty(PROPERTY_TEST_RUNS, "1")); //$NON-NLS-1$
+    testRetries = Integer.parseInt(System.getProperty(PROPERTY_TEST_RETRIES, "0")); //$NON-NLS-1$
+    unstableFail = Boolean.parseBoolean(System.getProperty(PROPERTY_UNSTABLE_FAIL, "false")); //$NON-NLS-1$
   }
 
   /**
@@ -250,7 +250,7 @@ public class ClassRunner extends BlockJUnit4ClassRunner {
           LOGGER.info(stringWriter.toString());
         }
       }
-    } catch (AssumptionViolatedException e) {
+    } catch (AssumptionViolatedException e) { // NOPMD ExceptionAsFlowControl
       eachNotifier.addFailedAssumption(e);
       // CHECKSTYLE:CHECK-OFF IllegalCatch // we want to catch all possible errors
     } catch (Throwable e) {

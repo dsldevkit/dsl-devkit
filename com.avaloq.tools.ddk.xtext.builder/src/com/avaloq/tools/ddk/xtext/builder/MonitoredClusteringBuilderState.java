@@ -555,7 +555,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             traceSet.started(ResourceLinkingEvent.class, changedURI);
             final IResourceDescription.Manager manager = getResourceDescriptionManager(changedURI);
             if (manager != null) {
-              final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(index + queue.size()), URI.decode(resource.getURI().lastSegment())};
+              final Object[] bindings = {index, index + queue.size(), URI.decode(resource.getURI().lastSegment())};
               subProgress.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_UPDATE_DESCRIPTIONS, bindings));
               // Resolve links here!
               try {
@@ -657,7 +657,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         newDeltas.clear();
         changedDeltas.clear();
 
-        if (queue.size() > 0) {
+        if (!queue.isEmpty()) {
           loadOperation = crossLinkingResourceLoader.create(resourceSet, currentProject);
           loadOperation.load(queue);
         }
@@ -789,7 +789,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       if (!binaryStorageExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
         throw new InterruptedException();
       }
-    } catch (InterruptedException e) {
+    } catch (InterruptedException e) { // NOPMD ExceptionAsFlowControl
       LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with %d queued / %d active; now have %d / %d", //$NON-NLS-1$
           queuedTaskCount, activeTaskCount, binaryStorageExecutor.getQueue().size(), binaryStorageExecutor.getActiveCount()));
       binaryStorageExecutor.shutdownNow();
@@ -1005,7 +1005,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         try {
           resource = addResource(loadOperation.next().getResource(), resourceSet);
           uri = resource.getURI();
-          final Object[] bindings = {Integer.valueOf(index), Integer.valueOf(resourcesToWriteSize), uri.fileExtension(), URI.decode(uri.lastSegment())};
+          final Object[] bindings = {index, resourcesToWriteSize, uri.fileExtension(), URI.decode(uri.lastSegment())};
           monitor.subTask(NLS.bind(Messages.MonitoredClusteringBuilderState_WRITE_ONE_DESCRIPTION, bindings));
           traceSet.started(ResourceIndexingEvent.class, uri);
 

@@ -44,7 +44,6 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   protected class FragmentSegmentIterator implements Iterator<String> {
     private final String fragment;
     private final int length;
-    private int startIdx;
     private int endIdx;
     private int reps;
 
@@ -80,7 +79,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
      */
     @Override
     public String next() { // NOPMD - this isn't actually complex, and I much prefer a ternary to a if-else
-      startIdx = endIdx + 1;
+      int startIdx = endIdx + 1;
       int idx = indexOfUnescapedChar(fragment, END_MATCHER, startIdx);
       int repIdx = idx < length && fragment.charAt(idx) == REP_SEPARATOR ? idx : -1;
       endIdx = repIdx == -1 ? idx : indexOfUnescapedChar(fragment, SEGMENT_SEPARATOR_MATCHER, repIdx);

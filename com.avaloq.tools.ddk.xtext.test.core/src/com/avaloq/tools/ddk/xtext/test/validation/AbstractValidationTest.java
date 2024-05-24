@@ -57,6 +57,7 @@ import com.google.inject.Provider;
  */
 @SuppressWarnings({"nls", "PMD.ExcessiveClassLength"})
 // CHECKSTYLE:CHECK-OFF MultipleStringLiterals
+// CHECKSTYLE:OFF MagicNumber
 public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTest {
 
   public static final int NO_ERRORS = 0;
@@ -114,8 +115,6 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
    */
   protected class XtextDiagnosticAssertion extends AbstractModelAssertion {
-
-    private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
 
     /** Issue code of the diagnostic. */
     private final String issueCode;
@@ -205,19 +204,18 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      *          actual message
      */
     private void createErrorMessage(final Integer pos, final BasicDiagnostic diagnosticsOnTargetPosition, final boolean issueFound, final boolean expectedSeverityMatches, final int actualSeverity, final boolean expectedMessageMatches, final String actualMessage) {
-      StringBuilder errorMessage = new StringBuilder(MINIMAL_STRINGBUILDER_CAPACITY);
+      StringBuilder errorMessage = new StringBuilder(180);
       if (issueMustBeFound && !issueFound) {
-        errorMessage.append("Expected issue not found. Code '" + issueCode + "'\n");
+        errorMessage.append("Expected issue not found. Code '").append(issueCode).append('\n');
       } else if (!issueMustBeFound && issueFound) {
-        errorMessage.append("There should be no issue with the code '" + issueCode + DOT_AND_LINEBREAK);
+        errorMessage.append("There should be no issue with the code '").append(issueCode).append(DOT_AND_LINEBREAK);
       }
       if (issueFound && !expectedMessageMatches) {
-        errorMessage.append("Expected message does not match. Expected: '" + message + "', Actual: '" + actualMessage + "'\n");
+        errorMessage.append("Expected message does not match. Expected: '").append(message).append("', Actual: '").append(actualMessage).append('\n');
       }
       // If the expected issue has been found, but the actual severity does not match with expected one
       if (issueMustBeFound && issueFound && !expectedSeverityMatches) {
-        errorMessage.append("Severity does not match. Expected: " + CODE_TO_NAME.get(expectedSeverity) + ". Actual: " + CODE_TO_NAME.get(actualSeverity)
-            + ".\n");
+        errorMessage.append("Severity does not match. Expected: ").append(CODE_TO_NAME.get(expectedSeverity)).append(". Actual: ").append(CODE_TO_NAME.get(actualSeverity)).append(".\n");
       }
       // Memorize error message
       if (errorMessage.length() > 0) {
@@ -284,8 +282,6 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * Assertion testing for {@link AbstractValidationDiagnostic validation issues} at a given source position.
    */
   private class ResourceDiagnosticAssertion extends AbstractModelAssertion {
-
-    private static final int MINIMAL_STRINGBUILDER_CAPACITY = 100;
 
     /** Issue code of the diagnostic. */
     private final String issueCode;
@@ -382,19 +378,18 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      *          actual message
      */
     private void createErrorMessage(final Integer pos, final List<Resource.Diagnostic> diagnosticsOnTargetPosition, final boolean issueFound, final boolean expectedSeverityMatches, final int actualSeverity, final boolean expectedMessageMatches, final String actualMessage) {
-      StringBuilder errorMessage = new StringBuilder(MINIMAL_STRINGBUILDER_CAPACITY);
+      StringBuilder errorMessage = new StringBuilder(175);
       if (issueMustBeFound && !issueFound) {
-        errorMessage.append("Expected issue not found. Code '" + issueCode + "'\n");
+        errorMessage.append("Expected issue not found. Code '").append(issueCode).append('\n');
       } else if (!issueMustBeFound && issueFound) {
-        errorMessage.append("There should be no issue with the code '" + issueCode + DOT_AND_LINEBREAK);
+        errorMessage.append("There should be no issue with the code '").append(issueCode).append(DOT_AND_LINEBREAK);
       }
       if (issueFound && !expectedMessageMatches) {
-        errorMessage.append("Expected message does not match. Expected: '" + message + "', Actual: '" + actualMessage + "'\n");
+        errorMessage.append("Expected message does not match. Expected: '").append(message).append("', Actual: '").append(actualMessage).append('\n');
       }
       // If the expected issue has been found, but the actual severity does not match with expected one
       if (issueMustBeFound && issueFound && !expectedSeverityMatches) {
-        errorMessage.append("Severity does not match. Expected: " + CODE_TO_NAME.get(expectedSeverity) + ". Actual: " + CODE_TO_NAME.get(actualSeverity)
-            + ".\n");
+        errorMessage.append("Severity does not match. Expected: ").append(CODE_TO_NAME.get(expectedSeverity)).append(". Actual: ").append(CODE_TO_NAME.get(actualSeverity)).append(".\n");
       }
       // Memorize error message
       if (errorMessage.length() > 0) {
@@ -417,7 +412,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      *         {@code true} if diagnostic has the same position as the given one, {@code false} otherwise.
      */
     private boolean diagnosticPositionEquals(final Integer pos, final AbstractDiagnostic diagnostic) {
-      return diagnostic.getOffset() == pos.intValue();
+      return diagnostic.getOffset() == pos;
     }
   }
 
@@ -521,7 +516,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   // TODO (ACF-4153) generalize for all kinds of errors and move to AbstractXtextTest
   private String diagnosticsToString(final List<Resource.Diagnostic> diagnostics, final boolean displayPathToTargetObject) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(25);
     for (Resource.Diagnostic diagnostic : diagnostics) {
       if (diagnostic instanceof AbstractDiagnostic) {
         AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
@@ -1097,7 +1092,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
       if (diagnostic instanceof AbstractDiagnostic) {
         AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
         // Create error message
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(35);
         sb.append("Unexpected diagnostic found. Code '");
         sb.append(diag.getCode());
         sb.append(DOT_AND_LINEBREAK);
@@ -1105,7 +1100,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         memorizeErrorOnPosition(diag.getOffset(), sb.toString());
       } else {
         // Create error message
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(30);
         sb.append("Unexpected diagnostic found. '");
         sb.append(diagnostic.toString());
         sb.append(DOT_AND_LINEBREAK);
@@ -1124,7 +1119,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
       if (diagnostic instanceof AbstractValidationDiagnostic) {
         AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;
         // Create error message
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(30);
         sb.append("Unexpected issue found. Code '");
         sb.append(avd.getIssueCode());
         sb.append(DOT_AND_LINEBREAK);
@@ -1146,7 +1141,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         }
       } else {
         // Create error message
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(30);
         sb.append("Unexpected diagnostic found. '");
         sb.append(diagnostic.toString());
         sb.append(DOT_AND_LINEBREAK);
