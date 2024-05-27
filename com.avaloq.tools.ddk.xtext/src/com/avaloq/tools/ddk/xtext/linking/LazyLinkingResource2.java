@@ -50,7 +50,6 @@ import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
 
@@ -193,23 +192,11 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
    * @return Guice injected service matching given key
    */
   @Override
+  @SuppressWarnings("unchecked")
   public <T> T getService(final Class<? extends T> key) {
     IResourceSetServiceCache serviceCache = ServiceCacheAdapter.getServiceCacheAdapter(getResourceSet());
-    String fileExtension = getURI().fileExtension();
-    Map<Class<?>, Object> map = serviceCache.get(fileExtension);
-    if (map == null) {
-      map = new HashMap<>();
-      serviceCache.put(fileExtension, map);
-    }
-    @SuppressWarnings("unchecked")
-    T service = (T) map.get(key);
-    if (service != null) {
-      return service;
-    }
-    service = injector.getInstance(key);
-    map.put(key, service);
-
-    return service;
+    Map<Class<?>, Object> map = serviceCache.computeIfAbsent(getURI().fileExtension(), fileExtension -> new HashMap<>());
+    return (T) map.computeIfAbsent(key, k -> injector.getInstance(key));
   }
 
   /** Simple flag class for use in an IResourceScopeCache. */
@@ -241,24 +228,15 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     // this.
     //
     // Unfortunately, we have no set() on IResourceScopeCache. We'll have to get that ourselves using an indirection...
-    final LazyResolutionFlag lazyLinking = getCache().get(LAZY_CROSS_REFERENCES_RESOLVED, this, new Provider<LazyResolutionFlag>() {
-      @Override
-      public LazyResolutionFlag get() {
-        return new LazyResolutionFlag(); // Initially false
-      }
-    });
+    final LazyResolutionFlag lazyLinking = getCache().get(LAZY_CROSS_REFERENCES_RESOLVED, this, LazyResolutionFlag::new); // Initially false
+
     synchronized (lazyLinking) {
       if (!lazyLinking.isDone()) {
         super.resolveLazyCrossReferences(mon);
         if (mon == null || !mon.isCanceled()) {
           lazyLinking.setDone();
           // And make sure that the flag is in the cache!!
-          getCache().get(LAZY_CROSS_REFERENCES_RESOLVED, this, new Provider<LazyResolutionFlag>() {
-            @Override
-            public LazyResolutionFlag get() {
-              return lazyLinking;
-            }
-          });
+          getCache().get(LAZY_CROSS_REFERENCES_RESOLVED, this, () -> lazyLinking);
         }
       }
     }
@@ -419,8 +397,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
    *          the resource {@link URI} that the parser should consider, may be {@code null}
    */
   private void initializeParser(final IParser parser, final URI resourceUri) {
-    if (parser instanceof IResourceAwareParser) {
-      final IResourceAwareParser resourceParser = (IResourceAwareParser) parser;
+    if (parser instanceof IResourceAwareParser resourceParser) {
       if (resourceUri == null) {
         resourceParser.setFileExtension(null);
       } else {
