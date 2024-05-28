@@ -38,7 +38,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.util.NLS;
@@ -860,7 +859,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       Object featureValue = context.eGet(reference, false);
       assertTrue("List must be of type EObjectResolvingEList", featureValue instanceof EObjectResolvingEList); //$NON-NLS-1$
       @SuppressWarnings("unchecked")
-      EObjectEList<? extends EObject> objects = (EObjectResolvingEList<? extends EObject>) context.eGet(reference, false);
+      EList<? extends EObject> objects = (EObjectResolvingEList<? extends EObject>) context.eGet(reference, false);
       if (objects.size() == 1) {
         sourceObject = EcoreUtil.resolve(objects.get(0), context);
       } else {
