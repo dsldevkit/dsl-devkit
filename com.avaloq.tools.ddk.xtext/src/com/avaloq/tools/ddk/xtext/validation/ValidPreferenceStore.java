@@ -149,13 +149,13 @@ public class ValidPreferenceStore {
     if (object instanceof String) {
       return defaults.get(key, STRING_DEFAULT_DEFAULT);
     } else if (object instanceof Integer) {
-      return Integer.valueOf(defaults.getInt(key, INT_DEFAULT_DEFAULT));
+      return defaults.getInt(key, INT_DEFAULT_DEFAULT);
     } else if (object instanceof Double) {
-      return Double.valueOf(defaults.getDouble(key, DOUBLE_DEFAULT_DEFAULT));
+      return defaults.getDouble(key, DOUBLE_DEFAULT_DEFAULT);
     } else if (object instanceof Float) {
-      return Float.valueOf(defaults.getFloat(key, FLOAT_DEFAULT_DEFAULT));
+      return defaults.getFloat(key, FLOAT_DEFAULT_DEFAULT);
     } else if (object instanceof Long) {
-      return Long.valueOf(defaults.getLong(key, LONG_DEFAULT_DEFAULT));
+      return defaults.getLong(key, LONG_DEFAULT_DEFAULT);
     } else if (object instanceof Boolean) {
       return defaults.getBoolean(key, BOOLEAN_DEFAULT_DEFAULT) ? Boolean.TRUE : Boolean.FALSE;
     } else {

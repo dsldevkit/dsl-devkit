@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 /**
  * A scope whose contents are given by a ContainerQuery on some container.
  */
+@SuppressWarnings("PMD.LooseCoupling")
 public class ContainerBasedScope extends AbstractRecursiveScope {
 
   /** The container. */

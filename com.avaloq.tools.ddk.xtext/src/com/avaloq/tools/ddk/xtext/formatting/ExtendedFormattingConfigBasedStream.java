@@ -555,7 +555,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
           } else if (o1.getLeft() == null && o2.getLeft() != null) {
             return -1;
           } else {
-            return Integer.valueOf(((FixedLocator) o1).getColumn()).compareTo(((FixedLocator) o2).getColumn());
+            return Integer.compare(((FixedLocator) o1).getColumn(), ((FixedLocator) o2).getColumn());
           }
         } else {
           return 0;
@@ -575,7 +575,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     for (ElementLocator locator : locators) {
       if (locator instanceof FixedLocator) {
         if (locator.getRight() != null && !duplicatedColumnLocatorsIndicator.contains(((FixedLocator) locator).getColumn())) {
-          initialIndents.push(Integer.valueOf(indentationLevel));
+          initialIndents.push(indentationLevel);
           columnIndents.push(((FixedLocator) locator).getColumn());
           duplicatedColumnLocatorsIndicator.add(((FixedLocator) locator).getColumn());
         }

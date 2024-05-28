@@ -28,7 +28,7 @@ public final class ProjectUtil {
 
   /**
    * Retrieved the project from the active workbench window.
-   * 
+   *
    * @return the current selected project.
    */
   public static IProject getProject() {
@@ -37,7 +37,7 @@ public final class ProjectUtil {
       IStructuredSelection selection = (IStructuredSelection) window.getSelectionService().getSelection();
       Object firstElement = selection.getFirstElement();
       if (firstElement instanceof IAdaptable) {
-        return (IProject) ((IAdaptable) firstElement).getAdapter(IProject.class);
+        return ((IAdaptable) firstElement).getAdapter(IProject.class);
       }
     }
     return null;

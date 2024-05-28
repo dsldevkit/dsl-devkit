@@ -320,7 +320,7 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
           }
           column += lineEntry.getLength();
           if (lineEntry.isFormattingDisabled()) {
-            int newLineIndex = lineEntry.getLeadingWS().lastIndexOf("\n") + 1; //$NON-NLS-1$
+            int newLineIndex = lineEntry.getLeadingWS().lastIndexOf('\n') + 1;
             if (newLineIndex > 0) {
               column += lineEntry.getLeadingWS().substring(newLineIndex).length();
             }

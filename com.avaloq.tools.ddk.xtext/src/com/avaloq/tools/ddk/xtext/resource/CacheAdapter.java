@@ -26,6 +26,7 @@ import com.avaloq.tools.ddk.caching.MapCache;
  * @param <V>
  *          the type of the stored values
  */
+@SuppressWarnings("PMD.LooseCoupling")
 public class CacheAdapter<V> extends AdapterImpl implements IResourceSetCache<V> {
   private final MapCache<Object, V> cache;
 
