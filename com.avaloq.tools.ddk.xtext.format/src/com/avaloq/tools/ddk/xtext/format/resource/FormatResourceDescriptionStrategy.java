@@ -88,11 +88,12 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
    * @return true if description was created correctly
    */
   public boolean createDescriptionsForNonXbaseFormalParameters(final EObject eObject, final IAcceptor<IEObjectDescription> acceptor) {
-    if (!(eObject.toString().contains("self") || eObject.toString().contains("config") || eObject.toString().contains("elements")
-        || eObject.toString().contains("object"))) {
-      return super.createEObjectDescriptions(eObject, acceptor);
-    }
-    return false;
+    return shouldCreateDescriptionForObject(eObject) && super.createEObjectDescriptions(eObject, acceptor);
+  }
+
+  private boolean shouldCreateDescriptionForObject(final EObject eObject) {
+    String objectString = eObject.toString();
+    return (!(objectString.contains("self") || objectString.contains("config") || objectString.contains("elements") || objectString.contains("object")));
   }
 
   /**

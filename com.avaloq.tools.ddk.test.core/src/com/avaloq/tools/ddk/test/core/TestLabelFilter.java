@@ -28,10 +28,7 @@ public class TestLabelFilter extends Filter {
   @Override
   public boolean shouldRun(final Description description) {
     TestLabels labels = description.getAnnotation(TestLabels.class);
-    if (labels != null) {
-      return ArrayUtils.contains(labels.value(), label);
-    }
-    return false;
+    return labels != null && ArrayUtils.contains(labels.value(), label);
   }
 
   @Override

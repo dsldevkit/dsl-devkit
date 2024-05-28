@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -114,11 +115,11 @@ public class EObjectContentProviderTest extends AbstractXtextTests {
     when(mockEditor.getDocument()).thenReturn(mockDocument);
     when(mockDocument.<ArrayList<AttributeValuePair>> readOnly(any(IUnitOfWork.class))).thenReturn(newArrayList(attributeValuePair)); // NOPMD LooseCoupling
     // Mockups for returning EOperation
-    BasicEList<EOperation> mockEOperationsList = new BasicEList<EOperation>();
+    EList<EOperation> mockEOperationsList = new BasicEList<EOperation>();
     mockEOperationsList.add(operation);
     when(mockSelectionEClass.getEAllOperations()).thenReturn(mockEOperationsList);
     // Mockups for returning EStructuralFeature
-    BasicEList<EStructuralFeature> mockEStructuralFeatureList = new BasicEList<EStructuralFeature>();
+    EList<EStructuralFeature> mockEStructuralFeatureList = new BasicEList<EStructuralFeature>();
     mockEStructuralFeatureList.add(feature);
     mockEStructuralFeatureList.add(attributeValuePair.getAttribute());
     when(mockSelectionEClass.getEAllStructuralFeatures()).thenReturn(mockEStructuralFeatureList);

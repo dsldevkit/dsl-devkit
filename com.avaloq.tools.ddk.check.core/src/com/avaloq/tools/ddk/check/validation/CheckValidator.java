@@ -587,7 +587,7 @@ public class CheckValidator extends AbstractCheckValidator {
   // TODO there is no reason for a context type to be unique, except that we are too lazy to generate the right code, right?
   @Check
   public void checkContextTypeIsUnique(final com.avaloq.tools.ddk.check.check.Check check) {
-    if (check.getContexts().size() < 1) {
+    if (check.getContexts().isEmpty()) {
       return;
     }
     Multimap<String, Context> mm = Multimaps.newMultimap(Maps.<String, Collection<Context>> newHashMap(), new Supplier<Collection<Context>>() {

@@ -698,7 +698,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
     IScope result = outer;
     // We always need a context. Default to the top element of the resource.
     final EList<EObject> contents = rsc.getContents();
-    if (contents.size() > 0) {
+    if (!contents.isEmpty()) {
       result = newContainerScope(id, result, contents.get(0), query, originalResource, nameFunctions, caseInsensitive);
     }
     return result;
@@ -772,7 +772,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
     IScope result = outer;
     // We always need a context. Default to the top element of the resource.
     final EList<EObject> contents = rsc.getContents();
-    if (contents.size() > 0) {
+    if (!contents.isEmpty()) {
       result = newPrefixedContainerScope(id, result, contents.get(0), query, originalResource, prefix, recursive, nameFunctions, caseInsensitive);
     }
     return result;
@@ -843,7 +843,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
     IScope result = outer;
     // We always need a context. Default to the top element of the resource.
     final EList<EObject> contents = rsc.getContents();
-    if (contents.size() > 0) {
+    if (!contents.isEmpty()) {
       result = newDataMatchScope(id, result, contents.get(0), query, originalResource, filters, nameFunctions, caseInsensitive);
     }
     return result;

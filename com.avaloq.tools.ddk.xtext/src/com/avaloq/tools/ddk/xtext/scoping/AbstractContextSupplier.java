@@ -22,6 +22,7 @@ import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
  * The idea here is that the generated context suppliers deriuve from this class and use the makeIterable method
  * to handle single-valued and list-valued xtend expressions the same by always calling makeIterable.
  */
+@SuppressWarnings("PMD.MissingOverride")
 public abstract class AbstractContextSupplier implements IContextSupplier {
 
   /**

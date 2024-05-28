@@ -236,10 +236,7 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
           @Override
           public Boolean run() {
             SWTBotShell wizardShell = activeShell();
-            if (wizardShell.widget.getData() instanceof WizardDialog) {
-              return ((WizardDialog) wizardShell.widget.getData()).getCurrentPage().getTitle().equals(wizardPageTitle);
-            }
-            return false;
+            return wizardShell.widget.getData() instanceof WizardDialog dialog && dialog.getCurrentPage().getTitle().equals(wizardPageTitle);
           }
         });
       }

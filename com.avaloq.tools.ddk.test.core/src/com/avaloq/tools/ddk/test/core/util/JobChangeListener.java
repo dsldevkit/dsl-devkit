@@ -58,10 +58,7 @@ public class JobChangeListener extends JobChangeAdapter {
    */
   public synchronized boolean isJobSuccessful(final String jobName) {
     IStatus status = completedJobs.get(jobName);
-    if (status != null) {
-      return status.isOK();
-    }
-    return false;
+    return status != null && status.isOK();
   }
 
   /**

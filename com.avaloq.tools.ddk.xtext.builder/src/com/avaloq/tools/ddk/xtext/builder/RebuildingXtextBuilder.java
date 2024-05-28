@@ -160,7 +160,7 @@ public class RebuildingXtextBuilder extends XtextBuilder {
   @SuppressWarnings("nls")
   @Override
   protected void doBuild(final ToBeBuilt toBeBuilt, final IProgressMonitor monitor, final BuildType type) throws CoreException {
-    if (toBeBuilt.getToBeDeleted().size() != 0 || toBeBuilt.getToBeUpdated().size() != 0) {
+    if (!toBeBuilt.getToBeDeleted().isEmpty() || !toBeBuilt.getToBeUpdated().isEmpty()) {
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug("Starting " + type.name() + " build:" + "\ndeleted(" + toBeBuilt.getToBeDeleted().size() + ")=" + toBeBuilt.getToBeDeleted().toString()
             + "\nupdated(" + toBeBuilt.getToBeUpdated().size() + ")=" + toBeBuilt.getToBeUpdated().toString());

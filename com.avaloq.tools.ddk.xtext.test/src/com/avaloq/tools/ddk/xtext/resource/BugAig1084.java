@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.IResourceScopeCache;
@@ -32,7 +33,7 @@ public class BugAig1084 {
   @Test
   public void recursiveLookUp() {
     Resource resource = org.mockito.Mockito.mock(Resource.class);
-    BasicEList<Adapter> emptyEList = new BasicEList<Adapter>();
+    EList<Adapter> emptyEList = new BasicEList<Adapter>();
     org.mockito.Mockito.when(resource.eAdapters()).thenReturn(emptyEList);
     IResourceScopeCache cache = new OnChangeEvictingCache();
     new ResourceDescription2(resource, null, cache) {

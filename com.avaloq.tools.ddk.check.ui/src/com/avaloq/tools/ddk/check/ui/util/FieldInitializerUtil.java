@@ -33,7 +33,7 @@ import com.google.inject.Singleton;
  * <p>
  * Copied from org.eclipse.xtext.xtend2.ui.wizards.FieldInitializerUtil.
  * </p>
- * 
+ *
  * @author Robert von Massow - Initial contribution and API
  */
 @Singleton
@@ -41,7 +41,7 @@ public class FieldInitializerUtil {
 
   /**
    * Gets the selected resource.
-   * 
+   *
    * @param selection
    *          the selection
    * @return the selected resource
@@ -52,7 +52,7 @@ public class FieldInitializerUtil {
       Object o = selection.getFirstElement();
       if (o instanceof IAdaptable) {
         IAdaptable adaptable = (IAdaptable) o;
-        elem = (IJavaElement) adaptable.getAdapter(IJavaElement.class);
+        elem = adaptable.getAdapter(IJavaElement.class);
         if (elem == null) { // NOPMD
           elem = getSelectedPackage(adaptable);
         }
@@ -85,18 +85,18 @@ public class FieldInitializerUtil {
 
   /**
    * Gets the selected package.
-   * 
+   *
    * @param adaptable
    *          the adaptable
    * @return the package
    */
   private IJavaElement getSelectedPackage(final IAdaptable adaptable) {
     IJavaElement elem = null;
-    IResource resource = (IResource) adaptable.getAdapter(IResource.class);
+    IResource resource = adaptable.getAdapter(IResource.class);
     if (resource != null && resource.getType() != IResource.ROOT) {
       while (elem == null && resource.getType() != IResource.PROJECT) {
         resource = resource.getParent();
-        elem = (IJavaElement) resource.getAdapter(IJavaElement.class);
+        elem = resource.getAdapter(IJavaElement.class);
       }
     }
     if (elem == null) {

@@ -19,8 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
@@ -40,7 +40,7 @@ public final class CacheManager {
     private static CacheManager instance = new CacheManager();
 
     public static CacheManager get() {
-        return instance;
+      return instance;
     }
   }
 
@@ -78,6 +78,7 @@ public final class CacheManager {
    *          the name of the cache, must not be {@code null}
    * @return a new Cache instance, never {@code null}
    */
+  @SuppressWarnings("PMD.LooseCoupling")
   public <K, V> MapCache<K, V> createMapCache(final String name) {
     return createMapCache(name, new CacheConfiguration());
   }
@@ -95,6 +96,7 @@ public final class CacheManager {
    *          the configuration of the cache instance to be created, must not be {@code null}
    * @return a new cache instance, never {@code null}
    */
+  @SuppressWarnings("PMD.LooseCoupling")
   public <K, V> MapCache<K, V> createMapCache(final String name, final CacheConfiguration configuration) {
     if (monitoringEnabled) {
       configuration.enableStatistics();

@@ -157,17 +157,17 @@ public class CheckExtensionHelperManager {
    */
   private ExtensionType getExtensionType(final IPluginExtension extension) {
     String point = extension.getPoint();
-    if (point.equals(CheckValidatorExtensionHelper.CHECK_EXTENSION_POINT_ID)) {
+    if (CheckValidatorExtensionHelper.CHECK_EXTENSION_POINT_ID.equals(point)) {
       return ExtensionType.VALIDATOR;
-    } else if (point.equals(CheckPreferencesExtensionHelper.PREFERENCES_EXTENSION_POINT_ID)) {
+    } else if (CheckPreferencesExtensionHelper.PREFERENCES_EXTENSION_POINT_ID.equals(point)) {
       return ExtensionType.PREFERENCE_INITIALIZER;
-    } else if (point.equals(CheckQuickfixExtensionHelper.QUICKFIX_EXTENSION_POINT_ID)) {
+    } else if (CheckQuickfixExtensionHelper.QUICKFIX_EXTENSION_POINT_ID.equals(point)) {
       return ExtensionType.QUICKFIX;
-    } else if (point.equals(CheckTocExtensionHelper.TOC_EXTENSION_POINT_ID)) {
+    } else if (CheckTocExtensionHelper.TOC_EXTENSION_POINT_ID.equals(point)) {
       return ExtensionType.TOC;
-    } else if (point.equals(CheckContextsExtensionHelper.CONTEXTS_EXTENSION_POINT_ID)) {
+    } else if (CheckContextsExtensionHelper.CONTEXTS_EXTENSION_POINT_ID.equals(point)) {
       return ExtensionType.CONTEXTS;
-    } else if (point.equals(CheckMarkerHelpExtensionHelper.MARKERHELP_EXTENSION_POINT_ID)) {
+    } else if (CheckMarkerHelpExtensionHelper.MARKERHELP_EXTENSION_POINT_ID.equals(point)) {
       return ExtensionType.MARKERHELP;
     }
     return null;
