@@ -31,15 +31,21 @@ class FragmentProviderGenerator {
     '''
       package «fragmentProvider.toJavaPackage»;
 
+      «IF !fingerprintedExports.isEmpty»
       import org.eclipse.emf.ecore.EClass;
+      «ENDIF»
+      «IF !fingerprintedExports.isEmpty || it.extension»
       import org.eclipse.emf.ecore.EObject;
+      «ENDIF»
+      «IF !fingerprintedExports.isEmpty»
       import org.eclipse.emf.ecore.EPackage;
+      «ENDIF»
 
       import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider;
 
 
       public class «getFragmentProvider().toSimpleName()» extends AbstractSelectorFragmentProvider {
-
+        «IF !fingerprintedExports.isEmpty»
         @Override
         public boolean appendFragmentSegment(final EObject object, StringBuilder builder) {
           EClass eClass = object.eClass();
@@ -64,7 +70,7 @@ class FragmentProviderGenerator {
           «ENDFOR»
           return super.appendFragmentSegment(object, builder);
         }
-
+        «ENDIF»
         «IF it.extension»
           @Override
           protected boolean appendFragmentSegmentFallback(final EObject object, StringBuilder builder) {
