@@ -100,7 +100,6 @@ class ScopeProviderGenerator {
   }
 
   def scopeMethods(ScopeModel it, String baseName) '''
-    /** {@inheritDoc} */
     @Override
     protected IScope doGetScope(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
       «FOR name : allScopes().filter(s|s.reference !== null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
@@ -113,7 +112,6 @@ class ScopeProviderGenerator {
       return null;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected IScope doGetScope(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
       «FOR name : allScopes().filter(s|s.reference === null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
@@ -126,7 +124,6 @@ class ScopeProviderGenerator {
       return null;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
       if (context.eContainer() == null) {
@@ -144,7 +141,6 @@ class ScopeProviderGenerator {
       return false;
     }
 
-    /** {@inheritDoc} */
     @Override
     protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
       if (context.eContainer() == null) {

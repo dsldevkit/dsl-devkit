@@ -36,7 +36,7 @@ class ScopeNameProviderGenerator {
       import java.util.Arrays;
 
       import org.eclipse.emf.ecore.EClass;
-      
+
       import org.eclipse.xtext.naming.QualifiedName;
 
       import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider;
@@ -50,7 +50,6 @@ class ScopeNameProviderGenerator {
       @Singleton
       public class «getScopeNameProvider().toSimpleName()» extends AbstractScopeNameProvider {
 
-        /** {@inheritDoc} */
         @Override
         public Iterable<INameFunction> internalGetNameFunctions(final EClass eClass) {
           «IF it.naming !== null»

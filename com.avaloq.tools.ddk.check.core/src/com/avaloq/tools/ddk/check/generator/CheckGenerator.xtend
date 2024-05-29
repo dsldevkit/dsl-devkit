@@ -169,7 +169,7 @@ class CheckGenerator extends JvmModelGenerator {
       «ENDIF»
       private static final String CATALOG_FILE_PATH = "«catalog.checkFilePath»";
 
-      /** {@inheritDoc} */
+      @Override
       public void doSetup() {
         ICheckValidatorRegistry.INSTANCE.registerValidator(«IF catalog.grammar !== null»GRAMMAR_NAME,«ENDIF» new «catalog.validatorClassName»());
         ICheckCatalogRegistry.INSTANCE.registerCatalog(«IF catalog.grammar !== null»GRAMMAR_NAME,«ENDIF» new ModelLocation(
