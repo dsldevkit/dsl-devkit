@@ -41,10 +41,12 @@ public class FormatInjectorProvider implements IInjectorProvider, IRegistryConfi
 	protected FormatRuntimeModule createRuntimeModule() {
 		// make it work also with Maven/Tycho and OSGI
 		// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=493672
+		// allows for bindClassLoaderToInstance to get the class loader of the bundle
+		// containing the instance of the injector provider (possibly inherited)
 		return new FormatRuntimeModule() {
 			@Override
 			public ClassLoader bindClassLoaderToInstance() {
-				return FormatInjectorProvider.class
+				return FormatInjectorProvider.this.getClass()
 						.getClassLoader();
 			}
 		};
