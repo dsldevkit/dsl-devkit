@@ -760,7 +760,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   def locatorString(EObject object) {
-    getFileLocation(object).split('/').last()
+    getFileLocation(object).split('/').lastOrNull()
   }
 
 }

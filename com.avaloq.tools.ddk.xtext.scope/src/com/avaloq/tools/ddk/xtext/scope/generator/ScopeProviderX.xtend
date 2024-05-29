@@ -62,7 +62,7 @@ class ScopeProviderX {
   }
 
   def String locatorString(EObject it) {
-    location().split('/').last().javaEncode()
+    location().split('/').lastOrNull().javaEncode()
   }
 
   def String calledFeature(FeatureCall it) {
