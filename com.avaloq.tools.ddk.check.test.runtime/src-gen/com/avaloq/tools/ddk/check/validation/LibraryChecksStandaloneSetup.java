@@ -1,12 +1,13 @@
 package com.avaloq.tools.ddk.check.validation;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.avaloq.tools.ddk.check.runtime.configuration.ModelLocation;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckCatalogRegistry;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorRegistry;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorStandaloneSetup;
+
 
 /**
  * Standalone setup for LibraryChecks as required by the standalone builder.
@@ -18,10 +19,10 @@ public class LibraryChecksStandaloneSetup implements ICheckValidatorStandaloneSe
   private static final String GRAMMAR_NAME = "com.avaloq.tools.ddk.check.TestLanguage";
   private static final String CATALOG_FILE_PATH = "com/avaloq/tools/ddk/check/validation/LibraryChecks.check";
 
+  @Override
   public void doSetup() {
     ICheckValidatorRegistry.INSTANCE.registerValidator(GRAMMAR_NAME, new LibraryChecksCheckImpl());
-    ICheckCatalogRegistry.INSTANCE.registerCatalog(GRAMMAR_NAME, new ModelLocation(
-      LibraryChecksStandaloneSetup.class.getClassLoader().getResource(CATALOG_FILE_PATH), CATALOG_FILE_PATH));
+    ICheckCatalogRegistry.INSTANCE.registerCatalog(GRAMMAR_NAME, new ModelLocation(LibraryChecksStandaloneSetup.class.getClassLoader().getResource(CATALOG_FILE_PATH), CATALOG_FILE_PATH));
     LOG.info("Standalone setup done for com/avaloq/tools/ddk/check/validation/LibraryChecks.check");
   }
 
