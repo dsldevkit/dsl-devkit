@@ -62,13 +62,7 @@ public class ExportValidator extends AbstractExportValidator {
     if (!Platform.isRunning()) {
       resourceManager = new ResourceManagerDefaultImpl();
     }
-    // } else {
-    // FIXME: sort out xpand
-    // IXtendXpandProject project = Activator.getExtXptModelManager().findProject(ResourcesPlugin.getWorkspace().getRoot().getFile(new
-    // Path(model.eResource().getURI().toPlatformString(true))).getProject());
-    // if (project != null) {
-    // resourceManager = new XpandPluginExecutionContext(project).getResourceManager();
-    // }
+
     if (resourceManager == null) {
       return;
     }
