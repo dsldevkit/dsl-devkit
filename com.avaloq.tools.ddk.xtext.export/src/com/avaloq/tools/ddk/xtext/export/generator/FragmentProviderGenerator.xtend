@@ -45,6 +45,7 @@ class FragmentProviderGenerator {
 
 
       public class «getFragmentProvider().toSimpleName()» extends AbstractSelectorFragmentProvider {
+
         «IF !fingerprintedExports.isEmpty»
         @Override
         public boolean appendFragmentSegment(final EObject object, StringBuilder builder) {
@@ -71,6 +72,7 @@ class FragmentProviderGenerator {
           return super.appendFragmentSegment(object, builder);
         }
         «ENDIF»
+
         «IF it.extension»
           @Override
           protected boolean appendFragmentSegmentFallback(final EObject object, StringBuilder builder) {
