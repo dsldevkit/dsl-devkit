@@ -40,6 +40,7 @@ class FingerprintComputerGenerator {
       import org.eclipse.emf.ecore.EPackage;
       import org.eclipse.emf.ecore.util.Switch;
       «ENDIF»
+
       import com.avaloq.tools.ddk.xtext.resource.AbstractStreamingFingerprintComputer;
 
       import com.google.common.hash.Hasher;
