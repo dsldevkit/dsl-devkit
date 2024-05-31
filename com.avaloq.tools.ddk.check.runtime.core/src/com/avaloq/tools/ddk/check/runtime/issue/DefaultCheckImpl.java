@@ -100,7 +100,11 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
       }
     }
   }
-
+  private String ruleName(final MethodWrapper method) {
+    // FIXME the method name is actually not the real issue code
+    return method.instance.getClass().getSimpleName() + '.' + method.method.getName();
+  }
+  
   /**
    * Executes all Check methods found.
    *
@@ -148,13 +152,10 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
 
     List<MethodWrapper> erroneousMethods = null;
 
-    for (int i = 0; i < methods.size(); i++) {
-      MethodWrapper method = methods.get(i);
-      // FIXME the method name is actually not the real issue code
-      String ruleName = collector != null ? method.instance.getClass().getSimpleName() + '.' + method.method.getName() : null;
+    for (MethodWrapper method : methods) {
       try {
         if (collector != null) {
-          traceStart(ruleName, object, collector);
+          traceStart(ruleName(method), object, collector);
         }
         method.invoke(internalState);
         // CHECKSTYLE:OFF Yes, we really want to catch anything here. The method invoked is user-written code that may fail arbitrarily.
@@ -170,7 +171,7 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
         erroneousMethods.add(method);
       } finally {
         if (collector != null) {
-          traceEnd(ruleName, object, collector);
+          traceEnd(ruleName(method), object, collector);
         }
       }
     }
@@ -194,10 +195,9 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
    */
   private void logCheckMethodFailure(final MethodWrapper method, final State internalState, final Exception e) {
     final Throwable cause = e instanceof InvocationTargetException ? ((InvocationTargetException) e).getTargetException() : e;
-    final String ruleName = method.instance.getClass().getSimpleName() + '.' + method.method.getName();
     final EObject object = internalState.currentObject;
     final Resource res = object.eResource();
-    LOGGER.error("Permanently disabling check method " + ruleName + " for context " + object.getClass().getName() + " because of failure" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    LOGGER.error("Permanently disabling check method " + ruleName(method) + " for context " + object.getClass().getName() + " because of failure" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         + (res != null ? " in " + res.getURI() : ""), cause); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
