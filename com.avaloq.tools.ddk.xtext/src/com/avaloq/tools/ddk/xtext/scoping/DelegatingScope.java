@@ -209,15 +209,25 @@ public class DelegatingScope extends AbstractRecursiveScope {
    */
   protected Iterable<IScope> getDelegates() {
     if (delegates == null) {
-      delegates = Iterables.transform(contexts.get(), o -> {
-        try {
-          return eReference != null ? scopeProvider.getScope(o, eReference, scopeName, originalResource)
-              : scopeProvider.getScope(o, eClass, scopeName, originalResource);
-        } catch (StackOverflowError e) {
-          stackOverflowScopeId = DelegatingScope.this.getId();
-          return STACK_OVERFLOW_SCOPE;
-        }
-      });
+      if (eReference != null) {
+        delegates = Iterables.transform(contexts.get(), o -> {
+          try {
+            return scopeProvider.getScope(o, eReference, scopeName, originalResource);
+          } catch (StackOverflowError e) {
+            stackOverflowScopeId = DelegatingScope.this.getId();
+            return STACK_OVERFLOW_SCOPE;
+          }
+        });
+      } else {
+        delegates = Iterables.transform(contexts.get(), o -> {
+          try {
+            return scopeProvider.getScope(o, eClass, scopeName, originalResource);
+          } catch (StackOverflowError e) {
+            stackOverflowScopeId = DelegatingScope.this.getId();
+            return STACK_OVERFLOW_SCOPE;
+          }
+        });
+      }
     }
     return delegates;
   }
