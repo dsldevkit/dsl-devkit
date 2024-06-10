@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.delegation;
 import java.util.Set;
 
 import org.antlr.runtime.Token;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.xtext.nodemodel.INode;
 
 
@@ -55,7 +56,7 @@ public interface ILanguageDelegate {
    *          type of token
    * @return Reference of the language, or {@code null} if not delegated
    */
-  ILanguageReference getDelegatedLanguage(int tokenType);
+  @Nullable ILanguageReference getDelegatedLanguage(int tokenType);
 
   /**
    * Checks if is delegate token type.
@@ -64,7 +65,7 @@ public interface ILanguageDelegate {
    *          the token type, might be either original or a delegate
    * @return true, if the token type is an encoded delegate type
    */
-  ILanguageReference findDelegatedLanguage(int type);
+  @Nullable ILanguageReference findDelegatedLanguage(int type);
 
   /**
    * Gets the original token type be decoding the delegate token type.
@@ -93,7 +94,7 @@ public interface ILanguageDelegate {
    *          the concrete syntax tree node, may be {@code null}
    * @return {@code null} if not delegated, {@link DefaultLanguageReference#DEFAULT} if language supports delegation to one language only
    */
-  ILanguageReference findDelegatedLanguage(INode node);
+  @Nullable ILanguageReference findDelegatedLanguage(INode node);
 
   /**
    * Gets the single instance of ILanguageDelegate.
@@ -106,7 +107,7 @@ public interface ILanguageDelegate {
    *          the class
    * @return single instance of ILanguageDelegate
    */
-  <T> T getInstance(ILanguageReference language, Class<T> clazz);
+  <T> @Nullable T getInstance(ILanguageReference language, Class<T> clazz);
 
   /**
    * Gets the single instance of ILanguageDelegate.
