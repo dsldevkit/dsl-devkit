@@ -19,24 +19,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.eclipse.emf.common.util.Diagnostic;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.diagnostics.Severity;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckMode;
-import org.eclipse.xtext.validation.CheckType;
-import org.eclipse.xtext.validation.FeatureBasedDiagnostic;
-import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
-import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent.Collector;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -48,7 +40,7 @@ import com.google.inject.Inject;
  * issue classes.
  */
 // CHECKSTYLE:OFF
-public abstract class DefaultCheckImpl implements ICheckValidatorImpl, ValidationMessageAcceptor {
+public abstract class DefaultCheckImpl extends AbstractCheckImpl {
   // CHECKSTYLE:ON
 
   private static final int VISITED_CLASSES_INIT_CAPACITY = 4;
@@ -58,22 +50,11 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
   private volatile Set<MethodWrapper> checkMethods; // NOPMD: may be modified by different threads; thread safety guaranteed by double-checked locking
 
   private final Map<Class<?>, List<MethodWrapper>> methodsForType = Maps.newHashMap();
-  private final ThreadLocal<State> state;
-  private final ValidationMessageAcceptor messageAcceptor;
 
   @Inject
   private ITraceSet traceSet;
 
   private Boolean isTraceEnabled;
-
-  public DefaultCheckImpl() {
-    this.state = new ThreadLocal<State>();
-    this.messageAcceptor = this;
-  }
-
-  public ValidationMessageAcceptor getMessageAcceptor() {
-    return messageAcceptor;
-  }
 
   // ////////////////////////////////////////////////
   // Copied and adapted from AbstractDeclarativeValidator below
@@ -100,11 +81,12 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
       }
     }
   }
+
   private String ruleName(final MethodWrapper method) {
     // FIXME the method name is actually not the real issue code
     return method.instance.getClass().getSimpleName() + '.' + method.method.getName();
   }
-  
+
   /**
    * Executes all Check methods found.
    *
@@ -194,45 +176,8 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
    *          exception that was raised
    */
   private void logCheckMethodFailure(final MethodWrapper method, final State internalState, final Exception e) {
-    final Throwable cause = e instanceof InvocationTargetException ? ((InvocationTargetException) e).getTargetException() : e;
     final EObject object = internalState.currentObject;
-    final Resource res = object.eResource();
-    LOGGER.error("Permanently disabling check method " + ruleName(method) + " for context " + object.getClass().getName() + " because of failure" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        + (res != null ? " in " + res.getURI() : ""), cause); //$NON-NLS-1$ //$NON-NLS-2$
-  }
-
-  /**
-   * To be called by subclasses to indicate that a given validation rule is about to be executed and that its execution time should be traced.
-   *
-   * @param rule
-   *          rule to be executed
-   * @param object
-   *          object against which validation will be executed
-   * @param collector
-   *          trace data collector or {@code null} if tracing is disabled
-   * @see #traceEnd(String)
-   */
-  private void traceStart(final String rule, final EObject object, final Collector collector) {
-    if (collector != null) {
-      collector.ruleStarted(rule, object);
-    }
-  }
-
-  /**
-   * To be called by subclasses after having executed a rule previously registered with {@link #traceStart(String)}.
-   *
-   * @param rule
-   *          executed rule
-   * @param object
-   *          object against which validation was executed
-   * @param collector
-   *          trace data collector or {@code null} if tracing is disabled
-   * @see #traceStart(String)
-   */
-  private void traceEnd(final String rule, final EObject object, final Collector collector) {
-    if (collector != null) {
-      collector.ruleEnded(rule, object);
-    }
+    super.logCheckMethodFailure(ruleName(method), object, e);
   }
 
   /**
@@ -274,13 +219,13 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
      *           if the method called throws an exception
      */
     public void invoke(final State state) throws InvocationTargetException {
-      State instanceState = instance.state.get();
+      State instanceState = instance.getThreadLocalState().get();
       if (instanceState != null && instanceState != state) {
         throw new IllegalStateException("State is already assigned."); //$NON-NLS-1$
       }
       boolean wasNull = instanceState == null;
       if (wasNull) {
-        instance.state.set(state);
+        instance.getThreadLocalState().set(state);
       }
       try {
         Check annotation = method.getAnnotation(Check.class);
@@ -291,13 +236,13 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
           state.currentMethod = method;
           state.currentCheckType = annotation.value();
           method.setAccessible(true);
-          method.invoke(instance, state.currentObject);
+          method.invoke(instance, (Object) state.currentObject);
         } catch (IllegalArgumentException | IllegalAccessException e) {
           LOGGER.error(e.getMessage(), e);
         }
       } finally {
         if (wasNull) {
-          instance.state.set(null);
+          instance.getThreadLocalState().set(null);
         }
       }
     }
@@ -362,183 +307,6 @@ public abstract class DefaultCheckImpl implements ICheckValidatorImpl, Validatio
         result.add(new MethodWrapper(instance, method));
       }
     }
-  }
-
-  /**
-   * The holding the current state for a validation method being executed.
-   */
-  public static class State {
-    // CHECKSTYLE:OFF
-    public DiagnosticChain chain = null;
-    public EObject currentObject = null;
-    public Method currentMethod = null;
-    public CheckMode checkMode = null;
-    public CheckType currentCheckType = null;
-    public boolean hasErrors = false;
-    public Map<Object, Object> context;
-    // CHECKSTYLE:ON
-  }
-
-  protected EObject getCurrentObject() {
-    return state.get().currentObject;
-  }
-
-  protected Method getCurrentMethod() {
-    return state.get().currentMethod;
-  }
-
-  protected DiagnosticChain getChain() {
-    return state.get().chain;
-  }
-
-  protected CheckMode getCheckMode() {
-    return state.get().checkMode;
-  }
-
-  protected Map<Object, Object> getContext() {
-    return state.get().context;
-  }
-
-  /**
-   * The inner Class StateAccess provides access to the {@link State} of the validator being handled.
-   */
-  public static final class StateAccess {
-
-    private final DefaultCheckImpl validator;
-
-    private StateAccess(final DefaultCheckImpl validator) {
-      this.validator = validator;
-    }
-
-    /**
-     * Gets the validator's state.
-     *
-     * @return the state
-     */
-    public State getState() {
-      State result = validator.state.get();
-      if (result == null) {
-        result = new State();
-        validator.state.set(result);
-      }
-      return result;
-    }
-  }
-
-  // ////////////////////////////////////////////////////////
-  // Implementation of the Validation message acceptor below
-  // ////////////////////////////////////////////////////////
-
-  @Override
-  public void acceptError(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
-    State localState = state.get();
-    localState.hasErrors = true;
-    localState.chain.add(createDiagnostic(Severity.ERROR, message, object, feature, index, code, issueData));
-  }
-
-  @Override
-  public void acceptWarning(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
-    state.get().chain.add(createDiagnostic(Severity.WARNING, message, object, feature, index, code, issueData));
-  }
-
-  @Override
-  public void acceptInfo(final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
-    state.get().chain.add(createDiagnostic(Severity.INFO, message, object, feature, index, code, issueData));
-  }
-
-  @Override
-  public void acceptError(final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
-    State localState = state.get();
-    localState.hasErrors = true;
-    localState.chain.add(createDiagnostic(Severity.ERROR, message, object, offset, length, code, issueData));
-  }
-
-  @Override
-  public void acceptWarning(final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
-    state.get().chain.add(createDiagnostic(Severity.WARNING, message, object, offset, length, code, issueData));
-  }
-
-  @Override
-  public void acceptInfo(final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
-    state.get().chain.add(createDiagnostic(Severity.INFO, message, object, offset, length, code, issueData));
-  }
-
-  /**
-   * Creates a diagnostic for given parameters.
-   *
-   * @param severity
-   *          the issue severity
-   * @param message
-   *          the issue message
-   * @param object
-   *          the context object
-   * @param feature
-   *          the structural feature on which to create a marker
-   * @param index
-   *          the index at which to create a marker
-   * @param code
-   *          the issue code
-   * @param issueData
-   *          the issue data
-   * @return the diagnostic
-   */
-  protected Diagnostic createDiagnostic(final Severity severity, final String message, final EObject object, final EStructuralFeature feature, final int index, final String code, final String... issueData) {
-    int diagnosticSeverity = toDiagnosticSeverity(severity);
-    return new FeatureBasedDiagnostic(diagnosticSeverity, message, object, feature, index, state.get().currentCheckType, code, issueData);
-  }
-
-  /**
-   * Creates a diagnostic for given parameters.
-   *
-   * @param severity
-   *          the issue severity
-   * @param message
-   *          the issue message
-   * @param object
-   *          the context object
-   * @param offset
-   *          the offset of the marker
-   * @param length
-   *          the length of tokens to be marked by the issue
-   * @param code
-   *          the issue code
-   * @param issueData
-   *          the issue data
-   * @return the diagnostic
-   */
-  protected Diagnostic createDiagnostic(final Severity severity, final String message, final EObject object, final int offset, final int length, final String code, final String... issueData) {
-    int diagnosticSeverity = toDiagnosticSeverity(severity);
-    return new CheckRangeBasedDiagnostic(diagnosticSeverity, message, object, offset, length, state.get().currentCheckType, code, issueData);
-  }
-
-  /**
-   * Gets a numeric value mapped to a given {@link Severity}. Severities are mapped to
-   * <ul>
-   * <li>{@link Diagnostic#ERROR}
-   * <li>{@link Diagnostic#WARNING}
-   * <li>{@link Diagnostic#INFO}
-   * </ul>
-   *
-   * @param severity
-   *          the issue severity
-   * @return the numeric value representing a severity
-   */
-  protected int toDiagnosticSeverity(final Severity severity) {
-    int diagnosticSeverity = -1;
-    switch (severity) {
-    case ERROR:
-      diagnosticSeverity = Diagnostic.ERROR;
-      break;
-    case WARNING:
-      diagnosticSeverity = Diagnostic.WARNING;
-      break;
-    case INFO:
-      diagnosticSeverity = Diagnostic.INFO;
-      break;
-    default:
-      throw new IllegalArgumentException("Unknow severity " + severity); //$NON-NLS-1$
-    }
-    return diagnosticSeverity;
   }
 
 }
