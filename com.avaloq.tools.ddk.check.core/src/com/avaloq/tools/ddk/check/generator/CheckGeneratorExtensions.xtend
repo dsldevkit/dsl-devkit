@@ -134,21 +134,30 @@ class CheckGeneratorExtensions {
     )
   }
 
-  def checkType(Context context) {
-    var TriggerKind kind;
-    if (context.eContainer instanceof Check) {
-      kind = (context.eContainer as Check).kind
-    }
+  def CheckType checkType(Check check) {
+    /* TODO handle the case of independent check implementations
+     * An Implementation is not a Check and has no kind,
+     * but it may execute checks of various types.
+     * As it is we treat them all as FAST regardless of declared kind.
+     */
+    val TriggerKind kind = check?.kind ?: TriggerKind::FAST;
 
-    if (kind === null) {
-      kind = TriggerKind::FAST // TODO handle the case of independent check implementations
-    }
-
-    return "CheckType." + switch (kind) {
+    return switch (kind) {
       case TriggerKind::EXPENSIVE: CheckType::EXPENSIVE
       case TriggerKind::NORMAL: CheckType::NORMAL
       case TriggerKind::FAST: CheckType::FAST
-    }.toString
+    };
+  }
+
+  /* Returns a default CheckType for a non-Check context. */
+  def CheckType checkType(Context context) {
+    val container = context.eContainer();
+    val Check check = if (container instanceof Check) container else null;
+    return checkType(check);
+  }
+
+  def String checkTypeQName(Context context) {
+    return "CheckType." + checkType(context);
   }
 
   def issues(EObject object) {

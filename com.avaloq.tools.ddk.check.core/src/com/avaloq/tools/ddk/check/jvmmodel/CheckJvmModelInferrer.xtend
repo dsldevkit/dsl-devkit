@@ -22,13 +22,15 @@ import com.avaloq.tools.ddk.check.generator.CheckPropertiesGenerator
 import com.avaloq.tools.ddk.check.resource.CheckLocationInFileProvider
 import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService
 import com.avaloq.tools.ddk.check.runtime.issue.AbstractIssue
-import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl
+import com.avaloq.tools.ddk.check.runtime.issue.DispatchingCheckImpl
 import com.avaloq.tools.ddk.check.runtime.issue.SeverityKind
 import com.avaloq.tools.ddk.check.validation.IssueCodes
+import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Lists
 import com.google.inject.Inject
 import com.google.inject.Singleton
+import java.util.ArrayList
 import java.util.Collections
 import java.util.List
 import java.util.Objects
@@ -50,11 +52,13 @@ import org.eclipse.xtext.common.types.JvmVisibility
 import org.eclipse.xtext.common.types.TypesFactory
 import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.util.Strings
+import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.CheckType
 import org.eclipse.xtext.validation.EObjectDiagnosticImpl
 import org.eclipse.xtext.xbase.XFeatureCall
 import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.XbaseFactory
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
@@ -138,7 +142,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     ]);
 
     acceptor.accept(catalog.toClass(catalog.qualifiedValidatorClassName), [
-      val parentType = checkedTypeRef(catalog, typeof(DefaultCheckImpl));
+      val parentType = checkedTypeRef(catalog, typeof(DispatchingCheckImpl));
       if (parentType !== null) {
         superTypes += parentType;
       }
@@ -160,6 +164,8 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
         body = '''return «catalog.catalogClassName».«issueCodeToLabelMapFieldName.fieldGetterName»();'''
       ])
 
+      members += createDispatcherMethod(catalog);
+
       // Create methods for contexts in checks
       val allChecks = catalog.checks + catalog.categories.map(cat|cat.checks).flatten;
       members += allChecks.map(chk|createCheck(chk)).flatten;
@@ -179,6 +185,99 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       members += createFormalParameterFields(catalog);
       members += createPreferenceInitializerMethods(catalog);
     ]);
+  }
+
+  private def JvmOperation createDispatcherMethod(CheckCatalog catalog) {
+    val objectBaseJavaTypeRef = checkedTypeRef(catalog, EObject);
+    return catalog.toMethod("validate", typeRef("void"), [
+      visibility = JvmVisibility::PUBLIC;
+      parameters += catalog.toParameter("checkMode", checkedTypeRef(catalog, CheckMode));
+      parameters += catalog.toParameter("object", objectBaseJavaTypeRef);
+      parameters += catalog.toParameter("eventCollector", checkedTypeRef(catalog, ResourceValidationRuleSummaryEvent.Collector));
+      annotations += createAnnotation(checkedTypeRef(catalog, typeof(Override)), []);
+      body = [out | emitDispatcherMethodBody(out, catalog, objectBaseJavaTypeRef)];
+    ]);
+  }
+
+  private def void emitDispatcherMethodBody(ITreeAppendable out, CheckCatalog catalog, JvmTypeReference objectBaseJavaTypeRef) {
+    /* A catalog may contain both Check and Implementation objects,
+     * which in turn may contain Context objects.
+     * Categories may optionally be used for grouping checks, and
+     * we can include categorized checks by using getAllChecks().
+     * We only consider Context objects with a typed contextVariable.
+     */
+    val allContexts = (catalog.allChecks.map(chk | chk.contexts).flatten +
+                       catalog.implementations.map(impl | impl.context).filterNull)
+      .filter(ctx | ctx.contextVariable?.type !== null);
+
+    /* Contexts grouped by CheckType.
+     * We use an OrderedMap for deterministic ordering of check type checks.
+     * For Context objects we retain their order of appearance, apart from groupings.
+     */
+    val contextsByCheckType = new TreeMap<CheckType, List<Context>>();
+    for (Context context : allContexts) {
+      contextsByCheckType.compute(checkType(context), [k, lst | lst ?: new ArrayList<Context>()]).add(context);
+    }
+
+    val baseTypeName = objectBaseJavaTypeRef.qualifiedName;
+
+    for (val iterator = contextsByCheckType.entrySet.iterator(); iterator.hasNext(); ) {
+      val entry = iterator.next();
+
+      out.append('''if (checkMode.shouldCheck(CheckType.«entry.key»)) {''');
+      out.increaseIndentation;
+      emitInstanceOfConditionals(out, entry.value, catalog, baseTypeName); // with preceding newline for each
+      out.decreaseIndentation;
+      out.newLine;
+      out.append("}");
+      if (iterator.hasNext()) // not at method body end
+        out.newLine; // separator between mode checks
+    }
+  }
+
+  private def void emitInstanceOfConditionals(ITreeAppendable out, List<Context> contexts, CheckCatalog catalog, String baseTypeName) {
+    /* Contexts grouped by fully qualified variable type name.
+     */
+    val contextsByVarType = new TreeMap<String, List<Context>>();
+    for (Context context : contexts) {
+      contextsByVarType.compute(context.contextVariable.type.qualifiedName,
+        [k, lst | lst ?: new ArrayList<Context>()]
+      ).add(context);
+    }
+
+    for (entry : contextsByVarType.entrySet()) {
+      var String typeName = entry.key;
+      val List<Context> contextsForType = entry.value;
+
+      /* Avoid redundant instanceof check and cast for any EObject context. */
+      if (typeName == baseTypeName)
+        typeName = null;
+
+      out.newLine;
+      out.append('''«IF typeName !== null»if (object instanceof «typeName») «ENDIF»{''');
+      out.increaseIndentation;
+      for (context : contextsForType) {
+        emitCheckMethodCall(out, typeName, context, catalog); // with preceding newline
+      }
+      out.decreaseIndentation;
+      out.newLine;
+      out.append('''}''');
+    }
+  }
+
+  private def void emitCheckMethodCall(ITreeAppendable out, String typeName, Context context, CheckCatalog catalog) {
+    val methodName = generateContextMethodName(context);
+    val jMethodName = toJavaLiteral(methodName);
+    val qMethodName = toJavaLiteral(catalog.name, methodName);
+
+    out.newLine;
+    out.append('''
+      validate(«jMethodName», «qMethodName»,
+               object, () -> «methodName»(«IF typeName !== null»(«typeName») «ENDIF»object), eventCollector);''');
+  }
+
+  private def String toJavaLiteral(String... strings) {
+    return '''"«Strings::convertToJavaString(String.join(".", strings))»"''';
   }
 
   private def Iterable<JvmField> createInjectedField(CheckCatalog context, String fieldName, JvmTypeReference type) {
@@ -250,7 +349,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     val XMemberFeatureCall memberCall = XbaseFactory::eINSTANCE.createXMemberFeatureCall();
     memberCall.memberCallTarget = featureCall;
     // The grammar doesn't use the CheckType constants directly...
-    var String name = checkType(ctx);
+    var String name = checkTypeQName(ctx);
     val int i = name.lastIndexOf('.');
     if (i >= 0) {
       name = name.substring(i+1);
@@ -290,10 +389,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     if (ctx === null || ctx.contextVariable === null) {
       return null;
     }
-    val String functionName = switch container : ctx.eContainer {
-      Check : container.name
-      Implementation: container.name
-    }.toFirstLower + ctx.contextVariable.type?.simpleName;
+    val String functionName = generateContextMethodName(ctx);
 
     ctx.toMethod(functionName, typeRef('void')) [
       parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
@@ -301,6 +397,13 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       documentation = functionName + '.'; // Well, that's not very helpful, but it is what the old compiler did...
       body = ctx.constraint;
     ]
+  }
+
+  private def String generateContextMethodName(Context ctx) {
+    return switch container : ctx.eContainer {
+      Check : container.name
+      Implementation: container.name
+    }.toFirstLower + ctx.contextVariable.type?.simpleName;
   }
 
   // CheckCatalog
