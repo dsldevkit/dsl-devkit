@@ -18,6 +18,7 @@ public class ExecutionEnvironmentStandaloneSetup implements ICheckValidatorStand
   private static final String GRAMMAR_NAME = "com.avaloq.tools.ddk.check.TestLanguage";
   private static final String CATALOG_FILE_PATH = "com/avaloq/tools/ddk/check/validation/ExecutionEnvironment.check";
 
+  @Override
   public void doSetup() {
     ICheckValidatorRegistry.INSTANCE.registerValidator(GRAMMAR_NAME, new ExecutionEnvironmentCheckImpl());
     ICheckCatalogRegistry.INSTANCE.registerCatalog(GRAMMAR_NAME, new ModelLocation(
