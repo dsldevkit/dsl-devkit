@@ -350,12 +350,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       } // end if
     } // end for
     members += check.toMethod('get' + check.name.toFirstUpper + 'Message', typeRef(typeof(String))) [
-      documentation = '''
-        Gets the message associated with a violation of this check.
-
-        @param bindings
-                  the message bindings
-        @return the message associated with a violation of this check''';
+      documentation = CheckJvmModelInferrerUtil.GET_MESSAGE_DOCUMENTATION;
       // Generate one parameter "Object... bindings"
       varArgs = true;
       parameters += check.toParameter('bindings', addArrayTypeDimension(typeRef(typeof(Object))));
