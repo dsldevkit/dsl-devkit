@@ -51,7 +51,7 @@
     <clean.version>3.3.2</clean.version>
     <deploy.version>3.1.2</deploy.version>
     <spotbugs.plugin.version>4.8.5.0</spotbugs.plugin.version>
-    <spotbugs.version>4.8.5</spotbugs.version>
+    <spotbugs.version>4.8.6</spotbugs.version>
     <pmd.plugin.version>3.23.0</pmd.plugin.version>
     <pmd.version>7.2.0</pmd.version>
     <tycho.version>4.0.8</tycho.version>
