@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookup;
+import com.google.common.cache.CacheLoader;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -103,6 +104,36 @@ public final class CacheManager {
     }
 
     MapCache<K, V> cache = new MapCache<K, V>(name, configuration);
+    if (monitoringEnabled) {
+      synchronized (caches) {
+        caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+      }
+    }
+    return cache;
+  }
+
+  /**
+   * Creates a new cache with the given configuration.
+   *
+   * @param <K>
+   *          the key type
+   * @param <V>
+   *          the value type
+   * @param name
+   *          the name of the cache, must not be {@code null}
+   * @param configuration
+   *          the configuration of the cache instance to be created, must not be {@code null}
+   * @param loader
+   *          the cache loader used to obtain new values
+   * @return a new cache instance, never {@code null}
+   */
+  @SuppressWarnings("PMD.LooseCoupling")
+  public <K, V> MapCache<K, V> createMapCache(final String name, final CacheConfiguration configuration, final CacheLoader<? super K, V> loader) {
+    if (monitoringEnabled) {
+      configuration.enableStatistics();
+    }
+
+    MapCache<K, V> cache = new MapCache<K, V>(name, configuration, loader);
     if (monitoringEnabled) {
       synchronized (caches) {
         caches.put(name, new WeakReference<ICache<?, ?>>(cache));

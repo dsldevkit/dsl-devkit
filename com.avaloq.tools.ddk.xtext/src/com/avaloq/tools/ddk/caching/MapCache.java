@@ -16,6 +16,7 @@ import java.util.Set;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.Weigher;
 
@@ -38,7 +39,15 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
 
   MapCache(final String name, final CacheConfiguration config) {
     this.name = name;
+    backend = configure(config).build();
+  }
 
+  MapCache(final String name, final CacheConfiguration config, final CacheLoader<? super K, V> loader) {
+    this.name = name;
+    backend = configure(config).build(loader);
+  }
+
+  private CacheBuilder<Object, Object> configure(final CacheConfiguration config) {
     CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
     if (config.isStatisticsEnabled()) {
       cacheBuilder.recordStats();
@@ -65,8 +74,7 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
         cacheBuilder.maximumSize(config.getMaximumSize());
       }
     }
-
-    backend = cacheBuilder.build();
+    return cacheBuilder;
   }
 
   public String getName() {
