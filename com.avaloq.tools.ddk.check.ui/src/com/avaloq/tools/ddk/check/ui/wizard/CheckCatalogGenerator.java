@@ -34,7 +34,7 @@ public class CheckCatalogGenerator {
   private JavaIoFileSystemAccess fsa;
 
   /**
-   * Generates a check file. Calls an Xpand template.
+   * Generates a check file.
    *
    * @param path
    *          the path used for the output file destination
