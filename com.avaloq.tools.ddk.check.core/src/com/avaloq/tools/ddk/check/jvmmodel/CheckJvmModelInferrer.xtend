@@ -252,12 +252,13 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       /* Avoid redundant instanceof check and cast for any EObject context. */
       if (typeName == baseTypeName)
         typeName = null;
+      val varName = if (typeName === null) "object" else "castObject";
 
       out.newLine;
-      out.append('''«IF typeName !== null»if (object instanceof «typeName») «ENDIF»{''');
+      out.append('''«IF typeName !== null»if (object instanceof «typeName» «varName») «ENDIF»{''');
       out.increaseIndentation;
       for (context : contextsForType) {
-        emitCheckMethodCall(out, typeName, context, catalog); // with preceding newline
+        emitCheckMethodCall(out, varName, context, catalog); // with preceding newline
       }
       out.decreaseIndentation;
       out.newLine;
@@ -265,15 +266,15 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     }
   }
 
-  private def void emitCheckMethodCall(ITreeAppendable out, String typeName, Context context, CheckCatalog catalog) {
+  private def void emitCheckMethodCall(ITreeAppendable out, String varName, Context context, CheckCatalog catalog) {
     val methodName = generateContextMethodName(context);
     val jMethodName = toJavaLiteral(methodName);
     val qMethodName = toJavaLiteral(catalog.name, methodName);
 
     out.newLine;
     out.append('''
-      validate(«jMethodName», «qMethodName»,
-               object, () -> «methodName»(«IF typeName !== null»(«typeName») «ENDIF»object), eventCollector);''');
+      validate(«jMethodName», «qMethodName», object,
+               () -> «methodName»(«varName»), eventCollector);''');
   }
 
   private def String toJavaLiteral(String... strings) {
