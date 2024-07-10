@@ -102,41 +102,61 @@ class ScopeProviderGenerator {
   def scopeMethods(ScopeModel it, String baseName) '''
     @Override
     protected IScope doGetScope(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
-      «FOR name : allScopes().filter(s|s.reference !== null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
-     »if ("«name»".equals(scopeName)) {
+      if (scopeName == null) {
+        return null;
+      }
+
+      switch (scopeName) {
+      «FOR name : allScopes().filter(s|s.reference !== null).map(s|s.getScopeName()).toSet()
+     »case "«name»":
         «FOR scope : allScopes().filter(s|s.reference !== null).filter(s|s.getScopeName()==name)»
         if (reference == «scope.reference.literalIdentifier()») return «scope.scopeMethodName()»(context, reference, originalResource);
         «ENDFOR»
-      }«
+        break;
+     «
       ENDFOR»
+        default: break;
+      }
       return null;
     }
 
     @Override
     protected IScope doGetScope(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
-      «FOR name : allScopes().filter(s|s.reference === null).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
-     »if ("«name»".equals(scopeName)) {
+      if (scopeName == null) {
+        return null;
+      }
+
+      switch (scopeName) {
+      «FOR name : allScopes().filter(s|s.reference === null).map(s|s.getScopeName()).toSet()
+     »case "«name»":
         «FOR scope : allScopes().filter(s|s.reference === null).filter(s|s.getScopeName()==name)»
         if (type == «scope.targetType.literalIdentifier()») return «scope.scopeMethodName()»(context, type, originalResource);
         «ENDFOR»
-      }«
+        break;
+     «
       ENDFOR»
+        default: break;
+      }
       return null;
     }
 
     @Override
     protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
-      if (context.eContainer() == null) {
-        «FOR name : allScopes().filter(s|s.reference !== null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
-       »if ("«name»".equals(scopeName)) {
+      if (scopeName != null && context.eContainer() == null) {
+        switch (scopeName) {
+        «FOR name : allScopes().filter(s|s.reference !== null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet()
+       »case "«name»":
           «FOR scope : allScopes().filter(s|s.reference !== null).filter(s|s.getScopeName()==name)»
           «val globalRules = scope.allScopeRules().filter(r|r.context.global)»
           «IF globalRules.size > 0»
           if (reference == «scope.reference.literalIdentifier()») return true;
           «ENDIF»
           «ENDFOR»
-        }«
+          break;
+       «
         ENDFOR»
+          default: break;
+        }
       }
       return false;
     }
@@ -144,16 +164,20 @@ class ScopeProviderGenerator {
     @Override
     protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
       if (context.eContainer() == null) {
-        «FOR name : allScopes().filter(s|s.reference === null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet().sortBy(n|if (n=="scope") "" else n) SEPARATOR " else "
-       »if ("«name»".equals(scopeName)) {
+        switch (scopeName) {
+        «FOR name : allScopes().filter(s|s.reference === null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet()
+       »case "«name»":
           «FOR scope : allScopes().filter(s|s.reference === null).filter(s|s.getScopeName()==name)»
           «val globalRules = scope.allScopeRules().filter(r|r.context.global)»
           «IF globalRules.size > 0»
           if (type == «scope.targetType.literalIdentifier()») return true;
           «ENDIF»
           «ENDFOR»
-        }«
-        ENDFOR»
+          break;
+        «
+         ENDFOR»
+          default: break;
+        }
       }
       return false;
     }
