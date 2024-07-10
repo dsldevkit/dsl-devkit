@@ -102,6 +102,7 @@ class ScopeProviderGenerator {
   def scopeMethods(ScopeModel it, String baseName) '''
     @Override
     protected IScope doGetScope(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
+      «IF !allScopes().filter(s|s.reference !== null).empty»
       if (scopeName == null) {
         return null;
       }
@@ -117,11 +118,13 @@ class ScopeProviderGenerator {
       ENDFOR»
         default: break;
       }
+      «ENDIF»
       return null;
     }
 
     @Override
     protected IScope doGetScope(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
+      «IF !allScopes().filter(s|s.reference === null).empty»
       if (scopeName == null) {
         return null;
       }
@@ -137,11 +140,13 @@ class ScopeProviderGenerator {
       ENDFOR»
         default: break;
       }
+      «ENDIF»
       return null;
     }
 
     @Override
     protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
+      «IF !allScopes().filter(s|s.reference !== null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).empty»
       if (scopeName != null && context.eContainer() == null) {
         switch (scopeName) {
         «FOR name : allScopes().filter(s|s.reference !== null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet()
@@ -158,11 +163,13 @@ class ScopeProviderGenerator {
           default: break;
         }
       }
+      «ENDIF»
       return false;
     }
 
     @Override
     protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
+      «IF !allScopes().filter(s|s.reference === null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).empty»
       if (context.eContainer() == null) {
         switch (scopeName) {
         «FOR name : allScopes().filter(s|s.reference === null).filter(s|s.allScopeRules().filter(r|r.context.global).size > 0).map(s|s.getScopeName()).toSet()
@@ -179,6 +186,7 @@ class ScopeProviderGenerator {
           default: break;
         }
       }
+      «ENDIF»
       return false;
     }
 
