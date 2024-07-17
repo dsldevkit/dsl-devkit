@@ -33,6 +33,7 @@ import com.google.inject.Singleton
 import java.util.ArrayList
 import java.util.Collections
 import java.util.List
+import java.util.Map
 import java.util.Objects
 import java.util.TreeMap
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer
@@ -236,7 +237,8 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
 
   private def void emitInstanceOfConditionals(ITreeAppendable out, List<Context> contexts, CheckCatalog catalog, String baseTypeName) {
-    /* Contexts grouped by fully qualified variable type name.
+    /* Contexts grouped by fully qualified variable type name,
+     * otherwise in order of appearance.
      */
     val contextsByVarType = new TreeMap<String, List<Context>>();
     for (Context context : contexts) {
@@ -245,24 +247,38 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       ).add(context);
     }
 
-    for (entry : contextsByVarType.entrySet()) {
-      var String typeName = entry.key;
-      val List<Context> contextsForType = entry.value;
+    /* Ordering for context variable type checks. */
+    val List<JvmTypeReference> contextVarTypes = contexts.map([x | x.contextVariable.type]);
+    val forest = InstanceOfCheckOrderer.orderTypes(contextVarTypes);
 
-      /* Avoid redundant instanceof check and cast for any EObject context. */
+    emitInstanceOfTree(out, forest, null, contextsByVarType, catalog, baseTypeName, 0);
+  }
+
+  private def void emitInstanceOfTree(ITreeAppendable out, InstanceOfCheckOrderer.Forest forest, String node, Map<String, List<Context>> contextsByVarType, CheckCatalog catalog, String baseTypeName, int level) {
+    if (node !== null) {
+      var String typeName = node;
       if (typeName == baseTypeName)
         typeName = null;
-      val varName = if (typeName === null) "object" else "castObject";
+      val varName = if (typeName === null) "object" else "castObject" + (if (level > 1) Integer.toString(level) else "");
 
       out.newLine;
       out.append('''«IF typeName !== null»if (object instanceof «typeName» «varName») «ENDIF»{''');
       out.increaseIndentation;
-      for (context : contextsForType) {
+
+      val contexts = contextsByVarType.get(node);
+      for (context : contexts) {
         emitCheckMethodCall(out, varName, context, catalog); // with preceding newline
       }
+    }
+
+    for (child : forest.getSubTypes(node)) {
+      emitInstanceOfTree(out, forest, child, contextsByVarType, catalog, baseTypeName, level + 1);
+    }
+
+    if (node !== null) {
       out.decreaseIndentation;
       out.newLine;
-      out.append('''}''');
+      out.append('}');
     }
   }
 
