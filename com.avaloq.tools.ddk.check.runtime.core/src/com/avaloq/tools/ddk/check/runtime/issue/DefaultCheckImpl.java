@@ -39,9 +39,8 @@ import com.google.inject.Inject;
  * The class DefaultCheckImpl serves as the default parent implementation for generated
  * issue classes.
  */
-// CHECKSTYLE:OFF
-public abstract class DefaultCheckImpl extends AbstractCheckImpl {
-  // CHECKSTYLE:ON
+@SuppressWarnings({"checkstyle:AbstractClassName"})
+public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
 
   private static final int VISITED_CLASSES_INIT_CAPACITY = 4;
 
