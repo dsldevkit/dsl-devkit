@@ -21,8 +21,9 @@ import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming
 import com.avaloq.tools.ddk.check.generator.CheckPropertiesGenerator
 import com.avaloq.tools.ddk.check.resource.CheckLocationInFileProvider
 import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService
+import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl
+import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl.DiagnosticCollector
 import com.avaloq.tools.ddk.check.runtime.issue.AbstractIssue
-import com.avaloq.tools.ddk.check.runtime.issue.DispatchingCheckImpl
 import com.avaloq.tools.ddk.check.runtime.issue.SeverityKind
 import com.avaloq.tools.ddk.check.validation.IssueCodes
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent
@@ -143,7 +144,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     ]);
 
     acceptor.accept(catalog.toClass(catalog.qualifiedValidatorClassName), [
-      val parentType = checkedTypeRef(catalog, typeof(DispatchingCheckImpl));
+      val parentType = checkedTypeRef(catalog, typeof(AbstractDispatchingCheckImpl));
       if (parentType !== null) {
         superTypes += parentType;
       }
@@ -194,6 +195,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       visibility = JvmVisibility::PUBLIC;
       parameters += catalog.toParameter("checkMode", checkedTypeRef(catalog, CheckMode));
       parameters += catalog.toParameter("object", objectBaseJavaTypeRef);
+      parameters += catalog.toParameter("diagnosticCollector", checkedTypeRef(catalog, DiagnosticCollector));
       parameters += catalog.toParameter("eventCollector", checkedTypeRef(catalog, ResourceValidationRuleSummaryEvent.Collector));
       annotations += createAnnotation(checkedTypeRef(catalog, typeof(Override)), []);
       body = [out | emitDispatcherMethodBody(out, catalog, objectBaseJavaTypeRef)];
@@ -224,9 +226,12 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
 
     for (val iterator = contextsByCheckType.entrySet.iterator(); iterator.hasNext(); ) {
       val entry = iterator.next();
+      val checkType = '''CheckType.«entry.key»''';
 
-      out.append('''if (checkMode.shouldCheck(CheckType.«entry.key»)) {''');
+      out.append('''if (checkMode.shouldCheck(«checkType»)) {''');
       out.increaseIndentation;
+      out.newLine;
+      out.append('''diagnosticCollector.setCurrentCheckType(«checkType»);''');
       emitInstanceOfConditionals(out, entry.value, catalog, baseTypeName); // with preceding newline for each
       out.decreaseIndentation;
       out.newLine;
@@ -262,7 +267,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       val varName = if (typeName === null) "object" else "castObject" + (if (level > 1) Integer.toString(level) else "");
 
       out.newLine;
-      out.append('''«IF typeName !== null»if (object instanceof «typeName» «varName») «ENDIF»{''');
+      out.append('''«IF typeName !== null»if (object instanceof final «typeName» «varName») «ENDIF»{''');
       out.increaseIndentation;
 
       val contexts = contextsByVarType.get(node);
@@ -290,7 +295,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     out.newLine;
     out.append('''
       validate(«jMethodName», «qMethodName», object,
-               () -> «methodName»(«varName»), eventCollector);''');
+               () -> «methodName»(«varName», diagnosticCollector), diagnosticCollector, eventCollector);''');
   }
 
   private def String toJavaLiteral(String... strings) {
@@ -350,7 +355,8 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     }
     val String functionName = 'run' + ctx.contextVariable.type?.simpleName.toFirstUpper;
     ctx.toMethod(functionName, typeRef('void')) [
-      parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
+      parameters += ctx.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
+      parameters += ctx.toParameter("diagnosticCollector", checkedTypeRef(ctx, DiagnosticCollector));
       body = ctx.constraint;
     ]
   }
@@ -392,11 +398,12 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     // Therefore, we generate something new: each check becomes a local class
 
     ctx.toMethod(functionName, typeRef('void')) [
-      parameters += ctx.contextVariable.toParameter("context", ctx.contextVariable.type);
+      parameters += ctx.toParameter("context", ctx.contextVariable.type);
+      parameters += ctx.toParameter("diagnosticCollector", checkedTypeRef(ctx, DiagnosticCollector));
       annotations += createCheckAnnotation(ctx);
       documentation = functionName + '.'; // Well, that's not very helpful, but it is what the old compiler did...
       body = [append('''
-        «chk.name.toFirstLower + 'Impl'».run«ctx.contextVariable.type?.simpleName.toFirstUpper»(context);'''
+        «chk.name.toFirstLower + 'Impl'».run«ctx.contextVariable.type?.simpleName.toFirstUpper»(context, diagnosticCollector);'''
       )]
     ]
   }
@@ -409,7 +416,8 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     val String functionName = generateContextMethodName(ctx);
 
     ctx.toMethod(functionName, typeRef('void')) [
-      parameters += ctx.contextVariable.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
+      parameters += ctx.toParameter(if (ctx.contextVariable.name === null) CheckConstants::IT else ctx.contextVariable.name, ctx.contextVariable.type);
+      parameters += ctx.toParameter("diagnosticCollector", checkedTypeRef(ctx, DiagnosticCollector));
       annotations += createCheckAnnotation(ctx);
       documentation = functionName + '.'; // Well, that's not very helpful, but it is what the old compiler did...
       body = ctx.constraint;

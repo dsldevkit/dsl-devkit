@@ -272,7 +272,7 @@ public class CheckCompiler extends XbaseCompiler {
 
     // acceptor
     b.append("// Issue diagnostic").newLine();
-    b.append(generatorNaming.catalogInstanceName(expr)).append(".accept(").append("getMessageAcceptor()");
+    b.append(generatorNaming.catalogInstanceName(expr)).append(".accept(").append("diagnosticCollector");
 
     // context object
     b.append(", //").increaseIndentation().newLine();
