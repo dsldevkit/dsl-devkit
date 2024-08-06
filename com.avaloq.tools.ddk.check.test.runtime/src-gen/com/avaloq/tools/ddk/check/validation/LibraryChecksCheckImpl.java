@@ -1,14 +1,17 @@
 package com.avaloq.tools.ddk.check.validation;
 
 import com.avaloq.tools.ddk.check.lib.IResourceCache;
-import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl;
+import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl;
 import com.avaloq.tools.ddk.check.testLanguage.Greeting;
+import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
@@ -18,7 +21,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
  * Validator for LibraryChecks.
  */
 @SuppressWarnings("all")
-public class LibraryChecksCheckImpl extends DefaultCheckImpl {
+public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
   @Inject
   private LibraryChecksCheckCatalog libraryChecksCatalog;
 
@@ -33,12 +36,29 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
     return LibraryChecksCheckCatalog.getIssueCodeToLabelMap();
   }
 
+  @Override
+  public void validate(final CheckMode checkMode, final EObject object, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector, final ResourceValidationRuleSummaryEvent.Collector eventCollector) {
+    if (checkMode.shouldCheck(CheckType.FAST)) {
+      diagnosticCollector.setCurrentCheckType(CheckType.FAST);
+      if (object instanceof final com.avaloq.tools.ddk.check.testLanguage.Greeting castObject) {
+        validate("checkCatalogIsActiveGreeting", "LibraryChecks.checkCatalogIsActiveGreeting", object,
+                 () -> checkCatalogIsActiveGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+        validate("cacheInjectionFailedGreeting", "LibraryChecks.cacheInjectionFailedGreeting", object,
+                 () -> cacheInjectionFailedGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+        validate("cacheDoesntWorkGreeting", "LibraryChecks.cacheDoesntWorkGreeting", object,
+                 () -> cacheDoesntWorkGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+        validate("formalParametersGreeting", "LibraryChecks.formalParametersGreeting", object,
+                 () -> formalParametersGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+      }
+    }
+  }
+
   /**
    * checkCatalogIsActiveGreeting.
    */
   @Check(CheckType.FAST)
-  public void checkCatalogIsActiveGreeting(final Greeting it) {// Issue diagnostic
-    libraryChecksCatalog.accept(getMessageAcceptor(), //
+  public void checkCatalogIsActiveGreeting(final Greeting it, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {// Issue diagnostic
+    libraryChecksCatalog.accept(diagnosticCollector, //
       it, // context EObject
       null, // EStructuralFeature
       libraryChecksCatalog.getCheckCatalogIsActiveMessage(), // Message
@@ -52,9 +72,9 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
    * cacheInjectionFailedGreeting.
    */
   @Check(CheckType.FAST)
-  public void cacheInjectionFailedGreeting(final Greeting g) {
+  public void cacheInjectionFailedGreeting(final Greeting g, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     if ((LibraryChecksCheckImpl.this.cache == null)) {// Issue diagnostic
-      libraryChecksCatalog.accept(getMessageAcceptor(), //
+      libraryChecksCatalog.accept(diagnosticCollector, //
         g, // context EObject
         null, // EStructuralFeature
         libraryChecksCatalog.getCacheInjectionFailedMessage(), // Message
@@ -69,7 +89,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
    * cacheDoesntWorkGreeting.
    */
   @Check(CheckType.FAST)
-  public void cacheDoesntWorkGreeting(final Greeting it) {
+  public void cacheDoesntWorkGreeting(final Greeting it, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     String _qualifiedCatalogName = this.getQualifiedCatalogName();
     final String key = (_qualifiedCatalogName + ".testValue");
     try {
@@ -77,7 +97,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       final Boolean value = LibraryChecksCheckImpl.this.cache.<Boolean>get(it, key);
       if (((value == null) || (!(value).booleanValue()))) {
         // Issue diagnostic
-        libraryChecksCatalog.accept(getMessageAcceptor(), //
+        libraryChecksCatalog.accept(diagnosticCollector, //
           it, // context EObject
           null, // EStructuralFeature
           libraryChecksCatalog.getCacheDoesntWorkMessage(("Could not read value from cache: " + value)), // Message
@@ -92,7 +112,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
         String _message = t.getMessage();
         String _plus = ("Exception in cache access: " + _message);
         // Issue diagnostic
-        libraryChecksCatalog.accept(getMessageAcceptor(), //
+        libraryChecksCatalog.accept(diagnosticCollector, //
           it, // context EObject
           null, // EStructuralFeature
           libraryChecksCatalog.getCacheDoesntWorkMessage(_plus), // Message
@@ -112,7 +132,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
 
 
 
-    public void runGreeting(final Greeting it) {
+    public void runGreeting(final Greeting it, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
       final String p1 = libraryChecksCatalog.getFormalParameters_Param1(it);
       final boolean p2 = false;
       final List<String> expectedNames = ImmutableList.<String>of("foo", "bar", "ba\u0001\nz");
@@ -121,7 +141,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       boolean _not = (!_equals);
       if (_not) {
         // Issue diagnostic
-        libraryChecksCatalog.accept(getMessageAcceptor(), //
+        libraryChecksCatalog.accept(diagnosticCollector, //
           it, // context EObject
           null, // EStructuralFeature
           libraryChecksCatalog.getFormalParametersMessage(("String parameter wrong (expected \"param1\"): " + p1)), // Message
@@ -132,7 +152,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
       }
       if (((p2 != (libraryChecksCatalog.getFormalParameters_Param3(it)).booleanValue()) || ((!p2) != libraryChecksCatalog.getFormalParameters_Param2(it)))) {
         // Issue diagnostic
-        libraryChecksCatalog.accept(getMessageAcceptor(), //
+        libraryChecksCatalog.accept(diagnosticCollector, //
           it, // context EObject
           null, // EStructuralFeature
           libraryChecksCatalog.getFormalParametersMessage("Boolean parameter wrong."), // Message
@@ -150,7 +170,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
         int _size_2 = names.size();
         String _plus = ("Expected three names, got " + Integer.valueOf(_size_2));
         // Issue diagnostic
-        libraryChecksCatalog.accept(getMessageAcceptor(), //
+        libraryChecksCatalog.accept(diagnosticCollector, //
           it, // context EObject
           null, // EStructuralFeature
           libraryChecksCatalog.getFormalParametersMessage(_plus), // Message
@@ -171,7 +191,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
               String _plus_3 = (_plus_2 + _get_1);
               String _plus_4 = (_plus_3 + "\"");
               // Issue diagnostic
-              libraryChecksCatalog.accept(getMessageAcceptor(), //
+              libraryChecksCatalog.accept(diagnosticCollector, //
                 it, // context EObject
                 null, // EStructuralFeature
                 libraryChecksCatalog.getFormalParametersMessage(_plus_4), // Message
@@ -192,7 +212,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
         int _size_5 = INTS.size();
         String _plus_1 = ("Expected three ints, got " + Integer.valueOf(_size_5));
         // Issue diagnostic
-        libraryChecksCatalog.accept(getMessageAcceptor(), //
+        libraryChecksCatalog.accept(diagnosticCollector, //
           it, // context EObject
           null, // EStructuralFeature
           libraryChecksCatalog.getFormalParametersMessage(_plus_1), // Message
@@ -214,7 +234,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
             Integer _get_1 = INTS.get(i);
             String _plus_4 = (_plus_3 + _get_1);
             // Issue diagnostic
-            libraryChecksCatalog.accept(getMessageAcceptor(), //
+            libraryChecksCatalog.accept(diagnosticCollector, //
               it, // context EObject
               null, // EStructuralFeature
               libraryChecksCatalog.getFormalParametersMessage(_plus_4), // Message
@@ -235,7 +255,7 @@ public class LibraryChecksCheckImpl extends DefaultCheckImpl {
    * formalParametersGreeting.
    */
   @Check(CheckType.FAST)
-  public void formalParametersGreeting(final Greeting context) {
-    formalParametersImpl.runGreeting(context);
+  public void formalParametersGreeting(final Greeting context, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+    formalParametersImpl.runGreeting(context, diagnosticCollector);
   }
 }
