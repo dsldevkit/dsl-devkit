@@ -1,10 +1,13 @@
 package com.avaloq.tools.ddk.check.validation;
 
-import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImpl;
+import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl;
 import com.avaloq.tools.ddk.check.testLanguage.Greeting;
+import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 
@@ -12,7 +15,7 @@ import org.eclipse.xtext.validation.ValidationMessageAcceptor;
  * Validator for ExecutionEnvironment.
  */
 @SuppressWarnings("all")
-public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
+public class ExecutionEnvironmentCheckImpl extends AbstractDispatchingCheckImpl {
   @Inject
   private ExecutionEnvironmentCheckCatalog executionEnvironmentCatalog;
 
@@ -24,15 +27,26 @@ public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
     return ExecutionEnvironmentCheckCatalog.getIssueCodeToLabelMap();
   }
 
+  @Override
+  public void validate(final CheckMode checkMode, final EObject object, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector, final ResourceValidationRuleSummaryEvent.Collector eventCollector) {
+    if (checkMode.shouldCheck(CheckType.NORMAL)) {
+      diagnosticCollector.setCurrentCheckType(CheckType.NORMAL);
+      if (object instanceof final com.avaloq.tools.ddk.check.testLanguage.Greeting castObject) {
+        validate("greetingNameLengthGreeting", "ExecutionEnvironment.greetingNameLengthGreeting", object,
+                 () -> greetingNameLengthGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+      }
+    }
+  }
+
   private class GreetingNameLengthClass {
 
-    public void runGreeting(final Greeting g) {
+    public void runGreeting(final Greeting g, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
       int _length = g.getName().length();
       boolean _greaterThan = (_length > 5);
       if (_greaterThan) {
         
         // Issue diagnostic
-        executionEnvironmentCatalog.accept(getMessageAcceptor(), //
+        executionEnvironmentCatalog.accept(diagnosticCollector, //
           g, // context EObject
           null, // EStructuralFeature
           executionEnvironmentCatalog.getGreetingNameLengthMessage("too long"), // Message
@@ -45,7 +59,7 @@ public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
         if (_equals) {
           
           // Issue diagnostic
-          executionEnvironmentCatalog.accept(getMessageAcceptor(), //
+          executionEnvironmentCatalog.accept(diagnosticCollector, //
             g, // context EObject
             null, // EStructuralFeature
             executionEnvironmentCatalog.getGreetingNameLengthMessage("must not be Franz"), // Message
@@ -64,7 +78,7 @@ public class ExecutionEnvironmentCheckImpl extends DefaultCheckImpl {
    * greetingNameLengthGreeting.
    */
   @Check(CheckType.NORMAL)
-  public void greetingNameLengthGreeting(final Greeting context) {
-    greetingNameLengthImpl.runGreeting(context);
+  public void greetingNameLengthGreeting(final Greeting context, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+    greetingNameLengthImpl.runGreeting(context, diagnosticCollector);
   }
 }
