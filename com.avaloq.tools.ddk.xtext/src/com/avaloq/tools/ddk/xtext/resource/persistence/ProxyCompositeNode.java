@@ -382,6 +382,10 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
     }
   }
 
+  @Override
+  public NodeModelUtils.Implementation utils() {
+    return delegate().utils();
+  }
 }
 
 /* Copyright (c) Avaloq Licence AG */
