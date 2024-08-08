@@ -250,7 +250,6 @@
 <setEntry value="org.eclipse.ui.workbench@default:default"/>
 <setEntry value="org.eclipse.ui@default:default"/>
 <setEntry value="org.eclipse.update.configurator@3:true"/>
-<setEntry value="org.eclipse.xpand@default:default"/>
 <setEntry value="org.eclipse.xtend.core@default:default"/>
 <setEntry value="org.eclipse.xtend.doc@default:default"/>
 <setEntry value="org.eclipse.xtend.examples@default:default"/>
