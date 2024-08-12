@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -18,7 +19,6 @@ import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
 import com.google.inject.ConfigurationException;
 
 
@@ -52,7 +52,7 @@ public class ResourceServiceProviderLocator {
    * @return the {@link IResourceServiceProvider} for the given language id
    */
   public IResourceServiceProvider getResourceServiceProviderById(final String languageId) {
-    for (Map.Entry<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> mapEntry : getProviderMaps().entrySet()) {
+    for (Map.Entry<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> mapEntry : getProviderEntries()) {
       Map<String, Object> map = mapEntry.getKey();
       for (Map.Entry<String, Object> entry : map.entrySet()) {
         try {
@@ -79,27 +79,27 @@ public class ResourceServiceProviderLocator {
    *
    * @return the resource service provider's maps
    */
-  private Map<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>> getProviderMaps() {
+  private List<Map.Entry<Map<String, Object>, ? extends Function<String, IResourceServiceProvider>>> getProviderEntries() {
     return //
-    ImmutableMap.of(IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap(), new Function<String, IResourceServiceProvider>() {
+    List.of(Map.entry(IResourceServiceProvider.Registry.INSTANCE.getExtensionToFactoryMap(), new Function<String, IResourceServiceProvider>() {
       @Override
       public IResourceServiceProvider apply(final String input) {
         URI fake = URI.createURI("fake:/foo." + input); //$NON-NLS-1$
         return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
       }
-    }, IResourceServiceProvider.Registry.INSTANCE.getContentTypeToFactoryMap(), new Function<String, IResourceServiceProvider>() {
+    }), Map.entry(IResourceServiceProvider.Registry.INSTANCE.getContentTypeToFactoryMap(), new Function<String, IResourceServiceProvider>() {
       @Override
       public IResourceServiceProvider apply(final String input) {
         URI fake = URI.createURI("fake:/foo"); //$NON-NLS-1$
         return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, input);
       }
-    }, IResourceServiceProvider.Registry.INSTANCE.getProtocolToFactoryMap(), new Function<String, IResourceServiceProvider>() {
+    }), Map.entry(IResourceServiceProvider.Registry.INSTANCE.getProtocolToFactoryMap(), new Function<String, IResourceServiceProvider>() {
       @Override
       public IResourceServiceProvider apply(final String input) {
         URI fake = URI.createURI(input + ":/foo"); //$NON-NLS-1$
         return IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(fake, ContentHandler.UNSPECIFIED_CONTENT_TYPE);
       }
-    });
+    }));
   }
 
 }
