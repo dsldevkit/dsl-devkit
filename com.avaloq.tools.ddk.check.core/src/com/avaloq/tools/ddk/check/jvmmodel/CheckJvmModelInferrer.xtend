@@ -21,12 +21,11 @@ import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming
 import com.avaloq.tools.ddk.check.generator.CheckPropertiesGenerator
 import com.avaloq.tools.ddk.check.resource.CheckLocationInFileProvider
 import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService
-import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl
-import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl.DiagnosticCollector
 import com.avaloq.tools.ddk.check.runtime.issue.AbstractIssue
+import com.avaloq.tools.ddk.check.runtime.issue.DispatchingCheckImpl
+import com.avaloq.tools.ddk.check.runtime.issue.DispatchingCheckImpl.DiagnosticCollector
 import com.avaloq.tools.ddk.check.runtime.issue.SeverityKind
 import com.avaloq.tools.ddk.check.validation.IssueCodes
-import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Lists
 import com.google.inject.Inject
@@ -144,7 +143,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     ]);
 
     acceptor.accept(catalog.toClass(catalog.qualifiedValidatorClassName), [
-      val parentType = checkedTypeRef(catalog, typeof(AbstractDispatchingCheckImpl));
+      val parentType = checkedTypeRef(catalog, typeof(DispatchingCheckImpl));
       if (parentType !== null) {
         superTypes += parentType;
       }
@@ -196,7 +195,6 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
       parameters += catalog.toParameter("checkMode", checkedTypeRef(catalog, CheckMode));
       parameters += catalog.toParameter("object", objectBaseJavaTypeRef);
       parameters += catalog.toParameter("diagnosticCollector", checkedTypeRef(catalog, DiagnosticCollector));
-      parameters += catalog.toParameter("eventCollector", checkedTypeRef(catalog, ResourceValidationRuleSummaryEvent.Collector));
       annotations += createAnnotation(checkedTypeRef(catalog, typeof(Override)), []);
       body = [out | emitDispatcherMethodBody(out, catalog, objectBaseJavaTypeRef)];
     ]);
@@ -295,7 +293,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
     out.newLine;
     out.append('''
       validate(«jMethodName», «qMethodName», object,
-               () -> «methodName»(«varName», diagnosticCollector), diagnosticCollector, eventCollector);''');
+               () -> «methodName»(«varName», diagnosticCollector), diagnosticCollector);''');
   }
 
   private def String toJavaLiteral(String... strings) {

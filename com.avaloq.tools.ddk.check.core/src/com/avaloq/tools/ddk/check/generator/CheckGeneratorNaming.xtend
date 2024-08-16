@@ -146,7 +146,7 @@ class CheckGeneratorNaming {
 
   /* Gets the name of the default validator class. */
   def String defaultValidatorClassName() {
-    "AbstractDispatchingCheckImpl"
+    "DispatchingCheckImpl"
   }
 
   /* Gets the fully qualified name of the default validator class. */
