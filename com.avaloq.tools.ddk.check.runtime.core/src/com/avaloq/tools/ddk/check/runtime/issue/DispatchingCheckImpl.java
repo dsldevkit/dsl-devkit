@@ -17,10 +17,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.validation.AbstractValidationMessageAcceptor;
 import org.eclipse.xtext.validation.CheckMode;
+import org.eclipse.xtext.validation.CheckType;
+import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 
 import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
+import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent.Collector;
 import com.google.inject.Inject;
 
 
@@ -29,7 +33,7 @@ import com.google.inject.Inject;
  * a dispatching {@code validate} method.
  */
 @SuppressWarnings({"checkstyle:AbstractClassName"})
-public abstract class DispatchingCheckImpl extends AbstractStatefulCheckImpl {
+public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
 
   @Inject
   private ITraceSet traceSet;
@@ -67,33 +71,34 @@ public abstract class DispatchingCheckImpl extends AbstractStatefulCheckImpl {
 
     State state = new State();
     state.chain = diagnostics;
-    state.currentObject = object;
-    state.checkMode = checkMode;
-    state.context = context;
+    state.eventCollector = eventCollector;
 
-    /*
-     * Some inherited methods rely on State to be set.
-     */
-    State instanceState = getThreadLocalState().get();
-    if (instanceState != null && instanceState != state) {
-      throw new IllegalStateException("State is already assigned."); //$NON-NLS-1$
-    }
-    boolean wasNull = instanceState == null;
-    if (wasNull) {
-      getThreadLocalState().set(state);
-    }
-    try {
-      validate(checkMode, object, eventCollector);
-    } finally {
-      if (wasNull) {
-        getThreadLocalState().set(null);
-      }
-    }
+    validate(checkMode, object, state);
 
     return !state.hasErrors;
   }
 
-  protected abstract void validate(CheckMode checkMode, EObject object, ResourceValidationRuleSummaryEvent.Collector eventCollector);
+  /**
+   * A validation state tracker and diagnostic collector.
+   */
+  public interface DiagnosticCollector extends ValidationMessageAcceptor {
+    /**
+     * Records the check type of the subsequently executed checks.
+     *
+     * @param checkType
+     *          the check type
+     */
+    void setCurrentCheckType(CheckType checkType);
+
+    /**
+     * Gets the active resource validation rule summary event collector, if any.
+     *
+     * @return the collector, or {@code null}
+     */
+    ResourceValidationRuleSummaryEvent.Collector getEventCollector();
+  }
+
+  protected abstract void validate(CheckMode checkMode, EObject object, DiagnosticCollector diagnosticCollector);
 
   /**
    * Does one context method execution on one object.
@@ -109,18 +114,19 @@ public abstract class DispatchingCheckImpl extends AbstractStatefulCheckImpl {
    *          the object to check
    * @param checkAction
    *          the check action to perform
-   * @param eventCollector
-   *          an event collector for collecting validation events, may be {@code null}
+   * @param diagnosticCollector
+   *          a validation state tracker and diagnostic collector
    */
   @SuppressWarnings("checkstyle:IllegalCatch")
-  protected void validate(final String contextName, final String qContextName, final EObject object, final Runnable checkAction, final ResourceValidationRuleSummaryEvent.Collector eventCollector) {
+  protected void validate(final String contextName, final String qContextName, final EObject object, final Runnable checkAction, final DiagnosticCollector diagnosticCollector) {
     if (!disabledMethodTracker.isDisabled(contextName)) {
+      Collector eventCollector = diagnosticCollector.getEventCollector();
       try {
         traceStart(qContextName, object, eventCollector);
         checkAction.run();
-        // Yes, we really want to catch anything here. The method invoked is user-written code that may fail arbitrarily.
-        // If that happens, we want to exclude this check from all future executions!
       } catch (Exception e) {
+        // The method invoked is user-written code that may fail arbitrarily.
+        // If that happens, we want to exclude this check from all future executions!
         handleContextMethodFailure(contextName, object, e);
       } finally {
         traceEnd(qContextName, object, eventCollector);
@@ -146,14 +152,58 @@ public abstract class DispatchingCheckImpl extends AbstractStatefulCheckImpl {
   }
 
   /**
-   * Returns the unqualified catalog name.
-   *
-   * @return the name
+   * The class holding the current state for a validation method being executed.
    */
-  protected String getCatalogName() {
-    String qName = getQualifiedCatalogName();
-    int index = qName.lastIndexOf('.');
-    return index == -1 ? qName : qName.substring(index + 1);
+  protected static class State implements ValidationMessageAcceptorMixin, DiagnosticCollector {
+    // CHECKSTYLE:OFF
+    public DiagnosticChain chain;
+    public CheckType currentCheckType;
+    public boolean hasErrors;
+    public ResourceValidationRuleSummaryEvent.Collector eventCollector;
+    // CHECKSTYLE:ON
+
+    @Override
+    public DiagnosticChain getChain() {
+      return chain;
+    }
+
+    @Override
+    public CheckType getCurrentCheckType() {
+      return currentCheckType;
+    }
+
+    @Override
+    public void setHasErrors() {
+      this.hasErrors = true;
+    }
+
+    @Override
+    public void setCurrentCheckType(final CheckType checkType) {
+      currentCheckType = checkType;
+    }
+
+    @Override
+    public Collector getEventCollector() {
+      return eventCollector;
+    }
+  }
+
+  /**
+   * An implementation of {@link DiagnosticCollector} that does nothing.
+   * <p>
+   * Provided as a base class for partial implementations, or for use as is in tests that
+   * test some aspects of validation execution, but do not check or need diagnostic results.
+   */
+  public static class DiagnosticNonCollector extends AbstractValidationMessageAcceptor implements DiagnosticCollector {
+    @Override
+    public void setCurrentCheckType(final CheckType checkType) {
+      // do nothing
+    }
+
+    @Override
+    public Collector getEventCollector() {
+      return null;
+    }
   }
 
 }
