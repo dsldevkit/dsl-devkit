@@ -28,11 +28,6 @@ import com.google.inject.Injector;
  */
 @SuppressWarnings("nls")
 public abstract class AbstractValidValidationTest extends AbstractValidationTest {
-
-  // --------------------------------------------------------------------------
-  // ValidAssertableDiagnostics
-  // --------------------------------------------------------------------------
-
   /** The tester. */
   private ValidatorTester<?> tester;
 
