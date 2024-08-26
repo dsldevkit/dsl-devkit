@@ -28,7 +28,6 @@ import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
 import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
 import com.avaloq.tools.ddk.xtext.test.format.FormatTestSuite;
 import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
-import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
 
 
 /**
@@ -52,7 +51,6 @@ import com.avaloq.tools.ddk.xtextspy.test.XtextSpyTestSuite;
   CheckUiTestSuite.class,
   CheckCfgUiTestSuite.class,
   CheckCfgTestSuite.class,
-  XtextSpyTestSuite.class,
   TypeSystemTestSuite.class
 })
 // @Format-On

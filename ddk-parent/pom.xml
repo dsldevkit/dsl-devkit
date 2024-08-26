@@ -55,7 +55,7 @@
     <pmd.plugin.version>3.24.0</pmd.plugin.version>
     <pmd.version>7.4.0</pmd.version>
     <tycho.version>4.0.8</tycho.version>
-    <xtend.version>2.35.0</xtend.version>
+    <xtend.version>2.36.0</xtend.version>
   </properties>
 
   <modules>
@@ -125,8 +125,6 @@
     <module>../com.avaloq.tools.ddk.sample.helloworld.ui.test</module>
     <module>../com.avaloq.tools.ddk.typesystem</module>
     <module>../com.avaloq.tools.ddk.typesystem.test</module>
-    <module>../com.avaloq.tools.ddk.xtextspy</module>
-    <module>../com.avaloq.tools.ddk.xtextspy.test</module>
   </modules>
 
   <distributionManagement>

@@ -13,12 +13,9 @@ package com.avaloq.tools.ddk.xtext.test.validation;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.junit4.validation.AssertableDiagnostics;
-import org.eclipse.xtext.junit4.validation.AssertableDiagnostics.DiagnosticPredicate;
-import org.eclipse.xtext.junit4.validation.ValidatorTester;
-import org.eclipse.xtext.validation.AbstractValidationDiagnostic;
+import org.eclipse.xtext.testing.validation.AssertableDiagnostics.Pred;
+import org.eclipse.xtext.testing.validation.ValidatorTester;
 
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.avaloq.tools.ddk.xtext.validation.AbstractDeclarativeValidValidator;
@@ -29,48 +26,8 @@ import com.google.inject.Injector;
 /**
  * Base class for valid validation tests.
  */
-@SuppressWarnings({"deprecation", "removal"})
+@SuppressWarnings("nls")
 public abstract class AbstractValidValidationTest extends AbstractValidationTest {
-
-  // --------------------------------------------------------------------------
-  // ValidAssertableDiagnostics
-  // --------------------------------------------------------------------------
-
-  /**
-   * This class can be removed once https://bugs.eclipse.org/bugs/show_bug.cgi?id=374743 is solved.
-   */
-  protected static class ValidAssertableDiagnostics extends AssertableDiagnostics {
-
-    public ValidAssertableDiagnostics(final Diagnostic diag) {
-      super(diag);
-      throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Returns predicate matching any diagnostic with given issue code and message fragment.
-     *
-     * @param issueCode
-     *          issue code to match
-     * @param messageFragment
-     *          message fragment (substring) to match
-     * @return predicate
-     */
-    public static Pred diagnostic(final String issueCode, final String messageFragment) {
-      return new Pred(null, null, issueCode, messageFragment);
-    }
-
-    /**
-     * Returns predicate matching any diagnostic with given issue code.
-     *
-     * @param issueCode
-     *          issue code to match
-     * @return predicate
-     */
-    public static Pred diagnostic(final String issueCode) {
-      return new Pred(null, null, issueCode, null);
-    }
-  }
-
   /** The tester. */
   private ValidatorTester<?> tester;
 
@@ -106,7 +63,7 @@ public abstract class AbstractValidValidationTest extends AbstractValidationTest
    */
   protected void validate(final EObject element, final String... issueCodes) {
     for (String issueCode : issueCodes) {
-      getTester().validate(element).assertAny(ValidAssertableDiagnostics.diagnostic(issueCode));
+      getTester().validate(element).assertAny(d -> new Pred(null, null, issueCode, null).apply(d));
     }
   }
 
@@ -122,21 +79,9 @@ public abstract class AbstractValidValidationTest extends AbstractValidationTest
    */
   protected void validateNot(final EObject element, final String... issueCodes) {
     for (String issueCode : issueCodes) {
-      assertNot(getTester().validate(element), ValidAssertableDiagnostics.diagnostic(issueCode));
-    }
-  }
-
-  /**
-   * Checks that there is no occurrence of a diagnostic predicate in a diagnostic list.
-   *
-   * @param validate
-   *          the diagnostic list in which to look for a diagnostic predicate
-   * @param predicate
-   *          the predicate diagnostic to look for
-   */
-  private void assertNot(final AssertableDiagnostics validate, final DiagnosticPredicate predicate) {
-    if (Iterables.any(Iterables.filter(validate.getAllDiagnostics(), AbstractValidationDiagnostic.class), predicate)) {
-      fail("Predicate " + predicate.toString() + " found.");
+      if (!Iterables.isEmpty(Iterables.filter(getTester().validate(element).getAllDiagnostics(), d -> new Pred(null, null, issueCode, null).apply(d)))) {
+        fail("predicate found");
+      }
     }
   }
 

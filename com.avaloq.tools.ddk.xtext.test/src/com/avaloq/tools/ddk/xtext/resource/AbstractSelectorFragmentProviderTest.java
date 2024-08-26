@@ -21,7 +21,7 @@ import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.XtextPackage;
 import org.eclipse.xtext.XtextRuntimeModule;
-import org.eclipse.xtext.junit4.AbstractXtextTests;
+import org.eclipse.xtext.testing.AbstractXtextTests;
 import org.eclipse.xtext.resource.IFragmentProvider;
 import org.eclipse.xtext.util.Modules2;
 import org.junit.Before;

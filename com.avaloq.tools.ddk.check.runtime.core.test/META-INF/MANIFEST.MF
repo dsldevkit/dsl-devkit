@@ -11,8 +11,7 @@ Require-Bundle: org.eclipse.ui,
  com.avaloq.tools.ddk.test.ui, 
  com.avaloq.tools.ddk.check.runtime.core,
  org.junit,
- com.google.guava,
- org.eclipse.xtext.junit4
+ com.google.guava
 Export-Package: com.avaloq.tools.ddk.check.runtime.test.core
 Import-Package: org.mockito,
  org.mockito.stubbing
