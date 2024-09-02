@@ -41,6 +41,7 @@
     <exclude name="AvoidSynchronizedAtMethodLevel"/>
     <exclude name="DoNotUseThreads"/>
     <exclude name="UseConcurrentHashMap"/><!--New after PMD 5.3 upgrade, but not intelligent enough-->
+    <exclude name="AvoidSynchronizedStatement"/><!-- Only applies to virtual threads on Java 21, which we do not use, the problem might be solved in a later vm -->
   </rule>
   <rule ref="category/java/design.xml">
     <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
