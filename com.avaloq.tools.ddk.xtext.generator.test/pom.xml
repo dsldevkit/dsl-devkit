@@ -3,7 +3,7 @@
   <parent>
     <artifactId>ddk-parent</artifactId>
     <groupId>com.avaloq.tools.ddk</groupId>
-    <version>14.1.0-SNAPSHOT</version>
+    <version>14.1.0.v20240916-1327-REL</version>
     <relativePath>../ddk-parent</relativePath>
   </parent>
 
