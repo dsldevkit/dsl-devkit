@@ -38,9 +38,8 @@ import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScopeProvider;
 
-import com.avaloq.tools.ddk.caching.CacheManager;
-import com.avaloq.tools.ddk.caching.ResourceCache;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
+import com.avaloq.tools.ddk.xtext.resource.ResourceCache;
 import com.avaloq.tools.ddk.xtext.scoping.impl.BranchingScope;
 import com.avaloq.tools.ddk.xtext.scoping.impl.DataFilteringScope;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
@@ -331,7 +330,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    */
   protected List<IContainer> getVisibleContainers(final XtextResource resource) {
     URI uri = resource.getURI();
-    final ResourceCache<URI, List<IContainer>> cache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", resource); //$NON-NLS-1$
+    final ResourceCache<URI, List<IContainer>> cache = ResourceCache.getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", resource); //$NON-NLS-1$
     if (cache != null) {
       List<IContainer> result = cache.get(uri);
       if (result != null) {
@@ -399,7 +398,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
         }
       }
       if (result == null && doCache(context, namedElement, scopeName, originalResource)) {
-        resourceScopeCache = CacheManager.getInstance().getOrCreateResourceCache("AbstractPolymorphicScopeProvider#resourceScopeCache", originalResource); //$NON-NLS-1$
+        resourceScopeCache = ResourceCache.getOrCreateResourceCache("AbstractPolymorphicScopeProvider#resourceScopeCache", originalResource); //$NON-NLS-1$
         cacheKey = getCacheKey(context, namedElement, scopeName);
         result = resourceScopeCache.get(cacheKey);
       }

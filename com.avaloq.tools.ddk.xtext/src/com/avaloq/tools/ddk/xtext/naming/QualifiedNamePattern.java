@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.xtext.naming.QualifiedName;
 
-import com.avaloq.tools.ddk.xtext.util.Regexps;
+import com.avaloq.tools.ddk.caching.Regexps;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

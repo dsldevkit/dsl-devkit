@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.naming;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,8 +19,11 @@ import java.util.Set;
 
 import org.eclipse.xtext.naming.QualifiedName;
 
+import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.caching.CacheStatistics;
+import com.avaloq.tools.ddk.caching.ICache;
 import com.avaloq.tools.ddk.xtext.util.ArrayUtils;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -384,6 +388,33 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   private long size;
   private long hits;
   private long misses;
+
+  /**
+   * Creates a new cache to lookup qualified names.
+   *
+   * @param <K>
+   *          the key type
+   * @param <V>
+   *          the value type
+   * @param name
+   *          the name of the cache, must not be {@code null}
+   * @param clazz
+   *          the value class
+   * @param shareValues
+   *          whether the value array of a node should be shared with its parent if they're equal
+   * @return the qualified name lookup, never {@code null}
+   */
+  public static <K, V> QualifiedNameLookup<V> createNameLookupCache(final String name, final Class<V> clazz, final boolean shareValues) {
+    QualifiedNameLookup<V> cache = new QualifiedNameSegmentTreeLookup<V>(clazz, shareValues);
+    CacheManager cacheManager = CacheManager.getInstance();
+    if (cacheManager.isMonitoringEnabled()) {
+      ArrayListMultimap<String, WeakReference<ICache<?, ?>>> caches = cacheManager.getCaches();
+      synchronized (caches) {
+        caches.put(name, new WeakReference<ICache<?, ?>>(cache));
+      }
+    }
+    return cache;
+  }
 
   public QualifiedNameSegmentTreeLookup(final Class<T> elementType, final boolean shareValues) { // NOPMD
     root = shareValues ? new ValueSharingSegmentNode("") : new SegmentNode(""); //$NON-NLS-1$ //$NON-NLS-2$

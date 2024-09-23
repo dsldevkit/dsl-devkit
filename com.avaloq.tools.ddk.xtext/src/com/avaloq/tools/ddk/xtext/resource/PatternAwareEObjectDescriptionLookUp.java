@@ -23,9 +23,9 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.impl.EObjectDescriptionLookUp;
 
-import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookup;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
+import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookup;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -92,11 +92,10 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
         if (nameToObjectsLookup == null) {
           // CHECKSTYLE:ON with volatile it is ok
           Iterable<IEObjectDescription> allDescriptions = getExportedObjects();
-          QualifiedNameLookup<IEObjectDescription> localMap = CacheManager.getInstance().createNameLookupCache("PatternAwareEObjectDescriptionLookUp#localMap", IEObjectDescription.class, false); //$NON-NLS-1$
+          QualifiedNameLookup<IEObjectDescription> localMap = QualifiedNameSegmentTreeLookup.createNameLookupCache("PatternAwareEObjectDescriptionLookUp#localMap", IEObjectDescription.class, false); //$NON-NLS-1$
           if (allDescriptions instanceof RandomAccess) {
             List<IEObjectDescription> asList = (List<IEObjectDescription>) allDescriptions;
-            for (int i = 0; i < asList.size(); i++) {
-              IEObjectDescription description = asList.get(i);
+            for (IEObjectDescription description : asList) {
               localMap.put(description.getName().toLowerCase(), description);
             }
           } else {
