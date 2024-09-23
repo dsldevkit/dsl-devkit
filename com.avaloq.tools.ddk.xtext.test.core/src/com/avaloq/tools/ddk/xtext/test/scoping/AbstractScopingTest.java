@@ -56,13 +56,13 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.Triple;
 import org.eclipse.xtext.xbase.lib.Pair;
 
+import com.avaloq.tools.ddk.caching.Regexps;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQuery;
 import com.avaloq.tools.ddk.xtext.scoping.IDomain;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextMarkerBasedTest;
-import com.avaloq.tools.ddk.xtext.util.Regexps;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;

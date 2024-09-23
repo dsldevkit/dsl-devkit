@@ -8,20 +8,18 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.util;
+package com.avaloq.tools.ddk.caching;
 
+import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
 
-import org.eclipse.xtext.util.Pair;
-import org.eclipse.xtext.util.SimpleCache;
-import org.eclipse.xtext.util.Tuples;
-
-import com.google.common.base.Function;
+import com.google.common.collect.MapMaker;
 
 
 /**
  * Class containing utility functions for regular expressions.
  */
+@SuppressWarnings("nls")
 public final class Regexps {
 
   /** Our "glob"-expressions have two wildcard characters, signifying zero or more (*) or zero or one (?) occurrence(s) of any character. */
@@ -39,18 +37,11 @@ public final class Regexps {
     // prevent instantiation
   }
 
+  private record Pair(String glob, Boolean ignoreCase) {
+  }
+
   /** Cache of already translated glob patterns. */
-  private static final SimpleCache<Pair<String, Boolean>, Pattern> GLOB_REGEXP_CACHE = new SimpleCache<Pair<String, Boolean>, Pattern>(new Function<Pair<String, Boolean>, Pattern>() {
-    @Override
-    @SuppressWarnings("nls")
-    public Pattern apply(final Pair<String, Boolean> from) {
-      // Escape any special regexp characters except our own WILDCARD characters '*' and '?'
-      String pattern = GLOB_ESCAPE_PATTERN.matcher(from.getFirst()).replaceAll("\\\\$1");
-      pattern = pattern.replace(WILDCARD_ONE, '.');
-      pattern = GLOB_WILDCARD_PATTERN.matcher(pattern).replaceAll(".*");
-      return from.getSecond() ? Pattern.compile('^' + pattern + '$', Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE) : Pattern.compile('^' + pattern + '$');
-    }
-  });
+  private static final ConcurrentMap<Pair, Pattern> GLOB_REGEXP_CACHE = new MapMaker().weakKeys().makeMap();
 
   /**
    * Returns a regular expression corresponding to the given glob pattern. Case insensitive.
@@ -73,7 +64,13 @@ public final class Regexps {
    * @return regexp matching glob
    */
   public static Pattern fromGlob(final String glob, final boolean ignoreCase) {
-    return GLOB_REGEXP_CACHE.get(Tuples.pair(glob, ignoreCase));
+    return GLOB_REGEXP_CACHE.computeIfAbsent(new Pair(glob, ignoreCase), from -> {
+      // Escape any special regexp characters except our own WILDCARD characters '*' and '?'
+      String pattern = GLOB_ESCAPE_PATTERN.matcher(from.glob()).replaceAll("\\\\$1");
+      pattern = pattern.replace(WILDCARD_ONE, '.');
+      pattern = GLOB_WILDCARD_PATTERN.matcher(pattern).replaceAll(".*");
+      return from.ignoreCase() ? Pattern.compile('^' + pattern + '$', Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE) : Pattern.compile('^' + pattern + '$');
+    });
   }
 
 }
