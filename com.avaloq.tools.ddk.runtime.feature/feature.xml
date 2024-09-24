@@ -10,6 +10,13 @@
    </description>
 
    <plugin
+         id="com.avaloq.tools.ddk"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.xtext"
          download-size="0"
          install-size="0"
