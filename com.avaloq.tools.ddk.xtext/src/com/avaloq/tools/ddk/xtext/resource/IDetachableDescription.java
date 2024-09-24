@@ -25,7 +25,7 @@ package com.avaloq.tools.ddk.xtext.resource;
  *
  * @param <T>
  *          type of description (one of IResourceDescription, IEObjectDescription, or IReferenceDescription)
- * @see com.avaloq.tools.ddk.xtext.builder.IDescriptionCopier
+ * @see com.avaloq.tools.ddk.xtext.builder.builder.IDescriptionCopier
  */
 public interface IDetachableDescription<T> {
 

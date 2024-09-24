@@ -25,6 +25,7 @@ import org.eclipse.xtext.ui.editor.IDirtyStateManager;
 import org.eclipse.xtext.ui.notification.IStateChangeEventBroker;
 
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
+import com.avaloq.tools.ddk.xtext.resource.extensions.ResourceDescriptions2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

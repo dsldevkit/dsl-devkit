@@ -20,9 +20,9 @@ import org.eclipse.xtext.builder.builderState.PersistedStateProvider;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
 import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
-import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
-import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
-import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.resource.IDerivedObjectAssociationsStore;
+import com.avaloq.tools.ddk.xtext.resource.extensions.DelegatingResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
 import com.google.inject.Inject;
 
 

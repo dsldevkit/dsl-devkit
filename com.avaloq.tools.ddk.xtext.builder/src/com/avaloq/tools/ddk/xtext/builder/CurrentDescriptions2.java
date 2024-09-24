@@ -24,10 +24,10 @@ import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
 import com.avaloq.tools.ddk.xtext.builder.layered.NullResourceDescriptionsData;
-import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
-import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
-import com.avaloq.tools.ddk.xtext.extensions.ResourceDescriptions2;
+import com.avaloq.tools.ddk.xtext.resource.extensions.DelegatingResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
+import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.resource.extensions.ResourceDescriptions2;
 
 
 /**

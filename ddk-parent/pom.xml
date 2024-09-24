@@ -65,6 +65,7 @@
     <module>../com.avaloq.tools.ddk.feature</module>
     <module>../com.avaloq.tools.ddk.runtime.source.feature</module>
     <module>../com.avaloq.tools.ddk.source.feature</module>
+    <module>../com.avaloq.tools.ddk</module>
     <module>../com.avaloq.tools.ddk.xtext</module>
     <module>../com.avaloq.tools.ddk.xtext.builder</module>
     <module>../com.avaloq.tools.ddk.xtext.builder.ui</module>

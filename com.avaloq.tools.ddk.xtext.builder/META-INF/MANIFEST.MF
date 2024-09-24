@@ -6,6 +6,7 @@ Bundle-Version: 14.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.xtext.builder,
  org.eclipse.xtext.ui,
+ com.avaloq.tools.ddk,
  com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.common.types.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-17

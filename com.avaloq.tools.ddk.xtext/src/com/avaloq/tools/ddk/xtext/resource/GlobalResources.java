@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  * <p>
  * The idea is that other resource sets delegate the load operation to {@link #getResource(URI)} for all global resources.
  * <p>
- * Access the ressources is made threadsafe so that (suspected) lazy adding of ressources does not cause concurrent access errors with existing reads.
+ * Access the resources is made threadsafe so that (suspected) lazy adding of resources does not cause concurrent access errors with existing reads.
  */
 public final class GlobalResources {
 

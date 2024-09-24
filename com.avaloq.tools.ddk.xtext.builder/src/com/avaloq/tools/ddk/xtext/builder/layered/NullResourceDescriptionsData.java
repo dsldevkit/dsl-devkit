@@ -19,8 +19,8 @@ import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 
-import com.avaloq.tools.ddk.xtext.extensions.DelegatingResourceDescriptionsData;
-import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.resource.extensions.DelegatingResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
 
 
 /**

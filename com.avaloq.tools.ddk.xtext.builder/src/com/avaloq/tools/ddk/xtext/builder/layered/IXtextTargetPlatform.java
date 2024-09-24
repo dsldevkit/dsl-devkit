@@ -17,8 +17,9 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
-import com.avaloq.tools.ddk.xtext.builder.IDerivedObjectAssociationsStore;
-import com.avaloq.tools.ddk.xtext.extensions.IResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.builder.layered.DefaultXtextTargetPlatform;
+import com.avaloq.tools.ddk.xtext.resource.IDerivedObjectAssociationsStore;
+import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
 import com.google.inject.ImplementedBy;
 
 
