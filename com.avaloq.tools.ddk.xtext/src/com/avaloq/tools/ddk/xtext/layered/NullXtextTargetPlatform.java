@@ -8,16 +8,17 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder.layered;
+package com.avaloq.tools.ddk.xtext.layered;
 
 import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
+import com.avaloq.tools.ddk.xtext.build.IBinaryModelStore;
 import com.avaloq.tools.ddk.xtext.resource.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
+import com.avaloq.tools.ddk.xtext.resource.extensions.NullResourceDescriptionsData;
 
 
 /**

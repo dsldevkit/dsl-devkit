@@ -8,7 +8,7 @@
  * licence agreement you entered into with Avaloq Licence AG.
  */
 
-package com.avaloq.tools.ddk.xtext.builder;
+package com.avaloq.tools.ddk.xtext.build;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 
-import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore.NullBinaryModelStore;
+import com.avaloq.tools.ddk.xtext.build.IBinaryModelStore.NullBinaryModelStore;
 import com.google.inject.ImplementedBy;
 
 

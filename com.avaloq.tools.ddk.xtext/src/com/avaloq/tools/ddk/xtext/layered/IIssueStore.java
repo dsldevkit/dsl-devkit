@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder.layered;
+package com.avaloq.tools.ddk.xtext.layered;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.validation.Issue;
