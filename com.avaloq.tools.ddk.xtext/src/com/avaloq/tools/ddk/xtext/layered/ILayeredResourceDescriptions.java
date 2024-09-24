@@ -8,20 +8,22 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder.layered;
+package com.avaloq.tools.ddk.xtext.layered;
 
-import org.eclipse.xtext.builder.builderState.PersistedStateProvider;
 import org.eclipse.xtext.resource.IResourceDescription;
 
 
 /**
- * The persisted state provider is superseded by the {@link IXtextTargetPlatformManager}.
+ * Layered resource descriptions.
  */
-public class NullPersistedStateProvider implements PersistedStateProvider {
+public interface ILayeredResourceDescriptions {
 
-  @Override
-  public Iterable<IResourceDescription> load() {
-    throw new UnsupportedOperationException();
-  }
-
+  /**
+   * As {@link org.eclipse.xtext.resource.IResourceDescriptions#getAllResourceDescriptions() IResourceDescriptions.getAllResourceDescriptions()}, but returning
+   * only the local (= logically upper layer) resource
+   * descriptions.
+   *
+   * @return the resource descriptions
+   */
+  Iterable<IResourceDescription> getLocalResourceDescriptions();
 }

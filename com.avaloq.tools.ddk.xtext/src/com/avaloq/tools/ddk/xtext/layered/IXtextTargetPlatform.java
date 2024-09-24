@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder.layered;
+package com.avaloq.tools.ddk.xtext.layered;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -16,11 +16,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import com.avaloq.tools.ddk.xtext.builder.IBinaryModelStore;
-import com.avaloq.tools.ddk.xtext.builder.layered.DefaultXtextTargetPlatform;
+import com.avaloq.tools.ddk.xtext.build.IBinaryModelStore;
 import com.avaloq.tools.ddk.xtext.resource.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
-import com.google.inject.ImplementedBy;
 
 
 /**
@@ -49,7 +47,6 @@ import com.google.inject.ImplementedBy;
  * encapsulated index or the issue store are accessed, the platform must be opened through {@link #open(boolean, IProgressMonitor)}. Once open, all operations
  * are allowed. Once it is no longer in use, a platform must be closed through {@link #close(IProgressMonitor)}.
  */
-@ImplementedBy(DefaultXtextTargetPlatform.class)
 public interface IXtextTargetPlatform {
 
   /**

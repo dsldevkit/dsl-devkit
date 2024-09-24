@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder.layered;
+package com.avaloq.tools.ddk.xtext.resource.extensions;
 
 import java.util.Collections;
 import java.util.Set;
@@ -18,9 +18,6 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
-
-import com.avaloq.tools.ddk.xtext.resource.extensions.DelegatingResourceDescriptionsData;
-import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
 
 
 /**
