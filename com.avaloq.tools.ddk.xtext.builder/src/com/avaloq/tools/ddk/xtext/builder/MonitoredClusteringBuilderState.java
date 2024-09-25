@@ -83,6 +83,7 @@ import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
 import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
 import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionDelta;
 import com.avaloq.tools.ddk.xtext.resource.DerivedObjectAssociations;
+import com.avaloq.tools.ddk.xtext.resource.EmptyResourceDescriptionImpl;
 import com.avaloq.tools.ddk.xtext.resource.FixedCopiedResourceDescription;
 import com.avaloq.tools.ddk.xtext.resource.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.resource.extensions.AbstractResourceDescriptionsData;
