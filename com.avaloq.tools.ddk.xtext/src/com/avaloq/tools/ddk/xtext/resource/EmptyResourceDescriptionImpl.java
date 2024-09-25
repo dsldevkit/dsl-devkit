@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder;
+package com.avaloq.tools.ddk.xtext.resource;
 
 import java.util.Collections;
 import java.util.List;

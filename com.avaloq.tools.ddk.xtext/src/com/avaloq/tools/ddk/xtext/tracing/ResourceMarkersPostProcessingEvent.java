@@ -8,13 +8,10 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.builder.tracing;
-
-import com.avaloq.tools.ddk.xtext.tracing.ResourceEvent;
-
+package com.avaloq.tools.ddk.xtext.tracing;
 
 /**
- * An event representing the post-processing of a resource's markers during the build. This event will have a {@link ResourceValidationEvent} as its parent.
+ * An event representing the post-processing of a resource's markers.
  */
 public class ResourceMarkersPostProcessingEvent extends ResourceEvent {
 
