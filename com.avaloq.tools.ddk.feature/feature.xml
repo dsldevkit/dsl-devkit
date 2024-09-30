@@ -182,6 +182,13 @@
          unpack="false"/>
 
    <plugin
+         id="com.avaloq.tools.ddk.check.runtime.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="com.avaloq.tools.ddk.check.ui"
          download-size="0"
          install-size="0"
