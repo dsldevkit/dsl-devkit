@@ -1,8 +1,7 @@
 package com.avaloq.tools.ddk.sample.helloworld.validation;
 
-import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl;
+import com.avaloq.tools.ddk.check.runtime.issue.DispatchingCheckImpl;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting;
-import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import org.eclipse.emf.ecore.EObject;
@@ -15,7 +14,7 @@ import org.eclipse.xtext.validation.ValidationMessageAcceptor;
  * Validator for ExecutionEnvironment.
  */
 @SuppressWarnings("all")
-public class ExecutionEnvironmentCheckImpl extends AbstractDispatchingCheckImpl {
+public class ExecutionEnvironmentCheckImpl extends DispatchingCheckImpl {
   @Inject
   private ExecutionEnvironmentCheckCatalog executionEnvironmentCatalog;
 
@@ -28,19 +27,19 @@ public class ExecutionEnvironmentCheckImpl extends AbstractDispatchingCheckImpl 
   }
 
   @Override
-  public void validate(final CheckMode checkMode, final EObject object, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector, final ResourceValidationRuleSummaryEvent.Collector eventCollector) {
+  public void validate(final CheckMode checkMode, final EObject object, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     if (checkMode.shouldCheck(CheckType.NORMAL)) {
       diagnosticCollector.setCurrentCheckType(CheckType.NORMAL);
       if (object instanceof final com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting castObject) {
         validate("greetingNameLengthGreeting", "ExecutionEnvironment.greetingNameLengthGreeting", object,
-                 () -> greetingNameLengthGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+                 () -> greetingNameLengthGreeting(castObject, diagnosticCollector), diagnosticCollector);
       }
     }
   }
 
   private class GreetingNameLengthClass {
 
-    public void runGreeting(final Greeting g, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+    public void runGreeting(final Greeting g, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
       int _length = g.getName().length();
       boolean _greaterThan = (_length > 5);
       if (_greaterThan) {
@@ -78,7 +77,7 @@ public class ExecutionEnvironmentCheckImpl extends AbstractDispatchingCheckImpl 
    * greetingNameLengthGreeting.
    */
   @Check(CheckType.NORMAL)
-  public void greetingNameLengthGreeting(final Greeting context, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+  public void greetingNameLengthGreeting(final Greeting context, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     greetingNameLengthImpl.runGreeting(context, diagnosticCollector);
   }
 }
