@@ -1,9 +1,8 @@
 package com.avaloq.tools.ddk.sample.helloworld.validation;
 
 import com.avaloq.tools.ddk.check.lib.IResourceCache;
-import com.avaloq.tools.ddk.check.runtime.issue.AbstractDispatchingCheckImpl;
+import com.avaloq.tools.ddk.check.runtime.issue.DispatchingCheckImpl;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting;
-import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
@@ -21,7 +20,7 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
  * Validator for LibraryChecks.
  */
 @SuppressWarnings("all")
-public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
+public class LibraryChecksCheckImpl extends DispatchingCheckImpl {
   @Inject
   private LibraryChecksCheckCatalog libraryChecksCatalog;
 
@@ -37,18 +36,18 @@ public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
   }
 
   @Override
-  public void validate(final CheckMode checkMode, final EObject object, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector, final ResourceValidationRuleSummaryEvent.Collector eventCollector) {
+  public void validate(final CheckMode checkMode, final EObject object, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     if (checkMode.shouldCheck(CheckType.FAST)) {
       diagnosticCollector.setCurrentCheckType(CheckType.FAST);
       if (object instanceof final com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting castObject) {
         validate("checkCatalogIsActiveGreeting", "LibraryChecks.checkCatalogIsActiveGreeting", object,
-                 () -> checkCatalogIsActiveGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+                 () -> checkCatalogIsActiveGreeting(castObject, diagnosticCollector), diagnosticCollector);
         validate("cacheInjectionFailedGreeting", "LibraryChecks.cacheInjectionFailedGreeting", object,
-                 () -> cacheInjectionFailedGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+                 () -> cacheInjectionFailedGreeting(castObject, diagnosticCollector), diagnosticCollector);
         validate("cacheDoesntWorkGreeting", "LibraryChecks.cacheDoesntWorkGreeting", object,
-                 () -> cacheDoesntWorkGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+                 () -> cacheDoesntWorkGreeting(castObject, diagnosticCollector), diagnosticCollector);
         validate("formalParametersGreeting", "LibraryChecks.formalParametersGreeting", object,
-                 () -> formalParametersGreeting(castObject, diagnosticCollector), diagnosticCollector, eventCollector);
+                 () -> formalParametersGreeting(castObject, diagnosticCollector), diagnosticCollector);
       }
     }
   }
@@ -57,7 +56,7 @@ public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
    * checkCatalogIsActiveGreeting.
    */
   @Check(CheckType.FAST)
-  public void checkCatalogIsActiveGreeting(final Greeting it, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {// Issue diagnostic
+  public void checkCatalogIsActiveGreeting(final Greeting it, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {// Issue diagnostic
     libraryChecksCatalog.accept(diagnosticCollector, //
       it, // context EObject
       null, // EStructuralFeature
@@ -72,7 +71,7 @@ public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
    * cacheInjectionFailedGreeting.
    */
   @Check(CheckType.FAST)
-  public void cacheInjectionFailedGreeting(final Greeting g, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+  public void cacheInjectionFailedGreeting(final Greeting g, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     if ((LibraryChecksCheckImpl.this.cache == null)) {// Issue diagnostic
       libraryChecksCatalog.accept(diagnosticCollector, //
         g, // context EObject
@@ -89,7 +88,7 @@ public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
    * cacheDoesntWorkGreeting.
    */
   @Check(CheckType.FAST)
-  public void cacheDoesntWorkGreeting(final Greeting it, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+  public void cacheDoesntWorkGreeting(final Greeting it, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     String _qualifiedCatalogName = this.getQualifiedCatalogName();
     final String key = (_qualifiedCatalogName + ".testValue");
     try {
@@ -132,7 +131,7 @@ public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
 
 
 
-    public void runGreeting(final Greeting it, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+    public void runGreeting(final Greeting it, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
       final String p1 = libraryChecksCatalog.getFormalParameters_Param1(it);
       final boolean p2 = false;
       final List<String> expectedNames = ImmutableList.<String>of("foo", "bar", "ba\u0001\nz");
@@ -255,7 +254,7 @@ public class LibraryChecksCheckImpl extends AbstractDispatchingCheckImpl {
    * formalParametersGreeting.
    */
   @Check(CheckType.FAST)
-  public void formalParametersGreeting(final Greeting context, final AbstractDispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
+  public void formalParametersGreeting(final Greeting context, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     formalParametersImpl.runGreeting(context, diagnosticCollector);
   }
 }
