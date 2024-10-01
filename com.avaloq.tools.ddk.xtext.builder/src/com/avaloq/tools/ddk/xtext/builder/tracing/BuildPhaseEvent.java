@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder.tracing;
 
-import com.avaloq.tools.ddk.xtext.tracing.TraceEvent;
+import com.avaloq.tools.ddk.tracing.TraceEvent;
 
 
 /**

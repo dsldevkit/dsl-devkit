@@ -65,6 +65,7 @@ import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
 import com.avaloq.tools.ddk.caching.CacheManager;
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.layered.IXtextBuildTrigger;
 import com.avaloq.tools.ddk.xtext.builder.tracing.BuildFlushEvent;
@@ -94,7 +95,6 @@ import com.avaloq.tools.ddk.xtext.resource.extensions.NullResourceDescriptionsDa
 import com.avaloq.tools.ddk.xtext.resource.extensions.ResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade;
 import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
 import com.avaloq.tools.ddk.xtext.util.ThrowableUtil;

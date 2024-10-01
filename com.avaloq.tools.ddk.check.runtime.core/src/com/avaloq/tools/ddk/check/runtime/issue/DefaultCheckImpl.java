@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckMode;
 
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

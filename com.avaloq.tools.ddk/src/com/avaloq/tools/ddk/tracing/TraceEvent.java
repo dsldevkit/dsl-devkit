@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.tracing;
+package com.avaloq.tools.ddk.tracing;
 
 import java.util.Arrays;
 

@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.tracing;
+package com.avaloq.tools.ddk.tracing;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
-import com.avaloq.tools.ddk.xtext.tracing.TraceEvent.Trigger;
+import com.avaloq.tools.ddk.tracing.TraceEvent.Trigger;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.AsyncEventBus;

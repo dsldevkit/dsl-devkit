@@ -39,13 +39,13 @@ import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Triple;
 
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.parser.IResourceAwareParser;
 import com.avaloq.tools.ddk.xtext.resource.IResourceSetServiceCache;
 import com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions;
 import com.avaloq.tools.ddk.xtext.resource.ServiceCacheAdapter;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode;
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceInferenceEvent;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;

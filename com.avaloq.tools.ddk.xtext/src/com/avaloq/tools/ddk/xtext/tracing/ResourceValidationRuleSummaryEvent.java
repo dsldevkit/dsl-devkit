@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.google.common.collect.Maps;
 
 

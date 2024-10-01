@@ -12,6 +12,8 @@ package com.avaloq.tools.ddk.xtext.tracing;
 
 import org.eclipse.emf.common.util.URI;
 
+import com.avaloq.tools.ddk.tracing.TraceEvent;
+
 
 /**
  * An event representing an operation on a resource.

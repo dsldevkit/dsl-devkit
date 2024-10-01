@@ -31,7 +31,7 @@ public class QualifiedNameConverter extends DefaultImpl implements IQualifiedNam
     if (Strings.isEmpty(qualifiedNameAsString)) {
       return super.toQualifiedName(qualifiedNameAsString);
     }
-    List<String> segs = com.avaloq.tools.ddk.xtext.util.Strings.split(qualifiedNameAsString, '.');
+    List<String> segs = com.avaloq.tools.ddk.util.Strings.split(qualifiedNameAsString, '.');
     return QualifiedName.create(segs);
   }
 

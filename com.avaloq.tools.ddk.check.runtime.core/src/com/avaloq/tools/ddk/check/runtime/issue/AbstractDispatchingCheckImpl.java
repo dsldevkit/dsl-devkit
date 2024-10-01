@@ -22,7 +22,7 @@ import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.inject.Inject;
 
