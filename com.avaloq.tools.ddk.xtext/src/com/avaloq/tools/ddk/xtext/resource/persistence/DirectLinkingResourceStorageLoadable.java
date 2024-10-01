@@ -38,11 +38,11 @@ import org.eclipse.xtext.parser.ParseResult;
 import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
 import com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceLoadStorageEvent;
 import com.google.common.base.Ascii;
 import com.google.common.io.CharStreams;

@@ -22,9 +22,9 @@ import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.ResourceStorageWritable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Instruction;
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -35,7 +35,7 @@ import com.google.inject.name.Named;
  */
 public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
-  public static final String STORE_NODE_MODEL = "com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade.STORE_NODE_MODEL";
+  public static final String STORE_NODE_MODEL = "com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade.STORE_NODE_MODEL"; //$NON-NLS-1$
 
   @Inject(optional = true)
   @Named(value = STORE_NODE_MODEL)

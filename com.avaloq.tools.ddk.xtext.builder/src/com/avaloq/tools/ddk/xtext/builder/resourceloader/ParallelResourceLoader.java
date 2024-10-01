@@ -39,11 +39,11 @@ import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.Triple;
 import org.eclipse.xtext.util.Tuples;
 
+import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
 import com.avaloq.tools.ddk.xtext.builder.tracing.ResourceLoadEvent;
 import com.avaloq.tools.ddk.xtext.linking.ILazyLinkingResource2;
-import com.avaloq.tools.ddk.xtext.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceSetUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
