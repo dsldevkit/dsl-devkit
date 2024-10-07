@@ -8,9 +8,9 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.validation;
+package com.avaloq.tools.ddk.caching;
 
-import com.avaloq.tools.ddk.xtext.validation.impl.GlobalValidationCacheManagerImpl;
+import com.avaloq.tools.ddk.caching.impl.GlobalValidationCacheManagerImpl;
 
 
 /** The global validation cache manager. */
