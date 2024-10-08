@@ -18,15 +18,27 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.avaloq.tools.ddk.xtext.expression.generator.Graph;
+import com.avaloq.tools.ddk.util.Graph;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 
-@SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
+@SuppressWarnings({"nls", "PMD.JUnitAssertionsShouldIncludeMessage"})
 public class GraphTest {
   // CHECKSTYLE:CONSTANTS-OFF
+
+  private static Graph<String> create(final Multimap<String, String> graph) {
+    Graph<String> g = new Graph<String>();
+    for (Map.Entry<String, String> entry : graph.entries()) {
+      String from = entry.getKey();
+      String to = entry.getValue();
+      g.addNode(from);
+      g.addNode(to);
+      g.addEdge(from, to);
+    }
+    return g;
+  }
 
   @Test
   public void testTopologicalSorting() {
@@ -42,7 +54,7 @@ public class GraphTest {
     graph.put("8", "9");
     graph.put("8", "10");
 
-    List<String> sorted = Graph.create(graph).sort();
+    List<String> sorted = create(graph).sort();
     assertSorting(graph, sorted);
   }
 
@@ -51,7 +63,7 @@ public class GraphTest {
     Multimap<String, String> graph = ImmutableMultimap.of("1", "2", "2", "3", "3", "1");
 
     try {
-      Graph.create(graph).sort();
+      create(graph).sort();
       fail();
     } catch (IllegalStateException e) {
       assertTrue(true); // NOPMD
