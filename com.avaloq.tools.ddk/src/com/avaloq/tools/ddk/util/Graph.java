@@ -8,18 +8,15 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.expression.generator;
+package com.avaloq.tools.ddk.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 
 /**
@@ -38,8 +35,8 @@ public class Graph<T> {
    */
   private static class Node<T> {
     private final T ref;
-    private final Set<Node<T>> inEdges = Sets.newLinkedHashSet();
-    private final Set<Node<T>> outEdges = Sets.newLinkedHashSet();
+    private final Set<Node<T>> inEdges = new LinkedHashSet<>();
+    private final Set<Node<T>> outEdges = new LinkedHashSet<>();
 
     Node(final T ref) {
       this.ref = ref;
@@ -64,7 +61,7 @@ public class Graph<T> {
     }
   }
 
-  private final Map<T, Node<T>> nodes = Maps.newLinkedHashMap();
+  private final Map<T, Node<T>> nodes = new LinkedHashMap<>();
 
   /**
    * Helper method to create a new graph.
@@ -79,27 +76,6 @@ public class Graph<T> {
     Graph<T> g = new Graph<T>();
     for (T node : nodes) {
       g.addNode(node);
-    }
-    return g;
-  }
-
-  /**
-   * Helper method to create a new graph.
-   *
-   * @param <T>
-   *          node type
-   * @param graph
-   *          graph as multiset where values represent targets of edges with key as source
-   * @return graph
-   */
-  public static <T> Graph<T> create(final Multimap<T, T> graph) {
-    Graph<T> g = new Graph<T>();
-    for (Map.Entry<T, T> entry : graph.entries()) {
-      T from = entry.getKey();
-      T to = entry.getValue();
-      g.addNode(from);
-      g.addNode(to);
-      g.addEdge(from, to);
     }
     return g;
   }
@@ -140,13 +116,11 @@ public class Graph<T> {
    * @return sorted graph
    */
   public List<T> sort() {
-    // TODO try to sort to something as close as possible to the original
-
     // L <- Empty list that will contain the sorted elements
-    List<Node<T>> l = Lists.newArrayList();
+    List<Node<T>> l = new ArrayList<>();
 
     // S <- Set of all nodes with no incoming edges
-    Set<Node<T>> s = Sets.newLinkedHashSet();
+    Set<Node<T>> s = new LinkedHashSet<>();
     for (Node<T> n : nodes.values()) {
       if (n.inEdges.isEmpty()) {
         s.add(n);
@@ -180,16 +154,11 @@ public class Graph<T> {
     // Check to see if all edges are removed
     for (Node<T> n : nodes.values()) {
       if (!n.inEdges.isEmpty()) {
-        throw new IllegalStateException("Cycle present, topological sort not possible: " + n.ref + " -> " + n.inEdges);
+        throw new IllegalStateException("Cycle present, topological sort not possible: " + n.ref + " -> " + n.inEdges); //$NON-NLS-1$ //$NON-NLS-2$
       }
     }
 
-    return Lists.transform(l, new Function<Node<T>, T>() {
-      @Override
-      public T apply(final Node<T> from) {
-        return from.ref;
-      }
-    });
+    return l.stream().map(f -> f.ref).toList();
   }
 
 }
