@@ -121,7 +121,7 @@ class CheckJvmModelInferrer extends AbstractModelInferrer {
           }
         }
         initializer = [append('''
-          «ImmutableMap.simpleName».<«String.simpleName», «String.simpleName»>builder()
+          «ImmutableMap.simpleName».<«String.simpleName», «String.simpleName»>builderWithExpectedSize(«sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet.size»)
             «FOR qualifiedIssueCodeNameAndLabel : sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet»
             .put(«qualifiedIssueCodeNameAndLabel.key», "«qualifiedIssueCodeNameAndLabel.value»")
             «ENDFOR»

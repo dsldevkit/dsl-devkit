@@ -64,8 +64,9 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
       }
       InternalEObject result = (InternalEObject) EcoreUtil.create(from.getEClass());
       result.eSetProxyURI(from.getEObjectURI());
-      ImmutableMap.Builder<String, String> userData = ImmutableMap.builder();
-      for (final String key : from.getUserDataKeys()) {
+      String[] userDataKeys = from.getUserDataKeys();
+      ImmutableMap.Builder<String, String> userData = ImmutableMap.builderWithExpectedSize(userDataKeys.length);
+      for (final String key : userDataKeys) {
         userData.put(key, from.getUserData(key));
       }
       return EObjectDescription.create(from.getName(), result, userData.build());
