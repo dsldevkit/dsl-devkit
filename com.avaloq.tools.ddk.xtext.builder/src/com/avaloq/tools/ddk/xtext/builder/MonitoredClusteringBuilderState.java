@@ -1281,7 +1281,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * @return the map of URIs indexed by their managers
    */
   private ImmutableListMultimap<Manager, URI> getUrisByManager(final Set<URI> uRIs) {
-    ImmutableListMultimap.Builder<Manager, URI> builder = ImmutableListMultimap.builder();
+    ImmutableListMultimap.Builder<Manager, URI> builder = ImmutableListMultimap.builderWithExpectedKeys(uRIs.size());
     for (URI uri : uRIs) {
       Manager mgr = getResourceDescriptionManager(uri);
       if (mgr != null) {

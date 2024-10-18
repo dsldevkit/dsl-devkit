@@ -46,7 +46,7 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
     ''';
 
     // check for the construction of an empty map
-    val expectedCatalog = #['ImmutableMap.<String,String>builder().build()']
+    val expectedCatalog = #['ImmutableMap.<String,String>builderWithExpectedSize(0).build()']
 
     // ACT AND ASSERT
     testMapGeneration(source, expectedCatalog)
@@ -121,7 +121,7 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
     val catalogClass = compiledClassesList.findFirst[s | s.fileName.equals(catalogClassName)].code;
 
     for (code: expectedCatalog) {
-      assertTrue('''«catalogClassName» was generated correctly''', catalogClass.replaceAll("\\s+","").contains(code))    	
+      assertTrue('''«catalogClassName» was generated correctly''', catalogClass.replaceAll("\\s+","").contains(code))
     }
   }
 

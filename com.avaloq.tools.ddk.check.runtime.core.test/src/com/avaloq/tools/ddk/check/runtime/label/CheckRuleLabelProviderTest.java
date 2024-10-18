@@ -39,6 +39,7 @@ import com.google.inject.Injector;
 /**
  * Unit test for {@link DefaultCheckRuleLabelProvider}.
  */
+@SuppressWarnings("nls")
 public class CheckRuleLabelProviderTest {
 
   // Test data
@@ -114,7 +115,7 @@ public class CheckRuleLabelProviderTest {
     when(mockCheckValidatorRegistry.getValidators()).thenReturn(mockValidators);
 
     for (int validator = 0; NUM_VALIDATORS > validator; ++validator) {
-      final Builder<String, String> builder = ImmutableMap.<String, String> builder();
+      final Builder<String, String> builder = ImmutableMap.builder();
       for (int check = 0; NUM_CHECKS_PER_VALIDATOR > check; ++check) {
         builder.put(ISSUE_CODES[validator][check], LABELS[validator][check]);
       }

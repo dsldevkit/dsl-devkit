@@ -133,7 +133,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
    * @return object description
    */
   public static IEObjectDescription create(final QualifiedName qualifiedName, final EObject element) {
-    return new DetachableEObjectDescription(qualifiedName, element, ImmutableMap.<String, String> of());
+    return new DetachableEObjectDescription(qualifiedName, element, Map.of());
   }
 
   @Override
