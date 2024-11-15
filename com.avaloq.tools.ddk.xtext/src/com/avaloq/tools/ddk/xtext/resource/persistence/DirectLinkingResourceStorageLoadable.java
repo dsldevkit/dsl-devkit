@@ -11,7 +11,6 @@
 
 package com.avaloq.tools.ddk.xtext.resource.persistence;
 
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -150,7 +149,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       // fall through
     case LOAD:
       positioner.position(Constituent.CONTENT);
-      readContents(resource, new BufferedInputStream(zipIn));
+      readContents(resource, new NonLockingBufferInputStream(zipIn));
       break;
     }
 
@@ -163,7 +162,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       break;
     default:
       positioner.position(Constituent.ASSOCIATIONS);
-      readAssociationsAdapter(resource, new BufferedInputStream(zipIn));
+      readAssociationsAdapter(resource, new NonLockingBufferInputStream(zipIn));
       break;
     }
 
@@ -194,7 +193,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         break;
       case LOAD:
         positioner.position(Constituent.NODE_MODEL);
-        readNodeModel(resource, new BufferedInputStream(zipIn), content);
+        readNodeModel(resource, new NonLockingBufferInputStream(zipIn), content);
         break;
       }
     }
