@@ -14,15 +14,17 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,8 +72,8 @@ import com.google.common.collect.Sets;
 public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedStream implements IDelegatingTokenStream {
 
   private static final Logger LOGGER = LogManager.getLogger(ExtendedFormattingConfigBasedStream.class);
-  private final Stack<Integer> columnIndents = new Stack<Integer>(); // NOPMD LooseCoupling, ReplaceVectorWithList
-  private final Stack<Integer> initialIndents = new Stack<Integer>(); // NOPMD LooseCoupling, ReplaceVectorWithList
+  private final LinkedList<Integer> columnIndents = new LinkedList<Integer>(); // NOPMD LooseCoupling
+  private final Deque<Integer> initialIndents = new ArrayDeque<Integer>();
   private final Set<NoFormatLocator> noFormatLocators = new HashSet<NoFormatLocator>();
 
   private INode currentNode;
@@ -197,23 +199,11 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
    * @return
    *         top element or 0 if stack empty
    */
-  private int emptySafeStackPeek(final Stack<Integer> stack) { // NOPMD LooseCoupling
-    if (!stack.empty()) {
-      return stack.peek();
+  private int emptySafeStackPeek(final Deque<Integer> stack) {
+    if (!stack.isEmpty()) {
+      return stack.peekFirst();
     }
     return 0;
-  }
-
-  /**
-   * Popping an element from a stack of integers. Nothing happens if the stack is empty..
-   *
-   * @param stack
-   *          stack of integers
-   */
-  private void emptySafeStackPop(final Stack<Integer> stack) { // NOPMD LooseCoupling
-    if (!stack.empty()) {
-      stack.pop();
-    }
   }
 
   @Override
@@ -517,8 +507,8 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
       boolean isSameIndentColumnLocator = candidateLocator instanceof FixedLocator
           && ((FixedLocator) candidateLocator).getColumn() == ((FixedLocator) locator).getColumn();
       if (isSameIndentColumnLocator) {
-        boolean isOppositeToAfter = ((FixedLocator) candidateLocator).getRight() != null && ((FixedLocator) locator).getRight() == null;
-        boolean isOppositeToBefore = ((FixedLocator) candidateLocator).getLeft() != null && ((FixedLocator) locator).getLeft() == null;
+        boolean isOppositeToAfter = candidateLocator.getRight() != null && locator.getRight() == null;
+        boolean isOppositeToBefore = candidateLocator.getLeft() != null && locator.getLeft() == null;
         if (isOppositeToAfter || isOppositeToBefore) {
           return true;
         }
@@ -533,8 +523,8 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   private void processColumnLocatorsBeforeComments() {
     // workaround: xtext implementation assumes that when the comment occurs other locators (just before the comment) are not caught
     if (last instanceof AbstractElement) {
-      emptySafeStackPop(columnIndents);
-      emptySafeStackPop(initialIndents);
+      columnIndents.pollFirst();
+      initialIndents.pollFirst();
     }
   }
 
@@ -573,20 +563,21 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
   private void processColumnLocators(final List<ElementLocator> locators) {
     Set<Integer> duplicatedColumnLocatorsIndicator = new HashSet<Integer>();
     for (ElementLocator locator : locators) {
-      if (locator instanceof FixedLocator) {
-        if (locator.getRight() != null && !duplicatedColumnLocatorsIndicator.contains(((FixedLocator) locator).getColumn())) {
-          initialIndents.push(indentationLevel);
-          columnIndents.push(((FixedLocator) locator).getColumn());
-          duplicatedColumnLocatorsIndicator.add(((FixedLocator) locator).getColumn());
+      if (locator instanceof FixedLocator fixedLocator) {
+        Integer column = fixedLocator.getColumn();
+        if (locator.getRight() != null && !duplicatedColumnLocatorsIndicator.contains(column)) {
+          initialIndents.addFirst(indentationLevel);
+          columnIndents.addFirst(column);
+          duplicatedColumnLocatorsIndicator.add(column);
         }
         if (locator.getLeft() != null) {
-          int locatorIndexOnStack = columnIndents.lastIndexOf(((FixedLocator) locator).getColumn());
+          int locatorIndexOnStack = columnIndents.lastIndexOf(column);
           if (locatorIndexOnStack != -1) {
             columnIndents.remove(locatorIndexOnStack);
             initialIndents.remove(locatorIndexOnStack);
           } else {
-            emptySafeStackPop(columnIndents);
-            emptySafeStackPop(initialIndents);
+            columnIndents.pollFirst();
+            initialIndents.pollFirst();
           }
         }
       }
