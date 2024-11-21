@@ -35,19 +35,20 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
   private IXtextTargetPlatformFactory platformFactory;
 
   /** The current platform. */
-  private IXtextTargetPlatform platform;
+  private volatile IXtextTargetPlatform platform; // NOPMD (volatile)
 
   /** Flag indicating that the target platform manager is shutting down. */
   private volatile boolean shutdownInProgress; // NOPMD (volatile)
+
+  private final Object lock = new Object();
 
   protected IXtextTargetPlatformFactory getPlatformFactory() {
     return platformFactory;
   }
 
   @Override
-  public synchronized IXtextTargetPlatform getPlatform() {
-    ensureLoaded();
-    return platform;
+  public IXtextTargetPlatform getPlatform() {
+    return ensureLoaded();
   }
 
   /**
@@ -55,17 +56,27 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
    *
    * @return the current target platform, or null if none set.
    */
-  protected synchronized IXtextTargetPlatform basicGetPlatform() {
+  protected IXtextTargetPlatform basicGetPlatform() {
     return platform;
   }
 
   /**
    * Make sure the platform is loaded.
+   *
+   * @returns the loaded platform
    */
-  protected void ensureLoaded() {
-    if (platform == null) {
-      load(new NullProgressMonitor());
+  protected IXtextTargetPlatform ensureLoaded() {
+    IXtextTargetPlatform localRef = platform; // access volatile field only once when initialized
+    if (localRef == null) {
+      synchronized (this) {
+        localRef = platform;
+        if (localRef == null) {
+          load(new NullProgressMonitor());
+          localRef = platform;
+        }
+      }
     }
+    return localRef;
   }
 
   /**
@@ -156,19 +167,21 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
    * @param mustRebuild
    *          whether a rebuild is required in any case.
    */
-  public synchronized void setPlatform(final IXtextTargetPlatform newPlatform, final Collection<IResourceDescription.Delta> deltas, final boolean mustRebuild) {
-    IXtextTargetPlatform oldPlatform = platform;
+  public void setPlatform(final IXtextTargetPlatform newPlatform, final Collection<IResourceDescription.Delta> deltas, final boolean mustRebuild) {
+    synchronized (lock) {
+      IXtextTargetPlatform oldPlatform = platform;
 
-    if (oldPlatform == null && newPlatform == null) {
-      return; // may occur during initialization...
-    }
+      if (oldPlatform == null && newPlatform == null) {
+        return; // may occur during initialization...
+      }
 
-    if (newPlatform == null) {
-      this.platform = new NullXtextTargetPlatform();
-    } else {
-      this.platform = newPlatform;
+      if (newPlatform == null) {
+        this.platform = new NullXtextTargetPlatform();
+      } else {
+        this.platform = newPlatform;
+      }
+      notifyListeners(platform, deltas, mustRebuild);
     }
-    notifyListeners(platform, deltas, mustRebuild);
   }
 
 }
