@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -31,6 +34,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformManager {
 
+  private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
   @Inject
   private IXtextTargetPlatformFactory platformFactory;
 
@@ -45,9 +50,15 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
   }
 
   @Override
-  public synchronized IXtextTargetPlatform getPlatform() {
-    ensureLoaded();
-    return platform;
+  public IXtextTargetPlatform getPlatform() {
+    Lock readLock = lock.readLock();
+    readLock.lock();
+    try {
+      ensureLoaded();
+      return platform;
+    } finally {
+      readLock.unlock();
+    }
   }
 
   /**
@@ -55,8 +66,14 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
    *
    * @return the current target platform, or null if none set.
    */
-  protected synchronized IXtextTargetPlatform basicGetPlatform() {
-    return platform;
+  protected IXtextTargetPlatform basicGetPlatform() {
+    Lock readLock = lock.readLock();
+    readLock.lock();
+    try {
+      return platform;
+    } finally {
+      readLock.unlock();
+    }
   }
 
   /**
@@ -156,17 +173,23 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
    * @param mustRebuild
    *          whether a rebuild is required in any case.
    */
-  public synchronized void setPlatform(final IXtextTargetPlatform newPlatform, final Collection<IResourceDescription.Delta> deltas, final boolean mustRebuild) {
-    IXtextTargetPlatform oldPlatform = platform;
+  public void setPlatform(final IXtextTargetPlatform newPlatform, final Collection<IResourceDescription.Delta> deltas, final boolean mustRebuild) {
+    Lock writeLock = lock.writeLock();
+    writeLock.lock();
+    try {
+      IXtextTargetPlatform oldPlatform = platform;
 
-    if (oldPlatform == null && newPlatform == null) {
-      return; // may occur during initialization...
-    }
+      if (oldPlatform == null && newPlatform == null) {
+        return; // may occur during initialization...
+      }
 
-    if (newPlatform == null) {
-      this.platform = new NullXtextTargetPlatform();
-    } else {
-      this.platform = newPlatform;
+      if (newPlatform == null) {
+        this.platform = new NullXtextTargetPlatform();
+      } else {
+        this.platform = newPlatform;
+      }
+    } finally {
+      writeLock.unlock();
     }
     notifyListeners(platform, deltas, mustRebuild);
   }
