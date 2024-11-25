@@ -20,6 +20,7 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipInputStream;
 
 import org.apache.logging.log4j.LogManager;
@@ -62,6 +63,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
   private static final Logger LOG = LogManager.getLogger(DirectLinkingResourceStorageLoadable.class);
 
+  private static final Map<String, URI> resourceUriMap = new ConcurrentHashMap<>(100_000);
+  private static final Map<String, URI> fragmentUriMap = new ConcurrentHashMap<>(500_000);
   private static final int SOURCE_BUFFER_CAPACITY = 0x10000; // 64 KiB
 
   private final boolean loadNodeModel;
@@ -312,6 +315,29 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         final InternalEObject result = super.loadEObject();
         handleLoadEObject(result, this);
         return result;
+      }
+
+      @Override
+      public URI readURI() throws IOException {
+        int id = readCompressedInt();
+        if (id == -1) {
+          return null;
+        } else {
+          URI uri;
+          if (uriList.size() <= id) {
+            String value = readSegmentedString();
+            uri = resolve(resourceUriMap.computeIfAbsent(value, key -> new DirectLinkingURI(key)));
+            uriList.add(uri);
+          } else {
+            uri = uriList.get(id);
+          }
+          String fragment = readSegmentedString();
+          if (fragment != null) {
+            uri = fragmentUriMap.computeIfAbsent(uri.toString() + '#' + fragment, key -> new DirectLinkingURI(key));
+            // uri = uri.appendFragment(fragment);
+          }
+          return uri;
+        }
       }
 
       @Override
