@@ -46,15 +46,13 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
    */
   @Override
   public Iterable<INameFunction> getNameFunctions(final EClass type) {
-    Iterable<INameFunction> result = nameFunctionCache.get(type);
-    if (result == null) {
-      result = internalGetNameFunctions(type);
+    return nameFunctionCache.computeIfAbsent(type, eClass -> {
+      Iterable<INameFunction> result = internalGetNameFunctions(eClass);
       if (result == null) {
-        result = getDefaultNames(type);
+        result = getDefaultNames(eClass);
       }
-      nameFunctionCache.put(type, result);
-    }
-    return result;
+      return result;
+    });
   }
 
   /**
