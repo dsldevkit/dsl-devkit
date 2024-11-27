@@ -35,7 +35,7 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
   /**
    * Cache for the name functions associated with a given {@link EClass type}.
    */
-  private final Map<EClass, Iterable<INameFunction>> nameFunctionCache = new MapMaker().concurrencyLevel(1).weakKeys().makeMap();
+  private final Map<EClass, Iterable<INameFunction>> nameFunctionCache = new MapMaker().weakKeys().makeMap();
 
   /**
    * Returns the list of name functions for a given type by calling {@link #internalGetNameFunctions(EClass)}. The result is cached for subsequent calls.
