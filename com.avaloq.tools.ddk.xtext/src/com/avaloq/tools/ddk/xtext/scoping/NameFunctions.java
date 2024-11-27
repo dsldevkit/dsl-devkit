@@ -11,16 +11,16 @@
 package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -109,12 +109,7 @@ public final class NameFunctions {
    * @return The name functions
    */
   public static Iterable<INameFunction> fromFeatures(final EStructuralFeature... nameFeatures) {
-    return Iterables.transform(Lists.newArrayList(nameFeatures), new Function<EStructuralFeature, INameFunction>() {
-      @Override
-      public INameFunction apply(final EStructuralFeature from) {
-        return fromFeature(from);
-      }
-    });
+    return Iterables.transform(Arrays.asList(nameFeatures), NameFunctions::fromFeature);
   }
 
   /**
