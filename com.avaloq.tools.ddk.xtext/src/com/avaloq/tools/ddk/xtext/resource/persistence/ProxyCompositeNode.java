@@ -104,7 +104,7 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
           EStructuralFeature eStructuralFeature = structuralFeatures[i];
           if (!eStructuralFeature.isTransient() && nextEObject.eIsSet(eStructuralFeature)) {
             if (eStructuralFeature.isMany()) {
-              EList<EObject> listChild = (EList<EObject>) nextEObject.eGet(eStructuralFeature);
+              EList<EObject> listChild = (EList<EObject>) nextEObject.eGet(eStructuralFeature, false);
               for (int j = listChild.size() - 1; j >= 0; j--) {
                 EObject singleChild = listChild.get(j);
                 singleChild.eAdapters().add(new ProxyCompositeNode());
@@ -112,7 +112,7 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
                 deque.push(singleChild);
               }
             } else {
-              EObject singleChild = (EObject) nextEObject.eGet(eStructuralFeature);
+              EObject singleChild = (EObject) nextEObject.eGet(eStructuralFeature, false);
               singleChild.eAdapters().add(new ProxyCompositeNode());
               map.add(singleChild);
               deque.push(singleChild);
