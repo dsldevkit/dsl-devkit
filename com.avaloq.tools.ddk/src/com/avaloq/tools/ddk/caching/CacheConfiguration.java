@@ -22,6 +22,7 @@ public class CacheConfiguration {
 
   private long cacheSize = UNSET_INT;
   private int initialCapacity = UNSET_INT;
+  private int concurrencyLevel = UNSET_INT;
 
   /**
    * All values stored in the cache are wrapped as {@link java.lang.ref.SoftReference SoftReference}, allowing them to be garbage collected as necessary.
@@ -95,5 +96,18 @@ public class CacheConfiguration {
 
   public int getInitialCapacity() {
     return initialCapacity;
+  }
+
+  public int getConcurrencyLevel() {
+    return concurrencyLevel;
+  }
+
+  /**
+   * Setsthe concurrency level for the cache. Guava concurrent maps creates as many segments
+   * as the specified concurrency level, each segment having its own lock.
+   * If not set, a reasonable default is deternimed by the library according to the number of CPUs.
+   */
+  public void setConcurrencyLevel(final int concurrencyLevel) {
+    this.concurrencyLevel = concurrencyLevel;
   }
 }

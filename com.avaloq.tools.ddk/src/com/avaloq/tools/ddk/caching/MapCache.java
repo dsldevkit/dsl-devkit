@@ -74,6 +74,9 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
         cacheBuilder.maximumSize(config.getMaximumSize());
       }
     }
+    if (config.getConcurrencyLevel() >= 0) {
+      cacheBuilder.concurrencyLevel(config.getConcurrencyLevel());
+    }
     return cacheBuilder;
   }
 
