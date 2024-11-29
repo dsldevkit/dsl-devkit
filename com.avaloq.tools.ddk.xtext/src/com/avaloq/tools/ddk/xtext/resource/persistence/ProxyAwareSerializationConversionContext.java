@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
+import org.eclipse.emf.ecore.util.EContentsEList.Filterable;
 import org.eclipse.xtext.nodemodel.serialization.SerializationConversionContext;
 import org.eclipse.xtext.resource.XtextResource;
 
@@ -80,10 +81,19 @@ class ProxyAwareSerializationConversionContext extends SerializationConversionCo
   static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
     map.add(eObject);
 
-    for (FeatureIterator<EObject> it = (FeatureIterator<EObject>) eObject.eContents().iterator(); it.hasNext();) {
-      EObject child = it.next();
-      if (!it.feature().isTransient()) {
-        fillIdToEObjectMap(child, map);
+    FeatureIterator<EObject> iterator = (FeatureIterator<EObject>) eObject.eContents().iterator();
+    if (iterator instanceof Filterable filterable) {
+      filterable.filter(f -> !f.isTransient());
+      for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
+        fillIdToEObjectMap(it.next(), map);
+      }
+    } else {
+      // post-filter the iterator, which is extra work
+      for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
+        EObject child = it.next();
+        if (!it.feature().isTransient()) {
+          fillIdToEObjectMap(child, map);
+        }
       }
     }
   }
