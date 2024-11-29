@@ -32,10 +32,17 @@ public class DefaultXtextTargetPlatform implements IXtextTargetPlatform {
 
   @Override
   public IResourceDescriptionsData getIResourceDescriptionsData() {
-    if (index == null) {
-      index = new DelegatingResourceDescriptionsData(new ResourceDescriptionsData(Collections.emptyList()));
+    IResourceDescriptionsData localRef = index;
+    if (localRef == null) {
+      synchronized (this) {
+        localRef = index;
+        if (localRef == null) {
+          localRef = new DelegatingResourceDescriptionsData(new ResourceDescriptionsData(Collections.emptyList()));
+          index = localRef;
+        }
+      }
     }
-    return index;
+    return localRef;
   }
 
   @Override
