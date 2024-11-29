@@ -11,9 +11,7 @@
 package com.avaloq.tools.ddk.xtext.resource.persistence;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -23,9 +21,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
 import org.eclipse.xtext.nodemodel.BidiIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterator;
@@ -83,45 +80,24 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
     ProxyCompositeNode rootNode = installProxyNodeModel(root, idToEObjectMap);
     idToEObjectMap.trimToSize();
     rootNode.idToEObjectMap = idToEObjectMap;
+
     if (resource instanceof XtextResource) {
       ((XtextResource) resource).setParseResult(new ParseResult(root, rootNode, false));
     }
   }
 
-  @SuppressWarnings("unchecked")
   private static ProxyCompositeNode installProxyNodeModel(final EObject eObject, final List<EObject> map) {
-    Deque<EObject> deque = new ArrayDeque<>();
-    ProxyCompositeNode rootComposite = new ProxyCompositeNode();
-    eObject.eAdapters().add(rootComposite);
+    ProxyCompositeNode result = new ProxyCompositeNode();
+    eObject.eAdapters().add(result);
     map.add(eObject);
-    deque.push(eObject);
 
-    while (!deque.isEmpty()) {
-      EObject nextEObject = deque.pop();
-      EStructuralFeature[] structuralFeatures = ((EClassImpl.FeatureSubsetSupplier) nextEObject.eClass().getEAllStructuralFeatures()).containments();
-      if (structuralFeatures != null) {
-        for (int i = structuralFeatures.length - 1; i >= 0; i--) {
-          EStructuralFeature eStructuralFeature = structuralFeatures[i];
-          if (!eStructuralFeature.isTransient() && nextEObject.eIsSet(eStructuralFeature)) {
-            if (eStructuralFeature.isMany()) {
-              EList<EObject> listChild = (EList<EObject>) nextEObject.eGet(eStructuralFeature, false);
-              for (int j = listChild.size() - 1; j >= 0; j--) {
-                EObject singleChild = listChild.get(j);
-                singleChild.eAdapters().add(new ProxyCompositeNode());
-                map.add(singleChild);
-                deque.push(singleChild);
-              }
-            } else {
-              EObject singleChild = (EObject) nextEObject.eGet(eStructuralFeature, false);
-              singleChild.eAdapters().add(new ProxyCompositeNode());
-              map.add(singleChild);
-              deque.push(singleChild);
-            }
-          }
-        }
+    for (FeatureIterator<EObject> it = (FeatureIterator<EObject>) eObject.eContents().iterator(); it.hasNext();) {
+      EObject child = it.next();
+      if (!it.feature().isTransient()) {
+        installProxyNodeModel(child, map);
       }
     }
-    return rootComposite;
+    return result;
   }
 
   /**
