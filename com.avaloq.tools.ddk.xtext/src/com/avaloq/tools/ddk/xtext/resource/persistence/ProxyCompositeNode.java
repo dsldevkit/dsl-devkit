@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
+import org.eclipse.emf.ecore.util.EContentsEList.Filterable;
 import org.eclipse.xtext.nodemodel.BidiIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterator;
@@ -91,10 +92,19 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
     eObject.eAdapters().add(result);
     map.add(eObject);
 
-    for (FeatureIterator<EObject> it = (FeatureIterator<EObject>) eObject.eContents().iterator(); it.hasNext();) {
-      EObject child = it.next();
-      if (!it.feature().isTransient()) {
-        installProxyNodeModel(child, map);
+    FeatureIterator<EObject> iterator = (FeatureIterator<EObject>) eObject.eContents().iterator();
+    if (iterator instanceof Filterable filterable) {
+      filterable.filter(f -> !f.isTransient());
+      for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
+        installProxyNodeModel(it.next(), map);
+      }
+    } else {
+      // post-filter the iterator, which is extra work
+      for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
+        EObject child = it.next();
+        if (!it.feature().isTransient()) {
+          installProxyNodeModel(child, map);
+        }
       }
     }
     return result;
