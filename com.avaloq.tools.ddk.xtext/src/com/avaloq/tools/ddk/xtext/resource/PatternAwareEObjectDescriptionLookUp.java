@@ -86,13 +86,14 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
   }
 
   protected QualifiedNameLookup<IEObjectDescription> getNameToObjectsLookup() {
-    if (nameToObjectsLookup == null) {
+    QualifiedNameLookup<IEObjectDescription> localMap = nameToObjectsLookup;
+    if (localMap == null) {
       synchronized (this) {
         // CHECKSTYLE:OFF with volatile it is ok
-        if (nameToObjectsLookup == null) {
+        if (localMap == null) {
           // CHECKSTYLE:ON with volatile it is ok
           Iterable<IEObjectDescription> allDescriptions = getExportedObjects();
-          QualifiedNameLookup<IEObjectDescription> localMap = QualifiedNameSegmentTreeLookup.createNameLookupCache("PatternAwareEObjectDescriptionLookUp#localMap", IEObjectDescription.class, false); //$NON-NLS-1$
+          localMap = QualifiedNameSegmentTreeLookup.createNameLookupCache("PatternAwareEObjectDescriptionLookUp#localMap", IEObjectDescription.class, false); //$NON-NLS-1$
           if (allDescriptions instanceof RandomAccess) {
             List<IEObjectDescription> asList = (List<IEObjectDescription>) allDescriptions;
             for (IEObjectDescription description : asList) {
@@ -107,7 +108,7 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
         }
       }
     }
-    return this.nameToObjectsLookup;
+    return localMap;
   }
 
 }
