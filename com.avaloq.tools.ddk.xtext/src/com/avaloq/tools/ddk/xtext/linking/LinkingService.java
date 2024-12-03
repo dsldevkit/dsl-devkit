@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,7 +35,6 @@ import org.eclipse.xtext.scoping.IScope;
 import com.avaloq.tools.ddk.xtext.linking.ImportedNamesTypesAdapter.WrappingTypedScope;
 import com.avaloq.tools.ddk.xtext.scoping.AliasingEObjectDescription;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -71,11 +71,7 @@ public class LinkingService extends DefaultLinkingService {
   private void registerNamedType(final EObject context, final QualifiedName name, final EClass type) {
     ImportedNamesTypesAdapter adapter = getImportedNamesAdapter(context);
     adapter.getImportedNames().add(name);
-    if (adapter.getImportedNamesTypes().containsKey(name)) {
-      adapter.getImportedNamesTypes().get(name).add(type);
-    } else {
-      adapter.getImportedNamesTypes().put(name, Sets.newHashSet(type));
-    }
+    adapter.getImportedNamesTypes().computeIfAbsent(name, k -> new HashSet<>()).add(type);
   }
 
   /**
@@ -201,8 +197,8 @@ public class LinkingService extends DefaultLinkingService {
   private IEObjectDescription safeGetSingleElement(final EObject context, final EReference ref, final QualifiedName qualifiedLinkName) {
     try {
       return getSingleElement(context, ref, qualifiedLinkName);
-    } catch (Exception e) {  // IllegalCatchCheck OFF
-      LOGGER.error("Exception in getSingleElement for " + qualifiedLinkName.toString() + " at " + EObjectUtil.getLocationString(context), e);
+    } catch (Exception e) { // IllegalCatchCheck OFF
+      LOGGER.error("Exception in getSingleElement for " + qualifiedLinkName.toString() + " at " + EObjectUtil.getLocationString(context), e); //$NON-NLS-1$ //$NON-NLS-2$
     }
     return null;
   }

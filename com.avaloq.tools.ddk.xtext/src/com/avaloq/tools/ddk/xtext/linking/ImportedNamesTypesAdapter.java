@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +24,6 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 
 /**
@@ -75,11 +75,7 @@ public class ImportedNamesTypesAdapter extends ImportedNamesAdapter {
     public IEObjectDescription getSingleElement(final QualifiedName name, final EReference reference) {
       final QualifiedName lowerCase = name.toLowerCase(); // NOPMD UseLocaleWithCaseConversions not a String!
       getImportedNames().add(lowerCase);
-      if (importedNamesTypes.containsKey(lowerCase)) {
-        importedNamesTypes.get(lowerCase).add(reference.getEReferenceType());
-      } else {
-        importedNamesTypes.put(lowerCase, Sets.newHashSet(reference.getEReferenceType()));
-      }
+      importedNamesTypes.computeIfAbsent(lowerCase, k -> new HashSet<>()).add(reference.getEReferenceType());
 
       return delegate.getSingleElement(name);
     }
