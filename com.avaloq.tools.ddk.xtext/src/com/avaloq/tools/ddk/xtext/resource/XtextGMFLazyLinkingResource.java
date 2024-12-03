@@ -87,11 +87,13 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
    * @return returns encoding options from <code>loadOptions</code> if present, otherwise default encoding options.
    */
   private String getEncodingFromOptions(final Map<?, ?> loadOptions) {
-    String resultEncoding = getEncoding();
-    if (loadOptions != null && loadOptions.containsKey(XtextResource.OPTION_ENCODING)) {
-      resultEncoding = (String) loadOptions.get(XtextResource.OPTION_ENCODING);
+    if (loadOptions != null) {
+      String encodingOption = (String) loadOptions.get(XtextResource.OPTION_ENCODING);
+      if (encodingOption != null) {
+        return encodingOption;
+      }
     }
-    return resultEncoding;
+    return getEncoding();
   }
 
   @Override
