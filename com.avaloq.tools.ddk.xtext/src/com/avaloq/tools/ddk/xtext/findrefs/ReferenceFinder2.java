@@ -94,8 +94,7 @@ public class ReferenceFinder2 extends ReferenceFinder {
     List<IReferenceDescription> noRepeats = Lists.newArrayListWithExpectedSize(refs.size());
     for (IReferenceDescription ref : refs) {
       String sourceURI = ref.getSourceEObjectUri().toString();
-      if (!addedRefs.contains(sourceURI)) {
-        addedRefs.add(sourceURI);
+      if (addedRefs.add(sourceURI)) {
         noRepeats.add(ref);
       }
     }

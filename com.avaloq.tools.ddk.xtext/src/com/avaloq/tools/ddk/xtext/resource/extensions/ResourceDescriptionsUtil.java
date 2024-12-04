@@ -21,8 +21,6 @@ import org.eclipse.xtext.resource.IResourceDescriptions;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2.ReferenceMatchPolicy;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -217,17 +215,8 @@ public final class ResourceDescriptionsUtil {
    * @return An {@link Iterable} of all {@link IReferenceDescription}s of all cross-references that reference the given objects.
    */
   public static Iterable<IReferenceDescription> findReferencesToObjects(final Iterable<IResourceDescription> descriptions, final Set<URI> targetObjects) {
-    return Iterables.concat(Iterables.transform(descriptions, new Function<IResourceDescription, Iterable<IReferenceDescription>>() {
-      @Override
-      public Iterable<IReferenceDescription> apply(final IResourceDescription from) {
-        return Iterables.filter(from.getReferenceDescriptions(), new Predicate<IReferenceDescription>() {
-          @Override
-          public boolean apply(final IReferenceDescription input) {
-            return targetObjects.contains(input.getTargetEObjectUri());
-          }
-        });
-      }
-    }));
+    return Iterables.concat(Iterables.transform(descriptions, from -> Iterables.filter(//
+        from.getReferenceDescriptions(), input -> targetObjects.contains(input.getTargetEObjectUri()))));
   }
 
 }
