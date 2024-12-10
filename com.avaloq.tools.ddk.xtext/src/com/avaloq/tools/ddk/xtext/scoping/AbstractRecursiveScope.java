@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +28,6 @@ import org.eclipse.xtext.scoping.impl.AbstractScope;
 import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.resource.Messages;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 
 
 /**
@@ -37,16 +37,14 @@ import com.google.common.collect.Sets;
 public abstract class AbstractRecursiveScope extends AbstractScope {
 
   // CHECKSTYLE:OFF
-  private static boolean DEBUG = true;
+  private static boolean DEBUG = Boolean.getBoolean("com.avaloq.tools.ddk.xtext.scoping.AbstractRecursiveScope.debugCyclicDependency"); //$NON-NLS-1$
   // CHECKSTYLE:ON
-
-  private static final String CYCLIC_DEPENDENCY_MESSAGE = "Cyclic dependency detected for \"{0}\"."; //$NON-NLS-1$
 
   /**
    * Set is used to trace invocations of {@link #getSingleElement(QualifiedName)} and {@link #getAllContentsByEObject(EObject)}.
    * A duplicate insertion indicates an infinite recursion, i.e. it would lead to a stack overflow.
    */
-  private final Set<Object> invocationTrace = Sets.newHashSetWithExpectedSize(4);
+  private Set<Object> invocationTrace;
 
   /**
    * Marker for the null value for the lookups to be able to distinguish unsuccessful lookups
@@ -107,10 +105,19 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
   @Override
   public synchronized Iterable<IEObjectDescription> getAllElements() {
     if (contents == null) {
-      // contents = super.getAllElements(); TODO super eliminates duplicates using a very inefficient algorithm
+      // contents = super.getAllElements() eliminates duplicates using a very inefficient algorithm
       contents = Iterables.concat(getAllLocalElements(), getParent().getAllElements());
     }
     return contents;
+  }
+
+  private void addInvocationTrace(final Object object) {
+    if (invocationTrace == null) {
+      invocationTrace = new HashSet<>();
+    }
+    if (!invocationTrace.add(object)) {
+      throw new IllegalStateException(Messages.bind("Cyclic dependency detected for \"{0}\".", String.valueOf(object))); //$NON-NLS-1$
+    }
   }
 
   @Override
@@ -119,8 +126,8 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
       throw new IllegalArgumentException("Null name in getContentByName"); //$NON-NLS-1$
     }
     try {
-      if (DEBUG && !invocationTrace.add(name)) {
-        throw new IllegalStateException(Messages.bind(CYCLIC_DEPENDENCY_MESSAGE, String.valueOf(name)));
+      if (DEBUG) {
+        addInvocationTrace(name);
       }
       final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name; // NOPMD UseLocaleWithCaseConversions
       IEObjectDescription result = nameCache.get(lookupName);
@@ -153,8 +160,6 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
       }
       if (result == null) {
         nameCache.put(lookupName, NULL_DESCRIPTION);
-        // } else {
-        // ScopeTrace.addTrace(result, getId());
       }
       return result;
     } catch (ConcurrentModificationException e) {
@@ -185,9 +190,10 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
   @Override
   public synchronized IEObjectDescription getSingleElement(final EObject object) {
     try {
-      if (DEBUG && !invocationTrace.add(object)) {
-        throw new IllegalStateException(Messages.bind(CYCLIC_DEPENDENCY_MESSAGE, String.valueOf(object)));
+      if (DEBUG) {
+        addInvocationTrace(object);
       }
+
       final URI key = EcoreUtil.getURI(object);
       IEObjectDescription result = objectCache.get(key);
       if (result == NULL_DESCRIPTION) { // NOPMD CompareObjectsWithEquals
