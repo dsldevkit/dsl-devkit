@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -37,7 +37,6 @@ import org.eclipse.xtext.util.IAcceptor;
 import com.avaloq.tools.ddk.xtext.scoping.ImplicitReferencesAdapter;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 
@@ -59,7 +58,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
   private IReferableElementsUnloader.GenericUnloader unloader;
 
   @Inject
-  private Provider<IModelInferrer> inferrerProvider;
+  private IModelInferrer inferrer;
 
   /**
    * An adapter that holds the mapping between source- and inferred-model elements.
@@ -224,7 +223,6 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
    *          designates the current phase
    */
   protected void inferTargetModel(final EObject eObject, final IAcceptor<EObject> acceptor, final boolean isPreLinkingPhase) {
-    IModelInferrer inferrer = inferrerProvider.get();
     inferrer.inferTargetModel(eObject, acceptor, isPreLinkingPhase);
   }
 
