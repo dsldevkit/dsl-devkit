@@ -53,6 +53,7 @@ public class BuilderWatchdog extends Thread {
   private URI currentURI;
 
   public BuilderWatchdog() {
+    super("builder-watchdog"); //$NON-NLS-1$
     entryTime = System.currentTimeMillis();
     batchTime = System.currentTimeMillis();
   }
