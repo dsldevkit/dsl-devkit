@@ -52,6 +52,7 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
       }
       platform = null;
     }
+    notifyListeners(null, Collections.<IResourceDescription.Delta> emptyList(), false);
   }
 
   @Override
