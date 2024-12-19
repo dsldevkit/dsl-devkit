@@ -45,6 +45,16 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
   }
 
   @Override
+  public void unload() {
+    synchronized (this) {
+      if (platform != null) {
+        platform.close(new NullProgressMonitor());
+      }
+      platform = null;
+    }
+  }
+
+  @Override
   public synchronized IXtextTargetPlatform getPlatform() {
     ensureLoaded();
     return platform;
