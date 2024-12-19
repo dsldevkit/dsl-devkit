@@ -18,6 +18,7 @@ public class CacheConfiguration {
 
   private boolean arraySize;
   private boolean softValues;
+  private boolean weakValues;
   private boolean statistics;
 
   private long cacheSize = UNSET_INT;
@@ -31,6 +32,16 @@ public class CacheConfiguration {
    */
   public CacheConfiguration useSoftValues() {
     softValues = true;
+    return this;
+  }
+
+  /**
+   * All values stored in the cache are wrapped as {@link java.lang.ref.SoftReference WeakReference}, allowing them to be garbage collected as necessary.
+   *
+   * @return the cache configuration
+   */
+  public CacheConfiguration useWeakValues() {
+    weakValues = true;
     return this;
   }
 
@@ -68,6 +79,10 @@ public class CacheConfiguration {
 
   public boolean isSoftValuesEnabled() {
     return softValues;
+  }
+
+  public boolean isWeakValuesEnabled() {
+    return weakValues;
   }
 
   public boolean isStatisticsEnabled() {
