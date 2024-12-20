@@ -114,7 +114,7 @@ public abstract class AbstractSystemTest implements TestStepListener {
       if (e instanceof AssumptionViolatedException) {
         logger.warn(description.getMethodName() + " skipped because of failing assumption: " + e.toString());
       } else {
-        logger.error(description.getMethodName() + " failed.");
+        logger.warn(description.getMethodName() + " failed.");
       }
     }
 
