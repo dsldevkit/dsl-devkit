@@ -142,11 +142,11 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
       while (result == null && contentsIterator.hasNext()) {
         result = contentsIterator.next();
         QualifiedName thisName = result.getName();
-        if (isIgnoreCase()) {
-          thisName = thisName.toLowerCase(); // NOPMD UseLocaleWithCaseConversions
-        }
-        if (!isIgnoreCase() || nameCache.get(thisName) == null) {
+        if (!isIgnoreCase()) {
           nameCache.put(thisName, result);
+        } else {
+          thisName = thisName.toLowerCase(); // NOPMD UseLocaleWithCaseConversions
+          nameCache.putIfAbsent(thisName, result);
         }
         if (!lookupName.equals(thisName)) {
           result = null; // NOPMD NullAssignment
