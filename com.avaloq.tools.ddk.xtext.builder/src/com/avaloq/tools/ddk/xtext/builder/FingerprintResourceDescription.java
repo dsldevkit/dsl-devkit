@@ -43,8 +43,14 @@ public class FingerprintResourceDescription extends AbstractResourceDescription 
 
   public FingerprintResourceDescription(final IResourceDescription original) {
     this.uri = original.getURI();
-    ImmutableList.Builder<IEObjectDescription> builder = ImmutableList.builder();
-    for (IEObjectDescription description : original.getExportedObjects()) {
+    Iterable<IEObjectDescription> objects = original.getExportedObjects();
+    ImmutableList.Builder<IEObjectDescription> builder;
+    if (objects instanceof List list) {
+      builder = ImmutableList.builderWithExpectedSize(list.size());
+    } else {
+      builder = ImmutableList.builder();
+    }
+    for (IEObjectDescription description : objects) {
       builder.add(createLightDescription(description));
     }
     this.exportedObjects = builder.build();
