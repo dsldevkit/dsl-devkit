@@ -31,6 +31,11 @@ public interface IXtextTargetPlatformManager {
   IXtextTargetPlatform getPlatform();
 
   /**
+   * Unloads the currently loaded platform, if any is currently loaded.
+   */
+  void unload();
+
+  /**
    * Add a listener for changes in target platform.
    *
    * @param listener
