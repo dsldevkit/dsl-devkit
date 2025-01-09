@@ -1447,7 +1447,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          the platform to test, may not be {@code null}.
    */
   protected void updateBinaryStorageAvailability(final IXtextTargetPlatform platform) {
-    isBinaryModelStorageAvailable = platform.getBinaryModelStore() != null;
+    isBinaryModelStorageAvailable = platform != null && platform.getBinaryModelStore() != null;
   }
 
 }
