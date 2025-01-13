@@ -18,7 +18,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
@@ -77,39 +76,42 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
       return;
     }
 
-    ArrayList<EObject> idToEObjectMap = Lists.newArrayList(); // NOPMD LooseCoupling
     EObject root = resource.getContents().get(0);
 
-    ProxyCompositeNode rootNode = installProxyNodeModel(root, idToEObjectMap);
-    idToEObjectMap.trimToSize();
-    rootNode.idToEObjectMap = idToEObjectMap;
+    ProxyCompositeNode rootNode = installProxyNodeModel(root);
+    rootNode.idToEObjectMap = Lists.newArrayList();
+    fillIdToEObjectMap(root, rootNode.idToEObjectMap);
+    ((ArrayList<?>) rootNode.idToEObjectMap).trimToSize();
 
     if (resource instanceof XtextResource) {
       ((XtextResource) resource).setParseResult(new ParseResult(root, rootNode, false));
     }
   }
 
-  private static ProxyCompositeNode installProxyNodeModel(final EObject eObject, final List<EObject> map) {
+  private static ProxyCompositeNode installProxyNodeModel(final EObject eObject) {
     ProxyCompositeNode result = new ProxyCompositeNode();
     eObject.eAdapters().add(result);
+    return result;
+  }
+
+  private static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
     map.add(eObject);
 
     FeatureIterator<EObject> iterator = (FeatureIterator<EObject>) eObject.eContents().iterator();
     if (iterator instanceof Filterable filterable) {
       filterable.filter(f -> !f.isTransient());
       for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
-        installProxyNodeModel(it.next(), map);
+        fillIdToEObjectMap(it.next(), map);
       }
     } else {
       // post-filter the iterator, which is extra work
       for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
         EObject child = it.next();
         if (!it.feature().isTransient()) {
-          installProxyNodeModel(child, map);
+          fillIdToEObjectMap(child, map);
         }
       }
     }
-    return result;
   }
 
   /**
@@ -126,9 +128,6 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
       ProxyCompositeNode proxyNode = uninstallProxyNode(root);
       if (proxyNode != null) {
         result = proxyNode.idToEObjectMap;
-        for (TreeIterator<EObject> it = root.eAllContents(); it.hasNext();) {
-          uninstallProxyNode(it.next());
-        }
       }
     }
 
