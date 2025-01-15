@@ -36,10 +36,15 @@ import com.google.inject.name.Named;
 public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   public static final String STORE_NODE_MODEL = "com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade.STORE_NODE_MODEL"; //$NON-NLS-1$
+  public static final String SPLIT_CONTENTS = "com.avaloq.tools.ddk.xtext.resource.persistence.DirectLinkingResourceStorageFacade.SPLIT_CONTENTS"; //$NON-NLS-1$
 
   @Inject(optional = true)
   @Named(value = STORE_NODE_MODEL)
   private final boolean storeNodeModel = true; // NOPMD ImmutableField
+
+  @Inject(optional = true)
+  @Named(value = SPLIT_CONTENTS)
+  private final Boolean splitContents = Boolean.FALSE; // NOPMD ImmutableField
 
   @Inject
   private ITraceSet traceSet;
@@ -123,12 +128,12 @@ public class DirectLinkingResourceStorageFacade extends ResourceStorageFacade {
 
   @Override
   public ResourceStorageLoadable createResourceStorageLoadable(final InputStream in) {
-    return new DirectLinkingResourceStorageLoadable(in, isStoreNodeModel(), traceSet);
+    return new DirectLinkingResourceStorageLoadable(in, isStoreNodeModel(), splitContents, traceSet);
   }
 
   @Override
   public ResourceStorageWritable createResourceStorageWritable(final OutputStream out) {
-    return new DirectLinkingResourceStorageWritable(out, isStoreNodeModel());
+    return new DirectLinkingResourceStorageWritable(out, isStoreNodeModel(), splitContents);
   }
 
 }
