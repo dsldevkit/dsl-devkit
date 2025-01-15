@@ -18,14 +18,21 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
 import org.eclipse.xtext.nodemodel.serialization.SerializationConversionContext;
 import org.eclipse.xtext.resource.persistence.ResourceStorageWritable;
@@ -47,10 +54,12 @@ import com.google.common.io.CharStreams;
 public class DirectLinkingResourceStorageWritable extends ResourceStorageWritable {
 
   private final boolean storeNodeModel;
+  private final boolean splitContents;
 
-  public DirectLinkingResourceStorageWritable(final OutputStream out, final boolean storeNodeModel) {
+  public DirectLinkingResourceStorageWritable(final OutputStream out, final boolean storeNodeModel, final boolean splitContents) {
     super(out, storeNodeModel);
     this.storeNodeModel = storeNodeModel;
+    this.splitContents = splitContents;
   }
 
   @Override
@@ -58,12 +67,29 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     BufferedOutputStream bufferedOutput = new BufferedOutputStream(zipOut);
     try {
       // 1. resource contents
-      zipOut.putNextEntry(new ZipEntry("emf-contents")); //$NON-NLS-1$
-      try {
-        writeContents(resource, bufferedOutput);
-      } finally {
-        bufferedOutput.flush();
-        zipOut.closeEntry();
+      if (!splitContents) {
+        zipOut.putNextEntry(new ZipEntry("emf-contents")); //$NON-NLS-1$
+        try {
+          writeContents(resource, bufferedOutput);
+        } finally {
+          bufferedOutput.flush();
+          zipOut.closeEntry();
+        }
+      } else {
+        zipOut.putNextEntry(new ZipEntry("emf-ast")); //$NON-NLS-1$
+        try {
+          writeSelectedContents(resource, bufferedOutput, 0, 1);
+        } finally {
+          bufferedOutput.flush();
+          zipOut.closeEntry();
+        }
+        zipOut.putNextEntry(new ZipEntry("emf-other-contents")); //$NON-NLS-1$
+        try {
+          writeSelectedContents(resource, bufferedOutput, 1, Integer.MAX_VALUE);
+        } finally {
+          bufferedOutput.flush();
+          zipOut.closeEntry();
+        }
       }
 
       // 2. associations adapter
@@ -169,4 +195,54 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
     }
   }
 
+  private class SelectiveObjectOutputStream extends BinaryResourceImpl.EObjectOutputStream {
+    private final StorageAwareResource storageAwareResource;
+
+    public SelectiveObjectOutputStream(final StorageAwareResource storageAwareResource, final OutputStream outputStream, final Map<?, ?> options) throws IOException {
+      super(outputStream, options);
+      this.storageAwareResource = storageAwareResource;
+    }
+
+    @Override
+    public void writeURI(final URI uri, final String fragment) throws IOException {
+      URI fullURI = uri.appendFragment(fragment);
+      URI portableURI = storageAwareResource.getPortableURIs().toPortableURI(storageAwareResource, fullURI);
+      URI uriToWrite = portableURI == null ? fullURI : portableURI;
+      super.writeURI(uriToWrite.trimFragment(), uriToWrite.fragment());
+    }
+
+    @Override
+    public void saveEObject(final InternalEObject internalEObject, final BinaryResourceImpl.EObjectOutputStream.Check check) throws IOException {
+      beforeSaveEObject(internalEObject, this);
+      super.saveEObject(internalEObject, check);
+      handleSaveEObject(internalEObject, this);
+    }
+
+    public void saveSelectedResourceContents(final Resource resource, final int startIndex, final int objCount) throws IOException {
+      this.resource = resource;
+      URI uri = resource.getURI();
+      if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
+        baseURI = uri;
+      }
+      @SuppressWarnings("unchecked")
+      InternalEList<? extends InternalEObject> internalEList = (InternalEList<? extends InternalEObject>) (InternalEList<?>) resource.getContents();
+
+      int writeCount = Math.min(objCount, internalEList.size() - startIndex);
+      writeCompressedInt(writeCount);
+      for (int i = 0; i < writeCount; ++i) {
+        InternalEObject internalEObject = internalEList.get(i + startIndex);
+        saveEObject(internalEObject, Check.CONTAINER);
+      }
+    }
+
+  }
+
+  protected void writeSelectedContents(final StorageAwareResource storageAwareResource, final OutputStream outputStream, final int startIndex, final int objCount) throws IOException {
+    SelectiveObjectOutputStream out = new SelectiveObjectOutputStream(storageAwareResource, outputStream, Collections.emptyMap());
+    try {
+      out.saveSelectedResourceContents(storageAwareResource, startIndex, objCount);
+    } finally {
+      out.flush();
+    }
+  }
 }

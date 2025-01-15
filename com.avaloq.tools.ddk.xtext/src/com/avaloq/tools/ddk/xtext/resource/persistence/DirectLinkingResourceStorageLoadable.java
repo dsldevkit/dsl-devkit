@@ -65,14 +65,16 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   private static final int SOURCE_BUFFER_CAPACITY = 0x10000; // 64 KiB
 
   private final boolean loadNodeModel;
+  private final boolean splitContents;
 
   private final ITraceSet traceSet;
 
   private ResourceLoadMode mode;
 
-  public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final ITraceSet traceSet) {
+  public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final boolean splitContents, final ITraceSet traceSet) {
     super(in, loadNodeModel);
     this.loadNodeModel = loadNodeModel;
+    this.splitContents = splitContents;
     this.traceSet = traceSet;
   }
 
@@ -115,45 +117,48 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     }
   }
 
-  /**
-   * Utility class to help position the {@link ZipInputStream} when loading a particular {@link Constituent}.
-   */
-  private static class ZipPositioner {
-    private final ZipInputStream zipIn;
-    private Constituent current = Constituent.RESOURCE;
-
-    ZipPositioner(final ZipInputStream zipIn) {
-      this.zipIn = zipIn;
-    }
-
-    public void position(final Constituent target) throws IOException {
-      if (current.ordinal() > target.ordinal()) {
-        throw new IllegalStateException("Out of order access of " + target); //$NON-NLS-1$
-      }
-      for (int i = current.ordinal(); i < target.ordinal(); i++) {
-        zipIn.getNextEntry();
-      }
-      current = target;
-    }
-  }
-
   @Override
   protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
-    ZipPositioner positioner = new ZipPositioner(zipIn);
     // 1. resource contents
-    switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough
-    case SKIP:
-      break;
-    case PROXY:
-      LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
-      // fall through
-    case LOAD:
-      positioner.position(Constituent.CONTENT);
-      readContents(resource, new NonLockingBufferInputStream(zipIn));
-      break;
+    zipIn.getNextEntry();
+    if (!splitContents) {
+      switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough
+      case SKIP:
+        break;
+      case PROXY:
+        LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
+        // fall through
+      case LOAD:
+        readContents(resource, new NonLockingBufferInputStream(zipIn));
+        break;
+      }
+    } else {
+      switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough case SKIP:
+      case SKIP:
+        break;
+      case PROXY:
+        LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
+        // fall through
+      case LOAD:
+        readContents(resource, new NonLockingBufferInputStream(zipIn));
+        break;
+      }
+
+      zipIn.getNextEntry();
+      switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough
+      case SKIP:
+        break;
+      case PROXY:
+        LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
+        // fall through
+      case LOAD:
+        readContents(resource, new NonLockingBufferInputStream(zipIn));
+        break;
+      }
     }
 
     // 2. associations adapter
+    zipIn.getNextEntry();
     switch (mode.instruction(Constituent.ASSOCIATIONS)) {
     case SKIP:
       break;
@@ -161,10 +166,10 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       ProxyModelAssociationsAdapter.install(resource);
       break;
     default:
-      positioner.position(Constituent.ASSOCIATIONS);
       readAssociationsAdapter(resource, new NonLockingBufferInputStream(zipIn));
       break;
     }
+    zipIn.getNextEntry();
 
     // 3. source
     String content = null;
@@ -176,12 +181,12 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       }
       break;
     case LOAD:
-      positioner.position(Constituent.SOURCE);
       StringBuilder out = new StringBuilder(SOURCE_BUFFER_CAPACITY);
       CharStreams.copy(new InputStreamReader(zipIn, StandardCharsets.UTF_8), out);
       content = out.toString();
       break;
     }
+    zipIn.getNextEntry();
 
     // 4. node model
     if (loadNodeModel) {
@@ -192,7 +197,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         ProxyCompositeNode.installProxyNodeModel(resource);
         break;
       case LOAD:
-        positioner.position(Constituent.NODE_MODEL);
         readNodeModel(resource, new NonLockingBufferInputStream(zipIn), content);
         break;
       }
