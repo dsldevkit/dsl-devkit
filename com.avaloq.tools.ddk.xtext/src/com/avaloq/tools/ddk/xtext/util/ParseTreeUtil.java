@@ -18,6 +18,7 @@ import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.RuleCall;
@@ -28,6 +29,7 @@ import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 
+import com.avaloq.tools.ddk.xtext.linking.LazyLinkingResource2;
 import com.google.common.collect.Iterables;
 
 
@@ -128,6 +130,21 @@ public final class ParseTreeUtil {
   }
 
   /**
+   * Ensure the node model loaded.
+   *
+   * @param resource
+   *          the resource
+   */
+  public static void ensureNodeModelLoaded(final Resource resource) {
+    if (resource instanceof LazyLinkingResource2 lazyLinkinResource && lazyLinkinResource.isLoadedFromStorage()) {
+      EObject root = resource.getContents().get(0);
+      if (root != null && NodeModelUtils.getNode(root) instanceof ICompositeNode composite) {
+        composite.getText(); // side-effect on removing com.avaloq.tools.ddk.xtext.resource.persistence.ProxyCompositeNode
+      }
+    }
+  }
+
+  /**
    * Returns the source text assigned to the given feature of the given object. Does not work for multi-valued features. Optionally also converts the source
    * text using the corresponding value converter. Conversion is only performed for keywords, rule call or cross reference grammar rules.
    * <p>
@@ -143,6 +160,11 @@ public final class ParseTreeUtil {
    */
   public static String getParsedStringUnchecked(final EObject object, final EStructuralFeature feature, final boolean convert) {
     INode node = Iterables.getFirst(NodeModelUtils.findNodesForFeature(object, feature), null);
+
+    if (node == null) {
+      ensureNodeModelLoaded(object.eResource());
+      node = Iterables.getFirst(NodeModelUtils.findNodesForFeature(object, feature), null);
+    }
     if (node != null) {
       if (convert) {
         final LazyLinkingResource res = (LazyLinkingResource) object.eResource();
