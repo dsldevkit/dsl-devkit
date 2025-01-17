@@ -19,11 +19,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
 import org.eclipse.emf.ecore.util.EContentsEList.Filterable;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.BidiIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterator;
@@ -43,7 +45,6 @@ import org.eclipse.xtext.util.ITextRegion;
 import org.eclipse.xtext.util.ITextRegionWithLineInformation;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.collect.Lists;
 
 
@@ -172,7 +173,8 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
         }
         ICompositeNode compositeNode = NodeModelUtils.getNode(semanticElement);
         if (!(compositeNode instanceof CompositeNode)) {
-          throw new IllegalStateException("No composite node found for " + EObjectUtil.getLocationString(semanticElement) + ". Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$
+          URI uri = EcoreUtil.getURI(semanticElement);
+          throw new IllegalStateException("No composite node found for " + uri.toString() + " (" + semanticElement + "). Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         delegate = (CompositeNode) compositeNode;
       }
