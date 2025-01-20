@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.resource;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -19,7 +20,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
 import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider;
-import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 
 
@@ -42,7 +42,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   @Inject
   private ShortFragmentProvider shortFragmentProvider;
 
-  private final Map<Object, Object> eClassToCaseSensitive = Maps.newHashMap();
+  private static final Map<Object, Boolean> ECLASS_TO_CASE_SENSITIVE = new ConcurrentHashMap<>();
 
   /**
    * Computes a segment of the fragment with a selector for the given object and appends it to the given {@link StringBuilder}.
@@ -124,8 +124,8 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     return appendFragmentSegmentFallback(object, builder);
   }
 
-  private Boolean isCaseSensitive(final EClass eClass) {
-    return (Boolean) eClassToCaseSensitive.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
+  private static Boolean isCaseSensitive(final EClass eClass) {
+    return ECLASS_TO_CASE_SENSITIVE.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
   }
 
   @Override
