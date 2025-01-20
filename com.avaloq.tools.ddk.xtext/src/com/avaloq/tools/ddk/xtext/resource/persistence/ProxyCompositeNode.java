@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
 import org.eclipse.emf.ecore.util.EContentsEList.Filterable;
@@ -174,12 +175,36 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
         ICompositeNode compositeNode = NodeModelUtils.getNode(semanticElement);
         if (!(compositeNode instanceof CompositeNode)) {
           URI uri = EcoreUtil.getURI(semanticElement);
-          throw new IllegalStateException("No composite node found for " + uri.toString() + " (" + semanticElement + "). Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          throw new IllegalStateException("No composite node found for " + uri.toString() + " (" + toString(semanticElement) + "). Found " + compositeNode); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         delegate = (CompositeNode) compositeNode;
       }
     }
     return delegate;
+  }
+
+  /**
+   * A safe to string method that does not rely on possible custom implementations based on {@link org.eclipse.emf.ecore.impl.BasicEObjectImpl#toString()}.
+   * <p>
+   * Some custom implementations use the node model to give extra information,
+   * and this does not work when the node model is being replaced.
+   * </p>
+   *
+   * @param eObject
+   *          the EObject
+   * @return the string
+   */
+  private String toString(final EObject eObject) {
+    StringBuilder result = new StringBuilder(eObject.getClass().getName());
+    result.append('@');
+    result.append(Integer.toHexString(hashCode()));
+
+    if (eObject.eIsProxy() && eObject instanceof InternalEObject internal) {
+      result.append(" (eProxyURI: "); //$NON-NLS-1$
+      result.append(internal.eProxyURI());
+      result.append(')');
+    }
+    return result.toString();
   }
 
   @Override
