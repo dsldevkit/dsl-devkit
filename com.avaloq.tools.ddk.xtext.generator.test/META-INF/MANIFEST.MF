@@ -7,7 +7,7 @@ Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.xtext.generator
-Require-Bundle: com.avaloq.tools.ddk.test.core, 
+Require-Bundle: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.test.core,
  org.eclipse.xtend,
@@ -16,7 +16,8 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.junit,
  org.mockito,
  com.avaloq.tools.ddk.xtext.ui,
- org.eclipse.xtext.xtext.generator
+ org.eclipse.xtext.xtext.generator,
+ com.avaloq.tools.ddk
 Export-Package: com.avaloq.tools.ddk.xtext.generator.test.generator
 Import-Package: org.eclipse.xtext.ui.resource
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator.test
