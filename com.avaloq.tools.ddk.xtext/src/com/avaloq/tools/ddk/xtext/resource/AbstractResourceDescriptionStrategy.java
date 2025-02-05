@@ -135,22 +135,25 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public boolean createReferenceDescriptions(final EObject from, final URI exportedContainerURI, final IAcceptor<IReferenceDescription> acceptor) {
-    final EList<EReference> references = from.eClass().getEAllReferences();
-    for (EReference eReference : references) {
+    for (EReference eReference : from.eClass().getEAllReferences()) {
       if (isIndexable(from, eReference)) {
         final Object val = from.eGet(eReference, false);
         if (val != null) {
           if (eReference.isMany()) {
-            final InternalEList<EObject> list = (InternalEList<EObject>) val;
-            for (int i = 0; i < list.size(); i++) {
-              EObject to = list.basicGet(i);
-              acceptResolvedReference(from, to, eReference, exportedContainerURI, i, acceptor);
+            @SuppressWarnings("unchecked")
+            final EList<EObject> list = (EList<EObject>) val;
+            if (val instanceof InternalEList internalList) {
+              for (int i = 0; i < list.size(); i++) {
+                acceptResolvedReference(from, (EObject) internalList.basicGet(i), eReference, exportedContainerURI, i, acceptor);
+              }
+            } else {
+              for (int i = 0; i < list.size(); i++) {
+                acceptResolvedReference(from, list.get(i), eReference, exportedContainerURI, i, acceptor);
+              }
             }
           } else {
-            final EObject to = (EObject) val;
-            acceptResolvedReference(from, to, eReference, exportedContainerURI, -1, acceptor);
+            acceptResolvedReference(from, (EObject) val, eReference, exportedContainerURI, -1, acceptor);
           }
         }
       }
