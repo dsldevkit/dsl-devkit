@@ -231,9 +231,5 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
    *          the resource
    * @return the set of types, or {@code null} if all types are allowed (or if no information available).
    */
-  public Set<EClass> getExportedEClasses(final Resource resource) {
-    // TODO: once ASMD is regenerated, make this operation abstract.
-    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
-  }
-
+  public abstract Set<EClass> getExportedEClasses(Resource resource);
 }
