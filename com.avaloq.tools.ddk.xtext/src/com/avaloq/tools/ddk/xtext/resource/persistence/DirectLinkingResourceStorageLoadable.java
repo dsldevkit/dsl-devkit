@@ -58,6 +58,81 @@ import com.google.common.io.CharStreams;
  */
 // CHECKSTYLE:COUPLING-OFF
 public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadable {
+  /*
+   * Implementation is copied over from org.eclipse.xtext.resource.persistence.ResourceStorageLoadable
+   * Differences:
+   * - overrides 'loadFeatureValue' to add some error logging
+   * - count the number of EObjects added to the Resource
+   */
+  private final class EObjectInputStreamExtension extends BinaryResourceImpl.EObjectInputStream {
+    private int objectCount;
+
+    private EObjectInputStreamExtension(final InputStream inputStream, final Map<?, ?> options) throws IOException {
+      super(inputStream, options);
+    }
+
+    public int eObjectCount() {
+      return objectCount;
+    }
+
+    @Override
+    public int readCompressedInt() throws IOException {
+      // HACK! null resource set, to avoid usage of resourceSet's package registry
+      resourceSet = null;
+      return super.readCompressedInt();
+    }
+
+    @Override
+    public InternalEObject loadEObject() throws IOException {
+      final InternalEObject result = super.loadEObject();
+      handleLoadEObject(result, this);
+      objectCount++;
+      return result;
+    }
+
+    @Override
+    protected void loadFeatureValue(final InternalEObject internalEObject, final EStructuralFeatureData eStructuralFeatureData) throws IOException {
+      try {
+        super.loadFeatureValue(internalEObject, eStructuralFeatureData);
+        // CHECKSTYLE:OFF
+      } catch (Exception e) {
+        StringBuilder infoMessage = new StringBuilder(100);
+        // CHECKSTYLE:ON
+        infoMessage.append("Failed to load feature's value. Owner: ").append(internalEObject.eClass()); //$NON-NLS-1$
+        if (eStructuralFeatureData.eStructuralFeature != null) {
+          infoMessage.append(", feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
+        }
+        LOG.info(infoMessage);
+        throw e;
+      }
+    }
+
+    @Override
+    public void loadResource(final Resource resource) throws IOException {
+      this.resource = resource;
+      resourceSet = resource.getResourceSet();
+      URI uri = resource.getURI();
+      if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
+        baseURI = uri;
+      }
+      boolean installDerivedState = ResourceSetOptions.installDerivedState(resourceSet); // must be read before readCompressedInt, see HACK comment inside
+                                                                                         // readCompressedInt
+      int size = readCompressedInt();
+      if (!installDerivedState && size == 2) { // the InfererenceContainer is always in the second slot
+        size--;
+      }
+      InternalEObject[] values = allocateInternalEObjectArray(size);
+      for (int i = 0; i < size; ++i) {
+        values[i] = loadEObject();
+      }
+      internalEObjectList.setData(size, values);
+      @SuppressWarnings("unchecked")
+      InternalEList<InternalEObject> internalEObjects = (InternalEList<InternalEObject>) (InternalEList<?>) resource.getContents();
+      internalEObjects.addAllUnique(internalEObjectList);
+      recycle(values);
+    }
+  }
+
   // CHECKSTYLE:COUPLING-ON
 
   private static final Logger LOG = LogManager.getLogger(DirectLinkingResourceStorageLoadable.class);
@@ -70,6 +145,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   private final ITraceSet traceSet;
 
   private ResourceLoadMode mode;
+
+  private int eObjectCount;
 
   public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final boolean splitContents, final ITraceSet traceSet) {
     super(in, loadNodeModel);
@@ -194,7 +271,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       case SKIP:
         break;
       case PROXY:
-        ProxyCompositeNode.installProxyNodeModel(resource);
+        ProxyCompositeNode.installProxyNodeModel(resource, eObjectCount);
         break;
       case LOAD:
         readNodeModel(resource, new NonLockingBufferInputStream(zipIn), content);
@@ -300,68 +377,9 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
   @Override
   protected void readContents(final StorageAwareResource resource, final InputStream inputStream) throws IOException {
-    // Implementation is copied over from org.eclipse.xtext.resource.persistence.ResourceStorageLoadable
-    // The only difference is that the stream overrides 'loadFeatureValue' to add some error logging
-    final BinaryResourceImpl.EObjectInputStream in = new BinaryResourceImpl.EObjectInputStream(inputStream, Collections.emptyMap()) {
-
-      @Override
-      public int readCompressedInt() throws IOException {
-        // HACK! null resource set, to avoid usage of resourceSet's package registry
-        resourceSet = null;
-        return super.readCompressedInt();
-      }
-
-      @Override
-      public InternalEObject loadEObject() throws IOException {
-        final InternalEObject result = super.loadEObject();
-        handleLoadEObject(result, this);
-        return result;
-      }
-
-      @Override
-      protected void loadFeatureValue(final InternalEObject internalEObject, final EStructuralFeatureData eStructuralFeatureData) throws IOException {
-        try {
-          super.loadFeatureValue(internalEObject, eStructuralFeatureData);
-          // CHECKSTYLE:OFF
-        } catch (Exception e) {
-          StringBuilder infoMessage = new StringBuilder(100);
-          // CHECKSTYLE:ON
-          infoMessage.append("Failed to load feature's value. Owner: ").append(internalEObject.eClass()); //$NON-NLS-1$
-          if (eStructuralFeatureData.eStructuralFeature != null) {
-            infoMessage.append(", feature name: ").append(eStructuralFeatureData.eStructuralFeature.getName()); //$NON-NLS-1$
-          }
-          LOG.info(infoMessage);
-          throw e;
-        }
-      }
-
-      @Override
-      public void loadResource(final Resource resource) throws IOException {
-        this.resource = resource;
-        resourceSet = resource.getResourceSet();
-        URI uri = resource.getURI();
-        if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
-          baseURI = uri;
-        }
-        boolean installDerivedState = ResourceSetOptions.installDerivedState(resourceSet); // must be read before readCompressedInt, see HACK comment inside
-                                                                                           // readCompressedInt
-        int size = readCompressedInt();
-        if (!installDerivedState && size == 2) { // the InfererenceContainer is always in the second slot
-          size--;
-        }
-        InternalEObject[] values = allocateInternalEObjectArray(size);
-        for (int i = 0; i < size; ++i) {
-          values[i] = loadEObject();
-        }
-        internalEObjectList.setData(size, values);
-        @SuppressWarnings("unchecked")
-        InternalEList<InternalEObject> internalEObjects = (InternalEList<InternalEObject>) (InternalEList<?>) resource.getContents();
-        internalEObjects.addAllUnique(internalEObjectList);
-        recycle(values);
-      }
-
-    };
+    final EObjectInputStreamExtension in = new EObjectInputStreamExtension(inputStream, Collections.emptyMap());
     in.loadResource(resource);
+    eObjectCount = in.eObjectCount();
   }
 
 }

@@ -45,7 +45,6 @@ import org.eclipse.xtext.util.ITextRegion;
 import org.eclipse.xtext.util.ITextRegionWithLineInformation;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
-import com.google.common.collect.Lists;
 
 
 /**
@@ -70,8 +69,10 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
    *
    * @param resource
    *          resource, must not be {@code null}
+   * @param expectedEObjectCount
+   *          the expected EObject count of the resource
    */
-  static void installProxyNodeModel(final Resource resource) {
+  static void installProxyNodeModel(final Resource resource, final int expectedEObjectCount) {
     if (resource.getContents().isEmpty()) {
       return;
     }
@@ -79,9 +80,8 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
     EObject root = resource.getContents().get(0);
 
     ProxyCompositeNode rootNode = installProxyNodeModel(root);
-    rootNode.idToEObjectMap = Lists.newArrayList();
+    rootNode.idToEObjectMap = new ArrayList<>(expectedEObjectCount);
     fillIdToEObjectMap(root, rootNode.idToEObjectMap);
-    ((ArrayList<?>) rootNode.idToEObjectMap).trimToSize();
 
     if (resource instanceof XtextResource) {
       ((XtextResource) resource).setParseResult(new ParseResult(root, rootNode, false));
