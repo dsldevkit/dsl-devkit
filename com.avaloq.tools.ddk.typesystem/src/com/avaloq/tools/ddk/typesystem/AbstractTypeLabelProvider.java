@@ -24,12 +24,19 @@ import com.avaloq.tools.ddk.typesystem.typemodel.IType;
  */
 public abstract class AbstractTypeLabelProvider implements ITypeLabelProvider {
 
-  private final PolymorphicDispatcher<String> textDispatcher = new PolymorphicDispatcher<String>("text", 1, 1, Collections.singletonList(this), new ErrorHandler<String>() { //$NON-NLS-1$
-    @Override
-    public String handle(final Object[] params, final Throwable e) {
-      return handleTextError(params, e);
+  private PolymorphicDispatcher<String> textDispatcher;
+
+  private PolymorphicDispatcher<String> getPolymorphicDispatcher() {
+    if (textDispatcher == null) {
+      textDispatcher = new PolymorphicDispatcher<String>("text", 1, 1, Collections.singletonList(this), new ErrorHandler<String>() { //$NON-NLS-1$
+        @Override
+        public String handle(final Object[] params, final Throwable e) {
+          return handleTextError(params, e);
+        }
+      });
     }
-  });
+    return textDispatcher;
+  }
 
   /**
    * Handles error exceptions from polymorphic text dispatcher.
@@ -49,7 +56,7 @@ public abstract class AbstractTypeLabelProvider implements ITypeLabelProvider {
 
   @Override
   public String getText(final IType type) {
-    return textDispatcher.invoke(type);
+    return getPolymorphicDispatcher().invoke(type);
   }
 
   /**
