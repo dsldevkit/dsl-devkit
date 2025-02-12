@@ -42,7 +42,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   @Inject
   private ShortFragmentProvider shortFragmentProvider;
 
-  private static final Map<Object, Boolean> ECLASS_TO_CASE_SENSITIVE = new ConcurrentHashMap<>();
+  private static final Map<EClass, Boolean> ECLASS_TO_CASE_SENSITIVE = new ConcurrentHashMap<>();
 
   /**
    * Computes a segment of the fragment with a selector for the given object and appends it to the given {@link StringBuilder}.
@@ -125,7 +125,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   }
 
   private static Boolean isCaseSensitive(final EClass eClass) {
-    return ECLASS_TO_CASE_SENSITIVE.computeIfAbsent(eClass, k -> eClass.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
+    return ECLASS_TO_CASE_SENSITIVE.computeIfAbsent(eClass, k -> k.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
   }
 
   @Override
