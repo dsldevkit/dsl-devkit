@@ -17,9 +17,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipInputStream;
 
 import org.apache.logging.log4j.LogManager;
@@ -65,14 +68,14 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    * - count the number of EObjects added to the Resource
    */
   private final class EObjectInputStreamExtension extends BinaryResourceImpl.EObjectInputStream {
-    private int objectCount;
+    private static final Logger LOGGER = LogManager.getLogger(EObjectInputStreamExtension.class);
+
+    private boolean recordObjects;
+
+    private final Set<EObject> isContained = new HashSet<>();
 
     private EObjectInputStreamExtension(final InputStream inputStream, final Map<?, ?> options) throws IOException {
       super(inputStream, options);
-    }
-
-    public int eObjectCount() {
-      return objectCount;
     }
 
     @Override
@@ -86,14 +89,103 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     public InternalEObject loadEObject() throws IOException {
       final InternalEObject result = super.loadEObject();
       handleLoadEObject(result, this);
-      objectCount++;
       return result;
+    }
+
+    private InternalEObject loadContainedObject() throws IOException {
+      int previousSize = eObjectList.size();
+
+      InternalEObject eObject = loadEObject();
+
+      int newSize = eObjectList.size();
+      if (newSize > previousSize && eObjectList.get(previousSize) == eObject) { // NOPMD
+        isContained.add(eObject);
+      } else {
+        recordObjects = false;
+      }
+      return eObject;
+    }
+
+    public void loadContainedEObjects(final InternalEList<InternalEObject> internalEObjects) throws IOException {
+      // Read all the values into an array.
+      //
+      int size = readCompressedInt();
+      InternalEObject[] values = allocateInternalEObjectArray(size);
+      for (int i = 0; i < size; ++i) {
+        values[i] = loadContainedObject(); // changed
+      }
+      int existingSize = internalEObjects.size();
+
+      // If the list is empty, we need to add all the objects,
+      // otherwise, the reference is bidirectional and the list is at least partially populated.
+      //
+      if (existingSize == 0) {
+        internalEObjectList.setData(size, values);
+        internalEObjects.addAllUnique(0, internalEObjectList);
+      } else {
+        InternalEObject[] existingValues = allocateInternalEObjectArray(existingSize);
+        internalEObjects.basicToArray(existingValues);
+        int[] indices = allocateIntArray(existingSize);
+        int duplicateCount = 0;
+        LOOP: for (int i = 0; i < size; ++i) {
+          InternalEObject internalEObject = values[i];
+          for (int j = 0, count = duplicateCount; j < existingSize; ++j) {
+            InternalEObject existingInternalEObject = existingValues[j];
+            if (existingInternalEObject == internalEObject) {
+              if (duplicateCount != count) {
+                internalEObjects.move(duplicateCount, count);
+              }
+              indices[duplicateCount] = i;
+              ++duplicateCount;
+              existingValues[j] = null;
+              continue LOOP;
+            } else if (existingInternalEObject != null) {
+              ++count;
+            }
+          }
+
+          values[i - duplicateCount] = internalEObject;
+        }
+
+        size -= existingSize;
+        internalEObjectList.setData(size, values);
+        internalEObjects.addAllUnique(0, internalEObjectList);
+        for (int i = 0; i < existingSize; ++i) {
+          int newPosition = indices[i];
+          int oldPosition = size + i;
+          if (newPosition != oldPosition) {
+            internalEObjects.move(newPosition, oldPosition);
+          }
+        }
+        recycle(existingValues);
+        recycle(indices);
+      }
+      recycle(values);
     }
 
     @Override
     protected void loadFeatureValue(final InternalEObject internalEObject, final EStructuralFeatureData eStructuralFeatureData) throws IOException {
       try {
-        super.loadFeatureValue(internalEObject, eStructuralFeatureData);
+        if (recordObjects) {
+          switch (eStructuralFeatureData.kind) {
+          case EOBJECT_CONTAINMENT:
+          case EOBJECT_CONTAINMENT_PROXY_RESOLVING: {
+            internalEObject.eSet(eStructuralFeatureData.featureID, loadContainedObject());
+            break;
+          }
+          case EOBJECT_CONTAINMENT_LIST:
+          case EOBJECT_CONTAINMENT_LIST_PROXY_RESOLVING: {
+            @SuppressWarnings("unchecked")
+            InternalEList<InternalEObject> internalEList = (InternalEList<InternalEObject>) internalEObject.eGet(eStructuralFeatureData.featureID, false, true);
+            loadContainedEObjects(internalEList);
+            break;
+          }
+          default:
+            super.loadFeatureValue(internalEObject, eStructuralFeatureData);
+          }
+        } else {
+          super.loadFeatureValue(internalEObject, eStructuralFeatureData);
+        }
         // CHECKSTYLE:OFF
       } catch (Exception e) {
         StringBuilder infoMessage = new StringBuilder(100);
@@ -107,8 +199,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       }
     }
 
-    @Override
-    public void loadResource(final Resource resource) throws IOException {
+    private void loadResource(final Resource resource, final ArrayList<EObject> firstContainerObjects) throws IOException { // NOPMD LooseCoupling
       this.resource = resource;
       resourceSet = resource.getResourceSet();
       URI uri = resource.getURI();
@@ -123,7 +214,21 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       }
       InternalEObject[] values = allocateInternalEObjectArray(size);
       for (int i = 0; i < size; ++i) {
+        recordObjects = i == 0;
         values[i] = loadEObject();
+        if (i == 0) {
+          if (recordObjects) {
+            isContained.add(values[i]);
+            firstContainerObjects.ensureCapacity(isContained.size());
+            for (InternalEObject eObject : eObjectList) {
+              if (isContained.contains(eObject)) {
+                firstContainerObjects.add(eObject);
+              }
+            }
+          } else {
+            LOGGER.info("Out of order feature while loading the proxy node model for " + resource.getURI()); //$NON-NLS-1$
+          }
+        }
       }
       internalEObjectList.setData(size, values);
       @SuppressWarnings("unchecked")
@@ -146,7 +251,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
   private ResourceLoadMode mode;
 
-  private int eObjectCount;
+  private ArrayList<EObject> objects; // NOPMD LooseCoupling
 
   public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final boolean splitContents, final ITraceSet traceSet) {
     super(in, loadNodeModel);
@@ -271,7 +376,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       case SKIP:
         break;
       case PROXY:
-        ProxyCompositeNode.installProxyNodeModel(resource, eObjectCount);
+        ProxyCompositeNode.installProxyNodeModel(resource, objects);
         break;
       case LOAD:
         readNodeModel(resource, new NonLockingBufferInputStream(zipIn), content);
@@ -378,8 +483,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   @Override
   protected void readContents(final StorageAwareResource resource, final InputStream inputStream) throws IOException {
     final EObjectInputStreamExtension in = new EObjectInputStreamExtension(inputStream, Collections.emptyMap());
-    in.loadResource(resource);
-    eObjectCount = in.eObjectCount();
+    objects = new ArrayList<>();
+    in.loadResource(resource, objects);
   }
 
 }
