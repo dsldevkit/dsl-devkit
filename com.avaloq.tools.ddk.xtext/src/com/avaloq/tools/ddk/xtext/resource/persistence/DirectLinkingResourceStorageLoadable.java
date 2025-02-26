@@ -65,14 +65,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    * - count the number of EObjects added to the Resource
    */
   private final class EObjectInputStreamExtension extends BinaryResourceImpl.EObjectInputStream {
-    private int objectCount;
-
     private EObjectInputStreamExtension(final InputStream inputStream, final Map<?, ?> options) throws IOException {
       super(inputStream, options);
-    }
-
-    public int eObjectCount() {
-      return objectCount;
     }
 
     @Override
@@ -86,7 +80,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     public InternalEObject loadEObject() throws IOException {
       final InternalEObject result = super.loadEObject();
       handleLoadEObject(result, this);
-      objectCount++;
       return result;
     }
 
@@ -145,8 +138,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   private final ITraceSet traceSet;
 
   private ResourceLoadMode mode;
-
-  private int eObjectCount;
 
   public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final boolean splitContents, final ITraceSet traceSet) {
     super(in, loadNodeModel);
@@ -271,7 +262,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       case SKIP:
         break;
       case PROXY:
-        ProxyCompositeNode.installProxyNodeModel(resource, eObjectCount);
+        ProxyCompositeNode.installProxyNodeModel(resource);
         break;
       case LOAD:
         readNodeModel(resource, new NonLockingBufferInputStream(zipIn), content);
@@ -379,7 +370,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   protected void readContents(final StorageAwareResource resource, final InputStream inputStream) throws IOException {
     final EObjectInputStreamExtension in = new EObjectInputStreamExtension(inputStream, Collections.emptyMap());
     in.loadResource(resource);
-    eObjectCount = in.eObjectCount();
   }
 
 }

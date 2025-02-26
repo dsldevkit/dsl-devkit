@@ -37,6 +37,7 @@ import org.eclipse.xtext.nodemodel.impl.CompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.nodemodel.util.NodeTreeIterator;
 import org.eclipse.xtext.nodemodel.util.ReversedBidiTreeIterable;
+import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.parser.ParseResult;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
@@ -53,7 +54,7 @@ import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
  * To conserve memory this class implements the primary interfaces rather than extending an implementation like
  * {@link org.eclipse.xtext.nodemodel.impl.CompositeNodeWithSemanticElement}.
  */
-class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Adapter {
+public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Adapter {
 
   /** The root node proxy stores the original EObject ID map so that it can be used when installing the real node model. */
   private List<EObject> idToEObjectMap;
@@ -69,29 +70,35 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
    *
    * @param resource
    *          resource, must not be {@code null}
-   * @param expectedEObjectCount
-   *          the expected EObject count of the resource
    */
-  static void installProxyNodeModel(final Resource resource, final int expectedEObjectCount) {
+  static void installProxyNodeModel(final Resource resource) {
     if (resource.getContents().isEmpty()) {
       return;
     }
 
-    EObject root = resource.getContents().get(0);
-
-    ProxyCompositeNode rootNode = installProxyNodeModel(root);
-    rootNode.idToEObjectMap = new ArrayList<>(expectedEObjectCount);
-    fillIdToEObjectMap(root, rootNode.idToEObjectMap);
-
-    if (resource instanceof XtextResource) {
-      ((XtextResource) resource).setParseResult(new ParseResult(root, rootNode, false));
+    if (resource instanceof XtextResource xtextResource) {
+      EObject root = resource.getContents().get(0);
+      xtextResource.setParseResult(new ParseResult(root, createRootNode(root), false));
     }
   }
 
-  private static ProxyCompositeNode installProxyNodeModel(final EObject eObject) {
+  private static ProxyCompositeNode createRootNode(final EObject eObject) {
     ProxyCompositeNode result = new ProxyCompositeNode();
     eObject.eAdapters().add(result);
     return result;
+  }
+
+  /**
+   * Fill id to EOject map.
+   *
+   * @param parseResult
+   *          the {@link IParseResult}
+   */
+  public static void fillIdToEObjectMap(final IParseResult parseResult) {
+    if (parseResult.getRootNode() instanceof ProxyCompositeNode rootNode && rootNode.idToEObjectMap == null) {
+      rootNode.idToEObjectMap = new ArrayList<>();
+      fillIdToEObjectMap(parseResult.getRootASTElement(), rootNode.idToEObjectMap);
+    }
   }
 
   private static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
