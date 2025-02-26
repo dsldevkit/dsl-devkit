@@ -72,7 +72,7 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
    * @param expectedEObjectCount
    *          the expected EObject count of the resource
    */
-  static void installProxyNodeModel(final Resource resource, final int expectedEObjectCount) {
+  static void installProxyNodeModel(final Resource resource, final List<EObject> objects) {
     if (resource.getContents().isEmpty()) {
       return;
     }
@@ -80,9 +80,24 @@ class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INode>, Ada
     EObject root = resource.getContents().get(0);
 
     ProxyCompositeNode rootNode = installProxyNodeModel(root);
-    rootNode.idToEObjectMap = new ArrayList<>(expectedEObjectCount);
-    fillIdToEObjectMap(root, rootNode.idToEObjectMap);
-
+    List<EObject> other = new ArrayList<>();
+    fillIdToEObjectMap(root, other);
+    if (!objects.isEmpty() && !other.equals(objects)) {
+      if (other.size() != objects.size()) {
+        System.err.println("Differences in size " + resource.getURI() + " " + other.size() + " vs " + objects.size()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      } else {
+        for (int i = 0; i < other.size(); i++) {
+          if (!other.get(i).equals(objects.get(i))) {
+            System.err.println("Differences in element" + i); //$NON-NLS-1$
+          }
+        }
+      }
+    }
+    if (objects.isEmpty()) {
+      rootNode.idToEObjectMap = other;
+    } else {
+      rootNode.idToEObjectMap = objects;
+    }
     if (resource instanceof XtextResource) {
       ((XtextResource) resource).setParseResult(new ParseResult(root, rootNode, false));
     }
