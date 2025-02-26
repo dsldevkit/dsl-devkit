@@ -23,8 +23,6 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EContentsEList.FeatureIterator;
-import org.eclipse.emf.ecore.util.EContentsEList.Filterable;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.BidiIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterable;
@@ -97,27 +95,7 @@ public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INod
   public static void fillIdToEObjectMap(final IParseResult parseResult) {
     if (parseResult.getRootNode() instanceof ProxyCompositeNode rootNode && rootNode.idToEObjectMap == null) {
       rootNode.idToEObjectMap = new ArrayList<>();
-      fillIdToEObjectMap(parseResult.getRootASTElement(), rootNode.idToEObjectMap);
-    }
-  }
-
-  private static void fillIdToEObjectMap(final EObject eObject, final List<EObject> map) {
-    map.add(eObject);
-
-    FeatureIterator<EObject> iterator = (FeatureIterator<EObject>) eObject.eContents().iterator();
-    if (iterator instanceof Filterable filterable) {
-      filterable.filter(f -> !f.isTransient());
-      for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
-        fillIdToEObjectMap(it.next(), map);
-      }
-    } else {
-      // post-filter the iterator, which is extra work
-      for (FeatureIterator<EObject> it = iterator; it.hasNext();) {
-        EObject child = it.next();
-        if (!it.feature().isTransient()) {
-          fillIdToEObjectMap(child, map);
-        }
-      }
+      ProxyAwareSerializationConversionContext.fillIdToEObjectMap(parseResult.getRootASTElement(), rootNode.idToEObjectMap);
     }
   }
 
