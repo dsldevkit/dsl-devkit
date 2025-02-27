@@ -461,4 +461,9 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
 
   }
 
+  @Override
+  public Adapter createModificationTrackingAdapter() {
+    return super.createModificationTrackingAdapter();
+  }
+
 }

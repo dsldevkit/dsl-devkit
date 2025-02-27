@@ -24,6 +24,7 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -38,6 +39,7 @@ import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
 import com.avaloq.tools.ddk.tracing.ITraceSet;
+import com.avaloq.tools.ddk.xtext.linking.LazyLinkingResource2;
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
 import com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions;
 import com.avaloq.tools.ddk.xtext.resource.persistence.ResourceLoadMode.Constituent;
@@ -58,6 +60,8 @@ import com.google.common.io.CharStreams;
  */
 // CHECKSTYLE:COUPLING-OFF
 public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadable {
+  public static final String OPTION_TRACK_MODIFICATIONS = "DirectLinkingResourceStorageLoadable#trackModifications"; //$NON-NLS-1$
+
   /*
    * Implementation is copied over from org.eclipse.xtext.resource.persistence.ResourceStorageLoadable
    * Differences:
@@ -65,8 +69,11 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    * - count the number of EObjects added to the Resource
    */
   private final class EObjectInputStreamExtension extends BinaryResourceImpl.EObjectInputStream {
-    private EObjectInputStreamExtension(final InputStream inputStream, final Map<?, ?> options) throws IOException {
+    private final Adapter modificationTrackingAdapter;
+
+    private EObjectInputStreamExtension(final InputStream inputStream, final Map<?, ?> options, final Adapter modificationTrackingAdapter) throws IOException {
       super(inputStream, options);
+      this.modificationTrackingAdapter = modificationTrackingAdapter;
     }
 
     @Override
@@ -74,6 +81,12 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       // HACK! null resource set, to avoid usage of resourceSet's package registry
       resourceSet = null;
       return super.readCompressedInt();
+    }
+
+    protected void handleLoadEObject(final InternalEObject loaded, final BinaryResourceImpl.EObjectInputStream input) throws IOException {
+      if (modificationTrackingAdapter != null) {
+        loaded.eAdapters().add(modificationTrackingAdapter);
+      }
     }
 
     @Override
@@ -368,8 +381,18 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
 
   @Override
   protected void readContents(final StorageAwareResource resource, final InputStream inputStream) throws IOException {
-    final EObjectInputStreamExtension in = new EObjectInputStreamExtension(inputStream, Collections.emptyMap());
+    Adapter modificationTrackingAdapter = null;
+    Object trackModification = resource.getResourceSet().getLoadOptions().get(OPTION_TRACK_MODIFICATIONS);
+    // LazyLinkingResource2 can avoid one model traversal by installing the adapter during EObjects creation
+    if (resource instanceof LazyLinkingResource2 lazyLinkingResource && trackModification instanceof Boolean bool && bool) {
+      modificationTrackingAdapter = lazyLinkingResource.createModificationTrackingAdapter();
+    }
+
+    final EObjectInputStreamExtension in = new EObjectInputStreamExtension(inputStream, Collections.emptyMap(), modificationTrackingAdapter);
     in.loadResource(resource);
+    if (!(resource instanceof LazyLinkingResource2) && trackModification instanceof Boolean bool && bool) {
+      resource.setTrackingModification(true);
+    }
   }
 
 }
