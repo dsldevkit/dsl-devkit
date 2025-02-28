@@ -92,7 +92,9 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     @Override
     public InternalEObject loadEObject() throws IOException {
       final InternalEObject result = super.loadEObject();
-      handleLoadEObject(result, this);
+      if (result != null) {
+        handleLoadEObject(result, this);
+      }
       return result;
     }
 
