@@ -49,7 +49,7 @@
     <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
     <checkstyle.version>10.21.3</checkstyle.version>
     <clean.version>3.4.1</clean.version>
-    <deploy.version>3.1.3</deploy.version>
+    <deploy.version>3.1.4</deploy.version>
     <spotbugs.plugin.version>4.9.1.0</spotbugs.plugin.version>
     <spotbugs.version>4.9.0</spotbugs.version>
     <pmd.plugin.version>3.26.0</pmd.plugin.version>
