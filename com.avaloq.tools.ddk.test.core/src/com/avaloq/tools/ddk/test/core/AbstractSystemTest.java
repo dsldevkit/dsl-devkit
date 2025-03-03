@@ -326,9 +326,6 @@ public abstract class AbstractSystemTest implements TestStepListener {
       case TEARDOWN:
         logger.info("Teardown: " + testStep.getName());
         break;
-      default:
-        logger.warn("???: " + testStep.getName());
-        break;
       }
       break;
     case ERRORED:
