@@ -33,7 +33,6 @@ public abstract class AbstractIssue implements IIssue {
     case INFO:
       acceptor.acceptInfo(message, object, feature, index, issueCode, issueData);
       break;
-    case IGNORE:
     default:
       // empty
     }
