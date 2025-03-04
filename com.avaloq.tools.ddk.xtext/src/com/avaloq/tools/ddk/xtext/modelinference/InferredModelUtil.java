@@ -30,6 +30,22 @@ public class InferredModelUtil {
   }
 
   /**
+   * Gets the inference container for the given resource.
+   *
+   * @param resource
+   *          the resource
+   * @return the inference container or {@code null} if there aren't any
+   */
+  public static @Nullable InferenceContainer getInferenceContainer(final @NonNull Resource resource) {
+    for (EObject content: resource.getContents()) {
+      if (content instanceof InferenceContainer inferenceContainer) {
+        return inferenceContainer;
+      }
+    }
+    return null;
+  }
+
+  /**
    * Gets the model associations corresponding to an EObject.
    * <p>
    * Model associations are maintained per resource. This returns the model associations for the EObject's containing resource.
