@@ -126,24 +126,6 @@ public class DragAndDropUtil {
   }
 
   /**
-   * Performs a drag and drop operation from this widget to the given target
-   * at the given location from target origin. The drag start location will be
-   * chosen depending on this widget's default implementation.
-   *
-   * @param source
-   *          the source widget to drag
-   * @param target
-   *          To perform the drop on
-   * @param locationOnTarget
-   *          The target locations, from target origin, where the DND shall
-   *          finish.
-   * @see #dragAndDrop(Point)
-   */
-  public void dragAndDrop(final AbstractSWTBot<? extends Widget> source, final AbstractSWTBot<? extends Widget> target, final org.eclipse.draw2d.geometry.Point locationOnTarget) {
-    dragAndDrop(source, target, new Point(locationOnTarget.x, locationOnTarget.y));
-  }
-
-  /**
    * Performs a DND operation to an arbitrary location. The drag start
    * location will be chosen depending on this widget's default
    * implementation.

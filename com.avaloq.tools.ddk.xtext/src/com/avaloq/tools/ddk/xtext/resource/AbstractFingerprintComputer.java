@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -194,7 +194,7 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
   protected final CharSequence encodeFingerprint(final ExportItem export) {
     try {
       final MessageDigest md5 = MessageDigest.getInstance("MD5"); //$NON-NLS-1$
-      final byte[] digest = md5.digest(export.getKeyAsString().getBytes(Charsets.UTF_8));
+      final byte[] digest = md5.digest(export.getKeyAsString().getBytes(StandardCharsets.UTF_8));
       /* Now encode it as a string. */
       final StringBuilder result = new StringBuilder();
       for (byte element : digest) {
