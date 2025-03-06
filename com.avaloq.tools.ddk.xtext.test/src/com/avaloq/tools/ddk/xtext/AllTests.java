@@ -10,8 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext;
 
-import org.eclipse.xtext.ui.testing.util.TargetPlatformUtil;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -55,9 +53,4 @@ import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 })
 // @Format-On
 public class AllTests {
-  @BeforeClass
-  public static void setUp() throws Exception {
-    // Make sure PDE can deal with plugin projects we may create in our tests.
-    TargetPlatformUtil.setTargetPlatform(AllTests.class);
-  }
 }

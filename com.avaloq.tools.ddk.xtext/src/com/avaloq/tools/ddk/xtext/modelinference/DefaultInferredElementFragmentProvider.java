@@ -11,6 +11,7 @@
 
 package com.avaloq.tools.ddk.xtext.modelinference;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +21,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
@@ -97,7 +97,7 @@ public class DefaultInferredElementFragmentProvider implements IInferredElementF
   protected HashCode computeHash(final EClass eClass, final QualifiedName name) {
     byte[] eClassUriBytes = eClassToUriBytesMap.get(eClass);
     if (eClassUriBytes == null) {
-      eClassUriBytes = EcoreUtil.getURI(eClass).toString().getBytes(Charsets.UTF_8);
+      eClassUriBytes = EcoreUtil.getURI(eClass).toString().getBytes(StandardCharsets.UTF_8);
       eClassToUriBytesMap.put(eClass, eClassUriBytes);
     }
 

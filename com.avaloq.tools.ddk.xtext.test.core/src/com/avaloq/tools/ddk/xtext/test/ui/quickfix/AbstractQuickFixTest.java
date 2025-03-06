@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.ui.quickfix;
 
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import org.eclipse.xtext.ui.editor.quickfix.IssueResolution;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
 import org.eclipse.xtext.validation.Issue;
 import org.hamcrest.MatcherAssert;
+import org.hamcrest.text.IsEqualCompressingWhiteSpace;
 import org.junit.Assert;
 
 import com.avaloq.tools.ddk.check.runtime.quickfix.ICoreModificationContext;
@@ -386,7 +386,7 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
     String expected = expectedContent.replaceAll(CR_LF, LF);
     String actual = actualContent.replaceAll(CR_LF, LF);
     if (ignoreFormatting) {
-      MatcherAssert.assertThat(message, actual, equalToIgnoringWhiteSpace(expected));
+      MatcherAssert.assertThat(message, actual, IsEqualCompressingWhiteSpace.equalToCompressingWhiteSpace(expected));
     } else {
       assertEquals(message, expected, actual);
     }
