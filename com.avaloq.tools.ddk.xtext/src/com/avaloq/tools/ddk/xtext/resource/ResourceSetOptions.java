@@ -23,6 +23,7 @@ import org.eclipse.jdt.annotation.Nullable;
 public final class ResourceSetOptions {
 
   private static final String INSTALL_DERIVED_STATE = "com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions.installDerivedState";
+  private static final String SKIP_AST = "com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions.skipAST";
 
   private ResourceSetOptions() {
     // utility class
@@ -52,4 +53,12 @@ public final class ResourceSetOptions {
     resourceSet.getLoadOptions().put(INSTALL_DERIVED_STATE, installDerivedState);
   }
 
+  public static boolean skipAST(final @NonNull ResourceSet resourceSet) {
+    Object object = resourceSet.getLoadOptions().get(SKIP_AST);
+    return object != null && (boolean) object; // default is false
+  }
+
+  public static void setSkipAST(final @NonNull ResourceSet resourceSet, final @Nullable Boolean installDerivedState) {
+    resourceSet.getLoadOptions().put(SKIP_AST, installDerivedState);
+  }
 }
