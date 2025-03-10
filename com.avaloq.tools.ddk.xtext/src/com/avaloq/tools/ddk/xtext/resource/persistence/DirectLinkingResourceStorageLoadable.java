@@ -25,9 +25,11 @@ import java.util.zip.ZipInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -123,8 +125,6 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       if (uri != null && uri.isHierarchical() && !uri.isRelative()) {
         baseURI = uri;
       }
-      boolean installDerivedState = ResourceSetOptions.installDerivedState(resourceSet); // must be read before readCompressedInt, see HACK comment inside
-                                                                                         // readCompressedInt
       int size = readCompressedInt();
       if (!installDerivedState && size == 2) { // the InfererenceContainer is always in the second slot
         size--;
@@ -153,6 +153,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   private final ITraceSet traceSet;
 
   private ResourceLoadMode mode;
+  private boolean installDerivedState;
+  private boolean skipModel;
 
   public DirectLinkingResourceStorageLoadable(final InputStream in, final boolean loadNodeModel, final boolean splitContents, final ITraceSet traceSet) {
     super(in, loadNodeModel);
@@ -182,6 +184,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       throw new IllegalArgumentException("Incompatible resource load mode: " + loadMode.instruction(Constituent.RESOURCE)); //$NON-NLS-1$
     }
     this.mode = loadMode;
+    this.installDerivedState = ResourceSetOptions.installDerivedState(resource.getResourceSet());
+    this.skipModel = ResourceSetOptions.skipModel(resource.getResourceSet());
     traceSet.started(ResourceLoadStorageEvent.class, resource.getURI(), loadMode);
     try {
       super.loadIntoResource(resource);
@@ -223,7 +227,12 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         LOG.warn("Proxying of resource contents is not supported: " + resource.getURI()); //$NON-NLS-1$
         // fall through
       case LOAD:
-        readContents(resource, new NonLockingBufferInputStream(zipIn));
+        if (!skipModel) {
+          readContents(resource, new NonLockingBufferInputStream(zipIn));
+        } else {
+          // TODO I need to put something in the resource. Don't want to get into proxying yet (might have to).
+          addFakeModel(resource);
+        }
         break;
       }
 
@@ -284,6 +293,15 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         break;
       }
     }
+  }
+
+  private void addFakeModel(final StorageAwareResource resource) {
+    InternalEObject[] values = new InternalEObject[] {new Container()};
+    BasicEList<InternalEObject> internalEObjectList = new BasicEList<InternalEObject>(); // NOPMD LooseCoupling
+    internalEObjectList.setData(1, values);
+    @SuppressWarnings("unchecked")
+    InternalEList<InternalEObject> internalEObjects = (InternalEList<InternalEObject>) (InternalEList<?>) resource.getContents();
+    internalEObjects.addAllUnique(internalEObjectList);
   }
 
   /**
