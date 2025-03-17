@@ -50,7 +50,7 @@
     <checkstyle.version>10.21.4</checkstyle.version>
     <clean.version>3.4.1</clean.version>
     <deploy.version>3.1.4</deploy.version>
-    <spotbugs.plugin.version>4.9.2.0</spotbugs.plugin.version>
+    <spotbugs.plugin.version>4.9.3.0</spotbugs.plugin.version>
     <spotbugs.version>4.9.0</spotbugs.version>
     <pmd.plugin.version>3.26.0</pmd.plugin.version>
     <pmd.version>7.8.0</pmd.version>
