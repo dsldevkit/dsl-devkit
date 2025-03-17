@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.checkcfg.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.ide;singleton:=true
-Bundle-Version: 15.1.0.qualifier
+Bundle-Version: 15.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
