@@ -49,7 +49,7 @@ public class CheckCfgImages {
 
   /**
    * Returns an image for a Configured Check according to its severity (error, warning, info, ignore).
-   * 
+   *
    * @param severity
    *          the severity of the check
    * @return an image representing a Configured Check
@@ -63,7 +63,6 @@ public class CheckCfgImages {
     case INFO:
       return imageHelper.getImage(INFO_IMAGE);
     default:
-    case IGNORE:
       return imageHelper.getImage(IGNORE_IMAGE);
     }
   }

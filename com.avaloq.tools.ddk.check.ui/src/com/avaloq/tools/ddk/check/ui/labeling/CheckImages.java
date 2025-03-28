@@ -82,7 +82,7 @@ public class CheckImages {
 
   /**
    * Returns an image for a Check according to its severity (error, warning, info, ignore).
-   * 
+   *
    * @param severity
    *          the severity of the check
    * @return an image representing a Check
@@ -96,7 +96,6 @@ public class CheckImages {
     case INFO:
       return imageHelper.getImage(INFO_IMAGE);
     default:
-    case IGNORE:
       return imageHelper.getImage(IGNORE_IMAGE);
     }
   }
@@ -108,7 +107,7 @@ public class CheckImages {
 
   /**
    * Return an Image shared by JDT.
-   * 
+   *
    * @param descriptor
    *          an image descriptor (path)
    * @return the corresponding image
