@@ -64,6 +64,7 @@ import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
@@ -709,6 +710,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * @param buildData
    *          build data, must not be {@code null}
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   protected void storeBinaryResource(final Resource resource, final BuildData buildData) {
     if (isBinaryModelStorageAvailable && resource instanceof StorageAwareResource && ((StorageAwareResource) resource).getResourceStorageFacade() != null
         && fileSystemAccess instanceof IFileSystemAccessExtension3) {
@@ -777,6 +779,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   /**
    * Waits until binary models are stored.
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   protected void awaitBinaryStorageExecutorTermination() {
     LOGGER.info("Waiting for binary resource storage tasks to complete"); //$NON-NLS-1$
     if (hwmTimeStamp != null) {
@@ -1386,6 +1389,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * {@inheritDoc} Schedules a full clean build if the target platform changes.
    */
   @Override
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   public void platformChanged(final IXtextTargetPlatform newPlatform, final Collection<Delta> deltas, final boolean mustRebuild) {
     if (newPlatform == null) {
       // Hmmm... context deactivated. Events for removing the project from the index will be generated anyway, so no build necessary.
@@ -1450,6 +1454,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * @param platform
    *          the platform to test, may not be {@code null}.
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   protected void updateBinaryStorageAvailability(final IXtextTargetPlatform platform) {
     isBinaryModelStorageAvailable = platform != null && platform.getBinaryModelStore() != null;
   }

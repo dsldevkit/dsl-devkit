@@ -23,6 +23,7 @@ import org.eclipse.xtext.resource.EObjectDescription;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.util.Strings;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.xtext.resource.extensions.AbstractForwardingResourceDescriptionStrategyMap;
 import com.google.common.collect.ImmutableMap;
 
@@ -119,6 +120,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
    *          user data for object
    * @return object description
    */
+  @SuppressFBWarnings("HSM_HIDING_METHOD")
   public static IEObjectDescription create(final QualifiedName qualifiedName, final EObject element, final Map<String, String> userData) {
     return new DetachableEObjectDescription(qualifiedName, element, userData);
   }
@@ -132,6 +134,7 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
    *          object
    * @return object description
    */
+  @SuppressFBWarnings("HSM_HIDING_METHOD")
   public static IEObjectDescription create(final QualifiedName qualifiedName, final EObject element) {
     return new DetachableEObjectDescription(qualifiedName, element, Map.of());
   }

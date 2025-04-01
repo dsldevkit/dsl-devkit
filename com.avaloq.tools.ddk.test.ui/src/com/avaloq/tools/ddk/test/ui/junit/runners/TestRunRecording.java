@@ -46,6 +46,7 @@ import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.test.core.AbstractTestStep;
 import com.avaloq.tools.ddk.test.core.TestStepListener;
 import com.google.common.collect.Sets;
@@ -146,6 +147,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
 
   @Override
   @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   public void testStarted(final Description description) {
     if (!screenshotsCleared) {
       deleteDirectoryContents(new File(screenshotFolder));
@@ -258,6 +260,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
   /**
    * Stops the asynchronous thread from creating screenshots.
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   private void stop() {
     captureThreadRunning = false;
     try {

@@ -42,6 +42,7 @@ import org.eclipse.xtext.ui.editor.syntaxcoloring.ITextAttributeProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.concurrent.CancelableUnitOfWork;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 
@@ -142,6 +143,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
   /**
    * Start reconciling positions.
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   private void startReconcilingPositions() {
     presenter.addAllPositions(removedPositions);
     removedPositionCount = removedPositions.size();
@@ -160,6 +162,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
    *          an indicator that should be asked in order to cancel an operation early in case there are new pending changes.
    */
   @SuppressWarnings("deprecation")
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   private void reconcilePositions(final XtextResource resource, final CancelIndicator cancelIndicator) {
     // for (int i= 0, n= subtrees.length; i < n; i++)
     // subtrees[i].accept(fCollector);
@@ -200,6 +203,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
    *          The highlighting attribute ids
    */
   @Override
+  @SuppressFBWarnings({"AT_STALE_THREAD_WRITE_OF_PRIMITIVE", "AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE"})
   public void addPosition(final int offset, final int length, final String... ids) {
     TextAttribute highlighting = ids.length == 1 ? attributeProvider.getAttribute(ids[0]) : attributeProvider.getMergedAttributes(ids);
     if (highlighting == null) {
@@ -284,6 +288,7 @@ public class FixedHighlightingReconciler extends HighlightingReconciler {
   /**
    * Stop reconciling positions.
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   private void stopReconcilingPositions() {
     removedPositions.clear();
     removedPositionCount = 0;
