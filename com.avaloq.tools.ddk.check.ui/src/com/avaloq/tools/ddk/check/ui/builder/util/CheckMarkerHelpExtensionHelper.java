@@ -34,7 +34,6 @@ import org.eclipse.xtext.validation.Issue;
 
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
-import com.avaloq.tools.ddk.check.check.TriggerKind;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorExtensions;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
@@ -56,7 +55,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
   private static final String MARKERHELP_ELEMENT = "markerHelp";
   public static final String CONTEXT_ID_ATTRIBUTE_TAG = "helpContextId";
   public static final String MARKERTYPE_ATTRIBUTE_TAG = "markerType";
-  private static final String CHECKTYPE_PRAEFIX = "org.eclipse.xtext.ui.check";
+  private static final String CHECKTYPE_PREFIX = "org.eclipse.xtext.ui.check";
   private static final String ATTRIBUTE_ELEMENT = "attribute";
   private static final String ATTRIBUTE_NAME_TAG = "name";
   public static final String ATTRIBUTE_VALUE_TAG = "value";
@@ -260,17 +259,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
    * @return the check type
    */
   private String getCheckType(final Check check) {
-    TriggerKind trigger = check.getKind();
-    switch (trigger) {
-    case FAST:
-      return CHECKTYPE_PRAEFIX + ".fast";
-    case NORMAL:
-      return CHECKTYPE_PRAEFIX + ".normal";
-    case EXPENSIVE:
-      return CHECKTYPE_PRAEFIX + ".expensive";
-    default:
-      return null;
-    }
+    return CHECKTYPE_PREFIX + '.' + check.getKind().getName();
   }
 
   @Override

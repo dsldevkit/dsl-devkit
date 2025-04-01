@@ -76,6 +76,7 @@
     <exclude name="DefaultLabelNotLastInSwitch"/>
     <exclude name="ForLoopCanBeForeach"/>
     <exclude name="GuardLogStatement"/><!--TODO-->
+    <exclude name="ImplicitFunctionalInterface"/>
     <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
     <exclude name="UnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
     <exclude name="UnitTestShouldIncludeAssert"/>

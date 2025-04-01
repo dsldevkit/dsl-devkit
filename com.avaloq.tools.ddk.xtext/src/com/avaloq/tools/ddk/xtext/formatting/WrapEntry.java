@@ -165,8 +165,6 @@ public class WrapEntry {
         defaultLinewrap = Math.max(defaultLinewrap, locator.getDefaultWrap());
         maxLinewrap = Math.max(maxLinewrap, locator.getMaxWrap());
         break;
-      default:
-        break;
       }
     }
     return createWrap(minLinewrap, defaultLinewrap, maxLinewrap);
