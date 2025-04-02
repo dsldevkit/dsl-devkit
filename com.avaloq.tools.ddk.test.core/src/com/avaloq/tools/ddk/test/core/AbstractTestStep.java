@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.test.core.TestStepListener.TestStepState;
 
 
@@ -206,6 +207,7 @@ public abstract class AbstractTestStep extends AbstractStep {
    * @param checkPreconditions
    *          whether preconditions shall be checked
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   protected static void setCheckPreconditions(final boolean checkPreconditions) {
     AbstractTestStep.checkPreconditions = checkPreconditions;
   }
@@ -216,6 +218,7 @@ public abstract class AbstractTestStep extends AbstractStep {
    * @param checkPostconditions
    *          whether postconditions shall be checked
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   protected static void setCheckPostconditions(final boolean checkPostconditions) {
     AbstractTestStep.checkPostconditions = checkPostconditions;
   }

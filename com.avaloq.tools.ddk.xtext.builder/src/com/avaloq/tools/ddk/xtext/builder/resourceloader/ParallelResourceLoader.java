@@ -39,6 +39,7 @@ import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.Triple;
 import org.eclipse.xtext.util.Tuples;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.build.BuildPhases;
 import com.avaloq.tools.ddk.xtext.builder.tracing.LoaderDequeueEvent;
@@ -206,6 +207,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     }
 
     @Override
+    @SuppressFBWarnings("AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE")
     public LoadResult next() {
       try {
         traceSet.started(LoaderDequeueEvent.class);
@@ -264,6 +266,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     }
 
     @Override
+    @SuppressFBWarnings("AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE")
     public void load(final Collection<URI> uris) {
       toProcess += uris.size();
       workload = getSorter().sort(uris);
@@ -281,6 +284,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     }
 
     @Override
+    @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
     public Collection<URI> cancel() {
       toProcess = 0;
       List<Runnable> jobs = executor.shutdownNow();

@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.xtext.naming.QualifiedName;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.caching.CacheStatistics;
 import com.avaloq.tools.ddk.caching.ICache;
@@ -424,6 +425,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   /**
    * Initiailizes the tree by clearing it (if not empty) and adding a dummy upper bound node.
    */
+  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
   private void init() {
     if (root.children != null) {
       root.children.clear();
@@ -434,6 +436,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   @SuppressWarnings("unchecked")
+  @SuppressFBWarnings("AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE")
   @Override
   public Collection<T> get(final QualifiedName name) {
     if (name.isEmpty()) {
@@ -450,6 +453,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   @Override
+  @SuppressFBWarnings({"AT_NONATOMIC_64BIT_PRIMITIVE", "AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE"})
   public void removeMappings(final T value) {
     root.accept(new Visitor() {
       @Override
@@ -474,6 +478,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   @Override
+  @SuppressFBWarnings("AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE")
   public void put(final QualifiedName name, final T value) {
     if (name == null || value == null) {
       throw new IllegalArgumentException("QualifiedNameLookup does not support null keys or values: put(" + name + ", " + value + ")"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
@@ -485,6 +490,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   @Override
+  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
   public void putAll(final QualifiedName name, final Collection<T> values) {
     if (name == null || values == null || values.contains(null)) {
       String valuesAsString = values != null ? Iterables.toString(values) : "<null>"; //$NON-NLS-1$
@@ -495,6 +501,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   @Override
+  @SuppressFBWarnings("AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE")
   public void remove(final QualifiedName name, final T value) {
     SegmentNode node = root.find(name, 0, true);
     if (node != null) {

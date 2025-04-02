@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.xtext.util.EmfResourceUtil;
 import com.google.common.collect.Maps;
 
@@ -102,6 +103,7 @@ public class BuilderWatchdog extends Thread {
    * @param totalSources
    *          the total number of sources that need to be processed, -1 if unknown
    */
+  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
   public void reportWorkEnded(final int processedSources, final int totalSources) {
     entryTime = System.currentTimeMillis();
     AtomicInteger newEntry = new AtomicInteger(0);
@@ -121,6 +123,7 @@ public class BuilderWatchdog extends Thread {
    * @param headerMessage
    *          message to print before the stack traces
    */
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   private void logStackTrace(final String headerMessage) {
     final StringBuilder stackTraceBuilder = new StringBuilder(headerMessage).append(NEW_LINE);
     if (currentURI != null) {
@@ -160,6 +163,7 @@ public class BuilderWatchdog extends Thread {
    * @param totalSources
    *          the total number of sources that need to be processed, -1 if unknown
    */
+  @SuppressFBWarnings({"AT_NONATOMIC_64BIT_PRIMITIVE", "AT_STALE_THREAD_WRITE_OF_PRIMITIVE"})
   private void reportAndResetProgress(final int processedSources, final int totalSources) {
     final long elapsedTime = TimeUnit.MILLISECONDS.toSeconds(elapsedSince(batchTime));
     String progressMessage;
