@@ -219,7 +219,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    * Unfortunately, we have to duplicate the loading logic here in order to make it better extendable. Parent class lacks a factory method for loading and
    * creating the initial ResourceDescriptionsData. We use an {@link IResourceDescriptionsDataProvider} for that.
    */
-  private volatile boolean isLoaded; // NOPMD; PMD doesn't like "volatile"...
+  @SuppressWarnings({"PMD.AvoidFieldNameMatchingMethodName", "PMD.AvoidUsingVolatile"})
+  private volatile boolean isLoaded;
 
   /**
    * Don't use a PesistedStateProvider, but use a target platform manager that gives us directly an appropriate ResourceDescriptionsData. The point here is that
@@ -424,7 +425,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   @Override
   // CHECKSTYLE:CHECK-OFF NestedTryDepth
-  protected Collection<Delta> doUpdate(final BuildData buildData, final ResourceDescriptionsData newData, final IProgressMonitor monitor) { // NOPMD
+  @SuppressWarnings("PMD.AvoidInstanceofChecksInCatchClause")
+  protected Collection<Delta> doUpdate(final BuildData buildData, final ResourceDescriptionsData newData, final IProgressMonitor monitor) {
     final SubMonitor progress = SubMonitor.convert(monitor, 100);
 
     // Step 1: Clean the set of deleted URIs. If any of them are also added, they're not deleted.
@@ -583,7 +585,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           } catch (final Exception ex) {
             // CHECKSTYLE:CHECK-ON IllegalCatch
             pollForCancellation(monitor);
-            if (ex instanceof LoadOperationException) { // NOPMD
+            if (ex instanceof LoadOperationException) {
               LoadOperationException loadException = (LoadOperationException) ex;
               if (loadException.getCause() instanceof TimeoutException) {
                 // Load request timed out, URI of the resource is not available
@@ -778,36 +780,86 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   /**
    * Waits until binary models are stored.
+   * Uses default parameters for timeout and retries, kept for backward compatibility.
    */
-  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
   protected void awaitBinaryStorageExecutorTermination() {
-    LOGGER.info("Waiting for binary resource storage tasks to complete"); //$NON-NLS-1$
+    awaitBinaryStorageExecutorTermination(1, TimeUnit.MINUTES, 0);
+  }
+
+  /**
+   * Waits until binary models are stored. Waits for a given time and makes a given number of attempts.
+   *
+   * @param timeout
+   *          time to wait for shutdown
+   * @param unit
+   *          {@link TimeUnit} for timeout
+   * @param retryCount
+   *          number of retries to attempt
+   */
+  @SuppressWarnings("nls")
+  @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
+  protected void awaitBinaryStorageExecutorTermination(final int timeout, final TimeUnit unit, final int retryCount) {
+    LOGGER.info("Waiting for binary resource storage tasks to complete: timeout {} {}, retryCount {}", timeout, unit, retryCount); //$NON-NLS-1$
     if (hwmTimeStamp != null) {
       LOGGER.info("high water mark was {} at {}", binaryStorageHighWaterMark, hwmTimeStamp); //$NON-NLS-1$
     }
 
     // Stop accepting additional work
     binaryStorageExecutor.shutdown();
-    long queuedTaskCount = binaryStorageExecutor.getQueue().size();
-    long activeTaskCount = binaryStorageExecutor.getActiveCount();
 
-    // Attempt to wait for queued work to complete
+    int retries = 0;
+    boolean terminated;
+    boolean stuck = false;
+
+    long prevQueuedTaskCount = binaryStorageExecutor.getQueue().size();
+    long prevActiveTaskCount = binaryStorageExecutor.getActiveCount();
+
     try {
-      if (!binaryStorageExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
-        throw new InterruptedException();
-      }
-    } catch (InterruptedException e) { // NOPMD ExceptionAsFlowControl
-      LOGGER.warn(String.format("Binary resource storage tasks not completed in time, start with %d queued / %d active; now have %d / %d", //$NON-NLS-1$
-          queuedTaskCount, activeTaskCount, binaryStorageExecutor.getQueue().size(), binaryStorageExecutor.getActiveCount()));
-      binaryStorageExecutor.shutdownNow();
-    }
+      do {
+        terminated = binaryStorageExecutor.awaitTermination(timeout, unit);
+        if (!terminated) {
+          // check whether if there is progress
+          long currQueuedTaskCount = binaryStorageExecutor.getQueue().size();
+          long currActiveTaskCount = binaryStorageExecutor.getActiveCount();
 
-    LOGGER.info("Binary resource storage executor completed."); //$NON-NLS-1$
+          if (currQueuedTaskCount < prevQueuedTaskCount || currActiveTaskCount < prevActiveTaskCount) {
+            LOGGER.warn("Binary resource storage tasks not completed in time, start with {} queued / {} active; now have {} / {}", prevQueuedTaskCount, prevActiveTaskCount, currQueuedTaskCount, currActiveTaskCount);
+            if (retries < retryCount) {
+              retries += 1;
+              LOGGER.warn("retrying shutdown, attempt {} of {}", retries, retryCount);
+              prevQueuedTaskCount = currQueuedTaskCount;
+              prevActiveTaskCount = currActiveTaskCount;
+            }
+          } else {
+            LOGGER.warn("Binary resource storage tasks not completed in time, not making progress, stuck on {} / {} queued / active tasks", currQueuedTaskCount, currActiveTaskCount);
+            stuck = true;
+          }
+        }
+
+      } while (!terminated && !stuck && retries < retryCount);
+
+      if (terminated) {
+        LOGGER.info("Binary resource storage executor completed.");
+      } else {
+        LOGGER.warn("Binary resource storage executor shutdown not successful, terminating");
+        terminateBinaryStorageExecutor();
+      }
+    } catch (InterruptedException e) {
+      LOGGER.warn("Interrupted waiting for binaryStorageExecutor shutdown, terminating. Had {} queued / {} active before interrupd; now have {} / {}", prevQueuedTaskCount, prevActiveTaskCount, binaryStorageExecutor.getQueue().size(), binaryStorageExecutor.getActiveCount());
+      terminateBinaryStorageExecutor();
+    }
 
     // Be ready to accept additional work
     binaryStorageExecutor = makeBinaryStorageExecutor();
     binaryStorageHighWaterMark = 0;
     hwmTimeStamp = null;
+  }
+
+  @SuppressWarnings("nls")
+  private void terminateBinaryStorageExecutor() {
+    LOGGER.warn("Terminating binaryStorageExecutor");
+    List<Runnable> tasks = binaryStorageExecutor.shutdownNow();
+    LOGGER.warn("{} tasks not processed", tasks.size());
   }
 
   /**
@@ -873,8 +925,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       // TODO DSL-828: this may end up using a lot of memory; we should instead consider creating old copies of the resources in the db
       IResourceDescription old = getResourceDescription(uri);
       saved = old != null ? createOldStateResourceDescription(old) : null;
-    } else if (saved == NULL_DESCRIPTION) { // NOPMD
-      saved = null; // NOPMD
+    } else if (saved == NULL_DESCRIPTION) {
+      saved = null;
     }
     return saved;
   }
@@ -986,9 +1038,10 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          The progress monitor used for user feedback
    * @return the list of {@link URI}s of loaded resources to be processed in the second phase
    */
-  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) { // NOPMD
-                                                                                                                                                                                                         // NPath
-                                                                                                                                                                                                         // Complexity
+  @SuppressWarnings("PMD.AvoidInstanceofChecksInCatchClause")
+  private List<URI> writeResources(final Collection<URI> toWrite, final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final IProgressMonitor monitor) {
+    // NPath
+    // Complexity
     ResourceSet resourceSet = buildData.getResourceSet();
     IProject currentProject = getBuiltProject(buildData);
     List<URI> toBuild = Lists.newLinkedList();
@@ -1029,7 +1082,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           }
         } catch (final WrappedException ex) {
           pollForCancellation(monitor);
-          if (uri == null && ex instanceof LoadOperationException) { // NOPMD
+          if (uri == null && ex instanceof LoadOperationException) {
             uri = ((LoadOperationException) ex).getUri();
           }
           LOGGER.error(NLS.bind(Messages.MonitoredClusteringBuilderState_CANNOT_LOAD_RESOURCE, uri != null ? uri : "unknown uri"), ex); //$NON-NLS-1$

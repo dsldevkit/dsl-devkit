@@ -138,8 +138,11 @@ public final class ParseTreeUtil {
   public static void ensureNodeModelLoaded(final Resource resource) {
     if (resource instanceof LazyLinkingResource2 lazyLinkinResource && lazyLinkinResource.isLoadedFromStorage()) {
       EObject root = resource.getContents().get(0);
-      if (root != null && NodeModelUtils.getNode(root) instanceof ICompositeNode composite) {
-        composite.getText(); // side-effect on removing com.avaloq.tools.ddk.xtext.resource.persistence.ProxyCompositeNode
+      if (root != null) {
+        ICompositeNode rootNode = NodeModelUtils.getNode(root);
+        if (rootNode != null) {
+          rootNode.getText(); // side-effect on removing com.avaloq.tools.ddk.xtext.resource.persistence.ProxyCompositeNode
+        }
       }
     }
   }
