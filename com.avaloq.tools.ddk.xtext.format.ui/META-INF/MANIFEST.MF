@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.format.ui
 Bundle-Vendor: Avaloq Group AG
-Bundle-Version: 15.2.0.qualifier
+Bundle-Version: 15.2.0.v20250414-1315-REL
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.format.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
