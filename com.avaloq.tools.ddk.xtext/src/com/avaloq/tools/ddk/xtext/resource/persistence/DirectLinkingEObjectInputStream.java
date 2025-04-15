@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -30,6 +32,8 @@ import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectInputStream
  * {@link DirectLinkingEObjectOutputStream#writeEObjectURI(EObject, Resource)}.
  */
 class DirectLinkingEObjectInputStream extends EObjectInputStream {
+
+  private static final Logger LOGGER = LogManager.getLogger(DirectLinkingEObjectInputStream.class);
 
   DirectLinkingEObjectInputStream(final InputStream inputStream, final Map<?, ?> options) throws IOException {
     super(inputStream, options);
@@ -52,13 +56,18 @@ class DirectLinkingEObjectInputStream extends EObjectInputStream {
       EObject eObject = context.getContents().get(readCompressedInt());
       count--;
       while (count > 0) {
-        EStructuralFeature feature = eObject.eClass().getEStructuralFeature(readCompressedInt());
+        int next = readCompressedInt();
+        EStructuralFeature feature = eObject.eClass().getEStructuralFeature(next);
         count--;
-        if (feature.isMany()) {
-          eObject = ((EList<EObject>) eObject.eGet(feature, false)).get(readCompressedInt());
-          count--;
+        if (feature != null) {
+          if (feature.isMany()) {
+            eObject = ((EList<EObject>) eObject.eGet(feature, false)).get(readCompressedInt());
+            count--;
+          } else {
+            eObject = (EObject) eObject.eGet(feature, false);
+          }
         } else {
-          eObject = (EObject) eObject.eGet(feature, false);
+          LOGGER.error(String.format("Failed to get EStructuralFeature for Eclass : %s, at readCompressedInt : %d", eObject().eClass().toString(), next));
         }
       }
       return eObject;
