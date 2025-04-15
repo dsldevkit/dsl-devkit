@@ -33,6 +33,8 @@ import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectInputStream
  */
 class DirectLinkingEObjectInputStream extends EObjectInputStream {
 
+  private static final Logger LOGGER = LogManager.getLogger(DirectLinkingEObjectInputStream.class);
+
   DirectLinkingEObjectInputStream(final InputStream inputStream, final Map<?, ?> options) throws IOException {
     super(inputStream, options);
   }
