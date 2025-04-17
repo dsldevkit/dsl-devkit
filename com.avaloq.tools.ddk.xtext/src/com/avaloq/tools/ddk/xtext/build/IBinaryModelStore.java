@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.build;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -75,6 +76,16 @@ public interface IBinaryModelStore {
    *           if I/O exception occurred
    */
   void delete(URI uri) throws IOException;
+
+  /**
+   * Invalidate cached data for the given collection of URIs.
+   *
+   * @param uris
+   *          the URIs to invalidate cached data for.
+   */
+  default void invalidateCache(final Collection<URI> uris) {
+    // do nothing by default
+  }
 
   /**
    * Default no-op implementation throwing runtime exceptions when calling {@link #createInputStream(URI)} or {@link #createOutputStream(URI)} as that means

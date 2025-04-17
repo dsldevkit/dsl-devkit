@@ -779,6 +779,16 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   }
 
   /**
+   * Invalidate cached binary models.
+   * @param uris collection of URIs to invalidate cached binary models for.
+   */
+  protected void invalidateBinaryResoureCache(final Collection<URI> uris) {
+    if (isBinaryModelStorageAvailable) {
+      targetPlatformManager.getPlatform().getBinaryModelStore().invalidateCache(uris);
+    }
+  }
+
+  /**
    * Waits until binary models are stored.
    * Uses default parameters for timeout and retries, kept for backward compatibility.
    */
@@ -845,7 +855,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         terminateBinaryStorageExecutor();
       }
     } catch (InterruptedException e) {
-      LOGGER.warn("Interrupted waiting for binaryStorageExecutor shutdown, terminating. Had {} queued / {} active before interrupd; now have {} / {}", prevQueuedTaskCount, prevActiveTaskCount, binaryStorageExecutor.getQueue().size(), binaryStorageExecutor.getActiveCount());
+      LOGGER.warn("Interrupted waiting for binaryStorageExecutor shutdown, terminating. Had {} queued / {} active before interrupt; now have {} / {}", prevQueuedTaskCount, prevActiveTaskCount, binaryStorageExecutor.getQueue().size(), binaryStorageExecutor.getActiveCount());
       terminateBinaryStorageExecutor();
     }
 
