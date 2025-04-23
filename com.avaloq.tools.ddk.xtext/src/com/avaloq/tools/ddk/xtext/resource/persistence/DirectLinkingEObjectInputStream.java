@@ -67,7 +67,7 @@ class DirectLinkingEObjectInputStream extends EObjectInputStream {
             eObject = (EObject) eObject.eGet(feature, false);
           }
         } else {
-          LOGGER.warn(String.format("Failed to get EStructuralFeature for Eclass : %s, at readCompressedInt : %d", eObject.eClass(), next));
+          LOGGER.info(String.format("Failed to get EStructuralFeature for Eclass : %s, at readCompressedInt : %d", eObject.eClass(), next));
           throw new IllegalStateException("feature is null"); //$NON-NLS-1$
         }
       }
