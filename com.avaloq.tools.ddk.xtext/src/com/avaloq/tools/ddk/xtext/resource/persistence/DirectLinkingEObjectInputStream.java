@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -32,8 +30,6 @@ import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectInputStream
  * {@link DirectLinkingEObjectOutputStream#writeEObjectURI(EObject, Resource)}.
  */
 class DirectLinkingEObjectInputStream extends EObjectInputStream {
-
-  private static final Logger LOGGER = LogManager.getLogger(DirectLinkingEObjectInputStream.class);
 
   DirectLinkingEObjectInputStream(final InputStream inputStream, final Map<?, ?> options) throws IOException {
     super(inputStream, options);
@@ -67,7 +63,7 @@ class DirectLinkingEObjectInputStream extends EObjectInputStream {
             eObject = (EObject) eObject.eGet(feature, false);
           }
         } else {
-          throw new NullPointerException(String.format("EStructuralFeature can't be null for Eclass : %s, at readCompressedInt : %d", eObject.eClass(), next)); //$NON-NLS-1$
+          throw new IllegalStateException(String.format("EStructuralFeature can't be null for Eclass : %s, at readCompressedInt : %d", eObject.eClass(), next)); //$NON-NLS-1$
         }
       }
       return eObject;
