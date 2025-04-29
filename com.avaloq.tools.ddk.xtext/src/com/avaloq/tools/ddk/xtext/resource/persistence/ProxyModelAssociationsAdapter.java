@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
 import com.avaloq.tools.ddk.xtext.modelinference.InferredModelAssociator;
+import com.avaloq.tools.ddk.xtext.resource.ResourceSetOptions;
 
 
 /**
@@ -69,6 +70,8 @@ final class ProxyModelAssociationsAdapter extends InferredModelAssociator.Adapte
       if (resource.eAdapters().remove(this)) {
         DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
         try {
+          // the associations are mappings from AST model elements to inferred model elements (and back) so we cannot skip loading the model.
+          ResourceSetOptions.setSkipModel(resource.getResourceSet(), false);
           loadable.loadIntoResource(resource, ResourceLoadMode.ONLY_ASSOCIATIONS);
         } catch (IOException e) {
           throw new WrappedException(e);
