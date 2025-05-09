@@ -51,6 +51,7 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
   private final URI uri;
   private IResourceDescription oldDesc;
   private final SoftReference<IResourceDescription> newDesc;
+  private IResourceDescription pinnedNewDesc;
   private final IResourceDescriptions index;
 
   private Boolean hasChanges;
@@ -98,6 +99,9 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     if (newDesc == null) {
       return null;
     }
+    if (pinnedNewDesc != null) {
+      return pinnedNewDesc;
+    }
     IResourceDescription res = newDesc.get();
     return res != null ? res : index.getResourceDescription(uri);
   }
@@ -125,6 +129,20 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
       }
     }
     return hasChanges;
+  }
+
+  /**
+   * Ensure the new resource description is not touched by GC.
+   */
+  public void pinNew() {
+    pinnedNewDesc = newDesc == null ? null : newDesc.get();
+  }
+
+  /**
+   * Reverse the effect of {@link pinNew}.
+   */
+  public void unpinNew() {
+    pinnedNewDesc = null;
   }
 
   /**
