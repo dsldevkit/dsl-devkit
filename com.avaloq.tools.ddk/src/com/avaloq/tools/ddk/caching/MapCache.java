@@ -13,6 +13,9 @@ package com.avaloq.tools.ddk.caching;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -164,6 +167,56 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
   @Override
   public Set<Map.Entry<K, V>> entrySet() {
     return backend.asMap().entrySet();
+  }
+
+  @Override
+  public V computeIfAbsent(final K key, final Function<? super K, ? extends V> mappingFunction) {
+    return backend.asMap().computeIfAbsent(key, mappingFunction);
+  }
+
+  @Override
+  public V getOrDefault(final Object key, final V defaultValue) {
+    return backend.asMap().getOrDefault(key, defaultValue);
+  }
+
+  @Override
+  public void forEach(final BiConsumer<? super K, ? super V> action) {
+    backend.asMap().forEach(action);
+  }
+
+  @Override
+  public void replaceAll(final BiFunction<? super K, ? super V, ? extends V> function) {
+    backend.asMap().replaceAll(function);
+  }
+
+  @Override
+  public boolean remove(final Object key, final Object value) {
+    return backend.asMap().remove(key, value);
+  }
+
+  @Override
+  public boolean replace(final K key, final V oldValue, final V newValue) {
+    return backend.asMap().replace(key, oldValue, newValue);
+  }
+
+  @Override
+  public V replace(final K key, final V value) {
+    return backend.asMap().replace(key, value);
+  }
+
+  @Override
+  public V computeIfPresent(final K key, final BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    return backend.asMap().computeIfPresent(key, remappingFunction);
+  }
+
+  @Override
+  public V compute(final K key, final BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+    return backend.asMap().compute(key, remappingFunction);
+  }
+
+  @Override
+  public V merge(final K key, final V value, final BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    return backend.asMap().merge(key, value, remappingFunction);
   }
 
 }
