@@ -107,11 +107,7 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
 
   @Override
   public V putIfAbsent(final K key, final V value) {
-    V oldValue = get(key);
-    if (oldValue == null) {
-      oldValue = put(key, value);
-    }
-    return oldValue;
+    return backend.asMap().putIfAbsent(key, value);
   }
 
   @Override
