@@ -2,7 +2,7 @@
 <feature
       id="com.avaloq.tools.ddk.source.feature"
       label="com.avaloq.tools.ddk.source.feature"
-      version="15.4.0.qualifier"
+      version="15.4.0.v20250610-1134-REL"
       provider-name="Avaloq Group AG">
 
    <plugin
