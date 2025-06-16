@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.linking;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -121,6 +122,11 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   @Override
   public String getSourceText() throws IOException {
     return SerializationUtil.getCompleteContent(this);
+  }
+
+  @Override
+  protected LinkedHashSet<Triple<EObject, EReference, INode>> getResolvingSet(final boolean initial) {
+    return resolving;
   }
 
   /**
