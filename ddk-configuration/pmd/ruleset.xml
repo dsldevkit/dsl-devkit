@@ -85,6 +85,7 @@
     <exclude name="UnitTestShouldUseTestAnnotation"/>
     <exclude name="NonExhaustiveSwitch"/>
     <exclude name="PreserveStackTrace"/><!--TODO-->
+    <exclude name="UnnecessaryWarningSuppression"/> <!--Experimental, too many false positives-->
     <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
     <exclude name="UseTryWithResources"/><!--TODO-->
   </rule>
