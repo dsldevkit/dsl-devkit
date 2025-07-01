@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.expression
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.expression;singleton:=true
 Bundle-Version: 15.5.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtend,
  org.eclipse.xtend.typesystem.emf,

@@ -7,6 +7,6 @@ Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.check.lib
 Automatic-Module-Name: com.avaloq.tools.ddk.check.lib

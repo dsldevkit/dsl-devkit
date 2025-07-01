@@ -28,7 +28,7 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.format;visibility:=reexport,
  org.eclipse.xtext.ui.codetemplates.ui,
  org.eclipse.xtend.lib;resolution:=optional
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.xtext.format.ui.builder,
  com.avaloq.tools.ddk.xtext.format.ui.contentassist,
  com.avaloq.tools.ddk.xtext.format.ui.quickfix,

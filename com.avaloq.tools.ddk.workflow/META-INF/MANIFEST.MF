@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.workflow
 Bundle-SymbolicName: com.avaloq.tools.ddk.workflow
 Bundle-Version: 15.5.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.check.generator,
  com.avaloq.tools.ddk.xtext.export,
