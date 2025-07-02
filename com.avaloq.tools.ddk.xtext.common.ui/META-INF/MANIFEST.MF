@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.common.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.common.ui;singleton:=true
 Bundle-Version: 15.5.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.xtext.common.ui.contentassist
 Require-Bundle: org.eclipse.xtext.ui
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.common.ui

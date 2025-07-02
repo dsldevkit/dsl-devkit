@@ -30,5 +30,5 @@ Import-Package: org.hamcrest.core,
  org.junit.runners.model;version="4.5.0"
 Export-Package: com.avaloq.tools.ddk.checkcfg.test,
  com.avaloq.tools.ddk.checkcfg.util
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.core.test

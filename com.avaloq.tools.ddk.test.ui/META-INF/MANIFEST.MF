@@ -4,7 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.test.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.test.ui;singleton:=true
 Bundle-Version: 15.5.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: com.avaloq.tools.ddk.test.ui.Activator
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.test.core,

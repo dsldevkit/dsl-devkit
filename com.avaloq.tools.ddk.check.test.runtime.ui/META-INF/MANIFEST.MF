@@ -20,7 +20,7 @@ Require-Bundle: com.avaloq.tools.ddk.check.test.runtime;visibility:=reexport,
  org.apache.log4j
 Import-Package: org.apache.commons.logging,
  org.apache.log4j
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.check.ui.contentassist.antlr,
  com.avaloq.tools.ddk.check.ui.internal,
  com.avaloq.tools.ddk.check.ui.contentassist,
