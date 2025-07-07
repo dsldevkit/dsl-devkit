@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.export
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.export;singleton:=true
-Bundle-Version: 15.5.0.v20250707-1302-REL
+Bundle-Version: 16.0.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
