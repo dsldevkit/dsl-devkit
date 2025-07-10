@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.emf.common.util.URI;
@@ -57,8 +58,8 @@ public class BugAig1314 {
    *
    * @return Some syntactically correct but otherwise meaningless URL.
    */
-  private URL createURL() throws MalformedURLException {
-    return new URL("http://" + TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION);
+  private URL createURL() throws MalformedURLException, URISyntaxException {
+    return new java.net.URI("http://" + TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION).toURL();
   }
 
   /**
@@ -121,7 +122,7 @@ public class BugAig1314 {
    * Tests that querying the same scope twice doesn't make the resource set grow.
    */
   @Test
-  public void testSameScopeUseTwice() throws MalformedURLException {
+  public void testSameScopeUseTwice() throws MalformedURLException, URISyntaxException {
     XtextResourceSet rs = new XtextResourceSet();
     URL url = createURL();
     ModelLocation modelLocation = createModelLocation(url);
@@ -140,7 +141,7 @@ public class BugAig1314 {
    * Tests that querying two different scopes doesn't make the resource set grow. That one was the real cause of bug AIG-1314.
    */
   @Test
-  public void testDifferentScopeUseTwice() throws MalformedURLException {
+  public void testDifferentScopeUseTwice() throws MalformedURLException, URISyntaxException {
     XtextResourceSet rs = new XtextResourceSet();
     URL url = createURL();
     ModelLocation modelLocation = createModelLocation(url);
