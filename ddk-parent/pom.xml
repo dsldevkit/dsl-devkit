@@ -55,7 +55,7 @@
     <pmd.plugin.version>3.27.0</pmd.plugin.version>
     <pmd.version>7.15.0</pmd.version>
     <tycho.version>5.0.0</tycho.version>
-    <xtend.version>2.39.0</xtend.version>
+    <xtend.version>2.40.0</xtend.version>
   </properties>
 
   <modules>
@@ -228,7 +228,7 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.xtend</groupId>
+        <groupId>org.eclipse.xtext</groupId>
         <artifactId>xtend-maven-plugin</artifactId>
         <version>${xtend.version}</version>
         <executions>
