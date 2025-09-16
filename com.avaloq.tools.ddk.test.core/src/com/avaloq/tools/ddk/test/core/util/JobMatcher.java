@@ -63,7 +63,7 @@ public class JobMatcher extends JobChangeAdapter {
    * Class used to find and match specific waiting, executing and sleeping jobs.
    */
   // CHECKSTYLE:OFF
-  public static abstract class JobFinder implements Predicate<Job> {
+  public abstract static class JobFinder implements Predicate<Job> {
     // CHECKSTYLE:ON
 
     /**

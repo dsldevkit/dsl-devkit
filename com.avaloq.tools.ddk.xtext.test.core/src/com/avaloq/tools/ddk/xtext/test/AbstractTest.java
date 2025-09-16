@@ -331,9 +331,7 @@ public abstract class AbstractTest {
    * @return the {@link TestSource} for this test class
    */
   protected TestSource getTestSource() {
-    TestSource testSource = getTestProjectManager().getTestSource(getTestSourceFileName());
-    // Assert.assertNotNull("TestSource for this test class can be found: " + getTestSourceFileName(), testSource);
-    return testSource;
+    return getTestProjectManager().getTestSource(getTestSourceFileName());
   }
 
   /**

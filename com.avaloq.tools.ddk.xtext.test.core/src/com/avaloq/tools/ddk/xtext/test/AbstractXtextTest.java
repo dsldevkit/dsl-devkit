@@ -62,9 +62,7 @@ public abstract class AbstractXtextTest extends AbstractTest {
    *         the xtext resource loaded by {@link loadPrimarySource}.
    */
   protected XtextResource getXtextTestResource() {
-    XtextResource resource = getTestSource(getTestSourceFileName()).getXtextResource();
-    // assertNotNull("Resource of main test source is not null.", resource);
-    return resource;
+    return getTestSource(getTestSourceFileName()).getXtextResource();
   }
 
   /**
@@ -74,9 +72,7 @@ public abstract class AbstractXtextTest extends AbstractTest {
    *         the semantic model from the xtext resource loaded by {@link loadPrimarySource}.
    */
   protected EObject getSemanticModel() {
-    EObject model = getXtextTestResource().getParseResult().getRootASTElement();
-    // assertNotNull("Semantic model of main test source is not null.", model);
-    return model;
+    return getXtextTestResource().getParseResult().getRootASTElement();
   }
 
   /**

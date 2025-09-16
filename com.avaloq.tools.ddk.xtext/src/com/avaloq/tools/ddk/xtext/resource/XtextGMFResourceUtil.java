@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -42,7 +42,7 @@ public class XtextGMFResourceUtil {
 
   /**
    * Get the text that separates the Xtext part from the GMF part.
-   * 
+   *
    * @param encoding
    *          the encoding to use for the separator. <code>null</code> if default encoding should be used.
    * @return the separator text as a byte array encoded using <code>encoding</code>
@@ -52,13 +52,13 @@ public class XtextGMFResourceUtil {
       return SEPARATOR.getBytes(encoding != null ? encoding : DEFAULT_ENCODING);
     } catch (UnsupportedEncodingException e) {
       LOGGER.error("unsupported encoding: " + encoding, e); //$NON-NLS-1$
-      return SEPARATOR.getBytes();
+      return SEPARATOR.getBytes(); // NOPMD RelianceOnDefaultCharset
     }
   }
 
   /**
    * Read the full stream into a byte array.
-   * 
+   *
    * @param input
    *          stream to read from
    * @return byte array representation of input
@@ -99,7 +99,7 @@ public class XtextGMFResourceUtil {
 
   /**
    * Locate separator within input.
-   * 
+   *
    * @param input
    *          byte array containing encoded input.
    * @param separator

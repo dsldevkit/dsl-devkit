@@ -16,11 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -49,7 +50,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.io.CharStreams;
-import com.google.common.io.Closeables;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -191,7 +191,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
       do {
         bytesRead = inputStream.read(buffer);
         if (bytesRead != -1) {
-          b.append(new String(buffer, 0, bytesRead));
+          b.append(new String(buffer, 0, bytesRead, StandardCharsets.UTF_8));
         }
       } while (bytesRead != -1);
       return b.toString();
@@ -373,12 +373,8 @@ public abstract class AbstractCheckTestCase extends TestCase {
    *           if model could not be read
    */
   private String getNormalizedContents(final Class<? extends AbstractCheckTestCase> clazz, final String modelName) throws IOException {
-    InputStreamReader s = null;
-    try {
-      s = new InputStreamReader(clazz.getResourceAsStream(modelName));
+    try (InputStreamReader s = new InputStreamReader(clazz.getResourceAsStream(modelName), StandardCharsets.UTF_8)) {
       return CharStreams.toString(s);
-    } finally {
-      Closeables.closeQuietly(s);
     }
   }
 

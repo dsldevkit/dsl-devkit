@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
  */
 public final class CheckPreferencesHelper {
 
-  private static final String SEPARATOR = new String(new byte[] {Ascii.SUB});
+  private static final String SEPARATOR = new String(new byte[] {Ascii.SUB}); // NOPMD RelianceOnDefaultCharset
 
   private CheckPreferencesHelper() {
     // No instantiation

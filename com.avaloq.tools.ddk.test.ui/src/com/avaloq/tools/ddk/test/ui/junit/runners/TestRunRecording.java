@@ -26,6 +26,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MonitorInfo;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -594,7 +595,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     // Put it next to screenshots (intentional)
     final File screenshotDirectory = new File(getScreenshotDirectory());
     screenshotDirectory.mkdirs();
-    PrintWriter out = new PrintWriter(getCallStackFileName());
+    PrintWriter out = new PrintWriter(getCallStackFileName(), StandardCharsets.UTF_8);
     out.print(trace);
     out.close();
   }
@@ -624,7 +625,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
    */
   private String getFileNamePrefix() {
     final StringBuilder result = new StringBuilder(getScreenshotDirectory());
-    final Date date = new Date(lastCaptureTime);
+    final Date date = new Date(lastCaptureTime); // NOPMD ReplaceJavaUtilDate
     final DateFormat formatter = new SimpleDateFormat("HH.mm.ss.SSS", Locale.UK);
     final String formattedDate = formatter.format(date);
     result.append(formattedDate);

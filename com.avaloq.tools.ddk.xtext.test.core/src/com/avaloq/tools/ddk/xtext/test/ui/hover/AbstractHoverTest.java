@@ -194,9 +194,7 @@ public abstract class AbstractHoverTest extends AbstractXtextTest {
   private String removeHTMLTags(final String text) {
     Pattern pattern = Pattern.compile("\\<[^>]*>"); //$NON-NLS-1$
     Matcher matcher = pattern.matcher(text);
-    String plainText = matcher.replaceAll("");
-
-    return plainText;
+    return matcher.replaceAll("");
   }
 
   /**
