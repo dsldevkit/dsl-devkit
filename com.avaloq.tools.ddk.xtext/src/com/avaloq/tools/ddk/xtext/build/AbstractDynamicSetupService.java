@@ -24,7 +24,7 @@ public abstract class AbstractDynamicSetupService implements IDynamicSetupServic
    * {@inheritDoc} Child languages are always > than their parent languages.
    */
   @Override
-  public int compareTo(final IDynamicSetupService other) {
+  public int compareTo(final IDynamicSetupService other) { // NOPMD OverrideBothEqualsAndHashCodeOnComparable
     if (other == this) { // NOPMD == on purpose
       return 0;
     }

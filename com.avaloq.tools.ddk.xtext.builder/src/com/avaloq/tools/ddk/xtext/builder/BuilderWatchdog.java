@@ -109,9 +109,9 @@ public class BuilderWatchdog extends Thread {
     AtomicInteger newEntry = new AtomicInteger(0);
     AtomicInteger typeEntry = currentURI != null ? typeCount.putIfAbsent(EmfResourceUtil.getFileExtension(currentURI), newEntry) : null;
     typeEntry = typeEntry != null ? typeEntry : newEntry;
-    typeEntry.getAndIncrement();
+    typeEntry.getAndIncrement(); // NOPMD UselessPureMethodCall
 
-    progressCount.getAndIncrement();
+    progressCount.getAndIncrement(); // NOPMD UselessPureMethodCall
     if (progressCount.compareAndSet(BATCH_SIZE, 0)) {
       reportAndResetProgress(processedSources, totalSources);
     }

@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -368,18 +369,8 @@ public abstract class AbstractGeneratorTest {
    *           thrown if file could not be read
    */
   public String getContents(final IFile file) throws IOException, CoreException {
-    InputStreamReader reader = null;
-    try {
-      reader = new InputStreamReader(file.getContents());
+    try (InputStreamReader reader = new InputStreamReader(file.getContents(), StandardCharsets.UTF_8)) {
       return normalizeLineBreaks(CharStreams.toString(reader));
-    } finally {
-      if (reader != null) {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          LOGGER.info("Failed to close test file " + file.getName());
-        }
-      }
     }
   }
 

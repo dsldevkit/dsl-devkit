@@ -119,14 +119,13 @@ public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionH
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // CHECKSTYLE:OFF
     // @Format-Off
-    final boolean result = CHECK_EXTENSION_POINT_ID.equals(extension.getPoint())
+    return CHECK_EXTENSION_POINT_ID.equals(extension.getPoint())
         && (!extensionNameMatches(extension, catalog)
         || Iterables.size(elements) != 1
         || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
         || catalog.getGrammar() == null && Iterables.get(elements, 0).getAttribute(LANGUAGE_ELEMENT_TAG) != null
         || catalog.getGrammar() != null && !languageNameMatches(Iterables.get(elements, 0), catalog.getGrammar().getName())
     );
-    return result;
     // @Format-On
     // CHECKSTYLE:ON
   }

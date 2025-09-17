@@ -60,9 +60,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
         : Collections.unmodifiableMap(createIssueCodeToLabelMap(checkValidatorRegistry)));
 
     // Get the label
-    final String label = issueCodeToLabelMap.get().get(issueCode);
-
-    return label;
+    return issueCodeToLabelMap.get().get(issueCode);
   }
 
   /**
@@ -81,9 +79,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
     final Stream<Map<String, String>> issueCodeToLabelMaps = validators.stream().map(validatorClass -> getIssueCodeToLabelMap(validatorClass)).filter(Objects::nonNull);
 
     // Munge the maps together
-    final Map<String, String> issueCodeToLabelMap = merge(issueCodeToLabelMaps);
-
-    return issueCodeToLabelMap;
+    return merge(issueCodeToLabelMaps);
   }
 
   /**

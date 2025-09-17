@@ -14,6 +14,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import org.eclipse.internal.xtend.xtend.ast.ExtensionFile;
 import org.eclipse.internal.xtend.xtend.parser.ParseFacade;
@@ -31,7 +32,7 @@ public class CompilationContextTest {
   public void isExtension() {
     ExecutionContextImpl executionContext = new ExecutionContextImpl();
     executionContext.registerMetaModel(new JavaBeansMetaModel());
-    ExtensionFile extensionFile = ParseFacade.file(new InputStreamReader(getClass().getResourceAsStream("/com/avaloq/tools/ddk/xtext/generator/expression/TestExtensions.ext")), "TestExtensions.ext");
+    ExtensionFile extensionFile = ParseFacade.file(new InputStreamReader(getClass().getResourceAsStream("/com/avaloq/tools/ddk/xtext/generator/expression/TestExtensions.ext"), StandardCharsets.UTF_8), "TestExtensions.ext");
     executionContext = (ExecutionContextImpl) executionContext.cloneWithResource(extensionFile);
     final CompilationContext context = new CompilationContext(executionContext, null);
 

@@ -207,7 +207,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   @Override
   protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
     // 1. resource contents
-    zipIn.getNextEntry();
+    zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
     if (!splitContents) {
       switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough
       case SKIP:
@@ -236,7 +236,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
         break;
       }
 
-      zipIn.getNextEntry();
+      zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
       switch (mode.instruction(Constituent.CONTENT)) { // NOPMD ImplicitSwitchFallThrough
       case SKIP:
         break;
@@ -250,7 +250,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     }
 
     // 2. associations adapter
-    zipIn.getNextEntry();
+    zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
     switch (mode.instruction(Constituent.ASSOCIATIONS)) {
     case SKIP:
       break;
@@ -261,7 +261,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       readAssociationsAdapter(resource, new NonLockingBufferInputStream(zipIn));
       break;
     }
-    zipIn.getNextEntry();
+    zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
 
     // 3. source
     String content = null;
@@ -278,7 +278,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       content = out.toString();
       break;
     }
-    zipIn.getNextEntry();
+    zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
 
     // 4. node model
     if (loadNodeModel) {

@@ -12,8 +12,10 @@
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -22,8 +24,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -173,7 +175,7 @@ public final class KeywordAnalysisHelper {
   public void printViolations(final String srcGenPath) {
     try {
       String fileName = getKeywordsDiagnosticReportFileName(srcGenPath);
-      PrintWriter writer = new PrintWriter(new File(fileName));
+      PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8);
       writer.println("Please check in this file, so a diff can be used to detect unexpected changes");
       writer.println();
       writer.println("  identifiers rejected    - are not listed in MWE2 file as reserved words");
@@ -260,8 +262,8 @@ public final class KeywordAnalysisHelper {
       }
       writer.println("if any of them is used to parse identifiers, add them to identifierRules in MWE2 file");
       writer.close();
-    } catch (FileNotFoundException e) {
-      LOGGER.error("could not write diagnostic file on keywords", e);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
 
   }
@@ -429,16 +431,16 @@ public final class KeywordAnalysisHelper {
   public void printReport(final String srcGenPath) {
     try {
       String fileName = getReportFileName(srcGenPath);
-      PrintWriter writer = new PrintWriter(new File(fileName));
+      PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8);
       writer.print(report.build());
       writer.close();
       String docuFileName = getDocFileName(srcGenPath);
-      PrintWriter docuWriter = new PrintWriter(new File(docuFileName));
+      PrintWriter docuWriter = new PrintWriter(new File(docuFileName), StandardCharsets.UTF_8);
       docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
       docuWriter.close();
       LOGGER.info("report on keywords is written into " + fileName);
-    } catch (FileNotFoundException e) {
-      LOGGER.error("could not write report on keywords", e);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
   }
 

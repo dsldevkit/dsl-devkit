@@ -23,11 +23,11 @@ public class CheckBatchLinkableResourceStorageLoadable extends BatchLinkableReso
   @Override
   protected void loadEntries(final StorageAwareResource resource, final ZipInputStream zipIn) throws IOException {
     // Adapted from the ResourceStorageLoadable base class
-    zipIn.getNextEntry();
+    zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
     readContents(resource, new BufferedInputStream(zipIn));
     // Here we skip the call to readResourceDescription
     if (storeNodeModel) {
-      zipIn.getNextEntry();
+      zipIn.getNextEntry(); // NOPMD UselessPureMethodCall
       readNodeModel(resource, new BufferedInputStream(zipIn));
     }
 

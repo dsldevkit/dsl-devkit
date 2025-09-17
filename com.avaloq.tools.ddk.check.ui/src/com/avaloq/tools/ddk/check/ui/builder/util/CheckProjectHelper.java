@@ -11,10 +11,11 @@
 package com.avaloq.tools.ddk.check.ui.builder.util;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -155,7 +156,7 @@ public class CheckProjectHelper {
     }
     IFile file = project.getFile(filename);
     if (!file.exists()) {
-      file.create(new ByteArrayInputStream("".getBytes()), true, null);
+      file.create(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)), true, null);
     }
     return file;
   }

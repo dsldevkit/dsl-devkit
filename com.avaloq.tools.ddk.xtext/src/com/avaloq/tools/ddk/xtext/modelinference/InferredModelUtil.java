@@ -36,8 +36,9 @@ public class InferredModelUtil {
    *          the resource
    * @return the inference container or {@code null} if there aren't any
    */
-  public static @Nullable InferenceContainer getInferenceContainer(final @NonNull Resource resource) {
-    for (EObject content: resource.getContents()) {
+  @Nullable
+  public static InferenceContainer getInferenceContainer(final @NonNull Resource resource) {
+    for (EObject content : resource.getContents()) {
       if (content instanceof InferenceContainer inferenceContainer) {
         return inferenceContainer;
       }
@@ -77,7 +78,8 @@ public class InferredModelUtil {
    * @return the inferred model element or null if there is none.
    */
   @SuppressWarnings("unchecked")
-  public static @Nullable <T extends EObject> T getInferredModelElement(final @Nullable EObject source, @NonNull final Class<T> clazz) {
+  @Nullable
+  public static <T extends EObject> T getInferredModelElement(final @Nullable EObject source, @NonNull final Class<T> clazz) {
     IInferredModelAssociations modelAssociations = getModelAssociations(source);
     if (modelAssociations != null) {
       for (EObject eObj : modelAssociations.getInferredModelElements(source)) {

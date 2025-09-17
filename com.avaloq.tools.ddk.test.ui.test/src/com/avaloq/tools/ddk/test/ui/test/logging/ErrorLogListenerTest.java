@@ -52,7 +52,6 @@ public class ErrorLogListenerTest {
    * @throws InterruptedException
    *           the exception that is thrown if the test job was interrupted
    */
-  @SuppressWarnings("unlikely-arg-type")
   @Test
   public void testIgnoringExceptionLocations() throws InterruptedException {
     assertFalse("NullPointerException must not have been logged.", errorLogListener.isExceptionLogged(NullPointerException.class));
@@ -71,6 +70,5 @@ public class ErrorLogListenerTest {
     job.join();
 
     assertTrue("NullPointerException must have been logged.", errorLogListener.isExceptionLogged(NullPointerException.class));
-    assertFalse("NullPointerException must have been ignored.", errorLogListener.getLoggedExceptions().contains(NullPointerException.class));
   }
 }
