@@ -122,13 +122,13 @@ jobs:
         run: |
           case "${{ matrix.tool }}" in
             checkstyle)
-              mvn checkstyle:check -f ./ddk-parent/pom.xml --batch-mode
+              mvn checkstyle:check -f ./ddk-parent/pom.xml --batch-mode -T1C
               ;;
             pmd)
-              mvn pmd:pmd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode
+              mvn pmd:pmd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode -T1C
               ;;
             spotbugs)
-              mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode
+              mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode -T1C
               ;;
           esac
 
@@ -158,7 +158,7 @@ jobs:
         with:
           name: compiled-classes
       - name: Run integration tests with Maven within a virtual X Server Environment
-        run: xvfb-run mvn verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        run: xvfb-run mvn verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end -T1C
       - name: Archive Tycho Surefire Plugin
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
