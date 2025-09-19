@@ -34,11 +34,16 @@ jobs:
           java-version: '21'
       - name: Set up Workspace Enviroment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV        
-      - name: Cache Maven dependencies
+      - name: Cache Maven dependencies and build cache
         uses: actions/cache@v4
-        with: 
-          path: /home/runner/.m2/repository
-          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+        with:
+          path: |
+            /home/runner/.m2/repository
+            /home/runner/.m2/build-cache
+          key: ${{ runner.os }}-maven-build-cache-${{ hashFiles('**/pom.xml', '.mvn/**') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-build-cache-
+            ${{ runner.os }}-maven-
       - name: Build with Maven  within a virtual X Server Environment
         run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end -T1.5C
       - name: Archive Tycho Surefire Plugin
