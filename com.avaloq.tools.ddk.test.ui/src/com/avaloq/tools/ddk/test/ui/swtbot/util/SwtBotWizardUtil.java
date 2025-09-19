@@ -26,6 +26,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 /**
  * Utility class for selection methods in an eclipse widget for SWTBot testing.
  */
+@SuppressWarnings("nls")
 public final class SwtBotWizardUtil {
 
   private SwtBotWizardUtil() {
@@ -41,7 +42,7 @@ public final class SwtBotWizardUtil {
    *          the folder name
    */
   public static void selectProjectFolder(final SwtWorkbenchBot bot, final String folderName) {
-    SWTBotView packageExplorer = bot.viewByTitle("Project Explorer");
+    SWTBotView packageExplorer = bot.viewByTitle("Package Explorer");
     packageExplorer.show();
     Composite comp = (Composite) packageExplorer.getWidget();
     final Tree tree = bot.widget(WidgetMatcherFactory.widgetOfType(Tree.class), comp);
