@@ -89,13 +89,44 @@ jobs:
         if: steps.pmd.outputs.violations != 0
         run: exit 1
 
-  static-analysis:
-    needs: compile
+  early-static-analysis:
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        tool: [checkstyle, pmd, spotbugs]
+        tool: [checkstyle, pmd]
+    steps:
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: ${{ env.MAVEN_VERSION }}
+      - uses: actions/checkout@v5
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Run ${{ matrix.tool }}
+        run: |
+          case "${{ matrix.tool }}" in
+            checkstyle)
+              mvn checkstyle:check -f ./ddk-parent/pom.xml --batch-mode -T2C
+              ;;
+            pmd)
+              mvn pmd:pmd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode -T2C
+              ;;
+          esac
+
+  spotbugs:
+    needs: compile
+    runs-on: ubuntu-24.04
     steps:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
@@ -118,19 +149,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: compiled-classes
-      - name: Run ${{ matrix.tool }}
-        run: |
-          case "${{ matrix.tool }}" in
-            checkstyle)
-              mvn checkstyle:check -f ./ddk-parent/pom.xml --batch-mode -T1C
-              ;;
-            pmd)
-              mvn pmd:pmd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode -T1C
-              ;;
-            spotbugs)
-              mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode -T1C
-              ;;
-          esac
+      - name: Run SpotBugs
+        run: mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode -T2C
 
   integration-tests:
     needs: compile
