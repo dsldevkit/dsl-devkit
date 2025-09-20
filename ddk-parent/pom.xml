@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.avaloq.tools.ddk</groupId>
@@ -51,12 +51,13 @@
     <clean.version>3.5.0</clean.version>
     <deploy.version>3.1.4</deploy.version>
     <spotbugs.plugin.version>4.9.6.0</spotbugs.plugin.version>
-    <spotbugs.version>4.9.5</spotbugs.version>
+    <spotbugs.version>4.9.6</spotbugs.version>
     <pmd.plugin.version>3.27.0</pmd.plugin.version>
     <pmd.version>7.17.0</pmd.version>
     <tycho.version>5.0.0</tycho.version>
     <xtend.version>2.40.0</xtend.version>
   </properties>
+
 
   <modules>
     <module>../ddk-target</module>
@@ -360,7 +361,6 @@
           <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
           <maxHeap>1024</maxHeap>
           <classFilesDirectory>${project.build.directory}/classes</classFilesDirectory>
-          <auxclasspath>${project.build.directory}/../*/target/classes</auxclasspath>
         </configuration>
       </plugin>
     </plugins>

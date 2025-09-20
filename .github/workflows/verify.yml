@@ -20,11 +20,13 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Cache Maven dependencies
+      - name: Cache Maven and p2 dependencies
         uses: actions/cache@v4
         with:
-          path: /home/runner/.m2/repository
-          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          path: |
+            /home/runner/.m2/repository
+            /home/runner/.p2
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml', 'ddk-target/*.target') }}
       - name: Compile with Maven
         run: mvn clean compile -f ./ddk-parent/pom.xml --batch-mode -T3C
       - name: Upload compiled artifacts
@@ -34,6 +36,14 @@ jobs:
           path: |
             **/target/classes
             **/target/generated-sources
+          retention-days: 1
+      - name: Upload p2 pool cache for SpotBugs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2-pool
+          path: /home/runner/.p2/pool
+          if-no-files-found: ignore
           retention-days: 1
 
   # test:
@@ -108,11 +118,13 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Cache Maven dependencies
+      - name: Cache Maven and p2 dependencies
         uses: actions/cache@v4
         with:
-          path: /home/runner/.m2/repository
-          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          path: |
+            /home/runner/.m2/repository
+            /home/runner/.p2
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml', 'ddk-target/*.target') }}
       - name: Run ${{ matrix.tool }}
         run: |
           case "${{ matrix.tool }}" in
@@ -140,18 +152,125 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Cache Maven dependencies
+      - name: Cache Maven and p2 dependencies
         uses: actions/cache@v4
         with:
-          path: /home/runner/.m2/repository
-          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          path: |
+            /home/runner/.m2/repository
+            /home/runner/.p2
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml', 'ddk-target/*.target') }}
       - name: Download compiled artifacts
         uses: actions/download-artifact@v4
         with:
           name: compiled-classes
           path: .
+      - name: Download p2 pool cache
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: p2-pool
+          path: /home/runner/.p2
       - name: Run SpotBugs
-        run: mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode -T2C
+        run: |
+          set -eo pipefail
+          mkdir -p target/spotbugs
+
+          # Collect all compiled class directories
+          mapfile -t CLASS_DIRS < <(find . -type d -path '*/target/classes' -print | sort)
+          if [ "${#CLASS_DIRS[@]}" -eq 0 ]; then
+            echo "No class directories found. Did the compile artifacts download?"
+            exit 1
+          fi
+
+          # Build classpath from all class directories
+          CLASS_CP=$(IFS=:; echo "${CLASS_DIRS[*]}")
+
+          # Also include Tycho cache location used by some setups
+          TYCHO_CACHE_ROOT="$HOME/.m2/repository/.cache/tycho"
+          TYCHO_CP=""
+          if [ -d "$TYCHO_CACHE_ROOT" ]; then
+            echo "Collecting Tycho cache bundle jars from $TYCHO_CACHE_ROOT"
+            mapfile -t TYCHO_JARS < <(find "$TYCHO_CACHE_ROOT" -type f \( -path '*/plugins/*.jar' -o -path '*/bundles/*.jar' \) -print | sort -u)
+            if [ "${#TYCHO_JARS[@]}" -gt 0 ]; then
+              TYCHO_CP=$(IFS=:; echo "${TYCHO_JARS[*]}")
+            fi
+          fi
+
+          # Include Eclipse p2 shared pool used by Tycho on GitHub runners
+          P2_POOL_ROOT="$HOME/.p2/pool"
+          P2_POOL_CP=""
+          if [ -d "$P2_POOL_ROOT" ]; then
+            echo "Collecting p2 pool bundle jars from $P2_POOL_ROOT"
+            mapfile -t P2_POOL_JARS < <(find "$P2_POOL_ROOT" -type f -path '*/plugins/*.jar' -print | sort -u)
+            if [ "${#P2_POOL_JARS[@]}" -gt 0 ]; then
+              P2_POOL_CP=$(IFS=:; echo "${P2_POOL_JARS[*]}")
+            fi
+          fi
+
+          # Include any built bundle jars (if present) for extra coverage
+          mapfile -t BUNDLE_JARS < <(find . -type f -path '*/target/*.jar' -print | sort -u)
+          BUNDLE_CP=""
+          if [ "${#BUNDLE_JARS[@]}" -gt 0 ]; then
+            BUNDLE_CP=$(IFS=:; echo "${BUNDLE_JARS[*]}")
+          fi
+
+          # Combine to final AUX_CP
+          AUX_CP="$CLASS_CP"
+          if [ -n "$TYCHO_CP" ]; then
+            AUX_CP="$AUX_CP:$TYCHO_CP"
+          fi
+          if [ -n "$P2_POOL_CP" ]; then
+            AUX_CP="$AUX_CP:$P2_POOL_CP"
+          fi
+          if [ -n "$BUNDLE_CP" ]; then
+            AUX_CP="$AUX_CP:$BUNDLE_CP"
+          fi
+
+          # Fetch SpotBugs distribution ZIP (includes all dependencies)
+          mvn -q dependency:copy \
+            -Dartifact=com.github.spotbugs:spotbugs:4.9.6:zip \
+            -DoutputDirectory=target/spotbugs
+
+          unzip -q -o target/spotbugs/spotbugs-4.9.6.zip -d target/spotbugs/dist
+          SPOTBUGS_HOME=$(find target/spotbugs/dist -maxdepth 1 -type d -name 'spotbugs-*' | head -n1)
+          echo "Using SpotBugs home: $SPOTBUGS_HOME"
+
+          # Run SpotBugs CLI via main class with full lib classpath
+          set +e
+          java -Xmx6g -cp "$SPOTBUGS_HOME/lib/*" edu.umd.cs.findbugs.LaunchAppropriateUI \
+            -textui -effort:max -low -maxRank 15 -exitcode \
+            -exclude ddk-configuration/findbugs/exclusion-filter.xml \
+            -auxclasspath "$AUX_CP" \
+            -xml:withMessages \
+            -output target/spotbugs/spotbugs.xml \
+            "${CLASS_DIRS[@]}" 2>&1 | tee target/spotbugs/spotbugs.log
+          SPOTBUGS_RC=${PIPESTATUS[0]}
+          set -e
+
+          # Optional: fail if any missing classes remain
+          MISSING=0
+          if grep -q "needed for analysis were missing" target/spotbugs/spotbugs.log; then
+            echo "ERROR: SpotBugs reported missing classes. Aux classpath is incomplete."
+            MISSING=1
+          fi
+
+          # Preserve SpotBugs exit status but still report missing-classes
+          if [ "$SPOTBUGS_RC" -ne 0 ]; then
+            exit "$SPOTBUGS_RC"
+          fi
+          if [ "$MISSING" -ne 0 ]; then
+            exit 2
+          fi
+
+      - name: Upload SpotBugs report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-report
+          path: |
+            target/spotbugs/spotbugs.xml
+            target/spotbugs/spotbugs.log
+          retention-days: 7
 
   integration-tests:
     needs: compile
@@ -169,11 +288,13 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Cache Maven dependencies
+      - name: Cache Maven and p2 dependencies
         uses: actions/cache@v4
         with:
-          path: /home/runner/.m2/repository
-          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          path: |
+            /home/runner/.m2/repository
+            /home/runner/.p2
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml', 'ddk-target/*.target') }}
       - name: Download compiled artifacts
         uses: actions/download-artifact@v4
         with:
