@@ -50,7 +50,7 @@
     <checkstyle.version>11.0.1</checkstyle.version>
     <clean.version>3.5.0</clean.version>
     <deploy.version>3.1.4</deploy.version>
-    <spotbugs.plugin.version>4.9.4.2</spotbugs.plugin.version>
+    <spotbugs.plugin.version>4.9.6.0</spotbugs.plugin.version>
     <spotbugs.version>4.9.5</spotbugs.version>
     <pmd.plugin.version>3.27.0</pmd.plugin.version>
     <pmd.version>7.17.0</pmd.version>
@@ -359,6 +359,8 @@
           <threshold>Low</threshold>
           <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
           <maxHeap>1024</maxHeap>
+          <classFilesDirectory>${project.build.directory}/classes</classFilesDirectory>
+          <auxclasspath>${project.build.directory}/../*/target/classes</auxclasspath>
         </configuration>
       </plugin>
     </plugins>
