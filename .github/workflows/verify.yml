@@ -149,6 +149,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: compiled-classes
+          path: .
       - name: Run SpotBugs
         run: mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode -T2C
 
@@ -177,6 +178,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: compiled-classes
+          path: .
       - name: Run integration tests with Maven within a virtual X Server Environment
         run: xvfb-run mvn verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end -T1C
       - name: Archive Tycho Surefire Plugin
