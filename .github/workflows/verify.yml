@@ -1,5 +1,8 @@
 name: verify
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
 jobs:
   pmd:
     runs-on: ubuntu-22.04
