@@ -14,16 +14,12 @@ package com.avaloq.tools.ddk.check.imports.test
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase
 import com.avaloq.tools.ddk.check.imports.CheckRewritableImportSectionFactory
 import com.google.inject.Inject
-import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.xtext.testing.XtextRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static org.mockito.Mockito.mock
-import static org.mockito.Mockito.when
 
 /**
  * Tests for {@link CheckRewritableImportSectionFactoryTest}.
@@ -47,14 +43,10 @@ class CheckRewritableImportSectionFactoryTest extends AbstractCheckTestCase {
   @Test
   def void testParseSuccessful() {
     // ARRANGE
-    val mockResource = mock(XtextResource)
-    when(mockResource.contents).thenReturn(new BasicEList<EObject>());
-    val mockUri = mock(URI)
-    when(mockResource.URI).thenReturn(mockUri);
-    when(mockUri.trimFragment).thenReturn(mockUri)
+    val resource = resourceSet.createResource(URI.createURI("dummy:/test")) as XtextResource
 
     // ACT
-    val rewritableImportSection = factory.parse(mockResource)
+    val rewritableImportSection = factory.parse(resource)
 
     // ASSERT
     assertNotNull("parse() should return an object", rewritableImportSection)
@@ -62,3 +54,4 @@ class CheckRewritableImportSectionFactoryTest extends AbstractCheckTestCase {
   }
 
 }
+
