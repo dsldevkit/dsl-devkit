@@ -46,7 +46,7 @@ Workflow {
           enabled = true
         }
         eclipsePluginTest = {
-          enabled = true
+          enabled = false
         }
         genericIde = {
           enabled = true
