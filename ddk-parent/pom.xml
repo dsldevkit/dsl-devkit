@@ -16,9 +16,9 @@
     <target.platform>ddk</target.platform>
     <workspace>${env.WORKSPACE}</workspace>
 
-    <!-- OSGI parameter -->
-    <osgi.os>win32</osgi.os>
-    <osgi.ws>win32</osgi.ws>
+    <!-- OSGI parameter - default to Linux for GitHub Actions -->
+    <osgi.os>linux</osgi.os>
+    <osgi.ws>gtk</osgi.ws>
     <osgi.arch>x86_64</osgi.arch>
 
     <!-- runtime parameter -->
@@ -382,45 +382,83 @@
     </pluginManagement>
   </build>
   <profiles>
+    <!-- Platform-specific profiles for OSGI environment configuration -->
+
+    <!-- Linux x86_64 (default for GitHub Actions) -->
     <profile>
+      <id>linux-x86_64</id>
       <activation>
-        <os>
-          <arch>amd64</arch>
-          <family>windows</family>
-        </os>
-      </activation>
-      <id>64bit_windows</id>
-      <properties>
-        <osgi.arch>x86_64</osgi.arch>
-      </properties>
-    </profile>
-    <profile>
-      <activation>
-        <os>
-          <name>sunos</name>
-          <family>unix</family>
-        </os>
-      </activation>
-      <id>solaris</id>
-      <properties>
-        <osgi.os>solaris</osgi.os>
-        <osgi.ws>gtk</osgi.ws>
-        <osgi.arch>x86</osgi.arch>
-      </properties>
-    </profile>
-    <profile>
-      <activation>
+        <activeByDefault>true</activeByDefault>
         <os>
           <name>linux</name>
           <arch>amd64</arch>
           <family>unix</family>
         </os>
       </activation>
-      <id>64bit_linux</id>
       <properties>
         <osgi.os>linux</osgi.os>
         <osgi.ws>gtk</osgi.ws>
         <osgi.arch>x86_64</osgi.arch>
+      </properties>
+    </profile>
+
+    <!-- Linux aarch64 -->
+    <profile>
+      <id>linux-aarch64</id>
+      <properties>
+        <osgi.os>linux</osgi.os>
+        <osgi.ws>gtk</osgi.ws>
+        <osgi.arch>aarch64</osgi.arch>
+      </properties>
+    </profile>
+
+    <!-- Windows x86_64 -->
+    <profile>
+      <id>windows-x86_64</id>
+      <activation>
+        <os>
+          <arch>amd64</arch>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <osgi.os>win32</osgi.os>
+        <osgi.ws>win32</osgi.ws>
+        <osgi.arch>x86_64</osgi.arch>
+      </properties>
+    </profile>
+
+    <!-- macOS x86_64 (Intel) -->
+    <profile>
+      <id>macos-x86_64</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+          <arch>x86_64</arch>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <osgi.os>macosx</osgi.os>
+        <osgi.ws>cocoa</osgi.ws>
+        <osgi.arch>x86_64</osgi.arch>
+      </properties>
+    </profile>
+
+    <!-- macOS aarch64 (Apple Silicon) -->
+    <profile>
+      <id>macos-aarch64</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+          <arch>aarch64</arch>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <osgi.os>macosx</osgi.os>
+        <osgi.ws>cocoa</osgi.ws>
+        <osgi.arch>aarch64</osgi.arch>
       </properties>
     </profile>
   </profiles>
