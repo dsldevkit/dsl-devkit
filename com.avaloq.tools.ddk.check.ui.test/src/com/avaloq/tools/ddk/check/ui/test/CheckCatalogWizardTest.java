@@ -54,6 +54,7 @@ import com.google.inject.Provider;
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @RunWith(XtextClassRunner.class)
+@SuppressWarnings("nls")
 public class CheckCatalogWizardTest {
 
   /** This is the name of the catalog wizard. It's the name SWTBot uses to look up the wizard. */
