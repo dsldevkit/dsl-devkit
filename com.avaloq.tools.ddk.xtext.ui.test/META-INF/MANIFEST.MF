@@ -13,6 +13,9 @@ Require-Bundle: org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.test.core,
  org.eclipse.ui.ide,
- com.avaloq.tools.ddk.xtext.test.core
+ com.avaloq.tools.ddk.xtext.test.core,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-vintage-engine
 Export-Package: com.avaloq.tools.ddk.xtext.ui.test
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui.test
