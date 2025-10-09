@@ -28,7 +28,10 @@ Require-Bundle: com.avaloq.tools.ddk.check.core,
  org.eclipse.xtext.xbase.lib,
  org.apache.logging.log4j,
  org.apache.commons.lang,
- org.eclipse.xtext.xbase.testing
+ org.eclipse.xtext.xbase.testing,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-vintage-engine
 Export-Package: com.avaloq.tools.ddk.check.core.test,
  com.avaloq.tools.ddk.check.core.test.util,
  com.avaloq.tools.ddk.check.test.core,
