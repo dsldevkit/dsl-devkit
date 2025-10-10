@@ -9,6 +9,9 @@ Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.typesystem
 Require-Bundle: com.google.inject,
  com.google.guava,
- org.junit
+ org.junit,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-vintage-engine
 Export-Package: com.avaloq.tools.ddk.typesystem.test
 Automatic-Module-Name: com.avaloq.tools.ddk.typesystem.test

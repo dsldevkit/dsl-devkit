@@ -10,7 +10,10 @@ Require-Bundle: org.junit,
  org.eclipse.swtbot.eclipse.finder,
  org.eclipse.swt,
  com.avaloq.tools.ddk.test.core,
- com.avaloq.tools.ddk.test.ui
+ com.avaloq.tools.ddk.test.ui,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-vintage-engine
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.core.runtime.jobs
 Automatic-Module-Name: com.avaloq.tools.ddk.test.ui.test

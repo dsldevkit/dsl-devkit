@@ -20,7 +20,10 @@ Require-Bundle: org.junit,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.core.runtime,
  org.eclipse.ui.workbench;resolution:=optional,
- org.objectweb.asm;resolution:=optional
+ org.objectweb.asm;resolution:=optional,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-vintage-engine
 Export-Package: com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.ui.test.util,
  com.avaloq.tools.ddk.check
