@@ -16,7 +16,10 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.junit,
  org.mockito,
  com.avaloq.tools.ddk.xtext.ui,
- org.eclipse.xtext.xtext.generator
+ org.eclipse.xtext.xtext.generator,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-vintage-engine
 Export-Package: com.avaloq.tools.ddk.xtext.generator.test.generator
 Import-Package: org.eclipse.xtext.ui.resource
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator.test

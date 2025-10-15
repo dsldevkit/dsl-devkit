@@ -53,5 +53,10 @@
     <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
     <unit id="org.junit" version="4.13.2.v20211018-1956"/>
   </location>
+  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+    <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-osgi/2025-09"/>
+    <unit id="junit-jupiter-api" version="5.13.4"/>
+    <unit id="junit-vintage-engine" version="5.13.4"/>
+  </location>
 </locations>
 </target>
