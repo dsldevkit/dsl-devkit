@@ -35,13 +35,13 @@ public class ScopeValueConverterService extends ExpressionValueConverterService 
   private static final class ExtensionIdValueConverter extends QualifiedNameValueConverter {
     @Override
     protected String getNamespaceDelimiter() {
-      return "::";
+      return "::"; //$NON-NLS-1$
     }
   }
 
   /**
    * Value converter for QualifiedID rule.
-   * 
+   *
    * @return value converter
    */
   @ValueConverter(rule = "QualifiedID")
@@ -51,7 +51,7 @@ public class ScopeValueConverterService extends ExpressionValueConverterService 
 
   /**
    * Value converter for DottedID rule.
-   * 
+   *
    * @return value converter
    */
   @ValueConverter(rule = "DottedID")

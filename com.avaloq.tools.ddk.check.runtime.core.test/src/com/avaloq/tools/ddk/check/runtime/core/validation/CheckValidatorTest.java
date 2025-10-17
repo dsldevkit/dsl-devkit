@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 /**
  * Performs some basic validation tests on the {@link AbstractCheckValidator}.
  */
+@SuppressWarnings("nls")
 public class CheckValidatorTest extends AbstractCheckValidator {
   /**
    * Represents the dummy language which is also registered in the plugin.xml.
@@ -31,7 +32,7 @@ public class CheckValidatorTest extends AbstractCheckValidator {
 
   /**
    * Returns a dummy language ID.
-   * 
+   *
    * @return the host language
    */
   @Override
@@ -41,7 +42,7 @@ public class CheckValidatorTest extends AbstractCheckValidator {
 
   /**
    * Tests that the dummy validator is found via the check validator extension point.
-   * 
+   *
    * @see {@link com.avaloq.tools.ddk.check.extensionpoint.test.validation.DummyValidator}
    */
   @Test

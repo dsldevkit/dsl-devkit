@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.emf.common.util.URI;
@@ -84,7 +84,7 @@ public class CheckResourceUtil {
         IPackageFragment myFragment = javaProject.findPackageFragment(file.getParent().getFullPath());
         return myFragment.getElementName();
       } catch (JavaModelException e) {
-        LOGGER.error("Could not determine package for file of given document");
+        LOGGER.error("Could not determine package for file of given document"); //$NON-NLS-1$
       }
     }
     return null;

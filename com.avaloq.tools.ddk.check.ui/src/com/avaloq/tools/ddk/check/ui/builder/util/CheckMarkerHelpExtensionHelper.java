@@ -49,6 +49,7 @@ import com.google.common.collect.Sets;
 /**
  * The extension point utility class for Check marker help. Intended to be used by the Check builder participant.
  */
+@SuppressWarnings("nls")
 public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationExtensionHelper {
 
   public static final String MARKERHELP_EXTENSION_POINT_ID = "org.eclipse.ui.ide.markerHelp";

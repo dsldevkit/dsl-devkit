@@ -42,6 +42,7 @@ import com.google.common.collect.Sets;
 /**
  * Abstract class that supports Xtend based test implementations to use markers in the test sources.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
 
   private static final String INVALID_TEST_CONFIGURATION = "Invalid test configuration. Missing org.eclipse.xtend.lib in MANIFEST.MF in this plugin?"; //$NON-NLS-1$

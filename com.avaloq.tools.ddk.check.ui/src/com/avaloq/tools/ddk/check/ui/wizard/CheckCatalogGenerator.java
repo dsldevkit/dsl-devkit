@@ -67,6 +67,7 @@ public class CheckCatalogGenerator {
    * @param projectInfo
    *          the project info
    */
+  @SuppressWarnings("nls")
   public void generateDocsDirectory(final IPath path, final CheckProjectInfo projectInfo) {
     fsa.setOutputPath(path.toOSString());
     // IFileSystemAccess doesn't support creating empty directories, so:

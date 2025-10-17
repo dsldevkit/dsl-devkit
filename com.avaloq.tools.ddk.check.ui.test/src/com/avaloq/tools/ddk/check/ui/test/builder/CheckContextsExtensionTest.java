@@ -18,9 +18,9 @@ import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModel;
+import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.XtextRunner;
 import org.eclipse.xtext.testing.util.ParseHelper;
-import org.eclipse.xtext.testing.InjectWith;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 /**
  * Tests CheckContextExtensionUtil.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @RunWith(XtextRunner.class)
 public class CheckContextsExtensionTest extends TestCase {

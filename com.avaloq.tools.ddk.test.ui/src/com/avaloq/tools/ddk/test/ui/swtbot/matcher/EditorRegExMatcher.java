@@ -22,6 +22,7 @@ import org.hamcrest.Description;
  * A custom matcher that identifies an editor by applying a regular expression
  * on its name.
  */
+@SuppressWarnings("nls")
 public class EditorRegExMatcher extends BaseMatcher<IEditorReference> {
   /** The regular expression matcher for the editor's name. */
   private final Matcher regExMatcher;

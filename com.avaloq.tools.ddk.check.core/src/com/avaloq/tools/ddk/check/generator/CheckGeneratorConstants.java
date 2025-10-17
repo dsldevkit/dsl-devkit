@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.generator;
 /**
  * Generator constants.
  */
+@SuppressWarnings("nls")
 public final class CheckGeneratorConstants {
 
   public static final String CHECK_DOC_OUTPUT = "CHECK_DOC_OUTPUT";

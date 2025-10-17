@@ -56,7 +56,7 @@ public class CheckCfgProposalProvider extends AbstractCheckCfgProposalProvider {
     if (validValues != null && validValues.length > 0) {
       String info = propertySpecification.getInfo();
       for (String validValue : validValues) {
-        ICompletionProposal proposal = createCompletionProposal(String.format("\"%s\"", validValue), new StyledString(validValue), getImage(model), 0, context.getPrefix(), context);
+        ICompletionProposal proposal = createCompletionProposal(String.format("\"%s\"", validValue), new StyledString(validValue), getImage(model), 0, context.getPrefix(), context); //$NON-NLS-1$
         if (proposal instanceof ConfigurableCompletionProposal) {
           ((ConfigurableCompletionProposal) proposal).setAdditionalProposalInfo(info);
         }

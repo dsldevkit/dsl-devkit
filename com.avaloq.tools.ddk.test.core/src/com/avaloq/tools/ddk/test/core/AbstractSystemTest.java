@@ -27,7 +27,7 @@ import org.junit.runner.Description;
 /**
  * Abstract base class for system tests.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public abstract class AbstractSystemTest implements TestStepListener {
   // The particular suppress warnings annotation is needed because we WANT to have a unique logger for each of the subclasses
   @SuppressWarnings("PMD.LoggerIsNotStaticFinal")

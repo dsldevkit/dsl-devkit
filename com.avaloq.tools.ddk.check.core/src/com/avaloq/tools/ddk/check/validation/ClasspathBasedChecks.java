@@ -31,6 +31,7 @@ import com.avaloq.tools.ddk.check.check.CheckPackage;
  * Largely inspired from org.eclipse.xtext.xtend2.validation.ClasspathBasedChecks.
  * TODO: This code should go in utility functions...
  */
+@SuppressWarnings("nls")
 public class ClasspathBasedChecks extends AbstractDeclarativeValidator {
 
   private static final String SLASH = "/";
@@ -44,7 +45,7 @@ public class ClasspathBasedChecks extends AbstractDeclarativeValidator {
   /**
    * Verifies that a given catalog file has the same name as the name given in the model.
    * Also verifies that the given package exists and that the file is in that package.
-   * 
+   *
    * @param catalog
    *          a check catalog
    */
@@ -81,7 +82,7 @@ public class ClasspathBasedChecks extends AbstractDeclarativeValidator {
 
   /**
    * Reports an invalid package error.
-   * 
+   *
    * @param catalog
    *          the catalog
    * @param givenPackageName

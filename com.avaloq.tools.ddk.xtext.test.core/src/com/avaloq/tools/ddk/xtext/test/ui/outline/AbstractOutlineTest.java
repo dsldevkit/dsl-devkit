@@ -39,6 +39,7 @@ import com.google.common.collect.Lists;
 /**
  * Test the outline structure of an input file.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
   /**
    * Returns a list of the elements expected in the outline of the default test resource.

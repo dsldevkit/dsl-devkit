@@ -39,6 +39,7 @@ import com.google.common.collect.Lists;
 /**
  * Abstract class for content assist tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractContentAssistUiTest extends AbstractXtextEditorTest {
 
   private static final String EDITOR_HAS_NO_VIEWER = "Editor has no viewer.";
@@ -249,8 +250,8 @@ public abstract class AbstractContentAssistUiTest extends AbstractXtextEditorTes
   protected int getTotalOffsetForToken(final ICompositeNode parserNode, final String name) {
     int result = NO_OFFSET_FOUND;
     for (final INode n : parserNode.getChildren()) {
-      if (n instanceof ILeafNode && name.equals(((ILeafNode) n).getText())) {
-        result = ((ILeafNode) n).getTotalOffset();
+      if (n instanceof ILeafNode && name.equals(n.getText())) {
+        result = n.getTotalOffset();
       } else if (n instanceof ICompositeNode) {
         result = getTotalOffsetForToken((ICompositeNode) n, name);
       }

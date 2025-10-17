@@ -21,6 +21,7 @@ import com.avaloq.tools.ddk.xtext.format.FormatConstants;
 /**
  * Provides output configurations for the generation of formatters.
  */
+@SuppressWarnings("nls")
 public class FormatOutputConfigurationProvider extends OutputConfigurationProvider {
 
   @Override

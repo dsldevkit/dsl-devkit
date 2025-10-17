@@ -27,6 +27,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 /**
  * Base class for formatting tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractFormattingTest extends AbstractXtextTest {
 
   private static final String CR_LF = "\r\n";

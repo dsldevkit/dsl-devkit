@@ -24,9 +24,9 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 
+import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
-import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -35,6 +35,7 @@ import com.google.inject.Injector;
 /**
  * A test class for {@link FormatBuilderParticipant} and com.avaloq.tools.ddk.xtext.ui.builder.AbstractConditionalBuilderParticipant
  */
+@SuppressWarnings("nls")
 public class FormatBuilderParticipantTest extends AbstractXtextTest {
 
   private static final String TEST_PROJECT_NAME = "resource";

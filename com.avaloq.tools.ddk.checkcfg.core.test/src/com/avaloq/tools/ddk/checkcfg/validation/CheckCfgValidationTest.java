@@ -53,7 +53,7 @@ public class CheckCfgValidationTest extends TestCase {
    */
   @Test
   public void testDisabledCheckIsNotConfigured() throws Exception { // NOPMD
-    CheckConfiguration model = parser.parse(modelUtil.basicModelWithDisabledTest() + " (val = 0)");
+    CheckConfiguration model = parser.parse(modelUtil.basicModelWithDisabledTest() + " (val = 0)"); //$NON-NLS-1$
     helper.assertWarning(model, CheckcfgPackage.Literals.CONFIGURED_CHECK, IssueCodes.DISABLED_CHECK_NOT_CONFIGURED);
   }
 

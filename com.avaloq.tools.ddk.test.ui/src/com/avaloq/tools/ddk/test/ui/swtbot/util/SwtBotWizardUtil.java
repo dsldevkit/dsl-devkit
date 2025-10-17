@@ -40,6 +40,7 @@ public final class SwtBotWizardUtil {
    * @param folderName
    *          the folder name
    */
+  @SuppressWarnings("nls")
   public static void selectProjectFolder(final SwtWorkbenchBot bot, final String folderName) {
     SWTBotView packageExplorer = bot.viewByTitle("Project Explorer");
     packageExplorer.show();

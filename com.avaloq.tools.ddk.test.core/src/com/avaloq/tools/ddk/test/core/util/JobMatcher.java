@@ -55,6 +55,7 @@ import com.google.common.collect.Lists;
  * <p>
  * It doesn't really make sense to call <em>both</em> {@link #waitForExistingJobs()} and {@link #assertNewJobsFinished()} on a job matcher.
  */
+@SuppressWarnings("nls")
 public class JobMatcher extends JobChangeAdapter {
 
   public static final long DEFAULT_JOB_WAIT_TIMEOUT = TimeUnit.SECONDS.toMillis(30);

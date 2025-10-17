@@ -18,6 +18,7 @@ import org.junit.Test;
 /**
  * Tests for {@code AbstractFragmentProvider}.
  */
+@SuppressWarnings("nls")
 public class AbstractFragmentProviderTest {
 
   private static final String[] SPECIAL_ESCAPE_CASES = new String[] {"\\", "\\\\", "\\\\\\", "\\#", "\\\\#", "\\\\\\#", "#", "##", "#\\"};

@@ -32,6 +32,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 /**
  * Base class for hover tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractHoverTest extends AbstractXtextTest {
 
   /**

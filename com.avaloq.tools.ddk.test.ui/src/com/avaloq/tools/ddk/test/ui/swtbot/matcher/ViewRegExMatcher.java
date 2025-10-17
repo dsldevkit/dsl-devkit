@@ -28,7 +28,7 @@ public class ViewRegExMatcher extends BaseMatcher<IViewReference> {
 
   public ViewRegExMatcher(final String regex) {
     Pattern pattern = Pattern.compile(regex);
-    this.regExMatcher = pattern.matcher("");
+    this.regExMatcher = pattern.matcher(""); //$NON-NLS-1$
   }
 
   @Override
@@ -45,7 +45,7 @@ public class ViewRegExMatcher extends BaseMatcher<IViewReference> {
 
   @Override
   public void describeTo(final Description description) {
-    description.appendText("a view with title matching regex");
+    description.appendText("a view with title matching regex"); //$NON-NLS-1$
   }
 
   /**

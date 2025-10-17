@@ -173,7 +173,7 @@ public class ScopeScopeProvider extends AbstractDeclarativeScopeProvider {
         @Override
         public QualifiedName apply(final EObject from) {
           ScopeDefinition scopeDef = (ScopeDefinition) from;
-          return QualifiedName.create(scopeDef.getName() != null ? scopeDef.getName() : "");
+          return QualifiedName.create(scopeDef.getName() != null ? scopeDef.getName() : ""); //$NON-NLS-1$
         }
       }));
     }

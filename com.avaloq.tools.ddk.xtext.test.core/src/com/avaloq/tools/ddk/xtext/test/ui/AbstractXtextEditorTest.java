@@ -32,6 +32,7 @@ import com.avaloq.tools.ddk.xtext.test.XtextTestSource;
 /**
  * AbstractXtextEditorTest provides convenient setup and access functionality for tests that require an xtext editor.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractXtextEditorTest extends AbstractXtextMarkerBasedTest {
 
   private static final String EDITOR_MUST_NOT_BE_DIRTY = "Editor must not be dirty - this indicates state carried over";

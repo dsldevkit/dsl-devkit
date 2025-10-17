@@ -36,6 +36,7 @@ import com.google.common.collect.Sets;
  * <p>
  * Note that many of these methods are called from Xtend and Xpand and will thus not show up when doing a find references in Eclipse.
  */
+@SuppressWarnings("nls")
 public class CompilationContext {
 
   /** Class-wide logger. */

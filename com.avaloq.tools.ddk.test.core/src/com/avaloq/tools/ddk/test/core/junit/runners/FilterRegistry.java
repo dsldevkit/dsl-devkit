@@ -33,6 +33,7 @@ import com.google.common.collect.Lists;
  * {@value #PROPERTY_METHOD_FILTERS}.
  * </p>
  */
+@SuppressWarnings("nls")
 public final class FilterRegistry extends Filter {
   private static final String NEGATOR = "!";
   private static final String FILTER_SEPARATOR = ",";

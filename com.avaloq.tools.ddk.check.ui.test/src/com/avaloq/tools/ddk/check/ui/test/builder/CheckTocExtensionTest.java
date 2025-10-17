@@ -10,8 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.builder;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
@@ -35,11 +33,13 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+import junit.framework.TestCase;
+
 
 /**
  * Tests the CheckTocExtensionUtil class.
  */
-@SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException"})
+@SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @RunWith(XtextRunner.class)
 public class CheckTocExtensionTest extends TestCase {
@@ -69,7 +69,7 @@ public class CheckTocExtensionTest extends TestCase {
 
   /**
    * Tests if the toc extension is correctly created.
-   * 
+   *
    * @throws CoreException
    *           the core exception
    */
@@ -84,7 +84,7 @@ public class CheckTocExtensionTest extends TestCase {
 
   /**
    * Tests if isExtensionUpdateRequired returns true if only an erroneous extension exists for the check catalog.
-   * 
+   *
    * @throws CoreException
    *           the core exception
    */
@@ -98,7 +98,7 @@ public class CheckTocExtensionTest extends TestCase {
 
   /**
    * Creates an erroneous toc extension.
-   * 
+   *
    * @return the plugin extension
    * @throws CoreException
    *           the core exception
@@ -116,7 +116,7 @@ public class CheckTocExtensionTest extends TestCase {
 
   /**
    * Tests if an update of a toc extension is correctly done.
-   * 
+   *
    * @throws CoreException
    *           the core exception
    */
@@ -130,7 +130,7 @@ public class CheckTocExtensionTest extends TestCase {
 
   /**
    * Tests if isExtensionUpdateRequires returns false if a correct extension already exists.
-   * 
+   *
    * @throws CoreException
    *           the core exception
    */

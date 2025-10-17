@@ -397,7 +397,7 @@ class FormatScopeUtil {
    * @return short name of the format/grammar
    */
   private String convertPathNameToShortName(final String extensionName) {
-    String[] str = extensionName.split("\\.");
+    String[] str = extensionName.split("\\."); //$NON-NLS-1$
     return str[str.length - 1];
   }
 }

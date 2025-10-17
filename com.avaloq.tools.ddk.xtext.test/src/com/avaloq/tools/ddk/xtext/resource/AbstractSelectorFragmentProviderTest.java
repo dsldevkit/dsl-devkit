@@ -21,8 +21,8 @@ import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.XtextPackage;
 import org.eclipse.xtext.XtextRuntimeModule;
-import org.eclipse.xtext.testing.AbstractXtextTests;
 import org.eclipse.xtext.resource.IFragmentProvider;
+import org.eclipse.xtext.testing.AbstractXtextTests;
 import org.eclipse.xtext.util.Modules2;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +34,7 @@ import com.google.inject.AbstractModule;
  * Tests for {@code AbstractSelectorFragmentProvider}.
  */
 // CHECKSTYLE:OFF
-@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "deprecation", "removal"})
+@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "deprecation", "removal", "nls"})
 public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
   // CHECKSTYLE:ON
 

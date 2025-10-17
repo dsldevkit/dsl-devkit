@@ -17,15 +17,16 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.nodemodel.INode;
 
-import com.avaloq.tools.ddk.xtext.linking.AbstractFastLinkingService;
 import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.services.CheckGrammarAccess;
+import com.avaloq.tools.ddk.xtext.linking.AbstractFastLinkingService;
 import com.google.inject.Inject;
 
 
 /**
  * A linking service for the Check language.
  */
+@SuppressWarnings("nls")
 public class CheckLinkingService extends AbstractFastLinkingService {
 
   @Inject
@@ -33,9 +34,6 @@ public class CheckLinkingService extends AbstractFastLinkingService {
   @Inject
   private CheckGrammarAccess grammarAccess;
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public List<EObject> getLinkedObjects(final EObject context, final EReference ref, final INode node) {
     if (ref == CheckPackage.Literals.CHECK_CATALOG__GRAMMAR) {

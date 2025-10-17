@@ -32,13 +32,13 @@ public class ValidValueConverterService extends DefaultTerminalConverters {
   private static final class ExtensionIdValueConverter extends QualifiedNameValueConverter {
     @Override
     protected String getNamespaceDelimiter() {
-      return "::";
+      return "::"; //$NON-NLS-1$
     }
   }
 
   /**
    * Value converter for Identifier rule.
-   * 
+   *
    * @return value converter
    */
   @ValueConverter(rule = "QualifiedID")

@@ -20,6 +20,7 @@ import org.eclipse.xtext.xbase.ui.highlighting.XbaseHighlightingConfiguration;
  * A HighlightingConfiguration for the Check language. Highlights the javadoc comments as
  * blue instead of green...
  */
+@SuppressWarnings("nls")
 public class CheckHighlightingConfiguration extends XbaseHighlightingConfiguration {
 
   public static final String JAVADOC_ID = "javadoc";

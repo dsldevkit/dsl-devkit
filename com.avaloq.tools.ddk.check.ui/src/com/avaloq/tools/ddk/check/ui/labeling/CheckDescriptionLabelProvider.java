@@ -29,7 +29,7 @@ public class CheckDescriptionLabelProvider extends XbaseDescriptionLabelProvider
 
   @Override
   public String text(final IEObjectDescription element) {
-    return element.getName() + " - " + element.getEClass().getName();
+    return element.getName() + " - " + element.getEClass().getName(); //$NON-NLS-1$
   }
 
   @Override

@@ -42,6 +42,7 @@ public abstract class AbstractOutlineViewTest extends AbstractXtextUiTest {
    * @return the {@link SWTBotView} representing the outline view
    * @throw WidgetNotFoundException if there is no active editor
    */
+  @SuppressWarnings("nls")
   // CHECKSTYLE:CONSTANTS-OFF
   protected SWTBotView openOutlineViewOfActiveEditor() {
     getBot().menu("Window").menu("Show View").menu("Outline").click();

@@ -25,7 +25,7 @@ import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 
 
 @RunWith(XtextClassRunner.class)
-@SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
+@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
 // CHECKSTYLE:CONSTANTS-OFF
 public class QualifiedNamePatternTest {
 

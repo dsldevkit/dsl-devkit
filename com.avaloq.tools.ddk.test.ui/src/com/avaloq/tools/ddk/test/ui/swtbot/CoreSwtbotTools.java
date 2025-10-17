@@ -58,7 +58,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForTree;
  * Test Helper Class CoreSwtbotTools.
  */
 // CHECKSTYLE:OFF
-@SuppressWarnings("PMD.ExcessiveImports")
+@SuppressWarnings({"PMD.ExcessiveImports", "nls"})
 public final class CoreSwtbotTools {
   private static final String ARGUMENT_NODES = "nodes";
   private static final String ARGUMENT_NODE = "node";

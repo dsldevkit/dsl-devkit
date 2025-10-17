@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.xtext.scope.resource;
 
 import java.util.Collections;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -34,6 +34,7 @@ import com.google.common.hash.Hashing;
  * referencing resources. The fingerprint also includes the hash of all included scopes, so that regeneration will be triggered if the included scope was
  * changed.
  */
+@SuppressWarnings("nls")
 public class ScopeResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {
 
   private static final Logger LOG = LogManager.getLogger(ScopeResourceDescriptionStrategy.class);

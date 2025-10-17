@@ -122,7 +122,7 @@ public class DeployJob extends Job {
    */
   private void deployCheckBundle() throws DeployException {
 
-    File tempDir = createTempDirectory("check_catalog");
+    File tempDir = createTempDirectory("check_catalog"); //$NON-NLS-1$
     tempDir.mkdirs();
 
     final File jar = generateJar(tempDir, new NullProgressMonitor());
@@ -227,14 +227,14 @@ public class DeployJob extends Job {
           if (resource instanceof IProject) {
             return true;
           }
-          if (resource instanceof IFile && CheckCfgConstants.FILE_EXTENSION.equalsIgnoreCase(((IFile) resource).getFileExtension())) {
+          if (resource instanceof IFile && CheckCfgConstants.FILE_EXTENSION.equalsIgnoreCase(resource.getFileExtension())) {
             checkCfgFiles.add((IFile) resource);
             return false;
           }
           if (isProjectJarIgnoreResource(resource)) {
             return false;
           }
-          if (resource instanceof IFolder && "bin".equals(resource.getName())) { // NOPMD SimplifyBooleanReturns
+          if (resource instanceof IFolder && "bin".equals(resource.getName())) { // NOPMD SimplifyBooleanReturns //$NON-NLS-1$
             return false;
           }
           return true;

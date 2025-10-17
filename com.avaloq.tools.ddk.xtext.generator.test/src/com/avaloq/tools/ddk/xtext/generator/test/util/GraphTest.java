@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 
-@SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
+@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
 public class GraphTest {
   // CHECKSTYLE:CONSTANTS-OFF
 

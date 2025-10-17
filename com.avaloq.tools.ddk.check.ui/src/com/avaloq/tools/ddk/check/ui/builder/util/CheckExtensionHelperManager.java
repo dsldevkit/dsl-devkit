@@ -124,6 +124,7 @@ public class CheckExtensionHelperManager {
    *          the type id
    * @return the extension ID for current Catalog or {@code null}
    */
+  @SuppressWarnings("nls")
   private String getExtensionId(final QualifiedName catalogName, final ExtensionType typeId) {
     QualifiedName result = catalogName;
     switch (typeId) {

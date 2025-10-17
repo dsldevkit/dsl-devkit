@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.sample.helloworld.label
 
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
-import org.junit.Test
+import org.junit.Test 
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull

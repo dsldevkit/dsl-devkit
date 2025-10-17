@@ -31,6 +31,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
 /**
  * Tests for {@code AbstractFragmentProvider}.
  */
+@SuppressWarnings("nls")
 public class ShortFragmentProviderTest extends AbstractTest {
 
   private static final String FRAGMENT_MUST_BE_EQUAL = "Fragment must be equal";

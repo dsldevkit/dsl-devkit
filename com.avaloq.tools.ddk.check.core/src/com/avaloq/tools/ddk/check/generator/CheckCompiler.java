@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 /**
  * The Check compiler used for generating Java code from Check models.
  */
+@SuppressWarnings("nls")
 // CHECKSTYLE:CONSTANTS-OFF
 public class CheckCompiler extends XbaseCompiler {
 

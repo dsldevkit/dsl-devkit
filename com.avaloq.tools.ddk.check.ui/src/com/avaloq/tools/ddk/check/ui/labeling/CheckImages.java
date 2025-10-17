@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 /**
  * The Class CheckImages provides icons for check model elements.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class CheckImages {
 
   private static final String RESOURCE_IMAGE = "editor.gif";

@@ -49,6 +49,7 @@ import com.google.common.collect.ImmutableList;
  * All exceptions are wrapped and handed over to the JUnit framework.
  */
 @RunWith(XtextClassRunner.class)
+@SuppressWarnings("nls")
 public abstract class AbstractTest {
 
   /**

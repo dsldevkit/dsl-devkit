@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 /**
  * Configures the Check Configuration default outline structure.
  */
+@SuppressWarnings("nls")
 public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   @Inject
@@ -40,7 +41,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * <p>
    * Uses configured highlighting configuration for unresolved values.
    * </p>
-   * 
+   *
    * @param configuredCatalog
    *          the configured catalog
    * @return a styled string
@@ -66,7 +67,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * <p>
    * Uses configured highlighting configuration for disabled and unresolved values.
    * </p>
-   * 
+   *
    * @param configuredCheck
    *          the configured check
    * @return a styled string
@@ -92,7 +93,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Returns a "safe name" for a string, being either given string itself or a non-null value. Does not return {@code null}.
-   * 
+   *
    * @param s
    *          the string to be checked
    * @return the safe string
@@ -103,7 +104,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * A configured check shall be displayed as a leaf node in the outline view.
-   * 
+   *
    * @param modelElement
    *          the model element
    * @return {@code true}

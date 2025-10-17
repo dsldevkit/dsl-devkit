@@ -45,7 +45,7 @@ public class IsContextMenuVisibleCondition implements ICondition {
 
   @Override
   public String getFailureMessage() {
-    StringBuilder msg = new StringBuilder("Error in ");
+    StringBuilder msg = new StringBuilder("Error in "); //$NON-NLS-1$
     msg.append(getClass().getName());
     return msg.toString();
   }

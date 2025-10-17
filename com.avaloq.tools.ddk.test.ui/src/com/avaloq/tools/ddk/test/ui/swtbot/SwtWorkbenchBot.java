@@ -55,6 +55,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
 /**
  * Extended {@link SWTWorkbenchBot}.
  */
+@SuppressWarnings("nls")
 public class SwtWorkbenchBot extends SWTWorkbenchBot {
   private static final int DELAY_WIZARD_PAGE = 1000;
   private static final String TIMEOUT_MSG = "Timeout of {0} ms reached while waiting for Button {1} to become active";

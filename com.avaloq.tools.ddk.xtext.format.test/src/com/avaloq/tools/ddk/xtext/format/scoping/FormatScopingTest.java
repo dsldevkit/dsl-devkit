@@ -43,6 +43,7 @@ import com.google.common.collect.Sets;
 /**
  * Scoping tests for the Format DSL.
  */
+@SuppressWarnings("nls")
 public class FormatScopingTest extends AbstractScopingTest {
 
   private static final String C_FORMAT = "C.format";

@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 /**
  * Abstract class for extension point utility classes. Defines operations required by the Check builder participant.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHelper {
 
   protected static final String LANGUAGE_ELEMENT_TAG = "language";

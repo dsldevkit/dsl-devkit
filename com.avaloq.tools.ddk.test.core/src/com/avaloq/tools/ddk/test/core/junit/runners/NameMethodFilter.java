@@ -22,6 +22,7 @@ import org.junit.runner.manipulation.Filter;
  * <em>Note</em>: The regular expression needs to be defined using the property {@value #PROPERTY_NAME_PREFIX}.
  * </p>
  */
+@SuppressWarnings("nls")
 public class NameMethodFilter extends Filter {
 
   private static final String PROPERTY_NAME_PREFIX = "com.avaloq.test.namemethodfilter";
@@ -41,7 +42,7 @@ public class NameMethodFilter extends Filter {
 
   /**
    * Returns the qualified method name of the given {@link Description}.
-   * 
+   *
    * @param description
    *          the {@link Description} which must describe a test method, must not be {@code null}
    * @return the qualified method name of the given {@link Description}

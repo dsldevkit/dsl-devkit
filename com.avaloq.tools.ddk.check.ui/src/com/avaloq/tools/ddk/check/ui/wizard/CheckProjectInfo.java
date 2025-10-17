@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 /**
  * Aggregates project information collected from UI.
  */
+@SuppressWarnings("nls")
 public class CheckProjectInfo extends DefaultProjectInfo {
 
   private String catalogName;

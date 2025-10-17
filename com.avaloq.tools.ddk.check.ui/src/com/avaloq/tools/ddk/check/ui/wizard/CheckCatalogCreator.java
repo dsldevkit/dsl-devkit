@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 /**
  * The Class CheckCatalogCreator creates a new Check catalog in an existing Check plugin project.
  */
+@SuppressWarnings("nls")
 public class CheckCatalogCreator extends WorkspaceModifyOperation implements ICheckCatalogCreator {
 
   /** The result. */

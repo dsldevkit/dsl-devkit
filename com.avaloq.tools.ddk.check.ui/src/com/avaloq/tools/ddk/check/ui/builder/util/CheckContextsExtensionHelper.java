@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 /**
  * The extension point utility class for context sensitive help. Intended to be used by the Check builder participant.
  */
+@SuppressWarnings("nls")
 public class CheckContextsExtensionHelper extends AbstractCheckDocumentationExtensionHelper {
 
   public static final String FILE_ATTRIBUTE_TAG = "file";

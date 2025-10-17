@@ -33,7 +33,7 @@ public class ValidOutlineTreeProvider extends DefaultOutlineTreeProvider {
   /**
    * Do not create Model nodes in the outline. When the valid model is processed it is not
    * added to the outline but its children are.
-   * 
+   *
    * @param parentNode
    *          the parent node, this should be the tree root
    * @param modelElement
@@ -46,7 +46,7 @@ public class ValidOutlineTreeProvider extends DefaultOutlineTreeProvider {
     Image importContainerImage = JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_IMPCONT);
 
     if (!modelElement.getImports().isEmpty()) {
-      createEStructuralFeatureNode(parentNode, modelElement, ValidPackage.Literals.VALID_MODEL__IMPORTS, importContainerImage, "import declarations", false);
+      createEStructuralFeatureNode(parentNode, modelElement, ValidPackage.Literals.VALID_MODEL__IMPORTS, importContainerImage, "import declarations", false); //$NON-NLS-1$
     }
     for (EObject content : modelElement.getCategories()) {
       createNode(parentNode, content);
@@ -55,7 +55,7 @@ public class ValidOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Create the child nodes for a given native Context. We only show quick fixes.
-   * 
+   *
    * @param parentNode
    *          the parent node
    * @param modelElement
@@ -71,7 +71,7 @@ public class ValidOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Create the child nodes for a given native native rule: its contexts.
-   * 
+   *
    * @param parentNode
    *          the parent node
    * @param modelElement

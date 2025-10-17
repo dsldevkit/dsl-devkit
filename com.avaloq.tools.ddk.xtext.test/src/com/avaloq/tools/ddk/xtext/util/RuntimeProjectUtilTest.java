@@ -39,6 +39,7 @@ import com.google.inject.Injector;
 /**
  * A test class for {@link RuntimeProjectUtil}
  */
+@SuppressWarnings("nls")
 public class RuntimeProjectUtilTest extends AbstractUtilTest {
 
   private static final String WORKSPACE_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().getPath();

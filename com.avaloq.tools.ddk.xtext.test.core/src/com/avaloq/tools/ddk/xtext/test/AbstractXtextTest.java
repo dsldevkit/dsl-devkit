@@ -52,7 +52,7 @@ public abstract class AbstractXtextTest extends AbstractTest {
    */
   @Override
   protected String getTestSourceFileName() {
-    return this.getTestSourceModelName() + "." + getXtextTestUtil().getFileExtension();
+    return this.getTestSourceModelName() + '.' + getXtextTestUtil().getFileExtension();
   }
 
   /**

@@ -26,6 +26,7 @@ import com.google.inject.Inject;
  */
 
 // CHECKSTYLE:OFF
+@SuppressWarnings("nls")
 public class CheckHoverProvider extends XbaseHoverProvider {
 
   @Inject

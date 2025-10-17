@@ -33,7 +33,7 @@ import com.google.inject.Inject;
  * Furthermore, the page allows setting the catalog name and a
  * new check file.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   private static final int DEFAULT_COLUMN_NUMBER = 4;

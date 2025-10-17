@@ -47,6 +47,7 @@ import com.google.common.collect.Lists;
 /**
  * Validations for the export language.
  */
+@SuppressWarnings("nls")
 public class ExportValidator extends AbstractExportValidator {
 
   /**

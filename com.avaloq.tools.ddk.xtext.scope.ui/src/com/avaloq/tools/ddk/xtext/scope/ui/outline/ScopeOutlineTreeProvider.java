@@ -31,7 +31,7 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Create the child nodes for a given native Context. We only show quick fixes.
-   * 
+   *
    * @param parentNode
    *          the parent node
    * @param modelElement
@@ -43,7 +43,7 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
     Image importContainerImage = JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_IMPCONT);
 
     if (!modelElement.getImports().isEmpty()) {
-      createEStructuralFeatureNode(parentNode, modelElement, ScopePackage.Literals.SCOPE_MODEL__IMPORTS, importContainerImage, "import declarations", false);
+      createEStructuralFeatureNode(parentNode, modelElement, ScopePackage.Literals.SCOPE_MODEL__IMPORTS, importContainerImage, "import declarations", false); //$NON-NLS-1$
     }
 
     for (EObject content : modelElement.getScopes()) {
@@ -53,7 +53,7 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Specify Expression as leaf.
-   * 
+   *
    * @param modelElement
    *          the expression
    * @return true
@@ -66,7 +66,7 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Specify ScopeRule as leaf.
-   * 
+   *
    * @param modelElement
    *          the rule
    * @return true

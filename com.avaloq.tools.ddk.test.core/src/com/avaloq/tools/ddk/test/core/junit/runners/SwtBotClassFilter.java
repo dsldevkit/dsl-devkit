@@ -30,7 +30,7 @@ public class SwtBotClassFilter extends Filter {
     final RunWith runWithAnnotation = description.getAnnotation(RunWith.class);
 
     return runWithAnnotation != null
-        && System.getProperty(SwtBotClassFilter.class.getCanonicalName() + ".runwithannotation").equals(runWithAnnotation.value().getName());
+        && System.getProperty(SwtBotClassFilter.class.getCanonicalName() + ".runwithannotation").equals(runWithAnnotation.value().getName()); //$NON-NLS-1$
   }
 
   @Override

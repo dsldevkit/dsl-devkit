@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 /**
  * The extension point utility class for Check quickfixes. Intended to be used by the Check builder participant.
  */
+@SuppressWarnings("nls")
 public final class CheckQuickfixExtensionHelper extends AbstractCheckExtensionHelper {
 
   public static final String QUICKFIX_EXTENSION_POINT_ID = "com.avaloq.tools.ddk.check.runtime.core.checkquickfix";

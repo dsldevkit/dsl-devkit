@@ -32,7 +32,7 @@ public final class StatementFactory {
    * If the {@code base} statement throws an {@link AssertionError}, the returned statement will catch it and succeed nevertheless. If the {@code base}
    * statement succeeds, the returned statement will throw an {@link AssertionError} with the custom error message {@code errorMessage}.
    * </p>
-   * 
+   *
    * @param errorMessage
    *          the error message for the new {@link AssertionError}, must not be {@code null}
    * @param base
@@ -41,6 +41,7 @@ public final class StatementFactory {
    *          the description of the test that will be run, must not be {@code null}
    * @return the inverted statement, never {@code null}
    */
+  @SuppressWarnings("nls")
   public static Statement createResultInvertingStatement(final String errorMessage, final Statement base, final Description description) {
     return new Statement() {
       @Override

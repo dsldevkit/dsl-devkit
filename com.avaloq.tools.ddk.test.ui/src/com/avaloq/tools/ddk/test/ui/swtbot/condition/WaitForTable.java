@@ -36,13 +36,13 @@ public class WaitForTable extends WaitForObjectCondition<TableItem> {
    */
   public WaitForTable(final Table parent) {
     super(WidgetMatcherFactory.widgetOfType(TableItem.class));
-    Assert.isNotNull(parent, "parent");
+    Assert.isNotNull(parent, "parent"); //$NON-NLS-1$
     this.parent = parent;
   }
 
   @Override
   public String getFailureMessage() {
-    return "Could not find table item matching: " + this.matcher;
+    return "Could not find table item matching: " + this.matcher; //$NON-NLS-1$
   }
 
   @Override

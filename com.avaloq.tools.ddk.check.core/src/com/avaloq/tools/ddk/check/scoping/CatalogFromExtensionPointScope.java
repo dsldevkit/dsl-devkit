@@ -33,6 +33,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * Defines a scope scope for check catalogs located in the plugin registry.
  */
+@SuppressWarnings("nls")
 public class CatalogFromExtensionPointScope extends AbstractScope {
 
   private final IModelLocation locationData;

@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.xtext.format.services.FormatGrammarAccess.WildcardRu
  * on how and when to use it
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
+@SuppressWarnings("nls")
 public class FormatFormatter extends AbstractDeclarativeFormatter {
 
   private static final int LINE_LENGTH = 120;
