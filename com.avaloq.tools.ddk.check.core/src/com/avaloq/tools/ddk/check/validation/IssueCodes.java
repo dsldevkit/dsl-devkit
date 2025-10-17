@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.validation;
 /**
  * Issue codes used for the Check Java validator.
  */
+@SuppressWarnings("nls")
 public final class IssueCodes {
   private static final String ISSUE_CODE_PREFIX = "com.avaloq.tools.ddk.check.validation.IssueCodes.";
 

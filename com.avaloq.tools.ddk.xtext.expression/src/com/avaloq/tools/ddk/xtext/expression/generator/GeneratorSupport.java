@@ -16,8 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -34,6 +34,7 @@ import org.eclipse.jdt.core.JavaCore;
 /**
  * Support methods for Expression DSL based generators.
  */
+@SuppressWarnings("nls")
 public class GeneratorSupport {
 
   /** Class-wide logger. */

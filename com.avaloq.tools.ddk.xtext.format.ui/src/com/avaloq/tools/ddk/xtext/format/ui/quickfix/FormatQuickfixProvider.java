@@ -28,6 +28,7 @@ import com.avaloq.tools.ddk.xtext.format.validation.FormatValidator;
 /**
  * The quickfix provider.
  */
+@SuppressWarnings("nls")
 public class FormatQuickfixProvider extends DefaultQuickfixProvider {
 
   /**

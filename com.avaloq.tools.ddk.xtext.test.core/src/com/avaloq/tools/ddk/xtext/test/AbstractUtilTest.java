@@ -32,6 +32,7 @@ import org.eclipse.xtext.util.Tuples;
 /**
  * A base class for util test classes, which prepares common required mocks.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractUtilTest extends AbstractXtextTest {
 
   public static final String TEST_PROJECT_NAME = "TestProjectName";

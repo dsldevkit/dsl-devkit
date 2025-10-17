@@ -34,6 +34,7 @@ import com.avaloq.tools.ddk.xtext.linking.AbstractFastLinkingService;
 /**
  * A linking service for the Format language.
  */
+@SuppressWarnings("nls")
 public class FormatLinkingService extends AbstractFastLinkingService {
 
   /**

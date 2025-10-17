@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 /**
  * Provides some test cases for the Check extension point.
  */
+@SuppressWarnings("nls")
 public class CheckExtensionPointTests extends TestCase {
 
   private static final String DUMMY_EXTENSION_ID = "com.avaloq.tools.ddk.check.runtime.core.test";

@@ -31,7 +31,7 @@ public class ExportOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Create the child nodes for a given export model: its interfaces and exports.
-   * 
+   *
    * @param parentNode
    *          the parent node
    * @param modelElement
@@ -43,7 +43,7 @@ public class ExportOutlineTreeProvider extends DefaultOutlineTreeProvider {
     Image importContainerImage = JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_IMPCONT);
 
     if (!modelElement.getImports().isEmpty()) {
-      createEStructuralFeatureNode(parentNode, modelElement, ExportPackage.Literals.EXPORT_MODEL__IMPORTS, importContainerImage, "import declarations", false);
+      createEStructuralFeatureNode(parentNode, modelElement, ExportPackage.Literals.EXPORT_MODEL__IMPORTS, importContainerImage, "import declarations", false); //$NON-NLS-1$
     }
     for (EObject content : modelElement.getInterfaces()) {
       createNode(parentNode, content);
@@ -55,7 +55,7 @@ public class ExportOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Specify Interface as leaf.
-   * 
+   *
    * @param modelElement
    *          the interface
    * @return true
@@ -68,7 +68,7 @@ public class ExportOutlineTreeProvider extends DefaultOutlineTreeProvider {
 
   /**
    * Specify Export as leaf.
-   * 
+   *
    * @param modelElement
    *          the export
    * @return true

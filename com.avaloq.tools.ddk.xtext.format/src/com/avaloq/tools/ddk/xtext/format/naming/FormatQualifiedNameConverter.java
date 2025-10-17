@@ -21,6 +21,7 @@ import org.eclipse.xtext.util.Strings;
 /**
  * Extension of the default implementation of the qualified name converter.
  */
+@SuppressWarnings("nls")
 public class FormatQualifiedNameConverter extends IQualifiedNameConverter.DefaultImpl {
 
   private static final Pattern STRING_PATTERN = Pattern.compile("\".*\"");

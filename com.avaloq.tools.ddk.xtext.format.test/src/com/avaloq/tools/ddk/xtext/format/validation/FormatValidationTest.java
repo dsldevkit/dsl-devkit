@@ -23,6 +23,7 @@ import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest;
 import com.google.common.collect.Lists;
 
 
+@SuppressWarnings("nls")
 public class FormatValidationTest extends AbstractValidationTest {
   private static final String INT_EXP_RULE = "INT_EXP {}";
   private static final String WILDCARD_RULE = "* {}";

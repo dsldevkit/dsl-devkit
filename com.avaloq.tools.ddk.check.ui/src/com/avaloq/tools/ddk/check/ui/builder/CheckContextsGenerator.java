@@ -31,13 +31,13 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 
-import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckContextsExtensionHelper;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
+import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -49,7 +49,7 @@ import com.google.inject.Inject;
 /**
  * The class responsible for the manipulation of contexts.xml file.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class CheckContextsGenerator {
 
   @Inject

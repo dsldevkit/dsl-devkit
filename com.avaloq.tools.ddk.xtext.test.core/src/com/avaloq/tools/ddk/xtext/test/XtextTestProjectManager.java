@@ -33,6 +33,7 @@ import com.google.common.collect.Maps;
 /**
  * Simple Test project manager for SDK tests.
  */
+@SuppressWarnings("nls")
 public class XtextTestProjectManager implements ITestProjectManager {
   protected static final String TEST_PROJECT_NAME = "TEST";
   private final Map<String, TestSource> testSources = Maps.newHashMap();
@@ -148,7 +149,7 @@ public class XtextTestProjectManager implements ITestProjectManager {
    * @return the {@link URI} for the given file name
    */
   public URI createPlatformUri(final String encodedFileName) {
-    return URI.createPlatformResourceURI('/' + TEST_PROJECT_NAME + "/" + encodedFileName, true);
+    return URI.createPlatformResourceURI('/' + TEST_PROJECT_NAME + '/' + encodedFileName, true);
   }
 
 }

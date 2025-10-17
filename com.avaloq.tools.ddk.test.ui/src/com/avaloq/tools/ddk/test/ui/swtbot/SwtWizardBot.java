@@ -16,8 +16,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
@@ -28,6 +28,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 /**
  * An SwtBot to manipulate a wizard.
  */
+@SuppressWarnings("nls")
 public class SwtWizardBot extends SwtWorkbenchBot {
 
   public static final int SWTBOT_TIMEOUT = 20000;

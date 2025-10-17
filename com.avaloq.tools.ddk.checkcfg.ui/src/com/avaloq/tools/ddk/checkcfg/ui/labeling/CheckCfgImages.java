@@ -20,6 +20,7 @@ import com.google.inject.Inject;
 /**
  * Provides icons for Check Configuration model elements.
  */
+@SuppressWarnings("nls")
 public class CheckCfgImages {
 
   private static final String RESOURCE_IMAGE = "editor.gif";

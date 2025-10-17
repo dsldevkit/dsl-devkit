@@ -34,6 +34,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 /**
  * Test labels of a given input file which is read in during setUpLabelTest().
  */
+@SuppressWarnings("nls")
 public abstract class AbstractLabelingTest extends AbstractXtextTest {
   /**
    * Returns a list of pairs with the expected {@link ENamedElement} and the corresponding label string.

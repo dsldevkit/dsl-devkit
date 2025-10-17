@@ -21,14 +21,15 @@ import org.junit.Test;
 
 import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
 import com.avaloq.tools.ddk.xtext.export.export.ExportPackage;
+import com.avaloq.tools.ddk.xtext.scoping.IDomain.NullMapper;
 import com.avaloq.tools.ddk.xtext.test.export.util.ExportTestUtil;
 import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest;
-import com.avaloq.tools.ddk.xtext.scoping.IDomain.NullMapper;
 
 
 /**
  * Tests scoping of Code Tab Data Source
  */
+@SuppressWarnings("nls")
 public class ExportScopingTest extends AbstractScopingTest {
   public ExportScopingTest() {
     super(new NullMapper());

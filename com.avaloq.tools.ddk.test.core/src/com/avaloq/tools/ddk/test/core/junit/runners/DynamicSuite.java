@@ -69,6 +69,7 @@ public class DynamicSuite extends Suite {
    * @throws InitializationError
    *           thrown when annotation is missing or class can not be found
    */
+  @SuppressWarnings("nls")
   private static Class<?>[] getSuiteClasses(final Class<?> clazz) throws InitializationError {
     // get annotation
     SuiteClasses annotation = clazz.getAnnotation(SuiteClasses.class);

@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.WrappedException;
 /**
  * Test Helper Class Test Configuration.
  */
+@SuppressWarnings("nls")
 public final class TestConfiguration {
 
   private TestConfiguration() {

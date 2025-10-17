@@ -21,6 +21,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 /**
  * Test Helper Class SwtBotControlUtils.
  */
+@SuppressWarnings("nls")
 public final class SwtBotControlUtils {
 
   private static final int THREAD_SLEEP_TIME = 100;

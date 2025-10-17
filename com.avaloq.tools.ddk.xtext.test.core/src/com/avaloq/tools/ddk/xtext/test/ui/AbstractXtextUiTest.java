@@ -114,7 +114,7 @@ public abstract class AbstractXtextUiTest extends AbstractXtextTest {
 
       @Override
       public String getFailureMessage() {
-        return "Editor must be initialized.";
+        return "Editor must be initialized."; //$NON-NLS-1$
       }
     }, EDITOR_ENABLED_TIMEOUT);
 

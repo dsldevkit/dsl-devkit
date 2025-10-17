@@ -76,7 +76,7 @@ public abstract class AbstractUiTest extends AbstractTest {
    */
   @Override
   protected String getTestSourceFileName() {
-    return this.getTestSourceModelName() + "." + getFileExtension();
+    return this.getTestSourceModelName() + '.' + getFileExtension();
   }
 
   @Override

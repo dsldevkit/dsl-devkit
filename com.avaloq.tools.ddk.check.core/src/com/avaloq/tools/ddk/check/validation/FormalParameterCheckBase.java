@@ -34,7 +34,7 @@ public class FormalParameterCheckBase extends AbstractDeclarativeValidator {
   /**
    * Validates that all XNumberLiterals in this expression, which occurs on the right-hand side of a formal parameter
    * declaration/definition, have indeed integral values.
-   * 
+   *
    * @param value
    *          to check
    * @param issueCode
@@ -52,7 +52,7 @@ public class FormalParameterCheckBase extends AbstractDeclarativeValidator {
           try {
             Integer.decode(((XNumberLiteral) e).getValue());
           } catch (NumberFormatException ex) {
-            error("Only integral values as numbers are allowed in check parameters", expr, null, issueCode); // TODO: NLS
+            error("Only integral values as numbers are allowed in check parameters", expr, null, issueCode); // TODO: NLS //$NON-NLS-1$
           }
         }
       }

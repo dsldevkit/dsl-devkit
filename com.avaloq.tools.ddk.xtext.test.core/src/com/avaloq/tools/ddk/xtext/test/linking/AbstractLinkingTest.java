@@ -23,11 +23,11 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
  */
 @SuppressWarnings("PMD.AbstractClassWithoutAnyMethod")
 public abstract class AbstractLinkingTest extends AbstractXtextTest {
-  private static final String NOT_RESOLVED_MESSAGE = "Cross-reference has not been resolved.";
+  private static final String NOT_RESOLVED_MESSAGE = "Cross-reference has not been resolved."; //$NON-NLS-1$
 
   /**
    * Asserts that the actualObject equals the expectedObject.
-   * 
+   *
    * @param expectedObject
    *          the expected object
    * @param actualObject

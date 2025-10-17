@@ -23,6 +23,7 @@ import com.avaloq.tools.ddk.xtext.formatting.IIndentationInformationWithDefaults
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("nls")
 public class FormatterTestConfig extends AbstractExtendedFormatter {
 
   private final IIndentationInformation indentInfo = new IIndentationInformationWithDefaults() {

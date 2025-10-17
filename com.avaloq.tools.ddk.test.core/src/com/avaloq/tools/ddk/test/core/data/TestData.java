@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.test.core.data;
 /**
  * The Class TestData.
  */
+@SuppressWarnings("nls")
 public final class TestData {
 
   /** The Bot prefix. */
@@ -30,7 +31,7 @@ public final class TestData {
   /**
    * Gets the system property indicated by the specified key. The method returns the
    * default value argument if the property is not found.
-   * 
+   *
    * @param defaultValue
    *          the default value
    * @param propertyKey

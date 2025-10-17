@@ -54,7 +54,7 @@ public final class ShellUiTestUtil {
 
       @Override
       public void describeTo(final Description description) {
-        description.appendText("Shell for " + clazz.getName());
+        description.appendText("Shell for " + clazz.getName()); //$NON-NLS-1$
       }
     }));
   }

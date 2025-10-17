@@ -18,6 +18,7 @@ import org.eclipse.xtext.resource.generic.AbstractGenericResourceRuntimeModule;
 /**
  * Minimal Guice runtime module for GenModel support.
  */
+@SuppressWarnings("nls")
 public class GenModelRuntimeModule extends AbstractGenericResourceRuntimeModule {
 
   @Override

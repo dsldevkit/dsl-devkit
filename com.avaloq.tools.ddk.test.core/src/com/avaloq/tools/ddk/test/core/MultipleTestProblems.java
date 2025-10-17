@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 /**
  * Contains a list of problems.
  */
+@SuppressWarnings("nls")
 public class MultipleTestProblems extends AssertionError {
   private static final long serialVersionUID = 1L;
   private final List<Throwable> problems = Lists.newArrayList();

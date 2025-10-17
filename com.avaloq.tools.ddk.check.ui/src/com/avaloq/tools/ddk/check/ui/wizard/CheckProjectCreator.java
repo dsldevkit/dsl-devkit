@@ -32,6 +32,7 @@ import com.google.inject.Provider;
 /**
  * The Class creates a new check plugin project.
  */
+@SuppressWarnings("nls")
 public class CheckProjectCreator extends AbstractPluginProjectCreator { // extends CheckProjectCreator
 
   protected static final String SRC_ROOT = "src";

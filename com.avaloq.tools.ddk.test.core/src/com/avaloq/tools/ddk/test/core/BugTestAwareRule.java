@@ -27,13 +27,13 @@ import org.junit.runners.model.Statement;
  * </p>
  * <p>
  * Example for a bug test:
- * 
+ *
  * <pre>
  * public class TestClass {
- * 
+ *
  *   &#064;Rule
  *   public BugTestAwareRule rule = BugTestAwareRule.getInstance();
- * 
+ *
  *   &#064;org.junit.Test
  *   &#064;com.avaloq.tools.ddk.test.core.BugTest(value = &quot;BUG-42&quot;, unresolved = true)
  *   public void testMethod() {
@@ -42,12 +42,12 @@ import org.junit.runners.model.Statement;
  * }
  * </pre>
  * </p>
- * 
+ *
  * @see BugTest
  */
 public final class BugTestAwareRule implements TestRule {
 
-  private static final String ERROR_TEST_MUST_FAIL = "The unresolved bug test must fail:";
+  private static final String ERROR_TEST_MUST_FAIL = "The unresolved bug test must fail:"; //$NON-NLS-1$
   /** The singleton instance, or {@code null} if not cached. */
   private static BugTestAwareRule instance;
   private static final Object LOCK = new Object();
@@ -61,7 +61,7 @@ public final class BugTestAwareRule implements TestRule {
 
   /**
    * Returns a shared singleton instance.
-   * 
+   *
    * @return a shared instance, never {@code null}
    */
   public static BugTestAwareRule getInstance() {

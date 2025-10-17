@@ -17,6 +17,7 @@ import org.eclipse.xtext.xbase.ui.highlighting.XbaseHighlightingConfiguration;
 /**
  * A Token Scanner that recognizes @SeverityRange tokens.
  */
+@SuppressWarnings("nls")
 public class CheckAntlrTokenToAttributeIdMapper extends DefaultAntlrTokenToAttributeIdMapper {
   // XbaseAntlrTokenToAttributeMapper is deprecated and empty anyway, so we may safely use the default mapper as super type here.
 

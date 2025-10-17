@@ -31,12 +31,12 @@ import com.google.common.collect.Lists;
 /**
  * Tests content assist in Check models.
  */
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.AvoidFinalLocalVariable"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.AvoidFinalLocalVariable", "nls"})
 public class BugAig931Test extends AbstractCheckContentAssistBugTest implements IJavaProjectProvider {
 
   /**
    * Verifies that given completions exist.
-   * 
+   *
    * @param completionProposals
    *          the actual completion proposals
    * @param expected
@@ -57,7 +57,7 @@ public class BugAig931Test extends AbstractCheckContentAssistBugTest implements 
 
   /**
    * Tests bug https://jira.int.sys.net/browse/AIG-931.
-   * 
+   *
    * @throws Exception
    *           the exception
    */

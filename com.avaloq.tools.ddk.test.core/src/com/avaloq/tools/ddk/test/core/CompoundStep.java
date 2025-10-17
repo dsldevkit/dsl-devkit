@@ -13,8 +13,8 @@ package com.avaloq.tools.ddk.test.core;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.Assert;
 
 import com.google.common.collect.Lists;
@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 /**
  * Reusable class that represents a compound step.
  */
+@SuppressWarnings("nls")
 public class CompoundStep extends AbstractStep {
   private static final String ARGUMENT_THROWABLE = "throwable";
   private static final String ARGUMENT_STEP = "step";

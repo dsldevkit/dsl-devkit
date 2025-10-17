@@ -30,6 +30,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 /**
  * Tests the code generation as implemented by CodeGenerationX wrapped by {@link CompilerX}.
  */
+@SuppressWarnings("nls")
 public class CodeGenerationXTest extends AbstractXtextTest {
 
   private CompilerX getCompiler() {

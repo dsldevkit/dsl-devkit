@@ -62,6 +62,7 @@ public final class StepResult<T> implements IStepData<T> {
   }
 
   @Override
+  @SuppressWarnings("nls")
   public String toString() {
     if (!isValueSet()) {
       return "<value not set>";

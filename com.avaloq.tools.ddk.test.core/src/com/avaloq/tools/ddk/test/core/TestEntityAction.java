@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Assert;
 /**
  * Represents an action a test performs on a {@link ITestEntity}.
  */
+@SuppressWarnings("nls")
 public class TestEntityAction {
 
   // Argument names

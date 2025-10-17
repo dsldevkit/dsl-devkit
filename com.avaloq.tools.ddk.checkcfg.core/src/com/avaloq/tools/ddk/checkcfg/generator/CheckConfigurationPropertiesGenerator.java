@@ -17,8 +17,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -82,6 +82,7 @@ public final class CheckConfigurationPropertiesGenerator {
    * @param configuredCheck
    *          the configured check
    */
+  @SuppressWarnings("nls")
   private void generatePropertiesForConfiguredCheck(final Properties properties, final String language, final ConfiguredCheck configuredCheck) {
     if (configuredCheck.getCheck() == null || configuredCheck.getCheck().eIsProxy()) {
       LOG.warn("Did not configure check " + NodeModelUtils.getTokenText(NodeModelUtils.getNode(configuredCheck)));

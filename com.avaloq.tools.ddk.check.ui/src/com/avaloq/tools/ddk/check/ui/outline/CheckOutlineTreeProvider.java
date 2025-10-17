@@ -43,7 +43,7 @@ public class CheckOutlineTreeProvider extends BackgroundOutlineTreeProvider {
     }
 
     if (catalog.getImports() != null && !catalog.getImports().getImportDeclarations().isEmpty()) {
-      EStructuralFeatureNode importNode = getOutlineNodeFactory().createEStructuralFeatureNode(parentNode, catalog, CheckPackage.Literals.CHECK_CATALOG__IMPORTS, ImageDescriptor.createFromImage(checkImages.forImportContainer()), "Import declarations", false);
+      EStructuralFeatureNode importNode = getOutlineNodeFactory().createEStructuralFeatureNode(parentNode, catalog, CheckPackage.Literals.CHECK_CATALOG__IMPORTS, ImageDescriptor.createFromImage(checkImages.forImportContainer()), "Import declarations", false); //$NON-NLS-1$
       for (final org.eclipse.xtext.xtype.XImportDeclaration imported : catalog.getImports().getImportDeclarations()) {
         createNode(importNode, imported);
       }

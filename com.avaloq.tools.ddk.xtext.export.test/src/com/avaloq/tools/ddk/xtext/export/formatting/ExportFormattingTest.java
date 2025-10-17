@@ -18,6 +18,7 @@ import com.avaloq.tools.ddk.xtext.test.formatting.AbstractFormattingTest;
 /**
  * Tests formatting of Export source fragments.
  */
+@SuppressWarnings("nls")
 public class ExportFormattingTest extends AbstractFormattingTest {
 
   @Override

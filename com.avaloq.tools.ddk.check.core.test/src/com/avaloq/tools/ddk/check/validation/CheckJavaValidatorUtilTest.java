@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 @InjectWith(CheckUiInjectorProvider.class)
 @RunWith(XtextRunner.class)
+@SuppressWarnings("nls")
 public class CheckJavaValidatorUtilTest extends TestCase {
 
   // assertion messages.

@@ -18,15 +18,16 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.xtext.util.StringInputStream;
 
-import org.eclipse.emf.common.util.WrappedException;
 import com.google.common.io.Resources;
 
 
 /**
  * Container for all source relevant information.
  */
+@SuppressWarnings("nls")
 public class TestSource {
 
   private static final Pattern NL_PATTERN = Pattern.compile("\\r?\\n");
@@ -47,7 +48,7 @@ public class TestSource {
    * Called by {@link ITestProjectManager#addSourceToProject(TestSource)} when this source was added.
    * <p>
    * TODO Implement a cleaner solution where IFile and URI are not stored by TestSource.
-   * 
+   *
    * @param newFile
    *          file associated with this test source
    * @param newUri
@@ -60,7 +61,7 @@ public class TestSource {
 
   /**
    * Returns the sourceFileName.
-   * 
+   *
    * @return the sourceFileName
    */
   public String getSourceFileName() {
@@ -69,7 +70,7 @@ public class TestSource {
 
   /**
    * Returns the iFile.
-   * 
+   *
    * @return the iFile
    */
   public IFile getiFile() {
@@ -78,7 +79,7 @@ public class TestSource {
 
   /**
    * Returns the Uri.
-   * 
+   *
    * @return the Uri
    */
   public URI getUri() {
@@ -87,7 +88,7 @@ public class TestSource {
 
   /**
    * Returns the content.
-   * 
+   *
    * @return the content
    */
   public String getContent() {
@@ -96,7 +97,7 @@ public class TestSource {
 
   /**
    * Set the the source content to the new content given.
-   * 
+   *
    * @param newContent
    *          String with the new source content
    */
@@ -111,7 +112,7 @@ public class TestSource {
 
   /**
    * Loads the given source from the classpath and normalizes the line endings of the content.
-   * 
+   *
    * @param clazz
    *          context class
    * @param sourceFileName
@@ -129,7 +130,7 @@ public class TestSource {
 
   /**
    * Returns a string with line separators normalized to the given terminator.
-   * 
+   *
    * @param str
    *          string to normalize, must not be {@code null}
    * @param lineSeparator

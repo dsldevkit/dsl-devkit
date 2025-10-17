@@ -69,7 +69,7 @@ public final class TreeItemUiTestUtil {
 
     @Override
     public String getFailureMessage() {
-      return "Could not find tree item matching: " + this.matcher;
+      return "Could not find tree item matching: " + this.matcher; //$NON-NLS-1$
     }
 
     @Override

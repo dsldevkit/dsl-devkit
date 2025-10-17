@@ -36,13 +36,13 @@ public class WaitForTree extends WaitForObjectCondition<TreeItem> {
    */
   public WaitForTree(final Tree parent) {
     super(WidgetMatcherFactory.widgetOfType(TreeItem.class));
-    Assert.isNotNull(parent, "parent");
+    Assert.isNotNull(parent, "parent"); //$NON-NLS-1$
     this.parent = parent;
   }
 
   @Override
   public String getFailureMessage() {
-    return "Could not find tree item matching: " + this.matcher;
+    return "Could not find tree item matching: " + this.matcher; //$NON-NLS-1$
   }
 
   @Override

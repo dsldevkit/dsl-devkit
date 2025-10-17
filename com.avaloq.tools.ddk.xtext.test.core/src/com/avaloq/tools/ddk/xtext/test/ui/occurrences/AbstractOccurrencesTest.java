@@ -179,7 +179,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
 
     @Override
     public String getFailureMessage() {
-      return "Error waiting for occurrences";
+      return "Error waiting for occurrences"; //$NON-NLS-1$
     }
   };
 

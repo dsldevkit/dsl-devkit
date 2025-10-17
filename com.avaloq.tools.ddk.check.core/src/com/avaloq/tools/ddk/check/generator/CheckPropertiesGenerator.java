@@ -22,6 +22,7 @@ import com.avaloq.tools.ddk.check.check.XIssueExpression;
 /**
  * Generates keys and values used by issue codes and check configurations.
  */
+@SuppressWarnings("nls")
 public final class CheckPropertiesGenerator {
 
   private CheckPropertiesGenerator() {

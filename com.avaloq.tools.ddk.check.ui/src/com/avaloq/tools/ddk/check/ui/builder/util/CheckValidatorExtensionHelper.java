@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 /**
  * The extension point utility class for Check validators. Intended to be used by the Check builder participant.
  */
+@SuppressWarnings("nls")
 public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionHelper {
 
   public static final String GENERATE_VALIDATOR_EXTENSION_PREFERENCE = "generateValidatorExtension";

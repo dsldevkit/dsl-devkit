@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Assert;
 /**
  * Test Helper Class CoreUtilTools.
  */
+@SuppressWarnings("nls")
 public final class CoreUtilTools {
 
   private static final String HOST_NAME;

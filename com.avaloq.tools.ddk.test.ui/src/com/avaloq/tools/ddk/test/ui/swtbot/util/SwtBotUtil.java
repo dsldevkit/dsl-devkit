@@ -25,6 +25,7 @@ public final class SwtBotUtil {
   /**
    * Initialize the bot's preferences.
    */
+  @SuppressWarnings("nls")
   public static void initializeBotPreferences() {
     // NOTE: the keyboard layout must match the keyboard used for the OS.
     // The default keyboard layouts are: EN_US, MAC_EN_US, EN_GB, MAC_EN_GB, FR_FR, DE_DE.

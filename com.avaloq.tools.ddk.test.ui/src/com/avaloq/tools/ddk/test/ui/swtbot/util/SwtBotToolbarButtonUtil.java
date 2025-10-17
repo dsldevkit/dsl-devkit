@@ -29,7 +29,7 @@ public final class SwtBotToolbarButtonUtil {
    * @return {@code true} if the toolbar button is selected, {@code false} otherwise
    */
   public static boolean isSelected(final SWTBotToolbarButton toolbarButton) {
-    Assert.isNotNull(toolbarButton, "toolbarButton");
+    Assert.isNotNull(toolbarButton, "toolbarButton"); //$NON-NLS-1$
     return UIThreadRunnable.syncExec(toolbarButton.display, new BoolResult() {
       @Override
       public Boolean run() {

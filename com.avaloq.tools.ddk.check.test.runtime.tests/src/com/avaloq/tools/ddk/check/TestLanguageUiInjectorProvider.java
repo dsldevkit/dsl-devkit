@@ -11,6 +11,7 @@ import com.google.inject.Injector;
 public class TestLanguageUiInjectorProvider implements IInjectorProvider {
 
   @Override
+  @SuppressWarnings("nls")
   public Injector getInjector() {
     return com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.TestLanguage");
   }

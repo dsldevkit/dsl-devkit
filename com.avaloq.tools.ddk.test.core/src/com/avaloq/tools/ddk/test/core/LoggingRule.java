@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.core;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
@@ -19,6 +19,7 @@ import org.junit.runner.Description;
 /**
  * A test watcher that logs the start and end of each test, as well as its success or failure.
  */
+@SuppressWarnings("nls")
 public final class LoggingRule extends TestWatcher {
 
   private static final Logger LOGGER = LogManager.getLogger(LoggingRule.class);
@@ -37,7 +38,7 @@ public final class LoggingRule extends TestWatcher {
 
   /**
    * Returns a shared singleton instance.
-   * 
+   *
    * @return a shared instance, never {@code null}
    */
   public static LoggingRule getInstance() {
@@ -51,7 +52,7 @@ public final class LoggingRule extends TestWatcher {
 
   /**
    * Returns the name of a test to be logged.
-   * 
+   *
    * @param description
    *          the description, must not be {@code null}
    * @return the description name, never {@code null}

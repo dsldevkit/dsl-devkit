@@ -53,6 +53,7 @@ public class ErrorLogListenerTest {
    *           the exception that is thrown if the test job was interrupted
    */
   @Test
+  @SuppressWarnings("nls")
   public void testIgnoringExceptionLocations() throws InterruptedException {
     assertFalse("NullPointerException must not have been logged.", errorLogListener.isExceptionLogged(NullPointerException.class));
     errorLogListener.ignoreException(NullPointerException.class, "com.avaloq.tools.ddk.test.core.util.ErrorLogListenerTest");

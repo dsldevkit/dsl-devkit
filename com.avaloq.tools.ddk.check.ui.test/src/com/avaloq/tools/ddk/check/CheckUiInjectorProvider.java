@@ -15,7 +15,7 @@ public class CheckUiInjectorProvider implements IInjectorProvider {
 
   @Override
   public Injector getInjector() {
-    return com.avaloq.tools.ddk.check.ui.internal.CheckActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.Check");
+    return com.avaloq.tools.ddk.check.ui.internal.CheckActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.Check"); //$NON-NLS-1$
   }
 
 }

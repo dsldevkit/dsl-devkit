@@ -41,6 +41,7 @@ import com.google.inject.name.Named;
  * Scope specific linking service to handle includes of other scope files. We don't use the scope provider for this as scope files
  * from anywhere can be included.
  */
+@SuppressWarnings("nls")
 public class ScopeLinkingService extends DefaultLinkingService {
 
   /** Class-wide logger. */

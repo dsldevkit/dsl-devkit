@@ -82,7 +82,7 @@ public final class ExtensionRegistryMock {
    */
   public static void mockExecutableExtension(final IConfigurationElement mockedElement, final String attribute, final Object contribution) {
     if (!mockingDetails(mockedElement).isMock()) {
-      throw new IllegalArgumentException("The configuration element must be a mock.");
+      throw new IllegalArgumentException("The configuration element must be a mock."); //$NON-NLS-1$
     }
     try {
       when(mockedElement.createExecutableExtension(attribute)).thenReturn(contribution);
