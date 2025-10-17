@@ -43,8 +43,8 @@ import org.eclipse.xtext.ui.util.IssueUtil;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 import org.eclipse.xtext.validation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 
 import com.avaloq.tools.ddk.check.runtime.ui.quickfix.IModificationContextRegistry;
@@ -95,8 +95,8 @@ public class WorkbenchResolutionAdaptorRunTest {
 
   private final WorkbenchMarkerResolutionGenerator wmrg = injector.getInstance(WorkbenchMarkerResolutionGenerator.class);
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     wmrg.setIssueUtil(new IssueUtil());
 
     when(mockRegistryProvider.get()).thenReturn(mockMarkerHelpRegistry);
@@ -128,7 +128,7 @@ public class WorkbenchResolutionAdaptorRunTest {
   }
 
   @Test
-  public void testRun() throws CoreException {
+  void testRun() throws CoreException {
     WorkbenchResolutionAdapter adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
     when(mockMarkerHelpRegistry.getResolutions(mockMarker)).thenReturn(mockMarkerResolutions);
 
@@ -142,7 +142,7 @@ public class WorkbenchResolutionAdaptorRunTest {
   }
 
   @Test
-  public void testSingleRun() throws CoreException {
+  void testSingleRun() throws CoreException {
     WorkbenchResolutionAdapter adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
     when(mockMarkerHelpRegistry.getResolutions(mockMarker)).thenReturn(mockMarkerResolutions);
 

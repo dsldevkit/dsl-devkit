@@ -11,7 +11,7 @@
 
 package com.avaloq.tools.ddk.xtext.ui.templates;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.jface.text.templates.TemplateTranslator;
@@ -55,7 +55,7 @@ public class TemplateVariableResolverTestHelper {
     // and has protected constructors thus cannot be directly instantiated
     final String pattern = helper.createTemplateVariablePattern(resolver.getType(), name, values);
     final TemplateVariable[] variables = translator.translate(pattern).getVariables();
-    assertEquals("Exactly one variable should be returned", 1, variables.length); //$NON-NLS-1$
+    assertEquals(1, variables.length, "Exactly one variable should be returned"); //$NON-NLS-1$
     return variables[0];
   }
 

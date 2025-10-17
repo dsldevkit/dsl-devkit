@@ -11,7 +11,8 @@
 
 package com.avaloq.tools.ddk.xtext.ui.templates;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import java.util.List;
@@ -19,17 +20,19 @@ import java.util.List;
 import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.jface.text.templates.TemplateVariable;
 import org.eclipse.xtext.XtextRuntimeModule;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContext;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.test.core.AfterAll;
-import com.avaloq.tools.ddk.test.core.BeforeAll;
-import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 import com.google.inject.Guice;
 
 
-@RunWith(XtextClassRunner.class)
+@ExtendWith(InjectionExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SimpleEnumTemplateVariableResolverTest {
 
   private static XtextTemplateContext mockContext;
@@ -37,31 +40,31 @@ public class SimpleEnumTemplateVariableResolverTest {
   private static SimpleEnumTemplateVariableResolver resolver;
 
   @BeforeAll
-  public void beforeAll() {
+  void beforeAll() {
     mockContext = mock(XtextTemplateContext.class);
     helper = Guice.createInjector(new XtextRuntimeModule()).getInstance(TemplateVariableResolverTestHelper.class);
     resolver = new SimpleEnumTemplateVariableResolver();
   }
 
   @AfterAll
-  public void afterAll() {
+  void afterAll() {
     mockContext = null;
     helper = null;
     resolver = null;
   }
 
-  @Test(expected = NullPointerException.class)
-  public void testResolveValuesWithNullVariable() {
-    resolver.resolveValues(null, mockContext);
+  @Test
+  void testResolveValuesWithNullVariable() {
+    assertThrows(NullPointerException.class, () -> resolver.resolveValues(null, mockContext));
   }
 
   @Test
-  public void testResolveValuesWithOneParam() throws TemplateException {
+  void testResolveValuesWithOneParam() throws TemplateException {
     testResolveValues("Value"); //$NON-NLS-1$
   }
 
   @Test
-  public void testResolveValuesWithMultipleParams() throws TemplateException {
+  void testResolveValuesWithMultipleParams() throws TemplateException {
     testResolveValues("Value 1", "Value 2", "Value 3"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
   }
 
@@ -73,7 +76,7 @@ public class SimpleEnumTemplateVariableResolverTest {
     final List<String> resolvedValues = resolver.resolveValues(variable, mockContext);
 
     // ASSERT
-    assertArrayEquals("Resolved values", values, resolvedValues.toArray(new String[resolvedValues.size()])); //$NON-NLS-1$
+    assertArrayEquals(values, resolvedValues.toArray(new String[resolvedValues.size()]), "Resolved values"); //$NON-NLS-1$
   }
 
 }

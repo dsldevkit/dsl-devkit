@@ -11,25 +11,29 @@
 
 package com.avaloq.tools.ddk.xtext.ui.templates;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.jface.text.templates.TemplateVariable;
 import org.eclipse.xtext.XtextRuntimeModule;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContext;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
-import com.avaloq.tools.ddk.test.core.AfterAll;
-import com.avaloq.tools.ddk.test.core.BeforeAll;
-import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 import com.google.common.collect.Iterables;
 import com.google.inject.Guice;
 
 
-@RunWith(XtextClassRunner.class)
+@ExtendWith(InjectionExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ResourceNameTemplateVariableResolverTest {
 
   private static final Object[] FILE = new Object[] {"file"}; //$NON-NLS-1$
@@ -43,7 +47,7 @@ public class ResourceNameTemplateVariableResolverTest {
   private static ResourceNameTemplateVariableResolver resolver;
 
   @BeforeAll
-  public void beforeAll() {
+  void beforeAll() {
     mockContext = Mockito.mock(XtextTemplateContext.class);
     mockFile = Mockito.mock(IFile.class);
 
@@ -57,7 +61,7 @@ public class ResourceNameTemplateVariableResolverTest {
   }
 
   @AfterAll
-  public void afterAll() {
+  void afterAll() {
     mockContext = null;
     mockFile = null;
 
@@ -66,39 +70,39 @@ public class ResourceNameTemplateVariableResolverTest {
     resolver = null;
   }
 
-  @Test(expected = NullPointerException.class)
-  public void testResolveValuesWithNullVariable() {
-    resolver.resolveValues(null, mockContext);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testResolveValuesWithNullContext() {
-    resolver.resolveValues(Mockito.mock(TemplateVariable.class), null);
+  @Test
+  void testResolveValuesWithNullVariable() {
+    assertThrows(NullPointerException.class, () -> resolver.resolveValues(null, mockContext));
   }
 
   @Test
-  public void testResolveValuesWithFileWithoutExtension() throws TemplateException {
+  void testResolveValuesWithNullContext() {
+    assertThrows(NullPointerException.class, () -> resolver.resolveValues(Mockito.mock(TemplateVariable.class), null));
+  }
+
+  @Test
+  void testResolveValuesWithFileWithoutExtension() throws TemplateException {
     final String filename = "filenamewithnoextension"; //$NON-NLS-1$
     testResolveValues(FILE, filename, filename);
   }
 
   @Test
-  public void testResolveValuesWithFileWithExtension() throws TemplateException {
+  void testResolveValuesWithFileWithExtension() throws TemplateException {
     testResolveValues(FILE, "filename.with.extension", "filename.with"); //$NON-NLS-1$//$NON-NLS-2$
   }
 
   @Test
-  public void testResolveValuesWithExtraParams() throws TemplateException {
+  void testResolveValuesWithExtraParams() throws TemplateException {
     testResolveValues(new Object[] {FILE[0], "other", "random", "values"}, FILENAME, FILENAME); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
   }
 
   @Test
-  public void testResolveValuesWithUnknownParam() throws TemplateException {
+  void testResolveValuesWithUnknownParam() throws TemplateException {
     testResolveValues(new Object[] {"This is not the parameter you are looking for"}, FILENAME); //$NON-NLS-1$
   }
 
   @Test
-  public void testResolveValuesWithWrongTypeOfParam() throws TemplateException {
+  void testResolveValuesWithWrongTypeOfParam() throws TemplateException {
     testResolveValues(new Object[] {42}, FILENAME);
   }
 
@@ -112,7 +116,7 @@ public class ResourceNameTemplateVariableResolverTest {
    * @param expectedResolvedValues
    *          expected return value
    */
-  public void testResolveValues(final Object[] values, final String filename, final String... expectedResolvedValues) throws TemplateException {
+  void testResolveValues(final Object[] values, final String filename, final String... expectedResolvedValues) throws TemplateException {
     // ARRANGE
     final TemplateVariable variable = helper.createTemplateVariable(resolver, "name", values); //$NON-NLS-1$
     Mockito.when(mockFile.getName()).thenReturn(filename);
@@ -121,7 +125,7 @@ public class ResourceNameTemplateVariableResolverTest {
     final String[] actualResolvedValues = Iterables.toArray(resolver.resolveValues(variable, mockContext), String.class);
 
     // ASSERT
-    Assert.assertArrayEquals("Resolved values", expectedResolvedValues, actualResolvedValues); //$NON-NLS-1$
+    assertArrayEquals(expectedResolvedValues, actualResolvedValues, "Resolved values"); //$NON-NLS-1$
   }
 
 }
