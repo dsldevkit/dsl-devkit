@@ -46,4 +46,4 @@ class ProjectConfig extends StandardProjectConfig {
 
 }
 
-/* Copyright (c) Avaloq Licence AG */
+/* Copyright (c) Avaloq Group AG */
