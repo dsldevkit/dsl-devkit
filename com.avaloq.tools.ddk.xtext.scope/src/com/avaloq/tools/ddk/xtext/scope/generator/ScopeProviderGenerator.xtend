@@ -252,7 +252,7 @@ class ScopeProviderGenerator {
   '''
 
   def dispatch scopeExpression(ScopeExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
-    error("Xpand called the wrong definition." + it.toString() + javaContributorComment(it.location()))
+    error("Xtend called the wrong definition." + it.toString() + javaContributorComment(it.location()))
   }
 
   def dispatch scopeExpression(FactoryExpression it, ScopeModel model, String typeOrRef, ScopeDefinition scope, Boolean isGlobal) {
