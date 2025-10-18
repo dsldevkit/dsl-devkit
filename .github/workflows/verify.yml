@@ -3,9 +3,11 @@ on:
   push:
     branches: [master]
   pull_request:
+
 jobs:
+  # Job 1: PMD (runs independently and in parallel)
   pmd:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -22,31 +24,112 @@ jobs:
       - name: Fail build if there are violations
         if: steps.pmd.outputs.violations != 0
         run: exit 1
-  maven-verify:
-    runs-on: ubuntu-22.04
+
+  # Job 2: Code Quality Checks (runs in parallel with PMD)
+  code-quality:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: true
+      matrix:
+        check: [checkstyle, pmd, pmd-cpd]
     steps:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.9.11
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Set up Workspace Enviroment Variable
-        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV        
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
       - name: Cache Maven dependencies
         uses: actions/cache@v4
-        with: 
+        with:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
-      - name: Build with Maven  within a virtual X Server Environment
-        run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
-      - name: Archive Tycho Surefire Plugin
+      - name: Run ${{ matrix.check }}
+        run: |
+          if [ "${{ matrix.check }}" = "checkstyle" ]; then
+            mvn checkstyle:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+          elif [ "${{ matrix.check }}" = "pmd" ]; then
+            mvn pmd:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+          elif [ "${{ matrix.check }}" = "pmd-cpd" ]; then
+            mvn pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+          fi
+
+  # Job 3: Maven verify (main build, runs in parallel with static analysis)
+  maven-verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.11
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Build with Maven within a virtual X Server Environment
+        run: xvfb-run mvn clean verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+      - name: Archive Tycho Surefire Plugin logs
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: tycho-surefire-plugin
           path: ${{ env.GITHUB_WORKSPACE }}/com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
+
+  # Job 4: SpotBugs (runs after maven-verify, only on changed modules for PRs)
+  spotbugs:
+    runs-on: ubuntu-24.04
+    needs: maven-verify
+    steps:
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.11
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Enable SpotBugs for changed modules (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          chmod +x .github/scripts/enable-spotbugs-for-changed-modules.sh
+          .github/scripts/enable-spotbugs-for-changed-modules.sh "${{ github.event.pull_request.base.sha }}"
+      - name: Enable SpotBugs for all modules (push to master)
+        if: github.event_name == 'push'
+        run: |
+          echo "Running SpotBugs on all modules (push to master)"
+          # Set spotbugs.skip=false in parent POM
+          sed -i 's/<spotbugs.skip>true<\/spotbugs.skip>/<spotbugs.skip>false<\/spotbugs.skip>/' ddk-parent/pom.xml
+      - name: Compile modules for SpotBugs analysis
+        run: mvn clean compile -f ./ddk-parent/pom.xml --batch-mode
+      - name: Run SpotBugs
+        run: mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
