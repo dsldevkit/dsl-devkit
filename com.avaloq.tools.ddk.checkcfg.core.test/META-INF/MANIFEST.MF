@@ -4,33 +4,13 @@ Bundle-Name: com.avaloq.tools.ddk.checkcfg.core.test
 Bundle-Vendor: Avaloq Group AG
 Bundle-Version: 16.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core.test; singleton:=true
-Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.checkcfg.core,
  com.avaloq.tools.ddk.checkcfg.ui,
  com.avaloq.tools.ddk.xtext.test.core,
- org.eclipse.xtext,
- org.eclipse.xtext.ui,
- org.eclipse.jdt.core,
- org.eclipse.core.resources,
- org.eclipse.ui,
- org.eclipse.ui.ide,
- org.eclipse.core.runtime,
- org.eclipse.xtend.lib,
- org.eclipse.xtext.ui.testing,
- org.junit,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.ui.workbench;resolution:=optional,
- org.objectweb.asm;resolution:=optional,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
-Import-Package: org.hamcrest.core,
- org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0"
+ org.junit
+Import-Package: org.junit.runner;version="4.5.0",
+ org.junit.runners;version="4.5.0"
 Export-Package: com.avaloq.tools.ddk.checkcfg.test,
  com.avaloq.tools.ddk.checkcfg.util
 Bundle-RequiredExecutionEnvironment: JavaSE-21

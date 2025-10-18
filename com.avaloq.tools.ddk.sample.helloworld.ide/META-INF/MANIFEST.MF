@@ -5,20 +5,12 @@ Bundle-Name: com.avaloq.tools.ddk.sample.helloworld.ide
 Bundle-Vendor: Avaloq Group AG
 Bundle-Version: 16.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ide;singleton:=true
-Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
- org.eclipse.compare,
  org.eclipse.xtext.builder,
- org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib;resolution:=optional,
- org.antlr.runtime,
- com.avaloq.tools.ddk.check.runtime.core,
- com.google.inject,
- org.eclipse.xtext,
  org.eclipse.xtext.ide,
  com.avaloq.tools.ddk.xtext.ide,
  com.avaloq.tools.ddk.xtext
-Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ide,
  com.avaloq.tools.ddk.sample.helloworld.ide.contentassist.antlr,

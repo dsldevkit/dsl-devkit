@@ -5,9 +5,7 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.check.runtime.ui;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Activator: com.avaloq.tools.ddk.check.runtime.ui.internal.Activator
 Bundle-Vendor: Avaloq Group AG
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.xtext.ui,
+Require-Bundle: org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-21

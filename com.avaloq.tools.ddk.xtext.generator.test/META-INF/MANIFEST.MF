@@ -5,21 +5,14 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.generator.test;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.xtext.generator
-Require-Bundle: com.avaloq.tools.ddk.test.core, 
+Require-Bundle: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.test.core,
  org.eclipse.xtend,
  org.eclipse.xtend.typesystem.emf,
- org.eclipse.xtext,
  org.junit,
  org.mockito.mockito-core,
- com.avaloq.tools.ddk.xtext.ui,
- org.eclipse.xtext.xtext.generator,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
+ org.eclipse.xtext.xtext.generator
 Export-Package: com.avaloq.tools.ddk.xtext.generator.test.generator
-Import-Package: org.eclipse.xtext.ui.resource
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator.test

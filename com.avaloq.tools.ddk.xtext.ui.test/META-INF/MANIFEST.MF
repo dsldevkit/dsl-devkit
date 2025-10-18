@@ -5,17 +5,11 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ui.test;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Require-Bundle: org.eclipse.xtext.ui,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtext.testing,
- org.junit,
+Require-Bundle: org.junit,
  org.mockito.mockito-core,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.test.core,
  org.eclipse.ui.ide,
- com.avaloq.tools.ddk.xtext.test.core,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
+ com.avaloq.tools.ddk.xtext.test.core
 Export-Package: com.avaloq.tools.ddk.xtext.ui.test
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui.test

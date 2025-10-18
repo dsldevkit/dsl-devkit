@@ -5,18 +5,12 @@ Bundle-Name: com.avaloq.tools.ddk.sample.helloworld.ui.test
 Bundle-Vendor: Avaloq Group AG
 Bundle-Version: 16.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ui.test;singleton:=true
-Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  com.avaloq.tools.ddk.sample.helloworld.ui,
  org.junit,
  org.eclipse.xtext.ui.testing,
- org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.core.runtime,
- org.eclipse.ui.workbench;resolution:=optional,
  com.avaloq.tools.ddk.check.runtime.core,
- com.avaloq.tools.ddk.check.runtime.ui,
  com.avaloq.tools.ddk.check.core.test,
  org.eclipse.xtext.xbase.ui.testing
 Bundle-RequiredExecutionEnvironment: JavaSE-21

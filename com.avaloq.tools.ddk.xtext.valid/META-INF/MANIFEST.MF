@@ -5,20 +5,9 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.valid;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.xtext,
- org.eclipse.xtext.xtext.generator;resolution:=optional,
- org.eclipse.emf.codegen.ecore;resolution:=optional,
- org.eclipse.emf.mwe.utils;resolution:=optional,
+Require-Bundle: org.eclipse.xtext.xtext.generator;resolution:=optional,
  org.eclipse.emf.mwe2.launch;resolution:=optional,
- com.ibm.icu;resolution:=optional,
- org.eclipse.xtext.util,
- org.eclipse.emf.ecore,
- org.eclipse.emf.common,
- org.antlr.runtime,
- com.avaloq.tools.ddk.xtext,
- com.avaloq.tools.ddk.xtext.generator;resolution:=optional,
- org.eclipse.xtext.xbase.lib
+ com.avaloq.tools.ddk.xtext
 Export-Package: com.avaloq.tools.ddk.xtext.valid,
  com.avaloq.tools.ddk.xtext.valid.parser.antlr,
  com.avaloq.tools.ddk.xtext.valid.parser.antlr.internal,
@@ -30,5 +19,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.valid,
  com.avaloq.tools.ddk.xtext.valid.validation,
  com.avaloq.tools.ddk.xtext.valid.formatting,
  com.avaloq.tools.ddk.xtext.valid.serializer
-Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.valid

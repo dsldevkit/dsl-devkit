@@ -4,9 +4,7 @@ Bundle-Name: com.avaloq.tools.ddk.xtext.builder.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.builder.ui;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.xtext,
- org.eclipse.xtext.builder,
+Require-Bundle: org.eclipse.xtext.builder,
  org.eclipse.xtext.ui
 Export-Package: com.avaloq.tools.ddk.xtext.builder.ui.shared
 Bundle-RequiredExecutionEnvironment: JavaSE-21

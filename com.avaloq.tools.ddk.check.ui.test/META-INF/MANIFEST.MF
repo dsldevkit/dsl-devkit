@@ -13,26 +13,15 @@ Require-Bundle: org.junit,
  com.avaloq.tools.ddk.check.core.test,
  com.avaloq.tools.ddk.check.core,
  org.eclipse.pde.core,
- org.eclipse.xtext.ui,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.jdt.core,
- org.eclipse.ui.ide,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.core.runtime,
- org.eclipse.ui.workbench;resolution:=optional,
- org.objectweb.asm;resolution:=optional,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
+ org.eclipse.ui.ide
 Export-Package: com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.ui.test.util,
  com.avaloq.tools.ddk.check
-Import-Package: org.slf4j, org.apache.log4j,
+Import-Package: org.slf4j,
+ org.apache.log4j,
  org.apache.logging.log4j,
- org.hamcrest.core,
  org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0"
+ org.junit.runners;version="4.5.0"
 Automatic-Module-Name: com.avaloq.tools.ddk.check.ui.test

@@ -4,27 +4,15 @@ Bundle-Name: com.avaloq.tools.ddk.check.test.runtime
 Bundle-Vendor: Avaloq Group AG
 Bundle-Version: 16.2.0.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.test.runtime;singleton:=true
-Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.xtext.generator,
- org.eclipse.emf.codegen.ecore;resolution:=optional,
- org.eclipse.emf.mwe.utils;resolution:=optional,
  org.eclipse.emf.mwe2.launch;resolution:=optional,
- org.eclipse.xtext.util,
- org.eclipse.emf.ecore,
- org.eclipse.emf.common,
- org.eclipse.osgi,
- org.antlr.runtime,
- org.eclipse.xtext.common.types,
  com.avaloq.tools.ddk.xtext,
- com.avaloq.tools.ddk.xtext.generator,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.core.runtime,
  com.avaloq.tools.ddk.check.lib,
- com.avaloq.tools.ddk.check.core,
- org.eclipse.xtext.xbase.lib
-Import-Package: org.apache.log4j,
- org.apache.logging.log4j,
+ com.avaloq.tools.ddk.check.core
+Import-Package: org.apache.logging.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.check,
