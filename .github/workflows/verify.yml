@@ -28,10 +28,6 @@ jobs:
   # Job 2: Code Quality Checks (runs in parallel with PMD)
   code-quality:
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: true
-      matrix:
-        check: [checkstyle, pmd, pmd-cpd]
     steps:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
@@ -52,15 +48,8 @@ jobs:
         with:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
-      - name: Run ${{ matrix.check }}
-        run: |
-          if [ "${{ matrix.check }}" = "checkstyle" ]; then
-            mvn checkstyle:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
-          elif [ "${{ matrix.check }}" = "pmd" ]; then
-            mvn pmd:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
-          elif [ "${{ matrix.check }}" = "pmd-cpd" ]; then
-            mvn pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
-          fi
+      - name: Run checkstyle, pmd, and cpd
+        run: mvn checkstyle:check pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
 
   # Job 3: Compile (produces artifacts for verify and spotbugs)
   compile:
