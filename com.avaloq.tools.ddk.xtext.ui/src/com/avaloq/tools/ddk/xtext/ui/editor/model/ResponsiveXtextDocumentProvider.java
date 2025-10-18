@@ -81,6 +81,7 @@ public class ResponsiveXtextDocumentProvider extends XtextDocumentProvider imple
    *          the event
    */
   @Override
+  @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation")
   public void propertyChange(final PropertyChangeEvent event) {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug(NLS.bind("Preference Change: {0} => {1} -> {2}", new Object[] {event.getProperty(), event.getOldValue(), event.getNewValue()})); //$NON-NLS-1$

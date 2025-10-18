@@ -65,6 +65,7 @@ public class ModelValidator {
    * @param logger
    *          the logger
    */
+  @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation")
   private void logIssue(final Resource resource, final Issue issue, final Logger logger) {
     final String message = NLS.bind(MESSAGE_TEMPLATE, new Object[] {resource.getURI().lastSegment(), issue.getLineNumber(), issue.getMessage()});
     final Severity severity = issue.getSeverity();
