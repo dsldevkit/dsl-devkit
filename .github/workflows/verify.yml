@@ -49,7 +49,9 @@ jobs:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
       - name: Run checkstyle, pmd, and cpd
-        run: mvn -T 1.5C checkstyle:check pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
+        # This ensures all violations are collected and reported before the build fails
+        run: mvn -T 1.5C checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
 
   # Job 3: Compile and install (produces artifacts for verify and spotbugs)
   compile:
