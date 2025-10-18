@@ -49,7 +49,7 @@ jobs:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
       - name: Run checkstyle, pmd, and cpd
-        run: mvn checkstyle:check pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        run: mvn -T 1.5C checkstyle:check pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
 
   # Job 3: Compile (produces artifacts for verify and spotbugs)
   compile:
@@ -75,7 +75,7 @@ jobs:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
       - name: Compile all modules
-        run: mvn clean test-compile -f ./ddk-parent/pom.xml --batch-mode
+        run: mvn -T 1.5C clean test-compile -f ./ddk-parent/pom.xml --batch-mode
       - name: Upload compiled artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -114,7 +114,7 @@ jobs:
         with:
           name: compiled-classes
       - name: Run tests with Maven within a virtual X Server Environment
-        run: xvfb-run mvn verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        run: xvfb-run mvn -T 1.5C verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Archive Tycho Surefire Plugin logs
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -162,4 +162,4 @@ jobs:
           # Set spotbugs.skip=false in parent POM
           sed -i 's/<spotbugs.skip>true<\/spotbugs.skip>/<spotbugs.skip>false<\/spotbugs.skip>/' ddk-parent/pom.xml
       - name: Run SpotBugs
-        run: mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        run: mvn -T 1.5C spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
