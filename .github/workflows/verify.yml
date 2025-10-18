@@ -82,6 +82,15 @@ jobs:
           name: installed-jars
           path: /home/runner/.m2/repository/com/avaloq/tools/ddk/
           retention-days: 1
+      - name: Upload compiled target directories
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-dirs
+          path: |
+            **/target/classes
+            **/target/test-classes
+            **/target/*.jar
+          retention-days: 1
 
   # Job 4: Maven verify (runs tests)
   maven-verify:
@@ -112,6 +121,11 @@ jobs:
         with:
           name: installed-jars
           path: /home/runner/.m2/repository/com/avaloq/tools/ddk/
+      - name: Download compiled target directories
+        uses: actions/download-artifact@v4
+        with:
+          name: target-dirs
+          path: .
       - name: Run tests with Maven within a virtual X Server Environment
         run: xvfb-run mvn -T 1.5C verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
 
@@ -144,6 +158,11 @@ jobs:
         with:
           name: installed-jars
           path: /home/runner/.m2/repository/com/avaloq/tools/ddk/
+      - name: Download compiled target directories
+        uses: actions/download-artifact@v4
+        with:
+          name: target-dirs
+          path: .
       - name: Enable SpotBugs for changed modules (PR only)
         if: github.event_name == 'pull_request'
         run: |
