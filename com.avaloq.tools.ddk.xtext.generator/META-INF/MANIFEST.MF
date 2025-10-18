@@ -5,37 +5,24 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.generator;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Require-Bundle: org.eclipse.jface,
- org.eclipse.ui.views,
- org.eclipse.emf.codegen.ecore,
- org.eclipse.xpand,
- org.eclipse.xtext,
- org.eclipse.xtext.xtext.generator,
+Require-Bundle: org.eclipse.xtext.xtext.generator,
  org.eclipse.emf.mwe2.lib,
- org.eclipse.emf.mwe2.runtime,
  org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext,
- com.avaloq.tools.ddk.xtext.expression,
- com.avaloq.tools.ddk.xtext.expression.ui,
- org.eclipse.xtend.util.stdlib,
- com.google.guava,
  com.avaloq.tools.ddk.xtext.ui,
- org.eclipse.xtend.lib,
- org.eclipse.jdt.core,
  org.eclipse.compare,
  org.eclipse.xtext.xbase
-Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
+Export-Package: com.avaloq.tools.ddk.xtext.generator,
+ com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.ecore,
- com.avaloq.tools.ddk.xtext.generator.expression,
  com.avaloq.tools.ddk.xtext.generator.formatting,
- com.avaloq.tools.ddk.xtext.generator.languageconstants,
- com.avaloq.tools.ddk.xtext.generator.modelinference,
- com.avaloq.tools.ddk.xtext.generator.util,
- com.avaloq.tools.ddk.xtext.generator,
- com.avaloq.tools.ddk.xtext.generator.model.project,
- com.avaloq.tools.ddk.xtext.generator.resourceFactory,
  com.avaloq.tools.ddk.xtext.generator.ide.contentAssist,
- com.avaloq.tools.ddk.xtext.generator.parser.common
+ com.avaloq.tools.ddk.xtext.generator.languageconstants,
+ com.avaloq.tools.ddk.xtext.generator.model.project,
+ com.avaloq.tools.ddk.xtext.generator.modelinference,
+ com.avaloq.tools.ddk.xtext.generator.parser.common,
+ com.avaloq.tools.ddk.xtext.generator.resourceFactory,
+ com.avaloq.tools.ddk.xtext.generator.util
 Import-Package: org.apache.logging.log4j
 Eclipse-ExtensibleAPI: true
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator

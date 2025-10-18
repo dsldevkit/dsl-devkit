@@ -5,12 +5,8 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.common.types;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
-Require-Bundle: com.avaloq.tools.ddk.xtext,
- org.eclipse.jdt.core,
- org.eclipse.osgi,
+Require-Bundle: org.eclipse.osgi,
  org.eclipse.xtext,
  org.eclipse.xtext.common.types
 Export-Package: com.avaloq.tools.ddk.xtext.common.types.access.jdt
-Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.common.types

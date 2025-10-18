@@ -9,14 +9,10 @@ Bundle-Activator: com.avaloq.tools.ddk.xtext.scope.ui.internal.ScopeActivator
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
- org.eclipse.ui.editors,
- org.eclipse.ui,
  org.eclipse.xtext.builder,
- org.antlr.runtime,
  com.avaloq.tools.ddk.xtext.expression.ui,
  com.avaloq.tools.ddk.xtext.scope,
  com.avaloq.tools.ddk.xtext.scope.ide,
- com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.ui,
  org.eclipse.compare,
  org.eclipse.jdt.ui

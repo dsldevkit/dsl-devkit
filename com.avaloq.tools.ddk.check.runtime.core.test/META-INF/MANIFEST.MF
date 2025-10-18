@@ -5,16 +5,10 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.check.runtime.core.test;singleton:=tru
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext,
- com.avaloq.tools.ddk.test.ui, 
  com.avaloq.tools.ddk.check.runtime.core,
- org.junit,
- com.google.guava,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
+ org.junit
 Export-Package: com.avaloq.tools.ddk.check.runtime.test.core
 Import-Package: org.mockito,
  org.mockito.stubbing

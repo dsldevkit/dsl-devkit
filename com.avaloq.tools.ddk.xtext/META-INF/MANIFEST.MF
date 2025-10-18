@@ -5,17 +5,12 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
-Require-Bundle: com.google.guava,
- org.apache.commons.lang,
+Require-Bundle: org.apache.commons.lang,
  org.eclipse.jdt.annotation,
- org.eclipse.core.resources,
  org.eclipse.core.runtime,
- org.eclipse.emf.ecore,
  org.eclipse.jdt.annotation,
  com.avaloq.tools.ddk,
- org.eclipse.xtext,
- org.eclipse.xtext.util
+ org.eclipse.xtext
 Export-Package: com.avaloq.tools.ddk.xtext.build,
  com.avaloq.tools.ddk.xtext.delegation,
  com.avaloq.tools.ddk.xtext.documentation,
@@ -44,6 +39,6 @@ Export-Package: com.avaloq.tools.ddk.xtext.build,
  com.avaloq.tools.ddk.xtext.tracing,
  com.avaloq.tools.ddk.xtext.util,
  com.avaloq.tools.ddk.xtext.validation
-Import-Package: org.apache.logging.log4j,org.apache.log4j
+Import-Package: org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext
 

@@ -5,10 +5,8 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.test.core;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
- org.hamcrest.library,
  org.junit,
  org.mockito.mockito-core,
  com.google.guava,

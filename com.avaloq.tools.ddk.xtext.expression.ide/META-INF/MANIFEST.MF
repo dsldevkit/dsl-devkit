@@ -5,10 +5,8 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.expression.ide;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
 Export-Package: com.avaloq.tools.ddk.xtext.expression.ide.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.expression.ide.contentassist.antlr.internal
-Require-Bundle: org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
- org.eclipse.xtext.ide,
+Require-Bundle: org.eclipse.xtext.ide,
  com.avaloq.tools.ddk.xtext.expression
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.expression.ide
