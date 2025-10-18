@@ -62,8 +62,8 @@ jobs:
             mvn pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
           fi
 
-  # Job 3: Maven verify (main build, runs in parallel with static analysis)
-  maven-verify:
+  # Job 3: Compile (produces artifacts for verify and spotbugs)
+  compile:
     runs-on: ubuntu-24.04
     steps:
       - name: Set up Maven
@@ -85,8 +85,47 @@ jobs:
         with:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
-      - name: Build with Maven within a virtual X Server Environment
-        run: xvfb-run mvn clean verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+      - name: Compile all modules
+        run: mvn clean test-compile -f ./ddk-parent/pom.xml --batch-mode
+      - name: Upload compiled artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-classes
+          path: |
+            **/target/classes
+            **/target/test-classes
+          retention-days: 1
+
+  # Job 4: Maven verify (runs tests using compiled artifacts)
+  maven-verify:
+    runs-on: ubuntu-24.04
+    needs: compile
+    steps:
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.11
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Download compiled artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-classes
+      - name: Run tests with Maven within a virtual X Server Environment
+        run: xvfb-run mvn verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Archive Tycho Surefire Plugin logs
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -94,10 +133,10 @@ jobs:
           name: tycho-surefire-plugin
           path: ${{ env.GITHUB_WORKSPACE }}/com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
 
-  # Job 4: SpotBugs (runs after maven-verify, only on changed modules for PRs)
+  # Job 5: SpotBugs (uses compiled artifacts, only on changed modules for PRs)
   spotbugs:
     runs-on: ubuntu-24.04
-    needs: maven-verify
+    needs: compile
     steps:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
@@ -118,6 +157,10 @@ jobs:
         with:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Download compiled artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-classes
       - name: Enable SpotBugs for changed modules (PR only)
         if: github.event_name == 'pull_request'
         run: |
@@ -129,7 +172,5 @@ jobs:
           echo "Running SpotBugs on all modules (push to master)"
           # Set spotbugs.skip=false in parent POM
           sed -i 's/<spotbugs.skip>true<\/spotbugs.skip>/<spotbugs.skip>false<\/spotbugs.skip>/' ddk-parent/pom.xml
-      - name: Compile modules for SpotBugs analysis
-        run: mvn clean compile -f ./ddk-parent/pom.xml --batch-mode
       - name: Run SpotBugs
         run: mvn spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
