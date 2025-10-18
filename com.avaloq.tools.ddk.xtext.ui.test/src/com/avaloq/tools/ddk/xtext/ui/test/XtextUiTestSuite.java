@@ -11,7 +11,8 @@
 
 package com.avaloq.tools.ddk.xtext.ui.test;
 
-import org.junit.runner.RunWith;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.test.core.junit.runners.DiscerningSuite;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorRunTest;
@@ -22,10 +23,10 @@ import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelperTes
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Junit5 version of test suites. does not implement the logic in our {@link DiscerningSuite}.
  */
-@RunWith(DiscerningSuite.class)
-@DiscerningSuite.SuiteClasses({
+@Suite
+@SelectClasses({
 // @Format-Off
   WorkbenchResolutionAdaptorTest.class,
   WorkbenchResolutionAdaptorRunTest.class,

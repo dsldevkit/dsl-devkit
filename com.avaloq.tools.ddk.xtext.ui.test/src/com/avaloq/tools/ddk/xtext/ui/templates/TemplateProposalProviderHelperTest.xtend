@@ -11,29 +11,32 @@
 
 package com.avaloq.tools.ddk.xtext.ui.templates
 
-import com.avaloq.tools.ddk.test.core.AfterAll
-import com.avaloq.tools.ddk.test.core.BeforeAll
-import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner
 import com.google.inject.Guice
 import org.eclipse.jface.text.IDocument
 import org.eclipse.jface.text.IRegion
 import org.eclipse.jface.text.Position
 import org.eclipse.jface.text.templates.Template
 import org.eclipse.xtext.XtextRuntimeModule
+import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContext
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
 
-import static org.junit.Assert.assertArrayEquals
-import static org.junit.Assert.assertEquals
+import static org.junit.jupiter.api.Assertions.assertThrows
+import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertArrayEquals
 import static org.mockito.ArgumentMatchers.anyInt
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.AfterAll
 
-@RunWith(XtextClassRunner)
+@ExtendWith(InjectionExtension)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TemplateProposalProviderHelperTest {
 
   static val SIMPLE_ENUM_VARIABLE_TYPE = new SimpleEnumTemplateVariableResolver().type
@@ -80,14 +83,14 @@ class TemplateProposalProviderHelperTest {
     helper = null
   }
 
-  @Test(expected=NullPointerException)
+  @Test
   def void testCreateLiteralValuePatternWithNullName() {
-    helper.createLiteralValuePattern(null, 42)
+    assertThrows(NullPointerException, [| helper.createLiteralValuePattern(null, 42)])
   }
 
-  @Test(expected=IllegalArgumentException)
+  @Test
   def void testCreateLiteralValuePatternWithNameContainingWhitespace() {
-    helper.createLiteralValuePattern("Contains whitespace", 42)
+    assertThrows(IllegalArgumentException, [| helper.createLiteralValuePattern("Contains whitespace", 42)])
   }
 
   @Test
@@ -134,37 +137,36 @@ class TemplateProposalProviderHelperTest {
 
     // ASSERT
     verify(helperSpy).createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME, defaultValue)
-    assertEquals("Expected result", expectedResult, actualResult)
+    assertEquals(expectedResult, actualResult, "Expected result")
   }
 
-  @Test(expected=NullPointerException)
+  @Test
   def void testCreateTemplateVariablePatternWithNullType() {
-    helper.createTemplateVariablePattern(null, VARIABLE_NAME)
+    assertThrows(NullPointerException, [| helper.createTemplateVariablePattern(null, VARIABLE_NAME)])
   }
 
-  @Test(expected=IllegalArgumentException)
+  @Test
   def void testCreateTemplateVariablePatternWithTypeContainingWhitespace() {
-    helper.createTemplateVariablePattern("Contains whitespace", VARIABLE_NAME)
+    assertThrows(IllegalArgumentException, [|helper.createTemplateVariablePattern("Contains whitespace", VARIABLE_NAME)])
   }
 
-  @Test(expected=NullPointerException)
+  @Test
   def void testCreateTemplateVariablePatternWithNullName() {
-    helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, null)
+    assertThrows(NullPointerException, [| helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, null)])
   }
 
-  @Test(expected=IllegalArgumentException)
   def void testCreateTemplateVariablePatternWithNameContainingWhitespace() {
-    helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, "Contains whitespace")
+    assertThrows(IllegalArgumentException, [| helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, "Contains whitespace")])
   }
 
-  @Test(expected=NullPointerException)
+  @Test
   def void testCreateTemplateVariablePatternWithNull() {
-    helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME, null)
+    assertThrows(NullPointerException, [| helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME, null)])
   }
 
-  @Test(expected=IllegalArgumentException)
+  @Test
   def void testCreateTemplateVariablePatternWithNoValues() {
-    helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME)
+    assertThrows(IllegalArgumentException, [| helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME)])
   }
 
   @Test
@@ -256,8 +258,8 @@ class TemplateProposalProviderHelperTest {
     val actualValues = templateBuffer.variables.get(0).values
 
     // ASSERT
-    assertEquals("Expected result", expectedResult, actualResult)
-    assertArrayEquals("Expected values", expectedValues, actualValues)
+    assertEquals(expectedResult, actualResult, "Expected result")
+    assertArrayEquals(expectedValues, actualValues, "Expected values")
   }
 
 }
