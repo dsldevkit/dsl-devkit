@@ -48,6 +48,7 @@ import com.google.inject.name.Named;
  * Class providing utility methods for projects.
  */
 @Singleton
+@SuppressWarnings("nls")
 public class CheckProjectHelper {
 
   private static final Logger LOGGER = LogManager.getLogger(CheckProjectHelper.class);

@@ -21,19 +21,19 @@ import org.eclipse.pde.internal.ua.core.toc.text.TocTopic;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant.IBuildContext;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 
-import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckTocExtensionHelper;
+import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.google.inject.Inject;
 
 
 /**
  * The class responsible for the manipulation of toc.xml file.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class CheckTocGenerator {
 
   @Inject
@@ -51,7 +51,7 @@ public class CheckTocGenerator {
 
   /**
    * Removes the topic from toc file.
-   * 
+   *
    * @param uri
    *          the uri
    * @throws CoreException
@@ -69,7 +69,7 @@ public class CheckTocGenerator {
 
   /**
    * Removes the topic from toc file.
-   * 
+   *
    * @param model
    *          the model containing the toc
    * @param reference
@@ -90,7 +90,7 @@ public class CheckTocGenerator {
 
   /**
    * Returns the reference to the html-page for the given URI.
-   * 
+   *
    * @param uri
    *          the uri
    * @return
@@ -102,7 +102,7 @@ public class CheckTocGenerator {
 
   /**
    * Change toc.xml file if necessary.
-   * 
+   *
    * @param uri
    *          the uri
    * @param buildContext
@@ -128,7 +128,7 @@ public class CheckTocGenerator {
 
   /**
    * Adds the topic to toc model.
-   * 
+   *
    * @param model
    *          the model
    * @param label
@@ -197,7 +197,7 @@ public class CheckTocGenerator {
 
   /**
    * Updates the toc model with initial toc field label and anchor point. Saves and returns the model.
-   * 
+   *
    * @param model
    *          the model
    * @throws CoreException
@@ -213,7 +213,7 @@ public class CheckTocGenerator {
 
   /**
    * Loads toc model and sets toc.xml as underlying resource.
-   * 
+   *
    * @param uri
    *          the uri
    * @return the toc model

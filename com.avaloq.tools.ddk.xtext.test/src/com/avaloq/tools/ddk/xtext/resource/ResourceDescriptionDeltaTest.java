@@ -33,7 +33,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 
-@SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
+@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
 public class ResourceDescriptionDeltaTest {
 
   @Test

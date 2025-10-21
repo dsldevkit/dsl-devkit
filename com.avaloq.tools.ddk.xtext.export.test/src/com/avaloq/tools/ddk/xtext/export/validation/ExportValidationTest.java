@@ -19,6 +19,7 @@ import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest;
 /**
  * Tests validation of Export sources.
  */
+@SuppressWarnings("nls")
 public class ExportValidationTest extends AbstractValidationTest {
 
   @Override

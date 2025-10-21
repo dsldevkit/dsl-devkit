@@ -27,13 +27,13 @@ import org.junit.runners.model.Statement;
  * </p>
  * <p>
  * Example for a issue test:
- * 
+ *
  * <pre>
  * public class TestClass {
- * 
+ *
  *   &#064;Rule
  *   public IssueAwareRule rule = IssueAwareRule.getInstance();
- * 
+ *
  *   &#064;org.junit.Test
  *   &#064;com.avaloq.tools.ddk.test.core.Issue(value = &quot;ISSUE-42&quot;, fixed = false)
  *   public void testMethod() {
@@ -42,12 +42,12 @@ import org.junit.runners.model.Statement;
  * }
  * </pre>
  * </p>
- * 
+ *
  * @see Issue
  */
 public final class IssueAwareRule implements TestRule {
 
-  private static final String ERROR_TEST_MUST_FAIL = "The issue test for a not fixed issue must fail:";
+  private static final String ERROR_TEST_MUST_FAIL = "The issue test for a not fixed issue must fail:"; //$NON-NLS-1$
   /** The singleton instance, or {@code null} if not cached. */
   private static IssueAwareRule instance;
   private static Object lock = new Object();
@@ -61,7 +61,7 @@ public final class IssueAwareRule implements TestRule {
 
   /**
    * Returns a shared singleton instance.
-   * 
+   *
    * @return a shared instance, never {@code null}
    */
   public static IssueAwareRule getInstance() {

@@ -51,4 +51,4 @@ class DefaultFragmentWithOverride extends AbstractXtextGeneratorFragment {
   }
 
 }
-/* Copyright (c) Avaloq Licence AG */
+/* Copyright (c) Avaloq Group AG */

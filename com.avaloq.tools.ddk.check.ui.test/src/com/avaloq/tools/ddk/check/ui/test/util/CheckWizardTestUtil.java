@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 /**
  * Util class for the Check project and Check catalog wizard tests.
  */
+@SuppressWarnings("nls")
 public final class CheckWizardTestUtil {
 
   // Next button disabled

@@ -30,19 +30,19 @@ public class CheckDeclarativeQualifiedNameProvider extends XbaseQualifiedNamePro
 
   /**
    * Gets the qualified name for a {@link CheckCatalog Check Catalog}.
-   * 
+   *
    * @param catalog
    *          the check catalog
    * @return the fully qualified name
    */
   QualifiedName qualifiedName(final CheckCatalog catalog) {
-    return converter.toQualifiedName(catalog.getPackageName() + "." + catalog.getName());
+    return converter.toQualifiedName(catalog.getPackageName() + '.' + catalog.getName());
   }
 
   /**
    * Creates a qualified name for a given Check instance. The first segment of the
    * qualified name corresponds to the parent catalog name.
-   * 
+   *
    * @param check
    *          the check
    * @return the qualified name
@@ -50,7 +50,7 @@ public class CheckDeclarativeQualifiedNameProvider extends XbaseQualifiedNamePro
   QualifiedName qualifiedName(final Check check) {
     // name of check can be null while editing
     String name = check.getName();
-    return qualifiedName(EcoreUtil2.getContainerOfType(check, CheckCatalog.class)).append(name != null ? name : "null");
+    return qualifiedName(EcoreUtil2.getContainerOfType(check, CheckCatalog.class)).append(name != null ? name : "null"); //$NON-NLS-1$
   }
 
 }

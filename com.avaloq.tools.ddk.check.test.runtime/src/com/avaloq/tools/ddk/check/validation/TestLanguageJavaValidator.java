@@ -21,6 +21,7 @@ import com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage;
 /**
  * The Class TestLanguageJavaValidator.
  */
+@SuppressWarnings("nls")
 public class TestLanguageJavaValidator extends AbstractTestLanguageJavaValidator {
 
   @Check

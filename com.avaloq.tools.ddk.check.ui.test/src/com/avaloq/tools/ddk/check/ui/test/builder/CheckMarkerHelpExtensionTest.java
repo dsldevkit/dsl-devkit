@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 /**
  * Tests the MarkerHelpExtensionUtil class.
  */
-@SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException"})
+@SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @RunWith(XtextRunner.class)
 public class CheckMarkerHelpExtensionTest {

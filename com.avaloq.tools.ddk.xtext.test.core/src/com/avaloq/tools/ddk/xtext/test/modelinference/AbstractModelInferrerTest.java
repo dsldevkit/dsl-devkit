@@ -93,7 +93,7 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
    */
   protected void assertNoInference(final EObject sourceElement) {
     final Set<EObject> inferredElements = getInferredElements(sourceElement);
-    assertTrue("Unexpected inferred elements found: " + inferredElements.toString(), inferredElements.isEmpty());
+    assertTrue("Unexpected inferred elements found: " + inferredElements.toString(), inferredElements.isEmpty()); //$NON-NLS-1$
   }
 
   /**

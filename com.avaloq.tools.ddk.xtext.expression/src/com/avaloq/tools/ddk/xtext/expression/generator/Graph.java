@@ -180,7 +180,7 @@ public class Graph<T> {
     // Check to see if all edges are removed
     for (Node<T> n : nodes.values()) {
       if (!n.inEdges.isEmpty()) {
-        throw new IllegalStateException("Cycle present, topological sort not possible: " + n.ref + " -> " + n.inEdges);
+        throw new IllegalStateException("Cycle present, topological sort not possible: " + n.ref + " -> " + n.inEdges); //$NON-NLS-1$ //$NON-NLS-2$
       }
     }
 

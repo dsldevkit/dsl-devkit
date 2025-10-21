@@ -19,6 +19,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.CoreSwtbotTools;
 /**
  * Provides utility methods to open the preference dialog.
  */
+@SuppressWarnings("nls")
 public final class PreferenceUtil {
 
   private static final String SHELL_PREFERENCES = "Preferences";

@@ -35,6 +35,7 @@ import com.google.common.collect.Maps;
 /**
  * Base class for testing a language {@link IValueConverterService} implementation.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractValueConverterServiceTest extends AbstractXtextTest {
   /** ID regular expression does not allow digits as first character. */
   public static final String INVALID_ID_NUMBER = "1something";

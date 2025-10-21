@@ -54,6 +54,7 @@ import com.google.inject.Inject;
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 @ComposedChecks(validators = {ConfiguredParameterChecks.class})
+@SuppressWarnings("nls")
 public class CheckCfgValidator extends AbstractCheckCfgValidator {
 
   private static final Logger LOGGER = LogManager.getLogger(CheckCfgValidator.class);

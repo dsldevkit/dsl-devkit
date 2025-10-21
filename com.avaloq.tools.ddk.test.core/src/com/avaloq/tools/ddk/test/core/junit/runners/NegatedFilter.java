@@ -23,7 +23,7 @@ public class NegatedFilter extends Filter {
 
   /**
    * Creates a new instance of {@link NegatedFilter}.
-   * 
+   *
    * @param filter
    *          the filter to negate, must not be {@code null}
    */
@@ -39,6 +39,6 @@ public class NegatedFilter extends Filter {
 
   @Override
   public String describe() {
-    return "!" + underlyingFilter.describe();
+    return "!" + underlyingFilter.describe(); //$NON-NLS-1$
   }
 }

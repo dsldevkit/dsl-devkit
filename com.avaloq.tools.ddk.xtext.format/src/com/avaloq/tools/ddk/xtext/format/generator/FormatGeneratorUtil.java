@@ -40,6 +40,7 @@ import com.google.common.collect.Sets;
 /**
  * Various utility functions for the format generator.
  */
+@SuppressWarnings("nls")
 public final class FormatGeneratorUtil {
 
   /**

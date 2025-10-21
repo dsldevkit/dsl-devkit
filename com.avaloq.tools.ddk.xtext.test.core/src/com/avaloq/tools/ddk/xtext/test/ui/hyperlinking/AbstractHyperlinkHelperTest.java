@@ -39,6 +39,7 @@ import com.google.common.collect.Sets;
 /**
  * Base class for hyperlink helper tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractHyperlinkHelperTest extends AbstractXtextEditorTest {
 
   private static final String OFFSET_MUST_BE_EQUAL = "Offset must be equal";

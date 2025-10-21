@@ -26,6 +26,7 @@ import com.google.inject.Singleton;
  * and the wizards.
  */
 @Singleton
+@SuppressWarnings("nls")
 public class CheckJavaValidatorUtil {
 
   /** Two dots in a row. */

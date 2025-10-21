@@ -27,6 +27,7 @@ import com.avaloq.tools.ddk.xtext.formatter.util.FormatterTestUtil;
  * This class tests the Acs Formatter framework. The tests are basically a copy
  * of the Xtext Formatter tests.
  */
+@SuppressWarnings("nls")
 public class FormatterTest extends AbstractFormatterTest {
   @Override
   protected FormatterTestUtil getXtextTestUtil() {

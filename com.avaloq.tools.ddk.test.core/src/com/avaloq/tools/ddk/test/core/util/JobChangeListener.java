@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 /**
  * A job manager for querying information about scheduled {@link org.eclipse.core.runtime.jobs.Job}s and their completion.
  */
+@SuppressWarnings("nls")
 public class JobChangeListener extends JobChangeAdapter {
   public static final String JOB_REFRESHING_WORKSPACE = "Refreshing workspace";
   public static final String JOB_REFRESHING_CONTEXT = "Refreshing Context";

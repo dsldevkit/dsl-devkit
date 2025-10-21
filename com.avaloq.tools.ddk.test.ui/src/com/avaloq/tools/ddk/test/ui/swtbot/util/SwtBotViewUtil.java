@@ -18,6 +18,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 /**
  * Utility class for {@link SWTBotView}.
  */
+@SuppressWarnings("nls")
 public final class SwtBotViewUtil {
   private static final int TIMEOUT_FOR_VIEW_TO_LOAD = 20000;
   private static final String LOADING_VIEW_MESSAGE = "Loading...";

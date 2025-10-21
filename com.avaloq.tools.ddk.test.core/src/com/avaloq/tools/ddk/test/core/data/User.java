@@ -40,7 +40,7 @@ public class User {
    */
   public String getFullUsername() {
     if (fullUsername != null) {
-      return fullUsername + " (" + username + ")";
+      return fullUsername + " (" + username + ")"; //$NON-NLS-1$ //$NON-NLS-2$
     }
     return fullUsername;
   }

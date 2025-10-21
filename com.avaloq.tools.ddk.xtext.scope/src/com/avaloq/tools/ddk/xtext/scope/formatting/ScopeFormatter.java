@@ -28,6 +28,7 @@ import com.avaloq.tools.ddk.xtext.scope.services.ScopeGrammarAccess.ScopeRuleEle
  * on how and when to use it
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
+@SuppressWarnings("nls")
 public class ScopeFormatter extends AbstractDeclarativeFormatter {
 
   private static final int MAX_LINE_LENGTH = 140;

@@ -26,6 +26,7 @@ import org.junit.Test;
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 
 
+@SuppressWarnings("nls")
 public class CompilationContextTest {
 
   @Test

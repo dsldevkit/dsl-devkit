@@ -34,6 +34,7 @@ import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @RunWith(XtextClassRunner.class)
+@SuppressWarnings("nls")
 public class CheckProjectWizardTest {
 
   /** This is the name of the project wizard. It's the name SWTBot uses to look up the wizard. */

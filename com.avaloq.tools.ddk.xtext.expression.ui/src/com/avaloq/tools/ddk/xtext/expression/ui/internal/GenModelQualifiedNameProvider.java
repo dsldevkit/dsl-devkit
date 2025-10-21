@@ -45,7 +45,7 @@ public class GenModelQualifiedNameProvider extends AbstractImpl {
   }
 
   private String getCacheKey() {
-    return "fqn";
+    return "fqn"; //$NON-NLS-1$
   }
 
 }

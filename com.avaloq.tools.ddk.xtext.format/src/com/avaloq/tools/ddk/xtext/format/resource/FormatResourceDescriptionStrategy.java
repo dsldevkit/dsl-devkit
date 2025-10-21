@@ -36,6 +36,7 @@ import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
  * specifications. Therefore, besides a standard export, all the objects are exported under their fingerprints. Therefore when the content (text, value) of the
  * object changes this would cause a proper invalidations of the dependent formats.
  */
+@SuppressWarnings("nls")
 public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {
 
   /**

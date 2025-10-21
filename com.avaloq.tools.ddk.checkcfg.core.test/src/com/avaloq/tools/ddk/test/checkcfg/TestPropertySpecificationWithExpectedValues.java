@@ -15,6 +15,7 @@ import com.avaloq.tools.ddk.checkcfg.ICheckCfgPropertySpecification;
 
 
 /** A test implementation of {@link ICheckCfgPropertySpecification} that specifies expected values. */
+@SuppressWarnings("nls")
 public final class TestPropertySpecificationWithExpectedValues implements ICheckCfgPropertySpecification {
 
   public static final TestPropertySpecificationWithExpectedValues INSTANCE = new TestPropertySpecificationWithExpectedValues();

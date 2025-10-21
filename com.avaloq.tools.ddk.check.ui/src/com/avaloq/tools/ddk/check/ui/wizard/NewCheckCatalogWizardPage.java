@@ -59,7 +59,7 @@ import com.google.inject.Inject;
  * new Check Catalog wizard}.
  */
 // CHECKSTYLE:OFF (data coupling)
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class NewCheckCatalogWizardPage extends NewTypeWizardPage {
   // CHECKSTYLE:ON
 

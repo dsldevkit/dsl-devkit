@@ -25,6 +25,7 @@ import com.google.inject.name.Named;
 /**
  * @author Christoph Kulla - Initial contribution and API
  */
+@SuppressWarnings("nls")
 public class JavaDocCommentDocumentationProvider implements IEObjectDocumentationProvider {
 
   // TODO refactor with MultilineCommentDocumentationProvider
@@ -73,7 +74,7 @@ public class JavaDocCommentDocumentationProvider implements IEObjectDocumentatio
     }
     if (node instanceof ILeafNode && node.getGrammarElement() instanceof TerminalRule
         && ruleName.equalsIgnoreCase(((TerminalRule) node.getGrammarElement()).getName())) {
-      String comment = ((ILeafNode) node).getText();
+      String comment = node.getText();
       if (comment.matches("(?s)" + startTag + ".*")) {
         return comment;
       }

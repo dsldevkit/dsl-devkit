@@ -37,7 +37,7 @@ import com.google.common.collect.Sets;
  */
 public class GeneratorUtil {
 
-  public static final String ISO_8859_1 = "ISO-8859-1";
+  public static final String ISO_8859_1 = "ISO-8859-1"; //$NON-NLS-1$
 
   /**
    * Hidden constructor.

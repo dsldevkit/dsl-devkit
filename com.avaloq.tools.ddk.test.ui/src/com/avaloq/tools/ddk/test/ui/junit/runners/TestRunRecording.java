@@ -58,6 +58,7 @@ import com.google.common.primitives.Longs;
  * Recording of a test run.
  */
 // CHECKSTYLE:OFF
+@SuppressWarnings("nls")
 public class TestRunRecording extends RunListener implements TestStepListener, MouseListener {
   private static final String NEW_LINE = "\r\n";
   private static final String FILE_INFORMATION_SEPARATOR = "__";

@@ -61,7 +61,7 @@ public class FormatScopeNameProvider {
 
       @Override
       public String caseCompoundElement(final org.eclipse.xtext.CompoundElement object) {
-        return "";
+        return ""; //$NON-NLS-1$
       }
     };
 

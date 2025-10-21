@@ -22,6 +22,7 @@ import com.avaloq.tools.ddk.xtext.generator.test.util.GeneratorTestUtil;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 
 
+@SuppressWarnings("nls")
 public class ExpressionsExtentionsTest extends AbstractXtextTest {
 
   @Override

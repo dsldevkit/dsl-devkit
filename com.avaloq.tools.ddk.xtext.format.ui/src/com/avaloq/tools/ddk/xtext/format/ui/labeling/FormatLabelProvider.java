@@ -43,7 +43,7 @@ public class FormatLabelProvider extends XbaseLabelProvider {
    * @return the string
    */
   public String text(final WildcardRule element) {
-    return "*";
+    return "*"; //$NON-NLS-1$
   }
 
   /**

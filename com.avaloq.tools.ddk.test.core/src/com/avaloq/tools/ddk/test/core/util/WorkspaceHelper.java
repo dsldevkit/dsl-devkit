@@ -82,7 +82,7 @@ public class WorkspaceHelper {
   public boolean isWorkspaceReady() {
     boolean result = getJobChangeListener().hasNoJobs(JobChangeListener.JOB_LOAD_PLATFORM, JobChangeListener.JOB_UPDATING_PROJECTS, JobChangeListener.JOB_BACKGROUND_BUILD, JobChangeListener.JOB_REFRESHING_WORKSPACE, JobChangeListener.JOB_INITIALIZING_JAVA_TOOLING);
     result &= !getJobChangeListener().hasJob(JobChangeListener.JOB_REFRESHING_CONTEXT);
-    return result && !getJobChangeListener().jobExists("Refresh DBObject");
+    return result && !getJobChangeListener().jobExists("Refresh DBObject"); //$NON-NLS-1$
   }
 
 }

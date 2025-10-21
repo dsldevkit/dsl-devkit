@@ -12,7 +12,7 @@ public class TestLanguageUiInjectorProvider implements IInjectorProvider {
 
   @Override
   public Injector getInjector() {
-    return com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.TestLanguage");
+    return com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator.getInstance().getInjector("com.avaloq.tools.ddk.check.TestLanguage"); //$NON-NLS-1$
   }
 
 }

@@ -73,7 +73,7 @@ final class TestPlan {
    * @return the newly added {@link AbstractStep}, never {@code null}
    */
   public <T extends AbstractStep> T addSetupStep(final T setupStep) {
-    Assert.assertTrue("Must not add a setup step after adding a test step.", getCompoundTestStep().getSteps().isEmpty());
+    Assert.assertTrue("Must not add a setup step after adding a test step.", getCompoundTestStep().getSteps().isEmpty()); //$NON-NLS-1$
     getCompoundSetupStep().addStep(setupStep);
     return setupStep;
   }

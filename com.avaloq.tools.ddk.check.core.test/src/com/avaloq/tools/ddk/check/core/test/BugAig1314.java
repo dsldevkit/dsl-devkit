@@ -41,6 +41,7 @@ import com.google.common.collect.Iterables;
  */
 @RunWith(XtextRunner.class)
 @InjectWith(CheckInjectorProvider.class)
+@SuppressWarnings("nls")
 public class BugAig1314 {
 
   /** Constructor of super class is protected... */

@@ -80,7 +80,7 @@ public abstract class AbstractTestUtil { // NOPMD we really do want default impl
     Object jobFamily = null;
     try {
       // Job family is represented by the edited source version
-      Method method = editorClass.getMethod("getSourceVersion", (Class<?>[]) null);
+      Method method = editorClass.getMethod("getSourceVersion", (Class<?>[]) null); //$NON-NLS-1$
       jobFamily = method.invoke(editor, (Object[]) null);
       // CHECKSTYLE:OFF
     } catch (Exception e) {

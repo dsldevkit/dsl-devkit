@@ -76,6 +76,7 @@ public final class ScopeUtil {
    *          rule to calculate signature for
    * @return string signature
    */
+  @SuppressWarnings("nls")
   public static String getSignature(final ScopeRule rule) { // NOPMD NPathComplexity
     // CHECKSTYLE:OFF MagicNumber
     StringBuffer result = new StringBuffer(60);

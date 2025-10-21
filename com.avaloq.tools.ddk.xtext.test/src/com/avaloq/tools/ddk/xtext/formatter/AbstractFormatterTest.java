@@ -28,6 +28,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
  * Base class for formatting tests.
  * The assertXyz methods are essentially copied from {@link com.avaloq.tools.ddk.xtext.test.formatting.AbstractAcfFormattingTest}.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractFormatterTest extends AbstractXtextTest {
 
   /**

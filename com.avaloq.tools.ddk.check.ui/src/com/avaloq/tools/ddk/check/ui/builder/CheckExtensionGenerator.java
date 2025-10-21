@@ -88,7 +88,7 @@ import com.google.inject.Inject;
  */
 
 // CHECKSTYLE:OFF (abstraction coupling)
-@SuppressWarnings({"restriction"})
+@SuppressWarnings({"restriction", "nls"})
 class CheckExtensionGenerator {
   // CHECKSTYLE:ON
   private static final Logger LOGGER = LogManager.getLogger(CheckExtensionGenerator.class);

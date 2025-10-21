@@ -11,8 +11,8 @@
 package com.avaloq.tools.ddk.xtext.format.formatting;
 
 import com.avaloq.tools.ddk.xtext.test.TestSource;
-import com.avaloq.tools.ddk.xtext.test.formatting.AbstractFormattingTest;
 import com.avaloq.tools.ddk.xtext.test.format.util.FormatTestUtil;
+import com.avaloq.tools.ddk.xtext.test.formatting.AbstractFormattingTest;
 
 
 public class FormatFormattingTest extends AbstractFormattingTest {
@@ -25,7 +25,7 @@ public class FormatFormattingTest extends AbstractFormattingTest {
   @Override
   protected String getResourceContent(final String sourceFileName) {
     // return content with line terminators as will be produced by formatter
-    return TestSource.normalizeLineSeparators(super.getResourceContent(sourceFileName), System.getProperty("line.separator"));
+    return TestSource.normalizeLineSeparators(super.getResourceContent(sourceFileName), System.getProperty("line.separator")); //$NON-NLS-1$
   }
 
 }

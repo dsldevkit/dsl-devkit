@@ -20,7 +20,7 @@ import com.google.inject.Module;
  */
 public class Activator extends ExpressionActivator {
 
-  public static final String COM_AVALOQ_TOOLS_DDK_XTEXT_EXPRESSION_GENMODEL = "com.avaloq.tools.ddk.xtext.expression.GenModel";
+  public static final String COM_AVALOQ_TOOLS_DDK_XTEXT_EXPRESSION_GENMODEL = "com.avaloq.tools.ddk.xtext.expression.GenModel"; //$NON-NLS-1$
 
   @Override
   protected Module getRuntimeModule(final String grammar) {

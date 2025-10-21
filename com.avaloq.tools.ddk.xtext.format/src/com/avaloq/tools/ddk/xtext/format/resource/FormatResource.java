@@ -12,8 +12,8 @@ package com.avaloq.tools.ddk.xtext.format.resource;
 
 import java.lang.reflect.Method;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.xbase.resource.BatchLinkableResource;
@@ -27,7 +27,7 @@ import org.eclipse.xtext.xtext.ecoreInference.Xtext2EcoreTransformer;
  * <p>
  * The implementation is a hack of sorts, but this will have to serve until a cleaner solution can be found.
  */
-@SuppressWarnings("restriction")
+@SuppressWarnings({"restriction", "nls"})
 public class FormatResource extends BatchLinkableResource {
 
   private static final Logger LOGGER = LogManager.getLogger(FormatResource.class);

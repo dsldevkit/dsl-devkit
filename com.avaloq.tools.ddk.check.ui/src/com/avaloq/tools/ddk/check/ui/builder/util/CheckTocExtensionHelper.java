@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 /**
  * The extension point utility class for Eclipse help contribution. Intended to be used by the Check builder participant.
  */
+@SuppressWarnings("nls")
 public class CheckTocExtensionHelper extends AbstractCheckDocumentationExtensionHelper {
 
   public static final String TOC_FILE_NAME = "docs/toc.xml";

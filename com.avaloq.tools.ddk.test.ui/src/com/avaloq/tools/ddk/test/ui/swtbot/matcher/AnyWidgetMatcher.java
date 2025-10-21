@@ -27,7 +27,7 @@ public class AnyWidgetMatcher extends BaseMatcher<Widget> {
 
   @Override
   public void describeTo(final Description description) {
-    description.appendText("any widget not null");
+    description.appendText("any widget not null"); //$NON-NLS-1$
   }
 
   /**

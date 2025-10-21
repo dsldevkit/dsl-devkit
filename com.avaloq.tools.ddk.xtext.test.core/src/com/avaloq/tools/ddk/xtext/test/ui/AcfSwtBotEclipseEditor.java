@@ -58,7 +58,7 @@ public class AcfSwtBotEclipseEditor extends SWTBotEclipseEditor {
 
       @Override
       public String getFailureMessage() {
-        return NLS.bind("The cursor should be on the position ({0}, {1}) and the editor should have focus.", line, column);
+        return NLS.bind("The cursor should be on the position ({0}, {1}) and the editor should have focus.", line, column); //$NON-NLS-1$
       }
 
     });

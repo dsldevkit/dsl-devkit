@@ -11,28 +11,18 @@
 
 package com.avaloq.tools.ddk.xtext.ui.test;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
-
-import com.avaloq.tools.ddk.test.core.junit.runners.DiscerningSuite;
-import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorRunTest;
-import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorTest;
-import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolverTest;
-import com.avaloq.tools.ddk.xtext.ui.templates.SimpleEnumTemplateVariableResolverTest;
-import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelperTest;
 
 
 /**
- * Junit5 version of test suites. does not implement the logic in our {@link DiscerningSuite}.
+ * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
 @Suite
-@SelectClasses({
+@SelectPackages({
 // @Format-Off
-  WorkbenchResolutionAdaptorTest.class,
-  WorkbenchResolutionAdaptorRunTest.class,
-  SimpleEnumTemplateVariableResolverTest.class,
-  ResourceNameTemplateVariableResolverTest.class,
-  TemplateProposalProviderHelperTest.class
+  "com.avaloq.tools.ddk.xtext.ui.quickfix"
+  , "com.avaloq.tools.ddk.xtext.ui.templates"
   // @Format-On
 })
 public class XtextUiTestSuite {

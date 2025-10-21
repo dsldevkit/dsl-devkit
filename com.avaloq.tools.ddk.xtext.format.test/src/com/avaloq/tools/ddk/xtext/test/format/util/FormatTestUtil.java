@@ -17,15 +17,16 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.XtextResourceSet;
 
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
-import com.avaloq.tools.ddk.xtext.test.ITestProjectManager;
-import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
 import com.avaloq.tools.ddk.xtext.format.FormatConstants;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.ui.internal.FormatActivator;
+import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
+import com.avaloq.tools.ddk.xtext.test.ITestProjectManager;
+import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
 import com.google.inject.Injector;
 
 
+@SuppressWarnings("nls")
 public final class FormatTestUtil extends AbstractXtextTestUtil {
   public static final String TEST_MODEL_NAME = "FormatterTestLanguage";
   public static final String NEW_LINE = "\n";
@@ -43,7 +44,7 @@ public final class FormatTestUtil extends AbstractXtextTestUtil {
     private static final FormatTestUtil INSTANCE = new FormatTestUtil();
 
     public static FormatTestUtil get() {
-        return INSTANCE;
+      return INSTANCE;
     }
   }
 

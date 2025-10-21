@@ -21,7 +21,7 @@ public final class NullStep extends AbstractStep {
 
   @Override
   public String getDescription() {
-    return "Does nothing.";
+    return "Does nothing."; //$NON-NLS-1$
   }
 
   @Override

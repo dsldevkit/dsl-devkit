@@ -60,7 +60,7 @@ import junit.framework.TestCase;
 /**
  * An abstract test class for tests on Check models. Allows creating a project and adding files.
  */
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "restriction"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "restriction", "nls"})
 public abstract class AbstractCheckTestCase extends TestCase {
   private static final int TWO_KILO_BYTES = 2048;
   protected static final Logger LOGGER = LogManager.getLogger(AbstractCheckTestCase.class);

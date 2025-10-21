@@ -60,6 +60,7 @@ public final class Reflect {
    * @return the caller
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("nls")
   public static StackTraceElement getCaller(final int offset) {
     if (offset < 0) {
       throw new IllegalArgumentException("Offset must be >= 0");

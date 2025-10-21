@@ -22,6 +22,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 /**
  * Checks if the DE_CH keyboard layout works correctly by typing special characters in a test Eclipse editor.
  */
+@SuppressWarnings("nls")
 public class DeChKeyboardLayoutTest {
   private static final String EXPECTED_RESULT = "¨üöä$,.-<!èéà£;:_>[]ö{},.-\\'^+\"*ç%&/()=?`¦@#°§¬|¢´~zyZY";
 

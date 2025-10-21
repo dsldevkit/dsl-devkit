@@ -26,6 +26,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
 /**
  * Provides test for the SwtBotRadio.
  */
+@SuppressWarnings("nls")
 public class SwtBotRadioTest {
 
   @Rule

@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 /**
  * Configures a proposal provider for the Check editor.
  */
+@SuppressWarnings("nls")
 public class CheckProposalProvider extends AbstractCheckProposalProvider {
 
   // @Format-Off

@@ -17,7 +17,7 @@ class IllegalJUnitAnnotation extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   IllegalJUnitAnnotation() {
-    super("Invalid annotation found. BeforeClass and AfterClass annotations are not permitted when using the AbstractXtextTest framework. Use the methods 'beforeAllTests' and 'afterAllTests' instead.");
+    super("Invalid annotation found. BeforeClass and AfterClass annotations are not permitted when using the AbstractXtextTest framework. Use the methods 'beforeAllTests' and 'afterAllTests' instead."); //$NON-NLS-1$
   }
 
   IllegalJUnitAnnotation(final String message) {

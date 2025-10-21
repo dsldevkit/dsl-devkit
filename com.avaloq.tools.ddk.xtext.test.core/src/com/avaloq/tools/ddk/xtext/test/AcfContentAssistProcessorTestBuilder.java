@@ -48,7 +48,7 @@ import com.google.inject.Injector;
  * {@link ConfigurableCompletionProposal}s.
  * </ul>
  */
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "nls"})
 public class AcfContentAssistProcessorTestBuilder extends ContentAssistProcessorTestBuilder {
   private final ResourceLoadHelper loadHelper;
 

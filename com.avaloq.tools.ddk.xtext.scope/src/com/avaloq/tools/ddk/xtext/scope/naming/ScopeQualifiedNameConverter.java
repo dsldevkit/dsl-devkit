@@ -20,7 +20,7 @@ public class ScopeQualifiedNameConverter extends IQualifiedNameConverter.Default
 
   @Override
   public String getDelimiter() {
-    return "::";
+    return "::"; //$NON-NLS-1$
   }
 
 }

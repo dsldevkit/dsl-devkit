@@ -22,6 +22,7 @@ import org.eclipse.xtext.generator.OutputConfigurationProvider;
  *
  * @see org.eclipse.xtext.generator.IFileSystemAccess
  */
+@SuppressWarnings("nls")
 public class CheckOutputConfigurationProvider extends OutputConfigurationProvider {
 
   public static final String DOCS_PATH = "docs/content";

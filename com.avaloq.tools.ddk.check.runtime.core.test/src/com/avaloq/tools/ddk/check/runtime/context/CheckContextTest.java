@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 /**
  * Provides some tests of the reflective {@link AbstractCheckContext} framework.
  */
+@SuppressWarnings("nls")
 public class CheckContextTest extends TestCase {
 
   public static final String ENABLED_ISSUE_CODE = "Enabled.Issue.Code";
