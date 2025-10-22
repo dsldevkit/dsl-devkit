@@ -5,20 +5,12 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.format.test;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.xtext.format.ui
 Require-Bundle: com.avaloq.tools.ddk.xtext.format,
- com.google.inject,
  com.avaloq.tools.ddk.xtext.test.core,
  org.junit,
  org.mockito.mockito-core,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtext.xbase.testing,
- org.objectweb.asm;resolution:=optional,
- org.eclipse.xtext.testing,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
+ org.eclipse.xtext.xbase.testing
 Export-Package: com.avaloq.tools.ddk.xtext.test.format;x-internal=true,
  com.avaloq.tools.ddk.xtext.format;x-internal=true
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.format.test

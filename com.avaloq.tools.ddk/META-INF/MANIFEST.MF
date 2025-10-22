@@ -5,17 +5,13 @@ Bundle-SymbolicName: com.avaloq.tools.ddk;singleton:=true
 Bundle-Version: 16.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Bundle-ActivationPolicy: lazy
 Require-Bundle: com.google.guava,
- org.apache.commons.lang,
- org.eclipse.jdt.annotation,
- org.eclipse.core.resources,
  org.eclipse.core.runtime,
  com.google.inject
 Export-Package: com.avaloq.tools.ddk.annotations,
  com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.util,
  com.avaloq.tools.ddk.tracing
-Import-Package: org.apache.logging.log4j,org.apache.log4j
+Import-Package: org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk
 

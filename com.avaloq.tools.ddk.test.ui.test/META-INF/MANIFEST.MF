@@ -3,17 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.test.ui.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.test.ui.test;singleton:=true
 Bundle-Version: 16.2.0.qualifier
-Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.junit,
- org.eclipse.swtbot.eclipse.finder,
- org.eclipse.swt,
  com.avaloq.tools.ddk.test.core,
- com.avaloq.tools.ddk.test.ui,
- junit-jupiter-api,
- junit-jupiter-engine,
- junit-vintage-engine
+ com.avaloq.tools.ddk.test.ui
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.core.runtime.jobs
 Automatic-Module-Name: com.avaloq.tools.ddk.test.ui.test
