@@ -21,8 +21,8 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectPackages({
 // @Format-Off
-  "com.avaloq.tools.ddk.xtext.ui.quickfix"
-  , "com.avaloq.tools.ddk.xtext.ui.templates"
+  "com.avaloq.tools.ddk.xtext.ui.quickfix",
+  "com.avaloq.tools.ddk.xtext.ui.templates"
   // @Format-On
 })
 public class XtextUiTestSuite {
