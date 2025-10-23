@@ -8,7 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.xtext.ui,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.testing,
- org.junit,
  org.mockito.mockito-core,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.test.core,
@@ -16,6 +15,8 @@ Require-Bundle: org.eclipse.xtext.ui,
  com.avaloq.tools.ddk.xtext.test.core,
  junit-jupiter-api,
  junit-jupiter-engine,
- junit-vintage-engine
+ net.bytebuddy.byte-buddy,
+ org.objenesis,
+ junit-platform-suite-api
 Export-Package: com.avaloq.tools.ddk.xtext.ui.test
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui.test

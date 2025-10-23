@@ -43,8 +43,8 @@ import org.eclipse.xtext.ui.util.IssueUtil;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 import org.eclipse.xtext.validation.Issue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 
 import com.avaloq.tools.ddk.check.runtime.ui.quickfix.IModificationContextRegistry;
@@ -56,7 +56,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
 
-public class WorkbenchResolutionAdaptorRunTest {
+class WorkbenchResolutionAdaptorRunTest {
 
   private static final String TEST_FILE_NAME = "TestFileName"; //$NON-NLS-1$
 
@@ -95,8 +95,8 @@ public class WorkbenchResolutionAdaptorRunTest {
 
   private final WorkbenchMarkerResolutionGenerator wmrg = injector.getInstance(WorkbenchMarkerResolutionGenerator.class);
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() {
     wmrg.setIssueUtil(new IssueUtil());
 
     when(mockRegistryProvider.get()).thenReturn(mockMarkerHelpRegistry);
@@ -121,14 +121,13 @@ public class WorkbenchResolutionAdaptorRunTest {
     when(mockMarker.getAttribute(eq(Issue.URI_KEY), anyString())).thenReturn(uri.toString());
     when(mockMarker.isSubtypeOf(eq(MarkerTypes.ANY_VALIDATION))).thenReturn(true);
     when(mockStorage2UriMapper.getUri(eq(mockFile))).thenReturn(uri);
-    @SuppressWarnings("unchecked")
     Iterable<Pair<IStorage, IProject>> storages = Lists.newArrayList(Tuples.create((IStorage) mockFile, mock(IProject.class)));
     when(mockStorage2UriMapper.getStorages(eq(uri))).thenReturn(storages);
     when(mockLanguageResourceHelper.isLanguageResource(eq(mockFile))).thenReturn(true);
   }
 
   @Test
-  public void testRun() throws CoreException {
+  void testRun() throws CoreException {
     WorkbenchResolutionAdapter adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
     when(mockMarkerHelpRegistry.getResolutions(mockMarker)).thenReturn(mockMarkerResolutions);
 
@@ -142,7 +141,7 @@ public class WorkbenchResolutionAdaptorRunTest {
   }
 
   @Test
-  public void testSingleRun() throws CoreException {
+  void testSingleRun() throws CoreException {
     WorkbenchResolutionAdapter adapter = wmrg.new WorkbenchResolutionAdapter(mockIssueResolution, mockMarker);
     when(mockMarkerHelpRegistry.getResolutions(mockMarker)).thenReturn(mockMarkerResolutions);
 
