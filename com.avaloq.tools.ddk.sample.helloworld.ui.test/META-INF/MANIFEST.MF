@@ -8,7 +8,6 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.sample.helloworld.ui.test;singleton:=t
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  com.avaloq.tools.ddk.sample.helloworld.ui,
- org.junit,
  org.eclipse.xtext.ui.testing,
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
@@ -21,6 +20,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.xtext.xbase.ui.testing,
  junit-jupiter-api,
  junit-jupiter-engine,
+ junit-platform-suite-api,
  junit-vintage-engine
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.test,
