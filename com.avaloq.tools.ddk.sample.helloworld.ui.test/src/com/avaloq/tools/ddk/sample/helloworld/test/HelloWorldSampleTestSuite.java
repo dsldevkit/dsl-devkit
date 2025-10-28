@@ -11,25 +11,21 @@
 
 package com.avaloq.tools.ddk.sample.helloworld.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import com.avaloq.tools.ddk.sample.helloworld.check.CheckConfigurationIsAppliedTest;
-import com.avaloq.tools.ddk.sample.helloworld.check.CheckExecutionEnvironmentProjectTest;
-import com.avaloq.tools.ddk.sample.helloworld.label.IssueLabelTest;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectPackages({
 // @Format-Off
-  IssueLabelTest.class,
-  CheckConfigurationIsAppliedTest.class,
-  CheckExecutionEnvironmentProjectTest.class
-// @Format-On
+  "com.avaloq.tools.ddk.sample.helloworld.check",
+  "com.avaloq.tools.ddk.sample.helloworld.label"
+  // @Format-On
 })
+
 public class HelloWorldSampleTestSuite {
 
 }
