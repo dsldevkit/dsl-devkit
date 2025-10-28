@@ -10,18 +10,18 @@
 package com.avaloq.tools.ddk.check.validation
 
 import org.eclipse.xtext.testing.InjectWith
-import org.junit.runner.RunWith
-import org.eclipse.xtext.testing.XtextRunner
 import com.avaloq.tools.ddk.check.CheckUiInjectorProvider
-import org.junit.Test
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
 import com.avaloq.tools.ddk.check.check.CheckCatalog
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.eclipse.xtext.xtype.XtypePackage
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
 
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class CheckApiAccessValidationsTest{
 
   @Inject

@@ -14,17 +14,18 @@ package com.avaloq.tools.ddk.check.core.test
 import com.avaloq.tools.ddk.check.CheckInjectorProvider
 import java.io.ByteArrayInputStream
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.List
 import org.eclipse.xtext.xbase.testing.JavaSource
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.*
 
 /**
  * Unit test for autogeneration of check issue code to label map.
  */
 @InjectWith(CheckInjectorProvider)
-@RunWith(XtextRunner)
+@ExtendWith(typeof(InjectionExtension))
 class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase {
 
   static final String PACKAGE_NAME = "mypackage"
@@ -121,7 +122,7 @@ class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase 
     val catalogClass = compiledClassesList.findFirst[s | s.fileName.equals(catalogClassName)].code;
 
     for (code: expectedCatalog) {
-      assertTrue('''«catalogClassName» was generated correctly''', catalogClass.replaceAll("\\s+","").contains(code))
+      assertTrue( catalogClass.replaceAll("\\s+","").contains(code), '''«catalogClassName» was generated correctly''')
     }
   }
 

@@ -16,13 +16,13 @@ import com.google.inject.Inject
 import org.eclipse.xtext.formatting2.FormatterPreferenceKeys
 import org.eclipse.xtext.preferences.MapBasedPreferenceValues
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.formatter.FormatterTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
 
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class CheckFormattingTest {
 
   @Inject

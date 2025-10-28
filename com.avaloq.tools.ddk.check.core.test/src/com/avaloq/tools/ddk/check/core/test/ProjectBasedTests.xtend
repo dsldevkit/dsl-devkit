@@ -19,13 +19,14 @@ import org.eclipse.core.resources.IMarker
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.*
 
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class ProjectBasedTests extends AbstractCheckTestCase {
 
   boolean initialized;
@@ -65,9 +66,9 @@ class ProjectBasedTests extends AbstractCheckTestCase {
     val IProject project = getOrCreatePluginProject()
     val IFile file = project.getFile(fileName);
     // enumerateContents(project);
-    assertTrue("Generated file should exist", file.exists);
-    assertFalse("Generated file should not be empty", isEmpty(file));
-    assertTrue("Generated file should not have errors", file.findMaxProblemSeverity(null, true, IResource::DEPTH_INFINITE) < IMarker::SEVERITY_ERROR);
+    assertTrue( file.exists,"Generated file should exist")
+    assertFalse( isEmpty(file),"Generated file should not be empty")
+    assertTrue( file.findMaxProblemSeverity(null, true, IResource::DEPTH_INFINITE) < IMarker::SEVERITY_ERROR,"Generated file should not have errors")
 
   }
 

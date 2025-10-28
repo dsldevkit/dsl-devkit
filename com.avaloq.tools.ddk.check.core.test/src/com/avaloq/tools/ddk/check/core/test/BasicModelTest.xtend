@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
@@ -19,16 +19,15 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil
 import com.google.inject.Inject
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Ignore
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import static org.junit.Assert.*
+import org.junit.jupiter.api.Test
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.^extension.ExtendWith
+import static org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class BasicModelTest {
 
   @Inject
@@ -46,7 +45,7 @@ class BasicModelTest {
   @Test
   def void testCreateEmptyModelWithPackageReference() {
     val model = parser.parse("package p catalog c {}")
-    assertNotNull("CheckCatalog with EPackage reference successfully created", model);
+    assertNotNull(model, "CheckCatalog with EPackage reference successfully created")
   }
 
   /**
@@ -55,7 +54,7 @@ class BasicModelTest {
   @Test
   def void testCreateEmptyModelWithGrammarReference() {
     val model = parser.parse("package p catalog c for grammar com.avaloq.tools.ddk.check.Check {}")
-    assertNotNull("CheckCatalog with Grammar reference successfully created", model);
+    assertNotNull(model, "CheckCatalog with Grammar reference successfully created")
   }
 
   /* Tests that an XIssueExpression takes message parameters. */
@@ -74,10 +73,10 @@ class BasicModelTest {
 
   /* Tests that Checks documented with ML_COMMENTs have an inferred description field. */
   @Test
-  @Ignore("Fails because DocumentedImplCustom uses the null resource description provider to get the document provider")
+  @Disabled("Fails because DocumentedImplCustom uses the null resource description provider to get the document provider")
   def void testInferingOfDescription() {
     val check = util.getFirstInstanceOf(parser.parse(modelUtil.modelWithCheck), typeof(Check))
-    assertEquals("No documentation.", check.description)
+    assertEquals(check.description, "No documentation.")
   }
 
   /* Tests that Checks have an implicit name which matches the ID. */
@@ -85,28 +84,33 @@ class BasicModelTest {
   def void testCheckNameIDIsPresent() {
     val id = "CheckID"
     val check = util.getFirstInstanceOf(parser.parse(modelUtil.modelWithCheck(id)), typeof(Check))
-    assertEquals("Check name field matches ID field", check.id, check.name)
-    assertEquals("Check name field matches supplied ID", id, check.name)
+    assertEquals(check.id, check.name, "Check name field matches ID field")
+    assertEquals(id, check.name, "Check name field matches supplied ID")
   }
 
   /* Tests that Checks have an implicit name which matches the ID even when the ID is missing. */
   @Test
   def void testCheckNameIDIsMissing() {
     val check = util.getFirstInstanceOf(parser.parse(modelUtil.modelWithCheck("")), typeof(Check))
-    assertNull("Check name is null", check.name)
+    assertNull(check.name, "Check name is null")
   }
 
   /* Tests that multi- and single-line comments are parsed in a model. */
   @Test
   def void testCommentsInModelParse() {
     val model = parser.parse(modelUtil.modelWithComments)
-    assertFalse("Syntax errors not expected but occurred", (model.eResource as XtextResource).parseResult.hasSyntaxErrors)
+    assertFalse((model.eResource as XtextResource).parseResult.hasSyntaxErrors,
+      "Syntax errors not expected but occurred")
   }
 
   /* Tests that t.message is allowed, despite "message" being a keyword. */
   @Test
   def void testKeywordAsIdentifier() {
-    val model = parser.parse(modelUtil.modelWithContext + "try { issue bind (\"mp0\", \"mp1\"); } catch (java.lang.Throwable t) { issue bind (t.message, \"foo\"); }" + "}}}}");
-    assertFalse("Syntax errors not expected but occurred", (model.eResource as XtextResource).parseResult.hasSyntaxErrors);
+    val model = parser.parse(
+      modelUtil.modelWithContext +
+        "try { issue bind (\"mp0\", \"mp1\"); } catch (java.lang.Throwable t) { issue bind (t.message, \"foo\"); }" +
+        "}}}}");
+    assertFalse((model.eResource as XtextResource).parseResult.hasSyntaxErrors,
+      "Syntax errors not expected but occurred")
   }
 }

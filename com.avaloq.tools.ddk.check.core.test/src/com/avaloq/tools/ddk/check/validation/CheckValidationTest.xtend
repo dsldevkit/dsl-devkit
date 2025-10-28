@@ -16,15 +16,15 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckModelUtil
 import com.google.common.collect.Lists
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.eclipse.xtext.xbase.XbasePackage$Literals
-import org.junit.Ignore
-import org.junit.Test
-import org.junit.runner.RunWith
 import com.avaloq.tools.ddk.check.validation.IssueCodes
 import com.avaloq.tools.ddk.check.check.CheckPackage
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 
 /*
  * Tests for various check validations as implemented in the validation classes
@@ -34,7 +34,7 @@ import com.avaloq.tools.ddk.check.check.CheckPackage
  * </ul>
  */
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class CheckValidationTest {
 
   @Inject
@@ -97,7 +97,7 @@ class CheckValidationTest {
 
   /* Tests checkContextTypeIsUnique(Check) */
   @Test
-  @Ignore("Tests do not work because of scoping issues at run-time")
+  @Disabled("Tests do not work because of scoping issues at run-time")
   def void testContextTypeIsUnique() {
     // should fail
     var contexts = Lists::newArrayList("for C c {issue}", "for C d {issue}")

@@ -10,16 +10,16 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.validation;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
 import com.google.inject.Inject;
-
-import junit.framework.TestCase;
 
 
 /**
@@ -27,9 +27,9 @@ import junit.framework.TestCase;
  */
 
 @InjectWith(CheckUiInjectorProvider.class)
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-public class CheckJavaValidatorUtilTest extends TestCase {
+class CheckJavaValidatorUtilTest {
 
   // assertion messages.
   private static final String STARTS_WITH_LOWER_CASE = "starts with lower case";
@@ -65,23 +65,23 @@ public class CheckJavaValidatorUtilTest extends TestCase {
    * Tests checkProjectName. The given values are valid.
    */
   @Test
-  public void projectNameIsValid() {
-    assertTrue(QUALIFIED_NAME, util.checkProjectName("project.name").isOK());
-    assertTrue(NON_QUALIFIED_NAME, util.checkProjectName("projectname").isOK());
+  void projectNameIsValid() {
+    assertTrue(util.checkProjectName("project.name").isOK(), QUALIFIED_NAME);
+    assertTrue(util.checkProjectName("projectname").isOK(), NON_QUALIFIED_NAME);
   }
 
   /**
    * Tests checkProjectName. The given values are invalid.
    */
   @Test
-  public void projectNameIsInvalid() {
-    assertTrue(NAME_IS_EMPTY, util.checkProjectName(EMPTY_STRING).matches(IStatus.ERROR));
-    assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkProjectName("Project.name").matches(IStatus.ERROR));
-    assertTrue(STARTS_WITH_ILLEGAL_CHARACTER_DOT, util.checkProjectName(".projectname").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("client$project").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_WHITESPACE, util.checkProjectName("project.name ").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_UPPERCASE_LETTER, util.checkProjectName("proJect.Name").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_DOUBLE_DOT, util.checkProjectName("project..name").matches(IStatus.ERROR));
+  void projectNameIsInvalid() {
+    assertTrue(util.checkProjectName(EMPTY_STRING).matches(IStatus.ERROR), NAME_IS_EMPTY);
+    assertTrue(util.checkProjectName("Project.name").matches(IStatus.ERROR), STARTS_WITH_UPPERCASE_LETTER);
+    assertTrue(util.checkProjectName(".projectname").matches(IStatus.ERROR), STARTS_WITH_ILLEGAL_CHARACTER_DOT);
+    assertTrue(util.checkCatalogName("client$project").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_DOLLAR);
+    assertTrue(util.checkProjectName("project.name ").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_WHITESPACE);
+    assertTrue(util.checkProjectName("proJect.Name").matches(IStatus.ERROR), CONTAINS_UPPERCASE_LETTER);
+    assertTrue(util.checkProjectName("project..name").matches(IStatus.ERROR), CONTAINS_DOUBLE_DOT);
   }
 
   /**
@@ -89,9 +89,9 @@ public class CheckJavaValidatorUtilTest extends TestCase {
    */
 
   @Test
-  public void packageNameIsValid() {
-    assertTrue(QUALIFIED_NAME, util.checkPackageName("package.name").isOK());
-    assertTrue(NON_QUALIFIED_NAME, util.checkPackageName("packagename").isOK());
+  void packageNameIsValid() {
+    assertTrue(util.checkPackageName("package.name").isOK(), QUALIFIED_NAME);
+    assertTrue(util.checkPackageName("packagename").isOK(), NON_QUALIFIED_NAME);
   }
 
   /**
@@ -99,72 +99,72 @@ public class CheckJavaValidatorUtilTest extends TestCase {
    */
 
   @Test
-  public void packageNameIsInvalid() {
-    assertTrue(NAME_IS_EMPTY, util.checkPackageName(EMPTY_STRING).matches(IStatus.ERROR));
-    assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkPackageName("Package.name").matches(IStatus.ERROR));
-    assertTrue(STARTS_WITH_ILLEGAL_CHARACTER_DOT, util.checkPackageName(".packagename").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_WHITESPACE, util.checkPackageName("packagename ").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("client$package").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_UPPERCASE_LETTER, util.checkPackageName("package.Name").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_DOUBLE_DOT, util.checkPackageName("package..name").matches(IStatus.ERROR));
+  void packageNameIsInvalid() {
+    assertTrue(util.checkPackageName(EMPTY_STRING).matches(IStatus.ERROR), NAME_IS_EMPTY);
+    assertTrue(util.checkPackageName("Package.name").matches(IStatus.ERROR), STARTS_WITH_UPPERCASE_LETTER);
+    assertTrue(util.checkPackageName(".packagename").matches(IStatus.ERROR), STARTS_WITH_ILLEGAL_CHARACTER_DOT);
+    assertTrue(util.checkPackageName("packagename ").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_WHITESPACE);
+    assertTrue(util.checkCatalogName("client$package").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_DOLLAR);
+    assertTrue(util.checkPackageName("package.Name").matches(IStatus.ERROR), CONTAINS_UPPERCASE_LETTER);
+    assertTrue(util.checkPackageName("package..name").matches(IStatus.ERROR), CONTAINS_DOUBLE_DOT);
   }
 
   /**
    * Tests checkCatalogName. The given values are valid.
    */
   @Test
-  public void catalogNameIsValid() {
-    assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkCatalogName("Catalogname").isOK());
-    assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCatalogName("CatalogName").isOK());
+  void catalogNameIsValid() {
+    assertTrue(util.checkCatalogName("Catalogname").isOK(), STARTS_WITH_UPPERCASE_LETTER);
+    assertTrue(util.checkCatalogName("CatalogName").isOK(), STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS);
   }
 
   /**
    * Tests checkCatalogName. The given values are invalid.
    */
   @Test
-  public void catalogNameIsInvalid() {
-    assertTrue(NAME_IS_EMPTY, util.checkCatalogName(EMPTY_STRING).matches(IStatus.ERROR));
-    assertTrue(QUALIFIED_NAME, util.checkCatalogName("Catalog.Name").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER, util.checkCatalogName(",Catalogname").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("Client$Catalog").matches(IStatus.ERROR));
+  void catalogNameIsInvalid() {
+    assertTrue(util.checkCatalogName(EMPTY_STRING).matches(IStatus.ERROR), NAME_IS_EMPTY);
+    assertTrue(util.checkCatalogName("Catalog.Name").matches(IStatus.ERROR), QUALIFIED_NAME);
+    assertTrue(util.checkCatalogName(",Catalogname").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER);
+    assertTrue(util.checkCatalogName("Client$Catalog").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_DOLLAR);
   }
 
   /**
    * Tests checkCatalogName. The given values are discouraged.
    */
   @Test
-  public void catalogNameIsDiscouraged() {
-    assertTrue(STARTS_WITH_LOWER_CASE, util.checkCatalogName("catalogname").matches(IStatus.WARNING));
-    assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCatalogName("catalogName").matches(IStatus.WARNING));
+  void catalogNameIsDiscouraged() {
+    assertTrue(util.checkCatalogName("catalogname").matches(IStatus.WARNING), STARTS_WITH_LOWER_CASE);
+    assertTrue(util.checkCatalogName("catalogName").matches(IStatus.WARNING), STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS);
   }
 
   /**
    * Tests checkCheckName. The given values are valid.
    */
   @Test
-  public void checkNameIsValid() {
-    assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkCheckName("Checkname").isOK());
-    assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCheckName("CheckName").isOK());
+  void checkNameIsValid() {
+    assertTrue(util.checkCheckName("Checkname").isOK(), STARTS_WITH_UPPERCASE_LETTER);
+    assertTrue(util.checkCheckName("CheckName").isOK(), STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS);
   }
 
   /**
    * Tests checkCheckName. The given values are invalid.
    */
   @Test
-  public void checkNameIsInvalid() {
-    assertTrue(NAME_IS_EMPTY, util.checkCheckName(EMPTY_STRING).matches(IStatus.ERROR));
-    assertTrue(QUALIFIED_NAME, util.checkCheckName("Check.name").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER, util.checkCheckName(",checkname").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("client$check").matches(IStatus.ERROR));
+  void checkNameIsInvalid() {
+    assertTrue(util.checkCheckName(EMPTY_STRING).matches(IStatus.ERROR), NAME_IS_EMPTY);
+    assertTrue(util.checkCheckName("Check.name").matches(IStatus.ERROR), QUALIFIED_NAME);
+    assertTrue(util.checkCheckName(",checkname").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER);
+    assertTrue(util.checkCatalogName("client$check").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_DOLLAR);
   }
 
   /**
    * Tests checkCheckName. The given values are discouraged.
    */
   @Test
-  public void checkNameIsDiscouraged() {
-    assertTrue(STARTS_WITH_LOWER_CASE, util.checkCheckName("checkname").matches(IStatus.WARNING));
-    assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCheckName("checkName").matches(IStatus.WARNING));
+  void checkNameIsDiscouraged() {
+    assertTrue(util.checkCheckName("checkname").matches(IStatus.WARNING), STARTS_WITH_LOWER_CASE);
+    assertTrue(util.checkCheckName("checkName").matches(IStatus.WARNING), STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS);
 
   }
 
@@ -172,28 +172,28 @@ public class CheckJavaValidatorUtilTest extends TestCase {
    * Tests checkCategoryName. The given values are valid.
    */
   @Test
-  public void categoryNameIsValid() {
-    assertTrue(STARTS_WITH_UPPERCASE_LETTER, util.checkCategoryName("Categoryname").isOK());
-    assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCategoryName("CategoryName").isOK());
+  void categoryNameIsValid() {
+    assertTrue(util.checkCategoryName("Categoryname").isOK(), STARTS_WITH_UPPERCASE_LETTER);
+    assertTrue(util.checkCategoryName("CategoryName").isOK(), STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS);
   }
 
   /**
    * Tests checkCategoryName. The given values are invalid.
    */
   @Test
-  public void categoryNameIsInvalid() {
-    assertTrue(NAME_IS_EMPTY, util.checkCategoryName(EMPTY_STRING).matches(IStatus.ERROR));
-    assertTrue(QUALIFIED_NAME, util.checkCategoryName("Category.name").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER, util.checkCategoryName("%categoryname").matches(IStatus.ERROR));
-    assertTrue(CONTAINS_ILLEGAL_CHARACTER_DOLLAR, util.checkCatalogName("Client$Category").matches(IStatus.ERROR));
+  void categoryNameIsInvalid() {
+    assertTrue(util.checkCategoryName(EMPTY_STRING).matches(IStatus.ERROR), NAME_IS_EMPTY);
+    assertTrue(util.checkCategoryName("Category.name").matches(IStatus.ERROR), QUALIFIED_NAME);
+    assertTrue(util.checkCategoryName("%categoryname").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER);
+    assertTrue(util.checkCatalogName("Client$Category").matches(IStatus.ERROR), CONTAINS_ILLEGAL_CHARACTER_DOLLAR);
   }
 
   /**
    * Tests checkCategoryName. The given values are discouraged.
    */
   @Test
-  public void categoryNameIsDiscouraged() {
-    assertTrue(STARTS_WITH_LOWER_CASE, util.checkCategoryName("categoryname").matches(IStatus.WARNING));
-    assertTrue(STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS, util.checkCategoryName("categoryName").matches(IStatus.WARNING));
+  void categoryNameIsDiscouraged() {
+    assertTrue(util.checkCategoryName("categoryname").matches(IStatus.WARNING), STARTS_WITH_LOWER_CASE);
+    assertTrue(util.checkCategoryName("categoryName").matches(IStatus.WARNING), STARTS_WITH_AND_CONTAINS_UPPERCASE_LETTERS);
   }
 }

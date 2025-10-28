@@ -15,19 +15,19 @@ import com.google.common.collect.Lists
 import com.google.inject.Inject
 import java.util.List
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
-import org.junit.Test
-import org.junit.runner.RunWith
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model
 import com.avaloq.tools.ddk.sample.helloworld.ui.internal.HelloworldActivator
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage
 import com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentIssueCodes
 import com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldUiInjectorProvider
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
 
 @InjectWith(typeof(HelloWorldUiInjectorProvider))
-@RunWith(XtextRunner)
+@ExtendWith(typeof(InjectionExtension))
 class CheckConfigurationIsAppliedTest extends AbstractCheckTestCase {
 
   @Inject

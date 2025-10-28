@@ -16,15 +16,15 @@ import com.avaloq.tools.ddk.check.check.XIssueExpression
 import com.google.inject.Inject
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.xbase.XbasePackage
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.*
 
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class BugAig830 {
 
   @Inject
@@ -48,9 +48,9 @@ class BugAig830 {
   def void bugAig830() {
     val model = parser.parse(getModel())
     val issue = EcoreUtil2::getAllContentsOfType(model, typeof(XIssueExpression)).get(0)
-    Assert::assertNotNull(issue.markerFeature)
-    Assert::assertFalse(issue.markerFeature.eIsProxy)
-    Assert::assertEquals(XbasePackage.Literals::XVARIABLE_DECLARATION, issue.markerFeature.EContainingClass)
+    assertNotNull(issue.markerFeature)
+    assertFalse(issue.markerFeature.eIsProxy)
+    assertEquals(XbasePackage.Literals::XVARIABLE_DECLARATION, issue.markerFeature.EContainingClass)
   }
 
 }
