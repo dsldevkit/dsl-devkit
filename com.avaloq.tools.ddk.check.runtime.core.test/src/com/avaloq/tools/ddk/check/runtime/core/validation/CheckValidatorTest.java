@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.core.validation;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 import com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator;
@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
  * Performs some basic validation tests on the {@link AbstractCheckValidator}.
  */
 @SuppressWarnings("nls")
-public class CheckValidatorTest extends AbstractCheckValidator {
+class CheckValidatorTest extends AbstractCheckValidator {
   /**
    * Represents the dummy language which is also registered in the plugin.xml.
    */
@@ -46,8 +46,8 @@ public class CheckValidatorTest extends AbstractCheckValidator {
    * @see {@link com.avaloq.tools.ddk.check.extensionpoint.test.validation.DummyValidator}
    */
   @Test
-  public void testAtLeastOneValidatorFound() {
+  void testAtLeastOneValidatorFound() {
     ICheckValidatorImpl dummyValidator = Iterables.getOnlyElement(getValidators(Maps.newHashMap(), null));
-    assertEquals("Dummy validator found", "DummyValidator", dummyValidator.getClass().getSimpleName());
+    assertEquals("DummyValidator", dummyValidator.getClass().getSimpleName(), "Dummy validator found");
   }
 }

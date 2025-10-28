@@ -10,18 +10,18 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.context;
 
-import org.eclipse.emf.ecore.EObject;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import junit.framework.TestCase;
+import org.eclipse.emf.ecore.EObject;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * Provides some tests of the reflective {@link AbstractCheckContext} framework.
  */
 @SuppressWarnings("nls")
-public class CheckContextTest extends TestCase {
+class CheckContextTest {
 
   public static final String ENABLED_ISSUE_CODE = "Enabled.Issue.Code";
   public static final String DISABLED_ISSUE_CODE = "Disabled.Issue.Code";
@@ -34,13 +34,13 @@ public class CheckContextTest extends TestCase {
    * Tests that the {@link DummyCheckContext} properly marks issue codes as enabled and disabled.
    */
   @Test
-  public void testIssuesEnabledDisabled() {
+  void testIssuesEnabledDisabled() {
     ICheckContext checkContext = new DummyCheckContext();
-    Assert.assertTrue("Check an issue code in annotations but enabled is still enabled", checkContext.isCheckValid(DUMMY_CONTEXT, ENABLED_ISSUE_CODE));
-    Assert.assertTrue("Check an issue code not in any annotations is still enabled", checkContext.isCheckValid(DUMMY_CONTEXT, NOT_MENTIONED_ISSUE_CODE));
-    Assert.assertFalse("Check an issue code in annotations is disabled", checkContext.isCheckValid(DUMMY_CONTEXT, DISABLED_ISSUE_CODE));
-    Assert.assertFalse("Check disabling has priority over enabling", checkContext.isCheckValid(DUMMY_CONTEXT, DISABLED_AND_ENABLED_ISSUE_CODE));
-    Assert.assertFalse("Check disabling has priority over enabling, using different order", checkContext.isCheckValid(DUMMY_CONTEXT, ENABLED_AND_DISABLED_ISSUE_CODE));
+    assertTrue(checkContext.isCheckValid(DUMMY_CONTEXT, ENABLED_ISSUE_CODE), "Check an issue code in annotations but enabled is still enabled");
+    assertTrue(checkContext.isCheckValid(DUMMY_CONTEXT, NOT_MENTIONED_ISSUE_CODE), "Check an issue code not in any annotations is still enabled");
+    assertFalse(checkContext.isCheckValid(DUMMY_CONTEXT, DISABLED_ISSUE_CODE), "Check an issue code in annotations is disabled");
+    assertFalse(checkContext.isCheckValid(DUMMY_CONTEXT, DISABLED_AND_ENABLED_ISSUE_CODE), "Check disabling has priority over enabling");
+    assertFalse(checkContext.isCheckValid(DUMMY_CONTEXT, ENABLED_AND_DISABLED_ISSUE_CODE), "Check disabling has priority over enabling, using different order");
 
   }
 }
