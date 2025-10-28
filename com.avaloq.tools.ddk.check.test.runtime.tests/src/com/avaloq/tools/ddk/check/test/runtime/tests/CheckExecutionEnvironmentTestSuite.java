@@ -10,18 +10,19 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.test.runtime.tests;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import com.avaloq.tools.ddk.check.test.runtime.CheckConfigurationIsAppliedTest;
-import com.avaloq.tools.ddk.check.test.runtime.CheckExecutionEnvironmentProjectTest;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({CheckExecutionEnvironmentProjectTest.class, CheckConfigurationIsAppliedTest.class})
+@Suite
+@SelectPackages({
+// @Format-Off
+  "com.avaloq.tools.ddk.check.test.runtime"
+  // @Format-On
+})
 public class CheckExecutionEnvironmentTestSuite {
 
 }

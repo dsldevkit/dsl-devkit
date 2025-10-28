@@ -15,10 +15,9 @@ import com.avaloq.tools.ddk.check.runtime.label.ICheckRuleLabelProvider
 import com.avaloq.tools.ddk.check.validation.LibraryChecksIssueCodes
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
-import org.junit.Test
-
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertNotNull
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * End-to-end test for getting Check labels.
@@ -50,8 +49,8 @@ class IssueLabelTest {
       val label = checkRuleLabelProvider.getLabel(entry.key);
 
       // ASSERT
-      assertNotNull("Label should be returned for key " + entry.key, label);
-      assertEquals("Correct label should be returned for key " + entry.key, entry.value, label);
+      assertNotNull(label, "Label should be returned for key " + entry.key);
+      assertEquals( entry.value, label, "Correct label should be returned for key " + entry.key);
     }
   }
 }

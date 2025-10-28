@@ -13,7 +13,6 @@ Require-Bundle: org.eclipse.ui,
  com.google.guava,
  junit-jupiter-api,
  junit-jupiter-engine,
- junit-vintage-engine,
  junit-platform-suite-api
 Export-Package: com.avaloq.tools.ddk.check.runtime.test.core
 Import-Package: org.mockito,
