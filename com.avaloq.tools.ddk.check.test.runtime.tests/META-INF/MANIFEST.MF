@@ -14,19 +14,14 @@ Require-Bundle: com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.xtext,
  org.eclipse.xtext.testing,
  org.eclipse.xtext.ui.testing,
- org.junit,
  org.eclipse.ui.workbench;resolution:=optional,
  org.eclipse.xtend.lib,
  org.eclipse.xtext.xbase.lib,
  junit-jupiter-api,
  junit-jupiter-engine,
+ junit-platform-suite-api,
  junit-vintage-engine
-Import-Package: org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0",
- org.hamcrest.core
+Import-Package: org.hamcrest.core
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.check.test.runtime,
  com.avaloq.tools.ddk.check.test.runtime.tests,
