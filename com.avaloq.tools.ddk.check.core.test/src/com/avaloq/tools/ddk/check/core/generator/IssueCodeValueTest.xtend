@@ -12,17 +12,18 @@
 package com.avaloq.tools.ddk.check.core.generator
 
 import org.eclipse.xtext.testing.InjectWith
-import org.junit.runner.RunWith
 import com.avaloq.tools.ddk.check.CheckInjectorProvider
-import org.eclipse.xtext.testing.XtextRunner
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckGenerationTestCase
-import org.junit.Test
 import java.util.List
 import org.eclipse.xtext.xbase.testing.JavaSource
 import java.io.ByteArrayInputStream
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.assertTrue 
 
 @InjectWith(CheckInjectorProvider)
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
 
   static final String PACKAGE_NAME = "mypackage"
@@ -96,7 +97,7 @@ class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
 
     for (issueCode: expectedIssueCodeValues.entrySet) {
       val expectedIssueCodeAssignment = '''public static final String «issueCode.key» = "«PACKAGE_NAME».«CATALOG_NAME»«ISSUE_CODES_SUFFIX».«issueCode.value»";'''
-      assertTrue('''«issueCodesClassName» contains correct initialization of «issueCode.key»''', issueCodesClass.contains(expectedIssueCodeAssignment))
+      assertTrue(issueCodesClass.contains(expectedIssueCodeAssignment), '''«issueCodesClassName» contains correct initialization of «issueCode.key»''')
     }
   }
 

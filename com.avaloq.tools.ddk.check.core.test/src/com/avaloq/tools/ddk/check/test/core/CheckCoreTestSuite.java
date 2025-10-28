@@ -10,42 +10,21 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.test.core;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import com.avaloq.tools.ddk.check.core.generator.IssueCodeValueTest;
-import com.avaloq.tools.ddk.check.core.test.BasicModelTest;
-import com.avaloq.tools.ddk.check.core.test.BugAig1314;
-import com.avaloq.tools.ddk.check.core.test.BugAig830;
-import com.avaloq.tools.ddk.check.core.test.BugDsl27;
-import com.avaloq.tools.ddk.check.core.test.CheckScopingTest;
-import com.avaloq.tools.ddk.check.core.test.IssueCodeToLabelMapGenerationTest;
-import com.avaloq.tools.ddk.check.core.test.ProjectBasedTests;
-import com.avaloq.tools.ddk.check.formatting.CheckFormattingTest;
-import com.avaloq.tools.ddk.check.validation.CheckApiAccessValidationsTest;
-import com.avaloq.tools.ddk.check.validation.CheckJavaValidatorUtilTest;
-import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectPackages({
 // @Format-Off
-  BasicModelTest.class,
-  CheckScopingTest.class,
-  CheckValidationTest.class,
-  CheckJavaValidatorUtilTest.class,
-  CheckFormattingTest.class,
-  BugAig830.class,
-  BugAig1314.class,
-  BugDsl27.class,
-  ProjectBasedTests.class,
-  CheckApiAccessValidationsTest.class,
-  IssueCodeToLabelMapGenerationTest.class,
-  IssueCodeValueTest.class
-// @Format-On
+  "com.avaloq.tools.ddk.check.core.generator",
+  "com.avaloq.tools.ddk.check.core.test",
+  "com.avaloq.tools.ddk.check.formatting",
+  "com.avaloq.tools.ddk.check.validation"
+  // @Format-On
 })
 public class CheckCoreTestSuite {
 

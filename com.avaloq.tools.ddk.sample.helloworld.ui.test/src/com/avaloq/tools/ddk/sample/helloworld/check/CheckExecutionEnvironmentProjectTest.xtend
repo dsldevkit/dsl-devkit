@@ -13,11 +13,12 @@ package com.avaloq.tools.ddk.sample.helloworld.check
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+
 import com.avaloq.tools.ddk.sample.helloworld.ui.internal.HelloworldActivator
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage
@@ -27,7 +28,7 @@ import com.avaloq.tools.ddk.sample.helloworld.validation.IssueCodes
 import com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldUiInjectorProvider
 
 @InjectWith(HelloWorldUiInjectorProvider)
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class CheckExecutionEnvironmentProjectTest extends AbstractCheckTestCase {
 
   @Inject

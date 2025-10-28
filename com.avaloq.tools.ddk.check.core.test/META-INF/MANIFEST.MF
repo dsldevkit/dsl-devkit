@@ -20,7 +20,6 @@ Require-Bundle: com.avaloq.tools.ddk.check.core,
  org.eclipse.xtend.lib,
  org.eclipse.xtext.ui.testing,
  org.eclipse.xtext.testing,
- org.junit,
  org.mockito.mockito-core,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.ui.workbench;resolution:=optional,
@@ -31,15 +30,11 @@ Require-Bundle: com.avaloq.tools.ddk.check.core,
  org.eclipse.xtext.xbase.testing,
  junit-jupiter-api,
  junit-jupiter-engine,
- junit-vintage-engine
+ junit-vintage-engine,
+ junit-platform-suite-api
 Export-Package: com.avaloq.tools.ddk.check.core.test,
  com.avaloq.tools.ddk.check.core.test.util,
  com.avaloq.tools.ddk.check.test.core,
  com.avaloq.tools.ddk.check
-Import-Package: org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0",
- org.hamcrest.core
+Import-Package: org.hamcrest.core
 Automatic-Module-Name: com.avaloq.tools.ddk.check.core.test

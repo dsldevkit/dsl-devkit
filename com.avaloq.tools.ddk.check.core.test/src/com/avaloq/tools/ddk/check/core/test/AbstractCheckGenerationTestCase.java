@@ -11,6 +11,10 @@
 
 package com.avaloq.tools.ddk.check.core.test;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -76,7 +80,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
       fail("Could not load test resource" + e.getMessage());
     }
     CheckCatalog root = (CheckCatalog) res.getContents().get(0);
-    assertNotNull("Resource should contain a CheckCatalog", root);
+    assertNotNull(root, "Resource should contain a CheckCatalog");
     // We also should have some Jvm model here.
     JvmType type = null;
     for (EObject obj : res.getContents()) {
@@ -85,7 +89,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
         break;
       }
     }
-    assertNotNull("Should have an inferred Jvm model", type);
+    assertNotNull(type, "Should have an inferred Jvm model");
     // Run the generator using an in-memory file system access
     InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
     for (OutputConfiguration output : outputConfigurationProvider.getOutputConfigurations()) {
@@ -107,7 +111,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
       final InMemoryJavaCompiler.Result result = javaCompiler.compile(sources.toArray(new JavaSource[sources.size()]));
       // Due to https://bugs.eclipse.org/bugs/show_bug.cgi?id=541225 we must ignore this warning here
       if (result.getCompilationProblems().stream().anyMatch(p -> "Pb(1102) At least one of the problems in category 'nls' is not analysed due to a compiler option being ignored".equals(p.getMessage()))) {
-        assertTrue("All sources should have been compiled without errors " + result.getCompilationProblems(), result.getCompilationProblems().isEmpty());
+        assertTrue(result.getCompilationProblems().isEmpty(), "All sources should have been compiled without errors " + result.getCompilationProblems());
       }
 
       return sources;

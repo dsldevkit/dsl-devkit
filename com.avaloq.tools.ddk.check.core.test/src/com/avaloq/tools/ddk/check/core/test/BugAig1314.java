@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.core.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -25,9 +25,9 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
@@ -39,10 +39,10 @@ import com.google.common.collect.Iterables;
 /**
  * Some tests for AIG-1314, testing that the CatalogFromExtensionPointScope does not make the resource set grow more than expected.
  */
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 @InjectWith(CheckInjectorProvider.class)
 @SuppressWarnings("nls")
-public class BugAig1314 {
+class BugAig1314 {
 
   /** Constructor of super class is protected... */
   private static class TestScope extends CatalogFromExtensionPointScope {
@@ -86,7 +86,7 @@ public class BugAig1314 {
    *          resource set to check.
    */
   private void assertResourceSetEmpty(final XtextResourceSet rs) {
-    assertTrue("ResourceSet should be empty", rs.getURIResourceMap().isEmpty() && rs.getResources().isEmpty());
+    assertTrue(rs.getURIResourceMap().isEmpty() && rs.getResources().isEmpty(), "ResourceSet should be empty");
   }
 
   /**
@@ -100,12 +100,12 @@ public class BugAig1314 {
    *          expected number of resources in the resource map
    */
   private void assertResourceSet(final XtextResourceSet rs, final int expected, final int inMap) {
-    assertTrue("Test wrong: must expect more than zero resources", expected > 0 && inMap > 0);
-    assertEquals("ResourceSet should not grow", expected, rs.getResources().size());
-    assertEquals("ResourceSet map size", inMap, rs.getURIResourceMap().size());
+    assertTrue(expected > 0 && inMap > 0, "Test wrong: must expect more than zero resources");
+    assertEquals(expected, rs.getResources().size(), "ResourceSet should not grow");
+    assertEquals(inMap, rs.getURIResourceMap().size(), "ResourceSet map size");
     for (Resource r : rs.getResources()) {
       URI uri = r.getURI();
-      assertTrue(uri.toString() + " not found in ResourceSet map", rs.getURIResourceMap().containsKey(uri));
+      assertTrue(rs.getURIResourceMap().containsKey(uri), uri.toString() + " not found in ResourceSet map");
     }
   }
 
@@ -116,14 +116,14 @@ public class BugAig1314 {
    *          to check
    */
   private void assertIterableNotEmpty(final Iterable<?> iterable) {
-    assertFalse("Iterable should not be empty", Iterables.isEmpty(iterable));
+    assertFalse(Iterables.isEmpty(iterable), "Iterable should not be empty");
   }
 
   /**
    * Tests that querying the same scope twice doesn't make the resource set grow.
    */
   @Test
-  public void testSameScopeUseTwice() throws MalformedURLException, URISyntaxException {
+  void testSameScopeUseTwice() throws MalformedURLException, URISyntaxException {
     XtextResourceSet rs = new XtextResourceSet();
     URL url = createURL();
     ModelLocation modelLocation = createModelLocation(url);
@@ -142,7 +142,7 @@ public class BugAig1314 {
    * Tests that querying two different scopes doesn't make the resource set grow. That one was the real cause of bug AIG-1314.
    */
   @Test
-  public void testDifferentScopeUseTwice() throws MalformedURLException, URISyntaxException {
+  void testDifferentScopeUseTwice() throws MalformedURLException, URISyntaxException {
     XtextResourceSet rs = new XtextResourceSet();
     URL url = createURL();
     ModelLocation modelLocation = createModelLocation(url);

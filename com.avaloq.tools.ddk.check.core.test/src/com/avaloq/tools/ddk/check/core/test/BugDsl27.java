@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 
@@ -25,15 +25,15 @@ import com.avaloq.tools.ddk.check.CheckInjectorProvider;
  * Tests that the java code generated from BugDsl27 has no errors.
  */
 @InjectWith(CheckInjectorProvider.class)
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-public class BugDsl27 extends AbstractCheckGenerationTestCase {
+class BugDsl27 extends AbstractCheckGenerationTestCase {
 
   /**
    * Tests that our test source compiles fine.
    */
   @Test
-  public void testGeneratedCodeHasNoErrors() {
+  void testGeneratedCodeHasNoErrors() {
     try (InputStream sourceStream = BugDsl27.class.getResourceAsStream("bugdsl27/BugDsl27")) {
       generateAndCompile(sourceStream);
     } catch (IOException exception) {

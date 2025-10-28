@@ -11,6 +11,9 @@
 package com.avaloq.tools.ddk.check.core.test;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +41,9 @@ import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.eclipse.xtext.util.StringInputStream;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.avaloq.tools.ddk.check.CheckConstants;
 import com.avaloq.tools.ddk.check.ui.internal.CheckActivator;
@@ -54,14 +57,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
-import junit.framework.TestCase;
-
 
 /**
  * An abstract test class for tests on Check models. Allows creating a project and adding files.
  */
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "restriction", "nls"})
-public abstract class AbstractCheckTestCase extends TestCase {
+public abstract class AbstractCheckTestCase {
   private static final int TWO_KILO_BYTES = 2048;
   protected static final Logger LOGGER = LogManager.getLogger(AbstractCheckTestCase.class);
   private static final PluginTestProjectManager PROJECT_MANAGER = new PluginTestProjectManager(CheckActivator.getInstance().getInjector(CheckConstants.GRAMMAR));
@@ -71,8 +72,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
   @Inject
   private Provider<XtextResourceSet> resourceSetProvider;
 
-  @Override
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     getInjector().injectMembers(this);
   }
@@ -83,7 +83,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
    * @throws Exception
    *           the exception
    */
-  @BeforeClass
+  @BeforeAll
   public static void prepareWorkspace() throws Exception {
     PROJECT_MANAGER.setup(ImmutableList.<TestSource> of());
   }
@@ -117,7 +117,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
   /**
    * Clean up after all tests have terminated.
    */
-  @AfterClass
+  @AfterAll
   public static void cleanUp() {
     PROJECT_MANAGER.teardown();
   }
@@ -215,7 +215,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
     IFile file = createFile(fileName, content);
     Resource resource = get(XtextResourceSet.class).createResource(uri(file));
     resource.load(new StringInputStream(content), null);
-    assertEquals(resource.getErrors().toString(), 0, resource.getErrors().size());
+    assertEquals(0, resource.getErrors().size(), resource.getErrors().toString());
     return resource.getContents().get(0);
   }
 
@@ -264,7 +264,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
         }
       }
     }
-    assertEquals(resource.getErrors().toString(), 0, resource.getErrors().size());
+    assertEquals(0, resource.getErrors().size(), resource.getErrors().toString());
     return resource.getContents().get(0);
   }
 
@@ -293,7 +293,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
    */
   protected IProject getOrCreatePluginProject() throws CoreException {
     IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
-    assertNotNull("No workspace; project cannot be created or found", workspaceRoot);
+    assertNotNull(workspaceRoot, "No workspace; project cannot be created or found");
     IProject project = workspaceRoot.getProject(PluginTestProjectManager.TEST_PROJECT_NAME);
     if (!project.exists()) {
       try {
@@ -349,7 +349,7 @@ public abstract class AbstractCheckTestCase extends TestCase {
     } catch (InterruptedException e) {
       fail("Error adding files to workspace: " + e.getMessage());
     }
-    assertEquals("All files successfully added to workspace", sourceFileNames.size(), getFiles().size());
+    assertEquals(sourceFileNames.size(), getFiles().size(), "All files successfully added to workspace");
   }
 
   /**

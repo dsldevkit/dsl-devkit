@@ -19,14 +19,15 @@ import com.avaloq.tools.ddk.check.validation.ExecutionEnvironmentIssueCodes
 import com.avaloq.tools.ddk.check.validation.LibraryChecksIssueCodes
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+
 
 @InjectWith(typeof(TestLanguageUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class CheckExecutionEnvironmentProjectTest extends AbstractCheckTestCase {
 
   @Inject

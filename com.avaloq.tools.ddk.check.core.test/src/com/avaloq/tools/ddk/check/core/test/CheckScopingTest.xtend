@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
@@ -20,13 +20,14 @@ import com.google.common.collect.Lists
 import com.google.inject.Inject
 import java.util.List
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.*
 
 @InjectWith(typeof(CheckUiInjectorProvider))
-@RunWith(typeof(XtextRunner))
+@ExtendWith(typeof(InjectionExtension))
 class CheckScopingTest extends AbstractCheckTestCase {
 
   @Inject CheckTestUtil util
@@ -61,10 +62,10 @@ class CheckScopingTest extends AbstractCheckTestCase {
     val model = getModel("CommonChecks") as CheckCatalog
 
     val illegalRefImpl = util.getFirstInstanceOf(model, typeof(Implementation))
-    val issueExpr      = util.getFirstInstanceOf(illegalRefImpl, typeof(XIssueExpression))
+    val issueExpr = util.getFirstInstanceOf(illegalRefImpl, typeof(XIssueExpression))
 
-    assertTrue("Referenced check cannot be resolved", issueExpr.check.eIsProxy)
-    assertNull("Referenced check name is null", issueExpr.check.name)
+    assertTrue(issueExpr.check.eIsProxy, "Referenced check cannot be resolved")
+    assertNull(issueExpr.check.name, "Referenced check name is null")
   }
 
   /*
@@ -75,6 +76,6 @@ class CheckScopingTest extends AbstractCheckTestCase {
   def void testCheckDescriptionIsInferred() {
     initializeTestProject
     val check = util.getFirstInstanceOf(getModel("CommonChecks"), typeof(Check))
-    assertEquals("Referenced check cannot be resolved", "This check is javadoc-like commented.", check.description)
+    assertEquals(check.description, "Referenced check cannot be resolved", "This check is javadoc-like commented.")
   }
 }
