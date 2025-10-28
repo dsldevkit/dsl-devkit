@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.typesystem;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 
@@ -23,8 +23,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.typesystem.typemodel.IExpression;
 import com.avaloq.tools.ddk.typesystem.typemodel.INamedElement;
@@ -34,7 +34,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage;
 
 
 @SuppressWarnings("nls")
-public class AbstractTypeProviderTest {
+class AbstractTypeProviderTest {
 
   protected class TypeImpl extends EObjectImpl implements IType {
   }
@@ -70,8 +70,8 @@ public class AbstractTypeProviderTest {
     return clazz;
   }
 
-  @Before
-  public void init() {
+  @BeforeEach
+  void init() {
     EcoreFactory modelFactory = EcoreFactory.eINSTANCE;
     testModelPackage = modelFactory.createEPackage();
     testModelPackage.setName("TypeProviderTestEPackage");
@@ -93,82 +93,82 @@ public class AbstractTypeProviderTest {
   }
 
   private void testPlainProvider(final ITypeProvider plainProvider) {
-    assertEquals("type for expression1 not type1", type1, plainProvider.getType(expression1));
-    assertEquals("type for expression2 not type2", type2, plainProvider.getType(expression2));
-    assertNull("type for expression3 not null", plainProvider.getType(expression3));
-    assertNull("type for null not null", plainProvider.getType(null));
-    assertEquals("expected type for container1 not type1", type1, plainProvider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)));
-    assertEquals("expected type for container2 not type2", type2, plainProvider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)));
-    assertNull("expected type for container3 not null", plainProvider.getExpectedType((IExpression) expression3Container.eGet(expressionContainerReference)));
-    assertNull("expected type for null not null", plainProvider.getExpectedType(null));
-    assertEquals("type for namedElement1 not type1", type1, plainProvider.getTypeForNamedElement(namedElement1));
-    assertEquals("type for namedElement2 not type2", type2, plainProvider.getTypeForNamedElement(namedElement2));
-    assertNull("type for namedElement3 not null", plainProvider.getTypeForNamedElement(namedElement3));
-    assertNull("type for named element null not null", plainProvider.getTypeForNamedElement(null));
+    assertEquals(type1, plainProvider.getType(expression1), "type for expression1 not type1");
+    assertEquals(type2, plainProvider.getType(expression2), "type for expression2 not type2");
+    assertNull(plainProvider.getType(expression3), "type for expression3 not null");
+    assertNull(plainProvider.getType(null), "type for null not null");
+    assertEquals(type1, plainProvider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)), "expected type for container1 not type1");
+    assertEquals(type2, plainProvider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)), "expected type for container2 not type2");
+    assertNull(plainProvider.getExpectedType((IExpression) expression3Container.eGet(expressionContainerReference)), "expected type for container3 not null");
+    assertNull(plainProvider.getExpectedType(null), "expected type for null not null");
+    assertEquals(type1, plainProvider.getTypeForNamedElement(namedElement1), "type for namedElement1 not type1");
+    assertEquals(type2, plainProvider.getTypeForNamedElement(namedElement2), "type for namedElement2 not type2");
+    assertNull(plainProvider.getTypeForNamedElement(namedElement3), "type for namedElement3 not null");
+    assertNull(plainProvider.getTypeForNamedElement(null), "type for named element null not null");
 
   }
 
   @Test
-  public void testTypeProviderPlain() {
+  void testTypeProviderPlain() {
     ITypeProvider provider = new PlainTypeProvider();
     testPlainProvider(provider);
   }
 
   @Test
-  public void testTypeProviderCyclicDefault() {
+  void testTypeProviderCyclicDefault() {
     ITypeProvider provider = new CyclicDefaultTypeProvider();
-    assertNull("cylic type for expression1 not null", provider.getType(expression1));
-    assertNull("cylic type for expression2 not null", provider.getType(expression2));
-    assertNull("cyclic expected type for container1 not null", provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)));
-    assertNull("cyclic expected type for container2 not null", provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)));
-    assertNull("cyclic type for namedElement1 not null", provider.getTypeForNamedElement(namedElement1));
-    assertNull("cyclic type for namedElement2 not null", provider.getTypeForNamedElement(namedElement2));
+    assertNull(provider.getType(expression1), "cylic type for expression1 not null");
+    assertNull(provider.getType(expression2), "cylic type for expression2 not null");
+    assertNull(provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)), "cyclic expected type for container1 not null");
+    assertNull(provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)), "cyclic expected type for container2 not null");
+    assertNull(provider.getTypeForNamedElement(namedElement1), "cyclic type for namedElement1 not null");
+    assertNull(provider.getTypeForNamedElement(namedElement2), "cyclic type for namedElement2 not null");
   }
 
   @Test
-  public void testTypeProviderCyclicOverride() {
+  void testTypeProviderCyclicOverride() {
     ITypeProvider provider = new CyclicOverrideTypeProvider();
-    assertEquals("cyclic override type for expression1 not type1", type1, provider.getType(expression1));
-    assertEquals("cyclic override type for expression2 not type1", type1, provider.getType(expression2));
-    assertEquals("cyclic override expected type for container1 not type2", type2, provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)));
-    assertEquals("cyclic override expected type for container2 not type2", type2, provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)));
-    assertEquals("cyclic override type for namedElement1 not type3", type3, provider.getTypeForNamedElement(namedElement1));
-    assertEquals("cyclic override type for namedElement2 not type3", type3, provider.getTypeForNamedElement(namedElement2));
+    assertEquals(type1, provider.getType(expression1), "cyclic override type for expression1 not type1");
+    assertEquals(type1, provider.getType(expression2), "cyclic override type for expression2 not type1");
+    assertEquals(type2, provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)), "cyclic override expected type for container1 not type2");
+    assertEquals(type2, provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)), "cyclic override expected type for container2 not type2");
+    assertEquals(type3, provider.getTypeForNamedElement(namedElement1), "cyclic override type for namedElement1 not type3");
+    assertEquals(type3, provider.getTypeForNamedElement(namedElement2), "cyclic override type for namedElement2 not type3");
   }
 
   @Test
-  public void testTypeProviderCyclicOverrideMixed() {
+  void testTypeProviderCyclicOverrideMixed() {
     ITypeProvider provider = new CyclicOverrideMixedTypeProvider();
-    assertEquals("cyclic mixed type for expression1 not type1", type1, provider.getType(expression1));
-    assertEquals("cyclic mixed type for expression2 not type1", type1, provider.getType(expression2));
-    assertEquals("cyclic mixed expected type for container1 not type2", type2, provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)));
-    assertEquals("cyclic mixed expected type for container2 not type2", type2, provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)));
-    assertEquals("cyclic mixed type for namedElement1 not type1", type1, provider.getTypeForNamedElement(namedElement1));
-    assertEquals("cyclic mixed type for namedElement2 not type1", type1, provider.getTypeForNamedElement(namedElement2));
+    assertEquals(type1, provider.getType(expression1), "cyclic mixed type for expression1 not type1");
+    assertEquals(type1, provider.getType(expression2), "cyclic mixed type for expression2 not type1");
+    assertEquals(type2, provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)), "cyclic mixed expected type for container1 not type2");
+    assertEquals(type2, provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)), "cyclic mixed expected type for container2 not type2");
+    assertEquals(type1, provider.getTypeForNamedElement(namedElement1), "cyclic mixed type for namedElement1 not type1");
+    assertEquals(type1, provider.getTypeForNamedElement(namedElement2), "cyclic mixed type for namedElement2 not type1");
   }
 
   @Test
-  public void testDelegatingTypeProvider() {
+  void testDelegatingTypeProvider() {
     delegateProvider = new PlainTypeProvider();
     testPlainProvider(new DelegatingTypeProvider());
   }
 
   @Test
-  public void testDoNothingTypeProvider() {
+  void testDoNothingTypeProvider() {
     // we are mainly testing that the AbstractTypeProvider does not crash when the subclass does nothing
     ITypeProvider provider = new DoNothingTypeProvider();
-    assertNull("did something for type of expression1", provider.getType(expression1));
-    assertNull("did something for type of expression2", provider.getType(expression2));
-    assertNull("did something for type of expression3", provider.getType(expression3));
-    assertNull("did something for type of null", provider.getType(null));
-    assertNull("did something for expected type of expression1", provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)));
-    assertNull("did something for expected type of expression2", provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)));
-    assertNull("did something for expected type of expression3", provider.getExpectedType((IExpression) expression3Container.eGet(expressionContainerReference)));
-    assertNull("did something for expected type of null", provider.getExpectedType(null));
-    assertNull("did something for type of namedElement1", provider.getTypeForNamedElement(namedElement1));
-    assertNull("did something for type of namedElement2", provider.getTypeForNamedElement(namedElement2));
-    assertNull("did something for type of namedElement3", provider.getTypeForNamedElement(namedElement3));
-    assertNull("did something for type of namedElement null", provider.getTypeForNamedElement(null));
+    assertNull(provider.getType(expression1), "did something for type of expression1");
+    assertNull(provider.getType(expression2), "did something for type of expression2");
+    assertNull(provider.getType(expression3), "did something for type of expression3");
+    assertNull(provider.getType(null), "did something for type of null");
+    assertNull(provider.getExpectedType((IExpression) expression1Container.eGet(expressionContainerReference)), "did something for expected type of expression1");
+    assertNull(provider.getExpectedType((IExpression) expression2Container.eGet(expressionContainerReference)), "did something for expected type of expression2");
+    assertNull(provider.getExpectedType((IExpression) expression3Container.eGet(expressionContainerReference)), "did something for expected type of expression3");
+    assertNull(provider.getExpectedType(null), "did something for expected type of null");
+    assertNull(provider.getTypeForNamedElement(namedElement1), "did something for type of namedElement1");
+    assertNull(provider.getTypeForNamedElement(namedElement2), "did something for type of namedElement2");
+    assertNull(provider.getTypeForNamedElement(namedElement3), "did something for type of namedElement3");
+    assertNull(provider.getTypeForNamedElement(null), "did something for type of namedElement null");
   }
 
   protected class PlainTypeProvider extends AbstractTypeProvider {
@@ -348,7 +348,7 @@ public class AbstractTypeProviderTest {
 
     @Override
     protected ITypeProvider getTypeProviderFor(final EObject eObject) {
-      assertNotNull("there is no delegate provider", delegateProvider);
+      assertNotNull(delegateProvider, "there is no delegate provider");
       return delegateProvider;
     }
 

@@ -10,24 +10,20 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.typesystem.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import com.avaloq.tools.ddk.typesystem.AbstractTypeProviderTest;
-import com.avaloq.tools.ddk.typesystem.BuiltInTypeModelAccessTest;
-import com.avaloq.tools.ddk.typesystem.ParameterListMatcherTest;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectPackages({
 // @Format-Off
-    AbstractTypeProviderTest.class,
-    ParameterListMatcherTest.class,
-    BuiltInTypeModelAccessTest.class
-// @Format-On
+  "com.avaloq.tools.ddk.typesystem.AbstractTypeProviderTest",
+  "com.avaloq.tools.ddk.typesystem.BuiltInTypeModelAccessTest",
+  "com.avaloq.tools.ddk.typesystem.ParameterListMatcherTest"
+  // @Format-On
 })
 public class TypeSystemTestSuite {
 
