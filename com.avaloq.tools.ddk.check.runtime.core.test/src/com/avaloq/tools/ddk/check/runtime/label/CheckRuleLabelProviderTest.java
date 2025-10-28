@@ -10,9 +10,9 @@
 
 package com.avaloq.tools.ddk.check.runtime.label;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,9 +23,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 import com.avaloq.tools.ddk.check.runtime.registry.ICheckValidatorRegistry;
@@ -40,7 +40,7 @@ import com.google.inject.Injector;
  * Unit test for {@link DefaultCheckRuleLabelProvider}.
  */
 @SuppressWarnings("nls")
-public class CheckRuleLabelProviderTest {
+class CheckRuleLabelProviderTest {
 
   // Test data
   private static final int NUM_VALIDATORS = 3;
@@ -72,8 +72,8 @@ public class CheckRuleLabelProviderTest {
   /**
    * Setup done before each test.
    */
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
 
     // Create mocks
     mockCheckValidatorRegistry = mock(ICheckValidatorRegistry.class);
@@ -97,8 +97,8 @@ public class CheckRuleLabelProviderTest {
   /**
    * Teardown done after each test.
    */
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
 
     mockCheckValidatorRegistry = null;
     mockValidators = null;
@@ -127,16 +127,16 @@ public class CheckRuleLabelProviderTest {
    * Test the default binding.
    */
   @Test
-  public void testBinding() {
+  void testBinding() {
     // ASSERT
-    assertSame("Binding of label provider incorrect.", CheckRuleLabelProvider.class, checkRuleLabelProvider.getClass());
+    assertSame(CheckRuleLabelProvider.class, checkRuleLabelProvider.getClass(), "Binding of label provider incorrect.");
   }
 
   /**
    * Test successfully getting a check label.
    */
   @Test
-  public void testSuccess() {
+  void testSuccess() {
     // ARRANGE
     mockValidatorsWithChecks();
 
@@ -150,7 +150,7 @@ public class CheckRuleLabelProviderTest {
   /**
    * Test trying to get the check label for an issue code which is not present.
    */
-  public void testWhenIssueCodeNotPresent() {
+  void testWhenIssueCodeNotPresent() {
     // ARRANGE
     mockValidatorsWithChecks();
 
@@ -165,7 +165,7 @@ public class CheckRuleLabelProviderTest {
    * Test trying to get the check label for a null issue code.
    */
   @Test
-  public void testWithNullID() {
+  void testWithNullID() {
     // ARRANGE
     mockValidatorsWithChecks();
 
@@ -180,7 +180,7 @@ public class CheckRuleLabelProviderTest {
    * Test trying to get a check label when there are no validators.
    */
   @Test
-  public void testWithNoValidators() {
+  void testWithNoValidators() {
     // ARRANGE
     when(mockCheckValidatorRegistry.getValidators()).thenReturn(Collections.emptyList());
 
@@ -195,7 +195,7 @@ public class CheckRuleLabelProviderTest {
    * Test trying to get a check label when there are no checks registered.
    */
   @Test
-  public void testWithNoChecks() {
+  void testWithNoChecks() {
     // ARRANGE
     when(mockCheckValidatorRegistry.getValidators()).thenReturn(mockValidators);
     for (ICheckValidatorImpl mockValidator : mockValidators) {
@@ -213,7 +213,7 @@ public class CheckRuleLabelProviderTest {
    * Test trying to get the check label for an issue code which is not a check issue code.
    */
   @Test
-  public void testWhenIssueCodeIsNotACheckIssueCode() {
+  void testWhenIssueCodeIsNotACheckIssueCode() {
     // ARRANGE
     final String notACheckIssueCode = "package.name.SomeOtherClass.issue.code";
 
@@ -233,7 +233,7 @@ public class CheckRuleLabelProviderTest {
    * Test that check labels are cached.
    */
   @Test
-  public void testCaching() {
+  void testCaching() {
     // ARRANGE
     mockValidatorsWithChecks();
 
@@ -258,7 +258,7 @@ public class CheckRuleLabelProviderTest {
     /**
      * Call protected method {link CheckRuleLabelProvider.invalidateCache}.
      */
-    public void publicInvalidateCache() {
+    void publicInvalidateCache() {
       super.invalidateCache();
     }
   }
@@ -267,7 +267,7 @@ public class CheckRuleLabelProviderTest {
    * Test that the cache can be invalidated by subclasses.
    */
   @Test
-  public void testInvalidatingCache() {
+  void testInvalidatingCache() {
     // ARRANGE
     final CheckRuleLabelProviderWithInvalidateCacheExposed checkRuleLabelProviderWithInvalidateCacheExposed = injector.getInstance(CheckRuleLabelProviderWithInvalidateCacheExposed.class);
 
@@ -291,12 +291,12 @@ public class CheckRuleLabelProviderTest {
    * Test that the class is bound as a singleton.
    */
   @Test
-  public void testClassIsSingleton() {
+  void testClassIsSingleton() {
     // ACT
     final ICheckRuleLabelProvider otherCheckRuleLabelProvider = injector.getInstance(CheckRuleLabelProvider.class);
 
     // ASSERT
-    assertSame("Only one instance of CheckRuleLabelProvider expected", checkRuleLabelProvider, otherCheckRuleLabelProvider);
+    assertSame(checkRuleLabelProvider, otherCheckRuleLabelProvider, "Only one instance of CheckRuleLabelProvider expected");
   }
 
 }
