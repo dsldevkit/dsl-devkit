@@ -10,13 +10,13 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.generator.test.util;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.Graph;
 import com.google.common.collect.HashMultimap;
@@ -25,11 +25,11 @@ import com.google.common.collect.Multimap;
 
 
 @SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
-public class GraphTest {
+class GraphTest {
   // CHECKSTYLE:CONSTANTS-OFF
 
   @Test
-  public void testTopologicalSorting() {
+  void testTopologicalSorting() {
     Multimap<String, String> graph = HashMultimap.create();
     graph.put("7", "11");
     graph.put("7", "8");
@@ -47,7 +47,7 @@ public class GraphTest {
   }
 
   @Test
-  public void testDependencyCycle() {
+  void testDependencyCycle() {
     Multimap<String, String> graph = ImmutableMultimap.of("1", "2", "2", "3", "3", "1");
 
     try {
