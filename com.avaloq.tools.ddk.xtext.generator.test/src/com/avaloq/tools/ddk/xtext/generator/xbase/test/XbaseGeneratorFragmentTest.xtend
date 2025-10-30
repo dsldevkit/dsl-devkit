@@ -12,7 +12,6 @@
 package com.avaloq.tools.ddk.xtext.generator.xbase.test
 
 import com.avaloq.tools.ddk.test.core.BugTest
-import junit.framework.TestCase
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.xtext.AbstractElement
@@ -25,19 +24,22 @@ import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.TypeRef
 import org.eclipse.xtext.XtextPackage
-import org.eclipse.xtext.testing.XtextRunner
-import org.junit.Test
-import org.junit.runner.RunWith
 
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 import org.eclipse.xtext.xtext.generator.xbase.XbaseUsageDetector
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.assertFalse
+import static org.junit.jupiter.api.Assertions.assertThrows
+import static org.junit.jupiter.api.Assertions.assertTrue
 
 /**
  * Tests for {@link XbaseUsageDetector}.
  */
-@RunWith(XtextRunner)
-class XbaseGeneratorFragmentTest extends TestCase {
+@ExtendWith(InjectionExtension)
+class XbaseGeneratorFragmentTest {
 
   val thisPackageName = "thisPackage"
   val xtypePackageName = "xtype"
@@ -134,9 +136,9 @@ class XbaseGeneratorFragmentTest extends TestCase {
   /**
    * Test usesXImportSection() when passed a null XtextResource
    */
-  @Test(expected=NullPointerException)
+  @Test
   def void testUsesXImportSectionWithNullGrammar() {
-    detector.usesXImportSection(null)
+    assertThrows(NullPointerException, [|detector.usesXImportSection(null)]);
   }
 
   /**
@@ -161,7 +163,7 @@ class XbaseGeneratorFragmentTest extends TestCase {
     val usesXImportSection = detector.usesXImportSection(mockGrammar)
 
     // ASSERT
-    assertFalse("usesXImportSection() should return false when the grammar does not use XImportSection", usesXImportSection)
+    assertFalse(usesXImportSection, "usesXImportSection() should return false when the grammar does not use XImportSection")
   }
 
   /**
@@ -187,7 +189,7 @@ class XbaseGeneratorFragmentTest extends TestCase {
     val usesXImportSection = detector.usesXImportSection(mockGrammar)
 
     // ASSERT
-    assertTrue("usesXImportSection() should return true when the grammar uses XImportSection", usesXImportSection)
+    assertTrue(usesXImportSection, "usesXImportSection() should return true when the grammar uses XImportSection")
   }
 
 }

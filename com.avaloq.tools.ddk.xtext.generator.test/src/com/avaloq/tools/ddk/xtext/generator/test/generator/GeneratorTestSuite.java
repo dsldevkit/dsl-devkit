@@ -10,28 +10,21 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.generator.test.generator;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationXTest;
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContextTest;
-import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionsExtentionsTest;
-import com.avaloq.tools.ddk.xtext.generator.test.util.EClassComparatorTest;
-import com.avaloq.tools.ddk.xtext.generator.test.util.GraphTest;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectPackages({
 // @Format-Off
-  GraphTest.class,
-  EClassComparatorTest.class,
-  CodeGenerationXTest.class,
-  CompilationContextTest.class,
-  ExpressionsExtentionsTest.class
-// @Format-On
+  "com.avaloq.tools.ddk.xtext.generator.expression",
+  "com.avaloq.tools.ddk.xtext.generator.test.util",
+  "com.avaloq.tools.ddk.xtext.generator.xbase.test"
+  // @Format-On
 })
+
 public class GeneratorTestSuite {
 }
