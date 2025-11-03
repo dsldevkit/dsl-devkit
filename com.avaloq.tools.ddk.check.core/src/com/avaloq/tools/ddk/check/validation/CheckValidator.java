@@ -30,7 +30,6 @@ import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.ComposedChecks;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
-import org.eclipse.xtext.xbase.XBlockExpression;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XReturnExpression;
 import org.eclipse.xtext.xbase.XbasePackage;
@@ -530,7 +529,7 @@ public class CheckValidator extends AbstractCheckValidator {
       return; // no guards makes check irrelevant
     }
 
-    EList<XExpression> topLevelExpressions = (EList<XExpression>) ((XBlockExpression) context.getConstraint()).eGet(XbasePackage.Literals.XBLOCK_EXPRESSION__EXPRESSIONS);
+    EList<XExpression> topLevelExpressions = (EList<XExpression>) context.getConstraint().eGet(XbasePackage.Literals.XBLOCK_EXPRESSION__EXPRESSIONS);
 
     for (final XGuardExpression guard : guards) {
       final EStructuralFeature eContainingFeature = guard.eContainingFeature();

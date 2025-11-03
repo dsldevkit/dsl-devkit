@@ -17,6 +17,7 @@
     <exclude name="AssignmentToNonFinalStatic"/>
     <exclude name="AvoidAccessibilityAlteration"/>
     <exclude name="AvoidBranchingStatementAsLastInLoop"/>
+    <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
     <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
     <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
     <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
@@ -44,7 +45,6 @@
     <exclude name="AvoidSynchronizedStatement"/><!-- Only applies to virtual threads on Java 21, which we do not use, the problem might be solved in a later vm -->
   </rule>
   <rule ref="category/java/design.xml">
-    <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
     <exclude name="AvoidDeeplyNestedIfStmts"/>
     <exclude name="AvoidRethrowingException"/>
     <exclude name="AvoidUncheckedExceptionsInSignatures"/>

@@ -517,8 +517,8 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
       boolean isSameIndentColumnLocator = candidateLocator instanceof FixedLocator
           && ((FixedLocator) candidateLocator).getColumn() == ((FixedLocator) locator).getColumn();
       if (isSameIndentColumnLocator) {
-        boolean isOppositeToAfter = ((FixedLocator) candidateLocator).getRight() != null && ((FixedLocator) locator).getRight() == null;
-        boolean isOppositeToBefore = ((FixedLocator) candidateLocator).getLeft() != null && ((FixedLocator) locator).getLeft() == null;
+        boolean isOppositeToAfter = candidateLocator.getRight() != null && locator.getRight() == null;
+        boolean isOppositeToBefore = candidateLocator.getLeft() != null && locator.getLeft() == null;
         if (isOppositeToAfter || isOppositeToBefore) {
           return true;
         }
