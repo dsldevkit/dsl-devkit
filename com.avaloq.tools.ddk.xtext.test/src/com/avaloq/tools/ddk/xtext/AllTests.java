@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.check.runtime.test.core.CheckRuntimeTestSuite;
 import com.avaloq.tools.ddk.check.test.core.CheckCoreTestSuite;
@@ -34,8 +34,8 @@ import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 // CHECKSTYLE:OFF HideUtilityClassConstructor
 
 // @Format-Off
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
   XtextTestSuite.class,
   XtextUiTestSuite.class,
   GeneratorTestSuite.class,

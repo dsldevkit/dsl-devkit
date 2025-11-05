@@ -10,20 +10,25 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.test.core;
 
-import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
+
+import com.avaloq.tools.ddk.check.runtime.context.CheckContextTest;
+import com.avaloq.tools.ddk.check.runtime.core.registry.CheckExtensionPointTests;
+import com.avaloq.tools.ddk.check.runtime.core.validation.CheckValidatorTest;
+import com.avaloq.tools.ddk.check.runtime.label.CheckRuleLabelProviderTest;
 
 
 /**
  * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
 @Suite
-@SelectPackages({
+@SelectClasses({
 // @Format-Off
-  "com.avaloq.tools.ddk.check.runtime.context",
-  "com.avaloq.tools.ddk.check.runtime.core.registry",
-  "com.avaloq.tools.ddk.check.runtime.core.validation",
-  "com.avaloq.tools.ddk.check.runtime.label"
+  CheckContextTest.class,
+  CheckExtensionPointTests.class,
+  CheckValidatorTest.class,
+  CheckRuleLabelProviderTest.class
   // @Format-On
 })
 public class CheckRuntimeTestSuite {
