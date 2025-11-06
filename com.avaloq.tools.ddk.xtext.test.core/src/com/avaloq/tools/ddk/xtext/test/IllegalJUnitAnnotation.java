@@ -13,10 +13,10 @@ package com.avaloq.tools.ddk.xtext.test;
 /**
  * Raised when a test wants to annotate a method with either a {@link @BeforeClass} or a {@link @AfterClass} annotation.
  */
-class IllegalJUnitAnnotation extends RuntimeException {
+public class IllegalJUnitAnnotation extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
-  IllegalJUnitAnnotation() {
+  public IllegalJUnitAnnotation() {
     super("Invalid annotation found. BeforeClass and AfterClass annotations are not permitted when using the AbstractXtextTest framework. Use the methods 'beforeAllTests' and 'afterAllTests' instead."); //$NON-NLS-1$
   }
 

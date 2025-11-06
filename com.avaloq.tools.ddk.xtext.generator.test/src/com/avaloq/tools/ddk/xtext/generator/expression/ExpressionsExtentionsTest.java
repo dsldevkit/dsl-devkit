@@ -10,16 +10,16 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.generator.expression;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GeneratorTestUtil;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
 
 
 @SuppressWarnings("nls")
@@ -39,8 +39,9 @@ public class ExpressionsExtentionsTest extends AbstractXtextTest {
   }
 
   @Test
-  public final void serialize() throws IOException {
+  @SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
+  void serialize() throws IOException {
     Expression e = (Expression) getXtextTestUtil().getModel("test.expression." + getXtextTestUtil().getFileExtension(), "let x = 1 : 0");
-    assertEquals("Simple serialization works", "let x = 1 : 0", ExpressionExtensions.serialize(e));
+    assertEquals("let x = 1 : 0", ExpressionExtensions.serialize(e), "Simple serialization works");
   }
 }

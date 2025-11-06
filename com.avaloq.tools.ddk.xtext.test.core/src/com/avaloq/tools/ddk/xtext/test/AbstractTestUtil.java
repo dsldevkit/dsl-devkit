@@ -31,7 +31,7 @@ public abstract class AbstractTestUtil { // NOPMD we really do want default impl
    *
    * @return {@link ITestProjectManager}
    */
-  protected ITestProjectManager getTestProjectManager() {
+  public ITestProjectManager getTestProjectManager() {
     return testProjectManager;
   }
 
@@ -51,7 +51,7 @@ public abstract class AbstractTestUtil { // NOPMD we really do want default impl
    * @param family
    *          to wait for.
    */
-  protected void waitForJobsOfFamily(final Object family) {
+  public void waitForJobsOfFamily(final Object family) {
     boolean wasInterrupted;
     do {
       try {
@@ -96,7 +96,7 @@ public abstract class AbstractTestUtil { // NOPMD we really do want default impl
    * @param editor
    *          editor part
    */
-  protected void waitForEditorJobs(final IEditorPart editor) {
+  public void waitForEditorJobs(final IEditorPart editor) {
     Object jobFamily = getEditorJobFamily(editor);
     if (jobFamily != null) {
       waitForJobsOfFamily(jobFamily);
