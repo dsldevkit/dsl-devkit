@@ -76,6 +76,6 @@ class CheckScopingTest extends AbstractCheckTestCase {
   def void testCheckDescriptionIsInferred() {
     initializeTestProject
     val check = util.getFirstInstanceOf(getModel("CommonChecks"), typeof(Check))
-    assertEquals(check.description, "Referenced check cannot be resolved", "This check is javadoc-like commented.")
+    assertEquals("This check is javadoc-like commented.", check.description, "Referenced check cannot be resolved")
   }
 }

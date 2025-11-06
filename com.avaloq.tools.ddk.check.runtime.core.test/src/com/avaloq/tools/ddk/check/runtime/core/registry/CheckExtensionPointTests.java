@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
  * Provides some test cases for the Check extension point.
  */
 @SuppressWarnings("nls")
-class CheckExtensionPointTests {
+public class CheckExtensionPointTests {
 
   private static final String DUMMY_EXTENSION_ID = "com.avaloq.tools.ddk.check.runtime.core.test";
   private static final String CHECK_EXTENSION_ID = "com.avaloq.tools.ddk.check.runtime.core";

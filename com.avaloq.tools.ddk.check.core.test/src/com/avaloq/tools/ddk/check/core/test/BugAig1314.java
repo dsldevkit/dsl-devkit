@@ -42,7 +42,7 @@ import com.google.common.collect.Iterables;
 @ExtendWith(InjectionExtension.class)
 @InjectWith(CheckInjectorProvider.class)
 @SuppressWarnings("nls")
-class BugAig1314 {
+public class BugAig1314 {
 
   /** Constructor of super class is protected... */
   private static class TestScope extends CatalogFromExtensionPointScope {

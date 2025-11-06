@@ -56,7 +56,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
 
-class WorkbenchResolutionAdaptorRunTest {
+public class WorkbenchResolutionAdaptorRunTest {
 
   private static final String TEST_FILE_NAME = "TestFileName"; //$NON-NLS-1$
 
