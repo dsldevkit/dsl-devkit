@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.export.formatting;
 
 import com.avaloq.tools.ddk.xtext.test.TestSource;
 import com.avaloq.tools.ddk.xtext.test.export.util.ExportTestUtil;
-import com.avaloq.tools.ddk.xtext.test.formatting.AbstractFormattingTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractFormattingTest;
 
 
 /**
