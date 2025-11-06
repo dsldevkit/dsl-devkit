@@ -10,20 +10,20 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.export.scoping;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.scoping.IScope;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
 import com.avaloq.tools.ddk.xtext.export.export.ExportPackage;
 import com.avaloq.tools.ddk.xtext.scoping.IDomain.NullMapper;
 import com.avaloq.tools.ddk.xtext.test.export.util.ExportTestUtil;
-import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest;
 
 
 /**
@@ -46,16 +46,16 @@ public class ExportScopingTest extends AbstractScopingTest {
   public void testImportPackageScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_Import_package(model.getImports().get(0), ExportPackage.Literals.IMPORT__PACKAGE);
-    assertNotNull("Could not locate Import.", scope.getSingleElement(QualifiedName.create("http://www.avaloq.com/tools/ddk/xtext/export/Export")));
-    assertNull("Located non-existent Import.", scope.getSingleElement(QualifiedName.create("http://www.avaloq.com/tools/ddk/xtext/export/ExportX")));
+    assertNotNull(scope.getSingleElement(QualifiedName.create("http://www.avaloq.com/tools/ddk/xtext/export/Export")), "Could not locate Import.");
+    assertNull(scope.getSingleElement(QualifiedName.create("http://www.avaloq.com/tools/ddk/xtext/export/ExportX")), "Located non-existent Import.");
   }
 
   @Test
   public void testEclassScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_EClass(model, null);
-    assertNotNull("Could not locate EClass.", scope.getSingleElement(QualifiedName.create("InterfaceExpression")));
-    assertNull("Located non-existent EClass.", scope.getSingleElement(QualifiedName.create("InterfaceExpressionX")));
+    assertNotNull(scope.getSingleElement(QualifiedName.create("InterfaceExpression")), "Could not locate EClass.");
+    assertNull(scope.getSingleElement(QualifiedName.create("InterfaceExpressionX")), "Located non-existent EClass.");
   }
 
   @Test
@@ -63,8 +63,8 @@ public class ExportScopingTest extends AbstractScopingTest {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_EStructuralFeature(model.getInterfaces().get(0), null);
     // CHECKSTYLE:OFF (DuplicateString)
-    assertNotNull("Could not locate EStructuralFeature.", scope.getSingleElement(QualifiedName.create("unordered")));
-    assertNull("Located non-existent EStructuralFeature.", scope.getSingleElement(QualifiedName.create("unorderedX")));
+    assertNotNull(scope.getSingleElement(QualifiedName.create("unordered")), "Could not locate EStructuralFeature.");
+    assertNull(scope.getSingleElement(QualifiedName.create("unorderedX")), "Located non-existent EStructuralFeature.");
     // CHECKSTYLE:ON
   }
 
@@ -73,8 +73,8 @@ public class ExportScopingTest extends AbstractScopingTest {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_EAttribute(model.getInterfaces().get(0), null);
     // CHECKSTYLE:OFF (DuplicateString)
-    assertNotNull("Could not locate EStructuralFeature.", scope.getSingleElement(QualifiedName.create("unordered")));
-    assertNull("Located non-existent EStructuralFeature.", scope.getSingleElement(QualifiedName.create("expr")));
+    assertNotNull(scope.getSingleElement(QualifiedName.create("unordered")), "Could not locate EStructuralFeature.");
+    assertNull(scope.getSingleElement(QualifiedName.create("expr")), "Located non-existent EStructuralFeature.");
     // CHECKSTYLE:ON
   }
 
@@ -83,8 +83,8 @@ public class ExportScopingTest extends AbstractScopingTest {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_InterfaceNavigation_ref(model.getInterfaces().get(0), null);
     // CHECKSTYLE:OFF (DuplicateString)
-    assertNotNull("Could not locate InterfaceNavigationRef.", scope.getSingleElement(QualifiedName.create("expr")));
-    assertNull("Located non-existent InterfaceNavigationRef.", scope.getSingleElement(QualifiedName.create("unordered")));
+    assertNotNull(scope.getSingleElement(QualifiedName.create("expr")), "Could not locate InterfaceNavigationRef.");
+    assertNull(scope.getSingleElement(QualifiedName.create("unordered")), "Located non-existent InterfaceNavigationRef.");
     // CHECKSTYLE:ON
   }
 

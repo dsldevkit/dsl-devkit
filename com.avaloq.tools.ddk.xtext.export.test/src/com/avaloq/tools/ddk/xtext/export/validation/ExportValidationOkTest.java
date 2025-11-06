@@ -10,10 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.export.validation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.test.export.util.ExportTestUtil;
-import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractValidationTest;
 
 
 /**
