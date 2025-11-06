@@ -26,7 +26,8 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.hamcrest.library,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.emf.common,
- com.avaloq.tools.ddk
+ com.avaloq.tools.ddk,
+ junit-jupiter-api
 Import-Package: org.slf4j, org.apache.logging.log4j,org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.test,
  com.avaloq.tools.ddk.xtext.test.contentassist,
@@ -34,6 +35,7 @@ Export-Package: com.avaloq.tools.ddk.xtext.test,
  com.avaloq.tools.ddk.xtext.test.formatting,
  com.avaloq.tools.ddk.xtext.test.generator,
  com.avaloq.tools.ddk.xtext.test.junit.runners,
+ com.avaloq.tools.ddk.xtext.test.jupiter,
  com.avaloq.tools.ddk.xtext.test.jvmmodel,
  com.avaloq.tools.ddk.xtext.test.linking,
  com.avaloq.tools.ddk.xtext.test.model,

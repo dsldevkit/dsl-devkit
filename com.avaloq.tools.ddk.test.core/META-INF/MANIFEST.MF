@@ -14,10 +14,12 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.guava,
  org.apache.commons.lang,
  org.eclipse.emf.common,
- com.avaloq.tools.ddk
+ com.avaloq.tools.ddk,
+ junit-jupiter-api
 Export-Package: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.test.core.data,
  com.avaloq.tools.ddk.test.core.junit.runners,
+ com.avaloq.tools.ddk.test.core.jupiter,
  com.avaloq.tools.ddk.test.core.mock,
  com.avaloq.tools.ddk.test.core.util
 Import-Package: org.apache.logging.log4j
