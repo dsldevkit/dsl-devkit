@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.builder;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,12 +21,12 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 
 import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -71,8 +71,8 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
   public void hasCorrectExtensionTest() {
     IResourceServiceProvider resourceServiceProvider = mock(IResourceServiceProvider.class);
     when(resourceServiceProvider.canHandle(argThat(new IsUri()))).thenReturn(true, false);
-    assertTrue("Check if the delta resource has correct extension", participant.hasCorrectExtension(delta, resourceServiceProvider));
-    assertFalse("Check if the delta resource has incorrect extension", participant.hasCorrectExtension(delta, resourceServiceProvider));
+    assertTrue(participant.hasCorrectExtension(delta, resourceServiceProvider), "Check if the delta resource has correct extension");
+    assertFalse(participant.hasCorrectExtension(delta, resourceServiceProvider), "Check if the delta resource has incorrect extension");
   }
 
   /**
@@ -81,11 +81,11 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
   @Test
   public void isSourceOriginatedTest() {
     when(uriCorrect.segments()).thenReturn(CORRECT_URI_SEGMENTS);
-    assertTrue("Check if the delta resource has correct URI and comes from SRC directory", participant.isSourceOriginated(delta));
+    assertTrue(participant.isSourceOriginated(delta), "Check if the delta resource has correct URI and comes from SRC directory");
     when(uriCorrect.segments()).thenReturn(BIN_URI_SEGMENTS);
-    assertFalse("Check if the delta resource has correct URI and does not come from SRC directory", participant.isSourceOriginated(delta));
+    assertFalse(participant.isSourceOriginated(delta), "Check if the delta resource has correct URI and does not come from SRC directory");
     when(uriCorrect.segments()).thenReturn(INCORRECT_URI_SEGMENTS);
-    assertFalse("Check if the delta resource has incorrect URI and comes from SRC directory", participant.isSourceOriginated(delta));
+    assertFalse(participant.isSourceOriginated(delta), "Check if the delta resource has incorrect URI and comes from SRC directory");
   }
 
   @Override

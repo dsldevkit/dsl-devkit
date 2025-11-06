@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.format.formatting;
 
 import com.avaloq.tools.ddk.xtext.test.TestSource;
 import com.avaloq.tools.ddk.xtext.test.format.util.FormatTestUtil;
-import com.avaloq.tools.ddk.xtext.test.formatting.AbstractFormattingTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractFormattingTest;
 
 
 public class FormatFormattingTest extends AbstractFormattingTest {

@@ -13,7 +13,6 @@ package com.avaloq.tools.ddk.xtext.test.jupiter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.XtextResource;
 
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.avaloq.tools.ddk.xtext.test.XtextTestSource;
 
 

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.format;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.xtext.format.builder.FormatBuilderParticipantTest;
 import com.avaloq.tools.ddk.xtext.format.formatting.FormatFormattingTest;
@@ -20,10 +20,10 @@ import com.avaloq.tools.ddk.xtext.format.validation.FormatValidationTest;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit5 annotations.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({FormatFormattingTest.class, FormatValidationTest.class, FormatScopingTest.class, FormatBuilderParticipantTest.class})
+@Suite
+@SelectClasses({FormatFormattingTest.class, FormatValidationTest.class, FormatScopingTest.class, FormatBuilderParticipantTest.class})
 public class FormatTestSuite {
 
 }

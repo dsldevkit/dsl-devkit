@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.xtext.generator.test.util;
 
 import com.avaloq.tools.ddk.xtext.expression.ExpressionStandaloneSetup;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.google.inject.Injector;
 
 
@@ -28,7 +28,7 @@ public final class GeneratorTestUtil extends AbstractXtextTestUtil {
     private static final GeneratorTestUtil INSTANCE = new GeneratorTestUtil();
 
     public static GeneratorTestUtil get() {
-        return INSTANCE;
+      return INSTANCE;
     }
   }
 

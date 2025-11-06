@@ -10,16 +10,16 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.validation;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.test.format.util.FormatTestUtil;
-import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractValidationTest;
 import com.google.common.collect.Lists;
 
 

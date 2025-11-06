@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.test.export.util;
 
 import com.avaloq.tools.ddk.xtext.export.ExportConstants;
 import com.avaloq.tools.ddk.xtext.export.ui.internal.ExportActivator;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.google.inject.Injector;
 
 
@@ -29,7 +29,7 @@ public final class ExportTestUtil extends AbstractXtextTestUtil {
     private static final ExportTestUtil INSTANCE = new ExportTestUtil();
 
     public static ExportTestUtil get() {
-        return INSTANCE;
+      return INSTANCE;
     }
   }
 

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.scoping;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.List;
 import java.util.Set;
@@ -27,13 +27,13 @@ import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.format.FormatPackage;
 import com.avaloq.tools.ddk.xtext.format.format.GroupBlock;
 import com.avaloq.tools.ddk.xtext.test.format.util.FormatTestUtil;
-import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -112,7 +112,7 @@ public class FormatScopingTest extends AbstractScopingTest {
   public void keywordScoped() {
     AbstractRule parserRuleA = grammarA.getRules().get(0);
     Set<URI> keywordURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedKeywords(parserRuleA), TO_URI));
-    assertFalse("No keywords found", keywordURIs.isEmpty());
+    assertFalse(keywordURIs.isEmpty(), "No keywords found");
     assertScope(formatC.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD, keywordURIs);
     AbstractRule parserRuleC = grammarC.getRules().get(0);
     assertScope(formatA.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD, keywordURIs);
@@ -128,7 +128,7 @@ public class FormatScopingTest extends AbstractScopingTest {
   public void assignmentScoped() {
     AbstractRule parserRuleA = grammarA.getRules().get(0);
     Set<URI> assignmentURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedAssignments(parserRuleA), TO_URI));
-    assertFalse("No assignments found", assignmentURIs.isEmpty());
+    assertFalse(assignmentURIs.isEmpty(), "No assignments found");
     assertScope(formatC.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT, assignmentURIs);
     assertScope(formatA.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT, assignmentURIs);
   }
