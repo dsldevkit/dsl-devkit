@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.format.util;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -20,9 +20,9 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import com.avaloq.tools.ddk.xtext.format.FormatConstants;
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
 import com.avaloq.tools.ddk.xtext.format.ui.internal.FormatActivator;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
 import com.avaloq.tools.ddk.xtext.test.ITestProjectManager;
 import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.google.inject.Injector;
 
 

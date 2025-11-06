@@ -6,13 +6,16 @@ package com.avaloq.tools.ddk.xtext.format
 import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(XtextRunner)
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.assertNotNull
+import static org.junit.jupiter.api.Assertions.assertTrue
+
+
+@ExtendWith(InjectionExtension)
 @InjectWith(FormatInjectorProvider)
 class FormatParsingTest {
   @Inject
@@ -23,8 +26,8 @@ class FormatParsingTest {
     val result = parseHelper.parse('''
       Hello Xtext!
     ''')
-    Assert.assertNotNull(result)
+    assertNotNull(result)
     val errors = result.eResource.errors
-    Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+    assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", ")»''')
   }
 }
