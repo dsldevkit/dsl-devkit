@@ -14,9 +14,7 @@ package com.avaloq.tools.ddk.checkcfg.validation
 import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil
 import com.avaloq.tools.ddk.test.checkcfg.TestPropertySpecificationWithExpectedValues
 import com.avaloq.tools.ddk.test.checkcfg.TestPropertySpecificationWithOutExpectedValues
-import com.avaloq.tools.ddk.xtext.test.validation.AbstractValidationTest
 import com.google.common.collect.Lists
-import org.junit.Test
 
 import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXECUTABLE_EXTENSION_ATTRIBUTE
 import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION_POINT
@@ -24,6 +22,8 @@ import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.mockConfigurationElement
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.mockExecutableExtension
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.unMock
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractValidationTest
+import org.junit.jupiter.api.Test
 
 class CheckCfgConfiguredParameterValidationsTest extends AbstractValidationTest {
 

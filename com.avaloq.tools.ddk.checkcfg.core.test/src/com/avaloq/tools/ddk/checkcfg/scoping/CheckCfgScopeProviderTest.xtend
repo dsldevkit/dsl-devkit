@@ -14,9 +14,8 @@ package com.avaloq.tools.ddk.checkcfg.scoping
 import com.avaloq.tools.ddk.test.core.BugTest
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage
 import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil
-import com.avaloq.tools.ddk.xtext.test.scoping.AbstractScopingTest
-
-import static org.junit.Assert.assertArrayEquals
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest
+import static org.junit.jupiter.api.Assertions.assertArrayEquals
 
 final class CheckCfgScopeProviderTest extends AbstractScopingTest {
 
@@ -72,7 +71,7 @@ final class CheckCfgScopeProviderTest extends AbstractScopingTest {
       // Check catalog has the correct fully-qualified package name
       val actualName = element.name.segments;
       val actualPackageName = actualName.take(EXP_PACKAGE_NAME_PREFIX.size);
-      assertArrayEquals("Catalog must have the correct fully-qualified package name", EXP_PACKAGE_NAME_PREFIX, actualPackageName);
+      assertArrayEquals(EXP_PACKAGE_NAME_PREFIX, actualPackageName, "Catalog must have the correct fully-qualified package name");
     ]
   }
 }
