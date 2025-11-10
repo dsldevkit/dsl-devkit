@@ -10,30 +10,30 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.xtext.testing.InjectWith;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProvider;
 import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
 import com.avaloq.tools.ddk.test.core.BugTest;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
-import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 
 
 /**
  * The CheckProjectWizardTest tests the Check Project Wizard.
  */
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(XtextClassRunner.class)
+@ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class CheckProjectWizardTest {
 
@@ -48,7 +48,7 @@ public class CheckProjectWizardTest {
   /**
    * Start again the Check project wizard before every test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     wizard = new SwtWizardBot();
     wizard.openNewWizard(CHECK_PROJECT_WIZARD_NAME);
@@ -59,7 +59,7 @@ public class CheckProjectWizardTest {
    */
   @Test
   public void testCheckProjectWizardIsAvailable() {
-    assertNotNull("the project wizard was found", wizard);
+    assertNotNull(wizard, "the project wizard was found");
     CheckWizardTestUtil.assertButtonsEnabled(false, true, false, wizard);
   }
 
@@ -101,9 +101,9 @@ public class CheckProjectWizardTest {
     wizard.writeToTextField(Messages.PROJECT_NAME_LABEL, CORRECT_PROJECT_NAME);
     wizard.changeToPreviousPage();
     wizard.changeToNextPage();
-    assertEquals("Project input stays unchanged", CORRECT_PROJECT_NAME, wizard.textWithLabel(Messages.PROJECT_NAME_LABEL).getText());
+    assertEquals(CORRECT_PROJECT_NAME, wizard.textWithLabel(Messages.PROJECT_NAME_LABEL).getText(), "Project input stays unchanged");
     wizard.changeToNextPage();
-    assertEquals("Initially, package name equals to project name", CORRECT_PROJECT_NAME, wizard.textWithLabel(Messages.PACKAGE_NAME_LABEL).getText());
+    assertEquals(CORRECT_PROJECT_NAME, wizard.textWithLabel(Messages.PACKAGE_NAME_LABEL).getText(), "Initially, package name equals to project name");
   }
 
   /**
@@ -115,13 +115,13 @@ public class CheckProjectWizardTest {
     SWTBotShell projectPage = wizard.shell(Messages.PROJECT_WIZARD_WINDOW_TITLE);
     wizard.changeToNextPage();
     SWTBotShell catalogPage = wizard.shell(Messages.PROJECT_WIZARD_WINDOW_TITLE);
-    assertNotSame("Next button changed page", projectPage, catalogPage);
+    assertNotSame(projectPage, catalogPage, "Next button changed page");
   }
 
   /**
    * Close the wizard after every test.
    */
-  @After
+  @AfterEach
   public void tearDown() {
     wizard.closeWizard();
   }

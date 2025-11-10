@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.builder;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
@@ -26,10 +26,10 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.IPluginObject;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModel;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
@@ -48,7 +48,7 @@ import com.google.inject.Inject;
  */
 @SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 public class CheckMarkerHelpExtensionTest {
 
   private static final String SECONDCHECK_CONTEXTID = "null.c_secondcheck";
@@ -83,12 +83,12 @@ public class CheckMarkerHelpExtensionTest {
     IPluginExtension extension = createMarkerHelpExtension(parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE));
 
     // Test if the extension has been created.
-    assertEquals("Marker help extension has been created.", CheckMarkerHelpExtensionHelper.MARKERHELP_EXTENSION_POINT_ID, extension.getPoint());
+    assertEquals(CheckMarkerHelpExtensionHelper.MARKERHELP_EXTENSION_POINT_ID, extension.getPoint(), "Marker help extension has been created.");
 
     // Test if the extension contains the marker help element
     IPluginElement element = (IPluginElement) extension.getChildren()[0];
-    assertEquals("The marker help element has the correct context id", FIRSTCHECK_CONTEXID, element.getAttribute(CheckMarkerHelpExtensionHelper.CONTEXT_ID_ATTRIBUTE_TAG).getValue());
-    assertEquals("The marker help element has the correct markertype", MARKERTYPE_FAST, element.getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue());
+    assertEquals(FIRSTCHECK_CONTEXID, element.getAttribute(CheckMarkerHelpExtensionHelper.CONTEXT_ID_ATTRIBUTE_TAG).getValue(), "The marker help element has the correct context id");
+    assertEquals(MARKERTYPE_FAST, element.getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue(), "The marker help element has the correct markertype");
   }
 
   /**
@@ -103,7 +103,7 @@ public class CheckMarkerHelpExtensionTest {
     final CheckCatalog catalogWithOneCheck = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
     IPluginExtension extension = createMarkerHelpExtension(catalogWithOneCheck);
 
-    assertEquals("Original catalog has one marker help extension", 1, extension.getChildCount());
+    assertEquals(1, extension.getChildCount(), "Original catalog has one marker help extension");
 
     CheckCatalog catalogWithTwoChecks = parser.parse(CATALOG_WITH_TWO_CHECKS);
     markerUtil.updateExtension(catalogWithTwoChecks, extension);
@@ -113,8 +113,8 @@ public class CheckMarkerHelpExtensionTest {
     for (IPluginObject element : extension.getChildren()) {
       contextIds.add(((IPluginElement) element).getAttribute(CheckMarkerHelpExtensionHelper.CONTEXT_ID_ATTRIBUTE_TAG).getValue());
     }
-    assertEquals("The extension has two elements", 2, extension.getChildCount());
-    assertTrue("Both checks are elements of the extension ", contextIds.containsAll(Sets.newHashSet(FIRSTCHECK_CONTEXID, SECONDCHECK_CONTEXTID)));
+    assertEquals(2, extension.getChildCount(), "The extension has two elements");
+    assertTrue(contextIds.containsAll(Sets.newHashSet(FIRSTCHECK_CONTEXID, SECONDCHECK_CONTEXTID)), "Both checks are elements of the extension ");
   }
 
   /**
@@ -128,13 +128,13 @@ public class CheckMarkerHelpExtensionTest {
     final CheckCatalog catalogWithTwoChecks = parser.parse(CATALOG_WITH_TWO_CHECKS);
     IPluginExtension extension = createMarkerHelpExtension(catalogWithTwoChecks);
 
-    assertEquals("Original catalog has two marker help extensions", 2, extension.getChildCount());
+    assertEquals(2, extension.getChildCount(), "Original catalog has two marker help extensions");
 
     CheckCatalog catalogWithOneCheck = parser.parse(CATALOG_WITH_SECOND_CHECK_ONDEMAND);
     markerUtil.updateExtension(catalogWithOneCheck, extension);
 
-    assertEquals("Updated catalog has one marker help extension only", 1, extension.getChildCount());
-    assertEquals("The element for the removed check has been deleted.", SECONDCHECK_CONTEXTID, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.CONTEXT_ID_ATTRIBUTE_TAG).getValue());
+    assertEquals(1, extension.getChildCount(), "Updated catalog has one marker help extension only");
+    assertEquals(SECONDCHECK_CONTEXTID, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.CONTEXT_ID_ATTRIBUTE_TAG).getValue(), "The element for the removed check has been deleted.");
   }
 
   /**
@@ -147,12 +147,12 @@ public class CheckMarkerHelpExtensionTest {
   public void testMarkerTypeUpdate() throws Exception {
     IPluginExtension extension = createMarkerHelpExtension(parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE));
 
-    assertEquals("Before update: Markertype is fast.", MARKERTYPE_FAST, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue());
+    assertEquals(MARKERTYPE_FAST, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue(), "Before update: Markertype is fast.");
 
     CheckCatalog updateMarkertype = parser.parse(CATALOG_WITH_FIRST_CHECK_ONDEMAND);
     markerUtil.updateExtension(updateMarkertype, extension);
 
-    assertEquals("After update: Markertype is expensive.", MARKERTYPE_EXPENSIVE, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue());
+    assertEquals(MARKERTYPE_EXPENSIVE, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue(), "After update: Markertype is expensive.");
   }
 
   @Inject
@@ -181,8 +181,8 @@ public class CheckMarkerHelpExtensionTest {
         issueCodesInExtension.add(((IPluginElement) element).getAttribute(CheckMarkerHelpExtensionHelper.ATTRIBUTE_VALUE_TAG).getValue());
       }
     }
-    assertTrue("A marker help element for both issueCodes has been created.", Iterables.elementsEqual(issueCodesInExtension, issueCodesOfCheck));
-    assertEquals("extension has two marker help elements", 2, issueCodesInExtension.size());
+    assertTrue(Iterables.elementsEqual(issueCodesInExtension, issueCodesOfCheck), "A marker help element for both issueCodes has been created.");
+    assertEquals(2, issueCodesInExtension.size(), "extension has two marker help elements");
   }
 
   /**

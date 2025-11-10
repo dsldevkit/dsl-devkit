@@ -10,17 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.ui.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit5 annotations.
  */
-@RunWith(Suite.class)
 // @Format-Off
-@Suite.SuiteClasses({
-})
 // @Format-On
 public class CheckCfgUiTestSuite {
 }

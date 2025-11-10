@@ -19,10 +19,9 @@ import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals
 import com.avaloq.tools.ddk.test.ui.swtbot.util.ProblemsViewTestUtil
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException
 import org.eclipse.xtext.diagnostics.Diagnostic
-import org.junit.Assert
-import org.junit.Test
-
-import static org.junit.Assert.fail
+import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.assertTrue
+import static org.junit.jupiter.api.Assertions.fail
 
 /**
  * Test quickfixes for Check files.
@@ -95,7 +94,7 @@ class CheckQuickfixTest extends AbstractCheckQuickfixTest {
     assertHasQuickFix(Diagnostic::LINKING_DIAGNOSTIC, quickfixLabel);
     assertQuickFixSuccessful(Diagnostic::LINKING_DIAGNOSTIC, quickfixLabel);
     val afterIssues = getXtextTestUtil().getIssues(getDocument());
-    Assert.assertTrue(afterIssues.size < beforeIssues.size);
+    assertTrue(afterIssues.size < beforeIssues.size);
   }
 
   /**

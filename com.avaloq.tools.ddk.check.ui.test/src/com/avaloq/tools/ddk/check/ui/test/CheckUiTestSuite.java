@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.check.ui.test.builder.CheckContextsExtensionTest;
 import com.avaloq.tools.ddk.check.ui.test.builder.CheckMarkerHelpExtensionTest;
@@ -21,11 +21,11 @@ import com.avaloq.tools.ddk.check.ui.test.quickfix.CheckQuickfixTest;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit5 annotations.
  */
-@RunWith(Suite.class)
 // @Format-Off
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
   CheckQuickfixTest.class,
   CheckProjectWizardTest.class,
   CheckCatalogWizardTest.class,
