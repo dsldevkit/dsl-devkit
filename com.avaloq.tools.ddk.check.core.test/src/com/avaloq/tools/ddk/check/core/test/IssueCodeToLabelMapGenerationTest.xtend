@@ -13,19 +13,20 @@ package com.avaloq.tools.ddk.check.core.test
 
 import com.avaloq.tools.ddk.check.CheckInjectorProvider
 import java.io.ByteArrayInputStream
-import org.eclipse.xtext.testing.InjectWith
 import java.util.List
-import org.eclipse.xtext.xbase.testing.JavaSource
-import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.eclipse.xtext.xbase.testing.JavaSource
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+
 import static org.junit.jupiter.api.Assertions.*
 
 /**
- * Unit test for autogeneration of check issue code to label map.
+ * Unit test for auto generation of check issue code to label map.
  */
 @InjectWith(CheckInjectorProvider)
-@ExtendWith(typeof(InjectionExtension))
+@ExtendWith(InjectionExtension)
 class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase {
 
   static final String PACKAGE_NAME = "mypackage"

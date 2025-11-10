@@ -10,9 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.eclipse.emf.ecore.EObject;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -56,12 +57,12 @@ public class AbstractFragmentProviderTest {
   public void testEscape() {
     StringBuilder builder = new StringBuilder();
     fragmentProvider.appendEscaped("foo/bar#\\", builder);
-    Assert.assertEquals("Fragment not properly scaped", builder.toString(), "foo\\/bar#\\\\");
+    assertEquals(builder.toString(), "foo\\/bar#\\\\", "Fragment not properly scaped");
   }
 
   @Test
   public void testUnescape() {
-    Assert.assertEquals("Fragment not properly unscaped", "foo//bar##\\", fragmentProvider.unescape("foo\\/\\/bar##\\\\"));
+    assertEquals("foo//bar##\\", fragmentProvider.unescape("foo\\/\\/bar##\\\\"), "Fragment not properly unscaped");
   }
 
   @Test
@@ -69,7 +70,7 @@ public class AbstractFragmentProviderTest {
     for (String text : SPECIAL_ESCAPE_CASES) {
       StringBuilder builder = new StringBuilder();
       fragmentProvider.appendEscaped(text, builder);
-      Assert.assertEquals("Escaped Characters must be equal", text, fragmentProvider.unescape(builder.toString()));
+      assertEquals(text, fragmentProvider.unescape(builder.toString()), "Escaped Characters must be equal");
     }
   }
 

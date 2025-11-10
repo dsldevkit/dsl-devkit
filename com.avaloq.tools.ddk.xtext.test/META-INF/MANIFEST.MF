@@ -30,7 +30,9 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  junit-jupiter-api,
  junit-jupiter-engine,
  junit-vintage-engine,
- junit-platform-suite-api
+ junit-platform-suite-api,
+ org.eclipse.xtext.testing,
+ org.opentest4j
 Import-Package: org.slf4j, org.apache.log4j,
  com.avaloq.tools.ddk.check.runtime.test.core,
  com.avaloq.tools.ddk.check.test.core,

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -20,56 +23,48 @@ import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.XtextPackage;
-import org.eclipse.xtext.XtextRuntimeModule;
-import org.eclipse.xtext.resource.IFragmentProvider;
-import org.eclipse.xtext.testing.AbstractXtextTests;
-import org.eclipse.xtext.util.Modules2;
-import org.junit.Before;
-import org.junit.Test;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.eclipse.xtext.testing.util.ParseHelper;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 
 
 /**
  * Tests for {@code AbstractSelectorFragmentProvider}.
  */
 // CHECKSTYLE:OFF
-@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "deprecation", "removal", "nls"})
-public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
+@SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
+@InjectWith(AbstractXtextTestsInjectorProvider.class)
+@ExtendWith(InjectionExtension.class)
+public class AbstractSelectorFragmentProviderTest {
   // CHECKSTYLE:ON
 
-  @Before
-  @Override
-  public void setUp() throws Exception {
-    super.setUp();
-    with(Modules2.mixin(new XtextRuntimeModule(), new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(IFragmentProvider.class).to(TestSelectorFragmentProvider.class);
-      }
-    }));
-  }
+  @Inject
+  private ParseHelper<EObject> parseHelper;
 
   @Test
-  public void testTopLevelObject() throws Exception {
+  public void testTopLevelObject() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0", grammar);
   }
 
   @Test
-  public void testMultiValuedContainment() throws Exception {
+  public void testMultiValuedContainment() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0", grammar.getRules().get(0));
   }
 
   @Test
-  public void testSingleValuedContainment() throws Exception {
+  public void testSingleValuedContainment() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo'+;");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0/2(3='foo')", grammar.getRules().get(0).getAlternatives());
   }
 
   @Test
-  public void testNullSelectorValue() throws Exception {
+  public void testNullSelectorValue() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'selectCardinality';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0/2(0=null)", grammar.getRules().get(0).getAlternatives());
 
@@ -78,7 +73,7 @@ public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
   }
 
   @Test
-  public void testEscapedSelectorValue() throws Exception {
+  public void testEscapedSelectorValue() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo.bar#';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0/2(3='foo.bar#')", grammar.getRules().get(0).getAlternatives());
   }
@@ -89,7 +84,16 @@ public class AbstractSelectorFragmentProviderTest extends AbstractXtextTests {
     assertSame(obj, res.getEObject(fragment));
   }
 
-  private static final class TestSelectorFragmentProvider extends AbstractSelectorFragmentProvider {
+  public EObject getModel(final String model) {
+    try {
+      return parseHelper.parse(model);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      throw new AssertionError(e);
+    }
+  }
+
+  static final class TestSelectorFragmentProvider extends AbstractSelectorFragmentProvider {
 
     @Override
     public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assume.assumeNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,10 +26,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 import org.eclipse.xtext.ui.resource.Storage2UriMapperImpl;
 import org.eclipse.xtext.util.Pair;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.avaloq.tools.ddk.xtext.test.AbstractUtilTest;
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractUtilTest;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
@@ -85,8 +85,8 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    */
   @Test
   public void getPathProjectTest() {
-    assertEquals("Check if the correct project path has been returned", WORKSPACE_PATH + "/"
-        + TEST_PROJECT_NAME, RuntimeProjectUtil.getPathProject(resource, mapperCorrect));
+    assertEquals(WORKSPACE_PATH + "/"
+        + TEST_PROJECT_NAME, RuntimeProjectUtil.getPathProject(resource, mapperCorrect), "Check if the correct project path has been returned");
   }
 
   /**
@@ -96,8 +96,8 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
   public void getProjectCorrectTest() {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
     IProject iproject = RuntimeProjectUtil.getProject(uriCorrect, mapperCorrect);
-    assumeNotNull(iproject);
-    assertEquals("Check if the correct project name has been returned", TEST_PROJECT_NAME, iproject.getName());
+    assumeTrue(iproject != null);
+    assertEquals(TEST_PROJECT_NAME, iproject.getName(), "Check if the correct project name has been returned");
   }
 
   /**
@@ -107,7 +107,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
   public void getProjectInCorrectTest() {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
     IProject iproject = RuntimeProjectUtil.getProject(uriCorrect, mapperInCorrect);
-    assertNull("When passed IStorage2UriMapper is broken then null instead of project name expected", iproject);
+    assertNull(iproject, "When passed IStorage2UriMapper is broken then null instead of project name expected");
 
   }
 
@@ -117,7 +117,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
   @Test
   public void findFileStorageCorrectTest() {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
-    assertEquals("Check if the correct file has been returned", RuntimeProjectUtil.findFileStorage(uriCorrect, mapperCorrect), file);
+    assertEquals(RuntimeProjectUtil.findFileStorage(uriCorrect, mapperCorrect), file, "Check if the correct file has been returned");
   }
 
   /**
@@ -125,7 +125,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    */
   @Test
   public void findFileStorageInCorrectTest() {
-    assertNull("When passed IStorage2UriMapper is broken then no file expected", RuntimeProjectUtil.findFileStorage(uriInCorrect, mapperInCorrect));
+    assertNull(RuntimeProjectUtil.findFileStorage(uriInCorrect, mapperInCorrect), "When passed IStorage2UriMapper is broken then no file expected");
   }
 
 }

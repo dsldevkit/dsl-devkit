@@ -10,27 +10,27 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
-import com.avaloq.tools.ddk.xtext.formatter.FormatterTest;
+import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePatternTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookupTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProviderTest;
-import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
 import com.avaloq.tools.ddk.xtext.resource.BugAig1084;
+import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
 import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit5 annotations.
  */
 // @Format-Off
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
   AbstractFragmentProviderTest.class,
   ShortFragmentProviderTest.class,
   AbstractSelectorFragmentProviderTest.class,
