@@ -10,6 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.builder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
@@ -19,11 +23,11 @@ import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModel;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckContextsExtensionHelper;
@@ -33,16 +37,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
-import junit.framework.TestCase;
-
 
 /**
  * Tests CheckContextExtensionUtil.
  */
 @SuppressWarnings({"restriction", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(XtextRunner.class)
-public class CheckContextsExtensionTest extends TestCase {
+@ExtendWith(InjectionExtension.class)
+public class CheckContextsExtensionTest {
 
   private static final String CATALOG_WITH_FIRST_CHECK_LIVE = "package com.test catalog c for grammar g { live error \"First Check\"{ for g { issue }}}";
 
@@ -56,10 +58,13 @@ public class CheckContextsExtensionTest extends TestCase {
   @Inject
   private IWorkspace workspace;
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+  @BeforeEach
+  public void setUp() {
+    try {
+      catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    } catch (Exception e) {
+      throw new AssertionError(e);
+    }
     IFile pluginxml = workspace.getRoot().getFile(new Path("/test/plugin.xml"));
     pluginModel = new WorkspacePluginModel(pluginxml, false);
   }
@@ -74,10 +79,10 @@ public class CheckContextsExtensionTest extends TestCase {
   public void testCreateExtension() throws CoreException {
     IPluginExtension extension = contextsUtil.addExtensionToPluginBase(pluginModel, catalog, ExtensionType.CONTEXTS, null);
     // Test if the extension has been created.
-    assertEquals("Contexts extension has been created.", CheckContextsExtensionHelper.CONTEXTS_EXTENSION_POINT_ID, extension.getPoint());
+    assertEquals(CheckContextsExtensionHelper.CONTEXTS_EXTENSION_POINT_ID, extension.getPoint(), "Contexts extension has been created.");
     // Test if the attributes are set correctly
     String contextsFileName = ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckContextsExtensionHelper.FILE_ATTRIBUTE_TAG).getValue();
-    assertEquals("Contexts File name is set correctly", CheckContextsExtensionHelper.CONTEXTS_FILE_NAME, contextsFileName);
+    assertEquals(CheckContextsExtensionHelper.CONTEXTS_FILE_NAME, contextsFileName, "Contexts File name is set correctly");
   }
 
   /**
@@ -90,7 +95,7 @@ public class CheckContextsExtensionTest extends TestCase {
   public void testIsExtensionUpdateRequiredTrue() throws CoreException {
     IPluginExtension extension = createErroneousExtension();
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
-    assertTrue("Extension update is required", contextsUtil.isExtensionUpdateRequired(catalog, extension, elements));
+    assertTrue(contextsUtil.isExtensionUpdateRequired(catalog, extension, elements), "Extension update is required");
   }
 
   /**
@@ -103,7 +108,7 @@ public class CheckContextsExtensionTest extends TestCase {
   public void testIsExtensionUpdateRequiredFalse() throws CoreException {
     IPluginExtension extension = contextsUtil.addExtensionToPluginBase(pluginModel, catalog, ExtensionType.CONTEXTS, null);
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
-    assertFalse("No extension update is required ", contextsUtil.isExtensionUpdateRequired(catalog, extension, elements));
+    assertFalse(contextsUtil.isExtensionUpdateRequired(catalog, extension, elements), "No extension update is required ");
   }
 
   /**

@@ -10,11 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.util;
 
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil;
-import com.avaloq.tools.ddk.xtext.test.ITestProjectManager;
-import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
 import com.avaloq.tools.ddk.check.CheckConstants;
 import com.avaloq.tools.ddk.check.ui.internal.CheckActivator;
+import com.avaloq.tools.ddk.xtext.test.ITestProjectManager;
+import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.google.inject.Injector;
 
 
@@ -34,7 +34,7 @@ public final class CheckXtextTestUtil extends AbstractXtextTestUtil {
     private static final CheckXtextTestUtil INSTANCE = new CheckXtextTestUtil();
 
     public static CheckXtextTestUtil get() {
-        return INSTANCE;
+      return INSTANCE;
     }
   }
 

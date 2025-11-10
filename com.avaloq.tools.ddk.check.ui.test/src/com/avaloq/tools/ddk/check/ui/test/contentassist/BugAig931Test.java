@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.contentassist;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,8 +22,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.progress.UIJob;
 import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -51,7 +52,7 @@ public class BugAig931Test extends AbstractCheckContentAssistBugTest implements 
           }
         }));
     for (String string : expected) {
-      Assert.assertTrue(NLS.bind("Expected {0} but found {1}", Arrays.toString(expected), actual), actual.contains(string));
+      assertTrue(actual.contains(string), NLS.bind("Expected {0} but found {1}", Arrays.toString(expected), actual));
     }
   }
 

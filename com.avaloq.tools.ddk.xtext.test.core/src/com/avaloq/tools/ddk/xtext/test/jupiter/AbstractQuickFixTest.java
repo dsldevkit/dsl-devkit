@@ -386,7 +386,7 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
     if (ignoreFormatting) {
       MatcherAssert.assertThat(message, actual, IsEqualCompressingWhiteSpace.equalToCompressingWhiteSpace(expected));
     } else {
-      assertEquals(message, expected, actual);
+      assertEquals(expected, actual, message);
     }
   }
 

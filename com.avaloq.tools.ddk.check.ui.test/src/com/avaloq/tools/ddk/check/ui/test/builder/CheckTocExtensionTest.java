@@ -10,6 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test.builder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
@@ -19,11 +24,11 @@ import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModel;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckTocExtensionHelper;
@@ -33,16 +38,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
-import junit.framework.TestCase;
-
 
 /**
  * Tests the CheckTocExtensionUtil class.
  */
 @SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
-@RunWith(XtextRunner.class)
-public class CheckTocExtensionTest extends TestCase {
+@ExtendWith(InjectionExtension.class)
+public class CheckTocExtensionTest {
 
   @Inject
   private ParseHelper<CheckCatalog> parser;
@@ -58,8 +61,7 @@ public class CheckTocExtensionTest extends TestCase {
   private CheckCatalog catalog;
   private IPluginModelBase pluginModel;
 
-  @Before
-  @Override
+  @BeforeEach
   public void setUp() throws Exception {
     catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
     IFile pluginxml = workspace.getRoot().getFile(new Path("/test/plugin.xml"));
@@ -76,10 +78,10 @@ public class CheckTocExtensionTest extends TestCase {
   @Test
   public void testCreateExtension() throws CoreException {
     IPluginExtension extension = tocUtil.addExtensionToPluginBase(pluginModel, catalog, ExtensionType.CONTEXTS, null);
-    assertEquals("Toc extension has been created", CheckTocExtensionHelper.TOC_EXTENSION_POINT_ID, extension.getPoint());
-    assertEquals("Toc extension name is correct", tocUtil.getExtensionPointName(catalog), extension.getName());
-    assertEquals("Extension has exactly one element", 1, extension.getChildCount());
-    assertEquals("toc.xml file location is correctly set", CheckTocExtensionHelper.TOC_FILE_NAME, ((IPluginElement) extension.getChildren()[0]).getAttribute("file").getValue());
+    assertEquals(CheckTocExtensionHelper.TOC_EXTENSION_POINT_ID, extension.getPoint(), "Toc extension has been created");
+    assertEquals(tocUtil.getExtensionPointName(catalog), extension.getName(), "Toc extension name is correct");
+    assertEquals(1, extension.getChildCount(), "Extension has exactly one element");
+    assertEquals(CheckTocExtensionHelper.TOC_FILE_NAME, ((IPluginElement) extension.getChildren()[0]).getAttribute("file").getValue(), "toc.xml file location is correctly set");
   }
 
   /**
@@ -93,7 +95,7 @@ public class CheckTocExtensionTest extends TestCase {
     IPluginExtension extension = createErroneousTocExtension();
 
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
-    assertTrue("Toc extension update is required", tocUtil.isExtensionUpdateRequired(catalog, extension, elements));
+    assertTrue(tocUtil.isExtensionUpdateRequired(catalog, extension, elements), "Toc extension update is required");
   }
 
   /**
@@ -125,7 +127,7 @@ public class CheckTocExtensionTest extends TestCase {
     IPluginExtension extension = createErroneousTocExtension();
     assertNotSame("File location is not as expected", CheckTocExtensionHelper.TOC_FILE_NAME, ((IPluginElement) extension.getChildren()[0]).getAttribute("file").getValue());
     tocUtil.updateExtension(catalog, extension);
-    assertEquals("Toc file location is now set correctly", CheckTocExtensionHelper.TOC_FILE_NAME, ((IPluginElement) extension.getChildren()[0]).getAttribute("file").getValue());
+    assertEquals(CheckTocExtensionHelper.TOC_FILE_NAME, ((IPluginElement) extension.getChildren()[0]).getAttribute("file").getValue(), "Toc file location is now set correctly");
   }
 
   /**
@@ -138,6 +140,6 @@ public class CheckTocExtensionTest extends TestCase {
   public void testIsExtensionUpdateRequiredFalse() throws CoreException {
     IPluginExtension extension = tocUtil.addExtensionToPluginBase(pluginModel, catalog, ExtensionType.CONTEXTS, null);
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
-    assertFalse("No toc extension update is required", tocUtil.isExtensionUpdateRequired(catalog, extension, elements));
+    assertFalse(tocUtil.isExtensionUpdateRequired(catalog, extension, elements), "No toc extension update is required");
   }
 }

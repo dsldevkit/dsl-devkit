@@ -14,8 +14,8 @@ import static com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot.BACK;
 import static com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot.FINISH;
 import static com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot.NEXT;
 import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
@@ -65,19 +65,19 @@ public final class CheckWizardTestUtil {
    */
   public static void assertButtonsEnabled(final boolean nextIsEnabled, final boolean backIsEnabled, final boolean finishIsEnabled, final SwtWizardBot swtWizardBot) {
     if (nextIsEnabled) {
-      assertTrue("Next button is enabled", swtWizardBot.button(NEXT).isEnabled());
+      assertTrue(swtWizardBot.button(NEXT).isEnabled(), "Next button is enabled");
     } else {
-      assertFalse("Next button is disabled", swtWizardBot.button(NEXT).isEnabled());
+      assertFalse(swtWizardBot.button(NEXT).isEnabled(), "Next button is disabled");
     }
     if (backIsEnabled) {
-      assertTrue("Back button is enabled", swtWizardBot.button(BACK).isEnabled());
+      assertTrue(swtWizardBot.button(BACK).isEnabled(), "Back button is enabled");
     } else {
-      assertFalse("Back button is disabled", swtWizardBot.button(BACK).isEnabled());
+      assertFalse(swtWizardBot.button(BACK).isEnabled(), "Back button is disabled");
     }
     if (finishIsEnabled) {
-      assertTrue("Finish button is enabled", swtWizardBot.button(FINISH).isEnabled());
+      assertTrue(swtWizardBot.button(FINISH).isEnabled(), "Finish button is enabled");
     } else {
-      assertFalse("Finish button is disabled", swtWizardBot.button(FINISH).isEnabled());
+      assertFalse(swtWizardBot.button(FINISH).isEnabled(), "Finish button is disabled");
     }
   }
 
@@ -184,7 +184,7 @@ public final class CheckWizardTestUtil {
         return wizardShell.widget.getData() instanceof WizardDialog;
       }
     });
-    assertTrue("Wizard is active before waiting on grammar field", wizardIsActive);
+    assertTrue(wizardIsActive, "Wizard is active before waiting on grammar field");
     wizard.waitUntil(Conditions.widgetIsEnabled(wizard.comboBoxWithLabel(Messages.GRAMMAR_FIELD_NAME_LABEL)), 2 * SwtWizardBot.SWTBOT_TIMEOUT);
   }
 

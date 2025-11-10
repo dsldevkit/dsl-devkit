@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.check.ui.test.contentassist;
 
 import static org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil.findJavaProject;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.InputStream;
 
