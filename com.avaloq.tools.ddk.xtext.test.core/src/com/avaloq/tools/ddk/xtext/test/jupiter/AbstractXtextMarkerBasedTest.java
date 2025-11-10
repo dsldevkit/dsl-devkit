@@ -375,7 +375,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
       sb.append(SPLITTING_LINE);
       sb.append("List of all found diagnostics:\n");
       sb.append(getAdditionalErrorMessageInformation());
-      assertEquals("Errors found. Consider compare view.", sourceWithoutMarkers, sb.toString());
+      assertEquals(sourceWithoutMarkers, sb.toString(), "Errors found. Consider compare view.");
     }
   }
 
