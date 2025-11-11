@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.test;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.checkcfg.contentassist.CheckCfgContentAssistTest;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProviderTest;
@@ -22,10 +22,10 @@ import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgValidationTest;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit5 annotations.
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
 // @Format-Off
   CheckCfgConfiguredParameterValidationsTest.class,
   CheckCfgContentAssistTest.class,

@@ -11,12 +11,9 @@
 
 package com.avaloq.tools.ddk.checkcfg.contentassist
 
-import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil
 import com.avaloq.tools.ddk.test.checkcfg.TestPropertySpecificationWithExpectedValues
 import com.avaloq.tools.ddk.test.checkcfg.TestPropertySpecificationWithOutExpectedValues
-import com.avaloq.tools.ddk.xtext.test.contentassist.AbstractAcfContentAssistTest
 import com.google.common.collect.Lists
-import org.junit.Test
 
 import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXECUTABLE_EXTENSION_ATTRIBUTE
 import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION_POINT
@@ -25,7 +22,16 @@ import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMoc
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.mockExecutableExtension
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.unMock
 import com.avaloq.tools.ddk.test.core.BugTest
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractAcfContentAssistTest
+import org.junit.jupiter.api.Test
+import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import com.avaloq.tools.ddk.checkcfg.CheckCfgUiInjectorProvider
+import org.eclipse.xtext.testing.InjectWith
 
+@ExtendWith(InjectionExtension)
+@InjectWith(CheckCfgUiInjectorProvider)
 class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   override protected getXtextTestUtil() {

@@ -11,10 +11,10 @@
 
 package com.avaloq.tools.ddk.checkcfg.util
 
-import com.avaloq.tools.ddk.xtext.test.AbstractXtextTestUtil
 import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager
 import com.avaloq.tools.ddk.xtext.test.ITestProjectManager
 import com.avaloq.tools.ddk.checkcfg.ui.internal.CheckcfgActivator
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil
 
 class CheckCfgTestUtil extends AbstractXtextTestUtil{
 
