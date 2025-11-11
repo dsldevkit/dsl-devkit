@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.test;
 
-import org.junit.runner.RunWith;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-import com.avaloq.tools.ddk.test.core.junit.runners.DiscerningSuite;
 import com.avaloq.tools.ddk.test.ui.test.swtbot.DeChKeyboardLayoutTest;
 import com.avaloq.tools.ddk.test.ui.test.swtbot.SwtBotRadioTest;
 
@@ -20,8 +20,8 @@ import com.avaloq.tools.ddk.test.ui.test.swtbot.SwtBotRadioTest;
 /**
  * Empty class serving only as holder for JUnit4 annotations.
  */
-@RunWith(DiscerningSuite.class)
-@DiscerningSuite.SuiteClasses({
+@Suite
+@SelectClasses({
 // @Format-Off
   DeChKeyboardLayoutTest.class,
   SwtBotRadioTest.class

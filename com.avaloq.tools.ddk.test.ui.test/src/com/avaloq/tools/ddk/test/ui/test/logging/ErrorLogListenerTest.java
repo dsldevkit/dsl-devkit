@@ -10,15 +10,15 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.test.logging;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.test.core.util.ErrorLogListener;
 
@@ -32,7 +32,7 @@ public class ErrorLogListenerTest {
   /**
    * Sets up the {@link ErrorLogListener} under test.
    */
-  @Before
+  @BeforeEach
   public void setUp() {
     errorLogListener = new ErrorLogListener();
     errorLogListener.register();
@@ -41,7 +41,7 @@ public class ErrorLogListenerTest {
   /**
    * Tears down the {@link ErrorLogListener} under test.
    */
-  @After
+  @AfterEach
   public void tearDown() {
     errorLogListener.unregister();
   }
@@ -55,7 +55,7 @@ public class ErrorLogListenerTest {
   @Test
   @SuppressWarnings("nls")
   public void testIgnoringExceptionLocations() throws InterruptedException {
-    assertFalse("NullPointerException must not have been logged.", errorLogListener.isExceptionLogged(NullPointerException.class));
+    assertFalse(errorLogListener.isExceptionLogged(NullPointerException.class), "NullPointerException must not have been logged.");
     errorLogListener.ignoreException(NullPointerException.class, "com.avaloq.tools.ddk.test.core.util.ErrorLogListenerTest");
 
     final Job job = new Job("testIgnoringExceptionLocations") {
@@ -70,6 +70,6 @@ public class ErrorLogListenerTest {
     job.schedule();
     job.join();
 
-    assertTrue("NullPointerException must have been logged.", errorLogListener.isExceptionLogged(NullPointerException.class));
+    assertTrue(errorLogListener.isExceptionLogged(NullPointerException.class), "NullPointerException must have been logged.");
   }
 }

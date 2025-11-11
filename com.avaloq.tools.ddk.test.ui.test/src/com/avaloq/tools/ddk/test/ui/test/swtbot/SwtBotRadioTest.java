@@ -10,15 +10,15 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.test.swtbot;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import com.avaloq.tools.ddk.test.core.Issue;
-import com.avaloq.tools.ddk.test.core.IssueAwareRule;
+import com.avaloq.tools.ddk.test.core.jupiter.IssueAwareRule;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
 
@@ -29,7 +29,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
 @SuppressWarnings("nls")
 public class SwtBotRadioTest {
 
-  @Rule
+  @RegisterExtension
   // CHECKSTYLE:CHECK-OFF VisibilityModifier
   public final IssueAwareRule rule = IssueAwareRule.getInstance();
   // CHECKSTYLE:CHECK-ON VisibilityModifier
@@ -97,17 +97,17 @@ public class SwtBotRadioTest {
     }
 
     // Assert that the buttons were found.
-    assertNotNull("previouslySelectedRadio must not be null.", previouslySelectedRadio);
-    assertNotNull("radioToSelect must not be null.", radioToSelect);
+    assertNotNull(previouslySelectedRadio, "previouslySelectedRadio must not be null.");
+    assertNotNull(radioToSelect, "radioToSelect must not be null.");
 
     // Select radio button and check if it was actually selected.
     bot.radio(radioToSelect.getText()).click();
-    assertTrue(String.format("\"%s\" must be selected.", radioToSelect.getText()), bot.radio(radioToSelect.getText()).isSelected());
+    assertTrue(bot.radio(radioToSelect.getText()).isSelected(), String.format("\"%s\" must be selected.", radioToSelect.getText()));
 
     // Close and re-open preference page and check again.
     PreferenceUtil.closePreferenceDialog(bot);
     PreferenceUtil.openPreferenceDialog(bot, PREFERENCES_PATH);
-    assertTrue(String.format("\"%s\" must not be de-selected again.", radioToSelect.getText()), bot.radio(radioToSelect.getText()).isSelected());
+    assertTrue(bot.radio(radioToSelect.getText()).isSelected(), String.format("\"%s\" must not be de-selected again.", radioToSelect.getText()));
 
     // Reset
     bot.radio(previouslySelectedRadio.getText()).click();
