@@ -124,4 +124,9 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
     }
   }
 
+  @Override
+  protected Injector getInjector() {
+    return injector;
+  }
+
 }

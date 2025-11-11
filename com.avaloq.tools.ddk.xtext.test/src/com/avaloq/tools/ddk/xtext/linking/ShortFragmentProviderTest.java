@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.linking;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -18,13 +20,13 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.resource.IFragmentProvider;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.avaloq.tools.ddk.test.core.BugTest;
-import com.avaloq.tools.ddk.xtext.test.AbstractTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
 
 
@@ -32,7 +34,8 @@ import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
  * Tests for {@code AbstractFragmentProvider}.
  */
 @SuppressWarnings("nls")
-public class ShortFragmentProviderTest extends AbstractTest {
+@TestInstance(Lifecycle.PER_CLASS)
+public class ShortFragmentProviderTest {
 
   private static final String FRAGMENT_MUST_BE_EQUAL = "Fragment must be equal";
   private static AbstractTestUtil testUtil = new AbstractTestUtil() {
@@ -59,7 +62,7 @@ public class ShortFragmentProviderTest extends AbstractTest {
   private EReference testReference;
   private EReference testReference2;
 
-  @Before
+  @BeforeEach
   public void initialize() {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
 
@@ -81,7 +84,7 @@ public class ShortFragmentProviderTest extends AbstractTest {
     EPackage.Registry.INSTANCE.put(testPackage.getNsURI(), testPackage);
   }
 
-  @After
+  @AfterEach
   public void cleanup() {
     EPackage.Registry.INSTANCE.remove(testPackage.getNsURI());
   }
@@ -101,9 +104,9 @@ public class ShortFragmentProviderTest extends AbstractTest {
     resource.getContents().add(root);
 
     String fragment = fragmentProvider.getFragment(parent, fragmentFallback);
-    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, "/0*" + (reps + 1), fragment);
+    assertEquals("/0*" + (reps + 1), fragment, FRAGMENT_MUST_BE_EQUAL);
 
-    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback));
+    assertEquals(parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback), FRAGMENT_MUST_BE_EQUAL);
   }
 
   @Test
@@ -125,17 +128,15 @@ public class ShortFragmentProviderTest extends AbstractTest {
     resource.getContents().add(root);
 
     String fragment = fragmentProvider.getFragment(parent, fragmentFallback);
-    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, "/0*" + (reps + 1) + "/1", fragment);
+    assertEquals("/0*" + (reps + 1) + "/1", fragment, FRAGMENT_MUST_BE_EQUAL);
 
-    Assert.assertEquals(FRAGMENT_MUST_BE_EQUAL, parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback));
+    assertEquals(parent, fragmentProvider.getEObject(resource, fragment, fragmentFallback), FRAGMENT_MUST_BE_EQUAL);
   }
 
-  @Override
   protected String getTestSourceFileName() {
     return null;
   }
 
-  @Override
   protected AbstractTestUtil getTestUtil() {
     return testUtil;
   }

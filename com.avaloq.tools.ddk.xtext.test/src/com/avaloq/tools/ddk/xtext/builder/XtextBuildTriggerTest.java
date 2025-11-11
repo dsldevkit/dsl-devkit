@@ -24,39 +24,38 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.xtext.builder.impl.BuildScheduler;
 import org.eclipse.xtext.builder.impl.IBuildFlag;
-import org.eclipse.xtext.testing.AbstractXtextTests;
-import org.junit.Before;
-import org.junit.Test;
+import org.eclipse.xtext.testing.InjectWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 
 import com.avaloq.tools.ddk.xtext.builder.layered.XtextBuildTrigger;
-import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 
-@SuppressWarnings({"restriction", "deprecation", "removal"})
-public class XtextBuildTriggerTest extends AbstractXtextTests {
+@SuppressWarnings({"restriction", "deprecation"})
+@InjectWith(XtextBuilderInjectorProvider.class)
+@ExtendWith(InjectionExtension.class)
+public class XtextBuildTriggerTest {
+
+  @Inject
+  private Injector injector;
 
   private IWorkspace workspace;
   private BuildScheduler scheduler;
 
-  @Override
-  @Before
-  public void setUp() throws Exception {
-    super.setUp();
-    workspace = mock(IWorkspace.class);
-    scheduler = mock(BuildScheduler.class);
-    with(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(BuildScheduler.class).toInstance(scheduler);
-        bind(IWorkspace.class).toInstance(workspace);
-      }
-    });
+  @BeforeEach
+  public void setUp() {
+    workspace = injector.getInstance(IWorkspace.class);
+    scheduler = injector.getInstance(BuildScheduler.class);
   }
 
   @Test
   public void testTriggerRespectsAutoBuilding() {
-    XtextBuildTrigger buildTrigger = get(XtextBuildTrigger.class);
+    XtextBuildTrigger buildTrigger = injector.getInstance(XtextBuildTrigger.class);
 
     // auto-build disabled
     when(workspace.isAutoBuilding()).thenReturn(false);

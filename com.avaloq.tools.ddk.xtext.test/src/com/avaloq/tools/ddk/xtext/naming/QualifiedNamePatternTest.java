@@ -10,22 +10,23 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.naming;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 
 import org.eclipse.xtext.naming.QualifiedName;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.test.core.BugTest;
-import com.avaloq.tools.ddk.xtext.test.junit.runners.XtextClassRunner;
 
 
-@RunWith(XtextClassRunner.class)
 @SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
+@ExtendWith(InjectionExtension.class)
 // CHECKSTYLE:CONSTANTS-OFF
 public class QualifiedNamePatternTest {
 
@@ -73,19 +74,19 @@ public class QualifiedNamePatternTest {
     assertNoMatch(pattern, "foo2", "bar");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testRecursiveWildcardPatternError() {
-    QualifiedNamePattern.create("foo", "bar**baz");
+    assertThrows(IllegalArgumentException.class, () -> QualifiedNamePattern.create("foo", "bar**baz"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testRecursiveWildcardPatternError2() {
-    QualifiedNamePattern.create("foo", "**", "bar");
+    assertThrows(IllegalArgumentException.class, () -> QualifiedNamePattern.create("foo", "**", "bar"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testRecursiveWildcardPatternError3() {
-    QualifiedNamePattern.create("foo*bar");
+    assertThrows(IllegalArgumentException.class, () -> QualifiedNamePattern.create("foo*bar"));
   }
 
   @Test
