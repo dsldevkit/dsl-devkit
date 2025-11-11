@@ -10,11 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.test.swtbot;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 
@@ -43,6 +43,6 @@ public class DeChKeyboardLayoutTest {
     String actualResult = editor.getText();
     bot.closeAllEditors();
 
-    assertEquals("Written and read characters must exactly match", EXPECTED_RESULT, actualResult);
+    assertEquals(EXPECTED_RESULT, actualResult, "Written and read characters must exactly match");
   }
 }
