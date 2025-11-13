@@ -10,6 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.naming;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.naming.QualifiedName;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
@@ -43,7 +48,8 @@ import com.google.common.collect.Sets;
  * @param <T>
  *          value element type
  */
-public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T> {
+public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>, Externalizable {
+  private static final long serialVersionUID = 1L;
 
   /**
    * A node in the tree representing a single segment of a qualified name.
@@ -51,13 +57,18 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   // CHECKSTYLE:CHECK-OFF ParameterAssignmentCheck
   // CHECKSTYLE:CHECK-OFF FinalParametersCheck
   // CHECKSTYLE:CHECK-OFF VisibilityModifier
-  private static class SegmentNode {
+  private static class SegmentNode implements Externalizable {
+    private static final long serialVersionUID = 1L;
 
     protected static final int DEFAULT_CHILD_CAPACITY = 4;
 
-    private final String segment;
+    private String segment;
     protected Object[] values;
     protected List<SegmentNode> children;
+
+    public SegmentNode() {
+      // required by externalization
+    }
 
     /**
      * Creates a new node for the given qualified name segment.
@@ -306,12 +317,58 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     public String toString() {
       return "Node(" + segment + ")"; //$NON-NLS-1$ //$NON-NLS-2$
     }
+
+    @Override
+    public void writeExternal(final ObjectOutput out) throws IOException {
+      out.writeObject(segment);
+      if (values == null) {
+        out.writeInt(0);
+      } else {
+        out.writeInt(values.length);
+        for (Object value : values) {
+          if (value instanceof URI uri) {
+            out.writeBoolean(true);
+            out.writeObject(uri.toString());
+          } else {
+            out.writeBoolean(false);
+            out.writeObject(value);
+          }
+        }
+      }
+      out.writeObject(children);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void readExternal(final ObjectInput in) throws IOException, ClassNotFoundException {
+      segment = (String) in.readObject();
+      int valueLength = in.readInt();
+      if (valueLength > 0) {
+        values = new Object[valueLength];
+        for (int i = 0; i < valueLength; i++) {
+          Boolean convertToURI = in.readBoolean();
+          Object readBack = in.readObject();
+          if (convertToURI) { // do not test with instanceof: if convertToURI is true but the object read is not a String
+                              // then we want the CCE because something went wrong
+            values[i] = URI.createURI((String) readBack);
+          } else {
+            values[i] = readBack;
+          }
+        }
+      }
+      children = (List<SegmentNode>) in.readObject();
+    }
   }
 
   /**
    * Subclass which implements value sharing between nodes and child nodes to reduce the memory footprint.
    */
   private static class ValueSharingSegmentNode extends SegmentNode {
+    private static final long serialVersionUID = 1L;
+
+    public ValueSharingSegmentNode() {
+      // required by externalization
+    }
 
     ValueSharingSegmentNode(final String segment) {
       super(segment);
@@ -384,7 +441,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     public abstract void visit(SegmentNode node);
   }
 
-  private final SegmentNode root;
+  private SegmentNode root;
 
   private long size;
   private long hits;
@@ -415,6 +472,10 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       }
     }
     return cache;
+  }
+
+  public QualifiedNameSegmentTreeLookup() {
+    // required by externalisation
   }
 
   public QualifiedNameSegmentTreeLookup(final Class<T> elementType, final boolean shareValues) { // NOPMD
@@ -516,6 +577,33 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   @Override
   public CacheStatistics getStatistics() {
     return new CacheStatistics(size, hits, misses);
+  }
+
+  @Override
+  public void writeExternal(final ObjectOutput out) throws IOException {
+    out.writeLong(size);
+    out.writeObject(root);
+  }
+
+  @Override
+  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
+  public void readExternal(final ObjectInput in) throws IOException, ClassNotFoundException {
+    size = in.readLong();
+    root = (SegmentNode) in.readObject();
+  }
+
+  @Override
+  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
+  public void initializeFrom(final QualifiedNameLookup<T> source) {
+    if (size > 0) {
+      throw new IllegalStateException("must not initialize non-empty object"); //$NON-NLS-1$
+    }
+    if (!(source instanceof QualifiedNameSegmentTreeLookup<T> other)) {
+      throw new UnsupportedOperationException("cannot copy from " + source.getClass()); //$NON-NLS-1$
+    } else {
+      this.size = other.size;
+      this.root = other.root;
+    }
   }
 
 }

@@ -13,8 +13,14 @@ package com.avaloq.tools.ddk.xtext.naming;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -26,7 +32,6 @@ import com.google.common.collect.ImmutableSet;
 @SuppressWarnings({"nls", "unused", "PMD.JUnitAssertionsShouldIncludeMessage"})
 // CHECKSTYLE:CHECK-OFF MultipleStringLiteralsCheck
 public class QualifiedNameSegmentTreeLookupTest {
-
   private final QualifiedNameSegmentTreeLookup<URI> lookup = new QualifiedNameSegmentTreeLookup<URI>(URI.class, true);
 
   @Test
@@ -142,6 +147,30 @@ public class QualifiedNameSegmentTreeLookupTest {
     Collection<URI> value2 = Collections.singletonList(uri(name2));
     lookup.putAll(name2, value2);
     assertContentEquals(value2, lookup.get(name2));
+  }
+
+  @Test
+  public void testLoadStore() throws IOException, ClassNotFoundException {
+    List<QualifiedName> nameList = List.of(name("foo"), name("foo.bar"), name("bar"));
+    for (QualifiedName qn : nameList) {
+      lookup.put(qn, uri(qn));
+    }
+    ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+    ObjectOutputStream objectOutStream = new ObjectOutputStream(byteOutStream);
+    objectOutStream.writeObject(lookup);
+    byte[] data = byteOutStream.toByteArray();
+
+    ObjectInputStream inStream = new ObjectInputStream(new ByteArrayInputStream(data));
+    Object readBack = inStream.readObject();
+
+    assertEquals(readBack.getClass(), lookup.getClass());
+
+    @SuppressWarnings("unchecked")
+    QualifiedNameLookup<URI> readBackLookup = (QualifiedNameLookup<URI>) readBack;
+
+    for (QualifiedName qn : nameList) {
+      assertEquals(lookup.get(qn), readBackLookup.get(qn));
+    }
   }
 
   private QualifiedName name(final String str) {

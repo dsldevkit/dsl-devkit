@@ -114,4 +114,9 @@ public class TreeSetLookup<T> implements QualifiedNameLookup<T> {
     return new CacheStatistics(lookupMap.size(), hits, misses);
   }
 
+  @Override
+  public void initializeFrom(final QualifiedNameLookup<T> source) {
+    throw new UnsupportedOperationException();
+  }
+
 }
