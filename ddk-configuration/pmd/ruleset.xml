@@ -90,6 +90,11 @@
     <exclude name="UseTryWithResources"/><!--TODO-->
     <exclude name="JUnit5TestShouldBePackagePrivate"/>
   </rule>
+  <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
+    <properties>
+        <property name="checkAll" value="true" />
+    </properties>
+  </rule>
   <rule ref="category/java/codestyle.xml">
     <exclude name="AtLeastOneConstructor"/>
     <exclude name="CallSuperInConstructor"/>
