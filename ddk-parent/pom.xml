@@ -308,6 +308,9 @@
           <rulesets>
             <ruleset>${pmd.ruleset}</ruleset>
           </rulesets>
+          <compileSourceRoots>
+            <compileSourceRoot>${basedir}/src</compileSourceRoot>
+          </compileSourceRoots>
           <excludeRoots>
             <excludeRoot>${basedir}/src-gen</excludeRoot>
             <excludeRoot>${basedir}/src-model</excludeRoot>
