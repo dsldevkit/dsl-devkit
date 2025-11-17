@@ -19,6 +19,7 @@ import static com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvid
 import static com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider.VALUE_SEP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -856,7 +857,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     EReference reference = (EReference) context.eClass().getEStructuralFeature(featureName);
     if (reference.isMany()) {
       Object featureValue = context.eGet(reference, false);
-      assertTrue(featureValue instanceof EObjectResolvingEList, "List must be of type EObjectResolvingEList"); //$NON-NLS-1$
+      assertInstanceOf(EObjectResolvingEList.class, featureValue, "List must be of type EObjectResolvingEList"); //$NON-NLS-1$
       @SuppressWarnings("unchecked")
       EList<? extends EObject> objects = (EObjectResolvingEList<? extends EObject>) context.eGet(reference, false);
       if (objects.size() == 1) {
