@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,8 @@ import com.google.common.collect.ImmutableSet;
 @SuppressWarnings({"nls", "unused", "PMD.JUnitAssertionsShouldIncludeMessage"})
 // CHECKSTYLE:CHECK-OFF MultipleStringLiteralsCheck
 public class QualifiedNameSegmentTreeLookupTest {
+  private static final Logger LOGGER = LogManager.getLogger(QualifiedNameSegmentTreeLookupTest.class);
+
   private final QualifiedNameSegmentTreeLookup<URI> lookup = new QualifiedNameSegmentTreeLookup<URI>(URI.class, true);
 
   @Test
@@ -171,6 +175,42 @@ public class QualifiedNameSegmentTreeLookupTest {
     for (QualifiedName qn : nameList) {
       assertEquals(lookup.get(qn), readBackLookup.get(qn));
     }
+  }
+
+  @Test
+  public void testGetMappings() {
+    final QualifiedName a = name("A");
+    final QualifiedName b = name("B");
+    final QualifiedName c = name("A.C");
+    final QualifiedName d = name("A.D");
+    final QualifiedName e = name("B.E");
+    final QualifiedName f = name("B.F");
+    final QualifiedName g = name("A.C.G");
+    final QualifiedName h = name("A.C.H");
+    final QualifiedName i = name("A.D.I");
+    final QualifiedName j = name("A.D.J");
+
+    List<QualifiedName> nameList = List.of(a, b, c, d, e, f, g, h, i, j);
+    for (QualifiedName qn : nameList) {
+      lookup.put(qn, uri(qn));
+    }
+
+    URI value = URI.createURI("scheme:/host");
+
+    lookup.put(c, value);
+    lookup.put(g, value);
+    lookup.put(h, value);
+    lookup.put(f, value);
+    lookup.put(b, value);
+
+    Collection<QualifiedName> result = lookup.getMappings(value);
+    Collection<QualifiedName> expected = List.of(c, g, h, f, b);
+
+    assertContentEquals(expected, result);
+
+    URI noSuchValue = URI.createURI("scheme:/anotherHost");
+    expected = lookup.getMappings(noSuchValue);
+    assertEquals(expected.size(), 0);
   }
 
   private QualifiedName name(final String str) {
