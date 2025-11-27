@@ -284,6 +284,27 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       }
     }
 
+    public List<List<String>> getMappings(final Object value) {
+      List<List<String>> result = new ArrayList<>();
+      if (children != null) {
+        for (SegmentNode node : children) {
+          for (List<String> mapping : node.getMappings(value)) {
+            if (!segment.isBlank()) {
+              mapping.add(0, segment);
+            }
+            result.add(mapping);
+          }
+        }
+      }
+      if (ArrayUtils.find(values, value) >= 0) {
+        List<String> l = new ArrayList<>(1);
+        l.add(segment);
+        result.add(l);
+      }
+
+      return result;
+    }
+
     /**
      * Adopted from {@link java.util.Collections#binarySearch(List, Object)} which can't be used here because the element being searched has a different type.
      *
@@ -536,6 +557,22 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   @Override
   public Collection<T> get(final QualifiedNamePattern pattern, final boolean excludeDuplicates) {
     return root.matches(pattern.lowerInclusive(), 0, root.find(pattern.upperExclusive(), 0, false), pattern.isRecursivePattern(), excludeDuplicates);
+  }
+
+  @Override
+  public Collection<QualifiedName> getMappings(final T value) {
+
+    if (value == null) {
+      throw new IllegalArgumentException("QualifiedNameLookup does not support null values"); //$NON-NLS-1$
+    }
+
+    List<List<String>> mappings = root.getMappings(value);
+    List<QualifiedName> result = new ArrayList<>(mappings.size());
+    for (List<String> mapping : mappings) {
+      result.add(QualifiedName.create(mapping));
+    }
+
+    return result;
   }
 
   @Override
