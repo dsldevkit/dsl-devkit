@@ -34,7 +34,7 @@ import com.google.common.collect.Sets;
  * The CompilationContext is used by CodeGeneration.ext to resolve types, get information about local variables, etc. It is a
  * wrapper around {@link ExecutionContext}.
  * <p>
- * Note that many of these methods are called from Xtend and Xpand and will thus not show up when doing a find references in Eclipse.
+ * Note that many of these methods are called from Xtend and will thus not show up when doing a find references in Eclipse.
  */
 @SuppressWarnings("nls")
 public class CompilationContext {
