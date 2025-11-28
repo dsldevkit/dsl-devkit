@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache xmlns="http://maven.apache.org/BUILD-CACHE-CONFIG/1.0.0">
+    <configuration>
+        <enabled>true</enabled>
+        <hashAlgorithm>SHA-256</hashAlgorithm>
+        <validateXml>true</validateXml>
+        <local>
+            <maxBuildsCached>10</maxBuildsCached>
+        </local>
+    </configuration>
+
+    <input>
+        <global>
+            <excludes>
+                <exclude glob="**/target/**" />
+                <exclude glob="**/.git/**" />
+                <exclude glob="**/.DS_Store" />
+                <exclude glob="**/Thumbs.db" />
+            </excludes>
+        </global>
+    </input>
+
+    <executionControl>
+        <runAlways>
+            <goalsLists>
+                <goalsList>
+                    <goals>
+                        <goal>clean</goal>
+                    </goals>
+                </goalsList>
+            </goalsLists>
+        </runAlways>
+
+        <reconcile>
+            <plugins>
+                <plugin artifactId="maven-compiler-plugin">
+                    <reconciles>
+                        <reconcile propertyName="source"/>
+                        <reconcile propertyName="target"/>
+                        <reconcile propertyName="encoding"/>
+                    </reconciles>
+                </plugin>
+                <plugin artifactId="tycho-compiler-plugin">
+                    <reconciles>
+                        <reconcile propertyName="source"/>
+                        <reconcile propertyName="target"/>
+                        <reconcile propertyName="showWarnings"/>
+                        <reconcile propertyName="showDeprecation"/>
+                    </reconciles>
+                </plugin>
+                <plugin artifactId="maven-surefire-plugin">
+                    <reconciles>
+                        <reconcile propertyName="forkCount"/>
+                        <reconcile propertyName="reuseForks"/>
+                    </reconciles>
+                </plugin>
+                <plugin artifactId="tycho-surefire-plugin">
+                    <reconciles>
+                        <reconcile propertyName="skip"/>
+                    </reconciles>
+                </plugin>
+            </plugins>
+        </reconcile>
+    </executionControl>
+</cache>
