@@ -87,7 +87,7 @@ public class CheckCfgValidator extends AbstractCheckCfgValidator {
    */
   @Check
   public void checkDisabledCheckIsNotConfigured(final ConfiguredCheck configuredCheck) {
-    if (configuredCheck.getSeverity().equals(SeverityKind.IGNORE) && isParameterConfigured(configuredCheck)) {
+    if (configuredCheck.getSeverity() == SeverityKind.IGNORE && isParameterConfigured(configuredCheck)) {
       warning(Messages.CheckCfgJavaValidator_DISABLED_CHECK_NOT_CONFIGURED, CheckcfgPackage.Literals.CONFIGURABLE_SECTION__PARAMETER_CONFIGURATIONS, IssueCodes.DISABLED_CHECK_NOT_CONFIGURED);
     }
   }

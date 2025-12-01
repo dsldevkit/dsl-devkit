@@ -46,7 +46,7 @@ public class SemanticHighlightingCalculator implements ISemanticHighlightingCalc
     while (iter.hasNext()) {
       EObject current = iter.next();
 
-      if (current instanceof ConfiguredCheck && ((ConfiguredCheck) current).getSeverity().equals(SeverityKind.IGNORE)) {
+      if (current instanceof ConfiguredCheck check && check.getSeverity() == SeverityKind.IGNORE) {
         INode node = getFirstParseTreeNode(current, CheckcfgPackage.Literals.CONFIGURED_CHECK__CHECK);
         highlightNode(node, SemanticHighlightingConfiguration.DISABLED_VALUE_ID, acceptor);
       }

@@ -141,7 +141,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
     for (ElementLocator locator : locators) {
       if (locator instanceof NoFormatLocator) {
         if (!this.noFormatLocators.remove(locator)) {
-          if (locator.getType().equals(LocatorType.BETWEEN)) {
+          if (locator.getType() == LocatorType.BETWEEN) {
             // In case we are dealing with a 'between' locator we only need to add a NoFormat 'memento'.
             // In this way we do not format anything until the following element
             this.noFormatLocators.add(noFormatMemento);

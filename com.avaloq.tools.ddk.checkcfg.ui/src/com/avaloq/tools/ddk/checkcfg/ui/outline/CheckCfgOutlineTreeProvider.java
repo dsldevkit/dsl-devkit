@@ -80,7 +80,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
       // Unresolved reference
       ruleText = new StyledString("<Unresolved check>", //
           stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.errorTextStyle()));
-    } else if (configuredCheck.getSeverity().equals(SeverityKind.IGNORE)) {
+    } else if (configuredCheck.getSeverity() == SeverityKind.IGNORE) {
       // Disabled
       ruleText = new StyledString(safeName(configuredCheck.getCheck().getLabel()), //
           stylerFactory.createXtextStyleAdapterStyler(semanticHighlightingConfiguration.disabledValue()));
