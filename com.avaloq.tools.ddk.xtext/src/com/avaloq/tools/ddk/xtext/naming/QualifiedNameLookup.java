@@ -93,4 +93,16 @@ public interface QualifiedNameLookup<T> extends ICache<QualifiedName, T> {
    */
   void clear();
 
+  /**
+   * Initializes this QualifiedNameLookup from source.
+   * Performs a shallow copy, i.e. values are shared between the objects after the operation.
+   * Only allowed if this object is empty.
+   *
+   * @param source
+   *          QualifiedNameLookup to initialize from
+   * @throws IllegalStateException
+   *           if this object is not empty.
+   */
+  void initializeFrom(QualifiedNameLookup<T> source);
+
 }
