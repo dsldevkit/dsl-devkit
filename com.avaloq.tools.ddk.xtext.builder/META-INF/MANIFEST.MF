@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.builder
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.builder;singleton:=true
-Bundle-Version: 16.0.1.v20251202-1115-REL
+Bundle-Version: 16.0.2.qualifier
 Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.xtext.builder,
  org.eclipse.xtext.ui,
