@@ -37,7 +37,7 @@ public class TestEntityAction {
   public TestEntityAction(final ITestEntity testEntity, final TestEntityOperation entityAction) {
     Assert.isNotNull(testEntity, TEST_ENTITY_ARGUMENT);
     Assert.isNotNull(entityAction, ENTITY_ACTION_ARGUMENT);
-    if (entityAction.equals(TestEntityOperation.DISPOSE)) {
+    if (entityAction == TestEntityOperation.DISPOSE) {
       testEntity.dispose();
     }
     this.testEntity = testEntity;
