@@ -77,6 +77,8 @@ public class SpaceEntry {
    * Combine all space locators - the maximum length of any locator.
    *
    * @return blanks / spaces.
+   * @throws IllegalArgumentException
+   *           if an illegal aggregation policy is encountered
    */
   protected String combineSpaceLocators() {
     String space = null;

@@ -52,6 +52,8 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
      *
      * @param fragment
      *          URI fragment to create iterator for, must not be {@code null}
+     * @throws IllegalArgumentException
+     *           if fragment does not start with segment separator
      */
     public FragmentSegmentIterator(final String fragment) {
       if (fragment.charAt(0) != SEGMENT_SEPARATOR) {

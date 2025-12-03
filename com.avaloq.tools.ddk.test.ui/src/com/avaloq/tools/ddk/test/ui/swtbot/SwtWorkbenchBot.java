@@ -313,6 +313,8 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
    *          the {@link SWTBotButton} to be clicked
    * @param timeout
    *          the timeout to wait for. When timeout is reached, a WrappedException is thrown.
+   * @throws WrappedException
+   *           if the button does not become enabled within the timeout
    */
   public void clickButton(final SWTBotButton button, final long timeout) {
     final long endTimeMillis = System.currentTimeMillis() + timeout;

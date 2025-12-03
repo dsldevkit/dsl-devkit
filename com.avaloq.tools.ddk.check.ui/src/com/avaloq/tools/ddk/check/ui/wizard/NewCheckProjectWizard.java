@@ -31,6 +31,13 @@ public class NewCheckProjectWizard extends XtextNewProjectWizard { // extends Wi
 
   /**
    * Constructor for the check project wizard. The pages required by this wizard are not created by hand, but by Guice (see also plugin.xml).
+   *
+   * @param creator
+   *          the project creator
+   * @param newProjectPage
+   *          the new project wizard page
+   * @param newCatalogPage
+   *          the new catalog wizard page
    */
   @Inject
   public NewCheckProjectWizard(final IProjectCreator creator, final NewCheckProjectWizardPage newProjectPage, final NewCheckCatalogWizardPage newCatalogPage) {

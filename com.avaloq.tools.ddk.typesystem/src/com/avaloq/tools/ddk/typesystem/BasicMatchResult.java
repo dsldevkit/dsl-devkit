@@ -30,6 +30,9 @@ public class BasicMatchResult implements IMatchResult {
 
   /**
    * Creates a new instance of {@link BasicMatchResult} with the given status.
+   *
+   * @param status
+   *          the match status
    */
   public BasicMatchResult(final MatchStatus status) {
     this.status = status;

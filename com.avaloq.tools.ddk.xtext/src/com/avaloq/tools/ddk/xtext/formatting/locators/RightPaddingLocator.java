@@ -30,6 +30,8 @@ public class RightPaddingLocator extends ElementLocator implements ISpaceLocator
   /**
    * Instantiates a new right padding locator.
    *
+   * @param formattingConfig
+   *          the formatting configuration
    * @param length
    *          the minimum amount of space allocated for an entry
    * @see {@link #getPadding(ExtendedLineEntry)}

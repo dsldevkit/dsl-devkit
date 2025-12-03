@@ -78,6 +78,8 @@ public class CompilationContext {
    *
    * @param context
    *          xtend context to wrap
+   * @param genModelUtil
+   *          the gen model utility
    */
   public CompilationContext(final ExecutionContext context, final GenModelUtilX genModelUtil) {
     this.context = context;
@@ -90,6 +92,8 @@ public class CompilationContext {
    *
    * @param context
    *          xtend context to wrap
+   * @param genModelUtil
+   *          the gen model utility
    * @param implicitVar
    *          name of the Java variable to bind "this" to
    * @param contextType

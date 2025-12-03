@@ -125,6 +125,9 @@ public final class KeywordAnalysisHelper {
 
   /**
    * Prepares a report on identifier rules.
+   *
+   * @throws UncheckedIOException
+   *           if an I/O error occurs
    */
   private void reportOnIdentifierRules() {
     List<ParserRule> suspectIdentifierRules = Lists.newArrayList();
@@ -171,6 +174,8 @@ public final class KeywordAnalysisHelper {
    *
    * @param srcGenPath
    *          path to src-gen folder of the plugin being generated
+   * @throws UncheckedIOException
+   *           if an I/O error occurs
    */
   public void printViolations(final String srcGenPath) {
     try {
@@ -269,7 +274,10 @@ public final class KeywordAnalysisHelper {
   }
 
   /**
-   * Prepares a report on identifier rules.
+   * Prepares a report on keywords in identifier rules only.
+   *
+   * @throws UncheckedIOException
+   *           if an I/O error occurs
    */
   private void reportOnKeywordsInIdentifierRulesOnly() {
     Map<String, Set<AbstractRule>> keyWordsInIDRules = Maps.newHashMap();
@@ -427,6 +435,8 @@ public final class KeywordAnalysisHelper {
    *
    * @param srcGenPath
    *          Location for generated sources
+   * @throws UncheckedIOException
+   *           if an I/O error occurs
    */
   public void printReport(final String srcGenPath) {
     try {

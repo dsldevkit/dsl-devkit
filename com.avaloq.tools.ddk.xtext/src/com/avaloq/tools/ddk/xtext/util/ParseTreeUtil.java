@@ -69,6 +69,8 @@ public final class ParseTreeUtil {
    * @param feature
    *          the feature, e.g. CodetabdefPackage.Literals.VERSION_TAG
    * @return the parsed string
+   * @throws IllegalArgumentException
+   *           if object is null
    */
   public static String getParsedString(final EObject object, final EStructuralFeature feature) {
     if (object == null) {
@@ -88,6 +90,8 @@ public final class ParseTreeUtil {
    * @param convert
    *          whether or not the parsed string should be run through the value converter
    * @return the parsed string
+   * @throws IllegalArgumentException
+   *           if the feature is not part of the object's eclass
    */
   public static String getParsedString(final EObject object, final EStructuralFeature feature, final boolean convert) {
     if (!object.eClass().getEAllStructuralFeatures().contains(feature)) {
@@ -120,6 +124,8 @@ public final class ParseTreeUtil {
    * @param convert
    *          {@code true} if the parsed string from the parse tree model should be converted using the corresponding value converter, else {@code false}
    * @return the parsed string
+   * @throws IllegalArgumentException
+   *           if the feature name is not valid
    */
   public static String getParsedString(final EObject object, final String featureName, final boolean convert) {
     EStructuralFeature feature = object.eClass().getEStructuralFeature(featureName);

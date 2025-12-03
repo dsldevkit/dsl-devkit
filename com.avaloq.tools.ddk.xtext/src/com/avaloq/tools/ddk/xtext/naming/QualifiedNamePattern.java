@@ -53,6 +53,8 @@ public class QualifiedNamePattern extends QualifiedName {
    * @param singleSegment
    *          the single segment of the newly created qualified name
    * @return qualified name pattern
+   * @throws IllegalArgumentException
+   *           if singleSegment is null
    */
   public static QualifiedNamePattern create(final String singleSegment) {
     if (singleSegment == null) {
@@ -114,6 +116,8 @@ public class QualifiedNamePattern extends QualifiedName {
    *          Qualified name segments
    * @param verify
    *          {@code true} if pattern should be verified
+   * @throws IllegalArgumentException
+   *           if wildcard is not in the last segment
    */
   protected QualifiedNamePattern(final String[] segments, final boolean verify) {
     super(segments);

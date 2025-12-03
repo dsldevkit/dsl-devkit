@@ -48,6 +48,8 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
    *          provides the feature of the duplicate object on which to anchor the marker
    * @param issueCode
    *          the issue code
+   * @throws IllegalArgumentException
+   *           if acceptor is null
    */
   public void warnOnDuplicates(final Iterable<T> possiblyDuplicateObjects, final Function<T, EStructuralFeature> featureProvider, final String issueCode) {
     if (acceptor == null) {
@@ -75,6 +77,8 @@ public class UniquenessJavaValidationHelper<T extends EObject> extends Uniquenes
    *          provides the feature of the duplicate object on which to anchor the marker
    * @param issueCode
    *          the issue code
+   * @throws IllegalArgumentException
+   *           if acceptor is null
    */
   public void errorOnDuplicates(final Iterable<T> possiblyDuplicateObjects, final Function<T, EStructuralFeature> featureProvider, final String issueCode) {
     if (acceptor == null) {

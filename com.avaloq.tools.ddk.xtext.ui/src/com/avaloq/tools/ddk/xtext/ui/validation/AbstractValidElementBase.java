@@ -139,6 +139,8 @@ public abstract class AbstractValidElementBase {
    * @param optional
    *          if true, will return null if not found, otherwise IllegalArgumentException is raised
    * @return the value of the attribute of null if the attribute is optional and not supplied
+   * @throws IllegalArgumentException
+   *           if the attribute is not optional and not supplied
    */
   protected static String getAttribute(final IConfigurationElement configurationElement, final String name, final boolean optional) {
     String value = configurationElement.getAttribute(name);

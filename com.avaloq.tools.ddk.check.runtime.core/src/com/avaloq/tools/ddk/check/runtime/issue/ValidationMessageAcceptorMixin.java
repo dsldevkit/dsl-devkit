@@ -145,6 +145,8 @@ public interface ValidationMessageAcceptorMixin extends ValidationMessageAccepto
    * @param severity
    *          the issue severity
    * @return the numeric value representing a severity
+   * @throws IllegalArgumentException
+   *           if the severity is unknown
    */
   static int toDiagnosticSeverity(final Severity severity) {
     return switch (severity) {

@@ -30,13 +30,15 @@ public class BundleAwareTypeProvider extends ClasspathTypeProvider {
 
   /**
    * Creates a new instance of {@link BundleAwareTypeProvider}.
-   * 
+   *
    * @param classLoader
    *          the {@link ClassLoader}, may be {@code null}
    * @param resourceSet
    *          the {@link ResourceSet}, must not be {@code null}
    * @param indexedJvmTypeAccess
    *          the {@link IndexedJvmTypeAccess}, may be {@code null}
+   * @param typeResourceServices
+   *          the {@link TypeResourceServices}, may be {@code null}
    */
   public BundleAwareTypeProvider(final ClassLoader classLoader, final ResourceSet resourceSet, final IndexedJvmTypeAccess indexedJvmTypeAccess, final TypeResourceServices typeResourceServices) {
     super(classLoader, resourceSet, indexedJvmTypeAccess, typeResourceServices);

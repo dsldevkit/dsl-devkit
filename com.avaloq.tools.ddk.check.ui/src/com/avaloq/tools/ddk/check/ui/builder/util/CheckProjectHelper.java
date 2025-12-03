@@ -187,6 +187,8 @@ public class CheckProjectHelper {
    * @param className
    *          the class name, must not be {@code null}
    * @return whether the corresponding java file exists in the project
+   * @throws IllegalArgumentException
+   *           if the class name is simple or not a valid class name
    */
   public boolean isJavaFilePresent(final IProject project, final String className) {
     int packageSplitIndex = className.lastIndexOf('.');

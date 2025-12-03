@@ -30,6 +30,8 @@ public class OffsetLocator extends ElementLocator implements ISpaceLocator {
   /**
    * Creates a new offset locator.
    *
+   * @param formattingConfig
+   *          the formatting configuration
    * @param offset
    *          the offset
    */

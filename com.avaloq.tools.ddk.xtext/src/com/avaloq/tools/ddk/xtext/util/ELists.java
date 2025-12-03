@@ -32,6 +32,8 @@ public final class ELists {
    * @param predicate
    *          to apply
    * @return filtered list
+   * @throws IllegalArgumentException
+   *           if predicate is null
    */
   public static <T> EList<T> filter(final EList<T> unfiltered, final Predicate<? super T> predicate) {
     if (unfiltered == null) {
