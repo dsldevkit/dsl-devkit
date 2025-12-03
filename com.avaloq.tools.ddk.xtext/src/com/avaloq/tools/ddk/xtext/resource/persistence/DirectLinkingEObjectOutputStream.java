@@ -16,8 +16,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -83,7 +83,8 @@ class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
    *
    * @param obj
    *          object to get URI fragment for, must not be {@code null}
-   * @return URI fragment path, where the segments encode the feature IDs and position in case of multi-valued features, never {@code null}
+   * @throws IOException
+   *           if an I/O exception occurred
    */
   @SuppressWarnings("unchecked")
   private void writeEObjectURIFragmentPath(final EObject obj) throws IOException {

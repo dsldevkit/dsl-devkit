@@ -52,6 +52,17 @@ public class GrammarAnalysisReportBuilder {
 
   /**
    * Instantiates a new grammar analysis report builder.
+   *
+   * @param mainGrammarName
+   *          the main grammar name
+   * @param xtextDocFileSimpleName
+   *          the xtext documentation file simple name
+   * @param sortedKeywords
+   *          the sorted keywords
+   * @param keywords
+   *          the keywords map
+   * @param allGrammars
+   *          all grammars
    */
   public GrammarAnalysisReportBuilder(final String mainGrammarName, final String xtextDocFileSimpleName, final List<String> sortedKeywords, final Map<String, Set<AbstractRule>> keywords, final List<Grammar> allGrammars) {
     this.xtextDocFileSimpleName = xtextDocFileSimpleName;

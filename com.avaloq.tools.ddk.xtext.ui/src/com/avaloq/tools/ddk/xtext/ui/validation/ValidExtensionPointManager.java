@@ -45,6 +45,8 @@ public final class ValidExtensionPointManager {
    * if extension point is unknown
    *
    * @return array of proxies
+   * @throws IllegalArgumentException
+   *           if the extension point is unknown
    */
   public static ValidExtension[] getExtensions() {
     IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(PLUGIN_ID, EXTENSION_POINT_NAME);

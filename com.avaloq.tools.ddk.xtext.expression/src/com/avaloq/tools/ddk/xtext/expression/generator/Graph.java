@@ -138,6 +138,8 @@ public class Graph<T> {
    * Sorts this graph topologically and returns the sorted result.
    *
    * @return sorted graph
+   * @throws IllegalStateException
+   *           if a cycle is detected in the graph
    */
   public List<T> sort() {
     // TODO try to sort to something as close as possible to the original

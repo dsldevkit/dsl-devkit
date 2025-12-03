@@ -50,8 +50,6 @@ public class NewCheckProjectWizardPage extends NewTypeWizardPage {
 
   /**
    * Constructor for NewCheckProjectWizardPage.
-   *
-   * @param selection
    */
   @Inject
   public NewCheckProjectWizardPage() {

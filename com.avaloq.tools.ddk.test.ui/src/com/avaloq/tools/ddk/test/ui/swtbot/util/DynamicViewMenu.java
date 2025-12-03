@@ -60,6 +60,8 @@ public class DynamicViewMenu {
    *
    * @param menuPath
    *          the menu path
+   * @throws IllegalStateException
+   *           if the menu manager is not a MenuManager
    */
   public void click(final String... menuPath) {
     final IViewSite viewSite = (IViewSite) viewReference.getPart(false).getSite();

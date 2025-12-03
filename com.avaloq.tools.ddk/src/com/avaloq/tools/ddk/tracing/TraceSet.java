@@ -160,6 +160,8 @@ public class TraceSet implements ITraceSet {
    * @param data
    *          event data
    * @return new event instance
+   * @throws IllegalStateException
+   *           if the event class cannot be instantiated
    */
   @SuppressWarnings("unchecked")
   @SuppressFBWarnings("RV_RETURN_VALUE_OF_PUTIFABSENT_IGNORED")

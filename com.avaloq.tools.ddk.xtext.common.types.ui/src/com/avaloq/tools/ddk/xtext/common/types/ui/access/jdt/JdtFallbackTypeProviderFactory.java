@@ -38,13 +38,15 @@ public class JdtFallbackTypeProviderFactory extends JdtTypeProviderFactory {
 
   /**
    * Creates a new instance of {@link JdtFallbackTypeProviderFactory}.
-   * 
+   *
    * @param javaProjectProvider
    *          the {@link IJavaProjectProvider}, may be {@code null}
    * @param classLoader
    *          the {@link ClassLoader}, must not be {@code null}
    * @param indexedJvmTypeAccess
    *          the {@link IndexedJvmTypeAccess}, may be {@code null}
+   * @param typeResourceServices
+   *          the {@link TypeResourceServices}, may be {@code null}
    */
   @Inject
   public JdtFallbackTypeProviderFactory(final IJavaProjectProvider javaProjectProvider, final ClassLoader classLoader, final IndexedJvmTypeAccess indexedJvmTypeAccess, final TypeResourceServices typeResourceServices) {

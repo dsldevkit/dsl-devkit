@@ -69,13 +69,16 @@ public abstract class AbstractCheckValidator extends AbstractInjectableValidator
 
   /**
    * Internal collect validators.
-   * 
+   *
    * @param language
    *          the language
    * @param object
    *          the object to be validated
    * @return the iterable
+   * @throws IllegalArgumentException
+   *           if language is null
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected Iterable<? extends ICheckValidatorImpl> internalCollectValidators(final String language, final EObject object) {
     if (language == null) {
       throw new IllegalArgumentException("Input language cannot be null"); //$NON-NLS-1$

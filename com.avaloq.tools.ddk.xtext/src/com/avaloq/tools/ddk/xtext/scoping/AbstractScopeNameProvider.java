@@ -72,6 +72,8 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
    * @param type
    *          type to return default name for
    * @return default name functions
+   * @throws IllegalArgumentException
+   *           if type is unknown
    */
   protected Iterable<INameFunction> getDefaultNames(final EClass type) {
     final EStructuralFeature nameFeature = type.getEStructuralFeature("name"); //$NON-NLS-1$

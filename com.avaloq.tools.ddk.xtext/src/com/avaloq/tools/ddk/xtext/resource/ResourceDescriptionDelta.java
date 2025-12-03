@@ -67,6 +67,8 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
    *          The new description
    * @param index
    *          index
+   * @throws AssertionError
+   *           if old and new descriptions are the same or have different URIs
    */
   public ResourceDescriptionDelta(final IResourceDescription oldDesc, final IResourceDescription newDesc, final IResourceDescriptions index) {
     if (oldDesc == newDesc) {

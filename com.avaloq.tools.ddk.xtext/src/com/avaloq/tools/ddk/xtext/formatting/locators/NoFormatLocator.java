@@ -21,6 +21,8 @@ public class NoFormatLocator extends ElementLocator implements IExtendedLocator 
 
   /**
    * Creates a new locator.
+   *
+   * @param formattingConfig the formatting configuration
    */
   public NoFormatLocator(final FormattingConfig formattingConfig) { // NOPMD CallSuperInConstructor - false positive by PMD
     formattingConfig.super();

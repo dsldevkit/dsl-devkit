@@ -418,7 +418,12 @@ public class DeployJob extends Job {
     DeployException() {
     }
 
-    /** Constructor with cause exception. */
+    /**
+     * Constructor with cause exception.
+     *
+     * @param e
+     *          the cause exception
+     */
     DeployException(final Exception e) {
       super(e);
     }

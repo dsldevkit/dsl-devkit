@@ -103,6 +103,8 @@ public final class EObjectUtil {
    * @param scopeName
    *          the scope name, may be {@code null}
    * @return the scope provider by e object
+   * @throws IllegalArgumentException
+   *           if the object's resource is not a LazyLinkingResource
    */
   public static IScope getScope(final EObject object, final EClass type, final String scopeName) {
     Resource resource = object.eResource();
@@ -120,6 +122,8 @@ public final class EObjectUtil {
    * @param object
    *          the object
    * @return the scope provider by e object
+   * @throws IllegalArgumentException
+   *           if the object's resource is not a LazyLinkingResource
    */
   public static IScopeProvider getScopeProviderByEObject(final EObject object) {
     if (object.eResource() instanceof LazyLinkingResource) {

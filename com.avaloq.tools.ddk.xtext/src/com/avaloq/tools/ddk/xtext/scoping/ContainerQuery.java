@@ -92,6 +92,8 @@ public class ContainerQuery {
    *
    * @param type
    *          the new type
+   * @throws IllegalArgumentException
+   *           if the type cannot be converted to EClass
    */
   public void setType(final Object type) {
     if (type instanceof EReference) {
@@ -206,6 +208,7 @@ public class ContainerQuery {
    * @return The query results
    */
   @Deprecated
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Iterable<IEObjectDescription> execute(final Resource context, final Resource originalResource) {
     return execute(originalResource);
   }
@@ -227,6 +230,7 @@ public class ContainerQuery {
    * @return The query results
    */
   @Deprecated
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Iterable<IEObjectDescription> execute(final EObject context, final Resource originalResource) {
     return execute(originalResource);
   }
@@ -241,6 +245,8 @@ public class ContainerQuery {
    * @param resource
    *          The resource.
    * @return The query results
+   * @throws IllegalStateException
+   *           if the resource is not a LazyLinkingResource
    */
   @SuppressWarnings("nls")
   public Iterable<IEObjectDescription> execute(final Resource resource) {
@@ -366,6 +372,8 @@ public class ContainerQuery {
     /**
      * Creator.
      *
+     * @param domainMapper
+     *          the domain mapper
      * @param type
      *          {@link ContainerQuery#getType() Type} of objects to query.
      */
@@ -400,6 +408,7 @@ public class ContainerQuery {
      * @deprecated URI pattern matching of resources is no longer supported
      */
     @Deprecated
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     public Builder resource(final String uriPattern) {
       LOGGER.error("URI pattern matching using ContainerQuery.Builder#resource() is no longer supported"); //$NON-NLS-1$
       return this;
@@ -411,6 +420,8 @@ public class ContainerQuery {
      * @param pattern
      *          {@link ContainerQuery#getNamePattern() Name pattern} (glob pattern) for queried objects.
      * @return The Builder itself.
+     * @throws IllegalArgumentException
+     *           if the wildcard is not at the end of the pattern
      */
     public Builder name(final String pattern) {
       if (pattern != null && pattern.length() > 0) {
@@ -481,6 +492,7 @@ public class ContainerQuery {
      * @deprecated Caching of {@link ContainerQuery} is no longer supported
      */
     @Deprecated
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     public Builder cache(final boolean doCache) {
       return this;
     }

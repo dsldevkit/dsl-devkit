@@ -50,6 +50,9 @@ public class ExtendedLine extends ExtendedFormattingConfigBasedStream.AbstractEx
 
   /**
    * Creates a new instance of {@link com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfigBasedStream.AbstractExtendedLine}.
+   *
+   * @param configBasedStream
+   *          the extended formatting config based stream
    */
   public ExtendedLine(final ExtendedFormattingConfigBasedStream configBasedStream) { // NOPMD - false positive by PMD
     configBasedStream.super();

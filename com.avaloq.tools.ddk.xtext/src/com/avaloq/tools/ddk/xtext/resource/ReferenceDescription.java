@@ -32,9 +32,15 @@ public final class ReferenceDescription implements IReferenceDescription, IDetac
    * Creates a new instance of {@link ReferenceDescription}.
    *
    * @param from
+   *          the source EObject
    * @param to
+   *          the target EObject
    * @param eReference
+   *          the reference
    * @param containerEObjectURI
+   *          the container EObject URI
+   * @param indexInList
+   *          the index in the list
    */
   public ReferenceDescription(final EObject from, final EObject to, final EReference eReference, final URI containerEObjectURI, final int indexInList) {
     this.sourceEObjectURI = EcoreUtil.getURI(from);
@@ -48,9 +54,15 @@ public final class ReferenceDescription implements IReferenceDescription, IDetac
    * Creates a new instance of {@link ReferenceDescription}.
    *
    * @param sourceEObjectURI
+   *          the source EObject URI
    * @param targetEObjectUri
+   *          the target EObject URI
    * @param eReference
+   *          the reference
    * @param containerEObjectURI
+   *          the container EObject URI
+   * @param indexInList
+   *          the index in the list
    */
   public ReferenceDescription(final URI sourceEObjectURI, final URI targetEObjectUri, final EReference eReference, final URI containerEObjectURI, final int indexInList) {
     this.sourceEObjectURI = sourceEObjectURI;

@@ -110,6 +110,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          Our resource
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void registerForeignObject(final EObject context, final XtextResource contextResource, final Resource originalResource) {
     ImplicitReferencesAdapter.findOrCreate(originalResource).addImplicitReference(contextResource.getURI());
   }
@@ -165,6 +166,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return true if it should be cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
     return !context.eContents().isEmpty();
   }
@@ -182,6 +184,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return true if it should be globally cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
     return false;
   }
@@ -264,6 +267,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource
    * @return true if it should be cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
     return !context.eContents().isEmpty();
   }
@@ -281,6 +285,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return true if it should be globally cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
     return false;
   }
@@ -310,6 +315,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          the original resource
    * @return The list of visible containers.
+   * @throws IllegalStateException
+   *           if the resource is not an Xtext resource
    */
   protected List<IContainer> getVisibleContainers(final EObject context, final Resource originalResource) { // NOPMD by WTH on 26.01.11 09:26 (NPath
                                                                                                             // complexity...)
@@ -517,6 +524,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          the original resource, must not be {@code null}
    * @return the scope, or {@code null}
+   * @throws IllegalArgumentException
+   *           if namedElement is neither an EReference nor an EClass
    */
   protected IScope doGetScope(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
     if (namedElement instanceof EReference) {
@@ -978,6 +987,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          the original Resource this scope provider belongs to
    * @return resulting scope
+   * @throws IllegalStateException
+   *           if delegate and originalResource are different
    */
   protected IScope newDelegateScope(final String id, final IScope parent, final Resource delegate, final EClass type, final String scopeName, final Resource originalResource) {
     if (delegate != originalResource) { // NOPMD CompareObjectsWithEquals by WTH on 24.11.10 06:07
@@ -1172,6 +1183,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          the original Resource this scope provider belongs to
    * @return resulting scope
+   * @throws IllegalStateException
+   *           if delegate and originalResource are different
    */
   protected IScope newDelegateScope(final String id, final IScope parent, final Resource delegate, final EReference ref, final String scopeName, final Resource originalResource) {
     if (delegate != originalResource) { // NOPMD CompareObjectsWithEquals by WTH on 24.11.10 06:07

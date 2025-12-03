@@ -38,6 +38,8 @@ public class UniquenessValidationHelper<T extends EObject> {
    *
    * @param nameFunction
    *          a function that returns a representation of a T object that can be compared by means of equals
+   * @throws IllegalArgumentException
+   *           if nameFunction is null
    */
   public UniquenessValidationHelper(final INameFunction nameFunction) {
     if (nameFunction == null) {
