@@ -87,6 +87,7 @@ public class ValidScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return the i scope
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_EClass(final ValidModel validModel, final EReference reference) {
     // CHECKSTYLE:ON
     IScope result = IScope.NULLSCOPE;

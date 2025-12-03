@@ -92,15 +92,19 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Single instance to cache instead of null, to be able to distinguish from previous unsuccessful dispatch attempts via
-   * EReference. Note that we don't need this for the EClass dispatches, since these never return null but NULL_SCOPE.
+   * Single instance to cache instead of null, to be able to distinguish from
+   * previous unsuccessful dispatch attempts via EReference. Note that we don't
+   * need this for the EClass dispatches, since these never return null but
+   * NULL_SCOPE.
    */
   private static final IScope NO_SCOPE = NullScope.getInstance();
 
   /**
-   * Register an imported name. We may have gotten the context object through navigation, not through an index lookup, and
-   * moreover we may use it only transiently during a delegating scope chain, so we'll never register the dependency otherwise.
-   * But the dependency must be registered for the builder's dependency calculation to correctly handle the case where an
+   * Register an imported name. We may have gotten the context object through
+   * navigation, not through an index lookup, and moreover we may use it only
+   * transiently during a delegating scope chain, so we'll never register the
+   * dependency otherwise. But the dependency must be registered for the
+   * builder's dependency calculation to correctly handle the case where an
    * inheritance hierarchy changes.
    *
    * @param context
@@ -110,16 +114,19 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          Our resource
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void registerForeignObject(final EObject context, final XtextResource contextResource, final Resource originalResource) {
     ImplicitReferencesAdapter.findOrCreate(originalResource).addImplicitReference(contextResource.getURI());
   }
 
-  // "Exported" operation (from IScopeProvider). As this is the only operation known from the interface, this is
-  // the sole entry point that is used by all clients, except our own generated code, which *knows* that the
-  // scope provider is an AbstractPolymorphicScopeProvider. This also means that scoping always is rooted at
-  // a normal scope; the scope expression then may, however, delegate to an auxiliary scope. Note that there
-  // may be back-references from auxiliary scopes to the main scope (named "scope"), and thus loops are
-  // possible.
+  // "Exported" operation (from IScopeProvider). As this is the only operation
+  // known from the interface, this is the sole entry point that is used by all
+  // clients, except our own generated code, which *knows* that the scope
+  // provider is an AbstractPolymorphicScopeProvider. This also means that
+  // scoping always is rooted at a normal scope; the scope expression then may,
+  // however, delegate to an auxiliary scope. Note that there may be
+  // back-references from auxiliary scopes to the main scope (named "scope"),
+  // and thus loops are possible.
 
   @Override
   public IScope getScope(final EObject context, final EReference reference) {
@@ -127,8 +134,9 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Returns a scope for a given context object and EReference, using a named scope definition. If none is found
-   * tries to find a scope (using the same name) for the type of the reference.
+   * Returns a scope for a given context object and EReference, using a named
+   * scope definition. If none is found tries to find a scope (using the same
+   * name) for the type of the reference.
    *
    * @param context
    *          the context
@@ -165,6 +173,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return true if it should be cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
     return !context.eContents().isEmpty();
   }
@@ -182,12 +191,14 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return true if it should be globally cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doGlobalCache(final EObject context, final EReference reference, final String scopeName, final Resource originalResource) {
     return false;
   }
 
   /**
-   * Called by {@link #internalGetScope(EObject, EReference, String, Resource)} if no cached result is available.
+   * Called by {@link #internalGetScope(EObject, EReference, String, Resource)}
+   * if no cached result is available.
    *
    * @param context
    *          the context
@@ -215,7 +226,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Gets the scope given a context object and an expected type, using the given scope name and an original resource.
+   * Gets the scope given a context object and an expected type, using the given
+   * scope name and an original resource.
    *
    * @param context
    *          the context
@@ -236,7 +248,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Gets the scope given a context object and an expected type, using the given scope name.
+   * Gets the scope given a context object and an expected type, using the given
+   * scope name.
    *
    * @param context
    *          the context
@@ -264,6 +277,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource
    * @return true if it should be cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
     return !context.eContents().isEmpty();
   }
@@ -281,12 +295,14 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    *          the original resource, must not be {@code null}
    * @return true if it should be globally cached
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean doGlobalCache(final EObject context, final EClass type, final String scopeName, final Resource originalResource) {
     return false;
   }
 
   /**
-   * Called by {@link #internalGetScope(EObject, ENamedElement, String, Resource)} if no cached result is available.
+   * Called by {@link #internalGetScope(EObject, ENamedElement, String,
+   * Resource)} if no cached result is available.
    *
    * @param context
    *          the context, must not be {@code null}
@@ -301,21 +317,26 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   protected abstract IScope doGetScope(EObject context, EClass type, String scopeName, Resource originalResource);
 
   /**
-   * Return the visible containers given a context object and an originalResource.
+   * Return the visible containers given a context object and an
+   * originalResource.
    * <p>
-   * Returns the containers visible from the originalResource, unless it is null, in which case, returns the containers visible from the context's resource
+   * Returns the containers visible from the
+   * originalResource, unless it is null, in which case, returns the containers
+   * visible from the context's resource
    *
    * @param context
    *          The context object
    * @param originalResource
    *          the original resource
    * @return The list of visible containers.
+   * @throws IllegalStateException
+   *           if the resource is not an Xtext resource
    */
-  protected List<IContainer> getVisibleContainers(final EObject context, final Resource originalResource) { // NOPMD by WTH on 26.01.11 09:26 (NPath
-                                                                                                            // complexity...)
+  protected List<IContainer> getVisibleContainers(final EObject context, final Resource originalResource) { // NOPMD by WTH on 26.01.11 09:26
+                                                                                                            // (NPath complexity...)
     final Resource resource = originalResource == null ? context.eResource() : originalResource;
     if (!(resource instanceof XtextResource)) {
-      LOGGER.error(MessageFormat.format("Context {0} is not in an Xtext resource: {1}", context, resource != null ? resource.getURI() : "null")); //$NON-NLS-1$ //$NON-NLS-2$
+      LOGGER.error(MessageFormat.format("Context {0} is not in an Xtext resource: {1}", context, resource != null ? resource.getURI() : "null")); //$NON-NLS-2$
       throw new IllegalStateException();
     }
     return getVisibleContainers((XtextResource) resource);
@@ -330,7 +351,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    */
   protected List<IContainer> getVisibleContainers(final XtextResource resource) {
     URI uri = resource.getURI();
-    final ResourceCache<URI, List<IContainer>> cache = ResourceCache.getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", resource); //$NON-NLS-1$
+    final ResourceCache<URI, List<IContainer>> cache = ResourceCache.getOrCreateResourceCache("AbstractPolymorphicScopeProvider#visibleContainers", resource);
     if (cache != null) {
       List<IContainer> result = cache.get(uri);
       if (result != null) {
@@ -367,12 +388,14 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Gets the scope given a context object and an expected type, using the given scope name.
+   * Gets the scope given a context object and an expected type, using the given
+   * scope name.
    *
    * @param context
    *          the context, must not be {@code null}
    * @param namedElement
-   *          the named element (either EClass or EReference), must not be {@code null}
+   *          the named element (either EClass or EReference), must not be
+   *          {@code null}
    * @param scopeName
    *          the scope name, must not be {@code null}
    * @param originalResource
@@ -398,7 +421,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
         }
       }
       if (result == null && doCache(context, namedElement, scopeName, originalResource)) {
-        resourceScopeCache = ResourceCache.getOrCreateResourceCache("AbstractPolymorphicScopeProvider#resourceScopeCache", originalResource); //$NON-NLS-1$
+        resourceScopeCache = ResourceCache.getOrCreateResourceCache("AbstractPolymorphicScopeProvider#resourceScopeCache", originalResource);
         cacheKey = getCacheKey(context, namedElement, scopeName);
         result = resourceScopeCache.get(cacheKey);
       }
@@ -423,12 +446,14 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param context
    *          the context, must not be {@code null}
    * @param namedElement
-   *          the named element (either {@link EClass} or {@link EReference}), must not be {@code null}
+   *          the named element (either {@link EClass} or {@link EReference}),
+   *          must not be {@code null}
    * @param scopeName
    *          the scope name, must not be {@code null}
    * @param originalResource
    *          the original resource, must not be {@code null}
-   * @return {@code true} if {@code context} is contained in a resource and the scope should be cached
+   * @return {@code true} if {@code context} is contained in a resource and the
+   *         scope should be cached
    */
   private boolean doCache(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
     if (context.eResource() == null) {
@@ -447,12 +472,14 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param context
    *          the context, must not be {@code null}
    * @param namedElement
-   *          the namedElement (either {@link EClass} or {@link EReference}), must not be {@code null}
+   *          the namedElement (either {@link EClass} or {@link EReference}),
+   *          must not be {@code null}
    * @param scopeName
    *          the scope name, must not be {@code null}
    * @param originalResource
    *          the original resource, must not be {@code null}
-   * @return {@code true} if {@code context} is contained in a resource and the scope should be globally cached
+   * @return {@code true} if {@code context} is contained in a resource and the
+   *         scope should be globally cached
    */
   private boolean doGlobalCache(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
     if (context.eResource() == null) {
@@ -471,7 +498,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param context
    *          context object contained in a resource, must not be {@code null}
    * @param namedElement
-   *          named element of scope (either {@link EClass} or {@link EReference}), must not be {@code null}
+   *          named element of scope (either {@link EClass} or {@link
+   *          EReference}), must not be {@code null}
    * @param scopeName
    *          name of scope, must not be {@code null}
    * @return global scope cache key, never {@code null}
@@ -486,12 +514,14 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Returns a pooled string used as key when caching dispatchers and scope results.
+   * Returns a pooled string used as key when caching dispatchers and scope
+   * results.
    *
    * @param context
    *          context object, must not be {@code null}
    * @param namedElement
-   *          named element of scope (either {@link EClass} or {@link EReference}), must not be {@code null}
+   *          named element of scope (either {@link EClass} or {@link
+   *          EReference}), must not be {@code null}
    * @param scopeName
    *          name of scope, must not be {@code null}
    * @return pooled cache key, never {@code null}
@@ -506,17 +536,21 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Called by {@link #internalGetScope(EObject, ENamedElement, String, Resource)} if no cached result is available.
+   * Called by {@link #internalGetScope(EObject, ENamedElement, String,
+   * Resource)} if no cached result is available.
    *
    * @param context
    *          the context, must not be {@code null}
    * @param namedElement
-   *          the named element (either {@link EClass} or {@link EReference}), must not be {@code null}
+   *          the named element (either {@link EClass} or {@link EReference}),
+   *          must not be {@code null}
    * @param scopeName
    *          the scope name, must not be {@code null}
    * @param originalResource
    *          the original resource, must not be {@code null}
    * @return the scope, or {@code null}
+   * @throws IllegalArgumentException
+   *           if namedElement is neither an EReference nor an EClass
    */
   protected IScope doGetScope(final EObject context, final ENamedElement namedElement, final String scopeName, final Resource originalResource) {
     if (namedElement instanceof EReference) {
@@ -528,10 +562,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Special delegate scope for scopeof (this), skipping the delegate, if possible.
+   * Special delegate scope for scopeof (this), skipping the delegate, if
+   * possible.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          The parent scope
    * @param context
@@ -556,10 +592,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Special delegate scope for scopeof (this), skipping the delegate, if possible.
+   * Special delegate scope for scopeof (this), skipping the delegate, if
+   * possible.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          The parent scope
    * @param context
@@ -584,10 +622,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Special delegate scope for scopeof (this), skipping the delegate, if possible.
+   * Special delegate scope for scopeof (this), skipping the delegate, if
+   * possible.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          The parent scope
    * @param context
@@ -612,10 +652,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Special delegate scope for scopeof (this), skipping the delegate, if possible.
+   * Special delegate scope for scopeof (this), skipping the delegate, if
+   * possible.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          The parent scope
    * @param context
@@ -640,10 +682,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Create a new container scope using the results of a given query as its contents.
+   * Create a new container scope using the results of a given query as its
+   * contents.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param outer
    *          The outer scope of the new scope.
    * @param context
@@ -674,11 +718,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Create a new container scope using the results of a given query as its contents, using the root object of the given resource
-   * as its context.
+   * Create a new container scope using the results of a given query as its
+   * contents, using the root object of the given resource as its context.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param outer
    *          The outer scope of the new scope.
    * @param rsc
@@ -704,10 +749,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Create a new prefixed container scope using the results of a given query as its contents.
+   * Create a new prefixed container scope using the results of a given query as
+   * its contents.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param outer
    *          The outer scope of the new scope.
    * @param context
@@ -719,8 +766,11 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param prefix
    *          prefix to apply for single element lookups
    * @param recursive
-   *          whether the qualified name pattern used to search the index should be
-   *          {@link com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT recursive}
+   *          whether the qualified name pattern used to search the index should
+   *          be
+   *          {@link
+   *          com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT
+   *          recursive}
    * @param nameFunctions
    *          The name functions to apply
    * @param caseInsensitive
@@ -743,11 +793,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Create a new prefix container scope using the results of a given query as its contents, using the root object of the given resource
-   * as its context.
+   * Create a new prefix container scope using the results of a given query as
+   * its contents, using the root object of the given resource as its context.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param outer
    *          The outer scope of the new scope.
    * @param rsc
@@ -759,8 +810,11 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param prefix
    *          prefix to apply for single element lookups
    * @param recursive
-   *          whether the qualified name pattern used to search the index should be
-   *          {@link com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT recursive}
+   *          whether the qualified name pattern used to search the index should
+   *          be
+   *          {@link
+   *          com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern#RECURSIVE_WILDCARD_SEGMENT
+   *          recursive}
    * @param nameFunctions
    *          The name functions to apply
    * @param caseInsensitive
@@ -778,10 +832,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Create a new container scope using the results of a given query as its contents.
+   * Create a new container scope using the results of a given query as its
+   * contents.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param outer
    *          The outer scope of the new scope.
    * @param context
@@ -808,7 +864,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
           continue; // Query not applicable to this container.
         }
       }
-      // Build a branch in the scope chain so that we can filter each container query separately.
+      // Build a branch in the scope chain so that we can filter each container
+      // query separately.
       IScope contents = new ContainerBasedScope(id, IScope.NULLSCOPE, container, query, nameFunctions, caseInsensitive);
       contents = new DataFilteringScope(contents, filters);
       result = new BranchingScope(contents, result);
@@ -817,11 +874,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Create a new container scope using the results of a given query as its contents, using the root object of the given resource
-   * as its context.
+   * Create a new container scope using the results of a given query as its
+   * contents, using the root object of the given resource as its context.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param outer
    *          The outer scope of the new scope.
    * @param rsc
@@ -852,7 +910,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link MultiScope} with the given elements and names.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param elements
@@ -874,7 +933,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link MultiScope} with the given elements and names.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param element
@@ -893,11 +953,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Creates a new {@link DelegatingScope} with the given elements as delegates, omitting non-resolvable proxies from the
-   * descriptions.
+   * Creates a new {@link DelegatingScope} with the given elements as delegates,
+   * omitting non-resolvable proxies from the descriptions.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegates
@@ -913,11 +974,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Creates a new {@link DelegatingScope} with the given elements as delegates, omitting non-resolvable proxies from the
-   * descriptions.
+   * Creates a new {@link DelegatingScope} with the given elements as delegates,
+   * omitting non-resolvable proxies from the descriptions.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegates
@@ -936,7 +998,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} with the given element as delegate.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegate
@@ -966,7 +1029,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} with the given element as delegate.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegate
@@ -978,9 +1042,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          the original Resource this scope provider belongs to
    * @return resulting scope
+   * @throws IllegalStateException
+   *           if delegate and originalResource are different
    */
   protected IScope newDelegateScope(final String id, final IScope parent, final Resource delegate, final EClass type, final String scopeName, final Resource originalResource) {
-    if (delegate != originalResource) { // NOPMD CompareObjectsWithEquals by WTH on 24.11.10 06:07
+    if (delegate != originalResource) { // NOPMD CompareObjectsWithEquals by WTH
+                                        // on 24.11.10 06:07
       throw new IllegalStateException(DELEGATE_SCOPE_RESOURCE_ERR_MSG);
     }
     return newDelegateScope(id, parent, originalResource.getContents().get(0), type, scopeName, originalResource);
@@ -990,7 +1057,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} with the given elements as delegates.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegates
@@ -1024,7 +1092,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} using a given context supplier.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param contexts
@@ -1045,7 +1114,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} using a given context supplier.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param contexts
@@ -1063,8 +1133,9 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Context supplier based on an iterable of IEObjectDescriptions, resolving proxies as needed. Used for
-   * "external delegating scopes", i.e., scopeof(find(...)).
+   * Context supplier based on an iterable of IEObjectDescriptions, resolving
+   * proxies as needed. Used for "external delegating scopes", i.e.,
+   * scopeof(find(...)).
    */
   private static class ResolvingContextSupplier implements IContextSupplier {
 
@@ -1097,15 +1168,15 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
         }
       }));
     }
-
   }
 
   /**
-   * Creates a new {@link DelegatingScope} with the given elements as delegates, omitting non-resolvable proxies from the
-   * descriptions.
+   * Creates a new {@link DelegatingScope} with the given elements as delegates,
+   * omitting non-resolvable proxies from the descriptions.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegates
@@ -1130,7 +1201,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} with the given element as delegate.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegate
@@ -1160,7 +1232,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * Creates a new {@link DelegatingScope} with the given element as delegate.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegate
@@ -1172,9 +1245,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * @param originalResource
    *          the original Resource this scope provider belongs to
    * @return resulting scope
+   * @throws IllegalStateException
+   *           if delegate and originalResource are different
    */
   protected IScope newDelegateScope(final String id, final IScope parent, final Resource delegate, final EReference ref, final String scopeName, final Resource originalResource) {
-    if (delegate != originalResource) { // NOPMD CompareObjectsWithEquals by WTH on 24.11.10 06:07
+    if (delegate != originalResource) { // NOPMD CompareObjectsWithEquals by WTH
+                                        // on 24.11.10 06:07
       throw new IllegalStateException(DELEGATE_SCOPE_RESOURCE_ERR_MSG);
     }
     return newDelegateScope(id, parent, originalResource.getContents().get(0), ref, scopeName, originalResource);
@@ -1185,7 +1261,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
    * delegates.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegates
@@ -1216,11 +1293,12 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Creates a new {@link DelegatingScope} with the given elements as delegates, omitting non-resolvable proxies from the
-   * descriptions.
+   * Creates a new {@link DelegatingScope} with the given elements as delegates,
+   * omitting non-resolvable proxies from the descriptions.
    *
    * @param id
-   *          Human-readable name of the scope, typically used to identify where the scope was created. Useful for debugging.
+   *          Human-readable name of the scope, typically used to identify where
+   *          the scope was created. Useful for debugging.
    * @param parent
    *          parent scope of new scope
    * @param delegates
@@ -1253,7 +1331,8 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   }
 
   /**
-   * Determines name functions to be used for scopes of a given context reference. Implementation delegates to {@link #getNameFunctions(EClass)}.
+   * Determines name functions to be used for scopes of a given context
+   * reference. Implementation delegates to {@link #getNameFunctions(EClass)}.
    *
    * @param ref
    *          context reference

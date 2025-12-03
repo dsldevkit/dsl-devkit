@@ -136,6 +136,9 @@ public class CacheConfiguration {
    * Setsthe concurrency level for the cache. Guava concurrent maps creates as many segments
    * as the specified concurrency level, each segment having its own lock.
    * If not set, a reasonable default is deternimed by the library according to the number of CPUs.
+   *
+   * @param concurrencyLevel
+   *          the concurrency level
    */
   public void setConcurrencyLevel(final int concurrencyLevel) {
     this.concurrencyLevel = concurrencyLevel;

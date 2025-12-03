@@ -110,6 +110,7 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * @return {@code true}
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean _isLeaf(final ConfiguredCheck modelElement) {
     // CHECKSTYLE:ON
     return true;

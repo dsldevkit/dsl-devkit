@@ -91,6 +91,7 @@ public class CheckLabelProvider extends XbaseLabelProvider {
    *          any catalog
    * @return a graphical representation of the catalog
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Image image(final CheckCatalog catalog) {
     return images.forCheckCatalog();
   }
@@ -102,6 +103,7 @@ public class CheckLabelProvider extends XbaseLabelProvider {
    *          any category
    * @return a graphical representation of the category
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Image image(final Category category) {
     return images.forCategory();
   }
@@ -124,39 +126,43 @@ public class CheckLabelProvider extends XbaseLabelProvider {
    *          any context
    * @return a graphical representation of the context
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Image image(final Context context) {
     return images.forContext();
   }
 
   /**
    * An image for member labels.
-   * 
+   *
    * @param context
    *          any context
    * @return a graphical representation of the context
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Image image(final Member context) {
     return images.getJdtImage(xbaseImages.forField(JvmVisibility.PRIVATE, 0));
   }
 
   /**
    * An image for member labels.
-   * 
+   *
    * @param context
    *          any context
    * @return a graphical representation of the context
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Image image(final ContextVariable context) {
     return images.getJdtImage(xbaseImages.forLocalVariable(0));
   }
 
   /**
    * An image for member labels.
-   * 
+   *
    * @param context
    *          any context
    * @return a graphical representation of the context
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Image image(final FormalParameter context) {
     return images.getJdtImage(xbaseImages.forLocalVariable(0));
   }

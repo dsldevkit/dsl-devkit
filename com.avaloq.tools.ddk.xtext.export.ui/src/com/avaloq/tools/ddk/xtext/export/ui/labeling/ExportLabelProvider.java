@@ -119,6 +119,7 @@ public class ExportLabelProvider extends DefaultEObjectLabelProvider {
    *          the import
    * @return the import image
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   Image image(final Import impaurt) {
     return JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_IMPDECL);
   }

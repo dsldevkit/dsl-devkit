@@ -485,12 +485,15 @@ class CheckExtensionGenerator {
 
   /**
    * Merges the {@code MANIFEST.MF} file with new plug-in dependencies. Adds dependencies as returned by
+   * {@link com.avaloq.tools.ddk.check.util.GrammarHelper#getRequiredBundleSymbolicNames()} of current
+   * check catalog to the MANIFEST.MF file.
    *
    * @param catalog
    *          check catalog
    * @param monitor
-   *          progress monitor {@link com.avaloq.tools.ddk.check.util.GrammarHelper#getRequiredBundleSymbolicNames()} of current
-   *          check catalog to the MANIFEST.MF file.
+   *          progress monitor
+   * @throws WrappedException
+   *           if an IOException or CoreException occurs during manifest modification
    */
   private void mergeManifest(final CheckCatalog catalog, final IProgressMonitor monitor) {
     final IProject project = RuntimeProjectUtil.getProject(catalog.eResource().getURI(), mapper);

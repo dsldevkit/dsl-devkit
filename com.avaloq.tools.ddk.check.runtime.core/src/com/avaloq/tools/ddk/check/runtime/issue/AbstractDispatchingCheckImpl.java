@@ -109,7 +109,7 @@ public abstract class AbstractDispatchingCheckImpl extends AbstractCheckImpl {
    * @param eventCollector
    *          an event collector for collecting validation events, may be {@code null}
    */
-  @SuppressWarnings("checkstyle:IllegalCatch")
+  @SuppressWarnings({"checkstyle:IllegalCatch", "PMD.UnusedFormalParameter"})
   protected void validate(final String contextName, final String qContextName, final EObject object, final Runnable checkAction, final DiagnosticCollector diagnosticCollector, final ResourceValidationRuleSummaryEvent.Collector eventCollector) {
     if (!disabledMethodTracker.isDisabled(contextName)) {
       try {

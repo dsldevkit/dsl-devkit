@@ -36,6 +36,7 @@ public final class ResourceLoaderProviders {
    *          degree
    * @return parallel resource loader
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public static Provider<IResourceLoader> getParallelLoader(final int nrOfThreads) {
     int nProcessors = Runtime.getRuntime().availableProcessors();
     // CHECKSTYLE:CONSTANTS-OFF

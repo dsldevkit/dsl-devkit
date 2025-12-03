@@ -205,6 +205,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
     return new ReferenceDescription(owner, target, eReference, exportedContainerURI, indexInList);
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean isIndexable(final EObject from, final EReference eReference) {
     return !eReference.isContainment() && !eReference.isContainer();
   }

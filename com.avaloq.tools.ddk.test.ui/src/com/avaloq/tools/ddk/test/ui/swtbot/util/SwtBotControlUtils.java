@@ -50,6 +50,8 @@ public final class SwtBotControlUtils {
    *          the SWTBot control to search in
    * @param timeout
    *          how long should the system wait
+   * @throws WrappedException
+   *           if the wait times out
    */
   public static void waitForItems(final AbstractSWTBotControl<?> control, final int timeout) {
     final long endTimeMillis = System.currentTimeMillis() + timeout;

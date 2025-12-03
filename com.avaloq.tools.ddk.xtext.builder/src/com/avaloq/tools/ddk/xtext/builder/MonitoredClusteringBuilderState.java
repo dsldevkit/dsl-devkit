@@ -1029,6 +1029,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          the newly computed delta
    * @return true, if the new delta is to be registered in this state; false otherwise.
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean recordDeltaAsNew(final Delta newDelta) {
     return true;
   }
@@ -1315,6 +1316,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *
    * @param monitor
    *          the {@link IProgressMonitor} to check, must not be {@code null}
+   * @throws OperationCanceledException
+   *           if the monitor was cancelled
    */
   protected void checkForCancellation(final IProgressMonitor monitor) {
     if (monitor.isCanceled()) {

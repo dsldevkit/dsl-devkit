@@ -51,6 +51,9 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
    * <p>
    * <em>Note</em>: By default, keywords are not case sensitive.
    * </p>
+   *
+   * @param rule
+   *          the {@link AbstractRule}, must not be {@code null}
    */
   public KeywordCollector(final AbstractRule rule) {
     this(rule, true);
@@ -73,6 +76,8 @@ public class KeywordCollector extends XtextSwitch<Boolean> {
    * Returns the collected keywords of the {@link AbstractRule}.
    *
    * @return the collected keywords, never {@code null}
+   * @throws IllegalStateException
+   *           if keywords cannot be collected
    */
   public Set<String> getKeywords() {
     if (ruleKeywords == null) {

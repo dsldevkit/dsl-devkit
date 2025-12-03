@@ -47,6 +47,7 @@ public abstract class AbstractTypeLabelProvider implements ITypeLabelProvider {
    *          exception encountered by the dispatcher.
    * @return default text for a null value if exception was a NullPointerException, else wraps and throws exception
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected String handleTextError(final Object[] params, final Throwable e) {
     if (e instanceof NullPointerException) {
       return text(null);
@@ -66,6 +67,7 @@ public abstract class AbstractTypeLabelProvider implements ITypeLabelProvider {
    *          a null value
    * @return the label for {@code type}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected String text(final Void type) {
     return "<null>"; //$NON-NLS-1$
   }

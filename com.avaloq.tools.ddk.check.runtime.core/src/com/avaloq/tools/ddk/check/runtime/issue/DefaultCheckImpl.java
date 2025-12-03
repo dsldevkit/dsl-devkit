@@ -99,7 +99,7 @@ public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
    *          the context
    * @return true, if successful
    */
-  @SuppressWarnings("PMD.NPathComplexity")
+  @SuppressWarnings({"PMD.NPathComplexity", "PMD.UnusedFormalParameter"})
   protected final boolean internalValidate(final EClass class1, final EObject object, final DiagnosticChain diagnostics, final Map<Object, Object> context) {
     initCheckMethodCache();
 
