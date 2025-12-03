@@ -74,7 +74,7 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
   /**
    * Make sure the platform is loaded.
    *
-   * @returns the loaded platform
+   * @return the loaded platform
    */
   protected IXtextTargetPlatform ensureLoaded() {
     IXtextTargetPlatform localRef = platform; // access volatile field only once when initialized
@@ -95,6 +95,8 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
    *
    * @param monitor
    *          progress monitor
+   * @throws WrappedException
+   *           if loading fails
    */
   protected void load(final IProgressMonitor monitor) {
     try {

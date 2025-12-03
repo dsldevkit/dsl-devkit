@@ -31,8 +31,7 @@ public abstract class AbstractNameFunction implements INameFunction {
   /**
    * Creates a name function with the given value for {@link #representation}.
    *
-   * @param rep
-   *          String representation of NameFunction
+   * @param representation String representation of NameFunction
    */
   public AbstractNameFunction(final String representation) {
     this.representation = representation;

@@ -91,6 +91,8 @@ public class SwtWizardBot extends SwtWorkbenchBot {
    *          the box label
    * @param selectionIndex
    *          the selection index
+   * @throws IndexOutOfBoundsException
+   *           if the selection index is out of bounds
    */
   public void selectInComboBox(final String boxLabel, final int selectionIndex) {
     SWTBotCombo combo = comboBoxWithLabel(boxLabel);

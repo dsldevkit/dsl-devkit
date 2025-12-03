@@ -54,6 +54,8 @@ public class CommonCrossReferenceSerializer extends CrossReferenceSerializer {
    * @param grammarElement
    *          the cross reference, must not be {@code null}
    * @return the converted value or {@code null} if conversion failed
+   * @throws IllegalStateException
+   *           if the targeted rule name cannot be determined
    */
   protected String getConvertedValue(final String unconverted, final AbstractElement grammarElement) {
     String ruleName = linkingHelper.getRuleNameFrom(grammarElement);

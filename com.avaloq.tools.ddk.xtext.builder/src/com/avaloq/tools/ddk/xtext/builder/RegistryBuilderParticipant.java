@@ -161,6 +161,8 @@ public class RegistryBuilderParticipant extends org.eclipse.xtext.builder.impl.R
    *          the {@link IProgressMonitor}, must not be {@code null}
    * @throws CoreException
    *           caused by an {@link IXtextBuilderParticipant}
+   * @throws OperationCanceledException
+   *           if the build is canceled
    */
   protected void buildOtherParticipants(final IBuildContext buildContext, final IProgressMonitor monitor) throws CoreException {
     List<IXtextBuilderParticipant> otherBuilderParticipants = getParticipants();

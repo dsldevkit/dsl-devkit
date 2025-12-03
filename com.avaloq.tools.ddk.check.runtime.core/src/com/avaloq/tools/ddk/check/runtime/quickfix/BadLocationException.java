@@ -43,8 +43,8 @@ public class BadLocationException extends Exception {
 
   /**
    * Creates a new bad location exception.
-   * 
-   * @param exception
+   *
+   * @param wrappedException
    *          the cause for the exception
    */
   public BadLocationException(final Exception wrappedException) {

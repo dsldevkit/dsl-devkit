@@ -81,9 +81,8 @@ class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
    * Computes a short positional URI fragment path. These are more efficient than fragments returned by {@link org.eclipse.xtext.resource.IFragmentProvider}, as
    * the latter may contain name-based segments, which require a lookup to resolve.
    *
-   * @param obj
-   *          object to get URI fragment for, must not be {@code null}
-   * @return URI fragment path, where the segments encode the feature IDs and position in case of multi-valued features, never {@code null}
+   * @param obj object to get URI fragment for, must not be {@code null}
+   * @throws IOException if an I/O exception occurred
    */
   @SuppressWarnings("unchecked")
   private void writeEObjectURIFragmentPath(final EObject obj) throws IOException {

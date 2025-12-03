@@ -194,6 +194,8 @@ public final class CoreSwtbotTools {
    *          base name of file, may be {@code null} only if useCaller is {@code true}
    * @param useCaller
    *          if {@code true}, append the name of the calling method to the prefix
+   * @throws IllegalArgumentException
+   *           if prefix is null and useCaller is false
    */
   public static void captureScreenshot(final SWTBot bot, final String prefix, final boolean useCaller) {
     Assert.isNotNull(bot, ARGUMENT_BOT);
@@ -219,6 +221,8 @@ public final class CoreSwtbotTools {
    * @param windowName
    *          the name of the window to search for, must not be {@code null}
    * @return {@code true} if a window was found, {@code false} otherwise
+   * @throws WrappedException
+   *           if an error occurs while searching for the window
    */
   public static boolean checkOpenWindow(final SWTWorkbenchBot bot, final String windowName) {
     Assert.isNotNull(bot, ARGUMENT_BOT);
@@ -529,6 +533,8 @@ public final class CoreSwtbotTools {
    * @param prefix
    *          the prefix of the item to search for, must not be {@code null}
    * @return the full name of the item as string, never {@code null}
+   * @throws AssertionFailedException
+   *           if no item with the given prefix is found
    */
   public static String getCcomboItemText(final SWTBotCCombo ccombo, final String prefix) {
     Assert.isNotNull(ccombo, "ccombo");

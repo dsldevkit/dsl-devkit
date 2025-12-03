@@ -30,8 +30,8 @@ public class OffsetLocator extends ElementLocator implements ISpaceLocator {
   /**
    * Creates a new offset locator.
    *
-   * @param offset
-   *          the offset
+   * @param formattingConfig the formatting configuration
+   * @param offset the offset
    */
   public OffsetLocator(final FormattingConfig formattingConfig, final int offset) { // NOPMD CallSuperInConstructor - false positive by PMD
     formattingConfig.super();

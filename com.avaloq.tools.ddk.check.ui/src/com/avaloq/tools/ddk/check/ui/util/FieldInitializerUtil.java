@@ -45,6 +45,8 @@ public class FieldInitializerUtil {
    * @param selection
    *          the selection
    * @return the selected resource
+   * @throws RuntimeException
+   *           if a Java model exception occurs
    */
   public IJavaElement getSelectedResource(final IStructuredSelection selection) {
     IJavaElement elem = null;

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -39,19 +39,24 @@ import com.google.common.collect.Maps;
 
 
 /**
- * Index query run, to be executed on a container or a set of containers. With caching.
+ * Index query run, to be executed on a container or a set of containers. With
+ * caching.
  */
 public class ContainerQuery {
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(ContainerQuery.class);
 
-  /** Our "glob"-expression have only one wildcard character, signifying zero or more occurrences of any character. */
+  /**
+   * Our "glob"-expression have only one wildcard character, signifying zero or
+   * more occurrences of any character.
+   */
   public static final char WILDCARD = '*';
 
   /**
-   * Any query is for a type, and may optionally have a uriPattern (matched against the last segment of a resource's URI), a
-   * namePattern (which matches against the index names), and user data criteria.
+   * Any query is for a type, and may optionally have a uriPattern (matched
+   * against the last segment of a resource's URI), a namePattern (which matches
+   * against the index names), and user data criteria.
    */
   private EClass type;
   /** The name pattern. */
@@ -92,6 +97,8 @@ public class ContainerQuery {
    *
    * @param type
    *          the new type
+   * @throws IllegalArgumentException
+   *           if the type cannot be converted to EClass
    */
   public void setType(final Object type) {
     if (type instanceof EReference) {
@@ -99,7 +106,7 @@ public class ContainerQuery {
     } else if (type instanceof EClass) {
       this.type = (EClass) type;
     } else {
-      throw new IllegalArgumentException("Cannot convert type to EClass: " + type); //$NON-NLS-1$
+      throw new IllegalArgumentException("Cannot convert type to EClass: " + type);
     }
   }
 
@@ -128,7 +135,8 @@ public class ContainerQuery {
   /**
    * Gets the domains.
    *
-   * @return The list of domains this query shall apply to. An empty list signifies that the query applies to all domains.
+   * @return The list of domains this query shall apply to. An empty list
+   *         signifies that the query applies to all domains.
    */
   public List<String> getDomains() {
     return domains == null ? ImmutableList.<String> of() : domains;
@@ -177,11 +185,12 @@ public class ContainerQuery {
   }
 
   /**
-   * Execute the query on containers visible from a certain object's resource. The results will grouped by
-   * container and in the order of
-   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
-   * result does <em>not</em> apply
-   * any name shadowing.
+   * Execute the query on containers visible from a certain object's resource.
+   * The results will grouped by container and in the order of
+   * {@link
+   * IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription,
+   * org.eclipse.xtext.resource.IResourceDescriptions)}. The result does
+   * <em>not</em> apply any name shadowing.
    *
    * @param context
    *          An object in the context resource.
@@ -192,13 +201,17 @@ public class ContainerQuery {
   }
 
   /**
-   * Execute the query on containers visible from a certain resource. The results will grouped by container and in the order of
-   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
-   * result does <em>not</em> apply any name shadowing.
+   * Execute the query on containers visible from a certain resource. The
+   * results will grouped by container and in the order of
+   * {@link
+   * IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription,
+   * org.eclipse.xtext.resource.IResourceDescriptions)}. The result does
+   * <em>not</em> apply any name shadowing.
    *
    * @deprecated
    *             <p>
-   *             use {@link ContainerQuery#execute(Resource)} instead (context is always ignored)
+   *             use {@link ContainerQuery#execute(Resource)} instead (context
+   *             is always ignored)
    * @param context
    *          The context resource.
    * @param originalResource
@@ -206,20 +219,24 @@ public class ContainerQuery {
    * @return The query results
    */
   @Deprecated
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Iterable<IEObjectDescription> execute(final Resource context, final Resource originalResource) {
     return execute(originalResource);
   }
 
   /**
-   * Execute the query on containers visible from an object in a certain resource, but cache the results on originalResource. The results will grouped by
-   * container and in the order of
-   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
-   * result does <em>not</em> apply
-   * any name shadowing.
+   * Execute the query on containers visible from an object in a certain
+   * resource, but cache the results on originalResource. The results will
+   * grouped by container and in the order of
+   * {@link
+   * IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription,
+   * org.eclipse.xtext.resource.IResourceDescriptions)}. The result does
+   * <em>not</em> apply any name shadowing.
    *
    * @deprecated
    *             <p>
-   *             use {@link ContainerQuery#execute(Resource)} instead (context is always ignored)
+   *             use {@link ContainerQuery#execute(Resource)} instead (context
+   *             is always ignored)
    * @param context
    *          An object in the context resource.
    * @param originalResource
@@ -227,20 +244,25 @@ public class ContainerQuery {
    * @return The query results
    */
   @Deprecated
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Iterable<IEObjectDescription> execute(final EObject context, final Resource originalResource) {
     return execute(originalResource);
   }
 
   /**
-   * Execute the query on containers visible from a certain resource, and caches the results on that resource. The results will grouped by
-   * container and in the order of
-   * {@link IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription, org.eclipse.xtext.resource.IResourceDescriptions)}. The
-   * result does <em>not</em> apply
-   * any name shadowing.
+   * Execute the query on containers visible from a certain resource, and caches
+   * the results on that resource. The results will grouped by container and in
+   * the order of
+   * {@link
+   * IContainer.Manager#getVisibleContainers(org.eclipse.xtext.resource.IResourceDescription,
+   * org.eclipse.xtext.resource.IResourceDescriptions)}. The result does
+   * <em>not</em> apply any name shadowing.
    *
    * @param resource
    *          The resource.
    * @return The query results
+   * @throws IllegalStateException
+   *           if the resource is not a LazyLinkingResource
    */
   @SuppressWarnings("nls")
   public Iterable<IEObjectDescription> execute(final Resource resource) {
@@ -249,7 +271,7 @@ public class ContainerQuery {
     }
     final IScopeProvider scopeProvider = EObjectUtil.getScopeProviderByResource((LazyLinkingResource) resource);
     if (!(scopeProvider instanceof AbstractPolymorphicScopeProvider)) {
-      throw new IllegalStateException("Scope provider is not an AbstractPolymorphicScopeProvider scope provider.");
+      throw new IllegalStateException("Scope provider is not an AbstractPolymorphicScopeProvider scope " + "provider.");
     }
     return execute(((AbstractPolymorphicScopeProvider) scopeProvider).getVisibleContainers((LazyLinkingResource) resource));
   }
@@ -290,7 +312,8 @@ public class ContainerQuery {
       }
     }
 
-    // Warning: we assume that our Containers and ResourceDescriptions from the index can handle name patterns.
+    // Warning: we assume that our Containers and ResourceDescriptions from the
+    // index can handle name patterns.
     Iterable<IEObjectDescription> result = namePattern != null ? container.getExportedObjects(getType(), namePattern, doIgnoreCase)
         : container.getExportedObjectsByType(getType());
 
@@ -366,6 +389,8 @@ public class ContainerQuery {
     /**
      * Creator.
      *
+     * @param domainMapper
+     *          the domain mapper
      * @param type
      *          {@link ContainerQuery#getType() Type} of objects to query.
      */
@@ -394,14 +419,16 @@ public class ContainerQuery {
      * Set the URI pattern.
      *
      * @param uriPattern
-     *          {@link ContainerQuery#getURIPattern() Resource pattern} (glob pattern) for queried objects. The URI pattern is
-     *          matched against the last segment of a resource's URI.
+     *          {@link ContainerQuery#getURIPattern() Resource pattern} (glob
+     *          pattern) for queried objects. The URI pattern is matched against the last
+     *          segment of a resource's URI.
      * @return The Builder itself.
      * @deprecated URI pattern matching of resources is no longer supported
      */
     @Deprecated
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     public Builder resource(final String uriPattern) {
-      LOGGER.error("URI pattern matching using ContainerQuery.Builder#resource() is no longer supported"); //$NON-NLS-1$
+      LOGGER.error("URI pattern matching using ContainerQuery.Builder#resource() is " + "no longer supported"); //$NON-NLS-2$
       return this;
     }
 
@@ -409,8 +436,11 @@ public class ContainerQuery {
      * Set the name pattern.
      *
      * @param pattern
-     *          {@link ContainerQuery#getNamePattern() Name pattern} (glob pattern) for queried objects.
+     *          {@link ContainerQuery#getNamePattern() Name pattern} (glob
+     *          pattern) for queried objects.
      * @return The Builder itself.
+     * @throws IllegalArgumentException
+     *           if the wildcard is not at the end of the pattern
      */
     public Builder name(final String pattern) {
       if (pattern != null && pattern.length() > 0) {
@@ -419,7 +449,9 @@ public class ContainerQuery {
           setNamePattern(nameConverter.toQualifiedName(pattern));
         } else if (idx == pattern.length() - 1 || pattern.endsWith(QualifiedNamePattern.RECURSIVE_WILDCARD_SEGMENT)) {
           setNamePattern(QualifiedNamePattern.create(nameConverter.toQualifiedName(pattern)));
-          // setNamePattern(new QualifiedNamePattern(nameConverter.toQualifiedName(pattern.substring(0, idx))));
+          // setNamePattern(new
+          // QualifiedNamePattern(nameConverter.toQualifiedName(pattern.substring(0,
+          // idx))));
         } else {
           throw new IllegalArgumentException("Query name pattern invalid: wildcard not at end"); //$NON-NLS-1$
         }
@@ -431,7 +463,8 @@ public class ContainerQuery {
      * Set the name pattern.
      *
      * @param name
-     *          {@link ContainerQuery#getNamePattern() Name pattern} (glob pattern) for queried objects.
+     *          {@link ContainerQuery#getNamePattern() Name pattern} (glob
+     *          pattern) for queried objects.
      * @return The Builder itself.
      */
     public Builder name(final QualifiedName name) {
@@ -442,7 +475,8 @@ public class ContainerQuery {
     }
 
     /**
-     * Used to query a specific {@link ContainerQuery#getUserData() user data field} of the object.
+     * Used to query a specific {@link ContainerQuery#getUserData() user data
+     * field} of the object.
      *
      * @param field
      *          The user data key.
@@ -473,7 +507,8 @@ public class ContainerQuery {
     }
 
     /**
-     * Specifies whether the result of this query is to be cached or not. The default is to cache.
+     * Specifies whether the result of this query is to be cached or not. The
+     * default is to cache.
      *
      * @param doCache
      *          false if no caching is desired
@@ -481,12 +516,14 @@ public class ContainerQuery {
      * @deprecated Caching of {@link ContainerQuery} is no longer supported
      */
     @Deprecated
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     public Builder cache(final boolean doCache) {
       return this;
     }
 
     /**
-     * Specifies whether the query must be case sensitive. The default is case insesitive.
+     * Specifies whether the query must be case sensitive. The default is case
+     * insesitive.
      *
      * @param doIgnoreCase
      *          true if the lookup must be case insensitive, false otherwise
@@ -497,5 +534,4 @@ public class ContainerQuery {
       return this;
     }
   }
-
 }
