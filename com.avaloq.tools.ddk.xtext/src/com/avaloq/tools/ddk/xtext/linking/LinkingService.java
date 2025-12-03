@@ -190,6 +190,7 @@ public class LinkingService extends DefaultLinkingService {
    *          The meta model cross-reference, never {@code null}
    * @return the actual element or a proxy
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected EObject getEObjectOrProxy(final EObject context, final IEObjectDescription desc, final EReference ref) {
     return desc.getEObjectOrProxy();
   }

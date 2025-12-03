@@ -91,6 +91,7 @@ public class ParserContext {
    * @param input
    *          Input token stream
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void beforeParse(final TokenStream input) {
     // No implementation by default
   }

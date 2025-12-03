@@ -94,6 +94,7 @@ public class ResourceDescriptions2 implements IResourceDescriptions2 {
     return ResourceDescriptionsUtil.findReferencesToObjects(delegate, targetObjects);
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final boolean matchImportedNames) {
     return null;
   }

@@ -126,6 +126,7 @@ public class DefaultInferredElementFragmentProvider implements IInferredElementF
    *          set of already assigned fragments, must not be {@code null}
    * @return string (preferably not contained in {@code assignedFragments}), never {@code null}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected String getFinalResult(final EObject object, final HashCode hash, final Set<String> assignedFragments) {
     return hash.toString();
   }

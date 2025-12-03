@@ -105,6 +105,7 @@ public class ScopeScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_EClass(final ScopeModel context, final EReference reference) {
     // CHECKSTYLE:ON
     IScope result = IScope.NULLSCOPE;
@@ -125,6 +126,7 @@ public class ScopeScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_ScopeContext_reference(final ScopeContext context, final EReference reference) {
     // CHECKSTYLE:ON
     final EClass type = context.getContextType();
@@ -144,6 +146,7 @@ public class ScopeScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_ScopeDefinition_reference(final ScopeDefinition context, final EReference reference) {
     // CHECKSTYLE:ON
     final EClass type = context.getContextType();
@@ -190,6 +193,7 @@ public class ScopeScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_ScopeDelegation_scope(final ScopeDelegation context, final EReference reference) {
     // CHECKSTYLE:ON
     return getIncludedScopes(IScope.NULLSCOPE, EcoreUtil2.getContainerOfType(context, ScopeModel.class));

@@ -111,6 +111,7 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
    * @param context
    *          build context
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void handleDeletion(final Delta delta, final IBuildContext context) {
     if (hasCorrectExtension(delta, resourceServiceProvider)) {
       try {

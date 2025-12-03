@@ -131,7 +131,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
    *          the second argument
    * @return {@code null} by default
    */
-  @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+  @SuppressWarnings({"PMD.EmptyMethodInAbstractClassShouldBeAbstract", "PMD.UnusedFormalParameter"})
   public Object image(final Object element, final Object feature) {
     return null;
   }
@@ -156,7 +156,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
    *          the second argument
    * @return {@code null} by default
    */
-  @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+  @SuppressWarnings({"PMD.EmptyMethodInAbstractClassShouldBeAbstract", "PMD.UnusedFormalParameter"})
   public Object getStyledLabel(final Object element, final Object feature) {
     return null;
   }

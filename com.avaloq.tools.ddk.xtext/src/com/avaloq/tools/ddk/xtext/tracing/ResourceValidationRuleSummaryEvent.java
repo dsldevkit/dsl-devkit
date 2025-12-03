@@ -73,6 +73,7 @@ public class ResourceValidationRuleSummaryEvent extends ResourceEvent {
      * @param obj
      *          object against which the validation will be executed
      */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     public void ruleStarted(final String rule, final EObject obj) {
       if (currentRule == null || !currentRule.equals(rule)) {
         currentRule = rule;
@@ -94,6 +95,7 @@ public class ResourceValidationRuleSummaryEvent extends ResourceEvent {
      * @param obj
      *          object against which the validation was executed
      */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     public void ruleEnded(final String rule, final EObject obj) {
       // see comment in ruleStarted() for explanation
       currentData[0] += System.nanoTime();
