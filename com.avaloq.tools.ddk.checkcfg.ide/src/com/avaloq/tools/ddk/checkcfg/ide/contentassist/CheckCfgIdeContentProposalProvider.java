@@ -111,6 +111,7 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
     super._createProposals(keyword, context, acceptor);
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void completeLanguages(final EObject model, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
     for (String language : checkCfgUtil.getAllLanguages()) {
       ContentAssistEntry entry = getProposalCreator().createProposal(language, context, (final ContentAssistEntry it) -> {

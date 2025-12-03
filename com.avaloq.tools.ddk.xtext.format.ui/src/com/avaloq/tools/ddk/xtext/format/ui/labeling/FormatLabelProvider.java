@@ -42,6 +42,7 @@ public class FormatLabelProvider extends XbaseLabelProvider {
    *          the element
    * @return the string
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public String text(final WildcardRule element) {
     return "*"; //$NON-NLS-1$
   }

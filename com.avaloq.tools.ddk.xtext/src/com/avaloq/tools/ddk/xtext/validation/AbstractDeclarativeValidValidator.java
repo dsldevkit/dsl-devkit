@@ -190,6 +190,7 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
    *          the issue data
    * @return the error message if the assertion failed, NO_ERROR otherwise
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected SimpleValidMessage assertEmpty(final String message, final String string, final String... issueData) {
     if (!Strings.isNullOrEmpty(string.trim())) {
       return new SimpleValidMessage(message);

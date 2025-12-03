@@ -36,6 +36,7 @@ public class ValidLabelProvider extends DefaultEObjectLabelProvider {
    *          the category
    * @return name of the image file
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   String image(final Category category) {
     return "category.gif"; //$NON-NLS-1$
   }
@@ -58,6 +59,7 @@ public class ValidLabelProvider extends DefaultEObjectLabelProvider {
    *          the quick fix
    * @return name of the image file
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   String image(final QuickFix quickFix) {
     return "quickfix.gif"; //$NON-NLS-1$
   }
@@ -70,6 +72,7 @@ public class ValidLabelProvider extends DefaultEObjectLabelProvider {
    *          the import
    * @return the import image
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   Image image(final Import impaurt) {
     return JavaPlugin.getImageDescriptorRegistry().get(JavaPluginImages.DESC_OBJS_IMPDECL);
   }
@@ -92,6 +95,7 @@ public class ValidLabelProvider extends DefaultEObjectLabelProvider {
    *          the native context
    * @return name of the image file
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   String image(final NativeContext nativeContext) {
     return "eclass.gif"; //$NON-NLS-1$
   }

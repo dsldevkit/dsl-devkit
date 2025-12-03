@@ -26,6 +26,7 @@ public class DummyCheckContext extends AbstractCheckContext {
    * @return {@code true} always
    */
   @CheckContext(issueCodes = {CheckContextTest.ENABLED_AND_DISABLED_ISSUE_CODE})
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public boolean enableForEnabledDisabledCode(final EObject context) {
     return ENABLED;
   }
@@ -39,6 +40,7 @@ public class DummyCheckContext extends AbstractCheckContext {
    */
   @CheckContext(issueCodes = {CheckContextTest.DISABLED_ISSUE_CODE, CheckContextTest.DISABLED_AND_ENABLED_ISSUE_CODE,
       CheckContextTest.ENABLED_AND_DISABLED_ISSUE_CODE})
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public boolean disableForCodes(final EObject context) {
     return DISABLED;
   }
@@ -51,6 +53,7 @@ public class DummyCheckContext extends AbstractCheckContext {
    * @return {@code true} always
    */
   @CheckContext(issueCodes = {CheckContextTest.ENABLED_ISSUE_CODE, CheckContextTest.DISABLED_AND_ENABLED_ISSUE_CODE})
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public boolean enabledForCodes(final EObject context) {
     return ENABLED;
   }
