@@ -625,6 +625,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    * @param testSource
    *          the test source, not {@code null}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void beforeApplyAssertions(final XtextTestSource testSource) {
   }
 

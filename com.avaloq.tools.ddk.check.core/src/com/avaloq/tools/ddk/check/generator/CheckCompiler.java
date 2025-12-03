@@ -195,6 +195,7 @@ public class CheckCompiler extends XbaseCompiler {
   }
 
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void _toJavaStatement(final XGuardExpression expr, final ITreeAppendable b, final boolean isReferenced) {
     // CHECKSTYLE:ON
     internalToJavaStatement(expr.getGuard(), b, true);

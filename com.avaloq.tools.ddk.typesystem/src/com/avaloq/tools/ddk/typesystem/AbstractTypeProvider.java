@@ -409,6 +409,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          the expression to get the type for
    * @return the type of {@code expression} if it can be computed; otherwise null.
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected IType handleCyclicGetType(final IExpression expression) {
     return null;
   }
@@ -423,6 +424,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          the expression to compute the type for
    * @return the type of {@code expression}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected IType type(final IExpression expression) {
     return null;
   }
@@ -475,6 +477,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          the expression to get the expected type for
    * @return the expected type of {@code expression} if it can be computed; otherwise null.
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected IType handleCycleGetExpectedType(final IExpression expression) {
     return null;
   }
@@ -494,6 +497,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          if {@code reference} is a list, then the index within that list; otherwise -1
    * @return the expected type of {@code expression}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected IType expectedType(final EObject container, final EReference reference, final int index) {
     return null;
   }
@@ -541,6 +545,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          the named element to get the type for
    * @return the type of {@code element} if it can be computed; otherwise null.
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected IType handleCycleGetTypeForNamedElement(final INamedElement element) {
     return null;
   }
@@ -555,6 +560,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          the named element to compute the type for
    * @return the type of {@code element}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected IType typeForNamedElement(final INamedElement element) {
     return null;
   }
@@ -631,6 +637,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    *          the object to get the provider for
    * @return the type provider for {@code eObject} or {@code null} if it is not known.
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected ITypeProvider getTypeProviderFor(final EObject eObject) {
     return null;
   }

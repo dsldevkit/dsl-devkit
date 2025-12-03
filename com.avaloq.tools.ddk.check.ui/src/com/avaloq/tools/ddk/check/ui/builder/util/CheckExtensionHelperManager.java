@@ -272,6 +272,7 @@ public class CheckExtensionHelperManager {
    * @throws CoreException
    *           the core exception
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public void updateExtensions(final CheckCatalog catalog, final IPluginModelBase pluginModel, final IProgressMonitor monitor) throws CoreException {
     QualifiedName catalogName = nameProvider.apply(catalog);
     Collection<IPluginExtension> catalogExtensions = findExtensions(pluginModel, catalogName, ExtensionType.ALL);
@@ -296,6 +297,7 @@ public class CheckExtensionHelperManager {
    * @throws CoreException
    *           the core exception
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public void addExtensions(final CheckCatalog catalog, final IPluginModelBase pluginModel, final IProgressMonitor monitor) throws CoreException {
     QualifiedName catalogName = nameProvider.apply(catalog);
     Collection<IPluginExtension> catalogExtensions = findExtensions(pluginModel, catalogName, ExtensionType.ALL);
@@ -324,6 +326,7 @@ public class CheckExtensionHelperManager {
    * @throws CoreException
    *           the core exception
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public void removeExtensions(final IEObjectDescription obj, final IPluginModelBase pluginModel, final IProgressMonitor monitor) throws CoreException {
     for (IPluginExtension extension : findExtensions(pluginModel, obj.getName(), ExtensionType.ALL)) {
       final ExtensionType extensionType = getExtensionType(extension);
@@ -344,6 +347,7 @@ public class CheckExtensionHelperManager {
    * @throws CoreException
    *           the core exception
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public void removeExtensions(final CheckCatalog catalog, final IPluginModelBase pluginModel, final IProgressMonitor monitor) throws CoreException {
     QualifiedName name = nameConverter.toQualifiedName(projectUtil.getCatalogQualifiedName(catalog));
     for (IPluginExtension extension : findExtensions(pluginModel, name, ExtensionType.ALL)) {
@@ -362,6 +366,7 @@ public class CheckExtensionHelperManager {
    * @throws CoreException
    *           the core exception
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public void sortAllExtensions(final IPluginModelBase pluginModel, final IProgressMonitor monitor) throws CoreException {
     Ordering<IPluginExtension> ordering = Ordering.from((a, b) -> ComparisonChain.start().compare(a.getPoint(), b.getPoint()).compare(a.getId(), b.getId(), Ordering.natural().nullsLast()).compare(a.getName(), b.getName(), Ordering.natural().nullsLast()).result());
     List<IPluginExtension> catalogExtensions = Lists.newArrayList(findAllExtensions(pluginModel));

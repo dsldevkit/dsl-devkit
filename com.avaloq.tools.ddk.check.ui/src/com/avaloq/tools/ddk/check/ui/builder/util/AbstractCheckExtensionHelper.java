@@ -142,6 +142,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
    *         have changed before the builder participant kicks
    *         in.
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     return extension.getPoint().equals(getExtensionPointId()); // if points are different, given extension must not be updated
   }
@@ -214,6 +215,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
    *          the extension id
    * @return true, if the extension should be enabled
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean isExtensionEnabled(final IPluginModelBase base, final CheckCatalog catalog, final ExtensionType type, final String extensionId) {
     if (type == ExtensionType.MARKERHELP) {
       return false; // disabled until https://bugs.eclipse.org/bugs/show_bug.cgi?id=369534 is fixed

@@ -975,6 +975,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * @param referenceNames
    *          the names of the referenced elements
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public static void assertNoLinkingErrorsOnResource(final EObject object, final String referenceType, final String... referenceNames) {
     final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
     final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
@@ -1000,6 +1001,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    * @param referenceNames
    *          the names of the referenced elements
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public static void assertLinkingErrorsOnResourceExist(final EObject object, final String referenceType, final String... referenceNames) {
     final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
     final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
