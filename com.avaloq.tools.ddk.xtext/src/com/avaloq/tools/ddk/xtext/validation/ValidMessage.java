@@ -78,6 +78,10 @@ public class ValidMessage<E extends EObject> {
    *          the message
    * @param context
    *          the context
+   * @param offset
+   *          the offset
+   * @param length
+   *          the length
    * @param issueData
    *          the issue data
    */

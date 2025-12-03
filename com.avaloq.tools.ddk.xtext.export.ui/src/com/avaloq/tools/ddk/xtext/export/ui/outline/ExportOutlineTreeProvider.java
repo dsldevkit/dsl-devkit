@@ -61,6 +61,7 @@ public class ExportOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * @return true
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean _isLeaf(final Interface modelElement) {
     // CHECKSTYLE:ON
     return true;
@@ -74,6 +75,7 @@ public class ExportOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * @return true
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean _isLeaf(final Export modelElement) {
     // CHECKSTYLE:ON
     return true;

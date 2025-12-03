@@ -127,6 +127,7 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
    *          the context object of the validation being executed
    * @return the configuration store instance
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected ICheckConfigurationStore internalGetCheckConfigurationStore(final Object context) {
     if (configurationStore == null) {
       configurationStore = new CheckConfigurationStore(DEFAULT_CHECK_CONFIGURATION_NODE);

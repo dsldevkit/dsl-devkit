@@ -87,6 +87,7 @@ public class ExportScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF (MethodName)
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_EClass(final ExportModel context, final EReference reference) {
     // CHECKSTYLE:ON
     IScope result = IScope.NULLSCOPE;
@@ -117,6 +118,7 @@ public class ExportScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF (MethodName)
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_EStructuralFeature(final DeclarationForType context, final EReference reference) {
     // CHECKSTYLE:ON
     final EClass type = context.getType();
@@ -136,6 +138,7 @@ public class ExportScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF (MethodName)
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_EAttribute(final DeclarationForType context, final EReference reference) {
     // CHECKSTYLE:ON
     final EClass type = context.getType();
@@ -155,6 +158,7 @@ public class ExportScopeProvider extends AbstractDeclarativeScopeProvider {
    * @return The scope
    */
   // CHECKSTYLE:OFF (MethodName)
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   public IScope scope_InterfaceNavigation_ref(final Interface context, final EReference reference) {
     // CHECKSTYLE:ON
     final EClass type = context.getType();

@@ -780,6 +780,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          If target of a reference is an implicit item and this parameter is set to true, the test will get and compare the original object from which this
    *          implicit item was created
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void testLinking(final EObject sourceObject, final int targetTag, final boolean traverseImplicitItems) {
     assertNotNull("Source object must not be null.", sourceObject); //$NON-NLS-1$
     EObject referencedTargetObject = getObjectForTag(targetTag);
@@ -845,6 +846,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          Cross reference to be resolved, must not be {@code null}
    * @return the referenced {@link EObject}, must not be {@code null}
    */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected EObject getCrossReferencedObject(final int sourceTag, final boolean traverseImplicitItems, final CrossReference crossReference) {
     EObject context = getObjectForTag(sourceTag);
     if (crossReference == null) {

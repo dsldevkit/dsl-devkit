@@ -42,10 +42,8 @@ public class CurrentDescriptions2 extends CurrentDescriptions implements IResour
    *
    * @param resourceSet
    *          The resource set
-   * @param oldState
-   *          The old index
-   * @param initiallyDeleted
-   *          URIs of resources physically deleted
+   * @param newData
+   *          The new resource descriptions data
    */
   public CurrentDescriptions2(final ResourceSet resourceSet, final ResourceDescriptionsData newData) {
     super(resourceSet, newData);

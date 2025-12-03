@@ -40,11 +40,13 @@ public class NewCheckCatalogWizard extends XtextNewProjectWizard {
 
   /**
    * Instantiates a new new check file wizard.
-   * 
+   *
    * @param images
    *          the shared images
-   * @param page
-   *          the new file wizard page
+   * @param catalogPage
+   *          the new catalog wizard page
+   * @param creator
+   *          the check catalog creator
    */
   @Inject
   public NewCheckCatalogWizard(final CheckImages images, final NewCheckCatalogWizardPage catalogPage, final ICheckCatalogCreator creator) {

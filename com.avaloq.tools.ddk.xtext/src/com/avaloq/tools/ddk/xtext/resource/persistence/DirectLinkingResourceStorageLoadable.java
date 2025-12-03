@@ -85,6 +85,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       return super.readCompressedInt();
     }
 
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     protected void handleLoadEObject(final InternalEObject loaded, final BinaryResourceImpl.EObjectInputStream input) throws IOException {
       if (modificationTrackingAdapter != null) {
         loaded.eAdapters().add(modificationTrackingAdapter);
@@ -178,6 +179,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
    *          load mode, must not be {@code null}
    * @throws IOException
    *           if an I/O exception occurred
+   * @throws IllegalArgumentException
+   *           if the load mode is incompatible
    */
   public void loadIntoResource(final StorageAwareResource resource, final ResourceLoadMode loadMode) throws IOException {
     if (loadMode.instruction(Constituent.RESOURCE) != Instruction.LOAD) {

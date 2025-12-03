@@ -70,10 +70,23 @@
     <module name="IllegalImport"/>
     <module name="IllegalThrows"/>
     <module name="InterfaceIsType"/>
+    <!-- Internal methods: allow @Override and @Inject; still validate tags when javadoc is present -->
     <module name="JavadocMethod">
+      <property name="accessModifiers" value="package,private"/>
+      <!-- Cover methods + constructors + compact constructors -->
+      <property name="tokens" value="METHOD_DEF,CTOR_DEF,COMPACT_CTOR_DEF"/>
       <property name="allowedAnnotations" value="Override,Inject"/>
-      <property name="accessModifiers" value="package"/>
-      <property name="tokens" value="METHOD_DEF"/>
+      <property name="allowMissingParamTags" value="false"/>
+      <property name="allowMissingReturnTag" value="false"/>
+      <property name="validateThrows" value="true"/>
+    </module>
+    <!-- Public API: enforce tags; no @Inject exemption -->
+    <module name="JavadocMethod">
+      <property name="accessModifiers" value="public,protected"/>
+      <property name="tokens" value="METHOD_DEF,CTOR_DEF,COMPACT_CTOR_DEF"/>
+      <property name="allowMissingParamTags" value="false"/>
+      <property name="allowMissingReturnTag" value="false"/>
+      <property name="validateThrows" value="true"/>
     </module>
     <module name="JavadocType"/>
     <module name="JavadocStyle"/>

@@ -39,6 +39,8 @@ public final class InjectorUtil {
    * @param clazz
    *          the type clazz, must not be {@code null}
    * @return the implementation instance, never {@code null}
+   * @throws IllegalStateException
+   *           if the implementation cannot be retrieved
    */
   public static <T> T get(final EObject context, final Class<? extends T> clazz) {
     final Resource resource = context.eResource();
@@ -73,6 +75,8 @@ public final class InjectorUtil {
    * @param clazz
    *          the type clazz, must not be {@code null}
    * @return the implementation instance, never {@code null}
+   * @throws IllegalStateException
+   *           if the implementation cannot be retrieved
    */
   public static <T> T get(final Resource resource, final Class<? extends T> clazz) {
     if (resource instanceof XtextResource xtextResource) {

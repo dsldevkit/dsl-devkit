@@ -59,6 +59,7 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * @return true
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean _isLeaf(final Expression modelElement) {
     // CHECKSTYLE:ON
     return true;
@@ -72,6 +73,7 @@ public class ScopeOutlineTreeProvider extends DefaultOutlineTreeProvider {
    * @return true
    */
   // CHECKSTYLE:OFF
+  @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean _isLeaf(final ScopeRule modelElement) {
     // CHECKSTYLE:ON
     return true;

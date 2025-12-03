@@ -48,7 +48,8 @@ public final class ExtensionRegistryMock {
   /**
    * Mocks the extension registry.
    *
-   * @throws CoreException
+   * @throws WrappedException
+   *           if the registry provider cannot be set
    */
   @SuppressWarnings("restriction") // for accessing RegistryProviderFactory
   public static synchronized void mockRegistry() {
@@ -148,6 +149,9 @@ public final class ExtensionRegistryMock {
 
   /**
    * Unmocks the extension registry.
+   *
+   * @throws WrappedException
+   *           if the registry provider cannot be reset
    */
   @SuppressWarnings("restriction") // for accessing RegistryProviderFactory
   public static void unMockRegistry() {
@@ -167,6 +171,9 @@ public final class ExtensionRegistryMock {
 
   /**
    * Asserts that the extension registry is unmocked.
+   *
+   * @throws IllegalStateException
+   *           if the extension registry mock is in an unexpected state
    */
   public static void assertUnMocked() {
     if (registrySpy != null) {

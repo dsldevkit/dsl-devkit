@@ -28,6 +28,9 @@ public class IncompleteTypeInformationException extends Exception {
 
   /**
    * Creates a new instance of {@link IncompleteTypeInformationException} with the given message.
+   *
+   * @param message
+   *          the error message
    */
   public IncompleteTypeInformationException(final String message) {
     super(message);
@@ -35,6 +38,9 @@ public class IncompleteTypeInformationException extends Exception {
 
   /**
    * Creates a new instance of {@link IncompleteTypeInformationException} by wrapping {@code wrappedException}.
+   *
+   * @param wrappedException
+   *          the wrapped exception
    */
   public IncompleteTypeInformationException(final Throwable wrappedException) {
     super(wrappedException);
