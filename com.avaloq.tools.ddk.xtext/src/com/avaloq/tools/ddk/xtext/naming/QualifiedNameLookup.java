@@ -49,6 +49,15 @@ public interface QualifiedNameLookup<T> extends ICache<QualifiedName, T> {
   Collection<T> get(QualifiedNamePattern pattern, boolean excludeDuplicates);
 
   /**
+   * Returns a collection of {@link QualifiedName}s the given value is mapped to.
+   *
+   * @param value
+   *          value to find all mappings for, must not be {@code null}
+   * @return a {@link Collection} of {@link QualifiedName}s the given value is mapped to, never {@code null}
+   */
+  Collection<QualifiedName> getMappings(T value);
+
+  /**
    * Adds a mapping for the given key and value. If there already are values associated with the given key, then the given value will be added (unless already
    * present).
    *

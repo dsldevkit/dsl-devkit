@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.naming;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -69,6 +70,19 @@ public class TreeSetLookup<T> implements QualifiedNameLookup<T> {
       hits++;
     }
     return result;
+  }
+
+  @Override
+  public Collection<QualifiedName> getMappings(final T value) {
+    Collection<QualifiedName> mappings = new ArrayList<>();
+
+    for (Map.Entry<QualifiedName, Object[]> entry : lookupMap.entrySet()) {
+      if (ArrayUtils.find(entry.getValue(), value) >= 0) {
+        mappings.add(entry.getKey());
+      }
+    }
+
+    return mappings;
   }
 
   @Override
