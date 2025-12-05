@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.valid.ide
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.valid.ide;singleton:=true
-Bundle-Version: 16.0.2.v20251205-1356-REL
+Bundle-Version: 16.0.3.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
