@@ -38,7 +38,7 @@ jobs:
       - name: Set up Workspace Enviroment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV        
       - name: Cache Maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with: 
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
