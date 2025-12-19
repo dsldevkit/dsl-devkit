@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.nodemodel.impl.SerializableNodeModel;
 import org.eclipse.xtext.nodemodel.serialization.DeserializationConversionContext;
 import org.eclipse.xtext.parser.ParseResult;
+import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.persistence.ResourceStorageLoadable;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 
@@ -322,7 +323,8 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
   protected void readNodeModel(final StorageAwareResource resource, final InputStream inputStream, final String content) throws IOException {
     DeserializationConversionContext deserializationContext = new ProxyAwareDeserializationConversionContext(resource, content);
     DataInputStream dataIn = new DataInputStream(inputStream);
-    SerializableNodeModel serializableNodeModel = new SerializableNodeModel(resource);
+    // use empty resource here so that we can leave the proxy node in place right up until the loaded model is set below.
+    SerializableNodeModel serializableNodeModel = new SerializableNodeModel(new XtextResource());
     serializableNodeModel.readObjectData(dataIn, deserializationContext);
     resource.setParseResult(new ParseResult(resource.getContents().get(0), serializableNodeModel.root, deserializationContext.hasErrors()));
   }

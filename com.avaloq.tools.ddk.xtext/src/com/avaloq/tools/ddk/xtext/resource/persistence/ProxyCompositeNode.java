@@ -118,10 +118,6 @@ public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INod
         result = proxyNode.idToEObjectMap;
       }
     }
-
-    if (resource instanceof XtextResource) {
-      ((XtextResource) resource).setParseResult(null);
-    }
     return result;
   }
 
