@@ -72,6 +72,6 @@ public class XtextBuildTriggerTest {
     when(workspace.getRoot()).thenReturn(root);
     when(root.getProjects()).thenReturn(projects);
     buildTrigger.scheduleFullBuild();
-    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), ArgumentMatchers.<IBuildFlag[]> any());
+    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)));
   }
 }
