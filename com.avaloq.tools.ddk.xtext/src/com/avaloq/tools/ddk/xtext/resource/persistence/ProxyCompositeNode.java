@@ -21,9 +21,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.nodemodel.BidiIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterable;
 import org.eclipse.xtext.nodemodel.BidiTreeIterator;
@@ -42,6 +44,7 @@ import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.util.ITextRegion;
 import org.eclipse.xtext.util.ITextRegionWithLineInformation;
+import org.eclipse.xtext.util.LineAndColumn;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 
@@ -114,10 +117,6 @@ public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INod
       if (proxyNode != null) {
         result = proxyNode.idToEObjectMap;
       }
-    }
-
-    if (resource instanceof XtextResource) {
-      ((XtextResource) resource).setParseResult(null);
     }
     return result;
   }
@@ -405,7 +404,59 @@ public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INod
 
   @Override
   public NodeModelUtils.Implementation utils() {
-    return delegate().utils();
+    // return an implementation that adapts the proxy node to the delegate on each Node parameter
+    return new NodeModelUtils.Implementation() {
+      private final ICompositeNode loadedNode = delegate();
+
+      @SuppressWarnings("unchecked")
+      private <N extends INode> N adapt(final N node) {
+        if (node == ProxyCompositeNode.this) {
+          // adapt() is only ever called with INodes and ICompositeNodes, so it is safe to cast to N here.
+          return (N) loadedNode;
+        }
+        return node;
+      }
+
+      @Override
+      public ILeafNode findLeafNodeAtOffset(final INode node, final int leafNodeOffset) {
+        return loadedNode.utils().findLeafNodeAtOffset(adapt(node), leafNodeOffset);
+      }
+
+      @Override
+      public LineAndColumn getLineAndColumn(final INode anyNode, final int documentOffset) {
+        return loadedNode.utils().getLineAndColumn(adapt(anyNode), documentOffset);
+      }
+
+      @Override
+      public List<INode> findNodesForFeature(final EObject element, final INode node, final EStructuralFeature structuralFeature) {
+        return loadedNode.utils().findNodesForFeature(element, adapt(node), structuralFeature);
+      }
+
+      @Override
+      public ICompositeNode findActualNodeEnclosing(final ICompositeNode node) {
+        return loadedNode.utils().findActualNodeEnclosing(adapt(node));
+      }
+
+      @Override
+      public EObject findActualSemanticObjectFor(final INode node) {
+        return loadedNode.utils().findActualSemanticObjectFor(adapt(node));
+      }
+
+      @Override
+      public String compactDump(final INode node, final boolean showHidden) {
+        return loadedNode.utils().compactDump(adapt(node), showHidden);
+      }
+
+      @Override
+      public String getTokenText(final INode node) {
+        return loadedNode.utils().getTokenText(adapt(node));
+      }
+
+      @Override
+      public ParserRule getEntryParserRule(final INode node) {
+        return loadedNode.utils().getEntryParserRule(adapt(node));
+      }
+    };
   }
 }
 
