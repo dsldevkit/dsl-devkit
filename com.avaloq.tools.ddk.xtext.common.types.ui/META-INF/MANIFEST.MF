@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.xtext.common.types.ui
 Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.common.types.ui;singleton:=true
-Bundle-Version: 16.4.0.qualifier
+Bundle-Version: 16.4.0.v20260119-1243-REL
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
