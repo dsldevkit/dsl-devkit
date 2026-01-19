@@ -16,7 +16,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
-import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 
 
 /**
@@ -98,3 +98,4 @@ public final class BugTestAwareRule implements InvocationInterceptor {
   }
 
 }
+
