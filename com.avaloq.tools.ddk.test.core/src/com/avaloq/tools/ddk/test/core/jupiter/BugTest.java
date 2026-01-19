@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.test.core;
+package com.avaloq.tools.ddk.test.core.jupiter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
