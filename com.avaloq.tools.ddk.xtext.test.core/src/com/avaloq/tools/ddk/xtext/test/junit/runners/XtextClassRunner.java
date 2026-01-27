@@ -101,7 +101,6 @@ public class XtextClassRunner extends XtextRunner {
   public static final String PROPERTY_UNSTABLE_FAIL = "com.avaloq.test.unstablefail"; //$NON-NLS-1$
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(XtextClassRunner.class);
-  @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> TEST_ANNOTATIONS = Lists.newArrayList(Test.class, UnitTest.class, ModuleTest.class, IntegrationTest.class, SystemTest.class, PerformanceTest.class, BugTest.class);
   private List<FrameworkMethod> expectedMethods;
   private int currentMethodIndex;

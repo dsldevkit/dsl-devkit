@@ -40,7 +40,7 @@ import com.google.inject.Injector;
  * Unit test for {@link DefaultCheckRuleLabelProvider}.
  */
 @SuppressWarnings("nls")
-public class CheckRuleLabelProviderTest {
+class CheckRuleLabelProviderTest {
 
   // Test data
   private static final int NUM_VALIDATORS = 3;

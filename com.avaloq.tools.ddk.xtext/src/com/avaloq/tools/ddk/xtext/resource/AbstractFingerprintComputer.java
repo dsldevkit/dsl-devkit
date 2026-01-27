@@ -517,7 +517,6 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
    *          the URIs or by calling a generated function, must not be {@code null}
    * @return the fingerprint
    */
-  @SuppressWarnings("unchecked")
   protected ExportItem fingerprintExpr(final Object obj, final EObject context, final FingerprintOrder order, final FingerprintIndirection indirection) {
     if (obj instanceof EObject) {
       if (indirection == FingerprintIndirection.INDIRECT) {

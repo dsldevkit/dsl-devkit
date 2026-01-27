@@ -44,7 +44,7 @@ import com.google.common.collect.Sets;
  * Scoping tests for the Format DSL.
  */
 @SuppressWarnings("nls")
-public class FormatScopingTest extends AbstractScopingTest {
+class FormatScopingTest extends AbstractScopingTest {
 
   private static final String C_FORMAT = "C.format";
   private static final String C_XTEXT = "C.xtext";
@@ -103,13 +103,13 @@ public class FormatScopingTest extends AbstractScopingTest {
    * Tests that all grammars' rules are scoped.
    */
   @Test
-  public void allGrammarsScoped() {
+  void allGrammarsScoped() {
     Set<URI> expectedURIs = Sets.newHashSet(EcoreUtil.getURI(grammarC.getRules().get(0)), EcoreUtil.getURI(grammarB.getRules().get(0)), EcoreUtil.getURI(grammarA.getRules().get(0)), EcoreUtil.getURI(grammarA.getRules().get(1)));
     assertScope(formatC, FormatPackage.Literals.GRAMMAR_RULE__TARGET_RULE, expectedURIs);
   }
 
   @Test
-  public void keywordScoped() {
+  void keywordScoped() {
     AbstractRule parserRuleA = grammarA.getRules().get(0);
     Set<URI> keywordURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedKeywords(parserRuleA), TO_URI));
     assertFalse(keywordURIs.isEmpty(), "No keywords found");
@@ -125,7 +125,7 @@ public class FormatScopingTest extends AbstractScopingTest {
    * Verify assignemnts (=a, =b ...) are scoped.
    */
   @Test
-  public void assignmentScoped() {
+  void assignmentScoped() {
     AbstractRule parserRuleA = grammarA.getRules().get(0);
     Set<URI> assignmentURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedAssignments(parserRuleA), TO_URI));
     assertFalse(assignmentURIs.isEmpty(), "No assignments found");
@@ -137,7 +137,7 @@ public class FormatScopingTest extends AbstractScopingTest {
    * Verify Rule { @Rule : ...}.
    */
   @Test
-  public void ruleCallScoped() {
+  void ruleCallScoped() {
     AbstractRule parserRuleAA = grammarA.getRules().get(1);
     Set<URI> ruleCallURIs = Sets.newHashSet(Iterables.transform(GrammarUtil.containedRuleCalls(parserRuleAA), TO_URI));
     assertScope(formatA.getRules().get(1), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE_CALL, ruleCallURIs);
@@ -148,13 +148,13 @@ public class FormatScopingTest extends AbstractScopingTest {
    * Verify Rule { rule : ...}.
    */
   @Test
-  public void ruleSelfScoped() {
+  void ruleSelfScoped() {
     AbstractRule parserRuleA = grammarA.getRules().get(0);
     assertScope(formatC.getRules().get(0), FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__SELF, TO_URI.apply(parserRuleA));
   }
 
   @Test
-  public void groupScoped() {
+  void groupScoped() {
     ParserRule parserRuleA = (ParserRule) grammarA.getRules().get(0);
 
     CompoundElement group1 = findSemanticElementByString("(", CompoundElement.class, parserRuleA); // ('-' b=STRING | ('-'c=ID ('-'d=INT | '-'e=STRING)))?

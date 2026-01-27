@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
 
 
 @SuppressWarnings("PMD.JUnitAssertionsShouldIncludeMessage")
-public class EClassComparatorTest {
+class EClassComparatorTest {
 
   private final Function<EClass, EClass> mapping = Functions.<EClass> identity();
 

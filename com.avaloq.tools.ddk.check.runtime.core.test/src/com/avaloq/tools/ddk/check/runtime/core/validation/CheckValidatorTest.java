@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
  * Performs some basic validation tests on the {@link AbstractCheckValidator}.
  */
 @SuppressWarnings("nls")
-public class CheckValidatorTest extends AbstractCheckValidator {
+class CheckValidatorTest extends AbstractCheckValidator {
   /**
    * Represents the dummy language which is also registered in the plugin.xml.
    */

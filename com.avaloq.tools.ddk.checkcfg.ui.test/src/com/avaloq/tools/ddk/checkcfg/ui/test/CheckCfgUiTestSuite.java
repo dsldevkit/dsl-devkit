@@ -15,5 +15,5 @@ package com.avaloq.tools.ddk.checkcfg.ui.test;
  */
 // @Format-Off
 // @Format-On
-public class CheckCfgUiTestSuite {
+class CheckCfgUiTestSuite {
 }

@@ -456,7 +456,6 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
    * @param hasher
    *          hasher to stream to
    */
-  @SuppressWarnings("unchecked")
   protected void fingerprintExpr(final Object obj, final EObject context, final FingerprintOrder order, final FingerprintIndirection indirection, final Hasher hasher) {
     if (obj instanceof EObject) {
       if (indirection == FingerprintIndirection.INDIRECT) {

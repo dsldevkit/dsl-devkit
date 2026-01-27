@@ -39,32 +39,32 @@ import com.google.inject.Inject;
 @SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
 @InjectWith(AbstractXtextTestsInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
-public class AbstractSelectorFragmentProviderTest {
+class AbstractSelectorFragmentProviderTest {
   // CHECKSTYLE:ON
 
   @Inject
   private ParseHelper<EObject> parseHelper;
 
   @Test
-  public void testTopLevelObject() {
+  void testTopLevelObject() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0", grammar);
   }
 
   @Test
-  public void testMultiValuedContainment() {
+  void testMultiValuedContainment() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0", grammar.getRules().get(0));
   }
 
   @Test
-  public void testSingleValuedContainment() {
+  void testSingleValuedContainment() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo'+;");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0/2(3='foo')", grammar.getRules().get(0).getAlternatives());
   }
 
   @Test
-  public void testNullSelectorValue() {
+  void testNullSelectorValue() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'selectCardinality';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0/2(0=null)", grammar.getRules().get(0).getAlternatives());
 
@@ -73,7 +73,7 @@ public class AbstractSelectorFragmentProviderTest {
   }
 
   @Test
-  public void testEscapedSelectorValue() {
+  void testEscapedSelectorValue() {
     Grammar grammar = (Grammar) getModel("grammar foo.Foo\n" + "generate foo 'http://www.foo.com/foo'\n" + "Foo: 'foo.bar#';");
     assertFragmentMatchesAndResolves(grammar.eResource(), "/0/5(0='Foo')#0/2(3='foo.bar#')", grammar.getRules().get(0).getAlternatives());
   }

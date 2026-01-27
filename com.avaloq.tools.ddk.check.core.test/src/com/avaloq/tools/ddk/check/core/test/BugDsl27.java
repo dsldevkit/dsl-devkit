@@ -27,7 +27,7 @@ import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 @InjectWith(CheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-public class BugDsl27 extends AbstractCheckGenerationTestCase {
+class BugDsl27 extends AbstractCheckGenerationTestCase {
 
   /**
    * Tests that our test source compiles fine.

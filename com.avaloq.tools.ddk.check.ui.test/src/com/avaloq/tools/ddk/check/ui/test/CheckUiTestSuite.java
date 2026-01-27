@@ -10,14 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
-import com.avaloq.tools.ddk.check.ui.test.builder.CheckContextsExtensionTest;
-import com.avaloq.tools.ddk.check.ui.test.builder.CheckMarkerHelpExtensionTest;
-import com.avaloq.tools.ddk.check.ui.test.builder.CheckTocExtensionTest;
-import com.avaloq.tools.ddk.check.ui.test.contentassist.BugAig931Test;
-import com.avaloq.tools.ddk.check.ui.test.quickfix.CheckQuickfixTest;
 
 
 /**
@@ -25,15 +20,11 @@ import com.avaloq.tools.ddk.check.ui.test.quickfix.CheckQuickfixTest;
  */
 // @Format-Off
 @Suite
-@SelectClasses({
-  CheckQuickfixTest.class,
-  CheckProjectWizardTest.class,
-  CheckCatalogWizardTest.class,
-  CheckMarkerHelpExtensionTest.class,
-  CheckContextsExtensionTest.class,
-  CheckTocExtensionTest.class,
-  BugAig931Test.class
+@SelectPackages({
+  "com.avaloq.tools.ddk.check.ui.test.builder",
+  "com.avaloq.tools.ddk.check.ui.test.contentassist",
+  "com.avaloq.tools.ddk.check.ui.test.quickfix"
 })
 // @Format-On
-public class CheckUiTestSuite {
+class CheckUiTestSuite {
 }

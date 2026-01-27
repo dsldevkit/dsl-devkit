@@ -34,7 +34,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage;
 
 
 @SuppressWarnings("nls")
-public class AbstractTypeProviderTest {
+class AbstractTypeProviderTest {
 
   protected class TypeImpl extends EObjectImpl implements IType {
   }

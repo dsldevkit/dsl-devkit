@@ -40,7 +40,7 @@ import com.google.inject.Injector;
  * A test class for {@link RuntimeProjectUtil}
  */
 @SuppressWarnings("nls")
-public class RuntimeProjectUtilTest extends AbstractUtilTest {
+class RuntimeProjectUtilTest extends AbstractUtilTest {
 
   private static final String WORKSPACE_PATH = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().getPath();
 
@@ -84,7 +84,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    * Tests extracting project path from a {@link Resource}.
    */
   @Test
-  public void getPathProjectTest() {
+  void getPathProjectTest() {
     assertEquals(WORKSPACE_PATH + "/"
         + TEST_PROJECT_NAME, RuntimeProjectUtil.getPathProject(resource, mapperCorrect), "Check if the correct project path has been returned");
   }
@@ -93,7 +93,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    * Tests extracting project name from a {@link URI}.
    */
   @Test
-  public void getProjectCorrectTest() {
+  void getProjectCorrectTest() {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
     IProject iproject = RuntimeProjectUtil.getProject(uriCorrect, mapperCorrect);
     assumeTrue(iproject != null);
@@ -104,7 +104,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    * Checks when passed {@link IStorage2UriMapper} is broken then null instead of project name expected.
    */
   @Test
-  public void getProjectInCorrectTest() {
+  void getProjectInCorrectTest() {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
     IProject iproject = RuntimeProjectUtil.getProject(uriCorrect, mapperInCorrect);
     assertNull(iproject, "When passed IStorage2UriMapper is broken then null instead of project name expected");
@@ -115,7 +115,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    * Tests correct delegation of responsibility to the {@link IStorage2UriMapper}.
    */
   @Test
-  public void findFileStorageCorrectTest() {
+  void findFileStorageCorrectTest() {
     super.addSourceToWorkspace(SOURCE_NAMES.get(0));
     assertEquals(RuntimeProjectUtil.findFileStorage(uriCorrect, mapperCorrect), file, "Check if the correct file has been returned");
   }
@@ -124,7 +124,7 @@ public class RuntimeProjectUtilTest extends AbstractUtilTest {
    * Checks when passed {@link IStorage2UriMapper} is broken then no file expected.
    */
   @Test
-  public void findFileStorageInCorrectTest() {
+  void findFileStorageInCorrectTest() {
     assertNull(RuntimeProjectUtil.findFileStorage(uriInCorrect, mapperInCorrect), "When passed IStorage2UriMapper is broken then no file expected");
   }
 

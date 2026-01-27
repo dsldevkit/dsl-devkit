@@ -11,21 +11,18 @@
 
 package com.avaloq.tools.ddk.check.test.runtime.tests;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
-import com.avaloq.tools.ddk.check.test.runtime.label.IssueLabelTest;
 
 
 /**
  * Junit5 version of test suites. does not implement the logic in our DiscerningSuite.
  */
 @Suite
-@SelectClasses({
-// @Format-Off
-  IssueLabelTest.class
-  // @Format-On
+@SelectPackages({
+  "com.avaloq.tools.ddk.check.test.runtime.label"
 })
-public class CheckLibraryChecksTestSuite {
+class CheckLibraryChecksTestSuite {
 
 }

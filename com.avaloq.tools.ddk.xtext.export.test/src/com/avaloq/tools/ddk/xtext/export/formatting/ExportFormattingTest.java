@@ -19,7 +19,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractFormattingTest;
  * Tests formatting of Export source fragments.
  */
 @SuppressWarnings("nls")
-public class ExportFormattingTest extends AbstractFormattingTest {
+class ExportFormattingTest extends AbstractFormattingTest {
 
   @Override
   protected ExportTestUtil getXtextTestUtil() {

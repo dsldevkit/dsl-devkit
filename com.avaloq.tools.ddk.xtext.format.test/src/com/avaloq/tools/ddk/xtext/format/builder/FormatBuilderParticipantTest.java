@@ -36,7 +36,7 @@ import com.google.inject.Injector;
  * A test class for {@link FormatBuilderParticipant} and com.avaloq.tools.ddk.xtext.ui.builder.AbstractConditionalBuilderParticipant
  */
 @SuppressWarnings("nls")
-public class FormatBuilderParticipantTest extends AbstractXtextTest {
+class FormatBuilderParticipantTest extends AbstractXtextTest {
 
   private static final String TEST_PROJECT_NAME = "resource";
 
@@ -68,7 +68,7 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
    * Tests whether a {@link Delta} resource has a correct extension to be used by org.eclipse.xtext.builder.BuilderParticipant.
    */
   @Test
-  public void hasCorrectExtensionTest() {
+  void hasCorrectExtensionTest() {
     IResourceServiceProvider resourceServiceProvider = mock(IResourceServiceProvider.class);
     when(resourceServiceProvider.canHandle(argThat(new IsUri()))).thenReturn(true, false);
     assertTrue(participant.hasCorrectExtension(delta, resourceServiceProvider), "Check if the delta resource has correct extension");
@@ -79,7 +79,7 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
    * Tests whether a {@link Delta} resource comes form the right (SRC) directory to be used by org.eclipse.xtext.builder.BuilderParticipant.
    */
   @Test
-  public void isSourceOriginatedTest() {
+  void isSourceOriginatedTest() {
     when(uriCorrect.segments()).thenReturn(CORRECT_URI_SEGMENTS);
     assertTrue(participant.isSourceOriginated(delta), "Check if the delta resource has correct URI and comes from SRC directory");
     when(uriCorrect.segments()).thenReturn(BIN_URI_SEGMENTS);

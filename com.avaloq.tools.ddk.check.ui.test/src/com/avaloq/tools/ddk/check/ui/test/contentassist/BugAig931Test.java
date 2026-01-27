@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
  * Tests content assist in Check models.
  */
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.AvoidFinalLocalVariable", "nls"})
-public class BugAig931Test extends AbstractCheckContentAssistBugTest implements IJavaProjectProvider {
+class BugAig931Test extends AbstractCheckContentAssistBugTest implements IJavaProjectProvider {
 
   /**
    * Verifies that given completions exist.
@@ -63,11 +63,10 @@ public class BugAig931Test extends AbstractCheckContentAssistBugTest implements 
    *           the exception
    */
   @Test
-  public void testBugAig931() throws Exception {
+  void testBugAig931() throws Exception {
     final String partialModel = "package p catalog T for grammar com.avaloq.tools.ddk.check.Check { error \"X\" for ";
     final String[] expectedContextTypeProposals = {"EObject - org.eclipse.emf.ecore", "JvmType - org.eclipse.xtext.common.types"};
     new UIJob("compute completion proposals") {
-      @SuppressWarnings("restriction")
       @Override
       public IStatus runInUIThread(final IProgressMonitor monitor) {
         try {

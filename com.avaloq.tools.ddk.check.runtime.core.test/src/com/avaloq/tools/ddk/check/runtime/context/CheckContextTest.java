@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * Provides some tests of the reflective {@link AbstractCheckContext} framework.
  */
 @SuppressWarnings("nls")
-public class CheckContextTest {
+class CheckContextTest {
 
   public static final String ENABLED_ISSUE_CODE = "Enabled.Issue.Code";
   public static final String DISABLED_ISSUE_CODE = "Disabled.Issue.Code";

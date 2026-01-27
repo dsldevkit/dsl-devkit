@@ -28,10 +28,10 @@ import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 @SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
 @ExtendWith(InjectionExtension.class)
 // CHECKSTYLE:CONSTANTS-OFF
-public class QualifiedNamePatternTest {
+class QualifiedNamePatternTest {
 
   @Test
-  public void testSimpleQualifiedNamePattern() {
+  void testSimpleQualifiedNamePattern() {
     QualifiedNamePattern pattern = QualifiedNamePattern.create("foo*");
     assertEquals(QualifiedName.create("foo"), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("fop"), pattern.upperExclusive());
@@ -41,7 +41,7 @@ public class QualifiedNamePatternTest {
   }
 
   @Test
-  public void testQualifiedPrefixNamePattern() {
+  void testQualifiedPrefixNamePattern() {
     QualifiedNamePattern pattern = QualifiedNamePattern.create("foo", "*");
     assertEquals(QualifiedName.create("foo", ""), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("foo!"), pattern.upperExclusive());
@@ -55,7 +55,7 @@ public class QualifiedNamePatternTest {
   }
 
   @Test
-  public void testRecursiveWildcardPattern() {
+  void testRecursiveWildcardPattern() {
     QualifiedNamePattern pattern = QualifiedNamePattern.create("foo", "**");
     assertEquals(QualifiedName.create("foo", ""), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("foo!"), pattern.upperExclusive());
@@ -65,7 +65,7 @@ public class QualifiedNamePatternTest {
   }
 
   @Test
-  public void testRecursiveWildcardPatternWithPrefix() {
+  void testRecursiveWildcardPatternWithPrefix() {
     QualifiedNamePattern pattern = QualifiedNamePattern.create("foo", "b**");
     assertEquals(QualifiedName.create("foo", "b"), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("foo", "c"), pattern.upperExclusive());
@@ -75,36 +75,36 @@ public class QualifiedNamePatternTest {
   }
 
   @Test
-  public void testRecursiveWildcardPatternError() {
+  void testRecursiveWildcardPatternError() {
     assertThrows(IllegalArgumentException.class, () -> QualifiedNamePattern.create("foo", "bar**baz"));
   }
 
   @Test
-  public void testRecursiveWildcardPatternError2() {
+  void testRecursiveWildcardPatternError2() {
     assertThrows(IllegalArgumentException.class, () -> QualifiedNamePattern.create("foo", "**", "bar"));
   }
 
   @Test
-  public void testRecursiveWildcardPatternError3() {
+  void testRecursiveWildcardPatternError3() {
     assertThrows(IllegalArgumentException.class, () -> QualifiedNamePattern.create("foo*bar"));
   }
 
   @Test
-  public void testAllPattern() {
+  void testAllPattern() {
     QualifiedNamePattern pattern = QualifiedNamePattern.create("*");
     assertEquals(QualifiedName.create(""), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("!"), pattern.upperExclusive());
   }
 
   @Test
-  public void testPatternWithoutWildcard() {
+  void testPatternWithoutWildcard() {
     QualifiedNamePattern pattern = QualifiedNamePattern.create("foo");
     assertEquals(QualifiedName.create("foo"), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("foo!"), pattern.upperExclusive());
   }
 
   @Test
-  public void testRegexpPatterns() {
+  void testRegexpPatterns() {
     QualifiedNamePattern pattern = QualifiedNamePattern.createFromGlobs("*");
     assertEquals(QualifiedName.create(""), pattern.lowerInclusive());
     assertEquals(QualifiedName.create("!"), pattern.upperExclusive());

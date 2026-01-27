@@ -35,7 +35,7 @@ import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
  */
 @SuppressWarnings("nls")
 @TestInstance(Lifecycle.PER_CLASS)
-public class ShortFragmentProviderTest {
+class ShortFragmentProviderTest {
 
   private static final String FRAGMENT_MUST_BE_EQUAL = "Fragment must be equal";
   private static AbstractTestUtil testUtil = new AbstractTestUtil() {
@@ -63,7 +63,7 @@ public class ShortFragmentProviderTest {
   private EReference testReference2;
 
   @BeforeEach
-  public void initialize() {
+  void initialize() {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
 
     testClass = ecoreFactory.createEClass();
@@ -85,7 +85,7 @@ public class ShortFragmentProviderTest {
   }
 
   @AfterEach
-  public void cleanup() {
+  void cleanup() {
     EPackage.Registry.INSTANCE.remove(testPackage.getNsURI());
   }
 
@@ -110,7 +110,7 @@ public class ShortFragmentProviderTest {
   }
 
   @Test
-  public void testLongFragment2() {
+  void testLongFragment2() {
     int reps = 10;
     EObject root = EcoreUtil.create(testClass);
     EObject parent = root;

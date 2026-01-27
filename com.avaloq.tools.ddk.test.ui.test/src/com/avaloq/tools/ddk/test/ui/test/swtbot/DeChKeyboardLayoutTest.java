@@ -23,14 +23,14 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
  * Checks if the DE_CH keyboard layout works correctly by typing special characters in a test Eclipse editor.
  */
 @SuppressWarnings("nls")
-public class DeChKeyboardLayoutTest {
+class DeChKeyboardLayoutTest {
   private static final String EXPECTED_RESULT = "¨üöä$,.-<!èéà£;:_>[]ö{},.-\\'^+\"*ç%&/()=?`¦@#°§¬|¢´~zyZY";
 
   /**
    * Tests com.avaloq.test.swtbot.DE_CH.
    */
   @Test
-  public void testDeChKeyboardLayout() {
+  void testDeChKeyboardLayout() {
     SWTBotPreferences.KEYBOARD_LAYOUT = "com.avaloq.test.swtbot.DE_CH";
     SWTBotPreferences.KEYBOARD_STRATEGY = "org.eclipse.swtbot.swt.finder.keyboard.MockKeyboardStrategy";
     SwtWorkbenchBot bot = new SwtWorkbenchBot();
