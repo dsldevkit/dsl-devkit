@@ -29,7 +29,7 @@ import com.google.inject.Inject;
  */
 @InjectWith(CheckCfgUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
-public class CheckCfgValidationTest {
+class CheckCfgValidationTest {
 
   @Inject
   private ValidationTestHelper helper;
@@ -50,7 +50,7 @@ public class CheckCfgValidationTest {
    *           if a problem occurred parsing the test model
    */
   @Test
-  public void testDisabledCheckIsNotConfigured() throws Exception { // NOPMD
+  void testDisabledCheckIsNotConfigured() throws Exception { // NOPMD
     CheckConfiguration model = parser.parse(modelUtil.basicModelWithDisabledTest() + " (val = 0)"); //$NON-NLS-1$
     helper.assertWarning(model, CheckcfgPackage.Literals.CONFIGURED_CHECK, IssueCodes.DISABLED_CHECK_NOT_CONFIGURED);
   }

@@ -19,7 +19,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractValidationTest;
 /**
  * Tests validation of Export sources.
  */
-public class ExportValidationOkTest extends AbstractValidationTest {
+class ExportValidationOkTest extends AbstractValidationTest {
 
   @Override
   protected ExportTestUtil getXtextTestUtil() {

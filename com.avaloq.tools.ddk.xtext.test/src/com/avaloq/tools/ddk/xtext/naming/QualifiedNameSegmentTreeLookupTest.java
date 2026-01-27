@@ -33,18 +33,18 @@ import com.google.common.collect.ImmutableSet;
 
 @SuppressWarnings({"nls", "unused", "PMD.JUnitAssertionsShouldIncludeMessage"})
 // CHECKSTYLE:CHECK-OFF MultipleStringLiteralsCheck
-public class QualifiedNameSegmentTreeLookupTest {
+class QualifiedNameSegmentTreeLookupTest {
   private static final Logger LOGGER = LogManager.getLogger(QualifiedNameSegmentTreeLookupTest.class);
 
   private final QualifiedNameSegmentTreeLookup<URI> lookup = new QualifiedNameSegmentTreeLookup<URI>(URI.class, true);
 
   @Test
-  public void testEmpty() {
+  void testEmpty() {
     assertNull(lookup.get(QualifiedName.EMPTY));
   }
 
   @Test
-  public void testExact() {
+  void testExact() {
     QualifiedName name = name("foo");
     Collection<URI> values = Collections.singletonList(uri(name));
     lookup.putAll(name, values);
@@ -62,7 +62,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testTopLevelPatternWithoutWildcard() {
+  void testTopLevelPatternWithoutWildcard() {
     URI value1 = put("foo");
     URI value2 = put("bar");
     URI value3 = put("foo2");
@@ -73,7 +73,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testTopLevelPatternWithWildcard() {
+  void testTopLevelPatternWithWildcard() {
     URI value1 = put("foo");
     URI value2 = put("foo2");
     URI value3 = put("bar");
@@ -84,7 +84,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testNestedPatternMatchesWithoutWildcard() {
+  void testNestedPatternMatchesWithoutWildcard() {
     URI value1 = put("foo");
     URI value2 = put("foo.bar");
     URI value3 = put("foo2");
@@ -95,7 +95,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testNestedPatternMatchesWithWildcard() {
+  void testNestedPatternMatchesWithWildcard() {
     URI value1 = put("foo");
     URI value2 = put("foo.bar");
     URI value3 = put("foo.baz");
@@ -109,7 +109,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testNestedPatternMatchesWithRecursiveWildcard() {
+  void testNestedPatternMatchesWithRecursiveWildcard() {
     URI value1 = put("foo");
     URI value2 = put("foo.bar");
     URI value3 = put("foo.bar.baz");
@@ -122,7 +122,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testUnmatchedNestedPattern() {
+  void testUnmatchedNestedPattern() {
     URI value1 = put("foo");
     URI value2 = put("foo.bar");
     URI value3 = put("foo.bar.baz");
@@ -141,7 +141,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testOutOfOrderInsertion() {
+  void testOutOfOrderInsertion() {
     QualifiedName name1 = name("foo.bar");
     Collection<URI> value1 = Collections.singletonList(uri(name1));
     lookup.putAll(name1, value1);
@@ -154,7 +154,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testLoadStore() throws IOException, ClassNotFoundException {
+  void testLoadStore() throws IOException, ClassNotFoundException {
     List<QualifiedName> nameList = List.of(name("foo"), name("foo.bar"), name("bar"));
     for (QualifiedName qn : nameList) {
       lookup.put(qn, uri(qn));
@@ -178,7 +178,7 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   @Test
-  public void testGetMappings() {
+  void testGetMappings() {
     final QualifiedName a = name("A");
     final QualifiedName b = name("B");
     final QualifiedName c = name("A.C");

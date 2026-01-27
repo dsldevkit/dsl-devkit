@@ -37,7 +37,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.impl.NamedTypeImpl;
 
 // You can't have too many tests
 @SuppressWarnings({"PMD.ExcessivePublicCount", "nls"})
-public class ParameterListMatcherTest {
+class ParameterListMatcherTest {
 
   private static final String WRONG_NUMBER_OF_UNNAMED_FORMALS_AFTER_NAMED_FORMALS = "wrong number of unnamed formals after named formals";
   private static final String UNNAMED_FORMAL_AFTER_NAMED_NOT_LOCATED = "unnamed formal after named not located";

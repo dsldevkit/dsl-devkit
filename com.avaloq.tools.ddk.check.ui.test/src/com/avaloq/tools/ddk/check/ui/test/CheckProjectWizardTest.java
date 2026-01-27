@@ -35,7 +35,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-public class CheckProjectWizardTest {
+class CheckProjectWizardTest {
 
   /** This is the name of the project wizard. It's the name SWTBot uses to look up the wizard. */
   private static final String CHECK_PROJECT_WIZARD_NAME = "Check Project";
@@ -49,7 +49,7 @@ public class CheckProjectWizardTest {
    * Start again the Check project wizard before every test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     wizard = new SwtWizardBot();
     wizard.openNewWizard(CHECK_PROJECT_WIZARD_NAME);
   }
@@ -58,7 +58,7 @@ public class CheckProjectWizardTest {
    * Check if the project wizard is available.
    */
   @Test
-  public void testCheckProjectWizardIsAvailable() {
+  void testCheckProjectWizardIsAvailable() {
     assertNotNull(wizard, "the project wizard was found");
     CheckWizardTestUtil.assertButtonsEnabled(false, true, false, wizard);
   }
@@ -67,7 +67,7 @@ public class CheckProjectWizardTest {
    * Test if the buttons 'next', 'back' and 'finish' are correctly enabled/disabled.
    */
   @Test
-  public void testProjectNameInvalid() {
+  void testProjectNameInvalid() {
     CheckWizardTestUtil.projectName(wizard, "", CheckWizardTestUtil.NEXT_DISABLED);
     CheckWizardTestUtil.projectName(wizard, ".project.name", CheckWizardTestUtil.NEXT_DISABLED);
     CheckWizardTestUtil.projectName(wizard, "Project.name", CheckWizardTestUtil.NEXT_DISABLED);
@@ -88,7 +88,7 @@ public class CheckProjectWizardTest {
    * Test if the buttons 'next', 'back' and 'finish' are correctly enabled/disabled.
    */
   @Test
-  public void testProjectNameValid() {
+  void testProjectNameValid() {
     CheckWizardTestUtil.projectName(wizard, "project.name", CheckWizardTestUtil.NEXT_ENABLED);
     CheckWizardTestUtil.projectName(wizard, "projectname", CheckWizardTestUtil.NEXT_ENABLED);
   }
@@ -97,7 +97,7 @@ public class CheckProjectWizardTest {
    * Test if the buttons 'next', 'back' and 'finish' are correctly enabled/disabled.
    */
   @Test
-  public void fieldValuesAfterPageChange() {
+  void fieldValuesAfterPageChange() {
     wizard.writeToTextField(Messages.PROJECT_NAME_LABEL, CORRECT_PROJECT_NAME);
     wizard.changeToPreviousPage();
     wizard.changeToNextPage();
@@ -122,7 +122,7 @@ public class CheckProjectWizardTest {
    * Close the wizard after every test.
    */
   @AfterEach
-  public void tearDown() {
+  void tearDown() {
     wizard.closeWizard();
   }
 

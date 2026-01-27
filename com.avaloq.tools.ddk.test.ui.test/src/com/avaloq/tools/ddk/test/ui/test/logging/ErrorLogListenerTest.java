@@ -26,14 +26,14 @@ import com.avaloq.tools.ddk.test.core.util.ErrorLogListener;
 /**
  * Tests the {@link ErrorLogListener}.
  */
-public class ErrorLogListenerTest {
+class ErrorLogListenerTest {
   private ErrorLogListener errorLogListener;
 
   /**
    * Sets up the {@link ErrorLogListener} under test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     errorLogListener = new ErrorLogListener();
     errorLogListener.register();
   }
@@ -42,7 +42,7 @@ public class ErrorLogListenerTest {
    * Tears down the {@link ErrorLogListener} under test.
    */
   @AfterEach
-  public void tearDown() {
+  void tearDown() {
     errorLogListener.unregister();
   }
 
@@ -54,7 +54,7 @@ public class ErrorLogListenerTest {
    */
   @Test
   @SuppressWarnings("nls")
-  public void testIgnoringExceptionLocations() throws InterruptedException {
+  void testIgnoringExceptionLocations() throws InterruptedException {
     assertFalse(errorLogListener.isExceptionLogged(NullPointerException.class), "NullPointerException must not have been logged.");
     errorLogListener.ignoreException(NullPointerException.class, "com.avaloq.tools.ddk.test.core.util.ErrorLogListenerTest");
 

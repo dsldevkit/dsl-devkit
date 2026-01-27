@@ -27,7 +27,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 
 
 @SuppressWarnings({"nls", "PMD.SignatureDeclareThrowsException"})
-public class CompilationContextTest {
+class CompilationContextTest {
 
   @Test
   void isExtension() {

@@ -39,7 +39,7 @@ import com.google.inject.Injector;
 @SuppressWarnings({"restriction", "deprecation"})
 @InjectWith(XtextBuilderInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
-public class XtextBuildTriggerTest {
+class XtextBuildTriggerTest {
 
   @Inject
   private Injector injector;
@@ -48,13 +48,13 @@ public class XtextBuildTriggerTest {
   private BuildScheduler scheduler;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     workspace = injector.getInstance(IWorkspace.class);
     scheduler = injector.getInstance(BuildScheduler.class);
   }
 
   @Test
-  public void testTriggerRespectsAutoBuilding() {
+  void testTriggerRespectsAutoBuilding() {
     XtextBuildTrigger buildTrigger = injector.getInstance(XtextBuildTrigger.class);
 
     // auto-build disabled

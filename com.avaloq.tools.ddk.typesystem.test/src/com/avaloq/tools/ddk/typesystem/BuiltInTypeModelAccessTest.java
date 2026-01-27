@@ -28,7 +28,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.INamedType;
  * Tests that the BuiltInType model instance is correct and complete.
  */
 @SuppressWarnings("nls")
-public class BuiltInTypeModelAccessTest {
+class BuiltInTypeModelAccessTest {
 
   @Test
   void testLoadModel() {

@@ -20,7 +20,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
  * Tests exporting of Ddic sources.
  */
 
-public class ExportExportingTest extends AbstractXtextTest { // AbstractExportingTest { // TODO - AbstractExportingTest like AbstractExportingTest?
+class ExportExportingTest extends AbstractXtextTest { // AbstractExportingTest { // TODO - AbstractExportingTest like AbstractExportingTest?
 
   @Override
   protected ExportTestUtil getXtextTestUtil() {
