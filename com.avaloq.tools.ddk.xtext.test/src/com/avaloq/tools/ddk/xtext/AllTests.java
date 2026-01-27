@@ -10,47 +10,24 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
-
-import com.avaloq.tools.ddk.check.runtime.test.core.CheckRuntimeTestSuite;
-import com.avaloq.tools.ddk.check.test.core.CheckCoreTestSuite;
-import com.avaloq.tools.ddk.check.test.runtime.tests.CheckExecutionEnvironmentTestSuite;
-import com.avaloq.tools.ddk.check.test.runtime.tests.CheckLibraryChecksTestSuite;
-import com.avaloq.tools.ddk.check.ui.test.CheckUiTestSuite;
-import com.avaloq.tools.ddk.checkcfg.test.CheckCfgTestSuite;
-import com.avaloq.tools.ddk.checkcfg.ui.test.CheckCfgUiTestSuite;
-import com.avaloq.tools.ddk.sample.helloworld.test.HelloWorldSampleTestSuite;
-import com.avaloq.tools.ddk.typesystem.test.TypeSystemTestSuite;
-import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
-import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
-import com.avaloq.tools.ddk.xtext.test.format.FormatTestSuite;
-import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Main test suite for all DDK tests. Uses package scanning to discover tests.
  */
 // CHECKSTYLE:OFF HideUtilityClassConstructor
 
 // @Format-Off
 @Suite
-@SelectClasses({
-  XtextTestSuite.class,
-  XtextUiTestSuite.class,
-  GeneratorTestSuite.class,
-  FormatTestSuite.class,
-  ExportTestSuite.class,
-  HelloWorldSampleTestSuite.class,
-  CheckRuntimeTestSuite.class,
-  CheckCoreTestSuite.class,
-  CheckExecutionEnvironmentTestSuite.class,
-  CheckLibraryChecksTestSuite.class,
-  CheckUiTestSuite.class,
-  CheckCfgUiTestSuite.class,
-  CheckCfgTestSuite.class,
-  TypeSystemTestSuite.class
+@SelectPackages({
+  "com.avaloq.tools.ddk.xtext",
+  "com.avaloq.tools.ddk.check",
+  "com.avaloq.tools.ddk.checkcfg",
+  "com.avaloq.tools.ddk.typesystem",
+  "com.avaloq.tools.ddk.sample.helloworld"
 })
 // @Format-On
-public class AllTests {
+class AllTests {
 }

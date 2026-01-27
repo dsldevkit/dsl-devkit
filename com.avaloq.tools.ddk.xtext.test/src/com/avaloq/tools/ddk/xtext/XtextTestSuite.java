@@ -10,37 +10,23 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
-
-import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
-import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
-import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProviderTest;
-import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProviderTest;
-import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePatternTest;
-import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookupTest;
-import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProviderTest;
-import com.avaloq.tools.ddk.xtext.resource.BugAig1084;
-import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
-import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
 
 
 /**
- * Empty class serving only as holder for JUnit5 annotations.
+ * Test suite for core Xtext tests.
  */
 // @Format-Off
 @Suite
-@SelectClasses({
-  AbstractFragmentProviderTest.class,
-  ShortFragmentProviderTest.class,
-  AbstractSelectorFragmentProviderTest.class,
-  ResourceDescriptionDeltaTest.class,
-  XtextBuildTriggerTest.class,
-  FormatterTest.class,
-  QualifiedNamePatternTest.class,
-  BugAig1084.class,
-  RuntimeProjectUtilTest.class,
-  QualifiedNameSegmentTreeLookupTest.class})
+@SelectPackages({
+  "com.avaloq.tools.ddk.xtext.builder",
+  "com.avaloq.tools.ddk.xtext.jupiter.formatter",
+  "com.avaloq.tools.ddk.xtext.linking",
+  "com.avaloq.tools.ddk.xtext.naming",
+  "com.avaloq.tools.ddk.xtext.resource",
+  "com.avaloq.tools.ddk.xtext.util"
+})
 // @Format-On
-public class XtextTestSuite {
+class XtextTestSuite {
 }
