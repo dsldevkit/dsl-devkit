@@ -28,28 +28,28 @@ class ExportValidationTest extends AbstractValidationTest {
   }
 
   @Test
-  public final void testCheckExtensions() {
+  final void testCheckExtensions() {
     // TODO cannot test as unable to load resource in test environment assertDiagnosticMessage("Extension 'XYZ' not found");
   }
 
   @Test
-  public final void testCheckInterfaceAndExportUniqueness() {
+  final void testCheckInterfaceAndExportUniqueness() {
     assertDiagnosticMessage("declaration duplicate found: ecore::EClass");
   }
 
   @Test
-  public final void testCheckExportFieldUniqueness() {
+  final void testCheckExportFieldUniqueness() {
     assertDiagnosticMessage("duplicate found: instanceClassName");
   }
 
   @Test
-  public final void testCheckUserDataNameAsFeature() {
+  final void testCheckUserDataNameAsFeature() {
     assertDiagnosticMessage("instanceClassName is already defined as field");
     // TODO assertDiagnosticMessage("xxx has the same name as an existing feature");
   }
 
   @Test
-  public final void testCheckOverlap() {
+  final void testCheckOverlap() {
     // TODO assertDiagnosticMessage("");
   }
 
