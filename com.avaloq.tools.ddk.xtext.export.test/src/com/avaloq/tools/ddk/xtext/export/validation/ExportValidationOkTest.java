@@ -27,7 +27,7 @@ class ExportValidationOkTest extends AbstractValidationTest {
   }
 
   @Test
-  public final void testCheckAll() {
+  final void testCheckAll() {
     assertNoDiagnostics();
   }
 

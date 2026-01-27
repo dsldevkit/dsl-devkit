@@ -1,0 +1,8 @@
+grammar com.avaloq.tools.ddk.xtext.export.scoping.ExportScopingTest with org.eclipse.xtext.common.Terminals
+
+import "http://www.avaloq.com/tools/ddk/xtext/export/Export"
+
+Model:
+    expressions+=InterfaceExpression*
+    userData+=UserData*
+;
