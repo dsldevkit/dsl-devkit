@@ -37,7 +37,7 @@ import org.junit.jupiter.api.AfterAll
 
 @ExtendWith(InjectionExtension)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TemplateProposalProviderHelperTest {
+package class TemplateProposalProviderHelperTest {
 
   static val SIMPLE_ENUM_VARIABLE_TYPE = new SimpleEnumTemplateVariableResolver().type
   static val VARIABLE_NAME = "variableName"
