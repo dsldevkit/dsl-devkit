@@ -55,7 +55,7 @@ public abstract class AbstractOutlineTest extends AbstractXtextEditorTest {
    * Tests that the outline of the default test resource contains exactly the expected elements.
    */
   @Test
-  public void testOutline() {
+  void testOutline() {
     if (getExpectedElements() == null) {
       return; // TODO: remove this once all tests have been refactored
     }

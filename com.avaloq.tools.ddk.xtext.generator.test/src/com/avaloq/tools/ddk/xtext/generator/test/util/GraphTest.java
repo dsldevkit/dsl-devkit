@@ -25,7 +25,7 @@ import com.google.common.collect.Multimap;
 
 
 @SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})
-public class GraphTest {
+class GraphTest {
   // CHECKSTYLE:CONSTANTS-OFF
 
   @Test

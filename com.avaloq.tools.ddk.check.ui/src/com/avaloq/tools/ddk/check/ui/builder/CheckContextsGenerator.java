@@ -172,7 +172,6 @@ public class CheckContextsGenerator {
    * @throws CoreException
    *           the core exception
    */
-  @SuppressWarnings("unchecked")
   public void removeContexts(final Delta delta) throws CoreException {
     final IProject project = RuntimeProjectUtil.getProject(delta.getUri(), mapper);
     if (project != null) {

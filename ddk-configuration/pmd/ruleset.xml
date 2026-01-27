@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         name="Tools PMD ruleset"
-         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  name="Tools PMD ruleset"
+  xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
 
   <description>Avaloq Tools PMD ruleset</description>
 
@@ -13,128 +13,136 @@
   <exclude-pattern>.*/ddk/xtext/test/ui/quickfix/AbstractQuickFixTest.*</exclude-pattern>
 
   <rule ref="category/java/errorprone.xml">
-    <exclude name="AssignmentInOperand"/><!--Checkstyle-->
-    <exclude name="AssignmentToNonFinalStatic"/>
-    <exclude name="AvoidAccessibilityAlteration"/>
-    <exclude name="AvoidBranchingStatementAsLastInLoop"/>
-    <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
-    <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
-    <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
-    <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
-    <exclude name="CloneMethodMustImplementCloneable"/>
-    <exclude name="CloseResource"/>
-    <exclude name="CompareObjectsWithEquals"/>
-    <exclude name="ConstructorCallsOverridableMethod"/>
-    <exclude name="DetachedTestCase"/>
-    <exclude name="DontImportSun"/><!--Checkstyle-->
-    <exclude name="DoNotTerminateVM"/>
-    <exclude name="JumbledIncrementer"/><!--Checkstyle-->
-    <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
-    <exclude name="NullAssignment"/>
-    <exclude name="SingleMethodSingleton"/>
-    <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
-    <exclude name="UseLocaleWithCaseConversions"/>
-    <exclude name="UseProperClassLoader"/>
-    <exclude name="ProperCloneImplementation"/><!--Checkstyle-->
-    <exclude name="TestClassWithoutTestCases"/>
+    <exclude name="AssignmentInOperand" /><!--Checkstyle-->
+    <exclude name="AssignmentToNonFinalStatic" />
+    <exclude name="AvoidAccessibilityAlteration" />
+    <exclude name="AvoidBranchingStatementAsLastInLoop" />
+    <exclude name="AvoidCatchingGenericException" /><!--Checkstyle-->
+    <exclude name="AvoidCatchingThrowable" /><!--Checkstyle-->
+    <exclude name="AvoidDuplicateLiterals" /><!--Checkstyle-->
+    <exclude name="AvoidLiteralsInIfCondition" /><!--Checkstyle-->
+    <exclude name="CloneMethodMustImplementCloneable" />
+    <exclude name="CloseResource" />
+    <exclude name="CompareObjectsWithEquals" />
+    <exclude name="ConstructorCallsOverridableMethod" />
+    <exclude name="DetachedTestCase" />
+    <exclude name="DontImportSun" /><!--Checkstyle-->
+    <exclude name="DoNotTerminateVM" />
+    <exclude name="JumbledIncrementer" /><!--Checkstyle-->
+    <exclude name="EmptyCatchBlock" /><!--Checkstyle-->
+    <exclude name="NullAssignment" />
+    <exclude name="SingleMethodSingleton" />
+    <exclude name="UseEqualsToCompareStrings" /><!--Checkstyle-->
+    <exclude name="UseLocaleWithCaseConversions" />
+    <exclude name="UseProperClassLoader" />
+    <exclude name="ProperCloneImplementation" /><!--Checkstyle-->
+    <exclude name="TestClassWithoutTestCases" />
   </rule>
   <rule ref="category/java/multithreading.xml">
-    <exclude name="AvoidSynchronizedAtMethodLevel"/>
-    <exclude name="DoNotUseThreads"/>
-    <exclude name="UseConcurrentHashMap"/><!--New after PMD 5.3 upgrade, but not intelligent enough-->
-    <exclude name="AvoidSynchronizedStatement"/><!-- Only applies to virtual threads on Java 21, which we do not use, the problem might be solved in a later vm -->
+    <exclude name="AvoidSynchronizedAtMethodLevel" />
+    <exclude name="DoNotUseThreads" />
+    <exclude name="UseConcurrentHashMap" /><!--New
+    after PMD 5.3 upgrade, but not intelligent enough-->
+    <exclude name="AvoidSynchronizedStatement" /><!-- Only applies to virtual threads on Java 21, which we do not use, the problem might be solved in a later vm -->
   </rule>
   <rule ref="category/java/design.xml">
-    <exclude name="AvoidDeeplyNestedIfStmts"/>
-    <exclude name="AvoidRethrowingException"/>
-    <exclude name="AvoidUncheckedExceptionsInSignatures"/>
-    <exclude name="DataClass"/>
-    <exclude name="DoNotExtendJavaLangError"/>
-    <exclude name="ExcessiveImports"/>
-    <exclude name="ExcessivePublicCount"/>
-    <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/><!--Checkstyle-->
-    <exclude name="CognitiveComplexity"/>
-    <exclude name="CouplingBetweenObjects"/>
-    <exclude name="CyclomaticComplexity"/>
-    <exclude name="GodClass"/><!--New after PMD 5.3 upgrade, not to be activated by default-->
-    <exclude name="LawOfDemeter"/><!--New after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
-    <exclude name="LoosePackageCoupling"/>
-    <exclude name="MutableStaticState"/>
-    <exclude name="NcssCount"/>
-    <exclude name="NPathComplexity"/><!--Checkstyle-->
-    <exclude name="SimplifyBooleanExpressions"/><!--Checkstyle-->
-    <exclude name="TooManyFields"/>
-    <exclude name="TooManyMethods"/>
-    <exclude name="UseUtilityClass"/>
+    <exclude name="AvoidDeeplyNestedIfStmts" />
+    <exclude name="AvoidRethrowingException" />
+    <exclude name="AvoidUncheckedExceptionsInSignatures" />
+    <exclude name="DataClass" />
+    <exclude name="DoNotExtendJavaLangError" />
+    <exclude name="ExcessiveImports" />
+    <exclude name="ExcessivePublicCount" />
+    <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal" /><!--Checkstyle-->
+    <exclude name="CognitiveComplexity" />
+    <exclude name="CouplingBetweenObjects" />
+    <exclude name="CyclomaticComplexity" />
+    <exclude name="GodClass" /><!--New
+    after PMD 5.3 upgrade, not to be activated by default-->
+    <exclude name="LawOfDemeter" /><!--New
+    after PMD 5.3 upgrade, too many markers (50'000+), too late to change-->
+    <exclude name="LoosePackageCoupling" />
+    <exclude name="MutableStaticState" />
+    <exclude name="NcssCount" />
+    <exclude name="NPathComplexity" /><!--Checkstyle-->
+    <exclude name="SimplifyBooleanExpressions" /><!--Checkstyle-->
+    <exclude name="TooManyFields" />
+    <exclude name="TooManyMethods" />
+    <exclude name="UseUtilityClass" />
   </rule>
   <rule ref="category/java/bestpractices.xml">
-    <exclude name="AbstractClassWithoutAbstractMethod"/>
-    <exclude name="ArrayIsStoredDirectly"/>
-    <exclude name="AccessorMethodGeneration"/>
-    <exclude name="AvoidReassigningParameters"/>
-    <exclude name="UnusedPrivateMethod"/><!-- false positives-->
-    <exclude name="DefaultLabelNotLastInSwitch"/>
-    <exclude name="ForLoopCanBeForeach"/>
-    <exclude name="GuardLogStatement"/><!--TODO-->
-    <exclude name="ImplicitFunctionalInterface"/>
-    <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
-    <exclude name="UnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
-    <exclude name="UnitTestShouldIncludeAssert"/>
-    <exclude name="UnitTestShouldUseAfterAnnotation"/><!--Checkstyle-->
-    <exclude name="UnitTestShouldUseBeforeAnnotation"/><!--Checkstyle-->
-    <exclude name="UnitTestShouldUseTestAnnotation"/>
-    <exclude name="NonExhaustiveSwitch"/>
-    <exclude name="PreserveStackTrace"/><!--TODO-->
-    <exclude name="UnnecessaryWarningSuppression"/> <!--Experimental, too many false positives-->
-    <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
-    <exclude name="UseTryWithResources"/><!--TODO-->
-    <exclude name="JUnit5TestShouldBePackagePrivate"/>
+    <exclude name="AbstractClassWithoutAbstractMethod" />
+    <exclude name="ArrayIsStoredDirectly" />
+    <exclude name="AccessorMethodGeneration" />
+    <exclude name="AvoidReassigningParameters" />
+    <exclude name="UnusedPrivateMethod" /><!-- false positives-->
+    <exclude name="DefaultLabelNotLastInSwitch" />
+    <exclude name="ForLoopCanBeForeach" />
+    <exclude name="GuardLogStatement" /><!--TODO-->
+    <exclude name="ImplicitFunctionalInterface" />
+    <exclude name="UnitTestAssertionsShouldIncludeMessage" />
+    <exclude name="UnitTestContainsTooManyAsserts" /><!--New
+    after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
+    <exclude name="UnitTestShouldIncludeAssert" />
+    <exclude name="UnitTestShouldUseAfterAnnotation" /><!--Checkstyle-->
+    <exclude name="UnitTestShouldUseBeforeAnnotation" /><!--Checkstyle-->
+    <exclude name="UnitTestShouldUseTestAnnotation" />
+    <exclude name="NonExhaustiveSwitch" />
+    <exclude name="PreserveStackTrace" /><!--TODO-->
+    <exclude name="UnnecessaryWarningSuppression" /> <!--Experimental,
+    too many false positives-->
+    <exclude name="UnusedLocalVariable" /><!--Checkstyle-->
+    <exclude name="UseTryWithResources" /><!--TODO-->
   </rule>
   <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
     <properties>
-        <property name="checkAll" value="true" />
+      <property name="checkAll" value="true" />
     </properties>
   </rule>
   <rule ref="category/java/codestyle.xml">
-    <exclude name="AtLeastOneConstructor"/>
-    <exclude name="CallSuperInConstructor"/>
-    <exclude name="ClassNamingConventions"/>
-    <exclude name="CommentDefaultAccessModifier"/>
-    <exclude name="ConfusingTernary"/>
-    <exclude name="ControlStatementBraces"/><!--Checkstyle-->
-    <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
-    <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
-    <exclude name="FieldNamingConventions"/>
-    <exclude name="IdenticalCatchBranches"/>
-    <exclude name="LinguisticNaming"/>
-    <exclude name="LambdaCanBeMethodReference"/>
-    <exclude name="LocalVariableCouldBeFinal"/> <!--  not sensible -->
-    <exclude name="LongVariable"/> <!--  not sensible -->
-    <exclude name="MethodNamingConventions"/>
-    <exclude name="NoPackage"/><!--Checkstyle-->
-    <exclude name="OnlyOneReturn"/>
-    <exclude name="ShortClassName"/><!--New after PMD 5.3 upgrade, not sensible/only false positives-->
-    <exclude name="ShortVariable"/> <!--  not sensible -->
-    <exclude name="TooManyStaticImports"/>
-    <exclude name="UnnecessaryAnnotationValueElement"/>
-    <exclude name="UnnecessaryImport"/><!--Too many false positives after PMD 7 -->
-    <exclude name="UnnecessaryModifier"/><!--Checkstyle-->
-    <exclude name="UnnecessaryFullyQualifiedName"/>
-    <exclude name="UnnecessaryLocalBeforeReturn"/>
-    <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
-    <exclude name="UselessQualifiedThis"/>
-    <exclude name="UseDiamondOperator"/>
-    <exclude name="UseShortArrayInitializer"/>
-    <exclude name="UseUnderscoresInNumericLiterals"/>
+    <exclude name="AtLeastOneConstructor" />
+    <exclude name="CallSuperInConstructor" />
+    <exclude name="ClassNamingConventions" />
+    <exclude name="CommentDefaultAccessModifier" />
+    <exclude name="ConfusingTernary" />
+    <exclude name="ControlStatementBraces" /><!--Checkstyle-->
+    <exclude name="EmptyMethodInAbstractClassShouldBeAbstract" />
+    <exclude name="FieldDeclarationsShouldBeAtStartOfClass" />
+    <exclude name="FieldNamingConventions" />
+    <exclude name="IdenticalCatchBranches" />
+    <exclude name="LinguisticNaming" />
+    <exclude name="LambdaCanBeMethodReference" />
+    <exclude name="LocalVariableCouldBeFinal" /> <!--  not sensible -->
+    <exclude name="LongVariable" /> <!--  not sensible -->
+    <exclude name="MethodNamingConventions" />
+    <exclude name="NoPackage" /><!--Checkstyle-->
+    <exclude name="OnlyOneReturn" />
+    <exclude name="ShortClassName" /><!--New
+    after PMD 5.3 upgrade, not sensible/only false positives-->
+    <exclude name="ShortVariable" /> <!--  not sensible -->
+    <exclude name="TooManyStaticImports" />
+    <exclude name="UnnecessaryAnnotationValueElement" />
+    <exclude name="UnnecessaryImport" /><!--Too
+    many false positives after PMD 7 -->
+    <exclude name="UnnecessaryModifier" /><!--Checkstyle-->
+    <exclude name="UnnecessaryFullyQualifiedName" />
+    <exclude name="UnnecessaryLocalBeforeReturn" />
+    <exclude name="UselessParentheses" /><!--New
+    after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
+    <exclude name="UselessQualifiedThis" />
+    <exclude name="UseDiamondOperator" />
+    <exclude name="UseShortArrayInitializer" />
+    <exclude name="UseUnderscoresInNumericLiterals" />
   </rule>
   <rule ref="category/java/performance.xml">
-    <exclude name="AvoidFileStream"/>
-    <exclude name="AvoidInstantiatingObjectsInLoops"/>
-    <exclude name="ConsecutiveAppendsShouldReuse"/><!--New after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
-    <exclude name="ConsecutiveLiteralAppends"/>
-    <exclude name="OptimizableToArrayCall"/>
-    <exclude name="RedundantFieldInitializer"/><!--Checkstyle-->
-    <exclude name="TooFewBranchesForSwitch"/>
+    <exclude name="AvoidFileStream" />
+    <exclude name="AvoidInstantiatingObjectsInLoops" />
+    <exclude name="ConsecutiveAppendsShouldReuse" /><!--New
+    after PMD 5.3 upgrade, many markers (1'000+), performance gain uncertain, impairs readability-->
+    <exclude name="ConsecutiveLiteralAppends" />
+    <exclude name="OptimizableToArrayCall" />
+    <exclude name="RedundantFieldInitializer" /><!--Checkstyle-->
+    <exclude name="TooFewBranchesForSwitch" />
   </rule>
 
 </ruleset>

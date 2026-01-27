@@ -49,7 +49,7 @@ import com.google.inject.Inject;
 @SuppressWarnings({"restriction", "PMD.SignatureDeclareThrowsException", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
-public class CheckMarkerHelpExtensionTest {
+class CheckMarkerHelpExtensionTest {
 
   private static final String SECONDCHECK_CONTEXTID = "null.c_secondcheck";
   private static final String FIRSTCHECK_CONTEXID = "null.c_firstcheck";
@@ -79,7 +79,7 @@ public class CheckMarkerHelpExtensionTest {
    *           the exception
    */
   @Test
-  public void testCreateExtension() throws Exception {
+  void testCreateExtension() throws Exception {
     IPluginExtension extension = createMarkerHelpExtension(parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE));
 
     // Test if the extension has been created.
@@ -99,7 +99,7 @@ public class CheckMarkerHelpExtensionTest {
    *           the exception
    */
   @Test
-  public void testAddElement() throws Exception {
+  void testAddElement() throws Exception {
     final CheckCatalog catalogWithOneCheck = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
     IPluginExtension extension = createMarkerHelpExtension(catalogWithOneCheck);
 
@@ -124,7 +124,7 @@ public class CheckMarkerHelpExtensionTest {
    *           the exception
    */
   @Test
-  public void testRemoveElement() throws Exception {
+  void testRemoveElement() throws Exception {
     final CheckCatalog catalogWithTwoChecks = parser.parse(CATALOG_WITH_TWO_CHECKS);
     IPluginExtension extension = createMarkerHelpExtension(catalogWithTwoChecks);
 
@@ -144,7 +144,7 @@ public class CheckMarkerHelpExtensionTest {
    *           the exception
    */
   @Test
-  public void testMarkerTypeUpdate() throws Exception {
+  void testMarkerTypeUpdate() throws Exception {
     IPluginExtension extension = createMarkerHelpExtension(parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE));
 
     assertEquals(MARKERTYPE_FAST, ((IPluginElement) extension.getChildren()[0]).getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).getValue(), "Before update: Markertype is fast.");
@@ -165,7 +165,7 @@ public class CheckMarkerHelpExtensionTest {
    *           the exception
    */
   @Test
-  public void testCheckHasTwoIssueCodes() throws Exception {
+  void testCheckHasTwoIssueCodes() throws Exception {
     IPluginExtension extension = createMarkerHelpExtension(parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE));
 
     CheckCatalog twoIssueCodes = parser.parse(CATALOG_CHECK_HAS_TWO_ISSUECODES);

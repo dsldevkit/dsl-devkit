@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 @SuppressWarnings({"restriction", "nls"})
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
-public class CheckContextsExtensionTest {
+class CheckContextsExtensionTest {
 
   private static final String CATALOG_WITH_FIRST_CHECK_LIVE = "package com.test catalog c for grammar g { live error \"First Check\"{ for g { issue }}}";
 
@@ -59,7 +59,7 @@ public class CheckContextsExtensionTest {
   private IWorkspace workspace;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     try {
       catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
     } catch (Exception e) {
@@ -76,7 +76,7 @@ public class CheckContextsExtensionTest {
    *           core exception
    */
   @Test
-  public void testCreateExtension() throws CoreException {
+  void testCreateExtension() throws CoreException {
     IPluginExtension extension = contextsUtil.addExtensionToPluginBase(pluginModel, catalog, ExtensionType.CONTEXTS, null);
     // Test if the extension has been created.
     assertEquals(CheckContextsExtensionHelper.CONTEXTS_EXTENSION_POINT_ID, extension.getPoint(), "Contexts extension has been created.");
@@ -92,7 +92,7 @@ public class CheckContextsExtensionTest {
    *           the core exception
    */
   @Test
-  public void testIsExtensionUpdateRequiredTrue() throws CoreException {
+  void testIsExtensionUpdateRequiredTrue() throws CoreException {
     IPluginExtension extension = createErroneousExtension();
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
     assertTrue(contextsUtil.isExtensionUpdateRequired(catalog, extension, elements), "Extension update is required");
@@ -105,7 +105,7 @@ public class CheckContextsExtensionTest {
    *           the core exception
    */
   @Test
-  public void testIsExtensionUpdateRequiredFalse() throws CoreException {
+  void testIsExtensionUpdateRequiredFalse() throws CoreException {
     IPluginExtension extension = contextsUtil.addExtensionToPluginBase(pluginModel, catalog, ExtensionType.CONTEXTS, null);
     Iterable<IPluginElement> elements = Iterables.filter(Lists.newArrayList(extension.getChildren()), IPluginElement.class);
     assertFalse(contextsUtil.isExtensionUpdateRequired(catalog, extension, elements), "No extension update is required ");

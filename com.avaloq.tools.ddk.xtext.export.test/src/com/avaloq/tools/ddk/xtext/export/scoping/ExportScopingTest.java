@@ -30,7 +30,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest;
  * Tests scoping of Code Tab Data Source
  */
 @SuppressWarnings("nls")
-public class ExportScopingTest extends AbstractScopingTest {
+class ExportScopingTest extends AbstractScopingTest {
   public ExportScopingTest() {
     super(new NullMapper());
   }
@@ -43,7 +43,7 @@ public class ExportScopingTest extends AbstractScopingTest {
   }
 
   @Test
-  public void testImportPackageScope() throws IOException {
+  void testImportPackageScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_Import_package(model.getImports().get(0), ExportPackage.Literals.IMPORT__PACKAGE);
     assertNotNull(scope.getSingleElement(QualifiedName.create("http://www.avaloq.com/tools/ddk/xtext/export/Export")), "Could not locate Import.");
@@ -51,7 +51,7 @@ public class ExportScopingTest extends AbstractScopingTest {
   }
 
   @Test
-  public void testEclassScope() throws IOException {
+  void testEclassScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_EClass(model, null);
     assertNotNull(scope.getSingleElement(QualifiedName.create("InterfaceExpression")), "Could not locate EClass.");
@@ -59,7 +59,7 @@ public class ExportScopingTest extends AbstractScopingTest {
   }
 
   @Test
-  public void testEStructuralFeatureScope() throws IOException {
+  void testEStructuralFeatureScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_EStructuralFeature(model.getInterfaces().get(0), null);
     // CHECKSTYLE:OFF (DuplicateString)
@@ -69,7 +69,7 @@ public class ExportScopingTest extends AbstractScopingTest {
   }
 
   @Test
-  public void testEAttributeScope() throws IOException {
+  void testEAttributeScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_EAttribute(model.getInterfaces().get(0), null);
     // CHECKSTYLE:OFF (DuplicateString)
@@ -79,7 +79,7 @@ public class ExportScopingTest extends AbstractScopingTest {
   }
 
   @Test
-  public void testInterfaceNavigationRefScope() throws IOException {
+  void testInterfaceNavigationRefScope() throws IOException {
     ExportModel model = (ExportModel) getTestSource().getModel();
     IScope scope = scopeProvider.scope_InterfaceNavigation_ref(model.getInterfaces().get(0), null);
     // CHECKSTYLE:OFF (DuplicateString)

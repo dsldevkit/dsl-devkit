@@ -23,7 +23,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
 
 
 @SuppressWarnings("nls")
-public class ExpressionsExtentionsTest extends AbstractXtextTest {
+class ExpressionsExtentionsTest extends AbstractXtextTest {
 
   @Override
   protected GeneratorTestUtil getXtextTestUtil() {

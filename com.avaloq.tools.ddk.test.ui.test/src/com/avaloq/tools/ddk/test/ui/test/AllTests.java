@@ -10,22 +10,17 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.ui.test;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
-import com.avaloq.tools.ddk.test.ui.test.swtbot.DeChKeyboardLayoutTest;
-import com.avaloq.tools.ddk.test.ui.test.swtbot.SwtBotRadioTest;
 
 
 /**
  * Empty class serving only as holder for JUnit4 annotations.
  */
 @Suite
-@SelectClasses({
-// @Format-Off
-  DeChKeyboardLayoutTest.class,
-  SwtBotRadioTest.class
-// @Format-On
+@SelectPackages({
+  "com.avaloq.tools.ddk.test.ui.test.swtbot"
 })
-public class AllTests {
+class AllTests {
 }

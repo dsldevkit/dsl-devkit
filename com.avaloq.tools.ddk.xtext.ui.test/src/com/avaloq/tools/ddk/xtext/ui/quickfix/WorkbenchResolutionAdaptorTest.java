@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchMarkerResolutionGenerator.WorkbenchResolutionAdapter;
 
 
-public class WorkbenchResolutionAdaptorTest {
+class WorkbenchResolutionAdaptorTest {
 
   private static final String TEST_LABEL = "ATestLabel"; //$NON-NLS-1$
   private static final String TEST_DESCRIPTION = "ATestDescription"; //$NON-NLS-1$

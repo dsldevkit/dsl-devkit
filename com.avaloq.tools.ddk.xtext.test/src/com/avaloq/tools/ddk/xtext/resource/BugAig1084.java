@@ -24,14 +24,14 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.Lists;
 
 
-public class BugAig1084 {
+class BugAig1084 {
 
   /**
    * Test that recursive calls to {@link ResourceDescription2#getLookUp()} by {@link ResourceDescription2#computeExportedObjects()} do not cause
    * stack-overflow.
    */
   @Test
-  public void recursiveLookUp() {
+  void recursiveLookUp() {
     Resource resource = org.mockito.Mockito.mock(Resource.class);
     EList<Adapter> emptyEList = new BasicEList<Adapter>();
     org.mockito.Mockito.when(resource.eAdapters()).thenReturn(emptyEList);

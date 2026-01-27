@@ -34,7 +34,7 @@ import com.google.inject.Guice;
 
 @ExtendWith(InjectionExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ResourceNameTemplateVariableResolverTest {
+class ResourceNameTemplateVariableResolverTest {
 
   private static final Object[] FILE = new Object[] {"file"}; //$NON-NLS-1$
   private static final String FILENAME = "filename"; //$NON-NLS-1$

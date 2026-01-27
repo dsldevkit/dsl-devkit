@@ -27,7 +27,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
  * Provides test for the SwtBotRadio.
  */
 @SuppressWarnings("nls")
-public class SwtBotRadioTest {
+class SwtBotRadioTest {
 
   @RegisterExtension
   // CHECKSTYLE:CHECK-OFF VisibilityModifier
@@ -59,7 +59,7 @@ public class SwtBotRadioTest {
    * Test if the method {@link com.avaloq.tools.ddk.test.ui.swtbot.SwtBotRadio#click()} works correctly.
    */
   @Test
-  public void testSwtRadioButtonClick() {
+  void testSwtRadioButtonClick() {
     SwtWorkbenchBot bot = new SwtWorkbenchBot();
     bot.resetWorkbench();
     testRadioButtonClick(bot);
@@ -70,7 +70,7 @@ public class SwtBotRadioTest {
    */
   @Test
   @Issue(value = "DSL-371", fixed = false)
-  public void testSWTRadioButtonClick() {
+  void testSWTRadioButtonClick() {
     SWTWorkbenchBot bot = new SWTWorkbenchBot();
     bot.resetWorkbench();
     testRadioButtonClick(bot);

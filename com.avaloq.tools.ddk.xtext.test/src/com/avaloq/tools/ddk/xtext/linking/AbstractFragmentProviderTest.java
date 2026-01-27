@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
  * Tests for {@code AbstractFragmentProvider}.
  */
 @SuppressWarnings("nls")
-public class AbstractFragmentProviderTest {
+class AbstractFragmentProviderTest {
 
   private static final String[] SPECIAL_ESCAPE_CASES = new String[] {"\\", "\\\\", "\\\\\\", "\\#", "\\\\#", "\\\\\\#", "#", "##", "#\\"};
 
@@ -54,19 +54,19 @@ public class AbstractFragmentProviderTest {
   private final TestAbstractFragmentProvider fragmentProvider = new TestAbstractFragmentProvider();
 
   @Test
-  public void testEscape() {
+  void testEscape() {
     StringBuilder builder = new StringBuilder();
     fragmentProvider.appendEscaped("foo/bar#\\", builder);
     assertEquals(builder.toString(), "foo\\/bar#\\\\", "Fragment not properly scaped");
   }
 
   @Test
-  public void testUnescape() {
+  void testUnescape() {
     assertEquals("foo//bar##\\", fragmentProvider.unescape("foo\\/\\/bar##\\\\"), "Fragment not properly unscaped");
   }
 
   @Test
-  public void testUnescapeEscape() {
+  void testUnescapeEscape() {
     for (String text : SPECIAL_ESCAPE_CASES) {
       StringBuilder builder = new StringBuilder();
       fragmentProvider.appendEscaped(text, builder);

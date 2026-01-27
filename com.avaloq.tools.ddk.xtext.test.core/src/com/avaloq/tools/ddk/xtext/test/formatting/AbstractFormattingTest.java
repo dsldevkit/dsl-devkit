@@ -69,7 +69,7 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
    * Test formatting based on the NodeModel.
    */
   @Test
-  public void formattedNodeModel() {
+  void formattedNodeModel() {
     assertFormattedNodeModel();
   }
 
@@ -91,7 +91,7 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
    * Test preservation of formatting using NodeModelFormatter.
    */
   @Test
-  public void preservedNodeModel() {
+  void preservedNodeModel() {
     assertPreservedNodeModel();
   }
 

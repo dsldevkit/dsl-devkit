@@ -10,32 +10,22 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.test;
 
-import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.IncludeClassNamePatterns;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
-
-import com.avaloq.tools.ddk.checkcfg.contentassist.CheckCfgContentAssistTest;
-import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProviderTest;
-import com.avaloq.tools.ddk.checkcfg.syntax.CheckCfgSyntaxTest;
-import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgConfiguredParameterValidationsTest;
-import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgTest;
-import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgValidationTest;
 
 
 /**
  * Empty class serving only as holder for JUnit5 annotations.
  */
 @Suite
-@SelectClasses({
-// @Format-Off
-  CheckCfgConfiguredParameterValidationsTest.class,
-  CheckCfgContentAssistTest.class,
-  CheckCfgScopeProviderTest.class,
-  CheckCfgSyntaxTest.class,
-  CheckCfgTest.class,
-  CheckCfgValidationTest.class
-// @Format-On
+@SelectPackages({
+    "com.avaloq.tools.ddk.checkcfg.contentassist",
+    "com.avaloq.tools.ddk.checkcfg.scoping",
+    "com.avaloq.tools.ddk.checkcfg.syntax",
+    "com.avaloq.tools.ddk.checkcfg.validation"
 })
-
-public class CheckCfgTestSuite {
+@IncludeClassNamePatterns(".*Test.*")
+class CheckCfgTestSuite {
 
 }

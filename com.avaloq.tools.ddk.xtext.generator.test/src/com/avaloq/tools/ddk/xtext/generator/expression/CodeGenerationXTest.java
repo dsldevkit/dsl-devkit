@@ -31,7 +31,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
  * Tests the code generation as implemented by CodeGenerationX wrapped by {@link CompilerX}.
  */
 @SuppressWarnings({"nls", "PMD.SignatureDeclareThrowsException"})
-public class CodeGenerationXTest extends AbstractXtextTest {
+class CodeGenerationXTest extends AbstractXtextTest {
 
   private CompilerX getCompiler() {
     return (CompilerX) getTestInformation().getTestObject(CompilerX.class);

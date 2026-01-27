@@ -73,7 +73,7 @@ public abstract class AbstractCheckTestCase {
   private Provider<XtextResourceSet> resourceSetProvider;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     getInjector().injectMembers(this);
   }
 

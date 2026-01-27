@@ -58,7 +58,7 @@ import com.google.inject.Provider;
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 @TestInstance(Lifecycle.PER_CLASS)
-public class CheckCatalogWizardTest {
+class CheckCatalogWizardTest {
 
   /** This is the name of the catalog wizard. It's the name SWTBot uses to look up the wizard. */
   private static final String CHECK_CATALOG = "Check Catalog";
@@ -121,7 +121,7 @@ public class CheckCatalogWizardTest {
    * </p>
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     wizard = new SwtWizardBot();
     project = createProject();
     for (Grammar g : new CheckResourceUtil().getGrammars()) { // make sure all grammars accessible for combo field.
@@ -141,7 +141,7 @@ public class CheckCatalogWizardTest {
    * Test if the package field contains the selected package.
    */
   @Test
-  public void testPackageSelected() {
+  void testPackageSelected() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     initializeWizardBot();
     // because the selected item is a package initially, this package is shown in the field.
@@ -152,7 +152,7 @@ public class CheckCatalogWizardTest {
    * Test if catalog wizard is enabled if a project folder is selected.
    */
   @Test
-  public void testCheckCatalogWizardIsEnabled() {
+  void testCheckCatalogWizardIsEnabled() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     // open the check catalog wizard after having selected the project source folder.
     // that way, the wizard page should be enabled.
@@ -168,7 +168,7 @@ public class CheckCatalogWizardTest {
    * Test if the package field is empty, if the selected item is no package.
    */
   @Test
-  public void testInitiallyNoPackageSelected() {
+  void testInitiallyNoPackageSelected() {
     selectProjectFolder(wizard, SRC_FOLDER);
     initializeWizardBot();
 
@@ -180,7 +180,7 @@ public class CheckCatalogWizardTest {
    * Test if the next and finish button are disabled if the package name is invalid.
    */
   @Test
-  public void testPackageNameInvalid() {
+  void testPackageNameInvalid() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     // open the check catalog wizard after having selected the project source folder.
     initializeWizardBot();
@@ -196,7 +196,7 @@ public class CheckCatalogWizardTest {
    * Test if the finish button is enabled if the package name is valid.
    */
   @Test
-  public void testPackageNameValid() {
+  void testPackageNameValid() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     // open the check catalog wizard after having selected the project source folder.
     initializeWizardBot();
@@ -209,7 +209,7 @@ public class CheckCatalogWizardTest {
    * Test if the next and finish button are disabled if the catalog name is invalid.
    */
   @Test
-  public void testCatalogNameInvalid() {
+  void testCatalogNameInvalid() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     // open the check catalog wizard after having selected the project source folder.
     initializeWizardBot();
@@ -223,7 +223,7 @@ public class CheckCatalogWizardTest {
    * Tests that discouraged catalog names are accepted.
    */
   @Test
-  public void testCatalogNameDiscouraged() {
+  void testCatalogNameDiscouraged() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     initializeWizardBot();
 
@@ -236,7 +236,7 @@ public class CheckCatalogWizardTest {
    * Tests valid catalog names.
    */
   @Test
-  public void testCatalogName() {
+  void testCatalogName() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     initializeWizardBot();
 
@@ -263,7 +263,7 @@ public class CheckCatalogWizardTest {
    *           if project doesn't exist.
    */
   @AfterEach
-  public void tearDown() throws CoreException {
+  void tearDown() throws CoreException {
     wizard.closeWizard();
     project.delete(true, new NullProgressMonitor());
   }
