@@ -33,7 +33,7 @@ import com.google.inject.Guice;
 
 @ExtendWith(InjectionExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SimpleEnumTemplateVariableResolverTest {
+class SimpleEnumTemplateVariableResolverTest {
 
   private static XtextTemplateContext mockContext;
   private static TemplateVariableResolverTestHelper helper;
