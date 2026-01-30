@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.check.ui.test.quickfix
 
 import com.avaloq.tools.ddk.check.ui.quickfix.Messages
 import com.avaloq.tools.ddk.check.validation.IssueCodes
-import com.avaloq.tools.ddk.test.core.BugTest
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest
 import com.avaloq.tools.ddk.test.core.Retry
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot
 import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals

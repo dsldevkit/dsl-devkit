@@ -21,7 +21,7 @@ import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.mockConfigurationElement
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.mockExecutableExtension
 import static extension com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock.unMock
-import com.avaloq.tools.ddk.test.core.BugTest
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractAcfContentAssistTest
 import org.junit.jupiter.api.Test
 import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil

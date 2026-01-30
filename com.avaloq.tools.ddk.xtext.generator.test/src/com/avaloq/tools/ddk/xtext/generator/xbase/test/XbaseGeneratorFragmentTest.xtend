@@ -11,7 +11,7 @@
 
 package com.avaloq.tools.ddk.xtext.generator.xbase.test
 
-import com.avaloq.tools.ddk.test.core.BugTest
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.xtext.AbstractElement

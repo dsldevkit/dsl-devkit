@@ -25,7 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProvider;
 import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
-import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 
 

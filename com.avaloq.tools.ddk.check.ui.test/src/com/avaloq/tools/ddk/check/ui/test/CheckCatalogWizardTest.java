@@ -45,7 +45,7 @@ import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProv
 import com.avaloq.tools.ddk.check.ui.test.util.CheckWizardTestUtil;
 import com.avaloq.tools.ddk.check.ui.util.CheckResourceUtil;
 import com.avaloq.tools.ddk.check.ui.wizard.Messages;
-import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

@@ -22,7 +22,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 
 
 @SuppressWarnings({"PMD.JUnitAssertionsShouldIncludeMessage", "nls"})

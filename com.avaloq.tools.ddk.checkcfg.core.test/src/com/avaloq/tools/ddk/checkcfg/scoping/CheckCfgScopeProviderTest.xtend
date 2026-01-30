@@ -11,7 +11,7 @@
 
 package com.avaloq.tools.ddk.checkcfg.scoping
 
-import com.avaloq.tools.ddk.test.core.BugTest
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckcfgPackage
 import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest

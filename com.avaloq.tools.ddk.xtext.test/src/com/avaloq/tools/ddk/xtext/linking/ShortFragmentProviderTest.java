@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import com.avaloq.tools.ddk.test.core.BugTest;
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
 
 
