@@ -377,7 +377,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      *          actual message
      */
     private void createErrorMessage(final Integer pos, final List<Resource.Diagnostic> diagnosticsOnTargetPosition, final boolean issueFound, final boolean expectedSeverityMatches, final int actualSeverity, final boolean expectedMessageMatches, final String actualMessage) {
-      StringBuilder errorMessage = new StringBuilder(175);
+      StringBuilder errorMessage = new StringBuilder(200);
       if (issueMustBeFound && !issueFound) {
         errorMessage.append("Expected issue not found. Code '").append(issueCode).append('\n');
       } else if (!issueMustBeFound && issueFound) {
@@ -1093,7 +1093,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
       if (diagnostic instanceof AbstractDiagnostic) {
         AbstractDiagnostic diag = (AbstractDiagnostic) diagnostic;
         // Create error message
-        StringBuilder sb = new StringBuilder(35);
+        StringBuilder sb = new StringBuilder(50);
         sb.append("Unexpected diagnostic found. Code '");
         sb.append(diag.getCode());
         sb.append(DOT_AND_LINEBREAK);
@@ -1101,7 +1101,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         memorizeErrorOnPosition(diag.getOffset(), sb.toString());
       } else {
         // Create error message
-        StringBuilder sb = new StringBuilder(30);
+        StringBuilder sb = new StringBuilder(50);
         sb.append("Unexpected diagnostic found. '");
         sb.append(diagnostic.toString());
         sb.append(DOT_AND_LINEBREAK);
@@ -1120,7 +1120,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
       if (diagnostic instanceof AbstractValidationDiagnostic) {
         AbstractValidationDiagnostic avd = (AbstractValidationDiagnostic) diagnostic;
         // Create error message
-        StringBuilder sb = new StringBuilder(30);
+        StringBuilder sb = new StringBuilder(50);
         sb.append("Unexpected issue found. Code '");
         sb.append(avd.getIssueCode());
         sb.append(DOT_AND_LINEBREAK);
@@ -1142,7 +1142,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         }
       } else {
         // Create error message
-        StringBuilder sb = new StringBuilder(30);
+        StringBuilder sb = new StringBuilder(50);
         sb.append("Unexpected diagnostic found. '");
         sb.append(diagnostic.toString());
         sb.append(DOT_AND_LINEBREAK);

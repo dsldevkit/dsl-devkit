@@ -75,7 +75,7 @@ public class GeneratorSupport {
       this.loader = l;
     }
 
-    public void close() {
+    void close() {
       try {
         loader.close();
       } catch (IOException e) {

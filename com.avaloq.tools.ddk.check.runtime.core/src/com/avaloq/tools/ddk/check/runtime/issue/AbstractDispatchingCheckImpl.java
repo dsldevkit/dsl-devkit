@@ -49,6 +49,7 @@ public abstract class AbstractDispatchingCheckImpl extends AbstractCheckImpl {
    * A tracker for disabled methods.
    * Concurrent access is allowed.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected static class DisabledMethodTracker {
     private final Map<String, Boolean> disabled = new ConcurrentHashMap<>();
 
@@ -145,6 +146,7 @@ public abstract class AbstractDispatchingCheckImpl extends AbstractCheckImpl {
   /**
    * The class holding the current state for a validation method being executed.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public fields needed for subclass access in other packages
   protected static class State implements ValidationMessageAcceptorMixin, DiagnosticCollector {
     // CHECKSTYLE:OFF
     public DiagnosticChain chain;

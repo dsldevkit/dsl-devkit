@@ -52,7 +52,7 @@ public class Graph<T> {
      *          target node
      * @return this
      */
-    public Node<T> addEdge(final Node<T> node) {
+    Node<T> addEdge(final Node<T> node) {
       outEdges.add(node);
       node.inEdges.add(this);
       return this;

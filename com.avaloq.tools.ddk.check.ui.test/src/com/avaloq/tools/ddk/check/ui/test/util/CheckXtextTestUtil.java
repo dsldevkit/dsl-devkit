@@ -33,7 +33,7 @@ public final class CheckXtextTestUtil extends AbstractXtextTestUtil {
     // Initialize-on-demand holder pattern.
     private static final CheckXtextTestUtil INSTANCE = new CheckXtextTestUtil();
 
-    public static CheckXtextTestUtil get() {
+    static CheckXtextTestUtil get() {
       return INSTANCE;
     }
   }

@@ -37,7 +37,7 @@ public class CacheManager {
   private static final class SingletonHolder {
     private static CacheManager instance = new CacheManager();
 
-    public static CacheManager get() {
+    static CacheManager get() {
       return instance;
     }
   }
@@ -250,7 +250,7 @@ public class CacheManager {
       super.aggregate(statistics);
     }
 
-    public int getCacheCounter() {
+    int getCacheCounter() {
       return counter;
     }
   }

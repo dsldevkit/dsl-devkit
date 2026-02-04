@@ -66,6 +66,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    * @param <T>
    *          the type of the item
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected static final class ImmutableLinkedItem<T> {
 
     private final T object;
@@ -242,7 +243,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
      *          the item to get the type for
      * @return type type of {@code t}
      */
-    public IType getType(final T t) {
+    IType getType(final T t) {
       if (t == null) {
         return null;
       }

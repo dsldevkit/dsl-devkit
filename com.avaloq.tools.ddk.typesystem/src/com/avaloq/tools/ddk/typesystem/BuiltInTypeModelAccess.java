@@ -66,7 +66,7 @@ public final class BuiltInTypeModelAccess {
     // Initialize-on-demand holder pattern.
     private static final BuiltInTypeModelAccess INSTANCE = new BuiltInTypeModelAccess();
 
-    public static BuiltInTypeModelAccess get() {
+    static BuiltInTypeModelAccess get() {
         return INSTANCE;
     }
   }

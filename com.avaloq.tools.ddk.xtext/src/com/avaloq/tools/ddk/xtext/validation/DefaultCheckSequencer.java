@@ -19,7 +19,7 @@ public class DefaultCheckSequencer implements ICheckSequencer {
   private static final class SingletonHolder {
     private static DefaultCheckSequencer instance = new DefaultCheckSequencer();
 
-    public static DefaultCheckSequencer get() {
+    static DefaultCheckSequencer get() {
       return instance;
     }
   }

@@ -90,7 +90,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
      * @param offset
      *          cursor offset
      */
-    public void setCursor(final int offset) {
+    void setCursor(final int offset) {
       this.cursorOffset = offset;
     }
 
@@ -100,7 +100,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
      * @param offset
      *          cursor offset
      */
-    public void addSemanticOccurrence(final int offset) {
+    void addSemanticOccurrence(final int offset) {
       semanticMarkers.add(offset);
     }
 
@@ -110,7 +110,7 @@ public abstract class AbstractOccurrencesTest extends AbstractXtextUiTest {
      * @param offset
      *          cursor offset
      */
-    public void addNoSemanticOccurence(final int offset) {
+    void addNoSemanticOccurence(final int offset) {
       noSemanticMarkers.add(offset);
     }
   }

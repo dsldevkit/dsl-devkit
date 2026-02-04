@@ -443,7 +443,7 @@ public class TestRunRecording extends RunListener implements TestStepListener, M
     Set<Long> deadlockedThreads = getDeadlockThreadIds();
     ThreadInfo[] threadInfos = THREAD_BEAN.dumpAllThreads(true, true);
     // CHECKSTYLE:OFF MagicNumber
-    StringBuilder trace = new StringBuilder(150).append(threadInfos.length).append(" active threads").append(NEW_LINE);
+    StringBuilder trace = new StringBuilder(200).append(threadInfos.length).append(" active threads").append(NEW_LINE);
     // CHECKSTYLE:ON
     for (ThreadInfo info : threadInfos) {
       if (info == null) {

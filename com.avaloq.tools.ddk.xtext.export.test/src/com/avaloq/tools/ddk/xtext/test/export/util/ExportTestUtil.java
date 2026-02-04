@@ -28,7 +28,7 @@ public final class ExportTestUtil extends AbstractXtextTestUtil {
     // Initialize-on-demand holder pattern.
     private static final ExportTestUtil INSTANCE = new ExportTestUtil();
 
-    public static ExportTestUtil get() {
+    static ExportTestUtil get() {
       return INSTANCE;
     }
   }

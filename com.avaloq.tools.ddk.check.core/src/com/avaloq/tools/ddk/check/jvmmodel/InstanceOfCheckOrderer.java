@@ -256,7 +256,7 @@ public final class InstanceOfCheckOrderer {
    *          the names of adjacent vertices with outbound edges
    */
   private static record Vertex(Set<String> inbound, Set<String> outbound) {
-    public boolean isTreeNode() {
+    boolean isTreeNode() {
       return inbound().size() <= 1;
     }
   }
@@ -275,7 +275,7 @@ public final class InstanceOfCheckOrderer {
      *          the map
      * @return the result graph
      */
-    public static Graph fromTypesMap(final Map<String, Set<String>> typesMap) {
+    static Graph fromTypesMap(final Map<String, Set<String>> typesMap) {
       Graph graph = new Graph();
       for (Entry<String, Set<String>> entry : typesMap.entrySet()) {
         String toKey = entry.getKey();
@@ -296,7 +296,7 @@ public final class InstanceOfCheckOrderer {
      * {@link #vertexMap} as lookups of individual vertices do not benefit from that.
      * For operations that require deterministic order we must sort the keys first.
      */
-    public Graph() {
+    Graph() {
       vertexMap = new HashMap<>();
     }
 
@@ -305,7 +305,7 @@ public final class InstanceOfCheckOrderer {
      *
      * @return a boolean result
      */
-    public boolean isForest() {
+    boolean isForest() {
       return vertexMap.values().stream().allMatch(Vertex::isTreeNode);
     }
 
@@ -325,7 +325,7 @@ public final class InstanceOfCheckOrderer {
      *          the key
      * @return the added or existing vertex
      */
-    public Vertex addVertex(final String key) {
+    Vertex addVertex(final String key) {
       return vertexMap.computeIfAbsent(key, x -> makeVertex());
     }
 
@@ -339,7 +339,7 @@ public final class InstanceOfCheckOrderer {
      * @throws CycleDetectedException
      *           if adding the edge would create a cycle
      */
-    public void addEdgeWithVertices(final String from, final String to) throws CycleDetectedException {
+    void addEdgeWithVertices(final String from, final String to) throws CycleDetectedException {
       if (from.equals(to) || isReachable(to, from)) {
         throw new CycleDetectedException(from, to);
       }
@@ -359,7 +359,7 @@ public final class InstanceOfCheckOrderer {
      * @param to
      *          the target vertex
      */
-    public void removeEdge(final String from, final String to) {
+    void removeEdge(final String from, final String to) {
       Vertex fromVertex = vertexMap.get(from);
       Vertex toVertex = vertexMap.get(to);
       fromVertex.outbound().remove(to);
@@ -393,7 +393,7 @@ public final class InstanceOfCheckOrderer {
      * Tries to break diamond-structured inheritance hierarchies.
      * A no-operation if that is not applicable or possible.
      */
-    public void breakDiamonds() {
+    void breakDiamonds() {
       List<String> toVertices = vertexMap.entrySet().stream().//
           filter(entry -> !entry.getValue().isTreeNode()).map(Entry::getKey).sorted().toList();
       toVertices.forEach(toKey -> breakDiamondTo(toKey));
@@ -407,7 +407,7 @@ public final class InstanceOfCheckOrderer {
      * in a mutually exclusive way. As it is we assume that we can leave each problem vertex
      * under any one of its supertypes, without it ending up excluded from checking.
      */
-    public void forestify() {
+    void forestify() {
       List<String> toVertices = vertexMap.entrySet().stream().//
           filter(entry -> !entry.getValue().isTreeNode()).map(Entry::getKey).sorted().toList();
       for (String toKey : toVertices) {

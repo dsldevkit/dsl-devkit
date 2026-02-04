@@ -367,7 +367,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
   protected void processErrorsFound(final String sourceWithoutMarkers) {
     if (!errorsOnPosition.isEmpty()) {
       // CHECKSTYLE:OFF MagicNumber
-      StringBuilder sb = new StringBuilder(50);
+      StringBuilder sb = new StringBuilder(100);
       // CHECKSTYLE:ON
       sb.append(memorizedErrorsToString(sourceWithoutMarkers));
       sb.append(SPLITTING_LINE);
@@ -386,8 +386,8 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    *         input testing source with injected errors, never {@code null}
    */
   private String memorizedErrorsToString(final String source) {
-    StringBuilder result = new StringBuilder();
-    StringBuilder errorBuffer = new StringBuilder();
+    StringBuilder result = new StringBuilder(120);
+    StringBuilder errorBuffer = new StringBuilder(120);
     // Sort positions
     List<Integer> positions = Lists.newArrayList(errorsOnPosition.keySet());
 
@@ -497,6 +497,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    * for all tests within one test class. Tags for current test are also stored here.
    * One may prefer in the future to be able to clean tags for the current test after the test.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class MarkerTagsInfo {
 
     // For sources under test

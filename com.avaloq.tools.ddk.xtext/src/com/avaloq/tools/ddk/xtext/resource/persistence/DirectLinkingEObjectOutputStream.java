@@ -57,7 +57,7 @@ class DirectLinkingEObjectOutputStream extends EObjectOutputStream {
    * @throws IOException
    *           if an I/O exception occurred
    */
-  public void writeEObjectURI(final EObject obj, final Resource context) throws IOException {
+  void writeEObjectURI(final EObject obj, final Resource context) throws IOException {
     Resource resource = obj.eResource();
     if (resource == context) { // NOPMD
       writeBoolean(LOCAL_EOBJECT);

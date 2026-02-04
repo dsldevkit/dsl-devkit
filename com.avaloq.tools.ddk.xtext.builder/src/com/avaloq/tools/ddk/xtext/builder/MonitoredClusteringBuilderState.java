@@ -1281,8 +1281,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
             checkForCancellation(monitor);
             if (allRemainingURIs.contains(candidateURI)) {
               boolean affected;
-              if (manager instanceof IResourceDescription.Manager.AllChangeAware) {
-                affected = ((IResourceDescription.Manager.AllChangeAware) manager).isAffectedByAny(deltas, oldState.getResourceDescription(candidateURI), cachingIndex);
+              if (manager instanceof IResourceDescription.Manager.AllChangeAware allChangeAware) {
+                affected = allChangeAware.isAffectedByAny(deltas, oldState.getResourceDescription(candidateURI), cachingIndex);
               } else {
                 affected = manager.isAffected(deltas, oldState.getResourceDescription(candidateURI), cachingIndex);
               }

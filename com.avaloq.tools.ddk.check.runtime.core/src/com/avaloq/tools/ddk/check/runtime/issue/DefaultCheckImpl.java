@@ -205,7 +205,7 @@ public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
      *          the parameter class
      * @return true, if given class is assignable from current method's first formal parameter type
      */
-    public boolean isMatching(final Class<?> param) {
+    boolean isMatching(final Class<?> param) {
       return method.getParameterTypes()[0].isAssignableFrom(param);
     }
 
@@ -216,8 +216,10 @@ public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
      *          the state
      * @throws InvocationTargetException
      *           if the method called throws an exception
+     * @throws IllegalStateException
+     *           if state is already assigned
      */
-    public void invoke(final State state) throws InvocationTargetException {
+    void invoke(final State state) throws InvocationTargetException {
       State instanceState = instance.getThreadLocalState().get();
       if (instanceState != null && instanceState != state) {
         throw new IllegalStateException("State is already assigned."); //$NON-NLS-1$

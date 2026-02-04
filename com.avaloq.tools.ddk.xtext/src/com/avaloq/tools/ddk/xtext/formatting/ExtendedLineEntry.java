@@ -146,7 +146,7 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
    */
   public boolean isFixedLocatorClosing() {
     for (IExtendedLocator acsLocator : acsLocators) {
-      if (acsLocator instanceof FixedLocator && ((FixedLocator) acsLocator).getLeft() != null) {
+      if (acsLocator instanceof FixedLocator fixedLocator && fixedLocator.getLeft() != null) {
         return true;
       }
     }
@@ -160,7 +160,7 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
    */
   public boolean isFixedLocatorOpening() {
     for (IExtendedLocator acsLocator : acsLocators) {
-      if (acsLocator instanceof FixedLocator && ((FixedLocator) acsLocator).getRight() != null) {
+      if (acsLocator instanceof FixedLocator fixedLocator && fixedLocator.getRight() != null) {
         return true;
       }
     }
@@ -174,7 +174,7 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
    */
   public boolean isFixed() {
     for (IExtendedLocator acsLocator : acsLocators) {
-      if (acsLocator instanceof FixedLocator && ((FixedLocator) acsLocator).getRight() != null && (((FixedLocator) acsLocator).isFixed())) {
+      if (acsLocator instanceof FixedLocator fixedLocator && fixedLocator.getRight() != null && fixedLocator.isFixed()) {
         return true;
       }
     }
@@ -188,7 +188,7 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
    */
   public boolean isRelative() {
     for (IExtendedLocator acsLocator : acsLocators) {
-      if (acsLocator instanceof FixedLocator && ((FixedLocator) acsLocator).getRight() != null && (((FixedLocator) acsLocator).isRelative())) {
+      if (acsLocator instanceof FixedLocator fixedLocator && fixedLocator.getRight() != null && fixedLocator.isRelative()) {
         return true;
       }
     }
@@ -203,7 +203,7 @@ public class ExtendedLineEntry extends AbstractExtendedLineEntry {
    */
   public boolean isNoBreak() {
     for (IExtendedLocator acsLocator : acsLocators) {
-      if (acsLocator instanceof FixedLocator && ((FixedLocator) acsLocator).getRight() != null && (((FixedLocator) acsLocator).isNoBreak())) {
+      if (acsLocator instanceof FixedLocator fixedLocator && fixedLocator.getRight() != null && fixedLocator.isNoBreak()) {
         return true;
       }
     }

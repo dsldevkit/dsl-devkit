@@ -50,6 +50,7 @@ public abstract class AbstractStatefulCheckImpl extends AbstractCheckImpl implem
   /**
    * The class holding the current state for a validation method being executed.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public fields needed for subclass access in other packages
   protected static class State {
     // CHECKSTYLE:OFF
     public DiagnosticChain chain = null;
