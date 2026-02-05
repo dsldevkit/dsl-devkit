@@ -67,7 +67,7 @@ final class ProxyModelAssociationsAdapter extends InferredModelAssociator.Adapte
       return;
     }
     synchronized (resource) {
-      if (resource.eAdapters().remove(this)) {
+      if (resource.eAdapters().remove((org.eclipse.emf.common.notify.Adapter) this)) {
         DirectLinkingResourceStorageLoadable loadable = (DirectLinkingResourceStorageLoadable) ((DirectLinkingResourceStorageFacade) resource.getResourceStorageFacade()).getOrCreateResourceStorageLoadable(resource);
         try {
           // the associations are mappings from AST model elements to inferred model elements (and back) so we cannot skip loading the model.
