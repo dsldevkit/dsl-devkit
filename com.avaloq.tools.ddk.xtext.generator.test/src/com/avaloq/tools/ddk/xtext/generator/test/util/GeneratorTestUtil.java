@@ -27,7 +27,7 @@ public final class GeneratorTestUtil extends AbstractXtextTestUtil {
     // Initialize-on-demand holder pattern.
     private static final GeneratorTestUtil INSTANCE = new GeneratorTestUtil();
 
-    public static GeneratorTestUtil get() {
+    static GeneratorTestUtil get() {
       return INSTANCE;
     }
   }

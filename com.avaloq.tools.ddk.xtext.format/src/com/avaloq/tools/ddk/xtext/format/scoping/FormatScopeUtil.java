@@ -254,7 +254,7 @@ class FormatScopeUtil {
    *          type of the contents to collect
    * @return List a list with elements which have eObj as its container and which are of type
    */
-  public <T> List<T> getFilteredEContents(final EObject eObj, final Class<T> type) {
+  <T> List<T> getFilteredEContents(final EObject eObj, final Class<T> type) {
     if (eObj != null && !eObj.eIsProxy()) {
       TreeIterator<EObject> eContents = eObj.eAllContents();
       return Lists.newArrayList(Iterators.filter(eContents, type));
@@ -300,7 +300,7 @@ class FormatScopeUtil {
    *          the FormatConfiguration for which to retrieve the Grammar
    * @return Grammar or NULL if not found
    */
-  public Grammar findTargetGrammar(final FormatConfiguration model) {
+  Grammar findTargetGrammar(final FormatConfiguration model) {
     final Resource resource = model.eResource();
     final ResourceSet resourceSet = resource.getResourceSet();
     EList<Resource> resources = resourceSet.getResources();

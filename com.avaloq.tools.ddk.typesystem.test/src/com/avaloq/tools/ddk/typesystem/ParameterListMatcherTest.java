@@ -61,6 +61,7 @@ public class ParameterListMatcherTest {
   private static final IMatchResult MATCH_RESULT_MATCH = IParameterMatchChecker.MATCH;
   private static final IMatchResult MATCH_RESULT_TYPE_ERROR = IParameterMatchChecker.TYPE_ERROR;
 
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class NamedType extends NamedTypeImpl {
 
     private final String name;
@@ -76,6 +77,7 @@ public class ParameterListMatcherTest {
 
   }
 
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class FormalParameter extends EObjectImpl implements IFormalParameter {
 
     private final boolean mandatory;
@@ -109,6 +111,7 @@ public class ParameterListMatcherTest {
 
   }
 
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class NamedFormalParameter extends FormalParameter implements INamedFormalParameter {
 
     private final String name;
@@ -133,6 +136,7 @@ public class ParameterListMatcherTest {
     // Empty class to make protected constructor visible.
   }
 
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class ActualParameter extends EObjectImpl implements IActualParameter {
 
     private final IType type;
@@ -152,6 +156,7 @@ public class ParameterListMatcherTest {
 
   }
 
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class NamedActualParameter extends ActualParameter implements INamedActualParameter {
 
     private final String name;

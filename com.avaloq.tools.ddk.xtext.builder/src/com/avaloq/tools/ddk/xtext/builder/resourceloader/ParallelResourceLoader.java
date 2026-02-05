@@ -142,6 +142,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   /**
    * Parallel load operation implementation.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class ParallelLoadOperation implements LoadOperation {
 
     private final BlockingQueue<Triple<URI, Resource, Throwable>> resourceQueue;

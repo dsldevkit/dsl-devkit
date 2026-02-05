@@ -66,6 +66,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     protected Object[] values;
     protected List<SegmentNode> children;
 
+    @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public no-arg constructor required by Externalizable
     public SegmentNode() {
       // required by externalization
     }
@@ -93,7 +94,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @return matching node or successor node
      */
     @SuppressWarnings("PMD.NPathComplexity")
-    public SegmentNode find(final QualifiedName name, int segIdx, final boolean exactMatch) {
+    SegmentNode find(final QualifiedName name, int segIdx, final boolean exactMatch) {
       if (children == null || children.isEmpty()) {
         return null;
       }
@@ -132,10 +133,12 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      *          whether to return {@link QualifiedNamePattern#isRecursivePattern() recursive matches} or not
      * @param excludeDuplicates
      *          whether duplicate values should be excluded in the result
+     * @param <T>
+     *          the type of values in the result collection
      * @return collection of all values mapped by the nodes in the given range, never {@code null}
      */
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> matches(final QualifiedName lower, final int lowerIdx, final SegmentNode upper, final boolean recursive, final boolean excludeDuplicates) {
+    <T> Collection<T> matches(final QualifiedName lower, final int lowerIdx, final SegmentNode upper, final boolean recursive, final boolean excludeDuplicates) {
       final Collection<T> result = excludeDuplicates ? Sets.<T> newHashSet() : Lists.<T> newArrayList();
       Visitor visitor = new Visitor() {
         @Override
@@ -246,7 +249,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @param newValues
      *          new values to associate qualified name with; if mappings already exist any missing mapping will be added
      */
-    public void merge(final QualifiedName name, int segIdx, final Object[] newValues) { // NOPMD - varargs doesn't make sense here
+    void merge(final QualifiedName name, int segIdx, final Object[] newValues) { // NOPMD - varargs doesn't make sense here
       if (children == null) {
         children = new ArrayList<SegmentNode>(DEFAULT_CHILD_CAPACITY);
       }
@@ -275,7 +278,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @param visitor
      *          visitor to visit this node with, must not be {@code null}
      */
-    public void accept(final Visitor visitor) {
+    void accept(final Visitor visitor) {
       visitor.visit(this);
       if (children != null) {
         for (SegmentNode child : children) {
@@ -284,7 +287,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       }
     }
 
-    public List<List<String>> getMappings(final Object value) {
+    List<List<String>> getMappings(final Object value) {
       List<List<String>> result = new ArrayList<>();
       if (children != null) {
         for (SegmentNode node : children) {
@@ -387,6 +390,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   private static class ValueSharingSegmentNode extends SegmentNode {
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public no-arg constructor required by Externalizable
     public ValueSharingSegmentNode() {
       // required by externalization
     }
@@ -397,7 +401,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> matches(final QualifiedName lower, final int lowerIdx, final SegmentNode upper, final boolean recursive, final boolean excludeDuplicates) {
+    <T> Collection<T> matches(final QualifiedName lower, final int lowerIdx, final SegmentNode upper, final boolean recursive, final boolean excludeDuplicates) {
       final Collection<T> result = excludeDuplicates ? Sets.<T> newHashSet() : Lists.<T> newArrayList();
       final Set<Object[]> arrays = Sets.newHashSet();
       Visitor visitor = new Visitor() {
@@ -418,7 +422,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     }
 
     @Override
-    public void merge(final QualifiedName name, int segIdx, final Object[] newValues) { // NOPMD - varargs doesn't make sense here
+    void merge(final QualifiedName name, int segIdx, final Object[] newValues) { // NOPMD - varargs doesn't make sense here
       if (children == null) {
         children = new ArrayList<SegmentNode>(DEFAULT_CHILD_CAPACITY);
       }
@@ -459,7 +463,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @param node
      *          node to visit, never {@code null}
      */
-    public abstract void visit(SegmentNode node);
+    abstract void visit(SegmentNode node);
   }
 
   private SegmentNode root;

@@ -59,7 +59,7 @@ final class TestPlan {
    *
    * @return a new test plan instance, never {@code null}
    */
-  public static TestPlan create() {
+  static TestPlan create() {
     return new TestPlan();
   }
 
@@ -72,7 +72,7 @@ final class TestPlan {
    *          the setup step, must not be {@code null}
    * @return the newly added {@link AbstractStep}, never {@code null}
    */
-  public <T extends AbstractStep> T addSetupStep(final T setupStep) {
+  <T extends AbstractStep> T addSetupStep(final T setupStep) {
     Assert.assertTrue("Must not add a setup step after adding a test step.", getCompoundTestStep().getSteps().isEmpty()); //$NON-NLS-1$
     getCompoundSetupStep().addStep(setupStep);
     return setupStep;
@@ -87,7 +87,7 @@ final class TestPlan {
    *          the test step, must not be {@code null}
    * @return the newly added {@link AbstractStep}, never {@code null}
    */
-  public <T extends AbstractStep> T addTestStep(final T testStep) {
+  <T extends AbstractStep> T addTestStep(final T testStep) {
     getCompoundTestStep().addStep(testStep);
     return testStep;
   }
@@ -133,7 +133,7 @@ final class TestPlan {
    *          whether a system test plan shall be created
    * @return test plan containing previous test steps that need to be undone, never {@code null}
    */
-  public static TestPlan createUndoTestPlan(final TestPlan testPlan, final TestPlan previousTestPlan, final boolean systemTest) {
+  static TestPlan createUndoTestPlan(final TestPlan testPlan, final TestPlan previousTestPlan, final boolean systemTest) {
     if (systemTest) {
       // If the current and the previous test are system tests, compute the steps to undo.
       List<AbstractStep> setupStepsToUndo = computeStepsToUndo(previousTestPlan.getCompoundSetupStep().getSteps(), testPlan);
@@ -157,7 +157,7 @@ final class TestPlan {
    *          the test plan, must not be {@code null}
    * @return a set of all steps with previously existing test entities, never {@code null}
    */
-  public static Set<AbstractStep> getAllStepsWithPreExistingTestEntities(final TestPlan previousTestPlan, final TestPlan testPlan) {
+  static Set<AbstractStep> getAllStepsWithPreExistingTestEntities(final TestPlan previousTestPlan, final TestPlan testPlan) {
     Set<AbstractStep> stepsWithPreExistingTestEntities = new HashSet<AbstractStep>();
     stepsWithPreExistingTestEntities.addAll(getStepsWithPreExistingEntities(testPlan, previousTestPlan.compoundSetupStep));
     stepsWithPreExistingTestEntities.addAll(getStepsWithPreExistingEntities(testPlan, previousTestPlan.compoundTestStep));
@@ -207,7 +207,7 @@ final class TestPlan {
    *
    * @return all executed steps, never {@code null}
    */
-  public Set<AbstractStep> getAllExecutedSteps() {
+  Set<AbstractStep> getAllExecutedSteps() {
     Set<AbstractStep> executedSteps = new HashSet<AbstractStep>();
     executedSteps.addAll(getCompoundSetupStep().getExecutedSteps());
     executedSteps.addAll(getCompoundTestStep().getExecutedSteps());
@@ -223,7 +223,7 @@ final class TestPlan {
    *          the filter, must not be {@code null}
    * @return the new filtered test plan, never {@code null}
    */
-  public static TestPlan createFilteredTestPlan(final TestPlan testPlan, final Collection<AbstractStep> filter) {
+  static TestPlan createFilteredTestPlan(final TestPlan testPlan, final Collection<AbstractStep> filter) {
     List<AbstractStep> filteredSetupSteps = filterCompoundStep(filter, testPlan.getCompoundSetupStep());
     List<AbstractStep> filteredTestSteps = filterCompoundStep(filter, testPlan.getCompoundTestStep());
     return new TestPlan(filteredSetupSteps, filteredTestSteps);
@@ -236,7 +236,7 @@ final class TestPlan {
    *          the test plan, must not be {@code null}
    * @return the test reverse test plan, never {@code null}
    */
-  public static TestPlan createReverseTestPlan(final TestPlan testPlan) {
+  static TestPlan createReverseTestPlan(final TestPlan testPlan) {
     List<AbstractStep> setupSteps = testPlan.getCompoundSetupStep().getSteps();
     Collections.reverse(setupSteps);
     List<AbstractStep> testSteps = testPlan.getCompoundTestStep().getSteps();
@@ -270,7 +270,7 @@ final class TestPlan {
    *          the test plan, must not be {@code null}
    * @return the test plan containing all undo-steps, never {@code null}
    */
-  public static TestPlan createUndoStepsTestPlan(final TestPlan testPlan) {
+  static TestPlan createUndoStepsTestPlan(final TestPlan testPlan) {
     List<AbstractStep> setupUndoSteps = getAllUndoSteps(testPlan.getCompoundSetupStep().getSteps());
     List<AbstractStep> testUndoSteps = getAllUndoSteps(testPlan.getCompoundTestStep().getSteps());
     return new TestPlan(setupUndoSteps, testUndoSteps);
@@ -360,7 +360,7 @@ final class TestPlan {
    *          previous test plan, can be {@code null}
    * @return executable test plan, never {@code null}
    */
-  public static TestPlan createExecutableTestPlan(final TestPlan testPlan, final TestPlan previousTestPlan) {
+  static TestPlan createExecutableTestPlan(final TestPlan testPlan, final TestPlan previousTestPlan) {
     final List<AbstractStep> setupStepsToExecute = Lists.newArrayList(Collections2.filter(testPlan.getCompoundSetupStep().getSteps(), input -> input != null
         && isStepToExecute(input, previousTestPlan)));
     return new TestPlan(setupStepsToExecute, testPlan.getCompoundTestStep().getSteps());
@@ -393,7 +393,7 @@ final class TestPlan {
    *
    * @return the compound setup step, never {@code null}
    */
-  public CompoundStep getCompoundSetupStep() {
+  CompoundStep getCompoundSetupStep() {
     return compoundSetupStep;
   }
 
@@ -402,7 +402,7 @@ final class TestPlan {
    *
    * @return the compound test step, never {@code null}
    */
-  public CompoundStep getCompoundTestStep() {
+  CompoundStep getCompoundTestStep() {
     return compoundTestStep;
   }
 }

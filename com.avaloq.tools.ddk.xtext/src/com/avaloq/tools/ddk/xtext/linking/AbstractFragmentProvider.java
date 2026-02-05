@@ -41,6 +41,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   /**
    * Helper object used to iterate over the segments in a URI fragment and extract the number of repetitions of the segments.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected class FragmentSegmentIterator implements Iterator<String> {
     private final String fragment;
     private final int length;

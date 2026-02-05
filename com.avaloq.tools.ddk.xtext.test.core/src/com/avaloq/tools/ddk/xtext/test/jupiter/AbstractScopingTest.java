@@ -798,8 +798,8 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          CrossReference object, can be {@code null}
    */
   protected void assertEObjectsAreEqual(final EObject sourceObject, final EObject targetObject, final CrossReference crossReference) {
-    StringBuilder expected = new StringBuilder();
-    StringBuilder found = new StringBuilder();
+    StringBuilder expected = new StringBuilder(80);
+    StringBuilder found = new StringBuilder(80);
     if (crossReference != null) {
       String crossReferenceText = "Cross reference:\n" + crossReference.toString() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
       expected.append(crossReferenceText);

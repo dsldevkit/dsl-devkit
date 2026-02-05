@@ -31,7 +31,7 @@ public final class SorterUtil {
   private static final class SingletonHolder {
     private static SorterUtil instance = new SorterUtil();
 
-    public static SorterUtil get() {
+    static SorterUtil get() {
       return instance;
     }
   }

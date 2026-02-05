@@ -81,6 +81,7 @@ public abstract class AbstractFingerprintComputer implements IFingerprintCompute
    * Internal representation of an exported item, containing its fingerprint and its objects (the object itself, plus its
    * children).
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected static class ExportItem implements Comparable<ExportItem> {
     private final CharSequence key;
     private String keyAsString;

@@ -213,12 +213,12 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
       done = false;
     }
 
-    public boolean isDone() {
+    boolean isDone() {
       return done;
     }
 
     /** Set the flag to true, indicating that lazy resolution was completely done. */
-    public void setDone() {
+    void setDone() {
       done = true;
     }
   }
@@ -438,7 +438,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
   private static final class CustomAdapterList extends EAdapterList<Adapter> {
     private static final long serialVersionUID = 1L;
 
-    public CustomAdapterList(final Notifier notifier) {
+    CustomAdapterList(final Notifier notifier) {
       super(notifier);
     }
 

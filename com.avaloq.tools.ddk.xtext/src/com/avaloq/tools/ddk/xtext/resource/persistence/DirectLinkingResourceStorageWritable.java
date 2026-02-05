@@ -198,7 +198,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
   private class SelectiveObjectOutputStream extends BinaryResourceImpl.EObjectOutputStream {
     private final StorageAwareResource storageAwareResource;
 
-    public SelectiveObjectOutputStream(final StorageAwareResource storageAwareResource, final OutputStream outputStream, final Map<?, ?> options) throws IOException {
+    SelectiveObjectOutputStream(final StorageAwareResource storageAwareResource, final OutputStream outputStream, final Map<?, ?> options) throws IOException {
       super(outputStream, options);
       this.storageAwareResource = storageAwareResource;
     }
@@ -218,7 +218,7 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
       handleSaveEObject(internalEObject, this);
     }
 
-    public void saveSelectedResourceContents(final Resource resource, final int startIndex, final int objCount) throws IOException {
+    void saveSelectedResourceContents(final Resource resource, final int startIndex, final int objCount) throws IOException {
       this.resource = resource;
       URI uri = resource.getURI();
       if (uri != null && uri.isHierarchical() && !uri.isRelative()) {

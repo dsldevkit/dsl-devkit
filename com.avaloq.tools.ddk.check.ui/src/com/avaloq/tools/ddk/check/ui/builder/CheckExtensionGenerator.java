@@ -93,9 +93,9 @@ class CheckExtensionGenerator {
   // CHECKSTYLE:ON
   private static final Logger LOGGER = LogManager.getLogger(CheckExtensionGenerator.class);
 
-  public static final String PREFERENCE_PLUGIN_XML_FILENAME = "PluginXmlFilename";
-  public static final String STANDARD_PLUGIN_FILENAME = ICoreConstants.PLUGIN_FILENAME_DESCRIPTOR;
-  public static final String STANDARD_FRAGMENT_FILENAME = ICoreConstants.FRAGMENT_FILENAME_DESCRIPTOR;
+  static final String PREFERENCE_PLUGIN_XML_FILENAME = "PluginXmlFilename";
+  static final String STANDARD_PLUGIN_FILENAME = ICoreConstants.PLUGIN_FILENAME_DESCRIPTOR;
+  static final String STANDARD_FRAGMENT_FILENAME = ICoreConstants.FRAGMENT_FILENAME_DESCRIPTOR;
 
   @Inject
   private CheckProjectHelper projectHelper;
@@ -109,6 +109,7 @@ class CheckExtensionGenerator {
   /**
    * A plug-in model that can be loaded/saved from a file.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected static final class CheckWorkspacePluginModel extends WorkspacePluginModel {
 
     private static final long serialVersionUID = 1L;
@@ -142,6 +143,7 @@ class CheckExtensionGenerator {
   /**
    * A {@code Plugin} that can load/save plugin xml from file other than "plugin.xml".
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected static final class CheckPlugin extends Plugin {
 
     private static final long serialVersionUID = 1L;
@@ -173,6 +175,7 @@ class CheckExtensionGenerator {
   /**
    * A {@code PluginExtension} that can be loaded from an xml file.
    */
+  @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
   protected static final class CheckPluginExtension extends PluginExtension {
 
     private static final long serialVersionUID = 1L;
@@ -230,6 +233,7 @@ class CheckExtensionGenerator {
     /**
      * A {@code PluginElement} that can be loaded from an xml file.
      */
+    @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
     protected class CheckPluginElement extends PluginElement {
 
       private static final long serialVersionUID = 1L;
@@ -334,7 +338,7 @@ class CheckExtensionGenerator {
    * @throws CoreException
    *           the core exception
    */
-  public void changePluginXmlFile(final IBuildContext context, final Delta delta, final IProgressMonitor monitor) throws CoreException {
+  void changePluginXmlFile(final IBuildContext context, final Delta delta, final IProgressMonitor monitor) throws CoreException {
     URI uri = delta.getUri();
     CheckCatalog catalog = projectHelper.getCatalog(context, uri);
     if (catalog == null) {
@@ -536,8 +540,10 @@ class CheckExtensionGenerator {
    *          a modification
    * @param monitor
    *          progress monitor
+   * @throws OperationCanceledException
+   *           if the operation was canceled
    */
-  public void modifyModel(final ModelModification modification, final IProgressMonitor monitor) {
+  void modifyModel(final ModelModification modification, final IProgressMonitor monitor) {
     if (monitor.isCanceled()) {
       throw new OperationCanceledException();
     }
@@ -569,7 +575,7 @@ class CheckExtensionGenerator {
    * @throws CoreException
    *           the core exception
    */
-  public void handleCatalogDeletion(final Delta delta, final IProgressMonitor monitor) throws CoreException {
+  void handleCatalogDeletion(final Delta delta, final IProgressMonitor monitor) throws CoreException {
     IFile file = getPluginFile(delta.getUri());
     if (validPluginFile(file)) {
       Iterable<IEObjectDescription> catalogs = delta.getOld().getExportedObjectsByType(CheckPackage.Literals.CHECK_CATALOG);

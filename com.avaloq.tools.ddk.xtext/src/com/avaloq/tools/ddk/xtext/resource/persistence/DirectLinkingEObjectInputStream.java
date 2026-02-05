@@ -44,9 +44,11 @@ class DirectLinkingEObjectInputStream extends EObjectInputStream {
    * @see DirectLinkingEObjectOutputStream#writeEObjectURI(EObject, Resource)
    * @throws IOException
    *           if an I/O exception occurred
+   * @throws IllegalStateException
+   *           if an EStructuralFeature cannot be resolved
    */
   @SuppressWarnings("unchecked")
-  public EObject readEObject(final Resource context) throws IOException {
+  EObject readEObject(final Resource context) throws IOException {
     if (readBoolean() == LOCAL_EOBJECT) {
       int count = readCompressedInt();
       EObject eObject = context.getContents().get(readCompressedInt());

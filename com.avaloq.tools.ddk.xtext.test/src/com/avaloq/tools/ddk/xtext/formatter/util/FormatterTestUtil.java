@@ -29,7 +29,7 @@ public final class FormatterTestUtil extends AbstractXtextTestUtil {
     // Initialize-on-demand holder pattern.
     private static final FormatterTestUtil INSTANCE = new FormatterTestUtil();
 
-    public static FormatterTestUtil get() {
+    static FormatterTestUtil get() {
         return INSTANCE;
     }
   }
