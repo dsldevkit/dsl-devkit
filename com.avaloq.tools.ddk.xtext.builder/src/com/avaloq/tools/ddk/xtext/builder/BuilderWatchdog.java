@@ -142,7 +142,7 @@ public class BuilderWatchdog extends Thread {
     }
 
     canDumpStackTraces = false;
-    LOGGER.warn(stackTraceBuilder.toString());
+    LOGGER.info(stackTraceBuilder.toString());
   }
 
   /**
@@ -209,3 +209,4 @@ public class BuilderWatchdog extends Thread {
     return System.currentTimeMillis() - start;
   }
 }
+
