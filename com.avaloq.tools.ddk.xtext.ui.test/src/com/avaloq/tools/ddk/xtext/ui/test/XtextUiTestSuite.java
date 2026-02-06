@@ -11,6 +11,7 @@
 
 package com.avaloq.tools.ddk.xtext.ui.test;
 
+import org.junit.platform.suite.api.IncludeClassNamePatterns;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
@@ -25,5 +26,6 @@ import org.junit.platform.suite.api.Suite;
   "com.avaloq.tools.ddk.xtext.ui.templates"
   // @Format-On
 })
+@IncludeClassNamePatterns(".*Test.*")
 class XtextUiTestSuite {
 }

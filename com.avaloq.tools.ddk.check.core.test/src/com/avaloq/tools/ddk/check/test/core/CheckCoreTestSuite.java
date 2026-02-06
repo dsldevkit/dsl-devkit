@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.test.core;
 
+import org.junit.platform.suite.api.IncludeClassNamePatterns;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
@@ -22,6 +23,7 @@ import org.junit.platform.suite.api.Suite;
 @SelectPackages({
   "com.avaloq.tools.ddk.check.core.test"
 })
+@IncludeClassNamePatterns(".*Test.*")
 class CheckCoreTestSuite {
 
 }

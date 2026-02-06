@@ -27,14 +27,14 @@ import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 @InjectWith(CheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-class BugDsl27 extends AbstractCheckGenerationTestCase {
+class BugDsl27Test extends AbstractCheckGenerationTestCase {
 
   /**
    * Tests that our test source compiles fine.
    */
   @Test
   void testGeneratedCodeHasNoErrors() {
-    try (InputStream sourceStream = BugDsl27.class.getResourceAsStream("bugdsl27/BugDsl27")) {
+    try (InputStream sourceStream = BugDsl27Test.class.getResourceAsStream("bugdsl27/BugDsl27")) {
       generateAndCompile(sourceStream);
     } catch (IOException exception) {
       LOGGER.info("Failed to close the test file");

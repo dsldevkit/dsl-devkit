@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.test;
 
+import org.junit.platform.suite.api.IncludeClassNamePatterns;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
@@ -26,5 +27,6 @@ import org.junit.platform.suite.api.Suite;
   "com.avaloq.tools.ddk.check.ui.test.quickfix"
 })
 // @Format-On
+@IncludeClassNamePatterns(".*Test.*")
 class CheckUiTestSuite {
 }

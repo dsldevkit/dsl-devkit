@@ -42,7 +42,7 @@ import com.google.common.collect.Iterables;
 @ExtendWith(InjectionExtension.class)
 @InjectWith(CheckInjectorProvider.class)
 @SuppressWarnings("nls")
-class BugAig1314 {
+class BugAig1314Test {
 
   /** Constructor of super class is protected... */
   private static class TestScope extends CatalogFromExtensionPointScope {
@@ -74,7 +74,7 @@ class BugAig1314 {
     return new ModelLocation(url, TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION) {
       @Override
       public InputStream getCatalogStream() {
-        return BugAig1314.class.getResourceAsStream(TEST_CATALOG_FILE);
+        return BugAig1314Test.class.getResourceAsStream(TEST_CATALOG_FILE);
       }
     };
   }
