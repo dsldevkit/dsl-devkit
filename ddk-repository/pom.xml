@@ -14,14 +14,14 @@
 
   <distributionManagement>
     <repository>
-      <id>${p2ReleaseRepoId}</id>
-      <name>${p2ReleaseRepoName}</name>
-      <url>${p2ReleaseRepoUrl}</url>
+      <id>${p2ArtifactoryReleaseRepoId}</id>
+      <name>${p2ArtifactoryReleaseRepoName}</name>
+      <url>${p2ArtifactoryReleaseRepoUrl}</url>
     </repository>
     <snapshotRepository>
-      <id>${p2SnapshotRepoId}</id>
-      <name>${p2SnapshotRepoName}</name>
-      <url>${p2SnapshotRepoUrl}</url>
+      <id>${p2ArtifactorySnapshotRepoId}</id>
+      <name>${p2ArtifactorySnapshotRepoName}</name>
+      <url>${p2ArtifactorySnapshotRepoUrl}</url>
     </snapshotRepository>
   </distributionManagement>
 
