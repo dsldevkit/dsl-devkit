@@ -172,7 +172,7 @@ class QualifiedNamePatternTest {
   @BugTest("DSL-209")
   @SuppressWarnings("PMD.UseAssertSameInsteadOfAssertTrue")
   // The comparator structure of ==, > and < should be clear in the tests.
-  public void testComparison() {
+  void testComparison() {
     // basic wild cards
     assertTrue(0 > comparePattern(createPattern("foo", "abc*"), createName("foo", "abcd")));
     assertTrue(0 > comparePattern(createPattern("foo*"), createName("foo", "abcd")));

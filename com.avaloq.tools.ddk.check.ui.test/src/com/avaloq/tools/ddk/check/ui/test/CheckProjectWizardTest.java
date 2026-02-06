@@ -80,7 +80,7 @@ class CheckProjectWizardTest {
    * Tests that the 'finish' button is not enabled in the project page.
    */
   @BugTest("AIG-490")
-  public void testFinishButtonDisabledInProjectPage() {
+  void testFinishButtonDisabledInProjectPage() {
     CheckWizardTestUtil.projectName(wizard, "valid.project.name", CheckWizardTestUtil.NEXT_ENABLED, CheckWizardTestUtil.FINISH_DISABLED);
   }
 
@@ -110,7 +110,7 @@ class CheckProjectWizardTest {
    * Tests that applying the next button changes the wizard page.
    */
   @BugTest("AIG-479")
-  public void testNextButtonChangesPage() {
+  void testNextButtonChangesPage() {
     wizard.writeToTextField(Messages.PROJECT_NAME_LABEL, "a.b");
     SWTBotShell projectPage = wizard.shell(Messages.PROJECT_WIZARD_WINDOW_TITLE);
     wizard.changeToNextPage();

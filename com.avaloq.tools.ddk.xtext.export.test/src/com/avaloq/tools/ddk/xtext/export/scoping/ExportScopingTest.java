@@ -31,7 +31,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest;
  */
 @SuppressWarnings("nls")
 class ExportScopingTest extends AbstractScopingTest {
-  public ExportScopingTest() {
+  ExportScopingTest() {
     super(new NullMapper());
   }
 

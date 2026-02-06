@@ -84,7 +84,7 @@ class AbstractSelectorFragmentProviderTest {
     assertSame(obj, res.getEObject(fragment));
   }
 
-  public EObject getModel(final String model) {
+  EObject getModel(final String model) {
     try {
       return parseHelper.parse(model);
     } catch (Exception e) {

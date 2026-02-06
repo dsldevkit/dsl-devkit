@@ -225,7 +225,7 @@ class QualifiedNameSegmentTreeLookupTest {
     return QualifiedNamePattern.create(name);
   }
 
-  public URI uri(final QualifiedName name) {
+  URI uri(final QualifiedName name) {
     return URI.createURI("scheme:/" + name);
   }
 
@@ -236,7 +236,7 @@ class QualifiedNameSegmentTreeLookupTest {
     return value;
   }
 
-  public void assertContentEquals(final Collection<?> expected, final Collection<?> actual) {
+  void assertContentEquals(final Collection<?> expected, final Collection<?> actual) {
     assertEquals(ImmutableSet.copyOf(expected), ImmutableSet.copyOf(actual));
   }
 }

@@ -404,7 +404,7 @@ class FormatterTest extends AbstractFormatterTest {
   // TODO: investigate whether to include test or not - currently this test
   // would fail
   @Disabled
-  public void suppressedLinewrap() throws IOException {
+  void suppressedLinewrap() throws IOException {
     String model = "test linewrap\n`foo%abcd%foo%< b\n>%abcd%foo%abcd%foo%abcd%" + "foo%abcd%foo%abcd%foo%abcd%foo%abcd%foo%abcd%foo%xx%foo%abcd%foo%abcd%"
         + "foo%abcd%foo%<\nb >%foo%abcd` post;";
     assertFormattedPTC(model, model);

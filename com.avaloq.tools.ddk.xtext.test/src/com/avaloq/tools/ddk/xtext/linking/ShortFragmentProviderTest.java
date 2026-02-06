@@ -90,7 +90,7 @@ class ShortFragmentProviderTest {
   }
 
   @BugTest(value = "DSL-601")
-  public void testLongFragment() {
+  void testLongFragment() {
     int reps = 100;
     EObject root = EcoreUtil.create(testClass);
     EObject parent = root;

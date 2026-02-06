@@ -23,11 +23,11 @@ import org.junit.jupiter.api.Test;
 @SuppressWarnings("nls")
 class CheckContextTest {
 
-  public static final String ENABLED_ISSUE_CODE = "Enabled.Issue.Code";
-  public static final String DISABLED_ISSUE_CODE = "Disabled.Issue.Code";
-  public static final String DISABLED_AND_ENABLED_ISSUE_CODE = "Disabled.Enabled.Issue.Code";
-  public static final String ENABLED_AND_DISABLED_ISSUE_CODE = "Enaabled.Disabled.Issue.Code";
-  public static final String NOT_MENTIONED_ISSUE_CODE = "Not.Mentioned.Issue.Code";
+  static final String ENABLED_ISSUE_CODE = "Enabled.Issue.Code";
+  static final String DISABLED_ISSUE_CODE = "Disabled.Issue.Code";
+  static final String DISABLED_AND_ENABLED_ISSUE_CODE = "Disabled.Enabled.Issue.Code";
+  static final String ENABLED_AND_DISABLED_ISSUE_CODE = "Enaabled.Disabled.Issue.Code";
+  static final String NOT_MENTIONED_ISSUE_CODE = "Not.Mentioned.Issue.Code";
   private static final EObject DUMMY_CONTEXT = null; // Wrap up null nicely
 
   /**

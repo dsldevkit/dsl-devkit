@@ -249,7 +249,7 @@ class CheckCatalogWizardTest {
    * Tests that initially no grammar is selected, so pressing finish is disabled if no grammar is chosen.
    */
   @BugTest("AIG-708")
-  public void testInitiallyNoGrammarSelected() {
+  void testInitiallyNoGrammarSelected() {
     selectProjectFolder(wizard, VALID_PACKAGE_NAME);
     initializeWizardBot();
 

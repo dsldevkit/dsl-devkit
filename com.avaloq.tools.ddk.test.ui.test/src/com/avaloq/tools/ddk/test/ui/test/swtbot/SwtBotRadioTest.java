@@ -30,8 +30,8 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
 class SwtBotRadioTest {
 
   @RegisterExtension
-  // CHECKSTYLE:CHECK-OFF VisibilityModifier
-  public final IssueAwareRule rule = IssueAwareRule.getInstance();
+  // CHECKSTYLE:CHECK-OFF VisibilityModifier - JUnit 5 @RegisterExtension requires non-private
+  final IssueAwareRule rule = IssueAwareRule.getInstance();
   // CHECKSTYLE:CHECK-ON VisibilityModifier
 
   private static final String[] PREFERENCES_PATH = new String[] {"General", "Perspectives"};
