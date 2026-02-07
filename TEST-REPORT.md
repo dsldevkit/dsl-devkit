@@ -11,12 +11,14 @@ CI Run: https://github.com/dsldevkit/dsl-devkit/actions/runs/21770300335
 | `xtext.export.test` | 14 | 0 | 0 | PASS |
 | `typesystem.test` | 55 | 0 | 0 | PASS |
 | `check.runtime.core.test` | 16 | 0 | 0 | PASS |
-| `xtext.test` *(existing)* | 74 | 0 | 0 | PASS |
+| `xtext.test` *(existing)* | — | — | — | SKIPPED |
 | `xtext.format.test` | 22 | 6 | 7 | FAIL |
 | `xtext.generator.test` | 27 | 0 | 2 | FAIL |
 | `checkcfg.core.test` | 10 | 5 | 1 | FAIL |
 | `check.core.test` | 65 | 0 | 63 | FAIL |
-| **Total** | **283** | **11** | **73** | |
+| **Total** | **209** | **11** | **73** | |
+
+> **Note:** `xtext.test` was SKIPPED by Maven due to earlier module failures (`--fail-at-end` mode). It normally runs 74 tests and passes on `master`.
 
 ## Root Cause Analysis
 
@@ -118,6 +120,6 @@ XbaseGeneratorFragmentTest.testUsesXImportSectionWhenUsed:180 — NullPointerExc
 
 ## Recommendations
 
-1. **Enable immediately** (3 modules, +85 tests): `xtext.export.test`, `typesystem.test`, `check.runtime.core.test`
+1. **Enable immediately** (3 new modules, +85 tests): `xtext.export.test`, `typesystem.test`, `check.runtime.core.test`
 2. **Move to UI harness** (3 modules): `check.core.test`, `xtext.format.test`, `checkcfg.core.test` — these are misclassified as non-UI but depend on UI injectors
 3. **Fix test setup** (1 module): `xtext.generator.test` — `XbaseGeneratorFragmentTest` has 2 genuine test bugs
