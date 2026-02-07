@@ -9,4 +9,34 @@
 
   <artifactId>com.avaloq.tools.ddk.test.ui.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <skip>false</skip>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <failIfNoTests>false</failIfNoTests>
+          <useUIThread>false</useUIThread>
+          <useUIHarness>true</useUIHarness>
+          <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
+          <argLine>-Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
+          <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
+          <product>${runtime.product}</product>
+          <application>org.eclipse.ui.ide.workbench</application>
+          <dependencies>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.platform.feature.group</artifactId>
+            </dependency>
+          </dependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
