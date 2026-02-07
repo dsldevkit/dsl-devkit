@@ -11,8 +11,8 @@ CI Run: https://github.com/dsldevkit/dsl-devkit/actions/runs/21770332592
 | Module | Tests | Failures | Errors | Status |
 |--------|------:|:--------:|:------:|:------:|
 | `xtext.ui.test` | 40 | 0 | 0 | PASS |
-| `check.ui.test` | 0 | 0 | 0 | PASS *(no tests found)* |
-| `sample.helloworld.ui.test` | 0 | 0 | 0 | PASS *(no tests found)* |
+| `check.ui.test` | — | — | — | SKIPPED |
+| `sample.helloworld.ui.test` | — | — | — | SKIPPED |
 | `test.ui.test` | 4 | 0 | 3 | FAIL |
 
 ### Non-UI Test Modules (same as #1263)
@@ -22,12 +22,14 @@ CI Run: https://github.com/dsldevkit/dsl-devkit/actions/runs/21770332592
 | `xtext.export.test` | 14 | 0 | 0 | PASS |
 | `typesystem.test` | 55 | 0 | 0 | PASS |
 | `check.runtime.core.test` | 16 | 0 | 0 | PASS |
-| `xtext.test` *(existing)* | 74 | 0 | 0 | PASS |
+| `xtext.test` *(existing)* | — | — | — | SKIPPED |
 | `xtext.format.test` | 22 | 6 | 7 | FAIL |
 | `xtext.generator.test` | 27 | 0 | 2 | FAIL |
 | `checkcfg.core.test` | 10 | 5 | 1 | FAIL |
 | `check.core.test` | 65 | 0 | 63 | FAIL |
-| **Total** | **327** | **11** | **76** | |
+| **Total** | **253** | **11** | **76** | |
+
+> **Note:** `xtext.test`, `check.ui.test`, and `sample.helloworld.ui.test` were SKIPPED by Maven due to earlier module failures (`--fail-at-end` mode). `xtext.test` normally runs 74 tests and passes on `master`. `check.ui.test` and `sample.helloworld.ui.test` were not executed, so it is unknown whether they contain discoverable tests.
 
 ## Root Cause Analysis
 
@@ -176,4 +178,4 @@ XbaseGeneratorFragmentTest.testUsesXImportSectionWhenUsed:180 — NullPointerExc
 2. **Move to UI harness** (3 modules): `check.core.test`, `xtext.format.test`, `checkcfg.core.test` — misclassified as non-UI but depend on UI injectors
 3. **Fix SWTBot setup** (1 module): `test.ui.test` — widget/dialog not found in headless CI
 4. **Fix test setup bug** (1 module): `xtext.generator.test` — `XbaseGeneratorFragmentTest` has 2 errors
-5. **No action needed** (2 modules): `check.ui.test`, `sample.helloworld.ui.test` — no test classes found
+5. **Needs re-run** (2 modules): `check.ui.test`, `sample.helloworld.ui.test` — SKIPPED due to earlier failures, status unknown
