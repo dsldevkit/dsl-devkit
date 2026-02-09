@@ -12,8 +12,8 @@ import org.junit.jupiter.api.^extension.ExtendWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.assertNotNull
-import static org.junit.jupiter.api.Assertions.assertTrue
-
+import static org.junit.jupiter.api.Assertions.assertFalse
+import org.eclipse.xtext.resource.XtextResource
 
 @ExtendWith(InjectionExtension)
 @InjectWith(FormatInjectorProvider)
@@ -24,10 +24,17 @@ class FormatParsingTest {
   @Test
   def void loadModel() {
     val result = parseHelper.parse('''
-      Hello Xtext!
-    ''')
+      formatter for MyDsl
+      
+      const String SOME_STRING = "";
+      const int SOME_INT = 2;
+      
+      Person {
+      }    '''
+    )
     assertNotNull(result)
-    val errors = result.eResource.errors
-    assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", ")»''')
+    assertFalse(
+      ((result.eResource) as XtextResource).getParseResult.
+        hasSyntaxErrors, '''Unexpected errors: «result.eResource.errors.join(", ")»''')
   }
 }
