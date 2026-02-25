@@ -25,7 +25,6 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.common.types.ui" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.common.ui" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.builder" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.builder.ui" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/com.avaloq.tools.ddk.xtext.expression" type="4"/>
 </workingSet>
 <workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1312298151164_9" label="DDK - Static Code Analysis" name="DDK - Static Code Analysis">
