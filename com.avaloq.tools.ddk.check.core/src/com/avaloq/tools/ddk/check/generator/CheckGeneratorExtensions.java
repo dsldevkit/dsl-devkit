@@ -263,18 +263,11 @@ public class CheckGeneratorExtensions {
     if (project != null) { // In some compiler tests we may not have a project.
       IFile file = project.getFile(new Path(path));
       if (file.exists()) {
-        InputStreamReader reader = new InputStreamReader(file.getContents());
-        try {
+        try (InputStreamReader reader = new InputStreamReader(file.getContents())) {
           List<String> content = CharStreams.readLines(reader);
           return Sets.<String>newTreeSet(content);
         } catch (Exception e) {
           throw new RuntimeException(e);
-        } finally {
-          try {
-            reader.close();
-          } catch (Exception e) {
-            // ignore
-          }
         }
       }
     }
