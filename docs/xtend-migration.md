@@ -12,10 +12,10 @@
 | Metric | Value |
 |--------|-------|
 | Total Xtend source files | 94 |
-| Already migrated (Batch 1–6) | 68 |
-| Remaining | 26 |
-| Total remaining lines | ~7,360 |
-| Modules with remaining Xtend | 8 |
+| Already migrated (Batch 1–7) | 74 |
+| Remaining | 20 |
+| Total remaining lines | ~5,513 |
+| Modules with remaining Xtend | 5 |
 
 ---
 
@@ -36,8 +36,8 @@
 | `xtext.export` | 9 | 1,027 | **DONE** (Batch 5) |
 | `xtext.export.generator` | 1 | 86 | **DONE** (Batch 4) |
 | `xtext.expression` | 5 | 679 | **DONE** (Batch 2, 6) |
-| `xtext.format` | 6 | 1,623 | 1 done (Batch 2), 5 pending |
-| `xtext.format.generator` | 1 | 239 | Pending |
+| `xtext.format` | 6 | 1,623 | **DONE** (Batch 2, 7) |
+| `xtext.format.generator` | 1 | 239 | **DONE** (Batch 7) |
 | `xtext.format.ide` | 2 | 31 | **DONE** (Batch 2) |
 | `xtext.format.test` | 1 | 40 | **DONE** (Batch 3) |
 | `xtext.format.ui` | 1 | 47 | **DONE** (Batch 2) |
@@ -213,21 +213,19 @@ Code generators with templates and some dispatch methods.
 
 ---
 
-## Batch 7 — `xtext.format` module (10 files, 1,980 lines)
+## Batch 7 — `xtext.format` module (6 files, 1,847 lines) — DONE
 
 Includes the largest file in the project. Heavy use of dispatch, templates, create methods.
 
-### `xtext.format` (4 files)
-- [ ] `FormatRuntimeModule.xtend` (115 lines) — Medium — extension, override
-- [ ] `FormatGenerator.xtend` (93 lines) — Medium — **dispatch**, templates, extension, typeof, @Inject, override
-- [ ] `FormatScopeProvider.xtend` (258 lines) — Hard — **dispatch**, typeof, ===, !==, create
-- [ ] `FormatValidator.xtend` (376 lines) — Hard — ===, !==, override
-- [ ] **`FormatJvmModelInferrer.xtend` (766 lines) — Very Hard** — dispatch, templates, extension, typeof, ===, !==, ?., #[, switch, create
+### `xtext.format` (5 files)
+- [x] `FormatRuntimeModule.xtend` (115 lines) — Medium — extension, override
+- [x] `FormatGenerator.xtend` (93 lines) — Medium — **dispatch**, templates, extension, typeof, @Inject, override
+- [x] `FormatScopeProvider.xtend` (258 lines) — Hard — **dispatch**, typeof, ===, !==, create
+- [x] `FormatValidator.xtend` (376 lines) — Hard — ===, !==, override
+- [x] **`FormatJvmModelInferrer.xtend` (766 lines) — Very Hard** — dispatch, templates, extension, typeof, ===, !==, ?., #[, switch, create
 
 ### `xtext.format.generator` (1 file)
-- [ ] `FormatFragment2.xtend` (239 lines) — Hard — templates, extension, typeof, !==, ?., @Inject, override
-
-### Remaining test/ui files (already covered in other batches)
+- [x] `FormatFragment2.xtend` (239 lines) — Hard — templates, extension, typeof, !==, ?., @Inject, override
 
 ---
 
