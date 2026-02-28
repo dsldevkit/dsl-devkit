@@ -10,60 +10,69 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.resource;
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.xtext.resource.IResourceDescription;
+import org.eclipse.xtext.resource.IResourceDescription.Delta;
+import org.eclipse.xtext.resource.IResourceDescriptions;
+import org.junit.Assert;
+
+import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
-import org.eclipse.xtext.resource.IResourceDescription
-import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager
-import org.eclipse.xtext.resource.IResourceDescriptions
-import org.eclipse.emf.common.util.URI
-import java.util.Collection
-import org.eclipse.xtext.resource.IResourceDescription.Delta
-import com.google.common.collect.HashMultiset
-import org.junit.Assert
-import com.google.common.collect.Sets
-import com.avaloq.tools.ddk.xtext.test.TestSource
+import com.avaloq.tools.ddk.xtext.test.TestSource;
+import com.avaloq.tools.ddk.xtext.test.XtextTestSource;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Sets;
 
 /**
  * Abstract base class for {@link AbstractCachingResourceDescriptionManager} tests.
  */
-abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest {
+public abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest {
 
   /**
    * Simple unchanged {@link Delta} implementation with {@link URI}.
    */
   static class UnchangedDelta implements Delta {
 
-    val URI uri;
+    private final URI uri;
 
-    new(URI uri) {
+    UnchangedDelta(final URI uri) {
       this.uri = uri;
     }
 
-    override getNew() {
-      null
+    @Override
+    public IResourceDescription getNew() {
+      return null;
     }
 
-    override getOld() {
-      null
+    @Override
+    public IResourceDescription getOld() {
+      return null;
     }
 
-    override getUri() {
-      uri
+    @Override
+    public URI getUri() {
+      return uri;
     }
 
-    override haveEObjectDescriptionsChanged() {
-      false
+    @Override
+    public boolean haveEObjectDescriptionsChanged() {
+      return false;
     }
   }
 
-  val AbstractCachingResourceDescriptionManager resourceDescriptionManager = testUtil.get(IResourceDescription.Manager) as AbstractCachingResourceDescriptionManager;
-  val IResourceDescriptions index = testUtil.get(IResourceDescriptions);
+  private final AbstractCachingResourceDescriptionManager resourceDescriptionManager = (AbstractCachingResourceDescriptionManager) getTestUtil().get(IResourceDescription.Manager.class);
+  private final IResourceDescriptions index = getTestUtil().get(IResourceDescriptions.class);
 
   /**
    * Returns the {@link AbstractCachingResourceDescriptionManager) to use in the test.
    *
    * @return the {@link AbstractCachingResourceDescriptionManager) to use in the test, never {@code null}
    */
-  def AbstractCachingResourceDescriptionManager getResourceDescriptionManager() {
+  public AbstractCachingResourceDescriptionManager getResourceDescriptionManager() {
     return resourceDescriptionManager;
   }
 
@@ -72,7 +81,7 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    *
    * @return the {@link IResourceDescriptions) to use in the test, never {@code null}
    */
-  def IResourceDescriptions getResourceDescriptions() {
+  public IResourceDescriptions getResourceDescriptions() {
     return index;
   }
 
@@ -84,11 +93,12 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    *
    * @return the candidates for the affected resource computation, never {@code null}
    */
-  def Collection<URI> getCandidates() {
-    var Collection<URI> candidates = testInformation.getTestObject(URI) as Collection<URI>;
-    if (candidates === null) {
-      candidates = Sets.newHashSet;
-      testInformation.putTestObject(URI, candidates);
+  @SuppressWarnings("unchecked")
+  public Collection<URI> getCandidates() {
+    Collection<URI> candidates = (Collection<URI>) getTestInformation().getTestObject(URI.class);
+    if (candidates == null) {
+      candidates = Sets.newHashSet();
+      getTestInformation().putTestObject(URI.class, candidates);
     }
     return candidates;
   }
@@ -102,9 +112,10 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    *          content of source, must not be {@code null}
    * @return a new {@link TestSource} with the given parameters, never {@code null}
    */
-  override protected createTestSource(String sourceFileName, String content) {
-    val testSource = super.createTestSource(sourceFileName, content);
-    getCandidates().add(testSource.uri);
+  @Override
+  protected XtextTestSource createTestSource(final String sourceFileName, final String content) {
+    final XtextTestSource testSource = super.createTestSource(sourceFileName, content);
+    getCandidates().add(testSource.getUri());
     return testSource;
   }
 
@@ -118,7 +129,7 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    *          the delta {@link URI}, must not be {@code null}
    * @return a new {@link Delta}, never {@code null}
    */
-  def Delta createDelta(URI uri) {
+  public Delta createDelta(final URI uri) {
     return new UnchangedDelta(uri);
   }
 
@@ -129,8 +140,8 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    *          file name for the test source, must not be {@code null}
    * @return the {@link URI} of the {@link TestSource} with the given file name, never {@code null}
    */
-  def URI getUri(String sourceFileName) {
-    return getTestSource(sourceFileName).uri;
+  public URI getUri(final String sourceFileName) {
+    return getTestSource(sourceFileName).getUri();
   }
 
   /**
@@ -144,9 +155,9 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    * @param expectedSourceNames
    *        the expected affected source names, must not be {@code null}
    */
-  def assertAffectedResources(String deltaSourceName, String... expectedSourceNames) {
-    val Collection<URI> expectedUris = Sets.newHashSet;
-    for (sourceName : expectedSourceNames) {
+  public void assertAffectedResources(final String deltaSourceName, final String... expectedSourceNames) {
+    final Collection<URI> expectedUris = Sets.newHashSet();
+    for (final String sourceName : expectedSourceNames) {
       expectedUris.add(getUri(sourceName));
     }
     assertAffectedResources(Sets.newHashSet(getUri(deltaSourceName)), getCandidates(), expectedUris);
@@ -163,7 +174,7 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    * @param expectedUris
    *        the expected affected {@link URI}s, must not be {@code null}
    */
-  def assertAffectedResources(Collection<URI> deltaUris, Collection<URI> expectedUris) {
+  public void assertAffectedResources(final Collection<URI> deltaUris, final Collection<URI> expectedUris) {
     assertAffectedResources(deltaUris, getCandidates(), expectedUris);
   }
 
@@ -177,8 +188,9 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    * @param expectedUris
    *        the expected affected {@link URI}s, must not be {@code null}
    */
-  def assertAffectedResources(Collection<URI> deltaUris, Collection<URI> candidates, Collection<URI> expectedUris) {
-    assertDeltaAffectedResources(Sets.newHashSet(deltaUris.map[createDelta(it)]), candidates, expectedUris);
+  public void assertAffectedResources(final Collection<URI> deltaUris, final Collection<URI> candidates, final Collection<URI> expectedUris) {
+    final Set<Delta> deltas = deltaUris.stream().map(uri -> createDelta(uri)).collect(Collectors.toSet());
+    assertDeltaAffectedResources(deltas, candidates, expectedUris);
   }
 
   /**
@@ -191,8 +203,8 @@ abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest 
    * @param expectedUris
    *        the expected affected {@link URI}s, must not be {@code null}
    */
-  def assertDeltaAffectedResources(Collection<Delta> deltas, Collection<URI> candidates, Collection<URI> expectedUris) {
-    val result = getResourceDescriptionManager().getAffectedResources(deltas, candidates, getResourceDescriptions());
+  public void assertDeltaAffectedResources(final Collection<Delta> deltas, final Collection<URI> candidates, final Collection<URI> expectedUris) {
+    final Collection<URI> result = getResourceDescriptionManager().getAffectedResources(deltas, candidates, getResourceDescriptions());
     Assert.assertEquals("Affected URIs must be correct.", HashMultiset.create(expectedUris), HashMultiset.create(result));
   }
 }
