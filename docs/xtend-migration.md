@@ -12,10 +12,10 @@
 | Metric | Value |
 |--------|-------|
 | Total Xtend source files | 94 |
-| Already migrated (Batch 1–4) | 49 |
-| Remaining | 45 |
-| Total remaining lines | ~10,404 |
-| Modules with remaining Xtend | 14 |
+| Already migrated (Batch 1–5) | 58 |
+| Remaining | 36 |
+| Total remaining lines | ~9,377 |
+| Modules with remaining Xtend | 13 |
 
 ---
 
@@ -33,7 +33,7 @@
 | `checkcfg.core.test` | 7 | 460 | **DONE** (Batch 2–4) |
 | `sample.helloworld.ui.test` | 3 | 203 | **DONE** (Batch 3–4) |
 | `xtext.check.generator` | 2 | 113 | **DONE** (Batch 2–3) |
-| `xtext.export` | 9 | 1,027 | Pending |
+| `xtext.export` | 9 | 1,027 | **DONE** (Batch 5) |
 | `xtext.export.generator` | 1 | 86 | **DONE** (Batch 4) |
 | `xtext.expression` | 5 | 679 | 2 done (Batch 2), 3 pending |
 | `xtext.format` | 6 | 1,623 | 1 done (Batch 2), 5 pending |
@@ -173,19 +173,19 @@ Simple test files, utilities, small production code.
 
 ---
 
-## Batch 5 — `xtext.export` module (9 files, 1,027 lines)
+## Batch 5 — `xtext.export` module (9 files, 1,027 lines) — DONE
 
 Code generators with templates and some dispatch methods.
 
-- [ ] `ResourceDescriptionConstantsGenerator.xtend` (54 lines) — Easy — templates, extension, @Inject
-- [ ] `ExportFeatureExtensionGenerator.xtend` (77 lines) — Easy — templates, extension, @Inject
-- [ ] `ResourceDescriptionManagerGenerator.xtend` (59 lines) — Easy — templates, extension, !==, @Inject
-- [ ] `ExportedNamesProviderGenerator.xtend` (96 lines) — Medium — templates, extension, !==, ?., switch
-- [ ] `FragmentProviderGenerator.xtend` (94 lines) — Medium — templates, extension, !==, switch
-- [ ] `FingerprintComputerGenerator.xtend` (134 lines) — Medium — **dispatch**, templates, extension, @Inject
-- [ ] `ExportGenerator.xtend` (136 lines) — Medium — templates, extension, ===, !==, @Inject, override
-- [ ] `ExportGeneratorX.xtend` (187 lines) — Hard — **dispatch**, extension, !==, ?., @Inject
-- [ ] `ResourceDescriptionStrategyGenerator.xtend` (190 lines) — Hard — templates, extension, ===, !==, @Inject
+- [x] `ResourceDescriptionConstantsGenerator.xtend` (54 lines) — Easy — templates, extension, @Inject
+- [x] `ExportFeatureExtensionGenerator.xtend` (77 lines) — Easy — templates, extension, @Inject
+- [x] `ResourceDescriptionManagerGenerator.xtend` (59 lines) — Easy — templates, extension, !==, @Inject
+- [x] `ExportedNamesProviderGenerator.xtend` (96 lines) — Medium — templates, extension, !==, ?., switch
+- [x] `FragmentProviderGenerator.xtend` (94 lines) — Medium — templates, extension, !==, switch
+- [x] `FingerprintComputerGenerator.xtend` (134 lines) — Medium — **dispatch**, templates, extension, @Inject
+- [x] `ExportGenerator.xtend` (136 lines) — Medium — templates, extension, ===, !==, @Inject, override
+- [x] `ExportGeneratorX.xtend` (187 lines) — Hard — **dispatch**, extension, !==, ?., @Inject
+- [x] `ResourceDescriptionStrategyGenerator.xtend` (190 lines) — Hard — templates, extension, ===, !==, @Inject
 
 ---
 
