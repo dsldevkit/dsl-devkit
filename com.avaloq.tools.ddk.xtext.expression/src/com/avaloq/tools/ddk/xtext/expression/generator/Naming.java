@@ -8,15 +8,21 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.generator
+package com.avaloq.tools.ddk.xtext.expression.generator;
 
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.xtext.generator.IFileSystemAccess
+import org.eclipse.xtext.util.Strings;
 
-class TestLanguageGenerator implements IGenerator {
+public class Naming {
 
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		//TODO implment me
-	}
+  public String toFileName(final String qualifiedName) {
+    return toJavaPackage(qualifiedName).replace('.', '/') + '/' + toSimpleName(qualifiedName) + ".java";
+  }
+
+  public String toJavaPackage(final String qualifiedName) {
+    return Strings.skipLastToken(qualifiedName, ".");
+  }
+
+  public String toSimpleName(final String qualifiedName) {
+    return Strings.lastToken(qualifiedName, ".");
+  }
 }
