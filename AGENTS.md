@@ -116,3 +116,48 @@ xvfb-run mvn verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
 - **Platform**: GitHub Actions
 - **Workflow**: `.github/workflows/verify.yml`
 - Triggers on: push to master, pull requests
+
+---
+
+## Xtend-to-Java Migration (feature/xtend-to-java-migration branch)
+
+> **TEMPORARY SECTION** — Remove this section and `docs/xtend-to-java-conversion-prompt.md` after the migration branch is merged to master. Check on every push.
+
+### Overview
+
+We are migrating all ~94 Xtend source files to idiomatic Java 21. Batch 1 (8 files in `check.core`) is complete. The remaining 86 files are tracked in [`docs/xtend-migration.md`](docs/xtend-migration.md).
+
+### Key References
+
+| Document | Purpose |
+|----------|---------|
+| [`docs/xtend-migration.md`](docs/xtend-migration.md) | Master checklist — per-file status, batch order, build cleanup tasks |
+| [`docs/xtend-to-java-conversion-prompt.md`](docs/xtend-to-java-conversion-prompt.md) | Full conversion prompt with 18 sections of rules, checklist, and worked example |
+
+### Migration Conventions
+
+- **Java 21** target — use pattern matching, switch expressions where appropriate
+- **`StringBuilder`** for Xtend template expressions (no Xtend runtime dependency)
+- **No `var` keyword** — always use explicit types (`final ExplicitType`, not `final var`)
+- **2-space indentation** to match project convention
+- Preserve all comments, copyright headers, and method ordering
+
+### Per-File Conversion Workflow
+
+1. Read the `.xtend` source file
+2. Read the corresponding `xtend-gen/*.java` file as reference
+3. Apply the conversion prompt rules from `docs/xtend-to-java-conversion-prompt.md`
+4. Write the `.java` file to `src/` (same package path as the `.xtend` file)
+5. Delete the `.xtend` file
+6. Delete the `xtend-gen/*.java` file
+7. Update the checklist in `docs/xtend-migration.md`
+
+### Verification After Each Batch
+
+```bash
+# Must pass
+mvn clean compile -f ./ddk-parent/pom.xml --batch-mode
+
+# Must pass (except known macOS UI test)
+mvn clean verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+```
