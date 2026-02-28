@@ -8,16 +8,16 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.test
+package com.avaloq.tools.ddk.xtext.test;
 
-import org.eclipse.xtend.lib.macro.Active
+import org.eclipse.xtend.lib.macro.Active;
 
 /**
  * Initializes global tags in linking tests.
  * The annotated field must be of integer type.
  * Usage example: @Tag int MEM_DOC
  */
-@Active(typeof(TagCompilationParticipant))
-annotation Tag {
+@Active(TagCompilationParticipant.class)
+public @interface Tag {
 
 }
