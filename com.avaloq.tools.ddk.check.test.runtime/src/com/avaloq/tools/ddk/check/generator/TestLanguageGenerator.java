@@ -8,15 +8,16 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.generator
+package com.avaloq.tools.ddk.check.generator;
 
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.xtext.generator.IFileSystemAccess
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.generator.IFileSystemAccess;
+import org.eclipse.xtext.generator.IGenerator;
 
-class TestLanguageGenerator implements IGenerator {
+public class TestLanguageGenerator implements IGenerator {
 
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		//TODO implment me
-	}
+  @Override
+  public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
+    // TODO implement me
+  }
 }

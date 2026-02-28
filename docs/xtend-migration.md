@@ -12,10 +12,10 @@
 | Metric | Value |
 |--------|-------|
 | Total Xtend source files | 94 |
-| Already migrated (Batch 1) | 8 |
-| Remaining | 86 |
-| Total remaining lines | ~12,874 |
-| Modules with remaining Xtend | 24 |
+| Already migrated (Batch 1–3) | 36 |
+| Remaining | 58 |
+| Total remaining lines | ~11,494 |
+| Modules with remaining Xtend | 19 |
 
 ---
 
@@ -24,24 +24,24 @@
 | Module | Files | Lines | Status |
 |--------|-------|-------|--------|
 | `check.core` | 8 | ~1,848 | **DONE** (Batch 1) |
-| `check.core.test` | 11 | 1,717 | Pending |
-| `check.test.runtime` | 1 | 22 | Pending |
-| `check.test.runtime.tests` | 3 | 202 | Pending |
-| `check.ui` | 2 | 113 | Pending |
+| `check.core.test` | 8 | 1,508 | 3 done (Batch 2–3), 5 pending |
+| `check.test.runtime` | 1 | 22 | **DONE** (Batch 2) |
+| `check.test.runtime.tests` | 3 | 202 | 2 done (Batch 3), 1 pending |
+| `check.ui` | 2 | 113 | **DONE** (Batch 3) |
 | `check.ui.test` | 1 | 200 | Pending |
-| `checkcfg.core` | 4 | 303 | Pending |
-| `checkcfg.core.test` | 7 | 460 | Pending |
-| `sample.helloworld.ui.test` | 3 | 203 | Pending |
-| `xtext.check.generator` | 2 | 113 | Pending |
+| `checkcfg.core` | 4 | 303 | 3 done (Batch 2–3), 1 pending |
+| `checkcfg.core.test` | 7 | 460 | 4 done (Batch 2–3), 3 pending |
+| `sample.helloworld.ui.test` | 3 | 203 | 2 done (Batch 3), 1 pending |
+| `xtext.check.generator` | 2 | 113 | **DONE** (Batch 2–3) |
 | `xtext.export` | 9 | 1,027 | Pending |
 | `xtext.export.generator` | 1 | 86 | Pending |
-| `xtext.expression` | 5 | 679 | Pending |
-| `xtext.format` | 6 | 1,623 | Pending |
+| `xtext.expression` | 5 | 679 | 2 done (Batch 2), 3 pending |
+| `xtext.format` | 6 | 1,623 | 1 done (Batch 2), 5 pending |
 | `xtext.format.generator` | 1 | 239 | Pending |
-| `xtext.format.ide` | 2 | 31 | Pending |
-| `xtext.format.test` | 1 | 40 | Pending |
-| `xtext.format.ui` | 1 | 47 | Pending |
-| `xtext.generator` | 18 | 3,450 | Pending |
+| `xtext.format.ide` | 2 | 31 | **DONE** (Batch 2) |
+| `xtext.format.test` | 1 | 40 | **DONE** (Batch 3) |
+| `xtext.format.ui` | 1 | 47 | **DONE** (Batch 2) |
+| `xtext.generator` | 18 | 3,450 | 2 done (Batch 2), 16 pending |
 | `xtext.generator.test` | 1 | 200 | Pending |
 | `xtext.scope` | 4 | 852 | Pending |
 | `xtext.scope.generator` | 1 | 47 | Pending |
@@ -66,77 +66,77 @@ All module names are prefixed with `com.avaloq.tools.ddk.` (omitted for brevity)
 
 ---
 
-## Batch 2 — Trivial files ≤50 lines (~14 files)
+## Batch 2 — Trivial files ≤50 lines (~14 files) — DONE
 
 Small setup classes, empty modules, simple overrides.
 
 ### `check.test.runtime` (1 file)
-- [ ] `TestLanguageGenerator.xtend` (22 lines) — Trivial — override
+- [x] `TestLanguageGenerator.xtend` (22 lines) — Trivial — override
 
 ### `xtext.format.ide` (2 files)
-- [ ] `FormatIdeModule.xtend` (11 lines) — Trivial — no complex features
-- [ ] `FormatIdeSetup.xtend` (20 lines) — Trivial — override
+- [x] `FormatIdeModule.xtend` (11 lines) — Trivial — no complex features
+- [x] `FormatIdeSetup.xtend` (20 lines) — Trivial — override
 
 ### `xtext.format` (1 file)
-- [ ] `FormatStandaloneSetup.xtend` (15 lines) — Trivial — extension
+- [x] `FormatStandaloneSetup.xtend` (15 lines) — Trivial — extension
 
 ### `xtext.expression` (2 files)
-- [ ] `GeneratorUtilX.xtend` (29 lines) — Trivial — no complex features
-- [ ] `Naming.xtend` (30 lines) — Trivial — no complex features
+- [x] `GeneratorUtilX.xtend` (29 lines) — Trivial — no complex features
+- [x] `Naming.xtend` (30 lines) — Trivial — no complex features
 
 ### `xtext.check.generator` (1 file)
-- [ ] `CheckValidatorFragment2.xtend` (31 lines) — Trivial — extension, !==, override
+- [x] `CheckValidatorFragment2.xtend` (31 lines) — Trivial — extension, !==, override
 
 ### `checkcfg.core.test` (2 files)
-- [ ] `CheckCfgTestUtil.xtend` (32 lines) — Trivial — override
-- [ ] `CheckCfgModelUtil.xtend` (42 lines) — Trivial — templates
+- [x] `CheckCfgTestUtil.xtend` (32 lines) — Trivial — override
+- [x] `CheckCfgModelUtil.xtend` (42 lines) — Trivial — templates
 
 ### `checkcfg.core` (1 file)
-- [ ] `CheckCfgJvmModelInferrer.xtend` (45 lines) — Trivial — templates, extension, @Inject
+- [x] `CheckCfgJvmModelInferrer.xtend` (45 lines) — Trivial — templates, extension, @Inject
 
 ### `xtext.format.test` (1 file)
-- [ ] `FormatParsingTest.xtend` (40 lines) — Trivial — templates, @Inject
+- [x] `FormatParsingTest.xtend` (40 lines) — Trivial — templates, @Inject
 
 ### `xtext.format.ui` (1 file)
-- [ ] `FormatUiModule.xtend` (47 lines) — Trivial — override
+- [x] `FormatUiModule.xtend` (47 lines) — Trivial — override
 
 ### `xtext.generator` (2 files)
-- [ ] `BundleVersionStripperFragment.xtend` (47 lines) — Trivial — typeof, @Accessors
-- [ ] `ProjectConfig.xtend` (48 lines) — Trivial — templates, @Accessors, switch
+- [x] `BundleVersionStripperFragment.xtend` (47 lines) — Trivial — typeof, @Accessors
+- [x] `ProjectConfig.xtend` (48 lines) — Trivial — templates, @Accessors, switch
 
 ---
 
-## Batch 3 — Easy files 50–100 lines (~16 files)
+## Batch 3 — Easy files 50–100 lines (~14 files) — DONE
 
 Simple test files, utilities, small production code.
 
 ### `check.core.test` (3 files)
-- [ ] `BugAig830.xtend` (56 lines) — Easy — templates, @Inject
-- [ ] `CheckTestUtil.xtend` (72 lines) — Easy — ===, !==
-- [ ] `CheckScopingTest.xtend` (81 lines) — Easy — extension, typeof, @Inject
+- [x] `BugAig830.xtend` (56 lines) — Easy — templates, @Inject
+- [x] `CheckTestUtil.xtend` (72 lines) — Easy — ===, !==
+- [x] `CheckScopingTest.xtend` (81 lines) — Easy — extension, typeof, @Inject
 
 ### `check.test.runtime.tests` (2 files)
-- [ ] `IssueLabelTest.xtend` (56 lines) — Easy — #{, override
-- [ ] `CheckConfigurationIsAppliedTest.xtend` (64 lines) — Easy — extension, typeof, @Inject, override
+- [x] `IssueLabelTest.xtend` (56 lines) — Easy — #{, override
+- [x] `CheckConfigurationIsAppliedTest.xtend` (64 lines) — Easy — extension, typeof, @Inject, override
 
 ### `check.ui` (2 files)
-- [ ] `CheckNewProject.xtend` (50 lines) — Easy — templates, !==
-- [ ] `CheckQuickfixProvider.xtend` (63 lines) — Easy — templates
+- [x] `CheckNewProject.xtend` (50 lines) — Easy — templates, !==
+- [x] `CheckQuickfixProvider.xtend` (63 lines) — Easy — templates
 
 ### `checkcfg.core` (2 files)
-- [ ] `CheckCfgGenerator.xtend` (53 lines) — Easy — templates, typeof, @Inject, override
-- [ ] `ConfiguredParameterChecks.xtend` (66 lines) — Easy — templates, ===, !==, ?.
+- [x] `CheckCfgGenerator.xtend` (53 lines) — Easy — templates, typeof, @Inject, override
+- [x] `ConfiguredParameterChecks.xtend` (66 lines) — Easy — templates, ===, !==, ?.
 
 ### `checkcfg.core.test` (2 files)
-- [ ] `CheckCfgConfiguredParameterValidationsTest.xtend` (63 lines) — Easy — templates, extension, override
-- [ ] `CheckCfgTest.xtend` (63 lines) — Easy — templates, typeof, @Inject
+- [x] `CheckCfgConfiguredParameterValidationsTest.xtend` (63 lines) — Easy — templates, extension, override
+- [x] `CheckCfgTest.xtend` (63 lines) — Easy — templates, typeof, @Inject
 
 ### `sample.helloworld.ui.test` (2 files)
-- [ ] `IssueLabelTest.xtend` (56 lines) — Easy — #{, override
-- [ ] `CheckConfigurationIsAppliedTest.xtend` (64 lines) — Easy — extension, typeof, @Inject, override
+- [x] `IssueLabelTest.xtend` (56 lines) — Easy — #{, override
+- [x] `CheckConfigurationIsAppliedTest.xtend` (64 lines) — Easy — extension, typeof, @Inject, override
 
 ### `xtext.check.generator` (1 file)
-- [ ] `CheckQuickfixProviderFragment2.xtend` (82 lines) — Easy — templates, extension, @Inject
+- [x] `CheckQuickfixProviderFragment2.xtend` (82 lines) — Easy — templates, extension, @Inject
 
 ---
 
