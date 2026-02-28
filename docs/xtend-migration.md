@@ -12,10 +12,10 @@
 | Metric | Value |
 |--------|-------|
 | Total Xtend source files | 94 |
-| Already migrated (Batch 1–7) | 74 |
-| Remaining | 20 |
-| Total remaining lines | ~5,513 |
-| Modules with remaining Xtend | 5 |
+| Already migrated (Batch 1–8) | 89 |
+| Remaining | 5 |
+| Total remaining lines | ~1,295 |
+| Modules with remaining Xtend | 2 |
 
 ---
 
@@ -24,7 +24,7 @@
 | Module | Files | Lines | Status |
 |--------|-------|-------|--------|
 | `check.core` | 8 | ~1,848 | **DONE** (Batch 1) |
-| `check.core.test` | 8 | 1,508 | 7 done (Batch 2–4), 1 pending |
+| `check.core.test` | 11 | ~1,760 | 7 done (Batch 2–4), 4 pending |
 | `check.test.runtime` | 1 | 22 | **DONE** (Batch 2) |
 | `check.test.runtime.tests` | 3 | 202 | **DONE** (Batch 3–4) |
 | `check.ui` | 2 | 113 | **DONE** (Batch 3) |
@@ -41,8 +41,8 @@
 | `xtext.format.ide` | 2 | 31 | **DONE** (Batch 2) |
 | `xtext.format.test` | 1 | 40 | **DONE** (Batch 3) |
 | `xtext.format.ui` | 1 | 47 | **DONE** (Batch 2) |
-| `xtext.generator` | 18 | 3,450 | 2 done (Batch 2), 16 pending |
-| `xtext.generator.test` | 1 | 200 | Pending |
+| `xtext.generator` | 18 | 3,450 | **DONE** (Batch 2, 8) |
+| `xtext.generator.test` | 1 | 200 | **DONE** (Batch 8) |
 | `xtext.scope` | 4 | 852 | **DONE** (Batch 6) |
 | `xtext.scope.generator` | 1 | 47 | **DONE** (Batch 4) |
 | `xtext.test.core` | 2 | 221 | **DONE** (Batch 4, 6) |
@@ -229,46 +229,45 @@ Includes the largest file in the project. Heavy use of dispatch, templates, crea
 
 ---
 
-## Batch 8 — `xtext.generator` module (18 files, 3,450 lines)
+## Batch 8 — `xtext.generator` module (17 files, 3,555 lines) — DONE
 
 The largest module. Includes ANTLR grammar generators — the hardest files in the project.
 
 ### Simple (4 files)
-- [ ] `PredicatesNaming.xtend` (35 lines) — Trivial — extension, @Inject
-- [ ] `ModelInferenceFragment2.xtend` (49 lines) — Trivial — extension, !==, override
-- [ ] `DefaultFragmentWithOverride.xtend` (54 lines) — Easy — ?., override, @Accessors
-- [ ] `BuilderIntegrationFragment2.xtend` (60 lines) — Easy — templates, extension, !==, override
+- [x] `PredicatesNaming.xtend` (35 lines) — Trivial — extension, @Inject
+- [x] `ModelInferenceFragment2.xtend` (49 lines) — Trivial — extension, !==, override
+- [x] `DefaultFragmentWithOverride.xtend` (54 lines) — Easy — ?., override, @Accessors
+- [x] `BuilderIntegrationFragment2.xtend` (60 lines) — Easy — templates, extension, !==, override
 
 ### Medium (5 files)
-- [ ] `ResourceFactoryFragment2.xtend` (76 lines) — Medium — templates, extension, !==, ?., @Accessors
-- [ ] `CompareFragment2.xtend` (99 lines) — Medium — templates, extension, !==, @Inject
-- [ ] `LanguageConstantsFragment2.xtend` (144 lines) — Medium — templates, extension, !==, ?., @Accessors
-- [ ] `FormatterFragment2.xtend` (147 lines) — Medium — templates, extension, typeof, !==, ?., @Inject
-- [ ] `XbaseGeneratorFragmentTest.xtend` (200 lines) — Medium — extension
+- [x] `ResourceFactoryFragment2.xtend` (76 lines) — Medium — templates, extension, !==, ?., @Accessors
+- [x] `CompareFragment2.xtend` (99 lines) — Medium — templates, extension, !==, @Inject
+- [x] `LanguageConstantsFragment2.xtend` (144 lines) — Medium — templates, extension, !==, ?., @Accessors
+- [x] `FormatterFragment2.xtend` (147 lines) — Medium — templates, extension, typeof, !==, ?., @Inject
+- [x] `XbaseGeneratorFragmentTest.xtend` (200 lines) — Medium — extension
 
 ### Hard - Builder fragments (2 files)
-- [ ] `StandaloneBuilderIntegrationFragment2.xtend` (165 lines) — Hard — templates, extension, @Inject
-- [ ] `LspBuilderIntegrationFragment2.xtend` (174 lines) — Hard — templates, extension, @Inject
+- [x] `StandaloneBuilderIntegrationFragment2.xtend` (165 lines) — Hard — templates, extension, @Inject
+- [x] `LspBuilderIntegrationFragment2.xtend` (174 lines) — Hard — templates, extension, @Inject
 
 ### Hard - Content assist (1 file)
-- [ ] `AnnotationAwareContentAssistFragment2.xtend` (226 lines) — Hard — **dispatch**, templates, extension, !==, ?., @Accessors
+- [x] `AnnotationAwareContentAssistFragment2.xtend` (226 lines) — Hard — **dispatch**, templates, extension, !==, ?., @Accessors
 
 ### Very Hard - ANTLR generators (4 files)
-- [ ] `AbstractAnnotationAwareAntlrGrammarGenerator.xtend` (159 lines) — Hard — templates, extension, @Inject
-- [ ] `GrammarRuleAnnotations.xtend` (406 lines) — Very Hard — templates, ===, !==, ?., @Data
-- [ ] `AnnotationAwareAntlrContentAssistGrammarGenerator.xtend` (489 lines) — Very Hard — **dispatch**, templates, extension, ===
-- [ ] `AnnotationAwareAntlrGrammarGenerator.xtend` (543 lines) — Very Hard — **dispatch**, templates, extension, !==, @Accessors, switch, create
-- [ ] `AnnotationAwareXtextAntlrGeneratorFragment2.xtend` (529 lines) — Very Hard — templates, extension, ===, !==, #[, @Accessors, create
+- [x] `AbstractAnnotationAwareAntlrGrammarGenerator.xtend` (159 lines) — Hard — templates, extension, @Inject
+- [x] `GrammarRuleAnnotations.xtend` (406 lines) — Very Hard — templates, ===, !==, ?., @Data
+- [x] `AnnotationAwareAntlrContentAssistGrammarGenerator.xtend` (489 lines) — Very Hard — **dispatch**, templates, extension, ===
+- [x] `AnnotationAwareAntlrGrammarGenerator.xtend` (543 lines) — Very Hard — **dispatch**, templates, extension, !==, @Accessors, switch, create
+- [x] `AnnotationAwareXtextAntlrGeneratorFragment2.xtend` (529 lines) — Very Hard — templates, extension, ===, !==, #[, @Accessors, create
 
 ---
 
-## Batch 9 — Remaining test files (~4 files)
+## Batch 9 — Remaining test files (5 files)
 
-### `check.core.test` (2 files)
+### `check.core.test` (4 files)
+- [ ] `CheckModelUtil.xtend` — Utility class
 - [ ] `IssueCodeToLabelMapGenerationTest.xtend` (130 lines) — Medium — templates, #[, switch
 - [ ] `CheckValidationTest.xtend` (342 lines) — Hard — extension, typeof, create
-
-### `check.core.test` (1 file)
 - [ ] `CheckFormattingTest.xtend` (554 lines) — Very Hard — templates, extension, typeof, !==, ?.
 
 ### `check.ui.test` (1 file)

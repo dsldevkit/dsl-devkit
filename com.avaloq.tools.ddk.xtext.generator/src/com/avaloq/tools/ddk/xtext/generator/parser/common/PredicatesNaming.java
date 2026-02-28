@@ -9,26 +9,27 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.generator.parser.common
+package com.avaloq.tools.ddk.xtext.generator.parser.common;
 
-import com.google.inject.Inject
-import org.eclipse.xtext.Grammar
-import org.eclipse.xtext.GrammarUtil
-import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming
+import com.google.inject.Inject;
+import org.eclipse.xtext.Grammar;
+import org.eclipse.xtext.GrammarUtil;
+import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
 
-class PredicatesNaming {
+public class PredicatesNaming {
 
-  @Inject extension XtextGeneratorNaming naming
+  @Inject
+  private XtextGeneratorNaming naming;
 
-  def String getSemanticPredicatesFullName(Grammar grammar) {
+  public String getSemanticPredicatesFullName(final Grammar grammar) {
     return getSemanticPredicatesPackageName(grammar) + "." + getSemanticPredicatesSimpleName(grammar);
   }
 
-  def String getSemanticPredicatesPackageName(Grammar grammar) {
-    return naming.getRuntimeBasePackage(grammar) + ".grammar"
+  public String getSemanticPredicatesPackageName(final Grammar grammar) {
+    return naming.getRuntimeBasePackage(grammar) + ".grammar";
   }
 
-  def String getSemanticPredicatesSimpleName(Grammar grammar) {
+  public String getSemanticPredicatesSimpleName(final Grammar grammar) {
     return "Abstract" + GrammarUtil.getSimpleName(grammar) + "SemanticPredicates";
   }
 
