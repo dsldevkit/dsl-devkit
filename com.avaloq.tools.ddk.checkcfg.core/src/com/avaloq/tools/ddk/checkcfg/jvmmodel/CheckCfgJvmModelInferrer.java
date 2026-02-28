@@ -8,13 +8,13 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.checkcfg.jvmmodel
+package com.avaloq.tools.ddk.checkcfg.jvmmodel;
 
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
-import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
-import com.google.inject.Inject
-import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
+import com.google.inject.Inject;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
+import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -22,13 +22,15 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
  * <p>The JVM model should contain all elements that would appear in the Java code
  * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
  */
-class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
+public class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
 
-  @Inject extension JvmTypesBuilder
+  @Inject
+  private JvmTypesBuilder jvmTypesBuilder;
 
-  override void _infer(EObject element, IJvmDeclaredTypeAcceptor acceptor, boolean preIndexingPhase) {
+  @Override
+  public void _infer(final EObject element, final IJvmDeclaredTypeAcceptor acceptor, final boolean preIndexingPhase) {
     // Infer dummy class as type resolver expects at least one root Java type
-    acceptor.accept(element.toClass("xxxyyyzzz.dummy.class.name")[])
+    acceptor.accept(jvmTypesBuilder.toClass(element, "xxxyyyzzz.dummy.class.name", (it) -> {}));
   }
 
 // Here you explain how your model is mapped to Java elements, by writing the actual translation code.
