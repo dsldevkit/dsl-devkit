@@ -8,23 +8,21 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
+package com.avaloq.tools.ddk.xtext.expression.generator;
 
-package com.avaloq.tools.ddk.xtext.expression.generator
+import org.eclipse.xtext.util.Strings;
 
-import org.eclipse.xtext.util.Strings
+public class Naming {
 
-class Naming {
-
-  def toFileName(String qualifiedName) {
-    qualifiedName.toJavaPackage.replace('.', '/') + '/' + qualifiedName.toSimpleName + ".java"
+  public String toFileName(final String qualifiedName) {
+    return toJavaPackage(qualifiedName).replace('.', '/') + '/' + toSimpleName(qualifiedName) + ".java";
   }
 
-  def toJavaPackage(String qualifiedName) {
-    Strings.skipLastToken(qualifiedName, '.')
+  public String toJavaPackage(final String qualifiedName) {
+    return Strings.skipLastToken(qualifiedName, ".");
   }
 
-  def toSimpleName(String qualifiedName) {
-    Strings.lastToken(qualifiedName, '.')
+  public String toSimpleName(final String qualifiedName) {
+    return Strings.lastToken(qualifiedName, ".");
   }
-
 }
