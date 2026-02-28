@@ -12,10 +12,10 @@
 | Metric | Value |
 |--------|-------|
 | Total Xtend source files | 94 |
-| Already migrated (Batch 1–5) | 58 |
-| Remaining | 36 |
-| Total remaining lines | ~9,377 |
-| Modules with remaining Xtend | 13 |
+| Already migrated (Batch 1–6) | 68 |
+| Remaining | 26 |
+| Total remaining lines | ~7,360 |
+| Modules with remaining Xtend | 8 |
 
 ---
 
@@ -35,7 +35,7 @@
 | `xtext.check.generator` | 2 | 113 | **DONE** (Batch 2–3) |
 | `xtext.export` | 9 | 1,027 | **DONE** (Batch 5) |
 | `xtext.export.generator` | 1 | 86 | **DONE** (Batch 4) |
-| `xtext.expression` | 5 | 679 | 2 done (Batch 2), 3 pending |
+| `xtext.expression` | 5 | 679 | **DONE** (Batch 2, 6) |
 | `xtext.format` | 6 | 1,623 | 1 done (Batch 2), 5 pending |
 | `xtext.format.generator` | 1 | 239 | Pending |
 | `xtext.format.ide` | 2 | 31 | **DONE** (Batch 2) |
@@ -43,11 +43,11 @@
 | `xtext.format.ui` | 1 | 47 | **DONE** (Batch 2) |
 | `xtext.generator` | 18 | 3,450 | 2 done (Batch 2), 16 pending |
 | `xtext.generator.test` | 1 | 200 | Pending |
-| `xtext.scope` | 4 | 852 | Pending |
+| `xtext.scope` | 4 | 852 | **DONE** (Batch 6) |
 | `xtext.scope.generator` | 1 | 47 | **DONE** (Batch 4) |
-| `xtext.test.core` | 2 | 221 | 1 done (Batch 4), 1 pending |
-| `xtext.ui` | 1 | 82 | Pending |
-| `xtext.ui.test` | 1 | 265 | Pending |
+| `xtext.test.core` | 2 | 221 | **DONE** (Batch 4, 6) |
+| `xtext.ui` | 1 | 82 | **DONE** (Batch 6) |
+| `xtext.ui.test` | 1 | 265 | **DONE** (Batch 6) |
 
 All module names are prefixed with `com.avaloq.tools.ddk.` (omitted for brevity).
 
@@ -189,27 +189,27 @@ Code generators with templates and some dispatch methods.
 
 ---
 
-## Batch 6 — `xtext.expression` + `xtext.scope` + remaining small files (~12 files)
+## Batch 6 — `xtext.expression` + `xtext.scope` + remaining small files (10 files) — DONE
 
 ### `xtext.expression` (3 files)
-- [ ] `ExpressionExtensionsX.xtend` (87 lines) — Medium — **dispatch**, ===
-- [ ] `GenModelUtilX.xtend` (160 lines) — Hard — **dispatch**, extension, !==, create
-- [ ] `CodeGenerationX.xtend` (373 lines) — Hard — **dispatch**, extension, ===, !==, #[
+- [x] `ExpressionExtensionsX.xtend` (87 lines) — Medium — **dispatch**, ===
+- [x] `GenModelUtilX.xtend` (160 lines) — Hard — **dispatch**, extension, !==, create
+- [x] `CodeGenerationX.xtend` (373 lines) — Hard — **dispatch**, extension, ===, !==, #[
 
 ### `xtext.scope` (4 files)
-- [ ] `ScopeGenerator.xtend` (83 lines) — Medium — extension, ===, !==, @Inject, override
-- [ ] `ScopeNameProviderGenerator.xtend` (136 lines) — Medium — **dispatch**, templates, extension, switch
-- [ ] `ScopeProviderX.xtend` (247 lines) — Hard — **dispatch**, extension, ===, !==, @Inject
-- [ ] `ScopeProviderGenerator.xtend` (386 lines) — Hard — **dispatch**, templates, extension, ===, !==, #[, switch
+- [x] `ScopeGenerator.xtend` (83 lines) — Medium — extension, ===, !==, @Inject, override
+- [x] `ScopeNameProviderGenerator.xtend` (136 lines) — Medium — **dispatch**, templates, extension, switch
+- [x] `ScopeProviderX.xtend` (247 lines) — Hard — **dispatch**, extension, ===, !==, @Inject
+- [x] `ScopeProviderGenerator.xtend` (386 lines) — Hard — **dispatch**, templates, extension, ===, !==, #[, switch
 
 ### `xtext.test.core` (1 file)
-- [ ] `AbstractResourceDescriptionManagerTest.xtend` (198 lines) — Medium — ===, override, create
+- [x] `AbstractResourceDescriptionManagerTest.xtend` (198 lines) — Medium — ===, override, create
 
 ### `xtext.ui` (1 file)
-- [ ] `TemplateProposalProviderHelper.xtend` (82 lines) — Medium — templates, #[
+- [x] `TemplateProposalProviderHelper.xtend` (82 lines) — Medium — templates, #[
 
 ### `xtext.ui.test` (1 file)
-- [ ] `TemplateProposalProviderHelperTest.xtend` (265 lines) — Medium — templates, #[
+- [x] `TemplateProposalProviderHelperTest.xtend` (265 lines) — Medium — templates, #[
 
 ---
 
