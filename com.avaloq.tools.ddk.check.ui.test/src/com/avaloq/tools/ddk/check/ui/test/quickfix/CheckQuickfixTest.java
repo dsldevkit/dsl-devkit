@@ -37,6 +37,7 @@ import com.avaloq.tools.ddk.xtext.test.XtextTestSource;
  * Test quickfixes for Check files.
  */
 @SuppressWarnings("nls")
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
 
   private static final String PACKAGE_NAME = "com.avaloq.test";
@@ -45,11 +46,11 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   private boolean oldAutoBuildState;
 
   public String getTestSourceFileName(final String catalogName) {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append(PACKAGE_NAME.replace(".", "/"));
-    builder.append("/");
+    builder.append('/');
     builder.append(catalogName);
-    builder.append(".");
+    builder.append('.');
     builder.append(getXtextTestUtil().getFileExtension());
     return builder.toString();
   }
@@ -97,11 +98,11 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   @Test
   @BugTest(value = "DSL-244")
   public void testImportFix() {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("package ");
     builder.append(PACKAGE_NAME);
-    builder.append("\n");
-    builder.append("\n");
+    builder.append('\n');
+    builder.append('\n');
     builder.append("catalog ");
     builder.append(getTestSourceModelName());
     builder.append(" for grammar org.eclipse.xtext.Xtext\n");
@@ -130,32 +131,32 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   @Test
   public void testAddID() {
     // ARRANGE
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("package ");
     builder.append(PACKAGE_NAME);
-    builder.append("\n");
-    builder.append("\n");
+    builder.append('\n');
+    builder.append('\n');
     builder.append("catalog ");
     builder.append(getTestSourceModelName());
-    builder.append("\n");
+    builder.append('\n');
     builder.append("for grammar org.eclipse.xtext.Xtext {\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("  warning \"Test Warning\"\n");
     builder.append("  message \"This is a Test Warning\" {\n");
     builder.append("  }\n");
     builder.append("}\n");
     final String sourceContent = builder.toString();
 
-    StringBuilder builder2 = new StringBuilder();
+    StringBuilder builder2 = new StringBuilder(512);
     builder2.append("package ");
     builder2.append(PACKAGE_NAME);
-    builder2.append("\n");
-    builder2.append("\n");
+    builder2.append('\n');
+    builder2.append('\n');
     builder2.append("catalog ");
     builder2.append(getTestSourceModelName());
-    builder2.append("\n");
+    builder2.append('\n');
     builder2.append("for grammar org.eclipse.xtext.Xtext {\n");
-    builder2.append("\n");
+    builder2.append('\n');
     builder2.append("  warning TestWarning \"Test Warning\"\n");
     builder2.append("  message \"This is a Test Warning\" {\n");
     builder2.append("  }\n");
@@ -187,17 +188,17 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
 
     // Add catalogs containing multiple instances of the same quickfixable marker
     for (final String catalogName : catalogNames) {
-      StringBuilder builder = new StringBuilder();
+      StringBuilder builder = new StringBuilder(512);
       builder.append("package ");
       builder.append(PACKAGE_NAME);
-      builder.append("\n");
-      builder.append("\n");
+      builder.append('\n');
+      builder.append('\n');
       builder.append("catalog ");
       builder.append(catalogName);
-      builder.append("\n");
+      builder.append('\n');
       builder.append("for grammar org.eclipse.xtext.Xtext {\n");
       for (final String checkLabel : checkLabels) {
-        builder.append("\n");
+        builder.append('\n');
         builder.append("  live error \"");
         builder.append(checkLabel);
         builder.append("\"\n");
@@ -238,3 +239,4 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
     }
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

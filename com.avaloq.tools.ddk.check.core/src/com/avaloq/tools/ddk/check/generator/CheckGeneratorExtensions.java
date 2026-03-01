@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.check.generator;
 
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -40,11 +41,20 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 
-import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.*;
+import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.issueCodesClassName;
+import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.parent;
 
+@SuppressWarnings({"checkstyle:MethodName"})
 public class CheckGeneratorExtensions {
 
-  protected String _qualifiedIssueCodeName(XIssueExpression issue) {
+  /**
+   * Returns the qualified Java name for an issue code.
+   *
+   * @param issue
+   *          the issue expression
+   * @return the qualified issue code name, or {@code null} if the issue code is null
+   */
+  protected String _qualifiedIssueCodeName(final XIssueExpression issue) {
     String result = issueCode(issue);
     if (result == null) {
       return null;
@@ -53,13 +63,25 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  /* Returns the qualified Java name for an issue code. */
-  protected String _qualifiedIssueCodeName(Context context) {
+  /**
+   * Returns the qualified Java name for an issue code.
+   *
+   * @param context
+   *          the context
+   * @return the qualified issue code name
+   */
+  protected String _qualifiedIssueCodeName(final Context context) {
     return issueCodesClassName(parent(context, CheckCatalog.class)) + "." + issueCode(context);
   }
 
-  /* Gets the simple issue code name for a check. */
-  protected static String _issueCode(Check check) {
+  /**
+   * Gets the simple issue code name for a check.
+   *
+   * @param check
+   *          the check
+   * @return the issue code string
+   */
+  protected static String _issueCode(final Check check) {
     if (null != check.getName()) {
       return splitCamelCase(check.getName()).toUpperCase();
     } else {
@@ -67,8 +89,14 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  /* Gets the simple issue code name for an issue expression. */
-  protected static String _issueCode(XIssueExpression issue) {
+  /**
+   * Gets the simple issue code name for an issue expression.
+   *
+   * @param issue
+   *          the issue expression
+   * @return the issue code string
+   */
+  protected static String _issueCode(final XIssueExpression issue) {
     if (issue.getIssueCode() != null) {
       return splitCamelCase(issue.getIssueCode()).toUpperCase();
     } else if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
@@ -80,8 +108,14 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  /* Gets the simple issue code name for a check. */
-  protected static String _issueName(Check check) {
+  /**
+   * Gets the simple issue code name for a check.
+   *
+   * @param check
+   *          the check
+   * @return the issue name string
+   */
+  protected static String _issueName(final Check check) {
     if (null != check.getName()) {
       return check.getName();
     } else {
@@ -89,8 +123,14 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  /* Gets the simple issue code name for an issue expression. */
-  protected static String _issueName(XIssueExpression issue) {
+  /**
+   * Gets the simple issue code name for an issue expression.
+   *
+   * @param issue
+   *          the issue expression
+   * @return the issue name string
+   */
+  protected static String _issueName(final XIssueExpression issue) {
     if (issue.getIssueCode() != null) {
       return issue.getIssueCode();
     } else if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
@@ -102,23 +142,50 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  public static String issueCodePrefix(CheckCatalog catalog) {
+  /**
+   * Returns the issue code prefix for a catalog.
+   *
+   * @param catalog
+   *          the check catalog
+   * @return the issue code prefix
+   */
+  public static String issueCodePrefix(final CheckCatalog catalog) {
     return catalog.getPackageName() + "." + issueCodesClassName(catalog) + ".";
   }
 
-  /* Returns the <b>value</b> of an issue code. */
-  public static String issueCodeValue(EObject object, String issueName) {
+  /**
+   * Returns the value of an issue code.
+   *
+   * @param object
+   *          the EObject context
+   * @param issueName
+   *          the issue name
+   * @return the issue code value
+   */
+  public static String issueCodeValue(final EObject object, final String issueName) {
     CheckCatalog catalog = parent(object, CheckCatalog.class);
     return issueCodePrefix(catalog) + CheckUtil.toIssueCodeName(splitCamelCase(issueName));
   }
 
-  /* Gets the issue label for a Check. */
-  protected String _issueLabel(Check check) {
+  /**
+   * Gets the issue label for a Check.
+   *
+   * @param check
+   *          the check
+   * @return the label
+   */
+  protected String _issueLabel(final Check check) {
     return check.getLabel();
   }
 
-  /* Gets the issue label for an issue expression. */
-  protected String _issueLabel(XIssueExpression issue) {
+  /**
+   * Gets the issue label for an issue expression.
+   *
+   * @param issue
+   *          the issue expression
+   * @return the label
+   */
+  protected String _issueLabel(final XIssueExpression issue) {
     if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
       return issueLabel(issue.getCheck());
     } else if (parent(issue, Check.class) != null) {
@@ -129,7 +196,7 @@ public class CheckGeneratorExtensions {
   }
 
   /* Converts a string such as "AbcDef" to "ABC_DEF". */
-  public static String splitCamelCase(String string) {
+  public static String splitCamelCase(final String string) {
     return string.replaceAll(
       String.format(
         "%s|%s|%s",
@@ -141,7 +208,14 @@ public class CheckGeneratorExtensions {
     );
   }
 
-  public CheckType checkType(Check check) {
+  /**
+   * Returns the CheckType for a check.
+   *
+   * @param check
+   *          the check
+   * @return the check type
+   */
+  public CheckType checkType(final Check check) {
     /* TODO handle the case of independent check implementations
      * An Implementation is not a Check and has no kind,
      * but it may execute checks of various types.
@@ -159,37 +233,84 @@ public class CheckGeneratorExtensions {
     };
   }
 
-  /* Returns a default CheckType for a non-Check context. */
-  public CheckType checkType(Context context) {
+  /**
+   * Returns a default CheckType for a non-Check context.
+   *
+   * @param context
+   *          the context
+   * @return the check type
+   */
+  public CheckType checkType(final Context context) {
     EObject container = context.eContainer();
     Check check = (container instanceof Check) ? (Check) container : null;
     return checkType(check);
   }
 
-  public String checkTypeQName(Context context) {
+  /**
+   * Returns the qualified CheckType name for a context.
+   *
+   * @param context
+   *          the context
+   * @return the qualified check type name
+   */
+  public String checkTypeQName(final Context context) {
     return "CheckType." + checkType(context);
   }
 
-  public Iterable<XIssueExpression> issues(EObject object) {
+  /**
+   * Returns all issue expressions contained in an EObject.
+   *
+   * @param object
+   *          the object to search
+   * @return the issue expressions
+   */
+  public Iterable<XIssueExpression> issues(final EObject object) {
     return Iterables.filter(EcoreUtil2.eAllContents(object), XIssueExpression.class);
   }
 
-  public Iterable<XIssueExpression> issues(CheckCatalog catalog) {
+  /**
+   * Returns all issue expressions for all checks in a catalog.
+   *
+   * @param catalog
+   *          the check catalog
+   * @return the issue expressions
+   */
+  public Iterable<XIssueExpression> issues(final CheckCatalog catalog) {
     return Iterables.concat(ListExtensions.map(catalog.getAllChecks(), check -> issues(check)));
   }
 
-  public Iterable<XIssueExpression> issues(Implementation implementation) {
+  /**
+   * Returns all issue expressions for an implementation.
+   *
+   * @param implementation
+   *          the implementation
+   * @return the issue expressions
+   */
+  public Iterable<XIssueExpression> issues(final Implementation implementation) {
     return issues(implementation.getContext());
   }
 
-  /* Returns all Check and Implementation Issues for a CheckCatalog. Issues are not necessarily unique. */
-  public Iterable<XIssueExpression> checkAndImplementationIssues(CheckCatalog catalog) {
+  /**
+   * Returns all Check and Implementation Issues for a CheckCatalog. Issues are not necessarily unique.
+   *
+   * @param catalog
+   *          the check catalog
+   * @return all issue expressions
+   */
+  public Iterable<XIssueExpression> checkAndImplementationIssues(final CheckCatalog catalog) {
     Iterable<XIssueExpression> checkIssues = issues(catalog); // Issues for all Checks
     Iterable<XIssueExpression> implIssues = Iterables.concat(ListExtensions.map(catalog.getImplementations(), impl -> issues(impl))); // Issues for all Implementations
     return Iterables.concat(checkIssues, implIssues); // all Issue instances
   }
 
-  public Check issuedCheck(XIssueExpression expression) {
+  /**
+   * Returns the check associated with an issue expression.
+   *
+   * @param expression
+   *          the issue expression
+   * @return the associated check, or {@code null}
+   */
+  public Check issuedCheck(final XIssueExpression expression) {
     if (expression.getCheck() != null) {
       return expression.getCheck();
     } else {
@@ -205,8 +326,12 @@ public class CheckGeneratorExtensions {
   /**
    * Gets the IFile which is associated with given object's eResource, or <code>null</code> if none
    * could be determined.
+   *
+   * @param object
+   *          the EObject
+   * @return the associated file, or {@code null}
    */
-  public IFile fileForObject(EObject object) {
+  public IFile fileForObject(final EObject object) {
     Resource res = object.eResource();
     if (res.getURI().isPlatform()) {
       return (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(res.getURI().toPlatformString(true));
@@ -217,16 +342,24 @@ public class CheckGeneratorExtensions {
   /**
    * Gets the IProject which is associated with a given EObject or <code>null</code>
    * if none could be determined.
+   *
+   * @param object
+   *          the EObject
+   * @return the associated project, or {@code null}
    */
-  public IProject projectForObject(EObject object) {
+  public IProject projectForObject(final EObject object) {
     IFile file = object != null ? fileForObject(object) : null;
     return file != null ? file.getProject() : null;
   }
 
   /**
    * Gets the name of the project in which given object is contained.
+   *
+   * @param object
+   *          the EObject
+   * @return the bundle name, or {@code null}
    */
-  public String bundleName(EObject object) {
+  public String bundleName(final EObject object) {
     IProject proj = projectForObject(object);
     if (proj != null) {
       return proj.getName();
@@ -234,19 +367,28 @@ public class CheckGeneratorExtensions {
     return null;
   }
 
-  /*
-   *  Replace binding placeholders of a message with "...".
+  /**
+   * Replace binding placeholders of a message with "...".
+   *
+   * @param message
+   *          the message
+   * @return the message with placeholders replaced
    */
-  public String replacePlaceholder(String message) {
+  public String replacePlaceholder(final String message) {
     Pattern p = Pattern.compile("\\{[0-9]+\\}");
     Matcher m = p.matcher(message);
     return m.replaceAll("...");
   }
 
-  /*
-   *  Format the Check description for Eclipse Help
+  /**
+   * Format the Check description for Eclipse Help.
+   *
+   * @param comment
+   *          the comment to format
+   * @return the formatted HTML, or {@code null}
    */
-  public String formatDescription(String comment) {
+  // CHECKSTYLE:CHECK-OFF IllegalCatch
+  public String formatDescription(final String comment) {
     if (comment == null) {
       return null;
     }
@@ -257,24 +399,47 @@ public class CheckGeneratorExtensions {
       return null;
     }
   }
+  // CHECKSTYLE:CHECK-ON IllegalCatch
 
-  public Set<String> getContents(CheckCatalog catalog, String path) {
+  /**
+   * Gets the contents of a file in the project.
+   *
+   * @param catalog
+   *          the check catalog
+   * @param path
+   *          the file path
+   * @return the set of lines
+   * @throws IllegalStateException
+   *          if the file cannot be read
+   */
+  public Set<String> getContents(final CheckCatalog catalog, final String path) {
     IProject project = projectForObject(catalog);
     if (project != null) { // In some compiler tests we may not have a project.
       IFile file = project.getFile(new Path(path));
       if (file.exists()) {
-        try (InputStreamReader reader = new InputStreamReader(file.getContents())) {
+        // CHECKSTYLE:CHECK-OFF IllegalCatch
+        try (InputStreamReader reader = new InputStreamReader(file.getContents(), StandardCharsets.UTF_8)) {
           List<String> content = CharStreams.readLines(reader);
           return Sets.<String>newTreeSet(content);
         } catch (Exception e) {
-          throw new RuntimeException(e);
+          throw new IllegalStateException(e);
         }
+        // CHECKSTYLE:CHECK-ON IllegalCatch
       }
     }
     return new LinkedHashSet<>();
   }
 
-  public String qualifiedIssueCodeName(EObject context) {
+  /**
+   * Returns the qualified issue code name for an EObject.
+   *
+   * @param context
+   *          the EObject context
+   * @return the qualified issue code name
+   * @throws IllegalArgumentException
+   *          if the parameter type is not handled
+   */
+  public String qualifiedIssueCodeName(final EObject context) {
     if (context instanceof Context) {
       return _qualifiedIssueCodeName((Context) context);
     } else if (context instanceof XIssueExpression) {
@@ -285,7 +450,16 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  public static String issueCode(EObject check) {
+  /**
+   * Returns the issue code for an EObject.
+   *
+   * @param check
+   *          the EObject (Check or XIssueExpression)
+   * @return the issue code string
+   * @throws IllegalArgumentException
+   *          if the parameter type is not handled
+   */
+  public static String issueCode(final EObject check) {
     if (check instanceof Check) {
       return _issueCode((Check) check);
     } else if (check instanceof XIssueExpression) {
@@ -296,7 +470,16 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  public static String issueName(EObject check) {
+  /**
+   * Returns the issue name for an EObject.
+   *
+   * @param check
+   *          the EObject (Check or XIssueExpression)
+   * @return the issue name string
+   * @throws IllegalArgumentException
+   *          if the parameter type is not handled
+   */
+  public static String issueName(final EObject check) {
     if (check instanceof Check) {
       return _issueName((Check) check);
     } else if (check instanceof XIssueExpression) {
@@ -307,7 +490,16 @@ public class CheckGeneratorExtensions {
     }
   }
 
-  public String issueLabel(EObject check) {
+  /**
+   * Returns the issue label for an EObject.
+   *
+   * @param check
+   *          the EObject (Check or XIssueExpression)
+   * @return the label string
+   * @throws IllegalArgumentException
+   *          if the parameter type is not handled
+   */
+  public String issueLabel(final EObject check) {
     if (check instanceof Check) {
       return _issueLabel((Check) check);
     } else if (check instanceof XIssueExpression) {

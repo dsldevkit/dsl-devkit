@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+// CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 public class BasicModelTest {
@@ -118,3 +119,4 @@ public class BasicModelTest {
         "Syntax errors not expected but occurred");
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

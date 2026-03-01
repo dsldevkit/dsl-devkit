@@ -35,7 +35,7 @@ public class ConfiguredParameterChecks extends FormalParameterCheckBase {
 
   /**
    * Verifies that numeric literals in the default values of formal parameters are all integral values.
-   * @param parameterto check.
+   * @param parameter the configured parameter to check.
    */
   @Check
   public void checkFormalParameterNumbersAreIntegers(final ConfiguredParameter parameter) {

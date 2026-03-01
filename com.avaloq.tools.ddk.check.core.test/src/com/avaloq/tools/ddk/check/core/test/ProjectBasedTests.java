@@ -65,7 +65,7 @@ public class ProjectBasedTests extends AbstractCheckTestCase {
     try {
       return s.read() < 0;
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw new IllegalStateException(e);
     } finally {
       try {
         s.close();

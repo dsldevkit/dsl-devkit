@@ -78,22 +78,14 @@ public class PropertiesInferenceHelper {
   }
 
   public JvmTypeReference inferType(final ICheckCfgPropertySpecification contribution, final JvmTypeReferenceBuilder referenceBuilder) {
-    switch (contribution.getType()) {
-      case BOOLEAN:
-        return referenceBuilder.typeRef(BOOLEAN);
-      case NUMBER:
-        return referenceBuilder.typeRef(NUMBER);
-      case STRING:
-        return referenceBuilder.typeRef(STRING);
-      case NUMBERS:
-        return referenceBuilder.typeRef(NUMBER_LIST);
-      case STRINGS:
-        return referenceBuilder.typeRef(STRING_LIST);
-      case BOOLEANS:
-        return referenceBuilder.typeRef(BOOLEAN_LIST);
-      default:
-        return null;
-    }
+    return switch (contribution.getType()) {
+      case BOOLEAN -> referenceBuilder.typeRef(BOOLEAN);
+      case NUMBER -> referenceBuilder.typeRef(NUMBER);
+      case STRING -> referenceBuilder.typeRef(STRING);
+      case NUMBERS -> referenceBuilder.typeRef(NUMBER_LIST);
+      case STRINGS -> referenceBuilder.typeRef(STRING_LIST);
+      case BOOLEANS -> referenceBuilder.typeRef(BOOLEAN_LIST);
+    };
   }
 
   public JvmTypeReference inferListType(final XListLiteral newValue, final JvmTypeReferenceBuilder referenceBuilder) {

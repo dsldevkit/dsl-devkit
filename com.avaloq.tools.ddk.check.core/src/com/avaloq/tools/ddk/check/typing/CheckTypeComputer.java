@@ -19,10 +19,11 @@ import org.eclipse.xtext.xbase.XListLiteral;
 import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsTypeComputer;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState;
 
+@SuppressWarnings({"checkstyle:MethodName"})
 public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
 
   @Override
-  public void computeTypes(XExpression expression, ITypeComputationState state) {
+  public void computeTypes(final XExpression expression, final ITypeComputationState state) {
     if (expression instanceof XIssueExpression) {
       _computeTypes((XIssueExpression) expression, state);
     } else if (expression instanceof XGuardExpression) {
@@ -34,7 +35,7 @@ public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
     }
   }
 
-  protected void _computeTypes(XIssueExpression expression, ITypeComputationState state) {
+  protected void _computeTypes(final XIssueExpression expression, final ITypeComputationState state) {
     if (expression.getMarkerObject() != null) {
       state.withExpectation(getTypeForName(EObject.class, state)).computeTypes(expression.getMarkerObject());
     }
@@ -53,7 +54,7 @@ public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
     state.acceptActualType(getPrimitiveVoid(state));
   }
 
-  protected void _computeTypes(XGuardExpression expression, ITypeComputationState state) {
+  protected void _computeTypes(final XGuardExpression expression, final ITypeComputationState state) {
     state.withExpectation(getTypeForName(Boolean.class, state)).computeTypes(expression.getGuard());
     state.acceptActualType(getPrimitiveVoid(state));
   }

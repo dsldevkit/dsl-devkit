@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.check.ui.wizard;
 
 import org.eclipse.xtext.generator.IFileSystemAccess;
 
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckQuickfixProvider {
 
   public void doGenerate(final CheckProjectInfo info, final IFileSystemAccess fsa) {
@@ -23,11 +24,11 @@ public class CheckQuickfixProvider {
   }
 
   public CharSequence fileContent(final CheckProjectInfo info) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(2048);
     builder.append("package ").append(info.getPackageName()).append(";\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import com.avaloq.tools.ddk.check.runtime.quickfix.ICoreQuickfixProvider;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("/**\n");
     builder.append(" * Default quickfix provider for ").append(info.getCatalogName()).append(".\n");
     builder.append(" * <p>\n");
@@ -36,7 +37,7 @@ public class CheckQuickfixProvider {
     builder.append(" * </p>\n");
     builder.append(" */\n");
     builder.append("public class ").append(info.getCatalogName()).append("QuickfixProvider implements ICoreQuickfixProvider  {\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("//  @CoreFix(value = MyIssueCodes.NAME_ENTITY_0)\n");
     builder.append("//  public void fixEntityNameFirstUpper(final Issue issue,\n");
     builder.append("//      ICoreIssueResolutionAcceptor acceptor) {\n");
@@ -55,8 +56,9 @@ public class CheckQuickfixProvider {
     builder.append("//          }\n");
     builder.append("//        });\n");
     builder.append("//  }\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("}\n");
     return builder;
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

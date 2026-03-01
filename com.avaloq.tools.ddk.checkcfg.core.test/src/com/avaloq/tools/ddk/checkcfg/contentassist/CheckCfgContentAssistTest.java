@@ -31,6 +31,7 @@ import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(CheckCfgUiInjectorProvider.class)
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   @Override
@@ -58,7 +59,7 @@ public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   @Test
   public void testConfiguredParameterProposals() {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("check configuration Test {\n");
     builder.append("  catalog TestChecks {\n");
     builder.append("    default Test (\n");
@@ -71,7 +72,7 @@ public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   @BugTest(value = "DSL-1811", unresolved = true)
   public void testNoTypeMismatchedParameterValueProposals() {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("check configuration Test {\n");
     builder.append("  catalog TestChecks {\n");
     builder.append("    default Test (\n");
@@ -82,3 +83,4 @@ public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
     assertKernelSourceProposals("NoTypeMismatchedParameterValueProposals.checkcfg", builder);
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

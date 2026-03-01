@@ -28,12 +28,12 @@ public class CheckGeneratorNaming {
   @Inject
   private IQualifiedNameProvider nameProvider;
 
-  public static <T extends EObject> T parent(EObject object, Class<T> c) {
+  public static <T extends EObject> T parent(final EObject object, final Class<T> c) {
     return EcoreUtil2.getContainerOfType(object, c);
   }
 
   // creates a pathName out of a qualified javaPackagename
-  public String asPath(String javaPackageName) {
+  public String asPath(final String javaPackageName) {
     if (javaPackageName != null) {
       return javaPackageName.replace('.', '/') + "/";
     } else {
@@ -42,92 +42,92 @@ public class CheckGeneratorNaming {
   }
 
   /* Gets the class name of the check validator. */
-  public String validatorClassName(CheckCatalog c) {
+  public String validatorClassName(final CheckCatalog c) {
     return c.getName() + "CheckImpl";
   }
 
   /* Gets the fully qualified class name of the check validator. */
-  public String qualifiedValidatorClassName(CheckCatalog c) {
+  public String qualifiedValidatorClassName(final CheckCatalog c) {
     return c.getPackageName() + "." + validatorClassName(c);
   }
 
   /* Gets the file path of the check validator. */
-  public String validatorFilePath(CheckCatalog c) {
+  public String validatorFilePath(final CheckCatalog c) {
     return asPath(c.getPackageName()) + validatorClassName(c) + ".java";
   }
 
   /* Gets the check catalog class name. */
-  public String catalogClassName(CheckCatalog c) {
+  public String catalogClassName(final CheckCatalog c) {
     return c.getName() + "CheckCatalog";
   }
 
   /* Gets the qualified check catalog class name. */
-  public String qualifiedCatalogClassName(CheckCatalog c) {
+  public String qualifiedCatalogClassName(final CheckCatalog c) {
     return c.getPackageName() + "." + catalogClassName(c);
   }
 
   /* Gets the preference initializer class name. */
-  public String preferenceInitializerClassName(CheckCatalog c) {
+  public String preferenceInitializerClassName(final CheckCatalog c) {
     return c.getName() + "PreferenceInitializer";
   }
 
   /* Gets the qualified standalone setup class name. */
-  public String qualifiedStandaloneSetupClassName(CheckCatalog c) {
+  public String qualifiedStandaloneSetupClassName(final CheckCatalog c) {
     return c.getPackageName() + "." + standaloneSetupClassName(c);
   }
 
   /* Gets the standalone setup class name. */
-  public String standaloneSetupClassName(CheckCatalog c) {
+  public String standaloneSetupClassName(final CheckCatalog c) {
     return c.getName() + "StandaloneSetup";
   }
 
   /* Gets the qualified preference initializer class name. */
-  public String qualifiedPreferenceInitializerClassName(CheckCatalog c) {
+  public String qualifiedPreferenceInitializerClassName(final CheckCatalog c) {
     return c.getPackageName() + "." + preferenceInitializerClassName(c);
   }
 
   /* Gets the standalone setup class file path. */
-  public String standaloneSetupPath(CheckCatalog c) {
+  public String standaloneSetupPath(final CheckCatalog c) {
     return asPath(c.getPackageName()) + standaloneSetupClassName(c) + ".java";
   }
 
   /* Gets the documentation file name. */
-  public String docFileName(CheckCatalog c) {
+  public String docFileName(final CheckCatalog c) {
     return c.getName() + ".html";
   }
 
   /* Gets the issue codes class name. */
-  public static String issueCodesClassName(CheckCatalog c) {
+  public static String issueCodesClassName(final CheckCatalog c) {
     return c.getName() + ISSUE_CODES_CLASS_NAME_SUFFIX;
   }
 
   /* Gets the issue codes file path. */
-  public String issueCodesFilePath(CheckCatalog c) {
+  public String issueCodesFilePath(final CheckCatalog c) {
     return asPath(c.getPackageName()) + issueCodesClassName(c) + ".java";
   }
 
   /* Gets the quickfix provider class name. */
-  public String quickfixClassName(CheckCatalog c) {
+  public String quickfixClassName(final CheckCatalog c) {
     return c.getName() + "QuickfixProvider";
   }
 
   /* Gets the qualified quickfix provider class name. */
-  public String qualifiedQuickfixClassName(CheckCatalog c) {
+  public String qualifiedQuickfixClassName(final CheckCatalog c) {
     return c.getPackageName() + "." + quickfixClassName(c);
   }
 
   /* Gets the quickfix provider file path. */
-  public String quickfixFilePath(CheckCatalog c) {
+  public String quickfixFilePath(final CheckCatalog c) {
     return asPath(c.getPackageName()) + quickfixClassName(c) + ".java";
   }
 
   /* Gets the full path to the check file, e.g. com/avaloq/MyChecks.check. */
-  public String checkFilePath(CheckCatalog c) {
+  public String checkFilePath(final CheckCatalog c) {
     return asPath(c.getPackageName()) + c.getName() + ".check";
   }
 
   /* Gets the name of the getter method generated for a formal parameter. */
-  public String formalParameterGetterName(FormalParameter p) {
+  public String formalParameterGetterName(final FormalParameter p) {
     Check check = (Check) p.eContainer();
     return "get"
       + StringExtensions.toFirstUpper(check.getName())
@@ -136,12 +136,12 @@ public class CheckGeneratorNaming {
   }
 
   /* Gets the name of the getter method generated for a field. */
-  public String fieldGetterName(String fieldName) {
+  public String fieldGetterName(final String fieldName) {
     return "get" + StringExtensions.toFirstUpper(fieldName);
   }
 
   /* Check catalog instance name in the validator */
-  public String catalogInstanceName(EObject object) {
+  public String catalogInstanceName(final EObject object) {
     return StringExtensions.toFirstLower(EcoreUtil2.getContainerOfType(object, CheckCatalog.class).getName()) + "Catalog";
   }
 
@@ -161,18 +161,18 @@ public class CheckGeneratorNaming {
   }
 
   /* Gets the prefix for the context id (used in contexts.xml) */
-  public String getContextIdPrefix(QualifiedName catalog) {
+  public String getContextIdPrefix(final QualifiedName catalog) {
     return catalog.getLastSegment().toString().toLowerCase() + "_"; // TODO make context id use fully qualified catalog names
   }
 
   /* Gets the full context id (used in contexts.xml) */
-  public String getContextId(Check check) {
+  public String getContextId(final Check check) {
     CheckCatalog catalog = parent(check, CheckCatalog.class);
     return getContextIdPrefix(nameProvider.apply(catalog)) + check.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase();
   }
 
   /* Gets the full context id (used in contexts.xml) */
-  public String getContextId(Category category) {
+  public String getContextId(final Category category) {
     CheckCatalog catalog = parent(category, CheckCatalog.class);
     return getContextIdPrefix(nameProvider.apply(catalog)) + category.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase();
   }

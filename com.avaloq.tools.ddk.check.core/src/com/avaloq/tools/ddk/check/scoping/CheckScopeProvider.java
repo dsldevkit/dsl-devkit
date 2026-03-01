@@ -59,6 +59,7 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver;
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
 
   @Inject
@@ -80,7 +81,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   // https://bugs.eclipse.org/bugs/show_bug.cgi?id=368263
   // will otherwise cause the builder to fail during linking.
   @Override
-  public IScope getScope(EObject context, EReference reference) {
+  public IScope getScope(final EObject context, final EReference reference) {
     IScope res = scope(context, reference);
     if (res != null) {
       return res;
@@ -89,7 +90,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     }
   }
 
-  protected IScope _scope(XIssueExpression context, EReference reference) {
+  protected IScope _scope(final XIssueExpression context, final EReference reference) {
     if (reference == CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_FEATURE) {
       JvmTypeReference jvmTypeRef;
       if (context.getMarkerObject() != null) {
@@ -128,9 +129,10 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     return null;
   }
 
-  protected IScope _scope(CheckCatalog context, EReference reference) {
+  protected IScope _scope(final CheckCatalog context, final EReference reference) {
     if (reference == CheckPackage.Literals.CHECK_CATALOG__GRAMMAR) {
       IResourceServiceProvider.Registry reg = IResourceServiceProvider.Registry.INSTANCE;
+      // CHECKSTYLE:CHECK-OFF IllegalCatch
       Collection<IEObjectDescription> descriptions = Collections2.transform(reg.getExtensionToFactoryMap().keySet(),
         (String e) -> {
           URI dummyUri = URI.createURI("foo:/foo." + e);
@@ -141,9 +143,9 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
             return null;
           }
         });
+      // CHECKSTYLE:CHECK-ON IllegalCatch
       // We look first in the workspace for a grammar and then in the registry for a registered grammar
-      IScope parentScope = MapBasedScope.createScope(IScope.NULLSCOPE, Iterables.filter(descriptions, Predicates.notNull()));
-      return parentScope;
+      return MapBasedScope.createScope(IScope.NULLSCOPE, Iterables.filter(descriptions, Predicates.notNull()));
     } else if (reference == CheckPackage.Literals.XISSUE_EXPRESSION__CHECK) {
       List<IEObjectDescription> descriptions = ListExtensions.map(context.getAllChecks(),
         (Check c) -> EObjectDescription.create(checkQualifiedNameProvider.getFullyQualifiedName(c), c));
@@ -153,11 +155,11 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   }
 
   // default implementation will throw an illegal argument exception
-  protected IScope _scope(EObject context, EReference reference) {
+  protected IScope _scope(final EObject context, final EReference reference) {
     return null;
   }
 
-  public IScope scope(EObject context, EReference reference) {
+  public IScope scope(final EObject context, final EReference reference) {
     if (context instanceof CheckCatalog) {
       return _scope((CheckCatalog) context, reference);
     } else if (context instanceof XIssueExpression) {
@@ -170,11 +172,11 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     }
   }
 
-  public EClass classForJvmType(EObject context, JvmType jvmType) {
+  public EClass classForJvmType(final EObject context, final JvmType jvmType) {
     if (jvmType != null && !jvmType.eIsProxy()) {
       String qualifiedName = jvmType.getQualifiedName();
-      String qualifiedPackageName = qualifiedName.substring(0, qualifiedName.lastIndexOf("."));
-      String packageName = qualifiedPackageName.substring(qualifiedPackageName.lastIndexOf(".") + 1);
+      String qualifiedPackageName = qualifiedName.substring(0, qualifiedName.lastIndexOf('.'));
+      String packageName = qualifiedPackageName.substring(qualifiedPackageName.lastIndexOf('.') + 1);
       EPackage ePackage = getEPackage(context.eResource(), packageName);
       if (ePackage != null) {
         EClassifier eClassifier = ((EPackage) EcoreUtil.resolve(ePackage, context)).getEClassifier(jvmType.getSimpleName());
@@ -186,7 +188,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     return null;
   }
 
-  public EPackage getEPackage(Resource context, String name) {
+  public EPackage getEPackage(final Resource context, final String name) {
     // not using for-each loop, as it could result in a ConcurrentModificationException when a resource is demand-loaded
     EList<Resource> resources = context.getResourceSet().getResources();
     for (int i = 0; i < resources.size(); i++) {
