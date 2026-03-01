@@ -157,7 +157,7 @@ public class TemplateProposalProviderHelperTest {
 
   @Test
   public void testCreateTemplateVariablePatternWithNull() {
-    assertThrows(NullPointerException.class, () -> helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME, null));
+    assertThrows(NullPointerException.class, () -> helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME, (Object[]) null));
   }
 
   @Test
