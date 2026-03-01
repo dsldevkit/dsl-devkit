@@ -213,11 +213,9 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public boolean inferConstants(final FormatConfiguration format, final JvmGenericType it) {
-    if (!FormatGeneratorUtil.getAllConstants(format).isEmpty()) {
-      return jvmTypesBuilder.<JvmMember>operator_add(it.getMembers(),
-          ListExtensions.<Constant, JvmMember>map(FormatGeneratorUtil.getAllConstants(format), (Constant c) -> createConstant(format, c)));
-    }
-    return false;
+    return !FormatGeneratorUtil.getAllConstants(format).isEmpty()
+        && jvmTypesBuilder.<JvmMember>operator_add(it.getMembers(),
+            ListExtensions.<Constant, JvmMember>map(FormatGeneratorUtil.getAllConstants(format), (Constant c) -> createConstant(format, c)));
   }
 
   public String getFullyQualifiedName(final Grammar g) {
@@ -1300,6 +1298,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     return IterableExtensions.<String>lastOrNull((Iterable<String>) Conversions.doWrapArray(getFileLocation(object).split("/")));
   }
 
+  @Override
   public void infer(final EObject format, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
     if (format instanceof FormatConfiguration formatConfiguration) {
       _infer(formatConfiguration, acceptor, isPreIndexingPhase);
