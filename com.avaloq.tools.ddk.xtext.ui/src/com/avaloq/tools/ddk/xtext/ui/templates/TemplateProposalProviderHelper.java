@@ -33,8 +33,8 @@ public class TemplateProposalProviderHelper {
    * @param name          the name of the variable, may not be {@code null} nor contain whitespace
    * @param defaultValue  default value, may be {@code null}
    * @return  pattern, never {@code null}
-   * @throws  {@link NullPointerException}      if name is null
-   * @throws  {@link IllegalArgumentException}  if name contains whitespace
+   * @throws NullPointerException if name is null
+   * @throws IllegalArgumentException if name contains whitespace
    */
   public String createLiteralValuePattern(final String name, final Object defaultValue) throws NullPointerException, IllegalArgumentException {
     final String pattern = createTemplateVariablePattern(SIMPLE_ENUM_TYPE, name, defaultValue);
@@ -54,8 +54,8 @@ public class TemplateProposalProviderHelper {
    * @param   name    the name of the variable, may not be {@code null} nor contain whitespace
    * @param   values  the values available at this variable, may not be {@code null} nor empty
    * @return  pattern, never {@code null}
-   * @throws  {@link NullPointerException}      if type, name or values is null
-   * @throws  {@link IllegalArgumentException}  if type or name contains whitespace or values is empty
+   * @throws NullPointerException if type, name or values is null
+   * @throws IllegalArgumentException if type or name contains whitespace or values is empty
    */
   public String createTemplateVariablePattern(final String type, final String name, final Object... values) throws NullPointerException, IllegalArgumentException {
     Objects.requireNonNull(type);
