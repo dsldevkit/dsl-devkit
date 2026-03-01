@@ -8,7 +8,7 @@
  * licence agreement you entered into with Avaloq Group AG.
  */
 
-package com.avaloq.tools.ddk.xtext.generator.resourceFactory;
+package com.avaloq.tools.ddk.xtext.generator.resourceFactory; // NOPMD PackageCase
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,14 +22,15 @@ import org.eclipse.xtext.xtext.generator.model.TypeReference;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
 
 /**
- * Implementation that allows the fileExtensions for the fragment to be distinct from language.fileExtensions
+ * Implementation that allows the fileExtensions for the fragment to be distinct from language.fileExtensions.
  */
+@SuppressWarnings("PMD.PackageCase")
 public class ResourceFactoryFragment2 extends AbstractXtextGeneratorFragment {
 
   private List<String> fileExtensions;
 
   @Inject
-  private XtextGeneratorNaming _xtextGeneratorNaming;
+  private XtextGeneratorNaming xtextGeneratorNaming;
 
   protected List<String> getFileExtensions() {
     return fileExtensions;
@@ -38,18 +39,22 @@ public class ResourceFactoryFragment2 extends AbstractXtextGeneratorFragment {
   /**
    * Either a single file extension or a comma-separated list of extensions for which the language
    * shall be registered.
+   *
+   * @param fileExtensions
+   *          comma-separated file extension list
    */
   public void setFileExtensions(final String fileExtensions) {
     this.fileExtensions = Arrays.asList(fileExtensions.trim().split("\\s*,\\s*"));
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   // This is ResourceFactoryFragment2#generate with language.fileExtensions replaced by getFileExtensions
   @Override
   public void generate() {
 
     getLanguage().getRuntimeGenSetup().getRegistrations().add(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append(TypeReference.typeRef(IResourceFactory.class));
         target.append(" resourceFactory = injector.getInstance(");
         target.append(TypeReference.typeRef(IResourceFactory.class));
@@ -77,19 +82,19 @@ public class ResourceFactoryFragment2 extends AbstractXtextGeneratorFragment {
     });
 
     if (getProjectConfig().getEclipsePlugin() != null && getProjectConfig().getEclipsePlugin().getPluginXml() != null) {
-      final StringBuilder builder = new StringBuilder();
+      final StringBuilder builder = new StringBuilder(512);
       builder.append("<!-- adding resource factories -->\n");
       for (final String fileExtension : getFileExtensions()) {
         builder.append("<extension\n");
         builder.append("  point=\"org.eclipse.emf.ecore.extension_parser\">\n");
         builder.append("  <parser\n");
-        builder.append("    class=\"").append(_xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar())).append(":org.eclipse.xtext.resource.IResourceFactory\"\n");
+        builder.append("    class=\"").append(xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar())).append(":org.eclipse.xtext.resource.IResourceFactory\"\n");
         builder.append("    type=\"").append(fileExtension).append("\">\n");
         builder.append("  </parser>\n");
         builder.append("</extension>\n");
         builder.append("<extension point=\"org.eclipse.xtext.extension_resourceServiceProvider\">\n");
         builder.append("  <resourceServiceProvider\n");
-        builder.append("    class=\"").append(_xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar())).append(":org.eclipse.xtext.ui.resource.IResourceUIServiceProvider\"\n");
+        builder.append("    class=\"").append(xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar())).append(":org.eclipse.xtext.ui.resource.IResourceUIServiceProvider\"\n");
         builder.append("    uriExtension=\"").append(fileExtension).append("\">\n");
         builder.append("  </resourceServiceProvider>\n");
         builder.append("</extension>\n");
@@ -97,6 +102,7 @@ public class ResourceFactoryFragment2 extends AbstractXtextGeneratorFragment {
       getProjectConfig().getEclipsePlugin().getPluginXml().getEntries().add(builder.toString());
     }
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
 }
 

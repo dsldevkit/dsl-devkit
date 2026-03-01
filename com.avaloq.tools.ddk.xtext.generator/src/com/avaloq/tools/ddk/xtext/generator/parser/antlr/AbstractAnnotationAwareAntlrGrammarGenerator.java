@@ -11,7 +11,6 @@
 
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -43,14 +42,18 @@ import com.avaloq.tools.ddk.xtext.generator.parser.common.PredicatesNaming;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 
+// CHECKSTYLE:CONSTANTS-OFF
 
+@SuppressWarnings("PMD.UnusedFormalParameter")
 public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActionsGenerator {
 
+  // CHECKSTYLE:CHECK-OFF VisibilityModifier
   @Inject
   protected GrammarRuleAnnotations annotations;
 
   @Inject
   protected PredicatesNaming predicatesNaming;
+  // CHECKSTYLE:CHECK-ON VisibilityModifier
 
   @Inject
   private CodeConfig codeConfig;
@@ -58,14 +61,14 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   private Grammar originalGrammar;
 
   @Override
-  public void generate(Grammar it, AntlrOptions options, IXtextGeneratorFileSystemAccess fsa) {
+  public void generate(final Grammar it, final AntlrOptions options, final IXtextGeneratorFileSystemAccess fsa) {
     this.keywordHelper = KeywordHelper.getHelper(it);
     this.originalGrammar = it;
-    RuleFilter filter = new RuleFilter();
+    final RuleFilter filter = new RuleFilter();
     filter.setDiscardUnreachableRules(true); // options.skipUnusedRules
     filter.setDiscardTerminalRules(false); // options.skipUnusedRules
-    RuleNames ruleNames = RuleNames.getRuleNames(it, true);
-    Grammar flattened = new FlattenedGrammarAccess(ruleNames, filter).getFlattenedGrammar();
+    final RuleNames ruleNames = RuleNames.getRuleNames(it, true);
+    final Grammar flattened = new FlattenedGrammarAccess(ruleNames, filter).getFlattenedGrammar();
     new CombinedGrammarMarker(isCombinedGrammar()).attachToEmfObject(flattened);
     fsa.generateFile(getGrammarNaming().getParserGrammar(it).getGrammarFileName(), compileParser(flattened, options));
     if (!isCombinedGrammar()) {
@@ -79,13 +82,13 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   }
 
   @Override
-  protected CharSequence compileLexer(Grammar it, AntlrOptions options) {
-    StringConcatenation sb = new StringConcatenation();
+  protected CharSequence compileLexer(final Grammar it, final AntlrOptions options) {
+    final StringConcatenation sb = new StringConcatenation();
     sb.append(codeConfig.getFileHeader());
     sb.newLineIfNotEmpty();
     sb.append("lexer grammar ");
     sb.append(getGrammarNaming().getLexerGrammar(it).getSimpleName());
-    sb.append(";");
+    sb.append(';');
     sb.newLineIfNotEmpty();
     sb.append(compileLexerOptions(it, options));
     sb.newLineIfNotEmpty();
@@ -102,8 +105,8 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
     return sb;
   }
 
-  protected CharSequence compileLexerMembers(Grammar it, AntlrOptions options) {
-    StringConcatenation sb = new StringConcatenation();
+  protected CharSequence compileLexerMembers(final Grammar it, final AntlrOptions options) {
+    final StringConcatenation sb = new StringConcatenation();
     sb.append("@members {");
     sb.newLine();
     sb.append("  ");
@@ -141,26 +144,26 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   }
 
   @Override
-  protected String compileParserImports(Grammar it, AntlrOptions options) {
-    StringConcatenation sb = new StringConcatenation();
+  protected String compileParserImports(final Grammar it, final AntlrOptions options) {
+    final StringConcatenation sb = new StringConcatenation();
     sb.append("import ");
     sb.append(predicatesNaming.getSemanticPredicatesFullName(it));
-    sb.append(";");
+    sb.append(';');
     sb.newLineIfNotEmpty();
     sb.append("import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;");
     sb.newLine();
     return sb.toString();
   }
 
-  protected CharSequence compileParserMemberDeclarations(Grammar it, String access) {
-    StringConcatenation sb = new StringConcatenation();
+  protected CharSequence compileParserMemberDeclarations(final Grammar it, final String access) {
+    final StringConcatenation sb = new StringConcatenation();
     sb.append(access);
-    sb.append(" ");
+    sb.append(' ');
     sb.append(_grammarAccessExtensions.getGrammarAccess(it).getSimpleName());
     sb.append(" grammarAccess;");
     sb.newLineIfNotEmpty();
     sb.append(access);
-    sb.append(" ");
+    sb.append(' ');
     sb.append(predicatesNaming.getSemanticPredicatesSimpleName(it));
     sb.append(" predicates;");
     sb.newLineIfNotEmpty();
@@ -171,7 +174,7 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   }
 
   protected CharSequence compileParserSetTokenStreamMethod() {
-    StringConcatenation sb = new StringConcatenation();
+    final StringConcatenation sb = new StringConcatenation();
     sb.append("/**");
     sb.newLine();
     sb.append(" * Set token stream in parser context.");
@@ -202,26 +205,26 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   }
 
   @Override
-  protected CharSequence compileKeywordRules(Grammar it, AntlrOptions options) {
+  protected CharSequence compileKeywordRules(final Grammar it, final AntlrOptions options) {
     // implementation from xtext, but keywords are from the given grammar only (which has been flattened and filtered correctly)
-    Set<String> allKeywords = getAllKeywords(it, options);
-    List<TerminalRule> allTerminalRules = GrammarUtil.allTerminalRules(it);
+    final Set<String> allKeywords = getAllKeywords(it, options);
+    final List<TerminalRule> allTerminalRules = GrammarUtil.allTerminalRules(it);
 
-    List<String> syntheticKwAlternatives = new ArrayList<>();
-    for (String kw : allKeywords) {
-      String ruleName = keywordHelper.getRuleName(kw);
+    final List<String> syntheticKwAlternatives = new java.util.ArrayList<>();
+    for (final String kw : allKeywords) {
+      final String ruleName = keywordHelper.getRuleName(kw);
       syntheticKwAlternatives.add("(FRAGMENT_" + ruleName + ")=> FRAGMENT_" + ruleName + " {$type = " + ruleName + "; }");
     }
-    for (AbstractRule rule : allTerminalRules) {
+    for (final AbstractRule rule : allTerminalRules) {
       if (rule instanceof TerminalRule) {
-        TerminalRule terminalRule = (TerminalRule) rule;
+        final TerminalRule terminalRule = (TerminalRule) rule;
         if (!_syntheticTerminalDetector.isSyntheticTerminalRule(terminalRule) && !terminalRule.isFragment()) {
           syntheticKwAlternatives.add("(FRAGMENT_" + AntlrGrammarGenUtil.getRuleName(rule) + ")=> FRAGMENT_" + AntlrGrammarGenUtil.getRuleName(rule) + " {$type = " + AntlrGrammarGenUtil.getRuleName(rule) + "; }");
         }
       }
     }
 
-    StringConcatenation sb = new StringConcatenation();
+    final StringConcatenation sb = new StringConcatenation();
     if (options.isBacktrackLexer()) {
       sb.append("SYNTHETIC_ALL_KEYWORDS :");
       sb.newLine();
@@ -233,9 +236,9 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
         sb.append(syntheticKwAlternatives.get(i));
         sb.newLine();
       }
-      sb.append(";");
+      sb.append(';');
       sb.newLine();
-      for (String kw : allKeywords) {
+      for (final String kw : allKeywords) {
         sb.append("fragment FRAGMENT_");
         sb.append(keywordHelper.getRuleName(kw));
         sb.append(" : \'");
@@ -244,7 +247,7 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
         sb.newLine();
       }
     } else {
-      for (String rule : allKeywords) {
+      for (final String rule : allKeywords) {
         sb.append(compileRule(rule, it, options));
         sb.newLineIfNotEmpty();
       }
@@ -252,11 +255,11 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
     return sb;
   }
 
-  private static Set<String> getAllKeywords(Grammar flattenedGrammar, AntlrOptions options) {
-    Set<String> result = new TreeSet<>(KeywordHelper.keywordComparator);
-    List<? extends AbstractRule> parserRules = GrammarUtil.allParserRules(flattenedGrammar);
-    List<? extends AbstractRule> enumRules = GrammarUtil.allEnumRules(flattenedGrammar);
-    Iterator<EObject> iter = Iterators.concat(EcoreUtil.<EObject>getAllContents(parserRules), EcoreUtil.<EObject>getAllContents(enumRules));
+  private static Set<String> getAllKeywords(final Grammar flattenedGrammar, final AntlrOptions options) {
+    final Set<String> result = new TreeSet<>(KeywordHelper.keywordComparator);
+    final List<? extends AbstractRule> parserRules = GrammarUtil.allParserRules(flattenedGrammar);
+    final List<? extends AbstractRule> enumRules = GrammarUtil.allEnumRules(flattenedGrammar);
+    final Iterator<EObject> iter = Iterators.concat(EcoreUtil.<EObject>getAllContents(parserRules), EcoreUtil.<EObject>getAllContents(enumRules));
     Iterators.addAll(result, Iterators.transform(
       Iterators.filter(iter, Keyword.class),
       kw -> options.isIgnoreCase() ? kw.getValue().toLowerCase(Locale.ENGLISH) : kw.getValue()
@@ -265,3 +268,4 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   }
 
 }
+// CHECKSTYLE:CONSTANTS-ON

@@ -25,7 +25,7 @@ import org.eclipse.xtext.xtext.generator.resourceFactory.ResourceFactoryFragment
 public class CompareFragment2 extends ResourceFactoryFragment2 {
 
   @Inject
-  private XtextGeneratorNaming _xtextGeneratorNaming;
+  private XtextGeneratorNaming xtextGeneratorNaming;
 
   private static final Logger LOGGER = LogManager.getLogger(CompareFragment2.class);
 
@@ -71,10 +71,11 @@ public class CompareFragment2 extends ResourceFactoryFragment2 {
     }
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   public CharSequence eclipsePluginXmlContribution() {
-    final TypeReference executableExtensionFactory = _xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar());
+    final TypeReference executableExtensionFactory = xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar());
     final String fileExtensions = String.join(",", getLanguage().getFileExtensions());
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(1024);
     builder.append("<!-- Contributed by ").append(TypeReference.typeRef(CompareFragment2.class)).append(" -->\n");
     builder.append("<extension point=\"org.eclipse.compare.contentViewers\">\n");
     builder.append("  <viewer id=\"").append(getGrammar().getName()).append(".compare.contentViewers\"\n");
@@ -96,4 +97,5 @@ public class CompareFragment2 extends ResourceFactoryFragment2 {
     builder.append("</extension>\n");
     return builder;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 }

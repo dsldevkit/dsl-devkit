@@ -45,7 +45,7 @@ public class BuilderIntegrationFragment2 extends org.eclipse.xtext.xtext.generat
     super.addEclipsePluginGuiceBindings();
     final StringConcatenationClient statement1 = new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("binder.bind(");
         target.append(TypeReference.typeRef(IResourceDescriptions.class));
         target.append(".class");
