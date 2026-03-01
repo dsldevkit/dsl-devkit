@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 import com.avaloq.tools.ddk.test.core.jupiter.BugTestAwareRule;
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -119,14 +119,14 @@ public class XbaseGeneratorFragmentTest {
   private void setExpectationsForUsesXImportSection(final Grammar mockGrammar, final Pair<String, String>... packageAndRuleNamesOfLeafRules) {
     final ParserRule mockRootRule = mock(ParserRule.class);
     final Group mockAlternatives = mock(Group.class);
-    final BasicEList<AbstractElement> mockElements = new BasicEList<AbstractElement>();
+    final EList<AbstractElement> mockElements = new org.eclipse.emf.common.util.BasicEList<AbstractElement>();
 
-    final BasicEList<ParserRule> mockLeafRules = new BasicEList<ParserRule>();
+    final EList<ParserRule> mockLeafRules = new org.eclipse.emf.common.util.BasicEList<ParserRule>();
     for (final Pair<String, String> pair : packageAndRuleNamesOfLeafRules) {
       mockLeafRules.add(mock(ParserRule.class));
     }
 
-    final BasicEList<AbstractRule> mockRules = new BasicEList<AbstractRule>();
+    final EList<AbstractRule> mockRules = new org.eclipse.emf.common.util.BasicEList<AbstractRule>();
     mockRules.add(mockRootRule);
     mockRules.addAll(mockLeafRules);
 
@@ -160,7 +160,7 @@ public class XbaseGeneratorFragmentTest {
     // Calls made by doSwitch(grammar)
     when(mockGrammar.eClass()).thenReturn(XtextPackage.Literals.GRAMMAR);
     when(mockGrammar.isDefinesHiddenTokens()).thenReturn(false);
-    when(mockGrammar.getUsedGrammars()).thenReturn(new BasicEList<Grammar>());
+    when(mockGrammar.getUsedGrammars()).thenReturn(new org.eclipse.emf.common.util.BasicEList<Grammar>());
 
     // Calls made per rule by XbaseGeneratorFragmentOverride.usesXImportSection.apply()
     setExpectationsForApply(mockRootRule, THIS_PACKAGE_NAME, "rootRule");

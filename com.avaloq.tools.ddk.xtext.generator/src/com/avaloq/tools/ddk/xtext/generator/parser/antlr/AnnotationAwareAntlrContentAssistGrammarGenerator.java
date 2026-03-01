@@ -1160,6 +1160,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     return this._grammarAccessExtensions.ruleName(it);
   }
 
+  @Override
   protected String crossrefEbnf(final AbstractRule it, final RuleCall call, final CrossReference ref, final boolean supportActions) {
     if (GrammarUtil.isDatatypeRule(AntlrGrammarGenUtil.<AbstractRule>getOriginalElement(it))) {
       return this._grammarAccessExtensions.ruleName(it);
