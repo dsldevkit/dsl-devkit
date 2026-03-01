@@ -50,19 +50,16 @@ public class TemplateProposalProviderHelperTest {
   private static final String CONTEXT_TYPE_ID = "context.type.ID";
   private static final boolean IS_AUTO_INSERTABLE = true;
 
-  private static IDocument mockDocument;
-  private static Position mockPosition;
-  private static IRegion mockRegion;
-
   private static XtextTemplateContext templateContext;
 
   private static TemplateProposalProviderHelper helper;
 
   @BeforeAll
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   public void beforeAll() throws Exception {
-    mockDocument = mock(IDocument.class);
-    mockPosition = mock(Position.class);
-    mockRegion = mock(IRegion.class);
+    final IDocument mockDocument = mock(IDocument.class);
+    final Position mockPosition = mock(Position.class);
+    final IRegion mockRegion = mock(IRegion.class);
 
     final XtextTemplateContextType templateContextType = new XtextTemplateContextType();
     templateContextType.addResolver(new SimpleEnumTemplateVariableResolver());
@@ -76,15 +73,12 @@ public class TemplateProposalProviderHelperTest {
 
   @AfterAll
   public void afterAll() {
-    mockDocument = null;
-    mockPosition = null;
-    mockRegion = null;
-
     templateContext = null;
 
     helper = null;
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   @Test
   public void testCreateLiteralValuePatternWithNullName() {
     assertThrows(NullPointerException.class, () -> helper.createLiteralValuePattern(null, 42));
@@ -173,55 +167,55 @@ public class TemplateProposalProviderHelperTest {
 
   @Test
   public void testCreateTemplateVariablePatternWithFalse() {
-    testCreateTemplateVariablePattern(new Object[]{false}, "false", new String[]{"false", "true"});
+    testCreateTemplateVariablePattern(new Object[]{false}, "false", "false", "true");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithTrue() {
-    testCreateTemplateVariablePattern(new Object[]{true}, "true", new String[]{"true", "false"});
+    testCreateTemplateVariablePattern(new Object[]{true}, "true", "true", "false");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithMultipleBooleans() {
-    testCreateTemplateVariablePattern(new Object[]{false, false, true}, "false", new String[]{"false", "false", "true"});
+    testCreateTemplateVariablePattern(new Object[]{false, false, true}, "false", "false", "false", "true");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithNumber() {
-    testCreateTemplateVariablePattern(new Object[]{42}, "42", new String[]{"42"});
+    testCreateTemplateVariablePattern(new Object[]{42}, "42", "42");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithMultipleNumbers() {
-    testCreateTemplateVariablePattern(new Object[]{1297, 1314}, "1297", new String[]{"1297", "1314"});
+    testCreateTemplateVariablePattern(new Object[]{1297, 1314}, "1297", "1297", "1314");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithString() {
     testCreateTemplateVariablePattern(new Object[]{"Supercalifragilisticexpialidocious"}, "Supercalifragilisticexpialidocious",
-        new String[]{"Supercalifragilisticexpialidocious"});
+        "Supercalifragilisticexpialidocious");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithEmptyString() {
-    testCreateTemplateVariablePattern(new Object[]{""}, "", new String[]{""});
+    testCreateTemplateVariablePattern(new Object[]{""}, "", "");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithStringContainingWhitespace() {
     testCreateTemplateVariablePattern(new Object[]{"Lorem ipsum dolor sit amet"}, "Lorem ipsum dolor sit amet",
-        new String[]{"Lorem ipsum dolor sit amet"});
+        "Lorem ipsum dolor sit amet");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithStringContainingSingleQuotes() {
-    testCreateTemplateVariablePattern(new Object[]{"Apostrophe's"}, "Apostrophe's", new String[]{"Apostrophe's"});
+    testCreateTemplateVariablePattern(new Object[]{"Apostrophe's"}, "Apostrophe's", "Apostrophe's");
   }
 
   @Test
   public void testCreateTemplateVariablePatternWithStringContainingDoubleQuotes() {
     testCreateTemplateVariablePattern(new Object[]{"CHAIN \"CHUCKIE\""}, "CHAIN \\\"CHUCKIE\\\"",
-        new String[]{"CHAIN \\\"CHUCKIE\\\""});
+        "CHAIN \\\"CHUCKIE\\\"");
   }
 
   @Test
@@ -229,7 +223,7 @@ public class TemplateProposalProviderHelperTest {
     testCreateTemplateVariablePattern(
         new Object[]{"\"Whoever thinks of going to bed before twelve o'clock is a scoundrel\" - Dr Johnson"},
         "\\\"Whoever thinks of going to bed before twelve o'clock is a scoundrel\\\" - Dr Johnson",
-        new String[]{"\\\"Whoever thinks of going to bed before twelve o'clock is a scoundrel\\\" - Dr Johnson"});
+        "\\\"Whoever thinks of going to bed before twelve o'clock is a scoundrel\\\" - Dr Johnson");
   }
 
   @Test
@@ -237,8 +231,8 @@ public class TemplateProposalProviderHelperTest {
     testCreateTemplateVariablePattern(
         new Object[]{"Twas brillig and the slithy toves", "Did gyre and gimble in the wabe", "All mimsy were the borogroves",
             "And the mome raths outgrabe"}, "Twas brillig and the slithy toves",
-        new String[]{"Twas brillig and the slithy toves", "Did gyre and gimble in the wabe", "All mimsy were the borogroves",
-            "And the mome raths outgrabe"});
+        "Twas brillig and the slithy toves", "Did gyre and gimble in the wabe", "All mimsy were the borogroves",
+            "And the mome raths outgrabe");
   }
 
   /**
@@ -248,7 +242,7 @@ public class TemplateProposalProviderHelperTest {
    * @param expectedResult  expected result of applying a template containing the pattern, may be {@code null}
    * @param expectedValues  expected values offered by a template containing the pattern, may be {@code null}
    */
-  private void testCreateTemplateVariablePattern(final Object[] values, final String expectedResult, final String[] expectedValues) {
+  private void testCreateTemplateVariablePattern(final Object[] values, final String expectedResult, final String... expectedValues) {
     try {
       // ACT
       final String pattern = helper.createTemplateVariablePattern(SIMPLE_ENUM_VARIABLE_TYPE, VARIABLE_NAME, values);
@@ -264,8 +258,9 @@ public class TemplateProposalProviderHelperTest {
       assertEquals(expectedResult, actualResult, "Expected result");
       assertArrayEquals(expectedValues, actualValues, "Expected values");
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw new IllegalStateException(e);
     }
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
 }

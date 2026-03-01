@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 /**
  * The scope provider for the Format language.
  */
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   @Inject
@@ -56,6 +57,12 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
   /**
    * Provides a scope for given context and reference.
    * If there is no specific scoping method or if there is such a method but it cannot return a scope, the super class method is called.
+   *
+   * @param context
+   *          the context object
+   * @param reference
+   *          the reference
+   * @return the scope for the given context and reference
    */
   @Override
   public IScope getScope(final EObject context, final EReference reference) {
@@ -68,9 +75,13 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * For a given grammar returns the grammar on which it is based, and transitively all base grammars for that grammar.
+   *
+   * @param context
+   *          the grammar
+   * @return all used grammars including the given one
    */
   public Iterable<Grammar> getUsedGrammar(final Grammar context) {
-    final LinkedList<Grammar> grammars = new LinkedList<>();
+    final List<Grammar> grammars = new LinkedList<>();
     grammars.add(context);
     final EList<Grammar> usedGrammars = EcoreUtil2.getContainerOfType(context, Grammar.class).getUsedGrammars();
     if (usedGrammars != null && !usedGrammars.isEmpty()) {
@@ -81,9 +92,13 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * For a given formatter returns the grammar on which it is based, and transitively all base grammars for that grammar.
+   *
+   * @param context
+   *          the context object
+   * @return the collection of grammars
    */
   public Collection<Grammar> getGrammars(final EObject context) {
-    final LinkedList<Grammar> grammars = new LinkedList<>();
+    final List<Grammar> grammars = new LinkedList<>();
     final FormatConfiguration format = EcoreUtil2.getContainerOfType(context, FormatConfiguration.class);
     if (format != null && format.getTargetGrammar() != null) {
       grammars.add(format.getTargetGrammar());
@@ -95,9 +110,13 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
   /**
    * For a given {@link FormatConfiguration} returns transitively all extending format configurations.
    * Usage of LinkedList for {@code formats} does not prevent against duplication of grammars, but a HashSet cannot be used here as there won't be possible to recover the overriding order.
+   *
+   * @param context
+   *          the format configuration
+   * @return all format configurations including the given one and its extensions
    */
   public Collection<FormatConfiguration> getFormats(final FormatConfiguration context) {
-    final LinkedList<FormatConfiguration> formats = new LinkedList<>();
+    final List<FormatConfiguration> formats = new LinkedList<>();
     final FormatConfiguration format = context;
     if (format != null) {
       formats.add(format);
@@ -110,6 +129,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * In order to ensure the correct path of inheritance/overriding the list of the grammars has to be reversed.
+   *
+   * @param context
+   *          the context object
+   * @return the list of grammars in hierarchy order
    */
   public List<Grammar> getHierarchyOrderedGrammars(final EObject context) {
     return Lists.reverse(Lists.newArrayList(getGrammars(context)));
@@ -117,6 +140,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * In order to ensure the correct path of inheritance/overriding the list of the format configurations has to be reversed.
+   *
+   * @param context
+   *          the context object
+   * @return the list of format configurations in hierarchy order
    */
   public List<FormatConfiguration> getHierarchyOrderedFormats(final EObject context) {
     return Lists.reverse(Lists.newArrayList(getFormats(EcoreUtil2.getContainerOfType(context, FormatConfiguration.class))));
@@ -124,6 +151,12 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates scopes for a given list of rules for each grammar. Returned scopes are chained (parental relationships).
+   *
+   * @param parent
+   *          the parent scope, may be {@code null}
+   * @param rulesForGrammars
+   *          the rules for each grammar
+   * @return the chained scope
    */
   public IScope createScopeForAbstractRules(final IScope parent, final Iterable<EList<AbstractRule>> rulesForGrammars) {
     if (parent == null) {
@@ -143,6 +176,12 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates a scope for a given list of elements.
+   *
+   * @param <T>
+   *          the element type
+   * @param elements
+   *          the list of elements
+   * @return the scope
    */
   public <T extends EObject> IScope createScopeForEObjects(final List<T> elements) {
     return MapBasedScope.createScope(IScope.NULLSCOPE, createDescriptions(elements));
@@ -150,6 +189,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates a simple scope for a given object description.
+   *
+   * @param description
+   *          the object description
+   * @return the simple scope
    */
   public SimpleScope createSimpleScope(final IEObjectDescription description) {
     return new SimpleScope(IScope.NULLSCOPE, ImmutableList.of(description));
@@ -157,6 +200,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates a scope for a given list of compound elements.
+   *
+   * @param compoundElements
+   *          the list of compound elements
+   * @return the scope
    */
   public IScope createScopeForCompoundElements(final List<CompoundElement> compoundElements) {
     return MapBasedScope.createScope(IScope.NULLSCOPE, createDescriptionsForCompoundElements(compoundElements));
@@ -237,6 +284,13 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Dispatch method for scope resolution based on runtime type of context.
+   *
+   * @param context
+   *          the context object
+   * @param reference
+   *          the reference
+   * @return the scope, or {@code null} if no specific scope applies
+   * @throws IllegalArgumentException if the context type is not handled
    */
   public IScope scope(final EObject context, final EReference reference) {
     if (context instanceof GrammarRule grammarRule) {
@@ -255,6 +309,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates object descriptions for a given list of {@link FormatConfiguration}.
+   *
+   * @param elements
+   *          the list of format configurations
+   * @return the collection of object descriptions
    */
   public Collection<IEObjectDescription> createDescriptionsFormats(final List<FormatConfiguration> elements) {
     return Collections2.transform(elements, (FormatConfiguration e) -> EObjectDescription.create(scopeUtil.findTargetGrammar(e).getName(), e));
@@ -262,6 +320,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates descriptions for a given list of objects.
+   *
+   * @param elements
+   *          the list of objects
+   * @return the collection of object descriptions
    */
   public Collection<IEObjectDescription> createDescriptions(final List<? extends EObject> elements) {
     final Function<EObject, QualifiedName> namingFunction = nameProvider.getIndexParameterNameFunction(elements);
@@ -270,6 +332,10 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   /**
    * Creates object descriptions for a list of CompundElements ({@code group X} items). Groups are referenced using numbers which are used in formatter and at the same time corresponds to indexes in the list.
+   *
+   * @param elements
+   *          the list of compound elements
+   * @return the collection of object descriptions
    */
   public Collection<IEObjectDescription> createDescriptionsForCompoundElements(final List<? extends CompoundElement> elements) {
     final Function<EObject, QualifiedName> namingFunction = nameProvider.getIndexNameFunction(elements);
