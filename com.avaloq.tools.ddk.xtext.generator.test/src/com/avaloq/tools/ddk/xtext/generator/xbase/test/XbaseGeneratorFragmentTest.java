@@ -130,7 +130,7 @@ public class XbaseGeneratorFragmentTest {
     // Calls made by doSwitch(grammar)
     when(mockGrammar.eClass()).thenReturn(XtextPackage.Literals.GRAMMAR);
     when(mockGrammar.isDefinesHiddenTokens()).thenReturn(false);
-    when(mockGrammar.getUsedGrammars()).thenReturn(new BasicEList<Grammar>());
+    when(mockGrammar.getUsedGrammars()).thenReturn(new org.eclipse.emf.common.util.BasicEList<Grammar>());
 
     // Calls made per rule by XbaseGeneratorFragmentOverride.usesXImportSection.apply()
     setExpectationsForApply(mockRootRule, THIS_PACKAGE_NAME, "rootRule");
