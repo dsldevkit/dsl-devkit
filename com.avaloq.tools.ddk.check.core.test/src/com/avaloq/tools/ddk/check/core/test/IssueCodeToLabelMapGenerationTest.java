@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 /**
  * Unit test for auto generation of check issue code to label map.
  */
+// CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
@@ -131,3 +132,4 @@ public class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTe
     }
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

@@ -121,3 +121,4 @@ public class BasicModelTest {
     assertFalse(((XtextResource) model.eResource()).getParseResult().hasSyntaxErrors(), SYNTAX_ERRORS_NOT_EXPECTED);
   }
 }
+// CHECKSTYLE:CONSTANTS-ON
