@@ -9,7 +9,7 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.xtext.generator.ui.contentAssist;
+package com.avaloq.tools.ddk.xtext.generator.ui.contentAssist; // NOPMD PackageCase
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,6 +37,7 @@ import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 import com.google.inject.Inject;
 
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "PMD.PackageCase"})
 public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment2 {
 
   /**
@@ -54,7 +55,7 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     return generateProposalProvider;
   }
 
-  public void setGenerateProposalProvider(boolean generateProposalProvider) {
+  public void setGenerateProposalProvider(final boolean generateProposalProvider) {
     this.generateProposalProvider = generateProposalProvider;
   }
 
@@ -65,6 +66,7 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     }
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   // generation of the 'Abstract...ProposalProvider'
 
   @Override
@@ -119,20 +121,25 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
 
     javaFile.setTypeComment(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
-        target.append("/**"); target.newLine();
+      protected void appendTo(final TargetStringConcatenation target) {
+        target.append("/**");
+        target.newLine();
         target.append(" * Represents a generated, default implementation of superclass {@link ");
         target.append(superClass);
-        target.append("}."); target.newLine();
-        target.append(" * Methods are dynamically dispatched on the first parameter, i.e., you can override them"); target.newLine();
-        target.append(" * with a more concrete subtype."); target.newLine();
-        target.append(" */"); target.newLine();
+        target.append("}.");
+        target.newLine();
+        target.append(" * Methods are dynamically dispatched on the first parameter, i.e., you can override them");
+        target.newLine();
+        target.append(" * with a more concrete subtype.");
+        target.newLine();
+        target.append(" */");
+        target.newLine();
       }
     });
 
     javaFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("public ");
         if (isGenerateStub()) {
           target.append("abstract ");
@@ -141,7 +148,9 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
         target.append(genClass.getSimpleName());
         target.append(" extends ");
         target.append(superClass);
-        target.append(" {"); target.newLineIfNotEmpty(); target.newLine();
+        target.append(" {");
+        target.newLineIfNotEmpty();
+        target.newLine();
 
         if (!assignments.isEmpty()) {
           for (Assignment assignment : assignments) {
@@ -161,9 +170,11 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
             target.append(getContentAssistContextClass());
             target.append(" context, ");
             target.append(getICompletionProposalAcceptorClass());
-            target.append(" acceptor) {"); target.newLineIfNotEmpty();
+            target.append(" acceptor) {");
+            target.newLineIfNotEmpty();
             target.append(handleKeywordRule(rule));
-            target.append("  }"); target.newLineIfNotEmpty();
+            target.append("  }");
+            target.newLineIfNotEmpty();
           }
           target.newLine();
         }
@@ -178,33 +189,38 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
           target.append(getContentAssistContextClass());
           target.append(" context, ");
           target.append(getICompletionProposalAcceptorClass());
-          target.append(" acceptor) {"); target.newLineIfNotEmpty();
-          target.append("    // subclasses may override"); target.newLineIfNotEmpty();
-          target.append("  }"); target.newLineIfNotEmpty();
+          target.append(" acceptor) {");
+          target.newLineIfNotEmpty();
+          target.append("    // subclasses may override");
+          target.newLineIfNotEmpty();
+          target.append("  }");
+          target.newLineIfNotEmpty();
         }
-        target.append("}"); target.newLineIfNotEmpty();
+        target.append("}");
+        target.newLineIfNotEmpty();
       }
     });
     javaFile.writeTo(getProjectConfig().getEclipsePlugin().getSrcGen());
   }
 
-  private StringConcatenationClient handleKeywordRule(AbstractRule rule) {
+  private StringConcatenationClient handleKeywordRule(final AbstractRule rule) {
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         SemanticPredicate predAnnotation = annotations.getSemanticPredicateAnnotation(rule);
         if (predAnnotation != null && predAnnotation.getKeywords() != null) {
           for (String keyword : predAnnotation.getKeywords()) {
             target.append("    acceptor.accept(createCompletionProposal(\"");
             target.append(keyword);
-            target.append("\", context));"); target.newLineIfNotEmpty();
+            target.append("\", context));");
+            target.newLineIfNotEmpty();
           }
         }
       }
     };
   }
 
-  private StringConcatenationClient handleAssignment(Assignment assignment) {
+  private StringConcatenationClient handleAssignment(final Assignment assignment) {
     // determine all assignments within 'assignment's containing parser rule
     //  assigning the same feature, obtain their expected terminals, ...
     final List<AbstractElement> terminals = new ArrayList<>();
@@ -222,7 +238,7 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
 
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("  public void complete");
         target.append(getFQFeatureName(assignment));
         target.append("(");
@@ -233,24 +249,26 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
         target.append(getContentAssistContextClass());
         target.append(" context, ");
         target.append(getICompletionProposalAcceptorClass());
-        target.append(" acceptor) {"); target.newLineIfNotEmpty();
+        target.append(" acceptor) {");
+        target.newLineIfNotEmpty();
         if (terminalTypes.size() > 1) {
           target.append(handleAssignmentOptions(terminals));
         } else {
           target.append("    ");
           target.append(assignmentTerminal(assignment.getTerminal(), new StringConcatenationClient() {
             @Override
-            protected void appendTo(TargetStringConcatenation target) {
+            protected void appendTo(final TargetStringConcatenation target) {
               target.append("assignment.getTerminal()");
             }
           }));
         }
-        target.append("  }"); target.newLineIfNotEmpty();
+        target.append("  }");
+        target.newLineIfNotEmpty();
       }
     };
   }
 
-  private StringConcatenationClient handleAssignmentOptions(Iterable<AbstractElement> terminals) {
+  private StringConcatenationClient handleAssignmentOptions(final Iterable<AbstractElement> terminals) {
     final Set<EClass> processedTerminals = new HashSet<>();
 
     // for each type of terminal occurring in 'terminals' ...
@@ -265,19 +283,21 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     // ... generate an 'instanceof' clause
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         for (AbstractElement terminal : candidates) {
           target.append("    if (assignment.getTerminal() instanceof ");
           target.append(terminal.eClass().getInstanceClass());
-          target.append(") {"); target.newLineIfNotEmpty();
+          target.append(") {");
+          target.newLineIfNotEmpty();
           target.append("      ");
           target.append(assignmentTerminal(terminal, new StringConcatenationClient() {
             @Override
-            protected void appendTo(TargetStringConcatenation target) {
+            protected void appendTo(final TargetStringConcatenation target) {
               target.append("assignment.getTerminal()");
             }
           }));
-          target.append("    }"); target.newLineIfNotEmpty();
+          target.append("    }");
+          target.newLineIfNotEmpty();
         }
       }
     };
@@ -285,7 +305,7 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
 
   // dispatch methods for assignmentTerminal
 
-  private StringConcatenationClient assignmentTerminal(AbstractElement element, StringConcatenationClient accessor) {
+  private StringConcatenationClient assignmentTerminal(final AbstractElement element, final StringConcatenationClient accessor) {
     if (element instanceof Alternatives) {
       return _assignmentTerminal((Alternatives) element, accessor);
     } else if (element instanceof CrossReference) {
@@ -297,51 +317,54 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     }
   }
 
-  private StringConcatenationClient _assignmentTerminal(AbstractElement element, StringConcatenationClient accessor) {
+  private StringConcatenationClient _assignmentTerminal(final AbstractElement element, final StringConcatenationClient accessor) {
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
-        target.append("// subclasses may override"); target.newLineIfNotEmpty();
+      protected void appendTo(final TargetStringConcatenation target) {
+        target.append("// subclasses may override");
+        target.newLineIfNotEmpty();
       }
     };
   }
 
-  private StringConcatenationClient _assignmentTerminal(CrossReference element, StringConcatenationClient accessor) {
+  private StringConcatenationClient _assignmentTerminal(final CrossReference element, final StringConcatenationClient accessor) {
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("lookupCrossReference(((");
         target.append(CrossReference.class);
         target.append(")");
         target.append(accessor);
-        target.append("), context, acceptor);"); target.newLineIfNotEmpty();
+        target.append("), context, acceptor);");
+        target.newLineIfNotEmpty();
       }
     };
   }
 
-  private StringConcatenationClient _assignmentTerminal(RuleCall element, StringConcatenationClient accessor) {
+  private StringConcatenationClient _assignmentTerminal(final RuleCall element, final StringConcatenationClient accessor) {
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("completeRuleCall(((");
         target.append(RuleCall.class);
         target.append(")");
         target.append(accessor);
-        target.append("), context, acceptor);"); target.newLineIfNotEmpty();
+        target.append("), context, acceptor);");
+        target.newLineIfNotEmpty();
       }
     };
   }
 
-  private StringConcatenationClient _assignmentTerminal(Alternatives alternatives, StringConcatenationClient accessor) {
+  private StringConcatenationClient _assignmentTerminal(final Alternatives alternatives, final StringConcatenationClient accessor) {
     return new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         List<AbstractElement> elements = alternatives.getElements();
         for (int i = 0; i < elements.size(); i++) {
           final int index = i;
           target.append(assignmentTerminal(elements.get(i), new StringConcatenationClient() {
             @Override
-            protected void appendTo(TargetStringConcatenation target) {
+            protected void appendTo(final TargetStringConcatenation target) {
               target.append("((");
               target.append(Alternatives.class);
               target.append(")");
@@ -356,6 +379,7 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     };
   }
 
+  // CHECKSTYLE:CONSTANTS-ON
   // helper methods
 
   private TypeReference getContentAssistContextClass() {
@@ -366,11 +390,11 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     return new TypeReference("org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor");
   }
 
-  private String getFQFeatureName(AbstractRule r) {
+  private String getFQFeatureName(final AbstractRule r) {
     return "_" + r.getName();
   }
 
-  private String getFQFeatureName(Assignment a) {
+  private String getFQFeatureName(final Assignment a) {
     String ruleName = GrammarUtil.containingParserRule(a).getName();
     String firstUpper = ruleName.substring(0, 1).toUpperCase() + ruleName.substring(1);
     String featureName = a.getFeature();

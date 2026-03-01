@@ -43,13 +43,14 @@ public class ResourceDescriptionStrategyGenerator {
   @Inject
   private ExportGeneratorX exportGeneratorX;
 
-  public CharSequence generate(ExportModel it, CompilationContext ctx, GenModelUtilX genModelUtil) {
-    final StringBuilder sb = new StringBuilder();
+  public CharSequence generate(final ExportModel it, final CompilationContext ctx, final GenModelUtilX genModelUtil) {
+    // CHECKSTYLE:CONSTANTS-OFF
+    final StringBuilder sb = new StringBuilder(2048);
     sb.append("package ").append(naming.toJavaPackage(exportGeneratorX.getResourceDescriptionStrategy(it))).append(";\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import java.util.Map;\n");
     sb.append("import java.util.Set;\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import org.eclipse.emf.ecore.EClass;\n");
     sb.append("import org.eclipse.emf.ecore.EObject;\n");
     sb.append("import org.eclipse.emf.ecore.EPackage;\n");
@@ -57,7 +58,7 @@ public class ResourceDescriptionStrategyGenerator {
     sb.append("import org.eclipse.emf.ecore.util.Switch;\n");
     sb.append("import org.eclipse.xtext.resource.IEObjectDescription;\n");
     sb.append("import org.eclipse.xtext.util.IAcceptor;\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionStrategy;\n");
     if (it.getExports().stream().anyMatch(e -> e.isFingerprint() || e.isResourceFingerprint())) {
       sb.append("import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;\n");
@@ -70,10 +71,10 @@ public class ResourceDescriptionStrategyGenerator {
     sb.append("import com.google.common.collect.ImmutableSet;\n");
 
     final Collection<Export> types = it.getExports();
-    sb.append("\n");
-    sb.append("\n");
+    sb.append('\n');
+    sb.append('\n');
     sb.append("public class ").append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionStrategy(it))).append(" extends AbstractResourceDescriptionStrategy {\n");
-    sb.append("\n");
+    sb.append('\n');
 
     // EXPORTED_ECLASSES
     sb.append("  private static final Set<EClass> EXPORTED_ECLASSES = ImmutableSet.copyOf(new EClass[] {\n");
@@ -84,21 +85,21 @@ public class ResourceDescriptionStrategyGenerator {
     for (int i = 0; i < sortedKeys.size(); i++) {
       sb.append("    ").append(genModelUtil.literalIdentifier(sortedKeys.get(i)));
       if (i < sortedKeys.size() - 1) {
-        sb.append(",");
+        sb.append(',');
       }
-      sb.append("\n");
+      sb.append('\n');
     }
     sb.append("  });\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("  @Override\n");
     sb.append("  public Set<EClass> getExportedEClasses(final Resource resource) {\n");
     sb.append("    return EXPORTED_ECLASSES;\n");
     sb.append("  }\n");
-    sb.append("\n");
+    sb.append('\n');
 
     if (!types.isEmpty()) {
       sb.append("  private final ThreadLocal<IAcceptor<IEObjectDescription>> acceptor = new ThreadLocal<IAcceptor<IEObjectDescription>>();\n");
-      sb.append("\n");
+      sb.append('\n');
 
       final Set<EPackage> packageSet = types.stream()
           .filter(c -> !c.getType().isAbstract())
@@ -110,7 +111,7 @@ public class ResourceDescriptionStrategyGenerator {
 
       for (EPackage p : sortedPackages) {
         sb.append("  private final Switch<Boolean> ").append(p.getName()).append("ExportSwitch = new ").append(genModelUtil.qualifiedSwitchClassName(p)).append("<Boolean>() {\n");
-        sb.append("\n");
+        sb.append('\n');
         sb.append("    @Override\n");
         sb.append("    public Boolean defaultCase(final EObject obj) {\n");
         sb.append("      return true;\n");
@@ -121,20 +122,20 @@ public class ResourceDescriptionStrategyGenerator {
             .collect(Collectors.toList());
 
         for (Export c : exportsForPackage) {
-          sb.append("\n");
-          sb.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c))).append("\n");
+          sb.append('\n');
+          sb.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c))).append('\n');
           sb.append("    @Override\n");
           sb.append("    public Boolean case").append(c.getType().getName()).append("(final ").append(genModelUtil.instanceClassName(c.getType())).append(" obj) {\n");
           final String guard = codeGenerationX.javaExpression(c.getGuard(), ctx.clone("obj", c.getType()));
           if (c.getGuard() == null) {
             sb.append(generateCaseBody(it, c, ctx, genModelUtil));
-          } else if (!guard.equalsIgnoreCase("false")) {
-            sb.append("      ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c.getGuard()))).append("\n");
+          } else if (!"false".equalsIgnoreCase(guard)) {
+            sb.append("      ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c.getGuard()))).append('\n');
             sb.append("      if (").append(guard).append(") {\n");
             sb.append(generateCaseBody(it, c, ctx, genModelUtil));
             sb.append("      }\n");
           }
-          sb.append("\n");
+          sb.append('\n');
 
           // can Type contain any nested types ?
           final Set<String> nonAbstractTypeNames = types.stream()
@@ -151,7 +152,7 @@ public class ResourceDescriptionStrategyGenerator {
           sb.append("    }\n");
         }
         sb.append("  };\n");
-        sb.append("\n");
+        sb.append('\n');
       }
 
       sb.append("  @Override\n");
@@ -175,20 +176,24 @@ public class ResourceDescriptionStrategyGenerator {
       sb.append("      this.acceptor.set(null);\n");
       sb.append("    }\n");
       sb.append("  }\n");
-      sb.append("\n");
+      sb.append('\n');
     }
     sb.append("}\n");
+    // CHECKSTYLE:CONSTANTS-ON
     return sb;
   }
 
-  public CharSequence generateCaseBody(ExportModel it, Export c, CompilationContext ctx, GenModelUtilX genModelUtil) {
+  // CHECKSTYLE:CONSTANTS-OFF
+  public CharSequence generateCaseBody(final ExportModel it, final Export c, final CompilationContext ctx, final GenModelUtilX genModelUtil) {
     final List<EAttribute> a = c.getAllEAttributes();
     final List<UserData> d = exportGeneratorX.allUserData(c);
-    final StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder(512);
+    // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
     if (!a.isEmpty() || !d.isEmpty() || c.isFingerprint() || c.isResourceFingerprint() || c.isLookup()) {
+    // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
       sb.append("      // Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts\n");
       sb.append("      Map<String, String> data = new AbstractForwardingResourceDescriptionStrategyMap() {\n");
-      sb.append("\n");
+      sb.append('\n');
       sb.append("        @Override\n");
       sb.append("        protected void fill(final ImmutableMap.Builder<String, String> builder) {\n");
       sb.append("          Object value = null;\n");
@@ -208,7 +213,7 @@ public class ResourceDescriptionStrategyGenerator {
       if (c.isLookup()) {
         sb.append("          // Allow lookups\n");
         if (c.getLookupPredicate() != null) {
-          sb.append("          ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c.getLookupPredicate()))).append("\n");
+          sb.append("          ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c.getLookupPredicate()))).append('\n');
           sb.append("          if (").append(codeGenerationX.javaExpression(c.getLookupPredicate(), ctx.clone("obj", c.getType()))).append(") {\n");
           sb.append("            builder.put(DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());\n");
           sb.append("          }\n");
@@ -221,7 +226,7 @@ public class ResourceDescriptionStrategyGenerator {
         for (EAttribute attr : a) {
           sb.append("          value = obj.eGet(").append(genModelUtil.literalIdentifier(attr)).append(", false);\n");
           sb.append("          if (value != null) {\n");
-          sb.append("            builder.put(").append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionConstants(it))).append(".").append(exportGeneratorX.constantName(attr, c.getType())).append(", value.toString());\n");
+          sb.append("            builder.put(").append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionConstants(it))).append('.').append(exportGeneratorX.constantName(attr, c.getType())).append(", value.toString());\n");
           sb.append("          }\n");
         }
       }
@@ -230,7 +235,7 @@ public class ResourceDescriptionStrategyGenerator {
         for (UserData data : d) {
           sb.append("          value = ").append(codeGenerationX.javaExpression(data.getExpr(), ctx.clone("obj", c.getType()))).append(";\n");
           sb.append("          if (value != null) {\n");
-          sb.append("            builder.put(").append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionConstants(it))).append(".").append(exportGeneratorX.constantName(data, c.getType())).append(", value.toString());\n");
+          sb.append("            builder.put(").append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionConstants(it))).append('.').append(exportGeneratorX.constantName(data, c.getType())).append(", value.toString());\n");
           sb.append("          }\n");
         }
       }
@@ -242,4 +247,5 @@ public class ResourceDescriptionStrategyGenerator {
     }
     return sb;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 }

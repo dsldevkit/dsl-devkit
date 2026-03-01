@@ -25,6 +25,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("PMD.UnusedFormalParameter")
 public class ResourceDescriptionConstantsGenerator {
 
   @Inject
@@ -37,11 +38,12 @@ public class ResourceDescriptionConstantsGenerator {
   private ExportGeneratorX exportGeneratorX;
 
   public CharSequence generate(final ExportModel it, final CompilationContext ctx, final GenModelUtilX genModelUtil) {
-    final StringBuilder sb = new StringBuilder();
+    // CHECKSTYLE:CONSTANTS-OFF
+    final StringBuilder sb = new StringBuilder(512);
     sb.append("package ");
     sb.append(naming.toJavaPackage(exportGeneratorX.getResourceDescriptionConstants(it)));
     sb.append(";\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("public interface ");
     sb.append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionConstants(it)));
     sb.append(" {\n");
@@ -53,7 +55,7 @@ public class ResourceDescriptionConstantsGenerator {
         if (!a.isEmpty() || !d.isEmpty()) {
           sb.append("  // Export ");
           sb.append(c.getType().getName());
-          sb.append("\n");
+          sb.append('\n');
           if (!a.isEmpty()) {
             for (final EAttribute attr : a) {
               sb.append("  public static final String ");
@@ -72,11 +74,12 @@ public class ResourceDescriptionConstantsGenerator {
               sb.append("\"; //$NON-NLS-1$\n");
             }
           }
-          sb.append("\n");
+          sb.append('\n');
         }
       }
     }
     sb.append("}\n");
+    // CHECKSTYLE:CONSTANTS-ON
     return sb;
   }
 
