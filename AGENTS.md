@@ -9,7 +9,7 @@ This document helps AI coding agents work effectively with the DSL DevKit codeba
 - **Java**: 21+
 - **Maven**: 3.9+
 - **Tycho**
-- **Xtext/Xtend**
+- **Xtext**
 
 ## Key Directories
 
@@ -50,7 +50,7 @@ export WORKSPACE=$(pwd)
 
 ### PMD
 - **Ruleset**: `ddk-configuration/pmd/ruleset.xml`
-- Excludes: `src-gen/`, `src-model/`, `xtend-gen/`
+- Excludes: `src-gen/`, `src-model/`
 
 ### Checkstyle
 - **Config**: `ddk-configuration/checkstyle/avaloq.xml`
@@ -79,10 +79,6 @@ Tests are disabled by default and activated only in test bundles.
 These directories contain generated code - do not edit manually:
 - `src-gen/` - Xtext generated sources
 - `src-model/` - EMF model generated sources
-- `xtend-gen/` - Xtend transpiled Java sources
-
-### Xtend
-- `.xtend` files in `src/` compile to Java in `xtend-gen/`
 
 ## Common Tasks
 
@@ -95,7 +91,7 @@ These directories contain generated code - do not edit manually:
 
 ### Fixing PMD Violations
 1. Check ruleset at `ddk-configuration/pmd/ruleset.xml`
-2. Violations in generated code (`src-gen/`, `xtend-gen/`) are excluded
+2. Violations in generated code (`src-gen/`) are excluded
 3. Run `mvn pmd:check -f ./ddk-parent/pom.xml` to verify fixes
 
 ### Fixing Checkstyle Violations
@@ -116,3 +112,4 @@ xvfb-run mvn verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
 - **Platform**: GitHub Actions
 - **Workflow**: `.github/workflows/verify.yml`
 - Triggers on: push to master, pull requests
+

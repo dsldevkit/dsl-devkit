@@ -55,7 +55,6 @@
     <pmd.plugin.version>3.28.0</pmd.plugin.version>
     <pmd.version>7.21.0</pmd.version>
     <tycho.version>5.0.2</tycho.version>
-    <xtend.version>2.42.0</xtend.version>
   </properties>
 
   <modules>
@@ -225,25 +224,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.xtext</groupId>
-        <artifactId>xtend-maven-plugin</artifactId>
-        <version>${xtend.version}</version>
-        <executions>
-          <execution>
-            <id>xtend-generate</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${basedir}/xtend-gen/</outputDirectory>
-              <testOutputDirectory>${basedir}/xtend-gen/</testOutputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
@@ -313,7 +293,6 @@
           <excludeRoots>
             <excludeRoot>${basedir}/src-gen</excludeRoot>
             <excludeRoot>${basedir}/src-model</excludeRoot>
-            <excludeRoot>${basedir}/xtend-gen</excludeRoot>
           </excludeRoots>
         </configuration>
       </plugin>
@@ -368,14 +347,6 @@
           <artifactId>maven-clean-plugin</artifactId>
           <version>${clean.version}</version>
           <configuration>
-            <filesets>
-              <fileset>
-                <directory>xtend-gen</directory>
-                <includes>
-                  <include>**</include>
-                </includes>
-              </fileset>
-            </filesets>
           </configuration>
         </plugin>
       </plugins>
