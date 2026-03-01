@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.AbstractElement;
@@ -147,6 +146,14 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   private static final String PARAMETER_COLUMN = "currentColumn";
 
+  private static final int DEFAULT_BUFFER_CAPACITY = 256;
+
+  private static final String DOT = ".";
+
+  private static final String IMPL_SUFFIX = "Impl";
+
+  private static final String THE_FORMAT_CONFIGURATION = "the format configuration";
+
   /**
    * The dispatch method {@code infer} is called for each instance of the
    * given element's type that is contained in a resource.
@@ -202,7 +209,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else {
       it.getSuperTypes().add(_typeReferenceBuilder.typeRef(BASE_FORMATTER_CLASS_NAME));
     }
-    it.setPackageName(Strings.skipLastToken(FormatGeneratorUtil.getFormatterName(format, ""), "."));
+    it.setPackageName(Strings.skipLastToken(FormatGeneratorUtil.getFormatterName(format, ""), DOT));
     it.setAbstract(true);
   }
 
@@ -557,7 +564,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public String getLocatorActivatorName(final EObject rule, final EObject directive, final Matcher matcher) {
-    return ("ActivatorFor" + getRuleName(rule) + getMatcherName(matcher, directive)).replace("Impl", "");
+    return ("ActivatorFor" + getRuleName(rule) + getMatcherName(matcher, directive)).replace(IMPL_SUFFIX, "");
   }
 
   public String getLocatorActivatorName(final String partialName, final Matcher matcher) {
@@ -566,7 +573,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public String getParameterCalculatorName(final EObject rule, final EObject directive, final Matcher matcher) {
-    return ("ParameterCalculatorFor" + getRuleName(rule) + getMatcherName(matcher, directive)).replace("Impl", "");
+    return ("ParameterCalculatorFor" + getRuleName(rule) + getMatcherName(matcher, directive)).replace(IMPL_SUFFIX, "");
   }
 
   public String getParameterCalculatorName(final String partialName, final Matcher matcher) {
@@ -603,7 +610,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     final java.util.regex.Matcher matcher = pattern.matcher(str);
     final StringBuffer sb = new StringBuffer();
     while (matcher.find()) {
-      matcher.appendReplacement(sb, String.valueOf(Integer.toHexString(matcher.group().hashCode())));
+      matcher.appendReplacement(sb, Integer.toHexString(matcher.group().hashCode()));
     }
     matcher.appendTail(sb);
     return sb.toString();
@@ -705,6 +712,41 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     };
     members.add(jvmTypesBuilder.toMethod(format, "config" + rule.getTargetRule().getName(), _typeReferenceBuilder.typeRef("void"), initializer));
     return members;
+  }
+
+  private void initializeRuleMethod(final FormatConfiguration format, final GrammarRule rule, final JvmOperation it) {
+    it.setFinal(false);
+    it.setVisibility(JvmVisibility.PROTECTED);
+    jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
+        jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
+    AbstractRule targetRule = rule.getTargetRule();
+    if (targetRule instanceof ParserRule) {
+      final String ruleName = getFullyQualifiedName(getGrammar(rule.getTargetRule())) + "$" + grammarAccess.gaRuleAccessorClassName(rule.getTargetRule());
+      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
+          jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, typeReferences.getTypeForName(ruleName, rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
+          CollectionLiterals.<String, String>newLinkedHashMap(
+              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
+              Pair.<String, String>of(PARAMETER_ELEMENTS, "the grammar access for " + rule.getTargetRule().getName() + " elements"))));
+    } else if (targetRule instanceof EnumRule) {
+      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
+          jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(EnumRule.class.getName(), rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
+          CollectionLiterals.<String, String>newLinkedHashMap(
+              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
+              Pair.<String, String>of(PARAMETER_RULE, "the enum rule for " + rule.getTargetRule().getName()))));
+    } else if (targetRule instanceof TerminalRule) {
+      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
+          jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(TerminalRule.class.getName(), rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
+          CollectionLiterals.<String, String>newLinkedHashMap(
+              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
+              Pair.<String, String>of(PARAMETER_RULE, "the terminal rule for " + rule.getTargetRule().getName()))));
+    }
+    jvmTypesBuilder.setBody(it, (ITreeAppendable op) -> {
+      final List<String> directives = ListExtensions.<EObject, String>map(rule.getDirectives(), (EObject d) -> directive(d, getRuleName(rule)).toString());
+      op.append(fixLastLine(IterableExtensions.join(directives)));
+    });
   }
 
   public String fixLastLine(final String content) {

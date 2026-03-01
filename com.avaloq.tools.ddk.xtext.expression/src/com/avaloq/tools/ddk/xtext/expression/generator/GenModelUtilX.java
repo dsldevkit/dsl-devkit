@@ -30,10 +30,11 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class GenModelUtilX {
 
   @Inject
-  private Naming _naming;
+  private Naming naming;
 
   @Inject
   private IGlobalScopeProvider globalScopeProvider;
@@ -43,9 +44,11 @@ public class GenModelUtilX {
 
   private Resource context;
 
+  // CHECKSTYLE:CHECK-OFF HiddenField
   public void setResource(final Resource context) {
     this.context = context;
   }
+  // CHECKSTYLE:CHECK-ON HiddenField
 
   public /* cached */ String qualifiedPackageInterfaceName(final EPackage it) {
     final GenPackage genPackage = genPackage(it);
@@ -57,12 +60,13 @@ public class GenModelUtilX {
     return null;
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   public String qualifiedSwitchClassName(final EPackage it) {
     final GenPackage genPackage = genPackage(it);
     if (genPackage != null && genPackage.isLiteralsInterface()) {
       return genPackage.getUtilitiesPackageName() + "." + genPackage.getSwitchClassName();
     } else {
-      return _naming.toJavaPackage(qualifiedPackageInterfaceName(it)) + ".util." + StringExtensions.toFirstUpper(it.getName()) + "Switch"; // heuristic
+      return naming.toJavaPackage(qualifiedPackageInterfaceName(it)) + ".util." + StringExtensions.toFirstUpper(it.getName()) + "Switch"; // heuristic
     }
   }
 
@@ -100,6 +104,7 @@ public class GenModelUtilX {
   public /* cached */ String classifierIdLiteral(final EClass it) {
     return qualifiedPackageInterfaceName(it.getEPackage()) + "." + format(it.getName()).toUpperCase();
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
   protected /* cached */ String _instanceClassName(final Void it) {
     return "";

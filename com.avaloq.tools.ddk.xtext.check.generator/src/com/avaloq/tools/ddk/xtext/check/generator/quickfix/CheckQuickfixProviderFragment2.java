@@ -75,6 +75,7 @@ public class CheckQuickfixProviderFragment2 extends AbstractXtextGeneratorFragme
             """.formatted(getQuickfixProviderClass(getGrammar()).getSimpleName()));
       }
     };
+    // CHECKSTYLE:CONSTANTS-ON
     fileAccessFactory.createJavaFile(getQuickfixProviderClass(getGrammar()), content).writeTo(getProjectConfig().getEclipsePlugin().getSrc());
   }
 
