@@ -44,17 +44,18 @@ public class ExportedNamesProviderGenerator {
 
   public CharSequence generate(final ExportModel it, final CompilationContext ctx, final GenModelUtilX genModelUtil) {
     final Grammar grammar = exportGeneratorX.getGrammar(it);
-    final StringBuilder sb = new StringBuilder();
+    // CHECKSTYLE:CONSTANTS-OFF
+    final StringBuilder sb = new StringBuilder(2048);
     sb.append("package ").append(naming.toJavaPackage(exportGeneratorX.getExportedNamesProvider(it))).append(";\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import org.eclipse.emf.ecore.EClass;\n");
     sb.append("import org.eclipse.emf.ecore.EObject;\n");
     sb.append("import org.eclipse.emf.ecore.EPackage;\n");
     sb.append("import org.eclipse.xtext.naming.QualifiedName;\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import com.avaloq.tools.ddk.xtext.naming.AbstractExportedNameProvider;\n");
-    sb.append("\n");
-    sb.append("\n");
+    sb.append('\n');
+    sb.append('\n');
     sb.append("/**\n");
     sb.append(" * Qualified name provider for grammar ");
     String grammarName = grammar != null ? grammar.getName() : null;
@@ -62,7 +63,7 @@ public class ExportedNamesProviderGenerator {
     sb.append(" providing the qualified names for exported objects.\n");
     sb.append(" */\n");
     sb.append("public class ").append(naming.toSimpleName(exportGeneratorX.getExportedNamesProvider(it))).append(" extends AbstractExportedNameProvider {\n");
-    sb.append("\n");
+    sb.append('\n');
     if (!it.getExports().isEmpty()) {
       final List<Export> types = it.getExports();
       sb.append("  @Override\n");
@@ -79,12 +80,10 @@ public class ExportedNamesProviderGenerator {
         sb.append("      int classifierID = eClass.getClassifierID();\n");
         sb.append("      switch (classifierID) {\n");
         for (EClassifier classifier : p.getEClassifiers()) {
-          if (classifier instanceof EClass c) {
-            if (exportedEClasses.stream().anyMatch(e -> e.isSuperTypeOf(c))) {
-              sb.append("      case ").append(genModelUtil.classifierIdLiteral(c)).append(": {\n");
-              sb.append("        return qualifiedName((").append(genModelUtil.instanceClassName(c)).append(") object);\n");
-              sb.append("      }\n");
-            }
+          if (classifier instanceof EClass c && exportedEClasses.stream().anyMatch(e -> e.isSuperTypeOf(c))) {
+            sb.append("      case ").append(genModelUtil.classifierIdLiteral(c)).append(": {\n");
+            sb.append("        return qualifiedName((").append(genModelUtil.instanceClassName(c)).append(") object);\n");
+            sb.append("      }\n");
           }
         }
         sb.append("      default:\n");
@@ -94,7 +93,7 @@ public class ExportedNamesProviderGenerator {
       }
       sb.append("    return null;\n");
       sb.append("  }\n");
-      sb.append("\n");
+      sb.append('\n');
       for (Export c : types) {
         sb.append("  /**\n");
         sb.append("   * Return the qualified name under which a ").append(c.getType().getName()).append(" object is exported, or <code>null</code> if the object should not be exported.\n");
@@ -104,7 +103,7 @@ public class ExportedNamesProviderGenerator {
         sb.append("   * @return The object's qualified name, or <code>null</code> if the object is not to be exported\n");
         sb.append("   */\n");
         sb.append("  protected QualifiedName qualifiedName(final ").append(genModelUtil.instanceClassName(c.getType())).append(" obj) {\n");
-        sb.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c))).append("\n");
+        sb.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(c))).append('\n');
         if (c.getNaming() != null) {
           sb.append("    final Object name = ").append(codeGenerationX.javaExpression(c.getNaming(), ctx.clone("obj", c.getType()))).append(";\n");
           sb.append("    return name != null ? ");
@@ -124,10 +123,11 @@ public class ExportedNamesProviderGenerator {
           sb.append("; // \"name\" attribute by default\n");
         }
         sb.append("  }\n");
-        sb.append("\n");
+        sb.append('\n');
       }
     }
     sb.append("}\n");
+    // CHECKSTYLE:CONSTANTS-ON
     return sb;
   }
 }

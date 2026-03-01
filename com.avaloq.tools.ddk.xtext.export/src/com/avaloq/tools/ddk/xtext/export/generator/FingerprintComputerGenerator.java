@@ -31,6 +31,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FingerprintComputerGenerator {
 
   @Inject
@@ -42,33 +43,34 @@ public class FingerprintComputerGenerator {
   @Inject
   private ExportGeneratorX exportGeneratorX;
 
-  public CharSequence generate(ExportModel it, CompilationContext ctx, GenModelUtilX genModelUtil) {
-    final StringBuilder sb = new StringBuilder();
+  public CharSequence generate(final ExportModel it, final CompilationContext ctx, final GenModelUtilX genModelUtil) {
+    // CHECKSTYLE:CONSTANTS-OFF
+    final StringBuilder sb = new StringBuilder(2048);
     sb.append("package ").append(naming.toJavaPackage(exportGeneratorX.getFingerprintComputer(it))).append(";\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import org.eclipse.emf.ecore.EObject;\n");
     if (!it.getInterfaces().isEmpty()) {
       sb.append("import org.eclipse.emf.ecore.EPackage;\n");
       sb.append("import org.eclipse.emf.ecore.util.Switch;\n");
     }
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import com.avaloq.tools.ddk.xtext.resource.AbstractStreamingFingerprintComputer;\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import com.google.common.hash.Hasher;\n");
-    sb.append("\n");
-    sb.append("\n");
+    sb.append('\n');
+    sb.append('\n');
     sb.append("public class ").append(naming.toSimpleName(exportGeneratorX.getFingerprintComputer(it))).append(" extends AbstractStreamingFingerprintComputer {\n");
-    sb.append("\n");
+    sb.append('\n');
     if (it.getInterfaces().isEmpty()) {
       sb.append("  // no fingerprint defined\n");
       sb.append("  @Override\n");
       sb.append("  public String computeFingerprint(final org.eclipse.emf.ecore.resource.Resource resource) {\n");
       sb.append("    return null;\n");
       sb.append("  }\n");
-      sb.append("\n");
+      sb.append('\n');
     }
-    sb.append("  private ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();\n");
-    sb.append("\n");
+    sb.append("  private final ThreadLocal<Hasher> hasherAccess = new ThreadLocal<Hasher>();\n");
+    sb.append('\n');
 
     final Set<EPackage> packages = it.getInterfaces().stream()
         .map(f -> f.getType().getEPackage())
@@ -83,8 +85,8 @@ public class FingerprintComputerGenerator {
           .filter(f -> f.getType().getEPackage() == p)
           .collect(Collectors.toList());
       for (Interface f : interfacesForPackage) {
-        sb.append("\n");
-        sb.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(f))).append("\n");
+        sb.append('\n');
+        sb.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(f))).append('\n');
         sb.append("    @Override\n");
         sb.append("    public Hasher case").append(f.getType().getName()).append("(final ").append(genModelUtil.instanceClassName(f.getType())).append(" obj) {\n");
         sb.append("      final Hasher hasher = hasherAccess.get();\n");
@@ -107,11 +109,11 @@ public class FingerprintComputerGenerator {
         sb.append("    }\n");
       }
       sb.append("  };\n");
-      sb.append("\n");
+      sb.append('\n');
     }
 
     sb.append("  @Override\n");
-    sb.append("  protected void fingerprint(final EObject object, Hasher hasher) {\n");
+    sb.append("  protected void fingerprint(final EObject object, final Hasher hasher) {\n");
     sb.append("    hasherAccess.set(hasher);\n");
     if (!it.getInterfaces().isEmpty()) {
       sb.append("    final EPackage ePackage = object.eClass().getEPackage();\n");
@@ -124,13 +126,24 @@ public class FingerprintComputerGenerator {
     sb.append("    hasherAccess.set(null);\n");
     sb.append("  }\n");
     sb.append("}\n");
+    // CHECKSTYLE:CONSTANTS-ON
     return sb;
   }
 
   /**
    * Public dispatcher for doProfile.
+   *
+   * @param it
+   *          the interface item
+   * @param ctx
+   *          the compilation context
+   * @param genModelUtil
+   *          the gen model utility
+   * @param type
+   *          the EClass type
+   * @return the generated profile code
    */
-  public CharSequence doProfile(InterfaceItem it, CompilationContext ctx, GenModelUtilX genModelUtil, EClass type) {
+  public CharSequence doProfile(final InterfaceItem it, final CompilationContext ctx, final GenModelUtilX genModelUtil, final EClass type) {
     if (it instanceof InterfaceExpression interfaceExpression) {
       return _doProfile(interfaceExpression, ctx, genModelUtil, type);
     } else if (it instanceof InterfaceField interfaceField) {
@@ -142,13 +155,14 @@ public class FingerprintComputerGenerator {
     }
   }
 
-  protected CharSequence _doProfileDefault(InterfaceItem it, CompilationContext ctx, GenModelUtilX genModelUtil, EClass type) {
+  protected CharSequence _doProfileDefault(final InterfaceItem it, final CompilationContext ctx, final GenModelUtilX genModelUtil, final EClass type) {
     return "ERROR" + it.toString() + " " + generatorUtilX.javaContributorComment(generatorUtilX.location(it));
   }
 
-  protected CharSequence _doProfile(InterfaceField it, CompilationContext ctx, GenModelUtilX genModelUtil, EClass type) {
-    final StringBuilder sb = new StringBuilder();
-    if (it.getField().isMany() && (it.isUnordered() == true)) {
+  // CHECKSTYLE:CONSTANTS-OFF
+  protected CharSequence _doProfile(final InterfaceField it, final CompilationContext ctx, final GenModelUtilX genModelUtil, final EClass type) {
+    final StringBuilder sb = new StringBuilder(128);
+    if (it.getField().isMany() && it.isUnordered()) {
       sb.append("fingerprintFeature(obj, ").append(genModelUtil.literalIdentifier(it.getField())).append(", FingerprintOrder.UNORDERED, hasher);\n");
     } else {
       sb.append("fingerprintFeature(obj, ").append(genModelUtil.literalIdentifier(it.getField())).append(", hasher);\n");
@@ -157,9 +171,9 @@ public class FingerprintComputerGenerator {
     return sb;
   }
 
-  protected CharSequence _doProfile(InterfaceNavigation it, CompilationContext ctx, GenModelUtilX genModelUtil, EClass type) {
-    final StringBuilder sb = new StringBuilder();
-    if (it.getRef().isMany() && (it.isUnordered() == true)) {
+  protected CharSequence _doProfile(final InterfaceNavigation it, final CompilationContext ctx, final GenModelUtilX genModelUtil, final EClass type) {
+    final StringBuilder sb = new StringBuilder(128);
+    if (it.getRef().isMany() && it.isUnordered()) {
       sb.append("fingerprintRef(obj, ").append(genModelUtil.literalIdentifier(it.getRef())).append(", FingerprintOrder.UNORDERED, hasher);\n");
     } else {
       sb.append("fingerprintRef(obj, ").append(genModelUtil.literalIdentifier(it.getRef())).append(", hasher);\n");
@@ -168,8 +182,8 @@ public class FingerprintComputerGenerator {
     return sb;
   }
 
-  protected CharSequence _doProfile(InterfaceExpression it, CompilationContext ctx, GenModelUtilX genModelUtil, EClass type) {
-    final StringBuilder sb = new StringBuilder();
+  protected CharSequence _doProfile(final InterfaceExpression it, final CompilationContext ctx, final GenModelUtilX genModelUtil, final EClass type) {
+    final StringBuilder sb = new StringBuilder(128);
     sb.append("fingerprintExpr(").append(codeGenerationX.javaExpression(it.getExpr(), ctx.clone("obj", type)))
         .append(", obj, FingerprintOrder.").append(it.isUnordered() ? "UNORDERED" : "ORDERED")
         .append(", FingerprintIndirection.").append(it.isRef() ? "INDIRECT" : "DIRECT")
@@ -177,4 +191,5 @@ public class FingerprintComputerGenerator {
     sb.append("hasher.putChar(ITEM_SEP);\n");
     return sb;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 }

@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Group AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Group AG - initial API and implementation
+ *******************************************************************************/
+
 package com.avaloq.tools.ddk.xtext.scope.generator;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
@@ -24,50 +35,65 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class ScopeNameProviderGenerator {
 
   @Inject
-  private CodeGenerationX _codeGenerationX;
+  private CodeGenerationX codeGenerationX;
 
   @Inject
-  private ExpressionExtensionsX _expressionExtensionsX;
+  private ExpressionExtensionsX expressionExtensionsX;
 
   @Inject
-  private Naming _naming;
+  private Naming naming;
 
   @Inject
-  private GeneratorUtilX _generatorUtilX;
+  private GeneratorUtilX generatorUtilX;
 
   @Inject
-  private ScopeProviderX _scopeProviderX;
+  private ScopeProviderX scopeProviderX;
 
   private GenModelUtilX genModelUtil;
 
   private CompilationContext compilationContext;
 
+  // CHECKSTYLE:CONSTANTS-OFF
+  /**
+   * Generates the scope name provider class.
+   *
+   * @param it
+   *          the scope model
+   * @param compilationContext
+   *          the compilation context
+   * @param genModelUtil
+   *          the gen model utility
+   * @return the generated source code
+   */
+  // CHECKSTYLE:CHECK-OFF HiddenField
   public CharSequence generate(final ScopeModel it, final CompilationContext compilationContext, final GenModelUtilX genModelUtil) {
+    // CHECKSTYLE:CHECK-ON HiddenField
     this.compilationContext = compilationContext;
     this.genModelUtil = genModelUtil;
-    final StringBuilder builder = new StringBuilder();
-    builder.append("package ").append(_naming.toJavaPackage(_scopeProviderX.getScopeNameProvider(it))).append(";\n");
-    builder.append("\n");
+    final StringBuilder builder = new StringBuilder(2048);
+    builder.append("package ").append(naming.toJavaPackage(scopeProviderX.getScopeNameProvider(it))).append(";\n");
+    builder.append('\n');
     builder.append("import java.util.Arrays;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import org.eclipse.emf.ecore.EClass;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import org.eclipse.xtext.naming.QualifiedName;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.INameFunction;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import com.google.common.base.Function;\n");
     builder.append("import com.google.inject.Singleton;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("@SuppressWarnings(\"all\")\n");
     builder.append("@Singleton\n");
-    builder.append("public class ").append(_naming.toSimpleName(_scopeProviderX.getScopeNameProvider(it))).append(" extends AbstractScopeNameProvider {\n");
-    builder.append("\n");
+    builder.append("public class ").append(naming.toSimpleName(scopeProviderX.getScopeNameProvider(it))).append(" extends AbstractScopeNameProvider {\n");
+    builder.append('\n');
     builder.append("  @Override\n");
     builder.append("  public Iterable<INameFunction> internalGetNameFunctions(final EClass eClass) {\n");
     if (it.getNaming() != null) {
@@ -77,15 +103,16 @@ public class ScopeNameProviderGenerator {
       for (final EPackage p : packages) {
         builder.append("    if (").append(genModelUtil.qualifiedPackageInterfaceName(p)).append(".eINSTANCE == eClass.getEPackage()) {\n");
         builder.append("      switch (eClass.getClassifierID()) {\n");
-        builder.append("\n");
+        builder.append('\n');
+
         for (final NamingDefinition n : it.getNaming().getNamings()) {
           if (Objects.equals(n.getType().getEPackage(), p)) {
             builder.append("      case ").append(genModelUtil.classifierIdLiteral(n.getType())).append(":\n");
-            builder.append("        ").append(_generatorUtilX.javaContributorComment(_generatorUtilX.location(n))).append("\n");
+            builder.append("        ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(n))).append('\n');
             builder.append("        return ").append(nameFunctions(n.getNaming(), it)).append(";\n");
           }
         }
-        builder.append("\n");
+        builder.append('\n');
         builder.append("      default:\n");
         builder.append("        return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;\n");
         builder.append("      }\n");
@@ -94,17 +121,40 @@ public class ScopeNameProviderGenerator {
     }
     builder.append("    return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;\n");
     builder.append("  }\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("}\n");
     return builder;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
+  /**
+   * Generates name functions for a naming definition.
+   *
+   * @param it
+   *          the naming definition
+   * @param model
+   *          the scope model
+   * @return the generated name functions
+   */
   public CharSequence nameFunctions(final com.avaloq.tools.ddk.xtext.scope.scope.Naming it, final ScopeModel model) {
     return nameFunctions(it, model, null, null);
   }
 
+  /**
+   * Generates name functions for a naming definition with context.
+   *
+   * @param it
+   *          the naming definition
+   * @param model
+   *          the scope model
+   * @param contextName
+   *          the context name
+   * @param contextType
+   *          the context type
+   * @return the generated name functions
+   */
   public CharSequence nameFunctions(final com.avaloq.tools.ddk.xtext.scope.scope.Naming it, final ScopeModel model, final String contextName, final EClass contextType) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("Arrays.asList(");
     boolean first = true;
     for (final NamingExpression n : it.getNames()) {
@@ -114,16 +164,17 @@ public class ScopeNameProviderGenerator {
       first = false;
       builder.append(nameFunction(n, model, contextName, contextType));
     }
-    builder.append(")");
+    builder.append(')');
     return builder;
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   protected String _nameFunction(final NamingExpression it, final ScopeModel model, final String contextName, final EClass contextType) {
     if (it.isFactory()) {
       if (contextName == null || contextType == null) {
-        return _codeGenerationX.javaExpression(it.getExpression(), compilationContext.clone("UNEXPECTED_THIS"));
+        return codeGenerationX.javaExpression(it.getExpression(), compilationContext.clone("UNEXPECTED_THIS"));
       } else {
-        return _codeGenerationX.javaExpression(it.getExpression(), compilationContext.clone("UNEXPECTED_THIS", null, contextName, contextType));
+        return codeGenerationX.javaExpression(it.getExpression(), compilationContext.clone("UNEXPECTED_THIS", null, contextName, contextType));
       }
     } else if (it.isExport()) {
       return "NameFunctions.exportNameFunction()";
@@ -133,7 +184,7 @@ public class ScopeNameProviderGenerator {
   }
 
   protected String _nameFunction(final Expression it, final ScopeModel model, final String contextName, final EClass contextType) {
-    return "EXPRESSION_NOT_SUPPORTED(\"" + _expressionExtensionsX.serialize(it) + "\")";
+    return "EXPRESSION_NOT_SUPPORTED(\"" + expressionExtensionsX.serialize(it) + "\")";
   }
 
   protected String _nameFunction(final StringLiteral it, final ScopeModel model, final String contextName, final EClass contextType) {
@@ -146,39 +197,55 @@ public class ScopeNameProviderGenerator {
 
   protected String _nameFunction(final FeatureCall it, final ScopeModel model, final String contextName, final EClass contextType) {
     final CompilationContext currentContext = (contextName == null)
-        ? compilationContext.clone("obj", _scopeProviderX.scopeType(it))
-        : compilationContext.clone("obj", _scopeProviderX.scopeType(it), "ctx", contextType);
-    final StringBuilder builder = new StringBuilder();
-    if ((it.getTarget() == null || _codeGenerationX.isThisCall(it.getTarget())) && _codeGenerationX.isSimpleFeatureCall(it, currentContext)) {
-      builder.append("NameFunctions.fromFeature(").append(genModelUtil.literalIdentifier(_scopeProviderX.feature(it))).append(")");
-    } else if (_codeGenerationX.isSimpleNavigation(it, currentContext)) {
-      builder.append("\n");
+        ? compilationContext.clone("obj", scopeProviderX.scopeType(it))
+        : compilationContext.clone("obj", scopeProviderX.scopeType(it), "ctx", contextType);
+    final StringBuilder builder = new StringBuilder(512);
+    if ((it.getTarget() == null || codeGenerationX.isThisCall(it.getTarget())) && codeGenerationX.isSimpleFeatureCall(it, currentContext)) {
+      builder.append("NameFunctions.fromFeature(").append(genModelUtil.literalIdentifier(scopeProviderX.feature(it))).append(')');
+    } else if (codeGenerationX.isSimpleNavigation(it, currentContext)) {
+      builder.append('\n');
       builder.append("object -> {\n");
-      builder.append("    final ").append(genModelUtil.instanceClassName(_scopeProviderX.scopeType(it))).append(" obj = (").append(genModelUtil.instanceClassName(_scopeProviderX.scopeType(it))).append(") object;\n");
-      builder.append("    return toQualifiedName(").append(_codeGenerationX.javaExpression(it, currentContext)).append(");\n");
+      builder.append("    final ").append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it))).append(" obj = (").append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it))).append(") object;\n");
+      builder.append("    return toQualifiedName(").append(codeGenerationX.javaExpression(it, currentContext)).append(");\n");
       builder.append("  }\n");
     } else {
-      builder.append("EXPRESSION_NOT_SUPPORTED(\"").append(_expressionExtensionsX.serialize(it)).append("\")");
+      builder.append("EXPRESSION_NOT_SUPPORTED(\"").append(expressionExtensionsX.serialize(it)).append("\")");
     }
     return builder.toString();
   }
 
   protected String _nameFunction(final OperationCall it, final ScopeModel model, final String contextName, final EClass contextType) {
     final CompilationContext currentContext = (contextName == null)
-        ? compilationContext.clone("obj", _scopeProviderX.scopeType(it))
-        : compilationContext.clone("obj", _scopeProviderX.scopeType(it), "ctx", contextType);
-    final StringBuilder builder = new StringBuilder();
-    if (_codeGenerationX.isCompilable(it, currentContext)) {
+        ? compilationContext.clone("obj", scopeProviderX.scopeType(it))
+        : compilationContext.clone("obj", scopeProviderX.scopeType(it), "ctx", contextType);
+    final StringBuilder builder = new StringBuilder(512);
+    if (codeGenerationX.isCompilable(it, currentContext)) {
       builder.append("object -> {\n");
-      builder.append("    final ").append(genModelUtil.instanceClassName(_scopeProviderX.scopeType(it))).append(" obj = (").append(genModelUtil.instanceClassName(_scopeProviderX.scopeType(it))).append(") object;\n");
-      builder.append("    return toQualifiedName(").append(_codeGenerationX.javaExpression(it, currentContext)).append(");\n");
+      builder.append("    final ").append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it))).append(" obj = (").append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it))).append(") object;\n");
+      builder.append("    return toQualifiedName(").append(codeGenerationX.javaExpression(it, currentContext)).append(");\n");
       builder.append("  }\n");
     } else {
-      builder.append("EXPRESSION_NOT_SUPPORTED(\"").append(_expressionExtensionsX.serialize(it)).append("\")");
+      builder.append("EXPRESSION_NOT_SUPPORTED(\"").append(expressionExtensionsX.serialize(it)).append("\")");
     }
     return builder.toString();
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
+  /**
+   * Dispatches to the appropriate name function generator based on the type of the given object.
+   *
+   * @param it
+   *          the object to generate a name function for
+   * @param model
+   *          the scope model
+   * @param contextName
+   *          the context name
+   * @param contextType
+   *          the context type
+   * @return the generated name function code
+   * @throws IllegalArgumentException
+   *           if the parameter types are not handled
+   */
   public String nameFunction(final EObject it, final ScopeModel model, final String contextName, final EClass contextType) {
     if (it instanceof IntegerLiteral integerLiteral) {
       return _nameFunction(integerLiteral, model, contextName, contextType);
