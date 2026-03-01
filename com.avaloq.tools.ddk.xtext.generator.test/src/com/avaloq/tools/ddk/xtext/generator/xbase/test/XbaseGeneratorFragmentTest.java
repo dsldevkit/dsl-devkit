@@ -43,6 +43,7 @@ import org.eclipse.xtext.XtextPackage;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.eclipse.xtext.xtext.generator.xbase.XbaseUsageDetector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -53,12 +54,13 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 @ExtendWith(InjectionExtension.class)
 public class XbaseGeneratorFragmentTest {
 
+  // CHECKSTYLE:CONSTANTS-OFF
   @RegisterExtension
-  public BugTestAwareRule bugTestRule = BugTestAwareRule.getInstance();
+  private final BugTestAwareRule bugTestRule = BugTestAwareRule.getInstance();
 
-  private final String thisPackageName = "thisPackage";
-  private final String xtypePackageName = "xtype";
-  private final String xImportSectionRuleName = "XImportSection";
+  private static final String THIS_PACKAGE_NAME = "thisPackage";
+  private static final String XTYPE_PACKAGE_NAME = "xtype";
+  private static final String X_IMPORT_SECTION_RULE_NAME = "XImportSection";
 
   private final XbaseUsageDetector detector = new XbaseUsageDetector();
 
@@ -68,7 +70,8 @@ public class XbaseGeneratorFragmentTest {
   private final ResourceSet mockResourceSet = mock(ResourceSet.class);
   private final Resource mockResource = mock(Resource.class);
 
-  {
+  @BeforeEach
+  void setUp() {
     when(mockResourceSet.getEObject(any(URI.class), eq(true))).thenReturn(mockXtypeXImportSectionEClass);
     when(mockResource.getResourceSet()).thenReturn(mockResourceSet);
   }
@@ -99,7 +102,7 @@ public class XbaseGeneratorFragmentTest {
     // by giving such rules the same EClass instance the resource-set lookup returns; everything
     // else gets a fresh distinct mock so isAssignableFrom evaluates false.
     when(mockRule.eResource()).thenReturn(mockResource);
-    final EClass classifier = xtypePackageName.equals(packageName) && xImportSectionRuleName.equals(ruleName)
+    final EClass classifier = XTYPE_PACKAGE_NAME.equals(packageName) && X_IMPORT_SECTION_RULE_NAME.equals(ruleName)
         ? mockXtypeXImportSectionEClass
         : mock(EClass.class);
     when(mockType.getClassifier()).thenReturn(classifier);
@@ -160,7 +163,7 @@ public class XbaseGeneratorFragmentTest {
     when(mockGrammar.getUsedGrammars()).thenReturn(new BasicEList<Grammar>());
 
     // Calls made per rule by XbaseGeneratorFragmentOverride.usesXImportSection.apply()
-    setExpectationsForApply(mockRootRule, thisPackageName, "rootRule");
+    setExpectationsForApply(mockRootRule, THIS_PACKAGE_NAME, "rootRule");
 
     Iterator<ParserRule> mockLeafRuleIterator = mockLeafRules.iterator();
     Iterator<Pair<String, String>> packageAndRuleNameIterator = Arrays.asList(packageAndRuleNamesOfLeafRules).iterator();
@@ -196,10 +199,10 @@ public class XbaseGeneratorFragmentTest {
     setExpectationsForUsesXImportSection(
         mockGrammar,
         Pair.of(null, "leafRule1"),
-        Pair.of(thisPackageName, "leafRule2"),
-        Pair.of(xtypePackageName, "leafRule3"),
-        Pair.of(null, xImportSectionRuleName),
-        Pair.of(thisPackageName, xImportSectionRuleName)
+        Pair.of(THIS_PACKAGE_NAME, "leafRule2"),
+        Pair.of(XTYPE_PACKAGE_NAME, "leafRule3"),
+        Pair.of(null, X_IMPORT_SECTION_RULE_NAME),
+        Pair.of(THIS_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME)
     );
 
     // ACT
@@ -222,11 +225,11 @@ public class XbaseGeneratorFragmentTest {
     setExpectationsForUsesXImportSection(
         mockGrammar,
         Pair.of(null, "leafRule1"),
-        Pair.of(thisPackageName, "leafRule2"),
-        Pair.of(xtypePackageName, "leafRule3"),
-        Pair.of(null, xImportSectionRuleName),
-        Pair.of(thisPackageName, xImportSectionRuleName),
-        Pair.of(xtypePackageName, xImportSectionRuleName)
+        Pair.of(THIS_PACKAGE_NAME, "leafRule2"),
+        Pair.of(XTYPE_PACKAGE_NAME, "leafRule3"),
+        Pair.of(null, X_IMPORT_SECTION_RULE_NAME),
+        Pair.of(THIS_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME),
+        Pair.of(XTYPE_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME)
     );
 
     // ACT
@@ -235,5 +238,6 @@ public class XbaseGeneratorFragmentTest {
     // ASSERT
     assertTrue(usesXImportSection, "usesXImportSection() should return true when the grammar uses XImportSection");
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
 }

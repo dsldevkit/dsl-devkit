@@ -12,6 +12,7 @@
 package com.avaloq.tools.ddk.check.core.generator;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -88,7 +89,7 @@ public class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
 
     // ACT
     List<JavaSource> compiledClassesList;
-    ByteArrayInputStream sourceStream = new ByteArrayInputStream(source.getBytes());
+    ByteArrayInputStream sourceStream = new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8));
     try {
       compiledClassesList = generateAndCompile(sourceStream);
     } finally {

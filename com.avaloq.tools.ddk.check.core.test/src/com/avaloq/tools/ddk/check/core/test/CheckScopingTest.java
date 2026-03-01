@@ -29,6 +29,7 @@ import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+// CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 public class CheckScopingTest extends AbstractCheckTestCase {
@@ -82,3 +83,4 @@ public class CheckScopingTest extends AbstractCheckTestCase {
     assertEquals("This check is javadoc-like commented.", check.getDescription(), "Referenced check cannot be resolved");
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

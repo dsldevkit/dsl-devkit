@@ -31,6 +31,7 @@ public class CheckApiAccessValidationsTest {
   @Inject
   private ValidationTestHelper helper;
 
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   private CheckCatalog getTestSource(final String importText) throws Exception {
     return parser.parse(
         "package com.avaloq.example.stuff.checks\n"
