@@ -332,7 +332,7 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
   protected String compileInit(final AbstractRule it, final AntlrOptions options) {
     final StringConcatenation builder = new StringConcatenation();
     if (it instanceof ParserRule) {
-      builder.append(AntlrGrammarGenUtil.getParameterList((ParserRule) it, Boolean.valueOf(!this.isPassCurrentIntoFragment()), this.getCurrentType()));
+      builder.append(AntlrGrammarGenUtil.getParameterList((ParserRule) it, !this.isPassCurrentIntoFragment(), this.getCurrentType()));
     }
     builder.append(" returns ");
     builder.append(this.compileReturns(it, options));
