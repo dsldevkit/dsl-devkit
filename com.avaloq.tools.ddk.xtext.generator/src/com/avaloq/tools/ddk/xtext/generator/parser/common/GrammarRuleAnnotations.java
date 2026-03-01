@@ -9,7 +9,6 @@
  */
 package com.avaloq.tools.ddk.xtext.generator.parser.common;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -46,12 +45,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
+// CHECKSTYLE:OFF MagicNumber
 public class GrammarRuleAnnotations {
 
   @EmfAdaptable
   public static class NoBacktrack {
     public static class NoBacktrackAdapter extends AdapterImpl {
-      private GrammarRuleAnnotations.NoBacktrack element;
+      private final GrammarRuleAnnotations.NoBacktrack element;
 
       public NoBacktrackAdapter(final GrammarRuleAnnotations.NoBacktrack element) {
         this.element = element;
@@ -76,6 +76,7 @@ public class GrammarRuleAnnotations {
       return null;
     }
 
+    @SuppressWarnings("PMD.ForLoopVariableCount")
     public static GrammarRuleAnnotations.NoBacktrack removeFromEmfObject(final Notifier emfObject) {
       List<Adapter> adapters = emfObject.eAdapters();
       for (int i = 0, max = adapters.size(); i < max; i++) {
@@ -106,16 +107,7 @@ public class GrammarRuleAnnotations {
     @Override
     @Pure
     public boolean equals(final Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null) {
-        return false;
-      }
-      if (getClass() != obj.getClass()) {
-        return false;
-      }
-      return true;
+      return this == obj || (obj != null && getClass() == obj.getClass());
     }
 
     @Override
@@ -133,7 +125,7 @@ public class GrammarRuleAnnotations {
   @EmfAdaptable
   public static class SemanticPredicate {
     public static class SemanticPredicateAdapter extends AdapterImpl {
-      private GrammarRuleAnnotations.SemanticPredicate element;
+      private final GrammarRuleAnnotations.SemanticPredicate element;
 
       public SemanticPredicateAdapter(final GrammarRuleAnnotations.SemanticPredicate element) {
         this.element = element;
@@ -166,6 +158,7 @@ public class GrammarRuleAnnotations {
       return null;
     }
 
+    @SuppressWarnings("PMD.ForLoopVariableCount")
     public static GrammarRuleAnnotations.SemanticPredicate removeFromEmfObject(final Notifier emfObject) {
       List<Adapter> adapters = emfObject.eAdapters();
       for (int i = 0, max = adapters.size(); i < max; i++) {
@@ -188,7 +181,6 @@ public class GrammarRuleAnnotations {
     }
 
     public SemanticPredicate(final String name, final String message, final String grammar, final List<String> keywords) {
-      super();
       this.name = name;
       this.message = message;
       this.grammar = grammar;
@@ -285,7 +277,7 @@ public class GrammarRuleAnnotations {
   @EmfAdaptable
   public static class GrammarAnnotations {
     public static class GrammarAnnotationsAdapter extends AdapterImpl {
-      private GrammarRuleAnnotations.GrammarAnnotations element;
+      private final GrammarRuleAnnotations.GrammarAnnotations element;
 
       public GrammarAnnotationsAdapter(final GrammarRuleAnnotations.GrammarAnnotations element) {
         this.element = element;
@@ -312,6 +304,7 @@ public class GrammarRuleAnnotations {
       return null;
     }
 
+    @SuppressWarnings("PMD.ForLoopVariableCount")
     public static GrammarRuleAnnotations.GrammarAnnotations removeFromEmfObject(final Notifier emfObject) {
       List<Adapter> adapters = emfObject.eAdapters();
       for (int i = 0, max = adapters.size(); i < max; i++) {
@@ -334,7 +327,6 @@ public class GrammarRuleAnnotations {
     }
 
     public GrammarAnnotations(final List<GrammarRuleAnnotations.SemanticPredicate> predicates) {
-      super();
       this.predicates = predicates;
     }
 
@@ -491,7 +483,7 @@ public class GrammarRuleAnnotations {
   }
 
   public Set<Grammar> allInheritedGrammars(final Grammar grammar) {
-    HashSet<Grammar> result = Sets.newHashSet();
+    Set<Grammar> result = Sets.newHashSet();
     List<ParserRule> allParserRules = GrammarUtil.allParserRules(grammar);
     for (AbstractRule rule : allParserRules) {
       Grammar ruleGrammar = GrammarUtil.getGrammar(rule);
@@ -612,7 +604,7 @@ public class GrammarRuleAnnotations {
   }
 
   public String generateGatedPredicate(final SemanticPredicate predicate) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(64);
     sb.append("{predicates.");
     sb.append(predicate.name);
     sb.append("(parserContext)}?=>");
@@ -620,7 +612,7 @@ public class GrammarRuleAnnotations {
   }
 
   public String generateValidatingPredicate(final SemanticPredicate predicate) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(64);
     sb.append("{predicates.");
     sb.append(predicate.name);
     sb.append("(parserContext) /* @ErrorMessage(");
@@ -702,7 +694,7 @@ public class GrammarRuleAnnotations {
   public SemanticPredicate getKeywordRulePredicate(final String text, final String ruleName, final String grammar) {
     final Matcher matcher = KEYWORD_RULE_ANNOTATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      ArrayList<String> keywordsList = Lists.newArrayList(KEYWORDS_SPLITTER.split(matcher.group(1)));
+      List<String> keywordsList = Lists.newArrayList(KEYWORDS_SPLITTER.split(matcher.group(1)));
       return new SemanticPredicate(
           "is" + ruleName + "Enabled",
           "get" + ruleName + "EnabledMessage",
@@ -765,3 +757,4 @@ public class GrammarRuleAnnotations {
     return false;
   }
 }
+// CHECKSTYLE:ON

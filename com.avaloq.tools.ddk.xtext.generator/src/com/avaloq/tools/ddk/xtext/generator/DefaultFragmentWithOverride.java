@@ -17,18 +17,17 @@ import org.eclipse.xtext.xtext.generator.IXtextGeneratorFragment;
 import org.eclipse.xtext.xtext.generator.Issues;
 
 /**
- * Allow different fragments to be generated depending on a condition
+ * Allow different fragments to be generated depending on a condition.
  *
- * By default we generate the defaultFragment (or nothing if it is null)
- * if useOverride is true, we generate the overrideFragment (or nothing if it is null)
- *
+ * <p>By default we generate the defaultFragment (or nothing if it is null).
+ * If useOverride is true, we generate the overrideFragment (or nothing if it is null).
  */
 public class DefaultFragmentWithOverride extends AbstractXtextGeneratorFragment {
 
   /**
    * Whether to use the override fragment. False by default
    */
-  private boolean useOverride = false;
+  private boolean useOverride;
 
   private IXtextGeneratorFragment defaultFragment;
 
