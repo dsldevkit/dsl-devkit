@@ -50,9 +50,11 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
    */
   private static final Logger LOGGER = LogManager.getLogger(FormatterFragment2.class);
 
+  // CHECKSTYLE:CONSTANTS-OFF
   protected TypeReference getFormatterStub(final Grammar grammar) {
     return new TypeReference(xtextGeneratorNaming.getRuntimeBasePackage(grammar) + ".formatting." + GrammarUtil.getSimpleName(grammar) + "Formatter");
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
   @Override
   public void generate() {

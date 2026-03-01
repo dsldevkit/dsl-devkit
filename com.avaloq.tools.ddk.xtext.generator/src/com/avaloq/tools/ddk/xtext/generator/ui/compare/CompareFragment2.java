@@ -73,6 +73,7 @@ public class CompareFragment2 extends ResourceFactoryFragment2 {
     }
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   public CharSequence eclipsePluginXmlContribution() {
     final TypeReference executableExtensionFactory = xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar());
     final String grammarName = getGrammar().getName();
@@ -104,4 +105,5 @@ public class CompareFragment2 extends ResourceFactoryFragment2 {
         grammarName, executableExtensionFactory, fileExtensions, simpleName,
         grammarName, executableExtensionFactory, fileExtensions);
   }
+  // CHECKSTYLE:CONSTANTS-ON
 }

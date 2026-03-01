@@ -22,6 +22,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("PMD.UnusedFormalParameter")
 public class ResourceDescriptionManagerGenerator {
 
   @Inject
@@ -34,13 +35,14 @@ public class ResourceDescriptionManagerGenerator {
     final Grammar grammar = exportGeneratorX.getGrammar(model);
     final List<Grammar> usedGrammars = grammar != null ? grammar.getUsedGrammars() : new ArrayList<>();
     final Grammar extendedGrammar = (usedGrammars.isEmpty() || usedGrammars.get(0).getName().endsWith(".Terminals")) ? null : usedGrammars.get(0);
-    final StringBuilder sb = new StringBuilder();
+    // CHECKSTYLE:CONSTANTS-OFF
+    final StringBuilder sb = new StringBuilder(2048);
     sb.append("package ");
     sb.append(naming.toJavaPackage(exportGeneratorX.getResourceDescriptionManager(model)));
     sb.append(";\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import java.util.Set;\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;\n");
     if (extendedGrammar != null) {
       sb.append("import ");
@@ -50,8 +52,8 @@ public class ResourceDescriptionManagerGenerator {
       sb.append("import com.google.common.collect.Sets;\n");
     }
     sb.append("import com.google.inject.Singleton;\n");
-    sb.append("\n");
-    sb.append("\n");
+    sb.append('\n');
+    sb.append('\n');
     sb.append("/**\n");
     sb.append(" * Resource description manager for ");
     sb.append(exportGeneratorX.getName(model));
@@ -61,7 +63,7 @@ public class ResourceDescriptionManagerGenerator {
     sb.append("public class ");
     sb.append(naming.toSimpleName(exportGeneratorX.getResourceDescriptionManager(model)));
     sb.append(" extends AbstractCachingResourceDescriptionManager {\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("  public static final Set<String> INTERESTING_EXTS = ");
     if (extendedGrammar != null) {
       sb.append("ImmutableSet.copyOf(Sets.union(");
@@ -70,13 +72,14 @@ public class ResourceDescriptionManagerGenerator {
     } else {
       sb.append("all();\n");
     }
-    sb.append("\n");
+    sb.append('\n');
     sb.append("  @Override\n");
     sb.append("  protected Set<String> getInterestingExtensions() {\n");
     sb.append("    return INTERESTING_EXTS;\n");
     sb.append("  }\n");
-    sb.append("\n");
+    sb.append('\n');
     sb.append("}\n");
+    // CHECKSTYLE:CONSTANTS-ON
     return sb;
   }
 

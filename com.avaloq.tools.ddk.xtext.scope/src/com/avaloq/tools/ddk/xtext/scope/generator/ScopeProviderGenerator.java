@@ -1,8 +1,8 @@
 /*******************************************************************************
  * Copyright (c) 2016 Avaloq Group AG and others.
- * All rights reserved. it program and the accompanying materials
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies it distribution, and is available at
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.emf.ecore.EClass;
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class ScopeProviderGenerator {
 
   @Inject
@@ -60,15 +61,32 @@ public class ScopeProviderGenerator {
   private CompilationContext compilationContext;
   private GenModelUtilX genModelUtil;
 
+  // CHECKSTYLE:CONSTANTS-OFF
+
+  /**
+   * Generates the scope provider class source code.
+   *
+   * @param it
+   *          the scope model
+   * @param nameProviderGenerator
+   *          the name provider generator
+   * @param compilationContext
+   *          the compilation context
+   * @param genModelUtil
+   *          the gen model utility
+   * @return the generated source code
+   */
+  // CHECKSTYLE:CHECK-OFF HiddenField
   public CharSequence generate(final ScopeModel it, final ScopeNameProviderGenerator nameProviderGenerator, final CompilationContext compilationContext, final GenModelUtilX genModelUtil) {
+    // CHECKSTYLE:CHECK-ON HiddenField
     this.nameProviderGenerator = nameProviderGenerator;
     this.compilationContext = compilationContext;
     this.genModelUtil = genModelUtil;
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(4096);
     builder.append("package ").append(naming.toJavaPackage(scopeProviderX.getScopeProvider(it))).append(";\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import java.util.Arrays;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import org.apache.logging.log4j.Logger;\n");
     builder.append("import org.apache.logging.log4j.LogManager;\n");
     builder.append("import org.eclipse.emf.ecore.EClass;\n");
@@ -76,43 +94,54 @@ public class ScopeProviderGenerator {
     builder.append("import org.eclipse.emf.ecore.EPackage;\n");
     builder.append("import org.eclipse.emf.ecore.EReference;\n");
     builder.append("import org.eclipse.emf.ecore.resource.Resource;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import org.eclipse.xtext.naming.QualifiedName;\n");
     builder.append("import org.eclipse.xtext.resource.IEObjectDescription;\n");
     builder.append("import org.eclipse.xtext.scoping.IScope;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.AbstractNameFunction;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.AbstractPolymorphicScopeProvider;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.IContextSupplier;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.INameFunction;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;\n");
     builder.append("import com.avaloq.tools.ddk.xtext.util.EObjectUtil;\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import com.google.common.base.Predicate;\n");
     if (!scopeProviderX.allInjections(it).isEmpty()) {
       builder.append("import com.google.inject.Inject;\n");
     }
-    builder.append("\n");
+    builder.append('\n');
     builder.append("@SuppressWarnings(\"all\")\n");
     builder.append("public class ").append(naming.toSimpleName(scopeProviderX.getScopeProvider(it))).append(" extends AbstractPolymorphicScopeProvider {\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("  /** Class-wide logger. */\n");
     builder.append("  private static final Logger LOGGER = LogManager.getLogger(").append(naming.toSimpleName(scopeProviderX.getScopeProvider(it))).append(".class);\n");
     if (!scopeProviderX.allInjections(it).isEmpty()) {
       for (final com.avaloq.tools.ddk.xtext.scope.scope.Injection i : scopeProviderX.allInjections(it)) {
         builder.append("  @Inject\n");
-        builder.append("  private ").append(i.getType()).append(" ").append(i.getName()).append(";\n");
+        builder.append("  private ").append(i.getType()).append(' ').append(i.getName()).append(";\n");
       }
     }
-    builder.append("\n");
+    builder.append('\n');
     builder.append(scopeMethods(it, naming.toSimpleName(it.getName())));
-    builder.append("\n");
+    builder.append('\n');
     builder.append("}\n");
     return builder;
   }
 
+  /**
+   * Generates scope methods for all scope definitions.
+   *
+   * @param it
+   *          the scope model
+   * @param baseName
+   *          the base name
+   * @return the generated scope methods
+   * @throws IllegalStateException
+   *           if more than one global rule is found
+   */
   public CharSequence scopeMethods(final ScopeModel it, final String baseName) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(4096);
 
     // doGetScope with EReference
     builder.append("  @Override\n");
@@ -122,12 +151,12 @@ public class ScopeProviderGenerator {
       builder.append("    if (scopeName == null) {\n");
       builder.append("      return null;\n");
       builder.append("    }\n");
-      builder.append("\n");
+      builder.append('\n');
       builder.append("    switch (scopeName) {\n");
       final Set<String> refScopeNames = refScopes.stream().map(s -> scopeProviderX.getScopeName(s)).collect(Collectors.toCollection(java.util.LinkedHashSet::new));
-      for (final String scopeName : refScopeNames) {
-        builder.append("    case \"").append(scopeName).append("\":\n");
-        for (final ScopeDefinition scope : refScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(scopeName)).toList()) {
+      for (final String refScopeName : refScopeNames) {
+        builder.append("    case \"").append(refScopeName).append("\":\n");
+        for (final ScopeDefinition scope : refScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(refScopeName)).toList()) {
           builder.append("      if (reference == ").append(genModelUtil.literalIdentifier(scope.getReference())).append(") return ").append(scopeProviderX.scopeMethodName(scope)).append("(context, reference, originalResource);\n");
         }
         builder.append("      break;\n");
@@ -137,7 +166,7 @@ public class ScopeProviderGenerator {
     }
     builder.append("    return null;\n");
     builder.append("  }\n");
-    builder.append("\n");
+    builder.append('\n');
 
     // doGetScope with EClass
     builder.append("  @Override\n");
@@ -147,12 +176,12 @@ public class ScopeProviderGenerator {
       builder.append("    if (scopeName == null) {\n");
       builder.append("      return null;\n");
       builder.append("    }\n");
-      builder.append("\n");
+      builder.append('\n');
       builder.append("    switch (scopeName) {\n");
       final Set<String> typeScopeNames = typeScopes.stream().map(s -> scopeProviderX.getScopeName(s)).collect(Collectors.toCollection(java.util.LinkedHashSet::new));
-      for (final String scopeName : typeScopeNames) {
-        builder.append("    case \"").append(scopeName).append("\":\n");
-        for (final ScopeDefinition scope : typeScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(scopeName)).toList()) {
+      for (final String typeScopeName : typeScopeNames) {
+        builder.append("    case \"").append(typeScopeName).append("\":\n");
+        for (final ScopeDefinition scope : typeScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(typeScopeName)).toList()) {
           builder.append("      if (type == ").append(genModelUtil.literalIdentifier(scope.getTargetType())).append(") return ").append(scopeProviderX.scopeMethodName(scope)).append("(context, type, originalResource);\n");
         }
         builder.append("      break;\n");
@@ -162,7 +191,7 @@ public class ScopeProviderGenerator {
     }
     builder.append("    return null;\n");
     builder.append("  }\n");
-    builder.append("\n");
+    builder.append('\n');
 
     // doGlobalCache with EReference
     builder.append("  @Override\n");
@@ -172,9 +201,9 @@ public class ScopeProviderGenerator {
       builder.append("    if (scopeName != null && context.eContainer() == null) {\n");
       builder.append("      switch (scopeName) {\n");
       final Set<String> refGlobalNames = refGlobalScopes.stream().map(s -> scopeProviderX.getScopeName(s)).collect(Collectors.toCollection(java.util.LinkedHashSet::new));
-      for (final String scopeName : refGlobalNames) {
-        builder.append("      case \"").append(scopeName).append("\":\n");
-        for (final ScopeDefinition scope : refScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(scopeName)).toList()) {
+      for (final String refGlobalName : refGlobalNames) {
+        builder.append("      case \"").append(refGlobalName).append("\":\n");
+        for (final ScopeDefinition scope : refScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(refGlobalName)).toList()) {
           final List<ScopeRule> globalRules = scopeProviderX.allScopeRules(scope).stream().filter(r -> r.getContext().isGlobal()).toList();
           if (!globalRules.isEmpty()) {
             builder.append("        if (reference == ").append(genModelUtil.literalIdentifier(scope.getReference())).append(") return true;\n");
@@ -188,7 +217,7 @@ public class ScopeProviderGenerator {
     }
     builder.append("    return false;\n");
     builder.append("  }\n");
-    builder.append("\n");
+    builder.append('\n');
 
     // doGlobalCache with EClass
     builder.append("  @Override\n");
@@ -198,9 +227,9 @@ public class ScopeProviderGenerator {
       builder.append("    if (context.eContainer() == null) {\n");
       builder.append("      switch (scopeName) {\n");
       final Set<String> typeGlobalNames = typeGlobalScopes.stream().map(s -> scopeProviderX.getScopeName(s)).collect(Collectors.toCollection(java.util.LinkedHashSet::new));
-      for (final String scopeName : typeGlobalNames) {
-        builder.append("      case \"").append(scopeName).append("\":\n");
-        for (final ScopeDefinition scope : typeScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(scopeName)).toList()) {
+      for (final String typeGlobalName : typeGlobalNames) {
+        builder.append("      case \"").append(typeGlobalName).append("\":\n");
+        for (final ScopeDefinition scope : typeScopes.stream().filter(s -> scopeProviderX.getScopeName(s).equals(typeGlobalName)).toList()) {
           final List<ScopeRule> globalRules = scopeProviderX.allScopeRules(scope).stream().filter(r -> r.getContext().isGlobal()).toList();
           if (!globalRules.isEmpty()) {
             builder.append("        if (type == ").append(genModelUtil.literalIdentifier(scope.getTargetType())).append(") return true;\n");
@@ -214,7 +243,7 @@ public class ScopeProviderGenerator {
     }
     builder.append("    return false;\n");
     builder.append("  }\n");
-    builder.append("\n");
+    builder.append('\n');
 
     // Per-scope methods
     for (final ScopeDefinition scope : scopeProviderX.allScopes(it)) {
@@ -228,10 +257,10 @@ public class ScopeProviderGenerator {
       final List<ScopeRule> localRules = scopeProviderX.allScopeRules(scope).stream().filter(r -> !r.getContext().isGlobal()).toList();
       final List<ScopeRule> globalRules = scopeProviderX.allScopeRules(scope).stream().filter(r -> r.getContext().isGlobal()).toList();
       if (globalRules.size() > 1) {
-        throw new RuntimeException("only one global rule allowed");
+        throw new IllegalStateException("only one global rule allowed");
       }
       for (final ScopeRule r : scopeProviderX.sortedRules(scopeProviderX.filterUniqueRules(new ArrayList<>(localRules)))) {
-        builder.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(r))).append("\n");
+        builder.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(r))).append('\n');
         if (EClassComparator.isEObjectType(r.getContext().getContextType())) {
           builder.append("    if (true) {\n");
         } else {
@@ -243,7 +272,7 @@ public class ScopeProviderGenerator {
         builder.append("    }\n");
       }
       if (!localRules.isEmpty() || !globalRules.isEmpty()) {
-        builder.append("\n");
+        builder.append('\n');
         builder.append("    final EObject eContainer = context.eContainer();\n");
         builder.append("    if (eContainer != null) {\n");
         builder.append("      return internalGetScope(");
@@ -260,28 +289,43 @@ public class ScopeProviderGenerator {
         }
         builder.append(", \"").append(scopeProviderX.getScopeName(scope)).append("\", originalResource);\n");
         builder.append("    }\n");
-        builder.append("\n");
+        builder.append('\n');
       }
       if (!globalRules.isEmpty()) {
         final ScopeRule r = globalRules.get(0);
         final List<ScopeRule> rulesForTypeAndContext = List.of(r);
-        builder.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(r))).append("\n");
+        builder.append("    ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(r))).append('\n');
         builder.append("    if (context.eResource() != null) {\n");
         builder.append("      final Resource ctx = context.eResource();\n");
         builder.append(scopeRuleBlock(rulesForTypeAndContext, it, scopeProviderX.contextRef(r) != null ? "ref" : "type", r.getContext().getContextType(), r.getContext().isGlobal()));
         builder.append("    }\n");
-        builder.append("\n");
+        builder.append('\n');
       }
       builder.append("    return null;\n");
       builder.append("  }\n");
-      builder.append("\n");
+      builder.append('\n');
     }
 
     return builder;
   }
 
+  /**
+   * Generates a scope rule block for the given rules.
+   *
+   * @param it
+   *          the scope rules
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param contextType
+   *          the context EClass type
+   * @param isGlobal
+   *          whether the scope is global
+   * @return the generated scope rule block
+   */
   public CharSequence scopeRuleBlock(final List<ScopeRule> it, final ScopeModel model, final String typeOrRef, final EClass contextType, final Boolean isGlobal) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("      IScope scope = IScope.NULLSCOPE;\n");
     builder.append("      try {\n");
     if (it.stream().anyMatch(r -> r.getContext().getGuard() != null)) {
@@ -301,7 +345,7 @@ public class ScopeProviderGenerator {
         }
         builder.append("{\n");
         if (it.size() > 1) {
-          builder.append("          ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(r))).append("\n");
+          builder.append("          ").append(generatorUtilX.javaContributorComment(generatorUtilX.location(r))).append('\n');
         }
         final List<ScopeExpression> reversed = Lists.newArrayList(r.getExprs());
         Collections.reverse(reversed);
@@ -315,7 +359,7 @@ public class ScopeProviderGenerator {
         builder.append("          throw new UnsupportedOperationException(); // continue matching other definitions\n");
         builder.append("        }");
       }
-      builder.append("\n");
+      builder.append('\n');
     } else if (it.size() == 1) {
       final List<ScopeExpression> reversed = Lists.newArrayList(it.get(0).getExprs());
       Collections.reverse(reversed);
@@ -348,7 +392,7 @@ public class ScopeProviderGenerator {
   }
 
   protected CharSequence _scopeExpression(final FactoryExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope, final Boolean isGlobal) {
-    final StringBuilder b = new StringBuilder();
+    final StringBuilder b = new StringBuilder(512);
     final CompilationContext ctx = compilationContext.clone("ctx", scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType());
     b.append("scope = ").append(javaCall(it.getExpr(), ctx)).append("(scope, ctx, ").append(typeOrRef).append(", originalResource");
     if (it.getExpr() instanceof OperationCall operationCall) {
@@ -373,6 +417,17 @@ public class ScopeProviderGenerator {
     }
   }
 
+  /**
+   * Dispatches to the appropriate java call generator.
+   *
+   * @param it
+   *          the expression
+   * @param ctx
+   *          the compilation context
+   * @return the generated java call
+   * @throws IllegalArgumentException
+   *           if the parameter types are not handled
+   */
   public String javaCall(final Expression it, final CompilationContext ctx) {
     if (it instanceof OperationCall operationCall) {
       return _javaCall(operationCall, ctx);
@@ -384,7 +439,7 @@ public class ScopeProviderGenerator {
   }
 
   protected CharSequence _scopeExpression(final ScopeDelegation it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope, final Boolean isGlobal) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     if (it.getDelegate() != null) {
       final String delegateString = expressionExtensionsX.serialize(it.getDelegate());
       if ("this.eContainer()".equals(delegateString) || "this.eContainer".equals(delegateString) || "eContainer()".equals(delegateString) || "eContainer".equals(delegateString)) {
@@ -394,7 +449,7 @@ public class ScopeProviderGenerator {
       } else {
         builder.append("        scope = newDelegateScope(\"").append(scopeProviderX.locatorString(it)).append("\", scope, ");
         if (!isGlobal) {
-          builder.append("() -> IContextSupplier.makeIterable(").append(scopedElements(it.getDelegate(), model, scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType(), "ctx")).append(")");
+          builder.append("() -> IContextSupplier.makeIterable(").append(scopedElements(it.getDelegate(), model, scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType(), "ctx")).append(')');
         } else {
           builder.append(scopedElements(it.getDelegate(), model, scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType(), "ctx"));
         }
@@ -420,7 +475,7 @@ public class ScopeProviderGenerator {
   }
 
   protected CharSequence _scopeExpression(final NamedScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope, final Boolean isGlobal) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("        scope = ").append(scopeExpressionPart(it, model, typeOrRef, scope));
     builder.append(scopeExpressionNaming(it, model, typeOrRef, scope));
     builder.append(scopeExpressionCasing(it, model, typeOrRef, scope)).append(");\n");
@@ -428,9 +483,9 @@ public class ScopeProviderGenerator {
   }
 
   protected CharSequence _scopeExpression(final SimpleScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope, final Boolean isGlobal) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     if (expressionExtensionsX.isEmptyList(it.getExpr())) {
-      builder.append("        // Empty scope from ").append(generatorUtilX.location(it)).append("\n");
+      builder.append("        // Empty scope from ").append(generatorUtilX.location(it)).append('\n');
     } else {
       builder.append("        scope = ").append(scopeExpressionPart(it, model, typeOrRef, scope));
       builder.append(scopeExpressionNaming(it, model, typeOrRef, scope));
@@ -439,6 +494,23 @@ public class ScopeProviderGenerator {
     return builder;
   }
 
+  /**
+   * Dispatches to the appropriate scope expression generator.
+   *
+   * @param it
+   *          the scope expression
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param scope
+   *          the scope definition
+   * @param isGlobal
+   *          whether the scope is global
+   * @return the generated scope expression
+   * @throws IllegalArgumentException
+   *           if the parameter types are not handled
+   */
   public CharSequence scopeExpression(final ScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope, final Boolean isGlobal) {
     if (it instanceof FactoryExpression factoryExpression) {
       return _scopeExpression(factoryExpression, model, typeOrRef, scope, isGlobal);
@@ -468,14 +540,14 @@ public class ScopeProviderGenerator {
   }
 
   protected CharSequence _scopeExpressionPart(final GlobalScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     final List<LambdaDataExpression> matchData = new ArrayList<>();
     for (final Object d : it.getData()) {
       if (d instanceof LambdaDataExpression lambdaDataExpression) {
         matchData.add(lambdaDataExpression);
       }
     }
-    builder.append("\n");
+    builder.append('\n');
     if (matchData.isEmpty() && it.getPrefix() == null) {
       builder.append("newContainerScope(");
     } else if (matchData.isEmpty() && it.getPrefix() != null) {
@@ -483,7 +555,7 @@ public class ScopeProviderGenerator {
     } else {
       builder.append("newDataMatchScope(");
     }
-    builder.append("\"").append(scopeProviderX.locatorString(it)).append("\", scope, ctx, ");
+    builder.append('"').append(scopeProviderX.locatorString(it)).append("\", scope, ctx, ");
     builder.append(query(it, model, typeOrRef, scope)).append(", originalResource");
     if (!matchData.isEmpty()) {
       builder.append(", //\n");
@@ -509,6 +581,21 @@ public class ScopeProviderGenerator {
     return builder;
   }
 
+  /**
+   * Dispatches to the appropriate scope expression part generator.
+   *
+   * @param it
+   *          the named scope expression
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param scope
+   *          the scope definition
+   * @return the generated scope expression part
+   * @throws IllegalArgumentException
+   *           if the parameter types are not handled
+   */
   public CharSequence scopeExpressionPart(final NamedScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope) {
     if (it instanceof GlobalScopeExpression globalScopeExpression) {
       return _scopeExpressionPart(globalScopeExpression, model, typeOrRef, scope);
@@ -521,9 +608,22 @@ public class ScopeProviderGenerator {
     }
   }
 
+  /**
+   * Generates a query for a global scope expression.
+   *
+   * @param it
+   *          the global scope expression
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param scope
+   *          the scope definition
+   * @return the generated query
+   */
   public CharSequence query(final GlobalScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope) {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("newQuery(").append(genModelUtil.literalIdentifier(it.getType())).append(")");
+    final StringBuilder builder = new StringBuilder(512);
+    builder.append("newQuery(").append(genModelUtil.literalIdentifier(it.getType())).append(')');
     final List<MatchDataExpression> matchData = new ArrayList<>();
     for (final Object d : it.getData()) {
       if (d instanceof MatchDataExpression matchDataExpression) {
@@ -531,11 +631,11 @@ public class ScopeProviderGenerator {
       }
     }
     if (it.getName() != null) {
-      builder.append(".name(").append(doExpression(it.getName(), model, "ctx", scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType())).append(")");
+      builder.append(".name(").append(doExpression(it.getName(), model, "ctx", scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType())).append(')');
     }
     if (!matchData.isEmpty()) {
       for (final MatchDataExpression d : matchData) {
-        builder.append(".data(\"").append(codeGenerationX.javaEncode(d.getKey())).append("\", ").append(doExpression(d.getValue(), model, "ctx", scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType())).append(")");
+        builder.append(".data(\"").append(codeGenerationX.javaEncode(d.getKey())).append("\", ").append(doExpression(d.getValue(), model, "ctx", scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType())).append(')');
       }
     }
     if (!it.getDomains().isEmpty() && !"*".equals(it.getDomains().get(0))) {
@@ -546,12 +646,13 @@ public class ScopeProviderGenerator {
           builder.append(", ");
         }
         firstDomain = false;
-        builder.append("\"").append(codeGenerationX.javaEncode(d)).append("\"");
+        builder.append('"').append(codeGenerationX.javaEncode(d)).append('"');
       }
-      builder.append(")");
+      builder.append(')');
     }
     return builder;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
   // dispatch scopeExpressionNaming
   protected String _scopeExpressionNaming(final NamedScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope) {
@@ -566,6 +667,21 @@ public class ScopeProviderGenerator {
     return ", " + name(it, model, typeOrRef, "ctx", scopeProviderX.eContainer(it, ScopeRule.class).getContext().getContextType());
   }
 
+  /**
+   * Dispatches to the appropriate scope expression naming generator.
+   *
+   * @param it
+   *          the named scope expression
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param scope
+   *          the scope definition
+   * @return the generated naming expression
+   * @throws IllegalArgumentException
+   *           if the parameter types are not handled
+   */
   public String scopeExpressionNaming(final NamedScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope) {
     if (it instanceof GlobalScopeExpression globalScopeExpression) {
       return _scopeExpressionNaming(globalScopeExpression, model, typeOrRef, scope);
@@ -578,18 +694,72 @@ public class ScopeProviderGenerator {
     }
   }
 
+  /**
+   * Returns the case sensitivity setting for the scope expression.
+   *
+   * @param it
+   *          the named scope expression
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param scope
+   *          the scope definition
+   * @return the case sensitivity expression
+   */
   public String scopeExpressionCasing(final NamedScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope) {
     return ", " + Boolean.toString(scopeProviderX.isCaseInsensitive(it));
   }
 
+  /**
+   * Returns the scoped elements expression.
+   *
+   * @param it
+   *          the expression
+   * @param model
+   *          the scope model
+   * @param type
+   *          the EClass type
+   * @param object
+   *          the object name
+   * @return the scoped elements expression
+   */
   public String scopedElements(final Expression it, final ScopeModel model, final EClass type, final String object) {
     return doExpression(it, model, object, type);
   }
 
+  /**
+   * Compiles an expression to Java.
+   *
+   * @param it
+   *          the expression
+   * @param model
+   *          the scope model
+   * @param object
+   *          the object name
+   * @param type
+   *          the EClass type
+   * @return the compiled Java expression
+   */
   public String doExpression(final Expression it, final ScopeModel model, final String object, final EClass type) {
     return codeGenerationX.javaExpression(it, compilationContext.clone(object, type));
   }
 
+  /**
+   * Returns name functions for the given expression.
+   *
+   * @param it
+   *          the named scope expression
+   * @param model
+   *          the scope model
+   * @param typeOrRef
+   *          type or reference identifier
+   * @param contextName
+   *          the context name
+   * @param contextType
+   *          the context type
+   * @return the name functions expression
+   */
   public String name(final NamedScopeExpression it, final ScopeModel model, final String typeOrRef, final String contextName, final EClass contextType) {
     if (it.getNaming() != null) {
       return nameProviderGenerator.nameFunctions(it.getNaming(), model, contextName, contextType).toString();
@@ -598,7 +768,16 @@ public class ScopeProviderGenerator {
     }
   }
 
+  /**
+   * Throws a runtime exception with the given message.
+   *
+   * @param message
+   *          the error message
+   * @return never returns
+   * @throws IllegalStateException
+   *           always thrown with the given message
+   */
   public String error(final String message) {
-    throw new RuntimeException(message);
+    throw new IllegalStateException(message);
   }
 }
