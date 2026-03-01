@@ -30,6 +30,7 @@ public class CheckCfgGenerator implements IGenerator {
     return ".settings";
   }
 
+  @SuppressWarnings("PMD.UnusedFormalParameter") // parameter kept for API consistency
   public String fileName(final CheckConfiguration configuration) {
     return ICheckConfigurationStoreService.DEFAULT_CHECK_CONFIGURATION_NODE + ".prefs";
   }
@@ -48,7 +49,7 @@ public class CheckCfgGenerator implements IGenerator {
     final Properties properties = propertiesGenerator.convertToProperties(config);
     final StringBuilder builder = new StringBuilder();
     for (final Object k : properties.keySet()) {
-      builder.append(k).append("=").append(properties.get(k)).append("\n");
+      builder.append(k).append('=').append(properties.get(k)).append('\n');
     }
     return builder;
   }

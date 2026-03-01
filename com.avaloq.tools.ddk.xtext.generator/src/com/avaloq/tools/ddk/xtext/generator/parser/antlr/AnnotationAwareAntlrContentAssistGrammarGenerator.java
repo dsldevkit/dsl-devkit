@@ -267,7 +267,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
                     GrammarUtil.getAllGroups(g)),
                 GrammarUtil.getAllUnorderedGroups(g)),
             GrammarUtil.getAllAssignments(g)),
-        (EObject it) -> Boolean.valueOf(this._grammarAccessExtensions.isCalled(GrammarUtil.containingRule(it), g)));
+        (EObject it) -> this._grammarAccessExtensions.isCalled(GrammarUtil.containingRule(it), g));
     for (final EObject rule : allRulesAndElements) {
       builder.newLine();
       builder.append(this.compileRule(rule, g, options));

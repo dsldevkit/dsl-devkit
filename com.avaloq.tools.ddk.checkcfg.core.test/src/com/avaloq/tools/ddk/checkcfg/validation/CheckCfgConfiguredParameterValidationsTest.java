@@ -54,11 +54,11 @@ public class CheckCfgConfiguredParameterValidationsTest extends AbstractValidati
   public void testConfiguredParameterValues() {
     final TestPropertySpecificationWithExpectedValues allowedOnly = TestPropertySpecificationWithExpectedValues.INSTANCE;
     final TestPropertySpecificationWithOutExpectedValues acceptsAny = TestPropertySpecificationWithOutExpectedValues.INSTANCE;
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("check configuration Test\n");
     builder.append("  ").append(allowedOnly.getName()).append(" = ").append(error(IssueCodes.PARAMETER_VALUE_NOT_ALLOWED)).append("\"notAllowed\"\n");
     builder.append("  for com.avaloq.tools.ddk.^check.TestLanguage {\n");
-    builder.append("      ").append(allowedOnly.getName()).append(" = ").append(noDiagnostic(IssueCodes.PARAMETER_VALUE_NOT_ALLOWED)).append("\"").append(allowedOnly.getExpectedValues()[0]).append("\"\n");
+    builder.append("      ").append(allowedOnly.getName()).append(" = ").append(noDiagnostic(IssueCodes.PARAMETER_VALUE_NOT_ALLOWED)).append('"').append(allowedOnly.getExpectedValues()[0]).append("\"\n");
     builder.append("      ").append(acceptsAny.getName()).append(" = ").append(noDiagnostic(IssueCodes.PARAMETER_VALUE_NOT_ALLOWED)).append("\"whatever\"\n");
     builder.append("  }\n");
     validateKernelSourceStrictly("ConfiguredParameterValues.checkcfg", builder);

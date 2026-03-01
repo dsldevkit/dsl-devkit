@@ -20,6 +20,7 @@ import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   @Override
@@ -34,11 +35,11 @@ public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   @BeforeAll
   public void setup() {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("package checkcfgtest\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("import com.avaloq.tools.ddk.check.check.Check\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("catalog CheckCfgTestChecks\n");
     builder.append("for grammar com.avaloq.tools.ddk.check.Check {\n");
     builder.append("  /**\n");
@@ -58,7 +59,7 @@ public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   @Test
   public void testSyntax() {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(256);
     builder.append("check configuration checkconfiguration {\n");
     builder.append("  catalog checkcfgtest.CheckCfgTestChecks {\n");
     builder.append("    default TestError\n");
@@ -70,7 +71,7 @@ public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   @Test
   public void testSyntaxConfiguredLanguage() {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(256);
     builder.append("check configuration checkconfiguration\n");
     builder.append("  for com.avaloq.tools.ddk.^check.TestLanguage {\n");
     builder.append("    catalog checkcfgtest.CheckCfgTestChecks {\n");
@@ -83,14 +84,14 @@ public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   @Test
   public void testPropertiesOnAllLevels() {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(512);
     builder.append("check configuration checkconfiguration\n");
     builder.append("  integrationRelevant = true\n");
     builder.append("  testBooleanList = #[true, false, false]\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("  for com.avaloq.tools.ddk.^check.TestLanguage {\n");
     builder.append("  nameOverrides = #['altName1', 'altName2']\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("    catalog checkcfgtest.CheckCfgTestChecks {\n");
     builder.append("    default TestError(testNumber = 3, testNumberList = #[1, 2, 3])\n");
     builder.append("    }\n");
@@ -99,3 +100,4 @@ public class CheckCfgSyntaxTest extends AbstractValidationTest {
     validateCustomerSourceStrictly("checkconfiguration.checkcfg", checkcfgSource);
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

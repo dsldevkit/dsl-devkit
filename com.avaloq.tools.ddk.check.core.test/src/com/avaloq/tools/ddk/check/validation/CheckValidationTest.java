@@ -17,7 +17,7 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckModelUtil;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
@@ -35,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * <li>com.avaloq.tools.ddk.check.validation.ClasspathBasedChecks
  * </ul>
  */
+// CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
@@ -103,7 +104,7 @@ public class CheckValidationTest {
   @Disabled("Tests do not work because of scoping issues at run-time")
   public void testContextTypeIsUnique() throws Exception {
     // should fail
-    ArrayList<String> contexts = Lists.newArrayList("for C c {issue}", "for C d {issue}");
+    List<String> contexts = Lists.newArrayList("for C c {issue}", "for C d {issue}");
     CheckCatalog model = parser.parse(modelUtil.modelWithContexts(contexts));
     helper.assertError(model, CheckPackage.Literals.CONTEXT, IssueCodes.CONTEXT_TYPES_NOT_UNIQUE);
 
@@ -331,3 +332,4 @@ public class CheckValidationTest {
   }
 
 }
+// CHECKSTYLE:CONSTANTS-ON

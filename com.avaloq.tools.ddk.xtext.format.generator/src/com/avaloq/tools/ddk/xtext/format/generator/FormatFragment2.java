@@ -148,13 +148,14 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     }
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   protected XtendFileAccess doGetXtendStubFile() {
     final XtendFileAccess xtendFile = fileAccessFactory.createXtendFile(getFormatterStub(getGrammar()));
     xtendFile.setResourceSet(getLanguage().getResourceSet());
 
     xtendFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation builder) {
+      protected void appendTo(final TargetStringConcatenation builder) {
         builder.append("import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry");
         builder.newLine();
         builder.append("import java.util.List");
@@ -238,7 +239,7 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
 
     javaFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation builder) {
+      protected void appendTo(final TargetStringConcatenation builder) {
         builder.append("import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry;");
         builder.newLine();
         builder.append("import java.util.List;");
@@ -333,7 +334,7 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
 
     formatFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation builder) {
+      protected void appendTo(final TargetStringConcatenation builder) {
         builder.append("formatter for ");
         builder.append(getGrammar().getName());
         builder.newLineIfNotEmpty();
@@ -342,4 +343,5 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     });
     return formatFile;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 }
