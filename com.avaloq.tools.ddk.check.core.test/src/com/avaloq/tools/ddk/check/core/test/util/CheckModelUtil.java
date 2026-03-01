@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.core.test.util;
 import java.util.List;
 
 
+// CHECKSTYLE:CONSTANTS-OFF
 /**
  * Provides utility operations for Check model stubs. Only partial models
  * are returned as strings.
@@ -21,45 +22,64 @@ public class CheckModelUtil {
 
   /**
    * Returns a base model stub with package (com.test), catalog (c) and grammar (g).
+   *
+   * @return the model stub string
    */
   public String modelWithGrammar() {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("package com.test");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("catalog c for grammar g {");
     return builder.toString();
   }
 
   /**
    * Returns a base model stub with a default category.
+   *
+   * @return the model stub string
    */
   public String modelWithCategory() {
     String modelWithGrammar = this.modelWithGrammar();
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("category \"Default Category\" {");
     return modelWithGrammar + builder.toString();
   }
 
   /**
    * Returns a dummy category with given ID.
+   *
+   * @param id
+   *          the category ID
+   * @param label
+   *          the category label
+   * @return the category string
    */
   public String emptyCategory(final String id, final String label) {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("category ");
     builder.append(id);
     builder.append(" \"");
     builder.append(label);
     builder.append("\" {\n");
-    builder.append("}");
+    builder.append('}');
     return builder.toString();
   }
 
   /**
    * Returns a base model stub with a severity range.
+   *
+   * @param min
+   *          the minimum severity
+   * @param max
+   *          the maximum severity
+   * @param severity
+   *          the default severity
+   * @return the model stub string
    */
+  // CHECKSTYLE:CHECK-OFF VariableDeclarationUsageDistance
   public String modelWithSeverityRange(final String min, final String max, final String severity) {
     String modelWithCategory = this.modelWithCategory();
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("@SeverityRange(");
     builder.append(min);
     builder.append(" .. ");
@@ -75,10 +95,16 @@ public class CheckModelUtil {
 
   /**
    * Returns a base model stub with a severity range and a default check.
+   *
+   * @param min
+   *          the minimum severity
+   * @param max
+   *          the maximum severity
+   * @return the model stub string
    */
   public String modelWithSeverityRange(final String min, final String max) {
     String modelWithCategory = this.modelWithCategory();
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("@SeverityRange(");
     builder.append(min);
     builder.append(" .. ");
@@ -89,20 +115,27 @@ public class CheckModelUtil {
 
   /**
    * Returns a base model stub with a check of given ID.
+   *
+   * @param id
+   *          the check ID
+   * @return the model stub string
    */
   public String modelWithCheck(final String id) {
     String modelWithCategory = this.modelWithCategory();
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("error ");
     builder.append(id);
     builder.append(" \"Some Error\" ()\n");
     builder.append("message \"My Message\" {");
     return modelWithCategory + builder.toString();
   }
+  // CHECKSTYLE:CHECK-ON VariableDeclarationUsageDistance
 
   /**
    * Returns a base model stub with a check (SomeError) with severity 'error'
    * and message (MyMessage).
+   *
+   * @return the model stub string
    */
   public String modelWithCheck() {
     return this.modelWithCheck("ID");
@@ -110,37 +143,47 @@ public class CheckModelUtil {
 
   /**
    * Returns a dummy check with given ID.
+   *
+   * @param id
+   *          the check ID
+   * @return the check string
    */
   public String emptyCheck(final String id) {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("error ");
     builder.append(id);
     builder.append(" \"Some Error\" ()\n");
     builder.append("message \"My message\" {\n");
-    builder.append("}");
+    builder.append('}');
     return builder.toString();
   }
 
   /**
    * Returns a base model stub with a context using context type ContextType
    * 'ctx'.
+   *
+   * @return the model stub string
    */
   public String modelWithContext() {
     String modelWithCheck = this.modelWithCheck();
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("for ContextType ctx {");
     return modelWithCheck + builder.toString();
   }
 
   /**
    * Returns a base model stub with a give collection of contexts.
+   *
+   * @param contexts
+   *          the list of context strings
+   * @return the model stub string
    */
   public String modelWithContexts(final List<String> contexts) {
     String modelWithCheck = this.modelWithCheck();
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     for (final String c : contexts) {
-      builder.append(c.toString());
-      builder.append("\n");
+      builder.append(c);
+      builder.append('\n');
       builder.append("    ");
     }
     return modelWithCheck + builder.toString();
@@ -148,9 +191,11 @@ public class CheckModelUtil {
 
   /**
    * Returns a complete Check model with multiple SL_ and ML_COMMENTS.
+   *
+   * @return the model stub string
    */
   public String modelWithComments() {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(512);
     builder.append("package com.test // SL1\n");
     builder.append("/* ML1 */\n");
     builder.append("catalog c /* ML2 */ for grammar g {\n");
@@ -167,7 +212,8 @@ public class CheckModelUtil {
     builder.append("      }\n");
     builder.append("    }\n");
     builder.append("  } // SL7\n");
-    builder.append("}");
+    builder.append('}');
     return builder.toString();
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

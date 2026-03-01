@@ -14,15 +14,15 @@ import org.eclipse.xtext.xbase.compiler.GeneratorConfig;
 
 public class CheckGeneratorConfig extends GeneratorConfig {
 
-  private final String GENERATE_DOCUMENTATION_PROPERTY = "com.avaloq.tools.ddk.check.GenerateDocumentationForAllChecks";
+  private static final String GENERATE_DOCUMENTATION_PROPERTY = "com.avaloq.tools.ddk.check.GenerateDocumentationForAllChecks";
 
-  private boolean generateLanguageInternalChecks = false;
+  private boolean generateLanguageInternalChecks;
 
   public boolean isGenerateLanguageInternalChecks() {
     return generateLanguageInternalChecks;
   }
 
-  public void setGenerateLanguageInternalChecks(boolean generateLanguageInternalChecks) {
+  public void setGenerateLanguageInternalChecks(final boolean generateLanguageInternalChecks) {
     this.generateLanguageInternalChecks = generateLanguageInternalChecks;
   }
 

@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.check.core.test.util;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -37,7 +36,7 @@ public class CheckTestUtil {
    * Gets the all instances of given type <code>type</code> having given value <code>value</code> on structural feature <code>feature</code>.
    */
   public <T extends EObject> Iterable<T> getAllInstancesOf(final EObject context, final Class<T> type, final EStructuralFeature feature, final Object value) {
-    final ArrayList<T> result = Lists.newArrayList();
+    final List<T> result = Lists.newArrayList();
     for (final T candidate : EcoreUtil2.getAllContentsOfType(context, type)) {
       Object valueOfFeature = candidate.eGet(feature);
       if (valueOfFeature != null && valueOfFeature.equals(value)) {

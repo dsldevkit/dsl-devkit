@@ -29,7 +29,7 @@ import org.eclipse.xtext.xtext.generator.model.TypeReference;
 public class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
   @Inject
-  private XtextGeneratorNaming _xtextGeneratorNaming;
+  private XtextGeneratorNaming xtextGeneratorNaming;
 
   private boolean hasExports = true;
 
@@ -38,9 +38,9 @@ public class ExportFragment2 extends AbstractXtextGeneratorFragment {
    */
   private static final Logger LOGGER = LogManager.getLogger(ExportFragment2.class);
 
-  private final String DDK_XTEXT_RUNTIME_BUNDLE = "com.avaloq.tools.ddk.xtext";
+  private static final String DDK_XTEXT_RUNTIME_BUNDLE = "com.avaloq.tools.ddk.xtext";
 
-  public void setHasExports(boolean hasExports) {
+  public void setHasExports(final boolean hasExports) {
     this.hasExports = hasExports;
   }
 
@@ -49,9 +49,9 @@ public class ExportFragment2 extends AbstractXtextGeneratorFragment {
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info("executing generate for " + getClass().getName());
     }
-    final String namingPackage = _xtextGeneratorNaming.getRuntimeBasePackage(getGrammar()) + ".naming";
+    final String namingPackage = xtextGeneratorNaming.getRuntimeBasePackage(getGrammar()) + ".naming";
     final String namingPrefix = namingPackage + "." + GrammarUtil.getSimpleName(getGrammar());
-    final String resourcePackage = _xtextGeneratorNaming.getRuntimeBasePackage(getGrammar()) + ".resource";
+    final String resourcePackage = xtextGeneratorNaming.getRuntimeBasePackage(getGrammar()) + ".resource";
     final String resourcePrefix = resourcePackage + "." + GrammarUtil.getSimpleName(getGrammar());
 
     if (hasExports) {
