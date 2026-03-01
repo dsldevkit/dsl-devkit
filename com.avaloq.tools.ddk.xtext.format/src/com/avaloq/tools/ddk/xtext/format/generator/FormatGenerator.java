@@ -43,13 +43,14 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
  *
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FormatGenerator extends JvmModelGenerator {
 
   @Inject
-  private TreeAppendableUtil _treeAppendableUtil;
+  private TreeAppendableUtil treeAppendableUtil;
 
   @Inject
-  private ErrorSafeExtensions _errorSafeExtensions;
+  private ErrorSafeExtensions errorSafeExtensions;
 
   public String getSingleCommentDocumentation(final EObject it, final ITreeAppendable appendable, final GeneratorConfig config) {
     final DocumentationAdapter adapter = IterableExtensions.<DocumentationAdapter>head(Iterables.<DocumentationAdapter>filter(it.eAdapters(), DocumentationAdapter.class));
@@ -70,9 +71,9 @@ public class FormatGenerator extends JvmModelGenerator {
     final ITreeAppendable tracedAppendable = appendable.trace(it);
     generateAnnotations(it.getAnnotations(), tracedAppendable, true, config);
     generateModifier(it, tracedAppendable, config);
-    _errorSafeExtensions.serializeSafely(it.getType(), "Object", tracedAppendable);
+    errorSafeExtensions.serializeSafely(it.getType(), "Object", tracedAppendable);
     tracedAppendable.append(" ");
-    _treeAppendableUtil.traceSignificant(tracedAppendable, it).append(it.getSimpleName());
+    treeAppendableUtil.traceSignificant(tracedAppendable, it).append(it.getSimpleName());
     generateInitialization(it, tracedAppendable, config);
     tracedAppendable.append(";");
     String documentation = getSingleCommentDocumentation(it, appendable, config);
@@ -97,9 +98,9 @@ public class FormatGenerator extends JvmModelGenerator {
   }
 
   public CharSequence generateSrc(final FormatConfiguration model) {
-    final StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder(256);
     builder.append("package ").append(Strings.skipLastToken(getFormatterName(model, ""), ".")).append(";\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("/**\n");
     builder.append(" * The formatting configuration for ").append(Strings.lastToken(model.getTargetGrammar().getName(), ".")).append(".\n");
     builder.append(" */\n");

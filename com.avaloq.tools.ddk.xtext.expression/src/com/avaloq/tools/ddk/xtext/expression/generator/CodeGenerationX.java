@@ -32,9 +32,10 @@ import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral;
 import com.avaloq.tools.ddk.xtext.expression.expression.SyntaxElement;
 import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression;
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class CodeGenerationX {
 
-  private ExpressionExtensionsX expressionExtensionsX = new ExpressionExtensionsX();
+  private final ExpressionExtensionsX expressionExtensionsX = new ExpressionExtensionsX();
 
   //////////////////////////////////////////////////
   // ENTRY POINTS
@@ -219,9 +220,11 @@ public class CodeGenerationX {
     return false;
   }
 
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   public boolean isSimpleFeatureCall(final FeatureCall it, final CompilationContext ctx) {
     return it.eClass().getName().contains("FeatureCall") && it.getName() == null && isFeature(it.getType()) && (it.getTarget() == null || isVariable(it.getTarget(), ctx) || isThisCall(it.getTarget()));
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
   // dispatch isSimpleNavigation
   protected boolean _isSimpleNavigation(final Expression it, final CompilationContext ctx) {
@@ -232,19 +235,19 @@ public class CodeGenerationX {
     return true;
   }
 
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   protected boolean _isSimpleNavigation(final FeatureCall it, final CompilationContext ctx) {
     return it.getName() == null && isFeature(it.getType()) && (it.getTarget() == null || isVariable(it.getTarget(), ctx) || isThisCall(it.getTarget()) || isSimpleNavigation(it.getTarget(), ctx));
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
   public boolean isSimpleNavigation(final Expression it, final CompilationContext ctx) {
     if (it instanceof TypeSelectExpression typeSelectExpression) {
       return _isSimpleNavigation(typeSelectExpression, ctx);
     } else if (it instanceof FeatureCall featureCall) {
       return _isSimpleNavigation(featureCall, ctx);
-    } else if (it != null) {
-      return _isSimpleNavigation(it, ctx);
     } else {
-      return false;
+      return it != null && _isSimpleNavigation(it, ctx);
     }
   }
 
@@ -401,9 +404,11 @@ public class CodeGenerationX {
   }
 
   // dispatch requiresBracketing (1 param: Expression, ctx)
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   protected boolean _requiresBracketing(final Expression it, final CompilationContext ctx) {
     return (expressionExtensionsX.isPrefixExpression(it, ctx) || expressionExtensionsX.isInfixExpression(it, ctx)) && it.eContainer() != null && requiresBracketing(it, it.eContainer(), ctx);
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
   protected boolean _requiresBracketing(final Literal it, final CompilationContext ctx) {
     return false;
@@ -412,10 +417,8 @@ public class CodeGenerationX {
   public boolean requiresBracketing(final Expression it, final CompilationContext ctx) {
     if (it instanceof Literal literal) {
       return _requiresBracketing(literal, ctx);
-    } else if (it != null) {
-      return _requiresBracketing(it, ctx);
     } else {
-      return false;
+      return it != null && _requiresBracketing(it, ctx);
     }
   }
 
@@ -424,15 +427,19 @@ public class CodeGenerationX {
     return false;
   }
 
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   protected boolean _requiresBracketingWithExpression(final Expression it, final Expression parent, final CompilationContext ctx) {
     return expressionExtensionsX.isPrefixExpression(it, ctx) && expressionExtensionsX.isPrefixExpression(parent, ctx)
         || (expressionExtensionsX.isInfixExpression(it, ctx) && (expressionExtensionsX.isPrefixExpression(parent, ctx) || expressionExtensionsX.isInfixExpression(parent, ctx)));
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   protected boolean _requiresBracketing(final OperationCall it, final OperationCall parent, final CompilationContext ctx) {
     return expressionExtensionsX.isPrefixExpression(it, ctx) && expressionExtensionsX.isPrefixExpression(parent, ctx)
         || (expressionExtensionsX.isInfixExpression(it, ctx) && (expressionExtensionsX.isPrefixExpression(parent, ctx) || (expressionExtensionsX.isInfixExpression(parent, ctx) && !it.getName().equals(parent.getName()))));
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
   protected boolean _requiresBracketing(final BooleanOperation it, final BooleanOperation parent, final CompilationContext ctx) {
     return !it.getOperator().equals(parent.getOperator());
@@ -465,10 +472,8 @@ public class CodeGenerationX {
   public boolean isThisCall(final Expression it) {
     if (it instanceof FeatureCall featureCall) {
       return _isThisCall(featureCall);
-    } else if (it != null) {
-      return _isThisCall(it);
     } else {
-      return false;
+      return it != null && _isThisCall(it);
     }
   }
 
@@ -488,10 +493,8 @@ public class CodeGenerationX {
   public boolean isThis(final SyntaxElement it) {
     if (it instanceof Identifier identifier) {
       return _isThis(identifier);
-    } else if (it instanceof Expression expression) {
-      return _isThis(expression);
     } else {
-      return false;
+      return it instanceof Expression expression && _isThis(expression);
     }
   }
 
