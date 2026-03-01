@@ -38,19 +38,21 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
   private FileAccessFactory fileAccessFactory;
 
   @Inject
-  private XtextGeneratorNaming _xtextGeneratorNaming;
+  private XtextGeneratorNaming xtextGeneratorNaming;
 
   @Inject
-  private GrammarAccessExtensions _grammarAccessExtensions;
+  private GrammarAccessExtensions grammarAccessExtensions;
 
   /**
    * Class-wide logger.
    */
   private static final Logger LOGGER = LogManager.getLogger(FormatterFragment2.class);
 
+  // CHECKSTYLE:CONSTANTS-OFF
   protected TypeReference getFormatterStub(final Grammar grammar) {
-    return new TypeReference(_xtextGeneratorNaming.getRuntimeBasePackage(grammar) + ".formatting." + GrammarUtil.getSimpleName(grammar) + "Formatter");
+    return new TypeReference(xtextGeneratorNaming.getRuntimeBasePackage(grammar) + ".formatting." + GrammarUtil.getSimpleName(grammar) + "Formatter");
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
   @Override
   public void generate() {
@@ -67,7 +69,7 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
         .addTypeToType(TypeReference.typeRef(INodeModelStreamer.class), TypeReference.typeRef(DirectNodeModelStreamer.class))
         .contributeTo(getLanguage().getRuntimeGenModule());
     if (getProjectConfig().getRuntime().getManifest() != null) {
-      getProjectConfig().getRuntime().getManifest().getExportedPackages().add(_xtextGeneratorNaming.getRuntimeBasePackage(getGrammar()) + ".formatting");
+      getProjectConfig().getRuntime().getManifest().getExportedPackages().add(xtextGeneratorNaming.getRuntimeBasePackage(getGrammar()) + ".formatting");
     }
     doGenerateStubFile();
   }
@@ -94,11 +96,12 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
     xtendFile.setResourceSet(getLanguage().getResourceSet());
 
     final String stubSimpleName = getFormatterStub(getGrammar()).getSimpleName();
-    final TypeReference grammarAccessRef = _grammarAccessExtensions.getGrammarAccess(getGrammar());
+    final TypeReference grammarAccessRef = grammarAccessExtensions.getGrammarAccess(getGrammar());
 
+    // CHECKSTYLE:CONSTANTS-OFF
     xtendFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter");
         target.newLineIfNotEmpty();
         target.append("import org.eclipse.xtext.formatting.impl.FormattingConfig");
@@ -147,6 +150,7 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
         target.newLineIfNotEmpty();
       }
     });
+    // CHECKSTYLE:CONSTANTS-ON
     return xtendFile;
   }
 
@@ -155,11 +159,12 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
     javaFile.setResourceSet(getLanguage().getResourceSet());
 
     final String stubSimpleName = getFormatterStub(getGrammar()).getSimpleName();
-    final TypeReference grammarAccessRef = _grammarAccessExtensions.getGrammarAccess(getGrammar());
+    final TypeReference grammarAccessRef = grammarAccessExtensions.getGrammarAccess(getGrammar());
 
+    // CHECKSTYLE:CONSTANTS-OFF
     javaFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;");
         target.newLineIfNotEmpty();
         target.append("import org.eclipse.xtext.formatting.impl.FormattingConfig;");
@@ -211,6 +216,7 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
         target.newLineIfNotEmpty();
       }
     });
+    // CHECKSTYLE:CONSTANTS-ON
     return javaFile;
   }
 

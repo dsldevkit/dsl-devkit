@@ -33,7 +33,7 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
   private FileAccessFactory fileAccessFactory;
 
   @Inject
-  private XtextGeneratorNaming _xtextGeneratorNaming;
+  private XtextGeneratorNaming xtextGeneratorNaming;
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(LanguageConstantsFragment2.class);
@@ -67,10 +67,8 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
   /**
    * Returns the preferred file extension. If not manually set, the
-   * first item in {@link fileExtensions} is returned.
+   * first item in {@link #getFileExtensions() fileExtensions} is returned.
    *
-   * @param grammar
-   *          the grammar for which the preferred file extension applies
    * @return the preferred file extension
    */
   public String getPreferredFileExtension() {
@@ -88,7 +86,7 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
     if (LOGGER.isInfoEnabled()) {
       LOGGER.info(NLS.bind("executing generate for {0}", getClass().getName()));
     }
-    if (getLanguage().getFileExtensions().size() == 0) {
+    if (getLanguage().getFileExtensions().isEmpty()) {
       LOGGER.error(NLS.bind("There must be at least one extension for {0}", getGrammar().getName()));
       return;
     }
@@ -102,6 +100,7 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
     }
   }
 
+  // CHECKSTYLE:CONSTANTS-OFF
   public JavaFileAccess doGetConstantsClassFile() {
     final TypeReference typeReference = getTypeReference(getGrammar());
     final JavaFileAccess javaFile = fileAccessFactory.createJavaFile(typeReference);
@@ -115,7 +114,7 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
     javaFile.setContent(new StringConcatenationClient() {
       @Override
-      protected void appendTo(TargetStringConcatenation target) {
+      protected void appendTo(final TargetStringConcatenation target) {
         target.append("/**");
         target.newLineIfNotEmpty();
         target.append(" * Provides language specific constants for " + grammarName + ".");
@@ -173,6 +172,7 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
     return javaFile;
   }
+  // CHECKSTYLE:CONSTANTS-ON
 
   /**
    * Returns the type reference of the Constants class.
@@ -182,7 +182,7 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
    * @return the type reference
    */
   public TypeReference getTypeReference(final Grammar grammar) {
-    return new TypeReference(_xtextGeneratorNaming.getRuntimeBasePackage(grammar) + "." + GrammarUtil.getSimpleName(grammar) + "Constants");
+    return new TypeReference(xtextGeneratorNaming.getRuntimeBasePackage(grammar) + "." + GrammarUtil.getSimpleName(grammar) + "Constants");
   }
 
   @Override

@@ -40,6 +40,8 @@ import org.eclipse.xtext.xtext.generator.parser.antlr.GrammarNaming;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
+// CHECKSTYLE:CONSTANTS-OFF
+
 /**
  * This implementation is strongly based on AntlrContentAssistGrammarGenerator but with a different base class.
  * The following extension is supported:
@@ -77,6 +79,7 @@ import com.google.inject.Inject;
  *       be used in the alternative
  *     - Error messages will be adjusted correspondingly
  */
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractAnnotationAwareAntlrGrammarGenerator {
 
   @Inject
@@ -94,543 +97,461 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
 
   @Override
   protected String compileParserImports(final Grammar it, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _isCombinedGrammar = this.isCombinedGrammar();
-      boolean _not = (!_isCombinedGrammar);
-      if (_not) {
-        _builder.append("import java.util.Map;");
-        _builder.newLine();
-        _builder.append("import java.util.HashMap;");
-        _builder.newLine();
-      }
+    final StringConcatenation builder = new StringConcatenation();
+    if (!this.isCombinedGrammar()) {
+      builder.append("import java.util.Map;");
+      builder.newLine();
+      builder.append("import java.util.HashMap;");
+      builder.newLine();
     }
-    _builder.newLine();
-    _builder.append("import java.io.InputStream;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.xtext.*;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.xtext.parser.*;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.xtext.parser.impl.*;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.emf.ecore.util.EcoreUtil;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.emf.ecore.EObject;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream;");
-    _builder.newLine();
-    _builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;");
-    _builder.newLine();
-    _builder.append("import ");
-    String _name = this.getGrammarNaming().getInternalParserSuperClass(it).getName();
-    _builder.append(_name);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;");
-    _builder.newLine();
-    _builder.append("import ");
-    String _name_1 = this._grammarAccessExtensions.getGrammarAccess(it).getName();
-    _builder.append(_name_1);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    String _compileParserImports = super.compileParserImports(it, options);
-    _builder.append(_compileParserImports);
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    return _builder.toString();
+    builder.newLine();
+    builder.append("import java.io.InputStream;");
+    builder.newLine();
+    builder.append("import org.eclipse.xtext.*;");
+    builder.newLine();
+    builder.append("import org.eclipse.xtext.parser.*;");
+    builder.newLine();
+    builder.append("import org.eclipse.xtext.parser.impl.*;");
+    builder.newLine();
+    builder.append("import org.eclipse.emf.ecore.util.EcoreUtil;");
+    builder.newLine();
+    builder.append("import org.eclipse.emf.ecore.EObject;");
+    builder.newLine();
+    builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream;");
+    builder.newLine();
+    builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;");
+    builder.newLine();
+    builder.append("import ");
+    builder.append(this.getGrammarNaming().getInternalParserSuperClass(it).getName());
+    builder.append(';');
+    builder.newLineIfNotEmpty();
+    builder.append("import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;");
+    builder.newLine();
+    builder.append("import ");
+    builder.append(this._grammarAccessExtensions.getGrammarAccess(it).getName());
+    builder.append(';');
+    builder.newLineIfNotEmpty();
+    builder.append(super.compileParserImports(it, options));
+    builder.newLineIfNotEmpty();
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected String compileParserMembers(final Grammar it, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("@");
-    {
-      boolean _isCombinedGrammar = this.isCombinedGrammar();
-      if (_isCombinedGrammar) {
-        _builder.append("parser::");
-      }
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append('@');
+    if (this.isCombinedGrammar()) {
+      builder.append("parser::");
     }
-    _builder.append("members {");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    CharSequence _compileParserMemberDeclarations = this.compileParserMemberDeclarations(it, "protected");
-    _builder.append(_compileParserMemberDeclarations, "  ");
-    _builder.newLineIfNotEmpty();
-    {
-      boolean _isCombinedGrammar_1 = this.isCombinedGrammar();
-      boolean _not = (!_isCombinedGrammar_1);
-      if (_not) {
-        _builder.append("  ");
-        _builder.append("private final Map<String, String> tokenNameToValue = new HashMap<String, String>();");
-        _builder.newLine();
-        _builder.newLine();
-        _builder.append("  ");
-        _builder.append("{");
-        _builder.newLine();
-        {
-          List<String> _sortBy = IterableExtensions.sortBy(IterableExtensions.sort(GrammarUtil.getAllKeywords(it)), (String it_1) -> Integer.valueOf(it_1.length()));
-          for (final String kw : _sortBy) {
-            _builder.append("  ");
-            _builder.append("  ");
-            _builder.append("tokenNameToValue.put(\"");
-            String _ruleName = this.keywordHelper.getRuleName(kw);
-            _builder.append(_ruleName, "    ");
-            _builder.append("\", \"\'");
-            String _replace = AntlrGrammarGenUtil.toStringInAntlrAction(kw).replace("$", "\\u0024");
-            _builder.append(_replace, "    ");
-            _builder.append("\'\");");
-            _builder.newLineIfNotEmpty();
-          }
-        }
-        _builder.append("  ");
-        _builder.append("}");
-        _builder.newLine();
+    builder.append("members {");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(this.compileParserMemberDeclarations(it, "protected"), "  ");
+    builder.newLineIfNotEmpty();
+    if (!this.isCombinedGrammar()) {
+      builder.append("  ");
+      builder.append("private final Map<String, String> tokenNameToValue = new HashMap<String, String>();");
+      builder.newLine();
+      builder.newLine();
+      builder.append("  ");
+      builder.append('{');
+      builder.newLine();
+      for (final String kw : IterableExtensions.sortBy(IterableExtensions.sort(GrammarUtil.getAllKeywords(it)), (String it1) -> Integer.valueOf(it1.length()))) {
+        builder.append("  ");
+        builder.append("  ");
+        builder.append("tokenNameToValue.put(\"");
+        builder.append(this.keywordHelper.getRuleName(kw), "    ");
+        builder.append("\", \"\'");
+        builder.append(AntlrGrammarGenUtil.toStringInAntlrAction(kw).replace("$", "\\u0024"), "    ");
+        builder.append("\'\");");
+        builder.newLineIfNotEmpty();
       }
+      builder.append("  ");
+      builder.append('}');
+      builder.newLine();
     }
-    _builder.newLine();
-    _builder.append("  ");
-    CharSequence _compileParserSetTokenStreamMethod = this.compileParserSetTokenStreamMethod();
-    _builder.append(_compileParserSetTokenStreamMethod, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("public void setPredicates(");
-    String _semanticPredicatesSimpleName = this.predicatesNaming.getSemanticPredicatesSimpleName(it);
-    _builder.append(_semanticPredicatesSimpleName, "  ");
-    _builder.append(" predicates) {");
-    _builder.newLineIfNotEmpty();
-    _builder.append("    ");
-    _builder.append("this.predicates = predicates;");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("public void setGrammarAccess(");
-    String _simpleName = this._grammarAccessExtensions.getGrammarAccess(it).getSimpleName();
-    _builder.append(_simpleName, "  ");
-    _builder.append(" grammarAccess) {");
-    _builder.newLineIfNotEmpty();
-    _builder.append("    ");
-    _builder.append("this.grammarAccess = grammarAccess;");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("public void setParserContext(ParserContext parserContext) {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("this.parserContext = parserContext;");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("@Override");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("protected Grammar getGrammar() {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("return grammarAccess.getGrammar();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("@Override");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("protected String getValueForTokenName(String tokenName) {");
-    _builder.newLine();
-    {
-      boolean _isCombinedGrammar_2 = this.isCombinedGrammar();
-      if (_isCombinedGrammar_2) {
-        _builder.append("    ");
-        _builder.append("return tokenName;");
-        _builder.newLine();
-      } else {
-        _builder.append("    ");
-        _builder.append("String result = tokenNameToValue.get(tokenName);");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("if (result == null)");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("  ");
-        _builder.append("result = tokenName;");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("return result;");
-        _builder.newLine();
-      }
+    builder.newLine();
+    builder.append("  ");
+    builder.append(this.compileParserSetTokenStreamMethod(), "  ");
+    builder.newLineIfNotEmpty();
+    builder.newLine();
+    builder.append("  ");
+    builder.append("public void setPredicates(");
+    builder.append(this.predicatesNaming.getSemanticPredicatesSimpleName(it), "  ");
+    builder.append(" predicates) {");
+    builder.newLineIfNotEmpty();
+    builder.append("    ");
+    builder.append("this.predicates = predicates;");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    builder.append("  ");
+    builder.append("public void setGrammarAccess(");
+    builder.append(this._grammarAccessExtensions.getGrammarAccess(it).getSimpleName(), "  ");
+    builder.append(" grammarAccess) {");
+    builder.newLineIfNotEmpty();
+    builder.append("    ");
+    builder.append("this.grammarAccess = grammarAccess;");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    builder.append("public void setParserContext(ParserContext parserContext) {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("this.parserContext = parserContext;");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    builder.append("  ");
+    builder.append("@Override");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("protected Grammar getGrammar() {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("return grammarAccess.getGrammar();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    builder.append("  ");
+    builder.append("@Override");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("protected String getValueForTokenName(String tokenName) {");
+    builder.newLine();
+    if (this.isCombinedGrammar()) {
+      builder.append("    ");
+      builder.append("return tokenName;");
+      builder.newLine();
+    } else {
+      builder.append("    ");
+      builder.append("String result = tokenNameToValue.get(tokenName);");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("if (result == null)");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("  ");
+      builder.append("result = tokenName;");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("return result;");
+      builder.newLine();
     }
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    return _builder.toString();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected CharSequence compileRules(final Grammar g, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      List<ParserRule> _allParserRules = GrammarUtil.allParserRules(g);
-      List<EnumRule> _allEnumRules = GrammarUtil.allEnumRules(g);
-      Iterable<AbstractRule> _plus = Iterables.concat(_allParserRules, _allEnumRules);
-      Iterable<EObject> _plus_1 = Iterables.concat(_plus, GrammarUtil.getAllAlternatives(g));
-      Iterable<EObject> _plus_2 = Iterables.concat(_plus_1, GrammarUtil.getAllGroups(g));
-      Iterable<EObject> _plus_3 = Iterables.concat(_plus_2, GrammarUtil.getAllUnorderedGroups(g));
-      Iterable<EObject> _filter = IterableExtensions.filter(Iterables.concat(_plus_3, GrammarUtil.getAllAssignments(g)),
-          (EObject it) -> Boolean.valueOf(this._grammarAccessExtensions.isCalled(GrammarUtil.containingRule(it), g)));
-      for (final EObject rule : _filter) {
-        _builder.newLine();
-        CharSequence _compileRule = this.compileRule(rule, g, options);
-        _builder.append(_compileRule);
-        _builder.newLineIfNotEmpty();
-      }
+    final StringConcatenation builder = new StringConcatenation();
+    final Iterable<EObject> allRulesAndElements = IterableExtensions.filter(
+        Iterables.concat(
+            Iterables.concat(
+                Iterables.concat(
+                    Iterables.concat(
+                        Iterables.<AbstractRule>concat(GrammarUtil.allParserRules(g), GrammarUtil.allEnumRules(g)),
+                        GrammarUtil.getAllAlternatives(g)),
+                    GrammarUtil.getAllGroups(g)),
+                GrammarUtil.getAllUnorderedGroups(g)),
+            GrammarUtil.getAllAssignments(g)),
+        (EObject it) -> Boolean.valueOf(this._grammarAccessExtensions.isCalled(GrammarUtil.containingRule(it), g)));
+    for (final EObject rule : allRulesAndElements) {
+      builder.newLine();
+      builder.append(this.compileRule(rule, g, options));
+      builder.newLineIfNotEmpty();
     }
-    {
-      boolean _isCombinedGrammar = this.isCombinedGrammar();
-      if (_isCombinedGrammar) {
-        CharSequence _compileTerminalRules = this.compileTerminalRules(g, options);
-        _builder.append(_compileTerminalRules);
-        _builder.newLineIfNotEmpty();
-      }
+    if (this.isCombinedGrammar()) {
+      builder.append(this.compileTerminalRules(g, options));
+      builder.newLineIfNotEmpty();
     }
-    return _builder;
+    return builder;
   }
 
   @Override
   protected CharSequence _compileRule(final ParserRule it, final Grammar grammar, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _isValidEntryRule = AntlrGrammarGenUtil.isValidEntryRule(it);
-      if (_isValidEntryRule) {
-        _builder.append("// Entry rule ");
-        String _entryRuleName = this._grammarAccessExtensions.entryRuleName(it);
-        _builder.append(_entryRuleName);
-        _builder.newLineIfNotEmpty();
-        String _entryRuleName_1 = this._grammarAccessExtensions.entryRuleName(it);
-        _builder.append(_entryRuleName_1);
-        _builder.newLineIfNotEmpty();
-        {
-          boolean _isDefinesHiddenTokens = it.isDefinesHiddenTokens();
-          if (_isDefinesHiddenTokens) {
-            _builder.append("@init {");
-            _builder.newLine();
-            _builder.append("  ");
-            CharSequence _compileInitHiddenTokens = this.compileInitHiddenTokens(it, options);
-            _builder.append(_compileInitHiddenTokens, "  ");
-            _builder.newLineIfNotEmpty();
-            _builder.append("}");
-            _builder.newLine();
-          }
-        }
-        _builder.append(":");
-        _builder.newLine();
-        _builder.append("{ before(grammarAccess.");
-        String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it));
-        _builder.append(_grammarElementAccess);
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("   ");
-        String _ruleName = this._grammarAccessExtensions.ruleName(it);
-        _builder.append(_ruleName, "   ");
-        _builder.newLineIfNotEmpty();
-        _builder.append("{ after(grammarAccess.");
-        String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it));
-        _builder.append(_grammarElementAccess_1);
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("   ");
-        _builder.append("EOF");
-        _builder.newLine();
-        _builder.append(";");
-        _builder.newLine();
-        {
-          boolean _isDefinesHiddenTokens_1 = it.isDefinesHiddenTokens();
-          if (_isDefinesHiddenTokens_1) {
-            _builder.append("finally {");
-            _builder.newLine();
-            _builder.append("  ");
-            CharSequence _compileRestoreHiddenTokens = this.compileRestoreHiddenTokens(it, options);
-            _builder.append(_compileRestoreHiddenTokens, "  ");
-            _builder.newLineIfNotEmpty();
-            _builder.append("}");
-            _builder.newLine();
-          }
-        }
+    final StringConcatenation builder = new StringConcatenation();
+    if (AntlrGrammarGenUtil.isValidEntryRule(it)) {
+      builder.append("// Entry rule ");
+      builder.append(this._grammarAccessExtensions.entryRuleName(it));
+      builder.newLineIfNotEmpty();
+      builder.append(this._grammarAccessExtensions.entryRuleName(it));
+      builder.newLineIfNotEmpty();
+      if (it.isDefinesHiddenTokens()) {
+        builder.append("@init {");
+        builder.newLine();
+        builder.append("  ");
+        builder.append(this.compileInitHiddenTokens(it, options), "  ");
+        builder.newLineIfNotEmpty();
+        builder.append('}');
+        builder.newLine();
+      }
+      builder.append(':');
+      builder.newLine();
+      builder.append("{ before(grammarAccess.");
+      builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it)));
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("   ");
+      builder.append(this._grammarAccessExtensions.ruleName(it), "   ");
+      builder.newLineIfNotEmpty();
+      builder.append("{ after(grammarAccess.");
+      builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it)));
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("   ");
+      builder.append("EOF");
+      builder.newLine();
+      builder.append(';');
+      builder.newLine();
+      if (it.isDefinesHiddenTokens()) {
+        builder.append("finally {");
+        builder.newLine();
+        builder.append("  ");
+        builder.append(this.compileRestoreHiddenTokens(it, options), "  ");
+        builder.newLineIfNotEmpty();
+        builder.append('}');
+        builder.newLine();
       }
     }
-    _builder.newLine();
-    _builder.append("// Rule ");
-    String _name = AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it).getName();
-    _builder.append(_name);
-    _builder.newLineIfNotEmpty();
-    String _ruleName_1 = this._grammarAccessExtensions.ruleName(it);
-    _builder.append(_ruleName_1);
-    _builder.newLineIfNotEmpty();
-    {
-      boolean _hasNoBacktrackAnnotation = this.annotations.hasNoBacktrackAnnotation(it);
-      if (_hasNoBacktrackAnnotation) {
-        _builder.append("  ");
-        _builder.append("// Enclosing rule was annotated with @NoBacktrack");
-        _builder.newLine();
-        _builder.append("  ");
-        _builder.append("options { backtrack=false; }");
-        _builder.newLine();
-      }
+    builder.newLine();
+    builder.append("// Rule ");
+    builder.append(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it).getName());
+    builder.newLineIfNotEmpty();
+    builder.append(this._grammarAccessExtensions.ruleName(it));
+    builder.newLineIfNotEmpty();
+    if (this.annotations.hasNoBacktrackAnnotation(it)) {
+      builder.append("  ");
+      builder.append("// Enclosing rule was annotated with @NoBacktrack");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("options { backtrack=false; }");
+      builder.newLine();
     }
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    CharSequence _compileInitHiddenTokens_1 = this.compileInitHiddenTokens(it, options);
-    _builder.append(_compileInitHiddenTokens_1, "    ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    {
-      boolean _hasValidatingPredicate = this.annotations.hasValidatingPredicate(it);
-      if (_hasValidatingPredicate) {
-        String _generateValidatingPredicate = this.annotations.generateValidatingPredicate(it);
-        _builder.append(_generateValidatingPredicate, "  ");
-      }
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append(this.compileInitHiddenTokens(it, options), "    ");
+    builder.newLineIfNotEmpty();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append("  ");
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    if (this.annotations.hasValidatingPredicate(it)) {
+      builder.append(this.annotations.generateValidatingPredicate(it), "  ");
     }
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    String _ebnf = this.ebnf(it.getAlternatives(), options, false);
-    _builder.append(_ebnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("  ");
-    CharSequence _compileRestoreHiddenTokens_1 = this.compileRestoreHiddenTokens(it, options);
-    _builder.append(_compileRestoreHiddenTokens_1, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("}");
-    _builder.newLine();
-    return _builder;
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(this.ebnf(it.getAlternatives(), options, false), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append("  ");
+    builder.append(this.compileRestoreHiddenTokens(it, options), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append('}');
+    builder.newLine();
+    return builder;
   }
 
   @Override
   protected CharSequence _compileRule(final EnumRule it, final Grammar grammar, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("// Rule ");
-    String _name = AntlrGrammarGenUtil.<EnumRule>getOriginalElement(it).getName();
-    _builder.append(_name);
-    _builder.newLineIfNotEmpty();
-    String _ruleName = this._grammarAccessExtensions.ruleName(it);
-    _builder.append(_ruleName);
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    String _ebnf = this.ebnf(it.getAlternatives(), options, false);
-    _builder.append(_ebnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    return _builder;
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("// Rule ");
+    builder.append(AntlrGrammarGenUtil.<EnumRule>getOriginalElement(it).getName());
+    builder.newLineIfNotEmpty();
+    builder.append(this._grammarAccessExtensions.ruleName(it));
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    builder.append(this.ebnf(it.getAlternatives(), options, false), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    return builder;
   }
 
   protected CharSequence _compileRule(final Alternatives it, final Grammar grammar, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    {
-      EList<AbstractElement> _elements = it.getElements();
-      boolean _hasElements = false;
-      for (final AbstractElement element : _elements) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate("\n|", "  ");
-        }
-        String _ebnf = this.ebnf(element, options, false);
-        _builder.append(_ebnf, "  ");
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it)));
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    boolean hasElements = false;
+    for (final AbstractElement element : it.getElements()) {
+      if (!hasElements) {
+        hasElements = true;
+      } else {
+        builder.appendImmediate("\n|", "  ");
       }
+      builder.append(this.ebnf(element, options, false), "  ");
     }
-    _builder.newLineIfNotEmpty();
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    return _builder;
+    builder.newLineIfNotEmpty();
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    return builder;
   }
 
   protected CharSequence _compileRule(final Assignment it, final Grammar grammar, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    String _assignmentEbnf = this.assignmentEbnf(it.getTerminal(), it, options, false);
-    _builder.append(_assignmentEbnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    return _builder;
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment>getOriginalElement(it)));
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    builder.append(this.assignmentEbnf(it.getTerminal(), it, options, false), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    return builder;
   }
 
   protected CharSequence _compileRule(final UnorderedGroup it, final Grammar grammar, final AntlrOptions options) {
-    final boolean hasMandatoryContent = IterableExtensions.exists(it.getElements(), (AbstractElement it_1) -> !GrammarUtil.isOptionalCardinality(it_1));
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("getUnorderedGroupHelper().enter(grammarAccess.");
-    String _gaRuleElementAccessor = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaRuleElementAccessor, "    ");
-    _builder.append(");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    String _contentAssistRuleName_1 = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName_1, "  ");
-    _builder.append("__");
-    String _gaElementIdentifier_1 = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier_1, "  ");
-    _builder.append("__0");
-    _builder.newLineIfNotEmpty();
-    {
-      if (hasMandatoryContent) {
-        _builder.append("  ");
-        _builder.append("{getUnorderedGroupHelper().canLeave(grammarAccess.");
-        String _gaRuleElementAccessor_1 = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-        _builder.append(_gaRuleElementAccessor_1, "  ");
-        _builder.append(")}?");
-        _builder.newLineIfNotEmpty();
-      } else {
-        _builder.append("  ");
-        _builder.append("?");
-        _builder.newLine();
-      }
+    final boolean hasMandatoryContent = IterableExtensions.exists(it.getElements(), (AbstractElement it1) -> !GrammarUtil.isOptionalCardinality(it1));
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)));
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("getUnorderedGroupHelper().enter(grammarAccess.");
+    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "    ");
+    builder.append(");");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "  ");
+    builder.append("__0");
+    builder.newLineIfNotEmpty();
+    if (hasMandatoryContent) {
+      builder.append("  ");
+      builder.append("{getUnorderedGroupHelper().canLeave(grammarAccess.");
+      builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "  ");
+      builder.append(")}?");
+      builder.newLineIfNotEmpty();
+    } else {
+      builder.append("  ");
+      builder.append('?');
+      builder.newLine();
     }
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("getUnorderedGroupHelper().leave(grammarAccess.");
-    String _gaRuleElementAccessor_2 = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaRuleElementAccessor_2, "  ");
-    _builder.append(");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    CharSequence _ruleImpl = this.ruleImpl(it, grammar, options);
-    _builder.append(_ruleImpl);
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    CharSequence _ruleImpl_1 = this.ruleImpl(it, grammar, options, 0);
-    _builder.append(_ruleImpl_1);
-    _builder.newLineIfNotEmpty();
-    return _builder;
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("getUnorderedGroupHelper().leave(grammarAccess.");
+    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "  ");
+    builder.append(");");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    builder.append(this.ruleImpl(it, grammar, options));
+    builder.newLineIfNotEmpty();
+    builder.newLine();
+    builder.append(this.ruleImpl(it, grammar, options, 0));
+    builder.newLineIfNotEmpty();
+    return builder;
   }
 
   protected CharSequence _compileRule(final Group it, final Grammar grammar, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    CharSequence _ruleImpl = this.ruleImpl(it, grammar, options, 0);
-    _builder.append(_ruleImpl);
-    _builder.newLineIfNotEmpty();
-    return _builder;
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(this.ruleImpl(it, grammar, options, 0));
+    builder.newLineIfNotEmpty();
+    return builder;
   }
 
   /**
@@ -656,662 +577,579 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   }
 
   protected CharSequence ruleImpl(final UnorderedGroup it, final Grammar grammar, final AntlrOptions options) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.append("__Impl");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("boolean selected = false;");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("(");
-    _builder.newLine();
-    {
-      Iterable<Pair<Integer, AbstractElement>> _indexed = IterableExtensions.indexed(it.getElements());
-      boolean _hasElements = false;
-      for (final Pair<Integer, AbstractElement> element : _indexed) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate("|", "    ");
-        }
-        _builder.append("    ");
-        _builder.append("(");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("  ");
-        _builder.append("{getUnorderedGroupHelper().canSelect(grammarAccess.");
-        String _gaRuleElementAccessor = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-        _builder.append(_gaRuleElementAccessor, "      ");
-        _builder.append(", ");
-        Integer _key = element.getKey();
-        _builder.append(_key, "      ");
-        _builder.append(")}?=>(");
-        _builder.newLineIfNotEmpty();
-        _builder.append("    ");
-        _builder.append("    ");
-        _builder.append("{");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("      ");
-        _builder.append("getUnorderedGroupHelper().select(grammarAccess.");
-        String _gaRuleElementAccessor_1 = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-        _builder.append(_gaRuleElementAccessor_1, "          ");
-        _builder.append(", ");
-        Integer _key_1 = element.getKey();
-        _builder.append(_key_1, "          ");
-        _builder.append(");");
-        _builder.newLineIfNotEmpty();
-        _builder.append("    ");
-        _builder.append("    ");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("    ");
-        _builder.append("{");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("      ");
-        _builder.append("selected = true;");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("    ");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("    ");
-        _builder.append("(");
-        _builder.newLine();
-        {
-          boolean _isMultipleCardinality = GrammarUtil.isMultipleCardinality(element.getValue());
-          if (_isMultipleCardinality) {
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("(");
-            _builder.newLine();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("  ");
-            _builder.append("{ before(grammarAccess.");
-            String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
-            _builder.append(_grammarElementAccess, "            ");
-            _builder.append("); }");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("  ");
-            _builder.append("(");
-            String _ebnf2 = this.ebnf2(element.getValue(), options, false);
-            _builder.append(_ebnf2, "            ");
-            _builder.append(")");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("  ");
-            _builder.append("{ after(grammarAccess.");
-            String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
-            _builder.append(_grammarElementAccess_1, "            ");
-            _builder.append("); }");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append(")");
-            _builder.newLine();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("(");
-            _builder.newLine();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("  ");
-            _builder.append("{ before(grammarAccess.");
-            String _grammarElementAccess_2 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
-            _builder.append(_grammarElementAccess_2, "            ");
-            _builder.append("); }");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("  ");
-            _builder.append("((");
-            String _ebnf2_1 = this.ebnf2(element.getValue(), options, false);
-            _builder.append(_ebnf2_1, "            ");
-            _builder.append(")=>");
-            String _ebnf2_2 = this.ebnf2(element.getValue(), options, false);
-            _builder.append(_ebnf2_2, "            ");
-            _builder.append(")*");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("  ");
-            _builder.append("{ after(grammarAccess.");
-            String _grammarElementAccess_3 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
-            _builder.append(_grammarElementAccess_3, "            ");
-            _builder.append("); }");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append(")");
-            _builder.newLine();
-          } else {
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("{ before(grammarAccess.");
-            String _grammarElementAccess_4 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
-            _builder.append(_grammarElementAccess_4, "          ");
-            _builder.append("); }");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("(");
-            String _ebnf2_3 = this.ebnf2(element.getValue(), options, false);
-            _builder.append(_ebnf2_3, "          ");
-            _builder.append(")");
-            _builder.newLineIfNotEmpty();
-            _builder.append("    ");
-            _builder.append("      ");
-            _builder.append("{ after(grammarAccess.");
-            String _grammarElementAccess_5 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
-            _builder.append(_grammarElementAccess_5, "          ");
-            _builder.append("); }");
-            _builder.newLineIfNotEmpty();
-          }
-        }
-        _builder.append("    ");
-        _builder.append("    ");
-        _builder.append(")");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("  ");
-        _builder.append(")");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append(")");
-        _builder.newLine();
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)));
+    builder.append("__Impl");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("boolean selected = false;");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("    ");
+    builder.append('(');
+    builder.newLine();
+    boolean hasElements = false;
+    for (final Pair<Integer, AbstractElement> element : IterableExtensions.indexed(it.getElements())) {
+      if (!hasElements) {
+        hasElements = true;
+      } else {
+        builder.appendImmediate("|", "    ");
       }
+      final String originalAccessor = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
+      final String originalElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
+      builder.append("    ");
+      builder.append('(');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("  ");
+      builder.append("{getUnorderedGroupHelper().canSelect(grammarAccess.");
+      builder.append(originalAccessor, "      ");
+      builder.append(", ");
+      builder.append(element.getKey(), "      ");
+      builder.append(")}?=>(");
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      builder.append("    ");
+      builder.append('{');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("      ");
+      builder.append("getUnorderedGroupHelper().select(grammarAccess.");
+      builder.append(originalAccessor, "          ");
+      builder.append(", ");
+      builder.append(element.getKey(), "          ");
+      builder.append(");");
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      builder.append("    ");
+      builder.append('}');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("    ");
+      builder.append('{');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("      ");
+      builder.append("selected = true;");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("    ");
+      builder.append('}');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("    ");
+      builder.append('(');
+      builder.newLine();
+      if (GrammarUtil.isMultipleCardinality(element.getValue())) {
+        builder.append("    ");
+        builder.append("      ");
+        builder.append('(');
+        builder.newLine();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("  ");
+        builder.append("{ before(grammarAccess.");
+        builder.append(originalElementAccess, "            ");
+        builder.append("); }");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("  ");
+        builder.append('(');
+        builder.append(this.ebnf2(element.getValue(), options, false), "            ");
+        builder.append(')');
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("  ");
+        builder.append("{ after(grammarAccess.");
+        builder.append(originalElementAccess, "            ");
+        builder.append("); }");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append(')');
+        builder.newLine();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append('(');
+        builder.newLine();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("  ");
+        builder.append("{ before(grammarAccess.");
+        builder.append(originalElementAccess, "            ");
+        builder.append("); }");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("  ");
+        builder.append("((");
+        builder.append(this.ebnf2(element.getValue(), options, false), "            ");
+        builder.append(")=>");
+        builder.append(this.ebnf2(element.getValue(), options, false), "            ");
+        builder.append(")*");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("  ");
+        builder.append("{ after(grammarAccess.");
+        builder.append(originalElementAccess, "            ");
+        builder.append("); }");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append(')');
+        builder.newLine();
+      } else {
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("{ before(grammarAccess.");
+        builder.append(originalElementAccess, "          ");
+        builder.append("); }");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append('(');
+        builder.append(this.ebnf2(element.getValue(), options, false), "          ");
+        builder.append(')');
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+        builder.append("      ");
+        builder.append("{ after(grammarAccess.");
+        builder.append(originalElementAccess, "          ");
+        builder.append("); }");
+        builder.newLineIfNotEmpty();
+      }
+      builder.append("    ");
+      builder.append("    ");
+      builder.append(')');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("  ");
+      builder.append(')');
+      builder.newLine();
+      builder.append("    ");
+      builder.append(')');
+      builder.newLine();
     }
-    _builder.append("    ");
-    _builder.append(")");
-    _builder.newLine();
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("if (selected)");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("getUnorderedGroupHelper().returnFromSelection(grammarAccess.");
-    String _gaRuleElementAccessor_2 = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaRuleElementAccessor_2, "    ");
-    _builder.append(");");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    return _builder;
+    builder.append("    ");
+    builder.append(')');
+    builder.newLine();
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("if (selected)");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("getUnorderedGroupHelper().returnFromSelection(grammarAccess.");
+    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "    ");
+    builder.append(");");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    return builder;
   }
 
   protected CharSequence ruleImpl(final UnorderedGroup it, final Grammar grammar, final AntlrOptions options, final int index) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.append("__");
-    _builder.append(index);
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    String _contentAssistRuleName_1 = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName_1, "  ");
-    _builder.append("__");
-    String _gaElementIdentifier_1 = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier_1, "  ");
-    _builder.append("__Impl");
-    _builder.newLineIfNotEmpty();
-    {
-      int _size = it.getElements().size();
-      if (_size > (index + 1)) {
-        _builder.append("  ");
-        String _contentAssistRuleName_2 = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-        _builder.append(_contentAssistRuleName_2, "  ");
-        _builder.append("__");
-        String _gaElementIdentifier_2 = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-        _builder.append(_gaElementIdentifier_2, "  ");
-        _builder.append("__");
-        _builder.append((index + 1), "  ");
-        _builder.append("?");
-        _builder.newLineIfNotEmpty();
-      }
+    final StringConcatenation builder = new StringConcatenation();
+    final String ruleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
+    final String elementId = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
+    builder.append(ruleName);
+    builder.append("__");
+    builder.append(elementId);
+    builder.append("__");
+    builder.append(index);
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    builder.append(ruleName, "  ");
+    builder.append("__");
+    builder.append(elementId, "  ");
+    builder.append("__Impl");
+    builder.newLineIfNotEmpty();
+    if (it.getElements().size() > (index + 1)) {
+      builder.append("  ");
+      builder.append(ruleName, "  ");
+      builder.append("__");
+      builder.append(elementId, "  ");
+      builder.append("__");
+      builder.append((index + 1), "  ");
+      builder.append('?');
+      builder.newLineIfNotEmpty();
     }
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    {
-      int _size_1 = it.getElements().size();
-      if (_size_1 > (index + 1)) {
-        CharSequence _ruleImpl = this.ruleImpl(it, grammar, options, (index + 1));
-        _builder.append(_ruleImpl);
-        _builder.newLineIfNotEmpty();
-      }
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    if (it.getElements().size() > (index + 1)) {
+      builder.append(this.ruleImpl(it, grammar, options, (index + 1)));
+      builder.newLineIfNotEmpty();
     }
-    return _builder;
+    return builder;
   }
 
   protected CharSequence ruleImpl(final Group it, final Grammar grammar, final AntlrOptions options, final int index) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.append("__");
-    _builder.append(index);
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    _builder.append("  ");
-    String _contentAssistRuleName_1 = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName_1, "  ");
-    _builder.append("__");
-    String _gaElementIdentifier_1 = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier_1, "  ");
-    _builder.append("__");
-    _builder.append(index, "  ");
-    _builder.append("__Impl");
-    _builder.newLineIfNotEmpty();
-    {
-      int _size = it.getElements().size();
-      if (_size > (index + 1)) {
-        _builder.append("  ");
-        String _contentAssistRuleName_2 = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-        _builder.append(_contentAssistRuleName_2, "  ");
-        _builder.append("__");
-        String _gaElementIdentifier_2 = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
-        _builder.append(_gaElementIdentifier_2, "  ");
-        _builder.append("__");
-        _builder.append((index + 1), "  ");
-        _builder.newLineIfNotEmpty();
-      }
+    final StringConcatenation builder = new StringConcatenation();
+    final String ruleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
+    final String elementId = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
+    builder.append(ruleName);
+    builder.append("__");
+    builder.append(elementId);
+    builder.append("__");
+    builder.append(index);
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append("  ");
+    builder.append(ruleName, "  ");
+    builder.append("__");
+    builder.append(elementId, "  ");
+    builder.append("__");
+    builder.append(index, "  ");
+    builder.append("__Impl");
+    builder.newLineIfNotEmpty();
+    if (it.getElements().size() > (index + 1)) {
+      builder.append("  ");
+      builder.append(ruleName, "  ");
+      builder.append("__");
+      builder.append(elementId, "  ");
+      builder.append("__");
+      builder.append((index + 1), "  ");
+      builder.newLineIfNotEmpty();
     }
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    String _contentAssistRuleName_3 = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName_3);
-    _builder.append("__");
-    String _gaElementIdentifier_3 = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier_3);
-    _builder.append("__");
-    _builder.append(index);
-    _builder.append("__Impl");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("@init {");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("int stackSize = keepStackSize();");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append(":");
-    _builder.newLine();
-    String _ebnf = this.ebnf(it.getElements().get(index), options, false);
-    _builder.append(_ebnf);
-    _builder.newLineIfNotEmpty();
-    _builder.append(";");
-    _builder.newLine();
-    _builder.append("finally {");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("restoreStackSize(stackSize);");
-    _builder.newLine();
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    {
-      int _size_1 = it.getElements().size();
-      if (_size_1 > (index + 1)) {
-        CharSequence _ruleImpl = this.ruleImpl(it, grammar, options, (index + 1));
-        _builder.append(_ruleImpl);
-        _builder.newLineIfNotEmpty();
-      }
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    builder.append(ruleName);
+    builder.append("__");
+    builder.append(elementId);
+    builder.append("__");
+    builder.append(index);
+    builder.append("__Impl");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("@init {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("int stackSize = keepStackSize();");
+    builder.newLine();
+    builder.append("  ");
+    builder.append('}');
+    builder.newLine();
+    builder.append(':');
+    builder.newLine();
+    builder.append(this.ebnf(it.getElements().get(index), options, false));
+    builder.newLineIfNotEmpty();
+    builder.append(';');
+    builder.newLine();
+    builder.append("finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("restoreStackSize(stackSize);");
+    builder.newLine();
+    builder.append('}');
+    builder.newLine();
+    builder.newLine();
+    if (it.getElements().size() > (index + 1)) {
+      builder.append(this.ruleImpl(it, grammar, options, (index + 1)));
+      builder.newLineIfNotEmpty();
     }
-    return _builder;
+    return builder;
   }
 
   @Override
   protected String ebnf(final AbstractElement it, final AntlrOptions options, final boolean supportsActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      if ((!GrammarUtil.isOptionalCardinality(it)) && GrammarUtil.isMultipleCardinality(it)) {
-        _builder.append("(");
-        _builder.newLine();
-        _builder.append("  ");
-        _builder.append("(");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("{ before(grammarAccess.");
-        String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-        _builder.append(_grammarElementAccess, "    ");
-        CharSequence _paramConfig = this.paramConfig(it);
-        _builder.append(_paramConfig, "    ");
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("    ");
-        _builder.append("(");
-        String _ebnf2 = this.ebnf2(it, options, supportsActions);
-        _builder.append(_ebnf2, "    ");
-        _builder.append(")");
-        _builder.newLineIfNotEmpty();
-        _builder.append("    ");
-        _builder.append("{ after(grammarAccess.");
-        String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-        _builder.append(_grammarElementAccess_1, "    ");
-        CharSequence _paramConfig_1 = this.paramConfig(it);
-        _builder.append(_paramConfig_1, "    ");
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("  ");
-        _builder.append(")");
-        _builder.newLine();
-        _builder.append("  ");
-        _builder.append("(");
-        _builder.newLine();
-        _builder.append("    ");
-        _builder.append("{ before(grammarAccess.");
-        String _grammarElementAccess_2 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-        _builder.append(_grammarElementAccess_2, "    ");
-        CharSequence _paramConfig_2 = this.paramConfig(it);
-        _builder.append(_paramConfig_2, "    ");
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("    ");
-        _builder.append("(");
-        String _ebnf2_1 = this.ebnf2(it, options, supportsActions);
-        _builder.append(_ebnf2_1, "    ");
-        _builder.append(")*");
-        _builder.newLineIfNotEmpty();
-        _builder.append("    ");
-        _builder.append("{ after(grammarAccess.");
-        String _grammarElementAccess_3 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-        _builder.append(_grammarElementAccess_3, "    ");
-        CharSequence _paramConfig_3 = this.paramConfig(it);
-        _builder.append(_paramConfig_3, "    ");
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("  ");
-        _builder.append(")");
-        _builder.newLine();
-        _builder.append(")");
-        _builder.newLine();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
+    final CharSequence paramCfg = this.paramConfig(it);
+    if ((!GrammarUtil.isOptionalCardinality(it)) && GrammarUtil.isMultipleCardinality(it)) {
+      builder.append('(');
+      builder.newLine();
+      builder.append("  ");
+      builder.append('(');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("{ before(grammarAccess.");
+      builder.append(elementAccess, "    ");
+      builder.append(paramCfg, "    ");
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      builder.append('(');
+      builder.append(this.ebnf2(it, options, supportsActions), "    ");
+      builder.append(')');
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      builder.append("{ after(grammarAccess.");
+      builder.append(elementAccess, "    ");
+      builder.append(paramCfg, "    ");
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append(')');
+      builder.newLine();
+      builder.append("  ");
+      builder.append('(');
+      builder.newLine();
+      builder.append("    ");
+      builder.append("{ before(grammarAccess.");
+      builder.append(elementAccess, "    ");
+      builder.append(paramCfg, "    ");
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      builder.append('(');
+      builder.append(this.ebnf2(it, options, supportsActions), "    ");
+      builder.append(")*");
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      builder.append("{ after(grammarAccess.");
+      builder.append(elementAccess, "    ");
+      builder.append(paramCfg, "    ");
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append(')');
+      builder.newLine();
+      builder.append(')');
+      builder.newLine();
+    } else {
+      builder.append('(');
+      builder.newLine();
+      builder.append("  ");
+      builder.append("{ before(grammarAccess.");
+      builder.append(elementAccess, "  ");
+      builder.append(paramCfg, "  ");
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      if (this.mustBeParenthesized(it)) {
+        builder.append('(');
+        builder.append(this.ebnf2(it, options, supportsActions), "  ");
+        builder.append(')');
       } else {
-        _builder.append("(");
-        _builder.newLine();
-        _builder.append("  ");
-        _builder.append("{ before(grammarAccess.");
-        String _grammarElementAccess_4 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-        _builder.append(_grammarElementAccess_4, "  ");
-        CharSequence _paramConfig_4 = this.paramConfig(it);
-        _builder.append(_paramConfig_4, "  ");
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append("  ");
-        {
-          boolean _mustBeParenthesized = this.mustBeParenthesized(it);
-          if (_mustBeParenthesized) {
-            _builder.append("(");
-            String _ebnf2_2 = this.ebnf2(it, options, supportsActions);
-            _builder.append(_ebnf2_2, "  ");
-            _builder.append(")");
-          } else {
-            String _ebnf2_3 = this.ebnf2(it, options, supportsActions);
-            _builder.append(_ebnf2_3, "  ");
-          }
-        }
-        String _cardinality = it.getCardinality();
-        _builder.append(_cardinality, "  ");
-        _builder.newLineIfNotEmpty();
-        _builder.append("  ");
-        _builder.append("{ after(grammarAccess.");
-        String _grammarElementAccess_5 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-        _builder.append(_grammarElementAccess_5, "  ");
-        CharSequence _paramConfig_5 = this.paramConfig(it);
-        _builder.append(_paramConfig_5, "  ");
-        _builder.append("); }");
-        _builder.newLineIfNotEmpty();
-        _builder.append(")");
-        _builder.newLine();
+        builder.append(this.ebnf2(it, options, supportsActions), "  ");
       }
+      builder.append(it.getCardinality(), "  ");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("{ after(grammarAccess.");
+      builder.append(elementAccess, "  ");
+      builder.append(paramCfg, "  ");
+      builder.append("); }");
+      builder.newLineIfNotEmpty();
+      builder.append(')');
+      builder.newLine();
     }
-    return _builder.toString();
+    return builder.toString();
   }
 
   protected CharSequence paramConfig(final AbstractElement it) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      if (((GrammarUtil.containingRule(it).getAlternatives() == it) && ParserRule.class.isInstance(GrammarUtil.containingRule(it)) && (!((ParserRule) AntlrGrammarGenUtil.<AbstractRule>getOriginalElement(GrammarUtil.containingRule(it))).getParameters().isEmpty()))) {
-        _builder.append(", ");
-        AbstractRule _containingRule = GrammarUtil.containingRule(it);
-        int _parameterConfig = AntlrGrammarGenUtil.getParameterConfig((ParserRule) _containingRule);
-        _builder.append(_parameterConfig);
-        _builder.newLineIfNotEmpty();
-      }
+    final StringConcatenation builder = new StringConcatenation();
+    if (((GrammarUtil.containingRule(it).getAlternatives() == it) && ParserRule.class.isInstance(GrammarUtil.containingRule(it)) && (!((ParserRule) AntlrGrammarGenUtil.<AbstractRule>getOriginalElement(GrammarUtil.containingRule(it))).getParameters().isEmpty()))) {
+      builder.append(", ");
+      builder.append(AntlrGrammarGenUtil.getParameterConfig((ParserRule) GrammarUtil.containingRule(it)));
+      builder.newLineIfNotEmpty();
     }
-    return _builder;
+    return builder;
   }
 
   @Override
   protected String _assignmentEbnf(final AbstractElement it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("(");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("{ before(grammarAccess.");
-    String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-    _builder.append(_grammarElementAccess, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    String _ebnf = this.ebnf(it, options, supportsActions);
-    _builder.append(_ebnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("{ after(grammarAccess.");
-    String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
-    _builder.append(_grammarElementAccess_1, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append(")");
-    _builder.newLine();
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
+    builder.append('(');
+    builder.newLine();
+    builder.append("  ");
+    builder.append("{ before(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(this.ebnf(it, options, supportsActions), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("{ after(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append(')');
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected String _assignmentEbnf(final CrossReference it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("(");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("{ before(grammarAccess.");
-    String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<CrossReference>getOriginalElement(it));
-    _builder.append(_grammarElementAccess, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    String _crossrefEbnf = this.crossrefEbnf(it.getTerminal(), it, supportsActions);
-    _builder.append(_crossrefEbnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("{ after(grammarAccess.");
-    String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<CrossReference>getOriginalElement(it));
-    _builder.append(_grammarElementAccess_1, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append(")");
-    _builder.newLine();
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<CrossReference>getOriginalElement(it));
+    builder.append('(');
+    builder.newLine();
+    builder.append("  ");
+    builder.append("{ before(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(this.crossrefEbnf(it.getTerminal(), it, supportsActions), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("{ after(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append(')');
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected String _assignmentEbnf(final Alternatives it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("(");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("{ before(grammarAccess.");
-    String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
-    _builder.append(_grammarElementAccess, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("(");
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName, "  ");
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier, "  ");
-    _builder.append(")");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("{ after(grammarAccess.");
-    String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
-    _builder.append(_grammarElementAccess_1, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append(")");
-    _builder.newLine();
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
+    builder.append('(');
+    builder.newLine();
+    builder.append("  ");
+    builder.append("{ before(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append('(');
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it)), "  ");
+    builder.append(')');
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("{ after(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append(')');
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected String _assignmentEbnf(final RuleCall it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("(");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("{ before(grammarAccess.");
-    String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
-    _builder.append(_grammarElementAccess, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    String _ruleName = this._grammarAccessExtensions.ruleName(it.getRule());
-    _builder.append(_ruleName, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("{ after(grammarAccess.");
-    String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
-    _builder.append(_grammarElementAccess_1, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append(")");
-    _builder.newLine();
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
+    builder.append('(');
+    builder.newLine();
+    builder.append("  ");
+    builder.append("{ before(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(this._grammarAccessExtensions.ruleName(it.getRule()), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("{ after(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append(')');
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected String _crossrefEbnf(final RuleCall it, final CrossReference ref, final boolean supportActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("(");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("{ before(grammarAccess.");
-    String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
-    _builder.append(_grammarElementAccess, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    String _crossrefEbnf = this.crossrefEbnf(it.getRule(), it, ref, supportActions);
-    _builder.append(_crossrefEbnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("{ after(grammarAccess.");
-    String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
-    _builder.append(_grammarElementAccess_1, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append(")");
-    _builder.newLine();
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
+    builder.append('(');
+    builder.newLine();
+    builder.append("  ");
+    builder.append("{ before(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(this.crossrefEbnf(it.getRule(), it, ref, supportActions), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("{ after(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append(')');
+    builder.newLine();
+    return builder.toString();
   }
 
   @Override
   protected String _crossrefEbnf(final Keyword it, final CrossReference ref, final boolean supportActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("(");
-    _builder.newLine();
-    _builder.append("  ");
-    _builder.append("{ before(grammarAccess.");
-    String _grammarElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Keyword>getOriginalElement(it));
-    _builder.append(_grammarElementAccess, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    String _superCrossrefEbnf = super._crossrefEbnf(it, ref, supportActions);
-    _builder.append(_superCrossrefEbnf, "  ");
-    _builder.newLineIfNotEmpty();
-    _builder.append("  ");
-    _builder.append("{ after(grammarAccess.");
-    String _grammarElementAccess_1 = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Keyword>getOriginalElement(it));
-    _builder.append(_grammarElementAccess_1, "  ");
-    _builder.append("); }");
-    _builder.newLineIfNotEmpty();
-    _builder.append(")");
-    _builder.newLine();
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Keyword>getOriginalElement(it));
+    builder.append('(');
+    builder.newLine();
+    builder.append("  ");
+    builder.append("{ before(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append(super._crossrefEbnf(it, ref, supportActions), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("{ after(grammarAccess.");
+    builder.append(elementAccess, "  ");
+    builder.append("); }");
+    builder.newLineIfNotEmpty();
+    builder.append(')');
+    builder.newLine();
+    return builder.toString();
   }
 
   protected String crossrefEbnf(final TerminalRule it, final RuleCall call, final CrossReference ref, final boolean supportActions) {
@@ -1331,47 +1169,39 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
 
   @Override
   protected String _ebnf2(final Alternatives it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it)));
+    return builder.toString();
   }
 
   @Override
   protected String _ebnf2(final Assignment it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment>getOriginalElement(it)));
+    return builder.toString();
   }
 
   @Override
   protected String _ebnf2(final Group it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    _builder.append("__0");
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it)));
+    builder.append("__0");
+    return builder.toString();
   }
 
   @Override
   protected String _ebnf2(final UnorderedGroup it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _contentAssistRuleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    _builder.append(_contentAssistRuleName);
-    _builder.append("__");
-    String _gaElementIdentifier = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-    _builder.append(_gaElementIdentifier);
-    return _builder.toString();
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
+    builder.append("__");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)));
+    return builder.toString();
   }
 
   @Override
@@ -1384,3 +1214,4 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     return false;
   }
 }
+// CHECKSTYLE:CONSTANTS-ON
