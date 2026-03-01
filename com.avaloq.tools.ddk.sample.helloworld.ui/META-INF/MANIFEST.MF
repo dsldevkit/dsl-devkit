@@ -16,12 +16,12 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.compare,
  org.eclipse.xtext.builder,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.xtend.lib;resolution:=optional,
  org.antlr.runtime,
  com.avaloq.tools.ddk.check.runtime.core,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.sample.helloworld.ide,
- com.avaloq.tools.ddk.xtext.ide
+ com.avaloq.tools.ddk.xtext.ide,
+ org.eclipse.xtend.lib
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.ui.quickfix,
