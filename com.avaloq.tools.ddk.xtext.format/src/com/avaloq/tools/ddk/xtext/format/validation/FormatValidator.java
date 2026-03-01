@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
@@ -193,7 +196,7 @@ public class FormatValidator extends AbstractFormatValidator {
     }
     final Iterable<Rule> nonOverrideRules = Iterables.filter(model.getRules(), Predicates.not(IS_OVERRIDE));
     final Iterable<Rule> overriddenRules = collectRules(extendedModel);
-    final HashMap<AbstractRule, GrammarRule> localAbstractRuleMap = Maps.newHashMap();
+    final Map<AbstractRule, GrammarRule> localAbstractRuleMap = Maps.newHashMap();
     for (final GrammarRule rule : Iterables.filter(nonOverrideRules, GrammarRule.class)) {
       localAbstractRuleMap.put(TARGET_RULE.apply(rule), rule);
     }
@@ -225,7 +228,7 @@ public class FormatValidator extends AbstractFormatValidator {
     if (extendedModel != null && !extendedModel.eIsProxy()) {
       overrideableRules = collectRules(extendedModel);
     }
-    final HashMap<AbstractRule, GrammarRule> overrideableAbstractRuleMap = Maps.newHashMap();
+    final Map<AbstractRule, GrammarRule> overrideableAbstractRuleMap = Maps.newHashMap();
     for (final GrammarRule rule : Iterables.filter(overrideableRules, GrammarRule.class)) {
       overrideableAbstractRuleMap.put(TARGET_RULE.apply(rule), rule);
     }
@@ -255,7 +258,7 @@ public class FormatValidator extends AbstractFormatValidator {
       return;
     }
     if (!extendedModel.getTargetGrammar().eIsProxy()) {
-      final ArrayList<Grammar> grammars = Lists.newArrayList(model.getTargetGrammar());
+      final List<Grammar> grammars = Lists.newArrayList(model.getTargetGrammar());
       grammars.addAll(model.getTargetGrammar().getUsedGrammars());
       for (final Grammar grammar : grammars) {
         if (extendedModel.getTargetGrammar().getName().equals(grammar.getName())) {
@@ -280,7 +283,7 @@ public class FormatValidator extends AbstractFormatValidator {
       return;
     }
     final Iterable<GrammarRule> inheritedRules = Iterables.filter(collectRules(extendedModel), GrammarRule.class);
-    final HashSet<String> ruleNames = Sets.newHashSet(Iterables.transform(inheritedRules, new Function<GrammarRule, String>() {
+    final Set<String> ruleNames = Sets.newHashSet(Iterables.transform(inheritedRules, new Function<GrammarRule, String>() {
       @Override
       public String apply(final GrammarRule from) {
         return from.getTargetRule().getName();

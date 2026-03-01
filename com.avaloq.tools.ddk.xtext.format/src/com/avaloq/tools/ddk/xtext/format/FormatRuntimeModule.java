@@ -91,6 +91,7 @@ public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
 
   /** {@inheritDoc} */
   @Override
+  @SuppressWarnings("PMD.AvoidDollarSigns")
   // CHECKSTYLE:OFF
   public Class<? extends IAllContainersState.Provider> bindIAllContainersState$Provider() {
     // CHECKSTYLE:ON
