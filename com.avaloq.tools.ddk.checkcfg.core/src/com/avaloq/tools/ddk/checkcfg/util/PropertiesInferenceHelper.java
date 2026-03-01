@@ -89,7 +89,7 @@ public class PropertiesInferenceHelper {
   }
 
   public JvmTypeReference inferListType(final XListLiteral newValue, final JvmTypeReferenceBuilder referenceBuilder) {
-    if (newValue.getElements().size() < 1) {
+    if (newValue.getElements().isEmpty()) {
       return null;
     }
     final XExpression firstElement = newValue.getElements().get(0);
