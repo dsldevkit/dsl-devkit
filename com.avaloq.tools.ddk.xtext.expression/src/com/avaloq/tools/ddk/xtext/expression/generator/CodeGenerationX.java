@@ -450,7 +450,7 @@ public class CodeGenerationX {
       return _requiresBracketing(operationCall, parentOp, ctx);
     } else if (it instanceof BooleanOperation boolOp && parent instanceof BooleanOperation parentBool) {
       return _requiresBracketing(boolOp, parentBool, ctx);
-    } else if (it instanceof Expression && parent instanceof Expression parentExpr) {
+    } else if (parent instanceof Expression parentExpr) {
       return _requiresBracketingWithExpression(it, parentExpr, ctx);
     } else {
       return _requiresBracketingWithObject(it, parent, ctx);
