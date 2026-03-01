@@ -12,10 +12,10 @@
 | Metric | Value |
 |--------|-------|
 | Total Xtend source files | 94 |
-| Already migrated (Batch 1–8) | 89 |
-| Remaining | 5 |
-| Total remaining lines | ~1,295 |
-| Modules with remaining Xtend | 2 |
+| Already migrated (Batch 1–9) | 94 |
+| Remaining | 0 |
+| Total remaining lines | 0 |
+| Modules with remaining Xtend | 0 |
 
 ---
 
@@ -24,11 +24,11 @@
 | Module | Files | Lines | Status |
 |--------|-------|-------|--------|
 | `check.core` | 8 | ~1,848 | **DONE** (Batch 1) |
-| `check.core.test` | 11 | ~1,760 | 7 done (Batch 2–4), 4 pending |
+| `check.core.test` | 11 | ~1,760 | **DONE** (Batch 2–4, 9) |
 | `check.test.runtime` | 1 | 22 | **DONE** (Batch 2) |
 | `check.test.runtime.tests` | 3 | 202 | **DONE** (Batch 3–4) |
 | `check.ui` | 2 | 113 | **DONE** (Batch 3) |
-| `check.ui.test` | 1 | 200 | Pending |
+| `check.ui.test` | 1 | 200 | **DONE** (Batch 9) |
 | `checkcfg.core` | 4 | 303 | **DONE** (Batch 2–4) |
 | `checkcfg.core.test` | 7 | 460 | **DONE** (Batch 2–4) |
 | `sample.helloworld.ui.test` | 3 | 203 | **DONE** (Batch 3–4) |
@@ -262,16 +262,16 @@ The largest module. Includes ANTLR grammar generators — the hardest files in t
 
 ---
 
-## Batch 9 — Remaining test files (5 files)
+## Batch 9 — Remaining test files (5 files) — DONE
 
 ### `check.core.test` (4 files)
-- [ ] `CheckModelUtil.xtend` — Utility class
-- [ ] `IssueCodeToLabelMapGenerationTest.xtend` (130 lines) — Medium — templates, #[, switch
-- [ ] `CheckValidationTest.xtend` (342 lines) — Hard — extension, typeof, create
-- [ ] `CheckFormattingTest.xtend` (554 lines) — Very Hard — templates, extension, typeof, !==, ?.
+- [x] `CheckModelUtil.xtend` (113 lines) — Medium — templates
+- [x] `IssueCodeToLabelMapGenerationTest.xtend` (130 lines) — Medium — templates, #[, switch
+- [x] `CheckValidationTest.xtend` (342 lines) — Hard — extension, typeof, create
+- [x] `CheckFormattingTest.xtend` (554 lines) — Very Hard — templates, extension, typeof, !==, ?.
 
 ### `check.ui.test` (1 file)
-- [ ] `CheckQuickfixTest.xtend` (200 lines) — Medium — templates, #[, override
+- [x] `CheckQuickfixTest.xtend` (200 lines) — Medium — templates, #[, override
 
 ---
 
