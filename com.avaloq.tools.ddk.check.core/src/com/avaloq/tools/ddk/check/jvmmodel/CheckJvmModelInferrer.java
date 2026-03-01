@@ -375,7 +375,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   private Iterable<JvmMember> createCheck(final Check chk) {
     // If we don't have FormalParameters, there's no need to do all this song and dance with inner classes.
     if (chk.getFormalParameters().isEmpty()) {
-      return ListExtensions.<Context, JvmMember>map(chk.getContexts(), (Context ctx) -> (JvmMember) createCheckMethod(ctx));
+      return ListExtensions.<Context, JvmMember>map(chk.getContexts(), (Context ctx) -> createCheckMethod(ctx));
     } else {
       return createCheckWithParameters(chk);
     }
@@ -734,6 +734,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     return result;
   }
 
+  @Override
   public void infer(final EObject catalog, final IJvmDeclaredTypeAcceptor acceptor, final boolean preIndexingPhase) {
     if (catalog instanceof CheckCatalog checkCatalog) {
       _infer(checkCatalog, acceptor, preIndexingPhase);
