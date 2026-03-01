@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.check.ui.wizard;
 
 import org.eclipse.xtext.generator.IFileSystemAccess;
 
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckNewProject {
 
   public void doGenerate(final CheckProjectInfo info, final IFileSystemAccess fsa) {
@@ -23,20 +24,20 @@ public class CheckNewProject {
   }
 
   public CharSequence fileContent(final CheckProjectInfo info) {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("package ").append(info.getPackageName()).append("\n");
-    builder.append("\n");
+    final StringBuilder builder = new StringBuilder(512);
+    builder.append("package ").append(info.getPackageName()).append('\n');
+    builder.append('\n');
     builder.append(fileImports(info));
-    builder.append("\n");
-    builder.append("\n");
+    builder.append('\n');
+    builder.append('\n');
     builder.append("/**\n");
-    builder.append(" *  Check catalog for ").append(info.getGrammar().getName()).append("\n");
+    builder.append(" *  Check catalog for ").append(info.getGrammar().getName()).append('\n');
     builder.append(" */\n");
-    builder.append("catalog ").append(info.getCatalogName()).append("\n");
+    builder.append("catalog ").append(info.getCatalogName()).append('\n');
     builder.append("for grammar ").append(info.getGrammar().getName()).append(" {\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("  // Add categories and checks\n");
-    builder.append("\n");
+    builder.append('\n');
     builder.append("}\n");
     return builder;
   }
@@ -50,3 +51,4 @@ public class CheckNewProject {
     }
   }
 }
+// CHECKSTYLE:CONSTANTS-ON

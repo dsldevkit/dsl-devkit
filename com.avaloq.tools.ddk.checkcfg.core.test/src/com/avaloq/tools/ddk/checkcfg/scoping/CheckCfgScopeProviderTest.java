@@ -44,25 +44,26 @@ public final class CheckCfgScopeProviderTest extends AbstractScopingTest {
    * </p>
    */
   @BugTest(value = "DSL-1498")
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException") // test method
   public void testCatalogsAreInCorrectPackage() throws Exception {
 
     // ARRANGE
 
-    final List<String> EXP_PACKAGE_NAME_PREFIX = List.of("com", "avaloq", "tools", "ddk");
+    final List<String> expPackageNamePrefix = List.of("com", "avaloq", "tools", "ddk");
 
     // Define test data
-    final int CURSOR_POS = getTag();
-    final StringBuilder sourceBuilder = new StringBuilder();
+    final int cursorPos = getTag();
+    final StringBuilder sourceBuilder = new StringBuilder(512);
     sourceBuilder.append("check configuration testCheckCfg {\n");
-    sourceBuilder.append("  ").append(mark(CURSOR_POS)).append("\n");
+    sourceBuilder.append("  ").append(mark(cursorPos)).append('\n');
     sourceBuilder.append("}\n");
-    final String SOURCE_CONTENT = sourceBuilder.toString();
+    final String sourceContent = sourceBuilder.toString();
 
     // Register a check configuration source, and get a context model
-    registerModel(getTestSourceFileName(), SOURCE_CONTENT);
-    final EObject context = getMarkerTagsInfo().getModel(CURSOR_POS);
+    registerModel(getTestSourceFileName(), sourceContent);
+    final EObject context = getMarkerTagsInfo().getModel(cursorPos);
     if (null == context) {
-      throw new NullPointerException("Got null context model");
+      throw new IllegalStateException("Got null context model");
     }
 
     // ACT
@@ -70,7 +71,7 @@ public final class CheckCfgScopeProviderTest extends AbstractScopingTest {
     // Get catalogs
     final Iterable<IEObjectDescription> elements = scopeProvider.getScope(context, CheckcfgPackage.Literals.CONFIGURED_CATALOG__CATALOG).getAllElements();
     if (!elements.iterator().hasNext()) {
-      throw new Exception("Scope has no elements");
+      throw new IllegalStateException("Scope has no elements");
     }
 
     // ASSERT
@@ -78,8 +79,8 @@ public final class CheckCfgScopeProviderTest extends AbstractScopingTest {
     elements.forEach((IEObjectDescription element) -> {
       // Check catalog has the correct fully-qualified package name
       final List<String> actualName = element.getName().getSegments();
-      final List<String> actualPackageName = actualName.subList(0, EXP_PACKAGE_NAME_PREFIX.size());
-      assertArrayEquals(EXP_PACKAGE_NAME_PREFIX.toArray(), actualPackageName.toArray(), "Catalog must have the correct fully-qualified package name");
+      final List<String> actualPackageName = actualName.subList(0, expPackageNamePrefix.size());
+      assertArrayEquals(expPackageNamePrefix.toArray(), actualPackageName.toArray(), "Catalog must have the correct fully-qualified package name");
     });
   }
 }
