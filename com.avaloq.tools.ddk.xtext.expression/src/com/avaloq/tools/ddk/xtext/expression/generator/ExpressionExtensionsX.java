@@ -19,6 +19,7 @@ import com.avaloq.tools.ddk.xtext.expression.expression.ListLiteral;
 import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall;
 import org.eclipse.emf.ecore.EObject;
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class ExpressionExtensionsX {
 
   protected String _serialize(final EObject it) {
@@ -63,11 +64,13 @@ public class ExpressionExtensionsX {
     return ctx.findType("Real").isAssignableFrom(ctx.analyze(it));
   }
 
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   protected boolean _isArithmeticOperatorCall(final OperationCall it, final CompilationContext ctx) {
     return it.getType() == null && it.getTarget() == null && it.getParams().size() > 1
         && ("+".equals(it.getName()) || "-".equals(it.getName()) || "*".equals(it.getName()) || "/".equals(it.getName()))
         && it.getParams().stream().allMatch(p -> isNumber(p, ctx));
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
   protected boolean _isArithmeticOperatorCall(final Expression it, final CompilationContext ctx) {
     return false;
@@ -85,10 +88,12 @@ public class ExpressionExtensionsX {
     return false;
   }
 
+  // CHECKSTYLE:CHECK-OFF BooleanExpressionComplexity
   protected boolean _isPrefixExpression(final OperationCall it, final CompilationContext ctx) {
     return it.getType() == null && it.getTarget() == null && it.getParams().size() == 1
         && ("-".equals(it.getName()) || "!".equals(it.getName()));
   }
+  // CHECKSTYLE:CHECK-ON BooleanExpressionComplexity
 
   public boolean isPrefixExpression(final Expression it, final CompilationContext ctx) {
     if (it instanceof OperationCall operationCall) {

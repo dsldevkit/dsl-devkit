@@ -14,6 +14,7 @@ import org.eclipse.xtext.util.Strings;
 
 public class Naming {
 
+  // CHECKSTYLE:CONSTANTS-OFF
   public String toFileName(final String qualifiedName) {
     return toJavaPackage(qualifiedName).replace('.', '/') + '/' + toSimpleName(qualifiedName) + ".java";
   }
@@ -25,4 +26,5 @@ public class Naming {
   public String toSimpleName(final String qualifiedName) {
     return Strings.lastToken(qualifiedName, ".");
   }
+  // CHECKSTYLE:CONSTANTS-ON
 }

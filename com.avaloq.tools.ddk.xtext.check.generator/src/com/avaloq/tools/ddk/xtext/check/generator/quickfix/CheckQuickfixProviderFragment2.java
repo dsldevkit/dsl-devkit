@@ -53,6 +53,7 @@ public class CheckQuickfixProviderFragment2 extends AbstractXtextGeneratorFragme
   }
 
   protected void generateQuickfixProvider() {
+    // CHECKSTYLE:CONSTANTS-OFF
     StringConcatenationClient content = new StringConcatenationClient() {
       @Override
       protected void appendTo(final TargetStringConcatenation builder) {
@@ -86,11 +87,13 @@ public class CheckQuickfixProviderFragment2 extends AbstractXtextGeneratorFragme
         builder.newLine();
       }
     };
+    // CHECKSTYLE:CONSTANTS-ON
     fileAccessFactory.createJavaFile(getQuickfixProviderClass(getGrammar()), content).writeTo(getProjectConfig().getEclipsePlugin().getSrc());
   }
 
   protected void addRegistrationToPluginXml() {
     final TypeReference executableExtensionFactory = xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar());
+    // CHECKSTYLE:CONSTANTS-OFF
     StringConcatenation builder = new StringConcatenation();
     builder.append("<!-- quickfix marker resolution generator -->");
     builder.newLine();
@@ -112,6 +115,7 @@ public class CheckQuickfixProviderFragment2 extends AbstractXtextGeneratorFragme
     builder.newLine();
     builder.append("</extension>");
     builder.newLine();
+    // CHECKSTYLE:CONSTANTS-ON
     getProjectConfig().getEclipsePlugin().getPluginXml().getEntries().add(builder.toString());
   }
 }
