@@ -162,7 +162,7 @@ public class CheckGeneratorNaming {
 
   /* Gets the prefix for the context id (used in contexts.xml) */
   public String getContextIdPrefix(final QualifiedName catalog) {
-    return catalog.getLastSegment().toString().toLowerCase() + "_"; // TODO make context id use fully qualified catalog names
+    return catalog.getLastSegment().toLowerCase() + "_"; // TODO make context id use fully qualified catalog names
   }
 
   /* Gets the full context id (used in contexts.xml) */
