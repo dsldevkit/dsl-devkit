@@ -59,14 +59,10 @@ public class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGenerato
     generateBuildSetup();
   }
 
-  private static final int INITIAL_BUFFER_CAPACITY = 128;
-
   public void generateServiceRegistration() {
-    StringBuilder sb = new StringBuilder(INITIAL_BUFFER_CAPACITY);
-    sb.append(getStandaloneBuildSetupServiceClass().getName());
-    sb.append('\n');
+    String content = getStandaloneBuildSetupServiceClass().getName() + '\n';
     fileAccessFactory.createTextFile("META-INF/services/com.avaloq.tools.ddk.xtext.build.IDynamicSetupService",
-      toClient(sb)).writeTo(getProjectConfig().getRuntime().getSrcGen());
+      toClient(content)).writeTo(getProjectConfig().getRuntime().getSrcGen());
   }
 
   // CHECKSTYLE:CONSTANTS-OFF
@@ -195,7 +191,7 @@ public class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGenerato
   }
   // CHECKSTYLE:CONSTANTS-ON
 
-  private static StringConcatenationClient toClient(final StringBuilder sb) {
+  private static StringConcatenationClient toClient(final CharSequence sb) {
     final String content = sb.toString();
     return new StringConcatenationClient() {
       @Override
