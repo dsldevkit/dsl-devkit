@@ -54,7 +54,7 @@ jobs:
         run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Archive Tycho Surefire Plugin
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: tycho-surefire-plugin
           path: ${{ env.GITHUB_WORKSPACE }}/com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
