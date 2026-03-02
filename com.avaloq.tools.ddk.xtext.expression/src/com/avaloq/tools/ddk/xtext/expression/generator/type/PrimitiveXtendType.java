@@ -74,9 +74,9 @@ public class PrimitiveXtendType implements XtendType {
     } else if (javaType == Boolean.class) {
       return Boolean.FALSE;
     } else if (javaType == Integer.class) {
-      return Integer.valueOf(0);
+      return 0;
     } else if (javaType == Double.class) {
-      return Double.valueOf(0.0);
+      return 0.0;
     }
     try {
       return javaType.getDeclaredConstructor().newInstance();
@@ -112,13 +112,7 @@ public class PrimitiveXtendType implements XtendType {
 
   @Override
   public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj instanceof PrimitiveXtendType) {
-      return name.equals(((PrimitiveXtendType) obj).name);
-    }
-    return false;
+    return this == obj || obj instanceof PrimitiveXtendType && name.equals(((PrimitiveXtendType) obj).name);
   }
 
   @Override

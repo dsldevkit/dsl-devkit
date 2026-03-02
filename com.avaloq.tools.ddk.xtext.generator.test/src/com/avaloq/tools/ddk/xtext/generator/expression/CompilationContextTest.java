@@ -24,13 +24,15 @@ import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendType;
 @SuppressWarnings({"nls", "PMD.SignatureDeclareThrowsException"})
 public class CompilationContextTest {
 
+  private static final String TEST_EXTENSION = "test";
+
   @Test
   void isExtension() {
     DefaultXtendExecutionContext executionContext = new DefaultXtendExecutionContext();
-    executionContext.addExtension(new XtendExtension("test"));
+    executionContext.addExtension(new XtendExtension(TEST_EXTENSION));
     final CompilationContext context = new CompilationContext(executionContext, null);
 
-    assertEquals(true, context.isExtension("test"), "test extension not identified");
+    assertEquals(true, context.isExtension(TEST_EXTENSION), "test extension not identified");
   }
 
   @Test
