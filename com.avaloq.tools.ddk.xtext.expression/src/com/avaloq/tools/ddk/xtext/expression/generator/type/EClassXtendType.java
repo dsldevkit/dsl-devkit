@@ -69,10 +69,7 @@ public class EClassXtendType implements XtendType {
 
   @Override
   public boolean isAssignableFrom(final XtendType other) {
-    if (other instanceof EClassXtendType) {
-      return eClass.isSuperTypeOf(((EClassXtendType) other).getEClass());
-    }
-    return false;
+    return other instanceof EClassXtendType && eClass.isSuperTypeOf(((EClassXtendType) other).getEClass());
   }
 
   /**
