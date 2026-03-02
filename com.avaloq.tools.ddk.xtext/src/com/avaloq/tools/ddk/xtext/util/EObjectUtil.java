@@ -242,13 +242,8 @@ public final class EObjectUtil {
     // CHECKSTYLE:CHECK-OFF MagicNumber
     String path = uri.isPlatform() ? '/' + String.join("/", uri.segmentsList().subList(3, uri.segmentCount())) : uri.path(); //$NON-NLS-1$
     // CHECKSTYLE:CHECK-ON MagicNumber
-    StringBuilder result = new StringBuilder(path);
     final ICompositeNode node = NodeModelUtils.getNode(object);
-    if (node != null) {
-      result.append(':').append(node.getStartLine());
-    }
-
-    return result.toString();
+    return node != null ? path + ":" + node.getStartLine() : path; //$NON-NLS-1$
   }
 
 }

@@ -24,22 +24,21 @@ public class CheckNewProject {
   }
 
   public CharSequence fileContent(final CheckProjectInfo info) {
-    final StringBuilder builder = new StringBuilder(512);
-    builder.append("package ").append(info.getPackageName()).append('\n');
-    builder.append('\n');
-    builder.append(fileImports(info));
-    builder.append('\n');
-    builder.append('\n');
-    builder.append("/**\n");
-    builder.append(" *  Check catalog for ").append(info.getGrammar().getName()).append('\n');
-    builder.append(" */\n");
-    builder.append("catalog ").append(info.getCatalogName()).append('\n');
-    builder.append("for grammar ").append(info.getGrammar().getName()).append(" {\n");
-    builder.append('\n');
-    builder.append("  // Add categories and checks\n");
-    builder.append('\n');
-    builder.append("}\n");
-    return builder;
+    return String.format("""
+        package %s
+
+        %s
+
+        /**
+         *  Check catalog for %s
+         */
+        catalog %s
+        for grammar %s {
+
+          // Add categories and checks
+
+        }
+        """, info.getPackageName(), fileImports(info), info.getGrammar().getName(), info.getCatalogName(), info.getGrammar().getName());
   }
 
   public CharSequence fileImports(final CheckProjectInfo info) {
