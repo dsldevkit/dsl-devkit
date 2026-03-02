@@ -77,6 +77,12 @@ public final class ScopingGeneratorUtil {
 
     private static final String VAR_ORIGINAL_RESOURCE = "originalResource"; //$NON-NLS-1$
 
+    /**
+     * Creates a new execution context for the given scope model.
+     *
+     * @param model
+     *          the scope model
+     */
     ScopeExecutionContext(final ScopeModel model) {
       super(getVariables(model));
       registerMetaModels(model);

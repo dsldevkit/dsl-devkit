@@ -20,6 +20,14 @@ public class XtendVariable {
   private final String name;
   private final Object value;
 
+  /**
+   * Creates a new variable with the given name and value.
+   *
+   * @param name
+   *          the variable name
+   * @param value
+   *          the variable value
+   */
   public XtendVariable(final String name, final Object value) {
     this.name = name;
     this.value = value;

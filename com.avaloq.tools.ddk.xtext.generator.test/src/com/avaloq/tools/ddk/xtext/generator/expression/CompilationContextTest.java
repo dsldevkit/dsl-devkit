@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 import com.avaloq.tools.ddk.xtext.expression.generator.type.DefaultXtendExecutionContext;
-import com.avaloq.tools.ddk.xtext.expression.generator.type.PrimitiveXtendType;
 import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendExtension;
 import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendType;
 

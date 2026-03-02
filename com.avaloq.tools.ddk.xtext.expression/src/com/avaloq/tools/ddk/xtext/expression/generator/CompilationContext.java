@@ -65,7 +65,7 @@ public class CompilationContext {
    * @return type of expression
    */
   public XtendType analyze(final String expression) {
-    return ExpressionAnalyzer.analyzeString(expression, context);
+    return ExpressionAnalyzer.analyzeString(expression);
   }
 
   /**

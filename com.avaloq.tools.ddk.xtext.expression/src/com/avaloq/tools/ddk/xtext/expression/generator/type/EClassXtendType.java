@@ -15,9 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EcoreFactory;
 
 
 /**
@@ -28,6 +26,12 @@ public class EClassXtendType implements XtendType {
 
   private final EClass eClass;
 
+  /**
+   * Creates a new type backed by the given EClass.
+   *
+   * @param eClass
+   *          the EClass
+   */
   public EClassXtendType(final EClass eClass) {
     this.eClass = eClass;
   }
@@ -49,7 +53,7 @@ public class EClassXtendType implements XtendType {
   @Override
   public Object newInstance() {
     if (eClass.isAbstract() || eClass.isInterface()) {
-      return EcoreFactory.eINSTANCE.createEObject();
+      return new Object();
     }
     return eClass.getEPackage().getEFactoryInstance().create(eClass);
   }
@@ -77,6 +81,12 @@ public class EClassXtendType implements XtendType {
   private static class EOperationXtendOperation implements XtendOperation {
     private final EOperation operation;
 
+    /**
+     * Creates a new wrapper for the given EOperation.
+     *
+     * @param operation
+     *          the EOperation
+     */
     EOperationXtendOperation(final EOperation operation) {
       this.operation = operation;
     }

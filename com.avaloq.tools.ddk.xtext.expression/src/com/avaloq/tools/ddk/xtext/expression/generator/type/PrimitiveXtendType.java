@@ -40,6 +40,14 @@ public class PrimitiveXtendType implements XtendType {
   private final String name;
   private final Class<?> javaType;
 
+  /**
+   * Creates a new primitive type with the given name and Java class.
+   *
+   * @param name
+   *          the type name
+   * @param javaType
+   *          the corresponding Java class
+   */
   public PrimitiveXtendType(final String name, final Class<?> javaType) {
     this.name = name;
     this.javaType = javaType;
@@ -72,9 +80,11 @@ public class PrimitiveXtendType implements XtendType {
     }
     try {
       return javaType.getDeclaredConstructor().newInstance();
-    } catch (Exception e) { // NOPMD CHECKSTYLE:OFF
+      // CHECKSTYLE:OFF
+    } catch (final Exception e) { // NOPMD
       return new Object();
-    } // CHECKSTYLE:ON
+    }
+    // CHECKSTYLE:ON
   }
 
   @Override
