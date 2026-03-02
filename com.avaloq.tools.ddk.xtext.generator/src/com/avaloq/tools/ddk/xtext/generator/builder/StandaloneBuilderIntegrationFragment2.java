@@ -61,8 +61,6 @@ public class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGenerato
     generateBuildSetup();
   }
 
-  private static final int INITIAL_BUFFER_CAPACITY = 128;
-
   public void generateServiceRegistration() {
     String content = getStandaloneBuildSetupServiceClass().getName() + '\n';
     fileAccessFactory.createTextFile("META-INF/services/com.avaloq.tools.ddk.xtext.build.IDynamicSetupService",
