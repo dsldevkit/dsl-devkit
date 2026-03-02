@@ -23,7 +23,7 @@ import org.eclipse.xtext.resource.impl.ResourceDescriptionsData;
 /**
  * A null version of {@link ResourceDescriptionsData}.
  */
-public class NullResourceDescriptionsData extends DelegatingResourceDescriptionsData implements IResourceDescriptionsData {
+public class NullResourceDescriptionsData extends DelegatingResourceDescriptionsData {
 
   public NullResourceDescriptionsData() {
     super(new ResourceDescriptionsData(Collections.<IResourceDescription> emptyList()));

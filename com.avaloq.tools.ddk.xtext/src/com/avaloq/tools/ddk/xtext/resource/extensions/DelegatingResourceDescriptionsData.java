@@ -27,7 +27,7 @@ import com.google.common.collect.Sets;
 /**
  * A {@link ResourceDescriptionsData} that delegates all operations to another {@link ResourceDescriptionsData}.
  */
-public class DelegatingResourceDescriptionsData extends AbstractResourceDescriptionsData implements IResourceDescriptionsData {
+public class DelegatingResourceDescriptionsData extends AbstractResourceDescriptionsData {
 
   private final ResourceDescriptionsData delegate;
   private final IResourceDescriptions2 wrapped;

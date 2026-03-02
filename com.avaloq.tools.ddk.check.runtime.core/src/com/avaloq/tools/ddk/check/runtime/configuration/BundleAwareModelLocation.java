@@ -19,7 +19,7 @@ import org.osgi.framework.Bundle;
  * Describes a mapping of check catalogs registered with the check plugin extension to
  * model location objects storing derived and cached data relevant to scoping and type providers.
  */
-public class BundleAwareModelLocation extends AbstractModelLocation implements IModelLocation {
+public class BundleAwareModelLocation extends AbstractModelLocation {
 
   private final Bundle bundle;
 
