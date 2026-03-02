@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.generator.type;
 
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.BooleanLiteral;
@@ -33,6 +34,9 @@ public final class ExpressionAnalyzer {
 
   private static final Pattern INTEGER_PATTERN = Pattern.compile("-?\\d+");
   private static final Pattern REAL_PATTERN = Pattern.compile("-?\\d+\\.\\d+");
+  private static final String SINGLE_QUOTE = "'";
+  private static final String DOUBLE_QUOTE = "\"";
+  private static final Set<String> COMPARISON_OPERATORS = Set.of("==", "!=", ">", "<", ">=", "<=");
 
   private ExpressionAnalyzer() {
     // Utility class
@@ -83,7 +87,7 @@ public final class ExpressionAnalyzer {
     String trimmed = expression.trim();
 
     // String literal
-    if ((trimmed.startsWith("'") && trimmed.endsWith("'")) || (trimmed.startsWith("\"") && trimmed.endsWith("\""))) {
+    if ((trimmed.startsWith(SINGLE_QUOTE) && trimmed.endsWith(SINGLE_QUOTE)) || (trimmed.startsWith(DOUBLE_QUOTE) && trimmed.endsWith(DOUBLE_QUOTE))) {
       return PrimitiveXtendType.STRING;
     }
     // Boolean literal
@@ -129,35 +133,40 @@ public final class ExpressionAnalyzer {
       return PrimitiveXtendType.OBJECT;
     }
     // Arithmetic operators
-    if ("+".equals(name) || "-".equals(name) || "*".equals(name) || "/".equals(name)) {
-      if (expr.getParams() != null && !expr.getParams().isEmpty()) {
-        boolean hasReal = false;
-        boolean hasString = false;
-        for (Expression param : expr.getParams()) {
-          XtendType paramType = analyze(param, context);
-          if (PrimitiveXtendType.REAL.equals(paramType)) {
-            hasReal = true;
-          }
-          if (PrimitiveXtendType.STRING.equals(paramType)) {
-            hasString = true;
-          }
+    if (isArithmeticOperator(name) && expr.getParams() != null && !expr.getParams().isEmpty()) {
+      boolean hasReal = false;
+      boolean hasString = false;
+      for (Expression param : expr.getParams()) {
+        XtendType paramType = analyze(param, context);
+        if (PrimitiveXtendType.REAL.equals(paramType)) {
+          hasReal = true;
         }
-        if ("+".equals(name) && hasString) {
-          return PrimitiveXtendType.STRING;
+        if (PrimitiveXtendType.STRING.equals(paramType)) {
+          hasString = true;
         }
-        return hasReal ? PrimitiveXtendType.REAL : PrimitiveXtendType.INTEGER;
       }
+      if ("+".equals(name) && hasString) {
+        return PrimitiveXtendType.STRING;
+      }
+      return hasReal ? PrimitiveXtendType.REAL : PrimitiveXtendType.INTEGER;
     }
     // Boolean operators
     if ("!".equals(name) || "&&".equals(name) || "||".equals(name)) {
       return PrimitiveXtendType.BOOLEAN;
     }
     // Comparison operators
-    if ("==".equals(name) || "!=".equals(name) || ">".equals(name) || "<".equals(name)
-        || ">=".equals(name) || "<=".equals(name)) {
+    if (isComparisonOperator(name)) {
       return PrimitiveXtendType.BOOLEAN;
     }
     return PrimitiveXtendType.OBJECT;
+  }
+
+  private static boolean isArithmeticOperator(final String name) {
+    return "+".equals(name) || "-".equals(name) || "*".equals(name) || "/".equals(name);
+  }
+
+  private static boolean isComparisonOperator(final String name) {
+    return COMPARISON_OPERATORS.contains(name);
   }
 
   private static boolean containsRealOperand(final String expression) {
@@ -169,6 +178,6 @@ public final class ExpressionAnalyzer {
   }
 
   private static boolean containsStringOperand(final String expression) {
-    return expression.contains("'") || expression.contains("\"");
+    return expression.contains(SINGLE_QUOTE) || expression.contains(DOUBLE_QUOTE);
   }
 }

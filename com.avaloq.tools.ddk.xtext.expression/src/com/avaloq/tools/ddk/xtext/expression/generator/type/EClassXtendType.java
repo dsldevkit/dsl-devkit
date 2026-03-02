@@ -104,13 +104,7 @@ public class EClassXtendType implements XtendType {
 
   @Override
   public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj instanceof EClassXtendType) {
-      return eClass.equals(((EClassXtendType) obj).eClass);
-    }
-    return false;
+    return this == obj || obj instanceof EClassXtendType && eClass.equals(((EClassXtendType) obj).eClass);
   }
 
   @Override

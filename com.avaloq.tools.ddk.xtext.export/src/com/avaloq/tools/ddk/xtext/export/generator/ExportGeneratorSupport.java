@@ -60,7 +60,6 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
      *          the export model
      */
     ExportExecutionContext(final ExportModel model) {
-      super();
       registerMetaModels(model);
     }
 
