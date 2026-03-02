@@ -12,7 +12,6 @@ package com.avaloq.tools.ddk.xtext.format.conversion;
 
 import org.antlr.runtime.TokenSource;
 import org.eclipse.xtext.conversion.IValueConverter;
-import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.ValueConverter;
 import org.eclipse.xtext.xbase.conversion.XbaseValueConverterService;
 
@@ -25,7 +24,7 @@ import com.google.inject.Singleton;
  * Value converters for Format.
  */
 @Singleton
-public class FormatValueConverterService extends XbaseValueConverterService implements IValueConverterService {
+public class FormatValueConverterService extends XbaseValueConverterService {
 
   @Inject
   private Injector injector;

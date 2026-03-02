@@ -25,7 +25,7 @@ import org.eclipse.xtext.util.Triple;
 /**
  * Common interface of LazyLinkingResource with custom implementations.
  */
-public interface ILazyLinkingResource2 extends Resource, Resource.Internal {
+public interface ILazyLinkingResource2 extends Resource.Internal {
 
   String MARK_UNRESOLVABLE_XREFS = ILazyLinkingResource2.class.getName() + ".MARK_UNRESOLVABLE_XREFS"; //$NON-NLS-1$
 

@@ -12,7 +12,6 @@ package com.avaloq.tools.ddk.xtext.naming;
 
 import java.util.List;
 
-import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameConverter.DefaultImpl;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.Strings;
@@ -22,7 +21,7 @@ import org.eclipse.xtext.util.Strings;
  * AcsQualifiedNamesConverter overrides {@link DefaultImpl} in order to use custom segment splitter.
  * This implementation is about 3 times faster than the (uncompiled) regexp splitter.
  */
-public class QualifiedNameConverter extends DefaultImpl implements IQualifiedNameConverter {
+public class QualifiedNameConverter extends DefaultImpl {
 
   private static final String DELIMITER = "."; //$NON-NLS-1$
 

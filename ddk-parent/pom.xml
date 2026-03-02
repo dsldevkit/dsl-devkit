@@ -47,13 +47,13 @@
 
     <!-- maven plugin versions -->
     <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
-    <checkstyle.version>13.2.0</checkstyle.version>
+    <checkstyle.version>13.3.0</checkstyle.version>
     <clean.version>3.5.0</clean.version>
     <deploy.version>3.1.4</deploy.version>
     <spotbugs.plugin.version>4.9.8.2</spotbugs.plugin.version>
     <spotbugs.version>4.9.8</spotbugs.version>
     <pmd.plugin.version>3.28.0</pmd.plugin.version>
-    <pmd.version>7.21.0</pmd.version>
+    <pmd.version>7.22.0</pmd.version>
     <tycho.version>5.0.2</tycho.version>
     <xtend.version>2.42.0</xtend.version>
   </properties>

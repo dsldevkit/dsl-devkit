@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
  * The extension point utility class for preference initializers. Intended to be used by the Check builder participant.
  */
 @SuppressWarnings("nls")
-public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensionHelper implements ICheckExtensionHelper {
+public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensionHelper {
 
   public static final String GENERATE_PREFERENCES_EXTENSION_PREFERENCE = "generatePreferencesExtension";
 
