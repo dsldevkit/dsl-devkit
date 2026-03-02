@@ -112,18 +112,16 @@ public class ExportGenerator implements IGenerator2 {
     if (model.getExports().stream().anyMatch(e -> e.isFingerprint() && e.getFragmentAttribute() != null) || model.isExtension()) {
       fsa.generateFile(fileName, fragmentProviderGenerator.generate(model, compilationContext, genModelUtil));
     } else if (!model.getExports().isEmpty()) {
-      // CHECKSTYLE:CONSTANTS-OFF
-      final StringBuilder sb = new StringBuilder(512);
-      sb.append("package ").append(naming.toJavaPackage(exportGeneratorX.getFragmentProvider(model))).append(";\n");
-      sb.append('\n');
-      sb.append("import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider;\n");
-      sb.append('\n');
-      sb.append('\n');
-      sb.append("public class ").append(naming.toSimpleName(exportGeneratorX.getFragmentProvider(model))).append(" extends ShortFragmentProvider {\n");
-      sb.append('\n');
-      sb.append("}\n");
-      // CHECKSTYLE:CONSTANTS-ON
-      fsa.generateFile(fileName, sb);
+      fsa.generateFile(fileName, String.format("""
+          package %s;
+
+          import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider;
+
+
+          public class %s extends ShortFragmentProvider {
+
+          }
+          """, naming.toJavaPackage(exportGeneratorX.getFragmentProvider(model)), naming.toSimpleName(exportGeneratorX.getFragmentProvider(model))));
     }
   }
 

@@ -39,7 +39,7 @@ public class LspBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
   @Inject
   private XtextGeneratorNaming packageNaming;
 
-  private static final int INITIAL_BUFFER_CAPACITY = 128;
+
 
   private TypeReference createSuffixedTypeReference(final String suffix) {
     return new TypeReference(
@@ -68,11 +68,9 @@ public class LspBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
   }
 
   public void generateServiceRegistration() {
-    StringBuilder sb = new StringBuilder(INITIAL_BUFFER_CAPACITY);
-    sb.append(getLspBuildSetupServiceClass().getName());
-    sb.append('\n');
+    String content = getLspBuildSetupServiceClass().getName() + '\n';
     fileAccessFactory.createTextFile("META-INF/services/com.avaloq.tools.ddk.xtext.build.ILspLanguageSetup",
-      toClient(sb)).writeTo(getProjectConfig().getGenericIde().getSrcGen());
+      toClient(content)).writeTo(getProjectConfig().getGenericIde().getSrcGen());
   }
 
   // CHECKSTYLE:CONSTANTS-OFF
@@ -204,7 +202,7 @@ public class LspBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
   }
   // CHECKSTYLE:CONSTANTS-ON
 
-  private static StringConcatenationClient toClient(final StringBuilder sb) {
+  private static StringConcatenationClient toClient(final CharSequence sb) {
     final String content = sb.toString();
     return new StringConcatenationClient() {
       @Override
