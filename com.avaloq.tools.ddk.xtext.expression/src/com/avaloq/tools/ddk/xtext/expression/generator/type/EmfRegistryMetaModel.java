@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.generator.type;
 
+import java.util.Arrays;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -34,7 +36,7 @@ public class EmfRegistryMetaModel {
    *          the EMF packages
    */
   public EmfRegistryMetaModel(final EPackage... packages) {
-    this.packages = packages;
+    this.packages = Arrays.copyOf(packages, packages.length);
   }
 
   /**
@@ -43,7 +45,7 @@ public class EmfRegistryMetaModel {
    * @return the packages
    */
   public EPackage[] allPackages() {
-    return packages;
+    return Arrays.copyOf(packages, packages.length);
   }
 
   /**
