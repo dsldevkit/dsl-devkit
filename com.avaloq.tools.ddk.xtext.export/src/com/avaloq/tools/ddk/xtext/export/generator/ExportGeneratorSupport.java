@@ -53,6 +53,12 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
    */
   private static class ExportExecutionContext extends DefaultXtendExecutionContext {
 
+    /**
+     * Creates a new execution context for the given export model.
+     *
+     * @param model
+     *          the export model
+     */
     ExportExecutionContext(final ExportModel model) {
       super();
       registerMetaModels(model);

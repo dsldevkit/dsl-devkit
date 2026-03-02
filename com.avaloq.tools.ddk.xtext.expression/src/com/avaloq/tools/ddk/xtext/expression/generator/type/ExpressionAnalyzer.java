@@ -74,11 +74,9 @@ public final class ExpressionAnalyzer {
    *
    * @param expression
    *          the expression string
-   * @param context
-   *          the execution context for type resolution
    * @return the inferred type
    */
-  public static XtendType analyzeString(final String expression, final XtendExecutionContext context) {
+  public static XtendType analyzeString(final String expression) {
     if (expression == null || expression.isEmpty()) {
       return PrimitiveXtendType.OBJECT;
     }
