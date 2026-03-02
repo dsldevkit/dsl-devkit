@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,19 +22,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.progress.UIJob;
-import org.eclipse.xtext.common.types.access.jdt.IJavaProjectProvider;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 
 /**
  * Tests content assist in Check models.
  */
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.AvoidFinalLocalVariable", "nls"})
-public class BugAig931Test extends AbstractCheckContentAssistBugTest implements IJavaProjectProvider {
+@SuppressWarnings("nls")
+public class BugAig931Test extends AbstractCheckContentAssistBugTest {
 
   /**
    * Verifies that given completions exist.
@@ -44,13 +40,7 @@ public class BugAig931Test extends AbstractCheckContentAssistBugTest implements 
    *          the expected display strings
    */
   private void completionsExist(final ICompletionProposal[] completionProposals, final String... expected) {
-    List<String> actual = Lists.newArrayList(Iterables.transform(Lists.newArrayList(completionProposals), //
-        new Function<ICompletionProposal, String>() {
-          @Override
-          public String apply(final ICompletionProposal input) {
-            return input.getDisplayString();
-          }
-        }));
+    List<String> actual = Stream.of(completionProposals).map(ICompletionProposal::getDisplayString).toList();
     for (String string : expected) {
       assertTrue(actual.contains(string), NLS.bind("Expected {0} but found {1}", Arrays.toString(expected), actual));
     }
@@ -63,13 +53,13 @@ public class BugAig931Test extends AbstractCheckContentAssistBugTest implements 
    *           the exception
    */
   @Test
+  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   public void testBugAig931() throws Exception {
-    final String partialModel = "package p catalog T for grammar com.avaloq.tools.ddk.check.Check { error \"X\" for ";
-    final String[] expectedContextTypeProposals = {"EObject - org.eclipse.emf.ecore", "JvmType - org.eclipse.xtext.common.types"};
     new UIJob("compute completion proposals") {
-      @SuppressWarnings("restriction")
       @Override
       public IStatus runInUIThread(final IProgressMonitor monitor) {
+        String partialModel = "package p catalog T for grammar com.avaloq.tools.ddk.check.Check { error \"X\" for ";
+        String[] expectedContextTypeProposals = {"EObject - org.eclipse.emf.ecore", "JvmType - org.eclipse.xtext.common.types"};
         try {
           completionsExist(newBuilder().append(partialModel).computeCompletionProposals(), expectedContextTypeProposals);
           // CHECKSTYLE:OFF

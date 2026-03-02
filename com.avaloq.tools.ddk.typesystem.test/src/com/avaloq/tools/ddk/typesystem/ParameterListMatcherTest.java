@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.junit.jupiter.api.Test;
 
@@ -132,7 +131,7 @@ public class ParameterListMatcherTest {
 
   }
 
-  protected class ParameterList extends EObjectImpl implements InternalEObject {
+  protected class ParameterList extends EObjectImpl {
     // Empty class to make protected constructor visible.
   }
 
