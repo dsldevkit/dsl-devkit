@@ -17,18 +17,15 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.internal.xtend.expression.parser.SyntaxConstants;
-import org.eclipse.xtend.expression.ExecutionContextImpl;
-import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
-import org.eclipse.xtend.expression.TypeSystemImpl;
-import org.eclipse.xtend.expression.Variable;
-import org.eclipse.xtend.typesystem.Type;
-import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 import org.eclipse.xtext.EcoreUtil2;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 import com.avaloq.tools.ddk.xtext.expression.generator.EClassComparator;
 import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.DefaultXtendExecutionContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.EmfRegistryMetaModel;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendType;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendVariable;
 import com.avaloq.tools.ddk.xtext.scope.scope.Casing;
 import com.avaloq.tools.ddk.xtext.scope.scope.Import;
 import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
@@ -38,8 +35,6 @@ import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -62,7 +57,7 @@ public final class ScopingGeneratorUtil {
   }
 
   /**
-   * Return a compilation context for Xtend executions during the generator run.
+   * Return a compilation context for executions during the generator run.
    *
    * @param model
    *          the ScopeModel for which we generate
@@ -75,38 +70,38 @@ public final class ScopingGeneratorUtil {
   }
 
   /**
-   * Helper class defining the execution context for an Xtend compilation during scope generation.
+   * Helper class defining the execution context for a compilation during scope generation.
    * Sets up the metamodels as needed.
    */
-  private static class ScopeExecutionContext extends ExecutionContextImpl {
+  private static class ScopeExecutionContext extends DefaultXtendExecutionContext {
 
     private static final String VAR_ORIGINAL_RESOURCE = "originalResource"; //$NON-NLS-1$
 
     ScopeExecutionContext(final ScopeModel model) {
-      super(new ResourceManagerDefaultImpl(), new ScopeResource(model), new TypeSystemImpl(), getVariables(model), null, null, null, null, null, null, null, null, null);
+      super(getVariables(model));
       registerMetaModels(model);
     }
 
     /**
-     * Returns the variables which should be visible to the Xtend expressions.
+     * Returns the variables which should be visible to the expressions.
      *
      * @param model
      *          context scope model, must not be {@code null}
      * @return map of variables, never {@code null}
      */
-    private static Map<String, Variable> getVariables(final ScopeModel model) {
-      Map<String, Variable> result = Maps.newLinkedHashMap();
-      result.put(VAR_ORIGINAL_RESOURCE, new Variable(VAR_ORIGINAL_RESOURCE, null));
+    private static Map<String, XtendVariable> getVariables(final ScopeModel model) {
+      Map<String, XtendVariable> result = Maps.newLinkedHashMap();
+      result.put(VAR_ORIGINAL_RESOURCE, new XtendVariable(VAR_ORIGINAL_RESOURCE, null));
       for (ScopeModel scopeModel : getAllScopeModels(model)) {
         for (Injection injection : scopeModel.getInjections()) {
-          result.putIfAbsent(injection.getName(), new Variable(injection.getName(), null));
+          result.putIfAbsent(injection.getName(), new XtendVariable(injection.getName(), null));
         }
       }
       return ImmutableMap.copyOf(result);
     }
 
     /**
-     * Registers all metamodels accessible to the scope model in the Xtend execution context.
+     * Registers all metamodels accessible to the scope model in the execution context.
      *
      * @param model
      *          scope model to register metamodels for
@@ -115,87 +110,25 @@ public final class ScopingGeneratorUtil {
       // First, create one meta model that has all the packages that are visible. Use the scope provider to get that list,
       // then convert to a list of EPackages.
       final EPackage[] ePackages = Lists.newArrayList(Iterables.transform(EObjectUtil.getScopeProviderByEObject(model).getScope(model, ScopePackage.Literals.IMPORT__PACKAGE).getAllElements(), d -> (EPackage) EcoreUtil.resolve(d.getEObjectOrProxy(), model))).toArray(new EPackage[0]);
-      registerMetaModel(new EmfRegistryMetaModel() {
+      registerMetaModel(new EmfRegistryMetaModel(ePackages) {
         @Override
-        public EPackage[] allPackages() {
-          return ePackages;
-        }
-
-        @Override
-        public Type getTypeForName(final String name) {
-          final String[] frags = name.split(SyntaxConstants.NS_DELIM);
+        public XtendType getTypeForName(final String name) {
+          if (name == null) {
+            return null;
+          }
+          final String[] frags = name.split(NS_DELIM);
           if (frags.length == 2) {
             // convert references which use import alias
             for (Import imp : model.getImports()) {
               if (frags[0].equals(imp.getName()) && imp.getPackage() != null) {
-                return super.getTypeForName(imp.getPackage().getName() + SyntaxConstants.NS_DELIM + frags[1]);
+                return super.getTypeForName(imp.getPackage().getName() + NS_DELIM + frags[1]);
               }
             }
           }
           return super.getTypeForName(name);
         }
       });
-      // Finally, add the default meta models
-      // registerMetaModel(new EmfRegistryMetaModel());
-      // registerMetaModel(new JavaBeansMetaModel());
     }
-  }
-
-  /**
-   * "Fake" resource for Xtend compilation that gives correct extensions and package imports depending on whether
-   * we're running Xtend inside the export section or the scoping section.
-   */
-  private static class ScopeResource implements org.eclipse.xtend.expression.Resource {
-
-    private final ScopeModel model;
-    private String qualifiedName;
-    private Set<String> importedExtensions;
-    private Set<String> importedNamespaces;
-
-    ScopeResource(final ScopeModel model) {
-      this.model = model;
-    }
-
-    @Override
-    public String getFullyQualifiedName() {
-      if (qualifiedName == null) {
-        this.setFullyQualifiedName(model.eResource().getURI().path());
-      }
-      return qualifiedName;
-    }
-
-    @Override
-    public String[] getImportedExtensions() {
-      if (importedExtensions == null) {
-        importedExtensions = Sets.newLinkedHashSet();
-        for (ScopeModel included : getAllScopeModels(model)) {
-          importedExtensions.addAll(Lists.transform(included.getExtensions(), e -> e.getExtension()));
-        }
-      }
-      return importedExtensions.toArray(new String[importedExtensions.size()]);
-    }
-
-    @Override
-    public String[] getImportedNamespaces() {
-      if (importedNamespaces == null) {
-        importedNamespaces = Sets.newLinkedHashSet();
-        for (ScopeModel included : getAllScopeModels(model)) {
-          importedNamespaces.addAll(Collections2.filter(Lists.transform(included.getImports(), i -> {
-            if (i.getPackage() != null) {
-              return i.getPackage().getName();
-            }
-            return null;
-          }), Predicates.notNull()));
-        }
-      }
-      return importedNamespaces.toArray(new String[importedNamespaces.size()]);
-    }
-
-    @Override
-    public void setFullyQualifiedName(final String fqn) {
-      qualifiedName = fqn;
-    }
-
   }
 
   /**
