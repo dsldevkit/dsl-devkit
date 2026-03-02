@@ -120,7 +120,8 @@ public class DefaultXtendExecutionContext implements XtendExecutionContext {
         return type;
       }
     }
-    return null;
+    // Try resolving as a Java class (handles names like "java::lang::String")
+    return resolveJavaType(name);
   }
 
   /**
@@ -149,6 +150,27 @@ public class DefaultXtendExecutionContext implements XtendExecutionContext {
     case "Void":
       return PrimitiveXtendType.VOID;
     default:
+      return null;
+    }
+  }
+
+  /**
+   * Tries to resolve the given name as a Java class.
+   * Converts the Xtend namespace delimiter ({@code ::}) to {@code .} and attempts {@link Class#forName(String)}.
+   *
+   * @param name
+   *          the type name using {@code ::} as delimiter (e.g. "java::lang::String")
+   * @return a {@link PrimitiveXtendType} wrapping the Java class, or {@code null} if not found
+   */
+  private static XtendType resolveJavaType(final String name) {
+    if (!name.contains(EmfRegistryMetaModel.NS_DELIM)) {
+      return null;
+    }
+    String javaClassName = name.replace(EmfRegistryMetaModel.NS_DELIM, ".");
+    try {
+      Class<?> clazz = Class.forName(javaClassName);
+      return new PrimitiveXtendType(name, clazz);
+    } catch (ClassNotFoundException e) {
       return null;
     }
   }
