@@ -53,11 +53,7 @@ public final class CheckCfgScopeProviderTest extends AbstractScopingTest {
 
     // Define test data
     final int cursorPos = getTag();
-    final StringBuilder sourceBuilder = new StringBuilder(512);
-    sourceBuilder.append("check configuration testCheckCfg {\n");
-    sourceBuilder.append("  ").append(mark(cursorPos)).append('\n');
-    sourceBuilder.append("}\n");
-    final String sourceContent = sourceBuilder.toString();
+    final String sourceContent = "check configuration testCheckCfg {\n  " + mark(cursorPos) + "\n}\n";
 
     // Register a check configuration source, and get a context model
     registerModel(getTestSourceFileName(), sourceContent);

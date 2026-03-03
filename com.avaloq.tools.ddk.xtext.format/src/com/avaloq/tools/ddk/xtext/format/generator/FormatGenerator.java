@@ -98,16 +98,20 @@ public class FormatGenerator extends JvmModelGenerator {
   }
 
   public CharSequence generateSrc(final FormatConfiguration model) {
-    final StringBuilder builder = new StringBuilder(256);
-    builder.append("package ").append(Strings.skipLastToken(getFormatterName(model, ""), ".")).append(";\n");
-    builder.append('\n');
-    builder.append("/**\n");
-    builder.append(" * The formatting configuration for ").append(Strings.lastToken(model.getTargetGrammar().getName(), ".")).append(".\n");
-    builder.append(" */\n");
-    builder.append("public class ").append(Strings.lastToken(getFormatterName(model, ""), ".")).append(" extends ").append(Strings.lastToken(getFormatterName(model, "Abstract"), ".")).append(" {\n");
-    builder.append("  // TODO: Provide a correct implementation of getSLCommentRule() and getMLCommentRule() in this class\n");
-    builder.append("}\n");
-    return builder;
+    String packageName = Strings.skipLastToken(getFormatterName(model, ""), ".");
+    String grammarName = Strings.lastToken(model.getTargetGrammar().getName(), ".");
+    String className = Strings.lastToken(getFormatterName(model, ""), ".");
+    String baseClassName = Strings.lastToken(getFormatterName(model, "Abstract"), ".");
+    return String.format("""
+        package %s;
+
+        /**
+         * The formatting configuration for %s.
+         */
+        public class %s extends %s {
+          // TODO: Provide a correct implementation of getSLCommentRule() and getMLCommentRule() in this class
+        }
+        """, packageName, grammarName, className, baseClassName);
   }
 
   @Override
