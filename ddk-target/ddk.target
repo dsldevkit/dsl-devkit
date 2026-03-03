@@ -51,7 +51,6 @@
     <unit id="org.apache.commons.lang" version="2.6.0.v20220406-2305"/>
     <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
     <unit id="org.apache.log4j" version="1.2.24.v20221221-2012"/>
-    <unit id="org.slf4j.ext" version="1.7.30.v20221112-0806"/>
     <unit id="org.mockito.mockito-core" version="4.8.1.v20221103-2317"/>
     <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
     <unit id="org.junit" version="4.13.2.v20211018-1956"/>
