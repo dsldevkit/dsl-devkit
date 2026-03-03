@@ -7,7 +7,7 @@ This document helps AI coding agents work effectively with the DSL DevKit codeba
 - **Type**: Multi-module Tycho/Eclipse/OSGi project
 - **Purpose**: DSL development toolkit built on Xtext
 - **Java**: 21+
-- **Maven**: 3.9+
+- **Maven**
 - **Tycho**
 - **Xtext/Xtend**
 
