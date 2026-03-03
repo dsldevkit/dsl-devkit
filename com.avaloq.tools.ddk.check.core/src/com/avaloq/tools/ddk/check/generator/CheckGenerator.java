@@ -85,26 +85,25 @@ public class CheckGenerator extends JvmModelGenerator {
   /* Documentation compiler, generates HTML output. */
   public CharSequence compileDoc(final CheckCatalog catalog) {
     final CharSequence body = bodyDoc(catalog);
-    final StringBuilder sb = new StringBuilder(512);
-    sb.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n");
-    sb.append("<html>\n");
-    sb.append("<head>\n");
-    sb.append("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-    sb.append("  <link rel=\"stylesheet\" href=\"PLUGINS_ROOT/com.avaloq.tools.ddk.check.runtime.ui/css/check.css\" type=\"text/css\">\n");
-    sb.append("  <title>").append(catalog.getName()).append("</title>\n");
-    sb.append("</head>\n");
-    sb.append('\n');
-    sb.append("<body>\n");
-    sb.append("  <h1>Check Catalog ").append(catalog.getName()).append("</h1>\n");
     final String formattedDescription = generatorExtensions.formatDescription(catalog.getDescription());
-    if (formattedDescription != null) {
-      sb.append("  <p>").append(formattedDescription).append("</p>\n");
-    }
-    sb.append("  ").append(body).append('\n');
-    sb.append("</body>\n");
-    sb.append('\n');
-    sb.append("</html>\n");
-    return sb;
+    final String descriptionHtml = formattedDescription != null ? "  <p>" + formattedDescription + "</p>\n" : "";
+    final String name = catalog.getName();
+    return String.format("""
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+        <html>
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+          <link rel="stylesheet" href="PLUGINS_ROOT/com.avaloq.tools.ddk.check.runtime.ui/css/check.css" type="text/css">
+          <title>%1$s</title>
+        </head>
+
+        <body>
+          <h1>Check Catalog %1$s</h1>
+        %2$s  %3$s
+        </body>
+
+        </html>
+        """, name, descriptionHtml, body);
   }
 
   public CharSequence bodyDoc(final CheckCatalog catalog) {

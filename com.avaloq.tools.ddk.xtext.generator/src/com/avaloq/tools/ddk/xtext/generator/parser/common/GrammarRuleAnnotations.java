@@ -604,21 +604,11 @@ public class GrammarRuleAnnotations {
   }
 
   public String generateGatedPredicate(final SemanticPredicate predicate) {
-    StringBuilder sb = new StringBuilder(64);
-    sb.append("{predicates.");
-    sb.append(predicate.name);
-    sb.append("(parserContext)}?=>");
-    return sb.toString();
+    return "{predicates." + predicate.name + "(parserContext)}?=>";
   }
 
   public String generateValidatingPredicate(final SemanticPredicate predicate) {
-    StringBuilder sb = new StringBuilder(64);
-    sb.append("{predicates.");
-    sb.append(predicate.name);
-    sb.append("(parserContext) /* @ErrorMessage(");
-    sb.append(predicate.message);
-    sb.append(") */}?");
-    return sb.toString();
+    return "{predicates." + predicate.name + "(parserContext) /* @ErrorMessage(" + predicate.message + ") */}?";
   }
 
   /**
