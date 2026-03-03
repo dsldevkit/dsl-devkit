@@ -26,11 +26,7 @@ public class CheckModelUtil {
    * @return the model stub string
    */
   public String modelWithGrammar() {
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("package com.test");
-    builder.append('\n');
-    builder.append("catalog c for grammar g {");
-    return builder.toString();
+    return "package com.test\n" + "catalog c for grammar g {";
   }
 
   /**
@@ -39,10 +35,7 @@ public class CheckModelUtil {
    * @return the model stub string
    */
   public String modelWithCategory() {
-    String modelWithGrammar = this.modelWithGrammar();
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("category \"Default Category\" {");
-    return modelWithGrammar + builder.toString();
+    return this.modelWithGrammar() + "category \"Default Category\" {";
   }
 
   /**
@@ -55,14 +48,7 @@ public class CheckModelUtil {
    * @return the category string
    */
   public String emptyCategory(final String id, final String label) {
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("category ");
-    builder.append(id);
-    builder.append(" \"");
-    builder.append(label);
-    builder.append("\" {\n");
-    builder.append('}');
-    return builder.toString();
+    return String.format("category %s \"%s\" {\n}", id, label);
   }
 
   /**
@@ -76,21 +62,8 @@ public class CheckModelUtil {
    *          the default severity
    * @return the model stub string
    */
-  // CHECKSTYLE:CHECK-OFF VariableDeclarationUsageDistance
   public String modelWithSeverityRange(final String min, final String max, final String severity) {
-    String modelWithCategory = this.modelWithCategory();
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("@SeverityRange(");
-    builder.append(min);
-    builder.append(" .. ");
-    builder.append(max);
-    builder.append(")\n");
-    builder.append("    ");
-    builder.append(severity);
-    builder.append(" ID \"My Check\" ()\n");
-    builder.append("    ");
-    builder.append("message \"My Message\"");
-    return modelWithCategory + builder.toString();
+    return this.modelWithCategory() + String.format("@SeverityRange(%s .. %s)\n    %s ID \"My Check\" ()\n    message \"My Message\"", min, max, severity);
   }
 
   /**
@@ -103,14 +76,7 @@ public class CheckModelUtil {
    * @return the model stub string
    */
   public String modelWithSeverityRange(final String min, final String max) {
-    String modelWithCategory = this.modelWithCategory();
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("@SeverityRange(");
-    builder.append(min);
-    builder.append(" .. ");
-    builder.append(max);
-    builder.append(")\n");
-    return modelWithCategory + builder.toString() + modelWithCheck();
+    return this.modelWithCategory() + String.format("@SeverityRange(%s .. %s)\n", min, max) + modelWithCheck();
   }
 
   /**
@@ -121,15 +87,8 @@ public class CheckModelUtil {
    * @return the model stub string
    */
   public String modelWithCheck(final String id) {
-    String modelWithCategory = this.modelWithCategory();
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("error ");
-    builder.append(id);
-    builder.append(" \"Some Error\" ()\n");
-    builder.append("message \"My Message\" {");
-    return modelWithCategory + builder.toString();
+    return this.modelWithCategory() + String.format("error %s \"Some Error\" ()\nmessage \"My Message\" {", id);
   }
-  // CHECKSTYLE:CHECK-ON VariableDeclarationUsageDistance
 
   /**
    * Returns a base model stub with a check (SomeError) with severity 'error'
@@ -149,13 +108,7 @@ public class CheckModelUtil {
    * @return the check string
    */
   public String emptyCheck(final String id) {
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("error ");
-    builder.append(id);
-    builder.append(" \"Some Error\" ()\n");
-    builder.append("message \"My message\" {\n");
-    builder.append('}');
-    return builder.toString();
+    return String.format("error %s \"Some Error\" ()\nmessage \"My message\" {\n}", id);
   }
 
   /**
@@ -165,10 +118,7 @@ public class CheckModelUtil {
    * @return the model stub string
    */
   public String modelWithContext() {
-    String modelWithCheck = this.modelWithCheck();
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("for ContextType ctx {");
-    return modelWithCheck + builder.toString();
+    return this.modelWithCheck() + "for ContextType ctx {";
   }
 
   /**
@@ -195,25 +145,24 @@ public class CheckModelUtil {
    * @return the model stub string
    */
   public String modelWithComments() {
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("package com.test // SL1\n");
-    builder.append("/* ML1 */\n");
-    builder.append("catalog c /* ML2 */ for grammar g {\n");
-    builder.append("  // SL2\n");
-    builder.append("  category \"My cat\" {\n");
-    builder.append("    /* ML3 */\n");
-    builder.append("    // SL3\n");
-    builder.append("    error MYerr \"My Err\" (int Abc = 23) message \"A\" {\n");
-    builder.append("      for Atype thisName {\n");
-    builder.append("        val x = 3 // SL4\n");
-    builder.append("        // SL5\n");
-    builder.append("        /* ML5 */ issue /* ML4 */\n");
-    builder.append("        // SL6\n");
-    builder.append("      }\n");
-    builder.append("    }\n");
-    builder.append("  } // SL7\n");
-    builder.append('}');
-    return builder.toString();
+    return """
+        package com.test // SL1
+        /* ML1 */
+        catalog c /* ML2 */ for grammar g {
+          // SL2
+          category "My cat" {
+            /* ML3 */
+            // SL3
+            error MYerr "My Err" (int Abc = 23) message "A" {
+              for Atype thisName {
+                val x = 3 // SL4
+                // SL5
+                /* ML5 */ issue /* ML4 */
+                // SL6
+              }
+            }
+          } // SL7
+        }""";
   }
 }
 // CHECKSTYLE:CONSTANTS-ON

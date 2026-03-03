@@ -45,18 +45,14 @@ public class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTe
   @Test
   public void testMapGenerationWithNoChecks() {
     // ARRANGE
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("package ");
-    builder.append(PACKAGE_NAME);
-    builder.append('\n');
-    builder.append('\n');
-    builder.append("catalog ");
-    builder.append(CATALOG_NAME);
-    builder.append('\n');
-    builder.append("for grammar com.avaloq.tools.ddk.check.Check {\n");
-    builder.append('\n');
-    builder.append("}\n");
-    final String source = builder.toString();
+    final String source = String.format("""
+        package %s
+
+        catalog %s
+        for grammar com.avaloq.tools.ddk.check.Check {
+
+        }
+        """, PACKAGE_NAME, CATALOG_NAME);
 
     // check for the construction of an empty map
     final List<String> expectedCatalog = List.of("ImmutableMap.<String,String>builderWithExpectedSize(0).build()");
@@ -71,45 +67,37 @@ public class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTe
   @Test
   public void testMapGeneration() {
     // ARRANGE
-    // CHECKSTYLE:CHECK-OFF VariableDeclarationUsageDistance
-    // @Format-Off
-    StringBuilder builder = new StringBuilder(2048);
-    builder.append("package ");
-    builder.append(PACKAGE_NAME);
-    builder.append('\n');
-    builder.append('\n');
-    builder.append("import com.avaloq.tools.ddk.check.check.Check\n");
-    builder.append("import com.avaloq.tools.ddk.check.check.Context\n");
-    builder.append("import com.avaloq.tools.ddk.check.check.Documented\n");
-    builder.append('\n');
-    builder.append("catalog ");
-    builder.append(CATALOG_NAME);
-    builder.append('\n');
-    builder.append("for grammar com.avaloq.tools.ddk.check.Check {\n");
-    builder.append('\n');
-    builder.append("  live error ID1 \"Label 1\"\n");
-    builder.append("  message \"Message 1\" {\n");
-    builder.append("    for Documented elem {\n");
-    builder.append("      switch elem {\n");
-    builder.append("        Context : issue on elem\n");
-    builder.append("        Check : issue on elem\n");
-    builder.append("      }\n");
-    builder.append("    }\n");
-    builder.append("  }\n");
-    builder.append('\n');
-    builder.append("  live error ID2 \"Label 2\"\n");
-    builder.append("  message \"Message 2\" {\n");
-    builder.append("    for Documented elem {\n");
-    builder.append("      switch elem {\n");
-    builder.append("        Context : issue on elem\n");
-    builder.append("        Check : issue on elem\n");
-    builder.append("      }\n");
-    builder.append("    }\n");
-    builder.append("  }\n");
-    builder.append("}\n");
-    final String source = builder.toString();
-    // CHECKSTYLE:CHECK-ON VariableDeclarationUsageDistance
-    // @Format-On
+    final String source = String.format("""
+        package %s
+
+        import com.avaloq.tools.ddk.check.check.Check
+        import com.avaloq.tools.ddk.check.check.Context
+        import com.avaloq.tools.ddk.check.check.Documented
+
+        catalog %s
+        for grammar com.avaloq.tools.ddk.check.Check {
+
+          live error ID1 "Label 1"
+          message "Message 1" {
+            for Documented elem {
+              switch elem {
+                Context : issue on elem
+                Check : issue on elem
+              }
+            }
+          }
+
+          live error ID2 "Label 2"
+          message "Message 2" {
+            for Documented elem {
+              switch elem {
+                Context : issue on elem
+                Check : issue on elem
+              }
+            }
+          }
+        }
+        """, PACKAGE_NAME, CATALOG_NAME);
 
     final List<String> expectedCatalog = List.of("put(MyCatalogIssueCodes.ID_1,\"Label1\")", "put(MyCatalogIssueCodes.ID_2,\"Label2\")");
 

@@ -74,28 +74,30 @@ public class CompareFragment2 extends ResourceFactoryFragment2 {
   // CHECKSTYLE:CONSTANTS-OFF
   public CharSequence eclipsePluginXmlContribution() {
     final TypeReference executableExtensionFactory = xtextGeneratorNaming.getEclipsePluginExecutableExtensionFactory(getGrammar());
+    final String grammarName = getGrammar().getName();
     final String fileExtensions = String.join(",", getLanguage().getFileExtensions());
-    final StringBuilder builder = new StringBuilder(1024);
-    builder.append("<!-- Contributed by ").append(TypeReference.typeRef(CompareFragment2.class)).append(" -->\n");
-    builder.append("<extension point=\"org.eclipse.compare.contentViewers\">\n");
-    builder.append("  <viewer id=\"").append(getGrammar().getName()).append(".compare.contentViewers\"\n");
-    builder.append("          class=\"").append(executableExtensionFactory).append(":org.eclipse.xtext.ui.compare.InjectableViewerCreator\"\n");
-    builder.append("          extensions=\"").append(fileExtensions).append("\" label=\"").append(GrammarUtil.getSimpleName(getGrammar())).append(" Compare\">\n");
-    builder.append("  </viewer>\n");
-    builder.append("</extension>\n");
-    builder.append("<extension point=\"org.eclipse.compare.contentMergeViewers\">\n");
-    builder.append("  <viewer id=\"").append(getGrammar().getName()).append(".compare.contentMergeViewers\"\n");
-    builder.append("          class=\"").append(executableExtensionFactory).append(":org.eclipse.xtext.ui.compare.InjectableViewerCreator\"\n");
-    builder.append("          extensions=\"").append(fileExtensions).append("\" label=\"").append(GrammarUtil.getSimpleName(getGrammar())).append(" Compare\">\n");
-    builder.append("   </viewer>\n");
-    builder.append("</extension>\n");
-    builder.append("<extension point=\"org.eclipse.ui.editors.documentProviders\">\n");
-    builder.append("  <provider id=\"").append(getGrammar().getName()).append(".editors.documentProviders\"\n");
-    builder.append("          class=\"").append(executableExtensionFactory).append(":com.avaloq.tools.ddk.xtext.ui.editor.model.ResponsiveXtextDocumentProvider\"\n");
-    builder.append("          extensions=\"").append(fileExtensions).append("\">\n");
-    builder.append("  </provider>\n");
-    builder.append("</extension>\n");
-    return builder;
+    final String simpleName = GrammarUtil.getSimpleName(getGrammar());
+    return String.format("""
+        <!-- Contributed by %1$s -->
+        <extension point="org.eclipse.compare.contentViewers">
+          <viewer id="%2$s.compare.contentViewers"
+                  class="%3$s:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+                  extensions="%4$s" label="%5$s Compare">
+          </viewer>
+        </extension>
+        <extension point="org.eclipse.compare.contentMergeViewers">
+          <viewer id="%2$s.compare.contentMergeViewers"
+                  class="%3$s:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+                  extensions="%4$s" label="%5$s Compare">
+           </viewer>
+        </extension>
+        <extension point="org.eclipse.ui.editors.documentProviders">
+          <provider id="%2$s.editors.documentProviders"
+                  class="%3$s:com.avaloq.tools.ddk.xtext.ui.editor.model.ResponsiveXtextDocumentProvider"
+                  extensions="%4$s">
+          </provider>
+        </extension>
+        """, TypeReference.typeRef(CompareFragment2.class), grammarName, executableExtensionFactory, fileExtensions, simpleName);
   }
   // CHECKSTYLE:CONSTANTS-ON
 }
