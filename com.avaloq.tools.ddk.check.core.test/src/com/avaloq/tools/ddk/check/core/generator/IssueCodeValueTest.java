@@ -41,45 +41,47 @@ public class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
   public void testIssueCodeValue() throws Exception {
     // ARRANGE
     // @Format-Off
-    String source = "package " + PACKAGE_NAME + "\n"
-        + "\n"
-        + "import com.avaloq.tools.ddk.check.check.Check\n"
-        + "import com.avaloq.tools.ddk.check.check.Context\n"
-        + "import com.avaloq.tools.ddk.check.check.Documented\n"
-        + "\n"
-        + "catalog " + CATALOG_NAME + "\n"
-        + "for grammar com.avaloq.tools.ddk.check.Check {\n"
-        + "\n"
-        + "  live error MyCheck1 \"Label 1\"\n"
-        + "  message \"Message 1\" {\n"
-        + "    for Documented elem {\n"
-        + "      switch elem {\n"
-        + "        Context : issue on elem\n"
-        + "        Check : issue on elem\n"
-        + "      }\n"
-        + "    }\n"
-        + "  }\n"
-        + "\n"
-        + "  live error MyCheck_2 \"Label 2\"\n"
-        + "  message \"Message 2\" {\n"
-        + "    for Documented elem {\n"
-        + "      switch elem {\n"
-        + "        Context : issue on elem\n"
-        + "        Check : issue on elem\n"
-        + "      }\n"
-        + "    }\n"
-        + "  }\n"
-        + "\n"
-        + "  live error MYCheck3 \"Label 3\"\n"
-        + "  message \"Message 3\" {\n"
-        + "    for Documented elem {\n"
-        + "      switch elem {\n"
-        + "        Context : issue on elem\n"
-        + "        Check : issue on elem\n"
-        + "      }\n"
-        + "    }\n"
-        + "  }\n"
-        + "}\n";
+    String source = String.format("""
+        package %s
+
+        import com.avaloq.tools.ddk.check.check.Check
+        import com.avaloq.tools.ddk.check.check.Context
+        import com.avaloq.tools.ddk.check.check.Documented
+
+        catalog %s
+        for grammar com.avaloq.tools.ddk.check.Check {
+
+          live error MyCheck1 "Label 1"
+          message "Message 1" {
+            for Documented elem {
+              switch elem {
+                Context : issue on elem
+                Check : issue on elem
+              }
+            }
+          }
+
+          live error MyCheck_2 "Label 2"
+          message "Message 2" {
+            for Documented elem {
+              switch elem {
+                Context : issue on elem
+                Check : issue on elem
+              }
+            }
+          }
+
+          live error MYCheck3 "Label 3"
+          message "Message 3" {
+            for Documented elem {
+              switch elem {
+                Context : issue on elem
+                Check : issue on elem
+              }
+            }
+          }
+        }
+        """, PACKAGE_NAME, CATALOG_NAME);
     // @Format-On
 
     Map<String, String> expectedIssueCodeValues = Map.of(
