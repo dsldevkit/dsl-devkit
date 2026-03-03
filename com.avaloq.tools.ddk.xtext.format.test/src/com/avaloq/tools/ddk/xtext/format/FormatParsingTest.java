@@ -24,13 +24,15 @@ public class FormatParsingTest {
 
   @Test
   public void loadModel() throws Exception {
-    String input = "formatter for MyDsl\n"
-        + "\n"
-        + "const String SOME_STRING = \"\";\n"
-        + "const int SOME_INT = 2;\n"
-        + "\n"
-        + "Person {\n"
-        + "}    ";
+    String input = """
+        formatter for MyDsl
+
+        const String SOME_STRING = "";
+        const int SOME_INT = 2;
+
+        Person {
+        }
+        """;
     final FormatConfiguration result = parseHelper.parse(input);
     assertNotNull(result);
     boolean hasSyntaxErrors = ((XtextResource) result.eResource()).getParseResult().hasSyntaxErrors();

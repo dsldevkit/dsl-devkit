@@ -33,13 +33,14 @@ public class CheckApiAccessValidationsTest {
 
   @SuppressWarnings("PMD.SignatureDeclareThrowsException")
   private CheckCatalog getTestSource(final String importText) throws Exception {
-    return parser.parse(
-        "package com.avaloq.example.stuff.checks\n"
-            + "import " + importText + "\n"
-            + "catalog CommonChecks\n"
-            + "for grammar com.avaloq.tools.ddk.check.TestLanguage\n"
-            + "{\n"
-            + "}");
+    return parser.parse(String.format("""
+        package com.avaloq.example.stuff.checks
+        import %s
+        catalog CommonChecks
+        for grammar com.avaloq.tools.ddk.check.TestLanguage
+        {
+        }
+        """, importText));
   }
 
   @Test

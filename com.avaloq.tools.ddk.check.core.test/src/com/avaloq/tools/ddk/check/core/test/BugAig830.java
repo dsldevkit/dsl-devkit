@@ -34,16 +34,18 @@ public class BugAig830 {
   private ParseHelper<CheckCatalog> parser;
 
   private String getModel() {
-    return "package abc\n"
-        + "import org.eclipse.xtext.xbase.XVariableDeclaration\n"
-        + "catalog Abc\n"
-        + "for grammar com.avaloq.tools.ddk.check.Check {\n"
-        + "  live error \"Test\" {\n"
-        + "    for XVariableDeclaration v {\n"
-        + "      issue on v#name\n"
-        + "    }\n"
-        + "  }\n"
-        + "}\n";
+    return """
+        package abc
+        import org.eclipse.xtext.xbase.XVariableDeclaration
+        catalog Abc
+        for grammar com.avaloq.tools.ddk.check.Check {
+          live error "Test" {
+            for XVariableDeclaration v {
+              issue on v#name
+            }
+          }
+        }
+        """;
   }
 
   /* Tests that EPackages which are not of declared target language can be referenced. */

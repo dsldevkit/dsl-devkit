@@ -33,25 +33,25 @@ public class CheckCfgTest {
 
   @Test
   public void testValidLanguageOk() throws Exception {
-    final CheckConfiguration model = parser.parse(
-        "check configuration Test\n"
-        + "\n"
-        + "for com.avaloq.tools.ddk.^check.TestLanguage {\n"
-        + "\n"
-        + "}\n"
-        + "\n");
+    final CheckConfiguration model = parser.parse("""
+        check configuration Test
+
+        for com.avaloq.tools.ddk.^check.TestLanguage {
+
+        }
+        """);
     helper.assertNoIssues(model);
   }
 
   @Test
   public void testUnknownLanguageNotOk() throws Exception {
-    final CheckConfiguration model = parser.parse(
-        "check configuration Test\n"
-        + "\n"
-        + "for com.avaloq.tools.ddk.^check.Unknown {\n"
-        + "\n"
-        + "}\n"
-        + "\n");
+    final CheckConfiguration model = parser.parse("""
+        check configuration Test
+
+        for com.avaloq.tools.ddk.^check.Unknown {
+
+        }
+        """);
     helper.assertError(model, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR, IssueCodes.UNKNOWN_LANGUAGE);
   }
 
