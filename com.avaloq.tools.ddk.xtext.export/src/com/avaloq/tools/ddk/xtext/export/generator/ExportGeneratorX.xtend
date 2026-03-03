@@ -24,6 +24,7 @@ import com.google.inject.Inject
 import java.util.Collection
 import java.util.List
 import java.util.Map
+import javax.lang.model.SourceVersion
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
@@ -53,11 +54,15 @@ class ExportGeneratorX {
 
   def List<String> getPrefix(URI uri) {
     // TODO we still need to add a package to the models. Extension models already have a name in contrast to cases above
-    if (uri.segmentsList().size > 3) {
-      return uri.segmentsList().subList(3, uri.segmentCount() - 1);      
-    } else {
-      return uri.segmentsList().subList(uri.segmentCount() - 2, uri.segmentCount() - 1);
+    val segments = uri.segmentsList
+    if (segments.size > 4) {
+      return segments.subList(3, segments.size - 1)
     }
+    // shorter shapes have no package segments: fall back to a valid package name
+    if (segments.size > 2 && SourceVersion.isName(segments.get(1))) {
+      return #[segments.get(1)]
+    }
+    return #['generated']
   }
 
   def String getExportedNamesProvider(ExportModel model) {
