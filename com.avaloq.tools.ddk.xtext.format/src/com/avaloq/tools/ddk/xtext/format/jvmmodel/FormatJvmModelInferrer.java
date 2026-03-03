@@ -231,11 +231,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
             jvmTypesBuilder.<JvmAnnotationReference>operator_add(op.getAnnotations(), overrideAnnotation);
           }
           jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
-            StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_CAPACITY);
-            sb.append("return (");
-            sb.append(GrammarUtil.getSimpleName(format.getTargetGrammar())).append("GrammarAccess");
-            sb.append(") super.getGrammarAccess();");
-            body.append(sb);
+            body.append("return (" + GrammarUtil.getSimpleName(format.getTargetGrammar()) + "GrammarAccess) super.getGrammarAccess();");
           });
         });
     return jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);

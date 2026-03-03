@@ -46,13 +46,7 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   private boolean oldAutoBuildState;
 
   public String getTestSourceFileName(final String catalogName) {
-    StringBuilder builder = new StringBuilder(512);
-    builder.append(PACKAGE_NAME.replace(".", "/"));
-    builder.append('/');
-    builder.append(catalogName);
-    builder.append('.');
-    builder.append(getXtextTestUtil().getFileExtension());
-    return builder.toString();
+    return PACKAGE_NAME.replace(".", "/") + '/' + catalogName + '.' + getXtextTestUtil().getFileExtension();
   }
 
   @Override
@@ -98,24 +92,21 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   @Test
   @BugTest(value = "DSL-244")
   public void testImportFix() {
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("package ");
-    builder.append(PACKAGE_NAME);
-    builder.append('\n');
-    builder.append('\n');
-    builder.append("catalog ");
-    builder.append(getTestSourceModelName());
-    builder.append(" for grammar org.eclipse.xtext.Xtext\n");
-    builder.append("{\n");
-    builder.append("  /** Missing import test */\n");
-    builder.append("  warning TestWarning \"Test Warning\"\n");
-    builder.append("  message \"This is a Test Warning\" {\n");
-    builder.append("    for AbstractRule c {\n");
-    builder.append("      issue\n");
-    builder.append("    }\n");
-    builder.append("  }\n");
-    builder.append("}\n");
-    createTestSource(getTestSourceFileName(), builder.toString());
+    String source = String.format("""
+        package %s
+
+        catalog %s for grammar org.eclipse.xtext.Xtext
+        {
+          /** Missing import test */
+          warning TestWarning "Test Warning"
+          message "This is a Test Warning" {
+            for AbstractRule c {
+              issue
+            }
+          }
+        }
+        """, PACKAGE_NAME, getTestSourceModelName());
+    createTestSource(getTestSourceFileName(), source);
     openEditor(getTestSourceFileName());
     final String quickfixLabel = "Import 'AbstractRule' (org.eclipse.xtext)";
     final List<Issue> beforeIssues = getXtextTestUtil().getIssues(getDocument());
@@ -131,37 +122,29 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   @Test
   public void testAddID() {
     // ARRANGE
-    StringBuilder builder = new StringBuilder(512);
-    builder.append("package ");
-    builder.append(PACKAGE_NAME);
-    builder.append('\n');
-    builder.append('\n');
-    builder.append("catalog ");
-    builder.append(getTestSourceModelName());
-    builder.append('\n');
-    builder.append("for grammar org.eclipse.xtext.Xtext {\n");
-    builder.append('\n');
-    builder.append("  warning \"Test Warning\"\n");
-    builder.append("  message \"This is a Test Warning\" {\n");
-    builder.append("  }\n");
-    builder.append("}\n");
-    final String sourceContent = builder.toString();
+    final String sourceContent = String.format("""
+        package %s
 
-    StringBuilder builder2 = new StringBuilder(512);
-    builder2.append("package ");
-    builder2.append(PACKAGE_NAME);
-    builder2.append('\n');
-    builder2.append('\n');
-    builder2.append("catalog ");
-    builder2.append(getTestSourceModelName());
-    builder2.append('\n');
-    builder2.append("for grammar org.eclipse.xtext.Xtext {\n");
-    builder2.append('\n');
-    builder2.append("  warning TestWarning \"Test Warning\"\n");
-    builder2.append("  message \"This is a Test Warning\" {\n");
-    builder2.append("  }\n");
-    builder2.append("}\n");
-    final String expectedContent = builder2.toString();
+        catalog %s
+        for grammar org.eclipse.xtext.Xtext {
+
+          warning "Test Warning"
+          message "This is a Test Warning" {
+          }
+        }
+        """, PACKAGE_NAME, getTestSourceModelName());
+
+    final String expectedContent = String.format("""
+        package %s
+
+        catalog %s
+        for grammar org.eclipse.xtext.Xtext {
+
+          warning TestWarning "Test Warning"
+          message "This is a Test Warning" {
+          }
+        }
+        """, PACKAGE_NAME, getTestSourceModelName());
 
     // ACT and ASSERT
     assertQuickFixExistsAndSuccessfulInCustomerSource(IssueCodes.MISSING_ID_ON_CHECK,

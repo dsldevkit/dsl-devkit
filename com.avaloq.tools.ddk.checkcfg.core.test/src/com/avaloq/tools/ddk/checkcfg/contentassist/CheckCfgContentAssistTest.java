@@ -59,28 +59,30 @@ public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   @Test
   public void testConfiguredParameterProposals() {
-    final StringBuilder builder = new StringBuilder(512);
-    builder.append("check configuration Test {\n");
-    builder.append("  catalog TestChecks {\n");
-    builder.append("    default Test (\n");
-    builder.append("      ").append(TestPropertySpecificationWithExpectedValues.INSTANCE.getName()).append(" = ").append(expected(TestPropertySpecificationWithExpectedValues.INSTANCE.getExpectedValues())).append("\"banana\"\n");
-    builder.append("    )\n");
-    builder.append("  }\n");
-    builder.append("}\n");
-    assertKernelSourceProposals("ConfiguredParameterProposals.checkcfg", builder);
+    final String source = String.format("""
+        check configuration Test {
+          catalog TestChecks {
+            default Test (
+              %s = %s"banana"
+            )
+          }
+        }
+        """, TestPropertySpecificationWithExpectedValues.INSTANCE.getName(), expected(TestPropertySpecificationWithExpectedValues.INSTANCE.getExpectedValues()));
+    assertKernelSourceProposals("ConfiguredParameterProposals.checkcfg", source);
   }
 
   @BugTest(value = "DSL-1811", unresolved = true)
   public void testNoTypeMismatchedParameterValueProposals() {
-    final StringBuilder builder = new StringBuilder(512);
-    builder.append("check configuration Test {\n");
-    builder.append("  catalog TestChecks {\n");
-    builder.append("    default Test (\n");
-    builder.append("      ").append(TestPropertySpecificationWithExpectedValues.INSTANCE.getName()).append(" = ").append(expectedExactly(TestPropertySpecificationWithExpectedValues.INSTANCE.getExpectedValues())).append("\"banana\"\n");
-    builder.append("    )\n");
-    builder.append("  }\n");
-    builder.append("}\n");
-    assertKernelSourceProposals("NoTypeMismatchedParameterValueProposals.checkcfg", builder);
+    final String source = String.format("""
+        check configuration Test {
+          catalog TestChecks {
+            default Test (
+              %s = %s"banana"
+            )
+          }
+        }
+        """, TestPropertySpecificationWithExpectedValues.INSTANCE.getName(), expectedExactly(TestPropertySpecificationWithExpectedValues.INSTANCE.getExpectedValues()));
+    assertKernelSourceProposals("NoTypeMismatchedParameterValueProposals.checkcfg", source);
   }
 }
 // CHECKSTYLE:CONSTANTS-ON
