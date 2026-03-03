@@ -62,12 +62,11 @@
     </module>
     <module name="HideUtilityClassConstructor"/>
     <module name="InnerAssignment"/>
-    <module name="IllegalImport">
-      <property name="illegalPkgs" value="net.jcip.annotations"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
     <module name="IllegalCatch"/>
-    <module name="IllegalImport"/>
+    <module name="IllegalImport">
+      <property name="illegalPkgs" value="net.jcip.annotations, javax.annotation"/>
+      <property name="illegalClasses" value="edu.umd.cs.findbugs.annotations.CheckForNull, edu.umd.cs.findbugs.annotations.CheckReturnValue, edu.umd.cs.findbugs.annotations.NonNull, edu.umd.cs.findbugs.annotations.Nullable, edu.umd.cs.findbugs.annotations.PossiblyNull, edu.umd.cs.findbugs.annotations.UnknowNullness"/>
+    </module>
     <module name="IllegalThrows"/>
     <module name="InterfaceIsType"/>
     <!-- Internal methods: allow @Override and @Inject; still validate tags when javadoc is present -->
@@ -129,48 +128,6 @@
     <module name="SuperFinalize"/>
     <module name="UpperEll"/>
     <module name="VisibilityModifier"/>
-    <module name="Regexp">
-      <property name="format" value="edu.umd.cs.findbugs.annotations.CheckForNull"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
-    <module name="Regexp">
-      <property name="format" value="edu.umd.cs.findbugs.annotations.CheckReturnValue"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
-    <module name="Regexp">
-      <property name="format" value="edu.umd.cs.findbugs.annotations.NonNull"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
-    <module name="Regexp">
-      <property name="format" value="edu.umd.cs.findbugs.annotations.Nullable"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
-    <module name="Regexp">
-      <property name="format" value="edu.umd.cs.findbugs.annotations.PossiblyNull"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
-    <module name="Regexp">
-      <property name="format" value="edu.umd.cs.findbugs.annotations.UnknowNullness"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations aus javax.lang benutzen"/>
-    </module>
-    <module name="Regexp">
-      <property name="format" value="javax.annotation.Nullable"/>
-      <property name="message" value="Bitte nur die JSR305 Annotations aus javax.annotation benutzen"/>
-      <property name="illegalPattern" value="true"/>
-      <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="Nur die JSR305 Annotations @CheckForNull und @Nonnull benutzen"/>
-    </module>
     <module name="SuppressionCommentFilter"/>
     <module name="SuppressionCommentFilter">
       <property name="offCommentFormat" value="CHECKSTYLE\:COUPLING-OFF"/>
