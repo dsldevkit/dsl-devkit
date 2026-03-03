@@ -60,7 +60,6 @@ public class CheckModelUtil {
         error %s "Some Error" ()
         message "My Message" {""".formatted(id);
   }
-  // CHECKSTYLE:CHECK-ON VariableDeclarationUsageDistance
 
   /*
    * Returns a base model stub with a check (SomeError) with severity 'error'
