@@ -161,10 +161,9 @@ public class RebuildingXtextBuilder extends XtextBuilder {
   @Override
   protected void doBuild(final ToBeBuilt toBeBuilt, final IProgressMonitor monitor, final BuildType type) throws CoreException {
     if (!toBeBuilt.getToBeDeleted().isEmpty() || !toBeBuilt.getToBeUpdated().isEmpty()) {
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("Starting " + type.name() + " build:" + "\ndeleted(" + toBeBuilt.getToBeDeleted().size() + ")=" + toBeBuilt.getToBeDeleted().toString()
-            + "\nupdated(" + toBeBuilt.getToBeUpdated().size() + ")=" + toBeBuilt.getToBeUpdated().toString());
-      }
+      LOGGER.debug("Starting {} build:\ndeleted({})={}\nupdated({})={}", type::name,
+          toBeBuilt.getToBeDeleted()::size, toBeBuilt.getToBeDeleted()::toString,
+          toBeBuilt.getToBeUpdated()::size, toBeBuilt.getToBeUpdated()::toString);
 
       SubMonitor progress = SubMonitor.convert(monitor, 1 + 1 + 1); // build + participant + rebuild
 
@@ -194,11 +193,9 @@ public class RebuildingXtextBuilder extends XtextBuilder {
       }
       resourceSet.getResources().clear();
       resourceSet.eAdapters().clear();
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("Build done.");
-      }
-    } else if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Ignoring empty " + type.name() + " build.");
+      LOGGER.debug("Build done.");
+    } else {
+      LOGGER.debug("Ignoring empty {} build.", type::name);
     }
   }
 }

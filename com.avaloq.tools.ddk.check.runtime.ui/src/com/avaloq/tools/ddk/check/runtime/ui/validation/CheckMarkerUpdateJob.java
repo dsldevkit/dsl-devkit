@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.ui.validation;
 
-import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Set;
 
@@ -95,9 +94,7 @@ public class CheckMarkerUpdateJob extends Job {
         return (IFile) storage.getFirst();
       }
     }
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug(MessageFormat.format("Could not find storage for URI {0}", fileUri.toString())); //$NON-NLS-1$
-    }
+    LOGGER.debug("Could not find storage for URI {}", fileUri::toString); //$NON-NLS-1$
     return null;
   }
 
@@ -135,9 +132,7 @@ public class CheckMarkerUpdateJob extends Job {
       final IResourceServiceProvider serviceProvider = serviceProviderRegistry.getResourceServiceProvider(uri);
       if (serviceProvider == null) {
         // This may happen for non-Xtext resources in ice entities
-        if (LOGGER.isDebugEnabled()) {
-          LOGGER.debug(MessageFormat.format("Could not validate {0}: no resource service provider found", uri.toString())); //$NON-NLS-1$
-        }
+        LOGGER.debug("Could not validate {}: no resource service provider found", uri::toString); //$NON-NLS-1$
         continue; // Skip to next URI
       }
 
@@ -152,7 +147,7 @@ public class CheckMarkerUpdateJob extends Job {
       }
 
       if (resourceValidator == null) {
-        LOGGER.error(MessageFormat.format("Could not validate {0}: no resource validator found", iFile.getName())); //$NON-NLS-1$
+        LOGGER.error("Could not validate {}: no resource validator found", iFile.getName()); //$NON-NLS-1$
       } else if (iFile != null) {
         monitor.subTask("loading " + iFile.getName()); //$NON-NLS-1$
 
@@ -175,11 +170,11 @@ public class CheckMarkerUpdateJob extends Job {
           // CHECKSTYLE:OFF
         } catch (final RuntimeException e) {
           // CHECKSTYLE:ON
-          LOGGER.error(MessageFormat.format("{0} could not be validated.", iFile.getName()), e); //$NON-NLS-1$
+          LOGGER.error("{} could not be validated.", iFile.getName(), e); //$NON-NLS-1$
         } finally {
           if (eResource != null) {
             validateAndCreateMarkers(resourceValidator, markerCreator, iFile, eResource, monitor);
-            LOGGER.debug("Validated " + uri); //$NON-NLS-1$
+            LOGGER.debug("Validated {}", uri); //$NON-NLS-1$
             if (loaded) { // NOPMD
               // unload any resource that was previously loaded as part of this loop.
               eResource.unload();
