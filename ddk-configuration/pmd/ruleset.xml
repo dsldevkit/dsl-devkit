@@ -75,7 +75,7 @@
     <exclude name="UnusedPrivateMethod"/><!-- false positives-->
     <exclude name="DefaultLabelNotLastInSwitch"/>
     <exclude name="ForLoopCanBeForeach"/>
-    <exclude name="GuardLogStatement"/><!--TODO-->
+    <exclude name="GuardLogStatement"/><!--~35 log calls use string concatenation instead of parameterized logging; convert to LOG.debug("msg {}", arg) before enabling-->
     <exclude name="ImplicitFunctionalInterface"/>
     <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
     <exclude name="UnitTestContainsTooManyAsserts"/><!--New after PMD 5.3 upgrade, limitation to 1 assert not sensible, would need customization, disabled for the time being-->
@@ -84,9 +84,10 @@
     <exclude name="UnitTestShouldUseBeforeAnnotation"/><!--Checkstyle-->
     <exclude name="UnitTestShouldUseTestAnnotation"/>
     <exclude name="NonExhaustiveSwitch"/>
-    <exclude name="PreserveStackTrace"/><!--TODO-->
+    <exclude name="PreserveStackTrace"/><!--Catch blocks that create new exceptions should pass the original cause; needs audit before enabling-->
     <exclude name="UnnecessaryWarningSuppression"/> <!--Experimental, too many false positives-->
     <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
+
     <exclude name="JUnit5TestShouldBePackagePrivate"/>
   </rule>
   <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
