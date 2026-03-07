@@ -90,8 +90,7 @@ public class ConfigurableTemplateStore extends TemplateStore {
     if (templates != null) {
       TemplateReaderWriter reader = new TemplateReaderWriter();
       try {
-        InputStream openStream = templates.openStream();
-        try {
+        try (InputStream openStream = templates.openStream()) {
           TemplatePersistenceData[] datas = reader.read(openStream, null);
           int templateCounter = 0;
           for (TemplatePersistenceData data : datas) {
@@ -106,8 +105,6 @@ public class ConfigurableTemplateStore extends TemplateStore {
               internalAdd(data);
             }
           }
-        } finally {
-          openStream.close();
         }
       } catch (IOException e) {
         LOG.error(e);
