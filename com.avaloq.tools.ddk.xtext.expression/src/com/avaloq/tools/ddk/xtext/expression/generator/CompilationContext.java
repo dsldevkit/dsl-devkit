@@ -223,7 +223,7 @@ public class CompilationContext {
   public String javaType(final String name) {
     Type type = findType(name);
     if (type == null) {
-      LOGGER.warn("No type found for " + name);
+      LOGGER.warn("No type found for {}", name);
       return name;
     }
     return javaType(type);
@@ -320,7 +320,7 @@ public class CompilationContext {
       }
       // CHECKSTYLE:OFF
     } catch (final Exception e) {
-      LOGGER.warn(NLS.bind("Could not determine qualified type name for {0}", typeName), e); //$NON-NLS-1$
+      LOGGER.warn("Could not determine qualified type name for {}", typeName, e); //$NON-NLS-1$
     }
     // CHECKSTYLE:ON
 
@@ -343,7 +343,7 @@ public class CompilationContext {
         // CHECKSTYLE:OFF
       } catch (Exception e) {
         // CHECKSTYLE:ON
-        LOGGER.error("Could not determine EClass for " + type, e);
+        LOGGER.error("Could not determine EClass for {}", type, e);
       }
     }
     return null;

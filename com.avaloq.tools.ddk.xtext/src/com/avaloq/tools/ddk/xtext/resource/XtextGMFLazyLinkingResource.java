@@ -116,7 +116,7 @@ public class XtextGMFLazyLinkingResource extends LazyLinkingResource2 implements
           result.append(new String(diagramBuffer, encoding));
         }
       } catch (UnsupportedEncodingException e) {
-        LOGGER.error("Strange, encoding: " + encoding + " was OK when resource loaded"); //$NON-NLS-1$ //$NON-NLS-2$
+        LOGGER.error("Strange, encoding: {} was OK when resource loaded", encoding); //$NON-NLS-1$
         return EMPTY_STRING;
       }
       return result.toString();

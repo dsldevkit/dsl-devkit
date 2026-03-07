@@ -82,7 +82,7 @@ public class CheckCfgUtil {
         try {
           contributions.add((ICheckCfgPropertySpecification) element.createExecutableExtension(PROPERTY_EXECUTABLE_EXTENSION_ATTRIBUTE));
         } catch (CoreException e) {
-          LOGGER.warn("Failed to instantiate property from " + element.getContributor(), e); //$NON-NLS-1$
+          LOGGER.warn("Failed to instantiate property from {}", element.getContributor(), e); //$NON-NLS-1$
         }
       }
     } else {

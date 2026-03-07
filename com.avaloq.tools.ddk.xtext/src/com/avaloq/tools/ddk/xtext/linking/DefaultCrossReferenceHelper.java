@@ -69,7 +69,7 @@ public class DefaultCrossReferenceHelper implements ICrossReferenceHelper {
       return false;
     } else if (!target.eIsProxy()) {
       if (target.eResource() == null) {
-        LOGGER.error("Reference from " + EcoreUtil.getURI(context) + " to " + target + " cannot be exported as target is not contained in a resource."); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+        LOGGER.error("Reference from {} to {} cannot be exported as target is not contained in a resource.", EcoreUtil.getURI(context), target); //$NON-NLS-1$
         return false;
       }
       return context.eResource() != target.eResource();
