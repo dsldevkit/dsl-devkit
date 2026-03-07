@@ -68,6 +68,21 @@ export WORKSPACE=$(pwd)
 - **Aggregator module**: `com.avaloq.tools.ddk.xtext.test`
 - **UI tests**: Require virtual display (xvfb on Linux) or `-XstartOnFirstThread` (macOS)
 
+### macOS developer setup
+
+SWT on Cocoa requires the Display to be created on the main thread. UI tests
+therefore need `-XstartOnFirstThread`. There are two contexts:
+
+- **`mvn verify` / CI**: the `macosx` profile in `ddk-parent/pom.xml` (activated
+  on `family=mac`) adds the flag automatically. No setup required.
+- **Running launches from Eclipse**: add `-XstartOnFirstThread` to your JRE's
+  default VM arguments — `Window > Preferences > Java > Installed JREs > [your
+  JDK] > Edit > Default VM arguments`. PDE launches with `append.args=true`
+  inherit this on macOS only. The flag is not hardcoded in the `.launch` files
+  because the JVM on Windows and Linux rejects it as an "Unrecognized VM
+  option". This matches Eclipse Platform's own UI test launches (which omit
+  the flag and rely on the same JRE-default-args mechanism).
+
 ### Aggregator pattern — important
 
 The project runs **all tests through one aggregator module**, not per-`.test`-module. `ddk-parent/pom.xml` sets `<skip>true</skip>` on `tycho-surefire-plugin` globally; only `com.avaloq.tools.ddk.xtext.test` overrides it with its own full tycho-surefire configuration. Inside that module, `src/com/avaloq/tools/ddk/xtext/AllTests.java` is a JUnit 5 `@Suite` that `@SelectClasses` from ~14 per-module `*TestSuite` classes (`ExportTestSuite`, `CheckCoreTestSuite`, `TypeSystemTestSuite`, `CheckUiTestSuite`, etc.). Those other `.test` bundles are on `xtext.test`'s OSGi classpath via `Require-Bundle`, so their test classes get discovered and executed inside the single Eclipse runtime spun up for `xtext.test`.
