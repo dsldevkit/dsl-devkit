@@ -397,20 +397,6 @@
     <profile>
       <activation>
         <os>
-          <name>sunos</name>
-          <family>unix</family>
-        </os>
-      </activation>
-      <id>solaris</id>
-      <properties>
-        <osgi.os>solaris</osgi.os>
-        <osgi.ws>gtk</osgi.ws>
-        <osgi.arch>x86</osgi.arch>
-      </properties>
-    </profile>
-    <profile>
-      <activation>
-        <os>
           <name>linux</name>
           <arch>amd64</arch>
           <family>unix</family>
