@@ -642,7 +642,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               final long memoryDelta = Runtime.getRuntime().freeMemory() - initialMemory;
               final int resourceSetSizeDelta = resourceSet.getResources().size() - initialResourceSetSize;
               final long timeDelta = System.nanoTime() - initialTime;
-              traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta);
+              traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta); // NOPMD GuardLogStatement - not a logger call
             }
             watchdog.reportWorkEnded(index, index + queue.size());
           }
