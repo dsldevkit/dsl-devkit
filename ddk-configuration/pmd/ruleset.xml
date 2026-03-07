@@ -87,7 +87,6 @@
     <exclude name="PreserveStackTrace"/><!--TODO-->
     <exclude name="UnnecessaryWarningSuppression"/> <!--Experimental, too many false positives-->
     <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
-    <exclude name="UseTryWithResources"/><!--TODO-->
     <exclude name="JUnit5TestShouldBePackagePrivate"/>
   </rule>
   <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
