@@ -40,8 +40,8 @@ public abstract class AbstractCheckImpl implements ICheckValidatorImpl {
   protected void logCheckMethodFailure(final String rule, final EObject object, final Exception e) {
     final Throwable cause = e instanceof InvocationTargetException ? ((InvocationTargetException) e).getTargetException() : e;
     final Resource res = object.eResource();
-    LOGGER.error("Permanently disabling check method " + rule + " for context " + object.getClass().getName() + " because of failure" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        + (res != null ? " in " + res.getURI() : ""), cause); //$NON-NLS-1$ //$NON-NLS-2$
+    LOGGER.error("Permanently disabling check method {} for context {} because of failure{}", rule, object.getClass().getName(), //$NON-NLS-1$
+        (res != null ? " in " + res.getURI() : ""), cause); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**

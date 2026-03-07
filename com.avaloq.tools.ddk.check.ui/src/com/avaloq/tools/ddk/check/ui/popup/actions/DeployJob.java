@@ -101,7 +101,7 @@ public class DeployJob extends Job {
       return new Status(Status.ERROR, Activator.getPluginId(), Messages.DeployJob_CouldNotDeployCheckBundle, e);
     }
 
-    LOGGER.info(NLS.bind("Generated bundle from project {0} deployed.", project.getName())); //$NON-NLS-1$
+    LOGGER.info("Generated bundle from project {} deployed.", project.getName()); //$NON-NLS-1$
 
     try {
       deployCheckConfiguration();
@@ -109,7 +109,7 @@ public class DeployJob extends Job {
       return new Status(Status.ERROR, Activator.getPluginId(), Messages.DeployJob_CannotDeployMoreThanOneCheckConfiguration, e);
     }
 
-    LOGGER.info(NLS.bind("Check configuration for project {0} deployed.", project.getName())); //$NON-NLS-1$
+    LOGGER.info("Check configuration for project {} deployed.", project.getName()); //$NON-NLS-1$
 
     return Status.OK_STATUS;
   }
@@ -137,16 +137,16 @@ public class DeployJob extends Job {
 
     Bundle managedBundle = Platform.getBundle(project.getName());
     if (managedBundle != null) {
-      LOGGER.info(NLS.bind(Messages.DeployJob_BundleAlreadyDeployed, project.getName()));
+      LOGGER.info("Bundle {} already deployed. Stopping and uninstalling it.", project.getName()); //$NON-NLS-1$
       try {
         UndeployJob.undeployBundle(managedBundle);
       } catch (BundleException e) {
-        LOGGER.error(NLS.bind(Messages.UndeployJob_FailedToStopAndUninstallBundleWithSymbolicName, managedBundle.getSymbolicName()), e);
+        LOGGER.error("Failed to stop and uninstall bundle with symbolic name {}.", managedBundle.getSymbolicName(), e); //$NON-NLS-1$
         throw new DeployException(e);
       }
     }
 
-    LOGGER.info(NLS.bind("Starting the bundle {0} generated from the project {1}", bundleLocation, project.getName())); //$NON-NLS-1$
+    LOGGER.info("Starting the bundle {} generated from the project {}", bundleLocation, project.getName()); //$NON-NLS-1$
     try {
       managedBundle = bundleContext.installBundle(bundleLocation, Files.asByteSource(jar).openStream());
       managedBundle.start();

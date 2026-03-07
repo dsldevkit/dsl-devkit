@@ -260,7 +260,7 @@ public abstract class AbstractCheckTestCase {
         try {
           s.close();
         } catch (IOException e) {
-          LOGGER.info("Failed to close test file " + fileName);
+          LOGGER.info("Failed to close test file {}", fileName);
         }
       }
     }
@@ -338,7 +338,7 @@ public abstract class AbstractCheckTestCase {
               IFile file = IResourcesSetupUtil.createFile(resourceURI.toPlatformString(true), contents);
               getFiles().add(file);
             } catch (IOException e) {
-              LOGGER.error("failed adding file to workspace: " + fileName, e);
+              LOGGER.error("failed adding file to workspace: {}", fileName, e);
               fail("Error adding file " + fileName + " to workspace: " + e.getMessage());
             }
           }
