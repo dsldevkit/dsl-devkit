@@ -73,7 +73,7 @@ public class AbstractCheckContext implements ICheckContext {
           // caught and disabled by the usual check infrastructure.
         } catch (Exception e) {
           // CHECKSTYLE:CHECK-ON IllegalCatch
-          LOGGER.error("Failed to execute predicate " + method.getName() + " for issue code " + issueCode + ". Removing predicate for this issue code.", e); //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+          LOGGER.error("Failed to execute predicate {} for issue code {}. Removing predicate for this issue code.", method.getName(), issueCode, e); //$NON-NLS-1$
           predicatesForIssueCode.remove(issueCode, method);
         }
       }

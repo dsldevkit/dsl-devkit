@@ -99,7 +99,7 @@ public final class EmfResourceUtil {
       try {
         resource.load(resourceSet.getLoadOptions());
       } catch (IOException e) {
-        LOGGER.warn("loadURI: Unable to load resource : " + resource.getURI().toString()); //$NON-NLS-1$
+        LOGGER.warn("loadURI: Unable to load resource : {}", resource.getURI()); //$NON-NLS-1$
         return null;
       }
     }

@@ -19,7 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.validation.AbstractInjectableValidator;
 
 import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
@@ -83,7 +82,7 @@ public abstract class AbstractCheckValidator extends AbstractInjectableValidator
     if (language == null) {
       throw new IllegalArgumentException("Input language cannot be null"); //$NON-NLS-1$
     } else if (injector == null) {
-      LOGGER.debug(NLS.bind("No injector found for {0}. Could not inject registered validators.", language)); //$NON-NLS-1$
+      LOGGER.debug("No injector found for {}. Could not inject registered validators.", language); //$NON-NLS-1$
     }
 
     final List<ICheckValidatorImpl> result = Lists.newArrayList();
@@ -98,7 +97,7 @@ public abstract class AbstractCheckValidator extends AbstractInjectableValidator
           // CHECKSTYLE:OFF
         } catch (Exception e) {
           // CHECKSTYLE:ON
-          LOGGER.error("failed to inject validator " + validator, e); //$NON-NLS-1$
+          LOGGER.error("failed to inject validator {}", validator, e); //$NON-NLS-1$
         }
       }
     }

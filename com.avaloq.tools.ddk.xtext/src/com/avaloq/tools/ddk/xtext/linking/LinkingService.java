@@ -199,7 +199,7 @@ public class LinkingService extends DefaultLinkingService {
     try {
       return getSingleElement(context, ref, qualifiedLinkName);
     } catch (Exception e) { // IllegalCatchCheck OFF
-      LOGGER.error("Exception in getSingleElement for " + qualifiedLinkName.toString() + " at " + EObjectUtil.getLocationString(context), e); //$NON-NLS-1$ //$NON-NLS-2$
+      LOGGER.error("Exception in getSingleElement for {} at {}", qualifiedLinkName, EObjectUtil.getLocationString(context), e); //$NON-NLS-1$
     }
     return null;
   }

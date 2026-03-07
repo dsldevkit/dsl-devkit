@@ -90,7 +90,7 @@ public class CheckProjectHelper {
       String result = packageFragment.getElementName().replace('.', '/');
       return result + '/' + file.getName();
     } catch (JavaModelException e) {
-      LOGGER.error("Could not determine plugin path for catalog " + catalog.getName(), e);
+      LOGGER.error("Could not determine plugin path for catalog {}", catalog.getName(), e);
     }
     return null;
   }
@@ -114,7 +114,7 @@ public class CheckProjectHelper {
       final String fileNameWithoutExtension = file.getName().substring(0, file.getName().length() - (file.getFileExtension().length() + 1));
       return packageFragment.getElementName() + '.' + fileNameWithoutExtension;
     } catch (JavaModelException e) {
-      LOGGER.error("Could not determine plugin path for catalog " + catalog.getName(), e);
+      LOGGER.error("Could not determine plugin path for catalog {}", catalog.getName(), e);
     }
     return null;
   }
