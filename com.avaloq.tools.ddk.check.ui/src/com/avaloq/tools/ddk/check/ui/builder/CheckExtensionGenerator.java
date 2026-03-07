@@ -22,8 +22,6 @@ import java.util.Locale;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -91,8 +89,6 @@ import com.google.inject.Inject;
 @SuppressWarnings({"restriction", "nls"})
 class CheckExtensionGenerator {
   // CHECKSTYLE:ON
-  private static final Logger LOGGER = LogManager.getLogger(CheckExtensionGenerator.class);
-
   static final String PREFERENCE_PLUGIN_XML_FILENAME = "PluginXmlFilename";
   static final String STANDARD_PLUGIN_FILENAME = ICoreConstants.PLUGIN_FILENAME_DESCRIPTOR;
   static final String STANDARD_FRAGMENT_FILENAME = ICoreConstants.FRAGMENT_FILENAME_DESCRIPTOR;
@@ -504,30 +500,18 @@ class CheckExtensionGenerator {
     final IFile file = PDEProject.getManifest(project);
 
     if (file.exists() && catalog.getGrammar() != null) {
-      InputStream fileContents = null;
-      try {
-        fileContents = file.getContents();
+      try (InputStream fileContents = file.getContents()) {
         MergeableManifest2 manifest = new MergeableManifest2(fileContents, project.getName());
-        fileContents.close();
         manifest.addRequiredBundles(new GrammarHelper(catalog.getGrammar()).getRequiredBundleSymbolicNames());
         if (manifest.isModified()) {
           ByteArrayOutputStream os = new ByteArrayOutputStream();
           manifest.write(os);
-          os.close();
           file.setContents(new ByteArrayInputStream(os.toByteArray()), false, false, monitor);
         }
       } catch (IOException e) {
         throw new WrappedException(e);
       } catch (CoreException e) {
         throw new WrappedException(e);
-      } finally {
-        if (fileContents != null) {
-          try {
-            fileContents.close();
-          } catch (IOException e) {
-            LOGGER.warn("Could not close the Manifest file after modifying it.", e);
-          }
-        }
       }
     }
 
