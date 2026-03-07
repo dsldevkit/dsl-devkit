@@ -154,9 +154,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
       final URI deltaURI = delta.getUri();// NOPMD - potentially could be lost due to call on getNew() after
       // deleted resources are no longer visible resources so we test them, too.
       if (delta.getNew() == null && isReferencedBy(delta, candidate, context)) {
-        if (LOGGER.isDebugEnabled()) {
-          LOGGER.debug(candidate.getURI() + " is affected by " + delta.getUri()); //$NON-NLS-1$
-        }
+        LOGGER.debug("{} is affected by {}", candidate::getURI, delta::getUri); //$NON-NLS-1$
         return true;
       }
 
@@ -165,9 +163,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
         for (IContainer container : containers) {
           if (container.getResourceDescription(deltaURI) != null) {
             if (isReferencedBy(delta, candidate, context)) {
-              if (LOGGER.isDebugEnabled()) { // NOPMD AvoidDeeplyNestedIfStmts
-                LOGGER.debug(candidate.getURI() + " is affected by " + delta.getUri()); //$NON-NLS-1$
-              }
+              LOGGER.debug("{} is affected by {}", candidate::getURI, delta::getUri); //$NON-NLS-1$
               return true;
             }
             break;
@@ -370,9 +366,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     if (delta.getUri().equals(candidate.getURI())) {
       // If the delta is for ourselves, we're always affected; otherwise the dirty state manager may omit to update the editor
       // state.
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug(delta.getUri() + " is the same as " + candidate.getURI()); //$NON-NLS-1$
-      }
+      LOGGER.debug("{} is the same as {}", delta::getUri, candidate::getURI); //$NON-NLS-1$
       return true;
     }
     if (!delta.haveEObjectDescriptionsChanged()) {
@@ -396,7 +390,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     boolean disjointResolved = Collections.disjoint(resolvedNames, resolvedAndUnresolvedNames.getFirst());
     if (!disjointResolved && LOGGER.isDebugEnabled()) {
       resolvedNames.retainAll(getImportedNames(candidate));
-      LOGGER.debug("resolved names imported by   " + candidate.getURI() + " are exported by " + delta.getUri() + " intersection:" + resolvedNames.toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+      LOGGER.debug("resolved names imported by   {} are exported by {} intersection:{}", candidate::getURI, delta::getUri, resolvedNames::toString); //$NON-NLS-1$
     }
     if (!disjointResolved) {
       return true;
@@ -404,7 +398,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     boolean disjointUnresolved = Collections.disjoint(unresolvedNames, resolvedAndUnresolvedNames.getSecond());
     if (!disjointUnresolved && LOGGER.isDebugEnabled()) {
       unresolvedNames.retainAll(getImportedNames(candidate));
-      LOGGER.debug("unrevolved names imported by " + candidate.getURI() + " are exported by " + delta.getUri() + " intersection:" + unresolvedNames.toString()); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+      LOGGER.debug("unresolved names imported by {} are exported by {} intersection:{}", candidate::getURI, delta::getUri, unresolvedNames::toString); //$NON-NLS-1$
     }
     return !disjointUnresolved;
   }

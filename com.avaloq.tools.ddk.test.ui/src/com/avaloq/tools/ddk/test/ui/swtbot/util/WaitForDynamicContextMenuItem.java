@@ -78,18 +78,14 @@ public class WaitForDynamicContextMenuItem extends WaitForMenuItem {
     super(menu, new DynamicContextMenuItemMatcher(matcher, menu.getPredicate()), recursive, index);
     itemMatcher = (DynamicContextMenuItemMatcher) this.matcher;
     this.widget = menu.widget;
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("MenuItem finder matching " + itemMatcher); //$NON-NLS-1$
-    }
+    LOGGER.debug("MenuItem finder matching {}", itemMatcher); //$NON-NLS-1$
   }
 
   public WaitForDynamicContextMenuItem(final SwtBotDynamicContextMenu menu, final Matcher<MenuItem> matcher, final boolean recursive, final int index) {
     super(menu, new DynamicContextMenuItemMatcher(matcher, menu.getPredicate()), recursive, index);
     itemMatcher = (DynamicContextMenuItemMatcher) this.matcher;
     this.widget = menu.widget;
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("MenuItem finder matching " + itemMatcher); //$NON-NLS-1$
-    }
+    LOGGER.debug("MenuItem finder matching {}", itemMatcher); //$NON-NLS-1$
   }
 
   @Override
