@@ -54,7 +54,7 @@ public final class LoggingRule implements TestWatcher, BeforeEachCallback, After
 
   @Override
   public void beforeEach(final ExtensionContext context) throws Exception {
-    LOGGER.info("STARTING: {}", getDescriptionName(context));
+    LOGGER.info("STARTING: {}", () -> getDescriptionName(context));
   }
 
   /**
@@ -70,16 +70,16 @@ public final class LoggingRule implements TestWatcher, BeforeEachCallback, After
 
   @Override
   public void testSuccessful(final ExtensionContext context) {
-    LOGGER.info("SUCCEEDED: {}", getDescriptionName(context));
+    LOGGER.info("SUCCEEDED: {}", () -> getDescriptionName(context));
   }
 
   @Override
   public void testFailed(final ExtensionContext context, final Throwable cause) {
-    LOGGER.info("FAILED: {}", getDescriptionName(context));
+    LOGGER.info("FAILED: {}", () -> getDescriptionName(context));
   }
 
   @Override
   public void afterEach(final ExtensionContext context) throws Exception {
-    LOGGER.info("FINISHED: {}", getDescriptionName(context));
+    LOGGER.info("FINISHED: {}", () -> getDescriptionName(context));
   }
 }
