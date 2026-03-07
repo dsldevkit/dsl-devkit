@@ -183,8 +183,7 @@ public abstract class AbstractCheckTestCase {
    *           the exception
    */
   public String getContents(final IFile file) throws Exception { // NOPMD
-    InputStream inputStream = file.getContents();
-    try {
+    try (InputStream inputStream = file.getContents()) {
       byte[] buffer = new byte[TWO_KILO_BYTES];
       int bytesRead;
       StringBuffer b = new StringBuffer();
@@ -195,8 +194,6 @@ public abstract class AbstractCheckTestCase {
         }
       } while (bytesRead != -1);
       return b.toString();
-    } finally {
-      inputStream.close();
     }
   }
 
@@ -251,18 +248,8 @@ public abstract class AbstractCheckTestCase {
   public EObject getModel(final String fileName) throws Exception { // NOPMD
     IFile file = getFile(fileName);
     Resource resource = get(XtextResourceSet.class).createResource(uri(file));
-    InputStream s = null;
-    try {
-      s = file.getContents();
+    try (InputStream s = file.getContents()) {
       resource.load(s, null);
-    } finally {
-      if (s != null) {
-        try {
-          s.close();
-        } catch (IOException e) {
-          LOGGER.info("Failed to close test file " + fileName);
-        }
-      }
     }
     assertEquals(0, resource.getErrors().size(), resource.getErrors().toString());
     return resource.getContents().get(0);

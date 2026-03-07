@@ -68,7 +68,7 @@ public class XtextGMFResourceUtil {
   public static byte[] readFullStream(final InputStream input) throws IOException {
     InputStream readStream = null;
     boolean wrappedInput = false;
-    try {
+    try { // NOPMD UseTryWithResources - only closes when we created the wrapper, not the caller's stream
       ByteArrayOutputStream result = new ByteArrayOutputStream();
       byte[] buffer = new byte[INPUT_BUFFER_SIZE];
       if (!(input instanceof BufferedInputStream)) {

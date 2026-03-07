@@ -83,7 +83,7 @@ public class XtextGMFDocumentProvider extends ResponsiveXtextDocumentProvider {
   protected void setDocumentContentQuietly(final XtextGMFDocument document, final InputStream contentStream, final String encoding) throws CoreException {
     Reader in = null;
 
-    try {
+    try { // NOPMD UseTryWithResources - conditional close: closes in (if created) or contentStream (caller's)
       String actualEncoding = encoding;
       if (actualEncoding == null) {
         actualEncoding = getDefaultEncoding();
