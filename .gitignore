@@ -7,3 +7,4 @@
 *.xtendbin
 /*/xtend-gen/*
 !/*/xtend-gen/.gitignore
+.tycho-consumer-pom.xml
