@@ -248,7 +248,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           try {
             resource = parent.getResource(uri, true);
           } catch (WrappedException e) {
-            throw new LoadOperationException(uri, e.exception());
+            throw new LoadOperationException(uri, e.exception()); // NOPMD PreserveStackTrace - intentional unwrap of WrappedException
             // CHECKSTYLE:OFF
           } catch (Exception e) {
             // CHECKSTYLE:ON
