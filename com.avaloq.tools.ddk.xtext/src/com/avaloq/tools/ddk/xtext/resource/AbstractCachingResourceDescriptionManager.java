@@ -61,6 +61,8 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(AbstractCachingResourceDescriptionManager.class);
 
+  private static final String LOG_AFFECTED_BY = "{} is affected by {}"; //$NON-NLS-1$
+
   /** Cache key for the resource description of a resource. */
   public static final String CACHE_KEY = DefaultResourceDescriptionManager.class.getName() + "#getResourceDescription"; //$NON-NLS-1$
 
@@ -154,7 +156,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
       final URI deltaURI = delta.getUri();// NOPMD - potentially could be lost due to call on getNew() after
       // deleted resources are no longer visible resources so we test them, too.
       if (delta.getNew() == null && isReferencedBy(delta, candidate, context)) {
-        LOGGER.debug("{} is affected by {}", candidate::getURI, delta::getUri); //$NON-NLS-1$
+        LOGGER.debug(LOG_AFFECTED_BY, candidate::getURI, delta::getUri);
         return true;
       }
 
@@ -163,7 +165,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
         for (IContainer container : containers) {
           if (container.getResourceDescription(deltaURI) != null) {
             if (isReferencedBy(delta, candidate, context)) {
-              LOGGER.debug("{} is affected by {}", candidate::getURI, delta::getUri); //$NON-NLS-1$
+              LOGGER.debug(LOG_AFFECTED_BY, candidate::getURI, delta::getUri);
               return true;
             }
             break;

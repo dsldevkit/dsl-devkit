@@ -132,7 +132,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   private static final int COMMIT_WARN_WAIT_SEC = 30;
 
-  private static final String FAILED_TO_SAVE_BINARY = "Failed to save binary for "; //$NON-NLS-1$
+  private static final String FAILED_TO_SAVE_BINARY_LOG = "Failed to save binary for {}"; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(MonitoredClusteringBuilderState.class);
@@ -751,12 +751,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         LOGGER.info("saving binary taking longer than expected ({} ms): {}", elapsedMillis, resource.getURI()); //$NON-NLS-1$
       }
     } catch (WrappedException ex) {
-      LOGGER.error("{}{}", FAILED_TO_SAVE_BINARY, resource.getURI(), ex.exception());
+      LOGGER.error(FAILED_TO_SAVE_BINARY_LOG, resource.getURI(), ex.exception());
 
       // CHECKSTYLE:OFF
     } catch (Throwable ex) {
       // CHECKSTYLE:ON
-      LOGGER.error("{}{}", FAILED_TO_SAVE_BINARY, resource.getURI(), ex);
+      LOGGER.error(FAILED_TO_SAVE_BINARY_LOG, resource.getURI(), ex);
     }
   }
 
