@@ -408,5 +408,19 @@
         <osgi.arch>x86_64</osgi.arch>
       </properties>
     </profile>
+    <profile>
+      <id>macosx</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <osgi.os>macosx</osgi.os>
+        <osgi.ws>cocoa</osgi.ws>
+        <osgi.arch>aarch64</osgi.arch>
+        <test.javaOptions>${runtime.javaOptions} -XstartOnFirstThread</test.javaOptions>
+      </properties>
+    </profile>
   </profiles>
 </project>
