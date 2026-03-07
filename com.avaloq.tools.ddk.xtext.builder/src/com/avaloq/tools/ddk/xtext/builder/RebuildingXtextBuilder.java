@@ -161,7 +161,7 @@ public class RebuildingXtextBuilder extends XtextBuilder {
   @Override
   protected void doBuild(final ToBeBuilt toBeBuilt, final IProgressMonitor monitor, final BuildType type) throws CoreException {
     if (!toBeBuilt.getToBeDeleted().isEmpty() || !toBeBuilt.getToBeUpdated().isEmpty()) {
-      LOGGER.debug("Starting {} build:\ndeleted({})={}\nupdated({})={}", type::name,
+      LOGGER.debug("Starting {} build:\ndeleted({})={}\nupdated({})={}", type::name, // NOPMD GuardLogStatement - all args are Suppliers
           toBeBuilt.getToBeDeleted()::size, toBeBuilt.getToBeDeleted()::toString,
           toBeBuilt.getToBeUpdated()::size, toBeBuilt.getToBeUpdated()::toString);
 
