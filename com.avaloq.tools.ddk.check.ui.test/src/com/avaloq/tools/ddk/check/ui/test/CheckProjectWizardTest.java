@@ -20,6 +20,8 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.ui.test.internal.CheckWizardUiTestInjectorProvider;
@@ -35,6 +37,12 @@ import com.avaloq.tools.ddk.test.ui.swtbot.SwtWizardBot;
 @InjectWith(CheckWizardUiTestInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
+// On macOS, SWT Cocoa's modal event loop inside WizardDialog.open() blocks
+// Display.sleep() on NSRunLoop.runMode(distantFuture). SWTBot's syncExec-based
+// polling cannot reliably wake this up in a background test process without OS
+// focus. This is consistent with Eclipse Foundation practice: SWTBot wizard tests
+// are run on Linux CI (with xvfb), not on macOS.
+@DisabledOnOs(OS.MAC)
 public class CheckProjectWizardTest {
 
   /** This is the name of the project wizard. It's the name SWTBot uses to look up the wizard. */

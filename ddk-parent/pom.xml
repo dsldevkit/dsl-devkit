@@ -43,7 +43,7 @@
     <test.testClass>com.avaloq.tools.ddk.xtext.AllTests</test.testClass>
 
     <!-- maven enforced version -->
-    <maven-enforcer-rule.version>3.9.12</maven-enforcer-rule.version>
+    <maven-enforcer-rule.version>3.9.13</maven-enforcer-rule.version>
 
     <!-- maven plugin versions -->
     <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
@@ -374,6 +374,9 @@
                 <includes>
                   <include>**</include>
                 </includes>
+                <excludes>
+                  <exclude>.gitignore</exclude>
+                </excludes>
               </fileset>
             </filesets>
           </configuration>
@@ -397,20 +400,6 @@
     <profile>
       <activation>
         <os>
-          <name>sunos</name>
-          <family>unix</family>
-        </os>
-      </activation>
-      <id>solaris</id>
-      <properties>
-        <osgi.os>solaris</osgi.os>
-        <osgi.ws>gtk</osgi.ws>
-        <osgi.arch>x86</osgi.arch>
-      </properties>
-    </profile>
-    <profile>
-      <activation>
-        <os>
           <name>linux</name>
           <arch>amd64</arch>
           <family>unix</family>
@@ -421,6 +410,20 @@
         <osgi.os>linux</osgi.os>
         <osgi.ws>gtk</osgi.ws>
         <osgi.arch>x86_64</osgi.arch>
+      </properties>
+    </profile>
+    <profile>
+      <id>macosx</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <osgi.os>macosx</osgi.os>
+        <osgi.ws>cocoa</osgi.ws>
+        <osgi.arch>aarch64</osgi.arch>
+        <test.javaOptions>${runtime.javaOptions} -XstartOnFirstThread</test.javaOptions>
       </properties>
     </profile>
   </profiles>
