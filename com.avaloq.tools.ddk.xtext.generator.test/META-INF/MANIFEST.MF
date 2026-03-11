@@ -10,8 +10,6 @@ Fragment-Host: com.avaloq.tools.ddk.xtext.generator
 Require-Bundle: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.test.core,
- org.eclipse.xtend,
- org.eclipse.xtend.typesystem.emf,
  org.eclipse.xtext,
  org.mockito.mockito-core,
  com.avaloq.tools.ddk.xtext.ui,
