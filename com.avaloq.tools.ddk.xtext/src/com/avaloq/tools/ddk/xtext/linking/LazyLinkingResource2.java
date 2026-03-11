@@ -164,7 +164,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
     } catch (FastLazyURIEncoder.DecodingError err) {
       RuntimeException cause = err.getCause();
       getErrors().add(new ExceptionDiagnostic(cause));
-      throw new WrappedException(cause);
+      throw new WrappedException(cause); // NOPMD PreserveStackTrace - intentional unwrap of DecodingError transport wrapper
     } catch (WrappedException e) {
       boolean logged = false;
       try {

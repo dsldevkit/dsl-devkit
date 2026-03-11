@@ -111,7 +111,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
       IResourcesSetupUtil.waitForBuild();
       createPluginProject(injector, TEST_PROJECT_NAME);
     } catch (CoreException e) {
-      throw new IllegalStateException("Failed to create plugin project");
+      throw new IllegalStateException("Failed to create plugin project", e);
     }
   }
 
@@ -145,7 +145,7 @@ public class PluginTestProjectManager extends XtextTestProjectManager {
     } catch (InvocationTargetException e) {
       LOGGER.error(e.getCause().getMessage());
     } catch (InterruptedException e) {
-      throw new AssertionError("Interrupted");
+      throw new AssertionError("Interrupted", e);
     }
   }
 
