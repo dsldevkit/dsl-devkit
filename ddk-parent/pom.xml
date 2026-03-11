@@ -43,7 +43,7 @@
     <test.testClass>com.avaloq.tools.ddk.xtext.AllTests</test.testClass>
 
     <!-- maven enforced version -->
-    <maven-enforcer-rule.version>3.9.12</maven-enforcer-rule.version>
+    <maven-enforcer-rule.version>[3.9.0,4)</maven-enforcer-rule.version>
 
     <!-- maven plugin versions -->
     <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
