@@ -32,6 +32,10 @@ import org.eclipse.xtext.Grammar
 
 class ExportGeneratorX {
 
+  static val URI_PROJECT_SEGMENT_INDEX = 1
+  static val URI_PACKAGE_START_INDEX = 3
+  static val DEFAULT_PACKAGE_SEGMENT = "generated"
+
   @Inject
   extension Naming
 
@@ -51,15 +55,13 @@ class ExportGeneratorX {
   }
 
   def String getExportedNamesProvider(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".naming." + getName(model) + "ExportedNamesProvider";
+    return model.basePackage + ".naming." + getName(model) + "ExportedNamesProvider";
   }
 
   def String getResourceDescriptionManager(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "ResourceDescriptionManager";
+    return model.basePackage + ".resource." + getName(model) + "ResourceDescriptionManager";
   }
 
   def String getResourceDescriptionManager(Grammar grammar) {
@@ -67,33 +69,76 @@ class ExportGeneratorX {
   }
 
   def String getResourceDescriptionStrategy(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "ResourceDescriptionStrategy";
+    return model.basePackage + ".resource." + getName(model) + "ResourceDescriptionStrategy";
   }
 
   def String getResourceDescriptionConstants(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "ResourceDescriptionConstants";
+    return model.basePackage + ".resource." + getName(model) + "ResourceDescriptionConstants";
   }
 
   def String getFingerprintComputer(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "FingerprintComputer";
+    return model.basePackage + ".resource." + getName(model) + "FingerprintComputer";
   }
 
   def String getFragmentProvider(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "FragmentProvider";
+    return model.basePackage + ".resource." + getName(model) + "FragmentProvider";
   }
 
   def String getExportFeatureExtension(ExportModel model) {
-    val uri = model.eResource().getURI();
     // TODO we still need to add a package to the models. Extension models already have a name in contrast to cases above
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + model.name + "ExportFeatureExtension";
+    return model.basePackage + ".resource." + model.name + "ExportFeatureExtension";
+  }
+
+  private def String getBasePackage(ExportModel model) {
+    val uri = model.eResource.URI
+    val packageFromUri = uri.packageFromUri
+    if (packageFromUri !== null) {
+      return packageFromUri
+    }
+    return uri.fallbackPackage
+  }
+
+  private def String getPackageFromUri(org.eclipse.emf.common.util.URI uri) {
+    val packageSegments = uri.segmentsList
+    if (packageSegments.size > URI_PACKAGE_START_INDEX + 1 && "src".equals(packageSegments.get(URI_PROJECT_SEGMENT_INDEX + 1))) {
+      return String.join(".", packageSegments.subList(URI_PACKAGE_START_INDEX, uri.segmentCount - 1))
+    }
+    return null
+  }
+
+  private def String getFallbackPackage(org.eclipse.emf.common.util.URI uri) {
+    val segments = uri.segmentsList
+    if (segments.size > URI_PROJECT_SEGMENT_INDEX) {
+      return segments.get(URI_PROJECT_SEGMENT_INDEX).safePackageSegment
+    }
+    return DEFAULT_PACKAGE_SEGMENT
+  }
+
+  private def String getSafePackageSegment(String segment) {
+    if (segment === null || segment.empty) {
+      return DEFAULT_PACKAGE_SEGMENT
+    }
+    val normalizedSegment = segment.toLowerCase
+    val builder = new StringBuilder()
+    for (var i = 0; i < normalizedSegment.length; i++) {
+      val character = normalizedSegment.charAt(i)
+      if (builder.length == 0) {
+        if (Character.isJavaIdentifierStart(character)) {
+          builder.append(character)
+        } else if (Character.isJavaIdentifierPart(character)) {
+          builder.append('_').append(character)
+        } else {
+          builder.append('_')
+        }
+      } else {
+        builder.append(if (Character.isJavaIdentifierPart(character)) character else '_')
+      }
+    }
+    return if (builder.length == 0) DEFAULT_PACKAGE_SEGMENT else builder.toString
   }
 
   /**
