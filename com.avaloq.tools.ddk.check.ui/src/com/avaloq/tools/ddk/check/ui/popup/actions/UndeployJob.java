@@ -58,16 +58,16 @@ public class UndeployJob extends Job {
   protected IStatus run(final IProgressMonitor monitor) {
     Bundle managedBundle = Platform.getBundle(project.getName());
     if (managedBundle == null) {
-      LOGGER.info(NLS.bind(Messages.UndeployJob_NoBundleWithSymbolicNameInstalled, project.getName()));
+      LOGGER.info("No bundle with symbolic name {} installed.", project.getName()); //$NON-NLS-1$
       return new Status(Status.INFO, Activator.getPluginId(), NLS.bind(Messages.UndeployJob_NoBundleWithSymbolicNameInstalled, project.getName()));
     }
     try {
       undeployBundle(managedBundle);
     } catch (BundleException e) {
-      LOGGER.error(NLS.bind(Messages.UndeployJob_FailedToStopAndUninstallBundleWithSymbolicName, managedBundle.getSymbolicName()), e);
+      LOGGER.error("Failed to stop and uninstall bundle with symbolic name {}.", managedBundle.getSymbolicName(), e); //$NON-NLS-1$
       return new Status(Status.ERROR, Activator.getPluginId(), NLS.bind(Messages.UndeployJob_FailedToStopAndUninstallBundleWithSymbolicName, managedBundle.getSymbolicName()), e);
     }
-    LOGGER.info(NLS.bind(Messages.UndeployJob_DundleUndeployed, managedBundle.getSymbolicName()));
+    LOGGER.info("Bundle {} undeployed.", managedBundle.getSymbolicName()); //$NON-NLS-1$
 
     try {
       undeployCheckConfiguration();

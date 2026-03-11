@@ -60,7 +60,7 @@ import com.google.inject.Provider;
 /**
  * A base class for xtext generator tests. Allows creating a project and adding files.
  */
-@SuppressWarnings({"PMD.AbstractClassWithoutAbstractMethod", "restriction", "nls"})
+@SuppressWarnings({"PMD.AbstractClassWithoutAbstractMethod", "nls"})
 public abstract class AbstractGeneratorTest {
   private static final String MESSAGE_GENERATED_FILE_MUST_EXIST = "Generated file ''{0}'' must exist.";
   private static final String MESSAGE_GENERATED_CODE_MUST_BE_CORRECT = "Generated contents of ''{0}'' must be correct.";
@@ -320,7 +320,7 @@ public abstract class AbstractGeneratorTest {
               URI resourceURI = URI.createPlatformResourceURI(getFullFileName(projectName, outputFileName), true);
               IResourcesSetupUtil.createFile(resourceURI.toPlatformString(true), contents);
             } catch (IOException e) {
-              LOGGER.error("failed adding file to workspace: " + outputFileName, e); //$NON-NLS-1$
+              LOGGER.error("failed adding file to workspace: {}", outputFileName, e); //$NON-NLS-1$
               Assert.fail("Error adding file " + outputFileName + " to workspace: " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
             }
           }

@@ -22,5 +22,6 @@ Export-Package: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.test.core.jupiter,
  com.avaloq.tools.ddk.test.core.mock,
  com.avaloq.tools.ddk.test.core.util
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.logging.log4j,
+ org.apache.logging.log4j.util
 Automatic-Module-Name: com.avaloq.tools.ddk.test.core

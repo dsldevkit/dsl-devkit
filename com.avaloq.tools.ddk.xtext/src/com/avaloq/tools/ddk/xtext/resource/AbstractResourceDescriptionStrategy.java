@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,7 +63,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
       // We need to catch arbitrary exceptions here, otherwise building may fail spectacularly;
       // and the cause may be very hard to find (likely some bug in an export specification).
       // CHECKSTYLE:ON
-      LOGGER.error(MessageFormat.format(Messages.AbstractSdkResourceDescription_OBJECT_DESCRIPTION_FAILURE, EObjectUtil.getLocationString(from)), e);
+      LOGGER.error(Messages.AbstractSdkResourceDescription_OBJECT_DESCRIPTION_FAILURE, EObjectUtil.getLocationString(from), e);
     }
     return true;
   }

@@ -90,7 +90,7 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
     try {
       return (String) marker.getAttribute(Issue.CODE_KEY);
     } catch (CoreException e) {
-      LOGGER.error("Could not get code for marker: " + marker, e); //$NON-NLS-1$
+      LOGGER.error("Could not get code for marker: {}", marker, e); //$NON-NLS-1$
       return null;
     }
   }
@@ -99,7 +99,7 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
     try {
       return URI.createURI((String) marker.getAttribute(Issue.URI_KEY));
     } catch (CoreException e) {
-      LOGGER.error("Could not get uri for marker: " + marker, e); //$NON-NLS-1$
+      LOGGER.error("Could not get uri for marker: {}", marker, e); //$NON-NLS-1$
       return null;
     }
   }
@@ -111,7 +111,7 @@ public class CheckConfigurationStoreService implements ICheckConfigurationStoreS
       if (resourceServiceProvider != null) {
         return resourceServiceProvider.get(Injector.class).getInstance(Key.get(String.class, Names.named(Constants.LANGUAGE_NAME)));
       } else {
-        LOGGER.error("Could not fetch a ResourceServiceProvider for URI: " + uri); //$NON-NLS-1$
+        LOGGER.error("Could not fetch a ResourceServiceProvider for URI: {}", uri); //$NON-NLS-1$
       }
     } else {
       LOGGER.warn("Could not fetch eResource from issue: URI to problem is null"); //$NON-NLS-1$
