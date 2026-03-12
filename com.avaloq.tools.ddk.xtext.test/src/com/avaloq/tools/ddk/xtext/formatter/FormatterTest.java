@@ -13,9 +13,9 @@ package com.avaloq.tools.ddk.xtext.formatter;
 import java.io.IOException;
 
 import org.eclipse.xtext.resource.SaveOptions;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.Decl;
 import com.avaloq.tools.ddk.xtext.formatter.formatterTestLanguage.FormatterTestLanguageFactory;
@@ -403,7 +403,7 @@ public class FormatterTest extends AbstractFormatterTest {
    */
   // TODO: investigate whether to include test or not - currently this test
   // would fail
-  @Ignore
+  @Disabled
   public void suppressedLinewrap() throws IOException {
     String model = "test linewrap\n`foo%abcd%foo%< b\n>%abcd%foo%abcd%foo%abcd%" + "foo%abcd%foo%abcd%foo%abcd%foo%abcd%foo%abcd%foo%xx%foo%abcd%foo%abcd%"
         + "foo%abcd%foo%<\nb >%foo%abcd` post;";
@@ -472,7 +472,7 @@ public class FormatterTest extends AbstractFormatterTest {
     m.getItems().add(d);
     String actual = getSerializer().serialize(m, SaveOptions.newBuilder().format().getOptions());
     String expected = "test wrapminmax\n\n\nxxx yyy;";
-    Assert.assertEquals("Default Linewrap", expected, actual);
+    Assertions.assertEquals(expected, actual, "Default Linewrap");
   }
 
   /**
