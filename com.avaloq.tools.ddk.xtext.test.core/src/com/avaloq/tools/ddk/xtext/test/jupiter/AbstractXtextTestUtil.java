@@ -28,8 +28,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.intro.IIntroPart;
 import org.eclipse.xtext.diagnostics.AbstractDiagnostic;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.ILeafNode;
@@ -39,8 +37,6 @@ import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.serializer.ISerializer;
-import org.eclipse.xtext.ui.editor.GlobalURIEditorOpener;
-import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.testing.util.ResourceLoadHelper;
 import org.eclipse.xtext.util.StringInputStream;
@@ -53,8 +49,6 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import com.avaloq.tools.ddk.xtext.test.AbstractTestUtil;
 import com.avaloq.tools.ddk.xtext.test.model.ModelUtil;
 import com.avaloq.tools.ddk.xtext.test.validation.ValidationHelper;
-import com.avaloq.tools.ddk.xtext.ui.util.Function;
-import com.avaloq.tools.ddk.xtext.ui.util.UiThreadDispatcher;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
@@ -85,25 +79,6 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
    */
   @Deprecated
   protected abstract Injector getInjector();
-
-  /**
-   * Opens an editor for a specific {@link URI}.
-   *
-   * @param uri
-   *          to open editor for
-   * @return editor opened
-   */
-  public XtextEditor openEditor(final URI uri) {
-    XtextEditor editor = UiThreadDispatcher.dispatchAndWait(new Function<XtextEditor>() {
-      @Override
-      public XtextEditor run() {
-        closeWelcomePage();
-        return (XtextEditor) get(GlobalURIEditorOpener.class).open(uri, false);
-      }
-    });
-    waitForEditorJobs(editor);
-    return editor;
-  }
 
   /**
    * Parses the given instance and returns the model representation.
@@ -218,21 +193,6 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
    */
   public Diagnostician getDiagnostician() {
     return get(Diagnostician.class);
-  }
-
-  /**
-   * Closes the welcome page if it is open.
-   */
-  protected void closeWelcomePage() {
-    UiThreadDispatcher.dispatchAndWait(new Runnable() {
-      @Override
-      public void run() {
-        IIntroPart intro = PlatformUI.getWorkbench().getIntroManager().getIntro();
-        if (intro != null) {
-          PlatformUI.getWorkbench().getIntroManager().closeIntro(intro);
-        }
-      }
-    });
   }
 
   /**

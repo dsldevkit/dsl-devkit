@@ -14,6 +14,7 @@ package com.avaloq.tools.ddk.xtext.test;
 import static org.junit.Assert.assertNotNull;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.jface.text.BadLocationException;
@@ -21,6 +22,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextSourceViewerConfiguration;
@@ -35,8 +37,6 @@ import org.eclipse.xtext.util.StringInputStream;
 import org.eclipse.xtext.util.Tuples;
 import org.junit.Assert;
 
-import com.avaloq.tools.ddk.xtext.ui.util.Function;
-import com.avaloq.tools.ddk.xtext.ui.util.UiThreadDispatcher;
 import com.google.inject.Injector;
 
 
@@ -131,35 +131,32 @@ public class AcfContentAssistProcessorTestBuilder extends ContentAssistProcessor
    */
   @Override
   public ICompletionProposal[] computeCompletionProposals(final String currentModelToParse, final int cursorPosition) throws Exception {
-    Pair<ICompletionProposal[], BadLocationException> result = UiThreadDispatcher.dispatchAndWait(new Function<Pair<ICompletionProposal[], BadLocationException>>() {
-      @Override
-      public Pair<ICompletionProposal[], BadLocationException> run() {
-        final XtextResource xtextResource = loadHelper.getResourceFor(new StringInputStream(currentModelToParse));
-        final IXtextDocument xtextDocument = getDocument(xtextResource, currentModelToParse);
-        return internalComputeCompletionProposals(cursorPosition, xtextDocument);
-      }
+    AtomicReference<Pair<ICompletionProposal[], BadLocationException>> result = new AtomicReference<>();
+
+    Display.getDefault().syncExec(() -> {
+      final XtextResource xtextResource = loadHelper.getResourceFor(new StringInputStream(currentModelToParse));
+      final IXtextDocument xtextDocument = getDocument(xtextResource, currentModelToParse);
+      result.set(internalComputeCompletionProposals(cursorPosition, xtextDocument));
     });
-    if (result.getSecond() != null) {
-      throw result.getSecond();
+    if (result.get().getSecond() != null) {
+      throw result.get().getSecond();
     }
-    return result.getFirst();
+    return result.get().getFirst();
   }
 
   /**
    * {@inheritDoc} Code copied from parent. Override required to run in UI because of getSourceViewer, which creates a new Shell.
    */
   public ICompletionProposal[] computeCompletionProposals(final XtextTestSource testSource, final int cursorPosition) {
-    Pair<ICompletionProposal[], BadLocationException> result = UiThreadDispatcher.dispatchAndWait(new Function<Pair<ICompletionProposal[], BadLocationException>>() {
-      @Override
-      public Pair<ICompletionProposal[], BadLocationException> run() {
-        final IXtextDocument xtextDocument = getDocument(testSource.getXtextResource(), testSource.getContent());
-        return internalComputeCompletionProposals(cursorPosition, xtextDocument);
-      }
+    AtomicReference<Pair<ICompletionProposal[], BadLocationException>> result = new AtomicReference<>();
+    Display.getDefault().syncExec(() -> {
+      final IXtextDocument xtextDocument = getDocument(testSource.getXtextResource(), testSource.getContent());
+      result.set(internalComputeCompletionProposals(cursorPosition, xtextDocument));
     });
-    if (result.getSecond() != null) {
-      throw new WrappedException("Error computing completion proposals.", result.getSecond());
+    if (result.get().getSecond() != null) {
+      throw new WrappedException("Error computing completion proposals.", result.get().getSecond());
     }
-    return result.getFirst();
+    return result.get().getFirst();
   }
 
   /**
@@ -167,38 +164,36 @@ public class AcfContentAssistProcessorTestBuilder extends ContentAssistProcessor
    */
   @Override
   public ContentAssistProcessorTestBuilder assertMatchString(final String matchString) throws Exception {
-    BadLocationException exception = UiThreadDispatcher.dispatchAndWait(new Function<BadLocationException>() {
-      @Override
-      public BadLocationException run() {
-        String currentModelToParse = getModel();
-        final XtextResource xtextResource = loadHelper.getResourceFor(new StringInputStream(currentModelToParse));
-        final IXtextDocument xtextDocument = getDocument(xtextResource, currentModelToParse);
-        XtextSourceViewerConfiguration configuration = get(XtextSourceViewerConfiguration.class);
-        Shell shell = new Shell();
-        try {
-          ISourceViewer sourceViewer = getSourceViewer(shell, xtextDocument, configuration);
-          IContentAssistant contentAssistant = configuration.getContentAssistant(sourceViewer);
-          String contentType = xtextDocument.getContentType(currentModelToParse.length());
-          if (contentAssistant.getContentAssistProcessor(contentType) != null) {
-            ContentAssistContext.Factory factory = get(ContentAssistContext.Factory.class);
-            ContentAssistContext[] contexts = factory.create(sourceViewer, currentModelToParse.length(), xtextResource);
-            for (ContentAssistContext context : contexts) {
-              Assert.assertTrue("matchString = '" + matchString + "', actual: '" + context.getPrefix() + "'", "".equals(context.getPrefix())
-                  || matchString.equals(context.getPrefix()));
-            }
-          } else {
-            Assert.fail("No content assistant for content type " + contentType);
+    AtomicReference<BadLocationException> exception = new AtomicReference<>();
+
+    Display.getDefault().syncExec(() -> {
+      String currentModelToParse = getModel();
+      final XtextResource xtextResource = loadHelper.getResourceFor(new StringInputStream(currentModelToParse));
+      final IXtextDocument xtextDocument = getDocument(xtextResource, currentModelToParse);
+      XtextSourceViewerConfiguration configuration = get(XtextSourceViewerConfiguration.class);
+      Shell shell = new Shell();
+      try {
+        ISourceViewer sourceViewer = getSourceViewer(shell, xtextDocument, configuration);
+        IContentAssistant contentAssistant = configuration.getContentAssistant(sourceViewer);
+        String contentType = xtextDocument.getContentType(currentModelToParse.length());
+        if (contentAssistant.getContentAssistProcessor(contentType) != null) {
+          ContentAssistContext.Factory factory = get(ContentAssistContext.Factory.class);
+          ContentAssistContext[] contexts = factory.create(sourceViewer, currentModelToParse.length(), xtextResource);
+          for (ContentAssistContext context : contexts) {
+            Assert.assertTrue("matchString = '" + matchString + "', actual: '" + context.getPrefix() + "'", "".equals(context.getPrefix())
+                || matchString.equals(context.getPrefix()));
           }
-        } catch (BadLocationException e) {
-          return e;
-        } finally {
-          shell.dispose();
+        } else {
+          Assert.fail("No content assistant for content type " + contentType);
         }
-        return null;
+      } catch (BadLocationException e) {
+        exception.set(e);
+      } finally {
+        shell.dispose();
       }
     });
-    if (exception != null) {
-      throw exception;
+    if (exception.get() != null) {
+      throw exception.get();
     }
     return this;
   }
