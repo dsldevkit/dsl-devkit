@@ -46,14 +46,17 @@ public class CheckProjectFactory extends PluginProjectFactory {
    * @throws CoreException
    *           the core exception
    */
-  @SuppressWarnings("PMD.InsufficientStringBufferDeclaration")
   private void createPluginXML(final IProject project, final IProgressMonitor monitor) throws CoreException {
-    final StringBuilder content = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<?eclipse version=\"3.4\"?>\n");
-    content.append("<plugin>\n</plugin>\n");
+    final String content = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <?eclipse version="3.4"?>
+        <plugin>
+        </plugin>
+        """;
 
     SubMonitor subMonitor = SubMonitor.convert(monitor, 2);
     try {
-      createFile("plugin.xml", project, content.toString(), subMonitor.newChild(1));
+      createFile("plugin.xml", project, content, subMonitor.newChild(1));
     } finally {
       subMonitor.done();
     }

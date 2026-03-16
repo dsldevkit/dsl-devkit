@@ -109,11 +109,7 @@ public abstract class AbstractValidElementBase {
 
   @Override
   public String toString() {
-    StringBuilder b = new StringBuilder(this.getClass().getSimpleName());
-    b.append("(\""); //$NON-NLS-1$
-    b.append(getElementTypeName());
-    b.append("\")"); //$NON-NLS-1$
-    return b.toString();
+    return this.getClass().getSimpleName() + "(\"" + getElementTypeName() + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
