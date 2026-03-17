@@ -30,10 +30,12 @@ class ModelInferenceFragment2 extends AbstractXtextGeneratorFragment {
     .addTypeToTypeSingleton(IInferredModelAssociator.typeRef, InferredModelAssociator.typeRef)
     .addTypeToTypeSingleton(IDerivedStateComputer.typeRef, InferredModelAssociator.typeRef)
     .contributeTo(language.runtimeGenModule)
-    new GuiceModuleAccess.BindingFactory()
-    .addTypeToType(ReferenceQueryExecutor.typeRef, InferredModelReferenceQueryExecutor.typeRef)
-    .contributeTo(language.eclipsePluginGenModule)
 
+    if (projectConfig.eclipsePlugin.enabled) {
+      new GuiceModuleAccess.BindingFactory()
+      .addTypeToType(ReferenceQueryExecutor.typeRef, InferredModelReferenceQueryExecutor.typeRef)
+      .contributeTo(language.eclipsePluginGenModule)
+    }
 
     if (projectConfig.runtime.manifest !== null) {
       projectConfig.runtime.manifest.requiredBundles += "com.avaloq.tools.ddk.xtext"
