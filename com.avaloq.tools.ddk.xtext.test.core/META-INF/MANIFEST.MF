@@ -6,8 +6,6 @@ Bundle-Version: 17.1.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.avaloq.tools.ddk.xtext,
- com.avaloq.tools.ddk.xtext.common.ui,
- com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.typesystem,
  com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.test.ui,
@@ -42,15 +40,5 @@ Export-Package: com.avaloq.tools.ddk.xtext.test,
  com.avaloq.tools.ddk.xtext.test.modelinference,
  com.avaloq.tools.ddk.xtext.test.resource,
  com.avaloq.tools.ddk.xtext.test.scoping,
- com.avaloq.tools.ddk.xtext.test.ui,
- com.avaloq.tools.ddk.xtext.test.ui.contentassist,
- com.avaloq.tools.ddk.xtext.test.ui.folding,
- com.avaloq.tools.ddk.xtext.test.ui.hover,
- com.avaloq.tools.ddk.xtext.test.ui.hyperlinking,
- com.avaloq.tools.ddk.xtext.test.ui.labeling,
- com.avaloq.tools.ddk.xtext.test.ui.occurrences,
- com.avaloq.tools.ddk.xtext.test.ui.outline,
- com.avaloq.tools.ddk.xtext.test.ui.quickfix,
- com.avaloq.tools.ddk.xtext.test.ui.syntaxcoloring,
  com.avaloq.tools.ddk.xtext.test.validation
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.test.core

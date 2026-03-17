@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.check.ui.test.quickfix;
 
 import com.avaloq.tools.ddk.check.ui.test.util.CheckXtextTestUtil;
-import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractQuickFixTest;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 
 
