@@ -20,7 +20,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.junit,
  org.mockito.mockito-core,
  com.google.guava,
- org.apache.commons.lang,
+ org.apache.commons.lang3,
  org.eclipse.emf.common,
  com.avaloq.tools.ddk
 Export-Package: com.avaloq.tools.ddk.test.ui,
