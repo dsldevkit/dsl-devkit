@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.core;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 

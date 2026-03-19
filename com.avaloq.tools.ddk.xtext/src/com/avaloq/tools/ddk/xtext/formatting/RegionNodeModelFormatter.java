@@ -12,7 +12,7 @@ package com.avaloq.tools.ddk.xtext.formatting;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.formatting.impl.DefaultNodeModelFormatter;
 import org.eclipse.xtext.nodemodel.ICompositeNode;

@@ -14,7 +14,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Locale;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.core.runtime.Assert;
 
 
@@ -72,9 +72,9 @@ public final class CoreUtilTools {
    * @return the random string
    */
   public static String randomAlphanumericString(final int count) {
-    StringBuilder stringBuilder = new StringBuilder(RandomStringUtils.randomAlphabetic(1));
+    StringBuilder stringBuilder = new StringBuilder(RandomStringUtils.secure().nextAlphabetic(1));
     if (count > 1) {
-      stringBuilder.append(RandomStringUtils.randomAlphanumeric(count - 1));
+      stringBuilder.append(RandomStringUtils.secure().nextAlphanumeric(count - 1));
 
     }
     String string = stringBuilder.toString();

@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,7 +51,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
   public String getLabel(final String issueCode) {
 
     // Is this a Check?
-    if (!StringUtils.contains(issueCode, CHECK_ISSUE_CODE_SUBSTRING)) {
+    if (!Strings.CS.contains(issueCode, CHECK_ISSUE_CODE_SUBSTRING)) {
       return null;
     }
 
