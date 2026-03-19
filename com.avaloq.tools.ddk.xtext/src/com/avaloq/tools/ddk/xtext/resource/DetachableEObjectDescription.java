@@ -10,7 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -26,6 +30,8 @@ import org.eclipse.xtext.util.Strings;
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.xtext.resource.extensions.AbstractForwardingResourceDescriptionStrategyMap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Interner;
+import com.google.common.collect.Interners;
 
 
 /**
@@ -33,6 +39,22 @@ import com.google.common.collect.ImmutableMap;
  */
 public class DetachableEObjectDescription extends EObjectDescription implements IDetachableDescription<IEObjectDescription> {
   public static final String ALLOW_LOOKUP = "aL"; //$NON-NLS-1$
+  private static final String INTERNER_PROPERTY = "com.avaloq.tools.ddk.xtext.interner";
+  private static final String INTERNER_GOOGLE = "weak";
+  private static final String INTERNER_TOPN = "topN";
+
+  private static final Interner<String> qualifiedNamesInterner;
+
+  static {
+    String useInterner = System.getProperty(INTERNER_PROPERTY);
+    if (INTERNER_GOOGLE.equals(useInterner)) {
+      qualifiedNamesInterner = Interners.newWeakInterner();
+    } else if (INTERNER_TOPN.equals(useInterner)) {
+      qualifiedNamesInterner = new TopNInterner();
+    } else {
+      qualifiedNamesInterner = null;
+    }
+  }
 
   /**
    * Detached view of an {@link DetachableEObjectDescription}.
@@ -149,7 +171,30 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
     } else {
       copiedData = userData == null ? null : ImmutableMap.copyOf(userData);
     }
-    return new DetachedEObjectDescription(getQualifiedName(), getEObjectURI(), getEClass(), copiedData);
+    QualifiedName name = getQualifiedName();
+    if (qualifiedNamesInterner != null) {
+      List<String> newSegments = name.getSegments().stream().map(s -> qualifiedNamesInterner.intern(s)).collect(Collectors.toList());
+      name = QualifiedName.create(newSegments);
+    }
+    return new DetachedEObjectDescription(name, getEObjectURI(), getEClass(), copiedData);
+  }
+
+  private static class TopNInterner implements Interner<String> {
+    private static final Set<String> internable = Set.of(" #", "aL", "code_obj_class", "code_obj_class_chk", "code_vdf_code", "code_wm_tab", "contrib", "ddic", "get", "idOrKey", "intl_id", "intl2_id", "k", "label", "user_id");
+
+    private final Map<String, String> interner = new HashMap<>();
+
+    public TopNInterner() {
+      for (String s : internable) {
+        interner.put(s, s);
+      }
+    }
+
+    @Override
+    public String intern(final String sample) {
+      return interner.getOrDefault(sample, sample);
+    }
+
   }
 
 }
