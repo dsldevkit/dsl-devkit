@@ -66,7 +66,7 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1
 
 import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorExtensions.*
-import static extension org.apache.commons.lang3.StringEscapeUtils.escapeJava
+import static extension org.apache.commons.text.StringEscapeUtils.escapeJava
 
 /**
  * <p>Infers a JVM model from the source model.</p>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.ui.test
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.ui.test
-Bundle-Version: 17.1.0.qualifier
+Bundle-Version: 17.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.avaloq.tools.ddk.check.ui,
@@ -22,7 +22,10 @@ Require-Bundle: com.avaloq.tools.ddk.check.ui,
  org.objectweb.asm;resolution:=optional,
  junit-jupiter-api,
  junit-jupiter-engine,
- junit-platform-suite-api
+ junit-platform-suite-api,
+ com.avaloq.tools.ddk.xtext.ui,
+ com.avaloq.tools.ddk.check.runtime.core,
+ org.hamcrest
 Export-Package: com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.ui.test.util,
  com.avaloq.tools.ddk.check
