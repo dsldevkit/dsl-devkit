@@ -1,0 +1,14 @@
+import "http://www.avaloq.com/tools/ddk/xtext/export/Export"
+
+interface {
+    InterfaceExpression=unordered;
+    UserData=name;
+}
+
+export InterfaceExpression as ref
+{
+    data ex = this.getExpr().toString();
+}
+export UserData as name
+{
+}
