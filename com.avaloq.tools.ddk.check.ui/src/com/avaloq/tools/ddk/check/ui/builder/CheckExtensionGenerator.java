@@ -541,7 +541,7 @@ class CheckExtensionGenerator {
     } catch (SWTException e) {
       // If the build was cancelled while in syncExec() it will throw an SWTException
       if (monitor.isCanceled()) {
-        throw new OperationCanceledException();
+        throw new OperationCanceledException(); // NOPMD PreserveStackTrace - SWTException is just the cancellation signal
       } else {
         throw e;
       }
