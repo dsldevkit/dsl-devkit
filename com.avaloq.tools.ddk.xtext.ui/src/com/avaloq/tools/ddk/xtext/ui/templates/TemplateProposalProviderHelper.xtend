@@ -11,8 +11,8 @@ package com.avaloq.tools.ddk.xtext.ui.templates
 
 import com.google.inject.Singleton
 import java.util.Objects
-import org.apache.commons.lang.StringEscapeUtils
-import org.apache.commons.lang.Validate
+import org.apache.commons.text.StringEscapeUtils
+import org.apache.commons.lang3.Validate
 import org.eclipse.jface.text.templates.Template
 import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider
 

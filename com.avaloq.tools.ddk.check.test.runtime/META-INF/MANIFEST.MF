@@ -25,8 +25,7 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  com.avaloq.tools.ddk.check.core,
  org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j,
- org.apache.logging.log4j,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib, org.apache.logging.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.formatting,

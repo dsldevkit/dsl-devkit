@@ -36,5 +36,4 @@ Export-Package: com.avaloq.tools.ddk.sample.helloworld.helloWorld,
  com.avaloq.tools.ddk.sample.helloworld.parser.antlr.internal,
  com.avaloq.tools.ddk.sample.helloworld.validation,
  com.avaloq.tools.ddk.sample.helloworld.grammar
-Import-Package: org.apache.log4j,
- org.apache.logging.log4j
+Import-Package: org.apache.log4j, org.apache.logging.log4j

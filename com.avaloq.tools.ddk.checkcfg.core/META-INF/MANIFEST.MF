@@ -21,7 +21,6 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.check.core,
  com.avaloq.tools.ddk.check.runtime.core,
  org.eclipse.xtext.xbase.lib,
- org.apache.logging.log4j,
  org.objectweb.asm;resolution:=optional,
  io.github.classgraph.classgraph
 Export-Package: com.avaloq.tools.ddk.checkcfg,
@@ -37,4 +36,4 @@ Export-Package: com.avaloq.tools.ddk.checkcfg,
  com.avaloq.tools.ddk.checkcfg.validation,
  com.avaloq.tools.ddk.checkcfg.serializer
 Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.core
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j, org.apache.logging.log4j

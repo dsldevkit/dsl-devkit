@@ -20,6 +20,5 @@ Require-Bundle: com.avaloq.tools.ddk.checkcfg.core,
  org.eclipse.lsp4j
 Export-Package: com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr,
  com.avaloq.tools.ddk.checkcfg.ide.contentassist.antlr.internal
-Import-Package: org.apache.log4j,
- org.apache.logging.log4j
+Import-Package: org.apache.log4j, org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.ide

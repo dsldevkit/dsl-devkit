@@ -41,7 +41,7 @@
 <setEntry value="org.apache.batik.util@default:default"/>
 <setEntry value="org.apache.commons.cli@default:default"/>
 <setEntry value="org.apache.commons.codec@default:default"/>
-<setEntry value="org.apache.commons.lang@default:default"/>
+<setEntry value="org.apache.commons.lang3@default:default"/>
 <setEntry value="org.apache.commons.logging@default:default"/>
 <setEntry value="org.apache.felix.gogo.command@default:default"/>
 <setEntry value="org.apache.felix.gogo.runtime@default:default"/>
@@ -294,7 +294,7 @@
 <setEntry value="org.hamcrest.text@default:default"/>
 <setEntry value="org.hamcrest@default:default"/>
 <setEntry value="org.junit@default:default"/>
-<setEntry value="org.mockito@default:default"/>
+<setEntry value="org.mockito.mockito-core@default:default"/>
 <setEntry value="org.objenesis@default:default"/>
 <setEntry value="org.sat4j.core@default:default"/>
 <setEntry value="org.sat4j.pb@default:default"/>
