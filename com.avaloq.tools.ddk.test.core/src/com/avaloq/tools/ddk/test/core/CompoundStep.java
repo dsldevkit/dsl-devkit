@@ -59,7 +59,7 @@ public class CompoundStep extends AbstractStep {
    * Runs the plannedSteps of this {@link CompoundStep}, making sure that any exception is ignored and the next step executed.
    * In the end however, all logged exceptions are reported (thrown as a {@link MultipleTestProblems} exception).
    */
-  protected void runIgnoreAndContinue() {
+  public void runIgnoreAndContinue() {
     getExecutedSteps().clear();
     MultipleTestProblems problemsEncountered = new MultipleTestProblems();
     for (final AbstractStep step : getSteps()) {

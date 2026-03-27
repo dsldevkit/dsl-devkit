@@ -208,7 +208,7 @@ public abstract class AbstractTestStep extends AbstractStep {
    *          whether preconditions shall be checked
    */
   @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
-  protected static void setCheckPreconditions(final boolean checkPreconditions) {
+  public static void setCheckPreconditions(final boolean checkPreconditions) {
     AbstractTestStep.checkPreconditions = checkPreconditions;
   }
 
@@ -219,7 +219,7 @@ public abstract class AbstractTestStep extends AbstractStep {
    *          whether postconditions shall be checked
    */
   @SuppressFBWarnings("AT_STALE_THREAD_WRITE_OF_PRIMITIVE")
-  protected static void setCheckPostconditions(final boolean checkPostconditions) {
+  public static void setCheckPostconditions(final boolean checkPostconditions) {
     AbstractTestStep.checkPostconditions = checkPostconditions;
   }
 
