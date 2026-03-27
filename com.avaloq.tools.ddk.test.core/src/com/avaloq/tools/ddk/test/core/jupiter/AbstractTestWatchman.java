@@ -31,7 +31,7 @@ public abstract class AbstractTestWatchman implements TestWatcher, BeforeEachCal
   }
 
   @Override
-  public abstract void testSuccessful(final ExtensionContext context);
+  public abstract void testSuccessful(ExtensionContext context);
 
   @Override
   public void testFailed(final ExtensionContext context, @Nullable final Throwable cause) {
