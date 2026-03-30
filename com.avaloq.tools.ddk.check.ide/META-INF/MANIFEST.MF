@@ -16,5 +16,5 @@ Require-Bundle: com.avaloq.tools.ddk.check.core,
  org.eclipse.xtext.xbase.ide
 Export-Package: com.avaloq.tools.ddk.check.ide.contentassist.antlr,
  com.avaloq.tools.ddk.check.ide.contentassist.antlr.internal
-Import-Package: org.apache.log4j, org.apache.logging.log4j
+Import-Package: org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.check.ide

@@ -37,9 +37,8 @@ class ScopingFragment2 extends AbstractXtextGeneratorFragment {
     if (projectConfig.runtime.manifest !== null) {
       projectConfig.runtime.manifest.requiredBundles += "org.eclipse.emf.ecore"
       projectConfig.runtime.manifest.requiredBundles += RUNTIME_PLUGIN
-      projectConfig.runtime.manifest.requiredBundles += "org.apache.logging.log4j.core"
-      projectConfig.runtime.manifest.requiredBundles += "org.apache.logging.log4j.api"
       projectConfig.runtime.manifest.exportedPackages += grammar.namespace + ".scoping"
+      projectConfig.runtime.manifest.importedPackages += "org.apache.logging.log4j"
     }
 
     if (projectConfig.eclipsePlugin.manifest !== null) {

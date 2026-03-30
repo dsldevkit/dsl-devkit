@@ -16,6 +16,6 @@ Export-Package: com.avaloq.tools.ddk.annotations,
  com.avaloq.tools.ddk.caching,
  com.avaloq.tools.ddk.util,
  com.avaloq.tools.ddk.tracing
-Import-Package: org.apache.log4j, org.apache.logging.log4j
+Import-Package: org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk
 
