@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Assertions;
 
 import com.avaloq.tools.ddk.test.core.AbstractStep;
 import com.avaloq.tools.ddk.test.core.CompoundStep;
-import com.avaloq.tools.ddk.test.core.ITestEntity;
 import com.avaloq.tools.ddk.test.core.ITestEntityActionProvider;
 import com.avaloq.tools.ddk.test.core.NullStep;
 import com.avaloq.tools.ddk.test.core.TestEntityAction;
@@ -155,7 +154,7 @@ final class TestPlan {
   }
 
   /**
-   * Returns a set containing all steps of a {@link TestPlan} that need a {@link ITestEntity} that is still available from a previous test.
+   * Returns a set containing all steps of a {@link TestPlan} that need a ITestEntity that is still available from a previous test.
    *
    * @param previousTestPlan
    *          the previous test plan, must not be {@code null}
@@ -171,7 +170,7 @@ final class TestPlan {
   }
 
   /**
-   * Returns a set containing all steps of a {@link CompoundStep} that need a {@link ITestEntity} that is still available from a previous test.
+   * Returns a set containing all steps of a {@link CompoundStep} that need a ITestEntity that is still available from a previous test.
    *
    * @param testPlan
    *          the test plan, must not be {@code null}
@@ -190,11 +189,11 @@ final class TestPlan {
   }
 
   /**
-   * Utility method that checks if the {@link TestPlan} contains all {@link ITestEntity}s of the given {@link ITestEntityActionProvider}.
+   * Utility method that checks if the {@link TestPlan} contains all ITestEntity of the given {@link ITestEntityActionProvider}.
    *
    * @param step
    *          the step, must not be {@code null}
-   * @return {@code true}, if this {@link TestPlan} contains all {@link ITestEntity}s
+   * @return {@code true}, if this {@link TestPlan} contains all ITestEntity
    */
   private boolean hasAllTestEntities(final ITestEntityActionProvider step) {
     boolean hasAllEntites = false;
@@ -342,11 +341,11 @@ final class TestPlan {
   }
 
   /**
-   * Checks if this {@link TestPlan} contains the {@link ITestEntity} of the given {@link TestEntityAction}.
+   * Checks if this {@link TestPlan} contains the ITestEntity of the given {@link TestEntityAction}.
    *
    * @param testEntityAction
    *          the test entity action, must not be {@code null}
-   * @return whether this {@link TestPlan} has {@link ITestEntity} of the given {@link TestEntityAction}
+   * @return whether this {@link TestPlan} has ITestEntity of the given {@link TestEntityAction}
    */
   private boolean hasTestEntity(final TestEntityAction testEntityAction) {
     for (TestEntityAction action : getAllTestEntityActions()) {
