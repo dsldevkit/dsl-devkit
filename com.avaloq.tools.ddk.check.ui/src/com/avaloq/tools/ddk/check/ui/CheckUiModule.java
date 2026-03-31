@@ -24,7 +24,6 @@ import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
-import org.eclipse.xtext.ui.wizard.IProjectCreator;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
 import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
@@ -42,9 +41,6 @@ import com.avaloq.tools.ddk.check.ui.hover.CheckHoverProvider;
 import com.avaloq.tools.ddk.check.ui.navigation.CheckHyperlinkHelper;
 import com.avaloq.tools.ddk.check.ui.templates.CheckTemplateContextType;
 import com.avaloq.tools.ddk.check.ui.templates.CheckTemplateProposalProvider;
-import com.avaloq.tools.ddk.check.ui.wizard.CheckCatalogCreator;
-import com.avaloq.tools.ddk.check.ui.wizard.CheckProjectCreator;
-import com.avaloq.tools.ddk.check.ui.wizard.ICheckCatalogCreator;
 import com.avaloq.tools.ddk.xtext.common.types.ui.access.jdt.JdtFallbackTypeProviderFactory;
 import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
@@ -57,24 +53,6 @@ import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplat
 public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUiModule {
   public CheckUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
-  }
-
-  /**
-   * Binds a project creator. Used for the wizards.
-   *
-   * @return project creator
-   */
-  public Class<? extends IProjectCreator> bindIProjectCreator() {
-    return CheckProjectCreator.class;
-  }
-
-  /**
-   * Bind ICheckCatalogCreator.
-   *
-   * @return CheckCatalogCreator.class which creates a new Check catalog in an existing Check plugin project
-   */
-  public Class<? extends ICheckCatalogCreator> bindICheckCatalogCreator() {
-    return CheckCatalogCreator.class;
   }
 
   @Override
