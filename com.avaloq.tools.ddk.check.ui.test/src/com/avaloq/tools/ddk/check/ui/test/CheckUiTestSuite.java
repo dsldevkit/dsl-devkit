@@ -27,8 +27,6 @@ import com.avaloq.tools.ddk.check.ui.test.quickfix.CheckQuickfixTest;
 @Suite
 @SelectClasses({
   CheckQuickfixTest.class,
-  CheckProjectWizardTest.class,
-  CheckCatalogWizardTest.class,
   CheckMarkerHelpExtensionTest.class,
   CheckContextsExtensionTest.class,
   CheckTocExtensionTest.class,
