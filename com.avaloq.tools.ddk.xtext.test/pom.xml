@@ -24,7 +24,7 @@
           <useUIThread>false</useUIThread>
           <useUIHarness>true</useUIHarness>
           <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
-          <argLine>-Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
+          <argLine>-Dslf4j.internal.verbosity=ERROR -Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
           <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
           <product>${runtime.product}</product>
           <application>org.eclipse.ui.ide.workbench</application>
