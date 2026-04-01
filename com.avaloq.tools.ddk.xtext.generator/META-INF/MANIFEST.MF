@@ -22,6 +22,7 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.jdt.core,
  org.eclipse.compare,
  org.eclipse.xtext.xbase
+Import-Package: org.apache.logging.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.ecore,
  com.avaloq.tools.ddk.xtext.generator.expression,
@@ -34,6 +35,5 @@ Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.resourceFactory,
  com.avaloq.tools.ddk.xtext.generator.ide.contentAssist,
  com.avaloq.tools.ddk.xtext.generator.parser.common
-Import-Package: org.apache.logging.log4j
 Eclipse-ExtensibleAPI: true
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.generator

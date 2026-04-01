@@ -13,11 +13,13 @@ Require-Bundle: com.avaloq.tools.ddk.xtext,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.search,
  org.eclipse.ui.ide,
- org.apache.commons.lang,
+ org.apache.commons.lang3,
+ org.apache.commons.text,
  com.avaloq.tools.ddk.check.runtime.ui;visibility:=reexport,
  com.google.guava,
  com.avaloq.tools.ddk.xtext.ide,
  com.avaloq.tools.ddk
+Import-Package: org.apache.logging.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.editor,
  com.avaloq.tools.ddk.xtext.ui.editor.findrefs,
@@ -32,5 +34,4 @@ Export-Package: com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.xtext.ui.templates,
  com.avaloq.tools.ddk.xtext.ui.util,
  com.avaloq.tools.ddk.xtext.ui.validation
-Import-Package: org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui

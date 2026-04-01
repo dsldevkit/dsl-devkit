@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.export.generator;singleton:=true
 Bundle-Version: 17.2.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
+Import-Package: org.apache.logging.log4j
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xtext.generator,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
@@ -20,6 +21,5 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext.generator,
  com.avaloq.tools.ddk.xtext.expression;visibility:=reexport,
  com.avaloq.tools.ddk.xtext.export;visibility:=reexport
-Import-Package: org.apache.logging.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export.generator
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.export.generator

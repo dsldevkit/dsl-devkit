@@ -20,7 +20,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.junit,
  org.mockito.mockito-core,
  com.google.guava,
- org.apache.commons.lang,
+ org.apache.commons.lang3,
  org.eclipse.emf.common,
  com.avaloq.tools.ddk
 Export-Package: com.avaloq.tools.ddk.test.ui,
@@ -28,6 +28,6 @@ Export-Package: com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.test.ui.swtbot,
  com.avaloq.tools.ddk.test.ui.swtbot.condition,
  com.avaloq.tools.ddk.test.ui.swtbot.util
-Import-Package: org.slf4j, org.apache.logging.log4j,org.apache.log4j
+Import-Package: org.slf4j, org.apache.logging.log4j
 Eclipse-RegisterBuddy: org.eclipse.swtbot.swt.finder
 Automatic-Module-Name: com.avaloq.tools.ddk.test.ui

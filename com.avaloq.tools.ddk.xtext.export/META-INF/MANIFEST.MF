@@ -25,7 +25,6 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.core.runtime,
  org.eclipse.xtext.ui.codetemplates;resolution:=optional,
  org.eclipse.xtext.xbase.lib
-Import-Package: org.apache.log4j
 Export-Package: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.export.export,
  com.avaloq.tools.ddk.xtext.export.export.impl,
