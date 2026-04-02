@@ -117,8 +117,17 @@ public class BuildContext implements IBuildContext {
   @Override
   public void needRebuild() {
     rebuildRequired = true;
+  }
+
+  @Override
+  public void needRebuild(final IProject project) {
+    rebuildRequired = true;
     if (builder != null) {
-      builder.needRebuild();
+      if (getBuiltProject().equals(project)) {
+        builder.triggerRequestProjectRebuild();
+      } else {
+        builder.triggerRequestProjectsRebuild(project);
+      }
     }
   }
 
