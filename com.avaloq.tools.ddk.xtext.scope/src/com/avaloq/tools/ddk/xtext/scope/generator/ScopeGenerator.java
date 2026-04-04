@@ -30,6 +30,7 @@ import org.eclipse.xtext.scoping.IScopeProvider;
 /**
  * Scope generator generating the {@link IScopeProvider} implementation for a given scope file.
  */
+@SuppressWarnings("nls")
 public class ScopeGenerator implements IGenerator2 {
 
   @Inject

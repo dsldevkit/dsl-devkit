@@ -46,6 +46,7 @@ import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 // CHECKSTYLE:OFF MagicNumber
+@SuppressWarnings("nls")
 public class GrammarRuleAnnotations {
 
   @EmfAdaptable

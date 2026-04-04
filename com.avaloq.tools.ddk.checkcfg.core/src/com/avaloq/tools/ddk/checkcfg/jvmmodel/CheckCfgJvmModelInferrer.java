@@ -22,6 +22,7 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
  * <p>The JVM model should contain all elements that would appear in the Java code
  * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
  */
+@SuppressWarnings("nls")
 public class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
 
   @Inject

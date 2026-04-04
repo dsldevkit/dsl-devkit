@@ -29,6 +29,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @InjectWith(TestLanguageUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class CheckExecutionEnvironmentProjectTest extends AbstractCheckTestCase {
 
   @Inject

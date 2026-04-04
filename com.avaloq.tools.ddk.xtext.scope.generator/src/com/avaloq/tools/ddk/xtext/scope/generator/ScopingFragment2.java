@@ -20,6 +20,7 @@ import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment;
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
 
+@SuppressWarnings("nls")
 public class ScopingFragment2 extends AbstractXtextGeneratorFragment {
 
   private static final String RUNTIME_PLUGIN = "com.avaloq.tools.ddk.xtext";

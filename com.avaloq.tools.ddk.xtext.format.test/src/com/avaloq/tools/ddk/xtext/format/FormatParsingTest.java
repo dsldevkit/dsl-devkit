@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(FormatInjectorProvider.class)
+@SuppressWarnings("nls")
 public class FormatParsingTest {
 
   @Inject

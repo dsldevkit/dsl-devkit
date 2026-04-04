@@ -25,6 +25,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("nls")
 public class CheckCfgConfiguredParameterValidationsTest extends AbstractValidationTest {
 
   @Override

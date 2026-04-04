@@ -33,7 +33,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.inject.Inject;
 
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class ExportGeneratorX {
 
   private static final int URI_PACKAGE_START_INDEX = 3;

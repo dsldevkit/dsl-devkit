@@ -71,7 +71,7 @@ import org.eclipse.xtext.xtype.XFunctionTypeRef;
 import org.eclipse.xtext.xtype.XImportDeclaration;
 import org.eclipse.xtext.xtype.XImportSection;
 
-@SuppressWarnings({"checkstyle:MethodName"})
+@SuppressWarnings({"checkstyle:MethodName", "nls"})
 public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
   @Inject

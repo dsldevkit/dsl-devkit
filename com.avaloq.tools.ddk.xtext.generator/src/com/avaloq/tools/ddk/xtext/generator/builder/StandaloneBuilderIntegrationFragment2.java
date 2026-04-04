@@ -28,6 +28,7 @@ import org.eclipse.xtend2.lib.StringConcatenationClient;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("nls")
 public class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragment {
 
   private static final Logger LOGGER = LogManager.getLogger(StandaloneBuilderIntegrationFragment2.class);

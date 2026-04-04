@@ -22,6 +22,7 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
+@SuppressWarnings("nls")
 public final class CheckCfgScopeProviderTest extends AbstractScopingTest {
 
   private final IScopeProvider scopeProvider = getScopeProvider();

@@ -23,6 +23,7 @@ import com.google.inject.Inject;
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
+@SuppressWarnings("nls")
 public class ExportGenerator implements IGenerator2 {
 
   @Inject

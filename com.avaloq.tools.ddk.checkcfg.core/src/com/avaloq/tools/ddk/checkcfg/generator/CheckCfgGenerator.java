@@ -21,6 +21,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 
+@SuppressWarnings("nls")
 public class CheckCfgGenerator implements IGenerator {
 
   @Inject

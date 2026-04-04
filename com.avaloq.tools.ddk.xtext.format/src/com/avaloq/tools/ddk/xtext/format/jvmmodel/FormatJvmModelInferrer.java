@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -101,13 +102,17 @@ import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
+
 /**
- * <p>Infers a JVM model from the source model.</p>
- *
- * <p>The JVM model should contain all elements that would appear in the Java code
- * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
+ * <p>
+ * Infers a JVM model from the source model.
+ * </p>
+ * <p>
+ * The JVM model should contain all elements that would appear in the Java code
+ * which is generated from the source model. Other models link against the JVM model rather than the source model.
+ * </p>
  */
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   @Inject
@@ -158,15 +163,15 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
    * given element's type that is contained in a resource.
    *
    * @param format
-   *      the model to create one or more {@link JvmDeclaredType declared types} from.
+   *          the model to create one or more {@link JvmDeclaredType declared types} from.
    * @param acceptor
-   *      each created {@link JvmDeclaredType type} without a container should be passed to the acceptor in order
-   *      get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(JvmDeclaredType,
-   *      org.eclipse.xtext.xbase.lib.Procedures.Procedure1)} method takes the constructed empty type for the
-   *      pre-indexing phase. This one is further initialized in the indexing phase using the passed closure.
+   *          each created {@link JvmDeclaredType type} without a container should be passed to the acceptor in order
+   *          get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(JvmDeclaredType,
+   *          org.eclipse.xtext.xbase.lib.Procedures.Procedure1)} method takes the constructed empty type for the
+   *          pre-indexing phase. This one is further initialized in the indexing phase using the passed closure.
    * @param isPreIndexingPhase
-   *      whether the method is called in a pre-indexing phase, i.e. when the global index is not yet fully updated. You must not
-   *      rely on linking using the index if isPreIndexingPhase is {@code true}.
+   *          whether the method is called in a pre-indexing phase, i.e. when the global index is not yet fully updated. You must not
+   *          rely on linking using the index if isPreIndexingPhase is {@code true}.
    */
   protected void _infer(final FormatConfiguration format, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
     if (isPreIndexingPhase) {
@@ -183,30 +188,28 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       }
       RuleNames.getRuleNames(context, true);
     }
-    acceptor.<JvmGenericType>accept(
-        jvmTypesBuilder.toClass(format, Strings.lastToken(FormatGeneratorUtil.getFormatterName(format, "Abstract"), DOT)), (JvmGenericType it) -> {
-          inferClass(format, it);
-          inferConstants(format, it);
-          inferGetGrammarAccess(format, it);
-          inferConfigureAcsFormatting(format, it);
-          inferInit(format, it);
-          inferRules(format, it);
-          inferLocatorActivators(format, it);
-        });
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(format, Strings.lastToken(FormatGeneratorUtil.getFormatterName(format, "Abstract"), DOT)), (final JvmGenericType it) -> {
+      inferClass(format, it);
+      inferConstants(format, it);
+      inferGetGrammarAccess(format, it);
+      inferConfigureAcsFormatting(format, it);
+      inferInit(format, it);
+      inferRules(format, it);
+      inferLocatorActivators(format, it);
+    });
   }
 
   public void inferClass(final FormatConfiguration format, final JvmGenericType it) {
     Grammar targetGrammar = format.getTargetGrammar();
     String targetGrammarNameRaw = targetGrammar != null ? targetGrammar.getName() : null;
     String targetGrammarName = Strings.emptyIfNull(targetGrammarNameRaw);
-    jvmTypesBuilder.setDocumentation(it,
-        "The abstract formatting configuration for " + Strings.skipLastToken(targetGrammarName, DOT) + DOT + Strings.lastToken(targetGrammarName, DOT) + " as declared in " + Strings.lastToken(targetGrammarName, DOT) + ".format.");
+    jvmTypesBuilder.setDocumentation(it, "The abstract formatting configuration for " + Strings.skipLastToken(targetGrammarName, DOT) + DOT
+        + Strings.lastToken(targetGrammarName, DOT) + " as declared in " + Strings.lastToken(targetGrammarName, DOT) + ".format.");
     if (format.getFormatterBaseClass() != null) {
-      jvmTypesBuilder.<JvmTypeReference>operator_add(it.getSuperTypes(),
-          _typeReferenceBuilder.typeRef(format.getFormatterBaseClass().getPackageName() + DOT + format.getFormatterBaseClass().getSimpleName()));
+      jvmTypesBuilder.<JvmTypeReference> operator_add(it.getSuperTypes(), _typeReferenceBuilder.typeRef(format.getFormatterBaseClass().getPackageName() + DOT
+          + format.getFormatterBaseClass().getSimpleName()));
     } else {
-      jvmTypesBuilder.<JvmTypeReference>operator_add(it.getSuperTypes(),
-          _typeReferenceBuilder.typeRef(BASE_FORMATTER_CLASS_NAME));
+      jvmTypesBuilder.<JvmTypeReference> operator_add(it.getSuperTypes(), _typeReferenceBuilder.typeRef(BASE_FORMATTER_CLASS_NAME));
     }
     it.setPackageName(Strings.skipLastToken(FormatGeneratorUtil.getFormatterName(format, ""), DOT));
     it.setAbstract(true);
@@ -214,8 +217,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   public boolean inferConstants(final FormatConfiguration format, final JvmGenericType it) {
     return !FormatGeneratorUtil.getAllConstants(format).isEmpty()
-        && jvmTypesBuilder.<JvmMember>operator_add(it.getMembers(),
-            ListExtensions.<Constant, JvmMember>map(FormatGeneratorUtil.getAllConstants(format), (Constant c) -> createConstant(format, c)));
+        && jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(), ListExtensions.<Constant, JvmMember> map(FormatGeneratorUtil.getAllConstants(format), (final Constant c) -> createConstant(format, c)));
   }
 
   public String getFullyQualifiedName(final Grammar g) {
@@ -223,52 +225,47 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public boolean inferGetGrammarAccess(final FormatConfiguration format, final JvmGenericType it) {
-    JvmOperation method = jvmTypesBuilder.toMethod(format, "getGrammarAccess",
-        typeReferences.getTypeForName(getFullyQualifiedName(format.getTargetGrammar()), format.getTargetGrammar()), (JvmOperation op) -> {
-          op.setVisibility(JvmVisibility.PROTECTED);
-          final JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format);
-          if (overrideAnnotation != null) {
-            jvmTypesBuilder.<JvmAnnotationReference>operator_add(op.getAnnotations(), overrideAnnotation);
-          }
-          jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
-            body.append("return (" + GrammarUtil.getSimpleName(format.getTargetGrammar()) + "GrammarAccess) super.getGrammarAccess();");
-          });
-        });
-    return jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);
-  }
-
-  public boolean inferConfigureAcsFormatting(final FormatConfiguration format, final JvmGenericType it) {
-    JvmOperation method = jvmTypesBuilder.toMethod(format, "configureAcsFormatting", _typeReferenceBuilder.typeRef("void"), (JvmOperation op) -> {
+    JvmOperation method = jvmTypesBuilder.toMethod(format, "getGrammarAccess", typeReferences.getTypeForName(getFullyQualifiedName(format.getTargetGrammar()), format.getTargetGrammar()), (final JvmOperation op) -> {
       op.setVisibility(JvmVisibility.PROTECTED);
       final JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format);
       if (overrideAnnotation != null) {
-        jvmTypesBuilder.<JvmAnnotationReference>operator_add(op.getAnnotations(), overrideAnnotation);
+        jvmTypesBuilder.<JvmAnnotationReference> operator_add(op.getAnnotations(), overrideAnnotation);
       }
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
-      jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
+      jvmTypesBuilder.setBody(op, (final ITreeAppendable body) -> {
+        body.append("return (" + GrammarUtil.getSimpleName(format.getTargetGrammar()) + "GrammarAccess) super.getGrammarAccess();");
+      });
+    });
+    return jvmTypesBuilder.<JvmOperation> operator_add(it.getMembers(), method);
+  }
+
+  public boolean inferConfigureAcsFormatting(final FormatConfiguration format, final JvmGenericType it) {
+    JvmOperation method = jvmTypesBuilder.toMethod(format, "configureAcsFormatting", _typeReferenceBuilder.typeRef("void"), (final JvmOperation op) -> {
+      op.setVisibility(JvmVisibility.PROTECTED);
+      final JvmAnnotationReference overrideAnnotation = createOverrideAnnotation(format);
+      if (overrideAnnotation != null) {
+        jvmTypesBuilder.<JvmAnnotationReference> operator_add(op.getAnnotations(), overrideAnnotation);
+      }
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
+      jvmTypesBuilder.setBody(op, (final ITreeAppendable body) -> {
         body.append("init(config, getGrammarAccess());");
       });
     });
-    return jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);
+    return jvmTypesBuilder.<JvmOperation> operator_add(it.getMembers(), method);
   }
 
   public boolean inferInit(final FormatConfiguration format, final JvmGenericType it) {
-    JvmOperation method = jvmTypesBuilder.toMethod(format, "init", _typeReferenceBuilder.typeRef("void"),
-        (JvmOperation op) -> initializeInitMethod(format, op));
-    return jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);
+    JvmOperation method = jvmTypesBuilder.toMethod(format, "init", _typeReferenceBuilder.typeRef("void"), (final JvmOperation op) -> initializeInitMethod(format, op));
+    return jvmTypesBuilder.<JvmOperation> operator_add(it.getMembers(), method);
   }
 
   private void initializeInitMethod(final FormatConfiguration format, final JvmOperation op) {
-    Pair<String, String> mappedTo = Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION);
-    Pair<String, String> mapped = Pair.<String, String>of(PARAMETER_GRAMMAR_ACCESS, "the grammar access for the grammar");
-    jvmTypesBuilder.setDocumentation(op, generateJavaDoc("Calls all configXyz methods declared in this class.", CollectionLiterals.<String, String>newLinkedHashMap(mappedTo, mapped)));
+    Pair<String, String> mappedTo = Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION);
+    Pair<String, String> mapped = Pair.<String, String> of(PARAMETER_GRAMMAR_ACCESS, "the grammar access for the grammar");
+    jvmTypesBuilder.setDocumentation(op, generateJavaDoc("Calls all configXyz methods declared in this class.", CollectionLiterals.<String, String> newLinkedHashMap(mappedTo, mapped)));
     op.setVisibility(JvmVisibility.PROTECTED);
-    jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-        jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
-    jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-        jvmTypesBuilder.toParameter(format, PARAMETER_GRAMMAR_ACCESS, _typeReferenceBuilder.typeRef(getFullyQualifiedName(format.getTargetGrammar()))));
-    jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
+    jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
+    jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_GRAMMAR_ACCESS, _typeReferenceBuilder.typeRef(getFullyQualifiedName(format.getTargetGrammar()))));
+    jvmTypesBuilder.setBody(op, (final ITreeAppendable body) -> {
       final List<String> rules = listConfigRules(format);
       int length = ((Object[]) Conversions.unwrapArray(rules, Object.class)).length;
       ExclusiveRange range = new ExclusiveRange(0, length, true);
@@ -282,62 +279,49 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public boolean inferRules(final FormatConfiguration format, final JvmGenericType it) {
-    jvmTypesBuilder.<JvmMember>operator_add(it.getMembers(),
-        Iterables.<JvmMember>concat(ListExtensions.<GrammarRule, Iterable<JvmMember>>map(FormatGeneratorUtil.getParserRules(format), (GrammarRule c) -> createRule(format, c))));
-    jvmTypesBuilder.<JvmMember>operator_add(it.getMembers(),
-        Iterables.<JvmMember>concat(ListExtensions.<GrammarRule, Iterable<JvmMember>>map(FormatGeneratorUtil.getEnumRules(format), (GrammarRule c) -> createRule(format, c))));
-    jvmTypesBuilder.<JvmMember>operator_add(it.getMembers(),
-        Iterables.<JvmMember>concat(ListExtensions.<GrammarRule, Iterable<JvmMember>>map(FormatGeneratorUtil.getTerminalRules(format), (GrammarRule c) -> createRule(format, c))));
+    jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(), Iterables.<JvmMember> concat(ListExtensions.<GrammarRule, Iterable<JvmMember>> map(FormatGeneratorUtil.getParserRules(format), (final GrammarRule c) -> createRule(format, c))));
+    jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(), Iterables.<JvmMember> concat(ListExtensions.<GrammarRule, Iterable<JvmMember>> map(FormatGeneratorUtil.getEnumRules(format), (final GrammarRule c) -> createRule(format, c))));
+    jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(), Iterables.<JvmMember> concat(ListExtensions.<GrammarRule, Iterable<JvmMember>> map(FormatGeneratorUtil.getTerminalRules(format), (final GrammarRule c) -> createRule(format, c))));
     boolean result = false;
     if (FormatGeneratorUtil.getWildcardRule(format) != null) {
-      JvmOperation method = jvmTypesBuilder.toMethod(format, "configFindElements", _typeReferenceBuilder.typeRef("void"), (JvmOperation op) -> {
-        Pair<String, String> mappedTo = Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION);
-        Pair<String, String> mapped = Pair.<String, String>of(PARAMETER_ELEMENTS, "the grammar access for the grammar");
-        jvmTypesBuilder.setDocumentation(op, generateJavaDoc("Configuration for IGrammarAccess.findXyz() methods.", CollectionLiterals.<String, String>newLinkedHashMap(mappedTo, mapped)));
+      JvmOperation method = jvmTypesBuilder.toMethod(format, "configFindElements", _typeReferenceBuilder.typeRef("void"), (final JvmOperation op) -> {
+        Pair<String, String> mappedTo = Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION);
+        Pair<String, String> mapped = Pair.<String, String> of(PARAMETER_ELEMENTS, "the grammar access for the grammar");
+        jvmTypesBuilder.setDocumentation(op, generateJavaDoc("Configuration for IGrammarAccess.findXyz() methods.", CollectionLiterals.<String, String> newLinkedHashMap(mappedTo, mapped)));
         op.setVisibility(JvmVisibility.PROTECTED);
-        jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-            jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
-        jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-            jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, _typeReferenceBuilder.typeRef(getFullyQualifiedName(getGrammar(format.getTargetGrammar())))));
-        jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
-          final List<String> directives = ListExtensions.<WildcardRuleDirective, String>map(
-              FormatGeneratorUtil.getWildcardRule(format).getDirectives(),
-              (WildcardRuleDirective d) -> directive(d, getRuleName(FormatGeneratorUtil.getWildcardRule(format))).toString());
+        jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
+        jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, _typeReferenceBuilder.typeRef(getFullyQualifiedName(getGrammar(format.getTargetGrammar())))));
+        jvmTypesBuilder.setBody(op, (final ITreeAppendable body) -> {
+          final List<String> directives = ListExtensions.<WildcardRuleDirective, String> map(FormatGeneratorUtil.getWildcardRule(format).getDirectives(), (final WildcardRuleDirective d) -> directive(d, getRuleName(FormatGeneratorUtil.getWildcardRule(format))).toString());
           body.append(fixLastLine(IterableExtensions.join(directives)));
         });
       });
-      result = jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);
+      result = jvmTypesBuilder.<JvmOperation> operator_add(it.getMembers(), method);
     }
     return result;
   }
 
   public void inferLocatorActivators(final FormatConfiguration format, final JvmGenericType it) {
     List<Rule> rules = new LinkedList<>();
-    Iterables.<Rule>addAll(rules,
-        Iterables.<Rule>concat(
-            Iterables.<GrammarRule>concat(FormatGeneratorUtil.getParserRules(format), FormatGeneratorUtil.getTerminalRules(format)),
-            FormatGeneratorUtil.getEnumRules(format)));
+    Iterables.<Rule> addAll(rules, Iterables.<Rule> concat(Iterables.<GrammarRule> concat(FormatGeneratorUtil.getParserRules(format), FormatGeneratorUtil.getTerminalRules(format)), FormatGeneratorUtil.getEnumRules(format)));
     rules.add(FormatGeneratorUtil.getWildcardRule(format));
     for (final Rule rule : rules) {
       List<EObject> directives = new LinkedList<>();
       if (rule instanceof GrammarRule grammarRule) {
-        Iterables.<EObject>addAll(directives, grammarRule.getDirectives());
+        Iterables.<EObject> addAll(directives, grammarRule.getDirectives());
       } else if (rule instanceof WildcardRule wildcardRule) {
-        Iterables.<EObject>addAll(directives, wildcardRule.getDirectives());
+        Iterables.<EObject> addAll(directives, wildcardRule.getDirectives());
       }
-      for (final EObject directive : IterableExtensions.<EObject>filterNull(directives)) {
+      for (final EObject directive : IterableExtensions.<EObject> filterNull(directives)) {
         for (final Matcher matcher : collectMatchers(directive)) {
           if ((matcher.getLocator() instanceof ColumnLocator) && (((ColumnLocator) matcher.getLocator()).getParameter() != null)) {
-            jvmTypesBuilder.<JvmGenericType>operator_add(it.getMembers(),
-                createParameterCalculatorInnerClass(format, rule, directive, matcher, ((ColumnLocator) matcher.getLocator()).getParameter(), it));
+            jvmTypesBuilder.<JvmGenericType> operator_add(it.getMembers(), createParameterCalculatorInnerClass(format, rule, directive, matcher, ((ColumnLocator) matcher.getLocator()).getParameter(), it));
           }
           if ((matcher.getLocator() instanceof IndentLocator) && (((IndentLocator) matcher.getLocator()).getParameter() != null)) {
-            jvmTypesBuilder.<JvmGenericType>operator_add(it.getMembers(),
-                createParameterCalculatorInnerClass(format, rule, directive, matcher, ((IndentLocator) matcher.getLocator()).getParameter(), it));
+            jvmTypesBuilder.<JvmGenericType> operator_add(it.getMembers(), createParameterCalculatorInnerClass(format, rule, directive, matcher, ((IndentLocator) matcher.getLocator()).getParameter(), it));
           }
           if (matcher.getCondition() != null) {
-            jvmTypesBuilder.<JvmGenericType>operator_add(it.getMembers(),
-                createLocatorActivatorInnerClass(format, rule, directive, matcher, it));
+            jvmTypesBuilder.<JvmGenericType> operator_add(it.getMembers(), createLocatorActivatorInnerClass(format, rule, directive, matcher, it));
           }
         }
       }
@@ -345,24 +329,23 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public JvmGenericType createLocatorActivatorInnerClass(final FormatConfiguration format, final Rule rule, final EObject directive, final Matcher matcher, final JvmGenericType type) {
-    return jvmTypesBuilder.toClass(format, getLocatorActivatorName(rule, directive, matcher), (JvmGenericType it) -> {
+    return jvmTypesBuilder.toClass(format, getLocatorActivatorName(rule, directive, matcher), (final JvmGenericType it) -> {
       it.setStatic(true);
       it.setFinal(true);
       it.setVisibility(JvmVisibility.PROTECTED);
-      jvmTypesBuilder.<JvmTypeReference>operator_add(it.getSuperTypes(), getLocatorActivatorSuperType(format, rule));
-      JvmOperation method = jvmTypesBuilder.toMethod(matcher, METHOD_ACTIVATE, getLocatorActivatorReturnType(format), (JvmOperation op) -> {
-        jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-            jvmTypesBuilder.toParameter(format, PARAMETER_CONTEXT, typeReferences.getTypeForName(getGrammarElementNameFromSelf(rule), format)));
-        jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(), createCurrenctColumnParameter());
+      jvmTypesBuilder.<JvmTypeReference> operator_add(it.getSuperTypes(), getLocatorActivatorSuperType(format, rule));
+      JvmOperation method = jvmTypesBuilder.toMethod(matcher, METHOD_ACTIVATE, getLocatorActivatorReturnType(format), (final JvmOperation op) -> {
+        jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONTEXT, typeReferences.getTypeForName(getGrammarElementNameFromSelf(rule), format)));
+        jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), createCurrenctColumnParameter());
         if (!Objects.equals(format.eResource(), matcher.eResource())) {
-          jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
+          jvmTypesBuilder.setBody(op, (final ITreeAppendable body) -> {
             xbaseCompiler.compile(matcher.getCondition(), body, getLocatorActivatorReturnType(format), null);
           });
         } else {
           jvmTypesBuilder.setBody(op, matcher.getCondition());
         }
       });
-      jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);
+      jvmTypesBuilder.<JvmOperation> operator_add(it.getMembers(), method);
     });
   }
 
@@ -374,29 +357,28 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public JvmGenericType createParameterCalculatorInnerClass(final FormatConfiguration format, final Rule rule, final EObject directive, final Matcher matcher, final XExpression parameterCalculation, final JvmGenericType type) {
-    return jvmTypesBuilder.toClass(format, getParameterCalculatorName(rule, directive, matcher), (JvmGenericType it) -> {
+    return jvmTypesBuilder.toClass(format, getParameterCalculatorName(rule, directive, matcher), (final JvmGenericType it) -> {
       it.setStatic(true);
       it.setFinal(true);
       it.setVisibility(JvmVisibility.PROTECTED);
-      jvmTypesBuilder.<JvmTypeReference>operator_add(it.getSuperTypes(), getParameterCalculatorSuperType(format, rule));
-      JvmOperation method = jvmTypesBuilder.toMethod(matcher, METHOD_CALCULATE, getParameterCalculatorReturnType(format), (JvmOperation op) -> {
-        jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(),
-            jvmTypesBuilder.toParameter(format, PARAMETER_CONTEXT, typeReferences.getTypeForName(getGrammarElementNameFromSelf(rule), format)));
-        jvmTypesBuilder.<JvmFormalParameter>operator_add(op.getParameters(), createCurrenctColumnParameter());
+      jvmTypesBuilder.<JvmTypeReference> operator_add(it.getSuperTypes(), getParameterCalculatorSuperType(format, rule));
+      JvmOperation method = jvmTypesBuilder.toMethod(matcher, METHOD_CALCULATE, getParameterCalculatorReturnType(format), (final JvmOperation op) -> {
+        jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONTEXT, typeReferences.getTypeForName(getGrammarElementNameFromSelf(rule), format)));
+        jvmTypesBuilder.<JvmFormalParameter> operator_add(op.getParameters(), createCurrenctColumnParameter());
         if (!Objects.equals(format.eResource(), matcher.eResource())) {
-          jvmTypesBuilder.setBody(op, (ITreeAppendable body) -> {
+          jvmTypesBuilder.setBody(op, (final ITreeAppendable body) -> {
             xbaseCompiler.compile(parameterCalculation, body, getParameterCalculatorReturnType(format), null);
           });
         } else {
           jvmTypesBuilder.setBody(op, parameterCalculation);
         }
       });
-      jvmTypesBuilder.<JvmOperation>operator_add(it.getMembers(), method);
+      jvmTypesBuilder.<JvmOperation> operator_add(it.getMembers(), method);
     });
   }
 
   public List<String> listConfigRules(final FormatConfiguration format) {
-    final List<String> configRules = CollectionLiterals.<String>newArrayList();
+    final List<String> configRules = CollectionLiterals.<String> newArrayList();
     if (FormatGeneratorUtil.getWildcardRule(format) != null) {
       configRules.add("configFindElements(config, grammarAccess);");
     }
@@ -441,7 +423,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         it.setStatic(true);
         it.setFinal(true);
         it.setVisibility(JvmVisibility.PROTECTED);
-        jvmTypesBuilder.setInitializer(it, (ITreeAppendable op) -> {
+        jvmTypesBuilder.setInitializer(it, (final ITreeAppendable op) -> {
           op.append("\"" + constant.getStringValue() + "\"");
         });
       });
@@ -451,7 +433,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         it.setStatic(true);
         it.setFinal(true);
         it.setVisibility(JvmVisibility.PROTECTED);
-        jvmTypesBuilder.setInitializer(it, (ITreeAppendable op) -> {
+        jvmTypesBuilder.setInitializer(it, (final ITreeAppendable op) -> {
           op.append(constant.getIntValue().toString());
         });
       });
@@ -463,22 +445,22 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     List<Matcher> matchers = new LinkedList<>();
     if (directive instanceof GroupBlock groupBlock) {
       if (groupBlock.getMatcherList() != null) {
-        Iterables.<Matcher>addAll(matchers, groupBlock.getMatcherList().getMatchers());
+        Iterables.<Matcher> addAll(matchers, groupBlock.getMatcherList().getMatchers());
       }
     } else if (directive instanceof SpecificDirective specificDirective) {
       if (specificDirective.getMatcherList() != null) {
-        Iterables.<Matcher>addAll(matchers, specificDirective.getMatcherList().getMatchers());
+        Iterables.<Matcher> addAll(matchers, specificDirective.getMatcherList().getMatchers());
       }
     } else if (directive instanceof ContextFreeDirective contextFreeDirective) {
       if (contextFreeDirective.getMatcherList() != null) {
-        Iterables.<Matcher>addAll(matchers, contextFreeDirective.getMatcherList().getMatchers());
+        Iterables.<Matcher> addAll(matchers, contextFreeDirective.getMatcherList().getMatchers());
       }
     } else if (directive instanceof KeywordPair keywordPair) {
       if (keywordPair.getLeftMatchers() != null) {
-        Iterables.<Matcher>addAll(matchers, keywordPair.getLeftMatchers());
+        Iterables.<Matcher> addAll(matchers, keywordPair.getLeftMatchers());
       }
       if (keywordPair.getRightMatchers() != null) {
-        Iterables.<Matcher>addAll(matchers, keywordPair.getRightMatchers());
+        Iterables.<Matcher> addAll(matchers, keywordPair.getRightMatchers());
       }
     }
     return matchers;
@@ -507,7 +489,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule instanceof WildcardRule wildcardRule) {
       return _getLocatorActivatorSuperType(formatConfiguration, wildcardRule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(formatConfiguration, rule).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(formatConfiguration, rule).toString());
     }
   }
 
@@ -526,7 +508,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule instanceof WildcardRule wildcardRule) {
       return _getParameterCalculatorSuperType(formatConfiguration, wildcardRule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(formatConfiguration, rule).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(formatConfiguration, rule).toString());
     }
   }
 
@@ -552,8 +534,8 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       return actualRuleName;
     } else {
       if (!Objects.equals(actualRuleName, originalRuleName)) {
-        boolean anyMatch = metamodel.getEPackage().getEClassifiers().stream().anyMatch(
-            (EClassifier it) -> (it instanceof EClass) && it.getName().equalsIgnoreCase(originalRuleName));
+        boolean anyMatch = metamodel.getEPackage().getEClassifiers().stream().anyMatch((final EClassifier it) -> (it instanceof EClass)
+            && it.getName().equalsIgnoreCase(originalRuleName));
         if (anyMatch) {
           actualRuleName = originalRuleName;
         }
@@ -580,12 +562,12 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule instanceof WildcardRule wildcardRule) {
       return _getGrammarElementNameFromSelf(wildcardRule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(rule).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(rule).toString());
     }
   }
 
   public int getMatcherIndex(final Matcher matcher) {
-    final MatcherList matcherList = EcoreUtil2.<MatcherList>getContainerOfType(matcher, MatcherList.class);
+    final MatcherList matcherList = EcoreUtil2.<MatcherList> getContainerOfType(matcher, MatcherList.class);
     return matcherList.getMatchers().indexOf(matcher);
   }
 
@@ -594,7 +576,8 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public String getLocatorActivatorName(final String partialName, final Matcher matcher) {
-    return ("ActivatorFor" + partialName + getMatcherIndex(matcher) + getLocatorName(matcher.getLocator()) + StringExtensions.toFirstUpper(matcher.getType().name().toLowerCase())).replace(IMPL_SUFFIX, "");
+    return ("ActivatorFor" + partialName + getMatcherIndex(matcher) + getLocatorName(matcher.getLocator())
+        + StringExtensions.toFirstUpper(matcher.getType().name().toLowerCase())).replace(IMPL_SUFFIX, "");
   }
 
   public String getParameterCalculatorName(final EObject rule, final EObject directive, final Matcher matcher) {
@@ -602,7 +585,8 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public String getParameterCalculatorName(final String partialName, final Matcher matcher) {
-    return ("ParameterCalculatorFor" + partialName + getMatcherIndex(matcher) + getLocatorName(matcher.getLocator()) + StringExtensions.toFirstUpper(matcher.getType().name().toLowerCase())).replace(IMPL_SUFFIX, "");
+    return ("ParameterCalculatorFor" + partialName + getMatcherIndex(matcher) + getLocatorName(matcher.getLocator())
+        + StringExtensions.toFirstUpper(matcher.getType().name().toLowerCase())).replace(IMPL_SUFFIX, "");
   }
 
   // getRuleName dispatch
@@ -627,12 +611,13 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule != null) {
       return _getRuleName(rule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(rule).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(rule).toString());
     }
   }
 
   public String getMatcherName(final Matcher matcher, final EObject directive) {
-    return getDirectiveName(directive) + getMatcherIndex(matcher) + getLocatorName(matcher.getLocator()) + StringExtensions.toFirstUpper(matcher.getType().name().toLowerCase());
+    return getDirectiveName(directive) + getMatcherIndex(matcher) + getLocatorName(matcher.getLocator())
+        + StringExtensions.toFirstUpper(matcher.getType().name().toLowerCase());
   }
 
   public String getLocatorName(final EObject locator) {
@@ -655,8 +640,8 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   // getDirectiveName dispatch
   @SuppressWarnings("PMD.CollectionTypeMismatch")
   protected String _getDirectiveName(final GroupBlock directive) {
-    final GrammarRule grammarRule = EcoreUtil2.<GrammarRule>getContainerOfType(directive, GrammarRule.class);
-    final List<Iterable<GroupBlock>> directives = CollectionLiterals.<Iterable<GroupBlock>>newArrayList(Iterables.<GroupBlock>filter(grammarRule.getDirectives(), GroupBlock.class));
+    final GrammarRule grammarRule = EcoreUtil2.<GrammarRule> getContainerOfType(directive, GrammarRule.class);
+    final List<Iterable<GroupBlock>> directives = CollectionLiterals.<Iterable<GroupBlock>> newArrayList(Iterables.<GroupBlock> filter(grammarRule.getDirectives(), GroupBlock.class));
     return "Group" + (directives.indexOf(directive) + 1);
   }
 
@@ -715,14 +700,14 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (directive != null) {
       return _getDirectiveName(directive);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(directive).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(directive).toString());
     }
   }
 
   public Iterable<JvmMember> createRule(final FormatConfiguration format, final GrammarRule rule) {
-    final List<JvmMember> members = CollectionLiterals.<JvmMember>newArrayList();
-    JvmOperation method = jvmTypesBuilder.toMethod(format, "config" + rule.getTargetRule().getName(), _typeReferenceBuilder.typeRef("void"),
-        (JvmOperation it) -> initializeRuleMethod(format, rule, it));
+    final List<JvmMember> members = CollectionLiterals.<JvmMember> newArrayList();
+    JvmOperation method = jvmTypesBuilder.toMethod(format, "config"
+        + rule.getTargetRule().getName(), _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> initializeRuleMethod(format, rule, it));
     members.add(method);
     return members;
   }
@@ -730,34 +715,27 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   private void initializeRuleMethod(final FormatConfiguration format, final GrammarRule rule, final JvmOperation it) {
     it.setFinal(false);
     it.setVisibility(JvmVisibility.PROTECTED);
-    jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-        jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
+    jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
     AbstractRule targetRule = rule.getTargetRule();
     if (targetRule instanceof ParserRule) {
       final String ruleName = getFullyQualifiedName(getGrammar(rule.getTargetRule())) + "$" + grammarAccess.gaRuleAccessorClassName(rule.getTargetRule());
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, typeReferences.getTypeForName(ruleName, rule.getTargetRule())));
-      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
-          CollectionLiterals.<String, String>newLinkedHashMap(
-              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
-              Pair.<String, String>of(PARAMETER_ELEMENTS, "the grammar access for " + rule.getTargetRule().getName() + " elements"))));
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, typeReferences.getTypeForName(ruleName, rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName()
+          + ".", CollectionLiterals.<String, String> newLinkedHashMap(Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION), Pair.<String, String> of(PARAMETER_ELEMENTS, "the grammar access for "
+              + rule.getTargetRule().getName() + " elements"))));
     } else if (targetRule instanceof EnumRule) {
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(EnumRule.class.getName(), rule.getTargetRule())));
-      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
-          CollectionLiterals.<String, String>newLinkedHashMap(
-              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
-              Pair.<String, String>of(PARAMETER_RULE, "the enum rule for " + rule.getTargetRule().getName()))));
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(EnumRule.class.getName(), rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName()
+          + ".", CollectionLiterals.<String, String> newLinkedHashMap(Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION), Pair.<String, String> of(PARAMETER_RULE, "the enum rule for "
+              + rule.getTargetRule().getName()))));
     } else if (targetRule instanceof TerminalRule) {
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(TerminalRule.class.getName(), rule.getTargetRule())));
-      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
-          CollectionLiterals.<String, String>newLinkedHashMap(
-              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
-              Pair.<String, String>of(PARAMETER_RULE, "the terminal rule for " + rule.getTargetRule().getName()))));
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(TerminalRule.class.getName(), rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName()
+          + ".", CollectionLiterals.<String, String> newLinkedHashMap(Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION), Pair.<String, String> of(PARAMETER_RULE, "the terminal rule for "
+              + rule.getTargetRule().getName()))));
     }
-    jvmTypesBuilder.setBody(it, (ITreeAppendable op) -> {
-      final List<String> directives = ListExtensions.<EObject, String>map(rule.getDirectives(), (EObject d) -> directive(d, getRuleName(rule)).toString());
+    jvmTypesBuilder.setBody(it, (final ITreeAppendable op) -> {
+      final List<String> directives = ListExtensions.<EObject, String> map(rule.getDirectives(), (final EObject d) -> directive(d, getRuleName(rule)).toString());
       op.append(fixLastLine(IterableExtensions.join(directives)));
     });
   }
@@ -826,19 +804,19 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (dir != null) {
       return _directive(dir, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(dir, partialName).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(dir, partialName).toString());
     }
   }
 
   public CharSequence matchLookup(final MatcherList matcherList, final EList<GrammarElementLookup> elements, final String partialName) {
     final StringBuilder sb = new StringBuilder(DEFAULT_BUFFER_CAPACITY);
     if (!elements.isEmpty()) {
-      boolean hasRuleElements = elements.stream().anyMatch((GrammarElementLookup e) -> e.getRule() != null);
+      boolean hasRuleElements = elements.stream().anyMatch((final GrammarElementLookup e) -> e.getRule() != null);
       if (hasRuleElements) {
         sb.append("// ").append(locatorString(matcherList)).append('\n');
         sb.append("for (org.eclipse.xtext.RuleCall ruleCall : elements.findRuleCalls(");
         boolean first = true;
-        for (final GrammarElementLookup element : elements.stream().filter((GrammarElementLookup e) -> e.getRule() != null).toList()) {
+        for (final GrammarElementLookup element : elements.stream().filter((final GrammarElementLookup e) -> e.getRule() != null).toList()) {
           if (!first) {
             sb.append(", ");
           }
@@ -851,12 +829,12 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         }
         sb.append("}\n");
       }
-      boolean hasKeywordElements = elements.stream().anyMatch((GrammarElementLookup e) -> e.getKeyword() != null);
+      boolean hasKeywordElements = elements.stream().anyMatch((final GrammarElementLookup e) -> e.getKeyword() != null);
       if (hasKeywordElements) {
         sb.append("// ").append(locatorString(matcherList)).append('\n');
         sb.append("for (org.eclipse.xtext.Keyword keyword : elements.findKeywords(");
         boolean first2 = true;
-        for (final GrammarElementLookup element : elements.stream().filter((GrammarElementLookup e) -> e.getKeyword() != null).toList()) {
+        for (final GrammarElementLookup element : elements.stream().filter((final GrammarElementLookup e) -> e.getKeyword() != null).toList()) {
           if (!first2) {
             sb.append(", ");
           }
@@ -934,7 +912,8 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (columnLocator != null) {
       return _matchLookupPartial(columnLocator, matcher, eobjectTypeName, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(columnLocator, matcher, eobjectTypeName, partialName).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: "
+          + Arrays.<Object> asList(columnLocator, matcher, eobjectTypeName, partialName).toString());
     }
   }
 
@@ -1058,7 +1037,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (locator != null) {
       return _match(matcher, element, locator, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(matcher, element, locator, partialName).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(matcher, element, locator, partialName).toString());
     }
   }
 
@@ -1120,7 +1099,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (grammarElementLookup != null) {
       return _elementAccess(grammarElementLookup);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(grammarElementLookup).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(grammarElementLookup).toString());
     }
   }
 
@@ -1257,7 +1236,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (columnLocator != null) {
       return _locator(matcher, columnLocator, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(matcher, columnLocator, partialName).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(matcher, columnLocator, partialName).toString());
     }
   }
 
@@ -1286,12 +1265,12 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (intValue instanceof StringValue sv) {
       return _getValueOrConstant(sv);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(intValue).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(intValue).toString());
     }
   }
 
   public String locatorString(final EObject object) {
-    return IterableExtensions.<String>lastOrNull((Iterable<String>) Conversions.doWrapArray(getFileLocation(object).split("/")));
+    return IterableExtensions.<String> lastOrNull((Iterable<String>) Conversions.doWrapArray(getFileLocation(object).split("/")));
   }
 
   @Override
@@ -1301,7 +1280,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (format != null) {
       _infer(format, acceptor, isPreIndexingPhase);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(format, acceptor, isPreIndexingPhase).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(format, acceptor, isPreIndexingPhase).toString());
     }
   }
 }

@@ -14,6 +14,7 @@ package com.avaloq.tools.ddk.checkcfg.util;
  * Provides utility operations for Check Configuration model stubs. Only partial models
  * are returned as strings.
  */
+@SuppressWarnings("nls")
 public class CheckCfgModelUtil {
 
   public String basicModel(final String name) {

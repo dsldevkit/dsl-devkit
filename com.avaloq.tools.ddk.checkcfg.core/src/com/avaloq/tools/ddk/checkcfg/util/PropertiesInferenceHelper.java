@@ -35,6 +35,7 @@ import org.eclipse.xtext.xbase.XNumberLiteral;
 import org.eclipse.xtext.xbase.XStringLiteral;
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypeReferenceBuilder;
 
+@SuppressWarnings("nls")
 public class PropertiesInferenceHelper {
 
   @Inject

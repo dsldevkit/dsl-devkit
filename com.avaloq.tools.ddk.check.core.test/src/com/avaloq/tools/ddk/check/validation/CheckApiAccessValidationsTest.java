@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class CheckApiAccessValidationsTest {
 
   @Inject

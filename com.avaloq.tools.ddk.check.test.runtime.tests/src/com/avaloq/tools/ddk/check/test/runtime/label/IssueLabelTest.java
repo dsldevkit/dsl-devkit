@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * End-to-end test for getting Check labels.
  */
+@SuppressWarnings("nls")
 public class IssueLabelTest {
 
   /**

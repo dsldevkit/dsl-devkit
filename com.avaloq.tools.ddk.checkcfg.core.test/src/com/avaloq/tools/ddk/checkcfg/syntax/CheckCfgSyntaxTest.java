@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 // CHECKSTYLE:CONSTANTS-OFF
+@SuppressWarnings("nls")
 public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   @Override

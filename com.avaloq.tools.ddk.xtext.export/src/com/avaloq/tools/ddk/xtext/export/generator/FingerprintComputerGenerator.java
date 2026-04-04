@@ -31,7 +31,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
 import com.google.inject.Inject;
 
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class FingerprintComputerGenerator {
 
   @Inject
