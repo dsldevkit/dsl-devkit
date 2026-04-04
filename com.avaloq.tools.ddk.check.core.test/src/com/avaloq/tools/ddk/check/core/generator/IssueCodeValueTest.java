@@ -92,11 +92,8 @@ public class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
 
     // ACT
     List<JavaSource> compiledClassesList;
-    ByteArrayInputStream sourceStream = new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8));
-    try {
+    try (ByteArrayInputStream sourceStream = new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8))) {
       compiledClassesList = generateAndCompile(sourceStream);
-    } finally {
-      sourceStream.close();
     }
 
     // ASSERT
