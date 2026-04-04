@@ -33,13 +33,13 @@ class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
 
 // Here you explain how your model is mapped to Java elements, by writing the actual translation code.
 // An example based on the initial hellow world example could look like this:
-//   		acceptor.accept(element.toClass("my.company.greeting.MyGreetings") [
-//   			for (greeting : element.greetings) {
-//   				members += greeting.toMethod(greeting.name, greeting.newTypeRef(typeof(String))) [
-//   					it.body ['''
-//   						return "Hello «greeting.name»";
-//   					''']
-//   				]
-//   			}
-//   		])
+//      acceptor.accept(element.toClass("my.company.greeting.MyGreetings") [
+//        for (greeting : element.greetings) {
+//          members += greeting.toMethod(greeting.name, greeting.newTypeRef(typeof(String))) [
+//            it.body ['''
+//              return "Hello «greeting.name»";
+//            ''']
+//          ]
+//        }
+//      ])
 }

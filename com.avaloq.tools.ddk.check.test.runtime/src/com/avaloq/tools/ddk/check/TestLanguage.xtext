@@ -3,7 +3,7 @@ grammar com.avaloq.tools.ddk.check.TestLanguage with org.eclipse.xtext.common.Te
 generate testLanguage "http://www.avaloq.com/tools/ddk/check/TestLanguage"
 
 Model:
-	greetings+=Greeting*;
-	
+  greetings+=Greeting*;
+  
 Greeting:
-	'Hello' name=ID '!';
+  'Hello' name=ID '!';

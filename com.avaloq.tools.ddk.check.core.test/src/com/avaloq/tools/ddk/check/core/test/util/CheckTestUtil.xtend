@@ -20,7 +20,7 @@ class CheckTestUtil {
   /*
    * Gets the first instance of given type in given context object.
    */
-	def <T extends EObject> T getFirstInstanceOf(EObject context, Class<T> type) {
+  def <T extends EObject> T getFirstInstanceOf(EObject context, Class<T> type) {
     return getInstanceOf(context, type, null, null, 1)
   }
 

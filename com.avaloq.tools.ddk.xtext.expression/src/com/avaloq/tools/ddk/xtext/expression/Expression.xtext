@@ -14,7 +14,7 @@ import "http://www.avaloq.com/tools/ddk/xtext/expression/Expression"
 // to Xtext
 
 //expression returns [Expression e]:
-//	x=letExpression {$e=x;};
+//  x=letExpression {$e=x;};
 
 Expression:
    LetExpression | => CastedExpression | ChainExpression;
@@ -34,15 +34,15 @@ LetExpression:
 
 //castedExpression returns [Expression e] :
 //   ('(' type ')' castedExpression)=>
-//	'(' t=type ')' x=chainExpression {$e = factory.createCast(t,x);}
-//	| x=chainExpression {$e=x;};
+//  '(' t=type ')' x=chainExpression {$e = factory.createCast(t,x);}
+//  | x=chainExpression {$e=x;};
 
 CastedExpression:
   '(' type=Type ')' target=Expression;
 
 
 //chainExpression  returns [Expression e] :
-//	x=ifExpression {$e=x;} ( '->' right=ifExpression {$e=factory.createChainExpression($e,right);})*;
+//  x=ifExpression {$e=x;} ( '->' right=ifExpression {$e=factory.createChainExpression($e,right);})*;
 
 ChainExpression returns Expression:
   ChainedExpression ({ChainExpression.first=current} '->' next=ChainedExpression)*;
@@ -52,8 +52,8 @@ ChainedExpression returns Expression:
   IfExpressionKw | IfExpressionTri | SwitchExpression;
 
 //ifExpression  returns [Expression e] :
-//	x=switchExpression {$e=x;}('?' thenPart=switchExpression ':' elsePart=switchExpression {$e=factory.createIf($e,thenPart,elsePart);})?
-//|	'if' condition=switchExpression 'then' thenPart=switchExpression ('else' elsePart=expression)? {$e=factory.createIf(condition,thenPart,elsePart);};
+//  x=switchExpression {$e=x;}('?' thenPart=switchExpression ':' elsePart=switchExpression {$e=factory.createIf($e,thenPart,elsePart);})?
+//| 'if' condition=switchExpression 'then' thenPart=switchExpression ('else' elsePart=expression)? {$e=factory.createIf(condition,thenPart,elsePart);};
 
 IfExpressionTri returns Expression:
   OrExpression ({IfExpression.condition=current} '?' thenPart=ChainedExpression ':' elsePart=ChainedExpression)?;
@@ -83,36 +83,36 @@ Case:
 
 
 //orExpression returns [Expression e] :
-//  	x=andExpression {$e=x;} (name='||' r=andExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
+//    x=andExpression {$e=x;} (name='||' r=andExpression  {$e = factory.createBooleanOperation(id(name),$e,r);})*;
 
 OrExpression returns Expression:
   AndExpression ({BooleanOperation.left=current} operator='||' right=AndExpression)*;
 
 
-//andExpression 	returns [Expression e] :
-//	x=impliesExpression {$e=x;} (name='&&' r=impliesExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
+//andExpression   returns [Expression e] :
+//  x=impliesExpression {$e=x;} (name='&&' r=impliesExpression  {$e = factory.createBooleanOperation(id(name),$e,r);})*;
 
 AndExpression returns Expression:
   ImpliesExpression ({BooleanOperation.left=current} operator='&&' right=ImpliesExpression)*;
 
 
 //impliesExpression returns [Expression e] :
-//	x=relationalExpression {$e=x;} (name='implies' r=relationalExpression 	{$e = factory.createBooleanOperation(id(name),$e,r);})*;
+//  x=relationalExpression {$e=x;} (name='implies' r=relationalExpression   {$e = factory.createBooleanOperation(id(name),$e,r);})*;
 
 ImpliesExpression returns Expression:
   RelationalExpression ({BooleanOperation.left=current} operator='implies' right=RelationalExpression)*;
 
 
 //relationalExpression returns [Expression e] :
-//	x=additiveExpression {$e=x;}
-//	(name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
+//  x=additiveExpression {$e=x;}
+//  (name=('==' | '!=' | '>=' | '<=' | '>' | '<') r=additiveExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 
 RelationalExpression returns Expression:
   AdditiveExpression ({BooleanOperation.left=current} operator=('==' | '!=' | '>=' | '<=' | '>' | '<') right=AdditiveExpression)*;
 
 
 //additiveExpression returns [Expression e] :
-//	x=multiplicativeExpression {$e=x;}
+//  x=multiplicativeExpression {$e=x;}
 //   (name=('+'| '-') r=multiplicativeExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 
 AdditiveExpression returns Expression:
@@ -120,17 +120,17 @@ AdditiveExpression returns Expression:
 
 
 //multiplicativeExpression returns [Expression e]:
-//	x=unaryExpression {$e=x;}
-//	(name=('*' | '/') r=unaryExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
+//  x=unaryExpression {$e=x;}
+//  (name=('*' | '/') r=unaryExpression {$e = factory.createBinaryOperation(id(name),$e,r);})*;
 
 MultiplicativeExpression returns Expression:
   UnaryOrInfixExpression ({OperationCall.params+=current} name=('*' | '/') params+=UnaryOrInfixExpression)*;
 
 
 //unaryExpression returns [Expression e] :
-//	x=infixExpression {$e=x;}
-//|	name='!' x=infixExpression	{$e = factory.createOperationCall(id(name),x);}
-//|	name='-' x=infixExpression	{$e = factory.createOperationCall(id(name),x);};
+//  x=infixExpression {$e=x;}
+//| name='!' x=infixExpression  {$e = factory.createOperationCall(id(name),x);}
+//| name='-' x=infixExpression  {$e = factory.createOperationCall(id(name),x);};
 
 UnaryOrInfixExpression returns Expression:
   UnaryExpression | InfixExpression;
@@ -140,7 +140,7 @@ UnaryExpression returns OperationCall:
 
 
 //infixExpression returns [Expression e] :
-//	x=primaryExpression {$e=x;} ( '.' op=featureCall { if (op!=null) { op.setTarget($e);$e=op;}} )*;
+//  x=primaryExpression {$e=x;} ( '.' op=featureCall { if (op!=null) { op.setTarget($e);$e=op;}} )*;
 
 // having support for fragments could avoid the redundancy at this point
 InfixExpression returns Expression:
@@ -152,7 +152,7 @@ InfixExpression returns Expression:
   )*;
 
 
-//primaryExpression 	 returns [Expression e] :
+//primaryExpression    returns [Expression e] :
 //   c=StringLiteral { $e = factory.createStringLiteral(id(c));}
 //|   x=featureCall {$e=x;}
 //|   x=booleanLiteral {$e=x;}
@@ -198,7 +198,7 @@ GlobalVarExpression:
 
 
 //featureCall  returns [FeatureCall e] :
-//	id1=identifier '(' (l=parameterList)? ')' {$e = factory.createOperationCall(id1,l);}
+//  id1=identifier '(' (l=parameterList)? ')' {$e = factory.createOperationCall(id1,l);}
 //|   t=type {$e=factory.createFeatureCall(t,null);}
 //|   x=collectionExpression {$e=x;};
 
@@ -212,15 +212,15 @@ OperationCall:
   name=Identifier '(' (params+=Expression (',' params+=Expression)*)? ')';
 
 //listLiteral  returns [Expression e] :
-//	'{' (l=parameterList)? '}' {$e=factory.createListLiteral(l);};
+//  '{' (l=parameterList)? '}' {$e=factory.createListLiteral(l);};
 
 ListLiteral:
   {ListLiteral} '{' (elements+=Expression (',' elements+=Expression)*)? '}';
 
 
 //constructorCall  returns [Expression e] :
-//	'new' t=simpleType
-//	{$e= factory.createConstructorCallExpression(t);};
+//  'new' t=simpleType
+//  {$e= factory.createConstructorCallExpression(t);};
 
 ConstructorCallExpression:
   'new' type=SimpleType;
@@ -248,8 +248,8 @@ CollectionExpression:
 
 
 //type returns [Identifier id] :
-//	a = collectionType {$id=a;}|
-//	b = simpleType {$id=b;};
+//  a = collectionType {$id=a;}|
+//  b = simpleType {$id=b;};
 
 Type returns Identifier:
   CollectionType | SimpleType;
@@ -264,8 +264,8 @@ CollectionType returns Identifier:
 
 
 //simpleType returns [Identifier id] :
-//	x=identifier {$id=x;}
-//	(d='::' end=identifier  {$id.append(id(d)); $id.append(end);})*;
+//  x=identifier {$id=x;}
+//  (d='::' end=identifier  {$id.append(id(d)); $id.append(end);})*;
 
 SimpleType returns Identifier:
   id+=Identifier ('::' id+=Identifier)*;

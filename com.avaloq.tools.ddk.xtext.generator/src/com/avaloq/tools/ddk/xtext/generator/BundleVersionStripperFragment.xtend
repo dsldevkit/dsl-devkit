@@ -32,7 +32,7 @@ class BundleVersionStripperFragment extends AbstractXtextGeneratorFragment {
   }
 
   override generate() {
-  	projectConfig.enabledProjects.filter(typeof(IBundleProjectConfig)).map[manifest].filterNull.forEach[stripBundleVersions]
+    projectConfig.enabledProjects.filter(typeof(IBundleProjectConfig)).map[manifest].filterNull.forEach[stripBundleVersions]
   }
 
   def stripBundleVersions(ManifestAccess manifest) {

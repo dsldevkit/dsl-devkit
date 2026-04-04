@@ -41,34 +41,34 @@ class ResourceFactoryFragment2 extends AbstractXtextGeneratorFragment {
   override generate() {
 
     language.runtimeGenSetup.registrations.add('''
-			«IResourceFactory» resourceFactory = injector.getInstance(«IResourceFactory».class);
-			«IResourceServiceProvider» serviceProvider = injector.getInstance(«IResourceServiceProvider».class);
+      «IResourceFactory» resourceFactory = injector.getInstance(«IResourceFactory».class);
+      «IResourceServiceProvider» serviceProvider = injector.getInstance(«IResourceServiceProvider».class);
 
-			«FOR fileExtension : getFileExtensions»
-				«Resource».Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("«fileExtension»", resourceFactory);
-				«IResourceServiceProvider».Registry.INSTANCE.getExtensionToFactoryMap().put("«fileExtension»", serviceProvider);
-			«ENDFOR»
-		''')
+      «FOR fileExtension : getFileExtensions»
+        «Resource».Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("«fileExtension»", resourceFactory);
+        «IResourceServiceProvider».Registry.INSTANCE.getExtensionToFactoryMap().put("«fileExtension»", serviceProvider);
+      «ENDFOR»
+    ''')
 
     if (projectConfig.eclipsePlugin?.pluginXml !== null) {
       projectConfig.eclipsePlugin.pluginXml.entries += '''
-				<!-- adding resource factories -->
-				«FOR fileExtension : getFileExtensions»
-					<extension
-					  point="org.eclipse.emf.ecore.extension_parser">
-					  <parser
-					    class="«grammar.eclipsePluginExecutableExtensionFactory»:org.eclipse.xtext.resource.IResourceFactory"
-					    type="«fileExtension»">
-					  </parser>
-					</extension>
-					<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
-					  <resourceServiceProvider
-					    class="«grammar.eclipsePluginExecutableExtensionFactory»:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-					    uriExtension="«fileExtension»">
-					  </resourceServiceProvider>
-					</extension>
-				«ENDFOR»
-			'''
+        <!-- adding resource factories -->
+        «FOR fileExtension : getFileExtensions»
+          <extension
+            point="org.eclipse.emf.ecore.extension_parser">
+            <parser
+              class="«grammar.eclipsePluginExecutableExtensionFactory»:org.eclipse.xtext.resource.IResourceFactory"
+              type="«fileExtension»">
+            </parser>
+          </extension>
+          <extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+            <resourceServiceProvider
+              class="«grammar.eclipsePluginExecutableExtensionFactory»:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+              uriExtension="«fileExtension»">
+            </resourceServiceProvider>
+          </extension>
+        «ENDFOR»
+      '''
     }
   }
 

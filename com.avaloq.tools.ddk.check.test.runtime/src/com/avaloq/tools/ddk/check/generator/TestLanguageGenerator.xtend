@@ -16,7 +16,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 
 class TestLanguageGenerator implements IGenerator {
 
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		//TODO implment me
-	}
+  override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+    //TODO implment me
+  }
 }
