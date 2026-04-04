@@ -23,6 +23,7 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 import static com.avaloq.tools.ddk.check.runtime.CheckRuntimeConstants.ISSUE_CODES_CLASS_NAME_SUFFIX;
 
+@SuppressWarnings("nls")
 public class CheckGeneratorNaming {
 
   @Inject

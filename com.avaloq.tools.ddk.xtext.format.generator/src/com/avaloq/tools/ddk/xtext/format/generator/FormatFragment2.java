@@ -37,6 +37,7 @@ import org.eclipse.xtext.xtext.generator.util.BooleanGeneratorOption;
 /**
  * MWE fragment for the format language.
  */
+@SuppressWarnings("nls")
 public class FormatFragment2 extends AbstractStubGeneratingFragment {
 
   @Inject

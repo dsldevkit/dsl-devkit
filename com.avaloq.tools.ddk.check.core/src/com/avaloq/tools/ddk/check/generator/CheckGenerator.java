@@ -40,7 +40,7 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
-@SuppressWarnings({"checkstyle:MethodName"})
+@SuppressWarnings({"checkstyle:MethodName", "nls"})
 public class CheckGenerator extends JvmModelGenerator {
 
   @Inject

@@ -32,6 +32,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 // CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class CheckScopingTest extends AbstractCheckTestCase {
 
   @Inject

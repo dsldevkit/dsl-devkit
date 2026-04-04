@@ -37,7 +37,7 @@ import com.avaloq.tools.ddk.xtext.generator.parser.common.GrammarRuleAnnotations
 import com.google.inject.Inject;
 
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "PMD.PackageCase"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "PMD.PackageCase", "nls"})
 public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment2 {
 
   /**

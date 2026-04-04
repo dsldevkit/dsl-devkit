@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 
 // CHECKSTYLE:CONSTANTS-OFF
 
-@SuppressWarnings("PMD.UnusedFormalParameter")
+@SuppressWarnings({"PMD.UnusedFormalParameter", "nls"})
 public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends AbstractAntlrGrammarWithActionsGenerator {
 
   // CHECKSTYLE:CHECK-OFF VisibilityModifier

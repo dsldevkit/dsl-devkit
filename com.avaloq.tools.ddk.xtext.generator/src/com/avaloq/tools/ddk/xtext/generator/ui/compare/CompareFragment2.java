@@ -22,6 +22,7 @@ import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
 import org.eclipse.xtext.xtext.generator.resourceFactory.ResourceFactoryFragment2;
 
+@SuppressWarnings("nls")
 public class CompareFragment2 extends ResourceFactoryFragment2 {
 
   @Inject

@@ -26,6 +26,7 @@ import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
 
+@SuppressWarnings("nls")
 public class ExportFragment2 extends AbstractXtextGeneratorFragment {
 
   @Inject

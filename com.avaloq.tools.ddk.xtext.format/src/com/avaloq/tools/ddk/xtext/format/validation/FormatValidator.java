@@ -10,9 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.validation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -53,11 +50,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+
 /**
  * This class contains custom validation rules.
- *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
+@SuppressWarnings("nls")
 public class FormatValidator extends AbstractFormatValidator {
 
   /**
@@ -239,8 +237,7 @@ public class FormatValidator extends AbstractFormatValidator {
       }
     }
     // Check WildcardRule
-    if (!Iterables.isEmpty(Iterables.filter(overrideRules, WildcardRule.class))
-        && Iterables.isEmpty(Iterables.filter(overrideableRules, WildcardRule.class))) {
+    if (!Iterables.isEmpty(Iterables.filter(overrideRules, WildcardRule.class)) && Iterables.isEmpty(Iterables.filter(overrideableRules, WildcardRule.class))) {
       error(OVERRIDE_ILLEGAL_MESSAGE, Iterables.filter(overrideRules, WildcardRule.class).iterator().next(), null, OVERRIDE_ILLEGAL_CODE);
     }
   }

@@ -29,6 +29,7 @@ import org.eclipse.xtext.xbase.XStringLiteral;
 /**
  * Checkcfg formal parameter checks.
  */
+@SuppressWarnings("nls")
 public class ConfiguredParameterChecks extends FormalParameterCheckBase {
 
   private static Map<String, Set<String>> allowedPropertyValues = Maps.newHashMap();

@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Grammar;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
+@SuppressWarnings("nls")
 public class GeneratorUtilX {
 
   public String xmlContributorComment(final String source) {

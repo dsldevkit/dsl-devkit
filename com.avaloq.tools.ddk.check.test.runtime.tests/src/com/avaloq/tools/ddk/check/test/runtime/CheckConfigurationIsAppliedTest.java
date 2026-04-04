@@ -30,6 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @InjectWith(TestLanguageUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class CheckConfigurationIsAppliedTest extends AbstractCheckTestCase {
 
   @Inject

@@ -18,6 +18,7 @@ import java.util.List;
  * Provides utility operations for Check model stubs. Only partial models
  * are returned as strings.
  */
+@SuppressWarnings("nls")
 public class CheckModelUtil {
 
   /**

@@ -43,7 +43,7 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
  *
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class FormatGenerator extends JvmModelGenerator {
 
   @Inject

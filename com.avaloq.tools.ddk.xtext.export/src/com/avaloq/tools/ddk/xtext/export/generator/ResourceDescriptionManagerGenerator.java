@@ -22,7 +22,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
 import com.google.inject.Inject;
 
 
-@SuppressWarnings("PMD.UnusedFormalParameter")
+@SuppressWarnings({"PMD.UnusedFormalParameter", "nls"})
 public class ResourceDescriptionManagerGenerator {
 
   @Inject

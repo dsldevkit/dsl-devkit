@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 /**
  * Abstract base class for {@link AbstractCachingResourceDescriptionManager} tests.
  */
+@SuppressWarnings("nls")
 public abstract class AbstractResourceDescriptionManagerTest extends AbstractXtextTest {
 
   /**

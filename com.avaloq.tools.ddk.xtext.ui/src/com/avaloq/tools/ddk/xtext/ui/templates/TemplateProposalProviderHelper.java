@@ -23,6 +23,7 @@ import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider;
  * Helper methods for {@link ITemplateProposalProvider} implementations.
  */
 @Singleton
+@SuppressWarnings("nls")
 public class TemplateProposalProviderHelper {
 
   private static final String SIMPLE_ENUM_TYPE = new SimpleEnumTemplateVariableResolver().getType();

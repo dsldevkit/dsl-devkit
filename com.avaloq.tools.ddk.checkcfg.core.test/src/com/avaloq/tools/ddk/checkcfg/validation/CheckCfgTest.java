@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @InjectWith(CheckCfgUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class CheckCfgTest {
 
   @Inject

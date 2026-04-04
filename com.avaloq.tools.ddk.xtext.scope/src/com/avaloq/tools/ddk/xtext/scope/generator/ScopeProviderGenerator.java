@@ -43,7 +43,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.emf.ecore.EClass;
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class ScopeProviderGenerator {
 
   @Inject

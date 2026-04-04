@@ -32,6 +32,7 @@ import static com.avaloq.tools.ddk.checkcfg.CheckCfgConstants.PROPERTY_EXTENSION
 @ExtendWith(InjectionExtension.class)
 @InjectWith(CheckCfgUiInjectorProvider.class)
 // CHECKSTYLE:CONSTANTS-OFF
+@SuppressWarnings("nls")
 public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   @Override

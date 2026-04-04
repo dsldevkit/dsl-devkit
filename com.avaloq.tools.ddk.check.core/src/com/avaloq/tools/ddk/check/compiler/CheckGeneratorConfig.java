@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.check.compiler;
 
 import org.eclipse.xtext.xbase.compiler.GeneratorConfig;
 
+@SuppressWarnings("nls")
 public class CheckGeneratorConfig extends GeneratorConfig {
 
   private static final String GENERATE_DOCUMENTATION_PROPERTY = "com.avaloq.tools.ddk.check.GenerateDocumentationForAllChecks";

@@ -39,6 +39,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(InjectionExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SuppressWarnings("nls")
 public class TemplateProposalProviderHelperTest {
 
   private static final String SIMPLE_ENUM_VARIABLE_TYPE = new SimpleEnumTemplateVariableResolver().getType();
