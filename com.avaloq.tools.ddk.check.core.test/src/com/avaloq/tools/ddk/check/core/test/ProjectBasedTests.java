@@ -61,17 +61,12 @@ public class ProjectBasedTests extends AbstractCheckTestCase {
   }
 
   private boolean isEmpty(final IFile file) throws CoreException {
-    final InputStream s = file.getContents();
-    try {
+    try (InputStream s = file.getContents()) {
       return s.read() < 0;
+    } catch (CoreException e) {
+      throw e;
     } catch (Exception e) {
       throw new IllegalStateException(e);
-    } finally {
-      try {
-        s.close();
-      } catch (Exception e) {
-        // ignore
-      }
     }
   }
 
