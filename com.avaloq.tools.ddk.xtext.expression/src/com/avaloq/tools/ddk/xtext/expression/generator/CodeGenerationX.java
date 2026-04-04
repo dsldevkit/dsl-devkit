@@ -32,7 +32,7 @@ import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral;
 import com.avaloq.tools.ddk.xtext.expression.expression.SyntaxElement;
 import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression;
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class CodeGenerationX {
 
   private final ExpressionExtensionsX expressionExtensionsX = new ExpressionExtensionsX();

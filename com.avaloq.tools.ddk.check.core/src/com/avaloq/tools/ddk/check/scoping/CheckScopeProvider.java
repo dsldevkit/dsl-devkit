@@ -12,22 +12,10 @@ package com.avaloq.tools.ddk.check.scoping;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import com.avaloq.tools.ddk.check.check.Check;
-import com.avaloq.tools.ddk.check.check.CheckCatalog;
-import com.avaloq.tools.ddk.check.check.CheckPackage;
-import com.avaloq.tools.ddk.check.check.Context;
-import com.avaloq.tools.ddk.check.check.XIssueExpression;
-import com.avaloq.tools.ddk.check.naming.CheckDeclarativeQualifiedNameProvider;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-import com.google.inject.Inject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -59,7 +47,20 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.typesystem.IBatchTypeResolver;
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+import com.avaloq.tools.ddk.check.check.Check;
+import com.avaloq.tools.ddk.check.check.CheckCatalog;
+import com.avaloq.tools.ddk.check.check.CheckPackage;
+import com.avaloq.tools.ddk.check.check.Context;
+import com.avaloq.tools.ddk.check.check.XIssueExpression;
+import com.avaloq.tools.ddk.check.naming.CheckDeclarativeQualifiedNameProvider;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+import com.google.inject.Inject;
+
+
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
 
   @Inject
@@ -96,15 +97,14 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       if (context.getMarkerObject() != null) {
         jvmTypeRef = typeResolver.resolveTypes(context.getMarkerObject()).getActualType(context.getMarkerObject()).toTypeReference();
       } else {
-        jvmTypeRef = EcoreUtil2.<Context>getContainerOfType(context, Context.class).getContextVariable().getType();
+        jvmTypeRef = EcoreUtil2.<Context> getContainerOfType(context, Context.class).getContextVariable().getType();
       }
 
       if (jvmTypeRef != null) {
         EClass eClass = classForJvmType(context, jvmTypeRef.getType());
         if (eClass != null) {
           EList<EStructuralFeature> features = eClass.getEAllStructuralFeatures();
-          Collection<IEObjectDescription> descriptions = Collections2.transform(features,
-            (EStructuralFeature f) -> EObjectDescription.create(QualifiedName.create(f.getName()), f));
+          Collection<IEObjectDescription> descriptions = Collections2.transform(features, (final EStructuralFeature f) -> EObjectDescription.create(QualifiedName.create(f.getName()), f));
           return MapBasedScope.createScope(IScope.NULLSCOPE, descriptions);
         } else {
           return IScope.NULLSCOPE;
@@ -116,11 +116,10 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       // Make sure that only Checks of the current model can be referenced, and if the CheckCatalog includes
       // another CheckCatalog, then use that parent as parent scope
 
-      CheckCatalog catalog = EcoreUtil2.<CheckCatalog>getContainerOfType(context, CheckCatalog.class);
-      List<Check> checks = IterableExtensions.<Check>toList(IterableExtensions.<Check>filter(catalog.getAllChecks(), c -> c.getName() != null));
+      CheckCatalog catalog = EcoreUtil2.<CheckCatalog> getContainerOfType(context, CheckCatalog.class);
+      List<Check> checks = IterableExtensions.<Check> toList(IterableExtensions.<Check> filter(catalog.getAllChecks(), c -> c.getName() != null));
 
-      Collection<IEObjectDescription> descriptions = Collections2.transform(checks,
-        (Check c) -> EObjectDescription.create(QualifiedName.create(c.getName()), c));
+      Collection<IEObjectDescription> descriptions = Collections2.transform(checks, (final Check c) -> EObjectDescription.create(QualifiedName.create(c.getName()), c));
       // Determine the parent scope; use NULLSCOPE if no included CheckCatalog is defined (or if it cannot be resolved)
       IScope parentScope = IScope.NULLSCOPE;
 
@@ -133,22 +132,20 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     if (reference == CheckPackage.Literals.CHECK_CATALOG__GRAMMAR) {
       IResourceServiceProvider.Registry reg = IResourceServiceProvider.Registry.INSTANCE;
       // CHECKSTYLE:CHECK-OFF IllegalCatch
-      Collection<IEObjectDescription> descriptions = Collections2.transform(reg.getExtensionToFactoryMap().keySet(),
-        (String e) -> {
-          URI dummyUri = URI.createURI("foo:/foo." + e);
-          try {
-            Grammar g = reg.getResourceServiceProvider(dummyUri).get(IGrammarAccess.class).getGrammar();
-            return EObjectDescription.create(qualifiedNameConverter.toQualifiedName(g.getName()), g);
-          } catch (Exception ex) {
-            return null;
-          }
-        });
+      Collection<IEObjectDescription> descriptions = Collections2.transform(reg.getExtensionToFactoryMap().keySet(), (final String e) -> {
+        URI dummyUri = URI.createURI("foo:/foo." + e);
+        try {
+          Grammar g = reg.getResourceServiceProvider(dummyUri).get(IGrammarAccess.class).getGrammar();
+          return EObjectDescription.create(qualifiedNameConverter.toQualifiedName(g.getName()), g);
+        } catch (Exception ex) {
+          return null;
+        }
+      });
       // CHECKSTYLE:CHECK-ON IllegalCatch
       // We look first in the workspace for a grammar and then in the registry for a registered grammar
       return MapBasedScope.createScope(IScope.NULLSCOPE, Iterables.filter(descriptions, Predicates.notNull()));
     } else if (reference == CheckPackage.Literals.XISSUE_EXPRESSION__CHECK) {
-      List<IEObjectDescription> descriptions = ListExtensions.map(context.getAllChecks(),
-        (Check c) -> EObjectDescription.create(checkQualifiedNameProvider.getFullyQualifiedName(c), c));
+      List<IEObjectDescription> descriptions = ListExtensions.map(context.getAllChecks(), (final Check c) -> EObjectDescription.create(checkQualifiedNameProvider.getFullyQualifiedName(c), c));
       return new SimpleScope(super.getScope(context, reference), descriptions);
     }
     return null;
@@ -167,8 +164,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     } else if (context != null) {
       return _scope(context, reference);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: "
-        + Arrays.<Object>asList(context, reference).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object> asList(context, reference).toString());
     }
   }
 
@@ -220,7 +216,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     return null;
   }
 
-  //todo: scoping for the check implementation (e.g. the parameters are not visible)
+  // todo: scoping for the check implementation (e.g. the parameters are not visible)
 
-  //todo: scope the allowed imports!
+  // todo: scope the allowed imports!
 }

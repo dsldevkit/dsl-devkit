@@ -19,7 +19,7 @@ import com.avaloq.tools.ddk.xtext.expression.expression.ListLiteral;
 import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall;
 import org.eclipse.emf.ecore.EObject;
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class ExpressionExtensionsX {
 
   protected String _serialize(final EObject it) {

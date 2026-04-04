@@ -61,7 +61,7 @@ import com.google.inject.name.Names;
 
 
 // CHECKSTYLE:OFF
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods", "PMD.LocalVariableNamingConventions"})
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods", "PMD.LocalVariableNamingConventions", "nls"})
 public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
   private static final String ADDITIONAL_CA_REQUIRED_BUNDLE = "com.avaloq.tools.ddk.xtext";

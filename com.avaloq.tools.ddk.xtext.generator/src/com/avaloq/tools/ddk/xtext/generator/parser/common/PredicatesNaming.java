@@ -16,6 +16,7 @@ import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
 
+@SuppressWarnings("nls")
 public class PredicatesNaming {
 
   @Inject

@@ -35,6 +35,7 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("nls")
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class ProjectBasedTests extends AbstractCheckTestCase {
 
   private boolean initialized;

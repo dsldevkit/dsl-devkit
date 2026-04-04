@@ -78,7 +78,7 @@ import com.google.inject.Singleton;
  *     - Error messages will be adjusted correspondingly
  */
 @Singleton
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwareAntlrGrammarGenerator {
 
   @Inject

@@ -30,7 +30,7 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class GenModelUtilX {
 
   @Inject

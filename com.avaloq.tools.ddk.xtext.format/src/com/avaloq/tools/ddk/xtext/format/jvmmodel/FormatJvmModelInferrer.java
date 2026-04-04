@@ -100,11 +100,15 @@ import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
+
 /**
- * <p>Infers a JVM model from the source model.</p>
- *
- * <p>The JVM model should contain all elements that would appear in the Java code
- * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
+ * <p>
+ * Infers a JVM model from the source model.
+ * </p>
+ * <p>
+ * The JVM model should contain all elements that would appear in the Java code
+ * which is generated from the source model. Other models link against the JVM model rather than the source model.
+ * </p>
  */
 @SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FormatJvmModelInferrer extends AbstractModelInferrer {
@@ -159,15 +163,15 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
    * given element's type that is contained in a resource.
    *
    * @param format
-   *      the model to create one or more {@link JvmDeclaredType declared types} from.
+   *          the model to create one or more {@link JvmDeclaredType declared types} from.
    * @param acceptor
-   *      each created {@link JvmDeclaredType type} without a container should be passed to the acceptor in order
-   *      get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(JvmDeclaredType,
-   *      org.eclipse.xtext.xbase.lib.Procedures.Procedure1)} method takes the constructed empty type for the
-   *      pre-indexing phase. This one is further initialized in the indexing phase using the passed closure.
+   *          each created {@link JvmDeclaredType type} without a container should be passed to the acceptor in order
+   *          get attached to the current resource. The acceptor's {@link IJvmDeclaredTypeAcceptor#accept(JvmDeclaredType,
+   *          org.eclipse.xtext.xbase.lib.Procedures.Procedure1)} method takes the constructed empty type for the
+   *          pre-indexing phase. This one is further initialized in the indexing phase using the passed closure.
    * @param isPreIndexingPhase
-   *      whether the method is called in a pre-indexing phase, i.e. when the global index is not yet fully updated. You must not
-   *      rely on linking using the index if isPreIndexingPhase is {@code true}.
+   *          whether the method is called in a pre-indexing phase, i.e. when the global index is not yet fully updated. You must not
+   *          rely on linking using the index if isPreIndexingPhase is {@code true}.
    */
   protected void _infer(final FormatConfiguration format, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
     if (isPreIndexingPhase) {
@@ -717,34 +721,27 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   private void initializeRuleMethod(final FormatConfiguration format, final GrammarRule rule, final JvmOperation it) {
     it.setFinal(false);
     it.setVisibility(JvmVisibility.PROTECTED);
-    jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-        jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
+    jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
     AbstractRule targetRule = rule.getTargetRule();
     if (targetRule instanceof ParserRule) {
       final String ruleName = getFullyQualifiedName(getGrammar(rule.getTargetRule())) + "$" + grammarAccess.gaRuleAccessorClassName(rule.getTargetRule());
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, typeReferences.getTypeForName(ruleName, rule.getTargetRule())));
-      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
-          CollectionLiterals.<String, String>newLinkedHashMap(
-              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
-              Pair.<String, String>of(PARAMETER_ELEMENTS, "the grammar access for " + rule.getTargetRule().getName() + " elements"))));
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, typeReferences.getTypeForName(ruleName, rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName()
+          + ".", CollectionLiterals.<String, String> newLinkedHashMap(Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION), Pair.<String, String> of(PARAMETER_ELEMENTS, "the grammar access for "
+              + rule.getTargetRule().getName() + " elements"))));
     } else if (targetRule instanceof EnumRule) {
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(EnumRule.class.getName(), rule.getTargetRule())));
-      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
-          CollectionLiterals.<String, String>newLinkedHashMap(
-              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
-              Pair.<String, String>of(PARAMETER_RULE, "the enum rule for " + rule.getTargetRule().getName()))));
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(EnumRule.class.getName(), rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName()
+          + ".", CollectionLiterals.<String, String> newLinkedHashMap(Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION), Pair.<String, String> of(PARAMETER_RULE, "the enum rule for "
+              + rule.getTargetRule().getName()))));
     } else if (targetRule instanceof TerminalRule) {
-      jvmTypesBuilder.<JvmFormalParameter>operator_add(it.getParameters(),
-          jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(TerminalRule.class.getName(), rule.getTargetRule())));
-      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName() + ".",
-          CollectionLiterals.<String, String>newLinkedHashMap(
-              Pair.<String, String>of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION),
-              Pair.<String, String>of(PARAMETER_RULE, "the terminal rule for " + rule.getTargetRule().getName()))));
+      jvmTypesBuilder.<JvmFormalParameter> operator_add(it.getParameters(), jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(TerminalRule.class.getName(), rule.getTargetRule())));
+      jvmTypesBuilder.setDocumentation(it, generateJavaDoc("Configuration for " + rule.getTargetRule().getName()
+          + ".", CollectionLiterals.<String, String> newLinkedHashMap(Pair.<String, String> of(PARAMETER_CONFIG, THE_FORMAT_CONFIGURATION), Pair.<String, String> of(PARAMETER_RULE, "the terminal rule for "
+              + rule.getTargetRule().getName()))));
     }
-    jvmTypesBuilder.setBody(it, (ITreeAppendable op) -> {
-      final List<String> directives = ListExtensions.<EObject, String>map(rule.getDirectives(), (EObject d) -> directive(d, getRuleName(rule)).toString());
+    jvmTypesBuilder.setBody(it, (final ITreeAppendable op) -> {
+      final List<String> directives = ListExtensions.<EObject, String> map(rule.getDirectives(), (final EObject d) -> directive(d, getRuleName(rule)).toString());
       op.append(fixLastLine(IterableExtensions.join(directives)));
     });
   }
