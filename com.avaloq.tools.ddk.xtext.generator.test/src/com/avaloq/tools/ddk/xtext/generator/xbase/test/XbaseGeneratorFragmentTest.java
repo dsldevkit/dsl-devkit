@@ -22,8 +22,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
-import com.avaloq.tools.ddk.test.core.jupiter.BugTestAwareRule;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -48,10 +46,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
+import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
+import com.avaloq.tools.ddk.test.core.jupiter.BugTestAwareRule;
+
+
 /**
  * Tests for {@link XbaseUsageDetector}.
  */
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class XbaseGeneratorFragmentTest {
 
   // CHECKSTYLE:CONSTANTS-OFF
@@ -79,9 +82,12 @@ public class XbaseGeneratorFragmentTest {
   /**
    * Set expectations prior to calling usesXImportSection.apply().
    *
-   * @param mockRule    Mock Rule, in which to set expectations.
-   * @param packageName Package name to use.
-   * @param ruleName    Rule name to use.
+   * @param mockRule
+   *          Mock Rule, in which to set expectations.
+   * @param packageName
+   *          Package name to use.
+   * @param ruleName
+   *          Rule name to use.
    */
   @SuppressWarnings("unchecked")
   private void setExpectationsForApply(final ParserRule mockRule, final String packageName, final String ruleName) {
@@ -111,8 +117,10 @@ public class XbaseGeneratorFragmentTest {
   /**
    * Set expectations prior to calling usesXImportSection().
    *
-   * @param mockGrammar                     Mock Grammar, in which to set expectations.
-   * @param packageAndRuleNamesOfLeafRules  Package and rule names to use for leaf rules.
+   * @param mockGrammar
+   *          Mock Grammar, in which to set expectations.
+   * @param packageAndRuleNamesOfLeafRules
+   *          Package and rule names to use for leaf rules.
    */
   @SafeVarargs
   @SuppressWarnings("unchecked")
@@ -165,10 +173,8 @@ public class XbaseGeneratorFragmentTest {
     // Calls made per rule by XbaseGeneratorFragmentOverride.usesXImportSection.apply()
     setExpectationsForApply(mockRootRule, THIS_PACKAGE_NAME, "rootRule");
 
-    Iterator<ParserRule> mockLeafRuleIterator = mockLeafRules.iterator();
     Iterator<Pair<String, String>> packageAndRuleNameIterator = Arrays.asList(packageAndRuleNamesOfLeafRules).iterator();
-    while (mockLeafRuleIterator.hasNext()) {
-      final ParserRule mockLeafRule = mockLeafRuleIterator.next();
+    for (ParserRule mockLeafRule : mockLeafRules) {
       final Pair<String, String> packageandRuleName = packageAndRuleNameIterator.next();
 
       final String packageName = packageandRuleName.getKey();
@@ -196,14 +202,7 @@ public class XbaseGeneratorFragmentTest {
     final Grammar mockGrammar = mock(Grammar.class);
 
     // Use a selection of rules which do not include xtype::XImportSection
-    setExpectationsForUsesXImportSection(
-        mockGrammar,
-        Pair.of(null, "leafRule1"),
-        Pair.of(THIS_PACKAGE_NAME, "leafRule2"),
-        Pair.of(XTYPE_PACKAGE_NAME, "leafRule3"),
-        Pair.of(null, X_IMPORT_SECTION_RULE_NAME),
-        Pair.of(THIS_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME)
-    );
+    setExpectationsForUsesXImportSection(mockGrammar, Pair.of(null, "leafRule1"), Pair.of(THIS_PACKAGE_NAME, "leafRule2"), Pair.of(XTYPE_PACKAGE_NAME, "leafRule3"), Pair.of(null, X_IMPORT_SECTION_RULE_NAME), Pair.of(THIS_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME));
 
     // ACT
     final boolean usesXImportSection = detector.usesXImportSection(mockGrammar);
@@ -222,15 +221,7 @@ public class XbaseGeneratorFragmentTest {
     final Grammar mockGrammar = mock(Grammar.class);
 
     // Use a selection of rules including xtype::XImportSection
-    setExpectationsForUsesXImportSection(
-        mockGrammar,
-        Pair.of(null, "leafRule1"),
-        Pair.of(THIS_PACKAGE_NAME, "leafRule2"),
-        Pair.of(XTYPE_PACKAGE_NAME, "leafRule3"),
-        Pair.of(null, X_IMPORT_SECTION_RULE_NAME),
-        Pair.of(THIS_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME),
-        Pair.of(XTYPE_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME)
-    );
+    setExpectationsForUsesXImportSection(mockGrammar, Pair.of(null, "leafRule1"), Pair.of(THIS_PACKAGE_NAME, "leafRule2"), Pair.of(XTYPE_PACKAGE_NAME, "leafRule3"), Pair.of(null, X_IMPORT_SECTION_RULE_NAME), Pair.of(THIS_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME), Pair.of(XTYPE_PACKAGE_NAME, X_IMPORT_SECTION_RULE_NAME));
 
     // ACT
     final boolean usesXImportSection = detector.usesXImportSection(mockGrammar);

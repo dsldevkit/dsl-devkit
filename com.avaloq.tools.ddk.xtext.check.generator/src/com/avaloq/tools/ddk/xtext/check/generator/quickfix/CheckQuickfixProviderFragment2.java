@@ -21,6 +21,7 @@ import org.eclipse.xtext.xtext.generator.XtextGeneratorNaming;
 import org.eclipse.xtext.xtext.generator.model.FileAccessFactory;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
 
+@SuppressWarnings("nls")
 public class CheckQuickfixProviderFragment2 extends AbstractXtextGeneratorFragment {
 
   private static final String UI_PLUGIN = "com.avaloq.tools.ddk.check.runtime.ui";

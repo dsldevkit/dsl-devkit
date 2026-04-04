@@ -32,6 +32,7 @@ import org.eclipse.xtext.xtext.generator.model.TypeReference;
 import org.eclipse.xtext.xtext.generator.model.XtendFileAccess;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
 
+@SuppressWarnings("nls")
 public class FormatterFragment2 extends AbstractStubGeneratingFragment {
 
   @Inject

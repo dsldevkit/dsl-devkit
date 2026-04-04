@@ -14,6 +14,7 @@ package com.avaloq.tools.ddk.xtext.generator.model.project;
 import org.eclipse.xtext.xtext.generator.model.project.StandardProjectConfig;
 import org.eclipse.xtext.xtext.generator.model.project.SubProjectConfig;
 
+@SuppressWarnings("nls")
 public class ProjectConfig extends StandardProjectConfig {
 
   private String runtimeSuffix = "";

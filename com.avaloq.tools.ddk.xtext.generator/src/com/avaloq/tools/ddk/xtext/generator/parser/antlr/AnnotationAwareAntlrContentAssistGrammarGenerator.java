@@ -10,10 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.AbstractElement;
@@ -42,44 +38,37 @@ import com.google.inject.Inject;
 
 // CHECKSTYLE:CONSTANTS-OFF
 
+
 /**
  * This implementation is strongly based on AntlrContentAssistGrammarGenerator but with a different base class.
  * The following extension is supported:
- *
- *   A datatype grammar rule containing only one ID terminal rule can be annotated
- *   with @KeywordRule annotation provided a list of words so only these words can
- *   be accepted by this rule.
- *
- *   Example:
- *
- *   /**
- *     * @KeywordRule(visible, invisible)
- *     * /
- *   VisibleKind returns VisibleKind:
- *     ID
- *   ;
- *
- *   The above rule will accept only 'visible' and 'invisible' identifiers.
- *   This rule in ASMD is called a keyword rule because it is intended to replace
- *   usages of keywords which shall not be reserved words in the language.
- *   Reserved words are words that are not allowed to be used in identifiers.
- *
- *   The above example can therefore replace the following enumeration:
- *
- *   enum VisibleKind :
- *       VISIBLE   = "visible"
- *     | INVISIBLE = "invisible"
- *   ;
- *
- *   Please note that a corresponding value converter is needed.
- *
- *   Implementation remark:
- *     - This template will insert validating semantic predicates in the rule
- *     - If the rule is used from an alternative a gated semantic predicate will
- *       be used in the alternative
- *     - Error messages will be adjusted correspondingly
+ * A datatype grammar rule containing only one ID terminal rule can be annotated
+ * with @KeywordRule annotation provided a list of words so only these words can
+ * be accepted by this rule.
+ * Example:
+ * /**
+ * * @KeywordRule(visible, invisible)
+ * * /
+ * VisibleKind returns VisibleKind:
+ * ID
+ * ;
+ * The above rule will accept only 'visible' and 'invisible' identifiers.
+ * This rule in ASMD is called a keyword rule because it is intended to replace
+ * usages of keywords which shall not be reserved words in the language.
+ * Reserved words are words that are not allowed to be used in identifiers.
+ * The above example can therefore replace the following enumeration:
+ * enum VisibleKind :
+ * VISIBLE = "visible"
+ * | INVISIBLE = "invisible"
+ * ;
+ * Please note that a corresponding value converter is needed.
+ * Implementation remark:
+ * - This template will insert validating semantic predicates in the rule
+ * - If the rule is used from an alternative a gated semantic predicate will
+ * be used in the alternative
+ * - Error messages will be adjusted correspondingly
  */
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractAnnotationAwareAntlrGrammarGenerator {
 
   @Inject
@@ -157,7 +146,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
       builder.append("  ");
       builder.append('{');
       builder.newLine();
-      for (final String kw : IterableExtensions.sortBy(IterableExtensions.sort(GrammarUtil.getAllKeywords(it)), (String it1) -> Integer.valueOf(it1.length()))) {
+      for (final String kw : IterableExtensions.sortBy(IterableExtensions.sort(GrammarUtil.getAllKeywords(it)), (final String it1) -> Integer.valueOf(it1.length()))) {
         builder.append("  ");
         builder.append("  ");
         builder.append("tokenNameToValue.put(\"");
@@ -257,17 +246,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected CharSequence compileRules(final Grammar g, final AntlrOptions options) {
     final StringConcatenation builder = new StringConcatenation();
-    final Iterable<EObject> allRulesAndElements = IterableExtensions.filter(
-        Iterables.concat(
-            Iterables.concat(
-                Iterables.concat(
-                    Iterables.concat(
-                        Iterables.<AbstractRule>concat(GrammarUtil.allParserRules(g), GrammarUtil.allEnumRules(g)),
-                        GrammarUtil.getAllAlternatives(g)),
-                    GrammarUtil.getAllGroups(g)),
-                GrammarUtil.getAllUnorderedGroups(g)),
-            GrammarUtil.getAllAssignments(g)),
-        (EObject it) -> this._grammarAccessExtensions.isCalled(GrammarUtil.containingRule(it), g));
+    final Iterable<EObject> allRulesAndElements = IterableExtensions.filter(Iterables.concat(Iterables.concat(Iterables.concat(Iterables.concat(Iterables.<AbstractRule> concat(GrammarUtil.allParserRules(g), GrammarUtil.allEnumRules(g)), GrammarUtil.getAllAlternatives(g)), GrammarUtil.getAllGroups(g)), GrammarUtil.getAllUnorderedGroups(g)), GrammarUtil.getAllAssignments(g)), (final EObject it) -> this._grammarAccessExtensions.isCalled(GrammarUtil.containingRule(it), g));
     for (final EObject rule : allRulesAndElements) {
       builder.newLine();
       builder.append(this.compileRule(rule, g, options));
@@ -301,14 +280,14 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
       builder.append(':');
       builder.newLine();
       builder.append("{ before(grammarAccess.");
-      builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it)));
+      builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule> getOriginalElement(it)));
       builder.append("); }");
       builder.newLineIfNotEmpty();
       builder.append("   ");
       builder.append(this._grammarAccessExtensions.ruleName(it), "   ");
       builder.newLineIfNotEmpty();
       builder.append("{ after(grammarAccess.");
-      builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it)));
+      builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule> getOriginalElement(it)));
       builder.append("); }");
       builder.newLineIfNotEmpty();
       builder.append("   ");
@@ -328,7 +307,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     }
     builder.newLine();
     builder.append("// Rule ");
-    builder.append(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it).getName());
+    builder.append(AntlrGrammarGenUtil.<ParserRule> getOriginalElement(it).getName());
     builder.newLineIfNotEmpty();
     builder.append(this._grammarAccessExtensions.ruleName(it));
     builder.newLineIfNotEmpty();
@@ -382,7 +361,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   protected CharSequence _compileRule(final EnumRule it, final Grammar grammar, final AntlrOptions options) {
     final StringConcatenation builder = new StringConcatenation();
     builder.append("// Rule ");
-    builder.append(AntlrGrammarGenUtil.<EnumRule>getOriginalElement(it).getName());
+    builder.append(AntlrGrammarGenUtil.<EnumRule> getOriginalElement(it).getName());
     builder.newLineIfNotEmpty();
     builder.append(this._grammarAccessExtensions.ruleName(it));
     builder.newLineIfNotEmpty();
@@ -416,7 +395,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives> getOriginalElement(it)));
     builder.newLineIfNotEmpty();
     builder.append("  ");
     builder.append("@init {");
@@ -456,7 +435,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment> getOriginalElement(it)));
     builder.newLineIfNotEmpty();
     builder.append("  ");
     builder.append("@init {");
@@ -485,11 +464,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   }
 
   protected CharSequence _compileRule(final UnorderedGroup it, final Grammar grammar, final AntlrOptions options) {
-    final boolean hasMandatoryContent = IterableExtensions.exists(it.getElements(), (AbstractElement it1) -> !GrammarUtil.isOptionalCardinality(it1));
+    final boolean hasMandatoryContent = IterableExtensions.exists(it.getElements(), (final AbstractElement it1) -> !GrammarUtil.isOptionalCardinality(it1));
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)));
     builder.newLineIfNotEmpty();
     builder.append("  ");
     builder.append("@init {");
@@ -499,7 +478,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLine();
     builder.append("    ");
     builder.append("getUnorderedGroupHelper().enter(grammarAccess.");
-    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "    ");
+    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)), "    ");
     builder.append(");");
     builder.newLineIfNotEmpty();
     builder.append("  ");
@@ -510,13 +489,13 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("  ");
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "  ");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)), "  ");
     builder.append("__0");
     builder.newLineIfNotEmpty();
     if (hasMandatoryContent) {
       builder.append("  ");
       builder.append("{getUnorderedGroupHelper().canLeave(grammarAccess.");
-      builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "  ");
+      builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)), "  ");
       builder.append(")}?");
       builder.newLineIfNotEmpty();
     } else {
@@ -530,7 +509,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLine();
     builder.append("  ");
     builder.append("getUnorderedGroupHelper().leave(grammarAccess.");
-    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "  ");
+    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)), "  ");
     builder.append(");");
     builder.newLineIfNotEmpty();
     builder.append("  ");
@@ -580,7 +559,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)));
     builder.append("__Impl");
     builder.newLineIfNotEmpty();
     builder.append("  ");
@@ -607,8 +586,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
       } else {
         builder.appendImmediate("|", "    ");
       }
-      final String originalAccessor = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
-      final String originalElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(element.getValue()));
+      final String originalAccessor = this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it));
+      final String originalElementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement> getOriginalElement(element.getValue()));
       builder.append("    ");
       builder.append('(');
       builder.newLine();
@@ -757,7 +736,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLine();
     builder.append("    ");
     builder.append("getUnorderedGroupHelper().returnFromSelection(grammarAccess.");
-    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)), "    ");
+    builder.append(this._grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)), "    ");
     builder.append(");");
     builder.newLineIfNotEmpty();
     builder.append("  ");
@@ -771,7 +750,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   protected CharSequence ruleImpl(final UnorderedGroup it, final Grammar grammar, final AntlrOptions options, final int index) {
     final StringConcatenation builder = new StringConcatenation();
     final String ruleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    final String elementId = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it));
+    final String elementId = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it));
     builder.append(ruleName);
     builder.append("__");
     builder.append(elementId);
@@ -825,7 +804,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   protected CharSequence ruleImpl(final Group it, final Grammar grammar, final AntlrOptions options, final int index) {
     final StringConcatenation builder = new StringConcatenation();
     final String ruleName = AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it));
-    final String elementId = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it));
+    final String elementId = this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group> getOriginalElement(it));
     builder.append(ruleName);
     builder.append("__");
     builder.append(elementId);
@@ -910,7 +889,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String ebnf(final AbstractElement it, final AntlrOptions options, final boolean supportsActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement> getOriginalElement(it));
     final CharSequence paramCfg = this.paramConfig(it);
     if ((!GrammarUtil.isOptionalCardinality(it)) && GrammarUtil.isMultipleCardinality(it)) {
       builder.append('(');
@@ -996,7 +975,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
 
   protected CharSequence paramConfig(final AbstractElement it) {
     final StringConcatenation builder = new StringConcatenation();
-    if (((GrammarUtil.containingRule(it).getAlternatives() == it) && ParserRule.class.isInstance(GrammarUtil.containingRule(it)) && (!((ParserRule) AntlrGrammarGenUtil.<AbstractRule>getOriginalElement(GrammarUtil.containingRule(it))).getParameters().isEmpty()))) {
+    if (((GrammarUtil.containingRule(it).getAlternatives() == it) && ParserRule.class.isInstance(GrammarUtil.containingRule(it))
+        && (!((ParserRule) AntlrGrammarGenUtil.<AbstractRule> getOriginalElement(GrammarUtil.containingRule(it))).getParameters().isEmpty()))) {
       builder.append(", ");
       builder.append(AntlrGrammarGenUtil.getParameterConfig((ParserRule) GrammarUtil.containingRule(it)));
       builder.newLineIfNotEmpty();
@@ -1007,7 +987,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String _assignmentEbnf(final AbstractElement it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<AbstractElement> getOriginalElement(it));
     builder.append('(');
     builder.newLine();
     builder.append("  ");
@@ -1031,7 +1011,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String _assignmentEbnf(final CrossReference it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<CrossReference>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<CrossReference> getOriginalElement(it));
     builder.append('(');
     builder.newLine();
     builder.append("  ");
@@ -1055,7 +1035,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String _assignmentEbnf(final Alternatives it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Alternatives> getOriginalElement(it));
     builder.append('(');
     builder.newLine();
     builder.append("  ");
@@ -1067,7 +1047,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append('(');
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it)), "  ");
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives> getOriginalElement(it)), "  ");
     builder.append(')');
     builder.newLineIfNotEmpty();
     builder.append("  ");
@@ -1083,7 +1063,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String _assignmentEbnf(final RuleCall it, final Assignment assignment, final AntlrOptions options, final boolean supportsActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall> getOriginalElement(it));
     builder.append('(');
     builder.newLine();
     builder.append("  ");
@@ -1107,7 +1087,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String _crossrefEbnf(final RuleCall it, final CrossReference ref, final boolean supportActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<RuleCall> getOriginalElement(it));
     builder.append('(');
     builder.newLine();
     builder.append("  ");
@@ -1131,7 +1111,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   protected String _crossrefEbnf(final Keyword it, final CrossReference ref, final boolean supportActions) {
     final StringConcatenation builder = new StringConcatenation();
-    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Keyword>getOriginalElement(it));
+    final String elementAccess = this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Keyword> getOriginalElement(it));
     builder.append('(');
     builder.newLine();
     builder.append("  ");
@@ -1162,7 +1142,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
 
   @Override
   protected String crossrefEbnf(final AbstractRule it, final RuleCall call, final CrossReference ref, final boolean supportActions) {
-    if (GrammarUtil.isDatatypeRule(AntlrGrammarGenUtil.<AbstractRule>getOriginalElement(it))) {
+    if (GrammarUtil.isDatatypeRule(AntlrGrammarGenUtil.<AbstractRule> getOriginalElement(it))) {
       return this._grammarAccessExtensions.ruleName(it);
     }
     throw new IllegalArgumentException(it.getName() + " is not a datatype rule");
@@ -1173,7 +1153,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Alternatives> getOriginalElement(it)));
     return builder.toString();
   }
 
@@ -1182,7 +1162,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Assignment> getOriginalElement(it)));
     return builder.toString();
   }
 
@@ -1191,7 +1171,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<Group> getOriginalElement(it)));
     builder.append("__0");
     return builder.toString();
   }
@@ -1201,7 +1181,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     final StringConcatenation builder = new StringConcatenation();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
-    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup>getOriginalElement(it)));
+    builder.append(this._grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.<UnorderedGroup> getOriginalElement(it)));
     return builder.toString();
   }
 

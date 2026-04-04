@@ -27,6 +27,7 @@ import org.eclipse.xtext.xtext.generator.model.TypeReference;
 import org.eclipse.xtext.xtext.generator.model.XtextGeneratorFileSystemAccess;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
 
+@SuppressWarnings("nls")
 public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
 
   @Inject

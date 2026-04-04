@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 // CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class BasicModelTest {
 
   @Inject

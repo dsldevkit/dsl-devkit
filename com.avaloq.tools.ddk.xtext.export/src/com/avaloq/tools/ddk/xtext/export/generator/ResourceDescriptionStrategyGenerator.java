@@ -32,6 +32,7 @@ import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("nls")
 public class ResourceDescriptionStrategyGenerator {
 
   @Inject

@@ -31,6 +31,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("nls")
 public class ExportedNamesProviderGenerator {
 
   @Inject

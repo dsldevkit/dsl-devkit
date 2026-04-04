@@ -23,6 +23,7 @@ import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
 
+@SuppressWarnings("nls")
 public class BuilderIntegrationFragment2 extends org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2 {
 
   private static final String BUILDER_BUNDLE_NAME = "com.avaloq.tools.ddk.xtext.builder";

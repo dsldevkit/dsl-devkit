@@ -24,7 +24,7 @@ import org.eclipse.xtend2.lib.StringConcatenationClient;
 /**
  * Implementation that allows the fileExtensions for the fragment to be distinct from language.fileExtensions.
  */
-@SuppressWarnings("PMD.PackageCase")
+@SuppressWarnings({"PMD.PackageCase", "nls"})
 public class ResourceFactoryFragment2 extends AbstractXtextGeneratorFragment {
 
   private List<String> fileExtensions;

@@ -44,7 +44,7 @@ import org.eclipse.xtext.xbase.lib.ListExtensions;
 import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.issueCodesClassName;
 import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.parent;
 
-@SuppressWarnings({"checkstyle:MethodName"})
+@SuppressWarnings({"checkstyle:MethodName", "nls"})
 public class CheckGeneratorExtensions {
 
   /**

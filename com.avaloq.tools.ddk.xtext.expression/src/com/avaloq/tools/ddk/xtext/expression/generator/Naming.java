@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.expression.generator;
 
 import org.eclipse.xtext.util.Strings;
 
+@SuppressWarnings("nls")
 public class Naming {
 
   // CHECKSTYLE:CONSTANTS-OFF

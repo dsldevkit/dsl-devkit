@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @InjectWith(CheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
 
   private static final String PACKAGE_NAME = "mypackage";

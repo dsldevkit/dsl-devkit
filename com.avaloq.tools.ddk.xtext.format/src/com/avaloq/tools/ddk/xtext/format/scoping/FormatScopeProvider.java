@@ -45,7 +45,7 @@ import com.google.inject.Inject;
 /**
  * The scope provider for the Format language.
  */
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class FormatScopeProvider extends AbstractFormatScopeProvider {
 
   @Inject

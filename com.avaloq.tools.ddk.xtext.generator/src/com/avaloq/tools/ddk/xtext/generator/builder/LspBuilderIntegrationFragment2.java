@@ -29,6 +29,7 @@ import org.eclipse.xtend2.lib.StringConcatenationClient;
 import com.google.inject.Inject;
 
 
+@SuppressWarnings("nls")
 public class LspBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragment {
 
   private static final Logger LOGGER = LogManager.getLogger(LspBuilderIntegrationFragment2.class);
