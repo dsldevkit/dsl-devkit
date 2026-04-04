@@ -187,7 +187,6 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    * @param sourceFileName
    *          the filename of the test source that the proposals were to be computed from, must not be {@code null}
    */
-  @SuppressWarnings("restriction")
   private void assertSourceProposals(final String sourceFileName) {
     try {
       AcfContentAssistProcessorTestBuilder builder = newBuilder().append(getTestSource(sourceFileName).getContent());

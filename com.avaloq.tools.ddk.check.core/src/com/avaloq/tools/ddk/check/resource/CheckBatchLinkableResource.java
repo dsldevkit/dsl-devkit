@@ -49,7 +49,6 @@ public class CheckBatchLinkableResource extends BatchLinkableResource {
     };
   }
 
-  @SuppressWarnings("restriction")
   @Override
   public void load(final Map<?, ?> options) throws IOException {
     modelLocation = (IModelLocation) options.get(MAYBE_LOCATION_DATA);
