@@ -14,15 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
-import org.eclipse.xtend.expression.ExecutionContextImpl;
-import org.eclipse.xtend.type.impl.java.JavaBeansMetaModel;
-import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilerX;
 import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.DefaultXtendExecutionContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.EmfRegistryMetaModel;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GeneratorTestUtil;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
 
@@ -45,9 +45,8 @@ public class CodeGenerationXTest extends AbstractXtextTest {
   @Override
   protected void beforeAllTests() {
     super.beforeAllTests();
-    final ExecutionContextImpl executionContext = new ExecutionContextImpl();
-    executionContext.registerMetaModel(new JavaBeansMetaModel());
-    executionContext.registerMetaModel(new EmfRegistryMetaModel());
+    final DefaultXtendExecutionContext executionContext = new DefaultXtendExecutionContext();
+    executionContext.registerMetaModel(new EmfRegistryMetaModel(EcorePackage.eINSTANCE));
     final CompilationContext context = new CompilationContext(executionContext, new GenModelUtilX());
     getTestInformation().putTestObject(CompilerX.class, new CompilerX(context));
   }
