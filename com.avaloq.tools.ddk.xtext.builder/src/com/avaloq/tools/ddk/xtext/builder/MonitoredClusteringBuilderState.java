@@ -132,7 +132,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   private static final int COMMIT_WARN_WAIT_SEC = 30;
 
-  private static final String FAILED_TO_SAVE_BINARY = "Failed to save binary for "; //$NON-NLS-1$
+  private static final String FAILED_TO_SAVE_BINARY_LOG = "Failed to save binary for {}"; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(MonitoredClusteringBuilderState.class);
@@ -642,7 +642,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
               final long memoryDelta = Runtime.getRuntime().freeMemory() - initialMemory;
               final int resourceSetSizeDelta = resourceSet.getResources().size() - initialResourceSetSize;
               final long timeDelta = System.nanoTime() - initialTime;
-              traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta);
+              traceSet.trace(ResourceLinkingMemoryEvent.class, changedURI, memoryDelta, resourceSetSizeDelta, timeDelta); // NOPMD GuardLogStatement - not a logger call
             }
             watchdog.reportWorkEnded(index, index + queue.size());
           }
@@ -727,9 +727,9 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       } catch (RejectedExecutionException e) {
         String errorMessage = "Unable to submit a new task to store a binary resource."; //$NON-NLS-1$
         if (binaryStorageExecutor.isShutdown()) {
-          LOGGER.info(errorMessage + " The worker pool has shut down."); //$NON-NLS-1$
+          LOGGER.info("{} The worker pool has shut down.", errorMessage); //$NON-NLS-1$
         } else {
-          LOGGER.error(errorMessage + " Exception information: " + e.getMessage()); //$NON-NLS-1$
+          LOGGER.error("{} Exception information: {}", errorMessage, e.getMessage()); //$NON-NLS-1$
         }
       }
     }
@@ -751,12 +751,12 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         LOGGER.info("saving binary taking longer than expected ({} ms): {}", elapsedMillis, resource.getURI()); //$NON-NLS-1$
       }
     } catch (WrappedException ex) {
-      LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex.exception());
+      LOGGER.error(FAILED_TO_SAVE_BINARY_LOG, resource.getURI(), ex.exception());
 
       // CHECKSTYLE:OFF
     } catch (Throwable ex) {
       // CHECKSTYLE:ON
-      LOGGER.error(FAILED_TO_SAVE_BINARY + resource.getURI(), ex);
+      LOGGER.error(FAILED_TO_SAVE_BINARY_LOG, resource.getURI(), ex);
     }
   }
 
@@ -1205,7 +1205,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
       }
       long flushTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - time);
       if (flushTime > COMMIT_WARN_WAIT_SEC) {
-        LOGGER.warn("Flushing of the database changes took " + flushTime + " seconds."); //$NON-NLS-1$//$NON-NLS-2$
+        LOGGER.warn("Flushing of the database changes took {} seconds.", flushTime); //$NON-NLS-1$
       }
     }
   }
@@ -1299,7 +1299,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         // CHECKSTYLE:CHECK-OFF IllegalCatch - Failing here means the build fails completely
       } catch (Throwable t) {
         // CHECKSTYLE:CHECK-ON IllegalCatch
-        LOGGER.warn(manager.getClass().getSimpleName() + " failed to enqueue the affected resources", t); //$NON-NLS-1$
+        LOGGER.warn("{} failed to enqueue the affected resources", manager.getClass().getSimpleName(), t); //$NON-NLS-1$
       }
       progressMonitor.worked(1);
       if (allRemainingURIs.isEmpty()) {
