@@ -32,8 +32,8 @@ public interface INameFunction extends Function<EObject, QualifiedName> {
    * @return The name.
    */
   default QualifiedName apply(final IEObjectDescription from) {
-    LogManager.getLogger(INameFunction.class).warn("No explicit name function for description " + from.getEObjectURI() + " of type " //$NON-NLS-1$ //$NON-NLS-2$
-        + EcoreUtil.getURI(from.getEClass()));
+    LogManager.getLogger(INameFunction.class).warn("No explicit name function for description {} of type {}", from.getEObjectURI(), //$NON-NLS-1$
+        EcoreUtil.getURI(from.getEClass()));
     return from.getName();
   }
 
