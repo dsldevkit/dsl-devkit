@@ -63,29 +63,21 @@ public final class LoggingRule extends TestWatcher {
 
   @Override
   public void starting(final Description description) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("STARTING: " + getDescriptionName(description));
-    }
+    LOGGER.info("STARTING: {}", () -> getDescriptionName(description));
   }
 
   @Override
   protected void finished(final Description description) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("FINISHED: " + getDescriptionName(description));
-    }
+    LOGGER.info("FINISHED: {}", () -> getDescriptionName(description));
   }
 
   @Override
   protected void succeeded(final Description description) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("SUCCEEDED: " + getDescriptionName(description));
-    }
+    LOGGER.info("SUCCEEDED: {}", () -> getDescriptionName(description));
   }
 
   @Override
   protected void failed(final Throwable e, final Description description) {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("FAILED: " + getDescriptionName(description));
-    }
+    LOGGER.info("FAILED: {}", () -> getDescriptionName(description));
   }
 }
