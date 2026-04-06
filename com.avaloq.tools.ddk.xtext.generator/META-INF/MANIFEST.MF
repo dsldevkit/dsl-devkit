@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.jdt.core,
  org.eclipse.compare,
  org.eclipse.xtext.xbase
-Import-Package: org.apache.logging.log4j
+Import-Package: org.apache.logging.log4j,
+ org.apache.logging.log4j.util
 Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.ecore,
  com.avaloq.tools.ddk.xtext.generator.expression,
