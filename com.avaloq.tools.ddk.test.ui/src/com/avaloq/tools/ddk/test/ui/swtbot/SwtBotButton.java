@@ -39,7 +39,9 @@ public class SwtBotButton extends SWTBotButton {
    */
   @Override
   public SwtBotButton click() {
-    log.debug("Clicking on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
+    if (log.isDebugEnabled()) {
+      log.debug("Clicking on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
+    }
     waitForEnabled();
     notify(SWT.MouseEnter);
     notify(SWT.MouseMove);
@@ -48,7 +50,9 @@ public class SwtBotButton extends SWTBotButton {
     notify(SWT.MouseDown);
     notify(SWT.MouseUp);
     notify(SWT.Selection);
-    log.debug("Clicked on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
+    if (log.isDebugEnabled()) {
+      log.debug("Clicked on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
+    }
     return this;
   }
 }
