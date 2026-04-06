@@ -366,7 +366,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
           // CHECKSTYLE:OFF if the locator activator fails, simply disable the locator instead of completely failing to format a source
         } catch (Exception e) {
           // CHECKSTYLE:ON
-          LOGGER.error(NLS.bind("Failed to calculate the parameter for the paramterized locator for {0}", semanticNodeType), e); //$NON-NLS-1$
+          LOGGER.error("Failed to calculate the parameter for the parameterized locator for {}", semanticNodeType, e); //$NON-NLS-1$
         }
       }
     }
@@ -432,7 +432,7 @@ public class ExtendedFormattingConfigBasedStream extends FormattingConfigBasedSt
         // CHECKSTYLE:OFF if the locator activator fails, simply disable the locator instead of completely failing to format a source
       } catch (Exception e) {
         // CHECKSTYLE:ON
-        LOGGER.error(NLS.bind("Failed to execute the locator activator for {0}", semanticNodeType), e); //$NON-NLS-1$
+        LOGGER.error("Failed to execute the locator activator for {}", semanticNodeType, e); //$NON-NLS-1$
       }
     }
     return isActive;
