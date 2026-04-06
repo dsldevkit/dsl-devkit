@@ -206,7 +206,7 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       // CHECKSTYLE:OFF
     } catch (RuntimeException e) {
       // CHECKSTYLE:ON
-      LOGGER.error("Failed to install derived state for resource " + resource.getURI(), e); //$NON-NLS-1$
+      LOGGER.error("Failed to install derived state for resource {}", resource.getURI(), e); //$NON-NLS-1$
     } finally {
       inferenceStack.pop();
     }

@@ -117,7 +117,7 @@ public final class BuiltInTypeModelAccess {
         // We *do* want to catch any exception here because we are in construction and need to initialize with something
       } catch (Exception ex) {
         // CHECKSTYLE:CHECK-ON IllegalCatch
-        LOGGER.error("Error loading metamodel from " + modelURI, ex); //$NON-NLS-1$
+        LOGGER.error("Error loading metamodel from {}", modelURI, ex); //$NON-NLS-1$
         // Create an empty model...
         model = BuiltInTypeModelPackage.eINSTANCE.getBuiltInTypeModelFactory().createBuiltInTypeModel();
       }
@@ -128,7 +128,7 @@ public final class BuiltInTypeModelAccess {
       if (!Strings.isEmpty(typeName)) {
         internalTypesByName.put(typeName, type);
       } else {
-        LOGGER.error("incomplete internal type in " + MODEL_LOCATION); //$NON-NLS-1$
+        LOGGER.error("incomplete internal type in {}", MODEL_LOCATION); //$NON-NLS-1$
       }
     }
   }

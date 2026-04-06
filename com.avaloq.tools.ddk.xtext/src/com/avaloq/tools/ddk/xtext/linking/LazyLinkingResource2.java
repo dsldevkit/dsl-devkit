@@ -154,8 +154,8 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
             Triple<EObject, EReference, INode> refInfo = getEncoder().decode(this, uriFragment);
             EReference reference = refInfo.getSecond();
             EObject context = refInfo.getFirst();
-            LOGGER.debug("Failed unexpected attempt to resolve reference during indexing " + context.eClass().getName() + "#" //$NON-NLS-1$ //$NON-NLS-2$
-                + reference.getName() + " for object " + EcoreUtil.getURI(context), new RuntimeException()); //$NON-NLS-1$
+            LOGGER.debug("Failed unexpected attempt to resolve reference during indexing {}#{} for object {}", //$NON-NLS-1$
+                context.eClass().getName(), reference.getName(), EcoreUtil.getURI(context), new RuntimeException());
           }
           rs.getLoadOptions().put(MARK_UNRESOLVABLE_XREFS, Boolean.TRUE);
         }
@@ -172,8 +172,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
           Triple<EObject, EReference, INode> triple = getEncoder().decode(this, uriFragment);
           INode node = triple.getThird();
           final String nodeName = getLinkingHelper().getCrossRefNodeAsString(node, true);
-          LOGGER.error("Resolution of uriFragment '" + uriFragment + "' in the resource '" + this.getURI() + "' node_name " + nodeName //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-              + " line " + node.getStartLine() + " offset " + node.getOffset() + " failed.", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          LOGGER.error("Resolution of uriFragment '{}' in the resource '{}' node_name {} line {} offset {} failed.", uriFragment, this.getURI(), nodeName, node.getStartLine(), node.getOffset(), e); //$NON-NLS-1$
           logged = true;
         }
         // CHECKSTYLE:OFF
@@ -182,7 +181,7 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
         // ignore
       }
       if (!logged) {
-        LOGGER.error("Resolution of uriFragment '" + uriFragment + "' in the resource '" + this.getURI() + "' failed.", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        LOGGER.error("Resolution of uriFragment '{}' in the resource '{}' failed.", uriFragment, this.getURI(), e); //$NON-NLS-1$
       }
       throw e;
     }

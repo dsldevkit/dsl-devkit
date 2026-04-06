@@ -39,7 +39,7 @@ public class ExtendableInferredModelAssociator extends InferredModelAssociator {
       // CHECKSTYLE:OFF
     } catch (RuntimeException e) {
       // CHECKSTYLE:ON
-      LOGGER.error("Failed to install additional derived state for resource " + eObject.eResource().getURI(), e); //$NON-NLS-1$
+      LOGGER.error("Failed to install additional derived state for resource {}", eObject.eResource().getURI(), e); //$NON-NLS-1$
     }
   }
 
