@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping; // NOPMD ExcessiveImports
 
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -322,7 +321,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
                                                                                                             // complexity...)
     final Resource resource = originalResource == null ? context.eResource() : originalResource;
     if (!(resource instanceof XtextResource)) {
-      LOGGER.error(MessageFormat.format("Context {0} is not in an Xtext resource: {1}", context, resource != null ? resource.getURI() : "null")); //$NON-NLS-1$ //$NON-NLS-2$
+      LOGGER.error("Context {} is not in an Xtext resource: {}", context, resource != null ? resource.getURI() : "null"); //$NON-NLS-1$ //$NON-NLS-2$
       throw new IllegalStateException();
     }
     return getVisibleContainers((XtextResource) resource);

@@ -51,7 +51,7 @@ public final class BuilderParticipantSettings {
     try {
       result = BuilderParticipantStatus.valueOf(value);
     } catch (IllegalArgumentException ex) {
-      LOGGER.error("Property " + languageName + " has an invalid value: " + value + " (should be one of enabled, disabled)");
+      LOGGER.error("Property {} has an invalid value: {} (should be one of enabled, disabled)", languageName, value);
       result = BuilderParticipantStatus.ENABLED;
     }
     return result == BuilderParticipantStatus.ENABLED;

@@ -154,14 +154,10 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
           @SuppressWarnings("unchecked")
           ImmutableLinkedItem<E> linkedItem = (ImmutableLinkedItem<E>) key;
           if (!(linkedItem.object instanceof EObject)) {
-            if (LOGGER.isDebugEnabled()) {
-              LOGGER.debug("cache skip: " + element); //$NON-NLS-1$
-            }
+            LOGGER.debug("cache skip: {}", element); //$NON-NLS-1$
             return element;
           }
-          if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("cache: " + element); //$NON-NLS-1$
-          }
+          LOGGER.debug("cache: {}", element); //$NON-NLS-1$
           adapter.set(composedKey, element);
         } else {
           cacheHit(adapter);
@@ -263,9 +259,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
                 return doComputation(t);
               }
             });
-            if (LOGGER.isDebugEnabled()) {
-              LOGGER.debug("cache hit: " + hit[0] + " for: " + t); //$NON-NLS-1$ //$NON-NLS-2$
-            }
+            LOGGER.debug("cache hit: {} for: {}", hit[0], t); //$NON-NLS-1$
             return result;
           } else {
             if (computationData.resourceLeftOrCyclic) {
