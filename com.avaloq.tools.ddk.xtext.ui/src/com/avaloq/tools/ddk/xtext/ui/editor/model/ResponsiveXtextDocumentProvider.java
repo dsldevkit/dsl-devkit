@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.ui.editor.model.XtextDocument;
@@ -81,11 +80,8 @@ public class ResponsiveXtextDocumentProvider extends XtextDocumentProvider imple
    *          the event
    */
   @Override
-  @SuppressWarnings("PMD.UnnecessaryVarargsArrayCreation")
   public void propertyChange(final PropertyChangeEvent event) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug(NLS.bind("Preference Change: {0} => {1} -> {2}", new Object[] {event.getProperty(), event.getOldValue(), event.getNewValue()})); //$NON-NLS-1$
-    }
+    LOGGER.debug("Preference Change: {} => {} -> {}", event::getProperty, event::getOldValue, event::getNewValue); //$NON-NLS-1$
 
     for (Iterator<?> i = getConnectedElements(); i.hasNext();) {
       ((XtextDocument) getDocument(i.next())).checkAndUpdateAnnotations();

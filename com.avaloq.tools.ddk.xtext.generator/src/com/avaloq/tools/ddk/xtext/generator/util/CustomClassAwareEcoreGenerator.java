@@ -103,7 +103,7 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator {
         return jControlModel;
       }
     };
-    LOGGER.info("generating EMF code for " + this.genModel);
+    LOGGER.info("generating EMF code for {}", this.genModel);
     generator.getAdapterFactoryDescriptorRegistry().addDescriptor(GenModelPackage.eNS_URI, new GeneratorAdapterDescriptor(getTypeMapper(), getLineDelimiter()));
     generator.setInput(model);
 
@@ -170,7 +170,7 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator {
         }
       }
     }
-    LOGGER.info("Registered source path to discover custom classes: " + Joiner.on(", ").join(this.srcPaths));
+    LOGGER.info("Registered source path to discover custom classes: {}", () -> Joiner.on(", ").join(this.srcPaths));
   }
 
   /**
@@ -187,8 +187,7 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator {
     }
     URI createURI = URI.createURI(path);
     if (!URIConverter.INSTANCE.exists(createURI, null)) {
-      LOGGER.warn("Cannot access path '" + path
-          + "'. Make sure to checkout all parent languages before running the workflow. Otherwise custom implementations (*ImplCustom) will not be considered.");
+      LOGGER.warn("Cannot access path '{}'. Make sure to checkout all parent languages before running the workflow. Otherwise custom implementations (*ImplCustom) will not be considered.", path);
     }
     this.srcPaths.add(path);
   }

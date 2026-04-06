@@ -254,7 +254,7 @@ public final class KeywordAnalysisHelper {
       }
       if (problemsReported) {
         LOGGER.error("REJECTED KEYWORDS BY ID RULES DETECTED.");
-        LOGGER.error("Read " + fileName + " !");
+        LOGGER.error("Read {} !", fileName);
         writer.println();
         writer.println("(!) Problems were detected: neither reserved words nor keywords, but rejected by identifier rules");
         writer.println("Use " + Path.fromPortableString(getReportFileName(srcGenPath)).lastSegment() + " to find out why these words are keywords.");
@@ -448,7 +448,7 @@ public final class KeywordAnalysisHelper {
       PrintWriter docuWriter = new PrintWriter(new File(docuFileName), StandardCharsets.UTF_8);
       docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
       docuWriter.close();
-      LOGGER.info("report on keywords is written into " + fileName);
+      LOGGER.info("report on keywords is written into {}", fileName);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }

@@ -127,7 +127,7 @@ public final class GenModelUtil2 {
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (RuntimeException e) {
       // CHECKSTYLE:CHECK-ON IllegalCatch
-      LOGGER.error(NLS.bind("Exception in findGenModel ({0})", eModelElement), e); //$NON-NLS-1$
+      LOGGER.error("Exception in findGenModel ({})", eModelElement, e); //$NON-NLS-1$
     }
 
     return null;
