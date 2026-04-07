@@ -45,8 +45,7 @@ Import-Package: com.avaloq.tools.ddk.check.runtime.test.core,
  com.avaloq.tools.ddk.xtext.test.export,
  com.avaloq.tools.ddk.xtext.test.format,
  com.avaloq.tools.ddk.xtext.ui.test,
- org.apache.logging.log4j,
- org.slf4j
+ org.apache.logging.log4j
 Export-Package: com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.formatter,
  com.avaloq.tools.ddk.xtext.formatter.services,
