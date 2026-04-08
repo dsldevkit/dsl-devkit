@@ -276,7 +276,8 @@ public final class CoreSwtbotTools {
             page = workbench.showPerspective("com.avaloq.ice.perspectives.Development", window);
           } catch (final WorkbenchException second) {
             // Both perspectives are missing
-            throw new AssertionFailedException("Could not switch to Avaloq Perspective: " + exception.getLocalizedMessage());
+            second.addSuppressed(exception);
+            throw new IllegalStateException("Could not switch to Avaloq Perspective", second);
           }
         }
         if (page != null) {
@@ -418,7 +419,7 @@ public final class CoreSwtbotTools {
         try {
           PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(id);
         } catch (final PartInitException exception) {
-          throw new AssertionFailedException("Could not open change view: " + exception.getLocalizedMessage());
+          throw new IllegalStateException("Could not open change view: " + exception.getLocalizedMessage(), exception);
         }
       }
     });

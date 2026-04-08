@@ -63,7 +63,7 @@ public abstract class AbstractModelLocation implements IModelLocation {
     try {
       return catalogUrl.toURI();
     } catch (URISyntaxException e) {
-      throw new IllegalStateException(NLS.bind("URL of catalog {0} cannot be converted to URI", catalogUrl.toString())); //$NON-NLS-1$
+      throw new IllegalStateException(NLS.bind("URL of catalog {0} cannot be converted to URI", catalogUrl.toString()), e); //$NON-NLS-1$
     }
   }
 
