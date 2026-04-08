@@ -13,16 +13,10 @@ package com.avaloq.tools.ddk.xtext.export.validation;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.internal.xtend.xtend.XtendFile;
-import org.eclipse.osgi.util.NLS;
-import org.eclipse.xtend.expression.Resource;
-import org.eclipse.xtend.expression.ResourceManager;
-import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.validation.Check;
@@ -32,7 +26,6 @@ import com.avaloq.tools.ddk.xtext.export.export.DeclarationForType;
 import com.avaloq.tools.ddk.xtext.export.export.Export;
 import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
 import com.avaloq.tools.ddk.xtext.export.export.ExportPackage;
-import com.avaloq.tools.ddk.xtext.export.export.Extension;
 import com.avaloq.tools.ddk.xtext.export.export.Interface;
 import com.avaloq.tools.ddk.xtext.export.export.InterfaceField;
 import com.avaloq.tools.ddk.xtext.export.export.InterfaceNavigation;
@@ -49,30 +42,6 @@ import com.google.common.collect.Lists;
  */
 @SuppressWarnings("nls")
 public class ExportValidator extends AbstractExportValidator {
-
-  /**
-   * Verifies that all referenced extensions can be found.
-   *
-   * @param model
-   *          export model to check
-   */
-  @Check
-  public void checkExtensions(final ExportModel model) {
-    ResourceManager resourceManager = null;
-    if (!Platform.isRunning()) {
-      resourceManager = new ResourceManagerDefaultImpl();
-    }
-
-    if (resourceManager == null) {
-      return;
-    }
-    for (Extension ext : model.getExtensions()) {
-      final Resource res = resourceManager.loadResource(ext.getExtension(), XtendFile.FILE_EXTENSION);
-      if (res == null) {
-        error(NLS.bind("Extension ''{0}'' not found", ext.getExtension()), ext, ExportPackage.Literals.EXTENSION__EXTENSION, null);
-      }
-    }
-  }
 
   /**
    * Checks that the interfaces and exports in an export section all are declared for a unique type.
