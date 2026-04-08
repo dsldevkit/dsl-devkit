@@ -109,7 +109,7 @@ public class CheckRuleLabelProvider implements ICheckRuleLabelProvider {
     final Map<String, String> mergedMap = new HashMap<String, String>();
     maps.map(Map::entrySet).flatMap(Set::stream).forEach(entry -> {
       if (null != mergedMap.putIfAbsent(entry.getKey(), entry.getValue())) {
-        LOGGER.warn("Non-unique Check issue code found: " + entry.getKey()); //$NON-NLS-1$
+        LOGGER.warn("Non-unique Check issue code found: {}", entry.getKey()); //$NON-NLS-1$
       }
     });
     return mergedMap;

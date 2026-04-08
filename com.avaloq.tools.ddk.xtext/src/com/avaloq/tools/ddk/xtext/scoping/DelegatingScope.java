@@ -92,7 +92,7 @@ public class DelegatingScope extends AbstractRecursiveScope {
     }
 
     private void logError() {
-      LOGGER.error("Cyclic delegate detected in scope \"" + stackOverflowScopeId + "\"."); //$NON-NLS-1$ //$NON-NLS-2$
+      LOGGER.error("Cyclic delegate detected in scope \"{}\".", stackOverflowScopeId); //$NON-NLS-1$
     }
   };
 
