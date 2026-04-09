@@ -101,7 +101,7 @@ public class DeployJob extends Job {
       return new Status(Status.ERROR, Activator.getPluginId(), Messages.DeployJob_CouldNotDeployCheckBundle, e);
     }
 
-    LOGGER.info(NLS.bind("Generated bundle from project {0} deployed.", project.getName())); //$NON-NLS-1$
+    LOGGER.info("Generated bundle from project {} deployed.", project.getName()); //$NON-NLS-1$
 
     try {
       deployCheckConfiguration();
@@ -109,7 +109,7 @@ public class DeployJob extends Job {
       return new Status(Status.ERROR, Activator.getPluginId(), Messages.DeployJob_CannotDeployMoreThanOneCheckConfiguration, e);
     }
 
-    LOGGER.info(NLS.bind("Check configuration for project {0} deployed.", project.getName())); //$NON-NLS-1$
+    LOGGER.info("Check configuration for project {} deployed.", project.getName()); //$NON-NLS-1$
 
     return Status.OK_STATUS;
   }
@@ -146,7 +146,7 @@ public class DeployJob extends Job {
       }
     }
 
-    LOGGER.info(NLS.bind("Starting the bundle {0} generated from the project {1}", bundleLocation, project.getName())); //$NON-NLS-1$
+    LOGGER.info("Starting the bundle {} generated from the project {}", bundleLocation, project.getName()); //$NON-NLS-1$
     try {
       managedBundle = bundleContext.installBundle(bundleLocation, Files.asByteSource(jar).openStream());
       managedBundle.start();

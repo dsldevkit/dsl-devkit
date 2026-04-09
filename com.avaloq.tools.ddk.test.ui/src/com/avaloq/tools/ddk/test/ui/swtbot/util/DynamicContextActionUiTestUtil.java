@@ -65,9 +65,7 @@ public final class DynamicContextActionUiTestUtil {
    * @throw {@link WidgetNotFoundException} if the context menu could not be found
    */
   public static void clickContextMenu(final Runnable setSelection, final AbstractSWTBot<? extends Control> bot, final DynamicMenuPredicate predicate, final String... labels) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("clickContextMenu(" + bot + " , " + Arrays.asList(labels) + ");"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-    }
+    LOGGER.debug("clickContextMenu({} , {});", () -> bot, () -> Arrays.asList(labels)); //$NON-NLS-1$
     try {
       setSelection.run();
       logSelection(bot);
@@ -101,7 +99,7 @@ public final class DynamicContextActionUiTestUtil {
     if (LOGGER.isDebugEnabled()) {
       TableCollection selection = tryGetSelection(bot);
       if (selection != null) {
-        LOGGER.debug("setSelection(" + selection + ")"); // NOPMD GuardLogStatement //$NON-NLS-1$//$NON-NLS-2$
+        LOGGER.debug("setSelection({})", selection); //$NON-NLS-1$
       }
     }
   }
@@ -140,9 +138,7 @@ public final class DynamicContextActionUiTestUtil {
    * @return {@code true} if on the given widget bot a context menu with the given text is available, else {@code false}
    */
   public static boolean hasContextMenuItem(final AbstractSWTBot<? extends Control> widgetBot, final DynamicMenuPredicate predicate, final String... labels) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("hasContextMenuItem(" + widgetBot + " , " + Arrays.asList(labels) + ");"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-    }
+    LOGGER.debug("hasContextMenuItem({} , {});", () -> widgetBot, () -> Arrays.asList(labels)); //$NON-NLS-1$
     try {
       return new SwtBotDynamicContextMenu(widgetBot.contextMenu(), predicate).menu(labels) != null;
     } catch (WidgetNotFoundException widgetNotFound) {
@@ -164,9 +160,7 @@ public final class DynamicContextActionUiTestUtil {
    * @throw {@link WidgetNotFoundException} if the context menu could not be found
    */
   public static boolean isEnabled(final AbstractSWTBot<? extends Control> widgetBot, final DynamicMenuPredicate predicate, final String... labels) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("isEnabled(" + widgetBot + " , " + Arrays.asList(labels) + ");"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-    }
+    LOGGER.debug("isEnabled({} , {});", () -> widgetBot, () -> Arrays.asList(labels)); //$NON-NLS-1$
     try {
       return new SwtBotDynamicContextMenu(widgetBot.contextMenu(), predicate).menu(labels).isEnabled();
     } catch (WidgetNotFoundException widgetNotFound) {

@@ -320,7 +320,7 @@ public abstract class AbstractGeneratorTest {
               URI resourceURI = URI.createPlatformResourceURI(getFullFileName(projectName, outputFileName), true);
               IResourcesSetupUtil.createFile(resourceURI.toPlatformString(true), contents);
             } catch (IOException e) {
-              LOGGER.error("failed adding file to workspace: " + outputFileName, e); //$NON-NLS-1$
+              LOGGER.error("failed adding file to workspace: {}", outputFileName, e); //$NON-NLS-1$
               Assert.fail("Error adding file " + outputFileName + " to workspace: " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
             }
           }
