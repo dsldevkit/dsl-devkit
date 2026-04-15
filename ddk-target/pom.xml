@@ -27,7 +27,7 @@
                 <artifact>
                   <file>ddk.target</file>
                   <type>target</type>
-                  <classifier>dsl-sdk</classifier>
+                  <classifier>ddk</classifier>
                 </artifact>
               </artifacts>
             </configuration>
