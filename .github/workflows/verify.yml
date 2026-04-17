@@ -28,6 +28,24 @@ jobs:
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
       - name: Checkstyle Check
         run: mvn checkstyle:checkstyle checkstyle:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+  line-endings:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+      - name: Check LF line endings in index
+        # .gitattributes declares `* text=auto eol=lf` with .bat/.cmd/.ps1
+        # exempted. Git's clean filter normalizes on commit, but verify it
+        # explicitly in case a file is miscategorized as binary or a filter
+        # is bypassed.
+        run: |
+          violations=$(git ls-files --eol \
+            | grep -E "^i/(crlf|mixed)" \
+            | grep -vE "\.(bat|cmd|ps1)$" || true)
+          if [ -n "$violations" ]; then
+            echo "Files with CRLF/mixed line endings stored in the index:"
+            echo "$violations"
+            exit 1
+          fi
   maven-verify:
     runs-on: ubuntu-24.04
     steps:
