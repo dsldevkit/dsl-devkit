@@ -7,6 +7,7 @@ Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.core.resources,
  org.eclipse.core.runtime,
+ org.eclipse.text,
  org.eclipse.xtext,
  org.eclipse.xtext.xbase.lib,
  org.apache.commons.lang3,
