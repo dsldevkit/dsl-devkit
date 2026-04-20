@@ -134,29 +134,11 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
   @SuppressWarnings("nls")
   @Override
   public String toString() {
-    final StringBuilder result = new StringBuilder(getClass().getName());
-    result.append('@');
-    result.append(Integer.toHexString(hashCode()));
-
-    result.append(" (id: ");
-    result.append(getId());
-
-    result.append(", prefix: ");
-    result.append(prefix);
-
-    result.append(", query: ");
-    result.append(criteria);
-
-    result.append(", container: ");
-    result.append(container);
-
-    result.append(')');
-
+    String result = String.format("%s@%s (id: %s, prefix: %s, query: %s, container: %s)", getClass().getName(), Integer.toHexString(hashCode()), getId(), prefix, criteria, container);
     final IScope parent = getParent();
     if (parent != IScope.NULLSCOPE) {
-      result.append("\n  >> ");
-      result.append(parent.toString().replaceAll("\\\n", "\n  "));
+      result += "\n  >> " + parent.toString().replaceAll("\\\n", "\n  ");
     }
-    return result.toString();
+    return result;
   }
 }

@@ -9,7 +9,6 @@
   <!-- Exclude default folders for generated files from analysis -->
   <exclude-pattern>.*/src-gen/.*</exclude-pattern>
   <exclude-pattern>.*/src-model/.*</exclude-pattern>
-  <exclude-pattern>.*/xtend-gen/.*</exclude-pattern>
   <exclude-pattern>.*/ddk/xtext/test/ui/quickfix/AbstractQuickFixTest.*</exclude-pattern>
 
   <rule ref="category/java/errorprone.xml">

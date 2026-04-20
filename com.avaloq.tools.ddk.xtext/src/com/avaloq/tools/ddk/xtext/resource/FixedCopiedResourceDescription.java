@@ -105,15 +105,7 @@ public class FixedCopiedResourceDescription extends AbstractResourceDescription 
 
   @Override
   public String toString() {
-    StringBuilder result = new StringBuilder(getClass().getName());
-    result.append('@');
-    result.append(Integer.toHexString(hashCode()));
-
-    result.append(" (URI: "); //$NON-NLS-1$
-    result.append(uri);
-    result.append(')');
-
-    return result.toString();
+    return String.format("%s@%s (URI: %s)", getClass().getName(), Integer.toHexString(hashCode()), uri); //$NON-NLS-1$
   }
 
   @Override
