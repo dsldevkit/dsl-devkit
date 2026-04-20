@@ -39,7 +39,7 @@ public class SwtBotButton extends SWTBotButton {
    */
   @Override
   public SwtBotButton click() {
-    log.debug("Clicking on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
+    log.debug("Clicking on {}", SWTUtils.getText(widget)); //$NON-NLS-1$ // NOPMD GuardLogStatement
     waitForEnabled();
     notify(SWT.MouseEnter);
     notify(SWT.MouseMove);
@@ -48,7 +48,7 @@ public class SwtBotButton extends SWTBotButton {
     notify(SWT.MouseDown);
     notify(SWT.MouseUp);
     notify(SWT.Selection);
-    log.debug("Clicked on {}", SWTUtils.getText(widget)); //$NON-NLS-1$
+    log.debug("Clicked on {}", SWTUtils.getText(widget)); //$NON-NLS-1$ // NOPMD GuardLogStatement
     return this;
   }
 }
