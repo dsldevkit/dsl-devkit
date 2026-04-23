@@ -10,7 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,11 +34,11 @@ public final class NameFunctions {
 
   private static final String FEATURE_NAME = "FeatureName:";//$NON-NLS-1$
 
-  private static final String UNKNOWN_FEATURE_0_FROM_1 = "Unknown feature {0} from {1}";//$NON-NLS-1$
+  private static final String UNKNOWN_FEATURE_0_FROM_1 = "Unknown feature {} from {}";//$NON-NLS-1$
 
-  private static final String COULD_NOT_READ_FEATURE_0_FROM_1 = "Could not read feature {0} from {1}";//$NON-NLS-1$
+  private static final String COULD_NOT_READ_FEATURE_0_FROM_1 = "Could not read feature {} from {}";//$NON-NLS-1$
 
-  private static final String NO_USER_DATA_0_FOUND_FOR_1 = "No user data \'\'{0}\'\' found for {1}."; //$NON-NLS-1$
+  private static final String NO_USER_DATA_0_FOUND_FOR_1 = "No user data ''{}'' found for {}."; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(NameFunctions.class);
@@ -76,8 +75,8 @@ public final class NameFunctions {
       @Override
       public QualifiedName apply(final IEObjectDescription from) {
         String res = from.getUserData(feature.getName());
-        if (res == null && LOGGER.isDebugEnabled()) {
-          LOGGER.debug(MessageFormat.format(NO_USER_DATA_0_FOUND_FOR_1, feature.getName(), from.getEObjectOrProxy()));
+        if (res == null) {
+          LOGGER.debug(NO_USER_DATA_0_FOUND_FOR_1, feature::getName, from::getEObjectOrProxy);
         }
         return QualifiedNames.safeQualifiedName(res);
       }
@@ -89,9 +88,7 @@ public final class NameFunctions {
           value = from.eGet(feature);
           // CHECKSTYLE:OFF
         } catch (final RuntimeException e) {
-          if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(MessageFormat.format(COULD_NOT_READ_FEATURE_0_FROM_1, feature, from), e);
-          }
+          LOGGER.debug(COULD_NOT_READ_FEATURE_0_FROM_1, feature, from, e);
           return null;
         }
         // CHECKSTYLE:ON
@@ -159,8 +156,8 @@ public final class NameFunctions {
       @Override
       public QualifiedName apply(final EObject from) {
         final EStructuralFeature feature = from.eClass().getEStructuralFeature(featureName);
-        if (feature == null && LOGGER.isDebugEnabled()) {
-          LOGGER.debug(MessageFormat.format(UNKNOWN_FEATURE_0_FROM_1, featureName, from));
+        if (feature == null) {
+          LOGGER.debug(UNKNOWN_FEATURE_0_FROM_1, featureName, from);
         }
         Object value;
         try {
@@ -168,9 +165,7 @@ public final class NameFunctions {
           // CHECKSTYLE:OFF
         } catch (final RuntimeException e) {
           // CHECKSTYLE:ON
-          if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(MessageFormat.format(COULD_NOT_READ_FEATURE_0_FROM_1, featureName, from), e);
-          }
+          LOGGER.debug(COULD_NOT_READ_FEATURE_0_FROM_1, featureName, from, e);
           return null;
         }
         return value != null ? QualifiedNames.safeQualifiedName(value.toString()) : null;

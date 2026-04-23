@@ -51,7 +51,7 @@ public class XtextGMFResourceUtil {
     try {
       return SEPARATOR.getBytes(encoding != null ? encoding : DEFAULT_ENCODING);
     } catch (UnsupportedEncodingException e) {
-      LOGGER.error("unsupported encoding: " + encoding, e); //$NON-NLS-1$
+      LOGGER.error("unsupported encoding: {}", encoding, e); //$NON-NLS-1$
       return SEPARATOR.getBytes(); // NOPMD RelianceOnDefaultCharset
     }
   }
