@@ -122,9 +122,7 @@ public class CachingStateBasedContainerManager extends StateBasedContainerManage
   public List<IContainer> getVisibleContainers(final IResourceDescription desc, final IResourceDescriptions resourceDescriptions) {
     String root = internalGetContainerHandle(desc, resourceDescriptions);
     if (root == null) {
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("Cannot find IContainer for: " + desc.getURI()); //$NON-NLS-1$
-      }
+      LOGGER.debug("Cannot find IContainer for: {}", desc::getURI); //$NON-NLS-1$
       return Collections.emptyList();
     }
     List<String> handles = getState(resourceDescriptions).getVisibleContainerHandles(root);
