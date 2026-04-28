@@ -65,10 +65,20 @@ export WORKSPACE=$(pwd)
 
 - **Framework**: JUnit 5 with Tycho Surefire
 - **Timeout**: 30 minutes (1800 seconds)
-- **Main test module**: `com.avaloq.tools.ddk.xtext.test`
-- **UI tests**: Require virtual display (xvfb on Linux)
+- **Aggregator module**: `com.avaloq.tools.ddk.xtext.test`
+- **UI tests**: Require virtual display (xvfb on Linux) or `-XstartOnFirstThread` (macOS)
 
-Tests are disabled by default and activated only in test bundles.
+### Aggregator pattern — important
+
+The project runs **all tests through one aggregator module**, not per-`.test`-module. `ddk-parent/pom.xml` sets `<skip>true</skip>` on `tycho-surefire-plugin` globally; only `com.avaloq.tools.ddk.xtext.test` overrides it with its own full tycho-surefire configuration. Inside that module, `src/com/avaloq/tools/ddk/xtext/AllTests.java` is a JUnit 5 `@Suite` that `@SelectClasses` from ~14 per-module `*TestSuite` classes (`ExportTestSuite`, `CheckCoreTestSuite`, `TypeSystemTestSuite`, `CheckUiTestSuite`, etc.). Those other `.test` bundles are on `xtext.test`'s OSGi classpath via `Require-Bundle`, so their test classes get discovered and executed inside the single Eclipse runtime spun up for `xtext.test`.
+
+**Consequences for agents:**
+
+- Maven will emit `[INFO] Skipping tests` for every `.test` module except `xtext.test`. This is **correct**, not a bug. Don't "fix" it.
+- Flipping `<skip>false</skip>` in another `.test` module will **fail** — those bundles don't carry the tycho-surefire configuration (application, target-platform extras, UI harness) needed to spin up their own test runtime. "Cannot resolve dependencies" is the typical symptom.
+- Don't add per-module `tycho-surefire` configuration to individual `.test` poms. To register a new test, either add the test class to an existing `*TestSuite`, or create a new `*TestSuite` class and reference it from `AllTests.java`.
+- Why the aggregator design: one Eclipse OSGi runtime startup (~5–10s) instead of N. With ~14 test suites, per-module execution would add ~70–140s of pure startup overhead per run for no functional benefit.
+- Non-OSGi pure-POJO tests could theoretically run under plain Maven surefire without Tycho, but most tests depend on Xtext injectors, Eclipse resource APIs, or the UI workbench — so the aggregator is the right choice.
 
 ## Code Patterns
 
