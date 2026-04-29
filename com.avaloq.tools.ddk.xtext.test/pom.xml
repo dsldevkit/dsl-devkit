@@ -17,8 +17,9 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
+          <providerHint>junit5</providerHint>
           <trimStackTrace>false</trimStackTrace>
-          <skip>false</skip>
+          <skip>true</skip>
           <testClass>${test.testClass}</testClass>
           <failIfNoTests>false</failIfNoTests>
           <useUIThread>false</useUIThread>

@@ -6,7 +6,9 @@ Bundle-Version: 17.3.0.qualifier
 Bundle-Vendor: Avaloq Group AG
 Require-Bundle: org.eclipse.lsp4j,
  org.eclipse.xtext.ide,
- com.avaloq.tools.ddk.xtext
+ com.avaloq.tools.ddk.xtext,
+ org.eclipse.ui,
+ org.eclipse.ui.workbench
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Export-Package: com.avaloq.tools.ddk.xtext.ide.contentAssist,

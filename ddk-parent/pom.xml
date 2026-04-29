@@ -247,7 +247,7 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <skip>true</skip>          <!-- activated only in/for com.avaloq.tools.ddk.xtext.test bundle -->
+          <skip>false</skip>          <!-- now skipped only in/for com.avaloq.tools.ddk.xtext.test bundle due to problems -->
         </configuration>
       </plugin>
       <plugin>

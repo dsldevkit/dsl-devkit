@@ -223,7 +223,7 @@
 <setEntry value="org.eclipse.swtbot.eclipse.ui@default:default"/>
 <setEntry value="org.eclipse.swtbot.forms.finder@default:default"/>
 <setEntry value="org.eclipse.swtbot.go@default:default"/>
-<setEntry value="org.eclipse.swtbot.junit4_x@default:default"/>
+<setEntry value="org.eclipse.swtbot.junit5_x@default:default"/>
 <setEntry value="org.eclipse.swtbot.swt.finder@default:default"/>
 <setEntry value="org.eclipse.team.core@default:default"/>
 <setEntry value="org.eclipse.team.ui@default:default"/>
@@ -269,7 +269,6 @@
 <setEntry value="org.eclipse.xtext.doc@default:default"/>
 <setEntry value="org.eclipse.xtext.ecore@default:default"/>
 <setEntry value="org.eclipse.xtext.xtext.generator@default:default"/>
-<setEntry value="org.eclipse.xtext.junit4@default:default"/>
 <setEntry value="org.eclipse.xtext.logging@default:false"/>
 <setEntry value="org.eclipse.xtext.purexbase.ui@default:default"/>
 <setEntry value="org.eclipse.xtext.purexbase@default:default"/>
@@ -293,7 +292,6 @@
 <setEntry value="org.hamcrest.library@default:default"/>
 <setEntry value="org.hamcrest.text@default:default"/>
 <setEntry value="org.hamcrest@default:default"/>
-<setEntry value="org.junit@default:default"/>
 <setEntry value="org.mockito.mockito-core@default:default"/>
 <setEntry value="org.objenesis@default:default"/>
 <setEntry value="org.sat4j.core@default:default"/>

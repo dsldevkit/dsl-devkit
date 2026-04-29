@@ -17,11 +17,11 @@ import static com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvid
 import static com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider.SELECTOR_START;
 import static com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider.UNIQUE;
 import static com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider.VALUE_SEP;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -142,7 +142,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
 
   @Override
   protected void afterEachTest() {
-    assertTrue("Expected links were set with link(int) but testLinking(String, CharSequence) was never called", expectedLinkAssertions.isEmpty());
+    assertTrue(expectedLinkAssertions.isEmpty(), "Expected links were set with link(int) but testLinking(String, CharSequence) was never called");
     super.afterEachTest();
   }
 
@@ -226,7 +226,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
         return;
       }
     }
-    assertTrue("Expected URIs not found in scope: " + expectedUriSet, expectedUriSet.isEmpty());
+    assertTrue(expectedUriSet.isEmpty(), "Expected URIs not found in scope: " + expectedUriSet);
   }
 
   /**
@@ -314,7 +314,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       EObject resolvedObject = (EObject) context.eGet(reference, true);
       elementResolved = expectedUriSet.contains(EcoreUtil.getURI(resolvedObject));
     }
-    assertTrue("Linking must have resolved one of the expected objects.", elementResolved);
+    assertTrue(elementResolved, "Linking must have resolved one of the expected objects.");
   }
 
   /**
@@ -332,7 +332,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   private void assertScope(final EObject context, final EReference reference, final QualifiedName expectedName, final URI expectedUri) {
     IScope scope = getScopeProvider().getScope(context, reference);
     Iterable<IEObjectDescription> descriptions = scope.getElements(expectedName);
-    assertFalse("Description missing for: " + expectedName, Iterables.isEmpty(descriptions));
+    assertFalse(Iterables.isEmpty(descriptions), "Description missing for: " + expectedName);
     URI currentUri = null;
     for (IEObjectDescription desc : descriptions) {
       currentUri = desc.getEObjectURI();
@@ -340,7 +340,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
         return;
       }
     }
-    assertEquals("Scope URI is not equal to expected URI", expectedUri, currentUri);
+    assertEquals(expectedUri, currentUri, "Scope URI is not equal to expected URI");
   }
 
   /**
@@ -362,7 +362,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
       assertScopeForElement(context, reference, elementName[0], expectedSourceName, expectedSourceType, elementName[1]);
     }
     int actualScopeSize = Iterables.size(getScopeProvider().getScope(context, reference).getAllElements());
-    assertEquals(NUMBER_OF_ELEMENTS_MESSAGE, elementNames.length, actualScopeSize);
+    assertEquals(elementNames.length, actualScopeSize, NUMBER_OF_ELEMENTS_MESSAGE);
   }
 
   /**
@@ -387,7 +387,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     }
 
     int actualScopeSizeWithoutDuplicates = uris.size();
-    assertEquals(NUMBER_OF_ELEMENTS_MESSAGE, elements.size(), actualScopeSizeWithoutDuplicates);
+    assertEquals(elements.size(), actualScopeSizeWithoutDuplicates, NUMBER_OF_ELEMENTS_MESSAGE);
     for (Triple<String, String, String> elementName : elements) {
       assertScopeForElement(context, reference, elementName.getFirst(), elementName.getSecond(), expectedSourceType, elementName.getThird());
     }
@@ -408,7 +408,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   protected void assertScopeForSources(final EObject scopeContext, final EReference reference, final EClass modelElementClass, final String... sources) {
     assertScope(scopeContext, reference, getExpectedURIs(scopeContext, modelElementClass, sources));
     int actualScopeSize = Iterables.size(getScopeProvider().getScope(scopeContext, reference).getAllElements());
-    assertEquals(NUMBER_OF_ELEMENTS_MESSAGE, sources.length, actualScopeSize);
+    assertEquals(sources.length, actualScopeSize, NUMBER_OF_ELEMENTS_MESSAGE);
   }
 
   /**
@@ -762,7 +762,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    *          implicit item was created
    */
   protected void testLinking(final int sourceTag, final EObject targetObject, final boolean traverseImplicitItems) {
-    assertNotNull("Target object must not be null.", targetObject); //$NON-NLS-1$
+    assertNotNull(targetObject, "Target object must not be null."); //$NON-NLS-1$
     CrossReference crossReference = getMarkerTagsInfo().getCrossReference(sourceTag);
     EObject referencedSourceObject = getCrossReferencedObject(sourceTag, traverseImplicitItems, crossReference);
     assertEObjectsAreEqual(referencedSourceObject, targetObject, crossReference);
@@ -782,7 +782,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
    */
   @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void testLinking(final EObject sourceObject, final int targetTag, final boolean traverseImplicitItems) {
-    assertNotNull("Source object must not be null.", sourceObject); //$NON-NLS-1$
+    assertNotNull(sourceObject, "Source object must not be null."); //$NON-NLS-1$
     EObject referencedTargetObject = getObjectForTag(targetTag);
     assertEObjectsAreEqual(sourceObject, referencedTargetObject, null);
   }
@@ -828,7 +828,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     } else {
       found.append(NO_NODE_MODEL_COULD_BE_A_DERIVED_OBJECT);
     }
-    assertEquals("Errors found. Consider compare view.", expected.toString(), found.toString()); //$NON-NLS-1$
+    assertEquals(expected.toString(), found.toString(), "Errors found. Consider compare view."); //$NON-NLS-1$
   }
 
   /**
@@ -859,7 +859,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     EReference reference = (EReference) context.eClass().getEStructuralFeature(featureName);
     if (reference.isMany()) {
       Object featureValue = context.eGet(reference, false);
-      assertTrue("List must be of type EObjectResolvingEList", featureValue instanceof EObjectResolvingEList); //$NON-NLS-1$
+      assertTrue(featureValue instanceof EObjectResolvingEList, "List must be of type EObjectResolvingEList"); //$NON-NLS-1$
       @SuppressWarnings("unchecked")
       EList<? extends EObject> objects = (EObjectResolvingEList<? extends EObject>) context.eGet(reference, false);
       if (objects.size() == 1) {
@@ -871,7 +871,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
     } else {
       sourceObject = (EObject) context.eGet(reference, true);
     }
-    assertNotNull("Bad test. Referenced object is null.", sourceObject); //$NON-NLS-1$
+    assertNotNull(sourceObject, "Bad test. Referenced object is null."); //$NON-NLS-1$
     return sourceObject;
   }
 }

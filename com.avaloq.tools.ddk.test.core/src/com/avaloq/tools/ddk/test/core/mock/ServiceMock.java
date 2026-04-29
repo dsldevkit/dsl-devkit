@@ -10,11 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.test.core.mock;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Assert;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -46,10 +45,8 @@ public final class ServiceMock {
    */
   public static void assertAllMocksRemoved() {
     if (!originalServices.keySet().isEmpty()) {
-      Iterator<Class<?>> iterator = originalServices.keySet().iterator();
-      while (iterator.hasNext()) {
-        Class<?> clazz = iterator.next();
-        Assert.fail("Service " + clazz.getName() + " is still mocked."); //$NON-NLS-1$//$NON-NLS-2$
+      for (Class<?> clazz : originalServices.keySet()) {
+        fail("Service " + clazz.getName() + " is still mocked."); //$NON-NLS-1$ //$NON-NLS-2$
       }
     }
   }

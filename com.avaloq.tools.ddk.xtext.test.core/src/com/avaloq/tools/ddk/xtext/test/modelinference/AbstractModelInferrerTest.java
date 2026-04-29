@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.modelinference;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
@@ -93,7 +93,7 @@ public abstract class AbstractModelInferrerTest extends AbstractXtextMarkerBased
    */
   protected void assertNoInference(final EObject sourceElement) {
     final Set<EObject> inferredElements = getInferredElements(sourceElement);
-    assertTrue("Unexpected inferred elements found: " + inferredElements.toString(), inferredElements.isEmpty()); //$NON-NLS-1$
+    assertTrue(inferredElements.isEmpty(), "Unexpected inferred elements found: " + inferredElements.toString()); //$NON-NLS-1$
   }
 
   /**

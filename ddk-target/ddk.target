@@ -6,7 +6,7 @@
   <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>
-  <unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="0.0.0"/>
+  <unit id="org.eclipse.swtbot.junit5.feature.group" version="0.0.0"/>
   <repository location="http://download.eclipse.org/technology/swtbot/releases/4.2.1/"/>
   </location>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -53,7 +53,6 @@
     <unit id="org.hamcrest" version="2.2.0"/>
     <unit id="org.apache.commons.logging" version="1.2.0"/>
     <unit id="org.apache.commons.text" version="1.15.0"/>
-    <unit id="org.junit" version=" 4.13.2.v20240929-1000"/>
     <unit id="org.apache.commons.lang3" version="3.20.0"/>
     <unit id="org.apache.logging.log4j.core" version="2.25.3"/>
     <unit id="org.apache.logging.log4j.api" version="2.25.3"/>
@@ -63,6 +62,7 @@
     <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-osgi/release/4.39.0"/>
     <unit id="junit-jupiter-api" version="5.14.3"/>
     <unit id="junit-vintage-engine" version="5.14.3"/>
+    <unit id="junit-platform-suite-engine" version="1.14.3"/>
   </location>
 </locations>
 </target>

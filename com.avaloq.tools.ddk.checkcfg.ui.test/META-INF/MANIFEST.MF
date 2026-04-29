@@ -8,5 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.checkcfg.ui.test
 Require-Bundle: junit-jupiter-api,
  junit-jupiter-engine,
- junit-platform-suite-api
+ junit-platform-suite-api,
+ org.eclipse.ui.workbench
 Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.ui.test
