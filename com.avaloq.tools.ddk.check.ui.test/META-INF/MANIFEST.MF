@@ -30,10 +30,5 @@ Export-Package: com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.ui.test.util,
  com.avaloq.tools.ddk.check
 Import-Package: org.hamcrest.core,
- org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0",
  org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.check.ui.test

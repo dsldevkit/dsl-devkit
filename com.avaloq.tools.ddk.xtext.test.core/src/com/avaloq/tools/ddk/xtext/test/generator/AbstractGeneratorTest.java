@@ -12,6 +12,9 @@ package com.avaloq.tools.ddk.xtext.test.generator;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,8 +47,6 @@ import org.eclipse.xtext.ui.XtextProjectHelper;
 import org.eclipse.xtext.ui.testing.util.IResourcesSetupUtil;
 import org.eclipse.xtext.ui.testing.util.JavaProjectSetupUtil;
 import org.eclipse.xtext.ui.util.PluginProjectFactory;
-import org.junit.AfterClass;
-import org.junit.Assert;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
@@ -92,7 +93,6 @@ public abstract class AbstractGeneratorTest {
   /**
    * Clean up after all tests have terminated.
    */
-  @AfterClass
   public static void cleanUp() {
     try {
       IResourcesSetupUtil.cleanWorkspace();
@@ -321,15 +321,15 @@ public abstract class AbstractGeneratorTest {
               IResourcesSetupUtil.createFile(resourceURI.toPlatformString(true), contents);
             } catch (IOException e) {
               LOGGER.error("failed adding file to workspace: " + outputFileName, e); //$NON-NLS-1$
-              Assert.fail("Error adding file " + outputFileName + " to workspace: " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+              fail("Error adding file " + outputFileName + " to workspace: " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
             }
           }
         }
       }.run(new NullProgressMonitor());
     } catch (InvocationTargetException e) {
-      Assert.fail("Error adding files to workspace: " + e.getMessage()); //$NON-NLS-1$
+      fail("Error adding files to workspace: " + e.getMessage()); //$NON-NLS-1$
     } catch (InterruptedException e) {
-      Assert.fail("Error adding files to workspace: " + e.getMessage()); //$NON-NLS-1$
+      fail("Error adding files to workspace: " + e.getMessage()); //$NON-NLS-1$
     }
   }
 
@@ -404,10 +404,10 @@ public abstract class AbstractGeneratorTest {
    */
   public void assertFileGenerated(final String projectName, final String fileName, final String expectedGeneratedContent) throws IOException, CoreException {
     IFile generatedFile = getFileFromProject(projectName, fileName);
-    Assert.assertTrue(MessageFormat.format(MESSAGE_GENERATED_FILE_MUST_EXIST, generatedFile.toString()), generatedFile.exists());
+    assertTrue(generatedFile.exists(), MessageFormat.format(MESSAGE_GENERATED_FILE_MUST_EXIST, generatedFile.toString()));
 
     String actualGeneratedContent = getContents(generatedFile);
-    Assert.assertEquals(MessageFormat.format(MESSAGE_GENERATED_CODE_MUST_BE_CORRECT, generatedFile.toString()), expectedGeneratedContent, actualGeneratedContent);
+    assertEquals(expectedGeneratedContent, actualGeneratedContent, MessageFormat.format(MESSAGE_GENERATED_CODE_MUST_BE_CORRECT, generatedFile.toString()));
   }
 
   /**

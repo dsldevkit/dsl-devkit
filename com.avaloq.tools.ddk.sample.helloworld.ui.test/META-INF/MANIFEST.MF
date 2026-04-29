@@ -20,8 +20,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.xtext.xbase.ui.testing,
  junit-jupiter-api,
  junit-jupiter-engine,
- junit-platform-suite-api,
- junit-vintage-engine
+ junit-platform-suite-api
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: com.avaloq.tools.ddk.sample.helloworld.test,
  com.avaloq.tools.ddk.sample.helloworld.ui;x-internal=true

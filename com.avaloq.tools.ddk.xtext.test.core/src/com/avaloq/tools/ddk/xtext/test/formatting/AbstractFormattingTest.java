@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.formatting;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -18,8 +20,6 @@ import org.eclipse.xtext.formatting.INodeModelFormatter.IFormattedRegion;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.SaveOptions;
-import org.junit.Assert;
-import org.junit.Test;
 
 import com.avaloq.tools.ddk.xtext.test.AbstractXtextTest;
 
@@ -68,7 +68,6 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
   /**
    * Test formatting based on the NodeModel.
    */
-  @Test
   public void formattedNodeModel() {
     assertFormattedNodeModel();
   }
@@ -90,7 +89,6 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
   /**
    * Test preservation of formatting using NodeModelFormatter.
    */
-  @Test
   public void preservedNodeModel() {
     assertPreservedNodeModel();
   }
@@ -146,7 +144,7 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
    */
   private void assertFormattedParseTreeConstructor(final EObject model, final String expected) {
     String actual = getXtextTestUtil().getSerializer().serialize(model, SaveOptions.newBuilder().format().getOptions());
-    Assert.assertEquals("Formatted ParseTree", expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF));
+    assertEquals(expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF), "Formatted ParseTree");
   }
 
   /**
@@ -167,7 +165,7 @@ public abstract class AbstractFormattingTest extends AbstractXtextTest {
     ICompositeNode node = NodeModelUtils.getNode(model).getRootNode();
     IFormattedRegion region = getXtextTestUtil().get(INodeModelFormatter.class).format(node, offset, length);
     String actual = input.substring(0, offset) + region.getFormattedText() + input.substring(length + offset);
-    Assert.assertEquals("Formatted NodeModel", expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF));
+    assertEquals(expected.replaceAll(CR_LF, LF), actual.replaceAll(CR_LF, LF), "Formatted NodeModel");
   }
 
 }

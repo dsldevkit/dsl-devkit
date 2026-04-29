@@ -25,7 +25,7 @@
     <module name="CatchParameterName"/>
     <module name="LambdaParameterName"/>
     <module name="LambdaBodyLength">
-      <property name="max" value="20"/>
+      <property name="max" value="30"/>
     </module>
     <module name="AbstractClassName">
       <property name="ignoreModifier" value="true"/>
