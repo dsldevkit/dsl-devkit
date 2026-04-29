@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test; //NOPMD
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -310,7 +310,7 @@ public abstract class AbstractXtextTestUtil extends AbstractTestUtil implements 
       sourceContentWithErrors.insert(offsetIterator.previous(), String.format(ERROR_MARKER, --errorNumber));
     }
 
-    assertEquals("Errors found: ", sourceContentAsString, sourceContentWithErrors.toString());
+    assertEquals(sourceContentAsString, sourceContentWithErrors.toString(), "Errors found: ");
   }
 
   /**

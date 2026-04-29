@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.test.core.util;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 /**
@@ -169,7 +169,7 @@ public class SimpleProgressMonitor implements IProgressMonitor {
       final long timeStarted = System.currentTimeMillis();
       while (!isTerminated()) {
         long remainingWaitTime = TIMEOUT + timeStarted - System.currentTimeMillis();
-        Assert.assertFalse("Progress monitor did not get done signal", remainingWaitTime <= 0); //$NON-NLS-1$
+        assertFalse(remainingWaitTime <= 0, "Progress monitor did not get done signal"); //$NON-NLS-1$
         try {
           this.wait(remainingWaitTime);
         } catch (InterruptedException e) /* CHECKSTYLE:OFF */ {

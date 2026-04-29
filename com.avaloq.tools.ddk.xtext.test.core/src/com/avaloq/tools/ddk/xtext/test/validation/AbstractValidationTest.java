@@ -11,11 +11,11 @@
 package com.avaloq.tools.ddk.xtext.test.validation;
 
 import static org.eclipse.xtext.validation.ValidationMessageAcceptor.INSIGNIFICANT_INDEX;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -89,7 +89,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   private Diagnostic getPrimaryDiagnostics() {
     Object obj = getTestInformation().getTestObject(Diagnostic.class);
-    assertNotNull("getPrimaryDiagnostics(): Diagnostics of primary source not null.", obj);
+    assertNotNull(obj, "getPrimaryDiagnostics(): Diagnostics of primary source not null.");
     return (Diagnostic) obj;
   }
 
@@ -782,7 +782,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the code of the issue to look for
    */
   protected void assertDiagnostic(final EObject model, final String issueCode) {
-    assertNotNull("Issue with code '" + issueCode + "' cannot be found because the model is null", model);
+    assertNotNull(model, "Issue with code '" + issueCode + "' cannot be found because the model is null");
     assertDiagnostic(getXtextTestUtil().getDiagnostician().validate(model), issueCode);
   }
 
@@ -805,7 +805,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the code of the issue to look for
    */
   protected void assertNoDiagnostic(final EObject model, final String issueCode) {
-    assertNotNull("Issue with code '" + issueCode + "' cannot be found because the model is null", model);
+    assertNotNull(model, "Issue with code '" + issueCode + "' cannot be found because the model is null");
     assertNoDiagnostic(getXtextTestUtil().getDiagnostician().validate(model), issueCode);
   }
 
@@ -823,7 +823,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the model in which to look for issues, may be {@code null}
    */
   protected void assertNoDiagnostics(final EObject model) {
-    assertNotNull("Assertion cannot be checked because the model is null", model);
+    assertNotNull(model, "Assertion cannot be checked because the model is null");
     assertNoDiagnostics(getXtextTestUtil().getDiagnostician().validate(model));
   }
 
@@ -846,7 +846,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the message of the issue to look for
    */
   protected void assertDiagnosticMessage(final EObject model, final String message) {
-    assertNotNull("Message '" + message + "' cannot be found because the model is null", model);
+    assertNotNull(model, "Message '" + message + "' cannot be found because the model is null");
     assertDiagnosticMessage(getXtextTestUtil().getDiagnostician().validate(model), message);
   }
 
@@ -932,8 +932,8 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    *          the diagnostic to check for issues
    */
   private void assertNoDiagnostics(final Diagnostic diagnostics) {
-    assertEquals("Diagnostics should be in OK state.", diagnostics.getCode(), Diagnostic.OK);
-    assertTrue("There should be no diagnostics. Instead found " + diagnostics.getChildren().size(), diagnostics.getChildren().isEmpty());
+    assertEquals(Diagnostic.OK, diagnostics.getCode(), "Diagnostics should be in OK state.");
+    assertTrue(diagnostics.getChildren().isEmpty(), "There should be no diagnostics. Instead found " + diagnostics.getChildren().size());
   }
 
   /**
@@ -945,7 +945,8 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
   public static void assertNoErrorsOnResource(final EObject object) {
     final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     if (!errors.isEmpty()) {
-      fail(AbstractValidationTest.NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + "; found " + Lists.transform(errors, Resource.Diagnostic::getMessage)); //$NON-NLS-1$
+      fail(AbstractValidationTest.NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + "; found " //$NON-NLS-1$
+          + Lists.transform(errors, Resource.Diagnostic::getMessage));
     }
   }
 
@@ -961,7 +962,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     List<String> messageList = Arrays.asList(messages);
     final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     for (String errorMessage : Lists.transform(errors, Resource.Diagnostic::getMessage)) {
-      assertFalse(NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + " with message '" + errorMessage + "'.", messageList.contains(errorMessage));
+      assertFalse(messageList.contains(errorMessage), NO_ERRORS_FOUND_ON_RESOURCE_MESSAGE + " with message '" + errorMessage + "'.");
     }
   }
 
@@ -987,7 +988,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
           break;
         }
       }
-      assertFalse(NLS.bind("Expecting no linking errors on resource for \"{0}\".", referenceName), found);
+      assertFalse(found, NLS.bind("Expecting no linking errors on resource for \"{0}\".", referenceName));
     }
   }
 
@@ -1013,7 +1014,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
           break;
         }
       }
-      assertTrue(NLS.bind("Expected linking error on \"{0}\" but could not find it", referenceName), found);
+      assertTrue(found, NLS.bind("Expected linking error on \"{0}\" but could not find it", referenceName));
     }
   }
 
@@ -1029,7 +1030,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
     final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
     for (final String s : errorStrings) {
-      assertTrue(NLS.bind("Expected linking error \"{0}\" but could not find it", s), errorMessages.contains(s));
+      assertTrue(errorMessages.contains(s), NLS.bind("Expected linking error \"{0}\" but could not find it", s));
     }
   }
 
@@ -1045,7 +1046,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     List<String> messageList = Arrays.asList(messages);
     final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
     for (String errorMessage : Lists.transform(linkingErrors, Resource.Diagnostic::getMessage)) {
-      assertFalse(NLS.bind("Expecting no linking errors on resource with message \"{0}\".", errorMessage), messageList.contains(errorMessage));
+      assertFalse(messageList.contains(errorMessage), NLS.bind("Expecting no linking errors on resource with message \"{0}\".", errorMessage));
     }
   }
 
@@ -1061,7 +1062,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
     final EList<Resource.Diagnostic> errors = object.eResource().getErrors();
     final List<String> errorMessages = Lists.transform(errors, Resource.Diagnostic::getMessage);
     for (final String s : errorStrings) {
-      assertTrue(NLS.bind("Expected error \"{0}\" but could not find it", s), errorMessages.contains(s));
+      assertTrue(errorMessages.contains(s), NLS.bind("Expected error \"{0}\" but could not find it", s));
     }
   }
 

@@ -10,10 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -30,7 +31,6 @@ import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.xbase.lib.Procedures;
-import org.junit.Assert;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -99,7 +99,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
   protected void beforeEachTest() {
     localMarkerIdCounter = 0;
     super.beforeEachTest();
-    Assert.assertFalse(INVALID_TEST_CONFIGURATION, getMarkerTagsInfo().isInvalidTestClass());
+    assertFalse(getMarkerTagsInfo().isInvalidTestClass(), INVALID_TEST_CONFIGURATION);
   }
 
   // --------------------------------------------------------------------------
@@ -270,7 +270,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    * @return Mark text to be inserted in the source file, never {@code null}
    */
   protected String mark(final int id) {
-    Assert.assertFalse("Tag with " + id + " used to mark more than one location.", usedTags.contains(id)); //$NON-NLS-1$ //$NON-NLS-2$
+    assertFalse(usedTags.contains(id), "Tag with " + id + " used to mark more than one location."); //$NON-NLS-1$ //$NON-NLS-2$
     usedTags.add(id);
     if (id < 1) {
       getMarkerTagsInfo().setTestClassInvalid();
@@ -446,7 +446,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
         object = NodeModelUtils.findActualSemanticObjectFor(leafNode);
       }
     }
-    assertNotNull("Tag " + tag + " should mark an object. Use «mark(TAG)» in a code snippet.", object); //$NON-NLS-1$//$NON-NLS-2$
+    assertNotNull(object, "Tag " + tag + " should mark an object. Use «mark(TAG)» in a code snippet."); //$NON-NLS-1$//$NON-NLS-2$
     return object;
   }
 
@@ -459,7 +459,7 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    */
   protected Integer getOffsetForTag(final int tag) {
     Integer offset = getMarkerTagsInfo().getOffset(tag);
-    assertNotNull("Tag " + tag + " should mark an object. Use «mark(TAG)» in a code snippet.", offset); //$NON-NLS-1$//$NON-NLS-2$
+    assertNotNull(offset, "Tag " + tag + " should mark an object. Use «mark(TAG)» in a code snippet."); //$NON-NLS-1$//$NON-NLS-2$
     return offset;
   }
 
@@ -473,8 +473,8 @@ public abstract class AbstractXtextMarkerBasedTest extends AbstractXtextTest {
    */
   public int getTag() {
     localMarkerIdCounter++;
-    assertTrue("Too many local tags. Must be less than " + TagCompilationParticipant.COUNTER_BASE //$NON-NLS-1$
-        + " per test method", localMarkerIdCounter < TagCompilationParticipant.COUNTER_BASE); //$NON-NLS-1$
+    assertTrue(localMarkerIdCounter < TagCompilationParticipant.COUNTER_BASE, "Too many local tags. Must be less than " + TagCompilationParticipant.COUNTER_BASE //$NON-NLS-1$
+        + " per test method"); //$NON-NLS-1$
     return localMarkerIdCounter;
   }
 

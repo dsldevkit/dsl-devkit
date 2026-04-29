@@ -24,12 +24,7 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  junit-jupiter-api,
  junit-jupiter-engine,
  junit-platform-suite-api
-Import-Package: org.hamcrest.core,
- org.junit.runner;version="4.5.0",
- org.junit.runner.manipulation;version="4.5.0",
- org.junit.runner.notification;version="4.5.0",
- org.junit.runners;version="4.5.0",
- org.junit.runners.model;version="4.5.0"
+Import-Package: org.hamcrest.core
 Export-Package: com.avaloq.tools.ddk.checkcfg.test,
  com.avaloq.tools.ddk.checkcfg.util
 Bundle-RequiredExecutionEnvironment: JavaSE-21

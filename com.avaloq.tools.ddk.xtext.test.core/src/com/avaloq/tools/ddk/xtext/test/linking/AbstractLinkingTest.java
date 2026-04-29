@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.linking;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -34,6 +34,6 @@ public abstract class AbstractLinkingTest extends AbstractXtextTest {
    *          the actual object
    */
   protected void assertReferenceResolved(final EObject expectedObject, final EObject actualObject) {
-    assertEquals(NOT_RESOLVED_MESSAGE, EcoreUtil.getURI(expectedObject), EcoreUtil.getURI(actualObject));
+    assertEquals(EcoreUtil.getURI(expectedObject), EcoreUtil.getURI(actualObject), NOT_RESOLVED_MESSAGE);
   }
 }

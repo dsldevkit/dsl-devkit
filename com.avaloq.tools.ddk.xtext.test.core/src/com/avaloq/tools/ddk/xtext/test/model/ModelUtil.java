@@ -10,11 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.model;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.junit.Assert;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
@@ -84,7 +85,7 @@ public class ModelUtil {
     // CHECKSTYLE:ON
     return Iterables.filter(getAllInstancesOf(context, type), input -> {
       if (input.eClass().getEStructuralFeature(feature.getFeatureID()) != feature) {
-        Assert.fail("Feature " + feature + " is not a feature of " + input.eClass()); //$NON-NLS-1$ //$NON-NLS-2$
+        fail("Feature " + feature + " is not a feature of " + input.eClass()); //$NON-NLS-1$ //$NON-NLS-2$
       }
       final Object valueOfFeature = input.eGet(feature);
       return valueOfFeature != null && valueOfFeature.equals(value);

@@ -13,6 +13,8 @@ package com.avaloq.tools.ddk.xtext.test;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.resource.XtextResource;
 
+import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractTest;
+
 
 /**
  * Provides a test class specific custom test framework for xtext languages. Provides a language specific {@link AbstractXtextTestUtil}.
