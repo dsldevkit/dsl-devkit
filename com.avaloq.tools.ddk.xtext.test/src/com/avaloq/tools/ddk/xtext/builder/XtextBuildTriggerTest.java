@@ -23,7 +23,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.xtext.builder.impl.BuildScheduler;
-import org.eclipse.xtext.builder.impl.IBuildFlag;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +59,7 @@ public class XtextBuildTriggerTest {
     // auto-build disabled
     when(workspace.isAutoBuilding()).thenReturn(false);
     buildTrigger.scheduleFullBuild();
-    verify(scheduler, never()).scheduleBuildIfNecessary(ArgumentMatchers.<Iterable<IProject>> any(), ArgumentMatchers.<IBuildFlag> any());
+    verify(scheduler, never()).scheduleBuildIfNecessary(ArgumentMatchers.<Iterable<IProject>> any());
 
     reset(workspace);
     reset(scheduler);
@@ -72,6 +71,6 @@ public class XtextBuildTriggerTest {
     when(workspace.getRoot()).thenReturn(root);
     when(root.getProjects()).thenReturn(projects);
     buildTrigger.scheduleFullBuild();
-    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)), ArgumentMatchers.<IBuildFlag[]> any());
+    verify(scheduler).scheduleBuildIfNecessary(eq(Arrays.asList(projects)));
   }
 }
