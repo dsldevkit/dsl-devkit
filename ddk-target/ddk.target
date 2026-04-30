@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="DDK Target" sequenceNumber="26">
+<target name="DDK Target" sequenceNumber="27">
 <locations>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
@@ -19,10 +19,6 @@
   <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
   <repository location="https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/"/>
-  </location>
-  <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-    <unit id="org.eclipse.uml2.sdk.feature.group" version="0.0.0"/>
-    <repository location="https://download.eclipse.org/releases/2022-12/202212071000/"/>
   </location>
   <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
     <unit id="org.eclipse.xtend" version="0.0.0"/>
@@ -46,23 +42,28 @@
     <unit id="org.eclipse.lsp4j.sdk.feature.group" version="0.0.0"/>
   </location>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-    <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.39.0"/>
-    <unit id="net.bytebuddy.byte-buddy" version="1.18.5"/>
-    <unit id="org.objenesis" version="3.5.0"/>
-    <unit id="org.mockito.mockito-core" version="5.21.0"/>
+    <!-- orbit-aggregation 4.37.0 (Sept 2025) is the most recent release that ships JUnit at a single version family (5.13.4 / Platform 1.13.4). 4.38.0+ duplicate every JUnit IU at both 5.x and 6.x, which Tycho's planner installs simultaneously, producing LinkageError/ArrayStoreException at test discovery. See investigation in PR description. -->
+    <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.37.0"/>
+    <unit id="net.bytebuddy.byte-buddy" version="1.17.7"/>
+    <unit id="org.objenesis" version="3.4.0"/>
+    <unit id="org.mockito.mockito-core" version="5.19.0"/>
     <unit id="org.hamcrest" version="2.2.0"/>
     <unit id="org.apache.commons.logging" version="1.2.0"/>
-    <unit id="org.apache.commons.text" version="1.15.0"/>
-    <unit id="org.junit" version=" 4.13.2.v20240929-1000"/>
-    <unit id="org.apache.commons.lang3" version="3.20.0"/>
-    <unit id="org.apache.logging.log4j.core" version="2.25.3"/>
-    <unit id="org.apache.logging.log4j.api" version="2.25.3"/>
-    <unit id="org.apache.log4j" version="1.2.26"/> <!--use reload4j 1.2.26 for org.eclipse.xtext dependencies to log4j--> 
-  </location>
-  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-    <repository location="https://download.eclipse.org/tools/orbit/simrel/maven-osgi/release/4.39.0"/>
-    <unit id="junit-jupiter-api" version="5.14.3"/>
-    <unit id="junit-vintage-engine" version="5.14.3"/>
+    <unit id="org.apache.commons.text" version="1.14.0"/>
+    <unit id="org.junit" version="4.13.2.v20240929-1000"/>
+    <unit id="org.apache.commons.lang3" version="3.18.0"/>
+    <unit id="org.apache.logging.log4j.core" version="2.25.1"/>
+    <unit id="org.apache.logging.log4j.api" version="2.25.1"/>
+    <unit id="org.apache.log4j" version="1.2.26"/> <!--use reload4j 1.2.26 for org.eclipse.xtext dependencies to log4j-->
+    <unit id="junit-jupiter-api" version="5.13.4"/>
+    <unit id="junit-jupiter-engine" version="5.13.4"/>
+    <unit id="junit-jupiter-params" version="5.13.4"/>
+    <unit id="junit-vintage-engine" version="5.13.4"/>
+    <unit id="junit-platform-commons" version="1.13.4"/>
+    <unit id="junit-platform-engine" version="1.13.4"/>
+    <unit id="junit-platform-launcher" version="1.13.4"/>
+    <unit id="junit-platform-suite-api" version="1.13.4"/>
+    <unit id="junit-platform-suite-engine" version="1.13.4"/>
   </location>
 </locations>
 </target>
