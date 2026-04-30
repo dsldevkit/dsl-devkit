@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.xtext.test;
 
 // CHECKSTYLE:OFF
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,7 +35,7 @@ import org.eclipse.xtext.ui.testing.util.ResourceLoadHelper;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.StringInputStream;
 import org.eclipse.xtext.util.Tuples;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.google.inject.Injector;
 
@@ -111,7 +111,7 @@ public class AcfContentAssistProcessorTestBuilder extends ContentAssistProcessor
         break;
       }
     }
-    assertNotNull(MessageFormat.format("\"{0}\" not a valid completion proposal", expectedDisplayString), proposal);
+    assertNotNull(proposal, MessageFormat.format("\"{0}\" not a valid completion proposal", expectedDisplayString));
     String text = "";
     if (proposal instanceof ConfigurableCompletionProposal) {
       text = ((ConfigurableCompletionProposal) proposal).getReplacementString();
@@ -180,11 +180,11 @@ public class AcfContentAssistProcessorTestBuilder extends ContentAssistProcessor
           ContentAssistContext.Factory factory = get(ContentAssistContext.Factory.class);
           ContentAssistContext[] contexts = factory.create(sourceViewer, currentModelToParse.length(), xtextResource);
           for (ContentAssistContext context : contexts) {
-            Assert.assertTrue("matchString = '" + matchString + "', actual: '" + context.getPrefix() + "'", "".equals(context.getPrefix())
-                || matchString.equals(context.getPrefix()));
+            Assertions.assertTrue("".equals(context.getPrefix())
+                || matchString.equals(context.getPrefix()), "matchString = '" + matchString + "', actual: '" + context.getPrefix() + "'");
           }
         } else {
-          Assert.fail("No content assistant for content type " + contentType);
+          Assertions.fail("No content assistant for content type " + contentType);
         }
       } catch (BadLocationException e) {
         exception.set(e);

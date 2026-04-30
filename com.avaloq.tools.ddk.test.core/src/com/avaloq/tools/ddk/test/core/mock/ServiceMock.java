@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 
 /**
@@ -49,7 +49,7 @@ public final class ServiceMock {
       Iterator<Class<?>> iterator = originalServices.keySet().iterator();
       while (iterator.hasNext()) {
         Class<?> clazz = iterator.next();
-        Assert.fail("Service " + clazz.getName() + " is still mocked."); //$NON-NLS-1$//$NON-NLS-2$
+        Assertions.fail("Service " + clazz.getName() + " is still mocked."); //$NON-NLS-1$//$NON-NLS-2$
       }
     }
   }
