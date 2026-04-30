@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="DDK Target" sequenceNumber="27">
+<target name="DDK Target" sequenceNumber="28">
 <locations>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.swtbot.ide.feature.group" version="0.0.0"/>
-  <unit id="org.eclipse.swtbot.eclipse.test.junit.feature.group" version="0.0.0"/>
+  <unit id="org.eclipse.swtbot.junit5.feature.group" version="0.0.0"/>
   <repository location="http://download.eclipse.org/technology/swtbot/releases/4.2.1/"/>
   </location>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -50,7 +50,6 @@
     <unit id="org.hamcrest" version="2.2.0"/>
     <unit id="org.apache.commons.logging" version="1.2.0"/>
     <unit id="org.apache.commons.text" version="1.14.0"/>
-    <unit id="org.junit" version="4.13.2.v20240929-1000"/>
     <unit id="org.apache.commons.lang3" version="3.18.0"/>
     <unit id="org.apache.logging.log4j.core" version="2.25.1"/>
     <unit id="org.apache.logging.log4j.api" version="2.25.1"/>
@@ -58,7 +57,6 @@
     <unit id="junit-jupiter-api" version="5.13.4"/>
     <unit id="junit-jupiter-engine" version="5.13.4"/>
     <unit id="junit-jupiter-params" version="5.13.4"/>
-    <unit id="junit-vintage-engine" version="5.13.4"/>
     <unit id="junit-platform-commons" version="1.13.4"/>
     <unit id="junit-platform-engine" version="1.13.4"/>
     <unit id="junit-platform-launcher" version="1.13.4"/>

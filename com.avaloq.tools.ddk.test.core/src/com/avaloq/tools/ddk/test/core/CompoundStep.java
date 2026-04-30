@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.core.runtime.Assert;
 
+import com.avaloq.tools.ddk.test.core.jupiter.MultipleTestProblems;
 import com.google.common.collect.Lists;
 
 
