@@ -7,3 +7,6 @@
 *.xtendbin
 /*/xtend-gen/*
 !/*/xtend-gen/.gitignore
+
+# macOS
+.DS_Store
