@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test.jupiter;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -90,7 +90,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    *          the expected proposals as display strings
    */
   private void assertCompletionProposal(final ICompletionProposal[] computedProposals, final boolean positiveTest, final String... proposals) {
-    assertNotEquals(AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED, proposals.length, 0);
+    assertNotEquals(0, proposals.length, AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED);
     for (final String s : proposals) {
       boolean foundProposal = false;
       for (ICompletionProposal p : computedProposals) {
@@ -155,7 +155,7 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
    *          the expected proposals as display strings
    */
   protected void assertExactlyCompletionProposal(final ICompletionProposal[] computedProposals, final String... expectedProposals) {
-    assertNotEquals(AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED, expectedProposals.length, 0);
+    assertNotEquals(0, expectedProposals.length, AT_LEAST_ONE_PROPOSAL_WAS_PROVIDED);
 
     Set<String> computedProposalsAsSet = new HashSet<String>();
     for (ICompletionProposal p : computedProposals) {
@@ -190,8 +190,8 @@ public abstract class AbstractAcfContentAssistTest extends AbstractXtextMarkerBa
   private void assertSourceProposals(final String sourceFileName) {
     try {
       AcfContentAssistProcessorTestBuilder builder = newBuilder().append(getTestSource(sourceFileName).getContent());
-      assertFalse(EXPECTED_PROPOSALS_NOT_SET, (acfContentAssistMarkerTagInfo.expectedProposalMap.isEmpty()
-          && acfContentAssistMarkerTagInfo.notExpectedProposalMap.isEmpty() && acfContentAssistMarkerTagInfo.expectedExactlyProposalMap.isEmpty()));
+      assertFalse((acfContentAssistMarkerTagInfo.expectedProposalMap.isEmpty()
+          && acfContentAssistMarkerTagInfo.notExpectedProposalMap.isEmpty() && acfContentAssistMarkerTagInfo.expectedExactlyProposalMap.isEmpty()), EXPECTED_PROPOSALS_NOT_SET);
       for (int markerId : getUsedTagsItems()) {
         final ICompletionProposal[] proposals = builder.computeCompletionProposals(getOffsetForTag(markerId));
         if (acfContentAssistMarkerTagInfo.expectedProposalMap.containsKey(markerId)) {
