@@ -50,6 +50,14 @@ jobs:
         # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
         # This ensures all violations are collected and reported before the build fails
         run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+      - name: Fail on missing surefire reports
+        # Tycho-Surefire writes no TEST-*.xml when discovery is empty — fail the job in that case.
+        if: always()
+        run: |
+          if ! find . -path '*/target/surefire-reports/TEST-*.xml' -print -quit | grep -q .; then
+            echo "::error::No surefire reports found. Test discovery is likely broken."
+            exit 1
+          fi
       - name: Archive Tycho Surefire Plugin
         if: ${{ failure() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
