@@ -19,6 +19,7 @@
         <configuration>
           <trimStackTrace>false</trimStackTrace>
           <skip>false</skip>
+          <providerHint>junit6</providerHint>
           <testClass>${test.testClass}</testClass>
           <failIfNoTests>false</failIfNoTests>
           <useUIThread>false</useUIThread>
@@ -49,8 +50,8 @@
                 <versionRange>0.0.0</versionRange>
               </requirement>
               <requirement>
-                <type>eclipse-feature</type>
-                <id>org.eclipse.pde</id>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.pde.junit.runtime</id>
                 <versionRange>0.0.0</versionRange>
               </requirement>
               <requirement>
