@@ -60,7 +60,7 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
     ZipEntry zipEntry;
 
     // Adapted from the ResourceStorageWritable base class
-    BufferedOutputStream bufferedOutput = new BufferedOutputStream(zipOut);
+    final BufferedOutputStream bufferedOutput = new BufferedOutputStream(zipOut);
 
     zipEntry = new ZipEntry("emf-contents");
     zipEntry.setTime(CONSTANT_DATETIME_MILLIS); // Unique to this class
