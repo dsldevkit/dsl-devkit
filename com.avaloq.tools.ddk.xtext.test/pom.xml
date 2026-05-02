@@ -19,7 +19,7 @@
         <configuration>
           <trimStackTrace>false</trimStackTrace>
           <skip>false</skip>
-          <providerHint>junit5</providerHint>
+          <providerHint>junit6</providerHint>
           <testClass>${test.testClass}</testClass>
           <failIfNoTests>false</failIfNoTests>
           <useUIThread>false</useUIThread>
@@ -49,9 +49,15 @@
                 <id>org.eclipse.xtext.sdk</id>
                 <versionRange>0.0.0</versionRange>
               </requirement>
+              <!--
+                org.eclipse.pde feature group is replaced in ddk-target/ddk.target by an
+                explicit list of pde.core / pde.ui / pde.ua.core / pde.junit.runtime so we
+                avoid pulling jdt.junit5.runtime (which strict-pins JUnit 5.14.x and conflicts
+                with our JUnit 6 stack).
+              -->
               <requirement>
-                <type>eclipse-feature</type>
-                <id>org.eclipse.pde</id>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.pde.junit.runtime</id>
                 <versionRange>0.0.0</versionRange>
               </requirement>
               <requirement>
