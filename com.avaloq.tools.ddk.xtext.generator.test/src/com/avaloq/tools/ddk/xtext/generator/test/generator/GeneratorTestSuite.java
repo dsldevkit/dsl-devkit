@@ -18,6 +18,7 @@ import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContextTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionsExtentionsTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.EClassComparatorTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GraphTest;
+import com.avaloq.tools.ddk.xtext.generator.xbase.test.XbaseGeneratorFragmentTest;
 
 
 /**
@@ -30,7 +31,8 @@ import com.avaloq.tools.ddk.xtext.generator.test.util.GraphTest;
   CompilationContextTest.class,
   ExpressionsExtentionsTest.class,
   EClassComparatorTest.class,
-  GraphTest.class
+  GraphTest.class,
+  XbaseGeneratorFragmentTest.class
   // @Format-On
 })
 
