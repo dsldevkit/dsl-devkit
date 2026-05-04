@@ -13,7 +13,11 @@ package com.avaloq.tools.ddk.xtext.generator.xbase.test
 
 import com.avaloq.tools.ddk.test.core.jupiter.BugTest
 import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.xtext.AbstractElement
 import org.eclipse.xtext.AbstractMetamodelDeclaration
 import org.eclipse.xtext.AbstractRule
@@ -25,6 +29,8 @@ import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.TypeRef
 import org.eclipse.xtext.XtextPackage
 
+import static org.mockito.ArgumentMatchers.any
+import static org.mockito.ArgumentMatchers.eq
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 import org.eclipse.xtext.xtext.generator.xbase.XbaseUsageDetector
@@ -52,6 +58,16 @@ class XbaseGeneratorFragmentTest {
 
   val detector = new XbaseUsageDetector
 
+  // Shared EClass instance used as the resolved Xtype::XImportSection. EcoreUtil2.isAssignableFrom
+  // returns true via reference equality when the rule's type classifier is this same instance.
+  val EClass mockXtypeXImportSectionEClass = mock(EClass)
+  val ResourceSet mockResourceSet = mock(ResourceSet) => [
+    when(getEObject(any(URI), eq(true))).thenReturn(mockXtypeXImportSectionEClass)
+  ]
+  val Resource mockResource = mock(Resource) => [
+    when(resourceSet).thenReturn(mockResourceSet)
+  ]
+
   /**
    * Set expectations prior to calling usesXImportSection.apply().
    *
@@ -70,6 +86,19 @@ class XbaseGeneratorFragmentTest {
     when(mockType.metamodel).thenReturn(mockMetamodel)
     when(mockMetamodel.EPackage).thenReturn(mockEPackage)
     when(mockEPackage.name).thenReturn(packageName)
+
+    // The current XbaseUsageDetector navigates rule.eResource().getResourceSet() to look up the
+    // Xtype XImportSection EClass, then compares it (via EcoreUtil2.isAssignableFrom) against the
+    // rule's type classifier. Treat (xtypePackageName + XImportSection) as the canonical match
+    // by giving such rules the same EClass instance the resource-set lookup returns; everything
+    // else gets a fresh distinct mock so isAssignableFrom evaluates false.
+    when(mockRule.eResource).thenReturn(mockResource)
+    val EClass classifier = if (xtypePackageName.equals(packageName) && xImportSectionRuleName.equals(ruleName)) {
+      mockXtypeXImportSectionEClass
+    } else {
+      mock(EClass)
+    }
+    when(mockType.classifier).thenReturn(classifier)
   }
 
   /**
