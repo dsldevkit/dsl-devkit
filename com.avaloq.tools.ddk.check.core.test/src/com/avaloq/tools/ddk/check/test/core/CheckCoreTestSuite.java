@@ -22,6 +22,9 @@ import com.avaloq.tools.ddk.check.core.test.CheckScopingTest;
 import com.avaloq.tools.ddk.check.core.test.IssueCodeToLabelMapGenerationTest;
 import com.avaloq.tools.ddk.check.core.test.ProjectBasedTests;
 import com.avaloq.tools.ddk.check.formatting.CheckFormattingTest;
+import com.avaloq.tools.ddk.check.validation.CheckApiAccessValidationsTest;
+import com.avaloq.tools.ddk.check.validation.CheckJavaValidatorUtilTest;
+import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
 
 
 /**
@@ -34,10 +37,13 @@ import com.avaloq.tools.ddk.check.formatting.CheckFormattingTest;
   BasicModelTest.class,
   BugAig830.class,
   CheckScopingTest.class,
+  CheckValidationTest.class,
+  CheckJavaValidatorUtilTest.class,
   IssueCodeToLabelMapGenerationTest.class,
   ProjectBasedTests.class,
   BugAig1314.class,
   BugDsl27.class,
+  CheckApiAccessValidationsTest.class,
   CheckFormattingTest.class
   // @Format-On
 })

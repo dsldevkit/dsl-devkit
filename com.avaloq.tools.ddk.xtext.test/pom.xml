@@ -19,6 +19,7 @@
         <configuration>
           <trimStackTrace>false</trimStackTrace>
           <skip>false</skip>
+          <providerHint>junit5</providerHint>
           <testClass>${test.testClass}</testClass>
           <failIfNoTests>false</failIfNoTests>
           <useUIThread>false</useUIThread>
