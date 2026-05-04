@@ -50,6 +50,27 @@ jobs:
         # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
         # This ensures all violations are collected and reported before the build fails
         run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+      - name: Fail on zero test discovery
+        # Tycho-Surefire reports `Tests run: 0` as success — fail the job if no tests ran.
+        if: always()
+        run: |
+          total=$(find . -path '*/target/surefire-reports/TEST-*.xml' -print0 \
+            | xargs -0 -r grep -h '<testsuite ' \
+            | grep -oE 'tests="[0-9]+"' \
+            | grep -oE '[0-9]+' \
+            | awk '{ s += $1 } END { print s+0 }')
+          echo "Total tests reported across all surefire-reports: $total"
+          if [ "$total" -eq 0 ]; then
+            echo "::error::No tests ran. Test discovery is likely broken."
+            exit 1
+          fi
+      - name: Upload surefire reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
+        with:
+          name: surefire-reports
+          path: '**/target/surefire-reports/**/*.xml'
+          if-no-files-found: warn
       - name: Archive Tycho Surefire Plugin
         if: ${{ failure() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
