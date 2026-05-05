@@ -29,7 +29,7 @@ import com.google.inject.Inject;
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-class CheckJavaValidatorUtilTest {
+public class CheckJavaValidatorUtilTest {
 
   // assertion messages.
   private static final String STARTS_WITH_LOWER_CASE = "starts with lower case";
