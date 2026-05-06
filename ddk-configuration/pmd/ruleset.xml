@@ -30,6 +30,7 @@
     <exclude name="DoNotTerminateVM"/>
     <exclude name="JumbledIncrementer"/><!--Checkstyle-->
     <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
+    <exclude name="InvalidLogMessageFormat"/><!--Conflicts with the SLF4J trailing-Throwable idiom `LOGGER.x("...{}...", arg, throwable)`, which SLF4J documents as the intended way to log a parameterized message with an exception. See https://www.slf4j.org/faq.html#paramException -->
     <exclude name="NullAssignment"/>
     <exclude name="SingleMethodSingleton"/>
     <exclude name="UseEqualsToCompareStrings"/><!--Checkstyle-->
