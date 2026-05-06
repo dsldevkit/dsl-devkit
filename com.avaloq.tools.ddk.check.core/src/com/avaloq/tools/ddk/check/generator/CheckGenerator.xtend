@@ -16,6 +16,7 @@ import com.google.inject.Inject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractFileSystemAccess
 import org.eclipse.xtext.generator.IFileSystemAccess
+import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.xbase.compiler.JvmModelGenerator
 
 import static org.eclipse.xtext.xbase.lib.IteratorExtensions.*
@@ -36,15 +37,16 @@ class CheckGenerator extends JvmModelGenerator {
   @Inject ICheckGeneratorConfigProvider generatorConfigProvider;
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-    super.doGenerate(resource, fsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
+    val lfFsa = new LfNormalizingFileSystemAccess(fsa as IFileSystemAccess2)
+    super.doGenerate(resource, lfFsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
     val config = generatorConfigProvider.get(resource?.URI);
     for (catalog : toIterable(resource.allContents).filter(typeof(CheckCatalog))) {
 
-      fsa.generateFile(catalog.issueCodesFilePath, catalog.compileIssueCodes)
-      fsa.generateFile(catalog.standaloneSetupPath, catalog.compileStandaloneSetup)
+      lfFsa.generateFile(catalog.issueCodesFilePath, catalog.compileIssueCodes)
+      lfFsa.generateFile(catalog.standaloneSetupPath, catalog.compileStandaloneSetup)
 
       // change output path for service registry
-      fsa.generateFile(
+      lfFsa.generateFile(
         CheckUtil::serviceRegistryClassName,
         CheckGeneratorConstants::CHECK_REGISTRY_OUTPUT,
         catalog.generateServiceRegistry(CheckUtil::serviceRegistryClassName, fsa)
@@ -52,7 +54,7 @@ class CheckGenerator extends JvmModelGenerator {
       // generate documentation for SCA-checks only
       if(config !== null && (config.doGenerateDocumentationForAllChecks || !config.generateLanguageInternalChecks)){
         // change output path for html files to docs/
-        fsa.generateFile(catalog.docFileName, CheckGeneratorConstants::CHECK_DOC_OUTPUT, catalog.compileDoc)
+        lfFsa.generateFile(catalog.docFileName, CheckGeneratorConstants::CHECK_DOC_OUTPUT, catalog.compileDoc)
       }
     }
   }
