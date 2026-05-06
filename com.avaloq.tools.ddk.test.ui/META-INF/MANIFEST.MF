@@ -28,6 +28,8 @@ Export-Package: com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.test.ui.swtbot,
  com.avaloq.tools.ddk.test.ui.swtbot.condition,
  com.avaloq.tools.ddk.test.ui.swtbot.util
-Import-Package: org.slf4j, org.apache.logging.log4j
+Import-Package: org.apache.logging.log4j,
+ org.junit.jupiter.api;version="[5.14.0,6.0.0)",
+ org.slf4j
 Eclipse-RegisterBuddy: org.eclipse.swtbot.swt.finder
 Automatic-Module-Name: com.avaloq.tools.ddk.test.ui
