@@ -18,7 +18,7 @@ import com.avaloq.tools.ddk.test.ui.test.swtbot.SwtBotRadioTest;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit annotations.
  */
 @Suite
 @SelectClasses({

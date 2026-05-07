@@ -29,7 +29,7 @@ import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit annotations.
  */
 // CHECKSTYLE:OFF HideUtilityClassConstructor
 
