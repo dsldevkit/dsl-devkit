@@ -1,0 +1,304 @@
+name: publish
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [master]
+    tags: ['v*']
+
+concurrency:
+  group: publish-ghpages-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          server-id: github
+
+      - name: Log tool versions
+        run: |
+          java --version
+          mvn --version
+
+      - name: Set up workspace
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-publish-${{ hashFiles('**/pom.xml', '**/*.target') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-publish-
+            ${{ runner.os }}-maven-0-
+
+      - name: Determine release version
+        id: version
+        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          CURRENT=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout -f ./ddk-parent/pom.xml)
+          EXPECTED="${CURRENT%-SNAPSHOT}"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="$EXPECTED"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+            if [ "$VERSION" != "$EXPECTED" ]; then
+              echo "::error::Tag version $VERSION does not match pom version $EXPECTED (from $CURRENT)"
+              exit 1
+            fi
+          fi
+
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "release=true" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare release
+        if: steps.version.outputs.release == 'true'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          mvn -f ./ddk-parent/pom.xml \
+            org.eclipse.tycho:tycho-versions-plugin:set-version \
+            -DnewVersion="$RELEASE_VERSION" \
+            --batch-mode
+          git add -A
+          git commit -m "Release $RELEASE_VERSION"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            git tag "v$RELEASE_VERSION"
+            git push origin "v$RELEASE_VERSION"
+          fi
+
+      - name: Build and deploy
+        run: |
+          REPO_URL="https://maven.pkg.github.com/${{ github.repository }}"
+          xvfb-run mvn clean deploy \
+            -f ./ddk-parent/pom.xml \
+            -DreleaseRepoId=github \
+            -DreleaseRepoName="GitHub Packages" \
+            -DreleaseRepoUrl="$REPO_URL" \
+            -DsnapshotRepoId=github \
+            -DsnapshotRepoName="GitHub Packages" \
+            -DsnapshotRepoUrl="$REPO_URL" \
+            -Dp2ArtifactoryReleaseRepoId=github \
+            -Dp2ArtifactoryReleaseRepoName="GitHub Packages" \
+            -Dp2ArtifactoryReleaseRepoUrl="$REPO_URL" \
+            -Dp2ArtifactorySnapshotRepoId=github \
+            -Dp2ArtifactorySnapshotRepoName="GitHub Packages" \
+            -Dp2ArtifactorySnapshotRepoUrl="$REPO_URL" \
+            --batch-mode
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload p2 update site as artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
+        with:
+          name: p2-update-site-${{ github.sha }}
+          path: ddk-repository/target/repository/
+          retention-days: 30
+
+      - name: Check out gh-pages branch
+        id: checkout-gh-pages
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 1
+        continue-on-error: true
+
+      - name: Bootstrap gh-pages branch if missing
+        if: steps.checkout-gh-pages.outcome != 'success'
+        run: |
+          rm -rf gh-pages
+          mkdir gh-pages
+          cd gh-pages
+          git init -b gh-pages
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish p2 update site to gh-pages
+        run: |
+          cd gh-pages
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          if [ -n "$RELEASE_VERSION" ]; then
+            TARGET="p2/releases/$RELEASE_VERSION"
+            REF_DESC="release $RELEASE_VERSION"
+          else
+            TARGET="p2/snapshots/${GITHUB_SHA::8}"
+            REF_DESC="snapshot ${GITHUB_SHA::8}"
+          fi
+
+          rm -rf "$TARGET"
+          mkdir -p "$TARGET"
+          cp -r ../ddk-repository/target/repository/. "$TARGET/"
+
+          if [ -n "$RELEASE_VERSION" ]; then
+            HIGHEST=$(ls -1 p2/releases | grep -v latest | sort -Vr | head -1)
+            rm -rf p2/releases/latest
+            cp -r "p2/releases/$HIGHEST" p2/releases/latest
+          else
+            rm -rf p2/snapshots/latest
+            cp -r "p2/snapshots/${GITHUB_SHA::8}" p2/snapshots/latest
+            # Prune snapshots to last 20
+            if [ -d p2/snapshots ]; then
+              (cd p2/snapshots && ls -1t | grep -v latest | tail -n +21 | xargs -I{} rm -rf "{}")
+            fi
+          fi
+
+          # Generate index.html
+          {
+            echo '<!DOCTYPE html>'
+            echo '<html><body>'
+            echo '<h1>DSL DevKit p2 Repository</h1>'
+            echo '<h2>Snapshots</h2>'
+            echo '<ul>'
+            if [ -d p2/snapshots/latest ]; then
+              echo '  <li><a href="p2/snapshots/latest/">Latest Snapshot</a></li>'
+            fi
+            if [ -d p2/snapshots ]; then
+              for s in $(cd p2/snapshots && ls -1t | grep -v latest | head -20); do
+                echo "  <li><a href=\"p2/snapshots/$s/\">$s</a></li>"
+              done
+            fi
+            echo '</ul>'
+            if [ -d p2/releases ] && [ -n "$(ls -A p2/releases 2>/dev/null)" ]; then
+              echo '<h2>Releases</h2>'
+              echo '<ul>'
+              if [ -d p2/releases/latest ]; then
+                echo '  <li><a href="p2/releases/latest/">Latest Release</a></li>'
+              fi
+              for v in $(ls -1 p2/releases | grep -v latest | sort -Vr); do
+                echo "  <li><a href=\"p2/releases/$v/\">$v</a></li>"
+              done
+              echo '</ul>'
+            fi
+            echo '</body></html>'
+          } > index.html
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish"
+            exit 0
+          fi
+          git commit -m "Publish $REF_DESC"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:gh-pages; then
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; fetching and rebasing"
+            git fetch origin gh-pages
+            git rebase origin/gh-pages
+          done
+          echo "Failed to push gh-pages after 3 attempts"
+          exit 1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release with p2 update site
+        if: steps.version.outputs.release == 'true'
+        run: |
+          cd ddk-repository/target
+          zip -r p2-update-site.zip repository/
+          gh release create "v$RELEASE_VERSION" \
+            p2-update-site.zip \
+            --generate-notes \
+            --title "Release $RELEASE_VERSION"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create version bump PR
+        if: steps.version.outputs.release == 'true'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          rm -rf gh-pages
+
+          MAJOR=$(echo "$RELEASE_VERSION" | cut -d. -f1)
+          MINOR=$(echo "$RELEASE_VERSION" | cut -d. -f2)
+          PATCH=$(echo "$RELEASE_VERSION" | cut -d. -f3)
+
+          if [ "$PATCH" -gt 0 ]; then
+            NEXT="${MAJOR}.${MINOR}.$((PATCH + 1))-SNAPSHOT"
+            BASE_BRANCH="release/${MAJOR}.${MINOR}.x"
+          elif [ "$MINOR" -ge 4 ]; then
+            NEXT="$((MAJOR + 1)).0.0-SNAPSHOT"
+            BASE_BRANCH="master"
+          else
+            NEXT="${MAJOR}.$((MINOR + 1)).0-SNAPSHOT"
+            BASE_BRANCH="master"
+          fi
+
+          git fetch origin "$BASE_BRANCH"
+          git checkout -f "$BASE_BRANCH"
+          mvn -f ./ddk-parent/pom.xml \
+            org.eclipse.tycho:tycho-versions-plugin:set-version \
+            -DnewVersion="$NEXT" \
+            --batch-mode
+          BRANCH="chore/bump-$NEXT"
+          git checkout -b "$BRANCH"
+          git add -u
+          git commit -m "chore: bump to $NEXT"
+          git push origin "$BRANCH" --force
+          gh pr create \
+            --base "$BASE_BRANCH" \
+            --head "$BRANCH" \
+            --title "chore: bump to $NEXT" \
+            --body "Automated version bump after release $RELEASE_VERSION. Merge to start the next development cycle."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up old Maven snapshots
+        if: steps.version.outputs.release != 'true'
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          KEEP=20
+          echo "Pruning all but last $KEEP versions per package"
+
+          ENTITY_TYPE=$(gh api "/users/$OWNER" -q '.type' 2>/dev/null || echo "User")
+          if [ "$ENTITY_TYPE" = "Organization" ]; then
+            API_PREFIX="/orgs/$OWNER"
+          else
+            API_PREFIX="/users/$OWNER"
+          fi
+
+          gh api "$API_PREFIX/packages?package_type=maven" --paginate -q '.[].name' | \
+          while read -r PKG; do
+            gh api "$API_PREFIX/packages/maven/$PKG/versions" --paginate \
+              -q 'sort_by(.created_at) | reverse | .[].id' | tail -n +$((KEEP + 1)) | \
+            while read -r VID; do
+              echo "  Deleting $PKG version $VID"
+              gh api --method DELETE "$API_PREFIX/packages/maven/$PKG/versions/$VID" || true
+            done
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Release workflow:
+#   Snapshots:  every push to master → build, deploy, p2/snapshots/<sha>/ (last 20 kept)
+#   Release:    click "Run workflow" or push v* tag → build, deploy, p2/releases/<version>/
+#   Bump:       automatic PR after each release (0-4 minor cycle, then major)
+#   Patches:    push v* tag from release/X.Y.x branch → bump PR targets release branch
+#
+# p2 repository URLs (GitHub Pages):
+#   Latest snapshot: https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/
+#   Pinned snapshot: https://dsldevkit.github.io/dsl-devkit/p2/snapshots/<sha>/
+#   Latest release:  https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/
+#   Pinned release:  https://dsldevkit.github.io/dsl-devkit/p2/releases/{version}/
