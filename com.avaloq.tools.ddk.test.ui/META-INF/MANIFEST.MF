@@ -25,7 +25,6 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.eclipse.emf.common,
  com.avaloq.tools.ddk
 Export-Package: com.avaloq.tools.ddk.test.ui,
- com.avaloq.tools.ddk.test.ui.junit.runners,
  com.avaloq.tools.ddk.test.ui.swtbot,
  com.avaloq.tools.ddk.test.ui.swtbot.condition,
  com.avaloq.tools.ddk.test.ui.swtbot.util
