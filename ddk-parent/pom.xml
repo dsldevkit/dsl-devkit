@@ -64,6 +64,17 @@
     <!-- Baseline version validation -->
     <baseline.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/</baseline.repo.url>
     <snapshot.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/</snapshot.repo.url>
+
+    <!--
+      Opt-in flag for per-module tycho-surefire execution. Defaults to `true`
+      so that the aggregator in `com.avaloq.tools.ddk.xtext.test` remains the
+      single point of test execution (no double-execution of tests already
+      pulled in via the aggregator's Require-Bundle path). Per-module test
+      bundles that have their own tycho-surefire configuration should bind
+      their `<skip>` to this property so that focused dev workflows can opt
+      in via `-Dddk.skipPerModuleTests=false -pl :the.module -am`.
+    -->
+    <ddk.skipPerModuleTests>true</ddk.skipPerModuleTests>
   </properties>
 
   <modules>
