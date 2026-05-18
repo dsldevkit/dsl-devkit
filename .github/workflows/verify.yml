@@ -4,30 +4,6 @@ on:
     branches: [master]
   pull_request:
 jobs:
-  pmd:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-      - name: Set up Workspace Environment Variable
-        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: PMD Check
-        run: mvn pmd:pmd pmd:cpd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
-  checkstyle:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-      - name: Set up Workspace Environment Variable
-        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Checkstyle Check
-        run: mvn checkstyle:checkstyle checkstyle:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
   line-endings:
     runs-on: ubuntu-24.04
     steps:
@@ -46,6 +22,90 @@ jobs:
             echo "$violations"
             exit 1
           fi
+  pmd-checkstyle-analyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Compile + generate PMD/Checkstyle reports
+        # Report goals never fail the build, so every module's XML is produced — no
+        # Maven cascade-skip. `compile` runs in the same invocation so PMD's
+        # type-resolving rules (e.g. InvalidLogMessageFormat) get the aux-classpath they
+        # need; without it, those rules misfire on idioms like SLF4J's trailing-Throwable.
+        run: |
+          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-at-end \
+            compile \
+            pmd:pmd pmd:cpd \
+            checkstyle:checkstyle
+      - name: Annotate + count PMD/Checkstyle violations
+        # Emits one GitHub workflow-command annotation per violation (visible inline in
+        # PR Files-changed) and exits 1 if any are found. Runs even if a previous step
+        # failed so partial reports still surface as annotations.
+        if: always()
+        run: python3 .github/scripts/annotate-violations.py --pmd --checkstyle
+  spotbugs-analyze:
+    runs-on: ubuntu-24.04
+    env:
+      MAVEN_OPTS: -Xmx4g
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Compile + generate SpotBugs report
+        run: |
+          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-at-end \
+            compile \
+            spotbugs:spotbugs
+      - name: Annotate + count SpotBugs violations
+        if: always()
+        run: python3 .github/scripts/annotate-violations.py --spotbugs
+  maven-gate:
+    # Authoritative Maven-side validation. Runs every analyzer's :check goal in one
+    # invocation so they share aux-classpath and JVM state. Defense against the Python
+    # parser misreading XML schema; if Maven and Python ever disagree on violations,
+    # this job surfaces the divergence.
+    runs-on: ubuntu-24.04
+    env:
+      MAVEN_OPTS: -Xmx4g
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Set up Workspace Environment Variable
+        run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+      - name: Compile + run all :check goals
+        run: |
+          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-at-end \
+            compile \
+            pmd:check pmd:cpd-check \
+            checkstyle:check \
+            spotbugs:check
   maven-verify:
     runs-on: ubuntu-24.04
     steps:
@@ -64,10 +124,11 @@ jobs:
         with:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
-      - name: Build with Maven  within a virtual X Server Environment
-        # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
-        # This ensures all violations are collected and reported before the build fails
-        run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+      - name: Build with Maven within a virtual X Server Environment
+        # Tests aren't safely parallelizable across modules in this codebase (shared
+        # workspace state), so no -T flag here. Static-analysis :check goals are
+        # handled in the maven-gate job, not duplicated here.
+        run: xvfb-run mvn clean verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Fail on missing surefire reports
         # Tycho-Surefire writes no TEST-*.xml when discovery is empty — fail the job in that case.
         if: always()
