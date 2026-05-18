@@ -10,4 +10,85 @@
   <artifactId>com.avaloq.tools.ddk.xtext.export.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
 
+  <!--
+    Opt-in to per-module test execution. Default (`ddk.skipPerModuleTests=true`)
+    leaves test execution to the aggregator in `com.avaloq.tools.ddk.xtext.test`,
+    so default `mvn verify` runs the export tests exactly once. Focused
+    iteration uses:
+
+      mvn verify -pl :com.avaloq.tools.ddk.xtext.export.test -am \
+                 -Dddk.skipPerModuleTests=false -f ./ddk-parent/pom.xml
+  -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <trimStackTrace>false</trimStackTrace>
+          <skip>${ddk.skipPerModuleTests}</skip>
+          <testClass>com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite</testClass>
+          <failIfNoTests>false</failIfNoTests>
+          <useUIThread>false</useUIThread>
+          <useUIHarness>true</useUIHarness>
+          <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
+          <!--
+            `-Dorg.osgi.framework.system.packages.extra=jdk.incubator.vector`
+            is required on macOS where Adoptium/Temurin JDKs do not expose
+            the incubator module that Lucene 9.12 (transitively required by
+            org.eclipse.help.base, pulled in by `org.eclipse.help` feature)
+            imports. Without it, the Eclipse OSGi framework fails to resolve
+            org.eclipse.help.base at runtime startup.
+          -->
+          <argLine>-Dorg.osgi.framework.system.packages.extra=jdk.incubator.vector -Dslf4j.internal.verbosity=ERROR -Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
+          <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
+          <product>${runtime.product}</product>
+          <application>org.eclipse.ui.ide.workbench</application>
+          <dependencies>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.platform.feature.group</artifactId>
+            </dependency>
+          </dependencies>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <dependency-resolution>
+            <extraRequirements>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.xtext.sdk</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.pde</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.help</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.rcp</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.equinox.event</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+            </extraRequirements>
+          </dependency-resolution>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
