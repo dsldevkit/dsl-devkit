@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup:Project
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
+    xmlns:jdt="http://www.eclipse.org/oomph/setup/jdt/1.0"
+    xmlns:pde="http://www.eclipse.org/oomph/setup/pde/1.0"
+    xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
+    xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
+    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
+    xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
+    xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
+    xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/WorkingSets.ecore"
+    name="ddk"
+    label="DSL Developer Kit">
+  <setupTask
+      xsi:type="jdt:JRETask"
+      version="JavaSE-21"
+      location="${jre.location-21}">
+    <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Xmx"
+      value="4084m"
+      vm="true">
+    <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Declipse.p2.mirrors"
+      value="false">
+    <description>Disable P2 Mirroring</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:ResourceCreationTask"
+      excludedTriggers="STARTUP MANUAL"
+      targetURL="${workspace.location|uri}/.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml"
+      encoding="UTF-8">
+    <description>Initialize JDT's package explorer to show working sets as its root objects</description>
+    <content>
+      &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>
+      &lt;section name=&quot;Workbench&quot;>
+        &lt;section name=&quot;org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart&quot;>
+          &lt;item value=&quot;true&quot; key=&quot;group_libraries&quot;/>
+          &lt;item value=&quot;false&quot; key=&quot;linkWithEditor&quot;/>
+          &lt;item value=&quot;2&quot; key=&quot;layout&quot;/>
+          &lt;item value=&quot;2&quot; key=&quot;rootMode&quot;/>
+          &lt;item value=&quot;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;packageExplorer configured=&amp;quot;true&amp;quot; group_libraries=&amp;quot;1&amp;quot; layout=&amp;quot;2&amp;quot; linkWithEditor=&amp;quot;0&amp;quot; rootMode=&amp;quot;2&amp;quot; sortWorkingSets=&amp;quot;false&amp;quot; workingSetName=&amp;quot;&amp;quot;&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;workingSet editPageId=&amp;quot;org.eclipse.jdt.internal.ui.OthersWorkingSet&amp;quot; factoryID=&amp;quot;org.eclipse.ui.internal.WorkingSetFactory&amp;quot; id=&amp;quot;1382792884467_1&amp;quot; label=&amp;quot;Other Projects&amp;quot; name=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/localWorkingSetManager&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;activeWorkingSet workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;allWorkingSets workingSetName=&amp;quot;Other Projects&amp;quot;/&amp;gt;&amp;#x0D;&amp;#x0A;&amp;lt;/packageExplorer&amp;gt;&quot; key=&quot;memento&quot;/>
+        &lt;/section>
+      &lt;/section>
+
+    </content>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.p2:P2Task">
+    <requirement
+        name="org.eclipse.swtbot.forms.feature.group"/>
+    <requirement
+        name="org.eclipse.swtbot.eclipse.feature.group"/>
+    <requirement
+        name="org.eclipse.swtbot.feature.group"/>
+    <requirement
+        name="org.eclipse.swtbot.ide.feature.group"/>
+    <requirement
+        name="org.hamcrest"/>
+    <requirement
+        name="org.hamcrest.core"/>
+    <repository
+        url="https://download.eclipse.org/technology/swtbot/releases/4.2.1/"/>
+    <repository
+        url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.37.0"/>
+    <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="git:GitCloneTask"
+      id="git.clone.ddk"
+      remoteURI="https://github.com/dsldevkit/dsl-devkit.git">
+    <configSections
+        name="core">
+      <properties
+          key="autocrlf"
+          value="false"/>
+    </configSections>
+    <description>${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="projects:ProjectsImportTask"
+      id="projects.import.ddk">
+    <sourceLocator
+        rootFolder="${git.clone.ddk.location}"
+        locateNestedProjects="true"/>
+    <description>Import all projects from the cloned ${scope.project.label} repository</description>
+  </setupTask>
+  <setupTask
+      xsi:type="pde:TargetPlatformTask"
+      name="DDK Target">
+    <predecessor
+        href="#projects.import.ddk"/>
+    <description>Activate the in-repo DDK target platform once projects are imported</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.workingsets:WorkingSetTask"
+      prefix="org.eclipse.ddk-">
+    <workingSet
+        name="Build (DDK)">
+      <predicate
+          xsi:type="predicates:OrPredicate">
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="ddk-.*"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.feature"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.runtime.feature"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="ddk-repository"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="Check DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.check\..*"/>
+    </workingSet>
+    <workingSet
+        name="CheckCfg DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.checkcfg\..*"/>
+    </workingSet>
+    <workingSet
+        name="Export DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.xtext.export\..*"/>
+    </workingSet>
+    <workingSet
+        name="Format DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.xtext.format\..*"/>
+    </workingSet>
+    <workingSet
+        name="Scope DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.xtext.scope\..*"/>
+    </workingSet>
+    <workingSet
+        name="Valid DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.xtext.valid\..*"/>
+    </workingSet>
+    <workingSet
+        name="Expression DSL">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.xtext.expression\..*"/>
+    </workingSet>
+    <workingSet
+        name="Core Framework">
+      <predicate
+          xsi:type="predicates:OrPredicate">
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.builder"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.generator"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.generator.test"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.ide"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.ui"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.ui.test"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.common.*"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.check.generator"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.workflow"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="Testing">
+      <predicate
+          xsi:type="predicates:OrPredicate">
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.test\..*"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.test"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="com.avaloq.tools.ddk.xtext.test.core"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="Type System">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.typesystem.*"/>
+    </workingSet>
+    <workingSet
+        name="Samples">
+      <predicate
+          xsi:type="predicates:NamePredicate"
+          pattern="com.avaloq.tools.ddk.sample\..*"/>
+    </workingSet>
+  </setupTask>
+  <stream name="master"
+      label="Master">
+    <setupTask
+        xsi:type="git:GitCloneTask"
+        id="git.clone.ddk"
+        remoteURI="https://github.com/dsldevkit/dsl-devkit.git"
+        checkoutBranch="master"/>
+  </stream>
+  <description>DSL Developer Kit provides tools for developing domain-specific languages based on Eclipse Xtext.</description>
+</setup:Project>
