@@ -10,29 +10,26 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.generator;
 
-import java.lang.reflect.Field;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.internal.xtend.xtend.ast.Extension;
-import org.eclipse.internal.xtend.xtend.ast.JavaExtensionStatement;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.xtend.expression.ExecutionContext;
-import org.eclipse.xtend.expression.ExpressionFacade;
-import org.eclipse.xtend.expression.Variable;
-import org.eclipse.xtend.typesystem.Operation;
-import org.eclipse.xtend.typesystem.Type;
-import org.eclipse.xtend.typesystem.emf.EClassType;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall;
-import com.google.common.collect.Sets;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.EClassXtendType;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.ExpressionAnalyzer;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.PrimitiveXtendType;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendExecutionContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendExtension;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendOperation;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendType;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendVariable;
 
 
 /**
  * The CompilationContext is used by CodeGeneration.ext to resolve types, get information about local variables, etc. It is a
- * wrapper around {@link ExecutionContext}.
+ * wrapper around {@link XtendExecutionContext}.
  * <p>
  * Note that many of these methods are called from Xtend and will thus not show up when doing a find references in Eclipse.
  */
@@ -42,13 +39,13 @@ public class CompilationContext {
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(CompilationContext.class);
 
-  /** Xtend execution context. */
-  private final ExecutionContext context;
+  /** Execution context. */
+  private final XtendExecutionContext context;
   private final GenModelUtilX genModelUtil;
   /** The name of the Java variable the implicit "this" variable is bound to. */
   private final String implicitVariable;
   /** The type of the implicit "this" variable. */
-  private Type implicitContextType;
+  private XtendType implicitContextType;
 
   /**
    * Analyzes the given expression and returns the type of it.
@@ -57,8 +54,8 @@ public class CompilationContext {
    *          expression to analyze
    * @return type of expression
    */
-  public Type analyze(final Expression expression) {
-    return analyze(ExpressionExtensions.serialize(expression));
+  public XtendType analyze(final Expression expression) {
+    return ExpressionAnalyzer.analyze(expression, context);
   }
 
   /**
@@ -68,30 +65,30 @@ public class CompilationContext {
    *          expression to analyze
    * @return type of expression
    */
-  public Type analyze(final String expression) {
-    return new ExpressionFacade(context).analyze(expression, Sets.newHashSet());
+  public XtendType analyze(final String expression) {
+    return ExpressionAnalyzer.analyzeString(expression);
   }
 
   /**
-   * Creates a new compilation context for the given Xtend context.
+   * Creates a new compilation context for the given execution context.
    * The name of the Java variable to bind "this" is set to "obj".
    *
    * @param context
-   *          xtend context to wrap
+   *          execution context to wrap
    * @param genModelUtil
    *          the gen model utility
    */
-  public CompilationContext(final ExecutionContext context, final GenModelUtilX genModelUtil) {
+  public CompilationContext(final XtendExecutionContext context, final GenModelUtilX genModelUtil) {
     this.context = context;
     this.genModelUtil = genModelUtil;
     this.implicitVariable = "obj"; //$NON-NLS-1$
   }
 
   /**
-   * Creates a new compilation context for the given Xtend context, implicit variable name, and context type.
+   * Creates a new compilation context for the given execution context, implicit variable name, and context type.
    *
    * @param context
-   *          xtend context to wrap
+   *          execution context to wrap
    * @param genModelUtil
    *          the gen model utility
    * @param implicitVar
@@ -99,7 +96,7 @@ public class CompilationContext {
    * @param contextType
    *          type of the Java variable to bind "this" to
    */
-  public CompilationContext(final ExecutionContext context, final GenModelUtilX genModelUtil, final String implicitVar, final Type contextType) {
+  public CompilationContext(final XtendExecutionContext context, final GenModelUtilX genModelUtil, final String implicitVar, final XtendType contextType) {
     this.context = context;
     this.genModelUtil = genModelUtil;
     this.implicitVariable = implicitVar;
@@ -111,12 +108,12 @@ public class CompilationContext {
    *
    * @return execution context
    */
-  public ExecutionContext getExecutionContext() {
+  public XtendExecutionContext getExecutionContext() {
     return context;
   }
 
   /**
-   * Creates a new compilation context for the given Xtend context, implicit variable name, and context type.
+   * Creates a new compilation context with an additional string-typed variable.
    *
    * @param implicitVar
    *          name of the Java variable to bind "this" to
@@ -127,12 +124,12 @@ public class CompilationContext {
    * @return CompilationContext - CompilationContext
    */
   public CompilationContext cloneWithString(final String implicitVar, final EClass contextType, final String variable) {
-    return new CompilationContext(context.cloneWithVariable(new Variable(variable, "")), genModelUtil, implicitVar, contextType != null ? findType(contextType) //$NON-NLS-1$
+    return new CompilationContext(context.cloneWithVariable(new XtendVariable(variable, "")), genModelUtil, implicitVar, contextType != null ? findType(contextType) //$NON-NLS-1$
         : this.implicitContextType);
   }
 
   /**
-   * Creates a new compilation context for the given Xtend context, implicit variable name, and context type.
+   * Creates a new compilation context with an additional typed variable.
    *
    * @param implicitVar
    *          name of the Java variable to bind "this" to
@@ -145,7 +142,7 @@ public class CompilationContext {
    * @return CompilationContext - CompilationContext
    */
   public CompilationContext cloneWithVariable(final String implicitVar, final EClass contextType, final String variable, final String type) {
-    return new CompilationContext(context.cloneWithVariable(new Variable(variable, type)), genModelUtil, implicitVar, contextType != null
+    return new CompilationContext(context.cloneWithVariable(new XtendVariable(variable, type)), genModelUtil, implicitVar, contextType != null
         ? findType(contextType)
         : this.implicitContextType);
   }
@@ -164,7 +161,7 @@ public class CompilationContext {
    *
    * @return currently always returns "org.eclipse.emf.ecore.EObject"
    */
-  public Type getRequiredType() {
+  public XtendType getRequiredType() {
     return findType("ecore::EObject"); //$NON-NLS-1$
   }
 
@@ -180,48 +177,48 @@ public class CompilationContext {
   }
 
   /**
-   * Returns the Xtend type for the given EClass.
+   * Returns the type for the given EClass.
    *
    * @param eClass
-   *          EClass to get corresponding Xtend type for
-   * @return corresponding Xtend type
+   *          EClass to get corresponding type for
+   * @return corresponding type
    */
-  public Type findType(final EClass eClass) {
+  public XtendType findType(final EClass eClass) {
     return findType(eClass.getEPackage().getName() + "::" + eClass.getName()); //$NON-NLS-1$
   }
 
   /**
-   * Returns the Xtend type with the given name.
+   * Returns the type with the given name.
    *
    * @param name
    *          (qualified) name of type to find
-   * @return corresponding Xtend type
+   * @return corresponding type
    */
-  public Type findType(final String name) {
+  public XtendType findType(final String name) {
     return context.getTypeForName(name);
   }
 
   /**
-   * Returns the Xtend type with the given name.
+   * Checks whether the given name corresponds to a type.
    *
    * @param name
    *          (qualified) name of type to find
-   * @return corresponding Xtend type
+   * @return true if the name corresponds to a type
    */
   public boolean isType(final String name) {
     return findType(name) != null;
   }
 
   /**
-   * Returns the Java class name corresponding to the given Xtend type. This works both for builtin types, EMF types, and Java
+   * Returns the Java class name corresponding to the given type. This works both for builtin types, EMF types, and Java
    * types.
    *
    * @param name
-   *          the name of the Xtend type (qualified or not)
+   *          the name of the type (qualified or not)
    * @return the qualified Java class name
    */
   public String javaType(final String name) {
-    Type type = findType(name);
+    XtendType type = findType(name);
     if (type == null) {
       LOGGER.warn("No type found for " + name);
       return name;
@@ -230,17 +227,21 @@ public class CompilationContext {
   }
 
   /**
-   * Returns the Java class name corresponding to the given Xtend type. This works both for builtin types, EMF types, and Java
+   * Returns the Java class name corresponding to the given type. This works both for builtin types, EMF types, and Java
    * types.
    *
    * @param type
-   *          the Xtend type (qualified or not)
+   *          the type
    * @return the qualified Java class name
    */
-  public String javaType(final Type type) {
-    if (type instanceof EClassType) {
-      EClass eClass = getEClass(type);
+  public String javaType(final XtendType type) {
+    if (type instanceof EClassXtendType) {
+      EClass eClass = ((EClassXtendType) type).getEClass();
       return genModelUtil.instanceClassName(eClass);
+    }
+    if (type instanceof PrimitiveXtendType) {
+      Class<?> clazz = ((PrimitiveXtendType) type).getJavaType();
+      return "java.lang".equals(clazz.getPackage().getName()) ? clazz.getSimpleName() : clazz.getName(); //$NON-NLS-1$
     }
     Class<? extends Object> clazz = type.newInstance().getClass();
     return "java.lang".equals(clazz.getPackage().getName()) ? clazz.getSimpleName() : clazz.getName(); //$NON-NLS-1$
@@ -299,7 +300,7 @@ public class CompilationContext {
    * @return new derived compilation context
    */
   public CompilationContext clone(final String implicitVar, final EClass contextType, final String variable, final EClass variableType) {
-    return new CompilationContext(context.cloneWithVariable(new Variable(variable, variableType == null ? new Object()
+    return new CompilationContext(context.cloneWithVariable(new XtendVariable(variable, variableType == null ? new Object()
         : findType(variableType))), genModelUtil, implicitVar, contextType != null ? findType(contextType) : this.implicitContextType);
   }
 
@@ -311,11 +312,11 @@ public class CompilationContext {
    * @return qualified type name of given type
    */
   public String getQualifiedTypeName(final String typeName) {
-    final Type type = findType(typeName);
+    final XtendType type = findType(typeName);
 
     try {
-      if (type instanceof EClassType) {
-        EClass eClass = getEClass(type);
+      if (type instanceof EClassXtendType) {
+        EClass eClass = ((EClassXtendType) type).getEClass();
         return eClass.getEPackage().getName() + "::" + eClass.getName(); //$NON-NLS-1$
       }
       // CHECKSTYLE:OFF
@@ -324,41 +325,33 @@ public class CompilationContext {
     }
     // CHECKSTYLE:ON
 
-    return type.getName();
+    return type != null ? type.getName() : typeName;
   }
 
   /**
-   * Gets the eClass.
+   * Gets the eClass from a type.
    *
    * @param type
    *          the type
    * @return the eClass or NULL
    */
-  public EClass getEClass(final Type type) {
-    if (type instanceof EClassType) {
-      try {
-        Field field = EClassType.class.getDeclaredField("eClass");
-        field.setAccessible(true);
-        return (EClass) field.get(type);
-        // CHECKSTYLE:OFF
-      } catch (Exception e) {
-        // CHECKSTYLE:ON
-        LOGGER.error("Could not determine EClass for " + type, e);
-      }
+  public EClass getEClass(final XtendType type) {
+    if (type instanceof EClassXtendType) {
+      return ((EClassXtendType) type).getEClass();
     }
     return null;
   }
 
   /**
-   * Gets the eClass.
+   * Gets the eClass from an object.
    *
    * @param type
    *          the type
    * @return the eClass or NULL
    */
   public EClass getEClass(final Object type) {
-    if (type instanceof Type) {
-      return getEClass((Type) type);
+    if (type instanceof XtendType) {
+      return getEClass((XtendType) type);
     }
     return null;
   }
@@ -372,7 +365,7 @@ public class CompilationContext {
    */
   // TODO fix heuristic with proper type analysis
   public Boolean isExtension(final String name) {
-    for (final Extension e : context.getAllExtensions()) {
+    for (final XtendExtension e : context.getAllExtensions()) {
       if (e.getName().equals(name)) {
         return true;
       }
@@ -388,14 +381,10 @@ public class CompilationContext {
    * @return the called java method or NULL
    */
   public String getCalledJavaMethod(final OperationCall expression) {
-    // TODO ctx.getExtensionForTypes(expression.getName(), ...);
     try {
-      for (final Extension e : context.getAllExtensions()) {
-        if (e instanceof JavaExtensionStatement) {
-          final JavaExtensionStatement je = (JavaExtensionStatement) e;
-          if (je.getName().equals(expression.getName())) {
-            return je.getJavaType() + "." + je.getJavaMethodName(); //$NON-NLS-1$
-          }
+      for (final XtendExtension e : context.getAllExtensions()) {
+        if (e.isJavaExtension() && e.getName().equals(expression.getName())) {
+          return e.getJavaType() + "." + e.getJavaMethodName(); //$NON-NLS-1$
         }
       }
       // CHECKSTYLE:OFF
@@ -420,7 +409,7 @@ public class CompilationContext {
       return false;
     }
 
-    for (final Operation operation : implicitContextType.getAllOperations()) {
+    for (final XtendOperation operation : implicitContextType.getAllOperations()) {
       if (operation.getName().equals(expression.getName()) && operation.getParameterTypes().size() == expression.getParams().size()) {
         return true;
       }
