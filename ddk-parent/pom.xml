@@ -425,5 +425,16 @@
         <test.javaOptions>${runtime.javaOptions} -XstartOnFirstThread</test.javaOptions>
       </properties>
     </profile>
+    <profile>
+      <id>default-workspace</id>
+      <activation>
+        <property>
+          <name>!env.WORKSPACE</name>
+        </property>
+      </activation>
+      <properties>
+        <workspace>${maven.multiModuleProjectDirectory}</workspace>
+      </properties>
+    </profile>
   </profiles>
 </project>
