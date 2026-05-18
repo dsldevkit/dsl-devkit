@@ -41,11 +41,6 @@ mvn clean verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext
 mvn checkstyle:check pmd:check spotbugs:check -f ./ddk-parent/pom.xml
 ```
 
-**Important**: Set `WORKSPACE` environment variable to project root before building:
-```bash
-export WORKSPACE=$(pwd)
-```
-
 ## Quality Tools
 
 ### PMD
