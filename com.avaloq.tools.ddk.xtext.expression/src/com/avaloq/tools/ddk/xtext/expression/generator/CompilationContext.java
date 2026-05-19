@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.internal.xtend.xtend.ast.Extension;
 import org.eclipse.internal.xtend.xtend.ast.JavaExtensionStatement;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtend.expression.ExecutionContext;
 import org.eclipse.xtend.expression.ExpressionFacade;
 import org.eclipse.xtend.expression.Variable;
