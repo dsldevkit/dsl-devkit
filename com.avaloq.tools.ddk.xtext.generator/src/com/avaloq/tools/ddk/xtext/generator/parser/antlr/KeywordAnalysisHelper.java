@@ -11,11 +11,12 @@
 
 package com.avaloq.tools.ddk.xtext.generator.parser.antlr;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -178,99 +179,102 @@ public final class KeywordAnalysisHelper {
    *           if an I/O error occurs
    */
   public void printViolations(final String srcGenPath) {
-    try {
-      String fileName = getKeywordsDiagnosticReportFileName(srcGenPath);
-      PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8);
-      writer.println("Please check in this file, so a diff can be used to detect unexpected changes");
-      writer.println();
-      writer.println("  identifiers rejected    - are not listed in MWE2 file as reserved words");
-      writer.println("                            (or keywords), but are not accepted by the rule.");
-      writer.println("  reserved words accepted - listed in MWE2 as reserved, but accepted.");
-      writer.println();
-      writer.println("Read more on https://ddk.tools.avaloq.com/keywords.html");
-      writer.println();
-      writer.println("Specification");
-      writer.println();
-      writer.println("RESERVED WORDS");
+    String fileName = getKeywordsDiagnosticReportFileName(srcGenPath);
+    try (BufferedWriter writer = Files.newBufferedWriter(new File(fileName).toPath(), StandardCharsets.UTF_8)) {
+      writeLine(writer, "Please check in this file, so a diff can be used to detect unexpected changes");
+      writeLine(writer, "");
+      writeLine(writer, "  identifiers rejected    - are not listed in MWE2 file as reserved words");
+      writeLine(writer, "                            (or keywords), but are not accepted by the rule.");
+      writeLine(writer, "  reserved words accepted - listed in MWE2 as reserved, but accepted.");
+      writeLine(writer, "");
+      writeLine(writer, "Read more on https://ddk.tools.avaloq.com/keywords.html");
+      writeLine(writer, "");
+      writeLine(writer, "Specification");
+      writeLine(writer, "");
+      writeLine(writer, "RESERVED WORDS");
       int count = 0;
       String indent = "        ";
       for (String word : reservedWords) {
         if (count++ % WORDS_PER_ROW == 0) {
-          writer.println();
-          writer.print(indent);
+          writeLine(writer, "");
+          writer.write(indent);
         }
-        writer.print(Strings.padEnd(word, WORDS_PADDING, ' '));
+        writer.write(Strings.padEnd(word, WORDS_PADDING, ' '));
       }
-      writer.println();
-      writer.println();
-      writer.println("KEYWORDS");
+      writeLine(writer, "");
+      writeLine(writer, "");
+      writeLine(writer, "KEYWORDS");
       count = 0;
       for (String word : keywordsSpec) {
         if (count++ % WORDS_PER_ROW == 0) {
-          writer.println();
-          writer.print(indent);
+          writeLine(writer, "");
+          writer.write(indent);
         }
-        writer.print(Strings.padEnd(word, WORDS_PADDING, ' '));
+        writer.write(Strings.padEnd(word, WORDS_PADDING, ' '));
       }
-      writer.println();
+      writeLine(writer, "");
       boolean problemsReported = false;
       for (String ruleName : keywordsViolatingSpec.keySet()) {
-        writer.println();
-        writer.print("RULE: ");
-        writer.println(ruleName);
+        writeLine(writer, "");
+        writer.write("RULE: ");
+        writeLine(writer, ruleName);
         Set<String> kwSet = keywordsViolatingSpec.get(ruleName);
-        writer.println("    Identifiers rejected (PROBLEM if non empty): ");
+        writeLine(writer, "    Identifiers rejected (PROBLEM if non empty): ");
         for (String kw : Sets.difference(kwSet, keywordsSpec)) {
           problemsReported = true; // only rejected are real problems
-          writer.print(indent);
-          writer.println(kw);
+          writer.write(indent);
+          writeLine(writer, kw);
         }
-        writer.println();
+        writeLine(writer, "");
         Set<String> rwSet = keywordsSofterThanSpec.get(ruleName);
-        writer.println("    Reserved words rejected: ");
+        writeLine(writer, "    Reserved words rejected: ");
         for (String kw : Sets.difference(reservedWords, rwSet)) {
-          writer.print(indent);
-          writer.println(kw);
+          writer.write(indent);
+          writeLine(writer, kw);
         }
-        writer.println();
-        writer.println("    Reserved words accepted: ");
+        writeLine(writer, "");
+        writeLine(writer, "    Reserved words accepted: ");
         for (String kw : rwSet) {
-          writer.print(indent);
-          writer.println(kw);
+          writer.write(indent);
+          writeLine(writer, kw);
         }
-        writer.println();
-        writer.println("    Keywords rejected: ");
+        writeLine(writer, "");
+        writeLine(writer, "    Keywords rejected: ");
         for (String kw : Sets.intersection(keywordsSpec, kwSet)) {
-          writer.print(indent);
-          writer.println(kw);
+          writer.write(indent);
+          writeLine(writer, kw);
         }
-        writer.println();
-        writer.println("    Keywords accepted: ");
+        writeLine(writer, "");
+        writeLine(writer, "    Keywords accepted: ");
         for (String kw : Sets.difference(keywordsSpec, kwSet)) {
-          writer.print(indent);
-          writer.println(kw);
+          writer.write(indent);
+          writeLine(writer, kw);
         }
-        writer.println();
+        writeLine(writer, "");
       }
       if (problemsReported) {
         LOGGER.error("REJECTED KEYWORDS BY ID RULES DETECTED.");
         LOGGER.error("Read {} !", fileName);
-        writer.println();
-        writer.println("(!) Problems were detected: neither reserved words nor keywords, but rejected by identifier rules");
-        writer.println("Use " + Path.fromPortableString(getReportFileName(srcGenPath)).lastSegment() + " to find out why these words are keywords.");
+        writeLine(writer, "");
+        writeLine(writer, "(!) Problems were detected: neither reserved words nor keywords, but rejected by identifier rules");
+        writeLine(writer, "Use " + Path.fromPortableString(getReportFileName(srcGenPath)).lastSegment() + " to find out why these words are keywords.");
       }
-      writer.println();
-      writer.println("The following rules were not checked, but might also be relevant");
+      writeLine(writer, "");
+      writeLine(writer, "The following rules were not checked, but might also be relevant");
       for (String ruleName : uncheckedRules) {
-        writer.print(indent);
-        writer.println(ruleName);
+        writer.write(indent);
+        writeLine(writer, ruleName);
       }
-      writer.println("if any of them is used to parse identifiers, add them to identifierRules in MWE2 file");
-      writer.close();
+      writeLine(writer, "if any of them is used to parse identifiers, add them to identifierRules in MWE2 file");
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
 
+  /** Write {@code line} followed by an LF newline, regardless of platform. */
+  private static void writeLine(final BufferedWriter writer, final String line) throws IOException {
+    writer.write(line);
+    writer.write('\n');
   }
 
   /**
@@ -439,19 +443,19 @@ public final class KeywordAnalysisHelper {
    *           if an I/O error occurs
    */
   public void printReport(final String srcGenPath) {
-    try {
-      String fileName = getReportFileName(srcGenPath);
-      PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8);
-      writer.print(report.build());
-      writer.close();
-      String docuFileName = getDocFileName(srcGenPath);
-      PrintWriter docuWriter = new PrintWriter(new File(docuFileName), StandardCharsets.UTF_8);
-      docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
-      docuWriter.close();
-      LOGGER.info("report on keywords is written into {}", fileName);
+    String fileName = getReportFileName(srcGenPath);
+    String docuFileName = getDocFileName(srcGenPath);
+    try (BufferedWriter writer = Files.newBufferedWriter(new File(fileName).toPath(), StandardCharsets.UTF_8)) {
+      writer.write(report.build());
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+    try (BufferedWriter docuWriter = Files.newBufferedWriter(new File(docuFileName).toPath(), StandardCharsets.UTF_8)) {
+      docuWriter.write(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+    LOGGER.info("report on keywords is written into {}", fileName);
   }
 
   /**
