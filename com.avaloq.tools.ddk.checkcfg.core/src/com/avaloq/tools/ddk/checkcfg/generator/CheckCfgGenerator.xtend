@@ -10,14 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.generator
 
-import com.avaloq.tools.ddk.check.generator.LfNormalizingFileSystemAccess
 import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractFileSystemAccess
 import org.eclipse.xtext.generator.IFileSystemAccess
-import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGenerator
 
 import static org.eclipse.xtext.xbase.lib.IteratorExtensions.*
@@ -39,9 +37,8 @@ class CheckCfgGenerator implements IGenerator {
     if (fsa instanceof AbstractFileSystemAccess) {
       fsa.setOutputPath(outputPath)
     }
-    val lfFsa = new LfNormalizingFileSystemAccess(fsa as IFileSystemAccess2)
     for (configuration:toIterable(resource.allContents).filter(typeof(CheckConfiguration))) {
-      lfFsa.generateFile(configuration.fileName, configuration.compile)
+      fsa.generateFile(configuration.fileName, configuration.compile)
     }
   }
 
