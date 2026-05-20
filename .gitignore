@@ -11,3 +11,8 @@
 
 # macOS
 .DS_Store
+
+# Local mirror of .agents/skills/ created by .agents/sync.sh — do not commit
+# Match both the directory form (Windows copy) and the symlink form (macOS/Linux).
+/.claude/skills
+/.claude/skills/

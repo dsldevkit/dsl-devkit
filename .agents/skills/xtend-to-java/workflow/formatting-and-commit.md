@@ -1,0 +1,72 @@
+# Formatting and commit
+
+## Copyright headers
+
+Every `.java` file must include the Avaloq copyright header. Files must start with:
+```java
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Group AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Group AG - initial API and implementation
+ *******************************************************************************/
+```
+
+Verify before committing.
+
+## Format in Eclipse before pushing
+
+Before pushing to the remote, **always format the migrated Java files** using one of these methods:
+
+### Option 1 — Eclipse CLI formatter (preferred, reproducible)
+
+Run the Eclipse headless formatter from the command line:
+
+```powershell
+$eclipse = "<eclipse-install>\eclipsec.exe"
+$ini = "<eclipse-install>\eclipse-formatter.ini"   # custom ini fixing the p2.mirrors bug
+$config = "ddk-configuration\.settings\org.eclipse.jdt.core.prefs"
+$ws = "$env:TEMP\eclipse-fmt-ws"                    # temp workspace to avoid conflicts
+
+& $eclipse --launcher.ini $ini -noSplash -data $ws `
+  -application org.eclipse.jdt.core.JavaCodeFormatter -verbose `
+  -config $config <file1.java> <file2.java> ...
+```
+
+**Important:** Use `eclipsec.exe` (console version) with `--launcher.ini` pointing to a custom ini file. The default `eclipse.ini` has a bug where `-Declipse.p2.mirrors` is placed before `-vmargs`, causing the formatter to fail silently. The custom `eclipse-formatter.ini` moves this property under `-vmargs`.
+
+**The CLI formatter does NOT organize imports.** Import order must be correct in your source from the start — follow the import order convention in [`rules/01-imports-and-package.md`](../rules/01-imports-and-package.md).
+
+### Option 2 — Eclipse IDE formatting
+
+Select all migrated files in Package Explorer → Source → Format. Then amend the commit.
+
+**⚠️ IDE save action warning:** "Organize Imports" or other IDE actions may trigger save actions that auto-convert string concatenation to text blocks. The auto-conversion can produce **wrong results**. Always review `git diff` after any IDE action.
+
+### Formatter safety notes
+
+The Eclipse formatter re-indents text block content AND closing `"""` together, preserving indent stripping semantics. Formatted text blocks produce the same string values as unformatted ones — the formatter is safe for text blocks.
+
+## Commit structure
+
+**One single commit** containing everything:
+- Migrated `.java` files
+- Deleted `.xtend` originals
+- Deleted `xtend-gen/` directory (if module fully off Xtend)
+- All infrastructure changes (MANIFEST.MF, build.properties, .classpath, .project)
+
+Do not split into multiple commits.
+
+## Commit message format
+
+```
+refactor: migrate Xtend to Java - <plugin name>
+```
+
+Example: `refactor: migrate Xtend to Java - com.avaloq.tools.ddk.check.core.test`
+
+PR title: same as commit message.
