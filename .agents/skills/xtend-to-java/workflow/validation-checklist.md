@@ -1,0 +1,134 @@
+# Validation checklist
+
+Run through this list before declaring a conversion done. Every item is a hard gate.
+
+---
+
+## Quality rules (all 30 must pass)
+
+### Javadoc and comments
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 1 | Javadoc preservation | Copy Javadoc from Xtend source verbatim. Never generate/guess Javadoc that wasn't in the original. |
+| 2 | `@throws` tags | Only add when method already has Javadoc AND migrated signature declares `throws`. Don't create Javadoc just for the tag. |
+
+### Types and variables
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 3 | No `val`/`var` | Always use explicit types. `var` is banned. |
+| 4 | No unnecessary boxing | `Integer.valueOf(i)` only when signature requires boxed type. |
+| 14 | LooseCoupling | Interface types (`List`, `Map`, `Set`, `EList`) in fields/params/returns, not `ArrayList`/`HashMap`/`BasicEList`. |
+| 16 | No leading underscore on non-dispatch fields | Rename `_fieldName` → `fieldName`. |
+
+### String building
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 5 | String building idiom | Static single-line → literal; static multi-line → text block; interpolation without control flow → `.formatted()`; control flow → `StringBuilder`. |
+| 6 | Text block `\` escape | Use `\` on last content line to suppress trailing `\n` when `xtend-gen/` shows the string doesn't end with newline. |
+| 17 | MultipleStringLiterals | Tests: extract to `private static final String` constants. Generators: `CHECKSTYLE:CONSTANTS-OFF/ON`. |
+| 20 | InsufficientStringBufferDeclaration | Size generously: 512 small methods, 2048 generators. |
+| 23 | Template whitespace | Must match `xtend-gen/` output exactly. Never guess from Xtend source. |
+| 29 | Never `String.format()` | Use `.formatted()` consistently. |
+| 30 | `.formatted()` fallback rules | Fall back to concatenation only when `%s` is ambiguous/unreadable or template has literal `%`. |
+
+### Annotations and modifiers
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 7 | `@SuppressWarnings("nls")` | At class level when module's JDT settings have `nonExternalizedStringLiteral=warning`. Check `ddk-configuration/.settings/org.eclipse.jdt.core.prefs`. |
+| 8 | `@Override` | On every override including interface implementations. |
+| 15 | Dispatch methods | Keep `_` prefix. Suppress with `@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})`. |
+
+### Logging
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 9 | Parameterized Log4j2 | Use `{}` placeholders. Never concatenation or `.formatted()` in log calls. |
+
+### Imports
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 10 | No wildcard imports | Every import explicit. |
+| 11 | Import order | `org.*`/`java.*`/`javax.*`/`junit.*` first, blank line, then `com.*`. Alphabetical within groups. |
+
+### Exception handling
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 12 | Preserved stack traces | `catch` blocks that re-throw must pass caught exception as cause. |
+| 13 | try-with-resources | Any `AutoCloseable` — no manual `close()` in finally. |
+| 18 | IllegalCatch | Catch specific exceptions, never generic `Exception`. |
+
+### Collections
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 19 | UseCollectionIsEmpty | `.isEmpty()` not `.size() == 0`. |
+
+### Extension methods and implicit behavior
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 24 | Extension methods | `obj.helperMethod()` → `helper.helperMethod(obj)`. Verify against `xtend-gen/`. |
+| 25 | Implicit `it` in lambdas | Name the parameter explicitly in Java. |
+| 26 | Implicit returns | Add explicit `return` statements. |
+| 27 | Property access | `obj.name` → `obj.getName()`; `obj.name = x` → `obj.setName(x)`. |
+
+### Infrastructure and formatting
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 21 | Copyright headers | File starts with `/* Copyright (c) Avaloq Group AG ...` block. |
+| 22 | Commit format | `refactor: migrate Xtend to Java - <plugin name>`. Single commit. |
+| 28 | Infrastructure cleanup | Remove Xtend from MANIFEST.MF, build.properties, .classpath, .project; delete `xtend-gen/` directory (when module fully off Xtend). |
+
+---
+
+## Per-file checklist (quick pass/fail)
+
+- [ ] All `val` converted to `final ExplicitType` (no `var` keyword).
+- [ ] All `var` converted to `ExplicitType` (no `var` keyword).
+- [ ] All `def` converted to Java methods with explicit visibility, return type, and `return` statements.
+- [ ] All `override` converted to `@Override` annotation + visibility modifier.
+- [ ] All `typeof(X)` converted to `X.class`.
+- [ ] All `===` / `!==` converted to `==` / `!=`.
+- [ ] All `==` (equality) converted to `.equals()` or `Objects.equals()`.
+- [ ] All `?.` null-safe navigations converted to null checks.
+- [ ] All `[...]` lambdas converted to `(...) -> {...}`.
+- [ ] All `dispatch` methods converted to dispatcher pattern with `@SuppressWarnings`.
+- [ ] All `extension` methods converted to explicit calls.
+- [ ] All `static extension` imports converted to static calls at call site.
+- [ ] All template expressions converted using the 4-tier decision tree.
+- [ ] All `«IF» / «FOR» / «SEPARATOR»` converted to Java control flow.
+- [ ] All `#[]` / `#{}` collection literals converted.
+- [ ] All `=>` operator usages converted.
+- [ ] All `@Data` / `@Accessors` / `@FinalFieldsConstructor` expanded.
+- [ ] All property access converted to getter/setter calls where applicable.
+- [ ] All `isNullOrEmpty` and Xtend library calls replaced.
+- [ ] All `+=` / `-=` on collections converted to `.add()` / `.addAll()` / `.remove()`.
+- [ ] All `::` static-access converted.
+- [ ] Semicolons added to every statement.
+- [ ] Explicit visibility on every class, method, and field.
+- [ ] All imports updated (no wildcards, no unused, correct order).
+- [ ] All comments and Javadoc preserved exactly.
+- [ ] Copyright header preserved/added.
+- [ ] Checked exceptions handled (`throws` clause or `try`/`catch` with specific types).
+- [ ] The `.xtend` file is deleted; the `.java` file is added; both never coexist.
+
+---
+
+## Build / test gates
+
+- [ ] `mvn -pl :<module> -am -DskipTests compile -f ./ddk-parent/pom.xml` — passes.
+- [ ] `mvn verify -f ./ddk-parent/pom.xml` — passes (or failures are known flakes).
+- [ ] `mvn checkstyle:check pmd:check spotbugs:check -f ./ddk-parent/pom.xml` — passes.
+
+---
+
+## Behaviour parity
+
+- [ ] Diff against the `xtend-gen/` output. The hand-converted version should be materially equivalent (often shorter, always more idiomatic). Any behaviour-shifting deviation must be intentional and called out in the commit message.

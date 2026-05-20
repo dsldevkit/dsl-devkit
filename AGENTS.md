@@ -11,6 +11,16 @@ This document helps AI coding agents work effectively with the DSL DevKit codeba
 - **Tycho**
 - **Xtext/Xtend**
 
+## Setup
+
+After cloning, run:
+
+```bash
+./.agents/sync.sh
+```
+
+This creates a local mirror of `.agents/skills/` at `.claude/skills/` (gitignored) so Claude Code auto-discovers the project's skills. macOS/Linux use a symlink; Windows gets a recursive copy. Re-run after any pull that touches `.agents/skills/`.
+
 ## Key Directories
 
 | Directory | Purpose |
