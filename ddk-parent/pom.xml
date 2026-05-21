@@ -56,6 +56,13 @@
     <pmd.version>7.24.0</pmd.version>
     <tycho.version>5.0.2</tycho.version>
     <xtend.version>2.43.0</xtend.version>
+
+    <!-- jgit qualifier: error in CI, warning for local dirty trees -->
+    <jgit.dirtyWorkingTree>error</jgit.dirtyWorkingTree>
+
+    <!-- Baseline version validation (skip until first release populates p2/releases/latest/) -->
+    <baseline.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/</baseline.repo.url>
+    <baseline.skip>true</baseline.skip>
   </properties>
 
   <modules>
@@ -215,7 +222,16 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-packaging-plugin</artifactId>
         <version>${tycho.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-buildtimestamp-jgit</artifactId>
+            <version>${tycho.version}</version>
+          </dependency>
+        </dependencies>
         <configuration>
+          <timestampProvider>jgit</timestampProvider>
+          <jgit.dirtyWorkingTree>${jgit.dirtyWorkingTree}</jgit.dirtyWorkingTree>
           <format>'v'yyyyMMdd-HHmm</format>
           <archive>
             <manifestEntries>
@@ -238,6 +254,38 @@
             <configuration>
               <outputDirectory>${basedir}/xtend-gen/</outputDirectory>
               <testOutputDirectory>${basedir}/xtend-gen/</testOutputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <baselineRepositories>
+            <repository>
+              <url>https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/</url>
+            </repository>
+          </baselineRepositories>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-p2-extras-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <executions>
+          <execution>
+            <id>compare-version-with-baselines</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>compare-version-with-baselines</goal>
+            </goals>
+            <configuration>
+              <baselines>
+                <url>${baseline.repo.url}</url>
+              </baselines>
+              <skip>${baseline.skip}</skip>
             </configuration>
           </execution>
         </executions>
@@ -384,6 +432,17 @@
     </pluginManagement>
   </build>
   <profiles>
+    <profile>
+      <id>local-build</id>
+      <activation>
+        <property>
+          <name>!env.CI</name>
+        </property>
+      </activation>
+      <properties>
+        <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
+      </properties>
+    </profile>
     <profile>
       <activation>
         <os>

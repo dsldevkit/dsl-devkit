@@ -4,6 +4,53 @@
 
 Copyright 2016 Avaloq Group AG
 
+# p2 Update Site
+
+The DDK p2 update site is published to GitHub Pages and can be used directly in Eclipse target platform definitions or as a p2 repository URL.
+
+> **Browse available releases and snapshots:** [dsldevkit.github.io/dsl-devkit/](https://dsldevkit.github.io/dsl-devkit/)
+> Note: subdirectory URLs (e.g. `/p2/releases/latest/`) are for Eclipse only and return 404 in a browser.
+
+## Releases
+
+Use a pinned release URL for reproducible builds:
+
+```
+jar:https://github.com/dsldevkit/dsl-devkit/releases/download/v<version>/p2-update-site.zip!/repository
+```
+
+For example, for version `v17.3.2`:
+
+```
+jar:https://github.com/dsldevkit/dsl-devkit/releases/download/v17.3.2/p2-update-site.zip!/repository
+```
+
+Alternatively, use the GitHub Pages p2 repository directly (no zip unwrapping needed):
+
+```
+https://dsldevkit.github.io/dsl-devkit/p2/releases/v17.3.2/
+```
+
+Or always point to the latest release:
+
+```
+https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/
+```
+
+## Snapshots
+
+To use the latest snapshot from the `master` branch:
+
+```
+https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/
+```
+
+To pin a specific snapshot by commit SHA (first 8 characters):
+
+```
+https://dsldevkit.github.io/dsl-devkit/p2/snapshots/<sha>/
+```
+
 # Documentation
 
 You can find more detailed documentation and examples at [ddk.tools.avaloq.com](https://ddk.tools.avaloq.com/).
