@@ -1,0 +1,96 @@
+name: snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build snapshot from'
+        required: true
+        default: master
+  push:
+    branches: [master, 'v[0-9]*']
+
+concurrency:
+  group: publish-ghpages-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Log tool versions
+        run: |
+          java --version
+          mvn --version
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-publish-${{ hashFiles('**/pom.xml', '**/*.target') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-publish-
+            ${{ runner.os }}-maven-0-
+
+      - name: Build p2 update site
+        run: |
+          xvfb-run mvn clean verify \
+            -f ./ddk-parent/pom.xml \
+            --batch-mode
+
+      - name: Upload p2 update site as artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
+        with:
+          name: p2-update-site-${{ github.sha }}
+          path: ddk-repository/target/repository/
+          retention-days: 30
+
+      - name: Check out gh-pages branch
+        id: checkout-gh-pages
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 1
+        continue-on-error: true
+
+      - name: Bootstrap gh-pages branch if missing
+        if: steps.checkout-gh-pages.outcome != 'success'
+        run: |
+          rm -rf gh-pages
+          mkdir gh-pages
+          cd gh-pages
+          git init -b gh-pages
+          touch .nojekyll
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish p2 snapshot to gh-pages
+        run: bash .github/scripts/publish-p2-ghpages.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up old p2 snapshots
+        run: bash .github/scripts/cleanup-p2-snapshots.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Snapshot workflow:
+#   Triggered on every push to master or v[0-9]* branches
+#   Builds, deploys to p2/snapshots/<sha8>/, keeps last 20
+#   See release.yml for promoting a snapshot to a release
