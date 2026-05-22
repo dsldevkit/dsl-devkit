@@ -682,7 +682,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   }
 
   /**
-   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int).
+   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int)}.
    *
    * @see #link(int)
    * @see #link(Supplier)
@@ -695,7 +695,7 @@ public abstract class AbstractScopingTest extends AbstractXtextMarkerBasedTest {
   }
 
   /**
-   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int).
+   * Performs linking test. Checks expectations which were set in a source using {@link #link(int)} or {@link #link(Function, int)}.
    *
    * @see #link(int)
    * @see #link(Supplier)

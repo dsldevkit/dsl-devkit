@@ -35,7 +35,7 @@ public interface IResourceCache {
    * <em>Note:</em> throws
    * </p>
    * <ul>
-   * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@©ode null}.</li>
+   * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@code null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * </ul>
    *
@@ -57,7 +57,7 @@ public interface IResourceCache {
    * <em>Note:</em> throws
    * </p>
    * <ul>
-   * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@©ode null}.</li>
+   * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@code null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * <li>{@link ClassCastException} if the value cannot be converted to type T.</li>
    * </ul>
@@ -78,7 +78,7 @@ public interface IResourceCache {
    * <em>Note:</em> throws
    * </p>
    * <ul>
-   * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@©ode null}.</li>
+   * <li>{@link IllegalArgumentException} if {@code context} or {@code key} are {@code null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * </ul>
    *
@@ -96,7 +96,7 @@ public interface IResourceCache {
    * <em>Note:</em> throws
    * </p>
    * <ul>
-   * <li>{@link IllegalArgumentException} if {@code context} is {@©ode null}.</li>
+   * <li>{@link IllegalArgumentException} if {@code context} is {@code null}.</li>
    * <li>{@link IllegalStateException} if the resource of {@code context} is not an Xtext resource.</li>
    * </ul>
    *

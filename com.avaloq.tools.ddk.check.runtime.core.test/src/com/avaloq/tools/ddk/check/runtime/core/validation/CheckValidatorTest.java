@@ -43,7 +43,7 @@ public class CheckValidatorTest extends AbstractCheckValidator {
   /**
    * Tests that the dummy validator is found via the check validator extension point.
    *
-   * @see {@link com.avaloq.tools.ddk.check.extensionpoint.test.validation.DummyValidator}
+   * @see com.avaloq.tools.ddk.check.extensionpoint.test.validation.DummyValidator
    */
   @Test
   void testAtLeastOneValidatorFound() {

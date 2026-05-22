@@ -39,7 +39,7 @@ public interface ILazyLinkingResource2 extends Resource.Internal {
    * Creates diagnostics for given triple.
    *
    * @param triple
-   *          triple <EObject, EReference, INode>, must not be {@code null}
+   *          triple {@code <EObject, EReference, INode>}, must not be {@code null}
    */
   void createAndAddDiagnostic(Triple<EObject, EReference, INode> triple);
 

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 /**
  * This {@link InvocationInterceptor} implementation changes the behavior for unresolved bug tests.
  * <p>
- * The behavior for at test that is annotated with {@link BugTest(unresolved=true)} is the following:
+ * The behavior for at test that is annotated with {@link BugTest} (with {@code unresolved=true}) is the following:
  * <ul>
  * <li>Test evaluation <code>OK</code> results in <code>FAIL</code> ({@link AssertionError})</li>
  * <li>Test evaluation <code>FAIL</code> results in <code>OK</code></li>
