@@ -207,7 +207,8 @@
           <source>${java-version}</source>
           <target>${java-version}</target>
           <compilerArgs>
-            <arg>-warn:-warningToken,discouraged</arg>            <!-- Disable unhandled or unused warning token in @SuppressWarnings, discouraged access -->
+            <arg>-warn:-warningToken,discouraged</arg> <!-- Disable unhandled or unused warning token in @SuppressWarnings, discouraged access -->
+            <arg>-err:+unusedImport</arg> <!-- Unused imports are compile errors -->
           </compilerArgs>
         </configuration>
       </plugin>
