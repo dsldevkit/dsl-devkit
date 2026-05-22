@@ -31,7 +31,8 @@ import org.eclipse.ui.PlatformUI;
  */
 class FixedDefaultWorkbench {
 
-  /** @see org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.getLimboShell() */
+  /** @see org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine#getLimboShell() */
+  @SuppressWarnings("restriction")
   private static final String LIMBO_SHELL = "PartRenderingEngine's limbo"; //$NON-NLS-1$
   private static final String QUIK_ACCESS_SHELL = "Quick Access"; //$NON-NLS-1$
 

@@ -116,8 +116,8 @@ public class WorkbenchMarkerResolutionGenerator extends MarkerResolutionGenerato
    * This method may not be called in this implementation.
    * Use getAdaptedResolutions(final List<IssueResolution> resolutions, final IMarker marker).
    *
-   * @throws {@code
-   *           NotImplementedException} if called
+   * @throws NotImplementedException
+   *           if called
    */
   @Override
   protected IMarkerResolution[] getAdaptedResolutions(final List<IssueResolution> resolutions) {

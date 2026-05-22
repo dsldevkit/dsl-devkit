@@ -22,7 +22,7 @@ import com.avaloq.tools.ddk.test.core.Issue;
 /**
  * This {@link InvocationInterceptor} implementation changes the behavior for not fixed issues.
  * <p>
- * The behavior for at test that is annotated with {@link Issue(fixed = false)} is the following:
+ * The behavior for at test that is annotated with {@link Issue} (with {@code fixed = false}) is the following:
  * <ul>
  * <li>Test evaluation <code>OK</code> results in <code>FAIL</code> ({@link AssertionError})</li>
  * <li>Test evaluation <code>FAIL</code> results in <code>OK</code></li>

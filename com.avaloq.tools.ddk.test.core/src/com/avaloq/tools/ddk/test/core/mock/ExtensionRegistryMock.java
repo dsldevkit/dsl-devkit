@@ -94,7 +94,7 @@ public final class ExtensionRegistryMock {
 
   /**
    * Mocks an {@link IConfigurationElement} for an extension point with the given id. The extension point is only mocked via
-   * {@link IExtensionRegistry#getConfigurationElementsFor(String) and will not be visible otherwise.
+   * {@link IExtensionRegistry#getConfigurationElementsFor(String)} and will not be visible otherwise.
    *
    * @param extensionPointId
    *          the fully-qualified id for the extension point, must not be {@code null}
