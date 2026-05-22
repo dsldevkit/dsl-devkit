@@ -34,7 +34,7 @@ public class RightPaddingLocator extends ElementLocator implements ISpaceLocator
    *          the formatting configuration
    * @param length
    *          the minimum amount of space allocated for an entry
-   * @see {@link #getPadding(ExtendedLineEntry)}
+   * @see #getPadding(ExtendedLineEntry)
    */
   public RightPaddingLocator(final FormattingConfig formattingConfig, final int length) { // NOPMD CallSuperInConstructor - false positive by PMD
     formattingConfig.super();

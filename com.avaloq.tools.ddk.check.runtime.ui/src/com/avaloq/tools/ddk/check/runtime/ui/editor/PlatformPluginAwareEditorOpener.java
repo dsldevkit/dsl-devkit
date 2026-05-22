@@ -68,7 +68,7 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
   /**
    * If a platform plugin URI is given, a read-only Xtext editor is opened and returned. {@inheritDoc}
    *
-   * @see {@link org.eclipse.emf.common.util.URI#isPlatformPlugin()}
+   * @see org.eclipse.emf.common.util.URI#isPlatformPlugin()
    */
   @Override
   public IEditorPart open(final URI uri, final EReference crossReference, final int indexInList, final boolean select) {

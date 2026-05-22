@@ -28,7 +28,8 @@ public interface IExtendedLocator {
    * Get the locator's aggregation policy. OVERRIDE locators (e.g. NoLinewrapLocatorFacade)
    * are not combined, whereas COMBINED_MAXIMUM locators are combined/aggregated, and ADDITIVE locators are added to previous locators.
    *
-   * @see {@link com.avaloq.tools.ddk.xtext.formatting.SpaceEntry SpaceEntry} and {@link com.avaloq.tools.ddk.xtext.formatting.WrapEntry WrapEntry}
+   * @see com.avaloq.tools.ddk.xtext.formatting.SpaceEntry
+   * @see com.avaloq.tools.ddk.xtext.formatting.WrapEntry
    * @return policy of locator
    */
   AggregationPolicy getPolicy();

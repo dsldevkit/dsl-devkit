@@ -64,7 +64,7 @@ public final class GenModelUtil2 {
   /**
    * Formats a name by parsing it into words separated by underscores and/or mixed-casing and then
    * recombining them using the specified separator.
-   * {@see CodeGenUtil#format(String, char, String, boolean, boolean)
+   * {@link CodeGenUtil#format(String, char, String, boolean, boolean)}
    *
    * @param name
    *          the name to format

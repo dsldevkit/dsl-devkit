@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * Resources containing check catalogs are identified by the optional {@code catalog} extension attribute.
  * Descriptors of this kind are created for check validator extensions.
  * 
- * @see {@link com.avaloq.tools.ddk.check.runtime.internal.CheckCatalogDescriptor}
+ * @see com.avaloq.tools.ddk.check.runtime.internal.CheckCatalogDescriptor
  */
 public interface ICheckCatalogImpl extends Resource {
 

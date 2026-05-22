@@ -11,7 +11,7 @@
 package com.avaloq.tools.ddk.xtext.test;
 
 /**
- * Raised when a test wants to annotate a method with either a {@link @BeforeClass} or a {@link @AfterClass} annotation.
+ * Raised when a test wants to annotate a method with either a {@code @BeforeClass} or a {@code @AfterClass} annotation.
  */
 public class IllegalJUnitAnnotation extends RuntimeException {
   private static final long serialVersionUID = 1L;
