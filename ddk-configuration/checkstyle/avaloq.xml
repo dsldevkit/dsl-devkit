@@ -21,6 +21,7 @@
     <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
     <module name="UnnecessarySemicolonInEnumeration"/>
     <module name="UnnecessarySemicolonInTryWithResources"/>
+    <module name="UnusedImports"/>
     <module name="VariableDeclarationUsageDistance"/>
     <module name="CatchParameterName"/>
     <module name="LambdaParameterName"/>
