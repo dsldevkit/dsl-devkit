@@ -379,7 +379,7 @@ public class CheckValidator extends AbstractCheckValidator {
   /**
    * Checks that given package name is a valid fully qualified name.
    *
-   * @see {@link CheckJavaValidatorUtil#isValidFullyQualifiedName(String)}
+   * @see CheckJavaValidatorUtil#isValidFullyQualifiedName(String)
    * @param catalog
    *          the catalog
    */
