@@ -39,7 +39,6 @@
       <property name="allowInSwitchCase" value="true"/>
     </module>
     <module name="AvoidStarImport"/>
-    <module name="UnusedImports"/>
     <module name="BooleanExpressionComplexity"/>
     <module name="CovariantEquals"/>
     <!--module name="ClassFanOutComplexity"/-->

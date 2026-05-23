@@ -117,7 +117,7 @@ public class CheckCfgValidator extends AbstractCheckCfgValidator {
   /**
    * Checks that final catalogs are not configured for severity.
    *
-   * @see {@link com.avaloq.tools.ddk.check.check.CheckCatalog#isFinal()}
+   * @see com.avaloq.tools.ddk.check.check.CheckCatalog#isFinal()
    * @param catalog
    *          the configured catalog
    */

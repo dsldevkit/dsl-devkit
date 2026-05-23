@@ -35,18 +35,17 @@ public class TemplateVariableResolverTestHelper {
    * Create a {@link TemplateVariable}.
    *
    * @param resolver
-   *          {@link TemplateVariableResolver@} of the type which will resolve the {@link TemplateVariable} created, may not be {@code null}
+   *          {@link TemplateVariableResolver} of the type which will resolve the {@link TemplateVariable} created, may not be {@code null}
    * @param name
    *          the name of the variable, may not be {@code null}
    * @param values
    *          the values available at this variable, non-empty, may not be {@code null}
    * @return a {@link TemplateVariable}
-   * @throws {@link
-   *           NullPointerException} if resolver.getType(), name or values is null
-   * @throws {@link
-   *           IllegalArgumentException} if resolver.getType() or name contains whitespace or values is empty
-   * @throws {@link
-   *           TemplateException}
+   * @throws NullPointerException
+   *           if resolver.getType(), name or values is null
+   * @throws IllegalArgumentException
+   *           if resolver.getType() or name contains whitespace or values is empty
+   * @throws TemplateException
    *           if translation failed
    */
   public TemplateVariable createTemplateVariable(final TemplateVariableResolver resolver, final String name, final Object... values) throws NullPointerException, IllegalArgumentException, TemplateException {
