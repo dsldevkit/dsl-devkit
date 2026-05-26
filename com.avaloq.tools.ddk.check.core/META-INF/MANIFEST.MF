@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.xtext,
  com.avaloq.tools.ddk.xtext,
  org.apache.commons.lang3,
  org.apache.commons.text,
- org.objectweb.asm;resolution:=optional
+ org.objectweb.asm;resolution:=optional,
+ org.eclipse.equinox.app
 Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.check,
  com.avaloq.tools.ddk.check.check.impl,
@@ -44,6 +45,7 @@ Export-Package: com.avaloq.tools.ddk.check,
  com.avaloq.tools.ddk.check.scoping,
  com.avaloq.tools.ddk.check.serializer,
  com.avaloq.tools.ddk.check.services,
+ com.avaloq.tools.ddk.check.standalone,
  com.avaloq.tools.ddk.check.typing,
  com.avaloq.tools.ddk.check.util,
  com.avaloq.tools.ddk.check.validation

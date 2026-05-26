@@ -10,4 +10,55 @@
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>com.avaloq.tools.ddk.sample.helloworld</artifactId>
   <packaging>eclipse-plugin</packaging>
+
+  <profiles>
+    <!--
+      Opt-in profile that regenerates docs/content/<Catalog>.html from the .check
+      sources by running the headless CheckDocApplication (defined in
+      com.avaloq.tools.ddk.check.core) inside an Equinox runtime started by
+      tycho-eclipse-plugin. Invoke with `mvn ... -PgenerateCheckDocs verify`.
+
+      Known limitation (see PR notes): the `<dependencies>` entry below resolves
+      against the target platform only, so reactor-built bundles such as
+      com.avaloq.tools.ddk.check.core are not visible. Productionising this
+      profile needs either a small p2 repository aggregator module or a
+      `<repositories>` entry pointing at a published p2 update site.
+    -->
+    <profile>
+      <id>generateCheckDocs</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-eclipse-plugin</artifactId>
+            <version>${tycho.version}</version>
+            <executions>
+              <execution>
+                <id>generate-check-docs</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>eclipse-run</goal>
+                </goals>
+                <configuration>
+                  <executionEnvironment>JavaSE-21</executionEnvironment>
+                  <applicationsArgs>
+                    <args>-application</args>
+                    <args>com.avaloq.tools.ddk.check.core.docApplication</args>
+                    <args>${project.basedir}/src</args>
+                    <args>${project.basedir}/docs/content</args>
+                  </applicationsArgs>
+                  <dependencies>
+                    <dependency>
+                      <artifactId>com.avaloq.tools.ddk.check.core</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                  </dependencies>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
