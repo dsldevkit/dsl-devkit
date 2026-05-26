@@ -26,6 +26,17 @@
     -->
     <profile>
       <id>generateCheckDocs</id>
+      <dependencies>
+        <!-- Forces ddk-repository to build before this module so its p2 site
+             (referenced as a file: URL by the eclipse-run plugin below) exists
+             when the generate-check-docs execution fires. -->
+        <dependency>
+          <groupId>com.avaloq.tools.ddk</groupId>
+          <artifactId>ddk-repository</artifactId>
+          <version>17.3.0-SNAPSHOT</version>
+          <type>eclipse-repository</type>
+        </dependency>
+      </dependencies>
       <build>
         <plugins>
           <plugin>
@@ -47,6 +58,40 @@
                     <args>${project.basedir}/src</args>
                     <args>${project.basedir}/docs</args>
                   </applicationsArgs>
+                  <repositories>
+                    <!-- Reactor-built bundles (check.core, com.avaloq.tools.ddk.xtext, ...). -->
+                    <repository>
+                      <id>reactor-p2</id>
+                      <layout>p2</layout>
+                      <url>file:${project.basedir}/../ddk-repository/target/repository/</url>
+                    </repository>
+                    <!-- Eclipse-side transitive requirements (mirrors ddk-target/ddk.target). -->
+                    <repository>
+                      <id>eclipse-release</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/releases/2026-03/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-emf</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-xtext</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.43.0/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-mwe</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.25.0/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-orbit</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.39.0</url>
+                    </repository>
+                  </repositories>
                   <dependencies>
                     <dependency>
                       <artifactId>com.avaloq.tools.ddk.check.core</artifactId>
