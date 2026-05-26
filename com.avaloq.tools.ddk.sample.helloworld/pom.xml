@@ -45,7 +45,7 @@
                     <args>-application</args>
                     <args>com.avaloq.tools.ddk.check.core.docApplication</args>
                     <args>${project.basedir}/src</args>
-                    <args>${project.basedir}/docs/content</args>
+                    <args>${project.basedir}/docs</args>
                   </applicationsArgs>
                   <dependencies>
                     <dependency>
