@@ -26,17 +26,22 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 
 import com.avaloq.tools.ddk.check.CheckStandaloneSetup;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
+import com.avaloq.tools.ddk.check.generator.CheckDocumentationTemplates;
 import com.avaloq.tools.ddk.check.generator.CheckGenerator;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 
 /**
- * Eclipse application that emits Check documentation (HTML) for every {@code .check}
- * file under a source directory, without requiring an Eclipse workbench.
+ * Eclipse application that emits the full Check documentation tree (HTML pages
+ * plus the Eclipse-Help {@code toc.xml} / {@code contexts.xml}) from every
+ * {@code .check} file under a source directory, without requiring an Eclipse
+ * workbench.
  *
- * Arguments (positional): {@code <sourceDir> <outputDir>}.
- * Output: {@code <outputDir>/<CatalogName>.html} per catalog.
+ * Arguments (positional): {@code <sourceDir> <docsDir>} where {@code docsDir}
+ * is the project's {@code docs/} folder. HTML pages land in
+ * {@code <docsDir>/content/<Catalog>.html}; the two help-system files land
+ * directly in {@code <docsDir>/}.
  */
 @SuppressWarnings({"nls", "PMD.SystemPrintln"})
 public class CheckDocApplication implements IApplication {
@@ -45,15 +50,17 @@ public class CheckDocApplication implements IApplication {
   public Object start(final IApplicationContext context) throws IOException {
     String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
     if (args == null || args.length < 2) {
-      System.err.println("Usage: -application com.avaloq.tools.ddk.check.core.docApplication <sourceDir> <outputDir>");
-      return Integer.valueOf(1);
+      System.err.println("Usage: -application com.avaloq.tools.ddk.check.core.docApplication <sourceDir> <docsDir>");
+      return 1;
     }
     Path sourceDir = Path.of(args[0]);
-    Path outputDir = Path.of(args[1]);
-    Files.createDirectories(outputDir);
+    Path docsDir = Path.of(args[1]);
+    Path contentDir = docsDir.resolve("content");
+    Files.createDirectories(contentDir);
 
     Injector injector = new CheckStandaloneSetup().createInjectorAndDoEMFRegistration();
     CheckGenerator generator = injector.getInstance(CheckGenerator.class);
+    CheckDocumentationTemplates docTemplates = injector.getInstance(CheckDocumentationTemplates.class);
     Provider<XtextResourceSet> resourceSets = injector.getProvider(XtextResourceSet.class);
     XtextResourceSet resourceSet = resourceSets.get();
 
@@ -62,19 +69,29 @@ public class CheckDocApplication implements IApplication {
       walk.filter(p -> p.toString().endsWith(".check")).forEach(checkFiles::add);
     }
 
-    int catalogs = 0;
+    List<CheckCatalog> catalogs = new ArrayList<>();
     for (Path checkFile : checkFiles) {
       Resource resource = resourceSet.getResource(URI.createFileURI(checkFile.toAbsolutePath().toString()), true);
       for (EObject root : resource.getContents()) {
         if (root instanceof CheckCatalog catalog) {
-          Path target = outputDir.resolve(catalog.getName() + ".html");
+          catalogs.add(catalog);
+          Path target = contentDir.resolve(catalog.getName() + ".html");
           Files.writeString(target, generator.compileDoc(catalog).toString());
           System.out.println("Wrote " + target);
-          catalogs++;
         }
       }
     }
-    System.out.println("Processed " + checkFiles.size() + " .check files (" + catalogs + " catalogs)");
+
+    if (!catalogs.isEmpty()) {
+      Path toc = docsDir.resolve("toc.xml");
+      Files.writeString(toc, docTemplates.compileToc(catalogs).toString());
+      System.out.println("Wrote " + toc);
+      Path contexts = docsDir.resolve("contexts.xml");
+      Files.writeString(contexts, docTemplates.compileContexts(catalogs).toString());
+      System.out.println("Wrote " + contexts);
+    }
+
+    System.out.println("Processed " + checkFiles.size() + " .check files (" + catalogs.size() + " catalogs)");
     return IApplication.EXIT_OK;
   }
 
