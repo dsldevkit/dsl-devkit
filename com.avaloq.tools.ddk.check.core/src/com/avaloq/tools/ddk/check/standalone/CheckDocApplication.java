@@ -67,7 +67,7 @@ public class CheckDocApplication implements IApplication {
     List<Path> checkFiles = new ArrayList<>();
     try (Stream<Path> walk = Files.walk(sourceDir)) {
       walk.filter(p -> p.toString().endsWith(".check"))
-          .filter(p -> { for (Path seg : p) { String s = seg.toString(); if (s.equals("target") || s.startsWith(".")) return false; } return true; })
+          .filter(CheckDocApplication::isUserSource)
           .forEach(checkFiles::add);
     }
 
@@ -98,6 +98,17 @@ public class CheckDocApplication implements IApplication {
 
     System.out.println("Processed " + checkFiles.size() + " .check files (" + catalogs.size() + " catalogs)");
     return IApplication.EXIT_OK;
+  }
+
+  /** True iff {@code p} contains no path segment named {@code target} or starting with a dot. */
+  private static boolean isUserSource(final Path p) {
+    for (Path segment : p) {
+      String name = segment.toString();
+      if ("target".equals(name) || name.startsWith(".")) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
