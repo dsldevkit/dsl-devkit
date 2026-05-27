@@ -16,6 +16,7 @@ Consolidated table of common mistakes and their fixes. Review before and after e
 | **Missing `@throws` tags** | When Java migration adds `throws` and method already has Javadoc, Checkstyle requires `@throws`. Add it; don't create Javadoc just for the tag. |
 | **Duplicate string literals** | Checkstyle flags strings appearing 2+ times. In tests, extract to constants. In generators, use `CHECKSTYLE:CONSTANTS-OFF/ON`. |
 | **`@Data` / `@Accessors`** | These generate code at compile time. The `xtend-gen/` output shows exactly what — copy equals/hashCode/toString/getters from there. |
+| **`@Tag` fields must not be `final`** | `TagExtension` assigns tag values via `Field.setInt()` at runtime. `Field.setInt()` on a `final` field fails on Java 9+ even after `setAccessible(true)`. IDE formatters and save-actions silently add `final` to `int` fields — always strip it from `@Tag` fields. See [`rules/09-misc-syntax.md`](../rules/09-misc-syntax.md) §9.6. |
 | **`BasicEList` in generic code** | Needs explicit type parameter — `new BasicEList<X>()`. |
 | **StringBuilder in `xtend-gen/`** | If `xtend-gen/` has `StringConcatenation` but Xtend has a template, that's the signal to use text block or `.formatted()` (tier 1–3) or `StringBuilder` (tier 4). |
 | **Non-parameterized logging** | Xtend files often have `"msg" + x` in log calls. Fix to `{}` placeholders. |
