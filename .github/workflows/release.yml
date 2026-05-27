@@ -1,0 +1,156 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to release from'
+        required: false
+        default: master
+        type: string
+      version_bump:
+        description: 'Version component to bump'
+        required: false
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: publish-ghpages-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-24.04
+    environment: release
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+      snapshot_sha: ${{ steps.snapshot.outputs.sha }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+
+      - name: Compute next version
+        id: version
+        run: |
+          LATEST=$(git tag --list 'v*' --sort=-version:refname | head -1)
+          if [ -z "$LATEST" ]; then
+            LATEST="v0.0.0"
+          fi
+          VERSION="${LATEST#v}"
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+          case "${{ inputs.version_bump }}" in
+            major) MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR+1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH+1)) ;;
+          esac
+          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+          echo "Previous version $LATEST → next version $NEW_TAG"
+
+      - name: Set snapshot SHA
+        id: snapshot
+        run: echo "sha=$(git rev-parse --short=8 HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out gh-pages branch
+        id: checkout-gh-pages
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 1
+        continue-on-error: true
+
+      - name: Verify snapshot exists for release
+        run: |
+          SHA="${{ steps.snapshot.outputs.sha }}"
+          if [ "${{ steps.checkout-gh-pages.outcome }}" != "success" ]; then
+            echo "::error::gh-pages branch does not exist; no snapshot available for commit $SHA"
+            exit 1
+          fi
+          if [ ! -d "gh-pages/p2/snapshots/$SHA" ]; then
+            echo "::error::No snapshot found for commit $SHA in p2/snapshots/; the commit must be built and deployed as a snapshot before releasing"
+            exit 1
+          fi
+          echo "Found snapshot for commit $SHA"
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "Bumping to ${{ steps.version.outputs.tag }}"
+          git tag "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+
+  publish:
+    needs: create_tag
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: ${{ needs.create_tag.outputs.tag }}
+          fetch-depth: 0
+
+      - name: Check out gh-pages branch
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 1
+
+      - name: Publish p2 release to gh-pages
+        run: bash .github/scripts/publish-p2-ghpages.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ needs.create_tag.outputs.tag }}
+          SNAPSHOT_SHA: ${{ needs.create_tag.outputs.snapshot_sha }}
+
+      - name: Create release with p2 update site
+        run: |
+          RELEASE_VERSION="${{ needs.create_tag.outputs.tag }}"
+          SNAPSHOT_SHA="${{ needs.create_tag.outputs.snapshot_sha }}"
+          mkdir -p release-staging/repository
+          cp -r "gh-pages/p2/snapshots/$SNAPSHOT_SHA/." release-staging/repository/
+          cd release-staging
+          zip -r p2-update-site.zip repository/
+          gh release create "$RELEASE_VERSION" \
+            p2-update-site.zip \
+            --generate-notes \
+            --title "Release ${RELEASE_VERSION#v}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          TAG="${{ needs.create_tag.outputs.tag }}"
+          REPO="${{ github.server_url }}/${{ github.repository }}"
+          echo "::notice::Created release $TAG from branch ${{ inputs.branch }}"
+          {
+            echo "## Release created"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **Tag** | [$TAG]($REPO/releases/tag/$TAG) |"
+            echo "| **Branch** | \`${{ inputs.branch }}\` |"
+            echo "| **Bump** | \`${{ inputs.version_bump }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+# Release workflow:
+#   Snapshots:  every push to master or v[0-9]* branches → see snapshot.yml
+#   Release:    workflow_dispatch → create tag, promote snapshot to p2/releases/<version>/
+#
+# p2 repository URLs (GitHub Pages):
+#   Latest snapshot: https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/
+#   Pinned snapshot: https://dsldevkit.github.io/dsl-devkit/p2/snapshots/<sha>/
+#   Latest release:  https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/
+#   Pinned release:  https://dsldevkit.github.io/dsl-devkit/p2/releases/{version}/
