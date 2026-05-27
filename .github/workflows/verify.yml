@@ -1,7 +1,5 @@
 name: verify
 on:
-  push:
-    branches: [master]
   pull_request:
 jobs:
   pmd:
