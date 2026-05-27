@@ -63,6 +63,46 @@ Write the accessor methods explicitly with the specified visibility.
 
 Generates a constructor taking all final fields as parameters. Write it manually.
 
+### `@Tag`
+
+Assigns sequential integers (starting at `TagCompilationParticipant.COUNTER_BASE = 10000`) to test
+marker fields at Xtend compile time via `TagCompilationParticipant`.
+
+Standard Java APT (`AbstractProcessor`) **cannot** replicate this — it can only generate new source
+files, not modify initializers of existing fields. Use `TagExtension` instead: a JUnit 5
+`BeforeEachCallback` in `com.avaloq.tools.ddk.xtext.test.core` that performs the same sequential
+assignment at runtime via reflection.
+
+**Migration steps:**
+
+1. Declare each `@Tag` field as `private int` — **no `final`**, **no explicit initializer**:
+   ```java
+   @Tag
+   private int MY_TAG;
+   ```
+2. Add `TagExtension.class` to `@ExtendWith` (alongside any existing extensions):
+   ```java
+   @ExtendWith({InjectionExtension.class, TagExtension.class})
+   ```
+3. Add the import:
+   ```java
+   import com.avaloq.tools.ddk.xtext.test.TagExtension;
+   ```
+
+**Why not `final`?** `TagExtension` uses `Field.setInt()` to write the value at runtime.
+`Field.setInt()` on a `final` field throws `IllegalAccessException` even after `setAccessible(true)`
+on Java 9+. Formatters and IDE save-actions routinely add `final` to `int` fields — always remove it
+for `@Tag` fields.
+
+**Why not explicit initializers?** The extension assigns values in declaration order starting from
+`COUNTER_BASE`. Hardcoded values are redundant and will silently drift out of sync when fields are
+reordered or inserted.
+
+**Field ordering matters.** `TagExtension` iterates `getDeclaredFields()` in source-declaration order
+(guaranteed by HotSpot; JVM spec does not mandate it, but all production JVMs preserve it).
+Inserting a new `@Tag` field in the middle shifts subsequent values — exactly as the Xtend active
+annotation would have done.
+
 ## 9.7 Dispatch methods
 
 Xtend's multi-dispatch (`def dispatch ...`) has no Java equivalent. Convert to: individual `protected` methods prefixed with `_` plus a single dispatcher method that does the type-test routing.

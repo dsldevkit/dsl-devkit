@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.test
 
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 import org.eclipse.xtend.lib.macro.Active
 
 /**
@@ -18,6 +20,7 @@ import org.eclipse.xtend.lib.macro.Active
  * Usage example: @Tag int MEM_DOC
  */
 @Active(typeof(TagCompilationParticipant))
+@Retention(RetentionPolicy.RUNTIME)
 annotation Tag {
 
 }
