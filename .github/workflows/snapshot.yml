@@ -26,7 +26,7 @@ jobs:
           ref: ${{ github.event.inputs.branch || github.ref }}
           fetch-depth: 0
 
-     - name: Set snapshot SHA
+      - name: Set snapshot SHA
         id: snapshot
         run: echo "sha=$(git rev-parse --short=8 HEAD)" >> "$GITHUB_OUTPUT"
 
