@@ -82,6 +82,8 @@ class CheckDocumentationTemplates {
     a:hover { text-decoration: underline; }
     header.catalog-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
     header.catalog-header p { color: var(--text-muted); }
+    a.back-link { display: inline-block; margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--text-muted); }
+    a.back-link:hover { color: var(--link); }
     nav.jump {
       margin-top: 1rem;
       padding: 0.75rem 1rem;
