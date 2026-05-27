@@ -53,7 +53,7 @@ public class CheckDocApplication implements IApplication {
       System.err.println("Usage: -application com.avaloq.tools.ddk.check.core.docApplication <sourceDir> <docsDir>");
       return 1;
     }
-    Path sourceDir = Path.of(args[0]);
+    Path sourceDir = Path.of(args[0]).toRealPath();
     Path docsDir = Path.of(args[1]);
     Path contentDir = docsDir.resolve("content");
     Files.createDirectories(contentDir);
