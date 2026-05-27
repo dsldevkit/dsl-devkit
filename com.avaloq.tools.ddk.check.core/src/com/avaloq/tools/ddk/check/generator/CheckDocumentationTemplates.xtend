@@ -239,7 +239,7 @@ class CheckDocumentationTemplates {
         <main>
           <ul class="catalog-list">
             «FOR catalog : sorted»
-            <li>
+            <li id="«catalog.name»">
               <h2><a href="«catalog.indexRef»">«catalog.name»</a></h2>
               «val description = catalog.description.formatDescription»
               «IF description !== null»

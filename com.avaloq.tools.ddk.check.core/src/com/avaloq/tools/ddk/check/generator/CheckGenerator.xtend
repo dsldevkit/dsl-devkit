@@ -74,7 +74,7 @@ class CheckGenerator extends JvmModelGenerator {
     </head>
     <body>
       <header class="catalog-header">
-        <a class="back-link" href="../index.html">← All catalogs</a>
+        <a class="back-link" href="../index.html#«catalog.name»">← All catalogs</a>
         <h1>«catalog.name»</h1>
         «val formattedDescription = catalog.description.formatDescription»
         «IF formattedDescription !== null»
