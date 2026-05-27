@@ -67,7 +67,7 @@ public class CheckDocApplication implements IApplication {
     List<Path> checkFiles = new ArrayList<>();
     try (Stream<Path> walk = Files.walk(sourceDir)) {
       walk.filter(p -> p.toString().endsWith(".check"))
-          .filter(p -> { String n = p.toString().replace('\\', '/'); return !n.contains("/target/") && !n.matches(".*\\/\\.[^/]+/.*"); })
+          .filter(p -> { for (Path seg : p) { String s = seg.toString(); if (s.equals("target") || s.startsWith(".")) return false; } return true; })
           .forEach(checkFiles::add);
     }
 
