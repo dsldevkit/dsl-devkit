@@ -89,6 +89,9 @@ public class CheckDocApplication implements IApplication {
       Path contexts = docsDir.resolve("contexts.xml");
       Files.writeString(contexts, docTemplates.compileContexts(catalogs).toString());
       System.out.println("Wrote " + contexts);
+      Path index = docsDir.resolve("index.html");
+      Files.writeString(index, docTemplates.compileIndex(catalogs).toString());
+      System.out.println("Wrote " + index);
     }
 
     System.out.println("Processed " + checkFiles.size() + " .check files (" + catalogs.size() + " catalogs)");
