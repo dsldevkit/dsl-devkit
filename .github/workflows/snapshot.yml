@@ -26,6 +26,9 @@ jobs:
           ref: ${{ github.event.inputs.branch || github.ref }}
           fetch-depth: 0
 
+      - name: Check LF line endings
+        run: bash .github/scripts/check-line-endings.sh
+
       - name: Set snapshot SHA
         id: snapshot
         run: echo "sha=$(git rev-parse --short=8 HEAD)" >> "$GITHUB_OUTPUT"
@@ -53,8 +56,20 @@ jobs:
       - name: Build p2 update site
         run: |
           xvfb-run mvn clean verify \
+            checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check \
             -f ./ddk-parent/pom.xml \
-            --batch-mode
+            --batch-mode --fail-at-end
+
+      - name: Fail on missing surefire reports
+        if: always()
+        run: bash .github/scripts/check-surefire-reports.sh
+
+      - name: Archive test logs
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
+        with:
+          name: test-logs-${{ github.sha }}
+          path: com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
 
       - name: Upload p2 update site as artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7
