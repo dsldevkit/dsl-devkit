@@ -1,0 +1,99 @@
+/**
+ * Downloads a DDK release p2 update site from GitHub Releases and uploads it
+ * to the internal Artifactory p2-releases repository.
+ *
+ * Parameters:
+ *   RELEASE_VERSION       - The release version to publish (e.g. "18.0.0")
+ *   ARTIFACTORY_REPO_URL  - Base URL of the Artifactory repository
+ *   ARTIFACTORY_SERVER_ID - Server ID in ~/.m2/settings.xml that holds the Artifactory credentials
+ *
+ * Required tools:
+ *   curl, xmllint (available on the agent)
+ */
+
+pipeline {
+    agent { label 'linux' }
+
+    parameters {
+        string(
+            name: 'RELEASE_VERSION',
+            description: 'Release version to download from GitHub Releases and upload to Artifactory (e.g. 18.0.0)',
+            trim: true
+        )        
+        string(
+            name: 'ARTIFACTORY_REPO_URL',
+            description: 'Base URL of the Artifactory repository',
+            trim: true
+        )
+        string(
+            name: 'ARTIFACTORY_SERVER_ID',
+            description: 'Server ID in ~/.m2/settings.xml that holds the Artifactory credentials',
+            trim: true
+        )    
+}
+
+    environment {
+        GH_RELEASES_BASE_URL = 'https://github.com/dsldevkit/dsl-devkit/releases/download'
+    }
+
+    stages {
+        stage('Validate') {
+            steps {
+                script {
+                    if (!params.RELEASE_VERSION) {
+                        error 'RELEASE_VERSION parameter is required'
+                    }
+                    if (!params.ARTIFACTORY_REPO_URL) {
+                        error 'ARTIFACTORY_REPO_URL parameter is required'
+                    }
+                    if (!params.ARTIFACTORY_SERVER_ID) {
+                        error 'ARTIFACTORY_SERVER_ID parameter is required'
+                    }
+                }
+            }
+        }
+
+        stage('Download from GitHub Releases') {
+            steps {
+                sh """
+                    curl --fail --silent --show-error --location \\
+                        "${GH_RELEASES_BASE_URL}/v${params.RELEASE_VERSION}/p2-update-site.zip" \\
+                        -o "p2-update-site-${params.RELEASE_VERSION}.zip"
+
+                    echo "Downloaded p2-update-site-${params.RELEASE_VERSION}.zip"
+                """
+            }
+        }
+
+        stage('Upload to Artifactory') {
+            steps {
+                sh """
+                    set +x
+                    ARTIFACTORY_USER=\$(xmllint --xpath "string(//server[id='${ARTIFACTORY_SERVER_ID}']/username)" ~/.m2/settings.xml)
+                    ARTIFACTORY_PASS=\$(xmllint --xpath "string(//server[id='${ARTIFACTORY_SERVER_ID}']/password)" ~/.m2/settings.xml)
+
+                    # Upload and explode the archive in Artifactory
+                    curl --fail --silent --show-error \\
+                        -u "\${ARTIFACTORY_USER}:\${ARTIFACTORY_PASS}" \\
+                        -H "X-Explode-Archive: true" \\
+                        --upload-file "p2-update-site-${params.RELEASE_VERSION}.zip" \\
+                        "${ARTIFACTORY_REPO_URL}/${params.RELEASE_VERSION}/p2-update-site-${params.RELEASE_VERSION}.zip"
+
+                    echo "Successfully uploaded release ${params.RELEASE_VERSION} to Artifactory"
+                """
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo "Release ${params.RELEASE_VERSION} published to Artifactory at: ${ARTIFACTORY_REPO_URL}/${params.RELEASE_VERSION}/"
+        }
+        failure {
+            echo "Failed to publish release ${params.RELEASE_VERSION} to Artifactory"
+        }
+    }
+}
