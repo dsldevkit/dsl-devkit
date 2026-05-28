@@ -20,7 +20,7 @@ Run through this list before declaring a conversion done. Every item is a hard g
 | 3 | No `val`/`var` | Always use explicit types. `var` is banned. |
 | 4 | No unnecessary boxing | `Integer.valueOf(i)` only when signature requires boxed type. |
 | 14 | LooseCoupling | Interface types (`List`, `Map`, `Set`, `EList`) in fields/params/returns, not `ArrayList`/`HashMap`/`BasicEList`. |
-| 16 | No leading underscore on non-dispatch fields | Rename `_fieldName` → `fieldName`. |
+| 16 | Field names match `[a-z][a-zA-Z0-9]*` | Rename `_fieldName` → `fieldName`. Convert any underscore inside a name to camelCase (`my_field` → `myField`). Applies to all non-constant member fields; `static final` constants are exempt (they follow `ConstantName`). |
 
 ### String building
 
