@@ -90,6 +90,8 @@ Use this table for quick mechanical transforms. Full details in the rule files.
 | `var x = expr` | `ExplicitType x = expr;` |
 | `typeof(MyClass)` | `MyClass.class` |
 | `def dispatch method(Type1 x)` | Keep as `_method(Type1 x)` with `@SuppressWarnings` |
+| `@Inject extension Foo _foo` (field) | `private Foo foo;` — strip `_` prefix; names must match `[a-z][a-zA-Z0-9]*` |
+| Field `my_field` / `_my_field` | Rename to `myField` (camelCase, no underscores) |
 
 ### Operators and null handling
 
