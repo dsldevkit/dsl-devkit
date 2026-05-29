@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?compositeArtifactRepository version='1.0.0'?>
 <repository name='DDK p2 Latest Snapshot' type='org.eclipse.equinox.internal.p2.artifact.repository.CompositeArtifactRepository' version='1.0.0'>
-  <properties size='1'><property name='p2.timestamp' value='1780063939000'/></properties>
-  <children size='1'><child location='../4a6b1fe2/'/></children>
+  <properties size='1'><property name='p2.timestamp' value='1780064536000'/></properties>
+  <children size='1'><child location='../aec5702b/'/></children>
 </repository>
