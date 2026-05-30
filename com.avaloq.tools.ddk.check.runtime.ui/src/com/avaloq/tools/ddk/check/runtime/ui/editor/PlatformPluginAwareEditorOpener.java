@@ -78,15 +78,18 @@ public class PlatformPluginAwareEditorOpener extends LanguageSpecificURIEditorOp
       if (modelLocation != null) {
         PlatformPluginStorage storage = new PlatformPluginStorage(modelLocation);
         IEditorInput editorInput = new XtextReadonlyEditorInput(storage);
-        IWorkbenchPage activePage = workbench.getActiveWorkbenchWindow().getActivePage();
-        try {
-          IEditorPart editor = IDE.openEditor(activePage, editorInput, editorID);
-          selectAndReveal(editor, uri, crossReference, indexInList, select);
-          return EditorUtils.getXtextEditor(editor);
-        } catch (WrappedException e) {
-          LOG.error("Error while opening editor part for EMF URI '" + uri + "'", e.getCause()); //$NON-NLS-1$ //$NON-NLS-2$
-        } catch (PartInitException partInitException) {
-          LOG.error("Error while opening editor part for EMF URI '" + uri + "'", partInitException); //$NON-NLS-1$ //$NON-NLS-2$
+        final IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
+        if (activeWorkbenchWindow != null) {
+          IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
+          try {
+            IEditorPart editor = IDE.openEditor(activePage, editorInput, editorID);
+            selectAndReveal(editor, uri, crossReference, indexInList, select);
+            return EditorUtils.getXtextEditor(editor);
+          } catch (WrappedException e) {
+            LOG.error("Error while opening editor part for EMF URI '" + uri + "'", e.getCause()); //$NON-NLS-1$ //$NON-NLS-2$
+          } catch (PartInitException partInitException) {
+            LOG.error("Error while opening editor part for EMF URI '" + uri + "'", partInitException); //$NON-NLS-1$ //$NON-NLS-2$
+          }
         }
       }
     }

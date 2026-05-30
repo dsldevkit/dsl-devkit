@@ -13,6 +13,8 @@ package com.avaloq.tools.ddk.check.ui.navigation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.xtext.common.types.xtext.ui.TypeAwareHyperlinkHelper;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
@@ -39,8 +41,10 @@ public class CheckHyperlinkHelper extends TypeAwareHyperlinkHelper {
 
   @Override
   public void createHyperlinksByOffset(final XtextResource resource, final int offset, final IHyperlinkAcceptor acceptor) {
-    IEditorPart activeEditor = workbench.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-    if (activeEditor.getEditorInput() instanceof XtextReadonlyEditorInput) {
+    final IWorkbenchWindow activeWorkbenchWindow = workbench == null ? null : workbench.getActiveWorkbenchWindow();
+    final IWorkbenchPage activePage = activeWorkbenchWindow == null ? null : activeWorkbenchWindow.getActivePage();
+    final IEditorPart activeEditor = activePage == null ? null : activePage.getActiveEditor();
+    if (activeEditor != null && activeEditor.getEditorInput() instanceof XtextReadonlyEditorInput) {
       INode crossRefNode = eObjectAtOffsetHelper.getCrossReferenceNode(resource, new TextRegion(offset, 0));
       if (crossRefNode == null) {
         return;
