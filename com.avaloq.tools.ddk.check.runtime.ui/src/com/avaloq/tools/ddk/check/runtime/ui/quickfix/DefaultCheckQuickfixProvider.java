@@ -56,7 +56,7 @@ import com.google.inject.name.Named;
  */
 public class DefaultCheckQuickfixProvider extends DefaultQuickfixProvider {
 
-  private static final Logger LOGGER = LogManager.getLogger(DefaultQuickfixProvider.class);
+  private static final Logger LOGGER = LogManager.getLogger(DefaultCheckQuickfixProvider.class);
 
   @Inject
   @Named(Constants.LANGUAGE_NAME)
