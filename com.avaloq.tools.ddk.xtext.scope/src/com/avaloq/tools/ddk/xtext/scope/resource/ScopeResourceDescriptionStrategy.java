@@ -70,6 +70,11 @@ public class ScopeResourceDescriptionStrategy extends DefaultResourceDescription
       LOG.warn("Could not resolve scope model " + EcoreUtil.getURI(obj));
       return "";
     }
-    return ((XtextResource) obj.eResource()).getParseResult().getRootNode().getText();
+    final XtextResource resource = (XtextResource) obj.eResource();
+    if (resource.getParseResult() == null) {
+      LOG.warn("No parse result for scope model " + EcoreUtil.getURI(obj));
+      return "";
+    }
+    return resource.getParseResult().getRootNode().getText();
   }
 }
