@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "PMD",
+          "version": "7.27.0",
+          "informationUri": "https://docs.pmd-code.org/latest/",
+          "rules": []
+        }
+      },
+      "results": [],
+      "invocations": [
+        {
+          "executionSuccessful": false,
+          "toolConfigurationNotifications": [],
+          "toolExecutionNotifications": [
+            {
+              "locations": [
+                {
+                  "physicalLocation": {
+                    "artifactLocation": {
+                      "uri": "file://src/Bad.java"
+                    }
+                  }
+                }
+              ],
+              "message": {
+                "text": "RuntimeException: synthetic analyzer failure"
+              },
+              "exception": {
+                "message": "java.lang.RuntimeException: synthetic analyzer failure\n\tat Probe.lambda$main$0(Probe.java:7)\n\tat net.sourceforge.pmd.util.BaseResultProducingCloseable.using(BaseResultProducingCloseable.java:66)\n\tat net.sourceforge.pmd.reporting.Report.buildReport(Report.java:262)\n\tat Probe.main(Probe.java:7)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:484)\n\tat jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:208)\n\tat jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:135)\n"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
