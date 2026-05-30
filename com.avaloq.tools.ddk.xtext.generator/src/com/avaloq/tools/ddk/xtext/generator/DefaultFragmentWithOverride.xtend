@@ -46,8 +46,8 @@ class DefaultFragmentWithOverride extends AbstractXtextGeneratorFragment {
   }
 
   override checkConfiguration(Issues issues) {
-    overrideFragment.checkConfiguration(issues)
-    defaultFragment.checkConfiguration(issues)
+    overrideFragment?.checkConfiguration(issues)
+    defaultFragment?.checkConfiguration(issues)
   }
 
 }
