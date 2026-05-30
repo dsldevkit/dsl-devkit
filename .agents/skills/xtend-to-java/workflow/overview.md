@@ -99,6 +99,12 @@ Do not write the Java file first and then vet it — read the references first, 
 > to read what the Xtend compiler produced in `xtend-gen/`.
 >
 > **There is no file small enough to skip this step.**
+>
+> **If `xtend-gen/` is not present:** it is gitignored and only exists after a build, so a fresh
+> checkout often has none. You may NOT skip the ground truth — obtain it one of two ways:
+> (a) build the module to generate `xtend-gen/`, or (b) if a pre-converted reference branch exists,
+> read its `.java` for this file (it was produced from `xtend-gen/` and encodes the same behavior).
+> Wherever this document says "read `xtend-gen/`", that reference `.java` is the equivalent ground truth.
 
 ### 3a. Read the Xtend source — understand intent and structure
 
@@ -116,6 +122,20 @@ Find the corresponding generated file under `xtend-gen/` (same package, same cla
 - Exactly which Java methods were generated for each dispatch variant
 - The precise exception handling Xtend generated
 - Which implicit null checks, type casts, and conversions Xtend inserted
+
+### 3b-also. Read `src-gen/` for any generated supertype
+
+`xtend-gen/` is the Xtend *compiler* output for the file's own logic. It is **not** the same as
+`src-gen/`, the MWE2/Xtext *generator* output that holds the `Abstract<Lang><Layer>Module`,
+`Abstract…Setup`, runtime/UI module bases, etc. that the migrated class `extends`/`override`s.
+
+If the class extends or overrides a generated type, read that supertype under `src-gen/` (same
+module). Unlike `xtend-gen/`, **`src-gen/` is committed**, so it is present without a build. It is
+the authoritative source for:
+- inherited **constructor signatures** (an `@FinalFieldsConstructor` must call the right `super(...)`)
+- which methods are genuinely `@Override`s (vs new methods) and their **exact return types** — Xtend
+  often infers a return type from the override target that you must restate explicitly in Java
+- the binding methods a `*Module` is expected to provide
 
 ### 3c. Template whitespace — verify against `xtend-gen/`
 
@@ -135,7 +155,7 @@ Xtend's template whitespace rules:
 After reading both references, write Java that:
 1. **Matches the `xtend-gen/` behavior exactly** for all string outputs, method signatures, and control flow
 2. **Uses idiomatic Java** (text blocks, `.formatted()`, concatenation) instead of `StringConcatenation`
-3. **Preserves the original Javadoc exactly** — never invent
+3. **Preserves the original class/member Javadoc exactly** — never invent. (The file copyright header is the exception: always normalise it to the Avaloq banner per [`formatting-and-commit.md`](./formatting-and-commit.md) — replacing any generated-stub or Javadoc-style header — which is not "inventing".)
 4. **Follows the quality checklist** in [`workflow/validation-checklist.md`](./validation-checklist.md)
 
 ---
