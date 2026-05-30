@@ -10,6 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.checkcfg.ui.quickfix;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.osgi.util.NLS;
@@ -26,6 +29,7 @@ import org.eclipse.xtext.validation.Issue;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
+import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind;
 import com.avaloq.tools.ddk.checkcfg.validation.IssueCodes;
 
@@ -155,6 +159,45 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
       public void apply(final EObject element, final IModificationContext context) {
         ConfiguredCheck check = EcoreUtil2.getContainerOfType(element, ConfiguredCheck.class);
         check.setSeverity(SeverityKind.DEFAULT);
+      }
+    });
+  }
+
+  /**
+   * Removes duplicate language configurations by merging the contents of every later occurrence into the first one
+   * and deleting the duplicates.
+   *
+   * @param issue
+   *          the issue
+   * @param acceptor
+   *          the acceptor
+   */
+  @Fix(IssueCodes.DUPLICATE_LANGUAGE_CONFIGURATION)
+  public void removeDuplicateLanguageConfiguration(final Issue issue, final IssueResolutionAcceptor acceptor) {
+    acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_LABEL, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_DESCN, null, new ISemanticModification() {
+      @Override
+      public void apply(final EObject element, final IModificationContext context) {
+        final CheckConfiguration configuration = EcoreUtil2.getContainerOfType(element, CheckConfiguration.class);
+        final String languageName = ((ConfiguredLanguageValidator) element).getLanguage();
+        if (configuration == null || languageName == null) {
+          return;
+        }
+        ConfiguredLanguageValidator first = null;
+        final List<ConfiguredLanguageValidator> duplicates = new ArrayList<ConfiguredLanguageValidator>();
+        for (final ConfiguredLanguageValidator validator : configuration.getLanguageValidatorConfigurations()) {
+          if (languageName.equals(validator.getLanguage())) {
+            if (first == null) {
+              first = validator;
+            } else {
+              duplicates.add(validator);
+            }
+          }
+        }
+        for (final ConfiguredLanguageValidator duplicate : duplicates) {
+          first.getParameterConfigurations().addAll(duplicate.getParameterConfigurations());
+          first.getCatalogConfigurations().addAll(duplicate.getCatalogConfigurations());
+          configuration.getLanguageValidatorConfigurations().remove(duplicate);
+        }
       }
     });
   }
