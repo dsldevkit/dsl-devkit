@@ -178,9 +178,8 @@ public final class KeywordAnalysisHelper {
    *           if an I/O error occurs
    */
   public void printViolations(final String srcGenPath) {
-    try {
-      String fileName = getKeywordsDiagnosticReportFileName(srcGenPath);
-      PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8);
+    String fileName = getKeywordsDiagnosticReportFileName(srcGenPath);
+    try (PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8)) {
       writer.println("Please check in this file, so a diff can be used to detect unexpected changes");
       writer.println();
       writer.println("  identifiers rejected    - are not listed in MWE2 file as reserved words");
@@ -266,7 +265,6 @@ public final class KeywordAnalysisHelper {
         writer.println(ruleName);
       }
       writer.println("if any of them is used to parse identifiers, add them to identifierRules in MWE2 file");
-      writer.close();
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
@@ -441,13 +439,13 @@ public final class KeywordAnalysisHelper {
   public void printReport(final String srcGenPath) {
     try {
       String fileName = getReportFileName(srcGenPath);
-      PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8);
-      writer.print(report.build());
-      writer.close();
+      try (PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8)) {
+        writer.print(report.build());
+      }
       String docuFileName = getDocFileName(srcGenPath);
-      PrintWriter docuWriter = new PrintWriter(new File(docuFileName), StandardCharsets.UTF_8);
-      docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
-      docuWriter.close();
+      try (PrintWriter docuWriter = new PrintWriter(new File(docuFileName), StandardCharsets.UTF_8)) {
+        docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
+      }
       LOGGER.info("report on keywords is written into {}", fileName);
     } catch (IOException e) {
       throw new UncheckedIOException(e);
