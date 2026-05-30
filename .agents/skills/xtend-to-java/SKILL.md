@@ -23,9 +23,13 @@ the `xtend-gen/` output — what Xtend compiled to Java before the migration.
 
 ## Hard Rules — Non-Negotiable
 
-> **Hard rule — read BOTH `.xtend` source AND `xtend-gen/` output in full before writing ANY Java.**
+> **Hard rule — read BOTH `.xtend` source AND a behavioural ground truth in full before writing ANY Java.**
 > No exceptions regardless of file size. A 5-line file with one template expression can have
 > surprising whitespace behavior. See [`workflow/overview.md`](./workflow/overview.md) for the full rationale.
+>
+> The ground truth is the `xtend-gen/` compiled output. **`xtend-gen/` is gitignored and only exists after a build** — if it is absent you must still obtain a ground truth before writing Java: either (a) build the module to generate `xtend-gen/`, or (b) if a pre-converted reference branch exists, read its `.java` (it was produced from `xtend-gen/` and encodes the same behavior). **Never write Java from the `.xtend` source alone.**
+>
+> Separately, if the class extends/overrides a **generated supertype** (`Abstract…Module`, `…Setup`, runtime/UI bases), read that supertype under `src-gen/` (committed, present without a build) — it is the authoritative source for inherited constructor signatures, real `@Override` targets, and Xtend-inferred return types. See [`workflow/overview.md`](./workflow/overview.md) §3b-also.
 
 > **Template whitespace is the #1 source of migration bugs.**
 > Xtend strips indentation relative to control structures. The only reliable way to know what
