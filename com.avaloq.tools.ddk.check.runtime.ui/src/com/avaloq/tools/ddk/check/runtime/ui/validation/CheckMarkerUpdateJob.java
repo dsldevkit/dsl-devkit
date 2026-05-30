@@ -236,9 +236,7 @@ public class CheckMarkerUpdateJob extends Job {
         markerCreator.createMarker(issue, file, MarkerTypes.forCheckType(issue.getType()));
       }
     } else {
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.error("Could not create markers. The marker creator is null."); //$NON-NLS-1$
-      }
+      LOGGER.error("Could not create markers. The marker creator is null."); //$NON-NLS-1$
     }
   }
 
