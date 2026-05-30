@@ -45,6 +45,7 @@ public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
       }
       """;
 
+  // CPD-OFF — sibling test-class scaffolding, kept explicit (#1339)
   @Override
   protected AbstractXtextTestUtil getXtextTestUtil() {
     return CheckCfgTestUtil.getInstance();
@@ -70,6 +71,7 @@ public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   @Test
   public void testConfiguredParameterProposals() {
+  // CPD-ON
     final String source = SOURCE_TEMPLATE.formatted(TestPropertySpecificationWithExpectedValues.INSTANCE.getName(), expected(TestPropertySpecificationWithExpectedValues.INSTANCE.getExpectedValues()));
     assertKernelSourceProposals("ConfiguredParameterProposals.checkcfg", source);
   }

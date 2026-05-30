@@ -110,6 +110,7 @@ import com.google.inject.Inject;
  */
 @SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FormatJvmModelInferrer extends AbstractModelInferrer {
+  // CPD-OFF — migrated Xtend dispatch/emission code, kept faithful; de-dup is a migration follow-up (#1339)
   // CHECKSTYLE:CONSTANTS-OFF the repeated literals are Java source fragments emitted by this generator, not nameable constants
   // CHECKSTYLE:CHECK-OFF LambdaBodyLength the model-inference closures mirror the Xtext JvmTypesBuilder API and are kept whole
 

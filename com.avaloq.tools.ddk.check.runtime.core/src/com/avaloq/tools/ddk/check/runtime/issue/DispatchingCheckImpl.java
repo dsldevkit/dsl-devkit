@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 @SuppressWarnings({"checkstyle:AbstractClassName"})
 public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
 
+  // CPD-OFF — incidental token overlap (DI field + trace/try idiom), not an extractable unit (#1339)
   @Inject
   private ITraceSet traceSet;
 
@@ -72,6 +73,7 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
 
     State state = new State();
     state.chain = diagnostics;
+    // CPD-ON
     state.eventCollector = eventCollector;
 
     validate(checkMode, object, state);
@@ -123,6 +125,7 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
     if (!disabledMethodTracker.isDisabled(contextName)) {
       Collector eventCollector = diagnosticCollector.getEventCollector();
       try {
+        // CPD-OFF — incidental token overlap (DI field + trace/try idiom), not an extractable unit (#1339)
         traceStart(qContextName, object, eventCollector);
         checkAction.run();
       } catch (Exception e) {
@@ -160,6 +163,7 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
     // CHECKSTYLE:OFF
     public DiagnosticChain chain;
     public CheckType currentCheckType;
+    // CPD-ON
     public boolean hasErrors;
     public ResourceValidationRuleSummaryEvent.Collector eventCollector;
     // CHECKSTYLE:ON

@@ -11,19 +11,15 @@
 package com.avaloq.tools.ddk.xtext.resource;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 
 import com.google.common.collect.Iterables;
@@ -134,43 +130,6 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
   }
 
   /**
-   * Return an Iterable containing all the contents of the given feature of the given object. If the
-   * feature is not many-valued, the resulting iterable will have one element. If the feature is an EReference,
-   * the iterable may contain proxies. The iterable may contain null values.
-   *
-   * @param <T>
-   *          The Generic type of the objects in the iterable
-   * @param obj
-   *          The object
-   * @param feature
-   *          The feature
-   * @return An iterable over all the contents of the feature of the object.
-   */
-  @SuppressWarnings("unchecked")
-  private <T> Iterable<T> featureIterable(final EObject obj, final EStructuralFeature feature) {
-    if (feature == null) {
-      return Collections.emptyList();
-    }
-    if (feature.isMany()) {
-      if (feature instanceof EAttribute || ((EReference) feature).isContainment()) {
-        return (Iterable<T>) obj.eGet(feature);
-      }
-      return new Iterable<T>() {
-        @Override
-        public Iterator<T> iterator() {
-          EList<T> list = (EList<T>) obj.eGet(feature);
-          if (list instanceof InternalEList<T> internalList) {
-            return internalList.basicIterator(); // Don't resolve
-          } else {
-            return list.iterator();
-          }
-        }
-      };
-    }
-    return Collections.singletonList((T) obj.eGet(feature, false)); // Don't resolve
-  }
-
-  /**
    * Generate a fingerprint for the target object using its URI.
    *
    * @param target
@@ -249,7 +208,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       hasher.putUnencodedChars(NULL_STRING);
       return;
     }
-    final Iterable<? extends EObject> targets = featureIterable(obj, ref);
+    final Iterable<? extends EObject> targets = FingerprintFeatures.featureIterable(obj, ref);
     if (targets == null) {
       hasher.putUnencodedChars(NULL_STRING);
       return;
@@ -306,7 +265,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       hasher.putUnencodedChars(NULL_STRING);
       return;
     }
-    final Iterable<? extends Object> values = featureIterable(obj, attr);
+    final Iterable<? extends Object> values = FingerprintFeatures.featureIterable(obj, attr);
     if (values == null) {
       hasher.putUnencodedChars(NULL_STRING);
       return;
@@ -409,7 +368,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     if (obj == null) {
       return;
     }
-    final Iterable<? extends EObject> targets = featureIterable(obj, ref);
+    final Iterable<? extends EObject> targets = FingerprintFeatures.featureIterable(obj, ref);
     if (targets == null) {
       return;
     }

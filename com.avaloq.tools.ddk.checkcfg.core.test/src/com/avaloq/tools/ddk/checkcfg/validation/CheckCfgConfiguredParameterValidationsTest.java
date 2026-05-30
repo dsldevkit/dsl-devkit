@@ -28,6 +28,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 
 public class CheckCfgConfiguredParameterValidationsTest extends AbstractValidationTest {
 
+  // CPD-OFF — sibling test-class scaffolding, kept explicit (#1339)
   @Override
   protected AbstractXtextTestUtil getXtextTestUtil() {
     return CheckCfgTestUtil.getInstance();
@@ -53,6 +54,7 @@ public class CheckCfgConfiguredParameterValidationsTest extends AbstractValidati
 
   @Test
   public void testConfiguredParameterValues() {
+  // CPD-ON
     final TestPropertySpecificationWithExpectedValues allowedOnly = TestPropertySpecificationWithExpectedValues.INSTANCE;
     final TestPropertySpecificationWithOutExpectedValues acceptsAny = TestPropertySpecificationWithOutExpectedValues.INSTANCE;
     final String source = """

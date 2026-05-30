@@ -120,22 +120,14 @@ public final class CheckQuickfixExtensionHelper extends AbstractCheckExtensionHe
    *          the check catalog
    * @return the target class FQN
    */
-  private String getTargetClassName(final CheckCatalog catalog) {
+  @Override
+  protected String getTargetClassName(final CheckCatalog catalog) {
     return getFromServiceProvider(CheckGeneratorNaming.class, catalog).qualifiedQuickfixClassName(catalog);
   }
 
   @Override
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
-    // CHECKSTYLE:OFF
-    // @Format-Off
-    return QUICKFIX_EXTENSION_POINT_ID.equals(extension.getPoint())
-        && (!extensionNameMatches(extension, catalog)
-        || Iterables.size(elements) != 1
-        || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
-        || catalog.getGrammar() == null && Iterables.get(elements, 0).getAttribute(LANGUAGE_ELEMENT_TAG) != null
-        || catalog.getGrammar() != null && !languageNameMatches(Iterables.get(elements, 0), catalog.getGrammar().getName()));
-    // @Format-On
-    // CHECKSTYLE:ON
+    return isTargetClassExtensionUpdateRequired(catalog, extension, elements);
   }
 
 }

@@ -148,6 +148,41 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
   }
 
   /**
+   * Checks whether a class-referencing extension (validator / quickfix) needs updating: it must point at this helper's
+   * extension point and reference exactly one element whose target class, language and catalog name still match the
+   * check catalog. Shared by the validator and quickfix helpers, whose only difference is {@link #getTargetClassName}.
+   *
+   * @param catalog
+   *          the catalog
+   * @param extension
+   *          the extension
+   * @param elements
+   *          the elements
+   * @return true, if the extension must be regenerated
+   */
+  protected boolean isTargetClassExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
+    // CHECKSTYLE:OFF
+    // @Format-Off
+    return getExtensionPointId().equals(extension.getPoint())
+        && (!extensionNameMatches(extension, catalog)
+        || Iterables.size(elements) != 1
+        || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
+        || catalog.getGrammar() == null && Iterables.get(elements, 0).getAttribute(LANGUAGE_ELEMENT_TAG) != null
+        || catalog.getGrammar() != null && !languageNameMatches(Iterables.get(elements, 0), catalog.getGrammar().getName()));
+    // @Format-On
+    // CHECKSTYLE:ON
+  }
+
+  /**
+   * Gets the target class name based on the package path of given check catalog.
+   *
+   * @param catalog
+   *          the check catalog
+   * @return the target class FQN
+   */
+  protected abstract String getTargetClassName(CheckCatalog catalog);
+
+  /**
    * Updates a given extension to values calculated using given check catalog.
    *
    * @param catalog

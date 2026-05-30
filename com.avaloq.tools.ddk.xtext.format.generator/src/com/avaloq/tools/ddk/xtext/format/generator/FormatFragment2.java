@@ -164,6 +164,7 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
       protected void appendTo(final TargetStringConcatenation builder) {
         builder.append("import com.avaloq.tools.ddk.xtext.formatting.ExtendedLineEntry");
         builder.newLine();
+        // CPD-OFF — parallel Xtend/Java formatter-stub emission, kept explicit (#1339)
         builder.append("import java.util.List");
         builder.newLine();
         builder.newLine();
@@ -184,6 +185,7 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
         builder.append(" */");
         builder.newLine();
         builder.append("class ");
+        // CPD-ON
         builder.append(getFormatterStub(getGrammar()).getSimpleName());
         builder.append(" extends ");
         builder.append(FormatGeneratorUtil.getFormatterName(getGrammar(), "Abstract"));
@@ -251,6 +253,7 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
         builder.append("import java.util.List;");
         builder.newLine();
         builder.newLine();
+        // CPD-OFF — parallel Xtend/Java formatter-stub emission, kept explicit (#1339)
         builder.append("import org.eclipse.xtext.TerminalRule;");
         builder.newLine();
         builder.newLine();
@@ -271,6 +274,7 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
         builder.append(" */");
         builder.newLine();
         builder.append("public class ");
+        // CPD-ON
         builder.append(getFormatterStub(getGrammar()).getSimpleName());
         builder.append(" extends ");
         builder.append(FormatGeneratorUtil.getFormatterName(getGrammar(), "Abstract"));
