@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.builder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +19,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.pde.internal.core.util.CoreUtility;
 import org.eclipse.pde.internal.ua.core.ctxhelp.ICtxHelpConstants;
@@ -37,6 +40,7 @@ import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckContextsExtensionHelper;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
+import com.avaloq.tools.ddk.check.ui.internal.Activator;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Iterables;
@@ -74,7 +78,12 @@ public class CheckContextsGenerator {
   public void updateContextsFile(final URI uri, final IBuildContext buildContext) throws CoreException {
     IFile file = projectHelper.getHelpFile(uri, CheckContextsExtensionHelper.CONTEXTS_FILE_NAME);
 
-    CtxHelpModel model = new CtxHelpModel(CoreUtility.getTextDocument(file.getContents()), false);
+    final CtxHelpModel model;
+    try (InputStream contents = file.getContents()) {
+      model = new CtxHelpModel(CoreUtility.getTextDocument(contents), false);
+    } catch (IOException e) {
+      throw new CoreException(new Status(Status.ERROR, Activator.getPluginId(), e.getMessage(), e));
+    }
     model.setUnderlyingResource(file);
     model.load();
 
@@ -177,7 +186,12 @@ public class CheckContextsGenerator {
     if (project != null) {
       IFile file = projectHelper.getHelpFile(project, CheckContextsExtensionHelper.CONTEXTS_FILE_NAME);
 
-      CtxHelpModel model = new CtxHelpModel(CoreUtility.getTextDocument(file.getContents()), false);
+      final CtxHelpModel model;
+      try (InputStream contents = file.getContents()) {
+        model = new CtxHelpModel(CoreUtility.getTextDocument(contents), false);
+      } catch (IOException e) {
+        throw new CoreException(new Status(Status.ERROR, Activator.getPluginId(), e.getMessage(), e));
+      }
       model.setUnderlyingResource(file);
       model.load();
 

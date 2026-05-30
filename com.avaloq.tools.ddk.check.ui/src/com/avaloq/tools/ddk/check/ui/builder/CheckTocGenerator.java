@@ -10,8 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.builder;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.pde.internal.core.text.IDocumentElementNode;
 import org.eclipse.pde.internal.core.util.CoreUtility;
@@ -26,6 +30,7 @@ import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckProjectHelper;
 import com.avaloq.tools.ddk.check.ui.builder.util.CheckTocExtensionHelper;
+import com.avaloq.tools.ddk.check.ui.internal.Activator;
 import com.avaloq.tools.ddk.xtext.ui.util.RuntimeProjectUtil;
 import com.google.inject.Inject;
 
@@ -222,9 +227,18 @@ public class CheckTocGenerator {
    */
   private TocModel loadTocModel(final URI uri) throws CoreException {
     IFile file = projectHelper.getHelpFile(uri, CheckTocExtensionHelper.TOC_FILE_NAME);
-    TocModel model = new TocModel(CoreUtility.getTextDocument(file.getContents()), false);
+    final TocModel model;
+    try (InputStream contents = file.getContents()) {
+      model = new TocModel(CoreUtility.getTextDocument(contents), false);
+    } catch (IOException e) {
+      throw new CoreException(new Status(Status.ERROR, Activator.getPluginId(), e.getMessage(), e));
+    }
     model.setUnderlyingResource(file);
-    model.load(file.getContents(), false);
+    try (InputStream contents = file.getContents()) {
+      model.load(contents, false);
+    } catch (IOException e) {
+      throw new CoreException(new Status(Status.ERROR, Activator.getPluginId(), e.getMessage(), e));
+    }
     return model;
   }
 
