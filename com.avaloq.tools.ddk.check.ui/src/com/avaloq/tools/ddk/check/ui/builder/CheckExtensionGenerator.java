@@ -601,8 +601,8 @@ class CheckExtensionGenerator {
     if (file == null || !file.exists()) {
       return false;
     }
-    try {
-      SAXParserFactory.newInstance().newSAXParser().parse(new BufferedInputStream(file.getContents(true)), new PluginHandler(false));
+    try (BufferedInputStream stream = new BufferedInputStream(file.getContents(true))) {
+      SAXParserFactory.newInstance().newSAXParser().parse(stream, new PluginHandler(false));
       return true;
     } catch (SAXException | IOException | ParserConfigurationException | CoreException e) {
       return false;

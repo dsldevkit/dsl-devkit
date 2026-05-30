@@ -199,8 +199,8 @@ public class DeployJob extends Job {
     String uriString = pathMan.getURIValue(CheckCfgConstants.CHECK_CFG_VAR_NAME).toString();
     URI uri = URI.createURI(uriString, true);
     Resource resource = rs.createResource(uri);
-    try {
-      resource.load(new FileInputStream(new File(pathMan.getURIValue(CheckCfgConstants.CHECK_CFG_VAR_NAME))), rs.getLoadOptions());
+    try (FileInputStream input = new FileInputStream(new File(pathMan.getURIValue(CheckCfgConstants.CHECK_CFG_VAR_NAME)))) {
+      resource.load(input, rs.getLoadOptions());
       rs.getURIResourceMap().put(uri, resource);
       EcoreUtil.resolveAll(resource);
       CheckConfiguration checkConfig = (CheckConfiguration) resource.getContents().get(0);
