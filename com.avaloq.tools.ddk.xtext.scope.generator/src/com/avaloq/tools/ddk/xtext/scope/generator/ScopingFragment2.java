@@ -44,7 +44,7 @@ public class ScopingFragment2 extends AbstractXtextGeneratorFragment {
     }
 
     if (getProjectConfig().getEclipsePlugin().getManifest() != null) {
-      getProjectConfig().getRuntime().getManifest().getRequiredBundles().add(RUNTIME_PLUGIN);
+      getProjectConfig().getEclipsePlugin().getManifest().getRequiredBundles().add(RUNTIME_PLUGIN);
     }
   }
 }
