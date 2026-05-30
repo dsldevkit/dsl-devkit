@@ -33,7 +33,7 @@ import com.google.common.collect.Iterables;
 public final class EObjectDescriptions {
 
   /** Class-wide logger. */
-  private static final Logger LOGGER = LogManager.getLogger(NameFunctions.class);
+  private static final Logger LOGGER = LogManager.getLogger(EObjectDescriptions.class);
 
   /** No public instantiation. */
   private EObjectDescriptions() {

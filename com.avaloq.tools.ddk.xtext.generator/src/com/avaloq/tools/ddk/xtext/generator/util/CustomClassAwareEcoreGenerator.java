@@ -44,7 +44,7 @@ import com.google.common.collect.Lists;
  */
 @SuppressWarnings("nls")
 public class CustomClassAwareEcoreGenerator extends EcoreGenerator {
-  private static final Logger LOGGER = LogManager.getLogger(EcoreGenerator.class);
+  private static final Logger LOGGER = LogManager.getLogger(CustomClassAwareEcoreGenerator.class);
 
   private String genModel;
   private final List<String> suppressedSrcPaths = Lists.newLinkedList();
