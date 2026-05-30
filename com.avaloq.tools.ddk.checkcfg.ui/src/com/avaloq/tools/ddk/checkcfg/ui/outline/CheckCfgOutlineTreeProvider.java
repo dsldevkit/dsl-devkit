@@ -33,8 +33,6 @@ public class CheckCfgOutlineTreeProvider extends DefaultOutlineTreeProvider {
   @Inject
   private StylerFactory stylerFactory;
 
-  // CHECKSTYLE:OFF
-
   /**
    * Gets the outline node text for a configured catalog. Tries to resolve linked catalog's <em>name</em>.
    * If the reference is not resolvable, an appropriate unresolved label is returned.
