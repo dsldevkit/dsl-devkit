@@ -112,23 +112,14 @@ public final class CheckValidatorExtensionHelper extends AbstractCheckExtensionH
    *          the check catalog
    * @return the target class FQN
    */
-  private String getTargetClassName(final CheckCatalog catalog) {
+  @Override
+  protected String getTargetClassName(final CheckCatalog catalog) {
     return getFromServiceProvider(CheckGeneratorNaming.class, catalog).qualifiedValidatorClassName(catalog);
   }
 
   @Override
-  public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
-    // CHECKSTYLE:OFF
-    // @Format-Off
-    return CHECK_EXTENSION_POINT_ID.equals(extension.getPoint())
-        && (!extensionNameMatches(extension, catalog)
-        || Iterables.size(elements) != 1
-        || !targetClassMatches(Iterables.get(elements, 0), getTargetClassName(catalog))
-        || catalog.getGrammar() == null && Iterables.get(elements, 0).getAttribute(LANGUAGE_ELEMENT_TAG) != null
-        || catalog.getGrammar() != null && !languageNameMatches(Iterables.get(elements, 0), catalog.getGrammar().getName())
-    );
-    // @Format-On
-    // CHECKSTYLE:ON
+  protected boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
+    return isTargetClassExtensionUpdateRequired(catalog, extension, elements);
   }
 
 }

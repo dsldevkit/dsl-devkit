@@ -44,4 +44,18 @@ public abstract class AbstractCheckDocumentationExtensionHelper extends Abstract
     return !config.isGenerateLanguageInternalChecks();
   }
 
+  /**
+   * Documentation extensions do not reference a generated target class, so documentation helpers have no target class name and
+   * provide their own {@link #isExtensionUpdateRequired} logic that never consults it.
+   *
+   * @param catalog
+   *          the check catalog
+   * @return never returns normally
+   */
+  @SuppressWarnings("PMD.UnusedFormalParameter")
+  @Override
+  protected String getTargetClassName(final CheckCatalog catalog) {
+    throw new UnsupportedOperationException("Documentation extension helpers have no target class"); //$NON-NLS-1$
+  }
+
 }
