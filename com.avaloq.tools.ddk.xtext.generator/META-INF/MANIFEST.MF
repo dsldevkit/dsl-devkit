@@ -26,7 +26,6 @@ Import-Package: org.apache.logging.log4j,
  org.apache.logging.log4j.util
 Export-Package: com.avaloq.tools.ddk.xtext.generator.builder,
  com.avaloq.tools.ddk.xtext.generator.ecore,
- com.avaloq.tools.ddk.xtext.generator.expression,
  com.avaloq.tools.ddk.xtext.generator.formatting,
  com.avaloq.tools.ddk.xtext.generator.languageconstants,
  com.avaloq.tools.ddk.xtext.generator.modelinference,
