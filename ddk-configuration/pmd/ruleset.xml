@@ -120,7 +120,6 @@
     <exclude name="ShortVariable"/> <!--  not sensible -->
     <exclude name="TooManyStaticImports"/>
     <exclude name="UnnecessaryAnnotationValueElement"/>
-    <exclude name="UnnecessaryImport"/><!--Too many false positives after PMD 7 -->
     <exclude name="UnnecessaryModifier"/><!--Checkstyle-->
     <exclude name="UnnecessaryFullyQualifiedName"/>
     <exclude name="UnnecessaryLocalBeforeReturn"/>
