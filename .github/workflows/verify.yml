@@ -117,6 +117,8 @@ jobs:
       MAVEN_OPTS: -Xmx4g
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
+        with:
+          fetch-depth: 0  # need the PR base commit to diff the changed modules
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5
         with:
           distribution: 'temurin'
@@ -130,13 +132,25 @@ jobs:
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-0-
 
+      - name: Scope SpotBugs to the PR's changed modules
+        # Injects <spotbugs.skip>true> into unchanged module poms so the per-module
+        # SpotBugs fork is skipped for them (the lever that actually scopes the cost).
+        # Full compile is preserved (correct aux-classpath); a build/config change ->
+        # full scan. pull_request only; master/snapshot run a full scan.
+        run: bash .github/scripts/compute-spotbugs-skip.sh "${{ github.event.pull_request.base.sha }}"
+
       - name: SpotBugs report (SARIF)
         # sarifOutput=true emits spotbugsSarif.json (also writes spotbugsXml.xml).
+        # jgit.dirtyWorkingTree=ignore: the scope step intentionally edits poms, so the
+        # working tree is dirty here; this job releases nothing, so we tell Tycho's jgit
+        # build-qualifier to use the last commit's timestamp instead of failing (the
+        # repo keeps jgit.dirtyWorkingTree=error for maven-verify / releases).
         run: |
           mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
             compile \
             spotbugs:spotbugs \
-            -Dspotbugs.sarifOutput=true
+            -Dspotbugs.sarifOutput=true \
+            -Djgit.dirtyWorkingTree=ignore
 
       - name: Merge per-module SpotBugs SARIFs
         if: always()
@@ -166,7 +180,9 @@ jobs:
           fi
 
       - name: Upload SpotBugs SARIF to Code Scanning
-        if: always()
+        # Skip when nothing was scanned (e.g. a docs-only PR -> all modules skipped):
+        # an empty .sarif-merged would otherwise fail upload-sarif ("No SARIF files").
+        if: ${{ always() && hashFiles('.sarif-merged/spotbugs.sarif') != '' }}
         uses: github/codeql-action/upload-sarif@7fd177fa680c9881b53cdab4d346d32574c9f7f4  # v3.35.4
         with:
           sarif_file: .sarif-merged
