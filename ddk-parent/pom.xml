@@ -398,7 +398,6 @@
           <maxRank>15</maxRank>
           <threshold>Low</threshold>
           <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
-          <maxHeap>1024</maxHeap>
         </configuration>
       </plugin>
     </plugins>
