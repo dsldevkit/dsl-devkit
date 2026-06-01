@@ -85,7 +85,7 @@
     <exclude name="NonExhaustiveSwitch"/>
     <exclude name="UnnecessaryWarningSuppression"/> <!--Experimental, too many false positives-->
     <exclude name="UnusedLocalVariable"/><!--Checkstyle-->
-    <exclude name="JUnit5TestShouldBePackagePrivate"/>
+    <exclude name="JUnitJupiterTestShouldBePackagePrivate"/>
   </rule>
   <rule ref="category/java/bestpractices.xml/GuardLogStatement">
     <properties>

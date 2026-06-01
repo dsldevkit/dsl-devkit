@@ -29,6 +29,7 @@ import com.google.common.collect.Maps;
  * Watchdog that keeps track of sources processed during a build. When the builder fails to report progress for a period of time, a warning will be logged,
  * along with the stack traces for all threads of the running application.
  */
+@SuppressWarnings("PMD.OverridingThreadRun") // Intentionally a Thread subclass: named thread with start()/interrupt() lifecycle managed by MonitoredClusteringBuilderState.
 public class BuilderWatchdog extends Thread {
 
   private static final Logger LOGGER = LogManager.getLogger(BuilderWatchdog.class);
