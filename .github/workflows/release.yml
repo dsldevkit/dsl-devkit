@@ -84,6 +84,25 @@ jobs:
           fi
           echo "Found snapshot for commit $SHA"
 
+      - name: Verify feature.xml versions match release version
+        run: |
+          RELEASE_VERSION="${{ steps.version.outputs.tag }}"
+          EXPECTED="${RELEASE_VERSION#v}.qualifier"
+          ERRORS=0
+          while IFS= read -r -d '' FILE; do
+            FEATURE_ID=$(awk '/<feature/{f=1} f && /[[:space:]]id=/{match($0,/id="([^"]+)"/,a); print a[1]; exit}' "$FILE")
+            VERSION=$(awk '/<feature/{f=1} f && /[[:space:]]version=/{match($0,/version="([^"]+)"/,a); print a[1]; exit}' "$FILE")
+            if [ "$VERSION" != "$EXPECTED" ]; then
+              echo "::error file=$FILE::$FEATURE_ID: feature.xml version is '$VERSION', expected '$EXPECTED'"
+              ERRORS=$((ERRORS+1))
+            fi
+          done < <(find . \( -path ./gh-pages -prune \) -o \( -name "feature.xml" -print0 \))
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::$ERRORS feature.xml file(s) do not define version $EXPECTED"
+            exit 1
+          fi
+          echo "All feature.xml files define version $EXPECTED"
+
       - name: Create and push tag
         run: |
           git config user.name "github-actions[bot]"
