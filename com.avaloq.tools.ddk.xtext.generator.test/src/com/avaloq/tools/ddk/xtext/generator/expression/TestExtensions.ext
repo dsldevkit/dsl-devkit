@@ -1,5 +1,0 @@
-import org::eclipse::emf::ecore;
-
-test(EObject this) :
-    this
-;
