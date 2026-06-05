@@ -10,5 +10,6 @@ Export-Package: com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr,
  com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.internal
 Require-Bundle: org.antlr.runtime,
  org.eclipse.xtext.ide,
- com.avaloq.tools.ddk.xtext.scope
+ com.avaloq.tools.ddk.xtext.scope,
+ org.eclipse.xtext.xbase.ide
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.scope.ide

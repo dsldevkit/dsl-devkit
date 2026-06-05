@@ -3,7 +3,7 @@
  */
 package com.avaloq.tools.ddk.xtext.scope;
 
-import com.avaloq.tools.ddk.xtext.scope.generator.ScopeGenerator;
+import com.avaloq.tools.ddk.xtext.scope.jvmmodel.ScopeJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.scope.parser.antlr.ScopeAntlrTokenFileProvider;
 import com.avaloq.tools.ddk.xtext.scope.parser.antlr.ScopeParser;
 import com.avaloq.tools.ddk.xtext.scope.parser.antlr.internal.InternalScopeLexer;
@@ -18,7 +18,7 @@ import com.google.inject.name.Names;
 import java.util.Properties;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;
-import org.eclipse.xtext.generator.IGenerator2;
+import org.eclipse.xtext.common.types.xtext.TypesAwareDefaultGlobalScopeProvider;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.SimpleNameProvider;
 import org.eclipse.xtext.parser.IParser;
@@ -31,6 +31,7 @@ import org.eclipse.xtext.parser.antlr.Lexer;
 import org.eclipse.xtext.parser.antlr.LexerBindings;
 import org.eclipse.xtext.parser.antlr.LexerProvider;
 import org.eclipse.xtext.resource.IContainer;
+import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.resource.containers.ResourceSetBasedAllContainersStateProvider;
@@ -41,20 +42,31 @@ import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.IgnoreCaseLinking;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
-import org.eclipse.xtext.scoping.impl.DefaultGlobalScopeProvider;
-import org.eclipse.xtext.scoping.impl.ImportedNamespaceAwareLocalScopeProvider;
 import org.eclipse.xtext.serializer.ISerializer;
 import org.eclipse.xtext.serializer.impl.Serializer;
 import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ISyntacticSequencer;
-import org.eclipse.xtext.service.DefaultRuntimeModule;
 import org.eclipse.xtext.service.SingletonBinding;
+import org.eclipse.xtext.validation.IResourceValidator;
+import org.eclipse.xtext.xbase.DefaultXbaseRuntimeModule;
+import org.eclipse.xtext.xbase.annotations.validation.DerivedStateAwareResourceValidator;
+import org.eclipse.xtext.xbase.imports.RewritableImportSection;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
+import org.eclipse.xtext.xbase.jvmmodel.JvmLocationInFileProvider;
+import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
+import org.eclipse.xtext.xbase.scoping.batch.IBatchScopeProvider;
+import org.eclipse.xtext.xbase.typesystem.internal.DefaultBatchTypeResolver;
+import org.eclipse.xtext.xbase.typesystem.internal.DefaultReentrantTypeResolver;
+import org.eclipse.xtext.xbase.typesystem.internal.LogicalContainerAwareBatchTypeResolver;
+import org.eclipse.xtext.xbase.typesystem.internal.LogicalContainerAwareReentrantTypeResolver;
+import org.eclipse.xtext.xbase.validation.FeatureNameValidator;
+import org.eclipse.xtext.xbase.validation.LogicalContainerAwareFeatureNameValidator;
 
 /**
  * Manual modifications go to {@link ScopeRuntimeModule}.
  */
 @SuppressWarnings("all")
-public abstract class AbstractScopeRuntimeModule extends DefaultRuntimeModule {
+public abstract class AbstractScopeRuntimeModule extends DefaultXbaseRuntimeModule {
 
 	protected Properties properties = null;
 
@@ -142,18 +154,13 @@ public abstract class AbstractScopeRuntimeModule extends DefaultRuntimeModule {
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
-	public Class<? extends IScopeProvider> bindIScopeProvider() {
+	public Class<? extends IBatchScopeProvider> bindIBatchScopeProvider() {
 		return ScopeScopeProvider.class;
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
 	public void configureIScopeProviderDelegate(Binder binder) {
-		binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(ImportedNamespaceAwareLocalScopeProvider.class);
-	}
-	
-	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
-	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
-		return DefaultGlobalScopeProvider.class;
+		binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
@@ -186,9 +193,46 @@ public abstract class AbstractScopeRuntimeModule extends DefaultRuntimeModule {
 		binder.bind(IResourceDescriptions.class).annotatedWith(Names.named(ResourceDescriptionsProvider.PERSISTED_DESCRIPTIONS)).to(ResourceSetBasedResourceDescriptions.class);
 	}
 	
-	// contributed by org.eclipse.xtext.xtext.generator.generator.GeneratorFragment2
-	public Class<? extends IGenerator2> bindIGenerator2() {
-		return ScopeGenerator.class;
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public void configureRewritableImportSectionEnablement(Binder binder) {
+		binder.bind(Boolean.TYPE)
+			.annotatedWith(Names.named(RewritableImportSection.Factory.REWRITABLEIMPORTSECTION_ENABLEMENT))
+			.toInstance(Boolean.FALSE);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends ILocationInFileProvider> bindILocationInFileProvider() {
+		return JvmLocationInFileProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
+		return TypesAwareDefaultGlobalScopeProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends FeatureNameValidator> bindFeatureNameValidator() {
+		return LogicalContainerAwareFeatureNameValidator.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends DefaultBatchTypeResolver> bindDefaultBatchTypeResolver() {
+		return LogicalContainerAwareBatchTypeResolver.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends DefaultReentrantTypeResolver> bindDefaultReentrantTypeResolver() {
+		return LogicalContainerAwareReentrantTypeResolver.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IResourceValidator> bindIResourceValidator() {
+		return DerivedStateAwareResourceValidator.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+		return ScopeJvmModelInferrer.class;
 	}
 	
 }

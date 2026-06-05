@@ -23,9 +23,6 @@ import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
  */
 public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.AbstractExportRuntimeModule {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Class<? extends org.eclipse.xtext.conversion.IValueConverterService> bindIValueConverterService() {
     return ExportValueConverterService.class;
@@ -36,6 +33,7 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
    *
    * @return implementation
    */
+  @Override
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
     return ExportQualifiedNameConverter.class;
   }
