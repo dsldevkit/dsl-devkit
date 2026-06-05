@@ -10,6 +10,10 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.generator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -22,9 +26,11 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -38,6 +44,9 @@ import com.google.common.base.Preconditions;
  * Utility class for querying GenModels.
  */
 public final class GenModelUtil2 {
+
+  /** File extension of EMF generator models. */
+  private static final String GENMODEL_EXTENSION = "genmodel"; //$NON-NLS-1$
 
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(GenModelUtil2.class);
@@ -118,10 +127,9 @@ public final class GenModelUtil2 {
     }
 
     try {
-      GenPackage genPackage = org.eclipse.xtext.xtext.generator.util.GenModelUtil2.getGenPackage(ePackage, resourceSet);
-      GenModel result = genPackage.getGenModel();
-      if (result != null) {
-        return result;
+      GenPackage genPackage = findGenPackageInResourceSet(ePackage, resourceSet);
+      if (genPackage != null) {
+        return genPackage.getGenModel();
       }
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (RuntimeException e) {
@@ -129,6 +137,91 @@ public final class GenModelUtil2 {
       LOGGER.error("Exception in findGenModel ({})", eModelElement, e); //$NON-NLS-1$
     }
 
+    return null;
+  }
+
+  /**
+   * Finds the GenPackage for the given EPackage in the given resource set.
+   * <p>
+   * Contrary to {@link org.eclipse.xtext.xtext.generator.util.GenModelUtil2#getGenPackage(EPackage, ResourceSet)} this
+   * implementation is safe to call while the resource set is still being populated. That implementation calls
+   * {@link Resource#getContents()} on <em>every</em> resource of the set; doing so installs the derived state of the
+   * visited resources (running, for instance, the JVM model inferrer of another scope or export model), which loads
+   * further resources into the very list being iterated and thus raises a
+   * {@link java.util.ConcurrentModificationException}. Here only genmodel resources - which carry no derived state -
+   * are inspected, and the iteration runs over copies of the resource list until all of them have been visited.
+   *
+   * @param ePackage
+   *          the package to find the GenPackage for, must not be {@code null}
+   * @param resourceSet
+   *          the resource set to search, must not be {@code null}
+   * @return the GenPackage, or {@code null} if none could be found
+   */
+  private static GenPackage findGenPackageInResourceSet(final EPackage ePackage, final ResourceSet resourceSet) {
+    final String nsURI = ePackage.getNsURI();
+    if (nsURI == null) {
+      return null;
+    }
+    final URI genModelURI = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false).get(nsURI);
+    if (genModelURI != null) {
+      return findGenPackageInGenModelResource(resourceSet.getResource(genModelURI, true), ePackage);
+    }
+    // Resolving a genmodel loads the genmodels of its usedGenPackages, so further genmodel resources may appear in
+    // the resource set while the scan runs. Repeat over a fresh copy of the resource list until every genmodel has
+    // been visited; the live list must not be iterated directly as it grows during the scan.
+    final Set<Resource> visited = new HashSet<>();
+    boolean foundUnvisitedGenModel = true;
+    while (foundUnvisitedGenModel) {
+      foundUnvisitedGenModel = false;
+      for (final Resource resource : new ArrayList<>(resourceSet.getResources())) {
+        if (isGenModelResource(resource) && visited.add(resource)) {
+          foundUnvisitedGenModel = true;
+          final GenPackage genPackage = findGenPackageInGenModelResource(resource, ePackage);
+          if (genPackage != null) {
+            return genPackage;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns whether the given resource holds an EMF generator model.
+   *
+   * @param resource
+   *          the resource to test, must not be {@code null}
+   * @return {@code true} if the resource is a genmodel resource
+   */
+  private static boolean isGenModelResource(final Resource resource) {
+    return resource.getURI() != null && GENMODEL_EXTENSION.equals(resource.getURI().fileExtension());
+  }
+
+  /**
+   * Finds the GenPackage for the given EPackage among the top level contents of a genmodel resource. Only the first
+   * level is inspected, as GenModels are always root elements.
+   *
+   * @param genModelResource
+   *          the genmodel resource, may be {@code null}
+   * @param ePackage
+   *          the package to find the GenPackage for, must not be {@code null}
+   * @return the GenPackage, or {@code null} if the resource declares no matching GenPackage
+   */
+  private static GenPackage findGenPackageInGenModelResource(final Resource genModelResource, final EPackage ePackage) {
+    if (genModelResource == null) {
+      return null;
+    }
+    for (final EObject content : genModelResource.getContents()) {
+      if (content instanceof GenModel genmodel) {
+        final GenPackage result = findGenPackage(genmodel, ePackage);
+        if (result != null) {
+          if (result.getEcorePackage() != null) {
+            result.getEcorePackage().getEClassifiers(); // ensure the referenced Ecore model is resolved
+          }
+          return result;
+        }
+      }
+    }
     return null;
   }
 
@@ -142,7 +235,7 @@ public final class GenModelUtil2 {
   public static GenPackage findGenPackage(final EPackage ePackage) {
     Preconditions.checkNotNull(ePackage);
     final GenModel genModel = findGenModel(ePackage);
-    return genModel != null ? genModel.findGenPackage(ePackage) : null;
+    return genModel != null ? findGenPackage(genModel, ePackage) : null;
   }
 
   /**
@@ -157,7 +250,32 @@ public final class GenModelUtil2 {
   public static GenPackage findGenPackage(final EPackage ePackage, final ResourceSet resourceSet) {
     Preconditions.checkNotNull(ePackage);
     final GenModel genModel = findGenModel(ePackage, resourceSet);
-    return genModel != null ? genModel.findGenPackage(ePackage) : null;
+    return genModel != null ? findGenPackage(genModel, ePackage) : null;
+  }
+
+  /**
+   * Finds the GenPackage for the given EPackage in the given GenModel.
+   * <p>
+   * {@link GenModel#findGenPackage(EPackage)} matches by identity, while a GenModel references its own copy of the
+   * Ecore model. EPackages inferred from a grammar or loaded from another Ecore resource are therefore only found
+   * through their namespace URI.
+   *
+   * @param genModel
+   *          the genmodel to search, must not be {@code null}
+   * @param ePackage
+   *          the package to find the GenPackage for, must not be {@code null}
+   * @return the GenPackage, or {@code null} if the genmodel declares no matching GenPackage
+   */
+  private static GenPackage findGenPackage(final GenModel genModel, final EPackage ePackage) {
+    final GenPackage result = genModel.findGenPackage(ePackage);
+    if (result == null && ePackage.getNsURI() != null) {
+      for (final GenPackage candidate : genModel.getGenPackages()) {
+        if (ePackage.getNsURI().equals(candidate.getNSURI())) {
+          return candidate;
+        }
+      }
+    }
+    return result;
   }
 
   /**
@@ -242,7 +360,7 @@ public final class GenModelUtil2 {
 
     final URIConverter uriConverter = URIConverter.INSTANCE;
     uri = uriConverter.normalize(uri);
-    uri = uri.trimFileExtension().appendFileExtension("genmodel"); //$NON-NLS-1$
+    uri = uri.trimFileExtension().appendFileExtension(GENMODEL_EXTENSION);
     uri = uriConverter.normalize(uri);
     if ("http".equals(uri.scheme())/* toString().equals(EcorePackage.eNS_URI) */) { //$NON-NLS-1$
       return null; // optimization, because we are not interested in the extension for the Ecore model.

@@ -6,6 +6,7 @@ package com.avaloq.tools.ddk.xtext.scope.ui;
 import com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.ScopeParser;
 import com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.internal.InternalScopeLexer;
 import com.avaloq.tools.ddk.xtext.scope.ui.contentassist.ScopeProposalProvider;
+import com.avaloq.tools.ddk.xtext.scope.ui.editor.ScopeEditor;
 import com.avaloq.tools.ddk.xtext.scope.ui.labeling.ScopeDescriptionLabelProvider;
 import com.avaloq.tools.ddk.xtext.scope.ui.labeling.ScopeLabelProvider;
 import com.avaloq.tools.ddk.xtext.scope.ui.outline.ScopeOutlineTreeProvider;
@@ -17,6 +18,7 @@ import org.eclipse.compare.IViewerCreator;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.BuilderParticipant;
 import org.eclipse.xtext.builder.EclipseOutputConfigurationProvider;
@@ -26,6 +28,10 @@ import org.eclipse.xtext.builder.clustering.CurrentDescriptions;
 import org.eclipse.xtext.builder.impl.PersistentDataAwareDirtyResource;
 import org.eclipse.xtext.builder.nature.NatureAddingEditorCallback;
 import org.eclipse.xtext.builder.preferences.BuilderPreferenceAccess;
+import org.eclipse.xtext.common.types.ui.navigation.GlobalDerivedMemberAwareURIEditorOpener;
+import org.eclipse.xtext.common.types.ui.navigation.IDerivedMemberAwareEditorOpener;
+import org.eclipse.xtext.common.types.ui.query.IJavaSearchParticipation;
+import org.eclipse.xtext.common.types.ui.refactoring.participant.JdtRenameParticipant;
 import org.eclipse.xtext.generator.IContextualOutputConfigurationProvider;
 import org.eclipse.xtext.ide.LexerIdeBindings;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser;
@@ -36,30 +42,58 @@ import org.eclipse.xtext.parser.antlr.LexerProvider;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
-import org.eclipse.xtext.ui.DefaultUiModule;
+import org.eclipse.xtext.ui.LanguageSpecific;
 import org.eclipse.xtext.ui.UIBindings;
 import org.eclipse.xtext.ui.compare.DefaultViewerCreator;
 import org.eclipse.xtext.ui.editor.DocumentBasedDirtyResource;
+import org.eclipse.xtext.ui.editor.GlobalURIEditorOpener;
+import org.eclipse.xtext.ui.editor.IURIEditorOpener;
 import org.eclipse.xtext.ui.editor.IXtextEditorCallback;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
+import org.eclipse.xtext.ui.editor.contentassist.FQNPrefixMatcher;
 import org.eclipse.xtext.ui.editor.contentassist.IContentProposalProvider;
 import org.eclipse.xtext.ui.editor.contentassist.IProposalConflictHelper;
+import org.eclipse.xtext.ui.editor.contentassist.PrefixMatcher;
 import org.eclipse.xtext.ui.editor.contentassist.antlr.AntlrProposalConflictHelper;
 import org.eclipse.xtext.ui.editor.contentassist.antlr.DelegatingContentAssistContextFactory;
+import org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler;
+import org.eclipse.xtext.ui.editor.findrefs.ReferenceQueryExecutor;
+import org.eclipse.xtext.ui.editor.model.XtextDocumentProvider;
 import org.eclipse.xtext.ui.editor.outline.IOutlineTreeProvider;
 import org.eclipse.xtext.ui.editor.outline.impl.IOutlineTreeStructureProvider;
+import org.eclipse.xtext.ui.editor.outline.impl.OutlineNodeElementOpener;
 import org.eclipse.xtext.ui.editor.preferences.IPreferenceStoreInitializer;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionProvider;
+import org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler;
 import org.eclipse.xtext.ui.refactoring.IDependentElementsCalculator;
-import org.eclipse.xtext.ui.refactoring.impl.DefaultDependentElementsCalculator;
+import org.eclipse.xtext.ui.refactoring.IReferenceUpdater;
+import org.eclipse.xtext.ui.refactoring.IRenameRefactoringProvider;
+import org.eclipse.xtext.ui.refactoring.IRenameStrategy;
+import org.eclipse.xtext.ui.refactoring.ui.IRenameContextFactory;
 import org.eclipse.xtext.ui.resource.ResourceServiceDescriptionLabelProvider;
 import org.eclipse.xtext.ui.shared.Access;
+import org.eclipse.xtext.xbase.ui.DefaultXbaseUiModule;
+import org.eclipse.xtext.xbase.ui.editor.XbaseDocumentProvider;
+import org.eclipse.xtext.xbase.ui.generator.trace.XbaseOpenGeneratedFileHandler;
+import org.eclipse.xtext.xbase.ui.jvmmodel.findrefs.JvmModelFindReferenceHandler;
+import org.eclipse.xtext.xbase.ui.jvmmodel.findrefs.JvmModelReferenceQueryExecutor;
+import org.eclipse.xtext.xbase.ui.jvmmodel.navigation.DerivedMemberAwareEditorOpener;
+import org.eclipse.xtext.xbase.ui.jvmmodel.outline.JvmOutlineNodeElementOpener;
+import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.DefaultJvmModelRenameStrategy;
+import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelDependentElementsCalculator;
+import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.JvmModelJdtRenameParticipantContext;
+import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.jdt.CombinedJvmJdtRenameContextFactory;
+import org.eclipse.xtext.xbase.ui.jvmmodel.refactoring.jdt.CombinedJvmJdtRenameRefactoringProvider;
+import org.eclipse.xtext.xbase.ui.quickfix.JavaTypeQuickfixes;
+import org.eclipse.xtext.xbase.ui.quickfix.JavaTypeQuickfixesNoImportSection;
+import org.eclipse.xtext.xbase.ui.refactoring.XbaseReferenceUpdater;
 
 /**
  * Manual modifications go to {@link ScopeUiModule}.
  */
 @SuppressWarnings("all")
-public abstract class AbstractScopeUiModule extends DefaultUiModule {
+public abstract class AbstractScopeUiModule extends DefaultXbaseUiModule {
 
 	public AbstractScopeUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
@@ -68,6 +102,16 @@ public abstract class AbstractScopeUiModule extends DefaultUiModule {
 	// contributed by org.eclipse.xtext.xtext.generator.ImplicitFragment
 	public Provider<? extends IAllContainersState> provideIAllContainersState() {
 		return Access.getJavaProjectsState();
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.ImplicitFragment
+	public Class<? extends XtextDocumentProvider> bindXtextDocumentProvider() {
+		return XbaseDocumentProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.ImplicitFragment
+	public Class<? extends OpenGeneratedFileHandler> bindOpenGeneratedFileHandler() {
+		return XbaseOpenGeneratedFileHandler.class;
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
@@ -109,11 +153,6 @@ public abstract class AbstractScopeUiModule extends DefaultUiModule {
 	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
 	public void configureContentAssistLexerProvider(Binder binder) {
 		binder.bind(InternalScopeLexer.class).toProvider(LexerProvider.create(InternalScopeLexer.class));
-	}
-	
-	// contributed by org.eclipse.xtext.xtext.generator.exporting.SimpleNamesFragment2
-	public Class<? extends IDependentElementsCalculator> bindIDependentElementsCalculator() {
-		return DefaultDependentElementsCalculator.class;
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
@@ -169,6 +208,84 @@ public abstract class AbstractScopeUiModule extends DefaultUiModule {
 	// contributed by org.eclipse.xtext.xtext.generator.ui.contentAssist.ContentAssistFragment2
 	public Class<? extends IContentProposalProvider> bindIContentProposalProvider() {
 		return ScopeProposalProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.types.TypesGeneratorFragment2
+	public Class<? extends PrefixMatcher> bindPrefixMatcher() {
+		return FQNPrefixMatcher.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends FindReferencesHandler> bindFindReferencesHandler() {
+		return JvmModelFindReferenceHandler.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends ReferenceQueryExecutor> bindReferenceQueryExecutor() {
+		return JvmModelReferenceQueryExecutor.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IDependentElementsCalculator> bindIDependentElementsCalculator() {
+		return JvmModelDependentElementsCalculator.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IRenameRefactoringProvider> bindIRenameRefactoringProvider() {
+		return CombinedJvmJdtRenameRefactoringProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IReferenceUpdater> bindIReferenceUpdater() {
+		return XbaseReferenceUpdater.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IRenameContextFactory> bindIRenameContextFactory() {
+		return CombinedJvmJdtRenameContextFactory.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IRenameStrategy> bindIRenameStrategy() {
+		return DefaultJvmModelRenameStrategy.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends JdtRenameParticipant.ContextFactory> bindJdtRenameParticipant$ContextFactory() {
+		return JvmModelJdtRenameParticipantContext.ContextFactory.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends OutlineNodeElementOpener> bindOutlineNodeElementOpener() {
+		return JvmOutlineNodeElementOpener.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends GlobalURIEditorOpener> bindGlobalURIEditorOpener() {
+		return GlobalDerivedMemberAwareURIEditorOpener.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IJavaSearchParticipation> bindIJavaSearchParticipation() {
+		return IJavaSearchParticipation.No.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public void configureLanguageSpecificURIEditorOpener(Binder binder) {
+		if (PlatformUI.isWorkbenchRunning()) {
+			binder.bind(IURIEditorOpener.class).annotatedWith(LanguageSpecific.class).to(DerivedMemberAwareEditorOpener.class);
+			binder.bind(IDerivedMemberAwareEditorOpener.class).to(DerivedMemberAwareEditorOpener.class);
+		}
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends JavaTypeQuickfixes> bindJavaTypeQuickfixes() {
+		return JavaTypeQuickfixesNoImportSection.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends XtextEditor> bindXtextEditor() {
+		return ScopeEditor.class;
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.generator.GeneratorFragment2

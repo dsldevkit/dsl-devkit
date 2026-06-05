@@ -53,6 +53,7 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
    *
    * @return implementation
    */
+  @Override
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
     return ScopeQualifiedNameConverter.class;
   }
@@ -67,6 +68,7 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
    *
    * @return {@link ScopeResourceDescriptionStrategy}
    */
+  @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
     return ScopeResourceDescriptionStrategy.class;
   }

@@ -3,7 +3,7 @@
  */
 package com.avaloq.tools.ddk.xtext.expression.scoping;
 
-import org.eclipse.xtext.scoping.impl.DelegatingScopeProvider;
+import org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider;
 
-public abstract class AbstractExpressionScopeProvider extends DelegatingScopeProvider {
+public abstract class AbstractExpressionScopeProvider extends XbaseBatchScopeProvider {
 }

@@ -12,8 +12,10 @@ package com.avaloq.tools.ddk.xtext.export;
 
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
 
 import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
+import com.avaloq.tools.ddk.xtext.export.generator.ExportJvmModelGenerator;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
 
@@ -23,9 +25,6 @@ import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
  */
 public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.AbstractExportRuntimeModule {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Class<? extends org.eclipse.xtext.conversion.IValueConverterService> bindIValueConverterService() {
     return ExportValueConverterService.class;
@@ -36,6 +35,7 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
    *
    * @return implementation
    */
+  @Override
   public Class<? extends IQualifiedNameConverter> bindIQualifiedNameConverter() {
     return ExportQualifiedNameConverter.class;
   }
@@ -47,6 +47,15 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
    */
   public Class<? extends IOutputConfigurationProvider> bindIOutputConfigurationProvider() {
     return ExportOutputConfigurationProvider.class;
+  }
+
+  /**
+   * Binds the generator emitting the Java source of the inferred export types.
+   *
+   * @return the export specific JVM model generator
+   */
+  public Class<? extends JvmModelGenerator> bindJvmModelGenerator() {
+    return ExportJvmModelGenerator.class;
   }
 
   @Override

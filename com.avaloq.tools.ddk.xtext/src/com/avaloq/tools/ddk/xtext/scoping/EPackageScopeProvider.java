@@ -14,17 +14,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.eclipse.emf.common.util.URI;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.xtext.AbstractMetamodelDeclaration;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
@@ -38,9 +35,7 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractScope;
 import org.eclipse.xtext.scoping.impl.ScopeBasedSelectable;
 import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
-import org.eclipse.xtext.scoping.impl.SimpleScope;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -53,8 +48,6 @@ import com.google.inject.Inject;
 public class EPackageScopeProvider {
 
   private static final Logger LOG = LogManager.getLogger(EPackageScopeProvider.class);
-
-  private static final String XTEXT_EXTENSION = "xtext"; //$NON-NLS-1$
 
   @Inject
   private IGlobalScopeProvider globalScopeProvider;
@@ -110,23 +103,15 @@ public class EPackageScopeProvider {
     }
     // Add the global scope
     result = SelectableBasedScope.createScope(result, new ScopeBasedSelectable(globalScopeProvider.getScope(rsc, reference, null)), EcorePackage.Literals.EPACKAGE, false);
-    // Now add all packages from the grammar
-    final URI grammarUri = rsc.getURI().trimFileExtension().appendFileExtension(XTEXT_EXTENSION);
-    final ResourceSet resourceSet = rsc.getResourceSet();
-    final URIConverter uriConverter = resourceSet.getURIConverter();
-    if (uriConverter.exists(grammarUri, null)) {
-      final Resource grammarResource = resourceSet.getResource(grammarUri, true);
-      if (grammarResource != null && !grammarResource.getContents().isEmpty()) {
-        final Grammar grammar = (Grammar) grammarResource.getContents().get(0);
-        final IScope parent = result;
-        result = new SimpleScope(parent, Iterables.transform(Iterables.filter(getGrammarEPackages(grammar), Predicates.notNull()), new Function<EPackage, IEObjectDescription>() {
-          @Override
-          public IEObjectDescription apply(final EPackage param) {
-            return EObjectDescription.create(param.getNsURI(), param);
-          }
-        }));
-      }
-    }
+    // Note: we deliberately do NOT add a "packages from the grammar" scope on top here. The previous
+    // implementation read the sibling grammar resource via getContents(), which forced its
+    // installDerivedState - and that in turn runs Xtext2EcoreTransformer.removeGeneratedPackages, which
+    // iterates the entire resource set and force-loads every other DSL resource. When this scope provider
+    // is invoked while a sibling DSL resource (.scope, .export, .check) is being linked, that side-effect
+    // drags the sibling's JvmModelInferrer into the current linking phase against a not-yet-linked model.
+    // The grammar's EPackages are already reachable through the registry (plugin-registered packages)
+    // and the index (workspace .ecore and .xtext resources), so the extra grammar-resource scope was
+    // belt-and-suspenders. Dropping it removes the recursion trigger without losing coverage.
 
     return result;
   }
