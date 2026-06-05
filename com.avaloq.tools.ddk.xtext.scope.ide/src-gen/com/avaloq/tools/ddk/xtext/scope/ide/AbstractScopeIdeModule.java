@@ -7,18 +7,18 @@ import com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.ScopeParser;
 import com.avaloq.tools.ddk.xtext.scope.ide.contentassist.antlr.internal.InternalScopeLexer;
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
-import org.eclipse.xtext.ide.DefaultIdeModule;
 import org.eclipse.xtext.ide.LexerIdeBindings;
 import org.eclipse.xtext.ide.editor.contentassist.IProposalConflictHelper;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.AntlrProposalConflictHelper;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
+import org.eclipse.xtext.xbase.ide.DefaultXbaseIdeModule;
 
 /**
  * Manual modifications go to {@link ScopeIdeModule}.
  */
 @SuppressWarnings("all")
-public abstract class AbstractScopeIdeModule extends DefaultIdeModule {
+public abstract class AbstractScopeIdeModule extends DefaultXbaseIdeModule {
 
 	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
 	public void configureContentAssistLexer(Binder binder) {
