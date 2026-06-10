@@ -248,7 +248,7 @@ public class JobMatcher extends JobChangeAdapter {
   /**
    * Asserts that all matching jobs already waiting, running, or sleeping when {@link #register() registering} finished within {@link #timeout} milliseconds of
    * {@link #register() registering}. This method will block until all the existing jobs have finished or until the timeout is reached. In the latter case an
-   * {@link org.opentest4j.AssertionFailedError.AssertionFailedError} will be thrown. If no jobs were found upon {@link #register()
+   * {@link org.opentest4j.AssertionFailedError} will be thrown. If no jobs were found upon {@link #register()
    * registering} this method will return
    * immediately.
    * <p>
