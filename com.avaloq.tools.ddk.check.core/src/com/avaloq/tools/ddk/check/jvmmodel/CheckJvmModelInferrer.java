@@ -182,10 +182,10 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       // Create catalog injections
       Iterables.addAll(it.getMembers(), createInjectedField(catalog, checkGeneratorNaming.catalogInstanceName(catalog), _typeReferenceBuilder.typeRef(catalogClass)));
       // Create fields
-      Iterables.addAll(it.getMembers(), ListExtensions.<Member, JvmField> map(catalog.getMembers(), (final Member m) -> jvmTypesBuilder.toField(m, m.getName(), m.getType(), (final JvmField it1) -> {
+      Iterables.addAll(it.getMembers(), IterableExtensions.<JvmField> filterNull(ListExtensions.<Member, JvmField> map(catalog.getMembers(), (final Member m) -> jvmTypesBuilder.toField(m, m.getName(), m.getType(), (final JvmField it1) -> {
         jvmTypesBuilder.setInitializer(it1, m.getValue());
         jvmTypesBuilder.addAnnotations(it1, m.getAnnotations());
-      })));
+      }))));
       // Create catalog name function
       it.getMembers().add(jvmTypesBuilder.toMethod(catalog, "getQualifiedCatalogName", _typeReferenceBuilder.typeRef(String.class), (final JvmOperation it1) -> {
         jvmTypesBuilder.setBody(it1, (final ITreeAppendable appendable) -> {
@@ -208,7 +208,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       EList<Check> checks = catalog.getChecks();
       Iterable<Check> flattenedCatChecks = Iterables.<Check> concat(ListExtensions.<Category, EList<Check>> map(catalog.getCategories(), (final Category cat) -> cat.getChecks()));
       Iterable<Check> allChecks = Iterables.<Check> concat(checks, flattenedCatChecks);
-      Iterables.addAll(it.getMembers(), Iterables.<JvmMember> concat(IterableExtensions.<Check, Iterable<JvmMember>> map(allChecks, (final Check chk) -> createCheck(chk))));
+      Iterables.addAll(it.getMembers(), IterableExtensions.<JvmMember> filterNull(Iterables.<JvmMember> concat(IterableExtensions.<Check, Iterable<JvmMember>> map(allChecks, (final Check chk) -> createCheck(chk)))));
       // Create methods for stand-alone context implementations
       Iterables.addAll(it.getMembers(), IterableExtensions.<JvmOperation> filterNull(ListExtensions.<Implementation, JvmOperation> map(catalog.getImplementations(), (final Implementation impl) -> createCheckMethod(impl.getContext()))));
     });
