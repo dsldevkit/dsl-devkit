@@ -10,13 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.scoping;
 
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
-
 
 /**
  * This class contains custom scoping description for the Expression language.
  * Expression is a mixin grammar therefore this class in empty
  */
-public class ExpressionScopeProvider extends AbstractDeclarativeScopeProvider {
+public class ExpressionScopeProvider extends AbstractExpressionScopeProvider {
 
 }

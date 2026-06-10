@@ -15,14 +15,15 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
 
 import com.avaloq.tools.ddk.xtext.export.export.DeclarationForType;
 import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
+import com.avaloq.tools.ddk.xtext.export.export.ExportPackage;
 import com.avaloq.tools.ddk.xtext.export.export.Import;
 import com.avaloq.tools.ddk.xtext.export.export.Interface;
 import com.avaloq.tools.ddk.xtext.scoping.EObjectDescriptions;
@@ -35,13 +36,48 @@ import com.google.inject.Inject;
 /**
  * This class implements scoping for the export language.
  */
-public class ExportScopeProvider extends AbstractDeclarativeScopeProvider {
+public class ExportScopeProvider extends AbstractExportScopeProvider {
 
   @Inject
   private EPackageScopeProvider ePackageScopeProvider;
 
   // Note: as with all scope providers, CHECKSTYLE doesn't like the naming scheme prescribed by xtext.
   // We therefore switch off the checkstyle method naming checks locally.
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Dispatches the export-language specific cross-references to the corresponding declarative
+   * {@code scope_*} methods. All other references (in particular Xbase feature and type references)
+   * are delegated to the {@link org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider Xbase batch scope provider}.
+   */
+  @Override
+  public IScope getScope(final EObject context, final EReference reference) {
+    if (reference == ExportPackage.Literals.IMPORT__PACKAGE) {
+      return scope_Import_package(context, reference);
+    } else if (reference == ExportPackage.Literals.INTERFACE_NAVIGATION__REF) {
+      final Interface interfaceContext = EcoreUtil2.getContainerOfType(context, Interface.class);
+      if (interfaceContext != null) {
+        return scope_InterfaceNavigation_ref(interfaceContext, reference);
+      }
+    } else if (EcorePackage.Literals.ECLASS.isSuperTypeOf(reference.getEReferenceType())) {
+      final ExportModel exportModel = EcoreUtil2.getContainerOfType(context, ExportModel.class);
+      if (exportModel != null) {
+        return scope_EClass(exportModel, reference);
+      }
+    } else if (EcorePackage.Literals.EATTRIBUTE.isSuperTypeOf(reference.getEReferenceType())) {
+      final DeclarationForType declarationForType = EcoreUtil2.getContainerOfType(context, DeclarationForType.class);
+      if (declarationForType != null) {
+        return scope_EAttribute(declarationForType, reference);
+      }
+    } else if (EcorePackage.Literals.ESTRUCTURAL_FEATURE.isSuperTypeOf(reference.getEReferenceType())) {
+      final DeclarationForType declarationForType = EcoreUtil2.getContainerOfType(context, DeclarationForType.class);
+      if (declarationForType != null) {
+        return scope_EStructuralFeature(declarationForType, reference);
+      }
+    }
+    return super.getScope(context, reference);
+  }
 
   /**
    * Scope for {@link org.eclipse.emf.ecore.EPackage}. These are read from the

@@ -42,6 +42,8 @@ Workflow {
       uriMap = {from = "platform:/plugin/" to = "platform:/resource/"}
       registerGenModelFile = "platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel"
       registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
+      registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+      registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
       registerEcoreFile = "${metamodelBase}/${modelDirectory}/${baseName}.ecore"
       registerGenModelFile = "${metamodelBase}/${modelDirectory}/${baseName}.genmodel"
     }
@@ -125,6 +127,11 @@ Workflow {
 
             // content assist API
             fragment = org.eclipse.xtext.xtext.generator.ui.contentAssist.ContentAssistFragment2 {}
+
+            // Xbase support
+            fragment = org.eclipse.xtext.xtext.generator.types.TypesGeneratorFragment2 {}
+            fragment = org.eclipse.xtext.xtext.generator.xbase.XtypeGeneratorFragment2 {}
+            fragment = org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2 {}
 
             fragment = BundleVersionStripperFragment {
               bundle = "org.antlr.runtime"

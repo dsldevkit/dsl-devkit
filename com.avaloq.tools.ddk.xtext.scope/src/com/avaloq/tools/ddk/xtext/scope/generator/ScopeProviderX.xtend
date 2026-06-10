@@ -13,8 +13,7 @@ package com.avaloq.tools.ddk.xtext.scope.generator
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression
 import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
-import com.avaloq.tools.ddk.xtext.expression.generator.CodeGenerationX
-import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensionsX
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions
 import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
 import com.avaloq.tools.ddk.xtext.expression.generator.Naming
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil
@@ -33,6 +32,7 @@ import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.xtext.util.Strings
 
 class ScopeProviderX {
 
@@ -40,10 +40,6 @@ class ScopeProviderX {
   extension Naming
   @Inject
   extension GeneratorUtilX
-  @Inject
-  extension CodeGenerationX
-  @Inject
-  extension ExpressionExtensionsX
 
   /*
    * CODE GENERATION
@@ -62,7 +58,7 @@ class ScopeProviderX {
   }
 
   def String locatorString(EObject it) {
-    location().split('/').lastOrNull().javaEncode()
+    Strings.convertToJavaString(location().split('/').lastOrNull())
   }
 
   def String calledFeature(FeatureCall it) {
@@ -107,7 +103,7 @@ class ScopeProviderX {
   def dispatch boolean isEqual(ScopeRule a, ScopeRule b) {
     a.hasSameContext(b)
     // && ((a.name === null) == (b.name === null)) && (a.name === null || a.name.matches (b.name))
-    && a.context.guard.serialize() == b.context.guard.serialize()
+    && ExpressionExtensions.serialize(a.context.guard) == ExpressionExtensions.serialize(b.context.guard)
   }
 
   def boolean hasSameContext(ScopeRule a, ScopeRule b) {
