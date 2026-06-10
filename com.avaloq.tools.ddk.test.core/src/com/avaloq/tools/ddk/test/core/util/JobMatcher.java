@@ -220,7 +220,7 @@ public class JobMatcher extends JobChangeAdapter {
   /**
    * Asserts that there was at least one matching job scheduled <em>after</em> {@link #register() registering} and that all these scheduled jobs finished within
    * {@link #timeout} milliseconds of {@link #register() registering}. This method will block until until all matching jobs finish or until the timeout is
-   * reached. In the latter case an {@link junit.framework.AssertionFailedError} will be thrown.
+   * reached. In the latter case an {@link org.opentest4j.AssertionFailedError.AssertionFailedError} will be thrown.
    * <p>
    * After calling this method no additional jobs will be recorded anymore. Call {@link #register()} to reset.
    */
@@ -248,7 +248,8 @@ public class JobMatcher extends JobChangeAdapter {
   /**
    * Asserts that all matching jobs already waiting, running, or sleeping when {@link #register() registering} finished within {@link #timeout} milliseconds of
    * {@link #register() registering}. This method will block until all the existing jobs have finished or until the timeout is reached. In the latter case an
-   * {@link junit.framework.AssertionFailedError} will be thrown. If no jobs were found upon {@link #register() registering} this method will return
+   * {@link org.opentest4j.AssertionFailedError.AssertionFailedError} will be thrown. If no jobs were found upon {@link #register()
+   * registering} this method will return
    * immediately.
    * <p>
    * After calling this method no additional jobs will be recorded anymore. Call {@link #register()} to reset.
