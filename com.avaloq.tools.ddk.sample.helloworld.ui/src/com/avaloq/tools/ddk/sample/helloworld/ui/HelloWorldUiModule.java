@@ -4,7 +4,6 @@
 package com.avaloq.tools.ddk.sample.helloworld.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.FollowElementCalculator;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.FollowElementComputer;
 
@@ -16,7 +15,6 @@ import com.avaloq.tools.ddk.xtext.ide.contentAssist.AnnotationAwareFollowElement
 /**
  * Use this class to register components to be used within the Eclipse IDE.
  */
-@FinalFieldsConstructor
 public class HelloWorldUiModule extends AbstractHelloWorldUiModule {
 
     /**
