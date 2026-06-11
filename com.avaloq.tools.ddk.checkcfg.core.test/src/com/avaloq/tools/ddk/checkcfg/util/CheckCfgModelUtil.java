@@ -8,35 +8,31 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.checkcfg.util
+package com.avaloq.tools.ddk.checkcfg.util;
 
 /*
  * Provides utility operations for Check Configuration model stubs. Only partial models
  * are returned as strings.
  */
-class CheckCfgModelUtil {
+public class CheckCfgModelUtil {
 
-  def String basicModel(String name) {'''
-    check configuration «name» {'''.toString
+  public String basicModel(final String name) {
+    return "check configuration " + name + " {";
   }
 
-  def String basicModel() {
-    basicModel("testing")
+  public String basicModel() {
+    return basicModel("testing");
   }
 
-  def String basicModelWithCatalog() {
-    basicModel + '''
-      catalog Sample {'''.toString
+  public String basicModelWithCatalog() {
+    return basicModel() + "catalog Sample {";
   }
 
-  def String basicModelWithTest() {
-    basicModelWithCatalog + '''
-      Test'''.toString
+  public String basicModelWithTest() {
+    return basicModelWithCatalog() + "Test";
   }
 
-  def String basicModelWithDisabledTest() {
-    basicModelWithCatalog + '''
-      ignore Test'''.toString
+  public String basicModelWithDisabledTest() {
+    return basicModelWithCatalog() + "ignore Test";
   }
-
 }
