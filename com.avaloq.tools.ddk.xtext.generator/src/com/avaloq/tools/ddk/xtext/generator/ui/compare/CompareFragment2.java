@@ -67,7 +67,7 @@ public class CompareFragment2 extends ResourceFactoryFragment2 {
     if (getProjectConfig().getEclipsePlugin().getManifest() != null) {
       getProjectConfig().getEclipsePlugin().getManifest().getRequiredBundles().add(bundleName);
     }
-    if (getProjectConfig().getEclipsePlugin().getPluginXml().getEntries() != null) {
+    if (getProjectConfig().getEclipsePlugin().getPluginXml() != null) {
       getProjectConfig().getEclipsePlugin().getPluginXml().getEntries().add(eclipsePluginXmlContribution());
     }
   }
