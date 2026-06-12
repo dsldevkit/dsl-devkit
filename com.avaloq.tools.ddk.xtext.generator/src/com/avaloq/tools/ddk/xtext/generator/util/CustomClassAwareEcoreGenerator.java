@@ -51,8 +51,8 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator {
 
   // CHECKSTYLE:OFF
   private boolean generateModel = true;
-  private boolean generateEdit;
-  private boolean generateEditor;
+  private boolean generateEdit = false;
+  private boolean generateEditor = false;
   // CHECKSTYLE:ON
   private ResourceSet resourceSet;
 

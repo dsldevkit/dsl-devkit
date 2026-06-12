@@ -50,7 +50,7 @@ public class StandaloneSetup extends org.eclipse.emf.mwe.utils.StandaloneSetup {
       return Collections.<URI> emptyList();
     }
     String trimmed = input.trim();
-    if (trimmed.isEmpty()) {
+    if (trimmed.length() == 0) {
       return Collections.<URI> emptyList();
     }
     List<URI> result = Lists.newArrayList();

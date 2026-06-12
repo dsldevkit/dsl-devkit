@@ -267,13 +267,26 @@ public class DelegatingScope extends AbstractRecursiveScope {
   @SuppressWarnings("nls")
   @Override
   public String toString() {
+    final StringBuilder result = new StringBuilder(getClass().getName());
+    result.append('@');
+    result.append(Integer.toHexString(hashCode()));
+
+    result.append(" (id: ");
+    result.append(getId());
+
     final Iterable<IScope> delegateScopes = getDelegates();
-    String delegatesSuffix = delegateScopes != null && !Iterables.isEmpty(delegateScopes) ? ", delegates: " + Iterables.toString(delegateScopes) : "";
-    String result = String.format("%s@%s (id: %s%s)", getClass().getName(), Integer.toHexString(hashCode()), getId(), delegatesSuffix);
+    if (delegateScopes != null && !Iterables.isEmpty(delegateScopes)) {
+      result.append(", delegates: ");
+      result.append(Iterables.toString(delegateScopes));
+    }
+    result.append(')');
+
     final IScope outerScope = getParent();
     if (outerScope != IScope.NULLSCOPE) {
-      result += "\n  >> " + outerScope.toString().replaceAll("\\\n", "\n  ");
+      result.append("\n  >> ");
+      result.append(outerScope.toString().replaceAll("\\\n", "\n  "));
     }
-    return result;
+
+    return result.toString();
   }
 }

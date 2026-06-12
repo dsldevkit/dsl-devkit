@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.scoping;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -46,7 +47,20 @@ public class ScopeTrace {
   @SuppressWarnings("nls")
   @Override
   public String toString() {
-    return String.format("%s@%s [%s]", getClass().getName(), Integer.toHexString(hashCode()), String.join(" >> ", elements));
+    final StringBuilder builder = new StringBuilder(getClass().getName());
+    builder.append('@');
+    builder.append(Integer.toHexString(hashCode()));
+    builder.append(" [");
+
+    for (final Iterator<String> i = elements.iterator(); i.hasNext();) {
+      builder.append(i.next());
+      if (i.hasNext()) {
+        builder.append(" >> ");
+      }
+    }
+
+    builder.append(']');
+    return builder.toString();
   }
 
   /**
