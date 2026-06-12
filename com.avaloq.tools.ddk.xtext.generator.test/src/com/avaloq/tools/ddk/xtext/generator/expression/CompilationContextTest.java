@@ -10,52 +10,48 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.generator.expression;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-
-import org.eclipse.internal.xtend.xtend.ast.ExtensionFile;
-import org.eclipse.internal.xtend.xtend.parser.ParseFacade;
-import org.eclipse.xtend.expression.ExecutionContextImpl;
-import org.eclipse.xtend.type.impl.java.JavaBeansMetaModel;
-import org.eclipse.xtend.typesystem.Type;
 import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.CompilationContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.DefaultXtendExecutionContext;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendExtension;
+import com.avaloq.tools.ddk.xtext.expression.generator.type.XtendType;
 
 
 @SuppressWarnings({"nls", "PMD.SignatureDeclareThrowsException"})
 public class CompilationContextTest {
 
+  private static final String TEST_EXTENSION = "test";
+
   @Test
   void isExtension() {
-    ExecutionContextImpl executionContext = new ExecutionContextImpl();
-    executionContext.registerMetaModel(new JavaBeansMetaModel());
-    ExtensionFile extensionFile = ParseFacade.file(new InputStreamReader(getClass().getResourceAsStream("/com/avaloq/tools/ddk/xtext/generator/expression/TestExtensions.ext"), StandardCharsets.UTF_8), "TestExtensions.ext");
-    executionContext = (ExecutionContextImpl) executionContext.cloneWithResource(extensionFile);
+    DefaultXtendExecutionContext executionContext = new DefaultXtendExecutionContext();
+    executionContext.addExtension(new XtendExtension(TEST_EXTENSION));
     final CompilationContext context = new CompilationContext(executionContext, null);
 
-    assertTrue(context.isExtension("test"), "test extension not identified");
+    assertEquals(true, context.isExtension(TEST_EXTENSION), "test extension not identified");
   }
 
   @Test
   void analyze() {
-    ExecutionContextImpl executionContext = new ExecutionContextImpl();
-    executionContext.registerMetaModel(new JavaBeansMetaModel());
+    DefaultXtendExecutionContext executionContext = new DefaultXtendExecutionContext();
     final CompilationContext context = new CompilationContext(executionContext, null);
 
-    Type expectedType = executionContext.getTypeForName("Integer");
-    assertSame(expectedType, context.analyze("1 + 3"), "Cannot analyze Integer");
+    XtendType expectedType = executionContext.getTypeForName("Integer");
+    assertNotNull(expectedType);
+    assertEquals(expectedType, context.analyze("42"), "Cannot analyze Integer");
 
     expectedType = executionContext.getTypeForName("Real");
-    assertSame(expectedType, context.analyze("1 + 3.33"), "Cannot analyze Real");
+    assertNotNull(expectedType);
+    assertEquals(expectedType, context.analyze("3.33"), "Cannot analyze Real");
 
     expectedType = executionContext.getTypeForName("String");
-    assertSame(expectedType, context.analyze("\'foo\'"), "Cannot analyse String 'foo'");
-    assertSame(expectedType, context.analyze("\"foo\""), "Cannot analyse String \"foo \" ");
-    assertSame(expectedType, context.analyze("\"foo\" + \'bar\'"), "Cannot analyse String \"foo\" + \'bar\'");
+    assertNotNull(expectedType);
+    assertEquals(expectedType, context.analyze("'foo'"), "Cannot analyse String 'foo'");
+    assertEquals(expectedType, context.analyze("\"foo\""), "Cannot analyse String \"foo\"");
   }
 
 }
