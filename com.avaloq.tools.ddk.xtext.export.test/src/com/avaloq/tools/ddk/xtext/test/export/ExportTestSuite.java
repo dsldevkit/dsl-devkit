@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.test.export;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
+import com.avaloq.tools.ddk.xtext.export.generator.ExportGeneratorXTest;
 import com.avaloq.tools.ddk.xtext.export.exporting.ExportExportingTest;
 import com.avaloq.tools.ddk.xtext.export.formatting.ExportFormattingTest;
 import com.avaloq.tools.ddk.xtext.export.scoping.ExportScopingTest;
@@ -24,6 +25,6 @@ import com.avaloq.tools.ddk.xtext.export.validation.ExportValidationTest;
  * Empty class serving only as holder for JUnit4 annotations.
  */
 @Suite
-@SelectClasses({ExportFormattingTest.class, ExportValidationTest.class, ExportValidationOkTest.class, ExportScopingTest.class, ExportExportingTest.class})
+@SelectClasses({ExportFormattingTest.class, ExportValidationTest.class, ExportValidationOkTest.class, ExportScopingTest.class, ExportExportingTest.class, ExportGeneratorXTest.class})
 public class ExportTestSuite {
 }
