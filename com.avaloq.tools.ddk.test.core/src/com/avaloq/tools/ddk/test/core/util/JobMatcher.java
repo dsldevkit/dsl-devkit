@@ -134,6 +134,8 @@ public class JobMatcher extends JobChangeAdapter {
 
   }
 
+  private final Object lock = new Object();
+
   private final JobFinder finder;
   private final long waitTimeout;
 
@@ -183,17 +185,19 @@ public class JobMatcher extends JobChangeAdapter {
    *
    * @return the list of matching existing jobs
    */
-  public final synchronized List<Job> register() {
-    newJobs = Collections.synchronizedList(Lists.<Job> newArrayList());
-    jobQueue = new LinkedBlockingQueue<Job>();
-    Job.getJobManager().addJobChangeListener(this);
+  public final List<Job> register() {
+    synchronized (lock) {
+      newJobs = Collections.synchronizedList(Lists.<Job> newArrayList());
+      jobQueue = new LinkedBlockingQueue<Job>();
+      Job.getJobManager().addJobChangeListener(this);
 
-    // save list of existing jobs *after* adding job listener (in case jobs finish in the mean time)
-    existingJobs = ImmutableList.copyOf(finder.find());
-    finishedJobs = Collections.synchronizedList(Lists.<Job> newArrayList());
-    timeout = System.currentTimeMillis() + waitTimeout;
+      // save list of existing jobs *after* adding job listener (in case jobs finish in the mean time)
+      existingJobs = ImmutableList.copyOf(finder.find());
+      finishedJobs = Collections.synchronizedList(Lists.<Job> newArrayList());
+      timeout = System.currentTimeMillis() + waitTimeout;
 
-    return ImmutableList.copyOf(existingJobs);
+      return ImmutableList.copyOf(existingJobs);
+    }
   }
 
   /**
@@ -290,18 +294,22 @@ public class JobMatcher extends JobChangeAdapter {
   }
 
   @Override
-  public synchronized void scheduled(final IJobChangeEvent event) {
-    Job job = event.getJob();
-    if (finder.apply(job)) {
-      newJobs.add(job);
+  public void scheduled(final IJobChangeEvent event) {
+    synchronized (lock) {
+      Job job = event.getJob();
+      if (finder.apply(job)) {
+        newJobs.add(job);
+      }
     }
   }
 
   @Override
-  public synchronized void done(final IJobChangeEvent event) {
-    Job job = event.getJob();
-    if (finder.apply(job)) {
-      jobQueue.add(job);
+  public void done(final IJobChangeEvent event) {
+    synchronized (lock) {
+      Job job = event.getJob();
+      if (finder.apply(job)) {
+        jobQueue.add(job);
+      }
     }
   }
 }

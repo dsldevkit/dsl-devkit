@@ -37,6 +37,8 @@ import com.google.common.collect.Multimap;
 /** Provides a mocking framework for the extension point registry. */
 public final class ExtensionRegistryMock {
 
+  private static final Object LOCK = new Object();
+
   private static IExtensionRegistry registry;
   private static IExtensionRegistry registrySpy;
   private static Multimap<String, IConfigurationElement> configurationElements = LinkedHashMultimap.create();
@@ -52,18 +54,20 @@ public final class ExtensionRegistryMock {
    *           if the registry provider cannot be set
    */
   @SuppressWarnings("restriction") // for accessing RegistryProviderFactory
-  public static synchronized void mockRegistry() {
-    if (registrySpy == null) {
-      registry = RegistryFactory.getRegistry();
-      registrySpy = spy(registry);
-      org.eclipse.core.internal.registry.RegistryProviderFactory.releaseDefault();
-      try {
-        RegistryFactory.setDefaultRegistryProvider(() -> {
-          return registrySpy;
-        });
-      } catch (CoreException e) {
-        // This shouldn't happen as the default was released.
-        throw new WrappedException(e);
+  public static void mockRegistry() {
+    synchronized (LOCK) {
+      if (registrySpy == null) {
+        registry = RegistryFactory.getRegistry();
+        registrySpy = spy(registry);
+        org.eclipse.core.internal.registry.RegistryProviderFactory.releaseDefault();
+        try {
+          RegistryFactory.setDefaultRegistryProvider(() -> {
+            return registrySpy;
+          });
+        } catch (CoreException e) {
+          // This shouldn't happen as the default was released.
+          throw new WrappedException(e);
+        }
       }
     }
   }
