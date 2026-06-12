@@ -893,6 +893,7 @@ public class ParameterListMatcherTest {
     assertSame(unnamedFormal2, matchResult.getUnnamedFormalsAfterNamed().get(1), UNNAMED_FORMAL_AFTER_NAMED_NOT_LOCATED);
   }
 
+  // CPD-OFF — explicit parameterized test cases, kept readable over shared (#1339)
   @Test
   void testForceMatchByPosition1() {
     List<NamedFormalParameter> formals = new ArrayList<NamedFormalParameter>();
@@ -946,5 +947,6 @@ public class ParameterListMatcherTest {
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(1), formals.get(1), matches.get(1));
     checkParameterMatch(IParameterMatchChecker.MatchStatus.MATCH, actuals.get(2), formals.get(2), matches.get(2));
   }
+  // CPD-ON
 
 }

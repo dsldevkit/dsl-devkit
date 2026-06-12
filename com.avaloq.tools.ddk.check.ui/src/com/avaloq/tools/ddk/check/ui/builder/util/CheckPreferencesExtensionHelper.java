@@ -160,7 +160,8 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
    *          the check catalog
    * @return the target class FQN
    */
-  private String getTargetClassName(final CheckCatalog catalog) {
+  @Override
+  protected String getTargetClassName(final CheckCatalog catalog) {
     return getFromServiceProvider(CheckGeneratorNaming.class, catalog).qualifiedPreferenceInitializerClassName(catalog);
   }
 

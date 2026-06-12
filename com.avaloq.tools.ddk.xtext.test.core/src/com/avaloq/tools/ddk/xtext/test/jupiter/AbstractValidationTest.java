@@ -377,6 +377,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
      *          actual message
      */
     private void createErrorMessage(final Integer pos, final List<Resource.Diagnostic> diagnosticsOnTargetPosition, final boolean issueFound, final boolean expectedSeverityMatches, final int actualSeverity, final boolean expectedMessageMatches, final String actualMessage) {
+      // CPD-OFF — test scaffolding; per-test clarity beats extraction (#1339)
       StringBuilder errorMessage = new StringBuilder(200);
       if (issueMustBeFound && !issueFound) {
         errorMessage.append("Expected issue not found. Code '").append(issueCode).append('\n');
@@ -398,6 +399,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
         }
         memorizeErrorOnPosition(pos, errorMessage.toString());
       }
+      // CPD-ON
     }
 
     /**
@@ -1002,6 +1004,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
    */
   @SuppressWarnings("PMD.UnusedFormalParameter")
   public static void assertLinkingErrorsOnResourceExist(final EObject object, final String referenceType, final String... referenceNames) {
+    // CPD-OFF — test scaffolding; per-test clarity beats extraction (#1339)
     final List<Resource.Diagnostic> linkingErrors = object.eResource().getErrors().stream().filter(error -> error instanceof XtextLinkingDiagnostic).collect(Collectors.toList());
     final List<String> errorMessages = Lists.transform(linkingErrors, Resource.Diagnostic::getMessage);
     for (final String referenceName : referenceNames) {
@@ -1012,6 +1015,7 @@ public abstract class AbstractValidationTest extends AbstractXtextMarkerBasedTes
           break;
         }
       }
+      // CPD-ON
       assertTrue(found, NLS.bind("Expected linking error on \"{0}\" but could not find it", referenceName));
     }
   }
