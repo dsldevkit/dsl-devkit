@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.generator
 
+import com.avaloq.tools.ddk.check.check.Check
 import com.avaloq.tools.ddk.check.check.CheckCatalog
 import com.avaloq.tools.ddk.check.util.CheckUtil
 import com.google.inject.Inject
@@ -59,57 +60,77 @@ class CheckGenerator extends JvmModelGenerator {
     }
   }
 
-  /* Documentation compiler, generates HTML output. */
+  /* Documentation compiler, generates a self-contained HTML page per catalog. */
   def compileDoc (CheckCatalog catalog)'''
-    «val body = bodyDoc(catalog)»
-    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-    <html>
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <link rel="stylesheet" href="PLUGINS_ROOT/com.avaloq.tools.ddk.check.runtime.ui/css/check.css" type="text/css">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>«catalog.name»</title>
+      <style>
+    «CheckDocumentationTemplates.STYLE»
+      </style>
     </head>
-
     <body>
-      <h1>Check Catalog «catalog.name»</h1>
-      «val formattedDescription = catalog.description.formatDescription»
-      «IF formattedDescription !== null»
+      <header class="catalog-header">
+        <a class="back-link" href="../index.html#«catalog.name»">← All catalogs</a>
+        <h1>«catalog.name»</h1>
+        «val formattedDescription = catalog.description.formatDescription»
+        «IF formattedDescription !== null»
         <p>«formattedDescription»</p>
-      «ENDIF»
-      «body»
+        «ENDIF»
+        «IF !catalog.checks.empty || !catalog.categories.empty»
+        <nav class="jump">
+          <strong>Jump to</strong>
+          <ul>
+            «FOR check : catalog.checks»
+            <li><a href="#«check.contextId»">«check.label»</a></li>
+            «ENDFOR»
+            «FOR category : catalog.categories»
+            <li><a href="#«category.contextId»">«category.label»</a></li>
+            «ENDFOR»
+          </ul>
+        </nav>
+        «ENDIF»
+      </header>
+      <main>
+        «bodyDoc(catalog)»
+      </main>
     </body>
-
     </html>
   '''
 
   def bodyDoc(CheckCatalog catalog)'''
-    «FOR check:catalog.checks»
-      <div id="«check.contextId»" class="description"><h3>«check.label» <span class="thin">(«check.defaultSeverity.name().toLowerCase»)</span></h3>
+    «FOR check : catalog.checks»
+      «checkArticle(check)»
+    «ENDFOR»
+    «FOR category : catalog.categories»
+      <section class="category">
+        <h2 id="«category.contextId»">«category.label»</h2>
+        «val formattedCategoryDescription = category.description.formatDescription»
+        «IF formattedCategoryDescription !== null»
+        <p>«formattedCategoryDescription»</p>
+        «ENDIF»
+        «FOR check : category.checks»
+          «checkArticle(check)»
+        «ENDFOR»
+      </section>
+    «ENDFOR»
+  '''
+
+  def private checkArticle(Check check)'''
+    <article class="check" id="«check.contextId»">
+      <header>
+        <h3>«check.label» <a class="anchor" href="#«check.contextId»">#</a></h3>
+        <span class="severity sev-«check.defaultSeverity.name().toLowerCase»">«check.defaultSeverity.name().toLowerCase»</span>
+      </header>
       «val formattedCheckDescription = check.description.formatDescription»
       «IF formattedCheckDescription !== null»
         «formattedCheckDescription»
       «ENDIF»
-      <p><i>Message: </i>«check.message.replacePlaceholder»</p><br></div>
-    «ENDFOR»
-    «FOR category:catalog.categories»
-      <div class="category">
-        <h2 id="«category.contextId»">«category.label»</h2>
-        «val formattedCateogryDescription = category.description.formatDescription»
-        «IF formattedCateogryDescription !== null»
-          «formattedCateogryDescription»
-        «ENDIF»
-        «FOR check:category.checks»
-          <div id="«check.contextId»" class="description">
-            <h3>«check.label» <span class="thin">(«check.defaultSeverity.name().toLowerCase»)</span></h3>
-            «val formattedCheckDescription = check.description.formatDescription»
-            «IF formattedCheckDescription !== null»
-              «formattedCheckDescription»
-            «ENDIF»
-            <p><i>Message: </i>«check.message.replacePlaceholder»</p>
-          </div>
-        «ENDFOR»
-      </div>
-    «ENDFOR»
+      <pre class="message">«check.message.replacePlaceholder»</pre>
+    </article>
   '''
 
    /*

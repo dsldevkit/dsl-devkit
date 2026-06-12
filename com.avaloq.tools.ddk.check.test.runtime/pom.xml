@@ -10,4 +10,92 @@
 
   <artifactId>com.avaloq.tools.ddk.check.test.runtime</artifactId>
   <packaging>eclipse-plugin</packaging>
+
+  <profiles>
+    <!--
+      Opt-in profile that regenerates docs/content/<Catalog>.html plus
+      docs/{toc.xml,contexts.xml} from the .check sources by running the
+      headless CheckDocApplication (defined in com.avaloq.tools.ddk.check.core)
+      inside an Equinox runtime started by tycho-eclipse-plugin.
+
+      Invoke with: `mvn -pl :com.avaloq.tools.ddk.check.test.runtime,:ddk-repository
+      -am -PgenerateCheckDocs -DskipTests clean package`
+    -->
+    <profile>
+      <id>generateCheckDocs</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.avaloq.tools.ddk</groupId>
+          <artifactId>ddk-repository</artifactId>
+          <version>17.3.0-SNAPSHOT</version>
+          <type>eclipse-repository</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-eclipse-plugin</artifactId>
+            <version>${tycho.version}</version>
+            <executions>
+              <execution>
+                <id>generate-check-docs</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>eclipse-run</goal>
+                </goals>
+                <configuration>
+                  <executionEnvironment>JavaSE-21</executionEnvironment>
+                  <applicationsArgs>
+                    <args>-application</args>
+                    <args>com.avaloq.tools.ddk.check.core.docApplication</args>
+                    <args>${project.basedir}/src</args>
+                    <args>${project.basedir}/docs</args>
+                  </applicationsArgs>
+                  <repositories>
+                    <repository>
+                      <id>reactor-p2</id>
+                      <layout>p2</layout>
+                      <url>file:${project.basedir}/../ddk-repository/target/repository/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-release</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/releases/2026-03/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-emf</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-xtext</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.43.0/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-mwe</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.25.0/</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-orbit</id>
+                      <layout>p2</layout>
+                      <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.39.0</url>
+                    </repository>
+                  </repositories>
+                  <dependencies>
+                    <dependency>
+                      <artifactId>com.avaloq.tools.ddk.check.core</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                  </dependencies>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
