@@ -51,8 +51,6 @@ import com.google.common.collect.Sets;
  */
 public class AcfKeywordHelper implements Adapter {
 
-  private static final int INITIAL_BUFFER_CAPACITY = 32;
-
   private final BiMap<CharSequence, String> keywordValueToToken;
   private final boolean ignoreCase;
 
@@ -223,7 +221,7 @@ public class AcfKeywordHelper implements Adapter {
    * @return Rule name
    */
   private String createKeywordName(final int count, final String value) {
-    StringBuilder name = new StringBuilder(INITIAL_BUFFER_CAPACITY);
+    StringBuilder name = new StringBuilder();
     name.append("KEYWORD_"); //$NON-NLS-1$
     name.append(count);
     name.append('_');

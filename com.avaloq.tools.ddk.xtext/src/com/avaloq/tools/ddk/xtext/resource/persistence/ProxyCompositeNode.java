@@ -178,11 +178,16 @@ public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INod
    * @return the string
    */
   private String toString(final EObject eObject) {
-    String result = String.format("%s@%s", eObject.getClass().getName(), Integer.toHexString(hashCode())); //$NON-NLS-1$
+    StringBuilder result = new StringBuilder(eObject.getClass().getName());
+    result.append('@');
+    result.append(Integer.toHexString(hashCode()));
+
     if (eObject.eIsProxy() && eObject instanceof InternalEObject internal) {
-      result += " (eProxyURI: " + internal.eProxyURI() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+      result.append(" (eProxyURI: "); //$NON-NLS-1$
+      result.append(internal.eProxyURI());
+      result.append(')');
     }
-    return result;
+    return result.toString();
   }
 
   @Override

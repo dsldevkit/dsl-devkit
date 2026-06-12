@@ -54,8 +54,13 @@ public class ClasspathBasedChecks extends AbstractDeclarativeValidator {
     Resource resource = catalog.eResource();
     URI resourceURI = resource.getURI();
     String packageName = catalog.getPackageName();
-    String packagePath = packageName != null ? packageName.replace(DOT, SLASH) + SLASH : "";
-    URI classpathURI = URI.createURI(ClasspathUriUtil.CLASSPATH_SCHEME + ":/" + packagePath + resourceURI.lastSegment());
+    StringBuilder classpathURIBuilder = new StringBuilder(ClasspathUriUtil.CLASSPATH_SCHEME);
+    classpathURIBuilder.append(":/");
+    if (packageName != null) {
+      classpathURIBuilder.append(packageName.replace(DOT, SLASH)).append(SLASH);
+    }
+    classpathURIBuilder.append(resourceURI.lastSegment());
+    URI classpathURI = URI.createURI(classpathURIBuilder.toString());
     URIConverter uriConverter = resource.getResourceSet().getURIConverter();
     try {
       URI normalizedClasspathURI = uriConverter.normalize(classpathURI);
