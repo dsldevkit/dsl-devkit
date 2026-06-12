@@ -111,21 +111,21 @@ public class CustomClassAwareEcoreGenerator extends EcoreGenerator {
       Diagnostic diagnostic = generator.generate(model, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
 
       if (diagnostic.getSeverity() != Diagnostic.OK) {
-        LOGGER.info(diagnostic);
+        LOGGER.warn(diagnostic);
       }
     }
 
     if (generateEdit) {
       Diagnostic editDiag = generator.generate(model, GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, new BasicMonitor());
       if (editDiag.getSeverity() != Diagnostic.OK) {
-        LOGGER.info(editDiag);
+        LOGGER.warn(editDiag);
       }
     }
 
     if (generateEditor) {
       Diagnostic editorDiag = generator.generate(model, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, new BasicMonitor());
       if (editorDiag.getSeverity() != Diagnostic.OK) {
-        LOGGER.info(editorDiag);
+        LOGGER.warn(editorDiag);
       }
     }
   }
