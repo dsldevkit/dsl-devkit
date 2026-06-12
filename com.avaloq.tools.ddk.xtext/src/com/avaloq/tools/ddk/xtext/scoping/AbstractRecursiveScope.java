@@ -229,20 +229,12 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
   @SuppressWarnings("nls")
   @Override
   public String toString() {
-    final StringBuilder result = new StringBuilder(getClass().getName());
-    result.append('@');
-    result.append(Integer.toHexString(hashCode()));
-
-    result.append(" (id: ");
-    result.append(getId());
-    result.append(')');
-
+    String result = String.format("%s@%s (id: %s)", getClass().getName(), Integer.toHexString(hashCode()), getId());
     final IScope outerScope = getParent();
     if (outerScope != IScope.NULLSCOPE) {
-      result.append("\n  >> ");
-      result.append(outerScope.toString().replaceAll("\\\n", "\n  "));
+      result += "\n  >> " + outerScope.toString().replaceAll("\\\n", "\n  ");
     }
-    return result.toString();
+    return result;
   }
 
 }
