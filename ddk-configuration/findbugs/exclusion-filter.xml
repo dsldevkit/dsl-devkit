@@ -75,4 +75,8 @@
   <Match>
      <Class name="~.*Activator.*" />
   </Match>
+  <!-- Widening an override from protected to public is accepted, deliberate API design here. -->
+  <Match>
+     <Bug pattern="IAOM_DO_NOT_INCREASE_METHOD_ACCESSIBILITY" />
+  </Match>
 </FindBugsFilter>
