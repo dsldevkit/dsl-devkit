@@ -32,6 +32,7 @@ Export-Package: com.avaloq.tools.ddk.checkcfg,
  com.avaloq.tools.ddk.checkcfg.jvmmodel,
  com.avaloq.tools.ddk.checkcfg.parser.antlr,
  com.avaloq.tools.ddk.checkcfg.parser.antlr.internal,
+ com.avaloq.tools.ddk.checkcfg.quickfix,
  com.avaloq.tools.ddk.checkcfg.services,
  com.avaloq.tools.ddk.checkcfg.validation,
  com.avaloq.tools.ddk.checkcfg.serializer
