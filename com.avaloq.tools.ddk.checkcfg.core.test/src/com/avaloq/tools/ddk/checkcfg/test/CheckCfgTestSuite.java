@@ -14,7 +14,6 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.checkcfg.contentassist.CheckCfgContentAssistTest;
-import com.avaloq.tools.ddk.checkcfg.quickfix.CheckCfgQuickfixesTest;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProviderTest;
 import com.avaloq.tools.ddk.checkcfg.syntax.CheckCfgSyntaxTest;
 import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgConfiguredParameterValidationsTest;
@@ -30,7 +29,6 @@ import com.avaloq.tools.ddk.checkcfg.validation.CheckCfgValidationTest;
 // @Format-Off
   CheckCfgConfiguredParameterValidationsTest.class,
   CheckCfgContentAssistTest.class,
-  CheckCfgQuickfixesTest.class,
   CheckCfgScopeProviderTest.class,
   CheckCfgSyntaxTest.class,
   CheckCfgTest.class,

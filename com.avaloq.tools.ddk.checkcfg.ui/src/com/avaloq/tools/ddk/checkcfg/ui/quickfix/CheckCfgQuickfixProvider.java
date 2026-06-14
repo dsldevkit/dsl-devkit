@@ -26,9 +26,7 @@ import org.eclipse.xtext.validation.Issue;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCatalog;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredCheck;
-import com.avaloq.tools.ddk.checkcfg.checkcfg.ConfiguredLanguageValidator;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.SeverityKind;
-import com.avaloq.tools.ddk.checkcfg.quickfix.CheckCfgQuickfixes;
 import com.avaloq.tools.ddk.checkcfg.validation.IssueCodes;
 
 
@@ -161,22 +159,4 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
     });
   }
 
-  /**
-   * Removes duplicate language configurations by merging the contents of every later occurrence into the first one
-   * and deleting the duplicates.
-   *
-   * @param issue
-   *          the issue
-   * @param acceptor
-   *          the acceptor
-   */
-  @Fix(IssueCodes.DUPLICATE_LANGUAGE_CONFIGURATION)
-  public void removeDuplicateLanguageConfiguration(final Issue issue, final IssueResolutionAcceptor acceptor) {
-    acceptor.accept(issue, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_LABEL, Messages.CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_DESCN, null, new ISemanticModification() {
-      @Override
-      public void apply(final EObject element, final IModificationContext context) {
-        CheckCfgQuickfixes.mergeDuplicateLanguageConfigurations((ConfiguredLanguageValidator) element);
-      }
-    });
-  }
 }

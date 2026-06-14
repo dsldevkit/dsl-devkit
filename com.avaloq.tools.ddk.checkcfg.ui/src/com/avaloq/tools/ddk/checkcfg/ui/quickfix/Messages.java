@@ -28,8 +28,6 @@ public class Messages extends NLS {
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CATALOG_LABEL;
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CHECK_DESCN;
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_CHECK_LABEL;
-  public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_DESCN;
-  public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_LANG_LABEL;
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_PARAM_DESCN;
   public static String CheckCfgQuickfixProvider_REMOVE_DUPLICATE_PARAM_LABEL;
 
