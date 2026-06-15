@@ -51,8 +51,6 @@ refactor: migrate Xtend to Java - <plugin name>
 ```
 Example: `refactor: migrate Xtend to Java - com.avaloq.tools.ddk.check.core.test`
 
-**Never add co-authoring trailers** (`Co-authored-by`, `Signed-off-by`, etc.) to migration commits.
-
 ### Rollback strategy
 
 If a batch fails any validation gate:

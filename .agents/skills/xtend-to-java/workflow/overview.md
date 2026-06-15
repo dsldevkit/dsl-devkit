@@ -100,11 +100,24 @@ Do not write the Java file first and then vet it — read the references first, 
 >
 > **There is no file small enough to skip this step.**
 >
-> **If `xtend-gen/` is not present:** it is gitignored and only exists after a build, so a fresh
-> checkout often has none. You may NOT skip the ground truth — obtain it one of two ways:
-> (a) build the module to generate `xtend-gen/`, or (b) if a pre-converted reference branch exists,
-> read its `.java` for this file (it was produced from `xtend-gen/` and encodes the same behavior).
-> Wherever this document says "read `xtend-gen/`", that reference `.java` is the equivalent ground truth.
+> **Always build for a CURRENT ground truth — do not rely on a stale reference alone.**
+> `xtend-gen/` is gitignored and only exists after a build, so a fresh checkout has none.
+> For **every** migration, build the module off the **latest integration branch** with `-T 3C`
+> first to (re)generate `xtend-gen/`:
+>
+> ```bash
+> mvn -f ./ddk-parent/pom.xml -pl :<module> -am -DskipTests -T 3C compile --batch-mode
+> ```
+>
+> The freshly built `xtend-gen/` is the **authoritative** ground truth: it is the Xtend compiler's
+> output for the `.xtend` *as it exists on the current branch*, so it is always up to date and
+> Java-authoritative. This compile is also the first build gate.
+>
+> A pre-converted **reference branch's `.java`** (if one exists) is a valuable **four-eyes
+> cross-check** — read it too and reconcile every divergence (either side may be wrong) — but it
+> may be **stale** relative to the current branch, so it is NOT a substitute for the freshly built
+> `xtend-gen/`. Only if a build is genuinely impossible does the reference `.java` become the
+> fallback ground truth, and then note the staleness risk.
 
 ### 3a. Read the Xtend source — understand intent and structure
 
