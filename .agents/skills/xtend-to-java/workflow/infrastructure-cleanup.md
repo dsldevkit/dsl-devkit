@@ -6,7 +6,7 @@ When Xtend is fully removed from a module, update these files.
 
 | File | Change |
 |------|--------|
-| **META-INF/MANIFEST.MF** | Remove `org.eclipse.xtend.lib` and `org.eclipse.xtext.xbase.lib` from `Require-Bundle` (keep `xtext.xbase.lib` if the module still uses Xtext runtime classes like `XbaseTypeComputer`) |
+| **META-INF/MANIFEST.MF** | Remove `org.eclipse.xtend.lib` / `org.eclipse.xtext.xbase.lib` from `Require-Bundle` **only after** grepping BOTH `src` and `src-gen` for any reference — imports plus `StringConcatenation`/`CollectionLiterals`/`Conversions`/`Exceptions`/`ObjectExtensions`/`IterableExtensions`/`Procedures`/`Functions`/`Pair`. Remove **iff zero references**; keep it if any remain (e.g. `src-gen` still uses it). At zero refs it is guaranteed-safe: `Require-Bundle` isn't re-exported, and with no bytecode reference transitive availability is irrelevant. |
 | **build.properties** | Remove `xtend-gen/` from `source..` entries |
 | **.classpath** | Remove `<classpathentry kind="src" path="xtend-gen">` (including any nested `<attributes>`) |
 | **.project** | Remove `org.eclipse.xtext.ui.shared.xtextBuilder` from `<buildSpec>` and `org.eclipse.xtext.ui.shared.xtextNature` from `<natures>` |
