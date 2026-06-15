@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?compositeMetadataRepository version='1.0.0'?>
 <repository name='DDK p2 Latest Snapshot' type='org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository' version='1.0.0'>
-  <properties size='1'><property name='p2.timestamp' value='1781507081000'/></properties>
-  <children size='1'><child location='../57bace1f/'/></children>
+  <properties size='1'><property name='p2.timestamp' value='1781515404000'/></properties>
+  <children size='1'><child location='../ff9dd9ce/'/></children>
 </repository>
