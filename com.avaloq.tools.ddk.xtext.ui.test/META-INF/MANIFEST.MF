@@ -6,7 +6,6 @@ Bundle-Version: 17.3.1.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.xtext.ui,
- org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.testing,
  org.mockito.mockito-core,
  com.avaloq.tools.ddk.xtext.ui,
