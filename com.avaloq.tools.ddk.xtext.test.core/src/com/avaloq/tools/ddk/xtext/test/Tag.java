@@ -8,19 +8,20 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.test
+package com.avaloq.tools.ddk.xtext.test;
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-import org.eclipse.xtend.lib.macro.Active
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import org.eclipse.xtend.lib.macro.Active;
 
 /**
  * Initializes global tags in linking tests.
  * The annotated field must be of integer type.
  * Usage example: @Tag int MEM_DOC
  */
-@Active(typeof(TagCompilationParticipant))
+@Active(TagCompilationParticipant.class)
 @Retention(RetentionPolicy.RUNTIME)
-annotation Tag {
+public @interface Tag {
 
 }
