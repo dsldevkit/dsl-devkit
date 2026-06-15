@@ -38,7 +38,7 @@ public final class CheckXtextTestUtil extends AbstractXtextTestUtil {
     }
   }
 
-  public static synchronized CheckXtextTestUtil getInstance() {
+  public static CheckXtextTestUtil getInstance() {
     return InstanceHolder.get();
   }
 
