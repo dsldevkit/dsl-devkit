@@ -10,10 +10,10 @@ export ecore::EClass as name
 
 export ecore::EClass as name
 {
-    field instanceClassName;
-    field instanceClassName;
+    field abstract;
+    field abstract;
     data intl_id = this.getSomeValue();
-    data instanceClassName = this.getSomeValue();
+    data abstract = this.getSomeValue();
     // TODO add more data, e.g. intl2_id, user_id(?), ...
 }
 

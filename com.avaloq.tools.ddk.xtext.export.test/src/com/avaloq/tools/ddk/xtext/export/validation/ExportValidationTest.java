@@ -39,12 +39,12 @@ public class ExportValidationTest extends AbstractValidationTest {
 
   @Test
   public final void testCheckExportFieldUniqueness() {
-    assertDiagnosticMessage("duplicate found: instanceClassName");
+    assertDiagnosticMessage("duplicate found: abstract");
   }
 
   @Test
   public final void testCheckUserDataNameAsFeature() {
-    assertDiagnosticMessage("instanceClassName is already defined as field");
+    assertDiagnosticMessage("abstract is already defined as field");
     // TODO assertDiagnosticMessage("xxx has the same name as an existing feature");
   }
 

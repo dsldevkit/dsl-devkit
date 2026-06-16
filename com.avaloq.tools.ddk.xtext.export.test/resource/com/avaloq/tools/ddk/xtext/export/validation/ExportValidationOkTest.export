@@ -1,8 +1,8 @@
-import "http://www.avaloq.com/tools/ddk/acf/codetabdata" as codetabdata
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
-export codetabdata::Row as idOrKey  // Export row id or symbolic row key
+export ecore::EClass as idOrKey  // Export row id or symbolic row key
 {
-    field includeDdic;
+    field abstract;
     data intl_id = this.getIntlId();
     // TODO add more data, e.g. intl2_id, user_id(?), ...
 }
