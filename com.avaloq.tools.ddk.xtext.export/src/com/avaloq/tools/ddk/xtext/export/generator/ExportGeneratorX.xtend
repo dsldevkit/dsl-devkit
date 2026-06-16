@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.xtext.Grammar
+import org.eclipse.emf.common.util.URI
 
 class ExportGeneratorX {
 
@@ -50,16 +51,23 @@ class ExportGeneratorX {
     return grammarResource?.contents.head as Grammar
   }
 
+  def List<String> getPrefix(URI uri) {
+    // TODO we still need to add a package to the models. Extension models already have a name in contrast to cases above
+    if (uri.segmentsList().size > 3) {
+      return uri.segmentsList().subList(3, uri.segmentCount() - 1);      
+    } else {
+      return uri.segmentsList().subList(uri.segmentCount() - 2, uri.segmentCount() - 1);
+    }
+  }
+
   def String getExportedNamesProvider(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".naming." + getName(model) + "ExportedNamesProvider";
+    return String.join(".", getPrefix(uri)) + ".naming." + getName(model) + "ExportedNamesProvider";
   }
 
   def String getResourceDescriptionManager(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "ResourceDescriptionManager";
+    return String.join(".", getPrefix(uri)) + ".resource." + getName(model) + "ResourceDescriptionManager";
   }
 
   def String getResourceDescriptionManager(Grammar grammar) {
@@ -68,32 +76,27 @@ class ExportGeneratorX {
 
   def String getResourceDescriptionStrategy(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "ResourceDescriptionStrategy";
+    return String.join(".", getPrefix(uri)) + ".resource." + getName(model) + "ResourceDescriptionStrategy";
   }
 
   def String getResourceDescriptionConstants(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "ResourceDescriptionConstants";
+    return String.join(".", getPrefix(uri)) + ".resource." + getName(model) + "ResourceDescriptionConstants";
   }
 
   def String getFingerprintComputer(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "FingerprintComputer";
+    return String.join(".", getPrefix(uri)) + ".resource." + getName(model) + "FingerprintComputer";
   }
 
   def String getFragmentProvider(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO this is a hack; to support modularization we should probably add name to export models (as with scope models)
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + getName(model) + "FragmentProvider";
+    return String.join(".", getPrefix(uri)) + ".resource." + getName(model) + "FragmentProvider";
   }
 
   def String getExportFeatureExtension(ExportModel model) {
     val uri = model.eResource().getURI();
-    // TODO we still need to add a package to the models. Extension models already have a name in contrast to cases above
-    return String.join(".", uri.segmentsList().subList(3, uri.segmentCount() - 1)) + ".resource." + model.name + "ExportFeatureExtension";
+    return String.join(".", getPrefix(uri)) + ".resource." + model.name + "ExportFeatureExtension";
   }
 
   /**
