@@ -1,0 +1,131 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Group AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Group AG - initial API and implementation
+ *******************************************************************************/
+package com.avaloq.tools.ddk.xtext.format.generator;
+
+import java.util.Arrays;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.common.types.JvmConstructor;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmField;
+import org.eclipse.xtext.common.types.JvmMember;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.generator.IFileSystemAccess;
+import org.eclipse.xtext.util.Strings;
+import org.eclipse.xtext.xbase.compiler.DocumentationAdapter;
+import org.eclipse.xtext.xbase.compiler.ErrorSafeExtensions;
+import org.eclipse.xtext.xbase.compiler.GeneratorConfig;
+import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
+import org.eclipse.xtext.xbase.compiler.TreeAppendableUtil;
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
+
+import com.avaloq.tools.ddk.xtext.format.FormatConstants;
+import com.avaloq.tools.ddk.xtext.format.format.FormatConfiguration;
+import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
+
+/**
+ * Generates code from your model files on save.
+ *
+ * Currently this generator is not used at all.
+ * This is a side effect of the usage of the org.eclipse.xtext.generator.generator.GeneratorFragment.GeneratorFragment,
+ * which generates this file besides necessary contents for org.eclipse.xtext.builder.BuilderParticipant.
+ *
+ * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
+ */
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+public class FormatGenerator extends JvmModelGenerator {
+
+  private static final String DOT = ".";
+
+  @Inject
+  private TreeAppendableUtil treeAppendableUtil;
+
+  @Inject
+  private ErrorSafeExtensions errorSafeExtensions;
+
+  public String getSingleCommentDocumentation(final EObject it, final ITreeAppendable appendable, final GeneratorConfig config) {
+    final DocumentationAdapter adapter = Iterables.<DocumentationAdapter> getFirst(Iterables.<DocumentationAdapter> filter(it.eAdapters(), DocumentationAdapter.class), null);
+    if (adapter != null && adapter.getDocumentation() != null && !adapter.getDocumentation().isEmpty()) {
+      return adapter.getDocumentation();
+    }
+    return null;
+  }
+
+  @Override
+  protected ITreeAppendable _generateMember(final JvmField it, final ITreeAppendable appendable, final GeneratorConfig config) {
+    appendable.newLine();
+    final ITreeAppendable tracedAppendable = appendable.trace(it);
+    generateAnnotations(it.getAnnotations(), tracedAppendable, true, config);
+    generateModifier(it, tracedAppendable, config);
+    errorSafeExtensions.serializeSafely(it.getType(), "Object", tracedAppendable);
+    tracedAppendable.append(" ");
+    treeAppendableUtil.traceSignificant(tracedAppendable, it).append(it.getSimpleName());
+    generateInitialization(it, tracedAppendable, config);
+    tracedAppendable.append(";");
+    String documentation = getSingleCommentDocumentation(it, appendable, config);
+    if (documentation != null && documentation.endsWith("\r\n")) {
+      documentation = documentation.substring(0, documentation.length() - 2);
+    }
+    if (documentation != null) {
+      tracedAppendable.append(" // ");
+      return tracedAppendable.append(documentation);
+    }
+    return null;
+  }
+
+  @Override
+  public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
+    super.doGenerate(resource, fsa); // Generate the abstract formatter from inferred Jvm models.
+
+    final Iterable<EObject> contents = () -> resource.getAllContents();
+    for (final FormatConfiguration model : Iterables.<FormatConfiguration> filter(contents, FormatConfiguration.class)) {
+      fsa.generateFile(FormatGeneratorUtil.getFormatterName(model, "").replace(DOT, "/") + ".java", FormatConstants.FORMATTER,
+          generateSrc(model));
+    }
+  }
+
+  public CharSequence generateSrc(final FormatConfiguration model) {
+    return """
+        package %s;
+
+        /**
+         * The formatting configuration for %s.
+         */
+        public class %s extends %s {
+          // TODO: Provide a correct implementation of getSLCommentRule() and getMLCommentRule() in this class
+        }
+        """.formatted(
+        Strings.skipLastToken(FormatGeneratorUtil.getFormatterName(model, ""), DOT),
+        Strings.lastToken(model.getTargetGrammar().getName(), DOT),
+        Strings.lastToken(FormatGeneratorUtil.getFormatterName(model, ""), DOT),
+        Strings.lastToken(FormatGeneratorUtil.getFormatterName(model, "Abstract"), DOT));
+  }
+
+  @Override
+  public ITreeAppendable generateMember(final JvmMember it, final ITreeAppendable appendable, final GeneratorConfig config) {
+    if (it instanceof JvmConstructor) {
+      return _generateMember((JvmConstructor) it, appendable, config);
+    } else if (it instanceof JvmOperation) {
+      return _generateMember((JvmOperation) it, appendable, config);
+    } else if (it instanceof JvmField field) {
+      return _generateMember(field, appendable, config);
+    } else if (it instanceof JvmDeclaredType) {
+      return _generateMember((JvmDeclaredType) it, appendable, config);
+    } else if (it != null) {
+      return _generateMember(it, appendable, config);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: "
+          + Arrays.<Object> asList(it, appendable, config).toString());
+    }
+  }
+}
