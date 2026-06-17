@@ -230,9 +230,7 @@ public abstract class AbstractLabelProvider extends DeclarativeLabelProvider {
           }
         }
         if (valueString != null && valueString.length() > MAX_FEATURE_VALUE_LENGTH) {
-          StringBuilder stringBuilder = new StringBuilder(valueString.substring(0, MAX_FEATURE_VALUE_LENGTH - CONTINUED.length()));
-          stringBuilder.append(CONTINUED);
-          valueString = stringBuilder.toString();
+          valueString = valueString.substring(0, MAX_FEATURE_VALUE_LENGTH - CONTINUED.length()) + CONTINUED;
         }
       }
       return assignmentStyledString(name, valueString);

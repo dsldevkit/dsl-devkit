@@ -262,7 +262,6 @@ public class TemplateProposalProviderHelperTest {
       throw new IllegalStateException(e);
     }
   }
-  // CHECKSTYLE:CONSTANTS-ON
 
   // CHECKSTYLE:CONSTANTS-ON
 
