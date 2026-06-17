@@ -26,6 +26,7 @@ import org.eclipse.xtext.util.concurrent.IWriteAccess;
  * This class is UI-independent.
  */
 // CHECKSTYLE:OFF
+@SuppressWarnings("restriction")
 public interface ICoreXtextDocument extends IReadAccess<XtextResource>, IWriteAccess<XtextResource> {
 
   public <T> T getAdapter(Class<T> adapterType);
