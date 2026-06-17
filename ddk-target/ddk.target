@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="DDK Target" sequenceNumber="29">
+<target name="DDK Target" sequenceNumber="30">
 <locations>
+  <!-- Patched ANTLR 3.2 generator (the ex-itemis toolrunner + fat ANTLR tool jar), donated to
+       Eclipse and published on Maven Central. Provides the org.antlr.Tool + AntlrToolRunner that the
+       Generate*.mwe2 grammar workflows need, without relying on the dead itemis p2 repository or a
+       binary jar committed to the repo. PDE wraps the non-OSGi jars as bundles (missingManifest). -->
+  <location includeDependencyDepth="none" includeSource="false" missingManifest="generate" type="Maven">
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.xtext</groupId>
+        <artifactId>xtext-antlr-generator</artifactId>
+        <version>2.1.1</version>
+        <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.xtext</groupId>
+        <artifactId>antlr-generator</artifactId>
+        <version>3.2.1</version>
+        <type>jar</type>
+      </dependency>
+    </dependencies>
+  </location>
   <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
   <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
   <unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
