@@ -11,7 +11,6 @@
 
 package com.avaloq.tools.ddk.check.formatting;
 
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.formatting2.FormatterPreferenceKeys;
 import org.eclipse.xtext.preferences.MapBasedPreferenceValues;
 import org.eclipse.xtext.testing.InjectWith;
@@ -39,149 +38,62 @@ public class CheckFormattingTest {
   @Test
   public void testFormattedSource() {
     // CHECKSTYLE:CHECK-OFF VariableDeclarationUsageDistance
-    StringConcatenation builder = new StringConcatenation();
-    builder.append("package com.avaloq.tools.ddk.check.formatting");
-    builder.newLine();
-    builder.newLine();
-    builder.append("import com.avaloq.tools.ddk.check.check.*");
-    builder.newLine();
-    builder.newLine();
-    builder.append("catalog CheckFormattingTest");
-    builder.newLine();
-    builder.append("for grammar com.avaloq.tools.ddk.check.Check {");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("category \"Label\" {");
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("/**");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("* @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("*/");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("live error UniqueID \"Label\"");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("message \"message\" {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("live error anotherid \"Label\"");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("message \"message {0}, {1}\" {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("def Name");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("for Category list {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("issue anotherid on list bind (3, 2) data (\"\")");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("val size =");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("if (list.checks !== null) list.checks.size else 0");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("if (list.checks?.size > 1) {");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("// SL: string value of list");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("String::valueOf(list)");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("issue UniqueID on list#checks[0]");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("} else {");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("/* ML: string value of size       */");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("String::valueOf(size)");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("@SeverityRange(warning .. error)");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("onSave error lastID \"Label\"");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("message \"message\" {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("// single line comment");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("/**");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("* This check is javadoc-like commented.");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("*/");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("warning CategoryNamedW \"Category named W\" (boolean foo = false, boolean bar = true)");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("message \"Category named \'w\'\" {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("for Category c {");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("if (\'w\'.equalsIgnoreCase(c.name)) {");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("issue");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
-    final String input = builder.toString();
+    final String input = """
+        package com.avaloq.tools.ddk.check.formatting
+
+        import com.avaloq.tools.ddk.check.check.*
+
+        catalog CheckFormattingTest
+        for grammar com.avaloq.tools.ddk.check.Check {
+
+          category "Label" {
+
+            /**
+             * @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890
+             */
+            live error UniqueID "Label"
+            message "message" {
+            }
+
+            live error anotherid "Label"
+            message "message {0}, {1}" {
+            }
+          }
+
+          def Name
+          for Category list {
+            issue anotherid on list bind (3, 2) data ("")
+            val size =
+              if (list.checks !== null) list.checks.size else 0
+            if (list.checks?.size > 1) {
+              // SL: string value of list
+              String::valueOf(list)
+              issue UniqueID on list#checks[0]
+            } else {
+              /* ML: string value of size       */
+              String::valueOf(size)
+            }
+          }
+
+          @SeverityRange(warning .. error)
+          onSave error lastID "Label"
+          message "message" {
+            // single line comment
+          }
+
+          /**
+           * This check is javadoc-like commented.
+           */
+          warning CategoryNamedW "Category named W" (boolean foo = false, boolean bar = true)
+          message "Category named 'w'" {
+            for Category c {
+              if ('w'.equalsIgnoreCase(c.name)) {
+                issue
+              }
+            }
+          }
+        }
+        """;
 
     formatterTestHelper.assertFormatted((FormatterTestRequest it) -> {
       // these preferences are usually picked up from the resource, but we are not using a resource here.
@@ -200,195 +112,75 @@ public class CheckFormattingTest {
   @Test
   public void testWSAdded() {
     // CHECKSTYLE:CHECK-OFF VariableDeclarationUsageDistance
-    StringConcatenation builder = new StringConcatenation();
-    builder.append("package com.avaloq.tools.ddk.check.formatting import com.avaloq.tools.ddk.check.check.* catalog CheckFormattingTest");
-    builder.newLine();
-    builder.append("for grammar com.avaloq.tools.ddk.check.Check{category \"Label\"{/**");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("* @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("*/live error UniqueID \"Label\"");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("message \"message\"{}live error anotherid \"Label\"");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("message \"message {0}, {1}\" {}}");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("def Name for Category list{issue anotherid on list bind(3,2)data(\"\")");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("val size=if(list.checks !== null)list.checks.size else 0");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("if(list.checks?.size>1){");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("// SL: string value of list");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("String::valueOf(list)issue UniqueID on list#checks[0]}else{/* ML: string value of size       */String::valueOf(size)}}");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("@SeverityRange(warning..error)onSave error lastID\"Label\"message \"message\" {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("// single line comment");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}/**");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("* This check is javadoc-like commented.");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("*/warning CategoryNamedW \"Category named W\"(boolean foo=false,boolean bar=true)message \"Category named \'w\'\"{");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("for Category c {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("if(\'w\'.equalsIgnoreCase(c.name)){issue}");
-    builder.newLine();
-    builder.append("}}}");
-    builder.newLine();
-    final String input = builder.toString();
+    final String input = """
+        package com.avaloq.tools.ddk.check.formatting import com.avaloq.tools.ddk.check.check.* catalog CheckFormattingTest
+        for grammar com.avaloq.tools.ddk.check.Check{category "Label"{/**
+             * @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890
+             */live error UniqueID "Label"
+            message "message"{}live error anotherid "Label"
+            message "message {0}, {1}" {}}
+          def Name for Category list{issue anotherid on list bind(3,2)data("")
+            val size=if(list.checks !== null)list.checks.size else 0
+            if(list.checks?.size>1){
+            // SL: string value of list
+            String::valueOf(list)issue UniqueID on list#checks[0]}else{/* ML: string value of size       */String::valueOf(size)}}
+          @SeverityRange(warning..error)onSave error lastID"Label"message "message" {
+            // single line comment
+          }/**
+           * This check is javadoc-like commented.
+           */warning CategoryNamedW "Category named W"(boolean foo=false,boolean bar=true)message "Category named 'w'"{
+            for Category c {
+            if('w'.equalsIgnoreCase(c.name)){issue}
+        }}}
+        """;
 
-    StringConcatenation builder1 = new StringConcatenation();
-    builder1.append("package com.avaloq.tools.ddk.check.formatting");
-    builder1.newLine();
-    builder1.append("import com.avaloq.tools.ddk.check.check.*");
-    builder1.newLine();
-    builder1.append("catalog CheckFormattingTest");
-    builder1.newLine();
-    builder1.append("for grammar com.avaloq.tools.ddk.check.Check {");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("category \"Label\" {");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("/**");
-    builder1.newLine();
-    builder1.append("   ");
-    builder1.append("* @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890");
-    builder1.newLine();
-    builder1.append("   ");
-    builder1.append("*/");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("live error UniqueID \"Label\"");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("message \"message\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("live error anotherid \"Label\"");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("message \"message {0}, {1}\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("def Name");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("for Category list {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("issue anotherid on list bind (3, 2) data (\"\")");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("val size =");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("if (list.checks !== null) list.checks.size else 0");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("if (list.checks?.size > 1) {");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("// SL: string value of list");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("String::valueOf(list)");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("issue UniqueID on list#checks[0]");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("} else { /* ML: string value of size       */");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("String::valueOf(size)");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("@SeverityRange(warning .. error)");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("onSave error lastID \"Label\"");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("message \"message\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("// single line comment");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("/**");
-    builder1.newLine();
-    builder1.append("   ");
-    builder1.append("* This check is javadoc-like commented.");
-    builder1.newLine();
-    builder1.append("   ");
-    builder1.append("*/");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("warning CategoryNamedW \"Category named W\" (boolean foo = false, boolean bar = true)");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("message \"Category named \'w\'\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("for Category c {");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("if (\'w\'.equalsIgnoreCase(c.name)) {");
-    builder1.newLine();
-    builder1.append("        ");
-    builder1.append("issue");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("}");
-    builder1.newLine();
-    final String expected = builder1.toString();
+    final String expected = """
+        package com.avaloq.tools.ddk.check.formatting
+        import com.avaloq.tools.ddk.check.check.*
+        catalog CheckFormattingTest
+        for grammar com.avaloq.tools.ddk.check.Check {
+          category "Label" {
+          /**
+           * @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890
+           */
+            live error UniqueID "Label"
+            message "message" {
+            }
+            live error anotherid "Label"
+            message "message {0}, {1}" {
+            }
+          }
+          def Name
+          for Category list {
+            issue anotherid on list bind (3, 2) data ("")
+            val size =
+              if (list.checks !== null) list.checks.size else 0
+            if (list.checks?.size > 1) {
+              // SL: string value of list
+              String::valueOf(list)
+              issue UniqueID on list#checks[0]
+            } else { /* ML: string value of size       */
+              String::valueOf(size)
+            }
+          }
+          @SeverityRange(warning .. error)
+          onSave error lastID "Label"
+          message "message" {
+            // single line comment
+          }
+          /**
+           * This check is javadoc-like commented.
+           */
+          warning CategoryNamedW "Category named W" (boolean foo = false, boolean bar = true)
+          message "Category named 'w'" {
+            for Category c {
+              if ('w'.equalsIgnoreCase(c.name)) {
+                issue
+              }
+            }
+          }
+        }
+        """;
 
     formatterTestHelper.assertFormatted((FormatterTestRequest it) -> {
       // these preferences are usually picked up from the resource, but we are not using a resource here.
@@ -407,689 +199,362 @@ public class CheckFormattingTest {
   @Test
   public void testWSRemoved() {
     // CHECKSTYLE:CHECK-OFF VariableDeclarationUsageDistance
-    StringConcatenation builder = new StringConcatenation();
-    builder.append("    ");
-    builder.append("package");
-    builder.newLine();
-    builder.append("         ");
-    builder.append("com.avaloq.tools.ddk.check.formatting");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("import");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("com.avaloq.tools.ddk.check.check.*");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("catalog");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("CheckFormattingTest");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("for");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("grammar");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("com.avaloq.tools.ddk.check.Check");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("{");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("category");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("\"Label\"");
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("{");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("/**");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("* @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890");
-    builder.newLine();
-    builder.append("     ");
-    builder.append("*/");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("live");
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("error");
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("UniqueID");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("\"Label\"");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("message");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("\"message\"");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("{");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("live      error      anotherid     \"Label\"");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("message      \"message {0}, {1}\"           {");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("def");
-    builder.newLine();
-    builder.newLine();
-    builder.append("   ");
-    builder.append("Name");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("for");
-    builder.newLine();
-    builder.newLine();
-    builder.append("   ");
-    builder.append("Category");
-    builder.newLine();
-    builder.newLine();
-    builder.append("   ");
-    builder.append("list");
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("{");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("issue");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("anotherid");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("on");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("list");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("        ");
-    builder.append("bind");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("         ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("         ");
-    builder.append("3");
-    builder.newLine();
-    builder.newLine();
-    builder.append("         ");
-    builder.append(",");
-    builder.newLine();
-    builder.newLine();
-    builder.append("          ");
-    builder.append("2");
-    builder.newLine();
-    builder.newLine();
-    builder.append("          ");
-    builder.append(")");
-    builder.newLine();
-    builder.newLine();
-    builder.append("           ");
-    builder.append("data");
-    builder.newLine();
-    builder.newLine();
-    builder.append("            ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("            ");
-    builder.append("\"\"");
-    builder.newLine();
-    builder.newLine();
-    builder.append("            ");
-    builder.append(")");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("val");
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("size");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("=");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("if");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("list");
-    builder.newLine();
-    builder.append("      ");
-    builder.append(".");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("checks");
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("!==");
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("null");
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append(")");
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("list   .   checks   .   size");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("        ");
-    builder.append("else");
-    builder.newLine();
-    builder.newLine();
-    builder.append("        ");
-    builder.append("0");
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("if");
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("list.checks   ?.   size");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("> 1)");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("{");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("// SL: string value of list");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("String");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("::");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("valueOf");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("list");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append(")");
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("issue UniqueID on list   #    checks");
-    builder.newLine();
-    builder.newLine();
-    builder.append("         ");
-    builder.append("[");
-    builder.newLine();
-    builder.newLine();
-    builder.append("        ");
-    builder.append("0");
-    builder.newLine();
-    builder.newLine();
-    builder.append("       ");
-    builder.append("]");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("else");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("     ");
-    builder.append("{");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("/* ML: string value of size       */");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("String     ::    valueOf   (   size  )");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("@");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("SeverityRange");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("warning");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("..");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("error");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append(")");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("onSave error lastID \"Label\"");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("message \"message\" {");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("// single line comment");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("/**");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("* This check is javadoc-like commented.");
-    builder.newLine();
-    builder.append("   ");
-    builder.append("*/");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("warning    CategoryNamedW    \"Category named W\"");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("(");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("boolean");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("foo");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("=");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("false");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append(",");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("boolean");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("bar");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("=");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("true");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append(")");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("message \"Category named \'w\'\" {");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("for Category c {");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("if (\'w\'.equalsIgnoreCase(c.name)) {");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("        ");
-    builder.append("issue");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("      ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.newLine();
-    final String input = builder.toString();
+    final String input = """
+            package
+                 com.avaloq.tools.ddk.check.formatting
 
-    StringConcatenation builder1 = new StringConcatenation();
-    builder1.append("package com.avaloq.tools.ddk.check.formatting");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("import com.avaloq.tools.ddk.check.check.*");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("catalog CheckFormattingTest");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("for grammar com.avaloq.tools.ddk.check.Check {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("category \"Label\" {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("/**");
-    builder1.newLine();
-    builder1.append("     ");
-    builder1.append("* @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890");
-    builder1.newLine();
-    builder1.append("     ");
-    builder1.append("*/");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("live error UniqueID \"Label\"");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("message \"message\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("live error anotherid \"Label\"");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("message \"message {0}, {1}\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("def Name");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("for Category list {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("issue anotherid on list bind (3, 2) data (\"\")");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("val size =");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("if (list.checks !== null) list.checks.size else 0");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("if (list.checks?.size > 1) {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("// SL: string value of list");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("String::valueOf(");
-    builder1.newLine();
-    builder1.append("        ");
-    builder1.append("list");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append(")");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("issue UniqueID on list#checks[0]");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("} else {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("/* ML: string value of size       */");
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("String::valueOf(size)");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("@SeverityRange(warning .. error)");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("onSave error lastID \"Label\"");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("message \"message\" {");
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("// single line comment");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("/**");
-    builder1.newLine();
-    builder1.append("   ");
-    builder1.append("* This check is javadoc-like commented.");
-    builder1.newLine();
-    builder1.append("   ");
-    builder1.append("*/");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("warning CategoryNamedW \"Category named W\" (boolean foo = false,");
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("boolean bar = true)");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("message \"Category named \'w\'\" {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("for Category c {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("if (\'w\'.equalsIgnoreCase(c.name)) {");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("        ");
-    builder1.append("issue");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("      ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("    ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.newLine();
-    builder1.append("  ");
-    builder1.append("}");
-    builder1.newLine();
-    builder1.append("}");
-    builder1.newLine();
-    final String expected = builder1.toString();
+
+
+        import
+             com.avaloq.tools.ddk.check.check.*
+
+
+
+        catalog
+            CheckFormattingTest
+
+
+        for
+           grammar
+              com.avaloq.tools.ddk.check.Check
+
+
+              {
+
+
+
+          category
+              "Label"
+
+               {
+
+
+            /**
+             * @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890
+             */
+
+
+
+            live
+
+            error
+
+             UniqueID
+
+              "Label"
+
+
+            message
+
+
+             "message"
+
+              {
+
+
+            }
+
+            live      error      anotherid     "Label"
+            message      "message {0}, {1}"           {
+
+
+            }
+
+
+          }
+
+
+
+          def
+
+           Name
+
+
+          for
+
+           Category
+
+           list
+
+            {
+
+
+            issue
+
+
+             anotherid
+
+
+              on
+
+
+               list
+
+
+                bind
+
+
+                 (
+
+                 3
+
+                 ,
+
+                  2
+
+                  )
+
+                   data
+
+                    (
+
+                    ""
+
+                    )
+
+
+            val
+
+             size
+
+              =
+
+
+              if
+
+              (
+
+              list
+              .
+              checks
+
+               !==
+
+               null
+
+               )
+
+               list   .   checks   .   size
+
+
+                else
+
+                0
+
+            if
+
+             (
+
+             list.checks   ?.   size
+              > 1)
+
+
+               {
+
+
+
+              // SL: string value of list
+
+
+              String
+
+              ::
+
+              valueOf
+
+              (
+
+              list
+
+              )
+
+              issue UniqueID on list   #    checks
+
+                 [
+
+                0
+
+               ]
+            }
+
+
+             else
+
+
+             {
+
+
+
+              /* ML: string value of size       */
+
+
+              String     ::    valueOf   (   size  )
+
+
+            }
+
+
+          }
+
+
+
+          @
+
+          SeverityRange
+
+          (
+
+          warning
+
+          ..
+
+          error
+
+          )
+
+
+          onSave error lastID "Label"
+          message "message" {
+                // single line comment
+              }
+
+
+
+          /**
+           * This check is javadoc-like commented.
+           */
+
+
+          warning    CategoryNamedW    "Category named W"
+
+
+          (
+
+          boolean
+
+          foo
+
+          =
+
+          false
+
+          ,
+
+          boolean
+
+          bar
+
+          =
+
+          true
+
+          )
+
+
+          message "Category named 'w'" {
+
+
+            for Category c {
+
+
+              if ('w'.equalsIgnoreCase(c.name)) {
+
+
+                issue
+
+
+              }
+
+
+            }
+
+
+          }
+
+
+        }
+
+
+        """;
+
+    final String expected = """
+        package com.avaloq.tools.ddk.check.formatting
+
+        import com.avaloq.tools.ddk.check.check.*
+
+        catalog CheckFormattingTest
+
+        for grammar com.avaloq.tools.ddk.check.Check {
+
+          category "Label" {
+
+            /**
+             * @todo Document check. 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890
+             */
+            live error UniqueID "Label"
+
+            message "message" {
+            }
+
+            live error anotherid "Label"
+            message "message {0}, {1}" {
+            }
+          }
+
+          def Name
+
+          for Category list {
+
+            issue anotherid on list bind (3, 2) data ("")
+
+            val size =
+
+              if (list.checks !== null) list.checks.size else 0
+
+            if (list.checks?.size > 1) {
+
+              // SL: string value of list
+              String::valueOf(
+                list
+              )
+
+              issue UniqueID on list#checks[0]
+            } else {
+
+              /* ML: string value of size       */
+              String::valueOf(size)
+
+            }
+
+          }
+
+          @SeverityRange(warning .. error)
+          onSave error lastID "Label"
+          message "message" {
+            // single line comment
+          }
+
+          /**
+           * This check is javadoc-like commented.
+           */
+          warning CategoryNamedW "Category named W" (boolean foo = false,
+          boolean bar = true)
+
+          message "Category named 'w'" {
+
+            for Category c {
+
+              if ('w'.equalsIgnoreCase(c.name)) {
+
+                issue
+
+              }
+
+            }
+
+          }
+        }
+        """;
 
     formatterTestHelper.assertFormatted((FormatterTestRequest it) -> {
       // these preferences are usually picked up from the resource, but we are not using a resource here.
