@@ -20,18 +20,19 @@ package com.avaloq.tools.ddk.check.runtime.quickfix;
  * Clients may implement this interface or use the standard implementation {@link org.eclipse.jface.text.Region}.
  * </p>
  */
+@SuppressWarnings("restriction")
 public interface IRegion {
 
   /**
    * Returns the length of the region.
-   * 
+   *
    * @return the length of the region
    */
   int getLength();
 
   /**
    * Returns the offset of the region.
-   * 
+   *
    * @return the offset of the region
    */
   int getOffset();
