@@ -254,9 +254,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
       }
       method.getParameters().add(jvmTypesBuilder.toParameter(format, PARAMETER_CONFIG, _typeReferenceBuilder.typeRef(BASE_FORMAT_CONFIG)));
       final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> {
-        StringConcatenation builder = new StringConcatenation();
-        builder.append("init(config, getGrammarAccess());");
-        appendable.append(builder);
+        appendable.append("init(config, getGrammarAccess());");
       };
       jvmTypesBuilder.setBody(method, body);
     };
