@@ -21,33 +21,44 @@ public class CheckModelUtil {
 
   /* Returns a base model stub with package (com.test), catalog (c) and grammar (g). */
   public String modelWithGrammar() {
-    return "package com.test\ncatalog c for grammar g {";
+    return """
+        package com.test
+        catalog c for grammar g {""";
   }
 
   /* Returns a base model stub with a default category. */
   public String modelWithCategory() {
-    return modelWithGrammar() + "category \"Default Category\" {";
+    return modelWithGrammar() + """
+        category "Default Category" {""";
   }
 
   /* Returns a dummy category with given ID. */
   public String emptyCategory(final String id, final String label) {
-    return "category %s \"%s\" {\n}".formatted(id, label);
+    return """
+        category %s "%s" {
+        }""".formatted(id, label);
   }
 
   /* Returns a base model stub with a severity range. */
   public String modelWithSeverityRange(final String min, final String max, final String severity) {
-    return modelWithCategory()
-        + "@SeverityRange(%s .. %s)\n    %s ID \"My Check\" ()\n    message \"My Message\"".formatted(min, max, severity);
+    return modelWithCategory() + """
+        @SeverityRange(%s .. %s)
+            %s ID "My Check" ()
+            message "My Message\"""".formatted(min, max, severity);
   }
 
   /* Returns a base model stub with a severity range and a default check. */
   public String modelWithSeverityRange(final String min, final String max) {
-    return modelWithCategory() + "@SeverityRange(%s .. %s)\n".formatted(min, max) + modelWithCheck();
+    return modelWithCategory() + """
+        @SeverityRange(%s .. %s)
+        """.formatted(min, max) + modelWithCheck();
   }
 
   /* Returns a base model stub with a check of given ID. */
   public String modelWithCheck(final String id) {
-    return modelWithCategory() + "error %s \"Some Error\" ()\nmessage \"My Message\" {".formatted(id);
+    return modelWithCategory() + """
+        error %s "Some Error" ()
+        message "My Message" {""".formatted(id);
   }
 
   /*
@@ -60,7 +71,10 @@ public class CheckModelUtil {
 
   /* Returns a dummy check with given ID. */
   public String emptyCheck(final String id) {
-    return "error %s \"Some Error\" ()\nmessage \"My message\" {\n}".formatted(id);
+    return """
+        error %s "Some Error" ()
+        message "My message" {
+        }""".formatted(id);
   }
 
   /*
