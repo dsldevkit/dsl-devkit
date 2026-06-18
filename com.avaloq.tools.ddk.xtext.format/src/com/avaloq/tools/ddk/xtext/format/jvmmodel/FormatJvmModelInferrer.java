@@ -286,11 +286,11 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   public void inferRules(final FormatConfiguration format, final JvmGenericType it) {
-    jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(),
+    jvmTypesBuilder.operator_add(it.getMembers(),
         Iterables.<JvmMember> concat(map(FormatGeneratorUtil.getParserRules(format), c -> createRule(format, c))));
-    jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(),
+    jvmTypesBuilder.operator_add(it.getMembers(),
         Iterables.<JvmMember> concat(map(FormatGeneratorUtil.getEnumRules(format), c -> createRule(format, c))));
-    jvmTypesBuilder.<JvmMember> operator_add(it.getMembers(),
+    jvmTypesBuilder.operator_add(it.getMembers(),
         Iterables.<JvmMember> concat(map(FormatGeneratorUtil.getTerminalRules(format), c -> createRule(format, c))));
     if (FormatGeneratorUtil.getWildcardRule(format) != null) {
       final Procedure1<JvmOperation> initializer = (final JvmOperation method) -> {
@@ -317,16 +317,16 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
 
   public void inferLocatorActivators(final FormatConfiguration format, final JvmGenericType it) {
     final List<Rule> rules = new LinkedList<>();
-    Iterables.<Rule> addAll(rules, Iterables.<Rule> concat(
-        Iterables.<GrammarRule> concat(FormatGeneratorUtil.getParserRules(format), FormatGeneratorUtil.getTerminalRules(format)),
+    Iterables.addAll(rules, Iterables.<Rule> concat(
+        Iterables.concat(FormatGeneratorUtil.getParserRules(format), FormatGeneratorUtil.getTerminalRules(format)),
         FormatGeneratorUtil.getEnumRules(format)));
     rules.add(FormatGeneratorUtil.getWildcardRule(format));
     for (final Rule rule : rules) {
       final List<EObject> directives = new LinkedList<>();
       if (rule instanceof GrammarRule grammarRule) {
-        Iterables.<EObject> addAll(directives, grammarRule.getDirectives());
+        Iterables.addAll(directives, grammarRule.getDirectives());
       } else if (rule instanceof WildcardRule wildcardRule) {
-        Iterables.<EObject> addAll(directives, wildcardRule.getDirectives());
+        Iterables.addAll(directives, wildcardRule.getDirectives());
       }
       for (final EObject directive : Iterables.filter(directives, Objects::nonNull)) {
         for (final Matcher matcher : collectMatchers(directive)) {
@@ -404,36 +404,16 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   public List<String> listConfigRules(final FormatConfiguration format) {
     final List<String> configRules = new ArrayList<>();
     if (FormatGeneratorUtil.getWildcardRule(format) != null) {
-      StringConcatenation builder = new StringConcatenation();
-      builder.append("configFindElements(config, grammarAccess);");
-      configRules.add(builder.toString());
+      configRules.add("configFindElements(config, grammarAccess);");
     }
     for (final GrammarRule rule : FormatGeneratorUtil.getParserRules(format)) {
-      StringConcatenation builder = new StringConcatenation();
-      builder.append("config");
-      builder.append(rule.getTargetRule().getName());
-      builder.append("(config, grammarAccess.");
-      builder.append(grammarAccess.gaElementsAccessor(rule.getTargetRule()));
-      builder.append(");");
-      configRules.add(builder.toString());
+      configRules.add("config%s(config, grammarAccess.%s);".formatted(rule.getTargetRule().getName(), grammarAccess.gaElementsAccessor(rule.getTargetRule())));
     }
     for (final GrammarRule rule : FormatGeneratorUtil.getEnumRules(format)) {
-      StringConcatenation builder = new StringConcatenation();
-      builder.append("config");
-      builder.append(rule.getTargetRule().getName());
-      builder.append("(config, grammarAccess.");
-      builder.append(grammarAccess.gaRuleAccessor(rule.getTargetRule()));
-      builder.append(");");
-      configRules.add(builder.toString());
+      configRules.add("config%s(config, grammarAccess.%s);".formatted(rule.getTargetRule().getName(), grammarAccess.gaRuleAccessor(rule.getTargetRule())));
     }
     for (final GrammarRule rule : FormatGeneratorUtil.getTerminalRules(format)) {
-      StringConcatenation builder = new StringConcatenation();
-      builder.append("config");
-      builder.append(rule.getTargetRule().getName());
-      builder.append("(config, grammarAccess.");
-      builder.append(grammarAccess.gaRuleAccessor(rule.getTargetRule()));
-      builder.append(");");
-      configRules.add(builder.toString());
+      configRules.add("config%s(config, grammarAccess.%s);".formatted(rule.getTargetRule().getName(), grammarAccess.gaRuleAccessor(rule.getTargetRule())));
     }
     return configRules;
   }
@@ -495,22 +475,22 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     final List<Matcher> matchers = new LinkedList<>();
     if (directive instanceof GroupBlock groupBlock) {
       if (groupBlock.getMatcherList() != null) {
-        Iterables.<Matcher> addAll(matchers, groupBlock.getMatcherList().getMatchers());
+        Iterables.addAll(matchers, groupBlock.getMatcherList().getMatchers());
       }
     } else if (directive instanceof SpecificDirective specificDirective) {
       if (specificDirective.getMatcherList() != null) {
-        Iterables.<Matcher> addAll(matchers, specificDirective.getMatcherList().getMatchers());
+        Iterables.addAll(matchers, specificDirective.getMatcherList().getMatchers());
       }
     } else if (directive instanceof ContextFreeDirective contextFreeDirective) {
       if (contextFreeDirective.getMatcherList() != null) {
-        Iterables.<Matcher> addAll(matchers, contextFreeDirective.getMatcherList().getMatchers());
+        Iterables.addAll(matchers, contextFreeDirective.getMatcherList().getMatchers());
       }
     } else if (directive instanceof KeywordPair keywordPair) {
       if (keywordPair.getLeftMatchers() != null) {
-        Iterables.<Matcher> addAll(matchers, keywordPair.getLeftMatchers());
+        Iterables.addAll(matchers, keywordPair.getLeftMatchers());
       }
       if (keywordPair.getRightMatchers() != null) {
-        Iterables.<Matcher> addAll(matchers, keywordPair.getRightMatchers());
+        Iterables.addAll(matchers, keywordPair.getRightMatchers());
       }
     }
     return matchers;
@@ -643,7 +623,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   protected String _getDirectiveName(final GroupBlock directive) {
     final GrammarRule grammarRule = EcoreUtil2.<GrammarRule> getContainerOfType(directive, GrammarRule.class);
     final List<GroupBlock> directives = new ArrayList<>();
-    Iterables.<GroupBlock> addAll(directives, Iterables.<GroupBlock> filter(grammarRule.getDirectives(), GroupBlock.class));
+    Iterables.addAll(directives, Iterables.filter(grammarRule.getDirectives(), GroupBlock.class));
     return "Group" + (directives.indexOf(directive) + 1);
   }
 

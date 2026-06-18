@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -204,17 +203,17 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
   }
 
   protected IScope _scope(final GrammarRule context, final EReference reference) {
-    if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_RULE__TARGET_RULE)) {
+    if (FormatPackage.Literals.GRAMMAR_RULE__TARGET_RULE.equals(reference)) {
       final List<Grammar> grammars = getHierarchyOrderedGrammars(context);
       final Iterable<EList<AbstractRule>> rulesForGrammars = Iterables.transform(grammars, g -> g.getRules());
       return createScopeForAbstractRules(null, rulesForGrammars);
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT.equals(reference)) {
       return createScopeForEObjects(scopeUtil.getAssignments(context.getTargetRule()));
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD.equals(reference)) {
       return createScopeForEObjects(scopeUtil.getKeywords(context.getTargetRule()));
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE_CALL)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE_CALL.equals(reference)) {
       return createScopeForEObjects(scopeUtil.getRuleCalls(context.getTargetRule()));
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__SELF)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__SELF.equals(reference)) {
       final IEObjectDescription selfDescription = EObjectDescription.create(
           nameProvider.getConstantNameFunction("rule").apply(context.getTargetRule()), context.getTargetRule());
       return createSimpleScope(selfDescription);
@@ -223,7 +222,7 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
   }
 
   protected IScope _scope(final GroupBlock context, final EReference reference) {
-    if (Objects.equals(reference, FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT)) {
+    if (FormatPackage.Literals.GROUP_BLOCK__GRAMMAR_ELEMENT.equals(reference)) {
       final GrammarRule grammarRule = EcoreUtil2.getContainerOfType(context, GrammarRule.class);
       final GroupBlock superGroup = EcoreUtil2.getContainerOfType(context.eContainer(), GroupBlock.class);
       if (superGroup == null) {
@@ -238,22 +237,22 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
   protected IScope _scope(final GrammarElementReference context, final EReference reference) {
     final GrammarRule grammarRule = EcoreUtil2.getContainerOfType(context, GrammarRule.class);
     final GroupBlock groupBlock = EcoreUtil2.getContainerOfType(context, GroupBlock.class);
-    if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD)) {
+    if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__KEYWORD.equals(reference)) {
       if (groupBlock != null) {
         return createScopeForEObjects(scopeUtil.getKeywords(groupBlock.getGrammarElement()));
       }
       return createScopeForEObjects(scopeUtil.getKeywords(grammarRule.getTargetRule()));
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__ASSIGNMENT.equals(reference)) {
       if (groupBlock != null) {
         return createScopeForEObjects(scopeUtil.getAssignments(groupBlock.getGrammarElement()));
       }
       return createScopeForEObjects(scopeUtil.getAssignments(grammarRule.getTargetRule()));
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE_CALL)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE_CALL.equals(reference)) {
       if (groupBlock != null) {
         return createScopeForEObjects(scopeUtil.getRuleCalls(groupBlock.getGrammarElement()));
       }
       return createScopeForEObjects(scopeUtil.getRuleCalls(grammarRule.getTargetRule()));
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__SELF)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__SELF.equals(reference)) {
       if (groupBlock != null) {
         final IEObjectDescription selfDescription = EObjectDescription.create(
             nameProvider.getConstantNameFunction("rule").apply(groupBlock.getGrammarElement()),
@@ -264,7 +263,7 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
             nameProvider.getConstantNameFunction("rule").apply(grammarRule.getTargetRule()), grammarRule.getTargetRule());
         return createSimpleScope(selfDescription);
       }
-    } else if (Objects.equals(reference, FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE)) {
+    } else if (FormatPackage.Literals.GRAMMAR_ELEMENT_REFERENCE__RULE.equals(reference)) {
       final Iterable<EList<AbstractRule>> rulesForGrammars = Iterables.transform(getHierarchyOrderedGrammars(grammarRule), c -> c.getRules());
       return createScopeForAbstractRules(null, rulesForGrammars);
     }

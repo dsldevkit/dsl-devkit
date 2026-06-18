@@ -72,38 +72,32 @@ public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
     return FormatQualifiedNameConverter.class;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
     return FormatQualifiedNameProvider.class;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Class<? extends IScopeProvider> bindIScopeProvider() {
     return FormatScopeProvider.class;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void configureLinkingIScopeProvider(final Binder binder) {
     binder.bind(IScopeProvider.class).annotatedWith(LinkingScopeProviderBinding.class).to(FormatScopeProvider.class);
   }
 
-  /** {@inheritDoc} */
   @Override
   @SuppressWarnings("PMD.AvoidDollarSigns") // method name dictated by the generated Xtext base module
   public Class<? extends IAllContainersState.Provider> bindIAllContainersState$Provider() {
     return ResourceSetBasedAllContainersStateProvider.class;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Class<? extends ILinkingService> bindILinkingService() {
     return FormatLinkingService.class;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
     return FormatResourceDescriptionStrategy.class;
@@ -118,7 +112,6 @@ public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
     return FormatOutputConfigurationProvider.class;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void configureIScopeProviderDelegate(final Binder binder) {
     binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
