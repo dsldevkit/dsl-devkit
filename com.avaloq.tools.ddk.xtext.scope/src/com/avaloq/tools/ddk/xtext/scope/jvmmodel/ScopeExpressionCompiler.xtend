@@ -341,6 +341,10 @@ class ScopeExpressionCompiler {
   }
 
   def private boolean isNumber(Expression it, ScopeTranslationContext ctx) {
+    if (isArithmeticOperatorCall(ctx)) {
+      // a nested arithmetic operation (e.g. the (a + b) in (a + b) * c) is itself numeric; resolveType cannot see this
+      return true
+    }
     val type = translator.resolveType(it, ctx)
     type !== null && type.isNumeric
   }

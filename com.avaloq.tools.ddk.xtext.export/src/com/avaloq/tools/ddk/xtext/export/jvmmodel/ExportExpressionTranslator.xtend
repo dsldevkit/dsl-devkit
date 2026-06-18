@@ -39,7 +39,6 @@ import org.eclipse.xtext.common.types.util.TypeReferences
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XbaseFactory
 import org.eclipse.xtext.xbase.lib.BooleanExtensions
-import org.eclipse.xtext.xbase.lib.ObjectExtensions
 
 /**
  * Translates the custom {@link Expression} AST of the export expression DSL into equivalent Xbase
@@ -391,8 +390,8 @@ class ExportExpressionTranslator {
     switch operator {
       case '||': toBinaryOperation(xLeft, xRight, BooleanExtensions, 'operator_or', sourceElement)
       case '&&': toBinaryOperation(xLeft, xRight, BooleanExtensions, 'operator_and', sourceElement)
-      case '==': toBinaryOperation(xLeft, xRight, ObjectExtensions, 'operator_equals', sourceElement)
-      case '!=': toBinaryOperation(xLeft, xRight, ObjectExtensions, 'operator_notEquals', sourceElement)
+      // ==/!= are left untranslated so they fall back to the string compiler, which emits Java reference
+      // equality (a == b) - matching the legacy generator; Xbase's operator_equals would emit value equality.
       default: null
     }
   }

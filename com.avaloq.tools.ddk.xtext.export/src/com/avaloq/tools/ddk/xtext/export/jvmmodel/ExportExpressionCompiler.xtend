@@ -339,6 +339,10 @@ class ExportExpressionCompiler {
   }
 
   def private boolean isNumber(Expression it, ExportTranslationContext ctx) {
+    if (isArithmeticOperatorCall(ctx)) {
+      // a nested arithmetic operation (e.g. the (a + b) in (a + b) * c) is itself numeric; resolveType cannot see this
+      return true
+    }
     val type = translator.resolveType(it, ctx)
     type !== null && type.isNumeric
   }
