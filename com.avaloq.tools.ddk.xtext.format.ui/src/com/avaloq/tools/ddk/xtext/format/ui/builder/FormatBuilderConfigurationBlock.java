@@ -9,23 +9,22 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.check.ui.builder;
+package com.avaloq.tools.ddk.xtext.format.ui.builder;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.xtext.xbase.ui.builder.XbaseBuilderConfigurationBlock;
 
 
 /**
- * UI for configuring Check compiler.
+ * UI for configuring the Format compiler.
  */
 @SuppressWarnings("restriction")
-public class CheckBuilderConfigurationBlock extends XbaseBuilderConfigurationBlock {
+public class FormatBuilderConfigurationBlock extends XbaseBuilderConfigurationBlock {
 
   @Override
   protected void createGeneralSectionItems(final Composite composite) {
     super.createGeneralSectionItems(composite);
-    addCheckBox(composite, "Generate as DSL internal checks (not SCA plugin)", CheckBuilderPreferenceAccess.PREF_GENERATE_LANGUAGE_INTERNAL_CHECKS, BOOLEAN_VALUES, 0); //$NON-NLS-1$
-    addCheckBox(composite, "Disable the builder participant on workspace build (skip regenerating generated artifacts)", CheckBuilderPreferenceAccess.PREF_DISABLE_BUILDER_PARTICIPANT, BOOLEAN_VALUES, 0); //$NON-NLS-1$
+    addCheckBox(composite, "Disable the builder participant on workspace build (skip regenerating generated artifacts)", FormatBuilderPreferenceAccess.PREF_DISABLE_BUILDER_PARTICIPANT, BOOLEAN_VALUES, 0); //$NON-NLS-1$
   }
 
 }

@@ -30,6 +30,13 @@ public class CheckBuilderPreferenceAccess extends XbaseBuilderPreferenceAccess {
   public static final String PREF_GENERATE_LANGUAGE_INTERNAL_CHECKS = "generateLanguageInternalChecks"; //$NON-NLS-1$
 
   /**
+   * Preference identifier controlling whether the Check builder participant is disabled on a workspace build. As a boolean preference it defaults to
+   * {@code false} (i.e. not disabled = enabled), so existing workspaces keep regenerating; setting it to {@code true} is the opt-in to skip the build overhead
+   * (regeneration then happens on demand via the {@code Generate*.mwe2} workflows).
+   */
+  public static final String PREF_DISABLE_BUILDER_PARTICIPANT = "disableBuilderParticipant"; //$NON-NLS-1$
+
+  /**
    * Initializer for check-specific generator preferences.
    */
   public static class Initializer extends XbaseBuilderPreferenceAccess.Initializer {
