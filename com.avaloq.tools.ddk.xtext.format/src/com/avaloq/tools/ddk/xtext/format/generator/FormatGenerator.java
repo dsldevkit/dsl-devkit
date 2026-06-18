@@ -88,7 +88,7 @@ public class FormatGenerator extends JvmModelGenerator {
     super.doGenerate(resource, fsa); // Generate the abstract formatter from inferred Jvm models.
 
     final Iterable<EObject> contents = () -> resource.getAllContents();
-    for (final FormatConfiguration model : Iterables.<FormatConfiguration> filter(contents, FormatConfiguration.class)) {
+    for (final FormatConfiguration model : Iterables.filter(contents, FormatConfiguration.class)) {
       fsa.generateFile(FormatGeneratorUtil.getFormatterName(model, "").replace(DOT, "/") + ".java", FormatConstants.FORMATTER,
           generateSrc(model));
     }
