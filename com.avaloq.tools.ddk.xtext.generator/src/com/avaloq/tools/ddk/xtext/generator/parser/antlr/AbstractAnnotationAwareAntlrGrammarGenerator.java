@@ -108,105 +108,53 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
   }
 
   protected CharSequence compileLexerMembers(final Grammar it, final AntlrOptions options) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("@members {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("protected int getSingleLineCommentRule() {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("return RULE_SL_COMMENT;");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("protected int getMultiLineCommentRule() {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("return RULE_ML_COMMENT;");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("protected int getEndOfFileRule() {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("return EOF;");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
-    return builder;
+    return """
+        @members {
+          protected int getSingleLineCommentRule() {
+            return RULE_SL_COMMENT;
+          }
+
+          protected int getMultiLineCommentRule() {
+            return RULE_ML_COMMENT;
+          }
+
+          protected int getEndOfFileRule() {
+            return EOF;
+          }
+        }
+        """;
   }
 
   @Override
   protected String compileParserImports(final Grammar it, final AntlrOptions options) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("import ");
-    builder.append(predicatesNaming.getSemanticPredicatesFullName(GrammarUtil.getGrammar(it)));
-    builder.append(";");
-    builder.newLineIfNotEmpty();
-    builder.append("import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;");
-    builder.newLine();
-    return builder.toString();
+    return """
+        import %s;
+        import com.avaloq.tools.ddk.xtext.parser.antlr.ParserContext;
+        """.formatted(predicatesNaming.getSemanticPredicatesFullName(GrammarUtil.getGrammar(it)));
   }
 
   protected CharSequence compileParserMemberDeclarations(final Grammar it, final String access) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append(access);
-    builder.append(" ");
-    builder.append(_grammarAccessExtensions.getGrammarAccess(it).getSimpleName());
-    builder.append(" grammarAccess;");
-    builder.newLineIfNotEmpty();
-    builder.append(access);
-    builder.append(" ");
-    builder.append(predicatesNaming.getSemanticPredicatesSimpleName(it));
-    builder.append(" predicates;");
-    builder.newLineIfNotEmpty();
-    builder.append(access);
-    builder.append(" ParserContext parserContext;");
-    builder.newLineIfNotEmpty();
-    return builder;
+    return """
+        %s %s grammarAccess;
+        %s %s predicates;
+        %s ParserContext parserContext;
+        """.formatted(access, _grammarAccessExtensions.getGrammarAccess(it).getSimpleName(), access, predicatesNaming.getSemanticPredicatesSimpleName(it), access);
   }
 
   protected CharSequence compileParserSetTokenStreamMethod() {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("/**");
-    builder.newLine();
-    builder.append(" ");
-    builder.append("* Set token stream in parser context.");
-    builder.newLine();
-    builder.append(" ");
-    builder.append("* @param input Token stream");
-    builder.newLine();
-    builder.append(" ");
-    builder.append("*/");
-    builder.newLine();
-    builder.append("@Override");
-    builder.newLine();
-    builder.append("public void setTokenStream(TokenStream input) {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("super.setTokenStream(input);");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("if(parserContext != null){");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("parserContext.setTokenStream(input);");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
-    return builder;
+    return """
+        /**
+         * Set token stream in parser context.
+         * @param input Token stream
+         */
+        @Override
+        public void setTokenStream(TokenStream input) {
+          super.setTokenStream(input);
+          if(parserContext != null){
+            parserContext.setTokenStream(input);
+          }
+        }
+        """;
   }
 
   @Override
