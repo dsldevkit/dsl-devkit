@@ -387,6 +387,10 @@ class ScopeExpressionCompiler {
   }
 
   def private boolean isNumber(Expression it, ScopeTranslationContext ctx) {
+    if (isArithmeticOperatorCall(ctx)) {
+      // Arithmetic calls have no resolvable JVM method but still produce numeric values.
+      return true
+    }
     val type = translator.resolveType(it, ctx)
     type !== null && type.isNumeric
   }

@@ -44,7 +44,6 @@ import org.eclipse.xtext.common.types.util.TypeReferences
 import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.XbaseFactory
 import org.eclipse.xtext.xbase.lib.BooleanExtensions
-import org.eclipse.xtext.xbase.lib.ObjectExtensions
 
 /**
  * Translates the custom {@link Expression} AST of the scope/export expression DSL into equivalent Xbase
@@ -531,8 +530,9 @@ class ScopeExpressionTranslator {
     switch operator {
       case '||': toBinaryOperation(xLeft, xRight, BooleanExtensions, 'operator_or', sourceElement)
       case '&&': toBinaryOperation(xLeft, xRight, BooleanExtensions, 'operator_and', sourceElement)
-      case '==': toBinaryOperation(xLeft, xRight, ObjectExtensions, 'operator_equals', sourceElement)
-      case '!=': toBinaryOperation(xLeft, xRight, ObjectExtensions, 'operator_notEquals', sourceElement)
+      // Xbase equality is value-based, unlike the identity equality emitted by the legacy Java generator.
+      case '==': null
+      case '!=': null
       default: null
     }
   }
