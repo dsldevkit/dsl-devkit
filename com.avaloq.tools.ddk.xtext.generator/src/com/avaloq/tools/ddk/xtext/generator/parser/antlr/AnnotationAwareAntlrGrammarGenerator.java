@@ -237,25 +237,15 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
 
   @Override
   protected String compileRuleCatch(final Grammar it, final AntlrOptions options) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.newLine();
-    builder.append("@rulecatch {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("catch (RecognitionException re) {");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("recover(input,re);");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("appendSkippedTokens();");
-    builder.newLine();
-    builder.append("    ");
-    builder.append('}');
-    builder.newLine();
-    builder.append('}');
-    builder.newLine();
-    return builder.toString();
+    return """
+
+        @rulecatch {
+            catch (RecognitionException re) {
+                recover(input,re);
+                appendSkippedTokens();
+            }
+        }
+        """;
   }
 
   @Override
