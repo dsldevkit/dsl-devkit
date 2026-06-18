@@ -21,6 +21,7 @@ import org.eclipse.xtext.AbstractMetamodelDeclaration;
 import org.eclipse.xtext.GeneratedMetamodel;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.eclipse.xtext.xtext.generator.AbstractXtextGeneratorFragment;
 import org.eclipse.xtext.xtext.generator.model.FileAccessFactory;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
@@ -87,18 +88,20 @@ public class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGenerato
     sb.append("  private static final String GRAMMAR = \"").append(grammar.getName()).append("\";\n");
     sb.append("  @SuppressWarnings(\"nls\")\n");
     sb.append("  private static final List<String> PARENTS = ImmutableList.of(//\n");
-    sb.append("     ");
     List<Grammar> allUsedGrammars = GrammarUtil.allUsedGrammars(grammar);
     boolean hasElements = false;
     for (Grammar g : allUsedGrammars) {
       if (!hasElements) {
         hasElements = true;
+        sb.append("     ");
       } else {
         sb.append("\n     ,");
       }
       sb.append('"').append(g.getName()).append("\" //");
     }
-    sb.append('\n');
+    if (hasElements) {
+      sb.append('\n');
+    }
     sb.append("  );\n");
     sb.append('\n');
     sb.append("  public Injector doSetup(Module overrideModule, Module... additionalModules) {\n");
@@ -177,7 +180,7 @@ public class StandaloneBuilderIntegrationFragment2 extends AbstractXtextGenerato
         GeneratedMetamodel mmd = (GeneratedMetamodel) decl;
         String ns = GrammarUtil.getNamespace(grammar);
         String name = mmd.getName();
-        String nameUpper = name.substring(0, 1).toUpperCase() + name.substring(1);
+        String nameUpper = StringExtensions.toFirstUpper(name);
         sb.append("    if (").append(ns).append('.').append(name).append('.').append(nameUpper).append("Package.eINSTANCE == null) {\n");
         sb.append("      throw new IllegalStateException(\"EPackage could not be initialized: \" + ").append(ns).append('.').append(name).append('.').append(nameUpper).append("Package.eNS_URI); //$NON-NLS-1$\n");
         sb.append("    }\n");

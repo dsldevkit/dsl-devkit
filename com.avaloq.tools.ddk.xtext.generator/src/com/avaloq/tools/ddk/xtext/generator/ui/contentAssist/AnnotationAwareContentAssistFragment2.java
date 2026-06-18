@@ -27,6 +27,7 @@ import org.eclipse.xtext.CrossReference;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.RuleCall;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.eclipse.xtext.xtext.generator.model.FileAccessFactory;
 import org.eclipse.xtext.xtext.generator.model.GeneratedJavaFileAccess;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
@@ -396,9 +397,9 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
 
   private String getFQFeatureName(final Assignment a) {
     String ruleName = GrammarUtil.containingParserRule(a).getName();
-    String firstUpper = ruleName.substring(0, 1).toUpperCase() + ruleName.substring(1);
+    String firstUpper = StringExtensions.toFirstUpper(ruleName);
     String featureName = a.getFeature();
-    String featureFirstUpper = featureName.substring(0, 1).toUpperCase() + featureName.substring(1);
+    String featureFirstUpper = StringExtensions.toFirstUpper(featureName);
     return firstUpper + "_" + featureFirstUpper;
   }
 
