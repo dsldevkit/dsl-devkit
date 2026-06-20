@@ -35,13 +35,13 @@ import com.avaloq.tools.ddk.test.core.Issue;
  * <pre>
  * public class TestClass {
  *
- *   &#064;Rule
+ *   &#064;RegisterExtension
  *   public IssueAwareRule rule = IssueAwareRule.getInstance();
  *
- *   &#064;org.junit.Test
+ *   &#064;org.junit.jupiter.api.Test
  *   &#064;com.avaloq.tools.ddk.test.core.Issue(value = &quot;ISSUE-42&quot;, fixed = false)
  *   public void testMethod() {
- *     org.junit.Assert.fail();
+ *     org.junit.jupiter.api.Assertions.fail();
  *   }
  * }
  * </pre>
