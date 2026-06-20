@@ -45,11 +45,18 @@ jobs:
         run: mvn --version
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Cache Maven dependencies
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+      - name: Restore Maven dependency cache
+        # Restore-only: PR scopes cannot share caches with each other, so per-PR
+        # saves are dead weight that evicts the useful master-scoped caches
+        # (10 GB repo budget). The producer is snapshot.yml on master pushes
+        # (Linux-maven-publish-*), which every PR can prefix-restore.
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
         with:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-0-
+            ${{ runner.os }}-maven-publish-
       - name: Build with Maven  within a virtual X Server Environment
         # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
         # This ensures all violations are collected and reported before the build fails
