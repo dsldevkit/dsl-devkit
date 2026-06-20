@@ -34,13 +34,13 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
  * <pre>
  * public class TestClass {
  *
- *   &#064;Rule
+ *   &#064;RegisterExtension
  *   public BugTestAwareRule rule = BugTestAwareRule.getInstance();
  *
- *   &#064;org.junit.Test
+ *   &#064;org.junit.jupiter.api.Test
  *   &#064;com.avaloq.tools.ddk.test.core.BugTest(value = &quot;BUG-42&quot;, unresolved = true)
  *   public void testMethod() {
- *     org.junit.Assert.fail();
+ *     org.junit.jupiter.api.Assertions.fail();
  *   }
  * }
  * </pre>
