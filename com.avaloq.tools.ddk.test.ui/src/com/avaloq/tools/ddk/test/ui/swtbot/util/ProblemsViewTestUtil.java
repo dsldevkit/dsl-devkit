@@ -18,12 +18,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 
 import com.avaloq.tools.ddk.test.ui.swtbot.CoreSwtbotTools;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
+import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals;
 
 
 /**
@@ -142,21 +145,46 @@ public final class ProblemsViewTestUtil {
       } while (markersTreeBot.selectionCount() != markers.length);
     }, markersTreeBot, DynamicMenuPredicate.ALWAYS_WAITING, QUICK_FIX_CONTEXT_MENU_ITEM_LABEL);
     bot.waitUntil(Conditions.shellIsActive(QUICK_FIX_DIALOG_TEXT));
+    final SWTBotShell quickFixShell = bot.shell(QUICK_FIX_DIALOG_TEXT);
 
     // Select the quickfix
     bot.tableWithLabel(SELECT_A_FIX_TABLE_LABEL).select(quickfixLabel);
 
-    // Tick the markers' tickboxes
+    // Selecting the fix repopulates the Problems table asynchronously; tick every expected row and retry until all are
+    // checked, tolerating the transient table resizes that happen while the table is still being repopulated.
     final int locationColumnIndex = markersTreeBot.columns().indexOf(LOCATION_COLUMN_NAME);
     final Set<String> markerLocations = Stream.of(markers).map(marker -> marker.cell(locationColumnIndex)).collect(Collectors.toSet());
     final SWTBotTable tableBot = bot.tableWithLabel(PROBLEMS_TABLE_LABEL);
-    for (int row = 0; tableBot.rowCount() > row; ++row) {
-      if (markerLocations.contains(tableBot.cell(row, LOCATION_COLUMN_NAME))) {
-        tableBot.getTableItem(row).check();
-      }
-    }
+    bot.waitUntil(new WaitForEquals<>("Quick Fix dialog did not list all expected markers.", () -> markers.length, () -> checkMatchingRows(tableBot, markerLocations))); //$NON-NLS-1$
 
     bot.clickButton(FINISH_BUTTON_LABEL);
+    // Block until the wizard has actually closed, so callers do not save/build while the resolution is still being applied.
+    bot.waitUntil(Conditions.shellCloses(quickFixShell));
+  }
+
+  /*
+   * Ticks every dialog "Problems:" row whose location is in wanted and returns how many such rows are now checked, or -1
+   * while the table is mid-refresh so the caller's wait retries. Already-checked rows are skipped so a retried partial
+   * pass fires no redundant check events (which would re-trigger the table repopulation we are waiting to settle).
+   */
+  private static int checkMatchingRows(final SWTBotTable tableBot, final Set<String> wanted) {
+    try {
+      int checked = 0;
+      for (int row = 0; row < tableBot.rowCount(); ++row) {
+        if (wanted.contains(tableBot.cell(row, LOCATION_COLUMN_NAME))) {
+          final SWTBotTableItem item = tableBot.getTableItem(row);
+          if (!item.isChecked()) {
+            item.check();
+          }
+          if (item.isChecked()) {
+            checked++;
+          }
+        }
+      }
+      return checked;
+    } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+      return -1; // table mid-refresh (row vanished); report "not ready" so the wait retries
+    }
   }
 
 }
