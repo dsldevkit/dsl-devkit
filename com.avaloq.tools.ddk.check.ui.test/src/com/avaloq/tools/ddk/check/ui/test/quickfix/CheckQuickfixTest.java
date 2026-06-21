@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import com.avaloq.tools.ddk.check.CheckConstants;
 import com.avaloq.tools.ddk.check.ui.quickfix.Messages;
 import com.avaloq.tools.ddk.check.validation.IssueCodes;
-import com.avaloq.tools.ddk.test.core.Retry;
 import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals;
@@ -155,12 +154,9 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   }
 
   /**
-   * Test bulk-applying a quickfix.
-   * Tolerate up to ten timeouts, because occasionally new markers don't appear or not all markers are fixed;
-   * the problems appears to be in Eclipse.
+   * Test bulk-applying a quickfix to multiple markers via the Problems view's Quick Fix dialog.
    */
   @Test
-  @Retry(10)
   public void testBulkApplyingQuickfix() {
     // ARRANGE
     final List<String> catalogNames = List.of(getTestSourceModelName(), getTestSourceModelName() + "2");
