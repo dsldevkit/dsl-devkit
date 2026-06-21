@@ -132,6 +132,9 @@ public class DefaultXtextTargetPlatformManager implements IXtextTargetPlatformMa
     listeners.remove(listener);
   }
 
+  /**
+   * Shuts the manager down, clearing all registered listeners.
+   */
   public void shutdown() {
     shutdownInProgress = true;
     listeners.clear();
