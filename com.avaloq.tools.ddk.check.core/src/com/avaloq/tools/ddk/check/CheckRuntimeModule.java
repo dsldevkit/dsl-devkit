@@ -53,6 +53,11 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
     return CheckBatchLinkableResource.class;
   }
 
+  /**
+   * Binds the resource storage facade.
+   *
+   * @return the resource storage facade class
+   */
   public Class<? extends IResourceStorageFacade> bindIResourceStorageFacade() {
     return CheckBatchLinkableResourceStorageFacade.class;
   }
@@ -153,10 +158,20 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
     return CheckRewritableImportSectionFactory.class;
   }
 
+  /**
+   * Binds the formatter.
+   *
+   * @return the formatter class
+   */
   public Class<? extends org.eclipse.xtext.formatting2.IFormatter2> bindIFormatter2() {
     return com.avaloq.tools.ddk.check.formatting2.CheckFormatter.class;
   }
 
+  /**
+   * Configures the formatter preferences.
+   *
+   * @param binder the Guice binder
+   */
   public void configureFormatterPreferences(final com.google.inject.Binder binder) {
     binder.bind(IPreferenceValuesProvider.class).annotatedWith(org.eclipse.xtext.formatting2.FormatterPreferences.class).to(org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider.class);
   }
