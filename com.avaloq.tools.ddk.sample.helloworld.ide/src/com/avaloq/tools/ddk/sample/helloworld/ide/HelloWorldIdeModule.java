@@ -14,9 +14,19 @@ import com.avaloq.tools.ddk.xtext.ide.contentAssist.AnnotationAwareFollowElement
  */
 public class HelloWorldIdeModule extends AbstractHelloWorldIdeModule {
 
+    /**
+     * Binds the follow element computer implementation.
+     *
+     * @return the follow element computer class
+     */
     public Class<? extends FollowElementComputer> bindFollowElementComputer() {
         return AnnotationAwareFollowElementComputer.class;
     }
+    /**
+     * Binds the follow element calculator implementation.
+     *
+     * @return the follow element calculator class
+     */
     public Class<? extends FollowElementCalculator> bindFollowElementCalculator() {
         return AnnotationAwareFollowElementCalculator.class;
     }
