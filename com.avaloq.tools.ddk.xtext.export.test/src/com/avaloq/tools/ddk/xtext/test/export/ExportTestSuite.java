@@ -21,7 +21,7 @@ import com.avaloq.tools.ddk.xtext.export.validation.ExportValidationTest;
 
 
 /**
- * Empty class serving only as holder for JUnit4 annotations.
+ * Empty class serving only as holder for JUnit 5 suite annotations.
  */
 @Suite
 @SelectClasses({ExportFormattingTest.class, ExportValidationTest.class, ExportValidationOkTest.class, ExportScopingTest.class, ExportExportingTest.class})
