@@ -111,6 +111,13 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
     super._createProposals(keyword, context, acceptor);
   }
 
+  /**
+   * Creates content assist proposals for the available languages.
+   *
+   * @param model the model element
+   * @param context the content assist context
+   * @param acceptor the proposal acceptor
+   */
   @SuppressWarnings("PMD.UnusedFormalParameter")
   protected void completeLanguages(final EObject model, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
     for (String language : checkCfgUtil.getAllLanguages()) {
@@ -123,6 +130,13 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
     }
   }
 
+  /**
+   * Creates content assist proposals for a parameter value.
+   *
+   * @param model the model element
+   * @param context the content assist context
+   * @param acceptor the proposal acceptor
+   */
   protected void completeParameterValue(final EObject model, final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {
     FormalParameter parameter = ((ConfiguredParameter) model).getParameter();
     ICheckCfgPropertySpecification propertySpecification = null;

@@ -108,6 +108,11 @@ public class CheckCfgIdeModule extends AbstractCheckCfgIdeModule {
     return CheckCfgIdeContentProposalProvider.class;
   }
 
+  /**
+   * Configures the language label binding.
+   *
+   * @param binder the Guice binder
+   */
   public void configureLanguageLabel(final Binder binder) {
     binder.bind(String.class).annotatedWith(Names.named(LANGUAGE_LABEL)).toInstance("CheckCfg"); //$NON-NLS-1$
   }

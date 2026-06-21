@@ -31,10 +31,21 @@ public class CheckCfgGenerator implements IGenerator {
   @Inject
   private CheckConfigurationPropertiesGenerator propertiesGenerator;
 
+  /**
+   * Returns the output path for generated files.
+   *
+   * @return the output path
+   */
   public String outputPath() {
     return ".settings";
   }
 
+  /**
+   * Returns the name of the file to generate for the given configuration.
+   *
+   * @param configuration the check configuration
+   * @return the file name
+   */
   @SuppressWarnings("PMD.UnusedFormalParameter") // parameter kept for API consistency
   public String fileName(final CheckConfiguration configuration) {
     return ICheckConfigurationStoreService.DEFAULT_CHECK_CONFIGURATION_NODE + ".prefs";
@@ -51,6 +62,12 @@ public class CheckCfgGenerator implements IGenerator {
     }
   }
 
+  /**
+   * Compiles the given check configuration into its properties representation.
+   *
+   * @param config the check configuration to compile
+   * @return the generated properties content
+   */
   public CharSequence compile(final CheckConfiguration config) {
     final Properties properties = propertiesGenerator.convertToProperties(config);
     final StringBuilder builder = new StringBuilder(512);

@@ -16,22 +16,48 @@ package com.avaloq.tools.ddk.checkcfg.util;
  */
 public class CheckCfgModelUtil {
 
+  /**
+   * Returns a basic model with the given name.
+   *
+   * @param name the model name
+   * @return the model string
+   */
   public String basicModel(final String name) {
     return "check configuration " + name + " {";
   }
 
+  /**
+   * Returns a basic model with the default name.
+   *
+   * @return the model string
+   */
   public String basicModel() {
     return basicModel("testing");
   }
 
+  /**
+   * Returns a basic model with a catalog.
+   *
+   * @return the model string
+   */
   public String basicModelWithCatalog() {
     return basicModel() + "catalog Sample {";
   }
 
+  /**
+   * Returns a basic model with a catalog and a test.
+   *
+   * @return the model string
+   */
   public String basicModelWithTest() {
     return basicModelWithCatalog() + "Test";
   }
 
+  /**
+   * Returns a basic model with a catalog and a disabled test.
+   *
+   * @return the model string
+   */
   public String basicModelWithDisabledTest() {
     return basicModelWithCatalog() + "ignore Test";
   }

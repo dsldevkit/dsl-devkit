@@ -50,6 +50,13 @@ public class PropertiesInferenceHelper {
   private static final String NUMBER_LIST = "List<java.lang.Integer>";
   private static final String BOOLEAN_LIST = "List<java.lang.Boolean>";
 
+  /**
+   * Collects all inferred properties for the given check configuration.
+   *
+   * @param checkConfiguration the check configuration
+   * @param properties the list to which inferred properties are added
+   * @return the populated list of properties
+   */
   public EList<FormalParameter> getProperties(final CheckConfiguration checkConfiguration, final EList<FormalParameter> properties) {
     final JvmTypeReferenceBuilder referenceBuilder = typeRefBuilderFactory.create(checkConfiguration.eResource().getResourceSet());
 
@@ -80,6 +87,13 @@ public class PropertiesInferenceHelper {
     return properties;
   }
 
+  /**
+   * Infers the type of the given property specification.
+   *
+   * @param contribution the property specification
+   * @param referenceBuilder the type reference builder
+   * @return the inferred type, or {@code null} if it cannot be inferred
+   */
   public JvmTypeReference inferType(final ICheckCfgPropertySpecification contribution, final JvmTypeReferenceBuilder referenceBuilder) {
     final ICheckCfgPropertySpecification.PropertyType type = contribution.getType();
     if (type == null) {
@@ -95,6 +109,13 @@ public class PropertiesInferenceHelper {
     };
   }
 
+  /**
+   * Infers the list type from the given list literal.
+   *
+   * @param newValue the list literal
+   * @param referenceBuilder the type reference builder
+   * @return the inferred list type, or {@code null} if it cannot be inferred
+   */
   public JvmTypeReference inferListType(final XListLiteral newValue, final JvmTypeReferenceBuilder referenceBuilder) {
     if (newValue.getElements().isEmpty()) {
       return null;
@@ -111,6 +132,13 @@ public class PropertiesInferenceHelper {
     }
   }
 
+  /**
+   * Infers the type of the given configured parameter.
+   *
+   * @param parameter the configured parameter
+   * @param referenceBuilder the type reference builder
+   * @return the inferred type, or {@code null} if it cannot be inferred
+   */
   public JvmTypeReference inferType(final ConfiguredParameter parameter, final JvmTypeReferenceBuilder referenceBuilder) {
     final XExpression newValue = parameter.getNewValue();
     if (newValue instanceof XBooleanLiteral) {
@@ -126,6 +154,13 @@ public class PropertiesInferenceHelper {
     }
   }
 
+  /**
+   * Infers a formal parameter from the given configured parameter.
+   *
+   * @param parameter the configured parameter
+   * @param referenceBuilder the type reference builder
+   * @return the inferred formal parameter, or {@code null} if it cannot be inferred
+   */
   public FormalParameter inferFormalParameter(final ConfiguredParameter parameter, final JvmTypeReferenceBuilder referenceBuilder) {
     if (parameter == null) {
       return null;
@@ -134,6 +169,13 @@ public class PropertiesInferenceHelper {
       inferType(parameter, referenceBuilder));
   }
 
+  /**
+   * Infers a formal parameter from the given property specification.
+   *
+   * @param contribution the property specification
+   * @param referenceBuilder the type reference builder
+   * @return the inferred formal parameter, or {@code null} if it cannot be inferred
+   */
   public FormalParameter inferFormalParameter(final ICheckCfgPropertySpecification contribution, final JvmTypeReferenceBuilder referenceBuilder) {
     if (contribution == null) {
       return null;
@@ -141,6 +183,13 @@ public class PropertiesInferenceHelper {
     return inferFormalParameter(contribution.getName(), inferType(contribution, referenceBuilder));
   }
 
+  /**
+   * Creates a formal parameter with the given name and type.
+   *
+   * @param name the parameter name
+   * @param type the parameter type
+   * @return the created formal parameter, or {@code null} if the type is {@code null}
+   */
   public FormalParameter inferFormalParameter(final String name, final JvmTypeReference type) {
     if (type == null) {
       return null;
