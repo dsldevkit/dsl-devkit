@@ -565,7 +565,6 @@ public final class CoreSwtbotTools {
         bot.waitUntil(new DefaultCondition() {
 
           @Override
-          @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
           public boolean test() {
             return !node.isExpanded();
           }
@@ -599,7 +598,6 @@ public final class CoreSwtbotTools {
         bot.waitUntil(new DefaultCondition() {
 
           @Override
-          @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
           public boolean test() {
             return node.isExpanded();
           }

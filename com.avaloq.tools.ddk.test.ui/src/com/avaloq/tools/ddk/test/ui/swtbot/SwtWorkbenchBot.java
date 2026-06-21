@@ -231,7 +231,6 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
   public void waitUntilWizardPageAppears(final String wizardPageTitle) {
     waitUntil(new ICondition() {
       @Override
-      @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
       public boolean test() {
         return syncExec(new BoolResult() {
           @Override
@@ -254,7 +253,6 @@ public class SwtWorkbenchBot extends SWTWorkbenchBot {
     // additionally, we need to wait until the wizard page has finished loading (button cancel is enabled).
     waitUntil(new ICondition() {
       @Override
-      @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
       public boolean test() {
         return button("Cancel").isEnabled();
       }

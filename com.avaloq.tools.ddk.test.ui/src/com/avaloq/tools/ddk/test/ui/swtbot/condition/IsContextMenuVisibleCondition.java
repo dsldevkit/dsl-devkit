@@ -38,7 +38,6 @@ public class IsContextMenuVisibleCondition implements ICondition {
    * {@inheritDoc} Checks whether this context menu is visible, e.g. has been loaded.
    */
   @Override
-  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public boolean test() {
     return ctx.isVisible();
   }
