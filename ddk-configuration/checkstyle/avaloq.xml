@@ -88,6 +88,13 @@
       <property name="allowMissingReturnTag" value="false"/>
       <property name="validateThrows" value="true"/>
     </module>
+    <!-- Public API: require Javadoc on public + protected methods, except trivial bean getters/setters and constructors; package/private stay presence-optional -->
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="protected"/>
+      <property name="tokens" value="METHOD_DEF"/>
+      <property name="allowedAnnotations" value="Override,Inject"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+    </module>
     <module name="JavadocType"/>
     <module name="JavadocStyle"/>
     <module name="LeftCurly"/>
