@@ -36,9 +36,19 @@ public class HelloWorldUiModule extends AbstractHelloWorldUiModule {
         return CheckConfigurationStore.class;
     }
 
+    /**
+     * Binds the follow element computer implementation.
+     *
+     * @return the follow element computer type
+     */
     public Class<? extends FollowElementComputer> bindFollowElementComputer() {
         return AnnotationAwareFollowElementComputer.class;
     }
+    /**
+     * Binds the follow element calculator implementation.
+     *
+     * @return the follow element calculator type
+     */
     public Class<? extends FollowElementCalculator> bindFollowElementCalculator() {
         return AnnotationAwareFollowElementCalculator.class;
     }
