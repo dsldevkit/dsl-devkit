@@ -205,6 +205,15 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
     return new ReferenceDescription(owner, target, eReference, exportedContainerURI, indexInList);
   }
 
+  /**
+   * Returns whether references held by the given object via the given feature should be indexed.
+   *
+   * @param from
+   *          the object holding the reference
+   * @param eReference
+   *          the reference feature to test
+   * @return {@code true} unless the reference is a containment or container reference
+   */
   @SuppressWarnings("PMD.UnusedFormalParameter")
   protected boolean isIndexable(final EObject from, final EReference eReference) {
     return !eReference.isContainment() && !eReference.isContainer();

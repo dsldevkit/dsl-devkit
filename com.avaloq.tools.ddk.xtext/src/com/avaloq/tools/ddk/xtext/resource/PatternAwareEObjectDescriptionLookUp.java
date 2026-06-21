@@ -85,6 +85,11 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Returns the lazily-initialized case-insensitive lookup of exported objects by qualified name.
+   *
+   * @return the name-to-objects lookup
+   */
   protected QualifiedNameLookup<IEObjectDescription> getNameToObjectsLookup() {
     QualifiedNameLookup<IEObjectDescription> localMap = nameToObjectsLookup;
     if (localMap == null) {

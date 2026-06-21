@@ -44,6 +44,14 @@ public class AnnotationAwareFollowElementComputer extends FollowElementComputer 
     }
   }
 
+  /**
+   * Initialises the given calculator with an acceptor that also accepts keyword rule calls.
+   *
+   * @param calculator
+   *          the calculator to initialise
+   * @param followElementAcceptor
+   *          the acceptor for follow elements
+   */
   protected void initialiseCalculator(final FollowElementCalculator calculator, final IFollowElementAcceptor followElementAcceptor) {
     // copied from super class but calls to keyword rules are also accepted.
     calculator.setAcceptor(element -> {

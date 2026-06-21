@@ -735,6 +735,14 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     }
   }
 
+  /**
+   * Stores the binary representation of the given resource.
+   *
+   * @param resource
+   *          the resource to store
+   * @param buildData
+   *          the build data
+   */
   protected void doStoreBinaryResource(final Resource resource, final BuildData buildData) {
     IResourceStorageFacade storageFacade = ((StorageAwareResource) resource).getResourceStorageFacade();
     final long maxTaskExecutionNanos = TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS);
@@ -1135,6 +1143,20 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     return toBuild;
   }
 
+  /**
+   * Writes the new resource descriptions for the resources to be updated.
+   *
+   * @param buildData
+   *          the build data
+   * @param oldState
+   *          the old state
+   * @param newState
+   *          the new state
+   * @param newData
+   *          the new data
+   * @param monitor
+   *          the progress monitor
+   */
   protected void writeNewResourceDescriptions(final BuildData buildData, final IResourceDescriptions oldState, final CurrentDescriptions newState, final ResourceDescriptionsData newData, final IProgressMonitor monitor) {
     final List<List<URI>> toWriteGroups = phaseOneBuildSorter.sort(buildData.getToBeUpdated());
     final List<URI> toBuild = Lists.newLinkedList();

@@ -156,6 +156,11 @@ public class ResourceDescriptionDelta extends AbstractResourceDescriptionDelta {
     oldDesc = null; // NOPMD
   }
 
+  /**
+   * Computes whether the new resource description differs from the old one.
+   *
+   * @return {@code true} if the resource is new, deleted, or its exported objects changed
+   */
   @SuppressWarnings({"PMD.CompareObjectsWithEquals", "PMD.NPathComplexity"})
   protected boolean internalHasChanges() {
     if (getNew() == null || oldDesc == null) {

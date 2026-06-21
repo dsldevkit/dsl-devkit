@@ -94,6 +94,15 @@ public class ResourceDescriptions2 implements IResourceDescriptions2 {
     return ResourceDescriptionsUtil.findReferencesToObjects(delegate, targetObjects);
   }
 
+  /**
+   * Not implemented.
+   *
+   * @param targetObjects
+   *          the descriptions whose referencing resources would be found
+   * @param matchImportedNames
+   *          whether to also match imported names
+   * @return always {@code null}; this operation is not implemented
+   */
   @SuppressWarnings("PMD.UnusedFormalParameter")
   public Iterable<IResourceDescription> findExactReferencingResources(final Set<IEObjectDescription> targetObjects, final boolean matchImportedNames) {
     return null;

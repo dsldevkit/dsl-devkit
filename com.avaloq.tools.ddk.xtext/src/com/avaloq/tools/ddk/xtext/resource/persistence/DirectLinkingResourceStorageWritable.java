@@ -237,6 +237,15 @@ public class DirectLinkingResourceStorageWritable extends ResourceStorageWritabl
 
   }
 
+  /**
+   * Writes the given number of the resource's contents to the output stream, starting at the given index.
+   *
+   * @param storageAwareResource the resource whose contents are written
+   * @param outputStream the output stream to write to
+   * @param startIndex the index of the first object to write
+   * @param objCount the number of objects to write
+   * @throws IOException if writing fails
+   */
   protected void writeSelectedContents(final StorageAwareResource storageAwareResource, final OutputStream outputStream, final int startIndex, final int objCount) throws IOException {
     SelectiveObjectOutputStream out = new SelectiveObjectOutputStream(storageAwareResource, outputStream, Collections.emptyMap());
     try {
