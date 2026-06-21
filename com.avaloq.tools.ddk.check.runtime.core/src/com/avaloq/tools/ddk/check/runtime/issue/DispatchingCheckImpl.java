@@ -50,10 +50,23 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
   protected static class DisabledMethodTracker {
     private final Map<String, Boolean> disabled = new ConcurrentHashMap<>();
 
+    /**
+     * Marks the given method as disabled.
+     *
+     * @param string
+     *          the method identifier
+     */
     public void setDisabled(final String string) {
       disabled.putIfAbsent(string, Boolean.TRUE);
     }
 
+    /**
+     * Returns whether the given method is disabled.
+     *
+     * @param string
+     *          the method identifier
+     * @return {@code true} if disabled
+     */
     public boolean isDisabled(final String string) {
       return disabled.getOrDefault(string, Boolean.FALSE);
     }
@@ -99,6 +112,16 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
     ResourceValidationRuleSummaryEvent.Collector getEventCollector();
   }
 
+  /**
+   * Validates the given object.
+   *
+   * @param checkMode
+   *          the check mode
+   * @param object
+   *          the object to validate
+   * @param diagnosticCollector
+   *          the diagnostic collector
+   */
   protected abstract void validate(CheckMode checkMode, EObject object, DiagnosticCollector diagnosticCollector);
 
   /**
