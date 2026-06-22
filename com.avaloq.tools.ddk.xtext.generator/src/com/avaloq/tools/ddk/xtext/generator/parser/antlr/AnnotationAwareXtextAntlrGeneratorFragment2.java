@@ -728,13 +728,9 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
    */
   public String getRulePredicateCondition(final SemanticPredicate predicate) {
     if (predicate.getKeywords() != null) {
-      final String condition = predicate.getKeywords().stream().map(s -> {
-        StringConcatenation kwBuilder = new StringConcatenation();
-        kwBuilder.append("\"");
-        kwBuilder.append(s);
-        kwBuilder.append("\".equalsIgnoreCase(text)");
-        return kwBuilder.toString();
-      }).collect(Collectors.joining(" || "));
+      final String condition = predicate.getKeywords().stream()
+          .map(s -> "\"%s\".equalsIgnoreCase(text)".formatted(s))
+          .collect(Collectors.joining(" || "));
       StringConcatenation condBuilder = new StringConcatenation();
       condBuilder.append("String text = parserContext.getInput().LT(1).getText();");
       condBuilder.newLine();
