@@ -124,8 +124,7 @@ public class FormatGenerator extends JvmModelGenerator {
     } else if (it != null) {
       return _generateMember(it, appendable, config);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: "
-          + Arrays.<Object> asList(it, appendable, config).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: %s".formatted(Arrays.<Object> asList(it, appendable, config)));
     }
   }
 }
