@@ -194,15 +194,8 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   public void inferClass(final FormatConfiguration format, final JvmGenericType it) {
     final Grammar targetGrammar = format.getTargetGrammar();
     final String targetGrammarName = Strings.emptyIfNull(targetGrammar != null ? targetGrammar.getName() : null);
-    StringConcatenation builder = new StringConcatenation();
-    builder.append("The abstract formatting configuration for ");
-    builder.append(Strings.skipLastToken(targetGrammarName, "."));
-    builder.append(".");
-    builder.append(Strings.lastToken(targetGrammarName, "."));
-    builder.append(" as declared in ");
-    builder.append(Strings.lastToken(targetGrammarName, "."));
-    builder.append(".format.");
-    jvmTypesBuilder.setDocumentation(it, builder.toString());
+    jvmTypesBuilder.setDocumentation(it, "The abstract formatting configuration for %s.%s as declared in %s.format.".formatted(
+        Strings.skipLastToken(targetGrammarName, "."), Strings.lastToken(targetGrammarName, "."), Strings.lastToken(targetGrammarName, ".")));
     if (format.getFormatterBaseClass() != null) {
       final JvmDeclaredType baseClass = format.getFormatterBaseClass();
       it.getSuperTypes().add(_typeReferenceBuilder.typeRef(baseClass.getPackageName() + "." + baseClass.getSimpleName()));
@@ -233,11 +226,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         method.getAnnotations().add(overrideAnnotation);
       }
       final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> {
-        StringConcatenation builder = new StringConcatenation();
-        builder.append("return (");
-        builder.append(GrammarUtil.getSimpleName(format.getTargetGrammar()) + "GrammarAccess");
-        builder.append(") super.getGrammarAccess();");
-        appendable.append(builder);
+        appendable.append("return (%sGrammarAccess) super.getGrammarAccess();".formatted(GrammarUtil.getSimpleName(format.getTargetGrammar())));
       };
       jvmTypesBuilder.setBody(method, body);
     };
@@ -682,44 +671,28 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
         final String ruleName = getFullyQualifiedName(GrammarUtil.getGrammar(rule.getTargetRule())) + "$"
             + grammarAccess.gaRuleAccessorClassName(rule.getTargetRule());
         it.getParameters().add(jvmTypesBuilder.toParameter(format, PARAMETER_ELEMENTS, typeReferences.getTypeForName(ruleName, rule.getTargetRule())));
-        StringConcatenation description = new StringConcatenation();
-        description.append("Configuration for ");
-        description.append(rule.getTargetRule().getName());
-        description.append(".");
-        StringConcatenation elementsDoc = new StringConcatenation();
-        elementsDoc.append("the grammar access for ");
-        elementsDoc.append(rule.getTargetRule().getName());
-        elementsDoc.append(" elements");
+        final String description = "Configuration for %s.".formatted(rule.getTargetRule().getName());
+        final String elementsDoc = "the grammar access for %s elements".formatted(rule.getTargetRule().getName());
         final Map<String, String> parameters = new LinkedHashMap<>();
         parameters.put(PARAMETER_CONFIG, "the format configuration");
-        parameters.put(PARAMETER_ELEMENTS, elementsDoc.toString());
-        jvmTypesBuilder.setDocumentation(it, generateJavaDoc(description.toString(), parameters));
+        parameters.put(PARAMETER_ELEMENTS, elementsDoc);
+        jvmTypesBuilder.setDocumentation(it, generateJavaDoc(description, parameters));
       } else if (targetRule instanceof EnumRule) {
         it.getParameters().add(jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(EnumRule.class.getName(), rule.getTargetRule())));
-        StringConcatenation description = new StringConcatenation();
-        description.append("Configuration for ");
-        description.append(rule.getTargetRule().getName());
-        description.append(".");
-        StringConcatenation ruleDoc = new StringConcatenation();
-        ruleDoc.append("the enum rule for ");
-        ruleDoc.append(rule.getTargetRule().getName());
+        final String description = "Configuration for %s.".formatted(rule.getTargetRule().getName());
+        final String ruleDoc = "the enum rule for %s".formatted(rule.getTargetRule().getName());
         final Map<String, String> parameters = new LinkedHashMap<>();
         parameters.put(PARAMETER_CONFIG, "the format configuration");
-        parameters.put(PARAMETER_RULE, ruleDoc.toString());
-        jvmTypesBuilder.setDocumentation(it, generateJavaDoc(description.toString(), parameters));
+        parameters.put(PARAMETER_RULE, ruleDoc);
+        jvmTypesBuilder.setDocumentation(it, generateJavaDoc(description, parameters));
       } else if (targetRule instanceof TerminalRule) {
         it.getParameters().add(jvmTypesBuilder.toParameter(format, PARAMETER_RULE, typeReferences.getTypeForName(TerminalRule.class.getName(), rule.getTargetRule())));
-        StringConcatenation description = new StringConcatenation();
-        description.append("Configuration for ");
-        description.append(rule.getTargetRule().getName());
-        description.append(".");
-        StringConcatenation ruleDoc = new StringConcatenation();
-        ruleDoc.append("the terminal rule for ");
-        ruleDoc.append(rule.getTargetRule().getName());
+        final String description = "Configuration for %s.".formatted(rule.getTargetRule().getName());
+        final String ruleDoc = "the terminal rule for %s".formatted(rule.getTargetRule().getName());
         final Map<String, String> parameters = new LinkedHashMap<>();
         parameters.put(PARAMETER_CONFIG, "the format configuration");
-        parameters.put(PARAMETER_RULE, ruleDoc.toString());
-        jvmTypesBuilder.setDocumentation(it, generateJavaDoc(description.toString(), parameters));
+        parameters.put(PARAMETER_RULE, ruleDoc);
+        jvmTypesBuilder.setDocumentation(it, generateJavaDoc(description, parameters));
       }
       final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> {
         final List<String> directives = new ArrayList<>();
@@ -1262,17 +1235,11 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   }
 
   protected CharSequence _elementAccess(final AbstractRule abstractRule) {
-    StringConcatenation builder = new StringConcatenation();
-    builder.append("getGrammarAccess().");
-    builder.append(grammarAccess.gaRuleAccessor(abstractRule));
-    return builder;
+    return "getGrammarAccess().%s".formatted(grammarAccess.gaRuleAccessor(abstractRule));
   }
 
   protected CharSequence _elementAccess(final AbstractElement abstractElement) {
-    StringConcatenation builder = new StringConcatenation();
-    builder.append("elements.");
-    builder.append(grammarAccess.gaElementAccessor(abstractElement));
-    return builder;
+    return "elements.%s".formatted(grammarAccess.gaElementAccessor(abstractElement));
   }
 
   protected CharSequence _elementAccess(final Object object) {
