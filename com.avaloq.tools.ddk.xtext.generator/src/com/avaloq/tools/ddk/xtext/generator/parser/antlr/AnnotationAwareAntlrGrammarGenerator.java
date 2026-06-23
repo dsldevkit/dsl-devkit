@@ -98,17 +98,14 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
   @Override
   protected String compileParserImports(final Grammar it, final AntlrOptions options) {
     final StringConcatenation builder = new StringConcatenation();
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.*;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.*;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.impl.*;");
-    builder.newLine();
-    builder.append("import org.eclipse.emf.ecore.util.EcoreUtil;");
-    builder.newLine();
-    builder.append("import org.eclipse.emf.ecore.EObject;");
-    builder.newLine();
+    builder.append("""
+
+    import org.eclipse.xtext.*;
+    import org.eclipse.xtext.parser.*;
+    import org.eclipse.xtext.parser.impl.*;
+    import org.eclipse.emf.ecore.util.EcoreUtil;
+    import org.eclipse.emf.ecore.EObject;
+    """);
     if (!GrammarUtil.allEnumRules(it).isEmpty()) {
       builder.append("import org.eclipse.emf.common.util.Enumerator;");
       builder.newLine();
@@ -149,17 +146,13 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.newLineIfNotEmpty();
     builder.newLine();
     if (options.isBacktrack()) {
-      builder.append("/*");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("This grammar contains a lot of empty actions to work around a bug in ANTLR.");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("Otherwise the ANTLR tool will create synpreds that cannot be compiled in some rare cases.");
-      builder.newLine();
-      builder.append("*/");
-      builder.newLine();
-      builder.newLine();
+      builder.append("""
+      /*
+        This grammar contains a lot of empty actions to work around a bug in ANTLR.
+        Otherwise the ANTLR tool will create synpreds that cannot be compiled in some rare cases.
+      */
+
+      """);
     }
     builder.append("    ");
     builder.append(this.compileParserMemberDeclarations(it, "private"), "    ");
@@ -174,24 +167,14 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append(this.predicatesNaming.getSemanticPredicatesSimpleName(it), "    ");
     builder.append(" predicates) {");
     builder.newLineIfNotEmpty();
-    builder.append("        ");
-    builder.append("this(input);");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("this.grammarAccess = grammarAccess;");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("this.predicates = predicates;");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("this.parserContext = parserContext;");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("parserContext.setTokenStream(input);");
-    builder.newLine();
-    builder.append("        ");
-    builder.append("registerRules(grammarAccess.getGrammar());");
-    builder.newLine();
+    builder.append("""
+            this(input);
+            this.grammarAccess = grammarAccess;
+            this.predicates = predicates;
+            this.parserContext = parserContext;
+            parserContext.setTokenStream(input);
+            registerRules(grammarAccess.getGrammar());
+    """);
     builder.append("    ");
     builder.append('}');
     builder.newLine();
@@ -199,39 +182,23 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append("    ");
     builder.append(this.compileParserSetTokenStreamMethod(), "    ");
     builder.newLineIfNotEmpty();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("@Override");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("protected String getFirstRuleName() {");
-    builder.newLine();
-    builder.append("      ");
-    builder.append("return \"");
-    builder.append(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(IterableExtensions.head(GrammarUtil.allParserRules(it))).getName(), "      ");
-    builder.append("\";");
-    builder.newLineIfNotEmpty();
-    builder.append("    ");
-    builder.append('}');
-    builder.newLine();
-    builder.newLine();
-    builder.append("    ");
-    builder.append("@Override");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("protected ");
-    builder.append(this._grammarAccessExtensions.getGrammarAccess(it).getSimpleName(), "    ");
-    builder.append(" getGrammarAccess() {");
-    builder.newLineIfNotEmpty();
-    builder.append("      ");
-    builder.append("return grammarAccess;");
-    builder.newLine();
-    builder.append("    ");
-    builder.append('}');
-    builder.newLine();
-    builder.newLine();
-    builder.append('}');
-    builder.newLine();
+    builder.append("""
+
+        @Override
+        protected String getFirstRuleName() {
+    """);
+    builder.append("""
+          return "%s";
+        }
+
+        @Override
+        protected %s getGrammarAccess() {
+          return grammarAccess;
+        }
+
+    }
+    """.formatted(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(IterableExtensions.head(GrammarUtil.allParserRules(it))).getName(),
+        this._grammarAccessExtensions.getGrammarAccess(it).getSimpleName()));
     return builder.toString();
   }
 
