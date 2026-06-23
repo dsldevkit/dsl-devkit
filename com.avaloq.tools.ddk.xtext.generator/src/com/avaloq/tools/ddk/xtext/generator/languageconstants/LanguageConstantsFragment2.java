@@ -117,96 +117,36 @@ public class LanguageConstantsFragment2 extends AbstractXtextGeneratorFragment {
     javaFile.setContent(new StringConcatenationClient() {
       @Override
       protected void appendTo(final TargetStringConcatenation builder) {
-        builder.append("/**");
-        builder.newLine();
-        builder.append(" ");
-        builder.append("* Provides language specific constants for ");
-        builder.append(grammarName, " ");
-        builder.append(".");
-        builder.newLineIfNotEmpty();
-        builder.append(" ");
-        builder.append("*");
-        builder.newLine();
-        builder.append(" ");
-        builder.append("* Theses constants are used e.g. by the test plug-ins.");
-        builder.newLine();
-        builder.append(" ");
-        builder.append("*/");
-        builder.newLine();
-        builder.append("@SuppressWarnings(\"nls\")");
-        builder.newLine();
-        builder.append("public final class ");
-        builder.append(simpleName);
-        builder.append(" {");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("public static final String GRAMMAR = \"");
-        builder.append(grammarName, "  ");
-        builder.append("\";");
-        builder.newLineIfNotEmpty();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("/** Preferred file extension (for testing). */");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public static final String FILE_EXTENSION = \"");
-        builder.append(preferredExt, "  ");
-        builder.append("\";");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("/** All file extensions. */");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public static final String FILE_EXTENSIONS = \"");
-        builder.append(allExtensions, "  ");
-        builder.append("\";");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("/** Private constant specifying an URI pattern that match all files of the preferred extension. */");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("private static final String ALL_");
-        builder.append(grammarSimpleName.toUpperCase(), "  ");
-        builder.append("_URI = \"*.\"+FILE_EXTENSION;");
-        builder.newLineIfNotEmpty();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("private ");
-        builder.append(simpleName, "  ");
-        builder.append("() {}");
-        builder.newLineIfNotEmpty();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("/**");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("* An URI pattern that matches all files of the preferred file extension.");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("*");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("* @return this pattern");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("*/");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public static final String getAll");
-        builder.append(grammarSimpleName, "  ");
-        builder.append("URI() {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return ALL_");
-        builder.append(grammarSimpleName.toUpperCase(), "    ");
-        builder.append("_URI;");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
-        builder.append("}");
-        builder.newLine();
+        builder.append("""
+        /**
+         * Provides language specific constants for %s.
+         *
+         * Theses constants are used e.g. by the test plug-ins.
+         */
+        @SuppressWarnings("nls")
+        public final class %s {
+          public static final String GRAMMAR = "%s";
+
+          /** Preferred file extension (for testing). */
+          public static final String FILE_EXTENSION = "%s";
+          /** All file extensions. */
+          public static final String FILE_EXTENSIONS = "%s";
+          /** Private constant specifying an URI pattern that match all files of the preferred extension. */
+          private static final String ALL_%s_URI = "*."+FILE_EXTENSION;
+
+          private %s() {}
+
+          /**
+           * An URI pattern that matches all files of the preferred file extension.
+           *
+           * @return this pattern
+           */
+          public static final String getAll%sURI() {
+            return ALL_%s_URI;
+          }
+
+        }
+        """.formatted(grammarName, simpleName, grammarName, preferredExt, allExtensions, grammarSimpleName.toUpperCase(), simpleName, grammarSimpleName, grammarSimpleName.toUpperCase()));
       }
     });
 
