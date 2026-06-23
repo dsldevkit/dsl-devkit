@@ -38,7 +38,6 @@ import com.avaloq.tools.ddk.xtext.formatting.AbstractExtendedFormatter
 import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfig
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorActivator
 import com.avaloq.tools.ddk.xtext.formatting.locators.LocatorParameterCalculator
-import com.google.common.collect.Iterables
 import com.google.inject.Inject
 import java.util.List
 import java.util.Map
@@ -472,7 +471,7 @@ class FormatJvmModelInferrer extends AbstractModelInferrer {
   // getDirectiveName dispatch
   def dispatch String getDirectiveName(GroupBlock directive) {
     val GrammarRule grammarRule = EcoreUtil2::getContainerOfType(directive, typeof(GrammarRule))
-    val directives = newArrayList(Iterables.filter(grammarRule.directives, GroupBlock));
+    val directives = grammarRule.directives.filter(GroupBlock).toList
     "Group" + String.valueOf(directives.indexOf(directive) + 1)
   }
   def dispatch String getDirectiveName(SpecificDirective directive) {
