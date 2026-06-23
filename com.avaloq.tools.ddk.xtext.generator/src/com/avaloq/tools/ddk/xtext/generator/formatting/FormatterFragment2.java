@@ -99,57 +99,38 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
     xtendFile.setContent(new StringConcatenationClient() {
       @Override
       protected void appendTo(final TargetStringConcatenation builder) {
-        builder.append("import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter");
-        builder.newLine();
-        builder.append("import org.eclipse.xtext.formatting.impl.FormattingConfig");
-        builder.newLine();
-        builder.newLine();
-        builder.append("/**");
-        builder.newLine();
-        builder.append(" * This class contains custom formatting declarations.");
-        builder.newLine();
-        builder.append(" *");
-        builder.newLine();
-        builder.append(" * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting");
-        builder.newLine();
-        builder.append(" * on how and when to use it.");
-        builder.newLine();
-        builder.append(" *");
-        builder.newLine();
-        builder.append(" * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example");
-        builder.newLine();
-        builder.append(" */");
-        builder.newLine();
-        builder.append("class ");
-        builder.append(getFormatterStub(getGrammar()).getSimpleName());
-        builder.append(" extends AbstractDeclarativeFormatter {");
-        builder.newLineIfNotEmpty();
-        builder.newLine();
+        builder.append("""
+        import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter
+        import org.eclipse.xtext.formatting.impl.FormattingConfig
+
+        /**
+         * This class contains custom formatting declarations.
+         *
+         * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting
+         * on how and when to use it.
+         *
+         * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example
+         */
+        class %s extends AbstractDeclarativeFormatter {
+
+        """.formatted(getFormatterStub(getGrammar()).getSimpleName()));
         builder.append("  ");
         builder.append("@");
         builder.append(Inject.class, "  ");
         builder.append(" extension ");
         builder.append(grammarAccessExtensions.getGrammarAccess(getGrammar()), "  ");
         builder.newLineIfNotEmpty();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("override protected void configureFormatting(FormattingConfig c) {");
-        builder.newLine();
-        builder.append("// It's usually a good idea to activate the following three statements.");
-        builder.newLine();
-        builder.append("// They will add and preserve newlines around comments");
-        builder.newLine();
-        builder.append("//    c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)");
-        builder.newLine();
-        builder.append("//    c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)");
-        builder.newLine();
-        builder.append("//    c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.append("}");
-        builder.newLine();
+        builder.append("""
+
+          override protected void configureFormatting(FormattingConfig c) {
+        // It's usually a good idea to activate the following three statements.
+        // They will add and preserve newlines around comments
+        //    c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
+        //    c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
+        //    c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
+          }
+        }
+        """);
       }
     });
     // CHECKSTYLE:CONSTANTS-ON
@@ -164,32 +145,21 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
     javaFile.setContent(new StringConcatenationClient() {
       @Override
       protected void appendTo(final TargetStringConcatenation builder) {
-        builder.append("import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;");
-        builder.newLine();
-        builder.append("import org.eclipse.xtext.formatting.impl.FormattingConfig;");
-        builder.newLine();
-        builder.newLine();
-        builder.append("/**");
-        builder.newLine();
-        builder.append(" * This class contains custom formatting declarations.");
-        builder.newLine();
-        builder.append(" *");
-        builder.newLine();
-        builder.append(" * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting");
-        builder.newLine();
-        builder.append(" * on how and when to use it.");
-        builder.newLine();
-        builder.append(" *");
-        builder.newLine();
-        builder.append(" * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example");
-        builder.newLine();
-        builder.append(" */");
-        builder.newLine();
-        builder.append("class ");
-        builder.append(getFormatterStub(getGrammar()).getSimpleName());
-        builder.append(" extends AbstractDeclarativeFormatter {");
-        builder.newLineIfNotEmpty();
-        builder.newLine();
+        builder.append("""
+        import org.eclipse.xtext.formatting.impl.AbstractDeclarativeFormatter;
+        import org.eclipse.xtext.formatting.impl.FormattingConfig;
+
+        /**
+         * This class contains custom formatting declarations.
+         *
+         * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#formatting
+         * on how and when to use it.
+         *
+         * Also see {@link org.eclipse.xtext.xtext.XtextFormatter} as an example
+         */
+        class %s extends AbstractDeclarativeFormatter {
+
+        """.formatted(getFormatterStub(getGrammar()).getSimpleName()));
         builder.append("  ");
         builder.append("@");
         builder.append(Inject.class, "  ");
@@ -197,28 +167,18 @@ public class FormatterFragment2 extends AbstractStubGeneratingFragment {
         builder.append(grammarAccessExtensions.getGrammarAccess(getGrammar()), "  ");
         builder.append(" grammarAccess;");
         builder.newLineIfNotEmpty();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("protected void configureFormatting(FormattingConfig c) {");
-        builder.newLine();
-        builder.append("// It's usually a good idea to activate the following three statements.");
-        builder.newLine();
-        builder.append("// They will add and preserve newlines around comments");
-        builder.newLine();
-        builder.append("//    c.setLinewrap(0, 1, 2).before(grammarAccess.getSL_COMMENTRule());");
-        builder.newLine();
-        builder.append("//    c.setLinewrap(0, 1, 2).before(grammarAccess.getML_COMMENTRule());");
-        builder.newLine();
-        builder.append("//    c.setLinewrap(0, 1, 1).after(grammarAccess.getML_COMMENTRule());");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.append("}");
-        builder.newLine();
+        builder.append("""
+
+          @Override
+            protected void configureFormatting(FormattingConfig c) {
+        // It's usually a good idea to activate the following three statements.
+        // They will add and preserve newlines around comments
+        //    c.setLinewrap(0, 1, 2).before(grammarAccess.getSL_COMMENTRule());
+        //    c.setLinewrap(0, 1, 2).before(grammarAccess.getML_COMMENTRule());
+        //    c.setLinewrap(0, 1, 1).after(grammarAccess.getML_COMMENTRule());
+          }
+        }
+        """);
       }
     });
     // CHECKSTYLE:CONSTANTS-ON
