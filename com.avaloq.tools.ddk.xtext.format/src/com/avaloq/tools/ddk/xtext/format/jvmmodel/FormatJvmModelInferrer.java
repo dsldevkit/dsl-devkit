@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.format.jvmmodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -1431,7 +1432,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (format != null) {
       _infer(format, acceptor, isPreIndexingPhase);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(format, acceptor, isPreIndexingPhase));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(format, acceptor, isPreIndexingPhase));
     }
   }
 
@@ -1441,7 +1442,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule instanceof WildcardRule wildcardRule) {
       return _getLocatorActivatorSuperType(formatConfiguration, wildcardRule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(formatConfiguration, rule));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(formatConfiguration, rule));
     }
   }
 
@@ -1451,7 +1452,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule instanceof WildcardRule wildcardRule) {
       return _getParameterCalculatorSuperType(formatConfiguration, wildcardRule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(formatConfiguration, rule));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(formatConfiguration, rule));
     }
   }
 
@@ -1461,7 +1462,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule instanceof WildcardRule wildcardRule) {
       return _getGrammarElementNameFromSelf(wildcardRule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(rule));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(rule));
     }
   }
 
@@ -1473,7 +1474,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (rule != null) {
       return _getRuleName(rule);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of());
+      throw new IllegalArgumentException("Unhandled parameter types");
     }
   }
 
@@ -1489,7 +1490,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (directive != null) {
       return _getDirectiveName(directive);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of());
+      throw new IllegalArgumentException("Unhandled parameter types");
     }
   }
 
@@ -1505,7 +1506,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (dir != null) {
       return _directive(dir, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(dir, partialName));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(dir, partialName));
     }
   }
 
@@ -1517,7 +1518,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (columnLocator != null) {
       return _matchLookupPartial(columnLocator, matcher, eobjectTypeName, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(columnLocator, matcher, eobjectTypeName, partialName));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(columnLocator, matcher, eobjectTypeName, partialName));
     }
   }
 
@@ -1533,7 +1534,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (locator != null) {
       return _match(matcher, element, locator, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(matcher, element, locator, partialName));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(matcher, element, locator, partialName));
     }
   }
 
@@ -1549,7 +1550,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (grammarElementLookup != null) {
       return _elementAccess(grammarElementLookup);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of());
+      throw new IllegalArgumentException("Unhandled parameter types");
     }
   }
 
@@ -1571,7 +1572,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (columnLocator != null) {
       return _locator(matcher, columnLocator, partialName);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(matcher, columnLocator, partialName));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(matcher, columnLocator, partialName));
     }
   }
 
@@ -1581,7 +1582,7 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
     } else if (intValue instanceof StringValue stringValue) {
       return _getValueOrConstant(stringValue);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + List.of(intValue));
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(intValue));
     }
   }
 
