@@ -155,7 +155,9 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
 
         if (!assignments.isEmpty()) {
           for (Assignment assignment : assignments) {
-            target.append(handleAssignment(assignment));
+            target.append("  ");
+            target.append(handleAssignment(assignment), "  ");
+            target.newLineIfNotEmpty();
           }
           target.newLine();
         }
@@ -240,7 +242,7 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
     return new StringConcatenationClient() {
       @Override
       protected void appendTo(final TargetStringConcatenation target) {
-        target.append("  public void complete");
+        target.append("public void complete");
         target.append(getFQFeatureName(assignment));
         target.append("(");
         target.append(EObject.class);
@@ -253,18 +255,21 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
         target.append(" acceptor) {");
         target.newLineIfNotEmpty();
         if (terminalTypes.size() > 1) {
-          target.append(handleAssignmentOptions(terminals));
+          target.append("  ");
+          target.append(handleAssignmentOptions(terminals), "  ");
+          target.newLineIfNotEmpty();
         } else {
-          target.append("    ");
+          target.append("  ");
           target.append(assignmentTerminal(assignment.getTerminal(), new StringConcatenationClient() {
             @Override
             protected void appendTo(final TargetStringConcatenation target) {
               target.append("assignment.getTerminal()");
             }
-          }));
+          }), "  ");
+          target.newLineIfNotEmpty();
         }
-        target.append("  }");
-        target.newLineIfNotEmpty();
+        target.append("}");
+        target.newLine();
       }
     };
   }
@@ -286,19 +291,20 @@ public class AnnotationAwareContentAssistFragment2 extends ContentAssistFragment
       @Override
       protected void appendTo(final TargetStringConcatenation target) {
         for (AbstractElement terminal : candidates) {
-          target.append("    if (assignment.getTerminal() instanceof ");
+          target.append("if (assignment.getTerminal() instanceof ");
           target.append(terminal.eClass().getInstanceClass());
           target.append(") {");
           target.newLineIfNotEmpty();
-          target.append("      ");
+          target.append("  ");
           target.append(assignmentTerminal(terminal, new StringConcatenationClient() {
             @Override
             protected void appendTo(final TargetStringConcatenation target) {
               target.append("assignment.getTerminal()");
             }
-          }));
-          target.append("    }");
+          }), "  ");
           target.newLineIfNotEmpty();
+          target.append("}");
+          target.newLine();
         }
       }
     };
