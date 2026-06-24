@@ -32,7 +32,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.xtext.generator.util.GenModelUtil2;
 
@@ -45,7 +44,6 @@ import com.google.common.collect.Iterables;
  */
 public final class CheckGenModelUtil {
 
-  private static final String EXCEPTION_IN_GENERATION = "Exception in generation ({0})"; //$NON-NLS-1$
   private static final String GENMODEL_EXTENSION = "genmodel"; //$NON-NLS-1$
   /** Class-wide logger. */
   private static final Logger LOGGER = LogManager.getLogger(CheckGenModelUtil.class);
@@ -109,25 +107,24 @@ public final class CheckGenModelUtil {
       return null;
     }
 
-    GenModel resultGenModel = null;
     try {
       GenPackage genPackage = GenModelUtil2.getGenPackage(ePackage, resourceSet);
-      resultGenModel = genPackage.getGenModel();
+      GenModel resultGenModel = genPackage.getGenModel();
       if (resultGenModel != null) {
         return resultGenModel;
       }
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (RuntimeException e) {
-      LOGGER.error(NLS.bind(EXCEPTION_IN_GENERATION, eModelElement), e);
+      try {
+        return getGenModelUsingHeuristics(ePackage);
+      } catch (final IllegalStateException nestedException) {
+        String message = "Exception in findGenModel (%s)"; //$NON-NLS-1$
+        LOGGER.error(message.formatted(eModelElement), e);
+        LOGGER.error(message.formatted(eModelElement), nestedException);
+      }
       // CHECKSTYLE:CHECK-ON IllegalCatch
     }
-    try {
-      resultGenModel = getGenModelUsingHeuristics(ePackage);
-    } catch (final IllegalStateException e) {
-      LOGGER.error(NLS.bind("Exception in findGenModel ({0})", eModelElement), e); //$NON-NLS-1$
-    }
-
-    return resultGenModel;
+    return null;
   }
 
   /**
@@ -144,7 +141,7 @@ public final class CheckGenModelUtil {
   }
 
   /**
-   * Loads the given resource, and if it contains a GenModel for the given ePackage, resturns that.
+   * Loads the given resource, and if it contains a GenModel for the given ePackage, returns that.
    *
    * @param uri
    *          to load resource from
@@ -164,7 +161,7 @@ public final class CheckGenModelUtil {
       }
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (Exception ex) {
-      LOGGER.error(NLS.bind(EXCEPTION_IN_GENERATION, uri), ex);
+      LOGGER.error("Exception in generation (%s)".formatted(uri), ex); //$NON-NLS-1$
       // CHECKSTYLE:CHECK-ON IllegalCatch
     }
     return null;
