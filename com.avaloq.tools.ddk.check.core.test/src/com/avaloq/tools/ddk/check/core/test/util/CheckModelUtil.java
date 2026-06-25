@@ -64,8 +64,6 @@ public class CheckModelUtil {
   /*
    * Returns a base model stub with a check (SomeError) with severity 'error'
    * and message (MyMessage).
-   *
-   * @return the model stub string
    */
   public String modelWithCheck() {
     return modelWithCheck("ID");
@@ -82,8 +80,6 @@ public class CheckModelUtil {
   /*
    * Returns a base model stub with a context using context type ContextType
    * 'ctx'.
-   *
-   * @return the model stub string
    */
   public String modelWithContext() {
     return modelWithCheck() + "for ContextType ctx {";
@@ -121,4 +117,3 @@ public class CheckModelUtil {
   }
 
 }
-// CHECKSTYLE:CONSTANTS-ON

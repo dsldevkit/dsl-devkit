@@ -42,7 +42,7 @@ import com.google.inject.Inject;
  *
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
+@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FormatGenerator extends JvmModelGenerator {
 
   private static final String DOT = ".";

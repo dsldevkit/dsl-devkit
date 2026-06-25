@@ -74,7 +74,6 @@ public class LspBuilderIntegrationFragment2 extends AbstractXtextGeneratorFragme
     fileAccessFactory.createTextFile("META-INF/services/com.avaloq.tools.ddk.xtext.build.ILspLanguageSetup", client).writeTo(getProjectConfig().getGenericIde().getSrcGen());
   }
 
-  // CHECKSTYLE:CONSTANTS-OFF
   public void generateBuildService() {
     final TypeReference lspBuildSetupServiceClass = getLspBuildSetupServiceClass();
     StringConcatenationClient client = new StringConcatenationClient() {

@@ -57,12 +57,6 @@ public class FormatScopeProvider extends AbstractFormatScopeProvider {
   /**
    * Provides a scope for given context and reference.
    * If there is no specific scoping method or if there is such a method but it cannot return a scope, the super class method is called.
-   *
-   * @param context
-   *          the context object
-   * @param reference
-   *          the reference
-   * @return the scope for the given context and reference
    */
   @Override
   public IScope getScope(final EObject context, final EReference reference) {

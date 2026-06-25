@@ -35,7 +35,6 @@ import com.google.inject.Inject;
  * <li>com.avaloq.tools.ddk.check.validation.ClasspathBasedChecks
  * </ul>
  */
-// CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
@@ -343,4 +342,3 @@ public class CheckValidationTest {
   }
 
 }
-// CHECKSTYLE:CONSTANTS-ON

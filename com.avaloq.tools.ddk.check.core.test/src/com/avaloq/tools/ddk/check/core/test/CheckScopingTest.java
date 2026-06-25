@@ -31,7 +31,6 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
-// CHECKSTYLE:CONSTANTS-OFF
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
@@ -89,4 +88,3 @@ public class CheckScopingTest extends AbstractCheckTestCase {
     assertEquals("This check is javadoc-like commented.", check.getDescription(), CANNOT_BE_RESOLVED);
   }
 }
-// CHECKSTYLE:CONSTANTS-ON
