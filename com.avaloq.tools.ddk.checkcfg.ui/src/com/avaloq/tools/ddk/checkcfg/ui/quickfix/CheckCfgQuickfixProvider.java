@@ -158,4 +158,5 @@ public class CheckCfgQuickfixProvider extends DefaultQuickfixProvider {
       }
     });
   }
+
 }
