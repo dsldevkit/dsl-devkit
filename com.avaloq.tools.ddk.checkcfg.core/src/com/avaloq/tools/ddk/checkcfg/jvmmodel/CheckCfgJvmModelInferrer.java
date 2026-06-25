@@ -17,11 +17,15 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
 
 import com.google.inject.Inject;
 
+
 /**
- * <p>Infers a JVM model from the source model.</p>
- *
- * <p>The JVM model should contain all elements that would appear in the Java code
- * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
+ * <p>
+ * Infers a JVM model from the source model.
+ * </p>
+ * <p>
+ * The JVM model should contain all elements that would appear in the Java code
+ * which is generated from the source model. Other models link against the JVM model rather than the source model.
+ * </p>
  */
 @SuppressWarnings("nls")
 public class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
@@ -32,18 +36,8 @@ public class CheckCfgJvmModelInferrer extends AbstractModelInferrer {
   @Override
   public void _infer(final EObject element, final IJvmDeclaredTypeAcceptor acceptor, final boolean preIndexingPhase) {
     // Infer dummy class as type resolver expects at least one root Java type
-    acceptor.accept(jvmTypesBuilder.toClass(element, "xxxyyyzzz.dummy.class.name", it -> {}));
+    acceptor.accept(jvmTypesBuilder.toClass(element, "xxxyyyzzz.dummy.class.name", it -> {
+    }));
   }
 
-// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-// An example based on the initial hellow world example could look like this:
-//       acceptor.accept(element.toClass("my.company.greeting.MyGreetings") [
-//           for (greeting : element.greetings) {
-//               members += greeting.toMethod(greeting.name, greeting.newTypeRef(typeof(String))) [
-//                   it.body ['''
-//                       return "Hello «greeting.name»";
-//                   ''']
-//               ]
-//           }
-//       ])
 }
