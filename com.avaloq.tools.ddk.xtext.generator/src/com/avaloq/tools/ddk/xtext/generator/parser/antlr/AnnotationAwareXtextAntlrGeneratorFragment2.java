@@ -328,40 +328,26 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
         builder.append(" predicates;");
         builder.newLineIfNotEmpty();
         builder.newLine();
-        builder.append("  ");
-        builder.append("/**");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("* Creates compilation context.");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("*");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("* @param Input");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("*          Stream");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("* @return Compilation context");
-        builder.newLine();
-        builder.append("   ");
-        builder.append("*/");
-        builder.newLine();
+        builder.append("""
+          /**
+           * Creates compilation context.
+           *
+           * @param Input
+           *          Stream
+           * @return Compilation context
+           */
+        """);
         builder.append("  ");
         builder.append("protected ");
         TypeReference _typeRef_1 = TypeReference.typeRef(ParserContext.class);
         builder.append(_typeRef_1, "  ");
         builder.append(" createParserContext() {");
         builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return new ParserContext();");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
+        builder.append("""
+            return new ParserContext();
+          }
+
+        """);
         builder.append("  ");
         builder.append("@Override");
         builder.newLine();
@@ -493,27 +479,16 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
         builder.append("}");
         builder.newLine();
         builder.newLine();
-        builder.append("  ");
-        builder.append("public NameMappings getNameMappings() {");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("return nameMappings;");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public void setNameMappings(NameMappings nameMappings) {");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("this.nameMappings = nameMappings;");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.append("}");
-        builder.newLine();
+        builder.append("""
+          public NameMappings getNameMappings() {
+            return nameMappings;
+          }
+
+          public void setNameMappings(NameMappings nameMappings) {
+            this.nameMappings = nameMappings;
+          }
+        }
+        """);
       }
     };
     file.setContent(client);
@@ -834,34 +809,16 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
             builder.append("}");
             builder.newLine();
             builder.newLine();
-            builder.append("  ");
-            builder.append("/**");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("* Indentation aware languages do not support partial parsing since the lexer is inherently stateful.");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("* Override and return {@code true} if your terminal splitting is stateless.");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("*/");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("@Override");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("protected boolean isReparseSupported() {");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("return false;");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("}");
-            builder.newLine();
+            builder.append("""
+              /**
+               * Indentation aware languages do not support partial parsing since the lexer is inherently stateful.
+               * Override and return {@code true} if your terminal splitting is stateless.
+               */
+              @Override
+              protected boolean isReparseSupported() {
+                return false;
+              }
+            """);
           }
         }
         builder.newLine();
@@ -889,21 +846,12 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
         builder.append("}");
         builder.newLine();
         builder.newLine();
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("protected String getDefaultRuleName() {");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("return \"");
-        String _name = AntlrGrammarGenUtil.<ParserRule>getOriginalElement(IterableExtensions.<ParserRule>head(GrammarUtil.allParserRules(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()))).getName();
-        builder.append(_name, "    ");
-        builder.append("\";");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
+        builder.append("""
+          @Override
+          protected String getDefaultRuleName() {
+            return "%s";
+          }
+        """.formatted(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(IterableExtensions.<ParserRule>head(GrammarUtil.allParserRules(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()))).getName()));
         builder.newLine();
         builder.append("  ");
         builder.append("public ");

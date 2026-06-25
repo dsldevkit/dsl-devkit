@@ -311,14 +311,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append("  ");
     builder.append(this.compileInitUnorderedGroups(it, options), "  ");
     builder.newLineIfNotEmpty();
-    builder.append('}');
-    builder.newLine();
-    builder.append("@after {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("leaveRule();");
-    builder.newLine();
-    builder.append('}');
+    builder.append("""
+        }
+        @after {
+          leaveRule();
+        }""");
     return builder.toString();
   }
 
@@ -374,13 +371,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     if (supportActions) {
       final StringConcatenation builder = new StringConcatenation();
       if (options.isBacktrack()) {
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("/* */");
-        builder.newLine();
-        builder.append('}');
-        builder.newLine();
+        builder.append("""
+            {
+              /* */
+            }
+            """);
       }
       builder.append('{');
       builder.newLine();
@@ -894,13 +889,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
       }
       builder.newLineIfNotEmpty();
       if (options.isBacktrack()) {
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("/* */");
-        builder.newLine();
-        builder.append('}');
-        builder.newLine();
+        builder.append("""
+            {
+              /* */
+            }
+            """);
       }
       builder.append('{');
       builder.newLine();
@@ -942,13 +935,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         }
         builder.newLineIfNotEmpty();
         if (options.isBacktrack()) {
-          builder.append('{');
-          builder.newLine();
-          builder.append("  ");
-          builder.append("/* */");
-          builder.newLine();
-          builder.append('}');
-          builder.newLine();
+          builder.append("""
+              {
+                /* */
+              }
+              """);
         }
         builder.append('{');
         builder.newLine();
@@ -974,13 +965,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         }
         builder1.newLineIfNotEmpty();
         if (options.isBacktrack()) {
-          builder1.append('{');
-          builder1.newLine();
-          builder1.append("  ");
-          builder1.append("/* */");
-          builder1.newLine();
-          builder1.append('}');
-          builder1.newLine();
+          builder1.append("""
+              {
+                /* */
+              }
+              """);
         }
         builder1.append('{');
         builder1.newLine();
@@ -1044,11 +1033,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
   @Override
   protected String compileLexerImports(final Grammar it, final AntlrOptions options) {
     final StringConcatenation builder = new StringConcatenation();
-    builder.newLine();
-    builder.append("// Hack: Use our own Lexer superclass by means of import.");
-    builder.newLine();
-    builder.append("// Currently there is no other way to specify the superclass for the lexer.");
-    builder.newLine();
+    builder.append("""
+
+        // Hack: Use our own Lexer superclass by means of import.
+        // Currently there is no other way to specify the superclass for the lexer.
+        """);
     if (!this.lexerSuperClassName.isEmpty()) {
       builder.append("import ");
       builder.append(this.lexerSuperClassName);
