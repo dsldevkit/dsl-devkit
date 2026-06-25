@@ -100,38 +100,27 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   protected String compileParserImports(final Grammar it, final AntlrOptions options) {
     StringConcatenation builder = new StringConcatenation();
     if (!isCombinedGrammar()) {
-      builder.append("import java.util.Map;");
-      builder.newLine();
-      builder.append("import java.util.HashMap;");
-      builder.newLine();
+      builder.append("""
+          import java.util.Map;
+          import java.util.HashMap;
+          """);
     }
-    builder.newLine();
-    builder.append("import java.io.InputStream;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.*;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.*;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.impl.*;");
-    builder.newLine();
-    builder.append("import org.eclipse.emf.ecore.util.EcoreUtil;");
-    builder.newLine();
-    builder.append("import org.eclipse.emf.ecore.EObject;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream;");
-    builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;");
-    builder.newLine();
-    builder.append("import ");
-    builder.append(getGrammarNaming().getInternalParserSuperClass(it).getName());
-    builder.append(";");
-    builder.newLineIfNotEmpty();
-    builder.append("import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;");
-    builder.newLine();
-    builder.append("import ");
-    builder.append(_grammarAccessExtensions.getGrammarAccess(it).getName());
-    builder.append(";");
-    builder.newLineIfNotEmpty();
+    builder.append("""
+
+    import java.io.InputStream;
+    import org.eclipse.xtext.*;
+    import org.eclipse.xtext.parser.*;
+    import org.eclipse.xtext.parser.impl.*;
+    import org.eclipse.emf.ecore.util.EcoreUtil;
+    import org.eclipse.emf.ecore.EObject;
+    import org.eclipse.xtext.parser.antlr.XtextTokenStream;
+    import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
+    """);
+    builder.append("""
+        import %s;
+        import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
+        import %s;
+        """.formatted(getGrammarNaming().getInternalParserSuperClass(it).getName(), _grammarAccessExtensions.getGrammarAccess(it).getName()));
     builder.append(super.compileParserImports(it, options));
     builder.newLineIfNotEmpty();
     builder.newLine();
@@ -151,13 +140,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append(compileParserMemberDeclarations(it, "protected"), "  ");
     builder.newLineIfNotEmpty();
     if (!isCombinedGrammar()) {
-      builder.append("  ");
-      builder.append("private final Map<String, String> tokenNameToValue = new HashMap<String, String>();");
-      builder.newLine();
-      builder.newLine();
-      builder.append("  ");
-      builder.append("{");
-      builder.newLine();
+      builder.append("""
+        private final Map<String, String> tokenNameToValue = new HashMap<String, String>();
+
+        {
+      """);
       List<String> sortedKeywords = IterableExtensions.sortBy(IterableExtensions.sort(GrammarUtil.getAllKeywords(it)), String::length);
       for (final String kw : sortedKeywords) {
         builder.append("  ");
@@ -183,76 +170,48 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append(this.predicatesNaming.getSemanticPredicatesSimpleName(it), "  ");
     builder.append(" predicates) {");
     builder.newLineIfNotEmpty();
-    builder.append("    ");
-    builder.append("this.predicates = predicates;");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
+    builder.append("""
+        this.predicates = predicates;
+      }
+
+    """);
     builder.append("  ");
     builder.append("public void setGrammarAccess(");
     builder.append(_grammarAccessExtensions.getGrammarAccess(it).getSimpleName(), "  ");
     builder.append(" grammarAccess) {");
     builder.newLineIfNotEmpty();
-    builder.append("    ");
-    builder.append("this.grammarAccess = grammarAccess;");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("public void setParserContext(ParserContext parserContext) {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("this.parserContext = parserContext;");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("@Override");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("protected Grammar getGrammar() {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("return grammarAccess.getGrammar();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
-    builder.append("  ");
-    builder.append("@Override");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("protected String getValueForTokenName(String tokenName) {");
-    builder.newLine();
+    builder.append("""
+        this.grammarAccess = grammarAccess;
+      }
+
+    public void setParserContext(ParserContext parserContext) {
+      this.parserContext = parserContext;
+    }
+
+      @Override
+      protected Grammar getGrammar() {
+        return grammarAccess.getGrammar();
+      }
+
+      @Override
+      protected String getValueForTokenName(String tokenName) {
+    """);
     if (isCombinedGrammar()) {
       builder.append("    ");
       builder.append("return tokenName;");
       builder.newLine();
     } else {
-      builder.append("    ");
-      builder.append("String result = tokenNameToValue.get(tokenName);");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("if (result == null)");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("  ");
-      builder.append("result = tokenName;");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("return result;");
-      builder.newLine();
+      builder.append("""
+              String result = tokenNameToValue.get(tokenName);
+              if (result == null)
+                result = tokenName;
+              return result;
+          """);
     }
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+            }
+          }
+          """);
     return builder.toString();
   }
 
@@ -385,15 +344,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLineIfNotEmpty();
     builder.append(_grammarAccessExtensions.ruleName(it));
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append("  ");
@@ -401,13 +356,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLineIfNotEmpty();
     builder.append(";");
     builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+        finally {
+          restoreStackSize(stackSize);
+        }
+        """);
     return builder;
   }
 
@@ -418,15 +371,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("__");
     builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append("  ");
@@ -442,13 +391,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLineIfNotEmpty();
     builder.append(";");
     builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+        finally {
+          restoreStackSize(stackSize);
+        }
+        """);
     return builder;
   }
 
@@ -459,15 +406,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("__");
     builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append("  ");
@@ -475,13 +418,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.newLineIfNotEmpty();
     builder.append(";");
     builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+        finally {
+          restoreStackSize(stackSize);
+        }
+        """);
     return builder;
   }
 
@@ -564,18 +505,12 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
     builder.append("__Impl");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("boolean selected = false;");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+            boolean selected = false;
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append("    ");
@@ -755,15 +690,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("__");
     builder.append(index);
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append("  ");
@@ -784,13 +715,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     }
     builder.append(";");
     builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+        finally {
+          restoreStackSize(stackSize);
+        }
+        """);
     builder.newLine();
     if (it.getElements().size() > index + 1) {
       builder.append(ruleImpl(it, grammar, options, index + 1));
@@ -807,15 +736,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("__");
     builder.append(index);
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append("  ");
@@ -837,13 +762,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     }
     builder.append(";");
     builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+        finally {
+          restoreStackSize(stackSize);
+        }
+        """);
     builder.newLine();
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
     builder.append("__");
@@ -852,28 +775,22 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append(index);
     builder.append("__Impl");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+          @init {
+            int stackSize = keepStackSize();
+          }
+        """);
     builder.append(":");
     builder.newLine();
     builder.append(ebnf(it.getElements().get(index), options, false));
     builder.newLineIfNotEmpty();
     builder.append(";");
     builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+        finally {
+          restoreStackSize(stackSize);
+        }
+        """);
     builder.newLine();
     if (it.getElements().size() > index + 1) {
       builder.append(ruleImpl(it, grammar, options, index + 1));
