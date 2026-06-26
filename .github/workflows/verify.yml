@@ -1,8 +1,27 @@
 name: verify
 on:
   pull_request:
+
+# Code Scanning needs write access to upload SARIF results for inline annotations.
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
-  pmd:
+  # Fast, early-fail lint lane: PMD + Checkstyle (+ CPD). Turns red in a few
+  # minutes on any violation, independent of the long build below, so a stray
+  # PMD/Checkstyle issue is reported immediately rather than after `verify`.
+  #
+  # `compile` is in the same invocation as the analysis goals: PMD's
+  # type-resolving rules (e.g. InvalidLogMessageFormat on the SLF4J
+  # trailing-Throwable idiom) need Tycho's aux-classpath, which a fresh `mvn`
+  # does not inherit from a prior step's target/classes.
+  #
+  # `--fail-never` lets every module produce its report (no Maven cascade-skip),
+  # so the uploaded SARIF — and therefore the inline annotations — are complete.
+  # The gate is a jq count over the merged SARIFs; compile errors still halt
+  # (MojoExecutionException is not suppressed by --fail-never).
+  lint:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -12,10 +31,90 @@ jobs:
           java-version: '21'
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: PMD Check
-        run: mvn pmd:pmd pmd:cpd pmd:check pmd:cpd-check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
-  checkstyle:
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-0-
+
+      - name: PMD + Checkstyle reports (SARIF)
+        # PMD: SarifRenderer FQCN — emits pmd.sarif.json AND keeps pmd.xml.
+        # Checkstyle: output.format=sarif — SARIF content in checkstyle-result.xml.
+        # CPD is excluded here: the global -Dformat flag uses PMD's Renderer
+        # hierarchy and would ClassCastException CPD's CPDReportRenderer.
+        run: |
+          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
+            compile \
+            pmd:pmd checkstyle:checkstyle \
+            -Dformat=net.sourceforge.pmd.renderers.SarifRenderer \
+            -Dcheckstyle.output.format=sarif
+
+      - name: CPD report (separate invocation — no SARIF support)
+        # CPD has no SARIF renderer; emits cpd.xml only. Run standalone so the
+        # PMD -Dformat flag isn't in scope.
+        # NOTE: project CPD token threshold is currently very high (issue #1339),
+        # which effectively disables detection; re-tune once #1339 lands.
+        run: |
+          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
+            compile \
+            pmd:cpd-check
+
+      - name: Merge per-module SARIFs (PMD + Checkstyle)
+        if: always()
+        # Code Scanning accepts one run per category per upload; each analyzer
+        # writes one SARIF per module, so concatenate each analyzer's results
+        # into a single run under .sarif-merged/.
+        run: |
+          mkdir -p .sarif-merged
+          # Merge per-module SARIFs into one run. Filter to JSON-parseable files:
+          # the ddk-parent aggregator writes a plain-XML checkstyle-result.xml that
+          # would break jq, and modules with no findings may emit non-SARIF stubs.
+          merge() { # $1 = find-glob, $2 = output
+            local f valid=()
+            while IFS= read -r f; do
+              jq -e . "$f" >/dev/null 2>&1 && valid+=("$f")
+            done < <(find . -path "$1")
+            if [ ${#valid[@]} -gt 0 ]; then
+              jq -s '{
+                "$schema": .[0]."$schema", version: .[0].version,
+                runs: [{ tool: .[0].runs[0].tool,
+                         results: [.[].runs[].results[]?],
+                         invocations: [.[].runs[].invocations[]?] }]
+              }' "${valid[@]}" > "$2"
+            fi
+          }
+          merge '*/target/pmd.sarif.json'        .sarif-merged/pmd.sarif
+          merge '*/target/checkstyle-result.xml' .sarif-merged/checkstyle.sarif
+
+      - name: Gate on PMD / CPD / Checkstyle violations
+        run: |
+          set -eu
+          sarif_total=$(jq '[.runs[].results[]?] | length' \
+            .sarif-merged/pmd.sarif .sarif-merged/checkstyle.sarif 2>/dev/null \
+            | awk '{s+=$1} END {print s+0}')
+          cpd_total=$(find . -name 'cpd.xml' -path '*/target/*' -exec grep -c '<duplication ' {} + 2>/dev/null \
+            | awk -F: '{s+=$2} END {print s+0}')
+          echo "PMD/Checkstyle SARIF violations: $sarif_total"
+          echo "CPD duplications: $cpd_total"
+          if [ "$sarif_total" != "0" ] || [ "$cpd_total" != "0" ]; then
+            echo "::error::Static analysis found violations (PMD/CPD/Checkstyle)."
+            exit 1
+          fi
+
+      - name: Upload PMD/Checkstyle SARIF to Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@7fd177fa680c9881b53cdab4d346d32574c9f7f4  # v3.35.4
+        with:
+          sarif_file: .sarif-merged
+          category: lint
+
+  # SpotBugs is the slow critical-path analysis (the experiments' durable
+  # finding), so it runs in its own parallel lane and never delays `lint`.
+  spotbugs:
     runs-on: ubuntu-24.04
+    env:
+      MAVEN_OPTS: -Xmx4g
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287  # v5
@@ -24,14 +123,66 @@ jobs:
           java-version: '21'
       - name: Set up Workspace Environment Variable
         run: echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-      - name: Checkstyle Check
-        run: mvn checkstyle:checkstyle checkstyle:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+      - name: Cache Maven dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae  # v5
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-0-
+
+      - name: SpotBugs report (SARIF)
+        # sarifOutput=true emits spotbugsSarif.json (also writes spotbugsXml.xml).
+        run: |
+          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
+            compile \
+            spotbugs:spotbugs \
+            -Dspotbugs.sarifOutput=true
+
+      - name: Merge per-module SpotBugs SARIFs
+        if: always()
+        run: |
+          mkdir -p .sarif-merged
+          valid=()
+          while IFS= read -r f; do
+            jq -e . "$f" >/dev/null 2>&1 && valid+=("$f")
+          done < <(find . -path '*/target/spotbugsSarif.json')
+          if [ ${#valid[@]} -gt 0 ]; then
+            jq -s '{
+              "$schema": .[0]."$schema", version: .[0].version,
+              runs: [{ tool: .[0].runs[0].tool,
+                       results: [.[].runs[].results[]?],
+                       invocations: [.[].runs[].invocations[]?] }]
+            }' "${valid[@]}" > .sarif-merged/spotbugs.sarif
+          fi
+
+      - name: Gate on SpotBugs violations
+        run: |
+          set -eu
+          sb_total=$(jq '[.runs[].results[]?] | length' .sarif-merged/spotbugs.sarif 2>/dev/null || echo 0)
+          echo "SpotBugs SARIF violations: $sb_total"
+          if [ "$sb_total" != "0" ]; then
+            echo "::error::SpotBugs found violations."
+            exit 1
+          fi
+
+      - name: Upload SpotBugs SARIF to Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@7fd177fa680c9881b53cdab4d346d32574c9f7f4  # v3.35.4
+        with:
+          sarif_file: .sarif-merged
+          category: spotbugs
+
   line-endings:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - name: Check LF line endings
         run: bash .github/scripts/check-line-endings.sh
+
+  # Build + tests only. Static analysis now lives in the `lint` and `spotbugs`
+  # jobs, so the redundant checkstyle/pmd/spotbugs goals are dropped from here —
+  # this is the wall-clock long pole and no longer re-runs analysis.
+  # No `-T 2C`: tests are not known to pass reliably under reactor parallelism.
   maven-verify:
     runs-on: ubuntu-24.04
     steps:
@@ -51,9 +202,7 @@ jobs:
           path: /home/runner/.m2/repository
           key: ${{ runner.os }}-maven-0-${{ hashFiles('**/pom.xml') }}
       - name: Build with Maven  within a virtual X Server Environment
-        # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
-        # This ensures all violations are collected and reported before the build fails
-        run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        run: xvfb-run mvn clean verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
       - name: Fail on missing surefire reports
         if: always()
         run: bash .github/scripts/check-surefire-reports.sh
