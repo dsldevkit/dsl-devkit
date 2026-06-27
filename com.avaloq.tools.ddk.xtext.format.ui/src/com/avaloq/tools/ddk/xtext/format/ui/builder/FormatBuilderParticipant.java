@@ -35,7 +35,15 @@ public class FormatBuilderParticipant extends ConditionalBuilderParticipant {
   private FormatGenerator generator;
 
   @Override
+  protected String getBuilderParticipantDisabledPreferenceKey() {
+    return FormatBuilderPreferenceAccess.PREF_DISABLE_BUILDER_PARTICIPANT;
+  }
+
+  @Override
   public void build(final IBuildContext context, final IProgressMonitor monitor) throws CoreException {
+    if (!isBuilderParticipantEnabled(context)) {
+      return;
+    }
     if (!isEnabled(context)) {
       return;
     }

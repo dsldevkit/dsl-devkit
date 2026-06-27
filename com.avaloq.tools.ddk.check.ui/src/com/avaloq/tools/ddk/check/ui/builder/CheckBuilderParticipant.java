@@ -59,7 +59,15 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
   private IProgressMonitor progressMonitor;
 
   @Override
+  protected String getBuilderParticipantDisabledPreferenceKey() {
+    return CheckBuilderPreferenceAccess.PREF_DISABLE_BUILDER_PARTICIPANT;
+  }
+
+  @Override
   public void build(final IBuildContext context, final IProgressMonitor monitor) throws CoreException {
+    if (!isBuilderParticipantEnabled(context)) {
+      return;
+    }
     if (!isEnabled(context)) {
       return;
     }

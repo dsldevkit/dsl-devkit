@@ -11,14 +11,19 @@
 package com.avaloq.tools.ddk.xtext.scope.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.builder.IXtextBuilderParticipant;
+import org.eclipse.xtext.builder.preferences.BuilderConfigurationBlock;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 
+import com.avaloq.tools.ddk.xtext.scope.ui.builder.ScopeBuilderConfigurationBlock;
+import com.avaloq.tools.ddk.xtext.scope.ui.builder.ScopeBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
 
 /**
  * Use this class to register components to be used within the IDE.
  */
+@SuppressWarnings("restriction")
 public class ScopeUiModule extends com.avaloq.tools.ddk.xtext.scope.ui.AbstractScopeUiModule {
   public ScopeUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
@@ -31,6 +36,26 @@ public class ScopeUiModule extends com.avaloq.tools.ddk.xtext.scope.ui.AbstractS
    */
   public Class<? extends CrossReferenceTemplateVariableResolver> bindCrossReferenceTemplateVariableResolver() {
     return KeywordAwareCrossReferenceTemplateVariableResolver.class;
+  }
+
+  /**
+   * Binds the Scope builder participant which honors the per-language preference controlling whether the generated artifacts are regenerated on a workspace
+   * build, overriding the generated {@code BuilderParticipant} binding.
+   *
+   * @return {@link ScopeBuilderParticipant}
+   */
+  @Override
+  public Class<? extends IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
+    return ScopeBuilderParticipant.class;
+  }
+
+  /**
+   * Binds the configuration block contributing the Scope-specific checkbox to the "Compiler" preference page.
+   *
+   * @return {@link ScopeBuilderConfigurationBlock}
+   */
+  public Class<? extends BuilderConfigurationBlock> bindBuilderConfigurationBlock() {
+    return ScopeBuilderConfigurationBlock.class;
   }
 
 }
