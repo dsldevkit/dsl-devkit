@@ -19,7 +19,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
 
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil;
@@ -28,6 +27,7 @@ import com.avaloq.tools.ddk.xtext.scope.scope.ScopeContext;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDelegation;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
 import com.avaloq.tools.ddk.xtext.scoping.AbstractNameFunction;
 import com.avaloq.tools.ddk.xtext.scoping.EObjectDescriptions;
 import com.avaloq.tools.ddk.xtext.scoping.EPackageScopeProvider;
@@ -40,10 +40,40 @@ import com.google.inject.Inject;
 /**
  * Scoping for the scoping language.
  */
-public class ScopeScopeProvider extends AbstractDeclarativeScopeProvider {
+public class ScopeScopeProvider extends AbstractScopeScopeProvider {
 
   @Inject
   private EPackageScopeProvider ePackageScopeProvider;
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Dispatches the scope-language specific cross-references to the corresponding declarative
+   * {@code scope_*} methods. All other references (in particular Xbase feature and type references)
+   * are delegated to the {@link org.eclipse.xtext.xbase.scoping.batch.XbaseBatchScopeProvider Xbase batch scope provider}.
+   */
+  @Override
+  public IScope getScope(final EObject context, final EReference reference) {
+    if (reference == ScopePackage.Literals.IMPORT__PACKAGE) {
+      return scope_Import_package(context, reference);
+    } else if (reference == ScopePackage.Literals.SCOPE_DEFINITION__REFERENCE) {
+      final ScopeDefinition scopeDefinition = EcoreUtil2.getContainerOfType(context, ScopeDefinition.class);
+      if (scopeDefinition != null) {
+        return scope_ScopeDefinition_reference(scopeDefinition, reference);
+      }
+    } else if (reference == ScopePackage.Literals.SCOPE_DELEGATION__SCOPE) {
+      final ScopeDelegation scopeDelegation = EcoreUtil2.getContainerOfType(context, ScopeDelegation.class);
+      if (scopeDelegation != null) {
+        return scope_ScopeDelegation_scope(scopeDelegation, reference);
+      }
+    } else if (EcorePackage.Literals.ECLASS.isSuperTypeOf(reference.getEReferenceType())) {
+      final ScopeModel scopeModel = EcoreUtil2.getContainerOfType(context, ScopeModel.class);
+      if (scopeModel != null) {
+        return scope_EClass(scopeModel, reference);
+      }
+    }
+    return super.getScope(context, reference);
+  }
 
   /**
    * Scope for {@link org.eclipse.emf.ecore.EPackage}. These are read from the

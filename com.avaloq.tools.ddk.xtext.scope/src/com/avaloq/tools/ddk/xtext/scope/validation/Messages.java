@@ -21,7 +21,6 @@ public class Messages extends NLS {
   public static String duplicatedScopeDefinition;
   public static String wrongScopeDefinitionSignature;
   public static String duplicatedScopeRule;
-  public static String extensionNotFound;
   public static String overriddenInheritedScopeRule;
   public static String uriPatternFound;
   public static String typeMismatch;

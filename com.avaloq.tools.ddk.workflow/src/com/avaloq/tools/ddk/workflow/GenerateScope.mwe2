@@ -53,6 +53,8 @@ Workflow {
       uriMap = {from = "platform:/plugin/" to = "platform:/resource/"}
       registerGenModelFile = "platform:/resource/org.eclipse.xtext/org/eclipse/xtext/Xtext.genmodel"
       registerGenModelFile = "platform:/resource/org.eclipse.emf.ecore/model/Ecore.genmodel"
+      registerGenModelFile = "platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel"
+      registerGenModelFile = "platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel"
       registerGenModelFile = "platform:/resource/com.avaloq.tools.ddk.xtext.expression/metamodel/com/avaloq/tools/ddk/xtext/expression/Expression.genmodel"
       registerEcoreFile = "${metamodelBase}/${modelDirectory}/${baseName}.ecore"
       registerGenModelFile = "${metamodelBase}/${modelDirectory}/${baseName}.genmodel"
@@ -151,6 +153,11 @@ Workflow {
 
             // rename refactoring
             // fragment = refactoring.RefactorElementNameFragment {}
+
+            // Xbase support
+            fragment = org.eclipse.xtext.xtext.generator.types.TypesGeneratorFragment2 {}
+            fragment = org.eclipse.xtext.xtext.generator.xbase.XtypeGeneratorFragment2 {}
+            fragment = org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2 {}
 
             // Code generator
             fragment = org.eclipse.xtext.xtext.generator.generator.GeneratorFragment2 {
