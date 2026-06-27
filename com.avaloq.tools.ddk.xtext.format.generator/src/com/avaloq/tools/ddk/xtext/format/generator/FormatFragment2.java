@@ -62,6 +62,12 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     return generateFormatStub.get();
   }
 
+  /**
+   * Sets whether the format stub should be generated.
+   *
+   * @param generateStub
+   *          whether the format stub should be generated
+   */
   public void setGenerateFormatStub(final boolean generateStub) {
     generateFormatStub.set(generateStub);
   }
@@ -92,10 +98,22 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     return baseFormatterClassName;
   }
 
+  /**
+   * Returns the type reference of the formatter stub for the given grammar.
+   *
+   * @param grammar the grammar
+   * @return the formatter stub type reference
+   */
   protected TypeReference getFormatterStub(final Grammar grammar) {
     return new TypeReference(xtextGeneratorNaming.getRuntimeBasePackage(grammar) + ".formatting." + GrammarUtil.getSimpleName(grammar) + "Formatter");
   }
 
+  /**
+   * Returns the path of the format stub file for the given grammar.
+   *
+   * @param grammar the grammar
+   * @return the format stub file path
+   */
   protected String getFormatStub(final Grammar grammar) {
     final String formatter = getFormatterStub(grammar).getPath();
     return formatter.substring(0, formatter.lastIndexOf('/') + 1) + GrammarUtil.getSimpleName(grammar) + ".format";
@@ -131,6 +149,9 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     doGenerateStubFiles();
   }
 
+  /**
+   * Generates the configured stub files for the formatter.
+   */
   protected void doGenerateStubFiles() {
     if (!isGenerateStub()) {
       return;
@@ -155,6 +176,11 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
   }
 
   // CHECKSTYLE:CONSTANTS-OFF
+  /**
+   * Creates the Xtend formatter stub file for the grammar.
+   *
+   * @return the Xtend stub file access
+   */
   protected XtendFileAccess doGetXtendStubFile() {
     final XtendFileAccess xtendFile = fileAccessFactory.createXtendFile(getFormatterStub(getGrammar()));
     xtendFile.setResourceSet(getLanguage().getResourceSet());
@@ -239,6 +265,11 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     return xtendFile;
   }
 
+  /**
+   * Creates the Java formatter stub file for the grammar.
+   *
+   * @return the Java stub file access
+   */
   protected JavaFileAccess doGetJavaStubFile() {
     final JavaFileAccess javaFile = fileAccessFactory.createJavaFile(getFormatterStub(getGrammar()));
     javaFile.setResourceSet(getLanguage().getResourceSet());
@@ -335,6 +366,11 @@ public class FormatFragment2 extends AbstractStubGeneratingFragment {
     return javaFile;
   }
 
+  /**
+   * Creates the format stub file for the grammar.
+   *
+   * @return the format stub file access
+   */
   protected TextFileAccess doGetFormatStubFile() {
     final TextFileAccess formatFile = fileAccessFactory.createTextFile(getFormatStub(getGrammar()));
 

@@ -53,11 +53,26 @@ public final class ResourceSetOptions {
     resourceSet.getLoadOptions().put(INSTALL_DERIVED_STATE, installDerivedState);
   }
 
+  /**
+   * Returns whether model loading should be skipped for the given resource set.
+   *
+   * @param resourceSet
+   *          the resource set to query
+   * @return {@code true} if model loading is skipped; {@code false} by default
+   */
   public static boolean skipModel(final @NonNull ResourceSet resourceSet) {
     Object object = resourceSet.getLoadOptions().get(SKIP_MODEL);
     return object != null && (boolean) object; // default is false
   }
 
+  /**
+   * Sets whether model loading should be skipped for the given resource set.
+   *
+   * @param resourceSet
+   *          the resource set to configure
+   * @param skipModel
+   *          {@code true} to skip model loading
+   */
   public static void setSkipModel(final @NonNull ResourceSet resourceSet, final @Nullable Boolean skipModel) {
     resourceSet.getLoadOptions().put(SKIP_MODEL, skipModel);
   }
