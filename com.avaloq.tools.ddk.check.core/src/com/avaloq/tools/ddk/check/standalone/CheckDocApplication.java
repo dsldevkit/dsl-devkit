@@ -46,6 +46,9 @@ import com.google.inject.Provider;
 @SuppressWarnings({"nls", "PMD.SystemPrintln"})
 public class CheckDocApplication implements IApplication {
 
+  /** Unix line separator used for all written output, independent of the platform. */
+  private static final String LF = "\n";
+
   @Override
   public Object start(final IApplicationContext context) throws IOException {
     String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
@@ -78,7 +81,7 @@ public class CheckDocApplication implements IApplication {
         if (root instanceof CheckCatalog catalog) {
           catalogs.add(catalog);
           Path target = contentDir.resolve(catalog.getName() + ".html");
-          Files.writeString(target, generator.compileDoc(catalog).toString());
+          writeLf(target, generator.compileDoc(catalog));
           System.out.println("Wrote " + target);
         }
       }
@@ -86,18 +89,35 @@ public class CheckDocApplication implements IApplication {
 
     if (!catalogs.isEmpty()) {
       Path toc = docsDir.resolve("toc.xml");
-      Files.writeString(toc, docTemplates.compileToc(catalogs).toString());
+      writeLf(toc, docTemplates.compileToc(catalogs));
       System.out.println("Wrote " + toc);
       Path contexts = docsDir.resolve("contexts.xml");
-      Files.writeString(contexts, docTemplates.compileContexts(catalogs).toString());
+      writeLf(contexts, docTemplates.compileContexts(catalogs));
       System.out.println("Wrote " + contexts);
       Path index = docsDir.resolve("index.html");
-      Files.writeString(index, docTemplates.compileIndex(catalogs).toString());
+      writeLf(index, docTemplates.compileIndex(catalogs));
       System.out.println("Wrote " + index);
     }
 
     System.out.println("Processed " + checkFiles.size() + " .check files (" + catalogs.size() + " catalogs)");
     return IApplication.EXIT_OK;
+  }
+
+  /**
+   * Writes {@code content} to {@code target} with Unix ({@code \n}) line endings, regardless of the
+   * platform separator the {@link org.eclipse.xtend2.lib.StringConcatenation} default constructor picks
+   * up via {@code System.lineSeparator()}. This keeps headless output byte-identical to the in-IDE path
+   * (which normalizes via {@code LfNormalizingFileSystemAccess}) and to the committed snapshot on Windows.
+   *
+   * @param target
+   *          file to write
+   * @param content
+   *          generated content
+   * @throws IOException
+   *           if writing fails
+   */
+  private static void writeLf(final Path target, final CharSequence content) throws IOException {
+    Files.writeString(target, content.toString().replace("\r\n", LF).replace("\r", LF));
   }
 
   /** True iff {@code p} contains no path segment named {@code target} or starting with a dot. */
