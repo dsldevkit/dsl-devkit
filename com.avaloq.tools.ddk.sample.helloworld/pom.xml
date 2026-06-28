@@ -69,27 +69,27 @@
                     <repository>
                       <id>eclipse-release</id>
                       <layout>p2</layout>
-                      <url>https://download.eclipse.org/releases/2026-03/</url>
+                      <url>${check.docgen.p2.releases}</url>
                     </repository>
                     <repository>
                       <id>eclipse-emf</id>
                       <layout>p2</layout>
-                      <url>https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/</url>
+                      <url>${check.docgen.p2.emf}</url>
                     </repository>
                     <repository>
                       <id>eclipse-xtext</id>
                       <layout>p2</layout>
-                      <url>https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.43.0/</url>
+                      <url>${check.docgen.p2.xtext}</url>
                     </repository>
                     <repository>
                       <id>eclipse-mwe</id>
                       <layout>p2</layout>
-                      <url>https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.25.0/</url>
+                      <url>${check.docgen.p2.mwe}</url>
                     </repository>
                     <repository>
                       <id>eclipse-orbit</id>
                       <layout>p2</layout>
-                      <url>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.39.0</url>
+                      <url>${check.docgen.p2.orbit}</url>
                     </repository>
                   </repositories>
                   <dependencies>
