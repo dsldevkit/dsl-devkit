@@ -30,6 +30,7 @@ import com.google.inject.Inject;
  * {@link #STYLE} block used by both the index and the per-catalog pages.
  */
 @SuppressWarnings("nls")
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckDocumentationTemplates {
 
   private static final String TOC_LABEL = "Check Catalogs";
@@ -49,7 +50,13 @@ public class CheckDocumentationTemplates {
   @Inject
   private CheckGeneratorExtensions extensions;
 
-  /** Build the contents of {@code docs/toc.xml} aggregating every catalog in {@code catalogs}. */
+  /**
+   * Build the contents of {@code docs/toc.xml} aggregating every catalog in {@code catalogs}.
+   *
+   * @param catalogs
+   *          the catalogs to aggregate
+   * @return the {@code toc.xml} contents
+   */
   public CharSequence compileToc(final Iterable<CheckCatalog> catalogs) {
     final List<CheckCatalog> sorted = IterableExtensions.sortBy(catalogs, CheckCatalog::getName);
     StringConcatenation builder = new StringConcatenation();
@@ -116,7 +123,13 @@ public class CheckDocumentationTemplates {
     return builder;
   }
 
-  /** Build the contents of {@code docs/contexts.xml} aggregating every check across {@code catalogs}. */
+  /**
+   * Build the contents of {@code docs/contexts.xml} aggregating every check across {@code catalogs}.
+   *
+   * @param catalogs
+   *          the catalogs whose checks are aggregated
+   * @return the {@code contexts.xml} contents
+   */
   public CharSequence compileContexts(final Iterable<CheckCatalog> catalogs) {
     final List<ContextEntry> entries = IterableExtensions.sortBy(
         IterableExtensions.map(
@@ -151,7 +164,13 @@ public class CheckDocumentationTemplates {
     return builder;
   }
 
-  /** Build the contents of {@code docs/index.html} listing every catalog with a link to its page. */
+  /**
+   * Build the contents of {@code docs/index.html} listing every catalog with a link to its page.
+   *
+   * @param catalogs
+   *          the catalogs to list
+   * @return the {@code index.html} contents
+   */
   public CharSequence compileIndex(final Iterable<CheckCatalog> catalogs) {
     final List<CheckCatalog> sorted = IterableExtensions.sortBy(catalogs, CheckCatalog::getName);
     StringConcatenation builder = new StringConcatenation();
@@ -249,20 +268,46 @@ public class CheckDocumentationTemplates {
     return builder;
   }
 
+  /**
+   * Reference used from {@code toc.xml}/{@code contexts.xml} (relative to {@code docs/}).
+   *
+   * @param c
+   *          the catalog
+   * @return the documentation reference path
+   */
   private String docRef(final CheckCatalog c) {
     return DOCS_REF_PREFIX + naming.docFileName(c);
   }
 
+  /**
+   * Returns the catalog containing the given object.
+   *
+   * @param o
+   *          the contained object
+   * @return the enclosing catalog, or {@code null} if none
+   */
   private CheckCatalog parentCatalog(final EObject o) {
     return EcoreUtil2.getContainerOfType(o, CheckCatalog.class);
   }
 
-  /** Path used from {@code index.html} (same directory as {@code content/}). */
+  /**
+   * Path used from {@code index.html} (same directory as {@code content/}).
+   *
+   * @param c
+   *          the catalog
+   * @return the relative reference path
+   */
   private String indexRef(final CheckCatalog c) {
     return "content/" + naming.docFileName(c);
   }
 
-  /** Escape characters that have special meaning inside an XML attribute value. */
+  /**
+   * Escape characters that have special meaning inside an XML attribute value.
+   *
+   * @param s
+   *          the raw attribute value, may be {@code null}
+   * @return the escaped value, or {@code null} if {@code s} is {@code null}
+   */
   private String attrEscape(final String s) {
     if (s == null) {
       return null;
@@ -274,7 +319,11 @@ public class CheckDocumentationTemplates {
         .replace(">", "&gt;");
   }
 
-  /** Builds the {@link #STYLE} stylesheet, preserving the exact CSS layout and line breaks. */
+  /**
+   * Builds the {@link #STYLE} stylesheet, preserving the exact CSS layout and line breaks.
+   *
+   * @return the stylesheet text
+   */
   private static String buildStyle() {
     StringConcatenation builder = new StringConcatenation();
     builder.append(":root {");
@@ -643,6 +692,16 @@ public class CheckDocumentationTemplates {
     private final String label;
     private final String href;
 
+    /**
+     * Creates a context-help entry.
+     *
+     * @param id
+     *          the context id
+     * @param label
+     *          the display label
+     * @param href
+     *          the documentation reference
+     */
     ContextEntry(final String id, final String label, final String href) {
       this.id = id;
       this.label = label;
@@ -671,4 +730,5 @@ public class CheckDocumentationTemplates {
       return "ContextEntry [id=" + id + ", label=" + label + ", href=" + href + "]";
     }
   }
+// CHECKSTYLE:CONSTANTS-ON
 }

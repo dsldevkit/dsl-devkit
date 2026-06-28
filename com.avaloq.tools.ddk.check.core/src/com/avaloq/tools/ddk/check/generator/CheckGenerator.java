@@ -10,12 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.generator;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.common.types.JvmField;
@@ -43,6 +40,7 @@ import com.google.inject.Inject;
 
 
 @SuppressWarnings("nls")
+// CHECKSTYLE:CONSTANTS-OFF
 public class CheckGenerator extends JvmModelGenerator {
 
   @Inject
@@ -79,7 +77,13 @@ public class CheckGenerator extends JvmModelGenerator {
     }
   }
 
-  /** Documentation compiler, generates a self-contained HTML page per catalog. */
+  /**
+   * Documentation compiler, generates a self-contained HTML page per catalog.
+   *
+   * @param catalog
+   *          the catalog to document
+   * @return the HTML page contents
+   */
   public CharSequence compileDoc(final CheckCatalog catalog) {
     StringConcatenation builder = new StringConcatenation();
     builder.append("<!DOCTYPE html>");
@@ -193,6 +197,13 @@ public class CheckGenerator extends JvmModelGenerator {
     return builder;
   }
 
+  /**
+   * Renders the body of the documentation page: one article per check, grouped by category.
+   *
+   * @param catalog
+   *          the catalog whose checks and categories are rendered
+   * @return the HTML body fragment
+   */
   public CharSequence bodyDoc(final CheckCatalog catalog) {
     StringConcatenation builder = new StringConcatenation();
     for (final Check check : catalog.getChecks()) {
@@ -230,6 +241,13 @@ public class CheckGenerator extends JvmModelGenerator {
     return builder;
   }
 
+  /**
+   * Renders a single check as an HTML {@code <article>} block.
+   *
+   * @param check
+   *          the check to render
+   * @return the HTML article fragment
+   */
   private CharSequence checkArticle(final Check check) {
     StringConcatenation builder = new StringConcatenation();
     builder.append("<article class=\"check\" id=\"");
@@ -277,6 +295,10 @@ public class CheckGenerator extends JvmModelGenerator {
   /**
    * Creates an IssueCodes file for a Check Catalog. Every Check Catalog will have its own file
    * of issue codes.
+   *
+   * @param catalog
+   *          the catalog to generate issue codes for
+   * @return the Java source of the issue codes class
    */
   public CharSequence compileIssueCodes(final CheckCatalog catalog) {
     final Iterable<XIssueExpression> allIssues = generatorExtensions.checkAndImplementationIssues(catalog);
@@ -330,7 +352,13 @@ public class CheckGenerator extends JvmModelGenerator {
     return builder;
   }
 
-  /** Generates the Java standalone setup class which will be called by the ServiceRegistry. */
+  /**
+   * Generates the Java standalone setup class which will be called by the ServiceRegistry.
+   *
+   * @param catalog
+   *          the catalog to generate the standalone setup for
+   * @return the Java source of the standalone setup class
+   */
   public CharSequence compileStandaloneSetup(final CheckCatalog catalog) {
     StringConcatenation builder = new StringConcatenation();
     if (!StringExtensions.isNullOrEmpty(catalog.getPackageName())) {
@@ -446,6 +474,14 @@ public class CheckGenerator extends JvmModelGenerator {
   /**
    * Writes contents of the service registry file containing fully qualified class names of all validators.
    * See also http://docs.oracle.com/javase/1.4.2/docs/api/javax/imageio/spi/ServiceRegistry.html
+   *
+   * @param catalog
+   *          the catalog whose standalone setup is registered
+   * @param serviceRegistryFileName
+   *          the service registry file name
+   * @param fsa
+   *          the file system access used to resolve the output configuration
+   * @return the service registry file contents
    */
   public CharSequence generateServiceRegistry(final CheckCatalog catalog, final String serviceRegistryFileName, final IFileSystemAccess fsa) {
     final OutputConfiguration config = ((AbstractFileSystemAccess) fsa).getOutputConfigurations().get(CheckGeneratorConstants.CHECK_REGISTRY_OUTPUT);
@@ -471,4 +507,5 @@ public class CheckGenerator extends JvmModelGenerator {
     }
     return super._generateMember(field, appendable, config);
   }
+// CHECKSTYLE:CONSTANTS-ON
 }
