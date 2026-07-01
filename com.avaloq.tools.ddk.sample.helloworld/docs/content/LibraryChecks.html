@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ExecutionEnvironment</title>
+  <title>LibraryChecks</title>
   <style>
 :root {
   --bg: #ffffff;
@@ -144,26 +144,55 @@ ul.catalog-list li p { color: var(--text-muted); margin: 0.25rem 0 0; }
 </head>
 <body>
   <header class="catalog-header">
-    <a class="back-link" href="../index.html#ExecutionEnvironment">← All catalogs</a>
-    <h1>ExecutionEnvironment</h1>
+    <a class="back-link" href="../index.html#LibraryChecks">← All catalogs</a>
+    <h1>LibraryChecks</h1>
     <nav class="jump">
       <strong>Jump to</strong>
       <ul>
-        <li><a href="#executionenvironment_testcategory">Test category</a></li>
+        <li><a href="#librarychecks_checksoninjectionsincheckcatalogs.">Checks on injections in check catalogs.</a></li>
+        <li><a href="#librarychecks_checksonformalparameters">Checks on formal parameters</a></li>
       </ul>
     </nav>
   </header>
   <main>
     <section class="category">
-      <h2 id="executionenvironment_testcategory">Test category</h2>
-      <p>Checks the greeting name length</p>
-      <article class="check" id="executionenvironment_greetingnamelength">
+      <h2 id="librarychecks_checksoninjectionsincheckcatalogs.">Checks on injections in check catalogs.</h2>
+      <p>Warning to indicate that this catalog is active.</p>
+      <article class="check" id="librarychecks_checkcatalogisactive">
         <header>
-          <h3>Greeting name length <a class="anchor" href="#executionenvironment_greetingnamelength">#</a></h3>
+          <h3>Check catalog is active <a class="anchor" href="#librarychecks_checkcatalogisactive">#</a></h3>
+          <span class="severity sev-warning">warning</span>
+        </header>
+        Warning to indicate that this catalog is active.
+        <pre class="message">Catalog is active</pre>
+      </article>
+      <article class="check" id="librarychecks_cacheinjectionfailed">
+        <header>
+          <h3>Cache injection failed <a class="anchor" href="#librarychecks_cacheinjectionfailed">#</a></h3>
           <span class="severity sev-error">error</span>
         </header>
-        Checks the greeting name length
-        <pre class="message">Greeting name ...</pre>
+        Error if the injection didn't work.
+        <pre class="message">Cache was not injected</pre>
+      </article>
+      <article class="check" id="librarychecks_cachedoesntwork">
+        <header>
+          <h3>Cache doesn't work <a class="anchor" href="#librarychecks_cachedoesntwork">#</a></h3>
+          <span class="severity sev-error">error</span>
+        </header>
+        Error if values cannot be read from cache.
+        <pre class="message">...</pre>
+      </article>
+    </section>
+    <section class="category">
+      <h2 id="librarychecks_checksonformalparameters">Checks on formal parameters</h2>
+      <p>Test formal parameter access.</p>
+      <article class="check" id="librarychecks_formalparameters">
+        <header>
+          <h3>Formal Parameters <a class="anchor" href="#librarychecks_formalparameters">#</a></h3>
+          <span class="severity sev-error">error</span>
+        </header>
+        Test formal parameter access.
+        <pre class="message">...</pre>
       </article>
     </section>
   </main>
