@@ -117,7 +117,7 @@ public final class ScopingGeneratorUtil {
       final EPackage[] ePackages = Lists.newArrayList(Iterables.transform(EObjectUtil.getScopeProviderByEObject(model).getScope(model, ScopePackage.Literals.IMPORT__PACKAGE).getAllElements(), d -> (EPackage) EcoreUtil.resolve(d.getEObjectOrProxy(), model))).toArray(new EPackage[0]);
       registerMetaModel(new EmfRegistryMetaModel() {
         @Override
-        public EPackage[] allPackages() {
+        protected EPackage[] allPackages() {
           return ePackages;
         }
 

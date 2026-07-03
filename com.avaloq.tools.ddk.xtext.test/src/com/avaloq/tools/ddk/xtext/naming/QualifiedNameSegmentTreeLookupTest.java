@@ -210,7 +210,7 @@ public class QualifiedNameSegmentTreeLookupTest {
 
     URI noSuchValue = URI.createURI("scheme:/anotherHost");
     expected = lookup.getMappings(noSuchValue);
-    assertEquals(expected.size(), 0);
+    assertEquals(0, expected.size());
   }
 
   private QualifiedName name(final String str) {

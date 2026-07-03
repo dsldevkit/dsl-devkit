@@ -37,16 +37,16 @@ public class AbstractFragmentProviderTest {
     }
 
     @Override
-    // make method public for testing
+    // make method accessible for testing
     @SuppressWarnings("PMD.UselessOverridingMethod")
-    public void appendEscaped(final String text, final StringBuilder builder) {
+    protected void appendEscaped(final String text, final StringBuilder builder) {
       super.appendEscaped(text, builder);
     }
 
     @Override
-    // make method public for testing
+    // make method accessible for testing
     @SuppressWarnings("PMD.UselessOverridingMethod")
-    public String unescape(final String text) {
+    protected String unescape(final String text) {
       return super.unescape(text);
     }
   }
@@ -57,7 +57,7 @@ public class AbstractFragmentProviderTest {
   public void testEscape() {
     StringBuilder builder = new StringBuilder();
     fragmentProvider.appendEscaped("foo/bar#\\", builder);
-    assertEquals(builder.toString(), "foo\\/bar#\\\\", "Fragment not properly scaped");
+    assertEquals("foo\\/bar#\\\\", builder.toString(), "Fragment not properly scaped");
   }
 
   @Test

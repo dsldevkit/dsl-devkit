@@ -84,7 +84,7 @@ public final class ExportGeneratorSupport extends GeneratorSupport {
       })).toArray(new EPackage[0]);
       registerMetaModel(new EmfRegistryMetaModel() {
         @Override
-        public EPackage[] allPackages() {
+        protected EPackage[] allPackages() {
           return ePackages;
         }
 

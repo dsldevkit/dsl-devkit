@@ -85,7 +85,7 @@ public class BasicModelTest {
   @Disabled("Fails because DocumentedImplCustom uses the null resource description provider to get the document provider")
   public void testInferingOfDescription() throws Exception {
     final Check check = util.getFirstInstanceOf(parser.parse(modelUtil.modelWithCheck()), Check.class);
-    assertEquals(check.getDescription(), "No documentation.");
+    assertEquals("No documentation.", check.getDescription());
   }
 
   /* Tests that Checks have an implicit name which matches the ID. */

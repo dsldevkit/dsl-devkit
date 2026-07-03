@@ -352,7 +352,7 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
   private void assertQuickFixExistsAndSuccessful(final String issueCode, final String quickfixLabel, final String expectedContent, final boolean ignoreFormatting) {
     // Assert amount of quickfixes
     int resolutionCount = resolutionsFor(issueCode, quickfixLabel).size();
-    assertEquals(resolutionCount, 1, String.format("There must be exactly one quickfix with label '%s' for issue '%s', but found '%d'.", quickfixLabel, issueCode, resolutionCount));
+    assertEquals(1, resolutionCount, String.format("There must be exactly one quickfix with label '%s' for issue '%s', but found '%d'.", quickfixLabel, issueCode, resolutionCount));
     // Apply quickfix
     UiThreadDispatcher.dispatchAndWait(new Runnable() {
       @Override

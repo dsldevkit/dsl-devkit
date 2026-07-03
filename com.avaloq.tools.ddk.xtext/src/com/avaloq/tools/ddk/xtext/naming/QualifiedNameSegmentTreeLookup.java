@@ -142,7 +142,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       final Collection<T> result = excludeDuplicates ? Sets.<T> newHashSet() : Lists.<T> newArrayList();
       Visitor visitor = new Visitor() {
         @Override
-        public void visit(final SegmentNode node) {
+        void visit(final SegmentNode node) {
           if (node.values != null) {
             for (Object value : node.values) {
               result.add((T) value);
@@ -406,7 +406,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       final Set<Object[]> arrays = Sets.newHashSet();
       Visitor visitor = new Visitor() {
         @Override
-        public void visit(final SegmentNode node) {
+        void visit(final SegmentNode node) {
           if (node.values != null) {
             arrays.add(node.values);
           }
@@ -543,7 +543,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   public void removeMappings(final T value) {
     root.accept(new Visitor() {
       @Override
-      public void visit(final SegmentNode node) {
+      void visit(final SegmentNode node) {
         Object[] newValues = ArrayUtils.remove(node.values, value);
         if (newValues != node.values) {
           node.values = newValues;
