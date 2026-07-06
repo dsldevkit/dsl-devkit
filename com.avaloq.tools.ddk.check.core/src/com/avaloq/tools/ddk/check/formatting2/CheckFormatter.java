@@ -10,35 +10,74 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.formatting2;
 
-import com.avaloq.tools.ddk.check.check.Category
-import com.avaloq.tools.ddk.check.check.Check
-import com.avaloq.tools.ddk.check.check.CheckCatalog
-import com.avaloq.tools.ddk.check.check.Context
-import com.avaloq.tools.ddk.check.check.ContextVariable
-import com.avaloq.tools.ddk.check.check.FormalParameter
-import com.avaloq.tools.ddk.check.check.Implementation
-import com.avaloq.tools.ddk.check.check.Member
-import com.avaloq.tools.ddk.check.check.SeverityRange
-import com.avaloq.tools.ddk.check.check.XGuardExpression
-import com.avaloq.tools.ddk.check.check.XIssueExpression
-import com.avaloq.tools.ddk.check.services.CheckGrammarAccess
-import com.google.inject.Inject
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.formatting2.IFormattableDocument
-import org.eclipse.xtext.formatting2.regionaccess.IEObjectRegion
-import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.XIfExpression
-import org.eclipse.xtext.xbase.XListLiteral
-import org.eclipse.xtext.xbase.XMemberFeatureCall
-import org.eclipse.xtext.xbase.XUnaryOperation
-import org.eclipse.xtext.xbase.annotations.formatting2.XbaseWithAnnotationsFormatter
-import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotation
-import org.eclipse.xtext.xtype.XImportDeclaration
-import org.eclipse.xtext.xtype.XImportSection
+import java.util.Arrays;
 
-class CheckFormatter extends XbaseWithAnnotationsFormatter {
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.Keyword;
+import org.eclipse.xtext.common.types.JvmFormalParameter;
+import org.eclipse.xtext.common.types.JvmGenericArrayTypeReference;
+import org.eclipse.xtext.common.types.JvmParameterizedTypeReference;
+import org.eclipse.xtext.common.types.JvmTypeConstraint;
+import org.eclipse.xtext.common.types.JvmTypeParameter;
+import org.eclipse.xtext.common.types.JvmWildcardTypeReference;
+import org.eclipse.xtext.formatting2.IFormattableDocument;
+import org.eclipse.xtext.formatting2.IHiddenRegionFormatter;
+import org.eclipse.xtext.formatting2.regionaccess.IEObjectRegion;
+import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegion;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.xbase.XAssignment;
+import org.eclipse.xtext.xbase.XBasicForLoopExpression;
+import org.eclipse.xtext.xbase.XBinaryOperation;
+import org.eclipse.xtext.xbase.XBlockExpression;
+import org.eclipse.xtext.xbase.XCastedExpression;
+import org.eclipse.xtext.xbase.XClosure;
+import org.eclipse.xtext.xbase.XCollectionLiteral;
+import org.eclipse.xtext.xbase.XConstructorCall;
+import org.eclipse.xtext.xbase.XDoWhileExpression;
+import org.eclipse.xtext.xbase.XExpression;
+import org.eclipse.xtext.xbase.XFeatureCall;
+import org.eclipse.xtext.xbase.XForLoopExpression;
+import org.eclipse.xtext.xbase.XIfExpression;
+import org.eclipse.xtext.xbase.XInstanceOfExpression;
+import org.eclipse.xtext.xbase.XListLiteral;
+import org.eclipse.xtext.xbase.XMemberFeatureCall;
+import org.eclipse.xtext.xbase.XPostfixOperation;
+import org.eclipse.xtext.xbase.XReturnExpression;
+import org.eclipse.xtext.xbase.XSwitchExpression;
+import org.eclipse.xtext.xbase.XSynchronizedExpression;
+import org.eclipse.xtext.xbase.XThrowExpression;
+import org.eclipse.xtext.xbase.XTryCatchFinallyExpression;
+import org.eclipse.xtext.xbase.XTypeLiteral;
+import org.eclipse.xtext.xbase.XUnaryOperation;
+import org.eclipse.xtext.xbase.XVariableDeclaration;
+import org.eclipse.xtext.xbase.XWhileExpression;
+import org.eclipse.xtext.xbase.annotations.formatting2.XbaseWithAnnotationsFormatter;
+import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotation;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
+import org.eclipse.xtext.xtype.XFunctionTypeRef;
+import org.eclipse.xtext.xtype.XImportDeclaration;
+import org.eclipse.xtext.xtype.XImportSection;
 
-  @Inject extension CheckGrammarAccess
+import com.avaloq.tools.ddk.check.check.Category;
+import com.avaloq.tools.ddk.check.check.Check;
+import com.avaloq.tools.ddk.check.check.CheckCatalog;
+import com.avaloq.tools.ddk.check.check.Context;
+import com.avaloq.tools.ddk.check.check.ContextVariable;
+import com.avaloq.tools.ddk.check.check.FormalParameter;
+import com.avaloq.tools.ddk.check.check.Implementation;
+import com.avaloq.tools.ddk.check.check.Member;
+import com.avaloq.tools.ddk.check.check.SeverityRange;
+import com.avaloq.tools.ddk.check.check.XGuardExpression;
+import com.avaloq.tools.ddk.check.check.XIssueExpression;
+import com.avaloq.tools.ddk.check.services.CheckGrammarAccess;
+import com.google.inject.Inject;
+
+
+@SuppressWarnings({"checkstyle:MethodName", "nls"})
+public class CheckFormatter extends XbaseWithAnnotationsFormatter {
+
+  @Inject
+  private CheckGrammarAccess checkGrammarAccess;
 
   /**
    * Common formatting for curly brackets that are not handled by the parent formatter.
@@ -48,254 +87,491 @@ class CheckFormatter extends XbaseWithAnnotationsFormatter {
    * @param document
    *          the formattable document.
    */
-  def private void formatCurlyBracket(EObject semanticElement, extension IFormattableDocument document) {
+  private void formatCurlyBracket(final EObject semanticElement, final IFormattableDocument document) {
     // low priority so that it can be overridden by other custom formatting rules.
-    val open = semanticElement.regionFor.keyword('{')
-    val close = semanticElement.regionFor.keyword('}')
-    interior(open, close)[lowPriority indent]
-    append(open)[lowPriority newLine]
-    prepend(close)[lowPriority newLine]
+    final ISemanticRegion open = regionFor(semanticElement).keyword("{");
+    final ISemanticRegion close = regionFor(semanticElement).keyword("}");
+    document.interior(open, close, (IHiddenRegionFormatter it) -> {
+      it.lowPriority();
+      it.indent();
+    });
+    document.append(open, (IHiddenRegionFormatter it) -> {
+      it.lowPriority();
+      it.newLine();
+    });
+    document.prepend(close, (IHiddenRegionFormatter it) -> {
+      it.lowPriority();
+      it.newLine();
+    });
   }
 
   /**
    * Global formatting to be applied across the whole source.
    *
-   * @param checkcatalog
+   * @param requestRoot
    *          the top level check catalog element.
    * @param document
    *          the formattable document.
    */
-  def private void globalFormatting(IEObjectRegion requestRoot, extension IFormattableDocument document) {
+  // CHECKSTYLE:CHECK-OFF MagicNumber
+  private void globalFormatting(final IEObjectRegion requestRoot, final IFormattableDocument document) {
     // autowrap everywhere. default to one-space between semantic regions.
     // low priority so that it can be overridden by other custom formatting rules.
-    var firstRegion = true
-    for(region : requestRoot.allSemanticRegions) {
+    boolean firstRegion = true;
+    for (ISemanticRegion region : requestRoot.getAllSemanticRegions()) {
       if (firstRegion) {
-        region.prepend[lowPriority autowrap(132)]
-        firstRegion = false
+        document.prepend(region, (IHiddenRegionFormatter it) -> {
+          it.lowPriority();
+          it.autowrap(132);
+        });
+        firstRegion = false;
       } else {
-        region.prepend[lowPriority oneSpace autowrap(132)]
+        document.prepend(region, (IHiddenRegionFormatter it) -> {
+          it.lowPriority();
+          it.oneSpace();
+          it.autowrap(132);
+        });
       }
     }
   }
+  // CHECKSTYLE:CHECK-ON MagicNumber
 
-  def dispatch void format(CheckCatalog checkcatalog, extension IFormattableDocument document) {
-    prepend(checkcatalog)[noSpace newLines=0]
-    append(checkcatalog)[noSpace setNewLines(0, 0, 1)]
-    val finalKw = checkcatalog.regionFor.keyword('final')
-    val catalog = checkcatalog.regionFor.keyword('catalog')
-    if (finalKw !== null) {
-      prepend(finalKw)[setNewLines(1, 2, 2)]
+  protected void _format(final CheckCatalog checkcatalog, final IFormattableDocument document) {
+    document.prepend(checkcatalog, (IHiddenRegionFormatter it) -> {
+      it.noSpace();
+      it.setNewLines(0);
+    });
+    document.append(checkcatalog, (IHiddenRegionFormatter it) -> {
+      it.noSpace();
+      it.setNewLines(0, 0, 1);
+    });
+    final ISemanticRegion finalKw = regionFor(checkcatalog).keyword("final");
+    final ISemanticRegion catalog = regionFor(checkcatalog).keyword("catalog");
+    if (finalKw != null) {
+      document.prepend(finalKw, (IHiddenRegionFormatter it) -> {
+        it.setNewLines(1, 2, 2);
+      });
     } else {
-      prepend(catalog)[setNewLines(1, 1, 2)]
+      document.prepend(catalog, (IHiddenRegionFormatter it) -> {
+        it.setNewLines(1, 1, 2);
+      });
     }
-    val forKw = checkcatalog.regionFor.keyword('for')
-    prepend(forKw)[setNewLines(1, 1, 2)]
-    formatCurlyBracket(checkcatalog, document)
+    final ISemanticRegion forKw = regionFor(checkcatalog).keyword("for");
+    document.prepend(forKw, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 1, 2);
+    });
+    formatCurlyBracket(checkcatalog, document);
 
     // Generated model traversal
-    format(checkcatalog.getImports(), document);
+    this.format(checkcatalog.getImports(), document);
     for (Category categories : checkcatalog.getCategories()) {
-      format(categories, document);
+      this.format(categories, document);
     }
     for (Implementation implementations : checkcatalog.getImplementations()) {
-      format(implementations, document);
+      this.format(implementations, document);
     }
     for (Check checks : checkcatalog.getChecks()) {
-      format(checks, document);
+      this.format(checks, document);
     }
     for (Member members : checkcatalog.getMembers()) {
-      format(members, document);
+      this.format(members, document);
     }
 
     // ADDED: only fill in the gaps after any high priority formatting has been applied.
-    textRegionAccess.regionForRootEObject?.globalFormatting(document)
+    IEObjectRegion rootRegion = getTextRegionAccess().regionForRootEObject();
+    if (rootRegion != null) {
+      globalFormatting(rootRegion, document);
+    }
   }
 
-  override dispatch void format(XImportSection ximportsection, extension IFormattableDocument document) {
+  @Override
+  protected void _format(final XImportSection ximportsection, final IFormattableDocument document) {
     // Generated model traversal
     for (XImportDeclaration importDeclarations : ximportsection.getImportDeclarations()) {
       // ADDED: formatting added before each import
-      prepend(importDeclarations)[setNewLines(1, 1, 2)]
+      document.prepend(importDeclarations, (IHiddenRegionFormatter it) -> {
+        it.setNewLines(1, 1, 2);
+      });
 
-      format(importDeclarations, document);
+      this.format(importDeclarations, document);
     }
   }
 
-  def dispatch void format(Category category, extension IFormattableDocument document) {
-    prepend(category)[setNewLines(1, 2, 2)]
-    formatCurlyBracket(category, document)
+  protected void _format(final Category category, final IFormattableDocument document) {
+    document.prepend(category, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 2, 2);
+    });
+    formatCurlyBracket(category, document);
 
     // Generated model traversal
     for (Check checks : category.getChecks()) {
-      format(checks, document);
+      this.format(checks, document);
     }
   }
 
-  def dispatch void format(Check check, extension IFormattableDocument document) {
-    prepend(check)[setNewLines(1, 2, 2)]
-    val open = check.regionFor.keyword('(')
-    val close = check.regionFor.keyword(')')
-    interior(open, close)[highPriority noSpace] // High priority to override formatting from adjacent regions and parent formatter.
-    val message = check.regionFor.keyword('message')
-    prepend(message)[setNewLines(1, 1, 2)]
-    formatCurlyBracket(check, document)
+  protected void _format(final Check check, final IFormattableDocument document) {
+    document.prepend(check, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 2, 2);
+    });
+    final ISemanticRegion open = regionFor(check).keyword("(");
+    final ISemanticRegion close = regionFor(check).keyword(")");
+    document.interior(open, close, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.noSpace();
+    }); // High priority to override formatting from adjacent regions and parent formatter.
+    final ISemanticRegion message = regionFor(check).keyword("message");
+    document.prepend(message, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 1, 2);
+    });
+    formatCurlyBracket(check, document);
 
     // Generated model traversal
-    format(check.getSeverityRange(), document);
+    this.format(check.getSeverityRange(), document);
     for (FormalParameter formalParameters : check.getFormalParameters()) {
       // ADDED: formatting added around comma.
       // High priority to override formatting from adjacent regions and parent formatter.
-      val comma = immediatelyFollowing(formalParameters).keyword(',')
-      prepend(comma)[highPriority noSpace]
-      append(comma)[highPriority setNewLines(0, 0, 1)]
+      final ISemanticRegion comma = immediatelyFollowing(formalParameters).keyword(",");
+      document.prepend(comma, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+      document.append(comma, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.setNewLines(0, 0, 1);
+      });
 
-      format(formalParameters, document);
+      this.format(formalParameters, document);
     }
     for (Context contexts : check.getContexts()) {
-      format(contexts, document);
+      this.format(contexts, document);
     }
   }
 
-  def dispatch void format(SeverityRange severityrange, extension IFormattableDocument document) {
-    val range = severityrange.regionFor.keyword('SeverityRange')
-    surround(range)[noSpace]
-    val open = severityrange.regionFor.keyword('(')
-    append(open)[noSpace]
-    val close = severityrange.regionFor.keyword(')')
-    prepend(close)[noSpace]
-    append(close)[newLine]
+  protected void _format(final SeverityRange severityrange, final IFormattableDocument document) {
+    final ISemanticRegion range = regionFor(severityrange).keyword("SeverityRange");
+    document.surround(range, (IHiddenRegionFormatter it) -> {
+      it.noSpace();
+    });
+    final ISemanticRegion open = regionFor(severityrange).keyword("(");
+    document.append(open, (IHiddenRegionFormatter it) -> {
+      it.noSpace();
+    });
+    final ISemanticRegion close = regionFor(severityrange).keyword(")");
+    document.prepend(close, (IHiddenRegionFormatter it) -> {
+      it.noSpace();
+    });
+    document.append(close, (IHiddenRegionFormatter it) -> {
+      it.newLine();
+    });
   }
 
-  def dispatch void format(Member member, extension IFormattableDocument document) {
+  protected void _format(final Member member, final IFormattableDocument document) {
     // Generated model traversal
     for (XAnnotation annotations : member.getAnnotations()) {
-      format(annotations, document);
+      this.format(annotations, document);
     }
-    format(member.getType(), document);
-    format(member.getValue(), document);
+    this.format(member.getType(), document);
+    this.format(member.getValue(), document);
   }
 
-  def dispatch void format(Implementation implementation, extension IFormattableDocument document) {
-    prepend(implementation)[setNewLines(1, 2, 2)]
+  protected void _format(final Implementation implementation, final IFormattableDocument document) {
+    document.prepend(implementation, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 2, 2);
+    });
 
     // Generated model traversal
-    format(implementation.getContext(), document);
+    this.format(implementation.getContext(), document);
   }
 
-  def dispatch void format(FormalParameter formalparameter, extension IFormattableDocument document) {
+  protected void _format(final FormalParameter formalparameter, final IFormattableDocument document) {
     // Generated model traversal
-    format(formalparameter.getType(), document);
-    format(formalparameter.getRight(), document);
+    this.format(formalparameter.getType(), document);
+    this.format(formalparameter.getRight(), document);
   }
 
-  def dispatch void format(XUnaryOperation xunaryoperation, extension IFormattableDocument document) {
+  protected void _format(final XUnaryOperation xunaryoperation, final IFormattableDocument document) {
     // Generated model traversal
-    format(xunaryoperation.getOperand(), document);
+    this.format(xunaryoperation.getOperand(), document);
   }
 
-  def dispatch void format(XListLiteral xlistliteral, extension IFormattableDocument document) {
+  protected void _format(final XListLiteral xlistliteral, final IFormattableDocument document) {
     // Generated model traversal
     for (XExpression elements : xlistliteral.getElements()) {
-      format(elements, document);
+      this.format(elements, document);
     }
   }
 
-  def dispatch void format(Context context, extension IFormattableDocument document) {
-    surround(context)[setNewLines(1, 2, 2)]
+  protected void _format(final Context context, final IFormattableDocument document) {
+    document.surround(context, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 2, 2);
+    });
 
     // Generated model traversal
-    format(context.getContextVariable(), document);
-    format(context.getConstraint(), document);
+    this.format(context.getContextVariable(), document);
+    this.format(context.getConstraint(), document);
   }
 
-  def dispatch void format(ContextVariable contextvariable, extension IFormattableDocument document) {
+  protected void _format(final ContextVariable contextvariable, final IFormattableDocument document) {
     // Generated model traversal
-    format(contextvariable.getType(), document);
+    this.format(contextvariable.getType(), document);
   }
 
-  def dispatch void format(XGuardExpression xguardexpression, extension IFormattableDocument document) {
-    prepend(xguardexpression)[setNewLines(1, 2, 2)]
+  protected void _format(final XGuardExpression xguardexpression, final IFormattableDocument document) {
+    document.prepend(xguardexpression, (IHiddenRegionFormatter it) -> {
+      it.setNewLines(1, 2, 2);
+    });
 
     // Generated model traversal
-    format(xguardexpression.getGuard(), document);
+    this.format(xguardexpression.getGuard(), document);
   }
 
-  def dispatch void format(XIssueExpression xissueexpression, extension IFormattableDocument document) {
+  protected void _format(final XIssueExpression xissueexpression, final IFormattableDocument document) {
     // High priority to override formatting from adjacent regions and parent formatter.
-    prepend(xissueexpression)[highPriority setNewLines(1, 2, 2)]
-    XIssueExpressionAccess.findKeywords('#').forEach[
-      val hash = xissueexpression.regionFor.keyword(it)
-      surround(hash)[highPriority noSpace]
-    ]
-    val openSquare = xissueexpression.regionFor.keyword('[')
-    surround(openSquare)[highPriority noSpace]
-    val closeSquare = xissueexpression.regionFor.keyword(']')
-    prepend(closeSquare)[highPriority noSpace]
-    XIssueExpressionAccess.findKeywords('(').forEach[
-      val open = xissueexpression.regionFor.keyword(it)
-      append(open)[highPriority noSpace]
-    ]
-    XIssueExpressionAccess.findKeywords(')').forEach[
-      val close = xissueexpression.regionFor.keyword(it)
-      prepend(close)[highPriority noSpace]
-    ]
+    document.prepend(xissueexpression, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.setNewLines(1, 2, 2);
+    });
+    checkGrammarAccess.getXIssueExpressionAccess().findKeywords("#").forEach((Keyword kw) -> {
+      final ISemanticRegion hash = regionFor(xissueexpression).keyword(kw);
+      document.surround(hash, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+    });
+    final ISemanticRegion openSquare = regionFor(xissueexpression).keyword("[");
+    document.surround(openSquare, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.noSpace();
+    });
+    final ISemanticRegion closeSquare = regionFor(xissueexpression).keyword("]");
+    document.prepend(closeSquare, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.noSpace();
+    });
+    checkGrammarAccess.getXIssueExpressionAccess().findKeywords("(").forEach((Keyword kw) -> {
+      final ISemanticRegion open = regionFor(xissueexpression).keyword(kw);
+      document.append(open, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+    });
+    checkGrammarAccess.getXIssueExpressionAccess().findKeywords(")").forEach((Keyword kw) -> {
+      final ISemanticRegion close = regionFor(xissueexpression).keyword(kw);
+      document.prepend(close, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+    });
 
     // Generated model traversal
-    format(xissueexpression.getMarkerObject(), document);
-    format(xissueexpression.getMarkerIndex(), document);
-    format(xissueexpression.getMessage(), document);
+    this.format(xissueexpression.getMarkerObject(), document);
+    this.format(xissueexpression.getMarkerIndex(), document);
+    this.format(xissueexpression.getMessage(), document);
     for (XExpression messageParameters : xissueexpression.getMessageParameters()) {
       // ADDED: formatting added around comma
-      val comma = immediatelyFollowing(messageParameters).keyword(',')
-      prepend(comma)[highPriority noSpace]
-      append(comma)[highPriority oneSpace]
+      final ISemanticRegion comma = immediatelyFollowing(messageParameters).keyword(",");
+      document.prepend(comma, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+      document.append(comma, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.oneSpace();
+      });
 
-      format(messageParameters, document);
+      this.format(messageParameters, document);
     }
     for (XExpression issueData : xissueexpression.getIssueData()) {
       // ADDED: formatting added around comma
-      val comma = immediatelyFollowing(issueData).keyword(',')
-      prepend(comma)[highPriority noSpace]
-      append(comma)[highPriority oneSpace]
+      final ISemanticRegion comma = immediatelyFollowing(issueData).keyword(",");
+      document.prepend(comma, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+      document.append(comma, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.oneSpace();
+      });
 
-      format(issueData, document);
+      this.format(issueData, document);
     }
   }
 
-  override dispatch void format(XIfExpression xifexpression, extension IFormattableDocument document) {
+  @Override
+  protected void _format(final XIfExpression xifexpression, final IFormattableDocument document) {
     // High priority to override formatting from adjacent regions and parent formatter.
-    prepend(xifexpression)[highPriority setNewLines(1, 1, 2)]
-    val open = xifexpression.regionFor.keyword('(')
-    val close = xifexpression.regionFor.keyword(')')
-    prepend(open)[highPriority oneSpace]
-    append(open)[highPriority noSpace]
-    prepend(close)[highPriority noSpace]
-    append(close)[highPriority newLines=0 oneSpace]
-    val elseKw = xifexpression.regionFor.keyword('else')
-    surround(elseKw)[highPriority  newLines=0 oneSpace]
+    document.prepend(xifexpression, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.setNewLines(1, 1, 2);
+    });
+    final ISemanticRegion open = regionFor(xifexpression).keyword("(");
+    final ISemanticRegion close = regionFor(xifexpression).keyword(")");
+    document.prepend(open, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.oneSpace();
+    });
+    document.append(open, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.noSpace();
+    });
+    document.prepend(close, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.noSpace();
+    });
+    document.append(close, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.setNewLines(0);
+      it.oneSpace();
+    });
+    final ISemanticRegion elseKw = regionFor(xifexpression).keyword("else");
+    document.surround(elseKw, (IHiddenRegionFormatter it) -> {
+      it.highPriority();
+      it.setNewLines(0);
+      it.oneSpace();
+    });
 
     // defer to super class for model traversal
-    super._format(xifexpression, document)
+    super._format(xifexpression, document);
   }
 
-  override dispatch void format(XMemberFeatureCall xfeaturecall, extension IFormattableDocument document) {
+  @Override
+  protected void _format(final XMemberFeatureCall xfeaturecall, final IFormattableDocument document) {
     // set no space after '::' in CheckUtil::hasQualifiedName(..., and also not after plain "." or "?."
     // High priority to override formatting from adjacent regions and parent formatter.
-    XMemberFeatureCallAccess.findKeywords('.').forEach[
-      val dot = xfeaturecall.regionFor.keyword(it)
-      append(dot)[highPriority noSpace]
-    ]
-    XMemberFeatureCallAccess.findKeywords('?.').forEach[
-      val queryDot = xfeaturecall.regionFor.keyword(it)
-      append(queryDot)[highPriority noSpace]
-    ]
-    XMemberFeatureCallAccess.findKeywords('::').forEach[
-      val colonColon = xfeaturecall.regionFor.keyword(it)
-      append(colonColon)[highPriority noSpace]
-    ]
+    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords(".").forEach((Keyword kw) -> {
+      final ISemanticRegion dot = regionFor(xfeaturecall).keyword(kw);
+      document.append(dot, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+    });
+    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords("?.").forEach((Keyword kw) -> {
+      final ISemanticRegion queryDot = regionFor(xfeaturecall).keyword(kw);
+      document.append(queryDot, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+    });
+    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords("::").forEach((Keyword kw) -> {
+      final ISemanticRegion colonColon = regionFor(xfeaturecall).keyword(kw);
+      document.append(colonColon, (IHiddenRegionFormatter it) -> {
+        it.highPriority();
+        it.noSpace();
+      });
+    });
 
     // defer to super class for model traversal
-    super._format(xfeaturecall, document)
+    super._format(xfeaturecall, document);
+  }
+
+  @Override
+  @XbaseGenerated
+  public void format(final Object xlistliteral, final IFormattableDocument document) {
+    if (xlistliteral instanceof JvmTypeParameter) {
+      _format((JvmTypeParameter) xlistliteral, document);
+    } else if (xlistliteral instanceof JvmFormalParameter) {
+      _format((JvmFormalParameter) xlistliteral, document);
+    } else if (xlistliteral instanceof XtextResource) {
+      _format((XtextResource) xlistliteral, document);
+    } else if (xlistliteral instanceof XAssignment) {
+      _format((XAssignment) xlistliteral, document);
+    } else if (xlistliteral instanceof XBinaryOperation) {
+      _format((XBinaryOperation) xlistliteral, document);
+    } else if (xlistliteral instanceof XDoWhileExpression) {
+      _format((XDoWhileExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XFeatureCall) {
+      _format((XFeatureCall) xlistliteral, document);
+    } else if (xlistliteral instanceof XListLiteral) {
+      _format((XListLiteral) xlistliteral, document);
+    } else if (xlistliteral instanceof XMemberFeatureCall) {
+      _format((XMemberFeatureCall) xlistliteral, document);
+    } else if (xlistliteral instanceof XPostfixOperation) {
+      _format((XPostfixOperation) xlistliteral, document);
+    } else if (xlistliteral instanceof XUnaryOperation) {
+      _format((XUnaryOperation) xlistliteral, document);
+    } else if (xlistliteral instanceof XWhileExpression) {
+      _format((XWhileExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XFunctionTypeRef) {
+      _format((XFunctionTypeRef) xlistliteral, document);
+    } else if (xlistliteral instanceof Category) {
+      _format((Category) xlistliteral, document);
+    } else if (xlistliteral instanceof Check) {
+      _format((Check) xlistliteral, document);
+    } else if (xlistliteral instanceof CheckCatalog) {
+      _format((CheckCatalog) xlistliteral, document);
+    } else if (xlistliteral instanceof Context) {
+      _format((Context) xlistliteral, document);
+    } else if (xlistliteral instanceof Implementation) {
+      _format((Implementation) xlistliteral, document);
+    } else if (xlistliteral instanceof Member) {
+      _format((Member) xlistliteral, document);
+    } else if (xlistliteral instanceof XGuardExpression) {
+      _format((XGuardExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XIssueExpression) {
+      _format((XIssueExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof JvmGenericArrayTypeReference) {
+      _format((JvmGenericArrayTypeReference) xlistliteral, document);
+    } else if (xlistliteral instanceof JvmParameterizedTypeReference) {
+      _format((JvmParameterizedTypeReference) xlistliteral, document);
+    } else if (xlistliteral instanceof JvmWildcardTypeReference) {
+      _format((JvmWildcardTypeReference) xlistliteral, document);
+    } else if (xlistliteral instanceof XBasicForLoopExpression) {
+      _format((XBasicForLoopExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XBlockExpression) {
+      _format((XBlockExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XCastedExpression) {
+      _format((XCastedExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XClosure) {
+      _format((XClosure) xlistliteral, document);
+    } else if (xlistliteral instanceof XCollectionLiteral) {
+      _format((XCollectionLiteral) xlistliteral, document);
+    } else if (xlistliteral instanceof XConstructorCall) {
+      _format((XConstructorCall) xlistliteral, document);
+    } else if (xlistliteral instanceof XForLoopExpression) {
+      _format((XForLoopExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XIfExpression) {
+      _format((XIfExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XInstanceOfExpression) {
+      _format((XInstanceOfExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XReturnExpression) {
+      _format((XReturnExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XSwitchExpression) {
+      _format((XSwitchExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XSynchronizedExpression) {
+      _format((XSynchronizedExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XThrowExpression) {
+      _format((XThrowExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XTryCatchFinallyExpression) {
+      _format((XTryCatchFinallyExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XTypeLiteral) {
+      _format((XTypeLiteral) xlistliteral, document);
+    } else if (xlistliteral instanceof XVariableDeclaration) {
+      _format((XVariableDeclaration) xlistliteral, document);
+    } else if (xlistliteral instanceof XAnnotation) {
+      _format((XAnnotation) xlistliteral, document);
+    } else if (xlistliteral instanceof ContextVariable) {
+      _format((ContextVariable) xlistliteral, document);
+    } else if (xlistliteral instanceof FormalParameter) {
+      _format((FormalParameter) xlistliteral, document);
+    } else if (xlistliteral instanceof SeverityRange) {
+      _format((SeverityRange) xlistliteral, document);
+    } else if (xlistliteral instanceof JvmTypeConstraint) {
+      _format((JvmTypeConstraint) xlistliteral, document);
+    } else if (xlistliteral instanceof XExpression) {
+      _format((XExpression) xlistliteral, document);
+    } else if (xlistliteral instanceof XImportDeclaration) {
+      _format((XImportDeclaration) xlistliteral, document);
+    } else if (xlistliteral instanceof XImportSection) {
+      _format((XImportSection) xlistliteral, document);
+    } else if (xlistliteral instanceof EObject) {
+      _format((EObject) xlistliteral, document);
+    } else if (xlistliteral == null) {
+      _format((Void) null, document);
+    } else if (xlistliteral != null) {
+      _format(xlistliteral, document);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: "
+        + Arrays.<Object>asList(xlistliteral, document).toString());
+    }
   }
 }
