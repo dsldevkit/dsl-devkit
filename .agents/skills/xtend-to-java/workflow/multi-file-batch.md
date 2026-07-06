@@ -42,12 +42,14 @@ A red gate means you do not start the next batch. Diagnose first.
 
 ### Commit structure
 
-**One single commit per module** containing everything: migrated Java files, deleted `.xtend`
-originals, deleted `xtend-gen/` directory (if module is fully off Xtend), and all infrastructure changes.
+**Two-step rename → translate per module** (see [`formatting-and-commit.md`](./formatting-and-commit.md)):
+a pure `git mv` rename commit for all `.xtend` in the slice, an in-place translate commit, and —
+when the module is fully off Xtend — an infrastructure-cleanup commit.
 
 Commit message format:
 ```
-refactor: migrate Xtend to Java - <plugin name>
+refactor: migrate Xtend to Java - <plugin name> (1/2: rename sources)
+refactor: migrate Xtend to Java - <plugin name> (2/2: translate to Java 21)
 ```
 Example: `refactor: migrate Xtend to Java - com.avaloq.tools.ddk.check.core.test`
 

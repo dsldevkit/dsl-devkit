@@ -65,22 +65,44 @@ Select all migrated files in Package Explorer → Source → Format. Then amend 
 
 The Eclipse formatter re-indents text block content AND closing `"""` together, preserving indent stripping semantics. Formatted text blocks produce the same string values as unformatted ones — the formatter is safe for text blocks.
 
-## Commit structure
+## Commit structure — two-step rename → translate
 
-**One single commit** containing everything:
-- Migrated `.java` files
-- Deleted `.xtend` originals
-- Deleted `xtend-gen/` directory (if module fully off Xtend)
-- All infrastructure changes (MANIFEST.MF, build.properties, .classpath, .project)
+Structure every migration slice as **two commits plus an optional infrastructure commit**:
 
-Do not split into multiple commits.
+1. **Rename commit** — a pure `git mv` of every `.xtend` in the slice to `.java`, content
+   **unchanged**. Because the rename edge has 100% content similarity, Git's rename detection
+   always traverses it: `git log --follow` and `git blame` permanently connect the `.java`
+   history to its `.xtend` past. (Git stores no rename metadata — a combined delete+add commit
+   only keeps history if the finished Java stays >50% similar to the Xtend source, which heavy
+   rewrites don't.)
+2. **Translate commit** — rewrite the renamed files **in place** to the final Java. Reviewers
+   get a side-by-side Xtend-vs-Java diff per file on the PR's Commits tab (the paths are
+   unchanged, so the pairing is guaranteed regardless of similarity). Put the per-file
+   faithfulness notes (null-semantics decisions, documented deviations) in this commit's body.
+3. **Infrastructure commit** (only when the module is now fully off Xtend) — the
+   [`infrastructure-cleanup.md`](./infrastructure-cleanup.md) changes: build.properties,
+   .classpath, .project, `xtend-gen/` deletion, MANIFEST check.
+
+Known trade-offs (accepted):
+- The rename commit **intentionally does not compile** (Xtend syntax in `.java` files). PR CI
+  only builds the head, so CI stays green; after a rebase-merge the intermediate commit costs
+  one `git bisect skip` on master.
+- The aggregate **Files-changed tab is unaffected** by the commit structure: it diffs
+  base…head and pairs old/new only when end-state similarity crosses Git's threshold.
+  Near-transliterations pair either way; heavy rewrites pair under neither. Point reviewers to
+  the Commits tab for the guaranteed in-place diff.
+
+Do not split the translate step per file — every intermediate commit before the last file
+would be broken anyway, so per-file translate commits only multiply the broken range.
 
 ## Commit message format
 
 ```
-refactor: migrate Xtend to Java - <plugin name>
+refactor: migrate Xtend to Java - <plugin name> (1/2: rename sources)
+refactor: migrate Xtend to Java - <plugin name> (2/2: translate to Java 21)
+refactor: drop Xtend build infrastructure from <plugin name>   # when applicable
 ```
 
-Example: `refactor: migrate Xtend to Java - com.avaloq.tools.ddk.check.core.test`
+The rename commit body must state that it is a pure `git mv` and intentionally non-compiling.
 
-PR title: same as commit message.
+PR title: `refactor: migrate Xtend to Java - <plugin name>`.
