@@ -8,167 +8,177 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.generator
+package com.avaloq.tools.ddk.check.generator;
 
-import com.avaloq.tools.ddk.check.check.Category
-import com.avaloq.tools.ddk.check.check.Check
-import com.avaloq.tools.ddk.check.check.CheckCatalog
-import com.avaloq.tools.ddk.check.check.FormalParameter
-import com.google.inject.Inject
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.EcoreUtil2
-import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.naming.QualifiedName
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 
-import static com.avaloq.tools.ddk.check.runtime.CheckRuntimeConstants.ISSUE_CODES_CLASS_NAME_SUFFIX
+import com.avaloq.tools.ddk.check.check.Category;
+import com.avaloq.tools.ddk.check.check.Check;
+import com.avaloq.tools.ddk.check.check.CheckCatalog;
+import com.avaloq.tools.ddk.check.check.FormalParameter;
+import com.avaloq.tools.ddk.check.runtime.CheckRuntimeConstants;
+import com.google.inject.Inject;
 
-class CheckGeneratorNaming {
 
-  @Inject IQualifiedNameProvider nameProvider
+@SuppressWarnings("nls")
+public class CheckGeneratorNaming {
 
-  def static <T extends EObject> T parent(EObject object, Class<T> c) {
-    EcoreUtil2::getContainerOfType(object, c)
+  @Inject
+  private IQualifiedNameProvider nameProvider;
+
+  public static <T extends EObject> T parent(final EObject object, final Class<T> c) {
+    return EcoreUtil2.getContainerOfType(object, c);
   }
 
   // creates a pathName out of a qualified javaPackagename
-  def String asPath(String javaPackageName) {
-    if (javaPackageName !== null) javaPackageName.replace('.', '/') + "/" else ""
+  public String asPath(final String javaPackageName) {
+    if (javaPackageName != null) {
+      return javaPackageName.replace(".", "/") + "/";
+    } else {
+      return "";
+    }
   }
 
   /* Gets the class name of the check validator. */
-  def String validatorClassName(CheckCatalog c) {
-    c.name + "CheckImpl"
+  public String validatorClassName(final CheckCatalog c) {
+    return c.getName() + "CheckImpl";
   }
 
   /* Gets the fully qualified class name of the check validator. */
-  def String qualifiedValidatorClassName(CheckCatalog c) {
-    c.packageName + '.' + c.validatorClassName
+  public String qualifiedValidatorClassName(final CheckCatalog c) {
+    return c.getPackageName() + "." + validatorClassName(c);
   }
 
   /* Gets the file path of the check validator. */
-  def String validatorFilePath(CheckCatalog c) {
-    c.packageName.asPath + c.validatorClassName + ".java"
+  public String validatorFilePath(final CheckCatalog c) {
+    return asPath(c.getPackageName()) + validatorClassName(c) + ".java";
   }
 
   /* Gets the check catalog class name. */
-  def String catalogClassName(CheckCatalog c) {
-    c.name + "CheckCatalog"
+  public String catalogClassName(final CheckCatalog c) {
+    return c.getName() + "CheckCatalog";
   }
 
   /* Gets the qualified check catalog class name. */
-  def String qualifiedCatalogClassName(CheckCatalog c) {
-    c.packageName + '.' + c.catalogClassName
+  public String qualifiedCatalogClassName(final CheckCatalog c) {
+    return c.getPackageName() + "." + catalogClassName(c);
   }
 
   /* Gets the preference initializer class name. */
-  def String preferenceInitializerClassName(CheckCatalog c) {
-    c.name + "PreferenceInitializer"
+  public String preferenceInitializerClassName(final CheckCatalog c) {
+    return c.getName() + "PreferenceInitializer";
   }
 
   /* Gets the qualified standalone setup class name. */
-  def String qualifiedStandaloneSetupClassName(CheckCatalog c) {
-    c.packageName + '.' + c.standaloneSetupClassName
+  public String qualifiedStandaloneSetupClassName(final CheckCatalog c) {
+    return c.getPackageName() + "." + standaloneSetupClassName(c);
   }
 
   /* Gets the standalone setup class name. */
-  def String standaloneSetupClassName(CheckCatalog c) {
-    c.name + "StandaloneSetup"
+  public String standaloneSetupClassName(final CheckCatalog c) {
+    return c.getName() + "StandaloneSetup";
   }
 
   /* Gets the qualified preference initializer class name. */
-  def String qualifiedPreferenceInitializerClassName(CheckCatalog c) {
-    c.packageName + '.' + c.preferenceInitializerClassName
+  public String qualifiedPreferenceInitializerClassName(final CheckCatalog c) {
+    return c.getPackageName() + "." + preferenceInitializerClassName(c);
   }
 
   /* Gets the standalone setup class file path. */
-  def String standaloneSetupPath(CheckCatalog c) {
-    c.packageName.asPath + c.standaloneSetupClassName + ".java"
+  public String standaloneSetupPath(final CheckCatalog c) {
+    return asPath(c.getPackageName()) + standaloneSetupClassName(c) + ".java";
   }
 
   /* Gets the documentation file name. */
-  def String docFileName(CheckCatalog c){
-    c.name + ".html"
+  public String docFileName(final CheckCatalog c) {
+    return c.getName() + ".html";
   }
 
   /* Gets the issue codes class name. */
-  def static String issueCodesClassName(CheckCatalog c) {
-    c.name + ISSUE_CODES_CLASS_NAME_SUFFIX
+  public static String issueCodesClassName(final CheckCatalog c) {
+    return c.getName() + CheckRuntimeConstants.ISSUE_CODES_CLASS_NAME_SUFFIX;
   }
 
   /* Gets the issue codes file path. */
-  def String issueCodesFilePath(CheckCatalog c) {
-    c.packageName.asPath  + c.issueCodesClassName + ".java"
+  public String issueCodesFilePath(final CheckCatalog c) {
+    return asPath(c.getPackageName()) + issueCodesClassName(c) + ".java";
   }
 
   /* Gets the quickfix provider class name. */
-  def String quickfixClassName(CheckCatalog c) {
-    c.name + "QuickfixProvider"
+  public String quickfixClassName(final CheckCatalog c) {
+    return c.getName() + "QuickfixProvider";
   }
 
   /* Gets the qualified quickfix provider class name. */
-  def String qualifiedQuickfixClassName(CheckCatalog c) {
-    c.packageName + '.' + c.quickfixClassName
+  public String qualifiedQuickfixClassName(final CheckCatalog c) {
+    return c.getPackageName() + "." + quickfixClassName(c);
   }
 
   /* Gets the quickfix provider file path. */
-  def String quickfixFilePath(CheckCatalog c) {
-    c.packageName.asPath + c.quickfixClassName + ".java"
+  public String quickfixFilePath(final CheckCatalog c) {
+    return asPath(c.getPackageName()) + quickfixClassName(c) + ".java";
   }
 
   /* Gets the full path to the check file, e.g. com/avaloq/MyChecks.check. */
-  def String checkFilePath(CheckCatalog c) {
-    c.packageName.asPath + c.name + ".check"
+  public String checkFilePath(final CheckCatalog c) {
+    return asPath(c.getPackageName()) + c.getName() + ".check";
   }
 
   /* Gets the name of the getter method generated for a formal parameter. */
-  def String formalParameterGetterName(FormalParameter p) {
-    val check = p.eContainer as Check
+  public String formalParameterGetterName(final FormalParameter p) {
+    final Check check = (Check) p.eContainer();
     return "get"
-      + check.name.toFirstUpper
+      + StringExtensions.toFirstUpper(check.getName())
       + "_"
-      + p.name.toFirstUpper
+      + StringExtensions.toFirstUpper(p.getName());
   }
 
   /* Gets the name of the getter method generated for a field. */
-  def String fieldGetterName(String fieldName) {
-    "get" + fieldName.toFirstUpper
+  public String fieldGetterName(final String fieldName) {
+    return "get" + StringExtensions.toFirstUpper(fieldName);
   }
 
   /* Check catalog instance name in the validator */
-  def String catalogInstanceName(EObject object) {
-    EcoreUtil2::getContainerOfType(object, typeof(CheckCatalog)).name.toFirstLower + "Catalog"
+  public String catalogInstanceName(final EObject object) {
+    return StringExtensions.toFirstLower(EcoreUtil2.getContainerOfType(object, CheckCatalog.class).getName()) + "Catalog";
   }
 
   /* Check issue code to label map field name in the catalog */
-  def String issueCodeToLabelMapFieldName() {
-    "issueCodeToLabelMap"
+  public String issueCodeToLabelMapFieldName() {
+    return "issueCodeToLabelMap";
   }
 
   /* Gets the name of the default validator class. */
-  def String defaultValidatorClassName() {
-    "DispatchingCheckImpl"
+  public String defaultValidatorClassName() {
+    return "DispatchingCheckImpl";
   }
 
   /* Gets the fully qualified name of the default validator class. */
-  def String qualifiedDefaultValidatorClassName() {
-    "com.avaloq.tools.ddk.check.runtime.issue." + defaultValidatorClassName
+  public String qualifiedDefaultValidatorClassName() {
+    return "com.avaloq.tools.ddk.check.runtime.issue." + defaultValidatorClassName();
   }
 
   /* Gets the prefix for the context id (used in contexts.xml) */
-  def getContextIdPrefix(QualifiedName catalog){
-    catalog.lastSegment.toString.toLowerCase + "_" // TODO make context id use fully qualified catalog names
+  public String getContextIdPrefix(final QualifiedName catalog) {
+    return catalog.getLastSegment().toLowerCase() + "_"; // TODO make context id use fully qualified catalog names
   }
 
   /* Gets the full context id (used in contexts.xml) */
-  def String getContextId(Check check) {
-    val catalog = check.parent(typeof (CheckCatalog))
-    nameProvider.apply(catalog).contextIdPrefix + check.label.replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase
+  public String getContextId(final Check check) {
+    final CheckCatalog catalog = parent(check, CheckCatalog.class);
+    return getContextIdPrefix(nameProvider.apply(catalog))
+      + check.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase();
   }
 
   /* Gets the full context id (used in contexts.xml) */
-  def String getContextId(Category category) {
-    val catalog = category.parent(typeof (CheckCatalog))
-    nameProvider.apply(catalog).contextIdPrefix + category.label.replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase
+  public String getContextId(final Category category) {
+    final CheckCatalog catalog = parent(category, CheckCatalog.class);
+    return getContextIdPrefix(nameProvider.apply(catalog))
+      + category.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase();
   }
 
 }

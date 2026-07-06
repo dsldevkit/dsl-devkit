@@ -8,260 +8,307 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.generator
+package com.avaloq.tools.ddk.check.generator;
 
-import com.avaloq.tools.ddk.check.check.Check
-import com.avaloq.tools.ddk.check.check.CheckCatalog
-import com.avaloq.tools.ddk.check.check.Context
-import com.avaloq.tools.ddk.check.check.Implementation
-import com.avaloq.tools.ddk.check.check.TriggerKind
-import com.avaloq.tools.ddk.check.check.XIssueExpression
-import com.google.common.collect.Iterables
-import com.google.common.collect.Sets
-import com.google.common.io.CharStreams
-import java.io.InputStreamReader
-import java.io.StringReader
-import java.util.Set
-import java.util.regex.Pattern
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.Path
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.jdt.internal.ui.text.javadoc.JavaDoc2HTMLTextReader
-import org.eclipse.xtext.EcoreUtil2
-import org.eclipse.xtext.validation.CheckType
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static extension com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.*
-import static extension com.avaloq.tools.ddk.check.util.CheckUtil.*
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.internal.ui.text.javadoc.JavaDoc2HTMLTextReader;
+import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.validation.CheckType;
+import org.eclipse.xtext.xbase.lib.ListExtensions;
 
-class CheckGeneratorExtensions {
+import com.avaloq.tools.ddk.check.check.Check;
+import com.avaloq.tools.ddk.check.check.CheckCatalog;
+import com.avaloq.tools.ddk.check.check.Context;
+import com.avaloq.tools.ddk.check.check.Implementation;
+import com.avaloq.tools.ddk.check.check.TriggerKind;
+import com.avaloq.tools.ddk.check.check.XIssueExpression;
+import com.avaloq.tools.ddk.check.util.CheckUtil;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+import com.google.common.io.CharStreams;
 
-  def dispatch String qualifiedIssueCodeName(XIssueExpression issue) {
-    val result = issue.issueCode()
-    if (result === null) {
-      null
+import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.issueCodesClassName;
+import static com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming.parent;
+
+
+@SuppressWarnings({"checkstyle:MethodName", "nls"})
+public class CheckGeneratorExtensions {
+
+  protected String _qualifiedIssueCodeName(final XIssueExpression issue) {
+    final String result = issueCode(issue);
+    if (result == null) {
+      return null;
     } else {
-      issue.parent(typeof(CheckCatalog)).issueCodesClassName + '.' + result
+      return issueCodesClassName(parent(issue, CheckCatalog.class)) + "." + result;
     }
   }
 
   /* Returns the qualified Java name for an issue code. */
-  def dispatch String qualifiedIssueCodeName(Context context) {
-    context.parent(typeof(CheckCatalog)).issueCodesClassName + '.' + context.issueCode
+  protected String _qualifiedIssueCodeName(final Context context) {
+    return issueCodesClassName(parent(context, CheckCatalog.class)) + "." + issueCode(context);
   }
 
   /* Gets the simple issue code name for a check. */
-  def static dispatch String issueCode(Check check) {
-    if (null !== check.name) {
-      check.name.splitCamelCase.toUpperCase
+  protected static String _issueCode(final Check check) {
+    if (null != check.getName()) {
+      return splitCamelCase(check.getName()).toUpperCase();
     } else {
-      "ERROR_ISSUE_CODE_NAME_CHECK" // should only happen if the ID is missing, which will fail a validation
+      return "ERROR_ISSUE_CODE_NAME_CHECK"; // should only happen if the ID is missing, which will fail a validation
     }
   }
 
   /* Gets the simple issue code name for an issue expression. */
-  def static dispatch String issueCode(XIssueExpression issue) {
-    if (issue.issueCode !== null) {
-      issue.issueCode.splitCamelCase.toUpperCase
-    } else if (issue.check !== null && !issue.check.eIsProxy) {
-      issueCode(issue.check)
-    } else if (issue.parent(Check) !== null) {
-      issueCode(issue.parent(Check))
+  protected static String _issueCode(final XIssueExpression issue) {
+    if (issue.getIssueCode() != null) {
+      return splitCamelCase(issue.getIssueCode()).toUpperCase();
+    } else if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
+      return issueCode(issue.getCheck());
+    } else if (parent(issue, Check.class) != null) {
+      return issueCode(parent(issue, Check.class));
     } else {
-      "ERROR_ISSUE_CODE_NAME_XISSUEEXPRESSION" // should not happen
+      return "ERROR_ISSUE_CODE_NAME_XISSUEEXPRESSION"; // should not happen
     }
   }
 
   /* Gets the simple issue code name for a check. */
-  def static dispatch String issueName(Check check) {
-    if (null !== check.name) {
-      check.name
+  protected static String _issueName(final Check check) {
+    if (null != check.getName()) {
+      return check.getName();
     } else {
-      "ErrorIssueCodeNameCheck" // should only happen if the ID is missing, which will fail a validation
+      return "ErrorIssueCodeNameCheck"; // should only happen if the ID is missing, which will fail a validation
     }
   }
 
   /* Gets the simple issue code name for an issue expression. */
-  def static dispatch String issueName(XIssueExpression issue) {
-    if (issue.issueCode !== null) {
-      issue.issueCode
-    } else if (issue.check !== null && !issue.check.eIsProxy) {
-      issueName(issue.check)
-    } else if (issue.parent(Check) !== null) {
-      issueName(issue.parent(Check))
+  protected static String _issueName(final XIssueExpression issue) {
+    if (issue.getIssueCode() != null) {
+      return issue.getIssueCode();
+    } else if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
+      return issueName(issue.getCheck());
+    } else if (parent(issue, Check.class) != null) {
+      return issueName(parent(issue, Check.class));
     } else {
-      "ErrorIssueCodeName_XIssueExpresion" // should not happen
+      return "ErrorIssueCodeName_XIssueExpresion"; // should not happen
     }
   }
 
-  def static issueCodePrefix(CheckCatalog catalog) {
-    catalog.packageName + "." + catalog.issueCodesClassName + "."
+  public static String issueCodePrefix(final CheckCatalog catalog) {
+    return catalog.getPackageName() + "." + issueCodesClassName(catalog) + ".";
   }
 
   /* Returns the <b>value</b> of an issue code. */
-  def static issueCodeValue(EObject object, String issueName) {
-    val catalog = object.parent(typeof(CheckCatalog))
-    catalog.issueCodePrefix + issueName.splitCamelCase.toIssueCodeName
+  public static String issueCodeValue(final EObject object, final String issueName) {
+    final CheckCatalog catalog = parent(object, CheckCatalog.class);
+    return issueCodePrefix(catalog) + CheckUtil.toIssueCodeName(splitCamelCase(issueName));
   }
 
   /* Gets the issue label for a Check. */
-  def dispatch String issueLabel(Check check) {
-    check.label
+  protected String _issueLabel(final Check check) {
+    return check.getLabel();
   }
 
   /* Gets the issue label for an issue expression. */
-  def dispatch String issueLabel(XIssueExpression issue) {
-    if (issue.check !== null && !issue.check.eIsProxy) {
-      issueLabel(issue.check)
-    } else if (issue.parent(Check) !== null) {
-      issueLabel(issue.parent(Check))
+  protected String _issueLabel(final XIssueExpression issue) {
+    if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
+      return issueLabel(issue.getCheck());
+    } else if (parent(issue, Check.class) != null) {
+      return issueLabel(parent(issue, Check.class));
     } else {
-      "ERROR_ISSUE_LABEL_XISSUEEXPRESSION" // should not happen
+      return "ERROR_ISSUE_LABEL_XISSUEEXPRESSION"; // should not happen
     }
   }
 
   /* Converts a string such as "AbcDef" to "ABC_DEF". */
-  def static String splitCamelCase(String string) {
-    string.replaceAll(
-      String::format(
-        "%s|%s|%s",
+  public static String splitCamelCase(final String string) {
+    return string.replaceAll(
+      "%s|%s|%s".formatted(
         "(?<=[A-Z])(?=[A-Z][a-z])",
         "(?<=[^A-Z_])(?=[A-Z])",
-        "(?<=[A-Za-z])(?=[^A-Za-z_])"
-      ),
-      "_"
-    )
+        "(?<=[A-Za-z])(?=[^A-Za-z_])"),
+      "_");
   }
 
-  def CheckType checkType(Check check) {
+  public CheckType checkType(final Check check) {
     /* TODO handle the case of independent check implementations
      * An Implementation is not a Check and has no kind,
      * but it may execute checks of various types.
      * As it is we treat them all as FAST regardless of declared kind.
      */
-    val TriggerKind kind = check?.kind ?: TriggerKind::FAST;
+    TriggerKind kind = check != null ? check.getKind() : null;
+    if (kind == null) {
+      kind = TriggerKind.FAST;
+    }
 
     return switch (kind) {
-      case TriggerKind::EXPENSIVE: CheckType::EXPENSIVE
-      case TriggerKind::NORMAL: CheckType::NORMAL
-      case TriggerKind::FAST: CheckType::FAST
+      case EXPENSIVE -> CheckType.EXPENSIVE;
+      case NORMAL -> CheckType.NORMAL;
+      case FAST -> CheckType.FAST;
     };
   }
 
   /* Returns a default CheckType for a non-Check context. */
-  def CheckType checkType(Context context) {
-    val container = context.eContainer();
-    val Check check = if (container instanceof Check) container else null;
+  public CheckType checkType(final Context context) {
+    final EObject container = context.eContainer();
+    final Check check = container instanceof Check ? (Check) container : null;
     return checkType(check);
   }
 
-  def String checkTypeQName(Context context) {
+  public String checkTypeQName(final Context context) {
     return "CheckType." + checkType(context);
   }
 
-  def issues(EObject object) {
-    EcoreUtil2::eAllContents(object).filter(typeof(XIssueExpression))
+  public Iterable<XIssueExpression> issues(final EObject object) {
+    return Iterables.filter(EcoreUtil2.eAllContents(object), XIssueExpression.class);
   }
 
-  def issues(CheckCatalog catalog) {
-    catalog.allChecks.map(check|check.issues).flatten
+  public Iterable<XIssueExpression> issues(final CheckCatalog catalog) {
+    return Iterables.concat(ListExtensions.map(catalog.getAllChecks(), check -> issues(check)));
   }
 
-  def issues(Implementation implementation) {
-    implementation.context.issues
+  public Iterable<XIssueExpression> issues(final Implementation implementation) {
+    return issues(implementation.getContext());
   }
 
   /* Returns all Check and Implementation Issues for a CheckCatalog. Issues are not necessarily unique. */
-  def checkAndImplementationIssues(CheckCatalog catalog) {
-    val checkIssues = catalog.issues // Issues for all Checks
-    val implIssues = catalog.implementations.map(impl|impl.issues).flatten // Issues for all Implementations
-    return Iterables::concat(checkIssues, implIssues) // all Issue instances
+  public Iterable<XIssueExpression> checkAndImplementationIssues(final CheckCatalog catalog) {
+    final Iterable<XIssueExpression> checkIssues = issues(catalog); // Issues for all Checks
+    final Iterable<XIssueExpression> implIssues = Iterables.concat(ListExtensions.map(catalog.getImplementations(), impl -> issues(impl))); // Issues for all Implementations
+    return Iterables.concat(checkIssues, implIssues); // all Issue instances
   }
 
-  def issuedCheck(XIssueExpression expression) {
-    if (expression.check !== null) {
-      expression.check
+  public Check issuedCheck(final XIssueExpression expression) {
+    if (expression.getCheck() != null) {
+      return expression.getCheck();
     } else {
-      val containerCheck = EcoreUtil2::getContainerOfType(expression, typeof(Check))
-      if (containerCheck !== null) {
-        containerCheck
+      final Check containerCheck = EcoreUtil2.getContainerOfType(expression, Check.class);
+      if (containerCheck != null) {
+        return containerCheck;
         //TODO we obviously need a validation in the language so that there is always a value here!
       }
+      return null;
     }
   }
 
-  /**
-   * Gets the IFile which is associated with given object's eResource, or <code>null</code> if none
-   * could be determined.
-   */
-  def IFile fileForObject(EObject object) {
-    val res = object.eResource
-    if (res.URI.platform) {
-      return ResourcesPlugin::workspace.root.findMember(res.URI.toPlatformString(true)) as IFile
+  public IFile fileForObject(final EObject object) {
+    final Resource res = object.eResource();
+    if (res.getURI().isPlatform()) {
+      return (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(res.getURI().toPlatformString(true));
     }
-    return null
+    return null;
   }
 
-  /**
-   * Gets the IProject which is associated with a given EObject or <code>null</code>
-   * if none could be determined.
-   */
-  def IProject projectForObject(EObject object) {
-    return object?.fileForObject?.project
+  public IProject projectForObject(final EObject object) {
+    final IFile file = object != null ? fileForObject(object) : null;
+    return file != null ? file.getProject() : null;
   }
 
-  /**
-   * Gets the name of the project in which given object is contained.
-   */
-  def String bundleName(EObject object) {
-    val proj = object.projectForObject
-    if (proj !== null) {
-      return proj.name
+  public String bundleName(final EObject object) {
+    final IProject proj = projectForObject(object);
+    if (proj != null) {
+      return proj.getName();
     }
-    return null
+    return null;
   }
 
-  /*
-   *  Replace binding placeholders of a message with "...".
-   */
-  def String replacePlaceholder(String message) {
-    val p = Pattern::compile("\\{[0-9]+\\}")
-    val m = p.matcher(message)
-    m.replaceAll("...")
+  public String replacePlaceholder(final String message) {
+    final Pattern p = Pattern.compile("\\{[0-9]+\\}");
+    final Matcher m = p.matcher(message);
+    return m.replaceAll("...");
   }
 
   /*
    *  Format the Check description for Eclipse Help
    */
-  def String formatDescription(String comment) {
-    if (comment === null) {
-      return null
+  // CHECKSTYLE:CHECK-OFF IllegalCatch
+  public String formatDescription(final String comment) {
+    if (comment == null) {
+      return null;
     }
     try {
-      val reader = new JavaDoc2HTMLTextReader(new StringReader(comment))
-      return reader.string
-    } catch (Exception e) {
-      return null
+      final JavaDoc2HTMLTextReader reader = new JavaDoc2HTMLTextReader(new StringReader(comment));
+      return reader.getString();
+    } catch (final Exception e) {
+      return null;
     }
   }
+  // CHECKSTYLE:CHECK-ON IllegalCatch
 
-  def Set<String> getContents(CheckCatalog catalog, String path) {
-    val project = catalog.projectForObject
-    if (project !== null) { // In some compiler tests we may not have a project.
-      val file = project.getFile(new Path(path))
-      if (file.exists) {
-        val reader = new InputStreamReader(file.getContents())
-        try {
-          val content = CharStreams::readLines(reader)
-          return Sets.<String>newTreeSet(content)
-        } finally {
-          reader.close
+  // CHECKSTYLE:CHECK-OFF IllegalCatch
+  public Set<String> getContents(final CheckCatalog catalog, final String path) {
+    final IProject project = projectForObject(catalog);
+    if (project != null) { // In some compiler tests we may not have a project.
+      final IFile file = project.getFile(new Path(path));
+      if (file.exists()) {
+        try (InputStreamReader reader = new InputStreamReader(file.getContents(), StandardCharsets.UTF_8)) {
+          final List<String> content = CharStreams.readLines(reader);
+          return Sets.<String>newTreeSet(content);
+        } catch (final RuntimeException e) {
+          throw e;
+        } catch (final Exception e) {
+          throw new IllegalStateException(e);
         }
       }
     }
-    newLinkedHashSet()
+    return new LinkedHashSet<>();
+  }
+  // CHECKSTYLE:CHECK-ON IllegalCatch
+
+  public String qualifiedIssueCodeName(final EObject context) {
+    if (context instanceof Context) {
+      return _qualifiedIssueCodeName((Context) context);
+    } else if (context instanceof XIssueExpression) {
+      return _qualifiedIssueCodeName((XIssueExpression) context);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: "
+        + Arrays.<Object>asList(context).toString());
+    }
   }
 
-}
+  public static String issueCode(final EObject check) {
+    if (check instanceof Check) {
+      return _issueCode((Check) check);
+    } else if (check instanceof XIssueExpression) {
+      return _issueCode((XIssueExpression) check);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: "
+        + Arrays.<Object>asList(check).toString());
+    }
+  }
 
+  public static String issueName(final EObject check) {
+    if (check instanceof Check) {
+      return _issueName((Check) check);
+    } else if (check instanceof XIssueExpression) {
+      return _issueName((XIssueExpression) check);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: "
+        + Arrays.<Object>asList(check).toString());
+    }
+  }
+
+  public String issueLabel(final EObject check) {
+    if (check instanceof Check) {
+      return _issueLabel((Check) check);
+    } else if (check instanceof XIssueExpression) {
+      return _issueLabel((XIssueExpression) check);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: "
+        + Arrays.<Object>asList(check).toString());
+    }
+  }
+}

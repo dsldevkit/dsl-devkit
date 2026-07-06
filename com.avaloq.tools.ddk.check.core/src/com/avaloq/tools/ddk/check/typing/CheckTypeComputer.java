@@ -8,53 +8,57 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.typing
+package com.avaloq.tools.ddk.check.typing;
 
-import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsTypeComputer
-import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
-import org.eclipse.xtext.xbase.XExpression
-import com.avaloq.tools.ddk.check.check.XIssueExpression
-import com.avaloq.tools.ddk.check.check.XGuardExpression
-import org.eclipse.emf.ecore.EObject
-import com.avaloq.tools.ddk.check.check.FormalParameter
-import org.eclipse.xtext.xbase.XListLiteral
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.xbase.XExpression;
+import org.eclipse.xtext.xbase.XListLiteral;
+import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsTypeComputer;
+import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState;
 
-class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
+import com.avaloq.tools.ddk.check.check.FormalParameter;
+import com.avaloq.tools.ddk.check.check.XGuardExpression;
+import com.avaloq.tools.ddk.check.check.XIssueExpression;
 
-  override computeTypes(XExpression expression, ITypeComputationState state) {
+
+@SuppressWarnings("checkstyle:MethodName")
+public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
+
+  @Override
+  public void computeTypes(final XExpression expression, final ITypeComputationState state) {
     if (expression instanceof XIssueExpression) {
-      _computeTypes(expression, state);
+      _computeTypes((XIssueExpression) expression, state);
     } else if (expression instanceof XGuardExpression) {
-      _computeTypes(expression, state);
-    } else if (expression.eContainer instanceof FormalParameter && expression instanceof XListLiteral && (expression as XListLiteral).elements.empty) {
-      super.computeTypes(expression, state.withExpectation(state.referenceOwner.toLightweightTypeReference((expression.eContainer as FormalParameter).type)));
+      _computeTypes((XGuardExpression) expression, state);
+    } else if (expression.eContainer() instanceof FormalParameter && expression instanceof XListLiteral && ((XListLiteral) expression).getElements().isEmpty()) {
+      super.computeTypes(expression, state.withExpectation(state.getReferenceOwner().toLightweightTypeReference(((FormalParameter) expression.eContainer()).getType())));
     } else {
       super.computeTypes(expression, state);
     }
   }
 
-  protected def _computeTypes(XIssueExpression expression, ITypeComputationState state) {
-    if (expression.markerObject !== null) {
-      state.withExpectation(getTypeForName(typeof(EObject), state)).computeTypes(expression.markerObject);
+  protected void _computeTypes(final XIssueExpression expression, final ITypeComputationState state) {
+    if (expression.getMarkerObject() != null) {
+      state.withExpectation(getTypeForName(EObject.class, state)).computeTypes(expression.getMarkerObject());
     }
-    if (expression.markerIndex !== null) {
-      state.withExpectation(getTypeForName(typeof(Integer), state)).computeTypes(expression.markerIndex);
+    if (expression.getMarkerIndex() != null) {
+      state.withExpectation(getTypeForName(Integer.class, state)).computeTypes(expression.getMarkerIndex());
     }
-    if (expression.message !== null) {
-      state.withExpectation(getTypeForName(typeof(String), state)).computeTypes(expression.message);
+    if (expression.getMessage() != null) {
+      state.withExpectation(getTypeForName(String.class, state)).computeTypes(expression.getMessage());
     }
-    for (p : expression.messageParameters) {
-      state.withExpectation(getTypeForName(typeof(Object), state)).computeTypes(p);
+    for (final XExpression p : expression.getMessageParameters()) {
+      state.withExpectation(getTypeForName(Object.class, state)).computeTypes(p);
     }
-    for (d : expression.issueData) {
-      state.withExpectation(getTypeForName(typeof(String), state)).computeTypes(d);
+    for (final XExpression d : expression.getIssueData()) {
+      state.withExpectation(getTypeForName(String.class, state)).computeTypes(d);
     }
-    state.acceptActualType(getPrimitiveVoid (state));
+    state.acceptActualType(getPrimitiveVoid(state));
   }
 
-  protected def _computeTypes(XGuardExpression expression, ITypeComputationState state) {
-    state.withExpectation(getTypeForName(typeof(Boolean), state)).computeTypes(expression.guard);
-    state.acceptActualType(getPrimitiveVoid (state));
+  protected void _computeTypes(final XGuardExpression expression, final ITypeComputationState state) {
+    state.withExpectation(getTypeForName(Boolean.class, state)).computeTypes(expression.getGuard());
+    state.acceptActualType(getPrimitiveVoid(state));
   }
 
 }

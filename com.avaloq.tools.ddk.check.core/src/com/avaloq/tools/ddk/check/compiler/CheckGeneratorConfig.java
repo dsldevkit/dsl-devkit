@@ -8,20 +8,27 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
+package com.avaloq.tools.ddk.check.compiler;
 
-package com.avaloq.tools.ddk.check.compiler
+import org.eclipse.xtext.xbase.compiler.GeneratorConfig;
 
-import org.eclipse.xtext.xbase.compiler.GeneratorConfig
-import org.eclipse.xtend.lib.annotations.Accessors
 
-class CheckGeneratorConfig extends GeneratorConfig {
+@SuppressWarnings("nls")
+public class CheckGeneratorConfig extends GeneratorConfig {
 
-  val String GENERATE_DOCUMENTATION_PROPERTY = "com.avaloq.tools.ddk.check.GenerateDocumentationForAllChecks"
+  private static final String GENERATE_DOCUMENTATION_PROPERTY = "com.avaloq.tools.ddk.check.GenerateDocumentationForAllChecks";
 
-  @Accessors
-  boolean generateLanguageInternalChecks = false
+  private boolean generateLanguageInternalChecks;
 
-  def doGenerateDocumentationForAllChecks() {
+  public boolean doGenerateDocumentationForAllChecks() {
     return Boolean.parseBoolean(System.getProperty(GENERATE_DOCUMENTATION_PROPERTY));
+  }
+
+  public boolean isGenerateLanguageInternalChecks() {
+    return generateLanguageInternalChecks;
+  }
+
+  public void setGenerateLanguageInternalChecks(final boolean generateLanguageInternalChecks) {
+    this.generateLanguageInternalChecks = generateLanguageInternalChecks;
   }
 }
