@@ -171,11 +171,15 @@ jobs:
         # working tree is dirty here; this job releases nothing, so we tell Tycho's jgit
         # build-qualifier to use the last commit's timestamp instead of failing (the
         # repo keeps jgit.dirtyWorkingTree=error for maven-verify / releases).
+        # spotbugs.fork=false analyses in the Maven JVM instead of forking a fresh 2 GB
+        # JVM per module (59 forks); the shared heap is governed by MAVEN_OPTS above
+        # (the plugin's maxHeap applies to forks only).
         run: |
           mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
             compile \
             spotbugs:spotbugs \
             -Dspotbugs.sarifOutput=true \
+            -Dspotbugs.fork=false \
             -Djgit.dirtyWorkingTree=ignore
 
       - name: Merge per-module SpotBugs SARIFs
