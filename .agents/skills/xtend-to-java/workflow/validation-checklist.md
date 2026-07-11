@@ -33,6 +33,7 @@ Run through this list before declaring a conversion done. Every item is a hard g
 | 23 | Template whitespace | Must match `xtend-gen/` output exactly. Never guess from Xtend source. |
 | 29 | Never `String.format()` | Use `.formatted()` consistently. |
 | 30 | `.formatted()` fallback rules | Fall back to concatenation only when `%s` is ambiguous/unreadable or template has literal `%`. |
+| 35 | `newLineIfNotEmpty()` conversion | Convert to `newLine()` only when the line-tail is a static literal; keep after dynamic values and after indent + conditional values (whitespace retraction). Never fold two-arg `append(value, indent)` of multi-line values. See `rules/04-templates.md` §4.8. |
 
 ### Annotations and modifiers
 
