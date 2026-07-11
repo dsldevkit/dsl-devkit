@@ -46,19 +46,15 @@ A red gate means you do not start the next batch. Diagnose first.
 a pure `git mv` rename commit for all `.xtend` in the slice, an in-place translate commit, and —
 when the module is fully off Xtend — an infrastructure-cleanup commit.
 
-Commit message format:
-```
-refactor: migrate Xtend to Java - <plugin name> (1/2: rename sources)
-refactor: migrate Xtend to Java - <plugin name> (2/2: translate to Java 21)
-```
-Example: `refactor: migrate Xtend to Java - com.avaloq.tools.ddk.check.core.test`
+Commit message format: see [`formatting-and-commit.md`](./formatting-and-commit.md).
+Example: `refactor: migrate Xtend to Java - com.avaloq.tools.ddk.check.core.test (1/2: rename sources)`
 
 ### Rollback strategy
 
 If a batch fails any validation gate:
 
 1. **Do not force-commit.**
-2. Revert: `git reset --hard HEAD~1` (or `git revert -m 1 <sha>` if already pushed).
+2. Revert the whole slice per [`formatting-and-commit.md`](./formatting-and-commit.md) §Rollback (a slice is 2-3 commits — plain `HEAD~1` strands the rename commit).
 3. Diagnose the failure file-by-file.
 4. **Pin** any individually-problematic file for separate investigation. Skip it; do the remaining files.
 5. Re-attempt without the pinned files. Tackle pins as one-off conversions afterwards.

@@ -11,7 +11,7 @@ Use this when converting a single `.xtend` to its `.java` counterpart.
 5. **Apply rules in order.** Walk [`rules/01-...`](../rules/01-imports-and-package.md) through [`rules/09-...`](../rules/09-misc-syntax.md) for the constructs you identified.
 6. **Write the `.java` file.** Match `xtend-gen/` behavior exactly while using idiomatic Java.
 7. **Run the validation checklist.** [`workflow/validation-checklist.md`](./validation-checklist.md). Every item must pass.
-8. **Delete the `.xtend` file** as part of the same commit. Don't leave both.
+8. **Commit as two steps** — a pure `git mv` rename commit, then an in-place translate commit; see [`formatting-and-commit.md`](./formatting-and-commit.md) §Commit structure. For a single file the `git mv` IS the removal; do not delete+re-add.
 9. **Verify the file compiles:**
    ```bash
    mvn -pl :<module> -am -DskipTests compile -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1

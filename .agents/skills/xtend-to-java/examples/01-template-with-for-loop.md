@@ -16,7 +16,7 @@ When the body is a simple expression, use `Collectors.joining()`:
 
 ```java
 public CharSequence renderArgs(final List<Argument> args) {
-  final StringBuilder builder = new StringBuilder();
+  final StringBuilder builder = new StringBuilder(512);
   builder.append("(");
   builder.append(args.stream()
       .map(a -> a.getType() + " " + a.getName())
@@ -32,7 +32,7 @@ When the body has multi-statement logic, use a flag:
 
 ```java
 public CharSequence renderArgs(final List<Argument> args) {
-  final StringBuilder builder = new StringBuilder();
+  final StringBuilder builder = new StringBuilder(512);
   builder.append("(");
   boolean first = true;
   for (final Argument a : args) {
@@ -52,4 +52,4 @@ public CharSequence renderArgs(final List<Argument> args) {
 - The `«FOR … SEPARATOR ", "»` block became either a stream with `Collectors.joining(", ")` or a boolean flag.
 - The `«a.type»` and `«a.name»` interpolations became `a.getType()` and `a.getName()`.
 - The trailing newline (implicit `\n` at end of template `'''`) is preserved by explicit `"\n"`.
-- **Whitespace was verified against `xtend-gen/`** — the template starts with `(` directly (no leading newline because the first `'''` line has content after the opening mark).
+- **Whitespace must be verified against `xtend-gen/`** — note the template starts with `(` directly (no leading newline because the first `'''` line has content after the opening mark).

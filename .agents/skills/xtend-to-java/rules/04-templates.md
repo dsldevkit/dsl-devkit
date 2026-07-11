@@ -162,6 +162,10 @@ The `\` suppresses the line terminator. Place the closing `"""` at column 0 to p
 **When to use this pattern:** check the `xtend-gen/` output. If the original string starts with `\n`
 and does NOT end with `\n`, the `\` escape is the correct approach.
 
+Text blocks also strip trailing whitespace on every content line; if `xtend-gen/` shows
+significant trailing spaces, preserve them with the `\s` escape. See
+[`workflow/known-pitfalls.md`](../workflow/known-pitfalls.md) (text-block row).
+
 ## 4.4 Return type
 
 Methods that return templates should return `CharSequence` (matches `StringBuilder`).
@@ -241,4 +245,4 @@ these source-verified semantics decide what is safe:
 
 **Verification:** each coalesced run must be proven byte-identical with an executable old-vs-new
 harness over an input battery (empty / single-line / multi-line / newline-terminated / `%`-bearing
-values), per the ledger's Method 1.
+values).

@@ -5,6 +5,7 @@
 - `===` (Xtend identity-equals) → `==` (Java)
 - `!==` (Xtend identity-not-equals) → `!=` (Java)
 - `==` in Xtend is `.equals()` — convert to `.equals()` or `Objects.equals()` (use `Objects.equals()` when either operand could be null).
+- **Applies to object/boxed operands.** `==`/`!=` between primitive-typed operands (int, long, short, byte, char, float, double, boolean) compile to Java `==`/`!=`, not `.equals()` — check operand types in `xtend-gen/` first. (Enums are NOT primitives: enum `==` follows the object form shown in `xtend-gen/`.)
 
 ## 8.2 Null-safe navigation `?.`
 

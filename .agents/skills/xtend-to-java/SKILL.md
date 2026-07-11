@@ -105,15 +105,15 @@ Use this table for quick mechanical transforms. Full details in the rule files.
 | `obj?.method()` | `obj != null ? obj.method() : null` (or guard clause) |
 | `x ?: default` | `x != null ? x : default` |
 | `===` / `!==` (identity) | `==` / `!=` |
-| `==` / `!=` (equality) | `.equals()` / `!Objects.equals(a, b)` |
+| `==` / `!=` (equality, object operands) | `.equals()` / `!Objects.equals(a, b)` — primitives keep `==`/`!=` (see [`rules/08`](rules/08-operator-overloads.md) §8.1) |
 | `a..b` (range) | `IntStream.rangeClosed(a, b)` |
 
 ### Lambdas and collections
 
 | Xtend | Java |
 |-------|------|
-| `[param \| body]` | `(param) -> { return body; }` |
-| `[body]` (implicit `it`) | `(it) -> { return body; }` — name the parameter explicitly |
+| `[param \| body]` | `(param) -> body` (braces + `return` only for multi-statement) |
+| `[body]` (implicit `it`) | `(it) -> body` — name the parameter explicitly |
 | `list.filter[condition]` | `list.stream().filter(x -> condition).toList()` |
 | `list.map[transform]` | `list.stream().map(x -> transform).toList()` |
 | `list.forEach[action]` | `list.forEach(x -> action)` (or `for` loop) |

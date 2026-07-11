@@ -16,22 +16,22 @@ Keep identical. Add a trailing semicolon if missing.
 
 ## 1.3 Import order convention
 
-Follow the project's Eclipse import order — **standard/framework first, project-specific second**:
+Canonical order (ground truth from migrated files): **`java.*` → `org.*` → `com.*`**, one blank
+line between groups, alphabetical by full path within each group. `javax.*` sorts with `java.*`;
+`junit.*` sorts inside `org.*` (it is `org.junit.*`). Static imports form their own block.
 
 ```java
-// Group 1: org.*, java.*, javax.*, junit.* (standard/framework)
-import org.eclipse.xtext.testing.InjectWith;
-import org.junit.jupiter.api.Test;
+// Group 1: java.* / javax.*
 import java.util.List;
 
-// Blank line separator
+// Group 2: org.* (incl. org.junit.*)
+import org.eclipse.xtext.testing.InjectWith;
+import org.junit.jupiter.api.Test;
 
-// Group 2: com.* (project-specific: com.avaloq.*, com.google.*, etc.)
+// Group 3: com.* (com.avaloq.* before com.google.*)
 import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil;
 import com.google.inject.Inject;
 ```
-
-Within each group, imports are sorted alphabetically. There is always exactly one blank line between the two groups.
 
 ## 1.4 Class declaration
 

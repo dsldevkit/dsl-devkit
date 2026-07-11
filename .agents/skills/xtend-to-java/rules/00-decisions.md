@@ -44,7 +44,7 @@ Use Java standard library for collections and streams. Keep Guava only where it 
 
 ## String building — 4-tier decision tree
 
-Choose the most readable Java idiom based on the template pattern:
+Choose the most readable Java idiom based on the template pattern (evaluate top-down, first match wins):
 
 | # | Template pattern | Java idiom |
 |---|---|---|
@@ -52,12 +52,6 @@ Choose the most readable Java idiom based on the template pattern:
 | 2 | No interpolation, multi-line | Text block |
 | 3 | Interpolation, no control flow | `.formatted()` (text block if multi-line, literal if single-line) |
 | 4 | Control flow (`«IF»`, `«FOR»`) | `StringBuilder` with explicit `if`/`for` |
-
-**Decision rules — in order:**
-1. **No interpolation, single line** → string literal
-2. **No interpolation, multi-line** → text block
-3. **Interpolation, no control flow** → `.formatted()` (on text block if multi-line, on literal if single-line)
-4. **Control flow** → `StringBuilder` — always
 
 **`.formatted()` limitations — fall back to concatenation ONLY when:**
 - The interpolated expression is glued to adjacent text with no whitespace/delimiter boundary, making `%s` ambiguous (e.g., `"pre" + expr + "suf"` where `"pre%ssuf"` is confusing)

@@ -101,4 +101,4 @@ public class MyGenerator {
 - **Template → StringBuilder** (tier 4) because the template has `«IF»` and `«FOR»` control flow.
 - **`it` parameter renamed** to `model` (descriptive name).
 - **`Iterables.filter(iter, Type.class)`** kept as Guava — genuinely more concise for type-safe filtering.
-- **Whitespace verified against `xtend-gen/`** — the template output was confirmed by reading the generated code.
+- **Whitespace must be verified against `xtend-gen/`** — for a real migration, confirm the template output by reading the generated code (this example illustrates the shape).

@@ -4,7 +4,11 @@ Run through this list before declaring a conversion done. Every item is a hard g
 
 ---
 
-## Quality rules (all 34 must pass)
+## Quality rules
+
+Every rule below is a hard gate.
+
+> `#` is a stable rule ID (assigned in discovery order), not a sequence; rows are grouped by topic. Do not renumber — cross-refs ("rule 21", "rule 22", §4.8→rule 35) depend on these IDs.
 
 ### Javadoc and comments
 
@@ -54,7 +58,7 @@ Run through this list before declaring a conversion done. Every item is a hard g
 | # | Rule | Requirement |
 |---|------|-------------|
 | 10 | No wildcard imports | Every import explicit. |
-| 11 | Import order | `org.*`/`java.*`/`javax.*`/`junit.*` first, blank line, then `com.*`. Alphabetical within groups. |
+| 11 | Import order | `java.*` → `org.*` → `com.*`, blank line between groups, alphabetical by full path within each group; `junit.*` sorts inside `org.*`; static imports form their own block. See [`rules/01-imports-and-package.md`](../rules/01-imports-and-package.md). |
 
 ### Exception handling
 
@@ -127,7 +131,7 @@ Run through this list before declaring a conversion done. Every item is a hard g
 - [ ] All comments and class/member Javadoc preserved exactly.
 - [ ] Copyright header is the exact Avaloq banner — **replacing** any generated-stub or Javadoc-style header the source had (not preserved from source).
 - [ ] Checked exceptions handled (`throws` clause or `try`/`catch` with specific types).
-- [ ] The `.xtend` file is deleted; the `.java` file is added; both never coexist.
+- [ ] The `.xtend` no longer exists — renamed to `.java` via `git mv` then translated in place; no `.xtend`/`.java` pair coexists. See rule 22.
 
 ---
 

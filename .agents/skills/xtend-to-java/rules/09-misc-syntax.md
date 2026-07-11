@@ -155,7 +155,7 @@ Rules:
 - **Multiple return paths**: Xtend implicitly returns the last expression. Add explicit `return` on **every** non-void path.
 - **`class` keyword as literal**: `SomeClass` used as a class literal → `SomeClass.class`.
 - **Static method reference `::`**: `ClassName::methodName` → `ClassName.methodName()` (or keep as a Java method reference where the receiving API accepts one).
-- **Pairs**: `key -> value` (in pair-construction context) → `Pair.of(key, value)` or `Map.entry(key, value)`.
+- **Pairs**: `key -> value` compiles to `org.eclipse.xtext.xbase.lib.Pair` — never keep it in migrated Java. Use a small `private record` (nulls OK) or `Map.entry` (rejects null); see [`workflow/known-pitfalls.md`](../workflow/known-pitfalls.md) (xbase.lib row).
 - **`^keyword`** (escaped reserved word in Xtend): Drop the `^` — most Xtend escapes aren't Java keywords.
 
 ## 9.9 Guice DI

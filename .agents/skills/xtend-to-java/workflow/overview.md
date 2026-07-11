@@ -8,6 +8,14 @@ This is the full end-to-end workflow for migrating Xtend files to Java in dsl-de
 
 To get a deterministic overview of remaining Xtend work, run one of these commands from the repository root.
 
+On macOS / Linux (bash):
+
+```bash
+find . -name "*.xtend" -path "*/src/*" -not -path "*/bin/*" \
+  | awk -F'/src/' '{print $1}' \
+  | sort | uniq -c | sort -n
+```
+
 On Windows (PowerShell):
 
 ```powershell
@@ -21,14 +29,6 @@ Get-ChildItem -Recurse -Filter "*.xtend" -Path "." |
   } |
   Sort-Object Type, Lines |
   Format-Table -AutoSize
-```
-
-On macOS / Linux (bash):
-
-```bash
-find . -name "*.xtend" -path "*/src/*" -not -path "*/bin/*" \
-  | awk -F'/src/' '{print $1}' \
-  | sort | uniq -c | sort -n
 ```
 
 Both list per-module Xtend file counts so you can plan slice scope.
@@ -56,8 +56,8 @@ Always branch from **master** (or the project's main integration branch):
 
 ```bash
 SLICE=migrate/xtend-to-java/<slice-name>
-git fetch origin
-git checkout -b "$SLICE" origin/master
+git fetch upstream
+git checkout -b "$SLICE" upstream/master
 ```
 
 For stacked multi-slice migrations, suffix the branch name with `-step-N`
@@ -168,14 +168,14 @@ Xtend's template whitespace rules:
 After reading both references, write Java that:
 1. **Matches the `xtend-gen/` behavior exactly** for all string outputs, method signatures, and control flow
 2. **Uses idiomatic Java** (text blocks, `.formatted()`, concatenation) instead of `StringConcatenation`
-3. **Preserves the original class/member Javadoc exactly** — never invent. (The file copyright header is the exception: always normalise it to the Avaloq banner per [`formatting-and-commit.md`](./formatting-and-commit.md) — replacing any generated-stub or Javadoc-style header — which is not "inventing".)
+3. **Preserves the original class/member Javadoc exactly** — never invent. (Copyright header excepted: always normalise it to the Avaloq banner per [`formatting-and-commit.md`](./formatting-and-commit.md).)
 4. **Follows the quality checklist** in [`workflow/validation-checklist.md`](./validation-checklist.md)
 
 ---
 
 ## Step 4 — Apply the quality checklist
 
-See [`workflow/validation-checklist.md`](./validation-checklist.md) — all 30 rules must pass.
+See [`workflow/validation-checklist.md`](./validation-checklist.md) — every rule must pass.
 
 ---
 

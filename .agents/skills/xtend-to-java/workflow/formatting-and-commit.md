@@ -106,3 +106,10 @@ refactor: drop Xtend build infrastructure from <plugin name>   # when applicable
 The rename commit body must state that it is a pure `git mv` and intentionally non-compiling.
 
 PR title: `refactor: migrate Xtend to Java - <plugin name>`.
+
+## Rollback
+
+Undo the whole slice: `git reset --hard HEAD~N` where N = commits in the slice (2, or 3 with
+infra). Plain `HEAD~1` reverts only the translate and strands the pure-`git mv` rename commit —
+a `.java` holding Xtend that won't compile. If already pushed: `git revert <translate-sha>
+<rename-sha>` — not `-m 1` (the rebase-merged commits are not merge commits).
