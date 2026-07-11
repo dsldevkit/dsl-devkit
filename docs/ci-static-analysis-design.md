@@ -91,9 +91,14 @@ the count-gate *stricter* than `:check` (over-fail, never under-fail), each guar
 
 ## Two operational rules
 
-- **`compile` must be full-reactor** (`-f ddk-parent/pom.xml`, no `-pl`). PMD's
-  type-resolving rules need the complete aux-classpath; a `-pl` subset produces
-  false positives (the trailing-`Throwable` case).
+- **A changed module must compile against its complete aux-classpath**, or PMD's
+  type-resolving rules false-positive (the trailing-`Throwable` case). A bare `-pl <module>`
+  subset breaks this, but `-pl <changed> -am` does not: `--also-make` restores the module's
+  full **Maven** dependency closure, which compiles for the classpath even though those deps
+  carry the analysis skip. Caveat: OSGi `Require-Bundle` siblings are *not* Maven dependencies,
+  so `-am` never pulls them — they resolve from the restored `~/.m2` p2 cache; `ddk-target` is
+  the one edge with no MANIFEST reference at all, so it is pinned explicitly into every scoped
+  reactor (a cold cache without it fails loudly rather than resolving a stale target).
 - **Merge SARIFs from SARIF files only.** Code Scanning accepts one run per category,
   so per-module SARIFs are merged (jq) before upload. The `ddk-parent` aggregator emits
   plain-XML `checkstyle-result.xml`; the merge must filter to JSON-parseable files.
