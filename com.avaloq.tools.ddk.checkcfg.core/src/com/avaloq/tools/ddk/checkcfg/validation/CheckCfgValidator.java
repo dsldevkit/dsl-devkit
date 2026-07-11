@@ -314,6 +314,36 @@ public class CheckCfgValidator extends AbstractCheckCfgValidator {
   }
 
   /**
+   * Checks that within a Check Configuration all Configured Language Validators are unique, meaning that
+   * the same language can only be configured in one place.
+   *
+   * @param configuration
+   *          the configuration
+   */
+  @Check
+  public void checkConfiguredLanguageUnique(final CheckConfiguration configuration) {
+    if (configuration.getLanguageValidatorConfigurations().size() < 2) {
+      return;
+    }
+    Predicate<ConfiguredLanguageValidator> predicate = new Predicate<ConfiguredLanguageValidator>() {
+      @Override
+      public boolean apply(final ConfiguredLanguageValidator validator) {
+        return validator.getLanguage() != null;
+      }
+    };
+    Function<ConfiguredLanguageValidator, String> function = new Function<ConfiguredLanguageValidator, String>() {
+      @Override
+      public String apply(final ConfiguredLanguageValidator from) {
+        return from.getLanguage();
+      }
+    };
+    for (final ConfiguredLanguageValidator v : getDuplicates(predicate, function, configuration.getLanguageValidatorConfigurations())) {
+      error(Messages.CheckCfgJavaValidator_DUPLICATE_LANGUAGE_CONFIGURATION, v, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR__LANGUAGE, ValidationMessageAcceptor.INSIGNIFICANT_INDEX, IssueCodes.DUPLICATE_LANGUAGE_CONFIGURATION);
+    }
+
+  }
+
+  /**
    * Checks that a Configured Check has unique Configured Parameters.
    *
    * @param configuredCheck

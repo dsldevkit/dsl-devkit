@@ -58,4 +58,21 @@ public class CheckCfgTest {
     helper.assertError(model, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR, IssueCodes.UNKNOWN_LANGUAGE);
   }
 
+  @Test
+  public void testDuplicateLanguageNotOk() throws Exception {
+    final CheckConfiguration model = parser.parse("""
+        check configuration Test
+
+        for com.avaloq.tools.ddk.^check.TestLanguage {
+
+        }
+
+        for com.avaloq.tools.ddk.^check.TestLanguage {
+
+        }
+
+        """);
+    helper.assertError(model, CheckcfgPackage.Literals.CONFIGURED_LANGUAGE_VALIDATOR, IssueCodes.DUPLICATE_LANGUAGE_CONFIGURATION);
+  }
+
 }

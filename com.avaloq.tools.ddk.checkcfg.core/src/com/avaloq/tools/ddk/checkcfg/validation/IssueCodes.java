@@ -26,6 +26,7 @@ public final class IssueCodes {
   public static final String DUPLICATE_CATALOG_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_catalog_configuration";
   public static final String DUPLICATE_CHECK_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_check_configuration";
   public static final String UNKNOWN_LANGUAGE = ISSUE_CODE_PREFIX + "unknown_language";
+  public static final String DUPLICATE_LANGUAGE_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_language_configuration";
   public static final String DUPLICATE_PARAMETER_CONFIGURATION = ISSUE_CODE_PREFIX + "duplicate_parameter_configuration";
   public static final String SEVERITY_NOT_ALLOWED = ISSUE_CODE_PREFIX + "severity_not_allowed";
   public static final String PARAMETER_VALUE_NOT_ALLOWED = ISSUE_CODE_PREFIX + "parameter_value_not_allowed";
