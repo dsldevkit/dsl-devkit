@@ -143,7 +143,7 @@ public abstract class AbstractCheckExtensionHelper implements ICheckExtensionHel
    *         in.
    */
   @SuppressWarnings("PMD.UnusedFormalParameter")
-  protected boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
+  public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     return extension.getPoint().equals(getExtensionPointId()); // if points are different, given extension must not be updated
   }
 

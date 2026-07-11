@@ -138,7 +138,7 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
   }
 
   @Override
-  protected boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
+  public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // TODO should check if this check is too expensive; consider rewriting contents instead
     if (!super.isExtensionUpdateRequired(catalog, extension, elements)) {
       return false;
