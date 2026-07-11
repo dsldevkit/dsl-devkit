@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenSource;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
 import org.eclipse.xtext.AbstractElement;
 import org.eclipse.xtext.Grammar;
@@ -241,35 +240,29 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
         @Override
         protected void appendTo(final StringConcatenationClient.TargetStringConcatenation builder) {
           builder.append("binder.bind(");
-          TypeReference _lexerSuperClass = naming.getLexerSuperClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-          builder.append(_lexerSuperClass);
+          builder.append(naming.getLexerSuperClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()));
           builder.append(".class)");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".annotatedWith(");
+          builder.newLine();
+          builder.append("  .annotatedWith(");
           builder.append(Names.class, "  ");
           builder.append(".named(");
-          TypeReference _typeRef = TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings");
-          builder.append(_typeRef, "  ");
+          builder.append(TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings"), "  ");
           builder.append(".CONTENT_ASSIST))");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".to(");
-          TypeReference _lexerClass = naming.getLexerClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-          builder.append(_lexerClass, "  ");
+          builder.newLine();
+          builder.append("  .to(");
+          builder.append(naming.getLexerClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
           builder.append(".class);");
-          builder.newLineIfNotEmpty();
+          builder.newLine();
         }
       })
       .addTypeToType(TypeReference.typeRef("org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser"), naming.getParserClass(getGrammar()))
       .addConfiguredBinding("IProposalConflictHelper", new StringConcatenationClient() {
         @Override
         protected void appendTo(final StringConcatenationClient.TargetStringConcatenation builder) {
-          builder.append("binder.bind(org.eclipse.xtext.ide.editor.contentassist.IProposalConflictHelper.class)");
-          builder.newLine();
-          builder.append("  ");
-          builder.append(".to(org.eclipse.xtext.ide.editor.contentassist.antlr.AntlrProposalConflictHelper.class);");
-          builder.newLine();
+          builder.append("""
+              binder.bind(org.eclipse.xtext.ide.editor.contentassist.IProposalConflictHelper.class)
+                .to(org.eclipse.xtext.ide.editor.contentassist.antlr.AntlrProposalConflictHelper.class);
+              """);
         }
       });
     if (this.partialParsing) {
@@ -293,40 +286,31 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
       @Override
       protected void appendTo(final StringConcatenationClient.TargetStringConcatenation builder) {
         builder.append("public class ");
-        String _simpleName = naming.getParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()).getSimpleName();
-        builder.append(_simpleName);
+        builder.append(naming.getParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()).getSimpleName());
         builder.append(" extends ");
-        TypeReference _parserSuperClass = naming.getParserSuperClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar(), AnnotationAwareXtextAntlrGeneratorFragment2.this.partialParsing);
-        builder.append(_parserSuperClass);
+        builder.append(naming.getParserSuperClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar(), AnnotationAwareXtextAntlrGeneratorFragment2.this.partialParsing));
         builder.append(" {");
-        builder.newLineIfNotEmpty();
+        builder.newLine();
         builder.newLine();
         builder.append("  ");
-        StringConcatenationClient _initNameMappings = AnnotationAwareXtextAntlrGeneratorFragment2.this.initNameMappings(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_initNameMappings, "  ");
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.initNameMappings(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.newLineIfNotEmpty();
         builder.newLine();
-        builder.append("  ");
-        builder.append("@");
+        builder.append("  @");
         builder.append(Inject.class, "  ");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("private ");
-        TypeReference _grammarAccess = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_grammarAccess, "  ");
+        builder.newLine();
+        builder.append("  private ");
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.append(" grammarAccess;");
-        builder.newLineIfNotEmpty();
         builder.newLine();
-        builder.append("  ");
-        builder.append("@");
+        builder.newLine();
+        builder.append("  @");
         builder.append(Inject.class, "  ");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("private ");
-        TypeReference _typeRef = TypeReference.typeRef(ISemanticPredicates.class);
-        builder.append(_typeRef, "  ");
+        builder.newLine();
+        builder.append("  private ");
+        builder.append(TypeReference.typeRef(ISemanticPredicates.class), "  ");
         builder.append(" predicates;");
-        builder.newLineIfNotEmpty();
+        builder.newLine();
         builder.newLine();
         builder.append("""
           /**
@@ -337,102 +321,78 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
            * @return Compilation context
            */
         """);
-        builder.append("  ");
-        builder.append("protected ");
-        TypeReference _typeRef_1 = TypeReference.typeRef(ParserContext.class);
-        builder.append(_typeRef_1, "  ");
+        builder.append("  protected ");
+        builder.append(TypeReference.typeRef(ParserContext.class), "  ");
         builder.append(" createParserContext() {");
-        builder.newLineIfNotEmpty();
+        builder.newLine();
         builder.append("""
             return new ParserContext();
           }
 
         """);
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("protected ");
-        TypeReference _internalParserClass = naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_internalParserClass, "  ");
+        builder.append("""
+          @Override
+          protected\s\
+        """);
+        builder.append(naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.append(" createParser() {");
-        builder.newLineIfNotEmpty();
+        builder.newLine();
         builder.append("    ");
-        TypeReference _internalParserClass_1 = naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_internalParserClass_1, "    ");
+        builder.append(naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "    ");
         builder.append(" result = new ");
-        TypeReference _internalParserClass_2 = naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_internalParserClass_2, "    ");
+        builder.append(naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "    ");
         builder.append("(null);");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("result.setGrammarAccess(grammarAccess);");
         builder.newLine();
-        builder.append("    ");
-        builder.append("result.setParserContext(createParserContext());");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("result.setPredicates((");
-        TypeReference _typeRef_2 = TypeReference.typeRef(AnnotationAwareXtextAntlrGeneratorFragment2.this.predicatesNaming.getSemanticPredicatesFullName(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()));
-        builder.append(_typeRef_2, "    ");
+        builder.append("""
+            result.setGrammarAccess(grammarAccess);
+            result.setParserContext(createParserContext());
+            result.setPredicates((\
+        """);
+        builder.append(TypeReference.typeRef(AnnotationAwareXtextAntlrGeneratorFragment2.this.predicatesNaming.getSemanticPredicatesFullName(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar())), "    ");
         builder.append(")predicates);");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return result;");
         builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
+        builder.append("""
+            return result;
+          }
+
+        """);
         {
           boolean _hasSyntheticTerminalRule = AnnotationAwareXtextAntlrGeneratorFragment2.this.hasSyntheticTerminalRule();
           if (_hasSyntheticTerminalRule) {
-            builder.append(" ");
-            builder.append("@Override");
-            builder.newLine();
-            builder.append(" ");
-            builder.append("protected ");
+            builder.append("""
+             @Override
+             protected\s\
+            """);
             builder.append(TokenSource.class, " ");
             builder.append(" createLexer(");
             builder.append(CharStream.class, " ");
             builder.append(" stream) {");
-            builder.newLineIfNotEmpty();
-            builder.append(" ");
-            builder.append("  ");
-            builder.append("return new ");
-            TypeReference _tokenSourceClass = naming.getTokenSourceClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-            builder.append(_tokenSourceClass, "   ");
+            builder.newLine();
+            builder.append("   return new ");
+            builder.append(naming.getTokenSourceClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "   ");
             builder.append("(super.createLexer(stream));");
-            builder.newLineIfNotEmpty();
-            builder.append(" ");
-            builder.append("}");
             builder.newLine();
-            builder.newLine();
+            builder.append("""
+             }
+
+            """);
           }
         }
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("protected String getRuleName(");
+        builder.append("""
+          @Override
+          protected String getRuleName(\
+        """);
         builder.append(AbstractElement.class, "  ");
         builder.append(" element) {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return nameMappings.getRuleName(element);");
         builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("protected String[] getInitialHiddenTokens() {");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("return new String[] { ");
+        builder.append("""
+            return nameMappings.getRuleName(element);
+          }
+
+          @Override
+          protected String[] getInitialHiddenTokens() {
+            return new String[] {\s\
+        """);
         {
           List<String> _initialHiddenTokens = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.initialHiddenTokens(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
           boolean _hasElements = false;
@@ -448,38 +408,28 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           }
         }
         builder.append(" };");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public ");
-        TypeReference _grammarAccess_1 = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_grammarAccess_1, "  ");
-        builder.append(" getGrammarAccess() {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return this.grammarAccess;");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public void setGrammarAccess(");
-        TypeReference _grammarAccess_2 = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_grammarAccess_2, "  ");
-        builder.append(" grammarAccess) {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("this.grammarAccess = grammarAccess;");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
         builder.newLine();
         builder.append("""
+          }
+
+          public\s\
+        """);
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
+        builder.append(" getGrammarAccess() {");
+        builder.newLine();
+        builder.append("""
+            return this.grammarAccess;
+          }
+
+          public void setGrammarAccess(\
+        """);
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
+        builder.append(" grammarAccess) {");
+        builder.newLine();
+        builder.append("""
+            this.grammarAccess = grammarAccess;
+          }
+
           public NameMappings getNameMappings() {
             return nameMappings;
           }
@@ -536,125 +486,57 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
     StringConcatenationClient client = new StringConcatenationClient() {
       @Override
       protected void appendTo(final StringConcatenationClient.TargetStringConcatenation builder) {
-        builder.append("/**");
-        builder.newLine();
-        builder.append(" ");
-        builder.append("*  Provides semantic predicates as specified in the grammar. Language may need to override");
-        builder.newLine();
-        builder.append(" ");
-        builder.append("*  this class in order to provide concrete implementations for predicates.");
-        builder.newLine();
-        builder.append(" ");
-        builder.append("*/");
-        builder.newLine();
-        builder.append("@Singleton");
-        builder.newLine();
-        builder.append("public class ");
-        String _semanticPredicatesSimpleName = AnnotationAwareXtextAntlrGeneratorFragment2.this.predicatesNaming.getSemanticPredicatesSimpleName(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_semanticPredicatesSimpleName);
-        builder.append(" extends AbstractSemanticPredicates {");
-        builder.newLineIfNotEmpty();
+        builder.append("""
+        /**
+         *  Provides semantic predicates as specified in the grammar. Language may need to override
+         *  this class in order to provide concrete implementations for predicates.
+         */
+        @Singleton
+        public class %s extends AbstractSemanticPredicates {
+        """.formatted(AnnotationAwareXtextAntlrGeneratorFragment2.this.predicatesNaming.getSemanticPredicatesSimpleName(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar())));
         {
           List<GrammarRuleAnnotations.SemanticPredicate> _predicates = AnnotationAwareXtextAntlrGeneratorFragment2.this.annotations.predicates(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
           for (final GrammarRuleAnnotations.SemanticPredicate element : _predicates) {
-            builder.newLine();
-            builder.append("  ");
-            builder.append("/**");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("* Predicate for grammar rule ");
-            String _name = element.getName();
-            builder.append(_name, "   ");
-            builder.append(".");
+            builder.append("""
+
+              /**
+               * Predicate for grammar rule %s.
+               *
+               * @param input
+               *          Input from Lexer
+               * @return {@code true} if the grammar rule is enabled, {@code false} otherwise
+               */
+              public boolean %s(ParserContext parserContext) {
+            """.formatted(element.getName(), element.getName()));
+            builder.append("    ");
+            builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.getRulePredicateCondition(element), "    ");
             builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("*");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("* @param input");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("*          Input from Lexer");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("* @return {@code true} if the grammar rule is enabled, {@code false} otherwise");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("*/");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("public boolean ");
-            String _name_1 = element.getName();
-            builder.append(_name_1, "  ");
-            builder.append("(ParserContext parserContext) {");
-            builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append("  ");
-            String _rulePredicateCondition = AnnotationAwareXtextAntlrGeneratorFragment2.this.getRulePredicateCondition(element);
-            builder.append(_rulePredicateCondition, "    ");
-            builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append("}");
-            builder.newLine();
+            builder.append("""
+              }
+            """);
           }
         }
         builder.newLine();
         {
           List<GrammarRuleAnnotations.SemanticPredicate> _predicates_1 = AnnotationAwareXtextAntlrGeneratorFragment2.this.annotations.predicates(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
           for (final GrammarRuleAnnotations.SemanticPredicate element_1 : _predicates_1) {
-            builder.newLine();
-            builder.append("  ");
-            builder.append("/**");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("* Message for ");
-            String _name_2 = element_1.getName();
-            builder.append(_name_2, "    ");
-            builder.append(" predicate.");
+            builder.append("""
+
+              /**
+                * Message for %s predicate.
+                *
+                * @param input
+                *          Input from Lexer
+                * @return {@code true} if the grammar rule is enabled, {@code false} otherwise
+                */
+               public String %s(Token token) {
+            """.formatted(element_1.getName(), element_1.getMessage()));
+            builder.append("     ");
+            builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.getRulePredicateMessage(element_1), "     ");
             builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("*");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("* @param input");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("*          Input from Lexer");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("* @return {@code true} if the grammar rule is enabled, {@code false} otherwise");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("*/");
-            builder.newLine();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("public String ");
-            String _message = element_1.getMessage();
-            builder.append(_message, "   ");
-            builder.append("(Token token) {");
-            builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append("   ");
-            String _rulePredicateMessage = AnnotationAwareXtextAntlrGeneratorFragment2.this.getRulePredicateMessage(element_1);
-            builder.append(_rulePredicateMessage, "     ");
-            builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append(" ");
-            builder.append("}");
-            builder.newLine();
+            builder.append("""
+               }
+            """);
           }
         }
         builder.append("}");
@@ -674,23 +556,12 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
    */
   public String getRulePredicateMessage(final SemanticPredicate predicate) {
     if (predicate.getKeywords() != null) {
-      StringConcatenation msgBuilder = new StringConcatenation();
-      msgBuilder.append("return \"Unexpected: \" + token.getText() + \". Expected: \'");
-      String join = Joiner.on("\', \'").join(predicate.getKeywords());
-      msgBuilder.append(join);
-      msgBuilder.append("\'\";");
-      msgBuilder.newLineIfNotEmpty();
-      return msgBuilder.toString();
+      return "return \"Unexpected: \" + token.getText() + \". Expected: '" + Joiner.on("', '").join(predicate.getKeywords()) + "'\";\n";
     } else {
-      StringConcatenation defaultBuilder = new StringConcatenation();
-      defaultBuilder.append("/* Default message. Intended to be overridden. */");
-      defaultBuilder.newLine();
-      defaultBuilder.append("return \"Condition ");
-      String name = predicate.getName();
-      defaultBuilder.append(name);
-      defaultBuilder.append(" is not fullfilled \";");
-      defaultBuilder.newLineIfNotEmpty();
-      return defaultBuilder.toString();
+      return """
+          /* Default message. Intended to be overridden. */
+          return "Condition %s is not fullfilled ";
+          """.formatted(predicate.getName());
     }
   }
 
@@ -706,14 +577,10 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
       final String condition = predicate.getKeywords().stream()
           .map(s -> "\"%s\".equalsIgnoreCase(text)".formatted(s))
           .collect(Collectors.joining(" || "));
-      StringConcatenation condBuilder = new StringConcatenation();
-      condBuilder.append("String text = parserContext.getInput().LT(1).getText();");
-      condBuilder.newLine();
-      condBuilder.append("return ");
-      condBuilder.append(condition);
-      condBuilder.append(";");
-      condBuilder.newLineIfNotEmpty();
-      return condBuilder.toString();
+      return """
+          String text = parserContext.getInput().LT(1).getText();
+          return %s;
+          """.formatted(condition);
     } else {
       return "return " + predicate.getGrammar() + CLASS_SUFFIX + "." + predicate.getName() + "(parserContext);\n";
     }
@@ -729,42 +596,33 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
       @Override
       protected void appendTo(final StringConcatenationClient.TargetStringConcatenation builder) {
         builder.append("public class ");
-        String _simpleName = naming.getParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()).getSimpleName();
-        builder.append(_simpleName);
+        builder.append(naming.getParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()).getSimpleName());
         builder.append(" extends ");
         builder.append(AbstractContextualAntlrParser.class);
         builder.append(" {");
-        builder.newLineIfNotEmpty();
         builder.newLine();
-        builder.append("  ");
-        builder.append("@");
+        builder.newLine();
+        builder.append("  @");
         builder.append(Inject.class, "  ");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("private ");
-        TypeReference _grammarAccess = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_grammarAccess, "  ");
+        builder.newLine();
+        builder.append("  private ");
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.append(" grammarAccess;");
-        builder.newLineIfNotEmpty();
         builder.newLine();
-        builder.append("  ");
-        builder.append("@");
+        builder.newLine();
+        builder.append("  @");
         builder.append(Inject.class, "  ");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("private ISemanticPredicates predicates;");
         builder.newLine();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("protected void setInitialHiddenTokens(");
+        builder.append("""
+          private ISemanticPredicates predicates;
+
+          @Override
+          protected void setInitialHiddenTokens(\
+        """);
         builder.append(XtextTokenStream.class, "  ");
         builder.append(" tokenStream) {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("tokenStream.setInitialHiddenTokens(");
+        builder.newLine();
+        builder.append("    tokenStream.setInitialHiddenTokens(");
         {
           List<String> _initialHiddenTokens = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.initialHiddenTokens(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
           boolean _hasElements = false;
@@ -780,35 +638,31 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           }
         }
         builder.append(");");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("}");
         builder.newLine();
-        builder.newLine();
+        builder.append("""
+          }
+
+        """);
         {
           boolean _hasSyntheticTerminalRule = AnnotationAwareXtextAntlrGeneratorFragment2.this.hasSyntheticTerminalRule();
           if (_hasSyntheticTerminalRule) {
-            builder.append("  ");
-            builder.append("@Override");
-            builder.newLine();
-            builder.append("  ");
-            builder.append("protected ");
+            builder.append("""
+              @Override
+              protected\s\
+            """);
             builder.append(TokenSource.class, "  ");
             builder.append(" createLexer(");
             builder.append(CharStream.class, "  ");
             builder.append(" stream) {");
-            builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("return new ");
-            TypeReference _tokenSourceClass = naming.getTokenSourceClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-            builder.append(_tokenSourceClass, "    ");
+            builder.newLine();
+            builder.append("    return new ");
+            builder.append(naming.getTokenSourceClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "    ");
             builder.append("(super.createLexer(stream));");
-            builder.newLineIfNotEmpty();
-            builder.append("  ");
-            builder.append("}");
             builder.newLine();
-            builder.newLine();
+            builder.append("""
+              }
+
+            """);
             builder.append("""
               /**
                * Indentation aware languages do not support partial parsing since the lexer is inherently stateful.
@@ -822,30 +676,25 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           }
         }
         builder.newLine();
-        builder.append("  ");
-        builder.append("@Override");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("protected ");
-        TypeReference _internalParserClass = naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_internalParserClass, "  ");
+        builder.append("""
+          @Override
+          protected\s\
+        """);
+        builder.append(naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.append(" createParser(");
         builder.append(XtextTokenStream.class, "  ");
         builder.append(" stream) {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return new ");
-        TypeReference _internalParserClass_1 = naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_internalParserClass_1, "    ");
+        builder.newLine();
+        builder.append("    return new ");
+        builder.append(naming.getInternalParserClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "    ");
         builder.append("(stream, getGrammarAccess(), createParserContext(), (");
-        String _semanticPredicatesSimpleName = AnnotationAwareXtextAntlrGeneratorFragment2.this.predicatesNaming.getSemanticPredicatesSimpleName(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_semanticPredicatesSimpleName, "    ");
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.predicatesNaming.getSemanticPredicatesSimpleName(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "    ");
         builder.append(") predicates);");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("}");
         builder.newLine();
-        builder.newLine();
+        builder.append("""
+          }
+
+        """);
         builder.append("""
           @Override
           protected String getDefaultRuleName() {
@@ -853,33 +702,24 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           }
         """.formatted(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(IterableExtensions.<ParserRule>head(GrammarUtil.allParserRules(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()))).getName()));
         builder.newLine();
-        builder.append("  ");
-        builder.append("public ");
-        TypeReference _grammarAccess_1 = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_grammarAccess_1, "  ");
+        builder.append("  public ");
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.append(" getGrammarAccess() {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("return this.grammarAccess;");
         builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.newLine();
-        builder.append("  ");
-        builder.append("public void setGrammarAccess(");
-        TypeReference _grammarAccess_2 = AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-        builder.append(_grammarAccess_2, "  ");
+        builder.append("""
+            return this.grammarAccess;
+          }
+
+          public void setGrammarAccess(\
+        """);
+        builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.grammarUtil.getGrammarAccess(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
         builder.append(" grammarAccess) {");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("this.grammarAccess = grammarAccess;");
         builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.append("}");
-        builder.newLine();
+        builder.append("""
+            this.grammarAccess = grammarAccess;
+          }
+        }
+        """);
       }
     };
     file.setContent(client);
@@ -910,23 +750,19 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
         @Override
         protected void appendTo(final StringConcatenationClient.TargetStringConcatenation builder) {
           builder.append("binder.bind(");
-          TypeReference _lexerSuperClass = naming.getLexerSuperClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-          builder.append(_lexerSuperClass);
+          builder.append(naming.getLexerSuperClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()));
           builder.append(".class)");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".annotatedWith(");
+          builder.newLine();
+          builder.append("  .annotatedWith(");
           builder.append(Names.class, "  ");
           builder.append(".named(");
-          TypeReference _typeRef = TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings");
-          builder.append(_typeRef, "  ");
+          builder.append(TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings"), "  ");
           builder.append(".CONTENT_ASSIST))");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".to(");
+          builder.newLine();
+          builder.append("  .to(");
           builder.append(caLexerClass, "  ");
           builder.append(".class);");
-          builder.newLineIfNotEmpty();
+          builder.newLine();
         }
       })
       // registration of the 'ContentAssistLexer' is put in front of the 'HighlightingLexer'
@@ -938,21 +774,17 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           builder.append("binder.bind(");
           builder.append(Lexer.class);
           builder.append(".class)");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".annotatedWith(");
+          builder.newLine();
+          builder.append("  .annotatedWith(");
           builder.append(Names.class, "  ");
           builder.append(".named(");
-          TypeReference _typeRef = TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings");
-          builder.append(_typeRef, "  ");
+          builder.append(TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings"), "  ");
           builder.append(".HIGHLIGHTING))");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".to(");
-          TypeReference _lexerClass = AnnotationAwareXtextAntlrGeneratorFragment2.this.productionNaming.getLexerClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar());
-          builder.append(_lexerClass, "  ");
+          builder.newLine();
+          builder.append("  .to(");
+          builder.append(AnnotationAwareXtextAntlrGeneratorFragment2.this.productionNaming.getLexerClass(AnnotationAwareXtextAntlrGeneratorFragment2.this.getGrammar()), "  ");
           builder.append(".class);");
-          builder.newLineIfNotEmpty();
+          builder.newLine();
         }
       })
       .addConfiguredBinding("HighlightingTokenDefProvider", new StringConcatenationClient() {
@@ -961,20 +793,17 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           builder.append("binder.bind(");
           builder.append(ITokenDefProvider.class);
           builder.append(".class)");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".annotatedWith(");
+          builder.newLine();
+          builder.append("  .annotatedWith(");
           builder.append(Names.class, "  ");
           builder.append(".named(");
-          TypeReference _typeRef = TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings");
-          builder.append(_typeRef, "  ");
+          builder.append(TypeReference.typeRef("org.eclipse.xtext.ide.LexerIdeBindings"), "  ");
           builder.append(".HIGHLIGHTING))");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append(".to(");
+          builder.newLine();
+          builder.append("  .to(");
           builder.append(AntlrTokenDefProvider.class, "  ");
           builder.append(".class);");
-          builder.newLineIfNotEmpty();
+          builder.newLine();
         }
       })
       .addTypeToType(
@@ -990,7 +819,7 @@ public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGener
           builder.append(".create(");
           builder.append(caLexerClass);
           builder.append(".class));");
-          builder.newLineIfNotEmpty();
+          builder.newLine();
         }
       });
 

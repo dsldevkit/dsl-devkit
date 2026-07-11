@@ -115,12 +115,10 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     import org.eclipse.emf.ecore.EObject;
     import org.eclipse.xtext.parser.antlr.XtextTokenStream;
     import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
-    """);
-    builder.append("""
-        import %s;
-        import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
-        import %s;
-        """.formatted(getGrammarNaming().getInternalParserSuperClass(it).getName(), _grammarAccessExtensions.getGrammarAccess(it).getName()));
+    import %s;
+    import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
+    import %s;
+    """.formatted(getGrammarNaming().getInternalParserSuperClass(it).getName(), _grammarAccessExtensions.getGrammarAccess(it).getName()));
     builder.append(super.compileParserImports(it, options));
     builder.newLineIfNotEmpty();
     builder.newLine();
@@ -156,8 +154,7 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
         builder.append("\'\");");
         builder.newLineIfNotEmpty();
       }
-      builder.append("  ");
-      builder.append("}");
+      builder.append("  }");
       builder.newLine();
     }
     builder.newLine();
@@ -260,14 +257,14 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
       builder.append("{ before(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)));
       builder.append("); }");
-      builder.newLineIfNotEmpty();
+      builder.newLine();
       builder.append("   ");
       builder.append(_grammarAccessExtensions.ruleName(it), "   ");
       builder.newLineIfNotEmpty();
       builder.append("{ after(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)));
       builder.append("); }");
-      builder.newLineIfNotEmpty();
+      builder.newLine();
       builder.append("   ");
       builder.append("EOF");
       builder.newLine();
@@ -290,28 +287,21 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append(_grammarAccessExtensions.ruleName(it));
     builder.newLineIfNotEmpty();
     if (this.annotations.hasNoBacktrackAnnotation(it)) {
-      builder.append("  ");
-      builder.append("// Enclosing rule was annotated with @NoBacktrack");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("options { backtrack=false; }");
-      builder.newLine();
+      builder.append("""
+        // Enclosing rule was annotated with @NoBacktrack
+        options { backtrack=false; }
+      """);
     }
-    builder.append("  ");
-    builder.append("@init {");
+    builder.append("  @init {");
     builder.newLine();
     builder.append("    ");
     builder.append(compileInitHiddenTokens(it, options), "    ");
     builder.newLineIfNotEmpty();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("}");
-    builder.newLine();
-    builder.append("  ");
-    builder.append(":");
-    builder.newLine();
+    builder.append("""
+        int stackSize = keepStackSize();
+      }
+      :
+    """);
     builder.append("  ");
     if (this.annotations.hasValidatingPredicate(it)) {
       builder.append(this.annotations.generateValidatingPredicate(it), "  ");
@@ -320,13 +310,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("  ");
     builder.append(ebnf(it.getAlternatives(), options, false), "  ");
     builder.newLineIfNotEmpty();
-    builder.append(";");
-    builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
-    builder.newLine();
+    builder.append("""
+    ;
+    finally {
+      restoreStackSize(stackSize);
+    """);
     builder.append("  ");
     builder.append(compileRestoreHiddenTokens(it, options), "  ");
     builder.newLineIfNotEmpty();
@@ -348,9 +336,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
           @init {
             int stackSize = keepStackSize();
           }
+        :
         """);
-    builder.append(":");
-    builder.newLine();
     builder.append("  ");
     builder.append(ebnf(it.getAlternatives(), options, false), "  ");
     builder.newLineIfNotEmpty();
@@ -375,9 +362,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
           @init {
             int stackSize = keepStackSize();
           }
+        :
         """);
-    builder.append(":");
-    builder.newLine();
     builder.append("  ");
     boolean hasElements = false;
     for (final AbstractElement element : it.getElements()) {
@@ -410,9 +396,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
           @init {
             int stackSize = keepStackSize();
           }
+        :
         """);
-    builder.append(":");
-    builder.newLine();
     builder.append("  ");
     builder.append(assignmentEbnf(it.getTerminal(), it, options, false), "  ");
     builder.newLineIfNotEmpty();
@@ -434,54 +419,47 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     builder.append("__");
     builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("int stackSize = keepStackSize();");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("getUnorderedGroupHelper().enter(grammarAccess.");
+    builder.append("""
+      @init {
+        int stackSize = keepStackSize();
+        getUnorderedGroupHelper().enter(grammarAccess.\
+    """);
     builder.append(_grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.getOriginalElement(it)), "    ");
     builder.append(");");
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("}");
     builder.newLine();
-    builder.append(":");
-    builder.newLine();
+    builder.append("""
+      }
+    :
+    """);
     builder.append("  ");
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
     builder.append("__");
     builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("__0");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     if (hasMandatoryContent) {
       builder.append("  ");
       builder.append("{getUnorderedGroupHelper().canLeave(grammarAccess.");
       builder.append(_grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
       builder.append(")}?");
-      builder.newLineIfNotEmpty();
+      builder.newLine();
     } else {
-      builder.append("  ");
-      builder.append("?");
+      builder.append("  ?");
       builder.newLine();
     }
-    builder.append(";");
-    builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("getUnorderedGroupHelper().leave(grammarAccess.");
+    builder.append("""
+    ;
+    finally {
+      getUnorderedGroupHelper().leave(grammarAccess.\
+    """);
     builder.append(_grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append(");");
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
     builder.newLine();
-    builder.append("}");
-    builder.newLine();
-    builder.newLine();
+    builder.append("""
+      restoreStackSize(stackSize);
+    }
+
+    """);
     builder.append(ruleImpl(it, grammar, options));
     builder.newLineIfNotEmpty();
     builder.newLine();
@@ -510,12 +488,9 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
             int stackSize = keepStackSize();
             boolean selected = false;
           }
+        :
+            (
         """);
-    builder.append(":");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("(");
-    builder.newLine();
     boolean hasElements = false;
     for (final Pair<Integer, AbstractElement> element : IterableExtensions.indexed(it.getElements())) {
       if (!hasElements) {
@@ -523,162 +498,100 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
       } else {
         builder.appendImmediate("|", "    ");
       }
-      builder.append("    ");
-      builder.append("(");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("  ");
-      builder.append("{getUnorderedGroupHelper().canSelect(grammarAccess.");
+      builder.append("""
+          (
+            {getUnorderedGroupHelper().canSelect(grammarAccess.\
+      """);
       builder.append(_grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.getOriginalElement(it)), "      ");
       builder.append(", ");
       builder.append(element.getKey(), "      ");
       builder.append(")}?=>(");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("    ");
-      builder.append("{");
       builder.newLine();
-      builder.append("    ");
-      builder.append("      ");
-      builder.append("getUnorderedGroupHelper().select(grammarAccess.");
+      builder.append("""
+              {
+                getUnorderedGroupHelper().select(grammarAccess.\
+      """);
       builder.append(_grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.getOriginalElement(it)), "          ");
       builder.append(", ");
       builder.append(element.getKey(), "          ");
       builder.append(");");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("    ");
-      builder.append("}");
       builder.newLine();
-      builder.append("    ");
-      builder.append("    ");
-      builder.append("{");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("      ");
-      builder.append("selected = true;");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("    ");
-      builder.append("}");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("    ");
-      builder.append("(");
-      builder.newLine();
+      builder.append("""
+              }
+              {
+                selected = true;
+              }
+              (
+      """);
       if (GrammarUtil.isMultipleCardinality(element.getValue())) {
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("(");
+        builder.append("          (");
         builder.newLine();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("  ");
-        builder.append("{ before(grammarAccess.");
+        builder.append("            { before(grammarAccess.");
         builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(element.getValue())), "            ");
         builder.append("); }");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("  ");
-        builder.append("(");
+        builder.newLine();
+        builder.append("            (");
         builder.append(ebnf2(element.getValue(), options, false), "            ");
         builder.append(")");
         builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("  ");
-        builder.append("{ after(grammarAccess.");
+        builder.append("            { after(grammarAccess.");
         builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(element.getValue())), "            ");
         builder.append("); }");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append(")");
         builder.newLine();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("(");
+        builder.append("          )");
         builder.newLine();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("  ");
-        builder.append("{ before(grammarAccess.");
+        builder.append("          (");
+        builder.newLine();
+        builder.append("            { before(grammarAccess.");
         builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(element.getValue())), "            ");
         builder.append("); }");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("  ");
-        builder.append("((");
+        builder.newLine();
+        builder.append("            ((");
         builder.append(ebnf2(element.getValue(), options, false), "            ");
         builder.append(")=>");
         builder.append(ebnf2(element.getValue(), options, false), "            ");
         builder.append(")*");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("  ");
-        builder.append("{ after(grammarAccess.");
+        builder.newLine();
+        builder.append("            { after(grammarAccess.");
         builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(element.getValue())), "            ");
         builder.append("); }");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append(")");
+        builder.newLine();
+        builder.append("          )");
         builder.newLine();
       } else {
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("{ before(grammarAccess.");
+        builder.append("          { before(grammarAccess.");
         builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(element.getValue())), "          ");
         builder.append("); }");
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("(");
+        builder.newLine();
+        builder.append("          (");
         builder.append(ebnf2(element.getValue(), options, false), "          ");
         builder.append(")");
         builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("      ");
-        builder.append("{ after(grammarAccess.");
+        builder.append("          { after(grammarAccess.");
         builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(element.getValue())), "          ");
         builder.append("); }");
-        builder.newLineIfNotEmpty();
+        builder.newLine();
       }
-      builder.append("    ");
-      builder.append("    ");
-      builder.append(")");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("  ");
-      builder.append(")");
-      builder.newLine();
-      builder.append("    ");
-      builder.append(")");
-      builder.newLine();
+      builder.append("""
+              )
+            )
+          )
+      """);
     }
-    builder.append("    ");
-    builder.append(")");
-    builder.newLine();
-    builder.append(";");
-    builder.newLine();
-    builder.append("finally {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("if (selected)");
-    builder.newLine();
-    builder.append("    ");
-    builder.append("getUnorderedGroupHelper().returnFromSelection(grammarAccess.");
+    builder.append("""
+        )
+    ;
+    finally {
+      if (selected)
+        getUnorderedGroupHelper().returnFromSelection(grammarAccess.\
+    """);
     builder.append(_grammarAccessExtensions.gaRuleElementAccessor(AntlrGrammarGenUtil.getOriginalElement(it)), "    ");
     builder.append(");");
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("restoreStackSize(stackSize);");
     builder.newLine();
-    builder.append("}");
-    builder.newLine();
+    builder.append("""
+      restoreStackSize(stackSize);
+    }
+    """);
     return builder;
   }
 
@@ -694,9 +607,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
           @init {
             int stackSize = keepStackSize();
           }
+        :
         """);
-    builder.append(":");
-    builder.newLine();
     builder.append("  ");
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
     builder.append("__");
@@ -740,9 +652,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
           @init {
             int stackSize = keepStackSize();
           }
+        :
         """);
-    builder.append(":");
-    builder.newLine();
     builder.append("  ");
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
     builder.append("__");
@@ -779,9 +690,8 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
           @init {
             int stackSize = keepStackSize();
           }
+        :
         """);
-    builder.append(":");
-    builder.newLine();
     builder.append(ebnf(it.getElements().get(index), options, false));
     builder.newLineIfNotEmpty();
     builder.append(";");
@@ -805,63 +715,52 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     if (!GrammarUtil.isOptionalCardinality(it) && GrammarUtil.isMultipleCardinality(it)) {
       builder.append("(");
       builder.newLine();
-      builder.append("  ");
-      builder.append("(");
+      builder.append("  (");
       builder.newLine();
-      builder.append("    ");
-      builder.append("{ before(grammarAccess.");
+      builder.append("    { before(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "    ");
       builder.append(paramConfig(it), "    ");
       builder.append("); }");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("(");
+      builder.newLine();
+      builder.append("    (");
       builder.append(ebnf2(it, options, supportsActions), "    ");
       builder.append(")");
       builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("{ after(grammarAccess.");
+      builder.append("    { after(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "    ");
       builder.append(paramConfig(it), "    ");
       builder.append("); }");
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append(")");
       builder.newLine();
-      builder.append("  ");
-      builder.append("(");
+      builder.append("  )");
       builder.newLine();
-      builder.append("    ");
-      builder.append("{ before(grammarAccess.");
+      builder.append("  (");
+      builder.newLine();
+      builder.append("    { before(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "    ");
       builder.append(paramConfig(it), "    ");
       builder.append("); }");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("(");
+      builder.newLine();
+      builder.append("    (");
       builder.append(ebnf2(it, options, supportsActions), "    ");
       builder.append(")*");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("{ after(grammarAccess.");
+      builder.newLine();
+      builder.append("    { after(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "    ");
       builder.append(paramConfig(it), "    ");
       builder.append("); }");
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append(")");
+      builder.newLine();
+      builder.append("  )");
       builder.newLine();
       builder.append(")");
       builder.newLine();
     } else {
       builder.append("(");
       builder.newLine();
-      builder.append("  ");
-      builder.append("{ before(grammarAccess.");
+      builder.append("  { before(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
       builder.append(paramConfig(it), "  ");
       builder.append("); }");
-      builder.newLineIfNotEmpty();
+      builder.newLine();
       builder.append("  ");
       if (mustBeParenthesized(it)) {
         builder.append("(");
@@ -872,12 +771,11 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
       }
       builder.append(it.getCardinality(), "  ");
       builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append("{ after(grammarAccess.");
+      builder.append("  { after(grammarAccess.");
       builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
       builder.append(paramConfig(it), "  ");
       builder.append("); }");
-      builder.newLineIfNotEmpty();
+      builder.newLine();
       builder.append(")");
       builder.newLine();
     }
@@ -902,19 +800,17 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     StringConcatenation builder = new StringConcatenation();
     builder.append("(");
     builder.newLine();
-    builder.append("  ");
-    builder.append("{ before(grammarAccess.");
+    builder.append("  { before(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append("  ");
     builder.append(ebnf(it, options, supportsActions), "  ");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ after(grammarAccess.");
+    builder.append("  { after(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(")");
     builder.newLine();
     return builder.toString();
@@ -926,19 +822,17 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     StringConcatenation builder = new StringConcatenation();
     builder.append("(");
     builder.newLine();
-    builder.append("  ");
-    builder.append("{ before(grammarAccess.");
+    builder.append("  { before(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append("  ");
     builder.append(crossrefEbnf(it.getTerminal(), it, supportsActions), "  ");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ after(grammarAccess.");
+    builder.append("  { after(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(")");
     builder.newLine();
     return builder.toString();
@@ -950,23 +844,20 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     StringConcatenation builder = new StringConcatenation();
     builder.append("(");
     builder.newLine();
-    builder.append("  ");
-    builder.append("{ before(grammarAccess.");
+    builder.append("  { before(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("(");
+    builder.newLine();
+    builder.append("  (");
     builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)), "  ");
     builder.append("__");
     builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append(")");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ after(grammarAccess.");
+    builder.append("  { after(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(")");
     builder.newLine();
     return builder.toString();
@@ -978,19 +869,17 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     StringConcatenation builder = new StringConcatenation();
     builder.append("(");
     builder.newLine();
-    builder.append("  ");
-    builder.append("{ before(grammarAccess.");
+    builder.append("  { before(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append("  ");
     builder.append(_grammarAccessExtensions.ruleName(it.getRule()), "  ");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ after(grammarAccess.");
+    builder.append("  { after(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(")");
     builder.newLine();
     return builder.toString();
@@ -1002,19 +891,17 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     StringConcatenation builder = new StringConcatenation();
     builder.append("(");
     builder.newLine();
-    builder.append("  ");
-    builder.append("{ before(grammarAccess.");
+    builder.append("  { before(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append("  ");
     builder.append(crossrefEbnf(it.getRule(), it, ref, supportActions), "  ");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ after(grammarAccess.");
+    builder.append("  { after(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(")");
     builder.newLine();
     return builder.toString();
@@ -1026,19 +913,17 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
     StringConcatenation builder = new StringConcatenation();
     builder.append("(");
     builder.newLine();
-    builder.append("  ");
-    builder.append("{ before(grammarAccess.");
+    builder.append("  { before(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append("  ");
     builder.append(super._crossrefEbnf(it, ref, supportActions), "  ");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ after(grammarAccess.");
+    builder.append("  { after(grammarAccess.");
     builder.append(_grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.getOriginalElement(it)), "  ");
     builder.append("); }");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(")");
     builder.newLine();
     return builder.toString();
@@ -1065,42 +950,25 @@ public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractA
   @Override
   @SuppressWarnings("checkstyle:MethodName")
   protected String _ebnf2(final Alternatives it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation builder = new StringConcatenation();
-    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
-    builder.append("__");
-    builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
-    return builder.toString();
+    return AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)) + "__" + _grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it));
   }
 
   @Override
   @SuppressWarnings("checkstyle:MethodName")
   protected String _ebnf2(final Assignment it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation builder = new StringConcatenation();
-    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
-    builder.append("__");
-    builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
-    return builder.toString();
+    return AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)) + "__" + _grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it));
   }
 
   @Override
   @SuppressWarnings("checkstyle:MethodName")
   protected String _ebnf2(final Group it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation builder = new StringConcatenation();
-    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
-    builder.append("__");
-    builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
-    builder.append("__0");
-    return builder.toString();
+    return AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)) + "__" + _grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)) + "__0";
   }
 
   @Override
   @SuppressWarnings("checkstyle:MethodName")
   protected String _ebnf2(final UnorderedGroup it, final AntlrOptions options, final boolean supportActions) {
-    StringConcatenation builder = new StringConcatenation();
-    builder.append(AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)));
-    builder.append("__");
-    builder.append(_grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it)));
-    return builder.toString();
+    return AntlrGrammarGenUtil.getContentAssistRuleName(GrammarUtil.containingRule(it)) + "__" + _grammarAccessExtensions.gaElementIdentifier(AntlrGrammarGenUtil.getOriginalElement(it));
   }
 
   @Override

@@ -113,11 +113,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append("import ");
     builder.append(this.getGrammarNaming().getInternalParserSuperClass(it).getName());
     builder.append(';');
-    builder.newLineIfNotEmpty();
-    builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream;");
     builder.newLine();
-    builder.append("import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;");
-    builder.newLine();
+    builder.append("""
+    import org.eclipse.xtext.parser.antlr.XtextTokenStream;
+    import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
+    """);
     if ((!IterableExtensions.isEmpty(Iterables.filter(Iterables.concat(ListExtensions.map(GrammarUtil.allParserRules(it), (ParserRule it1) -> EcoreUtil2.eAllContentsAsList(it1))), UnorderedGroup.class))) && options.isBacktrack()) {
       builder.append("import org.eclipse.xtext.parser.antlr.IUnorderedGroupHelper.UnorderedGroupState;");
       builder.newLine();
@@ -127,7 +127,7 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append("import ");
     builder.append(this._grammarAccessExtensions.getGrammarAccess(it).getName());
     builder.append(';');
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append(super.compileParserImports(it, options));
     builder.newLineIfNotEmpty();
     builder.newLine();
@@ -158,15 +158,14 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append(this.compileParserMemberDeclarations(it, "private"), "    ");
     builder.newLineIfNotEmpty();
     builder.newLine();
-    builder.append("    ");
-    builder.append("public ");
+    builder.append("    public ");
     builder.append(this.naming.getInternalParserClass(it).getSimpleName(), "    ");
     builder.append("(TokenStream input, ");
     builder.append(this._grammarAccessExtensions.getGrammarAccess(it).getSimpleName(), "    ");
     builder.append(" grammarAccess, ParserContext parserContext, ");
     builder.append(this.predicatesNaming.getSemanticPredicatesSimpleName(it), "    ");
     builder.append(" predicates) {");
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     builder.append("""
             this(input);
             this.grammarAccess = grammarAccess;
@@ -175,10 +174,10 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
             parserContext.setTokenStream(input);
             registerRules(grammarAccess.getGrammar());
     """);
-    builder.append("    ");
-    builder.append('}');
-    builder.newLine();
-    builder.newLine();
+    builder.append("""
+        }
+
+    """);
     builder.append("    ");
     builder.append(this.compileParserSetTokenStreamMethod(), "    ");
     builder.newLineIfNotEmpty();
@@ -243,30 +242,26 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append(this.compileEntryReturns(it, options));
     builder.append(this.compileEntryInit(it, options));
     builder.append(':');
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ ");
+    builder.newLine();
+    builder.append("  { ");
     builder.append(this.newCompositeNode(it), "  ");
     builder.append(" }");
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("iv_");
+    builder.newLine();
+    builder.append("  iv_");
     builder.append(this._grammarAccessExtensions.ruleName(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it)), "  ");
     builder.append('=');
     builder.append(this._grammarAccessExtensions.ruleName(it), "  ");
     builder.append(AntlrGrammarGenUtil.getDefaultArgumentList(it), "  ");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("{ $current=$iv_");
+    builder.append("  { $current=$iv_");
     builder.append(this._grammarAccessExtensions.ruleName(it), "  ");
     builder.append(".current");
     if (GrammarUtil.isDatatypeRule(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it))) {
       builder.append(".getText()");
     }
     builder.append("; }");
-    builder.newLineIfNotEmpty();
-    builder.append("  ");
-    builder.append("EOF;");
+    builder.newLine();
+    builder.append("  EOF;");
     builder.newLine();
     builder.append(this.compileEntryFinally(it, options));
     builder.newLineIfNotEmpty();
@@ -277,11 +272,7 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     if (GrammarUtil.isDatatypeRule(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(it))) {
       return "[String current=null]";
     } else {
-      final StringConcatenation builder = new StringConcatenation();
-      builder.append('[');
-      builder.append(this.getCurrentType());
-      builder.append(" current=null]");
-      return builder.toString();
+      return "[" + this.getCurrentType() + " current=null]";
     }
   }
 
@@ -295,16 +286,15 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append(this.compileReturns(it, options));
     builder.newLineIfNotEmpty();
     if (this.annotations.hasNoBacktrackAnnotation(it)) {
-      builder.append("// Enclosing rule was annotated with @NoBacktrack");
-      builder.newLine();
-      builder.append("options { backtrack=false; }");
-      builder.newLine();
+      builder.append("""
+      // Enclosing rule was annotated with @NoBacktrack
+      options { backtrack=false; }
+      """);
     }
-    builder.append("@init {");
-    builder.newLine();
-    builder.append("  ");
-    builder.append("enterRule();");
-    builder.newLine();
+    builder.append("""
+    @init {
+      enterRule();
+    """);
     builder.append("  ");
     builder.append(this.compileInitHiddenTokens(it, options), "  ");
     builder.newLineIfNotEmpty();
@@ -328,17 +318,9 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         return "[AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]";
       }
       if (GrammarUtil.isEObjectFragmentRule(AntlrGrammarGenUtil.<ParserRule>getOriginalElement((ParserRule) it))) {
-        final StringConcatenation builder = new StringConcatenation();
-        builder.append('[');
-        builder.append(this.getCurrentType());
-        builder.append(" current=in_current]");
-        return builder;
+        return "[" + this.getCurrentType() + " current=in_current]";
       }
-      final StringConcatenation builder1 = new StringConcatenation();
-      builder1.append('[');
-      builder1.append(this.getCurrentType());
-      builder1.append(" current=null]");
-      return builder1;
+      return "[" + this.getCurrentType() + " current=null]";
     }
     throw new IllegalStateException("Unexpected rule: " + it);
   }
@@ -350,11 +332,10 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
       builder.append("kw=");
       builder.append(super._dataTypeEbnf2(it, supportActions));
       builder.newLineIfNotEmpty();
-      builder.append('{');
-      builder.newLine();
-      builder.append("  ");
-      builder.append("$current.merge(kw);");
-      builder.newLine();
+      builder.append("""
+      {
+        $current.merge(kw);
+      """);
       builder.append("  ");
       builder.append(this.newLeafNode(it, "kw"), "  ");
       builder.newLineIfNotEmpty();
@@ -377,26 +358,24 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
             }
             """);
       }
-      builder.append('{');
-      builder.newLine();
-      builder.append("  ");
-      builder.append("$current = forceCreateModelElement");
+      builder.append("""
+      {
+        $current = forceCreateModelElement\
+      """);
       if (it.getFeature() != null) {
         builder.append("And");
         builder.append(StringExtensions.toFirstUpper(this._grammarAccessExtensions.setOrAdd(it)), "  ");
       }
       builder.append('(');
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("grammarAccess.");
+      builder.newLine();
+      builder.append("    grammarAccess.");
       builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<Action>getOriginalElement(it)), "    ");
       builder.append(',');
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("$current);");
       builder.newLine();
-      builder.append('}');
-      builder.newLine();
+      builder.append("""
+          $current);
+      }
+      """);
       return builder.toString();
     } else {
       return super._ebnf2(it, options, supportActions);
@@ -446,13 +425,13 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
       builder.append('=');
       builder.append(super._ebnf2(it, options, supportActions));
       builder.newLineIfNotEmpty();
-      builder.append('{');
-      builder.newLine();
-      builder.append("  ");
-      builder.append("$current = grammarAccess.");
+      builder.append("""
+      {
+        $current = grammarAccess.\
+      """);
       builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<EnumLiteralDeclaration>getOriginalElement(it)), "  ");
       builder.append(".getEnumLiteral().getInstance();");
-      builder.newLineIfNotEmpty();
+      builder.newLine();
       builder.append("  ");
       builder.append(this.newLeafNode(it, this._grammarAccessExtensions.localVar(it)), "  ");
       builder.newLineIfNotEmpty();
@@ -477,13 +456,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder.append(this._grammarAccessExtensions.ruleName(it));
         builder.append(AntlrGrammarGenUtil.getArgumentList(call, this.isPassCurrentIntoFragment(), (!supportActions)));
         builder.newLineIfNotEmpty();
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("afterParserOrEnumRuleCall();");
-        builder.newLine();
-        builder.append('}');
-        builder.newLine();
+        builder.append("""
+        {
+          afterParserOrEnumRuleCall();
+        }
+        """);
         return builder.toString();
       } else if (it instanceof TerminalRule) {
         final StringConcatenation builder1 = new StringConcatenation();
@@ -515,18 +492,15 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
       builder.append('=');
       builder.append(super._assignmentEbnf(it, assignment, options, supportActions));
       builder.newLineIfNotEmpty();
-      builder.append('{');
-      builder.newLine();
-      builder.append("  ");
-      builder.append("if ($current==null) {");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("$current = ");
+      builder.append("""
+      {
+        if ($current==null) {
+          $current = \
+      """);
       builder.append(this.createModelElement(assignment), "    ");
       builder.append(';');
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append('}');
+      builder.newLine();
+      builder.append("  }");
       builder.newLine();
       builder.append("  ");
       builder.append(this._grammarAccessExtensions.setOrAdd(assignment), "  ");
@@ -555,37 +529,19 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
   }
 
   protected CharSequence createModelElement(final EObject grammarElement) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("createModelElement(grammarAccess.");
-    builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(GrammarUtil.containingParserRule(grammarElement))));
-    builder.append(')');
-    return builder;
+    return "createModelElement(grammarAccess." + this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(GrammarUtil.containingParserRule(grammarElement))) + ")";
   }
 
   protected CharSequence createModelElementForParent(final EObject grammarElement) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("createModelElementForParent(grammarAccess.");
-    builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(GrammarUtil.containingParserRule(grammarElement))));
-    builder.append(')');
-    return builder;
+    return "createModelElementForParent(grammarAccess." + this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<ParserRule>getOriginalElement(GrammarUtil.containingParserRule(grammarElement))) + ")";
   }
 
   protected CharSequence newCompositeNode(final EObject it) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("newCompositeNode(grammarAccess.");
-    builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<EObject>getOriginalElement(it)));
-    builder.append(");");
-    return builder;
+    return "newCompositeNode(grammarAccess." + this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<EObject>getOriginalElement(it)) + ");";
   }
 
   protected CharSequence newLeafNode(final EObject it, final String token) {
-    final StringConcatenation builder = new StringConcatenation();
-    builder.append("newLeafNode(");
-    builder.append(token);
-    builder.append(", grammarAccess.");
-    builder.append(this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<EObject>getOriginalElement(it)));
-    builder.append(");");
-    return builder;
+    return "newLeafNode(" + token + ", grammarAccess." + this._grammarAccessExtensions.grammarElementAccess(AntlrGrammarGenUtil.<EObject>getOriginalElement(it)) + ");";
   }
 
   /**
@@ -615,22 +571,19 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder.append(super._dataTypeEbnf2(it, supportActions));
         builder.append(AntlrGrammarGenUtil.getArgumentList(it, this.isPassCurrentIntoFragment(), (!supportActions)));
         builder.newLineIfNotEmpty();
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("$current.merge(");
+        builder.append("""
+        {
+          $current.merge(\
+        """);
         builder.append(this._grammarAccessExtensions.localVar(it), "  ");
         builder.append(");");
-        builder.newLineIfNotEmpty();
-        builder.append('}');
         builder.newLine();
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("afterParserOrEnumRuleCall();");
-        builder.newLine();
-        builder.append('}');
-        builder.newLine();
+        builder.append("""
+        }
+        {
+          afterParserOrEnumRuleCall();
+        }
+        """);
         return builder.toString();
       } else if (rule instanceof TerminalRule) {
         final StringConcatenation builder1 = new StringConcatenation();
@@ -638,13 +591,13 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder1.append('=');
         builder1.append(super._dataTypeEbnf2(it, supportActions));
         builder1.newLineIfNotEmpty();
-        builder1.append('{');
-        builder1.newLine();
-        builder1.append("  ");
-        builder1.append("$current.merge(");
+        builder1.append("""
+        {
+          $current.merge(\
+        """);
         builder1.append(this._grammarAccessExtensions.localVar(it), "  ");
         builder1.append(");");
-        builder1.newLineIfNotEmpty();
+        builder1.newLine();
         builder1.append('}');
         builder1.newLine();
         builder1.append('{');
@@ -675,7 +628,7 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
     builder.append(this._grammarAccessExtensions.ruleName(it));
     builder.append(this.compileInit(it, options));
     builder.append(':');
-    builder.newLineIfNotEmpty();
+    builder.newLine();
     if ((it instanceof ParserRule) && GrammarUtil.isDatatypeRule(AntlrGrammarGenUtil.<AbstractRule>getOriginalElement(it))) {
       builder.append("  ");
       if (this.annotations.hasValidatingPredicate(it)) {
@@ -704,12 +657,10 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
       builder.append('(');
       builder.newLineIfNotEmpty();
       if (this.annotations.hasNoBacktrackAnnotation(it)) {
-        builder.append("  ");
-        builder.append("// Enclosing rule was annotated with @NoBacktrack");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("options { backtrack=false; }:");
-        builder.newLine();
+        builder.append("""
+          // Enclosing rule was annotated with @NoBacktrack
+          options { backtrack=false; }:
+        """);
       }
       builder.append("  ");
       builder.append(this.dataTypeEbnfPredicate(it), "  ");
@@ -775,47 +726,42 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder.append('=');
         builder.append(super._assignmentEbnf(it, assignment, options, supportActions));
         builder.newLineIfNotEmpty();
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("if ($current==null) {");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("$current = ");
+        builder.append("""
+        {
+          if ($current==null) {
+            $current = \
+        """);
         builder.append(this.createModelElementForParent(assignment), "    ");
         builder.append(';');
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append('}');
+        builder.newLine();
+        builder.append("  }");
         builder.newLine();
         builder.append("  ");
         builder.append(this._grammarAccessExtensions.setOrAdd(assignment), "  ");
         builder.append('(');
-        builder.newLineIfNotEmpty();
-        builder.append("    ");
-        builder.append("$current,");
         builder.newLine();
-        builder.append("    ");
-        builder.append("\"");
+        builder.append("""
+            $current,
+            "\
+        """);
         builder.append(assignment.getFeature(), "    ");
         builder.append("\",");
-        builder.newLineIfNotEmpty();
+        builder.newLine();
         builder.append("    ");
         builder.append(this._grammarAccessExtensions.localVar(assignment, it), "    ");
         if (GrammarUtil.isBooleanAssignment(assignment)) {
           builder.append(" != null");
         }
         builder.append(',');
-        builder.newLineIfNotEmpty();
+        builder.newLine();
         builder.append("    ");
         builder.append(this._grammarAccessExtensions.toStringLiteral(it), "    ");
         builder.append(");");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("afterParserOrEnumRuleCall();");
         builder.newLine();
-        builder.append('}');
-        builder.newLine();
+        builder.append("""
+          afterParserOrEnumRuleCall();
+        }
+        """);
         return builder.toString();
       } else if (rule instanceof TerminalRule) {
         final StringConcatenation builder1 = new StringConcatenation();
@@ -830,42 +776,38 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder1.newLineIfNotEmpty();
         builder1.append('}');
         builder1.newLine();
-        builder1.append('{');
-        builder1.newLine();
-        builder1.append("  ");
-        builder1.append("if ($current==null) {");
-        builder1.newLine();
-        builder1.append("    ");
-        builder1.append("$current = ");
+        builder1.append("""
+        {
+          if ($current==null) {
+            $current = \
+        """);
         builder1.append(this.createModelElement(assignment), "    ");
         builder1.append(';');
-        builder1.newLineIfNotEmpty();
-        builder1.append("  ");
-        builder1.append('}');
+        builder1.newLine();
+        builder1.append("  }");
         builder1.newLine();
         builder1.append("  ");
         builder1.append(this._grammarAccessExtensions.setOrAdd(assignment), "  ");
         builder1.append("WithLastConsumed(");
-        builder1.newLineIfNotEmpty();
-        builder1.append("    ");
-        builder1.append("$current,");
         builder1.newLine();
-        builder1.append("    ");
-        builder1.append("\"");
+        builder1.append("""
+            $current,
+            "\
+        """);
         builder1.append(assignment.getFeature(), "    ");
         builder1.append("\",");
-        builder1.newLineIfNotEmpty();
+        builder1.newLine();
         builder1.append("    ");
         builder1.append(this._grammarAccessExtensions.localVar(assignment, it), "    ");
         if (GrammarUtil.isBooleanAssignment(assignment)) {
           builder1.append(" != null");
         }
         builder1.append(',');
-        builder1.newLineIfNotEmpty();
+        builder1.newLine();
         builder1.append("    ");
         builder1.append(this._grammarAccessExtensions.toStringLiteral(it), "    ");
         builder1.append(");");
-        builder1.newLineIfNotEmpty();
+        builder1.newLine();
         builder1.append('}');
         builder1.newLine();
         return builder1.toString();
@@ -895,21 +837,18 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
             }
             """);
       }
-      builder.append('{');
-      builder.newLine();
-      builder.append("  ");
-      builder.append("if ($current==null) {");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("$current = ");
+      builder.append("""
+      {
+        if ($current==null) {
+          $current = \
+      """);
       builder.append(this.createModelElement(assignment), "    ");
       builder.append(';');
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append('}');
       builder.newLine();
-      builder.append('}');
-      builder.newLine();
+      builder.append("""
+        }
+      }
+      """);
       builder.append(super._assignmentEbnf(it, assignment, options, supportActions));
       return builder.toString();
     } else {
@@ -950,13 +889,11 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder.newLine();
         builder.append(super._ebnf2(it, options, supportActions));
         builder.newLineIfNotEmpty();
-        builder.append('{');
-        builder.newLine();
-        builder.append("  ");
-        builder.append("afterParserOrEnumRuleCall();");
-        builder.newLine();
-        builder.append('}');
-        builder.newLine();
+        builder.append("""
+        {
+          afterParserOrEnumRuleCall();
+        }
+        """);
         return builder.toString();
       } else if (rule instanceof ParserRule) {
         final StringConcatenation builder1 = new StringConcatenation();
@@ -974,16 +911,14 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder1.append('{');
         builder1.newLine();
         if (GrammarUtil.isEObjectFragmentRuleCall(it)) {
-          builder1.append("  ");
-          builder1.append("if ($current==null) {");
-          builder1.newLine();
-          builder1.append("    ");
-          builder1.append("$current = ");
+          builder1.append("""
+            if ($current==null) {
+              $current = \
+          """);
           builder1.append(this.createModelElement(it), "    ");
           builder1.append(';');
-          builder1.newLineIfNotEmpty();
-          builder1.append("  ");
-          builder1.append('}');
+          builder1.newLine();
+          builder1.append("  }");
           builder1.newLine();
         }
         builder1.append("  ");
@@ -996,18 +931,17 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
         builder1.append('=');
         builder1.append(super._ebnf2(it, options, supportActions));
         builder1.newLineIfNotEmpty();
-        builder1.append('{');
-        builder1.newLine();
-        builder1.append("  ");
-        builder1.append("$current = $");
+        builder1.append("""
+        {
+          $current = $\
+        """);
         builder1.append(localVar, "  ");
         builder1.append(".current;");
-        builder1.newLineIfNotEmpty();
-        builder1.append("  ");
-        builder1.append("afterParserOrEnumRuleCall();");
         builder1.newLine();
-        builder1.append('}');
-        builder1.newLine();
+        builder1.append("""
+          afterParserOrEnumRuleCall();
+        }
+        """);
         return builder1.toString();
       } else if (rule instanceof TerminalRule) {
         final StringConcatenation builder2 = new StringConcatenation();
@@ -1042,12 +976,12 @@ public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwar
       builder.append("import ");
       builder.append(this.lexerSuperClassName);
       builder.append(';');
-      builder.newLineIfNotEmpty();
+      builder.newLine();
     } else {
       builder.append("import ");
       builder.append(this.getGrammarNaming().getLexerSuperClass(it));
       builder.append(';');
-      builder.newLineIfNotEmpty();
+      builder.newLine();
     }
     return builder.toString();
   }

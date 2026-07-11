@@ -88,10 +88,8 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
     final StringConcatenation builder = new StringConcatenation();
     builder.append(codeConfig.getFileHeader());
     builder.newLineIfNotEmpty();
-    builder.append("lexer grammar ");
-    builder.append(getGrammarNaming().getLexerGrammar(it).getSimpleName());
-    builder.append(";");
-    builder.newLineIfNotEmpty();
+    builder.append("lexer grammar " + getGrammarNaming().getLexerGrammar(it).getSimpleName() + ";");
+    builder.newLine();
     builder.append(compileLexerOptions(it, options));
     builder.newLineIfNotEmpty();
     builder.append(compileTokens(it, options));
@@ -193,12 +191,8 @@ public abstract class AbstractAnnotationAwareAntlrGrammarGenerator extends Abstr
       builder.append(";");
       builder.newLine();
       for (final String kw : allKeywords) {
-        builder.append("fragment FRAGMENT_");
-        builder.append(keywordHelper.getRuleName(kw));
-        builder.append(" : '");
-        builder.append(AntlrGrammarGenUtil.toAntlrString(kw));
-        builder.append("';");
-        builder.newLineIfNotEmpty();
+        builder.append("fragment FRAGMENT_%s : '%s';".formatted(keywordHelper.getRuleName(kw), AntlrGrammarGenUtil.toAntlrString(kw)));
+        builder.newLine();
       }
     } else {
       for (final String rule : allKeywords) {
