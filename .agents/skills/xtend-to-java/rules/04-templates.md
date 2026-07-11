@@ -202,3 +202,43 @@ private static final String TEST_ORA_USER = "TEST.ORA USER";
 ```
 
 Prefer constants over suppression whenever the repeated string has a meaningful name.
+
+## 4.8 `StringConcatenation` append-chains — coalescing and the `newLineIfNotEmpty()` rule
+
+Migrated generators (and `xtend-gen/` ground truth) build templates on
+`org.eclipse.xtend2.lib.StringConcatenation`. When coalescing its append-chains into text blocks,
+these source-verified semantics decide what is safe:
+
+1. **`append(String)` normalizes embedded newlines.** Every `\n`/`\r\n` inside an appended string is
+   replaced by the builder's own line delimiter. Appending one multi-line text block is therefore
+   byte-equivalent to the original per-line `append(...)` + `newLine()` sequence — this is the formal
+   basis for coalescing static runs.
+
+2. **`newLineIfNotEmpty()` is line-scoped and whitespace-retracting.** It inspects only the *current
+   line* (segments since the last delimiter): if it contains non-whitespace, it appends a newline
+   (identical to `newLine()`); if it is empty or whitespace-only, it **deletes** that trailing
+   whitespace and appends nothing.
+
+3. **Two-arg `append(value, indent)` re-indents continuation lines** — the indent is prepended to
+   every line of the value except the first. No text block or one-arg append can reproduce this for
+   multi-line values.
+
+**The conversion rule:**
+
+- `newLineIfNotEmpty()` → `newLine()` **only when the last append on the current line is a static
+  non-whitespace literal** (then the guard provably always fires). Typical safe tails: `";"`,
+  `" {"`, `");"`, `".class)"`.
+- **Keep** `newLineIfNotEmpty()` when the line-tail is a **dynamic value** (super-calls, names,
+  argument lists — if the value ever ends with `\n`, the guard correctly adds nothing where
+  `newLine()` would inject a blank line), and when it follows an **indent + conditional/possibly-empty
+  value** (the whitespace retraction is load-bearing: converting keeps the orphaned indent AND adds
+  a blank line).
+- **Never fold** a two-arg `append(value, indent)` of a potentially multi-line value into a text
+  block or `%s` (drops the continuation re-indent — a confirmed drift class). Folding is safe only
+  for values that are provably single-line (identifiers, rule names, accessor paths).
+- **Leave `appendImmediate(sep, indent)` loops untouched** — the separator insertion inspects
+  trailing segments; keep its surrounding append sequence as-is.
+
+**Verification:** each coalesced run must be proven byte-identical with an executable old-vs-new
+harness over an input battery (empty / single-line / multi-line / newline-terminated / `%`-bearing
+values), per the ledger's Method 1.
