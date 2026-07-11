@@ -21,6 +21,8 @@ Use Guava **only** where it is genuinely more concise (marked with ★).
 | `IterableExtensions.isEmpty(iter)` | `!iter.iterator().hasNext()` |
 | `IterableExtensions.size(iter)` | `(int) StreamSupport.stream(iter.spliterator(), false).count()` or loop |
 | `IterableExtensions.toMap(iter, keyFn, valFn)` | `iter.stream().collect(Collectors.toMap(keyFn, valFn))` |
+| `IterableExtensions.filterNull(iter)` | `iter.stream().filter(Objects::nonNull).toList()` |
+| `IterableExtensions.flatten(iter)` | `iter.stream().flatMap(Collection::stream).toList()` (inner is Collection; for a general Iterable use `flatMap(i -> StreamSupport.stream(i.spliterator(), false))`) |
 | `IteratorExtensions.toIterable(iter)` | `(Iterable<T>) () -> iter` (keep as-is for Xtext patterns) |
 | `StringExtensions.isNullOrEmpty(s)` | `s == null \|\| s.isEmpty()` |
 | `StringExtensions.toFirstUpper(s)` | `Character.toUpperCase(s.charAt(0)) + s.substring(1)` |

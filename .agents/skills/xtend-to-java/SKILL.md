@@ -62,6 +62,7 @@ Do **not** invoke for normal Xtend editing where the file is staying in Xtend.
    - [`rules/07-lambdas.md`](./rules/07-lambdas.md)
    - [`rules/08-operator-overloads.md`](./rules/08-operator-overloads.md)
    - [`rules/09-misc-syntax.md`](./rules/09-misc-syntax.md)
+   - [`rules/10-jvm-model-inferrer.md`](./rules/10-jvm-model-inferrer.md)
 5. **Look up Xtend stdlib calls** in [`references/xtend-library-replacements.md`](./references/xtend-library-replacements.md).
 6. **Apply the quality checklist** in [`workflow/validation-checklist.md`](./workflow/validation-checklist.md) before declaring done.
 7. **Handle module infrastructure** via [`workflow/infrastructure-cleanup.md`](./workflow/infrastructure-cleanup.md) when all Xtend is removed from a module.
