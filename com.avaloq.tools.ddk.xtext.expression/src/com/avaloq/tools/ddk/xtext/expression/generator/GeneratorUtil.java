@@ -55,7 +55,9 @@ public class GeneratorUtil {
    */
   public static Set<EClass> allInstantiatedTypes(final Grammar grammar) {
     Set<EClass> result = Sets.newLinkedHashSet();
-    collectInstantiatedTypes(grammar, result);
+    if (grammar != null) { // no grammar -> no parser-instantiated subtypes
+      collectInstantiatedTypes(grammar, result);
+    }
     return result;
   }
 

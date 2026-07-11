@@ -11,10 +11,15 @@
 package com.avaloq.tools.ddk.xtext.export.generator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.xtext.Grammar;
+import org.eclipse.xtext.XtextFactory;
 import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.export.export.ExportFactory;
@@ -32,6 +37,7 @@ public class ExportGeneratorXTest extends AbstractXtextTest {
   private static final String DERIVED_PACKAGE_PROVIDER = "com.avaloq.naming.fooExportedNamesProvider";
   private static final String PROJECT_FALLBACK_PROVIDER = "MyProject.naming.fooExportedNamesProvider";
   private static final String DEFAULT_FALLBACK_PROVIDER = "generated.naming.fooExportedNamesProvider";
+  private static final String NO_SIBLING_URI = "platform:/resource/TEST/NoSibling.export";
 
   private final ExportGeneratorX exportGeneratorX = getXtextTestUtil().get(ExportGeneratorX.class);
 
@@ -64,6 +70,26 @@ public class ExportGeneratorXTest extends AbstractXtextTest {
   @Test
   public void testSingleSegmentUriFallsBackToDefaultPackage() {
     assertEquals(DEFAULT_FALLBACK_PROVIDER, exportedNamesProviderFor("foo.export"));
+  }
+
+  @Test
+  public void testGetGrammarReturnsNullWithoutResolvableGrammar() {
+    final ExportModel detached = ExportFactory.eINSTANCE.createExportModel();
+    assertNull(exportGeneratorX.getGrammar(detached), "model without a resource");
+
+    final ExportModel withoutResourceSet = ExportFactory.eINSTANCE.createExportModel();
+    new ResourceImpl(URI.createURI(NO_SIBLING_URI)).getContents().add(withoutResourceSet);
+    assertNull(exportGeneratorX.getGrammar(withoutResourceSet), "resource without a resource set");
+
+    final ExportModel withoutSibling = ExportFactory.eINSTANCE.createExportModel();
+    final Resource resource = new ResourceSetImpl().createResource(URI.createURI(NO_SIBLING_URI));
+    resource.getContents().add(withoutSibling);
+    assertNull(exportGeneratorX.getGrammar(withoutSibling), "missing sibling grammar must not throw");
+
+    final Grammar proxy = XtextFactory.eINSTANCE.createGrammar();
+    ((InternalEObject) proxy).eSetProxyURI(URI.createURI("platform:/resource/TEST/Unresolved.xtext#/"));
+    withoutSibling.setTargetGrammar(proxy);
+    assertNull(exportGeneratorX.getGrammar(withoutSibling), "unresolved targetGrammar proxy");
   }
 
   private String exportedNamesProviderFor(final String uri) {

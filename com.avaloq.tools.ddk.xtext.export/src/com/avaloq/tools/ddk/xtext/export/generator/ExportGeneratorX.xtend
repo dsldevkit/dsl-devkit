@@ -43,13 +43,22 @@ class ExportGeneratorX {
   }
 
   def Grammar getGrammar(ExportModel model) {
-    val uri = model.eResource.URI
     // Grammar should be set correctly for export extensions, not yet for normal export sources
-    if(model.targetGrammar !== null) {
+    if (model.targetGrammar !== null && !model.targetGrammar.eIsProxy) {
       return model.targetGrammar;
     }
-    val grammarResource = model.eResource.resourceSet.getResource(uri.trimSegments(1).appendSegment(uri.trimFileExtension.lastSegment + '.xtext'), true)
-    return grammarResource?.contents.head as Grammar
+    val resource = model.eResource
+    if (resource?.resourceSet === null) {
+      return null
+    }
+    val uri = resource.URI
+    try {
+      val grammarResource = resource.resourceSet.getResource(uri.trimSegments(1).appendSegment(uri.trimFileExtension.lastSegment + '.xtext'), true)
+      return grammarResource?.contents.head as Grammar
+    } catch (RuntimeException e) {
+      // no resolvable sibling grammar; all generators tolerate a null grammar
+      return null
+    }
   }
 
   def List<String> getPrefix(URI uri) {
