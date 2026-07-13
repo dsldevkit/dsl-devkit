@@ -83,6 +83,8 @@ import com.google.inject.Inject;
 @SuppressWarnings({"PMD.UnusedFormalParameter", "nls"})
 public class AnnotationAwareAntlrContentAssistGrammarGenerator extends AbstractAnnotationAwareAntlrGrammarGenerator {
 
+  // CPD-OFF — migrated Xtend generator code, kept faithful
+
   @Inject
   private ContentAssistGrammarNaming naming;
 

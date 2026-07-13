@@ -63,6 +63,8 @@ import com.google.inject.name.Names;
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods", "PMD.LocalVariableNamingConventions", "nls"})
 public class AnnotationAwareXtextAntlrGeneratorFragment2 extends XtextAntlrGeneratorFragment2 {
 
+  // CPD-OFF — migrated Xtend generator code, kept faithful
+
   private static final String ADDITIONAL_CA_REQUIRED_BUNDLE = "com.avaloq.tools.ddk.xtext";
 
   @Inject

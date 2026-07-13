@@ -81,6 +81,8 @@ import com.google.inject.Singleton;
 @SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
 public class AnnotationAwareAntlrGrammarGenerator extends AbstractAnnotationAwareAntlrGrammarGenerator {
 
+  // CPD-OFF — migrated Xtend generator code, kept faithful
+
   @Inject
   private GrammarNaming naming;
 
