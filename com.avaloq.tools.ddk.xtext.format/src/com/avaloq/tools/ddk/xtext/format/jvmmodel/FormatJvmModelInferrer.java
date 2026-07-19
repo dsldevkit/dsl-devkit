@@ -211,7 +211,10 @@ public class FormatJvmModelInferrer extends AbstractModelInferrer {
   public void inferConstants(final FormatConfiguration format, final JvmGenericType it) {
     if (!FormatGeneratorUtil.getAllConstants(format).isEmpty()) {
       for (final Constant c : FormatGeneratorUtil.getAllConstants(format)) {
-        it.getMembers().add(createConstant(format, c));
+        final JvmMember member = createConstant(format, c);
+        if (member != null) { // createConstant returns null for a value-less constant; the original Xtend += (operator_add) skipped nulls
+          it.getMembers().add(member);
+        }
       }
     }
   }
