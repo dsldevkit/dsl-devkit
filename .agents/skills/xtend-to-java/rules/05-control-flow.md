@@ -54,3 +54,27 @@ final String label = x != null ? x.getName() : "<none>";
 ```
 
 For multi-line bodies, factor to a helper method or write `if`/`else` with an assignment in each branch.
+
+## 5.5 Exception handling — preserve behaviour without broad catches
+
+Xtend hides checked exceptions. Its generated Java may contain broad exception-handling scaffolding, but that is
+**not a migration template**. Write an explicit Java exception contract using the narrowest types that compile:
+
+- Keep every explicit Xtend `catch (SpecificException e)` as the same specific Java catch. Non-matching
+  exceptions and errors already propagate unchanged without being caught.
+- If an uncaught checked exception can be declared without violating an override or compatibility-sensitive
+  public API, add that exact exception to the `throws` clause and let it propagate normally.
+- If the method cannot declare it, do not choose a workaround mechanically. Obtain explicit review for the
+  boundary strategy. When the project has an established unchecked counterpart (for example,
+  `UncheckedIOException` or Xtext's `RuntimeIOException`), catch only the precise checked type at the smallest
+  scope and preserve it as the cause.
+- **Do not catch `Throwable`, `Exception`, or `RuntimeException` merely to copy `xtend-gen`.** A broad catch is
+  permitted only when the invoked API itself declares that exact broad type, no narrower compiler-visible
+  catch can compile, and preserving the public signature is required. Keep that exceptional catch as small
+  as possible and justify the narrow `@SuppressWarnings("checkstyle:IllegalCatch")` at the site.
+- Adding a checked `throws` clause to a compatibility-sensitive public API is an API change and requires explicit
+  review.
+- **Do not invent an arbitrary wrapper.** `new RuntimeException(e)` / `new IllegalStateException(e)` changes the
+  exception contract and is not a neutral migration. Use an established domain-specific counterpart only after
+  explicit review, and always preserve the caught exception as the cause. (A legitimate
+  `throw new IllegalStateException("message")` for a genuinely bad state, with no caught cause, is unrelated.)
