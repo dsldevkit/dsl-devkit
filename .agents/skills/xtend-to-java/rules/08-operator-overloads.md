@@ -58,5 +58,9 @@ Same in Java.
 
 - `list += element` → `list.add(element)`
 - `list += otherList` → `list.addAll(otherList)`
+- ⚠ **Exception**: when the receiver is an `EList` and `JvmTypesBuilder` is an in-scope extension
+  (every JVM model inferrer), `+=` binds to `JvmTypesBuilder.operator_add`; **both overloads skip nulls**
+  (and also no-op on a null list). A plain `add`/`addAll` is then NOT faithful — see
+  [`rules/10-jvm-model-inferrer.md`](./10-jvm-model-inferrer.md) §10.4 before translating any `+=` in an inferrer.
 - `list -= element` → `list.remove(element)`
 - `map[key]` (Xtend bracket access) → `map.get(key)`

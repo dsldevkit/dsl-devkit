@@ -170,3 +170,25 @@ Rules:
 - **Copy Javadoc from the Xtend source verbatim.** Never generate, guess, or infer Javadoc that was not in the original. Invented comments are misleading.
 - **`@throws` tags**: Only add when (1) the method already has Javadoc AND (2) the migrated signature declares a `throws` clause. Do not add Javadoc just to host a `@throws` tag.
 - Do **not** add `@SuppressWarnings("all")` — the Xtend compiler injects this into `xtend-gen/`; human-converted Java shouldn't have it.
+
+## 9.11 Charset — verify the contract before deviating from `xtend-gen`
+
+When the Xtend source constructs a reader/writer with **no charset** (`new InputStreamReader(stream)`,
+`new String(bytes)`, `.getBytes()`), `xtend-gen` faithfully reproduces the **platform-default** charset.
+Do not mechanically reproduce it. PMD `RelianceOnDefaultCharset` flags the *implicit* default — an explicit
+`Charset.defaultCharset()` would pass the gate, but it usually keeps unintended platform dependence. Determine
+the **data contract** first:
+
+- if the API or format supplies an encoding, honour it — e.g. pass `file.getCharset()` when reading an Eclipse
+  `IFile` (the `InputStreamReader(InputStream, String)` overload accepts that value);
+- for repository-owned text governed by `ddk-parent/pom.xml`'s UTF-8 project encoding, use
+  `java.nio.charset.StandardCharsets.UTF_8`:
+  `new InputStreamReader(stream, StandardCharsets.UTF_8)`;
+- for opaque external data with no documented encoding, do **not** guess UTF-8 from the Java source-encoding
+  setting. Establish the contract. If platform-default encoding is genuinely part of that contract, use
+  `Charset.defaultCharset()` explicitly and record why preserving it is intentional.
+
+This is a sanctioned divergence from `xtend-gen` only when the chosen charset follows a verified contract;
+call it out and test it. Do not use a lint warning as blanket permission for an unrelated behaviour change.
+Two legacy `// NOPMD` suppressions of this rule exist in hand-written code (`CheckPreferencesHelper`,
+`XtextGMFResourceUtil`); they are grandfathered, not a precedent for migrations.

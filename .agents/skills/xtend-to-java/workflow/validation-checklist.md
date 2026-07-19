@@ -64,15 +64,23 @@ Every rule below is a hard gate.
 
 | # | Rule | Requirement |
 |---|------|-------------|
-| 12 | Preserved stack traces | `catch` blocks that re-throw must pass caught exception as cause. |
+| 12 | Preserved throwables | Declare exact checked types when compatible. If an explicitly reviewed boundary strategy wraps one, use an established exception type and preserve the caught exception as its cause. |
 | 13 | try-with-resources | Any `AutoCloseable` — no manual `close()` in finally. |
-| 18 | IllegalCatch | Catch specific exceptions, never generic `Exception`. |
+| 18 | IllegalCatch | Never copy `xtend-gen`'s broad catch scaffold. Catch only the narrow checked types Java requires. A broad catch is allowed only when the invoked API declares that type and no narrower catch compiles, with a narrow justified suppression. See [`rules/05-control-flow.md`](../rules/05-control-flow.md) §5.5. |
 
 ### Collections
 
 | # | Rule | Requirement |
 |---|------|-------------|
 | 19 | UseCollectionIsEmpty | `.isEmpty()` not `.size() == 0`. |
+| 36 | Inferrer `operator_add` | Before translating `+=` on an inferrer `EList`, prove the producer non-null or preserve `JvmTypesBuilder.operator_add`'s null-skip with a guard/filter. See [`rules/10-jvm-model-inferrer.md`](../rules/10-jvm-model-inferrer.md) §10.4. |
+| 37 | `toSet` encounter order | Replace `IterableExtensions.toSet` with an encounter-ordered `LinkedHashSet` collector, not `Collectors.toSet()`; check whether its return-existing-`Set` aliasing matters. |
+
+### I/O and encodings
+
+| # | Rule | Requirement |
+|---|------|-------------|
+| 38 | Charset contract | Replace an implicit default charset only after establishing the data contract; do not infer arbitrary external data is UTF-8 merely from the project source encoding. See [`rules/09-misc-syntax.md`](../rules/09-misc-syntax.md) §9.11. |
 
 ### Extension methods and implicit behavior
 
@@ -123,14 +131,14 @@ Every rule below is a hard gate.
 - [ ] All `@Data` / `@Accessors` / `@FinalFieldsConstructor` expanded.
 - [ ] All property access converted to getter/setter calls where applicable.
 - [ ] All `isNullOrEmpty` and Xtend library calls replaced.
-- [ ] All `+=` / `-=` on collections converted to `.add()` / `.addAll()` / `.remove()`.
+- [ ] All `+=` / `-=` on ordinary collections converted to `.add()` / `.addAll()` / `.remove()`; inferrer `EList +=` sites preserve `JvmTypesBuilder.operator_add` null-skipping.
 - [ ] All `::` static-access converted.
 - [ ] Semicolons added to every statement.
 - [ ] Explicit visibility on every class, method, and field.
 - [ ] All imports updated (no wildcards, no unused, correct order).
 - [ ] All comments and class/member Javadoc preserved exactly.
 - [ ] Copyright header is the exact Avaloq banner — **replacing** any generated-stub or Javadoc-style header the source had (not preserved from source).
-- [ ] Checked exceptions handled (`throws` clause or `try`/`catch` with specific types).
+- [ ] Checked exceptions use explicit Java contracts: exact `throws` types where compatible, or an explicitly reviewed project-established boundary strategy with the original exception preserved as the cause.
 - [ ] The `.xtend` no longer exists — renamed to `.java` via `git mv` then translated in place; no `.xtend`/`.java` pair coexists. See rule 22.
 
 ---

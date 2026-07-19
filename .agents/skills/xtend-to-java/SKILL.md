@@ -126,8 +126,8 @@ Use this table for quick mechanical transforms. Full details in the rule files.
 | `#{a, b, c}` (immutable set) | `Set.of(a, b, c)` |
 | `newArrayList(...)` | `new ArrayList<>(List.of(...))` |
 | `newHashMap(...)` | `new HashMap<>(Map.of(...))` |
-| `list += element` | `list.add(element)` |
-| `list += otherList` | `list.addAll(otherList)` |
+| `list += element` | `list.add(element)` for an ordinary collection; an inferrer's `EList` may bind to null-skipping `JvmTypesBuilder.operator_add` — see [`rules/10`](rules/10-jvm-model-inferrer.md) §10.4 |
+| `list += otherList` | `list.addAll(otherList)` for an ordinary collection; preserve the same inferrer null-skip exception |
 | `list -= element` | `list.remove(element)` |
 
 ### Extension methods

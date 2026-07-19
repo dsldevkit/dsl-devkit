@@ -62,10 +62,16 @@ public SomeType foo() {
 
 ## 3.5 Checked exceptions
 
-Xtend doesn't enforce checked exceptions. Java does. When the body calls APIs that throw checked exceptions:
+Xtend doesn't enforce checked exceptions. Java does. Treat that mismatch as an API-design decision rather
+than copying the compiler's workaround:
 
-- Add `throws ...` to the method signature, **or**
-- Wrap in `try`/`catch`.
-- Common cases: `CoreException` from Eclipse APIs, `IOException` from I/O.
+- keep explicit catches specific, and catch only the narrow checked types Java requires;
+- declare the exact checked exception when the method is private/package-local or its inherited API permits it;
+- when an override or compatibility-sensitive public API cannot declare the exception, stop and obtain explicit
+  review for the boundary strategy (for example, an established project-specific unchecked exception), preserving
+  the original exception as the cause.
 
-Catch specific exceptions — never generic `Exception`. See the quality checklist for IllegalCatch.
+Common cases are `CoreException` from Eclipse APIs and `IOException` from I/O. Never introduce an arbitrary
+wrapper merely to make the migration compile. See [`rules/05-control-flow.md`](./05-control-flow.md) §5.5 and
+the quality checklist. Never copy `xtend-gen`'s broad `catch (Throwable)` scaffold unless the invoked API itself
+declares `Throwable` and no narrower catch can compile.
