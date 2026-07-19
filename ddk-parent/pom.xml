@@ -475,6 +475,21 @@
       </properties>
     </profile>
     <profile>
+      <activation>
+        <os>
+          <name>linux</name>
+          <arch>aarch64</arch>
+          <family>unix</family>
+        </os>
+      </activation>
+      <id>64bit_linux_aarch64</id>
+      <properties>
+        <osgi.os>linux</osgi.os>
+        <osgi.ws>gtk</osgi.ws>
+        <osgi.arch>aarch64</osgi.arch>
+      </properties>
+    </profile>
+    <profile>
       <id>macosx</id>
       <activation>
         <os>
