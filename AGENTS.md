@@ -74,6 +74,10 @@ mvnw.cmd clean verify -f ./ddk-parent/pom.xml
 - **Timeout**: 30 minutes (1800 seconds) per test module
 - **UI tests**: Require virtual display (xvfb on Linux) or `-XstartOnFirstThread` (macOS)
 
+### Running tests locally
+
+Prefer the Docker build environment in [docker/README.md](docker/README.md) for local builds that run the tests: it uses the same Linux, GTK and Xvfb setup as CI and opens no windows on the host. Build natively only to look into a problem that is specific to your platform.
+
 ### macOS developer setup
 
 SWT on Cocoa requires the Display to be created on the main thread. UI tests
