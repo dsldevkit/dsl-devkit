@@ -33,7 +33,7 @@ jobs:
       tag: ${{ steps.version.outputs.tag }}
       snapshot_sha: ${{ steps.snapshot.outputs.sha }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           ref: ${{ inputs.branch }}
           fetch-depth: 0
@@ -64,7 +64,7 @@ jobs:
 
       - name: Check out gh-pages branch
         id: checkout-gh-pages
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           ref: gh-pages
           path: gh-pages
@@ -115,13 +115,13 @@ jobs:
     needs: create_tag
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           ref: ${{ needs.create_tag.outputs.tag }}
           fetch-depth: 0
 
       - name: Check out gh-pages branch
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           ref: gh-pages
           path: gh-pages
