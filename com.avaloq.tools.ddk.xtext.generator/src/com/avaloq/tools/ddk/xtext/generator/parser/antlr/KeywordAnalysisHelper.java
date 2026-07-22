@@ -179,7 +179,7 @@ public final class KeywordAnalysisHelper {
    */
   public void printViolations(final String srcGenPath) {
     String fileName = getKeywordsDiagnosticReportFileName(srcGenPath);
-    try (PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8)) {
+    try (PrintWriter writer = new LfPrintWriter(new File(fileName))) {
       writer.println("Please check in this file, so a diff can be used to detect unexpected changes");
       writer.println();
       writer.println("  identifiers rejected    - are not listed in MWE2 file as reserved words");
@@ -439,11 +439,11 @@ public final class KeywordAnalysisHelper {
   public void printReport(final String srcGenPath) {
     try {
       String fileName = getReportFileName(srcGenPath);
-      try (PrintWriter writer = new PrintWriter(new File(fileName), StandardCharsets.UTF_8)) {
+      try (PrintWriter writer = new LfPrintWriter(new File(fileName))) {
         writer.print(report.build());
       }
       String docuFileName = getDocFileName(srcGenPath);
-      try (PrintWriter docuWriter = new PrintWriter(new File(docuFileName), StandardCharsets.UTF_8)) {
+      try (PrintWriter docuWriter = new LfPrintWriter(new File(docuFileName))) {
         docuWriter.print(new CombinedGrammarReportBuilder(grammarExtensions).getDocumentation(grammar, parserRules, enumRules));
       }
       LOGGER.info("report on keywords is written into {}", fileName);
@@ -505,6 +505,24 @@ public final class KeywordAnalysisHelper {
    */
   private String getDocFileRelativeName() {
     return getAntlrrFileName() + "CombinedGrammar.html";
+  }
+
+  /**
+   * A {@link PrintWriter} whose line terminator is always LF ({@code \n}) instead of the
+   * platform separator, keeping the generated reports byte-identical on every OS (#1345).
+   * All {@code println(...)} overloads are specified to terminate via {@link #println()},
+   * so overriding it alone covers every call site.
+   */
+  private static final class LfPrintWriter extends PrintWriter {
+
+    LfPrintWriter(final File file) throws IOException {
+      super(file, StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public void println() {
+      write('\n');
+    }
   }
 }
 
