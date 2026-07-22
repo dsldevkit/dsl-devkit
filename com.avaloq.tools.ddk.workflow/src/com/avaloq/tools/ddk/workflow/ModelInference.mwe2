@@ -29,6 +29,7 @@ Workflow {
   component = com.avaloq.tools.ddk.xtext.generator.util.CustomClassAwareEcoreGenerator {
     genModel = "platform:/resource/${projectName}/model/ModelInference.genmodel"
     generateEdit = false
+    lineDelimiter = "\n"
   }
 
 }
