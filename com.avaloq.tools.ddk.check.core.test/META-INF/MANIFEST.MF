@@ -7,6 +7,7 @@ Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.check.core,
+ com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.test.core,
  com.avaloq.tools.ddk.check.ui,
  org.eclipse.xtext,
