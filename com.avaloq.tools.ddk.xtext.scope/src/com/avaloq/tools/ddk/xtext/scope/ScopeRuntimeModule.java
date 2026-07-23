@@ -11,11 +11,13 @@
 package com.avaloq.tools.ddk.xtext.scope;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
@@ -27,6 +29,16 @@ import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionStrateg
  * Use this class to register components to be used within the IDE.
  */
 public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
 
   @Override
   public Class<? extends IValueConverterService> bindIValueConverterService() {

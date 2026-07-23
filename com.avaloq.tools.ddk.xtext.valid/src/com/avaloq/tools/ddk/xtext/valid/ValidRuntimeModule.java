@@ -11,9 +11,11 @@
 package com.avaloq.tools.ddk.xtext.valid;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.scoping.IScopeProvider;
 
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.avaloq.tools.ddk.xtext.valid.conversion.ValidValueConverterService;
 import com.avaloq.tools.ddk.xtext.valid.naming.ValidQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.valid.scoping.ValidScopeProvider;
@@ -23,6 +25,16 @@ import com.avaloq.tools.ddk.xtext.valid.scoping.ValidScopeProvider;
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class ValidRuntimeModule extends com.avaloq.tools.ddk.xtext.valid.AbstractValidRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
 
   @Override
   public Class<? extends IScopeProvider> bindIScopeProvider() {
