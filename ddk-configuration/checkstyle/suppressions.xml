@@ -10,7 +10,7 @@
     <suppress checks="RedundantModifier"
              files=".*"/>
     <suppress files=".*Test.*\.java|.*Bug.*\.java"
-              checks="AvoidStarImport|EmptyBlock|IllegalCatch|JavadocMethod|JavadocType|JavadocStyle|MagicNumber|MethodName"/>
+              checks="AvoidStarImport|EmptyBlock|IllegalCatch|JavadocMethod|JavadocType|SummaryJavadoc|MagicNumber|MethodName"/>
     <suppress files=".*FormatterTest.*\.java"
               checks="FileTabCharacter"/>
 </suppressions>

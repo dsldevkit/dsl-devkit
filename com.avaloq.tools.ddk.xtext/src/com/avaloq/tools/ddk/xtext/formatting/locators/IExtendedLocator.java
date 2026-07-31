@@ -16,6 +16,8 @@ package com.avaloq.tools.ddk.xtext.formatting.locators;
 public interface IExtendedLocator {
 
   /**
+   * Defines how locators are aggregated.
+   *
    * @see IExtendedLocator#getPrecedence().
    */
   enum AggregationPolicy {

@@ -22,6 +22,8 @@ import com.google.common.collect.Multimap;
 public interface IIssueStore {
 
   /**
+   * Returns all stored issues.
+   *
    * @return all stored issues.
    */
   Multimap<URI, Issue> getIssues();

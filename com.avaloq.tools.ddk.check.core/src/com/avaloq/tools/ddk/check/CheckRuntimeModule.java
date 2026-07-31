@@ -83,6 +83,8 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
   }
 
   /**
+   * Returns the Javadoc-like documentation provider binding.
+   *
    * @return a JavaDoc-like documentation provider
    */
   public Class<? extends IEObjectDocumentationProvider> bindIEObjectDocumentationProvider() {
@@ -99,7 +101,11 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
     binder.bind(IScopeProvider.class).annotatedWith(Names.named(org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
   }
 
-  /** @return a strategy for selecting the objects to export in Index */
+  /**
+   * Returns the strategy for selecting objects to export in the index.
+   *
+   * @return a strategy for selecting the objects to export in Index
+   */
   @Override
   public Class<? extends org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
     return CheckResourceDescriptionStrategy.class;

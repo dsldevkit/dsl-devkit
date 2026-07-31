@@ -89,7 +89,7 @@
       <property name="validateThrows" value="true"/>
     </module>
     <module name="JavadocType"/>
-    <module name="JavadocStyle"/>
+    <module name="SummaryJavadoc"/>
     <module name="LeftCurly"/>
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>

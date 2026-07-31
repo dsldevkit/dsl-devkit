@@ -23,6 +23,8 @@ import com.google.inject.name.Named;
 
 
 /**
+ * Provides documentation extracted from Javadoc comments.
+ *
  * @author Christoph Kulla - Initial contribution and API
  */
 @SuppressWarnings("nls")

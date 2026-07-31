@@ -41,6 +41,8 @@ public final class ValidExtension {
   }
 
   /**
+   * Returns the identifier that distinguishes extension instances.
+   *
    * @return the id that tells one extension instance from another
    */
   public String getExtensionId() {
@@ -48,6 +50,8 @@ public final class ValidExtension {
   }
 
   /**
+   * Returns the top-level elements of this extension point.
+   *
    * @return the top-level elements of this extension point
    */
   public ValidElement[] getTopLevelElements() {

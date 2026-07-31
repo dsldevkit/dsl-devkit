@@ -149,6 +149,8 @@ public abstract class AbstractDeclarativeValidValidator extends AbstractDeclarat
   }
 
   /**
+   * Returns the preference store for this validator.
+   *
    * @return the preference store (based on Scopes, but without UI) for that validator.
    */
   protected ValidPreferenceStore getValidPreferenceStore() {

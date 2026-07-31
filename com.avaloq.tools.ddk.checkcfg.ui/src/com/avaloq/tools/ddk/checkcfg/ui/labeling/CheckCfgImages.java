@@ -33,17 +33,29 @@ public class CheckCfgImages {
   @Inject
   private IImageHelper imageHelper;
 
-  /** @return an image representing a Check Configuration resource */
+  /**
+   * Returns an image representing a Check Configuration resource.
+   *
+   * @return an image representing a Check Configuration resource
+   */
   public Image forResource() {
     return imageHelper.getImage(RESOURCE_IMAGE);
   }
 
-  /** @return an image representing a Check Configuration */
+  /**
+   * Returns an image representing a Check Configuration.
+   *
+   * @return an image representing a Check Configuration
+   */
   public Image forCheckConfiguration() {
     return forResource();
   }
 
-  /** @return an image representing a configured category */
+  /**
+   * Returns an image representing a configured category.
+   *
+   * @return an image representing a configured category
+   */
   public Image forConfiguredCatalog() {
     return imageHelper.getImage(CATEGORY_IMAGE);
   }

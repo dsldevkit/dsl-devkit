@@ -45,37 +45,65 @@ public class CheckImages {
   @Inject
   private IImageHelper imageHelper;
 
-  /** @return an image representing a Java package */
+  /**
+   * Returns an image representing a Java package.
+   *
+   * @return an image representing a Java package
+   */
   public Image forPackage() {
     return getJdtImage(JavaPluginImages.DESC_OBJS_PACKAGE);
   }
 
-  /** @return an image representing a Check resource */
+  /**
+   * Returns an image representing a Check resource.
+   *
+   * @return an image representing a Check resource
+   */
   public Image forResource() {
     return imageHelper.getImage(RESOURCE_IMAGE);
   }
 
-  /** @return an image representing a JDT import container. */
+  /**
+   * Returns an image representing a JDT import container.
+   *
+   * @return an image representing a JDT import container
+   */
   public Image forImportContainer() {
     return getJdtImage(JavaPluginImages.DESC_OBJS_IMPCONT);
   }
 
-  /** @return an image representing a Java import statement. */
+  /**
+   * Returns an image representing a Java import statement.
+   *
+   * @return an image representing a Java import statement
+   */
   public Image forImport() {
     return getJdtImage(JavaPluginImages.DESC_OBJS_IMPDECL);
   }
 
-  /** @return an image representing a Check catalog. */
+  /**
+   * Returns an image representing a Check catalog.
+   *
+   * @return an image representing a Check catalog
+   */
   public Image forCheckCatalog() {
     return forResource();
   }
 
-  /** @return an image representing a category. */
+  /**
+   * Returns an image representing a category.
+   *
+   * @return an image representing a category
+   */
   public Image forCategory() {
     return imageHelper.getImage(CATEGORY_IMAGE);
   }
 
-  /** @return an image representing a category. */
+  /**
+   * Returns an image representing a severity range.
+   *
+   * @return an image representing a severity range
+   */
   public Image forSeverityRange() {
     return imageHelper.getImage(SEVERITY_RANGE_IMAGE);
   }
@@ -100,7 +128,11 @@ public class CheckImages {
     }
   }
 
-  /** @return an image representing a Check context. */
+  /**
+   * Returns an image representing a Check context.
+   *
+   * @return an image representing a Check context
+   */
   public Image forContext() {
     return getJdtImage(JavaElementImageProvider.getTypeImageDescriptor(false, true, Flags.AccPublic, false));
   }

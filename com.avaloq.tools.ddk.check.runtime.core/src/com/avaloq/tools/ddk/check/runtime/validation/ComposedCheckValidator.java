@@ -19,6 +19,8 @@ import com.avaloq.tools.ddk.check.runtime.issue.ICheckValidatorImpl;
 
 
 /**
+ * Identifies a composed check validator.
+ *
  * @author Sebastian Zarnekow - Initial contribution and API
  */
 @Retention(RetentionPolicy.RUNTIME)

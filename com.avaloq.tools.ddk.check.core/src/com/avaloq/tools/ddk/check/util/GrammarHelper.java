@@ -61,6 +61,8 @@ public class GrammarHelper {
   }
 
   /**
+   * Returns a label for the grammar.
+   *
    * @return a text representation of the grammar in which the last segment
    *         appears first (like in content assist.)
    */
