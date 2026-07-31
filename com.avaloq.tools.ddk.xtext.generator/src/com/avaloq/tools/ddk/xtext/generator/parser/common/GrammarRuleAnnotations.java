@@ -138,8 +138,8 @@ public class GrammarRuleAnnotations {
   }
 
   /**
-   * Gated predicate: {condition}?=>
-   * Validating predicate: {condition message}?
+   * Gated predicate: {condition}?=>.
+   * Validating predicate: {condition message}?.
    */
   @EmfAdaptable
   public static class SemanticPredicate {

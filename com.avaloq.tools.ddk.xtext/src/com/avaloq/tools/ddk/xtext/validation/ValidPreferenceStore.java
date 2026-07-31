@@ -251,6 +251,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Checks whether a current or default value exists for the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#contains(java.lang.String)
    * @param name
    *          the name of the preference
@@ -261,6 +263,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the boolean value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getBoolean(java.lang.String)
    * @param name
    *          the name of the preference
@@ -272,6 +276,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the default boolean value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultBoolean(java.lang.String)
    * @param name
    *          the name of the preference
@@ -282,6 +288,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the default double value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultDouble(java.lang.String)
    * @param name
    *          the name of the preference
@@ -292,6 +300,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the default float value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultFloat(java.lang.String)
    * @param name
    *          the name of the preference
@@ -302,6 +312,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the default integer value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultInt(java.lang.String)
    * @param name
    *          the name of the preference
@@ -312,6 +324,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the default long value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultLong(java.lang.String)
    * @param name
    *          the name of the preference
@@ -322,6 +336,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the default string value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultString(java.lang.String)
    * @param name
    *          the name of the preference
@@ -332,6 +348,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the double value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getDouble(java.lang.String)
    * @param name
    *          the name of the preference
@@ -364,6 +382,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the float value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getFloat(java.lang.String)
    * @param name
    *          the name of the preference
@@ -382,6 +402,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the integer value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getInt(java.lang.String)
    * @param name
    *          the name of the preference
@@ -400,6 +422,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the long value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getLong(java.lang.String)
    * @param name
    *          the name of the preference
@@ -418,6 +442,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Returns the string value of the preference.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#getString(java.lang.String)
    * @param name
    *          the name of the preference
@@ -429,6 +455,8 @@ public class ValidPreferenceStore {
   }
 
   /**
+   * Checks whether the preference has its default value.
+   *
    * @see org.eclipse.jface.preference.IPreferenceStore#isDefault(java.lang.String)
    * @param name
    *          the name of the preference

@@ -73,6 +73,8 @@ public abstract class AbstractValidElementBase {
   }
 
   /**
+   * Returns the identifier that distinguishes extension instances.
+   *
    * @return the id that tells one extension instance from another
    */
   public String getExtensionId() {
@@ -80,6 +82,8 @@ public abstract class AbstractValidElementBase {
   }
 
   /**
+   * Returns the name of the XML element that defines this class.
+   *
    * @return the name of the XML element that defines this class
    */
   public String getElementTypeName() {

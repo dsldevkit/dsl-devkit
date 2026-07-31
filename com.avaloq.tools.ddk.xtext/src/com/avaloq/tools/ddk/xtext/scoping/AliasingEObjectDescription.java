@@ -42,6 +42,8 @@ public class AliasingEObjectDescription extends AbstractEObjectDescription {
   }
 
   /**
+   * Returns the original name by which this element can be accessed.
+   *
    * @return the original name, this element can be accessed by.
    */
   public QualifiedName getOriginalName() {
@@ -49,6 +51,8 @@ public class AliasingEObjectDescription extends AbstractEObjectDescription {
   }
 
   /**
+   * Returns the original qualified name of the element.
+   *
    * @return the original qualified name of the element.
    */
   public QualifiedName getOriginalQualifiedName() {

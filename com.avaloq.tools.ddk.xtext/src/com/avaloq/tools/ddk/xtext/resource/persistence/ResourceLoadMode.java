@@ -84,7 +84,8 @@ public interface ResourceLoadMode {
   }
 
   /**
-   * Returns the load mode to be used to load the given resource:
+   * Returns the load mode to be used to load the given resource.
+   * The mode is determined as follows:
    * <ol>
    * <li>If the resource is not contained in any resource set this method will return {@link #PARSE}.</li>
    * <li>If the resource set's load options specify a load mode, that is returned.</li>

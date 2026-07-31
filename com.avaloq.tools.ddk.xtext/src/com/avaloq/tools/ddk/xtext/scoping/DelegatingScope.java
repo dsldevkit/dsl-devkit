@@ -46,6 +46,8 @@ public class DelegatingScope extends AbstractRecursiveScope {
   private static String stackOverflowScopeId;
 
   /**
+   * Identifies the description used when a stack overflow occurs.
+   *
    * @see #STACK_OVERFLOW_SCOPE
    */
   private static final IEObjectDescription STACK_OVERFLOW_EOBJECT_DESCRIPTION = new IEObjectDescription() {

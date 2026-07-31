@@ -24,6 +24,8 @@ import org.eclipse.xtext.resource.IResourceDescription;
 public interface IResourceDescription2 extends IResourceDescription {
 
   /**
+   * Returns the imported names on which the described resource depends.
+   *
    * @return the map of names the described resource depends on and their types.
    */
   Map<QualifiedName, Set<EClass>> getImportedNamesTypes();

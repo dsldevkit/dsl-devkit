@@ -215,6 +215,8 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
   }
 
   /**
+   * Returns the identifier of this scope.
+   *
    * @return the id
    */
   public String getId() {

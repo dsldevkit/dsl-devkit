@@ -32,6 +32,8 @@ public class CheckHighlightingConfiguration extends XbaseHighlightingConfigurati
   }
 
   /**
+   * Returns the text style for Javadoc comments.
+   *
    * @return a bluish TextStyle for JavaDoc comments
    */
   public TextStyle javaDocCommentTextStyle() {
