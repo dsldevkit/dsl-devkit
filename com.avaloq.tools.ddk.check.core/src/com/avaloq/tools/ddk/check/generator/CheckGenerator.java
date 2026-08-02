@@ -172,11 +172,11 @@ public class CheckGenerator extends JvmModelGenerator {
       builder.append("</h2>");
       builder.newLineIfNotEmpty();
       builder.append("  ");
-      final String formattedCateogryDescription = generatorExtensions.formatDescription(category.getDescription());
+      final String formattedCategoryDescription = generatorExtensions.formatDescription(category.getDescription());
       builder.newLineIfNotEmpty();
-      if (formattedCateogryDescription != null) {
+      if (formattedCategoryDescription != null) {
         builder.append("  ");
-        builder.append(formattedCateogryDescription, "  ");
+        builder.append(formattedCategoryDescription, "  ");
         builder.newLineIfNotEmpty();
       }
       for (final Check check : category.getChecks()) {

@@ -133,13 +133,14 @@ public class CheckGeneratorExtensions {
     }
   }
 
+  private static final String UPPER_BEFORE_UPPER_LOWER_BOUNDARY = "(?<=[A-Z])(?=[A-Z][a-z])";
+  private static final String NON_UPPER_BEFORE_UPPER_BOUNDARY = "(?<=[^A-Z_])(?=[A-Z])";
+  private static final String LETTER_BEFORE_NON_LETTER_BOUNDARY = "(?<=[A-Za-z])(?=[^A-Za-z_])";
+
   /* Converts a string such as "AbcDef" to "ABC_DEF". */
   public static String splitCamelCase(final String string) {
     return string.replaceAll(
-      "%s|%s|%s".formatted(
-        "(?<=[A-Z])(?=[A-Z][a-z])",
-        "(?<=[^A-Z_])(?=[A-Z])",
-        "(?<=[A-Za-z])(?=[^A-Za-z_])"),
+      UPPER_BEFORE_UPPER_LOWER_BOUNDARY + "|" + NON_UPPER_BEFORE_UPPER_BOUNDARY + "|" + LETTER_BEFORE_NON_LETTER_BOUNDARY,
       "_");
   }
 
@@ -269,10 +270,10 @@ public class CheckGeneratorExtensions {
   // CHECKSTYLE:CHECK-ON IllegalCatch
 
   public String qualifiedIssueCodeName(final EObject context) {
-    if (context instanceof Context) {
-      return _qualifiedIssueCodeName((Context) context);
-    } else if (context instanceof XIssueExpression) {
-      return _qualifiedIssueCodeName((XIssueExpression) context);
+    if (context instanceof Context context1) {
+      return _qualifiedIssueCodeName(context1);
+    } else if (context instanceof XIssueExpression xIssueExpression) {
+      return _qualifiedIssueCodeName(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
         + Arrays.<Object>asList(context).toString());
@@ -280,10 +281,10 @@ public class CheckGeneratorExtensions {
   }
 
   public static String issueCode(final EObject check) {
-    if (check instanceof Check) {
-      return _issueCode((Check) check);
-    } else if (check instanceof XIssueExpression) {
-      return _issueCode((XIssueExpression) check);
+    if (check instanceof Check check1) {
+      return _issueCode(check1);
+    } else if (check instanceof XIssueExpression xIssueExpression) {
+      return _issueCode(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
         + Arrays.<Object>asList(check).toString());
@@ -291,10 +292,10 @@ public class CheckGeneratorExtensions {
   }
 
   public static String issueName(final EObject check) {
-    if (check instanceof Check) {
-      return _issueName((Check) check);
-    } else if (check instanceof XIssueExpression) {
-      return _issueName((XIssueExpression) check);
+    if (check instanceof Check check1) {
+      return _issueName(check1);
+    } else if (check instanceof XIssueExpression xIssueExpression) {
+      return _issueName(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
         + Arrays.<Object>asList(check).toString());
@@ -302,10 +303,10 @@ public class CheckGeneratorExtensions {
   }
 
   public String issueLabel(final EObject check) {
-    if (check instanceof Check) {
-      return _issueLabel((Check) check);
-    } else if (check instanceof XIssueExpression) {
-      return _issueLabel((XIssueExpression) check);
+    if (check instanceof Check check1) {
+      return _issueLabel(check1);
+    } else if (check instanceof XIssueExpression xIssueExpression) {
+      return _issueLabel(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
         + Arrays.<Object>asList(check).toString());

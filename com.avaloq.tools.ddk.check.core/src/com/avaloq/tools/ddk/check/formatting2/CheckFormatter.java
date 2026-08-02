@@ -10,8 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.formatting2;
 
-import java.util.Arrays;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
@@ -118,7 +116,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     // autowrap everywhere. default to one-space between semantic regions.
     // low priority so that it can be overridden by other custom formatting rules.
     boolean firstRegion = true;
-    for (ISemanticRegion region : requestRoot.getAllSemanticRegions()) {
+    for (final ISemanticRegion region : requestRoot.getAllSemanticRegions()) {
       if (firstRegion) {
         document.prepend(region, (IHiddenRegionFormatter it) -> {
           it.lowPriority();
@@ -164,16 +162,16 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
     // Generated model traversal
     this.format(checkcatalog.getImports(), document);
-    for (Category categories : checkcatalog.getCategories()) {
+    for (final Category categories : checkcatalog.getCategories()) {
       this.format(categories, document);
     }
-    for (Implementation implementations : checkcatalog.getImplementations()) {
+    for (final Implementation implementations : checkcatalog.getImplementations()) {
       this.format(implementations, document);
     }
-    for (Check checks : checkcatalog.getChecks()) {
+    for (final Check checks : checkcatalog.getChecks()) {
       this.format(checks, document);
     }
-    for (Member members : checkcatalog.getMembers()) {
+    for (final Member members : checkcatalog.getMembers()) {
       this.format(members, document);
     }
 
@@ -187,7 +185,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   @Override
   protected void _format(final XImportSection ximportsection, final IFormattableDocument document) {
     // Generated model traversal
-    for (XImportDeclaration importDeclarations : ximportsection.getImportDeclarations()) {
+    for (final XImportDeclaration importDeclarations : ximportsection.getImportDeclarations()) {
       // ADDED: formatting added before each import
       document.prepend(importDeclarations, (IHiddenRegionFormatter it) -> {
         it.setNewLines(1, 1, 2);
@@ -204,7 +202,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     formatCurlyBracket(category, document);
 
     // Generated model traversal
-    for (Check checks : category.getChecks()) {
+    for (final Check checks : category.getChecks()) {
       this.format(checks, document);
     }
   }
@@ -227,7 +225,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
     // Generated model traversal
     this.format(check.getSeverityRange(), document);
-    for (FormalParameter formalParameters : check.getFormalParameters()) {
+    for (final FormalParameter formalParameters : check.getFormalParameters()) {
       // ADDED: formatting added around comma.
       // High priority to override formatting from adjacent regions and parent formatter.
       final ISemanticRegion comma = immediatelyFollowing(formalParameters).keyword(",");
@@ -242,7 +240,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
       this.format(formalParameters, document);
     }
-    for (Context contexts : check.getContexts()) {
+    for (final Context contexts : check.getContexts()) {
       this.format(contexts, document);
     }
   }
@@ -267,7 +265,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
   protected void _format(final Member member, final IFormattableDocument document) {
     // Generated model traversal
-    for (XAnnotation annotations : member.getAnnotations()) {
+    for (final XAnnotation annotations : member.getAnnotations()) {
       this.format(annotations, document);
     }
     this.format(member.getType(), document);
@@ -296,7 +294,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
   protected void _format(final XListLiteral xlistliteral, final IFormattableDocument document) {
     // Generated model traversal
-    for (XExpression elements : xlistliteral.getElements()) {
+    for (final XExpression elements : xlistliteral.getElements()) {
       this.format(elements, document);
     }
   }
@@ -367,7 +365,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     this.format(xissueexpression.getMarkerObject(), document);
     this.format(xissueexpression.getMarkerIndex(), document);
     this.format(xissueexpression.getMessage(), document);
-    for (XExpression messageParameters : xissueexpression.getMessageParameters()) {
+    for (final XExpression messageParameters : xissueexpression.getMessageParameters()) {
       // ADDED: formatting added around comma
       final ISemanticRegion comma = immediatelyFollowing(messageParameters).keyword(",");
       document.prepend(comma, (IHiddenRegionFormatter it) -> {
@@ -381,7 +379,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
       this.format(messageParameters, document);
     }
-    for (XExpression issueData : xissueexpression.getIssueData()) {
+    for (final XExpression issueData : xissueexpression.getIssueData()) {
       // ADDED: formatting added around comma
       final ISemanticRegion comma = immediatelyFollowing(issueData).keyword(",");
       document.prepend(comma, (IHiddenRegionFormatter it) -> {
@@ -466,112 +464,109 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
   @Override
   @XbaseGenerated
-  public void format(final Object xlistliteral, final IFormattableDocument document) {
-    if (xlistliteral instanceof JvmTypeParameter) {
-      _format((JvmTypeParameter) xlistliteral, document);
-    } else if (xlistliteral instanceof JvmFormalParameter) {
-      _format((JvmFormalParameter) xlistliteral, document);
-    } else if (xlistliteral instanceof XtextResource) {
-      _format((XtextResource) xlistliteral, document);
-    } else if (xlistliteral instanceof XAssignment) {
-      _format((XAssignment) xlistliteral, document);
-    } else if (xlistliteral instanceof XBinaryOperation) {
-      _format((XBinaryOperation) xlistliteral, document);
-    } else if (xlistliteral instanceof XDoWhileExpression) {
-      _format((XDoWhileExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XFeatureCall) {
-      _format((XFeatureCall) xlistliteral, document);
-    } else if (xlistliteral instanceof XListLiteral) {
-      _format((XListLiteral) xlistliteral, document);
-    } else if (xlistliteral instanceof XMemberFeatureCall) {
-      _format((XMemberFeatureCall) xlistliteral, document);
-    } else if (xlistliteral instanceof XPostfixOperation) {
-      _format((XPostfixOperation) xlistliteral, document);
-    } else if (xlistliteral instanceof XUnaryOperation) {
-      _format((XUnaryOperation) xlistliteral, document);
-    } else if (xlistliteral instanceof XWhileExpression) {
-      _format((XWhileExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XFunctionTypeRef) {
-      _format((XFunctionTypeRef) xlistliteral, document);
-    } else if (xlistliteral instanceof Category) {
-      _format((Category) xlistliteral, document);
-    } else if (xlistliteral instanceof Check) {
-      _format((Check) xlistliteral, document);
-    } else if (xlistliteral instanceof CheckCatalog) {
-      _format((CheckCatalog) xlistliteral, document);
-    } else if (xlistliteral instanceof Context) {
-      _format((Context) xlistliteral, document);
-    } else if (xlistliteral instanceof Implementation) {
-      _format((Implementation) xlistliteral, document);
-    } else if (xlistliteral instanceof Member) {
-      _format((Member) xlistliteral, document);
-    } else if (xlistliteral instanceof XGuardExpression) {
-      _format((XGuardExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XIssueExpression) {
-      _format((XIssueExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof JvmGenericArrayTypeReference) {
-      _format((JvmGenericArrayTypeReference) xlistliteral, document);
-    } else if (xlistliteral instanceof JvmParameterizedTypeReference) {
-      _format((JvmParameterizedTypeReference) xlistliteral, document);
-    } else if (xlistliteral instanceof JvmWildcardTypeReference) {
-      _format((JvmWildcardTypeReference) xlistliteral, document);
-    } else if (xlistliteral instanceof XBasicForLoopExpression) {
-      _format((XBasicForLoopExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XBlockExpression) {
-      _format((XBlockExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XCastedExpression) {
-      _format((XCastedExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XClosure) {
-      _format((XClosure) xlistliteral, document);
-    } else if (xlistliteral instanceof XCollectionLiteral) {
-      _format((XCollectionLiteral) xlistliteral, document);
-    } else if (xlistliteral instanceof XConstructorCall) {
-      _format((XConstructorCall) xlistliteral, document);
-    } else if (xlistliteral instanceof XForLoopExpression) {
-      _format((XForLoopExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XIfExpression) {
-      _format((XIfExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XInstanceOfExpression) {
-      _format((XInstanceOfExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XReturnExpression) {
-      _format((XReturnExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XSwitchExpression) {
-      _format((XSwitchExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XSynchronizedExpression) {
-      _format((XSynchronizedExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XThrowExpression) {
-      _format((XThrowExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XTryCatchFinallyExpression) {
-      _format((XTryCatchFinallyExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XTypeLiteral) {
-      _format((XTypeLiteral) xlistliteral, document);
-    } else if (xlistliteral instanceof XVariableDeclaration) {
-      _format((XVariableDeclaration) xlistliteral, document);
-    } else if (xlistliteral instanceof XAnnotation) {
-      _format((XAnnotation) xlistliteral, document);
-    } else if (xlistliteral instanceof ContextVariable) {
-      _format((ContextVariable) xlistliteral, document);
-    } else if (xlistliteral instanceof FormalParameter) {
-      _format((FormalParameter) xlistliteral, document);
-    } else if (xlistliteral instanceof SeverityRange) {
-      _format((SeverityRange) xlistliteral, document);
-    } else if (xlistliteral instanceof JvmTypeConstraint) {
-      _format((JvmTypeConstraint) xlistliteral, document);
-    } else if (xlistliteral instanceof XExpression) {
-      _format((XExpression) xlistliteral, document);
-    } else if (xlistliteral instanceof XImportDeclaration) {
-      _format((XImportDeclaration) xlistliteral, document);
-    } else if (xlistliteral instanceof XImportSection) {
-      _format((XImportSection) xlistliteral, document);
-    } else if (xlistliteral instanceof EObject) {
-      _format((EObject) xlistliteral, document);
-    } else if (xlistliteral == null) {
+  public void format(final Object element, final IFormattableDocument document) {
+    if (element instanceof JvmTypeParameter jvmTypeParameter) {
+      _format(jvmTypeParameter, document);
+    } else if (element instanceof JvmFormalParameter jvmFormalParameter) {
+      _format(jvmFormalParameter, document);
+    } else if (element instanceof XtextResource xtextResource) {
+      _format(xtextResource, document);
+    } else if (element instanceof XAssignment xAssignment) {
+      _format(xAssignment, document);
+    } else if (element instanceof XBinaryOperation xBinaryOperation) {
+      _format(xBinaryOperation, document);
+    } else if (element instanceof XDoWhileExpression xDoWhileExpression) {
+      _format(xDoWhileExpression, document);
+    } else if (element instanceof XFeatureCall xFeatureCall) {
+      _format(xFeatureCall, document);
+    } else if (element instanceof XListLiteral xListLiteral) {
+      _format(xListLiteral, document);
+    } else if (element instanceof XMemberFeatureCall xMemberFeatureCall) {
+      _format(xMemberFeatureCall, document);
+    } else if (element instanceof XPostfixOperation xPostfixOperation) {
+      _format(xPostfixOperation, document);
+    } else if (element instanceof XUnaryOperation xUnaryOperation) {
+      _format(xUnaryOperation, document);
+    } else if (element instanceof XWhileExpression xWhileExpression) {
+      _format(xWhileExpression, document);
+    } else if (element instanceof XFunctionTypeRef xFunctionTypeRef) {
+      _format(xFunctionTypeRef, document);
+    } else if (element instanceof Category category) {
+      _format(category, document);
+    } else if (element instanceof Check check) {
+      _format(check, document);
+    } else if (element instanceof CheckCatalog checkCatalog) {
+      _format(checkCatalog, document);
+    } else if (element instanceof Context context) {
+      _format(context, document);
+    } else if (element instanceof Implementation implementation) {
+      _format(implementation, document);
+    } else if (element instanceof Member member) {
+      _format(member, document);
+    } else if (element instanceof XGuardExpression xGuardExpression) {
+      _format(xGuardExpression, document);
+    } else if (element instanceof XIssueExpression xIssueExpression) {
+      _format(xIssueExpression, document);
+    } else if (element instanceof JvmGenericArrayTypeReference jvmGenericArrayTypeReference) {
+      _format(jvmGenericArrayTypeReference, document);
+    } else if (element instanceof JvmParameterizedTypeReference jvmParameterizedTypeReference) {
+      _format(jvmParameterizedTypeReference, document);
+    } else if (element instanceof JvmWildcardTypeReference jvmWildcardTypeReference) {
+      _format(jvmWildcardTypeReference, document);
+    } else if (element instanceof XBasicForLoopExpression xBasicForLoopExpression) {
+      _format(xBasicForLoopExpression, document);
+    } else if (element instanceof XBlockExpression xBlockExpression) {
+      _format(xBlockExpression, document);
+    } else if (element instanceof XCastedExpression xCastedExpression) {
+      _format(xCastedExpression, document);
+    } else if (element instanceof XClosure xClosure) {
+      _format(xClosure, document);
+    } else if (element instanceof XCollectionLiteral xCollectionLiteral) {
+      _format(xCollectionLiteral, document);
+    } else if (element instanceof XConstructorCall xConstructorCall) {
+      _format(xConstructorCall, document);
+    } else if (element instanceof XForLoopExpression xForLoopExpression) {
+      _format(xForLoopExpression, document);
+    } else if (element instanceof XIfExpression xIfExpression) {
+      _format(xIfExpression, document);
+    } else if (element instanceof XInstanceOfExpression xInstanceOfExpression) {
+      _format(xInstanceOfExpression, document);
+    } else if (element instanceof XReturnExpression xReturnExpression) {
+      _format(xReturnExpression, document);
+    } else if (element instanceof XSwitchExpression xSwitchExpression) {
+      _format(xSwitchExpression, document);
+    } else if (element instanceof XSynchronizedExpression xSynchronizedExpression) {
+      _format(xSynchronizedExpression, document);
+    } else if (element instanceof XThrowExpression xThrowExpression) {
+      _format(xThrowExpression, document);
+    } else if (element instanceof XTryCatchFinallyExpression xTryCatchFinallyExpression) {
+      _format(xTryCatchFinallyExpression, document);
+    } else if (element instanceof XTypeLiteral xTypeLiteral) {
+      _format(xTypeLiteral, document);
+    } else if (element instanceof XVariableDeclaration xVariableDeclaration) {
+      _format(xVariableDeclaration, document);
+    } else if (element instanceof XAnnotation xAnnotation) {
+      _format(xAnnotation, document);
+    } else if (element instanceof ContextVariable contextVariable) {
+      _format(contextVariable, document);
+    } else if (element instanceof FormalParameter formalParameter) {
+      _format(formalParameter, document);
+    } else if (element instanceof SeverityRange severityRange) {
+      _format(severityRange, document);
+    } else if (element instanceof JvmTypeConstraint jvmTypeConstraint) {
+      _format(jvmTypeConstraint, document);
+    } else if (element instanceof XExpression xExpression) {
+      _format(xExpression, document);
+    } else if (element instanceof XImportDeclaration xImportDeclaration) {
+      _format(xImportDeclaration, document);
+    } else if (element instanceof XImportSection xImportSection) {
+      _format(xImportSection, document);
+    } else if (element instanceof EObject eObject) {
+      _format(eObject, document);
+    } else if (element == null) {
       _format((Void) null, document);
-    } else if (xlistliteral != null) {
-      _format(xlistliteral, document);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: "
-        + Arrays.<Object>asList(xlistliteral, document).toString());
+      _format(element, document);
     }
   }
 }

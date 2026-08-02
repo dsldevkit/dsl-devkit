@@ -157,10 +157,10 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   }
 
   public IScope scope(final EObject context, final EReference reference) {
-    if (context instanceof CheckCatalog) {
-      return _scope((CheckCatalog) context, reference);
-    } else if (context instanceof XIssueExpression) {
-      return _scope((XIssueExpression) context, reference);
+    if (context instanceof CheckCatalog checkCatalog) {
+      return _scope(checkCatalog, reference);
+    } else if (context instanceof XIssueExpression xIssueExpression) {
+      return _scope(xIssueExpression, reference);
     } else if (context != null) {
       return _scope(context, reference);
     } else {
@@ -177,8 +177,8 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       final EPackage ePackage = getEPackage(context.eResource(), packageName);
       if (ePackage != null) {
         final EClassifier eClassifier = ((EPackage) EcoreUtil.resolve(ePackage, context)).getEClassifier(jvmType.getSimpleName());
-        if (eClassifier instanceof EClass) {
-          return (EClass) eClassifier;
+        if (eClassifier instanceof EClass eClass) {
+          return eClass;
         }
       }
     }
@@ -191,8 +191,8 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     for (int i = 0; i < resources.size(); i++) {
       final Resource resource = resources.get(i);
       for (final EObject obj : resource.getContents()) {
-        if (obj instanceof EPackage && Objects.equals(((EPackage) obj).getName(), name)) {
-          return (EPackage) obj;
+        if (obj instanceof EPackage ePackage && Objects.equals(ePackage.getName(), name)) {
+          return ePackage;
         }
       }
     }
