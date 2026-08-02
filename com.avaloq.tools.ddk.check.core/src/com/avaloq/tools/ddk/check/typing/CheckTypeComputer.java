@@ -26,12 +26,12 @@ public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
 
   @Override
   public void computeTypes(final XExpression expression, final ITypeComputationState state) {
-    if (expression instanceof XIssueExpression) {
-      _computeTypes((XIssueExpression) expression, state);
-    } else if (expression instanceof XGuardExpression) {
-      _computeTypes((XGuardExpression) expression, state);
-    } else if (expression.eContainer() instanceof FormalParameter && expression instanceof XListLiteral && ((XListLiteral) expression).getElements().isEmpty()) {
-      super.computeTypes(expression, state.withExpectation(state.getReferenceOwner().toLightweightTypeReference(((FormalParameter) expression.eContainer()).getType())));
+    if (expression instanceof XIssueExpression xIssueExpression) {
+      _computeTypes(xIssueExpression, state);
+    } else if (expression instanceof XGuardExpression xGuardExpression) {
+      _computeTypes(xGuardExpression, state);
+    } else if (expression.eContainer() instanceof FormalParameter formalParameter && expression instanceof XListLiteral xListLiteral && xListLiteral.getElements().isEmpty()) {
+      super.computeTypes(expression, state.withExpectation(state.getReferenceOwner().toLightweightTypeReference(formalParameter.getType())));
     } else {
       super.computeTypes(expression, state);
     }
