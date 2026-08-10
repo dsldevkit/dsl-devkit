@@ -10,4 +10,100 @@
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>com.avaloq.tools.ddk.sample.helloworld</artifactId>
   <packaging>eclipse-plugin</packaging>
+
+  <profiles>
+    <!--
+      Opt-in profile that regenerates docs/content/<Catalog>.html from the .check
+      sources by running the headless CheckDocApplication (defined in
+      com.avaloq.tools.ddk.check.core) inside an Equinox runtime started by
+      tycho-eclipse-plugin. Invoke with `mvn ... -PgenerateCheckDocs verify`.
+
+      Known limitation (see PR notes): the `<dependencies>` entry below resolves
+      against the target platform only, so reactor-built bundles such as
+      com.avaloq.tools.ddk.check.core are not visible. Productionising this
+      profile needs either a small p2 repository aggregator module or a
+      `<repositories>` entry pointing at a published p2 update site.
+    -->
+    <profile>
+      <id>generateCheckDocs</id>
+      <dependencies>
+        <!-- Forces ddk-repository to build before this module so its p2 site
+             (referenced as a file: URL by the eclipse-run plugin below) exists
+             when the generate-check-docs execution fires. -->
+        <dependency>
+          <groupId>com.avaloq.tools.ddk</groupId>
+          <artifactId>ddk-repository</artifactId>
+          <version>${project.parent.version}</version>
+          <type>eclipse-repository</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-eclipse-plugin</artifactId>
+            <version>${tycho.version}</version>
+            <executions>
+              <execution>
+                <id>generate-check-docs</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>eclipse-run</goal>
+                </goals>
+                <configuration>
+                  <executionEnvironment>JavaSE-21</executionEnvironment>
+                  <applicationsArgs>
+                    <args>-application</args>
+                    <args>com.avaloq.tools.ddk.check.core.docApplication</args>
+                    <args>${project.basedir}/src</args>
+                    <args>${project.basedir}/docs</args>
+                  </applicationsArgs>
+                  <repositories>
+                    <!-- Reactor-built bundles (check.core, com.avaloq.tools.ddk.xtext, ...). -->
+                    <repository>
+                      <id>reactor-p2</id>
+                      <layout>p2</layout>
+                      <url>file:${project.basedir}/../ddk-repository/target/repository/</url>
+                    </repository>
+                    <!-- Eclipse-side transitive requirements (mirrors ddk-target/ddk.target). -->
+                    <repository>
+                      <id>eclipse-release</id>
+                      <layout>p2</layout>
+                      <url>${check.docgen.p2.releases}</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-emf</id>
+                      <layout>p2</layout>
+                      <url>${check.docgen.p2.emf}</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-xtext</id>
+                      <layout>p2</layout>
+                      <url>${check.docgen.p2.xtext}</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-mwe</id>
+                      <layout>p2</layout>
+                      <url>${check.docgen.p2.mwe}</url>
+                    </repository>
+                    <repository>
+                      <id>eclipse-orbit</id>
+                      <layout>p2</layout>
+                      <url>${check.docgen.p2.orbit}</url>
+                    </repository>
+                  </repositories>
+                  <dependencies>
+                    <dependency>
+                      <artifactId>com.avaloq.tools.ddk.check.core</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                  </dependencies>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

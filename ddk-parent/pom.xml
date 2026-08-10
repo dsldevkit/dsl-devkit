@@ -64,6 +64,14 @@
     <!-- Baseline version validation -->
     <baseline.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/</baseline.repo.url>
     <snapshot.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/</snapshot.repo.url>
+
+    <!-- p2 sites for the generateCheckDocs eclipse-run profile (single source for the two consumer poms;
+         keep in sync with ddk-target/ddk.target) -->
+    <check.docgen.p2.releases>https://download.eclipse.org/releases/2026-06/</check.docgen.p2.releases>
+    <check.docgen.p2.emf>https://download.eclipse.org/modeling/emf/emf/builds/release/2.39.0/</check.docgen.p2.emf>
+    <check.docgen.p2.xtext>https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.43.0/</check.docgen.p2.xtext>
+    <check.docgen.p2.mwe>https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.25.0/</check.docgen.p2.mwe>
+    <check.docgen.p2.orbit>https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.40.0</check.docgen.p2.orbit>
   </properties>
 
   <modules>

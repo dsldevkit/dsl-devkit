@@ -18,6 +18,7 @@ import com.avaloq.tools.ddk.check.core.test.BasicModelTest;
 import com.avaloq.tools.ddk.check.core.test.BugAig1314;
 import com.avaloq.tools.ddk.check.core.test.BugAig830;
 import com.avaloq.tools.ddk.check.core.test.BugDsl27;
+import com.avaloq.tools.ddk.check.core.test.CheckDocGenerationTest;
 import com.avaloq.tools.ddk.check.core.test.CheckScopingTest;
 import com.avaloq.tools.ddk.check.core.test.IssueCodeToLabelMapGenerationTest;
 import com.avaloq.tools.ddk.check.core.test.ProjectBasedTests;
@@ -40,6 +41,7 @@ import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
   CheckValidationTest.class,
   CheckJavaValidatorUtilTest.class,
   IssueCodeToLabelMapGenerationTest.class,
+  CheckDocGenerationTest.class,
   ProjectBasedTests.class,
   BugAig1314.class,
   BugDsl27.class,
