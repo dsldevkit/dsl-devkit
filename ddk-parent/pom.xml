@@ -64,6 +64,8 @@
     <!-- Baseline version validation -->
     <baseline.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/</baseline.repo.url>
     <snapshot.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/</snapshot.repo.url>
+    <!-- p2 repository URL embedded in pkg:p2 purls by tycho-sbom (read from project properties, not -D) -->
+    <tycho.sbom.url>${snapshot.repo.url}</tycho.sbom.url>
   </properties>
 
   <modules>
@@ -430,6 +432,24 @@
                 </excludes>
               </fileset>
             </filesets>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.cyclonedx</groupId>
+          <artifactId>cyclonedx-maven-plugin</artifactId>
+          <version>2.9.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-sbom</artifactId>
+              <version>${tycho.version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <outputFormat>json</outputFormat>
+            <schemaVersion>1.5</schemaVersion>
+            <!-- the reactor sets maven.deploy.skip=true globally; without this the goal skips every module -->
+            <skipNotDeployed>false</skipNotDeployed>
           </configuration>
         </plugin>
       </plugins>
