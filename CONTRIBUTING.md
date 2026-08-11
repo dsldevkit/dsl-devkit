@@ -12,6 +12,23 @@ By providing a pull request
 
 You will promptly notify project maintainers if you become aware of any facts or circumstances that would make the above commitments inaccurate in any way. 
 
+## Security scanning
+
+Every pull request is checked for dependencies with known vulnerabilities (the `cve-scan` workflow). To run the same check locally:
+
+```
+bash .github/scripts/check-cves.sh
+```
+
+It needs `jq`, `curl` and network access to the [OSV.dev](https://osv.dev) API (one small batched query), and takes well under a minute with a warm Maven repository. Pass `--skip-sbom` to re-scan without regenerating the SBOM.
+
+When the check fails:
+
+* prefer fixing the dependency, usually by updating `ddk-target/ddk.target`,
+* if the advisory demonstrably does not affect shipped DDK artifacts (e.g. it is confined to test bundles), add an entry with a justification and a review date to `.github/security/cve-ignores.json`.
+
+A failure reading `SCAN SELF-TEST FAILED` means the scan itself is broken or the OSV API is unreachable — the check fails loudly rather than passing silently. Re-run it; do not bypass it.
+
 ## Guidelines for Pull Requests
 
 * Provide a good pull request description
