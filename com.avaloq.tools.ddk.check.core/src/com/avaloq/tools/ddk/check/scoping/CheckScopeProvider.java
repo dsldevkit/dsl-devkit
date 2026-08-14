@@ -84,7 +84,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       case CheckCatalog checkCatalog -> scopeCatalog(checkCatalog, reference);
       case XIssueExpression xIssueExpression -> scopeIssueExpression(xIssueExpression, reference);
       case null -> throw new IllegalArgumentException("Unhandled parameter types: "
-          + Arrays.<Object> asList(context, reference).toString());
+          + Arrays.asList(context, reference).toString());
       default -> null;
     };
     return res != null ? res : super.getScope(context, reference);
@@ -96,7 +96,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       if (context.getMarkerObject() != null) {
         jvmTypeRef = typeResolver.resolveTypes(context.getMarkerObject()).getActualType(context.getMarkerObject()).toTypeReference();
       } else {
-        jvmTypeRef = EcoreUtil2.<Context> getContainerOfType(context, Context.class).getContextVariable().getType();
+        jvmTypeRef = EcoreUtil2.getContainerOfType(context, Context.class).getContextVariable().getType();
       }
 
       if (jvmTypeRef != null) {
@@ -115,8 +115,8 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       // Make sure that only Checks of the current model can be referenced, and if the CheckCatalog includes
       // another CheckCatalog, then use that parent as parent scope
 
-      final CheckCatalog catalog = EcoreUtil2.<CheckCatalog> getContainerOfType(context, CheckCatalog.class);
-      final List<Check> checks = IterableExtensions.<Check> toList(IterableExtensions.<Check> filter(catalog.getAllChecks(), c -> c.getName() != null));
+      final CheckCatalog catalog = EcoreUtil2.getContainerOfType(context, CheckCatalog.class);
+      final List<Check> checks = IterableExtensions.toList(IterableExtensions.filter(catalog.getAllChecks(), c -> c.getName() != null));
 
       final Collection<IEObjectDescription> descriptions = Collections2.transform(checks, (final Check c) -> EObjectDescription.create(QualifiedName.create(c.getName()), c));
       // Determine the parent scope; use NULLSCOPE if no included CheckCatalog is defined (or if it cannot be resolved)
@@ -144,7 +144,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       // We look first in the workspace for a grammar and then in the registry for a registered grammar
       return MapBasedScope.createScope(IScope.NULLSCOPE, Iterables.filter(descriptions, Predicates.notNull()));
     } else if (Objects.equals(reference, CheckPackage.Literals.XISSUE_EXPRESSION__CHECK)) {
-      final List<IEObjectDescription> descriptions = ListExtensions.map(context.getAllChecks(), (final Check c) -> EObjectDescription.create(checkQualifiedNameProvider.getFullyQualifiedName(c), c));
+      final List<IEObjectDescription> descriptions = ListExtensions.map(context.getAllChecks(), c -> EObjectDescription.create(checkQualifiedNameProvider.getFullyQualifiedName(c), c));
       return new SimpleScope(super.getScope(context, reference), descriptions);
     }
     return null;
