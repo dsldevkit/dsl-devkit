@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.common.types.JvmField;
@@ -67,7 +66,7 @@ public class CheckGenerator extends JvmModelGenerator {
       uri = resource.getURI();
     }
     final CheckGeneratorConfig config = generatorConfigProvider.get(uri);
-    final Iterable<CheckCatalog> catalogs = Iterables.<CheckCatalog>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), CheckCatalog.class);
+    final Iterable<CheckCatalog> catalogs = Iterables.filter(IteratorExtensions.toIterable(resource.getAllContents()), CheckCatalog.class);
     for (final CheckCatalog catalog : catalogs) {
       lfFsa.generateFile(checkGeneratorNaming.issueCodesFilePath(catalog), compileIssueCodes(catalog));
       lfFsa.generateFile(checkGeneratorNaming.standaloneSetupPath(catalog), compileStandaloneSetup(catalog));
@@ -225,13 +224,13 @@ public class CheckGenerator extends JvmModelGenerator {
    */
   public CharSequence compileIssueCodes(final CheckCatalog catalog) {
     final Iterable<XIssueExpression> allIssues = generatorExtensions.checkAndImplementationIssues(catalog);
-    final Function1<XIssueExpression, String> keyFunction = (final XIssueExpression issue) -> {
+    final Function1<XIssueExpression, String> keyFunction = issue -> {
       return CheckGeneratorExtensions.issueCode(issue);
     };
-    final Function1<XIssueExpression, String> valueFunction = (final XIssueExpression issue) -> {
+    final Function1<XIssueExpression, String> valueFunction = issue -> {
       return CheckGeneratorExtensions.issueName(issue);
     };
-    final Map<String, String> allIssueNames = IterableExtensions.<XIssueExpression, String, String>toMap(allIssues, keyFunction, valueFunction);
+    final Map<String, String> allIssueNames = IterableExtensions.toMap(allIssues, keyFunction, valueFunction);
     StringConcatenation builder = new StringConcatenation();
     if (!StringExtensions.isNullOrEmpty(catalog.getPackageName())) {
       builder.append("package ");
@@ -255,7 +254,7 @@ public class CheckGenerator extends JvmModelGenerator {
     builder.append(" {");
     builder.newLineIfNotEmpty();
     builder.newLine();
-    final List<String> sortedCodes = IterableExtensions.<String>sort(allIssueNames.keySet());
+    final List<String> sortedCodes = IterableExtensions.sort(allIssueNames.keySet());
     for (final String issueCode : sortedCodes) {
       builder.append("  ");
       builder.append("public static final String ");

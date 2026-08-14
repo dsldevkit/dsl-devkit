@@ -257,7 +257,7 @@ public class CheckGeneratorExtensions {
       if (file.exists()) {
         try (InputStreamReader reader = new InputStreamReader(file.getContents(), StandardCharsets.UTF_8)) {
           final List<String> content = CharStreams.readLines(reader);
-          return Sets.<String>newTreeSet(content);
+          return Sets.newTreeSet(content);
         } catch (final RuntimeException e) {
           throw e;
         } catch (final Exception e) {
@@ -276,7 +276,7 @@ public class CheckGeneratorExtensions {
       return _qualifiedIssueCodeName(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
-        + Arrays.<Object>asList(context).toString());
+        + Arrays.asList(context).toString());
     }
   }
 
@@ -287,7 +287,7 @@ public class CheckGeneratorExtensions {
       return _issueCode(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
-        + Arrays.<Object>asList(check).toString());
+        + Arrays.asList(check).toString());
     }
   }
 
@@ -298,7 +298,7 @@ public class CheckGeneratorExtensions {
       return _issueName(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
-        + Arrays.<Object>asList(check).toString());
+        + Arrays.asList(check).toString());
     }
   }
 
@@ -309,7 +309,7 @@ public class CheckGeneratorExtensions {
       return _issueLabel(xIssueExpression);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: "
-        + Arrays.<Object>asList(check).toString());
+        + Arrays.asList(check).toString());
     }
   }
 }
