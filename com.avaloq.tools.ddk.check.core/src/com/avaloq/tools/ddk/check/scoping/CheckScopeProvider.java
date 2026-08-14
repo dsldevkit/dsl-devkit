@@ -103,7 +103,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
         final EClass eClass = classForJvmType(context, jvmTypeRef.getType());
         if (eClass != null) {
           final EList<EStructuralFeature> features = eClass.getEAllStructuralFeatures();
-          final Collection<IEObjectDescription> descriptions = Collections2.transform(features, (final EStructuralFeature f) -> EObjectDescription.create(QualifiedName.create(f.getName()), f));
+          final Collection<IEObjectDescription> descriptions = Collections2.transform(features, f -> EObjectDescription.create(QualifiedName.create(f.getName()), f));
           return MapBasedScope.createScope(IScope.NULLSCOPE, descriptions);
         } else {
           return IScope.NULLSCOPE;
@@ -118,7 +118,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       final CheckCatalog catalog = EcoreUtil2.getContainerOfType(context, CheckCatalog.class);
       final List<Check> checks = IterableExtensions.toList(IterableExtensions.filter(catalog.getAllChecks(), c -> c.getName() != null));
 
-      final Collection<IEObjectDescription> descriptions = Collections2.transform(checks, (final Check c) -> EObjectDescription.create(QualifiedName.create(c.getName()), c));
+      final Collection<IEObjectDescription> descriptions = Collections2.transform(checks, c -> EObjectDescription.create(QualifiedName.create(c.getName()), c));
       // Determine the parent scope; use NULLSCOPE if no included CheckCatalog is defined (or if it cannot be resolved)
       final IScope parentScope = IScope.NULLSCOPE;
 
@@ -131,7 +131,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     if (Objects.equals(reference, CheckPackage.Literals.CHECK_CATALOG__GRAMMAR)) {
       final IResourceServiceProvider.Registry reg = IResourceServiceProvider.Registry.INSTANCE;
       // CHECKSTYLE:CHECK-OFF IllegalCatch
-      final Collection<IEObjectDescription> descriptions = Collections2.transform(reg.getExtensionToFactoryMap().keySet(), (final String e) -> {
+      final Collection<IEObjectDescription> descriptions = Collections2.transform(reg.getExtensionToFactoryMap().keySet(), e -> {
         final URI dummyUri = URI.createURI("foo:/foo." + e);
         try {
           final Grammar g = reg.getResourceServiceProvider(dummyUri).get(IGrammarAccess.class).getGrammar();
