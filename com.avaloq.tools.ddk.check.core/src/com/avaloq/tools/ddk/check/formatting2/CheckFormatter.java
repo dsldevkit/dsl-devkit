@@ -51,7 +51,6 @@ import org.eclipse.xtext.xbase.XVariableDeclaration;
 import org.eclipse.xtext.xbase.XWhileExpression;
 import org.eclipse.xtext.xbase.annotations.formatting2.XbaseWithAnnotationsFormatter;
 import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotation;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 import org.eclipse.xtext.xtype.XFunctionTypeRef;
 import org.eclipse.xtext.xtype.XImportDeclaration;
 import org.eclipse.xtext.xtype.XImportSection;
@@ -463,110 +462,59 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   }
 
   @Override
-  @XbaseGenerated
   public void format(final Object element, final IFormattableDocument document) {
-    if (element instanceof JvmTypeParameter jvmTypeParameter) {
-      _format(jvmTypeParameter, document);
-    } else if (element instanceof JvmFormalParameter jvmFormalParameter) {
-      _format(jvmFormalParameter, document);
-    } else if (element instanceof XtextResource xtextResource) {
-      _format(xtextResource, document);
-    } else if (element instanceof XAssignment xAssignment) {
-      _format(xAssignment, document);
-    } else if (element instanceof XBinaryOperation xBinaryOperation) {
-      _format(xBinaryOperation, document);
-    } else if (element instanceof XDoWhileExpression xDoWhileExpression) {
-      _format(xDoWhileExpression, document);
-    } else if (element instanceof XFeatureCall xFeatureCall) {
-      _format(xFeatureCall, document);
-    } else if (element instanceof XListLiteral xListLiteral) {
-      _format(xListLiteral, document);
-    } else if (element instanceof XMemberFeatureCall xMemberFeatureCall) {
-      _format(xMemberFeatureCall, document);
-    } else if (element instanceof XPostfixOperation xPostfixOperation) {
-      _format(xPostfixOperation, document);
-    } else if (element instanceof XUnaryOperation xUnaryOperation) {
-      _format(xUnaryOperation, document);
-    } else if (element instanceof XWhileExpression xWhileExpression) {
-      _format(xWhileExpression, document);
-    } else if (element instanceof XFunctionTypeRef xFunctionTypeRef) {
-      _format(xFunctionTypeRef, document);
-    } else if (element instanceof Category category) {
-      _format(category, document);
-    } else if (element instanceof Check check) {
-      _format(check, document);
-    } else if (element instanceof CheckCatalog checkCatalog) {
-      _format(checkCatalog, document);
-    } else if (element instanceof Context context) {
-      _format(context, document);
-    } else if (element instanceof Implementation implementation) {
-      _format(implementation, document);
-    } else if (element instanceof Member member) {
-      _format(member, document);
-    } else if (element instanceof XGuardExpression xGuardExpression) {
-      _format(xGuardExpression, document);
-    } else if (element instanceof XIssueExpression xIssueExpression) {
-      _format(xIssueExpression, document);
-    } else if (element instanceof JvmGenericArrayTypeReference jvmGenericArrayTypeReference) {
-      _format(jvmGenericArrayTypeReference, document);
-    } else if (element instanceof JvmParameterizedTypeReference jvmParameterizedTypeReference) {
-      _format(jvmParameterizedTypeReference, document);
-    } else if (element instanceof JvmWildcardTypeReference jvmWildcardTypeReference) {
-      _format(jvmWildcardTypeReference, document);
-    } else if (element instanceof XBasicForLoopExpression xBasicForLoopExpression) {
-      _format(xBasicForLoopExpression, document);
-    } else if (element instanceof XBlockExpression xBlockExpression) {
-      _format(xBlockExpression, document);
-    } else if (element instanceof XCastedExpression xCastedExpression) {
-      _format(xCastedExpression, document);
-    } else if (element instanceof XClosure xClosure) {
-      _format(xClosure, document);
-    } else if (element instanceof XCollectionLiteral xCollectionLiteral) {
-      _format(xCollectionLiteral, document);
-    } else if (element instanceof XConstructorCall xConstructorCall) {
-      _format(xConstructorCall, document);
-    } else if (element instanceof XForLoopExpression xForLoopExpression) {
-      _format(xForLoopExpression, document);
-    } else if (element instanceof XIfExpression xIfExpression) {
-      _format(xIfExpression, document);
-    } else if (element instanceof XInstanceOfExpression xInstanceOfExpression) {
-      _format(xInstanceOfExpression, document);
-    } else if (element instanceof XReturnExpression xReturnExpression) {
-      _format(xReturnExpression, document);
-    } else if (element instanceof XSwitchExpression xSwitchExpression) {
-      _format(xSwitchExpression, document);
-    } else if (element instanceof XSynchronizedExpression xSynchronizedExpression) {
-      _format(xSynchronizedExpression, document);
-    } else if (element instanceof XThrowExpression xThrowExpression) {
-      _format(xThrowExpression, document);
-    } else if (element instanceof XTryCatchFinallyExpression xTryCatchFinallyExpression) {
-      _format(xTryCatchFinallyExpression, document);
-    } else if (element instanceof XTypeLiteral xTypeLiteral) {
-      _format(xTypeLiteral, document);
-    } else if (element instanceof XVariableDeclaration xVariableDeclaration) {
-      _format(xVariableDeclaration, document);
-    } else if (element instanceof XAnnotation xAnnotation) {
-      _format(xAnnotation, document);
-    } else if (element instanceof ContextVariable contextVariable) {
-      _format(contextVariable, document);
-    } else if (element instanceof FormalParameter formalParameter) {
-      _format(formalParameter, document);
-    } else if (element instanceof SeverityRange severityRange) {
-      _format(severityRange, document);
-    } else if (element instanceof JvmTypeConstraint jvmTypeConstraint) {
-      _format(jvmTypeConstraint, document);
-    } else if (element instanceof XExpression xExpression) {
-      _format(xExpression, document);
-    } else if (element instanceof XImportDeclaration xImportDeclaration) {
-      _format(xImportDeclaration, document);
-    } else if (element instanceof XImportSection xImportSection) {
-      _format(xImportSection, document);
-    } else if (element instanceof EObject eObject) {
-      _format(eObject, document);
-    } else if (element == null) {
-      _format((Void) null, document);
-    } else {
-      _format(element, document);
+    switch (element) {
+      case JvmTypeParameter jvmTypeParameter -> _format(jvmTypeParameter, document);
+      case JvmFormalParameter jvmFormalParameter -> _format(jvmFormalParameter, document);
+      case XtextResource xtextResource -> _format(xtextResource, document);
+      case XAssignment xAssignment -> _format(xAssignment, document);
+      case XBinaryOperation xBinaryOperation -> _format(xBinaryOperation, document);
+      case XDoWhileExpression xDoWhileExpression -> _format(xDoWhileExpression, document);
+      case XFeatureCall xFeatureCall -> _format(xFeatureCall, document);
+      case XListLiteral xListLiteral -> _format(xListLiteral, document);
+      case XMemberFeatureCall xMemberFeatureCall -> _format(xMemberFeatureCall, document);
+      case XPostfixOperation xPostfixOperation -> _format(xPostfixOperation, document);
+      case XUnaryOperation xUnaryOperation -> _format(xUnaryOperation, document);
+      case XWhileExpression xWhileExpression -> _format(xWhileExpression, document);
+      case XFunctionTypeRef xFunctionTypeRef -> _format(xFunctionTypeRef, document);
+      case Category category -> _format(category, document);
+      case Check check -> _format(check, document);
+      case CheckCatalog checkCatalog -> _format(checkCatalog, document);
+      case Context context -> _format(context, document);
+      case Implementation implementation -> _format(implementation, document);
+      case Member member -> _format(member, document);
+      case XGuardExpression xGuardExpression -> _format(xGuardExpression, document);
+      case XIssueExpression xIssueExpression -> _format(xIssueExpression, document);
+      case JvmGenericArrayTypeReference jvmGenericArrayTypeReference -> _format(jvmGenericArrayTypeReference, document);
+      case JvmParameterizedTypeReference jvmParameterizedTypeReference -> _format(jvmParameterizedTypeReference, document);
+      case JvmWildcardTypeReference jvmWildcardTypeReference -> _format(jvmWildcardTypeReference, document);
+      case XBasicForLoopExpression xBasicForLoopExpression -> _format(xBasicForLoopExpression, document);
+      case XBlockExpression xBlockExpression -> _format(xBlockExpression, document);
+      case XCastedExpression xCastedExpression -> _format(xCastedExpression, document);
+      case XClosure xClosure -> _format(xClosure, document);
+      case XCollectionLiteral xCollectionLiteral -> _format(xCollectionLiteral, document);
+      case XConstructorCall xConstructorCall -> _format(xConstructorCall, document);
+      case XForLoopExpression xForLoopExpression -> _format(xForLoopExpression, document);
+      case XIfExpression xIfExpression -> _format(xIfExpression, document);
+      case XInstanceOfExpression xInstanceOfExpression -> _format(xInstanceOfExpression, document);
+      case XReturnExpression xReturnExpression -> _format(xReturnExpression, document);
+      case XSwitchExpression xSwitchExpression -> _format(xSwitchExpression, document);
+      case XSynchronizedExpression xSynchronizedExpression -> _format(xSynchronizedExpression, document);
+      case XThrowExpression xThrowExpression -> _format(xThrowExpression, document);
+      case XTryCatchFinallyExpression xTryCatchFinallyExpression -> _format(xTryCatchFinallyExpression, document);
+      case XTypeLiteral xTypeLiteral -> _format(xTypeLiteral, document);
+      case XVariableDeclaration xVariableDeclaration -> _format(xVariableDeclaration, document);
+      case XAnnotation xAnnotation -> _format(xAnnotation, document);
+      case ContextVariable contextVariable -> _format(contextVariable, document);
+      case FormalParameter formalParameter -> _format(formalParameter, document);
+      case SeverityRange severityRange -> _format(severityRange, document);
+      case JvmTypeConstraint jvmTypeConstraint -> _format(jvmTypeConstraint, document);
+      case XExpression xExpression -> _format(xExpression, document);
+      case XImportDeclaration xImportDeclaration -> _format(xImportDeclaration, document);
+      case XImportSection xImportSection -> _format(xImportSection, document);
+      case EObject eObject -> _format(eObject, document);
+      case null -> _format((Void) null, document);
+      default -> _format(element, document);
     }
   }
 }
