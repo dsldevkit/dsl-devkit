@@ -60,7 +60,7 @@ import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
-@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter", "nls"})
+@SuppressWarnings("nls")
 public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
 
   @Inject
@@ -78,20 +78,19 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
   @Inject
   private ResourceDescriptionsProvider descriptionsProvider;
 
-  // Use dispatch definitions instead of a switch statement since
-  // https://bugs.eclipse.org/bugs/show_bug.cgi?id=368263
-  // will otherwise cause the builder to fail during linking.
   @Override
   public IScope getScope(final EObject context, final EReference reference) {
-    final IScope res = scope(context, reference);
-    if (res != null) {
-      return res;
-    } else {
-      return super.getScope(context, reference);
-    }
+    final IScope res = switch (context) {
+      case CheckCatalog checkCatalog -> scopeCatalog(checkCatalog, reference);
+      case XIssueExpression xIssueExpression -> scopeIssueExpression(xIssueExpression, reference);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: "
+          + Arrays.<Object> asList(context, reference).toString());
+      default -> null;
+    };
+    return res != null ? res : super.getScope(context, reference);
   }
 
-  protected IScope _scope(final XIssueExpression context, final EReference reference) {
+  protected IScope scopeIssueExpression(final XIssueExpression context, final EReference reference) {
     if (Objects.equals(reference, CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_FEATURE)) {
       JvmTypeReference jvmTypeRef;
       if (context.getMarkerObject() != null) {
@@ -128,7 +127,7 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
     return null;
   }
 
-  protected IScope _scope(final CheckCatalog context, final EReference reference) {
+  protected IScope scopeCatalog(final CheckCatalog context, final EReference reference) {
     if (Objects.equals(reference, CheckPackage.Literals.CHECK_CATALOG__GRAMMAR)) {
       final IResourceServiceProvider.Registry reg = IResourceServiceProvider.Registry.INSTANCE;
       // CHECKSTYLE:CHECK-OFF IllegalCatch
@@ -149,24 +148,6 @@ public class CheckScopeProvider extends XbaseWithAnnotationsBatchScopeProvider {
       return new SimpleScope(super.getScope(context, reference), descriptions);
     }
     return null;
-  }
-
-  // default implementation will throw an illegal argument exception
-  protected IScope _scope(final EObject context, final EReference reference) {
-    return null;
-  }
-
-  public IScope scope(final EObject context, final EReference reference) {
-    if (context instanceof CheckCatalog checkCatalog) {
-      return _scope(checkCatalog, reference);
-    } else if (context instanceof XIssueExpression xIssueExpression) {
-      return _scope(xIssueExpression, reference);
-    } else if (context != null) {
-      return _scope(context, reference);
-    } else {
-      throw new IllegalArgumentException("Unhandled parameter types: "
-          + Arrays.<Object> asList(context, reference).toString());
-    }
   }
 
   public EClass classForJvmType(final EObject context, final JvmType jvmType) {
