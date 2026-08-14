@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.check.formatting2;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.common.types.JvmFormalParameter;
 import org.eclipse.xtext.common.types.JvmGenericArrayTypeReference;
 import org.eclipse.xtext.common.types.JvmParameterizedTypeReference;
@@ -19,7 +18,6 @@ import org.eclipse.xtext.common.types.JvmTypeConstraint;
 import org.eclipse.xtext.common.types.JvmTypeParameter;
 import org.eclipse.xtext.common.types.JvmWildcardTypeReference;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
-import org.eclipse.xtext.formatting2.IHiddenRegionFormatter;
 import org.eclipse.xtext.formatting2.regionaccess.IEObjectRegion;
 import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegion;
 import org.eclipse.xtext.resource.XtextResource;
@@ -88,15 +86,15 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     // low priority so that it can be overridden by other custom formatting rules.
     final ISemanticRegion open = regionFor(semanticElement).keyword("{");
     final ISemanticRegion close = regionFor(semanticElement).keyword("}");
-    document.interior(open, close, (IHiddenRegionFormatter it) -> {
+    document.interior(open, close, it -> {
       it.lowPriority();
       it.indent();
     });
-    document.append(open, (IHiddenRegionFormatter it) -> {
+    document.append(open, it -> {
       it.lowPriority();
       it.newLine();
     });
-    document.prepend(close, (IHiddenRegionFormatter it) -> {
+    document.prepend(close, it -> {
       it.lowPriority();
       it.newLine();
     });
@@ -117,13 +115,13 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     boolean firstRegion = true;
     for (final ISemanticRegion region : requestRoot.getAllSemanticRegions()) {
       if (firstRegion) {
-        document.prepend(region, (IHiddenRegionFormatter it) -> {
+        document.prepend(region, it -> {
           it.lowPriority();
           it.autowrap(132);
         });
         firstRegion = false;
       } else {
-        document.prepend(region, (IHiddenRegionFormatter it) -> {
+        document.prepend(region, it -> {
           it.lowPriority();
           it.oneSpace();
           it.autowrap(132);
@@ -134,27 +132,27 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   // CHECKSTYLE:CHECK-ON MagicNumber
 
   protected void _format(final CheckCatalog checkcatalog, final IFormattableDocument document) {
-    document.prepend(checkcatalog, (IHiddenRegionFormatter it) -> {
+    document.prepend(checkcatalog, it -> {
       it.noSpace();
       it.setNewLines(0);
     });
-    document.append(checkcatalog, (IHiddenRegionFormatter it) -> {
+    document.append(checkcatalog, it -> {
       it.noSpace();
       it.setNewLines(0, 0, 1);
     });
     final ISemanticRegion finalKw = regionFor(checkcatalog).keyword("final");
     final ISemanticRegion catalog = regionFor(checkcatalog).keyword("catalog");
     if (finalKw != null) {
-      document.prepend(finalKw, (IHiddenRegionFormatter it) -> {
+      document.prepend(finalKw, it -> {
         it.setNewLines(1, 2, 2);
       });
     } else {
-      document.prepend(catalog, (IHiddenRegionFormatter it) -> {
+      document.prepend(catalog, it -> {
         it.setNewLines(1, 1, 2);
       });
     }
     final ISemanticRegion forKw = regionFor(checkcatalog).keyword("for");
-    document.prepend(forKw, (IHiddenRegionFormatter it) -> {
+    document.prepend(forKw, it -> {
       it.setNewLines(1, 1, 2);
     });
     formatCurlyBracket(checkcatalog, document);
@@ -186,7 +184,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     // Generated model traversal
     for (final XImportDeclaration importDeclarations : ximportsection.getImportDeclarations()) {
       // ADDED: formatting added before each import
-      document.prepend(importDeclarations, (IHiddenRegionFormatter it) -> {
+      document.prepend(importDeclarations, it -> {
         it.setNewLines(1, 1, 2);
       });
 
@@ -195,7 +193,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   }
 
   protected void _format(final Category category, final IFormattableDocument document) {
-    document.prepend(category, (IHiddenRegionFormatter it) -> {
+    document.prepend(category, it -> {
       it.setNewLines(1, 2, 2);
     });
     formatCurlyBracket(category, document);
@@ -207,17 +205,17 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   }
 
   protected void _format(final Check check, final IFormattableDocument document) {
-    document.prepend(check, (IHiddenRegionFormatter it) -> {
+    document.prepend(check, it -> {
       it.setNewLines(1, 2, 2);
     });
     final ISemanticRegion open = regionFor(check).keyword("(");
     final ISemanticRegion close = regionFor(check).keyword(")");
-    document.interior(open, close, (IHiddenRegionFormatter it) -> {
+    document.interior(open, close, it -> {
       it.highPriority();
       it.noSpace();
     }); // High priority to override formatting from adjacent regions and parent formatter.
     final ISemanticRegion message = regionFor(check).keyword("message");
-    document.prepend(message, (IHiddenRegionFormatter it) -> {
+    document.prepend(message, it -> {
       it.setNewLines(1, 1, 2);
     });
     formatCurlyBracket(check, document);
@@ -228,11 +226,11 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
       // ADDED: formatting added around comma.
       // High priority to override formatting from adjacent regions and parent formatter.
       final ISemanticRegion comma = immediatelyFollowing(formalParameters).keyword(",");
-      document.prepend(comma, (IHiddenRegionFormatter it) -> {
+      document.prepend(comma, it -> {
         it.highPriority();
         it.noSpace();
       });
-      document.append(comma, (IHiddenRegionFormatter it) -> {
+      document.append(comma, it -> {
         it.highPriority();
         it.setNewLines(0, 0, 1);
       });
@@ -246,18 +244,18 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
   protected void _format(final SeverityRange severityrange, final IFormattableDocument document) {
     final ISemanticRegion range = regionFor(severityrange).keyword("SeverityRange");
-    document.surround(range, (IHiddenRegionFormatter it) -> {
+    document.surround(range, it -> {
       it.noSpace();
     });
     final ISemanticRegion open = regionFor(severityrange).keyword("(");
-    document.append(open, (IHiddenRegionFormatter it) -> {
+    document.append(open, it -> {
       it.noSpace();
     });
     final ISemanticRegion close = regionFor(severityrange).keyword(")");
-    document.prepend(close, (IHiddenRegionFormatter it) -> {
+    document.prepend(close, it -> {
       it.noSpace();
     });
-    document.append(close, (IHiddenRegionFormatter it) -> {
+    document.append(close, it -> {
       it.newLine();
     });
   }
@@ -272,7 +270,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   }
 
   protected void _format(final Implementation implementation, final IFormattableDocument document) {
-    document.prepend(implementation, (IHiddenRegionFormatter it) -> {
+    document.prepend(implementation, it -> {
       it.setNewLines(1, 2, 2);
     });
 
@@ -299,7 +297,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   }
 
   protected void _format(final Context context, final IFormattableDocument document) {
-    document.surround(context, (IHiddenRegionFormatter it) -> {
+    document.surround(context, it -> {
       it.setNewLines(1, 2, 2);
     });
 
@@ -314,7 +312,7 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   }
 
   protected void _format(final XGuardExpression xguardexpression, final IFormattableDocument document) {
-    document.prepend(xguardexpression, (IHiddenRegionFormatter it) -> {
+    document.prepend(xguardexpression, it -> {
       it.setNewLines(1, 2, 2);
     });
 
@@ -324,37 +322,37 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
   protected void _format(final XIssueExpression xissueexpression, final IFormattableDocument document) {
     // High priority to override formatting from adjacent regions and parent formatter.
-    document.prepend(xissueexpression, (IHiddenRegionFormatter it) -> {
+    document.prepend(xissueexpression, it -> {
       it.highPriority();
       it.setNewLines(1, 2, 2);
     });
-    checkGrammarAccess.getXIssueExpressionAccess().findKeywords("#").forEach((Keyword kw) -> {
+    checkGrammarAccess.getXIssueExpressionAccess().findKeywords("#").forEach(kw -> {
       final ISemanticRegion hash = regionFor(xissueexpression).keyword(kw);
-      document.surround(hash, (IHiddenRegionFormatter it) -> {
+      document.surround(hash, it -> {
         it.highPriority();
         it.noSpace();
       });
     });
     final ISemanticRegion openSquare = regionFor(xissueexpression).keyword("[");
-    document.surround(openSquare, (IHiddenRegionFormatter it) -> {
+    document.surround(openSquare, it -> {
       it.highPriority();
       it.noSpace();
     });
     final ISemanticRegion closeSquare = regionFor(xissueexpression).keyword("]");
-    document.prepend(closeSquare, (IHiddenRegionFormatter it) -> {
+    document.prepend(closeSquare, it -> {
       it.highPriority();
       it.noSpace();
     });
-    checkGrammarAccess.getXIssueExpressionAccess().findKeywords("(").forEach((Keyword kw) -> {
+    checkGrammarAccess.getXIssueExpressionAccess().findKeywords("(").forEach(kw -> {
       final ISemanticRegion open = regionFor(xissueexpression).keyword(kw);
-      document.append(open, (IHiddenRegionFormatter it) -> {
+      document.append(open, it -> {
         it.highPriority();
         it.noSpace();
       });
     });
-    checkGrammarAccess.getXIssueExpressionAccess().findKeywords(")").forEach((Keyword kw) -> {
+    checkGrammarAccess.getXIssueExpressionAccess().findKeywords(")").forEach(kw -> {
       final ISemanticRegion close = regionFor(xissueexpression).keyword(kw);
-      document.prepend(close, (IHiddenRegionFormatter it) -> {
+      document.prepend(close, it -> {
         it.highPriority();
         it.noSpace();
       });
@@ -367,11 +365,11 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     for (final XExpression messageParameters : xissueexpression.getMessageParameters()) {
       // ADDED: formatting added around comma
       final ISemanticRegion comma = immediatelyFollowing(messageParameters).keyword(",");
-      document.prepend(comma, (IHiddenRegionFormatter it) -> {
+      document.prepend(comma, it -> {
         it.highPriority();
         it.noSpace();
       });
-      document.append(comma, (IHiddenRegionFormatter it) -> {
+      document.append(comma, it -> {
         it.highPriority();
         it.oneSpace();
       });
@@ -381,11 +379,11 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
     for (final XExpression issueData : xissueexpression.getIssueData()) {
       // ADDED: formatting added around comma
       final ISemanticRegion comma = immediatelyFollowing(issueData).keyword(",");
-      document.prepend(comma, (IHiddenRegionFormatter it) -> {
+      document.prepend(comma, it -> {
         it.highPriority();
         it.noSpace();
       });
-      document.append(comma, (IHiddenRegionFormatter it) -> {
+      document.append(comma, it -> {
         it.highPriority();
         it.oneSpace();
       });
@@ -397,31 +395,31 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   @Override
   protected void _format(final XIfExpression xifexpression, final IFormattableDocument document) {
     // High priority to override formatting from adjacent regions and parent formatter.
-    document.prepend(xifexpression, (IHiddenRegionFormatter it) -> {
+    document.prepend(xifexpression, it -> {
       it.highPriority();
       it.setNewLines(1, 1, 2);
     });
     final ISemanticRegion open = regionFor(xifexpression).keyword("(");
     final ISemanticRegion close = regionFor(xifexpression).keyword(")");
-    document.prepend(open, (IHiddenRegionFormatter it) -> {
+    document.prepend(open, it -> {
       it.highPriority();
       it.oneSpace();
     });
-    document.append(open, (IHiddenRegionFormatter it) -> {
+    document.append(open, it -> {
       it.highPriority();
       it.noSpace();
     });
-    document.prepend(close, (IHiddenRegionFormatter it) -> {
+    document.prepend(close, it -> {
       it.highPriority();
       it.noSpace();
     });
-    document.append(close, (IHiddenRegionFormatter it) -> {
+    document.append(close, it -> {
       it.highPriority();
       it.setNewLines(0);
       it.oneSpace();
     });
     final ISemanticRegion elseKw = regionFor(xifexpression).keyword("else");
-    document.surround(elseKw, (IHiddenRegionFormatter it) -> {
+    document.surround(elseKw, it -> {
       it.highPriority();
       it.setNewLines(0);
       it.oneSpace();
@@ -435,23 +433,23 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
   protected void _format(final XMemberFeatureCall xfeaturecall, final IFormattableDocument document) {
     // set no space after '::' in CheckUtil::hasQualifiedName(..., and also not after plain "." or "?."
     // High priority to override formatting from adjacent regions and parent formatter.
-    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords(".").forEach((Keyword kw) -> {
+    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords(".").forEach(kw -> {
       final ISemanticRegion dot = regionFor(xfeaturecall).keyword(kw);
-      document.append(dot, (IHiddenRegionFormatter it) -> {
+      document.append(dot, it -> {
         it.highPriority();
         it.noSpace();
       });
     });
-    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords("?.").forEach((Keyword kw) -> {
+    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords("?.").forEach(kw -> {
       final ISemanticRegion queryDot = regionFor(xfeaturecall).keyword(kw);
-      document.append(queryDot, (IHiddenRegionFormatter it) -> {
+      document.append(queryDot, it -> {
         it.highPriority();
         it.noSpace();
       });
     });
-    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords("::").forEach((Keyword kw) -> {
+    checkGrammarAccess.getXMemberFeatureCallAccess().findKeywords("::").forEach(kw -> {
       final ISemanticRegion colonColon = regionFor(xfeaturecall).keyword(kw);
-      document.append(colonColon, (IHiddenRegionFormatter it) -> {
+      document.append(colonColon, it -> {
         it.highPriority();
         it.noSpace();
       });

@@ -57,13 +57,11 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 import com.avaloq.tools.ddk.check.CheckConstants;
-import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.Context;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
 import com.avaloq.tools.ddk.check.check.Implementation;
-import com.avaloq.tools.ddk.check.check.Member;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorExtensions;
 import com.avaloq.tools.ddk.check.generator.CheckGeneratorNaming;
@@ -119,18 +117,18 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     }
     final JvmGenericType catalogClass = jvmTypesBuilder.toClass(catalog, checkGeneratorNaming.qualifiedCatalogClassName(catalog));
     final JvmTypeReference issueCodeToLabelMapTypeRef = _typeReferenceBuilder.typeRef(ImmutableMap.class, _typeReferenceBuilder.typeRef(String.class), _typeReferenceBuilder.typeRef(String.class));
-    acceptor.<JvmGenericType>accept(catalogClass, (final JvmGenericType it) -> {
+    acceptor.accept(catalogClass, it -> {
       final JvmTypeReference parentType = checkedTypeRef(catalog, AbstractIssue.class);
       if (parentType != null) {
         it.getSuperTypes().add(parentType);
       }
-      Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Singleton.class), (final JvmAnnotationReference it1) -> {
+      Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Singleton.class), it1 -> {
       }));
       jvmTypesBuilder.setDocumentation(it, "Issues for " + catalog.getName() + ".");
       Iterables.addAll(it.getMembers(), createInjectedField(catalog, "checkConfigurationStoreService", checkedTypeRef(catalog, ICheckConfigurationStoreService.class)));
 
       // Create map of issue code to label and associated getter
-      it.getMembers().add(jvmTypesBuilder.toField(catalog, checkGeneratorNaming.issueCodeToLabelMapFieldName(), issueCodeToLabelMapTypeRef, (final JvmField it1) -> {
+      it.getMembers().add(jvmTypesBuilder.toField(catalog, checkGeneratorNaming.issueCodeToLabelMapFieldName(), issueCodeToLabelMapTypeRef, it1 -> {
         it1.setStatic(true);
         it1.setFinal(true);
         // Get all issue codes and labels
@@ -148,7 +146,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
             throw new IllegalArgumentException("Multiple issues found with qualified issue code name: " + qualifiedIssueCodeName);
           }
         }
-        jvmTypesBuilder.setInitializer(it1, (final ITreeAppendable appendable) -> {
+        jvmTypesBuilder.setInitializer(it1, appendable -> {
           final StringConcatenation builder = new StringConcatenation();
           builder.append(ImmutableMap.class.getSimpleName());
           builder.append(".<");
@@ -174,7 +172,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           appendable.append(builder);
         });
       }));
-      it.getMembers().add(jvmTypesBuilder.toMethod(catalog, checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()), issueCodeToLabelMapTypeRef, (final JvmOperation it1) -> {
+      it.getMembers().add(jvmTypesBuilder.toMethod(catalog, checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()), issueCodeToLabelMapTypeRef, it1 -> {
         final StringConcatenation builder = new StringConcatenation();
         builder.append("Get map of issue code to label for ");
         builder.append(catalog.getName());
@@ -188,13 +186,13 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         jvmTypesBuilder.setDocumentation(it1, builder.toString());
         it1.setStatic(true);
         it1.setFinal(true);
-        jvmTypesBuilder.setBody(it1, (final ITreeAppendable appendable) -> appendable.append("return " + checkGeneratorNaming.issueCodeToLabelMapFieldName() + ";"));
+        jvmTypesBuilder.setBody(it1, appendable -> appendable.append("return " + checkGeneratorNaming.issueCodeToLabelMapFieldName() + ";"));
       }));
 
-      Iterables.addAll(it.getMembers(), IterableExtensions.<JvmMember>filterNull(Iterables.<JvmMember>concat(ListExtensions.<Check, Iterable<JvmMember>>map(catalog.getAllChecks(), (final Check c) -> createIssue(catalog, c)))));
+      Iterables.addAll(it.getMembers(), IterableExtensions.filterNull(Iterables.concat(ListExtensions.map(catalog.getAllChecks(), c -> createIssue(catalog, c)))));
     });
 
-    acceptor.<JvmGenericType>accept(jvmTypesBuilder.toClass(catalog, checkGeneratorNaming.qualifiedValidatorClassName(catalog)), (final JvmGenericType it) -> {
+    acceptor.accept(jvmTypesBuilder.toClass(catalog, checkGeneratorNaming.qualifiedValidatorClassName(catalog)), it -> {
       final JvmTypeReference parentType = checkedTypeRef(catalog, DispatchingCheckImpl.class);
       if (parentType != null) {
         it.getSuperTypes().add(parentType);
@@ -204,40 +202,40 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       // Create catalog injections
       Iterables.addAll(it.getMembers(), createInjectedField(catalog, checkGeneratorNaming.catalogInstanceName(catalog), _typeReferenceBuilder.typeRef(catalogClass)));
       // Create fields
-      Iterables.addAll(it.getMembers(), IterableExtensions.<JvmField>filterNull(ListExtensions.<Member, JvmField>map(catalog.getMembers(), (final Member m) -> jvmTypesBuilder.toField(m, m.getName(), m.getType(), (final JvmField it1) -> {
+      Iterables.addAll(it.getMembers(), IterableExtensions.filterNull(ListExtensions.map(catalog.getMembers(), m -> jvmTypesBuilder.toField(m, m.getName(), m.getType(), it1 -> {
         jvmTypesBuilder.setInitializer(it1, m.getValue());
         jvmTypesBuilder.addAnnotations(it1, m.getAnnotations());
       }))));
       // Create catalog name function
-      it.getMembers().add(jvmTypesBuilder.toMethod(catalog, "getQualifiedCatalogName", _typeReferenceBuilder.typeRef(String.class), (final JvmOperation it1) -> {
-        jvmTypesBuilder.setBody(it1, (final ITreeAppendable appendable) -> appendable.append("return \"" + catalog.getPackageName() + "." + catalog.getName() + "\";"));
+      it.getMembers().add(jvmTypesBuilder.toMethod(catalog, "getQualifiedCatalogName", _typeReferenceBuilder.typeRef(String.class), it1 -> {
+        jvmTypesBuilder.setBody(it1, appendable -> appendable.append("return \"" + catalog.getPackageName() + "." + catalog.getName() + "\";"));
       }));
 
       // Create getter for map of issue code to label
-      it.getMembers().add(jvmTypesBuilder.toMethod(catalog, checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()), issueCodeToLabelMapTypeRef, (final JvmOperation it1) -> {
+      it.getMembers().add(jvmTypesBuilder.toMethod(catalog, checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()), issueCodeToLabelMapTypeRef, it1 -> {
         it1.setFinal(true);
-        jvmTypesBuilder.setBody(it1, (final ITreeAppendable appendable) -> appendable.append("return " + checkGeneratorNaming.catalogClassName(catalog) + "." + checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()) + "();"));
+        jvmTypesBuilder.setBody(it1, appendable -> appendable.append("return " + checkGeneratorNaming.catalogClassName(catalog) + "." + checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()) + "();"));
       }));
 
       it.getMembers().add(createDispatcherMethod(catalog));
 
       // Create methods for contexts in checks
       final List<Check> checks = catalog.getChecks();
-      final Iterable<Check> flattenedCategoryChecks = Iterables.<Check>concat(ListExtensions.<Category, List<Check>>map(catalog.getCategories(), (final Category cat) -> cat.getChecks()));
-      final Iterable<Check> allChecks = Iterables.<Check>concat(checks, flattenedCategoryChecks);
-      Iterables.addAll(it.getMembers(), IterableExtensions.<JvmMember>filterNull(Iterables.<JvmMember>concat(IterableExtensions.<Check, Iterable<JvmMember>>map(allChecks, (final Check chk) -> createCheck(chk)))));
+      final Iterable<Check> flattenedCategoryChecks = Iterables.concat(ListExtensions.map(catalog.getCategories(), cat -> cat.getChecks()));
+      final Iterable<Check> allChecks = Iterables.concat(checks, flattenedCategoryChecks);
+      Iterables.addAll(it.getMembers(), IterableExtensions.filterNull(Iterables.concat(IterableExtensions.map(allChecks, chk -> createCheck(chk)))));
       // Create methods for stand-alone context implementations
-      Iterables.addAll(it.getMembers(), IterableExtensions.<JvmOperation>filterNull(ListExtensions.<Implementation, JvmOperation>map(catalog.getImplementations(), (final Implementation impl) -> createCheckMethod(impl.getContext()))));
+      Iterables.addAll(it.getMembers(), IterableExtensions.filterNull(ListExtensions.map(catalog.getImplementations(), impl -> createCheckMethod(impl.getContext()))));
     });
-    acceptor.<JvmGenericType>accept(jvmTypesBuilder.toClass(catalog, checkGeneratorNaming.qualifiedPreferenceInitializerClassName(catalog)), (final JvmGenericType it) -> {
+    acceptor.accept(jvmTypesBuilder.toClass(catalog, checkGeneratorNaming.qualifiedPreferenceInitializerClassName(catalog)), it -> {
       final JvmTypeReference parentType = checkedTypeRef(catalog, AbstractPreferenceInitializer.class);
       if (parentType != null) {
         it.getSuperTypes().add(parentType);
       }
-      it.getMembers().add(jvmTypesBuilder.toField(catalog, "RUNTIME_NODE_NAME", _typeReferenceBuilder.typeRef(String.class), (final JvmField it1) -> {
+      it.getMembers().add(jvmTypesBuilder.toField(catalog, "RUNTIME_NODE_NAME", _typeReferenceBuilder.typeRef(String.class), it1 -> {
         it1.setStatic(true);
         it1.setFinal(true);
-        jvmTypesBuilder.setInitializer(it1, (final ITreeAppendable appendable) -> appendable.append("\"" + checkGeneratorExtensions.bundleName(catalog) + "\""));
+        jvmTypesBuilder.setInitializer(it1, appendable -> appendable.append("\"" + checkGeneratorExtensions.bundleName(catalog) + "\""));
       }));
       Iterables.addAll(it.getMembers(), createFormalParameterFields(catalog));
       Iterables.addAll(it.getMembers(), createPreferenceInitializerMethods(catalog));
@@ -247,14 +245,14 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
 
   private JvmOperation createDispatcherMethod(final CheckCatalog catalog) {
     final JvmTypeReference objectBaseJavaTypeRef = checkedTypeRef(catalog, EObject.class);
-    return jvmTypesBuilder.toMethod(catalog, "validate", _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
+    return jvmTypesBuilder.toMethod(catalog, "validate", _typeReferenceBuilder.typeRef("void"), it -> {
       it.setVisibility(JvmVisibility.PUBLIC);
       it.getParameters().add(jvmTypesBuilder.toParameter(catalog, "checkMode", checkedTypeRef(catalog, CheckMode.class)));
       it.getParameters().add(jvmTypesBuilder.toParameter(catalog, "object", objectBaseJavaTypeRef));
       it.getParameters().add(jvmTypesBuilder.toParameter(catalog, "diagnosticCollector", checkedTypeRef(catalog, DiagnosticCollector.class)));
-      Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Override.class), (final JvmAnnotationReference it1) -> {
+      Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Override.class), it1 -> {
       }));
-      jvmTypesBuilder.setBody(it, (final ITreeAppendable out) -> emitDispatcherMethodBody(out, catalog, objectBaseJavaTypeRef));
+      jvmTypesBuilder.setBody(it, out -> emitDispatcherMethodBody(out, catalog, objectBaseJavaTypeRef));
     });
   }
 
@@ -266,9 +264,9 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
      * we can include categorized checks by using getAllChecks().
      * We only consider Context objects with a typed contextVariable.
      */
-    final Iterable<Context> checkContexts = Iterables.<Context>concat(ListExtensions.<Check, List<Context>>map(catalog.getAllChecks(), (final Check chk) -> chk.getContexts()));
-    final Iterable<Context> implementationContexts = IterableExtensions.<Context>filterNull(ListExtensions.<Implementation, Context>map(catalog.getImplementations(), (final Implementation impl) -> impl.getContext()));
-    final Iterable<Context> allContexts = IterableExtensions.<Context>filter(Iterables.<Context>concat(checkContexts, implementationContexts), (final Context ctx) -> {
+    final Iterable<Context> checkContexts = Iterables.concat(ListExtensions.map(catalog.getAllChecks(), chk -> chk.getContexts()));
+    final Iterable<Context> implementationContexts = IterableExtensions.filterNull(ListExtensions.map(catalog.getImplementations(), impl -> impl.getContext()));
+    final Iterable<Context> allContexts = IterableExtensions.filter(Iterables.concat(checkContexts, implementationContexts), ctx -> {
       JvmTypeReference type = null;
       if (ctx.getContextVariable() != null) {
         type = ctx.getContextVariable().getType();
@@ -317,7 +315,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     }
 
     /* Ordering for context variable type checks. */
-    final List<JvmTypeReference> contextVarTypes = ListExtensions.<Context, JvmTypeReference>map(contexts, (final Context x) -> x.getContextVariable().getType());
+    final List<JvmTypeReference> contextVarTypes = ListExtensions.map(contexts, x -> x.getContextVariable().getType());
     final InstanceOfCheckOrderer.Forest forest = InstanceOfCheckOrderer.orderTypes(contextVarTypes);
 
     emitInstanceOfTree(out, forest, null, contextsByVarType, catalog, baseTypeName, 0);
@@ -391,21 +389,21 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   private Iterable<JvmField> createInjectedField(final CheckCatalog context, final String fieldName, final JvmTypeReference type) {
     // Generate @Inject private typeName fieldName;
     if (type == null) {
-      return Collections.<JvmField>emptyList();
+      return Collections.emptyList();
     }
     final JvmField field = typesFactory.createJvmField();
     field.setSimpleName(fieldName);
     field.setVisibility(JvmVisibility.PRIVATE);
     field.setType(jvmTypesBuilder.cloneWithProxies(type));
-    Iterables.addAll(field.getAnnotations(), createAnnotation(checkedTypeRef(context, Inject.class), (final JvmAnnotationReference it) -> {
+    Iterables.addAll(field.getAnnotations(), createAnnotation(checkedTypeRef(context, Inject.class), it -> {
     }));
-    return Collections.<JvmField>singleton(field);
+    return Collections.singleton(field);
   }
 
   private Iterable<JvmMember> createCheck(final Check chk) {
     // If we don't have FormalParameters, there's no need to do all this song and dance with inner classes.
     if (chk.getFormalParameters().isEmpty()) {
-      return ListExtensions.<Context, JvmMember>map(chk.getContexts(), (final Context ctx) -> createCheckMethod(ctx));
+      return ListExtensions.map(chk.getContexts(), ctx -> createCheckMethod(ctx));
     } else {
       return createCheckWithParameters(chk);
     }
@@ -419,22 +417,22 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     // This is the only way I found to make those formal parameters visible in the check constraints...
     // The generated Java looks a bit strange, because we suppress actually generating these fields, as we
     // don't use them; we only need them for scoping based on this inferred model.
-    final List<JvmMember> newMembers = Lists.<JvmMember>newArrayList();
+    final List<JvmMember> newMembers = Lists.newArrayList();
     // First the class
-    final JvmGenericType checkClass = jvmTypesBuilder.toClass(chk, StringExtensions.toFirstUpper(chk.getName()) + "Class", (final JvmGenericType it) -> {
+    final JvmGenericType checkClass = jvmTypesBuilder.toClass(chk, StringExtensions.toFirstUpper(chk.getName()) + "Class", it -> {
       it.getSuperTypes().add(_typeReferenceBuilder.typeRef(Object.class));
       it.setVisibility(JvmVisibility.PRIVATE);
       // Add a fields for the parameters, so that they can be linked. We suppress generation of these fields in the generator,
       // and replace all references by calls to the getter function in the catalog.
-      Iterables.addAll(it.getMembers(), IterableExtensions.<FormalParameter, JvmField>map(IterableExtensions.<FormalParameter>filter(chk.getFormalParameters(), (final FormalParameter f) -> f.getType() != null && f.getName() != null), (final FormalParameter f) -> jvmTypesBuilder.toField(f, f.getName(), f.getType(), (final JvmField it1) -> it1.setFinal(true))));
+      Iterables.addAll(it.getMembers(), IterableExtensions.map(IterableExtensions.filter(chk.getFormalParameters(), f -> f.getType() != null && f.getName() != null), f -> jvmTypesBuilder.toField(f, f.getName(), f.getType(), it1 -> it1.setFinal(true))));
     });
     newMembers.add(checkClass);
-    newMembers.add(jvmTypesBuilder.toField(chk, StringExtensions.toFirstLower(chk.getName()) + "Impl", _typeReferenceBuilder.typeRef(checkClass), (final JvmField it) -> {
-      jvmTypesBuilder.setInitializer(it, (final ITreeAppendable appendable) -> appendable.append("new " + checkClass.getSimpleName() + "()"));
+    newMembers.add(jvmTypesBuilder.toField(chk, StringExtensions.toFirstLower(chk.getName()) + "Impl", _typeReferenceBuilder.typeRef(checkClass), it -> {
+      jvmTypesBuilder.setInitializer(it, appendable -> appendable.append("new " + checkClass.getSimpleName() + "()"));
     }));
-    Iterables.addAll(newMembers, IterableExtensions.<JvmOperation>filterNull(ListExtensions.<Context, JvmOperation>map(chk.getContexts(), (final Context ctx) -> createCheckCaller(ctx, chk))));
+    Iterables.addAll(newMembers, IterableExtensions.filterNull(ListExtensions.map(chk.getContexts(), ctx -> createCheckCaller(ctx, chk))));
     // If we create these above in the class initializer, the types of the context variables somehow are not resolved yet.
-    Iterables.addAll(checkClass.getMembers(), IterableExtensions.<JvmOperation>filterNull(ListExtensions.<Context, JvmOperation>map(chk.getContexts(), (final Context ctx) -> createCheckExecution(ctx))));
+    Iterables.addAll(checkClass.getMembers(), IterableExtensions.filterNull(ListExtensions.map(chk.getContexts(), ctx -> createCheckExecution(ctx))));
     return newMembers;
   }
 
@@ -449,7 +447,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     }
     final String functionName = "run" + StringExtensions.toFirstUpper(simpleName);
     // CPD-OFF — migrated Xtend generator code, kept faithful
-    return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
+    return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), it -> {
       final String parameterName = ctx.getContextVariable().getName() == null ? CheckConstants.IT : ctx.getContextVariable().getName();
       it.getParameters().add(jvmTypesBuilder.toParameter(ctx, parameterName, ctx.getContextVariable().getType()));
       it.getParameters().add(jvmTypesBuilder.toParameter(ctx, "diagnosticCollector", checkedTypeRef(ctx, DiagnosticCollector.class)));
@@ -461,7 +459,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   private Iterable<JvmAnnotationReference> createCheckAnnotation(final Context ctx) {
     final JvmTypeReference checkTypeTypeRef = checkedTypeRef(ctx, CheckType.class);
     if (checkTypeTypeRef == null) {
-      return Collections.<JvmAnnotationReference>emptyList();
+      return Collections.emptyList();
     }
     final XFeatureCall featureCall = XbaseFactory.eINSTANCE.createXFeatureCall();
     featureCall.setFeature(checkTypeTypeRef.getType());
@@ -480,7 +478,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     // We add it as a separate model to the context's resource.
     ctx.eResource().getContents().add(memberCall);
 
-    return createAnnotation(checkedTypeRef(ctx, org.eclipse.xtext.validation.Check.class), (final JvmAnnotationReference it) -> {
+    return createAnnotation(checkedTypeRef(ctx, org.eclipse.xtext.validation.Check.class), it -> {
       it.getExplicitValues().add(jvmTypesBuilder.toJvmAnnotationValue(memberCall));
     });
   }
@@ -499,12 +497,12 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     // into the XBlockExpression of ctx.constraint. Just copying them doesn't work; modifies the source model!
     // Therefore, we generate something new: each check becomes a local class
 
-    return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
+    return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), it -> {
       it.getParameters().add(jvmTypesBuilder.toParameter(ctx, "context", ctx.getContextVariable().getType()));
       it.getParameters().add(jvmTypesBuilder.toParameter(ctx, "diagnosticCollector", checkedTypeRef(ctx, DiagnosticCollector.class)));
       Iterables.addAll(it.getAnnotations(), createCheckAnnotation(ctx));
       jvmTypesBuilder.setDocumentation(it, functionName + "."); // Well, that's not very helpful, but it is what the old compiler did...
-      jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> {
+      jvmTypesBuilder.setBody(it, appendable -> {
         final JvmTypeReference innerContextVariableType = ctx.getContextVariable().getType();
         String innerSimpleName = null;
         if (innerContextVariableType != null) {
@@ -522,7 +520,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     }
     final String functionName = generateContextMethodName(ctx);
 
-    return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
+    return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), it -> {
       final String parameterName = ctx.getContextVariable().getName() == null ? CheckConstants.IT : ctx.getContextVariable().getName();
       it.getParameters().add(jvmTypesBuilder.toParameter(ctx, parameterName, ctx.getContextVariable().getType()));
       it.getParameters().add(jvmTypesBuilder.toParameter(ctx, "diagnosticCollector", checkedTypeRef(ctx, DiagnosticCollector.class)));
@@ -554,7 +552,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
 
   // CHECKSTYLE:CHECK-OFF LambdaBodyLength the model-inference closures mirror the Xtext JvmTypesBuilder API and are kept whole
   private Iterable<JvmMember> createIssue(final CheckCatalog catalog, final Check check) {
-    final List<JvmMember> members = Lists.<JvmMember>newArrayList();
+    final List<JvmMember> members = Lists.newArrayList();
     for (final FormalParameter parameter : check.getFormalParameters()) {
       final JvmTypeReference returnType = parameter.getType();
       if (returnType != null && !returnType.eIsProxy()) {
@@ -582,7 +580,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           // as default value is just a safety measure if something went wrong and the property shouldn't be set.
         }
         final String javaDefaultValue = checkGeneratorNaming.preferenceInitializerClassName(catalog) + "." + defaultName;
-        members.add(jvmTypesBuilder.toMethod(parameter, checkGeneratorNaming.formalParameterGetterName(parameter), returnType, (final JvmOperation it) -> {
+        members.add(jvmTypesBuilder.toMethod(parameter, checkGeneratorNaming.formalParameterGetterName(parameter), returnType, it -> {
           final StringConcatenation builder = new StringConcatenation();
           builder.append("Gets the run-time value of formal parameter <em>");
           builder.append(parameter.getName());
@@ -609,21 +607,21 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           if (eObjectTypeRef != null) {
             it.getParameters().add(jvmTypesBuilder.toParameter(parameter, "context", eObjectTypeRef));
           }
-          jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> appendable.append("return checkConfigurationStoreService.getCheckConfigurationStore(context)." + operation + "(\"" + parameterKey + "\", " + javaDefaultValue + ");"));
+          jvmTypesBuilder.setBody(it, appendable -> appendable.append("return checkConfigurationStoreService.getCheckConfigurationStore(context)." + operation + "(\"" + parameterKey + "\", " + javaDefaultValue + ");"));
         }));
       } // end if
     } // end for
-    members.add(jvmTypesBuilder.toMethod(check, "get" + StringExtensions.toFirstUpper(check.getName()) + "Message", _typeReferenceBuilder.typeRef(String.class), (final JvmOperation it) -> {
+    members.add(jvmTypesBuilder.toMethod(check, "get" + StringExtensions.toFirstUpper(check.getName()) + "Message", _typeReferenceBuilder.typeRef(String.class), it -> {
       jvmTypesBuilder.setDocumentation(it, CheckJvmModelInferrerUtil.GET_MESSAGE_DOCUMENTATION);
       // Generate one parameter "Object... bindings"
       it.setVarArgs(true);
       it.getParameters().add(jvmTypesBuilder.toParameter(check, "bindings", jvmTypesBuilder.addArrayTypeDimension(_typeReferenceBuilder.typeRef(Object.class))));
-      jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> appendable.append("return org.eclipse.osgi.util.NLS.bind(\"" + Strings.convertToJavaString(check.getMessage()) + "\", bindings);"));
+      jvmTypesBuilder.setBody(it, appendable -> appendable.append("return org.eclipse.osgi.util.NLS.bind(\"" + Strings.convertToJavaString(check.getMessage()) + "\", bindings);"));
       // TODO (minor): how to get NLS into the imports?
     }));
     final JvmTypeReference severityType = checkedTypeRef(check, SeverityKind.class);
     if (severityType != null) {
-      members.add(jvmTypesBuilder.toMethod(check, "get" + StringExtensions.toFirstUpper(check.getName()) + "SeverityKind", severityType, (final JvmOperation it) -> {
+      members.add(jvmTypesBuilder.toMethod(check, "get" + StringExtensions.toFirstUpper(check.getName()) + "SeverityKind", severityType, it -> {
         final StringConcatenation builder = new StringConcatenation();
         builder.append("Gets the {@link SeverityKind severity kind} of check");
         builder.newLine();
@@ -660,7 +658,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         if (eObjectTypeRef != null) {
           it.getParameters().add(jvmTypesBuilder.toParameter(check, "context", eObjectTypeRef));
         }
-        jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> {
+        jvmTypesBuilder.setBody(it, appendable -> {
           final StringConcatenation bodyBuilder = new StringConcatenation();
           bodyBuilder.append("final int result = checkConfigurationStoreService.getCheckConfigurationStore(context).getInt(\"");
           bodyBuilder.append(CheckPropertiesGenerator.checkSeverityKey(check));
@@ -683,14 +681,14 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     // For each formal parameter, create a public static final field with a unique name derived from the formal parameter and
     // set it to its right-hand side expression. We let Java evaluate this!
     final List<Check> checks = catalog.getChecks();
-    final Iterable<Check> flattenedCategoryChecks = Iterables.<Check>concat(ListExtensions.<Category, List<Check>>map(catalog.getCategories(), (final Category cat) -> cat.getChecks()));
-    final Iterable<Check> allChecks = Iterables.<Check>concat(checks, flattenedCategoryChecks);
-    final List<JvmMember> result = Lists.<JvmMember>newArrayList();
+    final Iterable<Check> flattenedCategoryChecks = Iterables.concat(ListExtensions.map(catalog.getCategories(), cat -> cat.getChecks()));
+    final Iterable<Check> allChecks = Iterables.concat(checks, flattenedCategoryChecks);
+    final List<JvmMember> result = Lists.newArrayList();
     for (final Check c : allChecks) {
       for (final FormalParameter parameter : c.getFormalParameters()) {
         if (parameter.getType() != null && parameter.getRight() != null) {
           final String defaultName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase() + "_DEFAULT";
-          result.add(jvmTypesBuilder.toField(parameter, defaultName, parameter.getType(), (final JvmField it) -> {
+          result.add(jvmTypesBuilder.toField(parameter, defaultName, parameter.getType(), it -> {
             it.setVisibility(JvmVisibility.PUBLIC);
             it.setFinal(true);
             it.setStatic(true);
@@ -705,22 +703,22 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   // CHECKSTYLE:CHECK-OFF LambdaBodyLength the model-inference closures mirror the Xtext JvmTypesBuilder API and are kept whole
   private Iterable<JvmMember> createPreferenceInitializerMethods(final CheckCatalog catalog) {
     final JvmTypeReference prefStore = checkedTypeRef(catalog, IEclipsePreferences.class);
-    final List<JvmMember> result = Lists.<JvmMember>newArrayList();
+    final List<JvmMember> result = Lists.newArrayList();
 
     if (prefStore != null) {
-      result.add(jvmTypesBuilder.toMethod(catalog, "initializeDefaultPreferences", _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
-        Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Override.class), (final JvmAnnotationReference it1) -> {
+      result.add(jvmTypesBuilder.toMethod(catalog, "initializeDefaultPreferences", _typeReferenceBuilder.typeRef("void"), it -> {
+        Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Override.class), it1 -> {
         }));
         it.setVisibility(JvmVisibility.PUBLIC);
-        jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> appendable.append("IEclipsePreferences preferences = org.eclipse.core.runtime.preferences.InstanceScope.INSTANCE.getNode(RUNTIME_NODE_NAME);\n\ninitializeSeverities(preferences);\ninitializeFormalParameters(preferences);"));
+        jvmTypesBuilder.setBody(it, appendable -> appendable.append("IEclipsePreferences preferences = org.eclipse.core.runtime.preferences.InstanceScope.INSTANCE.getNode(RUNTIME_NODE_NAME);\n\ninitializeSeverities(preferences);\ninitializeFormalParameters(preferences);"));
       }));
       final List<Check> checks = catalog.getChecks();
-      final Iterable<Check> flattenedCategoryChecks = Iterables.<Check>concat(ListExtensions.<Category, List<Check>>map(catalog.getCategories(), (final Category cat) -> cat.getChecks()));
-      final Iterable<Check> allChecks = Iterables.<Check>concat(checks, flattenedCategoryChecks);
-      result.add(jvmTypesBuilder.toMethod(catalog, "initializeSeverities", _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
+      final Iterable<Check> flattenedCategoryChecks = Iterables.concat(ListExtensions.map(catalog.getCategories(), cat -> cat.getChecks()));
+      final Iterable<Check> allChecks = Iterables.concat(checks, flattenedCategoryChecks);
+      result.add(jvmTypesBuilder.toMethod(catalog, "initializeSeverities", _typeReferenceBuilder.typeRef("void"), it -> {
         it.setVisibility(JvmVisibility.PRIVATE);
         it.getParameters().add(jvmTypesBuilder.toParameter(catalog, "preferences", prefStore));
-        jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> {
+        jvmTypesBuilder.setBody(it, appendable -> {
           final StringConcatenation builder = new StringConcatenation();
           for (final Check c : allChecks) {
             builder.newLineIfNotEmpty();
@@ -734,10 +732,10 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
           appendable.append(builder);
         });
       }));
-      result.add(jvmTypesBuilder.toMethod(catalog, "initializeFormalParameters", _typeReferenceBuilder.typeRef("void"), (final JvmOperation it) -> {
+      result.add(jvmTypesBuilder.toMethod(catalog, "initializeFormalParameters", _typeReferenceBuilder.typeRef("void"), it -> {
         it.setVisibility(JvmVisibility.PRIVATE);
         it.getParameters().add(jvmTypesBuilder.toParameter(catalog, "preferences", jvmTypesBuilder.cloneWithProxies(prefStore)));
-        jvmTypesBuilder.setBody(it, (final ITreeAppendable appendable) -> {
+        jvmTypesBuilder.setBody(it, appendable -> {
           for (final Check c : allChecks) {
             for (final FormalParameter parameter : c.getFormalParameters()) {
               if (parameter.getRight() != null) {
@@ -749,7 +747,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
                   // Marshal lists.
                   final List<JvmTypeReference> args = ((JvmParameterizedTypeReference) jvmType).getArguments();
                   if (args != null && args.size() == 1) {
-                    final String baseTypeName = IterableExtensions.<JvmTypeReference>head(args).getSimpleName();
+                    final String baseTypeName = IterableExtensions.head(args).getSimpleName();
                     final StringConcatenation builder = new StringConcatenation();
                     builder.append("preferences.put(\"");
                     builder.append(key);
@@ -806,14 +804,14 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
 
   private Iterable<JvmAnnotationReference> createAnnotation(final JvmTypeReference typeRef, final Procedure1<JvmAnnotationReference> initializer) {
     if (typeRef == null) {
-      return Collections.<JvmAnnotationReference>emptyList();
+      return Collections.emptyList();
     }
 
     final JvmAnnotationReference annotation = typesFactory.createJvmAnnotationReference();
     annotation.setAnnotation((JvmAnnotationType) typeRef.getType());
     Objects.requireNonNull(initializer, "Initializer is null").apply(annotation);
 
-    return Collections.<JvmAnnotationReference>singletonList(annotation);
+    return Collections.singletonList(annotation);
   }
 
   // Error handling etc.
@@ -853,7 +851,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     } else if (catalog != null) {
       _infer(catalog, acceptor, preIndexingPhase);
     } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(catalog, acceptor, preIndexingPhase).toString());
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.asList(catalog, acceptor, preIndexingPhase).toString());
     }
   }
 }
