@@ -148,15 +148,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         }
         jvmTypesBuilder.setInitializer(it1, appendable -> {
           final StringConcatenation builder = new StringConcatenation();
-          builder.append(ImmutableMap.class.getSimpleName());
-          builder.append(".<");
-          builder.append(String.class.getSimpleName());
-          builder.append(", ");
-          builder.append(String.class.getSimpleName());
-          builder.append(">builderWithExpectedSize(");
-          builder.append(sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet().size());
-          builder.append(")");
-          builder.newLineIfNotEmpty();
+          builder.append("ImmutableMap.<String, String>builderWithExpectedSize(%d)\n".formatted(sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet().size()));
           for (final Map.Entry<String, String> qualifiedIssueCodeNameAndLabel : sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet()) {
             builder.append("  ");
             builder.append(".put(");
