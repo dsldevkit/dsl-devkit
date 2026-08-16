@@ -452,6 +452,34 @@
             <skipNotDeployed>false</skipNotDeployed>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>13.0.0</version>
+          <configuration>
+            <!-- build the database from the dependency-check project's nightly NVD mirror instead of
+                 the NVD API: no API key needed, and a full build takes ~1 minute instead of 10-40 -->
+            <nvdDatafeedUrl>https://dependency-check.github.io/DependencyCheck_Builder/nvd_cache/nvdcve-{0}.json.gz</nvdDatafeedUrl>
+            <!-- search.maven.org rate-limits bulk lookups into self-disabling after ~50 wasted minutes -->
+            <centralAnalyzerEnabled>false</centralAnalyzerEnabled>
+            <!-- OSS Index requires authentication since its Sonatype Guide migration -->
+            <ossIndexAnalyzerEnabled>false</ossIndexAnalyzerEnabled>
+            <!-- no dotnet runtime on the runners; some Eclipse bundles embed .dll resources -->
+            <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+            <failBuildOnCVSS>7</failBuildOnCVSS>
+            <suppressionFile>${maven.multiModuleProjectDirectory}/.github/security/dependency-check-suppressions.xml</suppressionFile>
+            <formats>
+              <format>JSON</format>
+              <format>HTML</format>
+            </formats>
+            <!-- extra scan path for the canary jar placed by check-cves-deep.sh -->
+            <scanSet>
+              <fileSet>
+                <directory>${maven.multiModuleProjectDirectory}/ddk-parent/target/cve-canary</directory>
+              </fileSet>
+            </scanSet>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

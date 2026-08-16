@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Suppression rules for the cve-deep-scan lane (OWASP dependency-check).
+
+  Policy: every rule needs <notes> explaining why the match is a false positive
+  or an accepted risk, and should be as narrow as its class allows. Grown from
+  triage of real runs; do not pre-emptively suppress. The fast-lane ledger
+  (.github/security/cve-ignores.json) covers OSV advisory ids separately;
+  accepted risks are mirrored in both with the same review dates.
+
+  Recurring false-positive mechanics in this reactor:
+  - OSGi bundle versions are not product versions (org.eclipse.equinox.http.jetty
+    3.9.700 is not Jetty 3.9), so CPE version-range checks misfire,
+  - Eclipse ships fixes without NVD narrowing the CPE range, so long-fixed
+    platform CVEs re-attach to current builds.
+-->
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+
+  <!-- ================= scan self-test ================= -->
+
+  <suppress>
+    <notes><![CDATA[
+      Canary jar planted by check-cves-deep.sh. The scan must detect
+      CVE-2015-6420 on it (the script verifies this via the report's suppressed
+      section), but the canary must not fail the build. Scoped to the canary
+      directory only.
+    ]]></notes>
+    <filePath regex="true">.*[/\\]cve-canary[/\\]commons-collections-3\.2\.1\.jar</filePath>
+    <cve>CVE-2015-6420</cve>
+  </suppress>
+
+  <!-- ================= false positives ================= -->
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2014-125035 is a 2014 advisory against an unrelated product that
+      attaches to current org.eclipse.* bundles on low-confidence evidence
+      without any CPE (verified: flagged a 2026 build of org.eclipse.core.jobs).
+    ]]></notes>
+    <filePath regex="true">.*org\.eclipse\..*\.jar</filePath>
+    <cve>CVE-2014-125035</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      org.eclipse.equinox.http.jetty's bundle version (3.9.x) is matched as
+      Jetty 3.9, attaching 2009-2017 Jetty CVEs. The actual Jetty in the target
+      platform is 10.x/12.x and is assessed separately.
+    ]]></notes>
+    <filePath regex="true">.*org\.eclipse\.equinox\.http\.jetty.*\.jar</filePath>
+    <cpe>cpe:/a:jetty:jetty</cpe>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ Same bundle, same mechanics, alternate vendor spelling. ]]></notes>
+    <filePath regex="true">.*org\.eclipse\.equinox\.http\.jetty.*\.jar</filePath>
+    <cpe>cpe:/a:eclipse:jetty</cpe>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      mortbay-apache-el/-jsp are Jetty's repackaged Tomcat EL/JSP artifacts;
+      their 9.0.x (Tomcat) version is matched as Jetty 9.0, attaching old Jetty
+      CVEs (verified: CVE-2017-765x era).
+    ]]></notes>
+    <filePath regex="true">.*mortbay-apache-(el|jsp)-.*\.jar</filePath>
+    <cpe>cpe:/a:jetty:jetty</cpe>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ Same artifacts, alternate vendor spelling. ]]></notes>
+    <filePath regex="true">.*mortbay-apache-(el|jsp)-.*\.jar</filePath>
+    <cpe>cpe:/a:eclipse:jetty</cpe>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2021-41033 (Equinox p2, fixed in 2021 / Eclipse 4.21) re-attaches to
+      current p2 bundles because their per-bundle versions (1.x/2.x) defeat the
+      platform-version range. Target platform is Eclipse 2026-06.
+    ]]></notes>
+    <filePath regex="true">.*org\.eclipse\.equinox\.p2\..*\.jar</filePath>
+    <cve>CVE-2021-41033</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2023-4218 (PDE .api_description XXE, fixed in 2023) re-attaches to
+      current PDE bundles for the same bundle-version reason. Target platform
+      is Eclipse 2026-06; PDE is build/IDE tooling, not shipped.
+    ]]></notes>
+    <filePath regex="true">.*(org\.eclipse\.pde\..*|pdebuild)\.jar</filePath>
+    <cve>CVE-2023-4218</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2020-27225 (Equinox help/update authentication, fixed in Eclipse 4.18)
+      against a 2026 build of org.eclipse.update.configurator.
+    ]]></notes>
+    <filePath regex="true">.*org\.eclipse\.update\.configurator.*\.jar</filePath>
+    <cve>CVE-2020-27225</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2019-11770 concerns Eclipse Buildship (the Gradle integration);
+      org.eclipse.xtext.buildship is a different product that collides on the
+      product name.
+    ]]></notes>
+    <filePath regex="true">.*org\.eclipse\.xtext\.buildship.*\.jar</filePath>
+    <cve>CVE-2019-11770</cve>
+  </suppress>
+
+  <!-- ================= accepted risks (mirrored in cve-ignores.json) ================= -->
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2026-24400 / GHSA-rqfh-9r24-8c9r: assertj XXE in isXmlEqualTo, local
+      vector. assertj-core IS shipped in ddk-repository (via check.ui /
+      checkcfg.ui); accepted until the target platform picks up a fixed assertj.
+      Mirrors cve-ignores.json. Review by 2026-11-01.
+    ]]></notes>
+    <filePath regex="true">.*assertj-core-.*\.jar</filePath>
+    <cve>CVE-2026-24400</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2026-10050 / CVE-2026-10051 (Jetty 12.1.x): Jetty is pulled only by
+      com.avaloq.tools.ddk.xtext.test (SWTBot/Equinox test infrastructure) and
+      is not part of the shipped update site. Mirrors the GHSA entries in
+      cve-ignores.json. Review by 2027-02-01.
+    ]]></notes>
+    <filePath regex="true">.*jetty-[a-z0-9]+(-[a-z0-9]+)*-12\..*\.jar</filePath>
+    <cve>CVE-2026-10050</cve>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[ Same scope and rationale as CVE-2026-10050 above. ]]></notes>
+    <filePath regex="true">.*jetty-[a-z0-9]+(-[a-z0-9]+)*-12\..*\.jar</filePath>
+    <cve>CVE-2026-10051</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      mortbay-apache-jsp embeds the Tomcat 9.0.x Jasper JSP compiler, so the
+      apache:tomcat CPE match is legitimate rather than a name collision; most
+      Tomcat CVEs target the server container rather than the embedded Jasper
+      subset, and the artifact is pulled only by the SWTBot/Equinox test
+      infrastructure - it is not part of the shipped update site. Accepted for
+      test scope; review by 2027-02-01 or when SWTBot updates its Jetty stack.
+    ]]></notes>
+    <filePath regex="true">.*mortbay-apache-jsp-.*\.jar</filePath>
+    <cpe>cpe:/a:apache:tomcat</cpe>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+      CVE-2019-10249 (Xtext/Xtend < 2.17: HTTP repository in mwe2 tooling)
+      against the org.eclipse.xtend* 2.2.0.v201605260315 bundles - the legacy
+      Xpand-era generator toolchain, used at build time only and frozen
+      upstream (Xpand is archived; no fixed version exists). Not shipped.
+      Review when the Xpand dependency is dropped from ddk.target.
+    ]]></notes>
+    <filePath regex="true">.*org\.eclipse\.xtend(\.[a-z.]+)?-2\.2\.0\..*\.jar</filePath>
+    <cve>CVE-2019-10249</cve>
+  </suppress>
+
+</suppressions>
