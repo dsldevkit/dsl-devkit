@@ -29,6 +29,8 @@ When the check fails:
 
 A failure reading `SCAN SELF-TEST FAILED` means the scan itself is broken or the OSV API is unreachable — the check fails loudly rather than passing silently. Re-run it; do not bypass it.
 
+A second, non-blocking audit (the `cve-deep-scan` workflow) runs weekly with OWASP dependency-check, covering Eclipse-native bundles that have no Maven identity. Its reports land as workflow artifacts, failures open a `[cve-deep-scan] findings` issue, and its suppression rules live in `.github/security/dependency-check-suppressions.xml` (same policy: every rule needs a justification). No API key is needed: the vulnerability database is built from the dependency-check project's nightly NVD mirror in about a minute. Run it locally with `bash .github/scripts/check-cves-deep.sh` (or `--no-update` for fast iteration against an existing database).
+
 ## Guidelines for Pull Requests
 
 * Provide a good pull request description
