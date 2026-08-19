@@ -13,8 +13,6 @@ package com.avaloq.tools.ddk.xtext.generator.test.generator;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
-import com.avaloq.tools.ddk.xtext.generator.expression.CodeGenerationXTest;
-import com.avaloq.tools.ddk.xtext.generator.expression.CompilationContextTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionsExtentionsTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.EClassComparatorTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.GraphTest;
@@ -27,8 +25,6 @@ import com.avaloq.tools.ddk.xtext.generator.xbase.test.XbaseGeneratorFragmentTes
 @Suite
 @SelectClasses({
 // @Format-Off
-  CodeGenerationXTest.class,
-  CompilationContextTest.class,
   ExpressionsExtentionsTest.class,
   EClassComparatorTest.class,
   GraphTest.class,

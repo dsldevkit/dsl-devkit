@@ -13,15 +13,10 @@ package com.avaloq.tools.ddk.xtext.scope.validation;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.internal.xtend.xtend.XtendFile;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.xtend.expression.Resource;
-import org.eclipse.xtend.expression.ResourceManager;
-import org.eclipse.xtend.expression.ResourceManagerDefaultImpl;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -30,7 +25,6 @@ import org.eclipse.xtext.validation.Check;
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil;
-import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
 import com.avaloq.tools.ddk.xtext.scope.scope.GlobalScopeExpression;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingDefinition;
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingSection;
@@ -56,30 +50,6 @@ public class ScopeValidator extends AbstractScopeValidator {
 
   @Inject
   private ISerializer serializer;
-
-  /**
-   * Verifies that all referenced extensions can be found.
-   *
-   * @param model
-   *          scope model to check
-   */
-  @Check
-  public void checkExtensions(final ScopeModel model) {
-    ResourceManager resourceManager = null;
-    if (!Platform.isRunning()) {
-      resourceManager = new ResourceManagerDefaultImpl();
-    }
-
-    if (resourceManager == null) {
-      return;
-    }
-    for (Extension ext : model.getExtensions()) {
-      final Resource res = resourceManager.loadResource(ext.getExtension(), XtendFile.FILE_EXTENSION);
-      if (res == null) {
-        error(NLS.bind(Messages.extensionNotFound, ext.getExtension()), ext, ScopePackage.Literals.EXTENSION__EXTENSION, null);
-      }
-    }
-  }
 
   /**
    * Verify that the context reference is a cross reference (i.e. no containment or container reference).

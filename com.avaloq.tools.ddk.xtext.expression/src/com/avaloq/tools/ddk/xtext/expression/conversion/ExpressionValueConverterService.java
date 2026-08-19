@@ -10,19 +10,27 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.conversion;
 
-import org.eclipse.xtext.common.services.DefaultTerminalConverters;
 import org.eclipse.xtext.conversion.IValueConverter;
 import org.eclipse.xtext.conversion.ValueConverter;
+import org.eclipse.xtext.xbase.conversion.XbaseValueConverterService;
+
+import com.google.inject.Singleton;
 
 
 /**
  * Value converter service for the Expression.xtext grammar which registers an ID value converter for "Identifier".
+ * <p>
+ * The grammar inherits from Xbase, therefore this service must extend {@link XbaseValueConverterService}: the binding
+ * contributed by {@code DefaultXbaseRuntimeModule} is overridden by the language's runtime module, and anything not
+ * inherited from here would silently drop the converters for the Xbase rules.
  */
-public class ExpressionValueConverterService extends DefaultTerminalConverters {
+@SuppressWarnings("restriction")
+@Singleton
+public class ExpressionValueConverterService extends XbaseValueConverterService {
 
   /**
    * Value converter for Identifier rule.
-   * 
+   *
    * @return value converter
    */
   @ValueConverter(rule = "Identifier")

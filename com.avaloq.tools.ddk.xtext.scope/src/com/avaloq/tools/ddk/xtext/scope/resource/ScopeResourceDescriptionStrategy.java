@@ -60,7 +60,7 @@ public class ScopeResourceDescriptionStrategy extends DefaultResourceDescription
       // CHECKSTYLE:CHECK-OFF IllegalCatch
     } catch (RuntimeException e) {
       // CHECKSTYLE:CHECK-ON
-      LOG.error(e.getMessage(), e);
+      LOG.error(e.getMessage() + " for " + EcoreUtil.getURI(eObject), e);
     }
     return false;
   }

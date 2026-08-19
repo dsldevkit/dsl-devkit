@@ -15,8 +15,12 @@ Require-Bundle: org.eclipse.xtext.ui,
  org.antlr.runtime,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.expression.ide,
- org.eclipse.emf.codegen.ecore
+ org.eclipse.emf.codegen.ecore,
+ org.eclipse.xtext.xbase.ui,
+ org.eclipse.jdt.debug.ui,
+ org.eclipse.xtext.common.types.ui
 Export-Package: com.avaloq.tools.ddk.xtext.expression.ui.contentassist,
- com.avaloq.tools.ddk.xtext.expression.ui.quickfix
+ com.avaloq.tools.ddk.xtext.expression.ui.quickfix,
+ com.avaloq.tools.ddk.xtext.expression.ui.editor
 Import-Package: org.apache.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.expression.ui

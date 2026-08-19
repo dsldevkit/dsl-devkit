@@ -7,16 +7,16 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ISetup;
-import org.eclipse.xtext.common.TerminalsStandaloneSetup;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.xbase.XbaseStandaloneSetup;
 
 @SuppressWarnings("all")
 public class ExpressionStandaloneSetupGenerated implements ISetup {
 
 	@Override
 	public Injector createInjectorAndDoEMFRegistration() {
-		TerminalsStandaloneSetup.doSetup();
+		XbaseStandaloneSetup.doSetup();
 
 		Injector injector = createInjector();
 		register(injector);

@@ -13,11 +13,11 @@ package com.avaloq.tools.ddk.xtext.scope.generator
 
 import com.avaloq.tools.ddk.xtext.expression.expression.Expression
 import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
-import com.avaloq.tools.ddk.xtext.expression.generator.CodeGenerationX
-import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensionsX
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions
 import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
 import com.avaloq.tools.ddk.xtext.expression.generator.Naming
 import com.avaloq.tools.ddk.xtext.scope.ScopeUtil
+import com.avaloq.tools.ddk.xtext.scope.scope.Extension
 import com.avaloq.tools.ddk.xtext.scope.scope.Injection
 import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression
 import com.avaloq.tools.ddk.xtext.scope.scope.NamingDefinition
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.xtext.util.Strings
 
 class ScopeProviderX {
 
@@ -40,10 +41,6 @@ class ScopeProviderX {
   extension Naming
   @Inject
   extension GeneratorUtilX
-  @Inject
-  extension CodeGenerationX
-  @Inject
-  extension ExpressionExtensionsX
 
   /*
    * CODE GENERATION
@@ -62,7 +59,7 @@ class ScopeProviderX {
   }
 
   def String locatorString(EObject it) {
-    location().split('/').lastOrNull().javaEncode()
+    Strings.convertToJavaString(location().split('/').lastOrNull())
   }
 
   def String calledFeature(FeatureCall it) {
@@ -107,7 +104,7 @@ class ScopeProviderX {
   def dispatch boolean isEqual(ScopeRule a, ScopeRule b) {
     a.hasSameContext(b)
     // && ((a.name === null) == (b.name === null)) && (a.name === null || a.name.matches (b.name))
-    && a.context.guard.serialize() == b.context.guard.serialize()
+    && ExpressionExtensions.serialize(a.context.guard) == ExpressionExtensions.serialize(b.context.guard)
   }
 
   def boolean hasSameContext(ScopeRule a, ScopeRule b) {
@@ -192,6 +189,61 @@ class ScopeProviderX {
 
   def dispatch boolean isEqual(Injection a, Injection b) {
     a.type == b.type && a.name == b.name
+  }
+
+  /*
+   * Extensions
+   */
+  /**
+   * Returns the extension declarations visible to the given scope model: its own declarations first, followed by
+   * those of the (transitively) included scope models. Duplicates (by qualified extension name) are removed,
+   * keeping the first occurrence.
+   * <p>
+   * The order matters: an extension operation is resolved by name against this list, so the model's own extension
+   * classes must shadow those it inherits, exactly as the legacy classic Xtend execution context did (its
+   * {@code Resource.getImportedExtensions()} listed the model before its included models).
+   *
+   * @param it
+   *          the scope model, must not be {@code null}
+   * @return the visible extension declarations in resolution order, never {@code null}
+   */
+  def dispatch List<Extension> allExtensions(ScopeModel it) {
+    val result = <Extension>newArrayList
+    val seen = <String>newLinkedHashSet
+    for (declaration : collectExtensions(<ScopeModel>newLinkedHashSet)) {
+      if (seen.add(declaration.getExtension())) {
+        result.add(declaration)
+      }
+    }
+    result
+  }
+
+  def dispatch List<Extension> allExtensions(Void it) {
+    newArrayList
+  }
+
+  /**
+   * Collects the extension declarations of the given scope model followed by those of the scope models it includes,
+   * depth first. The given set guards against include cycles and diamonds.
+   *
+   * @param it
+   *          the scope model, must not be {@code null}
+   * @param visited
+   *          the scope models already visited, must not be {@code null}
+   * @return the collected extension declarations, never {@code null}
+   */
+  def private List<Extension> collectExtensions(ScopeModel it, Set<ScopeModel> visited) {
+    val result = <Extension>newArrayList
+    if (!visited.add(it)) {
+      return result
+    }
+    result.addAll(it.extensions)
+    for (included : it.includedScopes) {
+      if (included !== null) {
+        result.addAll(included.collectExtensions(visited))
+      }
+    }
+    result
   }
 
   /*

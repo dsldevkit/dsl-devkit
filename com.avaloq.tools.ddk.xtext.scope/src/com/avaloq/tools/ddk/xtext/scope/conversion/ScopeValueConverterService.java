@@ -16,11 +16,13 @@ import org.eclipse.xtext.conversion.impl.QualifiedNameValueConverter;
 
 import com.avaloq.tools.ddk.xtext.expression.conversion.ExpressionValueConverterService;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 
 /**
  * Value converter service for the scope DSL.
  */
+@Singleton
 public class ScopeValueConverterService extends ExpressionValueConverterService {
 
   @Inject

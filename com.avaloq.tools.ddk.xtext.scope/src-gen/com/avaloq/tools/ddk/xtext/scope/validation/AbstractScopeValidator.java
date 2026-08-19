@@ -15,6 +15,9 @@ public abstract class AbstractScopeValidator extends ExpressionValidator {
 		List<EPackage> result = new ArrayList<EPackage>(super.getEPackages());
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.avaloq.com/tools/ddk/xtext/Scope"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.avaloq.com/tools/ddk/xtext/expression/Expression"));
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xtext/xbase/Xbase"));
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xtext/common/JavaVMTypes"));
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/xtext/xbase/Xtype"));
 		return result;
 	}
 }
