@@ -6,7 +6,7 @@
     <version>18.0.1-SNAPSHOT</version>
     <relativePath>../ddk-parent</relativePath>
   </parent>
-  <version>17.3.1-SNAPSHOT</version>
+  <version>17.3.2-SNAPSHOT</version>
   <groupId>com.avaloq.tools.ddk</groupId>
   <artifactId>com.avaloq.tools.ddk.checkcfg.core</artifactId>
   <packaging>eclipse-plugin</packaging>
