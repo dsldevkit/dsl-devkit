@@ -53,6 +53,17 @@ jobs:
             ${{ runner.os }}-maven-publish-
             ${{ runner.os }}-maven-0-
 
+      - name: Drop cached p2 metadata for the DDK update site
+        # The restored blob persists Tycho's HTTP cache (~/.m2/repository/.cache/tycho).
+        # Tycho's cache-first transport never revalidates cached 404/301 entries, and
+        # p2/releases/latest + p2/snapshots/latest are moving pointers, so a stale blob
+        # silently disables the compare-version-with-baselines gate (the mojo has no
+        # "baseline not found" branch and passes vacuously). Deleting only the DDK hosts
+        # forces a fresh metadata fetch (a few KB) while keeping eclipse.org metadata and
+        # all downloaded artifacts cached. It also keeps the blob this job saves clean
+        # for the verify.yml consumers.
+        run: rm -rf ~/.m2/repository/.cache/tycho/https/dsldevkit.github.io ~/.m2/repository/.cache/tycho/https/ddk.tools.avaloq.com
+
       - name: Build p2 update site
         run: |
           xvfb-run mvn clean verify \
