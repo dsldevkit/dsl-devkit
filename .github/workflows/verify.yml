@@ -36,6 +36,13 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          # Full history: Tycho's jgit build-qualifier derives each bundle's qualifier
+          # from the last commit touching it. A shallow clone truncates that history, so
+          # every bundle falls back to the HEAD (merge-ref) timestamp — inflating all
+          # qualifiers and making compare-version-with-baselines fail on unchanged
+          # bundles ("Only qualifier changed"). snapshot.yml already fetches full history.
+          fetch-depth: 0
       - name: Set up JDK 21
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961  # v5
         with:
