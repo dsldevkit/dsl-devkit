@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getSeverityRange <em>Severity Range</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#isFinal <em>Final</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.check.check.Check#isExternal <em>External</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getKind <em>Kind</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getDefaultSeverity <em>Default Severity</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.Check#getId <em>Id</em>}</li>
@@ -74,6 +75,28 @@ public interface Check extends Documented, ImplicitlyNamed
    * @generated
    */
   void setFinal(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>External</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>External</em>' attribute.
+   * @see #setExternal(boolean)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getCheck_External()
+   * @model
+   * @generated
+   */
+  boolean isExternal();
+
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.Check#isExternal <em>External</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>External</em>' attribute.
+   * @see #isExternal()
+   * @generated
+   */
+  void setExternal(boolean value);
 
   /**
    * Returns the value of the '<em><b>Kind</b></em>' attribute.

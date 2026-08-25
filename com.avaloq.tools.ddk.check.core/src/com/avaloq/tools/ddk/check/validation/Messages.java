@@ -41,7 +41,10 @@ public class Messages extends NLS {
   public static String CheckJavaValidator_ISSUE_REFERS_TO_IMPLICIT_CHECK;
   public static String CheckJavaValidator_ISSUE_REFERS_TO_EXPLICIT_CHECK;
   public static String CheckJavaValidator_ISSUED_BINDINGS;
+  public static String CheckJavaValidator_ISSUE_IN_EXTERNAL_CHECK;
   public static String CheckJavaValidator_MARKER_INDEX_MANY;
+  public static String CheckJavaValidator_MARKER_INDEX_WITH_REGION;
+  public static String CheckJavaValidator_MARKER_REGION_TYPE;
   public static String CheckJavaValidator_MISSING_ISSUE_EXPRESSION;
   public static String CheckJavaValidator_NO_EXPRESSIONS_IN_CONSTRAINT;
   public static String CheckJavaValidator_NO_GUARD_AFTER_ISSUE_IN_CONSTRAINT;

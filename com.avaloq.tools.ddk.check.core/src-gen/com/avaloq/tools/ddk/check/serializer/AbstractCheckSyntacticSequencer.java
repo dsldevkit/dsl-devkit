@@ -21,8 +21,8 @@ import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected CheckGrammarAccess grammarAccess;
-	protected AbstractElementAlias match_Check___LeftCurlyBracketKeyword_8_0_0_RightCurlyBracketKeyword_8_0_2__q;
-	protected AbstractElementAlias match_Check___LeftParenthesisKeyword_6_0_RightParenthesisKeyword_6_2__q;
+	protected AbstractElementAlias match_Check___LeftCurlyBracketKeyword_9_0_0_RightCurlyBracketKeyword_9_0_2__q;
+	protected AbstractElementAlias match_Check___LeftParenthesisKeyword_7_0_RightParenthesisKeyword_7_2__q;
 	protected AbstractElementAlias match_XAnnotation___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q;
 	protected AbstractElementAlias match_XBlockExpression_SemicolonKeyword_2_1_q;
 	protected AbstractElementAlias match_XExpressionInClosure_SemicolonKeyword_1_1_q;
@@ -34,8 +34,8 @@ public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticS
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (CheckGrammarAccess) access;
-		match_Check___LeftCurlyBracketKeyword_8_0_0_RightCurlyBracketKeyword_8_0_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCheckAccess().getLeftCurlyBracketKeyword_8_0_0()), new TokenAlias(false, false, grammarAccess.getCheckAccess().getRightCurlyBracketKeyword_8_0_2()));
-		match_Check___LeftParenthesisKeyword_6_0_RightParenthesisKeyword_6_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCheckAccess().getLeftParenthesisKeyword_6_0()), new TokenAlias(false, false, grammarAccess.getCheckAccess().getRightParenthesisKeyword_6_2()));
+		match_Check___LeftCurlyBracketKeyword_9_0_0_RightCurlyBracketKeyword_9_0_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCheckAccess().getLeftCurlyBracketKeyword_9_0_0()), new TokenAlias(false, false, grammarAccess.getCheckAccess().getRightCurlyBracketKeyword_9_0_2()));
+		match_Check___LeftParenthesisKeyword_7_0_RightParenthesisKeyword_7_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCheckAccess().getLeftParenthesisKeyword_7_0()), new TokenAlias(false, false, grammarAccess.getCheckAccess().getRightParenthesisKeyword_7_2()));
 		match_XAnnotation___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getXAnnotationAccess().getLeftParenthesisKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getXAnnotationAccess().getRightParenthesisKeyword_3_2()));
 		match_XBlockExpression_SemicolonKeyword_2_1_q = new TokenAlias(false, true, grammarAccess.getXBlockExpressionAccess().getSemicolonKeyword_2_1());
 		match_XExpressionInClosure_SemicolonKeyword_1_1_q = new TokenAlias(false, true, grammarAccess.getXExpressionInClosureAccess().getSemicolonKeyword_1_1());
@@ -82,10 +82,10 @@ public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticS
 		List<INode> transitionNodes = collectNodes(fromNode, toNode);
 		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if (match_Check___LeftCurlyBracketKeyword_8_0_0_RightCurlyBracketKeyword_8_0_2__q.equals(syntax))
-				emit_Check___LeftCurlyBracketKeyword_8_0_0_RightCurlyBracketKeyword_8_0_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_Check___LeftParenthesisKeyword_6_0_RightParenthesisKeyword_6_2__q.equals(syntax))
-				emit_Check___LeftParenthesisKeyword_6_0_RightParenthesisKeyword_6_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			if (match_Check___LeftCurlyBracketKeyword_9_0_0_RightCurlyBracketKeyword_9_0_2__q.equals(syntax))
+				emit_Check___LeftCurlyBracketKeyword_9_0_0_RightCurlyBracketKeyword_9_0_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_Check___LeftParenthesisKeyword_7_0_RightParenthesisKeyword_7_2__q.equals(syntax))
+				emit_Check___LeftParenthesisKeyword_7_0_RightParenthesisKeyword_7_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_XAnnotation___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q.equals(syntax))
 				emit_XAnnotation___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_XBlockExpression_SemicolonKeyword_2_1_q.equals(syntax))
@@ -116,7 +116,7 @@ public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticS
 	 
 	 * </pre>
 	 */
-	protected void emit_Check___LeftCurlyBracketKeyword_8_0_0_RightCurlyBracketKeyword_8_0_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_Check___LeftCurlyBracketKeyword_9_0_0_RightCurlyBracketKeyword_9_0_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -133,7 +133,7 @@ public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticS
 	 
 	 * </pre>
 	 */
-	protected void emit_Check___LeftParenthesisKeyword_6_0_RightParenthesisKeyword_6_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_Check___LeftParenthesisKeyword_7_0_RightParenthesisKeyword_7_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -234,10 +234,12 @@ public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticS
 	 *     (rule start) (ambiguity) 'for' '(' initExpressions+=XExpressionOrVarDeclaration
 	 *     (rule start) (ambiguity) 'guard' guard=XExpression
 	 *     (rule start) (ambiguity) 'if' '(' if=XExpression
+	 *     (rule start) (ambiguity) 'issue' 'at' markerRegion=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'bind' '(' messageParameters+=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'data' '(' issueData+=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'data' issueCode=ValidID
 	 *     (rule start) (ambiguity) 'issue' 'message' message=XExpression
+	 *     (rule start) (ambiguity) 'issue' 'on' '#' '(' markerFeatureExpression=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'on' '#' markerFeature=[EStructuralFeature|ValidID]
 	 *     (rule start) (ambiguity) 'issue' 'on' markerObject=XExpression
 	 *     (rule start) (ambiguity) 'issue' (rule start)
@@ -299,10 +301,12 @@ public abstract class AbstractCheckSyntacticSequencer extends AbstractSyntacticS
 	 *     (rule start) (ambiguity) 'guard' guard=XExpression
 	 *     (rule start) (ambiguity) 'if' '(' if=XExpression
 	 *     (rule start) (ambiguity) 'issue' ')' (rule start)
+	 *     (rule start) (ambiguity) 'issue' 'at' markerRegion=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'bind' '(' messageParameters+=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'data' '(' issueData+=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'data' issueCode=ValidID
 	 *     (rule start) (ambiguity) 'issue' 'message' message=XExpression
+	 *     (rule start) (ambiguity) 'issue' 'on' '#' '(' markerFeatureExpression=XExpression
 	 *     (rule start) (ambiguity) 'issue' 'on' '#' markerFeature=[EStructuralFeature|ValidID]
 	 *     (rule start) (ambiguity) 'issue' 'on' markerObject=XExpression
 	 *     (rule start) (ambiguity) 'issue' check=[Check|QualifiedName]

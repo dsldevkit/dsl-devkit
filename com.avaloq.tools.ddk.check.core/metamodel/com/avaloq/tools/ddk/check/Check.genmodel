@@ -46,6 +46,7 @@
     <genClasses ecoreClass="Check.ecore#//Check">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//Check/severityRange"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Check.ecore#//Check/final"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Check.ecore#//Check/external"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Check.ecore#//Check/kind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Check.ecore#//Check/defaultSeverity"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Check.ecore#//Check/id"/>
@@ -89,8 +90,10 @@
     <genClasses ecoreClass="Check.ecore#//XIssueExpression">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/check"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/markerFeature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/markerFeatureExpression"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/markerObject"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/markerIndex"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/markerRegion"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/message"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Check.ecore#//XIssueExpression/messageParameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Check.ecore#//XIssueExpression/issueCode"/>

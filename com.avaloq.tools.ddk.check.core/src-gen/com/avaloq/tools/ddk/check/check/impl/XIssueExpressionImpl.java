@@ -36,8 +36,10 @@ import org.eclipse.xtext.xbase.impl.XExpressionImpl;
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getCheck <em>Check</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMarkerFeature <em>Marker Feature</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMarkerFeatureExpression <em>Marker Feature Expression</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMarkerObject <em>Marker Object</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMarkerIndex <em>Marker Index</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMarkerRegion <em>Marker Region</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getMessageParameters <em>Message Parameters</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.XIssueExpressionImpl#getIssueCode <em>Issue Code</em>}</li>
@@ -69,6 +71,16 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
   protected EStructuralFeature markerFeature;
 
   /**
+   * The cached value of the '{@link #getMarkerFeatureExpression() <em>Marker Feature Expression</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getMarkerFeatureExpression()
+   * @generated
+   * @ordered
+   */
+  protected XExpression markerFeatureExpression;
+
+  /**
    * The cached value of the '{@link #getMarkerObject() <em>Marker Object</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -87,6 +99,16 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
    * @ordered
    */
   protected XExpression markerIndex;
+
+  /**
+   * The cached value of the '{@link #getMarkerRegion() <em>Marker Region</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getMarkerRegion()
+   * @generated
+   * @ordered
+   */
+  protected XExpression markerRegion;
 
   /**
    * The cached value of the '{@link #getMessage() <em>Message</em>}' containment reference.
@@ -255,6 +277,56 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
    * @generated
    */
   @Override
+  public XExpression getMarkerFeatureExpression()
+  {
+    return markerFeatureExpression;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetMarkerFeatureExpression(XExpression newMarkerFeatureExpression, NotificationChain msgs)
+  {
+    XExpression oldMarkerFeatureExpression = markerFeatureExpression;
+    markerFeatureExpression = newMarkerFeatureExpression;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION, oldMarkerFeatureExpression, newMarkerFeatureExpression);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setMarkerFeatureExpression(XExpression newMarkerFeatureExpression)
+  {
+    if (newMarkerFeatureExpression != markerFeatureExpression)
+    {
+      NotificationChain msgs = null;
+      if (markerFeatureExpression != null)
+        msgs = ((InternalEObject)markerFeatureExpression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION, null, msgs);
+      if (newMarkerFeatureExpression != null)
+        msgs = ((InternalEObject)newMarkerFeatureExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION, null, msgs);
+      msgs = basicSetMarkerFeatureExpression(newMarkerFeatureExpression, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION, newMarkerFeatureExpression, newMarkerFeatureExpression));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public XExpression getMarkerObject()
   {
     return markerObject;
@@ -347,6 +419,56 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, CheckPackage.XISSUE_EXPRESSION__MARKER_INDEX, newMarkerIndex, newMarkerIndex));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public XExpression getMarkerRegion()
+  {
+    return markerRegion;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetMarkerRegion(XExpression newMarkerRegion, NotificationChain msgs)
+  {
+    XExpression oldMarkerRegion = markerRegion;
+    markerRegion = newMarkerRegion;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CheckPackage.XISSUE_EXPRESSION__MARKER_REGION, oldMarkerRegion, newMarkerRegion);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setMarkerRegion(XExpression newMarkerRegion)
+  {
+    if (newMarkerRegion != markerRegion)
+    {
+      NotificationChain msgs = null;
+      if (markerRegion != null)
+        msgs = ((InternalEObject)markerRegion).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CheckPackage.XISSUE_EXPRESSION__MARKER_REGION, null, msgs);
+      if (newMarkerRegion != null)
+        msgs = ((InternalEObject)newMarkerRegion).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CheckPackage.XISSUE_EXPRESSION__MARKER_REGION, null, msgs);
+      msgs = basicSetMarkerRegion(newMarkerRegion, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CheckPackage.XISSUE_EXPRESSION__MARKER_REGION, newMarkerRegion, newMarkerRegion));
   }
 
   /**
@@ -464,10 +586,14 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
   {
     switch (featureID)
     {
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION:
+        return basicSetMarkerFeatureExpression(null, msgs);
       case CheckPackage.XISSUE_EXPRESSION__MARKER_OBJECT:
         return basicSetMarkerObject(null, msgs);
       case CheckPackage.XISSUE_EXPRESSION__MARKER_INDEX:
         return basicSetMarkerIndex(null, msgs);
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_REGION:
+        return basicSetMarkerRegion(null, msgs);
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE:
         return basicSetMessage(null, msgs);
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE_PARAMETERS:
@@ -494,10 +620,14 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
       case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE:
         if (resolve) return getMarkerFeature();
         return basicGetMarkerFeature();
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION:
+        return getMarkerFeatureExpression();
       case CheckPackage.XISSUE_EXPRESSION__MARKER_OBJECT:
         return getMarkerObject();
       case CheckPackage.XISSUE_EXPRESSION__MARKER_INDEX:
         return getMarkerIndex();
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_REGION:
+        return getMarkerRegion();
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE:
         return getMessage();
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE_PARAMETERS:
@@ -527,11 +657,17 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
       case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE:
         setMarkerFeature((EStructuralFeature)newValue);
         return;
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION:
+        setMarkerFeatureExpression((XExpression)newValue);
+        return;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_OBJECT:
         setMarkerObject((XExpression)newValue);
         return;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_INDEX:
         setMarkerIndex((XExpression)newValue);
+        return;
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_REGION:
+        setMarkerRegion((XExpression)newValue);
         return;
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE:
         setMessage((XExpression)newValue);
@@ -567,11 +703,17 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
       case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE:
         setMarkerFeature((EStructuralFeature)null);
         return;
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION:
+        setMarkerFeatureExpression((XExpression)null);
+        return;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_OBJECT:
         setMarkerObject((XExpression)null);
         return;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_INDEX:
         setMarkerIndex((XExpression)null);
+        return;
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_REGION:
+        setMarkerRegion((XExpression)null);
         return;
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE:
         setMessage((XExpression)null);
@@ -603,10 +745,14 @@ public class XIssueExpressionImpl extends XExpressionImpl implements XIssueExpre
         return check != null;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE:
         return markerFeature != null;
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION:
+        return markerFeatureExpression != null;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_OBJECT:
         return markerObject != null;
       case CheckPackage.XISSUE_EXPRESSION__MARKER_INDEX:
         return markerIndex != null;
+      case CheckPackage.XISSUE_EXPRESSION__MARKER_REGION:
+        return markerRegion != null;
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE:
         return message != null;
       case CheckPackage.XISSUE_EXPRESSION__MESSAGE_PARAMETERS:

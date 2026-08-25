@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.util.ITextRegion;
 import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 import org.eclipse.xtext.xbase.XAbstractFeatureCall;
@@ -30,6 +31,7 @@ import org.eclipse.xtext.xbase.XSetLiteral;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations;
+import org.eclipse.xtext.xbase.typesystem.references.LightweightTypeReference;
 
 import com.avaloq.tools.ddk.check.CheckConstants;
 import com.avaloq.tools.ddk.check.check.Check;
@@ -247,9 +249,21 @@ public class CheckCompiler extends XbaseCompiler {
       b.newLine();
     }
 
+    XExpression markerFeatureExpression = expr.getMarkerFeatureExpression();
+    if (markerFeatureExpression != null) {
+      internalToJavaStatement(markerFeatureExpression, b, true);
+      b.newLine();
+    }
+
     XExpression markerIndex = expr.getMarkerIndex();
     if (markerIndex != null) {
       internalToJavaStatement(markerIndex, b, true);
+      b.newLine();
+    }
+
+    XExpression markerRegion = expr.getMarkerRegion();
+    if (markerRegion != null) {
+      internalToJavaStatement(markerRegion, b, true);
       b.newLine();
     }
 
@@ -272,64 +286,109 @@ public class CheckCompiler extends XbaseCompiler {
       b.append(" != null) {").increaseIndentation().newLine();
     }
 
+    if (markerRegion == null) {
+      appendIssueAcceptor(expr, b, eObjectType, null);
+    } else {
+      // An empty or absent region cannot be marked; fall back to the object and feature based marker in that case.
+      final String regionVariable = b.declareSyntheticVariable(new Object(), "_markerRegion");
+      b.append(regionType(markerRegion, expr)).append(" ").append(regionVariable).append(" = ");
+      internalToJavaExpression(markerRegion, b);
+      b.append(";").newLine();
+      b.append("if (").append(regionVariable).append(" != null && ").append(regionVariable).append(".getLength() > 0) {").increaseIndentation().newLine();
+      appendIssueAcceptor(expr, b, eObjectType, regionVariable);
+      b.decreaseIndentation().newLine().append("} else {").increaseIndentation().newLine();
+      appendIssueAcceptor(expr, b, eObjectType, null);
+      b.decreaseIndentation().newLine().append("}");
+    }
+
+    if (!issueExpressionEqualsImplicitVariable) {
+      b.decreaseIndentation().newLine();
+      b.append("} else {").increaseIndentation().newLine();
+      b.append("org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
+      b.append("StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();").newLine();
+      b.append("logger.warn(").append(getLoggerString(expr)).append(");").decreaseIndentation().newLine();
+      b.append("}").newLine();
+    }
+  }
+
+  /**
+   * Returns the type to declare the local variable holding a marker region with.
+   *
+   * @param markerRegion
+   *          the marker region expression, must not be {@code null}
+   * @param context
+   *          the issue expression the marker region belongs to, must not be {@code null}
+   * @return the declaration type, never {@code null}
+   */
+  private JvmType regionType(final XExpression markerRegion, final XIssueExpression context) {
+    final LightweightTypeReference resolvedType = getLightweightType(markerRegion);
+    final JvmType rawType = resolvedType == null ? null : resolvedType.getType();
+    return rawType != null ? rawType : findKnownTopLevelType(ITextRegion.class, context);
+  }
+
+  /**
+   * Appends the invocation of the check catalog acceptor for the given issue expression.
+   *
+   * @param expr
+   *          the issue expression to compile, must not be {@code null}
+   * @param b
+   *          the appendable to write to, must not be {@code null}
+   * @param eObjectType
+   *          the resolved {@link EObject} type, may be {@code null} if it cannot be resolved
+   * @param regionVariable
+   *          the name of the local variable holding the marker region, or {@code null} to produce an object and feature based marker
+   */
+  private void appendIssueAcceptor(final XIssueExpression expr, final ITreeAppendable b, final JvmType eObjectType, final String regionVariable) {
+    final Check check = generatorExtensions.issuedCheck(expr);
+
     // acceptor
     b.append("// Issue diagnostic").newLine();
     b.append(generatorNaming.catalogInstanceName(expr)).append(".accept(").append("diagnosticCollector");
 
     // context object
     b.append(", //").increaseIndentation().newLine();
-    if (markerObject != null) {
-      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
-    } else {
-      b.append(getContextImplicitVariableName(expr));
-    }
+    appendMarkerObject(expr, b, eObjectType);
     b.append(", // context EObject").newLine();
-    // feature
-    EStructuralFeature markerFeature = expr.getMarkerFeature();
-    if (markerFeature != null) {
-      b.append(findEPackageInterfaceType(markerFeature, expr));
-      b.append(".eINSTANCE.get").append(markerFeature.getEContainingClass().getName()).append("_").append(Strings.toFirstUpper(markerFeature.getName())).append("()");
+
+    if (regionVariable == null) {
+      appendMarkerFeature(expr, b);
+      b.append(", // EStructuralFeature").newLine();
     } else {
-      b.append("null");
+      b.append(regionVariable).append(".getOffset(), // Marker offset").newLine();
+      b.append(regionVariable).append(".getLength(), // Marker length").newLine();
     }
 
-    b.append(", // EStructuralFeature").newLine();
     // message
-    Check check = generatorExtensions.issuedCheck(expr);
     b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(Strings.toFirstUpper(check.getName())).append("Message(");
-    if (!expr.getMessageParameters().isEmpty()) {
-      boolean first = true;
-      for (XExpression param : expr.getMessageParameters()) {
-        if (!first) {
-          b.append(", ");
-        }
-        internalToJavaExpression(param, b);
-        first = false;
+    boolean first = true;
+    for (XExpression param : expr.getMessageParameters()) {
+      if (!first) {
+        b.append(", ");
       }
+      internalToJavaExpression(param, b);
+      first = false;
     }
     b.append(")");
 
     b.append(", // Message").newLine();
     // severity kind
-    b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(Strings.toFirstUpper(generatorExtensions.issuedCheck(expr).getName()));
+    b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(Strings.toFirstUpper(check.getName()));
     b.append("SeverityKind(");
-    if (markerObject != null) {
-      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
-    } else {
-      b.append(getContextImplicitVariableName(expr));
-    }
-    // .append(variable)
+    appendMarkerObject(expr, b, eObjectType);
     b.append(")");
-
     b.append(", // Severity ").newLine();
-    // marker index
-    if (markerIndex != null) {
-      internalToJavaExpression(markerIndex, b);
-    } else {
-      b.append(findKnownTopLevelType(ValidationMessageAcceptor.class, expr)).append(".INSIGNIFICANT_INDEX");
+
+    if (regionVariable == null) {
+      // marker index
+      XExpression markerIndex = expr.getMarkerIndex();
+      if (markerIndex != null) {
+        internalToJavaExpression(markerIndex, b);
+      } else {
+        b.append(findKnownTopLevelType(ValidationMessageAcceptor.class, expr)).append(".INSIGNIFICANT_INDEX");
+      }
+      b.append(", // Marker index").newLine();
     }
 
-    b.append(", // Marker index").newLine();
     // issue codes
     final String qualifiedIssueCodeName = generatorExtensions.qualifiedIssueCodeName(expr);
     b.append(qualifiedIssueCodeName == null ? "null" : qualifiedIssueCodeName);
@@ -340,16 +399,49 @@ public class CheckCompiler extends XbaseCompiler {
       internalToJavaExpression(data, b);
     }
     b.append(" // Issue code & data").decreaseIndentation().newLine();
+    b.append(");");
+  }
 
-    if (!issueExpressionEqualsImplicitVariable) {
-      b.append(");").decreaseIndentation().newLine();
-      b.append("} else {").increaseIndentation().newLine();
-      b.append("org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(").append(getLoggerClass(expr)).append(");").newLine();
-      b.append("StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();").newLine();
-      b.append("logger.warn(").append(getLoggerString(expr)).append(");").decreaseIndentation().newLine();
-      b.append("}").newLine();
+  /**
+   * Appends the object the marker is to be created on, which is either the explicit marker object or the implicit context variable.
+   *
+   * @param expr
+   *          the issue expression to compile, must not be {@code null}
+   * @param b
+   *          the appendable to write to, must not be {@code null}
+   * @param eObjectType
+   *          the resolved {@link EObject} type, may be {@code null} if it cannot be resolved
+   */
+  private void appendMarkerObject(final XIssueExpression expr, final ITreeAppendable b, final JvmType eObjectType) {
+    final XExpression markerObject = expr.getMarkerObject();
+    if (markerObject != null) {
+      internalToConvertedExpression(markerObject, b, getLightweightType(eObjectType));
     } else {
-      b.append(");");
+      b.append(getContextImplicitVariableName(expr));
+    }
+  }
+
+  /**
+   * Appends the structural feature the marker is to be created on. This is either a dynamically computed feature, a statically linked feature, or
+   * {@code null} if the marker applies to the whole object.
+   *
+   * @param expr
+   *          the issue expression to compile, must not be {@code null}
+   * @param b
+   *          the appendable to write to, must not be {@code null}
+   */
+  private void appendMarkerFeature(final XIssueExpression expr, final ITreeAppendable b) {
+    final XExpression markerFeatureExpression = expr.getMarkerFeatureExpression();
+    if (markerFeatureExpression != null) {
+      internalToJavaExpression(markerFeatureExpression, b);
+      return;
+    }
+    final EStructuralFeature markerFeature = expr.getMarkerFeature();
+    if (markerFeature != null) {
+      b.append(findEPackageInterfaceType(markerFeature, expr));
+      b.append(".eINSTANCE.get").append(markerFeature.getEContainingClass().getName()).append("_").append(Strings.toFirstUpper(markerFeature.getName())).append("()");
+    } else {
+      b.append("null");
     }
   }
 

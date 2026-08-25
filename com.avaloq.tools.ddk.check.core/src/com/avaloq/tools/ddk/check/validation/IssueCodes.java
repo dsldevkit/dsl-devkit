@@ -39,7 +39,10 @@ public final class IssueCodes {
   public static final String INVALID_PACKAGE_NAME = ISSUE_CODE_PREFIX + "invalid_package_name";
   public static final String ISSUED_BINDINGS = ISSUE_CODE_PREFIX + "issued_bindings";
   public static final String ISSUED_CHECK = ISSUE_CODE_PREFIX + "issue_refers_to_check";
+  public static final String ISSUE_IN_EXTERNAL_CHECK = ISSUE_CODE_PREFIX + "issue_in_external_check";
   public static final String MARKER_INDEX_MANY = ISSUE_CODE_PREFIX + "marker_index_for_many";
+  public static final String MARKER_INDEX_WITH_REGION = ISSUE_CODE_PREFIX + "marker_index_with_region";
+  public static final String MARKER_REGION_TYPE = ISSUE_CODE_PREFIX + "marker_region_type";
   public static final String MISSING_DOCUMENTATION_ON_CHECK = ISSUE_CODE_PREFIX + "missing_documentation_on_check";
   public static final String MISSING_DOCUMENTATION_ON_IMPLEMENTATION = ISSUE_CODE_PREFIX + "missing_documentation_on_implementation";
   public static final String MISSING_ID_ON_CHECK = ISSUE_CODE_PREFIX + "missing_id_on_check";

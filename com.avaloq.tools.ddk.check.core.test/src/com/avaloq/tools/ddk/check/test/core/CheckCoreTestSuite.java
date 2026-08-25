@@ -20,6 +20,7 @@ import com.avaloq.tools.ddk.check.core.test.BugAig830;
 import com.avaloq.tools.ddk.check.core.test.BugDsl27;
 import com.avaloq.tools.ddk.check.core.test.CheckScopingTest;
 import com.avaloq.tools.ddk.check.core.test.IssueCodeToLabelMapGenerationTest;
+import com.avaloq.tools.ddk.check.core.test.IssueExpressionGenerationTest;
 import com.avaloq.tools.ddk.check.core.test.ProjectBasedTests;
 import com.avaloq.tools.ddk.check.formatting.CheckFormattingTest;
 import com.avaloq.tools.ddk.check.validation.CheckApiAccessValidationsTest;
@@ -40,6 +41,7 @@ import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
   CheckValidationTest.class,
   CheckJavaValidatorUtilTest.class,
   IssueCodeToLabelMapGenerationTest.class,
+  IssueExpressionGenerationTest.class,
   ProjectBasedTests.class,
   BugAig1314.class,
   BugDsl27.class,

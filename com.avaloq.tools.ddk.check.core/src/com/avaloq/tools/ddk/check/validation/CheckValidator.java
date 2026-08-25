@@ -25,6 +25,8 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.util.ITextRegion;
 import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
@@ -71,6 +73,9 @@ public class CheckValidator extends AbstractCheckValidator {
 
   private static final String CHECK = "Check"; //$NON-NLS-1$
 
+  /** Types accepted as the target of an {@code issue ... at <region>} expression. Both expose an offset and a length. */
+  private static final Set<String> MARKER_REGION_TYPE_NAMES = ImmutableSet.of(ITextRegion.class.getName(), INode.class.getName());
+
   @Inject
   private CheckGeneratorExtensions generatorExtensions;
 
@@ -84,6 +89,7 @@ public class CheckValidator extends AbstractCheckValidator {
   private final Set<EReference> checkTypeConformanceCheckedReferences = //
       ImmutableSet.of(CheckPackage.Literals.XGUARD_EXPRESSION__GUARD, //
           CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_OBJECT, //
+          CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION, //
           CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_INDEX, //
           CheckPackage.Literals.XISSUE_EXPRESSION__MESSAGE_PARAMETERS, //
           CheckPackage.Literals.XISSUE_EXPRESSION__ISSUE_DATA);
@@ -300,6 +306,72 @@ public class CheckValidator extends AbstractCheckValidator {
   }
 
   /**
+   * Checks that a marker index is not combined with a marker region. A region already identifies the exact text to be marked, whereas an index
+   * only makes sense when the region is derived from a many-valued feature.
+   *
+   * @param expression
+   *          the issue expression
+   */
+  @Check
+  public void checkMarkerIndexNotCombinedWithRegion(final XIssueExpression expression) {
+    if (expression.getMarkerIndex() != null && expression.getMarkerRegion() != null) {
+      error(Messages.CheckJavaValidator_MARKER_INDEX_WITH_REGION, CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_INDEX, IssueCodes.MARKER_INDEX_WITH_REGION);
+    }
+  }
+
+  /**
+   * Checks that the marker region of an issue expression denotes a text region. Both {@link org.eclipse.xtext.util.ITextRegion ITextRegion} and
+   * {@link org.eclipse.xtext.nodemodel.INode INode} are accepted as they both expose an offset and a length.
+   *
+   * @param expression
+   *          the issue expression
+   */
+  @Check
+  public void checkMarkerRegionType(final XIssueExpression expression) {
+    final XExpression region = expression.getMarkerRegion();
+    if (region == null) {
+      return;
+    }
+    final LightweightTypeReference actualType = getActualType(region);
+    if (actualType == null || actualType.isUnknown()) {
+      return; // the type could not be resolved; an error has already been reported
+    }
+    if (!isMarkerRegionType(actualType)) {
+      error(Messages.CheckJavaValidator_MARKER_REGION_TYPE, CheckPackage.Literals.XISSUE_EXPRESSION__MARKER_REGION, IssueCodes.MARKER_REGION_TYPE);
+    }
+  }
+
+  /**
+   * Returns whether the given type is one of the accepted marker region types, or a subtype thereof.
+   *
+   * @param type
+   *          the type to test, must not be {@code null}
+   * @return {@code true} if the type denotes a text region
+   */
+  private boolean isMarkerRegionType(final LightweightTypeReference type) {
+    if (isMarkerRegionTypeName(type)) {
+      return true;
+    }
+    for (final LightweightTypeReference superType : type.getAllSuperTypes()) {
+      if (isMarkerRegionTypeName(superType)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Returns whether the raw type of the given reference is one of the accepted marker region types.
+   *
+   * @param type
+   *          the type to test, must not be {@code null}
+   * @return {@code true} if the raw type is an accepted marker region type
+   */
+  private boolean isMarkerRegionTypeName(final LightweightTypeReference type) {
+    return type.getType() != null && MARKER_REGION_TYPE_NAMES.contains(type.getType().getIdentifier());
+  }
+
+  /**
    * Checks that a final check does not allow defining a severity range.
    *
    * @param check
@@ -493,9 +565,26 @@ public class CheckValidator extends AbstractCheckValidator {
     if (context.getContextVariable() == null || context.getConstraint() == null) {
       return;
     }
+    final com.avaloq.tools.ddk.check.check.Check containingCheck = EcoreUtil2.getContainerOfType(context, com.avaloq.tools.ddk.check.check.Check.class);
+    if (containingCheck != null && containingCheck.isExternal()) {
+      return; // issues of an external check are raised by hand-written code
+    }
 
     if (Iterables.isEmpty(generatorExtensions.issues(context))) {
       error(Messages.CheckJavaValidator_MISSING_ISSUE_EXPRESSION, context, CheckPackage.Literals.CONTEXT__CONSTRAINT, IssueCodes.MISSING_ISSUE_EXPRESSION);
+    }
+  }
+
+  /**
+   * Checks that an external check does not contain any issue expression. If it does, the check is not external after all.
+   *
+   * @param check
+   *          the check to validate
+   */
+  @Check
+  public void checkExternalCheckHasNoIssue(final com.avaloq.tools.ddk.check.check.Check check) {
+    if (check.isExternal() && !Iterables.isEmpty(generatorExtensions.issues(check))) {
+      warning(Messages.CheckJavaValidator_ISSUE_IN_EXTERNAL_CHECK, check, CheckPackage.Literals.CHECK__EXTERNAL, IssueCodes.ISSUE_IN_EXTERNAL_CHECK);
     }
   }
 

@@ -522,6 +522,7 @@ public abstract class AbstractCheckSemanticSequencer extends XbaseWithAnnotation
 	 *     (
 	 *         severityRange=SeverityRange? 
 	 *         final?='final'? 
+	 *         external?='external'? 
 	 *         kind=TriggerKind? 
 	 *         defaultSeverity=SeverityKind 
 	 *         id=ValidID? 
@@ -813,9 +814,14 @@ public abstract class AbstractCheckSemanticSequencer extends XbaseWithAnnotation
 	 *     (
 	 *         check=[Check|QualifiedName]? 
 	 *         (
-	 *             (markerFeature=[EStructuralFeature|ValidID] | (markerObject=XExpression markerFeature=[EStructuralFeature|FeatureCallID]?)) 
+	 *             (
+	 *                 markerFeature=[EStructuralFeature|ValidID] | 
+	 *                 markerFeatureExpression=XExpression | 
+	 *                 (markerObject=XExpression (markerFeature=[EStructuralFeature|FeatureCallID] | markerFeatureExpression=XExpression)?)
+	 *             ) 
 	 *             markerIndex=XExpression?
 	 *         )? 
+	 *         markerRegion=XExpression? 
 	 *         message=XExpression? 
 	 *         (messageParameters+=XExpression messageParameters+=XExpression*)? 
 	 *         (issueCode=ValidID? issueData+=XExpression issueData+=XExpression*)?

@@ -38,4 +38,21 @@ public abstract class AbstractIssue implements IIssue {
     }
   }
 
+  @Override
+  public void accept(final ValidationMessageAcceptor acceptor, final EObject object, final int offset, final int length, final String message, final SeverityKind severityKind, final String issueCode, final String... issueData) {
+    switch (severityKind) {
+    case ERROR:
+      acceptor.acceptError(message, object, offset, length, issueCode, issueData);
+      break;
+    case WARNING:
+      acceptor.acceptWarning(message, object, offset, length, issueCode, issueData);
+      break;
+    case INFO:
+      acceptor.acceptInfo(message, object, offset, length, issueCode, issueData);
+      break;
+    default:
+      // empty
+    }
+  }
+
 }
