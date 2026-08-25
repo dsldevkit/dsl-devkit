@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.avaloq.tools.ddk.feature_19.1.0.qualifier.jar" id="com.avaloq.tools.ddk.feature" version="19.1.0.qualifier">
+   <feature url="features/com.avaloq.tools.ddk.feature_19.1.1.qualifier.jar" id="com.avaloq.tools.ddk.feature" version="19.1.1.qualifier">
       <category name="com.avaloq.tools.ddk.sdk"/>
    </feature>
    <feature url="features/com.avaloq.tools.ddk.runtime.feature_19.1.0.qualifier.jar" id="com.avaloq.tools.ddk.runtime.feature" version="19.1.0.qualifier">
