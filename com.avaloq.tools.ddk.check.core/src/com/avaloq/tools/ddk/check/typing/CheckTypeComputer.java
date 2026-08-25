@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.check.typing;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.xbase.XExpression;
 import org.eclipse.xtext.xbase.XListLiteral;
 import org.eclipse.xtext.xbase.annotations.typesystem.XbaseWithAnnotationsTypeComputer;
@@ -41,8 +42,15 @@ public class CheckTypeComputer extends XbaseWithAnnotationsTypeComputer {
     if (expression.getMarkerObject() != null) {
       state.withExpectation(getTypeForName(EObject.class, state)).computeTypes(expression.getMarkerObject());
     }
+    if (expression.getMarkerFeatureExpression() != null) {
+      state.withExpectation(getTypeForName(EStructuralFeature.class, state)).computeTypes(expression.getMarkerFeatureExpression());
+    }
     if (expression.getMarkerIndex() != null) {
       state.withExpectation(getTypeForName(Integer.class, state)).computeTypes(expression.getMarkerIndex());
+    }
+    if (expression.getMarkerRegion() != null) {
+      // No expectation: both ITextRegion and INode are accepted. Conformance is verified by CheckValidator.
+      state.withNonVoidExpectation().computeTypes(expression.getMarkerRegion());
     }
     if (expression.getMessage() != null) {
       state.withExpectation(getTypeForName(String.class, state)).computeTypes(expression.getMessage());

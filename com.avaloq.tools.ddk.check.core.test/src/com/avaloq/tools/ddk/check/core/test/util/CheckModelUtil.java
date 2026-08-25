@@ -19,6 +19,8 @@ import java.util.List;
 @SuppressWarnings("nls")
 public class CheckModelUtil {
 
+  private static final String ID = "ID";
+
   /* Returns a base model stub with package (com.test), catalog (c) and grammar (g). */
   public String modelWithGrammar() {
     return """
@@ -66,7 +68,19 @@ public class CheckModelUtil {
    * and message (MyMessage).
    */
   public String modelWithCheck() {
-    return modelWithCheck("ID");
+    return modelWithCheck(ID);
+  }
+
+  /* Returns a base model stub with an external check of given ID. */
+  public String modelWithExternalCheck(final String id) {
+    return modelWithCategory() + """
+        external error %s "Some Error" ()
+        message "My Message" {""".formatted(id);
+  }
+
+  /* Returns a base model stub with an external check (ID). */
+  public String modelWithExternalCheck() {
+    return modelWithExternalCheck(ID);
   }
 
   /* Returns a dummy check with given ID. */
@@ -83,6 +97,14 @@ public class CheckModelUtil {
    */
   public String modelWithContext() {
     return modelWithCheck() + "for ContextType ctx {";
+  }
+
+  /*
+   * Returns a base model stub with an external check and a context using context
+   * type ContextType 'ctx'.
+   */
+  public String modelWithExternalContext() {
+    return modelWithExternalCheck() + "for ContextType ctx {";
   }
 
   /* Returns a base model stub with a give collection of contexts. */

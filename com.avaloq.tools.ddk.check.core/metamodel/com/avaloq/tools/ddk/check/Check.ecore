@@ -36,6 +36,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="severityRange" eType="#//SeverityRange"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="external" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//TriggerKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultSeverity" eType="#//SeverityKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -104,9 +105,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="XIssueExpression" eSuperTypes="platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="check" eType="#//Check"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="markerFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="markerFeatureExpression" eType="ecore:EClass platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="markerObject" eType="ecore:EClass platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="markerIndex" eType="ecore:EClass platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="markerRegion" eType="ecore:EClass platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="message" eType="ecore:EClass platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>

@@ -120,6 +120,7 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
 
   /**
    * Adds an {@code issue} statement to a constraint. If the constraint already contains other expressions, {@code issue} is appended to the end.
+   * As an alternative, offers to mark the containing check as {@code external}, for checks whose issues are raised by hand-written code.
    *
    * @param issue
    *          the issue
@@ -133,6 +134,12 @@ public class CheckQuickfixProvider extends XbaseQuickfixProvider {
       public void apply(final IModificationContext context) throws BadLocationException {
         IXtextDocument xtextDocument = context.getXtextDocument();
         xtextDocument.replace(issue.getOffset() + issue.getLength() - 1, 0, ' ' + "issue" + ' '); //$NON-NLS-1$
+      }
+    });
+    acceptor.accept(issue, Messages.CheckQuickfixProvider_MARK_CHECK_EXTERNAL_LABEL, Messages.CheckQuickfixProvider_MARK_CHECK_EXTERNAL_DESCN, NO_IMAGE, (ISemanticModification) (element, context) -> {
+      final Check check = EcoreUtil2.getContainerOfType(element, Check.class);
+      if (check != null) {
+        check.setExternal(true);
       }
     });
   }

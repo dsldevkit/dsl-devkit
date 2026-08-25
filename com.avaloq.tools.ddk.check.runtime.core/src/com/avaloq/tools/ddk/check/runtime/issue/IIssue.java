@@ -45,4 +45,28 @@ public interface IIssue {
    */
   void accept(ValidationMessageAcceptor acceptor, EObject object, EStructuralFeature feature, String message, SeverityKind severityKind, int index, String issueCode, String... issueData);
 
+  /**
+   * Accept a validation issue anchored at an explicit text region within the resource of the given object.
+   *
+   * @param acceptor
+   *          the message acceptor used to create diagnostics, may not be <code>null</code>
+   * @param object
+   *          the object owning the region. May not be <code>null</code>
+   * @param offset
+   *          the absolute offset of the region within the resource, must not be negative
+   * @param length
+   *          the length of the region, must be greater than zero
+   * @param message
+   *          the validation message to be associated with the diagnostic
+   * @param severityKind
+   *          the severity kind, may not be <code>null</code>
+   * @param issueCode
+   *          the issue code or <code>null</code>
+   * @param issueData
+   *          the optional issue data to be associated with the validation issue; may be re-used in quickfixes
+   * @see org.eclipse.xtext.validation.ValidationMessageAcceptor
+   * @see com.avaloq.tools.ddk.check.runtime.issue.SeverityKind
+   */
+  void accept(ValidationMessageAcceptor acceptor, EObject object, int offset, int length, String message, SeverityKind severityKind, String issueCode, String... issueData);
+
 }

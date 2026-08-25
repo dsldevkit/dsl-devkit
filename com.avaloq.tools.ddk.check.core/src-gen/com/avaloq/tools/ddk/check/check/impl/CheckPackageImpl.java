@@ -459,7 +459,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EAttribute getCheck_Kind()
+  public EAttribute getCheck_External()
   {
     return (EAttribute)checkEClass.getEStructuralFeatures().get(2);
   }
@@ -470,7 +470,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EAttribute getCheck_DefaultSeverity()
+  public EAttribute getCheck_Kind()
   {
     return (EAttribute)checkEClass.getEStructuralFeatures().get(3);
   }
@@ -481,7 +481,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EAttribute getCheck_Id()
+  public EAttribute getCheck_DefaultSeverity()
   {
     return (EAttribute)checkEClass.getEStructuralFeatures().get(4);
   }
@@ -492,7 +492,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EAttribute getCheck_Label()
+  public EAttribute getCheck_Id()
   {
     return (EAttribute)checkEClass.getEStructuralFeatures().get(5);
   }
@@ -503,9 +503,20 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
+  public EAttribute getCheck_Label()
+  {
+    return (EAttribute)checkEClass.getEStructuralFeatures().get(6);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EReference getCheck_FormalParameters()
   {
-    return (EReference)checkEClass.getEStructuralFeatures().get(6);
+    return (EReference)checkEClass.getEStructuralFeatures().get(7);
   }
 
   /**
@@ -516,7 +527,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
   @Override
   public EAttribute getCheck_GivenMessage()
   {
-    return (EAttribute)checkEClass.getEStructuralFeatures().get(7);
+    return (EAttribute)checkEClass.getEStructuralFeatures().get(8);
   }
 
   /**
@@ -527,7 +538,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
   @Override
   public EReference getCheck_Contexts()
   {
-    return (EReference)checkEClass.getEStructuralFeatures().get(8);
+    return (EReference)checkEClass.getEStructuralFeatures().get(9);
   }
 
   /**
@@ -538,7 +549,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
   @Override
   public EAttribute getCheck_Message()
   {
-    return (EAttribute)checkEClass.getEStructuralFeatures().get(9);
+    return (EAttribute)checkEClass.getEStructuralFeatures().get(10);
   }
 
   /**
@@ -844,7 +855,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EReference getXIssueExpression_MarkerObject()
+  public EReference getXIssueExpression_MarkerFeatureExpression()
   {
     return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(2);
   }
@@ -855,7 +866,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EReference getXIssueExpression_MarkerIndex()
+  public EReference getXIssueExpression_MarkerObject()
   {
     return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(3);
   }
@@ -866,7 +877,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EReference getXIssueExpression_Message()
+  public EReference getXIssueExpression_MarkerIndex()
   {
     return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(4);
   }
@@ -877,7 +888,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
-  public EReference getXIssueExpression_MessageParameters()
+  public EReference getXIssueExpression_MarkerRegion()
   {
     return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(5);
   }
@@ -888,9 +899,31 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
    * @generated
    */
   @Override
+  public EReference getXIssueExpression_Message()
+  {
+    return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(6);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getXIssueExpression_MessageParameters()
+  {
+    return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EAttribute getXIssueExpression_IssueCode()
   {
-    return (EAttribute)xIssueExpressionEClass.getEStructuralFeatures().get(6);
+    return (EAttribute)xIssueExpressionEClass.getEStructuralFeatures().get(8);
   }
 
   /**
@@ -901,7 +934,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
   @Override
   public EReference getXIssueExpression_IssueData()
   {
-    return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(7);
+    return (EReference)xIssueExpressionEClass.getEStructuralFeatures().get(9);
   }
 
   /**
@@ -982,6 +1015,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
     checkEClass = createEClass(CHECK);
     createEReference(checkEClass, CHECK__SEVERITY_RANGE);
     createEAttribute(checkEClass, CHECK__FINAL);
+    createEAttribute(checkEClass, CHECK__EXTERNAL);
     createEAttribute(checkEClass, CHECK__KIND);
     createEAttribute(checkEClass, CHECK__DEFAULT_SEVERITY);
     createEAttribute(checkEClass, CHECK__ID);
@@ -1025,8 +1059,10 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
     xIssueExpressionEClass = createEClass(XISSUE_EXPRESSION);
     createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__CHECK);
     createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MARKER_FEATURE);
+    createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION);
     createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MARKER_OBJECT);
     createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MARKER_INDEX);
+    createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MARKER_REGION);
     createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MESSAGE);
     createEReference(xIssueExpressionEClass, XISSUE_EXPRESSION__MESSAGE_PARAMETERS);
     createEAttribute(xIssueExpressionEClass, XISSUE_EXPRESSION__ISSUE_CODE);
@@ -1113,6 +1149,7 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
     initEClass(checkEClass, Check.class, "Check", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getCheck_SeverityRange(), this.getSeverityRange(), null, "severityRange", null, 0, 1, Check.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCheck_Final(), ecorePackage.getEBoolean(), "final", null, 0, 1, Check.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCheck_External(), ecorePackage.getEBoolean(), "external", null, 0, 1, Check.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCheck_Kind(), this.getTriggerKind(), "kind", null, 0, 1, Check.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCheck_DefaultSeverity(), this.getSeverityKind(), "defaultSeverity", null, 0, 1, Check.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getCheck_Id(), ecorePackage.getEString(), "id", null, 0, 1, Check.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1156,8 +1193,10 @@ public class CheckPackageImpl extends EPackageImpl implements CheckPackage
     initEClass(xIssueExpressionEClass, XIssueExpression.class, "XIssueExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getXIssueExpression_Check(), this.getCheck(), null, "check", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXIssueExpression_MarkerFeature(), theEcorePackage.getEStructuralFeature(), null, "markerFeature", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXIssueExpression_MarkerFeatureExpression(), theXbasePackage.getXExpression(), null, "markerFeatureExpression", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXIssueExpression_MarkerObject(), theXbasePackage.getXExpression(), null, "markerObject", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXIssueExpression_MarkerIndex(), theXbasePackage.getXExpression(), null, "markerIndex", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXIssueExpression_MarkerRegion(), theXbasePackage.getXExpression(), null, "markerRegion", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXIssueExpression_Message(), theXbasePackage.getXExpression(), null, "message", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXIssueExpression_MessageParameters(), theXbasePackage.getXExpression(), null, "messageParameters", null, 0, -1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXIssueExpression_IssueCode(), ecorePackage.getEString(), "issueCode", null, 0, 1, XIssueExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -360,7 +360,9 @@ public class CheckFormatter extends XbaseWithAnnotationsFormatter {
 
     // Generated model traversal
     this.format(xissueexpression.getMarkerObject(), document);
+    this.format(xissueexpression.getMarkerFeatureExpression(), document);
     this.format(xissueexpression.getMarkerIndex(), document);
+    this.format(xissueexpression.getMarkerRegion(), document);
     this.format(xissueexpression.getMessage(), document);
     for (final XExpression messageParameters : xissueexpression.getMessageParameters()) {
       // ADDED: formatting added around comma

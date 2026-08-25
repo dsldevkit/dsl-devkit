@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.common.types.JvmField;
@@ -34,7 +35,6 @@ import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
-import com.avaloq.tools.ddk.check.check.XIssueExpression;
 import com.avaloq.tools.ddk.check.compiler.CheckGeneratorConfig;
 import com.avaloq.tools.ddk.check.compiler.ICheckGeneratorConfigProvider;
 import com.avaloq.tools.ddk.check.util.CheckUtil;
@@ -223,11 +223,11 @@ public class CheckGenerator extends JvmModelGenerator {
    * of issue codes.
    */
   public CharSequence compileIssueCodes(final CheckCatalog catalog) {
-    final Iterable<XIssueExpression> allIssues = generatorExtensions.checkAndImplementationIssues(catalog);
-    final Function1<XIssueExpression, String> keyFunction = issue -> {
+    final Iterable<EObject> allIssues = generatorExtensions.issueCodeCarriers(catalog);
+    final Function1<EObject, String> keyFunction = issue -> {
       return CheckGeneratorExtensions.issueCode(issue);
     };
-    final Function1<XIssueExpression, String> valueFunction = issue -> {
+    final Function1<EObject, String> valueFunction = issue -> {
       return CheckGeneratorExtensions.issueName(issue);
     };
     final Map<String, String> allIssueNames = IterableExtensions.toMap(allIssues, keyFunction, valueFunction);

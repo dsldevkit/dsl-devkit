@@ -63,6 +63,16 @@ public class CheckGeneratorExtensions {
     return issueCodesClassName(parent(context, CheckCatalog.class)) + "." + issueCode(context);
   }
 
+  /* Returns the qualified Java name for the issue code of a check. */
+  protected String _qualifiedIssueCodeName(final Check check) {
+    final String result = issueCode(check);
+    if (result == null) {
+      return null;
+    } else {
+      return issueCodesClassName(parent(check, CheckCatalog.class)) + "." + result;
+    }
+  }
+
   /* Gets the simple issue code name for a check. */
   protected static String _issueCode(final Check check) {
     if (null != check.getName()) {
@@ -192,6 +202,19 @@ public class CheckGeneratorExtensions {
     return Iterables.concat(checkIssues, implIssues); // all Issue instances
   }
 
+  /* Returns all external Checks of a CheckCatalog, i.e. the checks whose issues are raised by hand-written code. */
+  public Iterable<Check> externalChecks(final CheckCatalog catalog) {
+    return Iterables.filter(catalog.getAllChecks(), Check::isExternal);
+  }
+
+  /*
+   * Returns all elements of a CheckCatalog that contribute an issue code and label: all issue expressions plus all external checks. External
+   * checks carry no issue expression, yet their issue code must still be generated for the hand-written code that raises the issue.
+   */
+  public Iterable<EObject> issueCodeCarriers(final CheckCatalog catalog) {
+    return Iterables.concat(checkAndImplementationIssues(catalog), externalChecks(catalog));
+  }
+
   public Check issuedCheck(final XIssueExpression expression) {
     if (expression.getCheck() != null) {
       return expression.getCheck();
@@ -272,6 +295,8 @@ public class CheckGeneratorExtensions {
   public String qualifiedIssueCodeName(final EObject context) {
     if (context instanceof Context context1) {
       return _qualifiedIssueCodeName(context1);
+    } else if (context instanceof Check check) {
+      return _qualifiedIssueCodeName(check);
     } else if (context instanceof XIssueExpression xIssueExpression) {
       return _qualifiedIssueCodeName(xIssueExpression);
     } else {

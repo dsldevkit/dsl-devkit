@@ -335,13 +335,22 @@ public interface CheckPackage extends EPackage
   int CHECK__FINAL = DOCUMENTED_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>External</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CHECK__EXTERNAL = DOCUMENTED_FEATURE_COUNT + 3;
+
+  /**
    * The feature id for the '<em><b>Kind</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CHECK__KIND = DOCUMENTED_FEATURE_COUNT + 3;
+  int CHECK__KIND = DOCUMENTED_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Default Severity</b></em>' attribute.
@@ -350,7 +359,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__DEFAULT_SEVERITY = DOCUMENTED_FEATURE_COUNT + 4;
+  int CHECK__DEFAULT_SEVERITY = DOCUMENTED_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -359,7 +368,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__ID = DOCUMENTED_FEATURE_COUNT + 5;
+  int CHECK__ID = DOCUMENTED_FEATURE_COUNT + 6;
 
   /**
    * The feature id for the '<em><b>Label</b></em>' attribute.
@@ -368,7 +377,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__LABEL = DOCUMENTED_FEATURE_COUNT + 6;
+  int CHECK__LABEL = DOCUMENTED_FEATURE_COUNT + 7;
 
   /**
    * The feature id for the '<em><b>Formal Parameters</b></em>' containment reference list.
@@ -377,7 +386,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__FORMAL_PARAMETERS = DOCUMENTED_FEATURE_COUNT + 7;
+  int CHECK__FORMAL_PARAMETERS = DOCUMENTED_FEATURE_COUNT + 8;
 
   /**
    * The feature id for the '<em><b>Given Message</b></em>' attribute.
@@ -386,7 +395,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__GIVEN_MESSAGE = DOCUMENTED_FEATURE_COUNT + 8;
+  int CHECK__GIVEN_MESSAGE = DOCUMENTED_FEATURE_COUNT + 9;
 
   /**
    * The feature id for the '<em><b>Contexts</b></em>' containment reference list.
@@ -395,7 +404,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__CONTEXTS = DOCUMENTED_FEATURE_COUNT + 9;
+  int CHECK__CONTEXTS = DOCUMENTED_FEATURE_COUNT + 10;
 
   /**
    * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -404,7 +413,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK__MESSAGE = DOCUMENTED_FEATURE_COUNT + 10;
+  int CHECK__MESSAGE = DOCUMENTED_FEATURE_COUNT + 11;
 
   /**
    * The number of structural features of the '<em>Check</em>' class.
@@ -413,7 +422,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CHECK_FEATURE_COUNT = DOCUMENTED_FEATURE_COUNT + 11;
+  int CHECK_FEATURE_COUNT = DOCUMENTED_FEATURE_COUNT + 12;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.check.check.impl.SeverityRangeImpl <em>Severity Range</em>}' class.
@@ -757,13 +766,22 @@ public interface CheckPackage extends EPackage
   int XISSUE_EXPRESSION__MARKER_FEATURE = XbasePackage.XEXPRESSION_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Marker Feature Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION = XbasePackage.XEXPRESSION_FEATURE_COUNT + 2;
+
+  /**
    * The feature id for the '<em><b>Marker Object</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION__MARKER_OBJECT = XbasePackage.XEXPRESSION_FEATURE_COUNT + 2;
+  int XISSUE_EXPRESSION__MARKER_OBJECT = XbasePackage.XEXPRESSION_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Marker Index</b></em>' containment reference.
@@ -772,7 +790,16 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION__MARKER_INDEX = XbasePackage.XEXPRESSION_FEATURE_COUNT + 3;
+  int XISSUE_EXPRESSION__MARKER_INDEX = XbasePackage.XEXPRESSION_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>Marker Region</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XISSUE_EXPRESSION__MARKER_REGION = XbasePackage.XEXPRESSION_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>Message</b></em>' containment reference.
@@ -781,7 +808,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION__MESSAGE = XbasePackage.XEXPRESSION_FEATURE_COUNT + 4;
+  int XISSUE_EXPRESSION__MESSAGE = XbasePackage.XEXPRESSION_FEATURE_COUNT + 6;
 
   /**
    * The feature id for the '<em><b>Message Parameters</b></em>' containment reference list.
@@ -790,7 +817,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION__MESSAGE_PARAMETERS = XbasePackage.XEXPRESSION_FEATURE_COUNT + 5;
+  int XISSUE_EXPRESSION__MESSAGE_PARAMETERS = XbasePackage.XEXPRESSION_FEATURE_COUNT + 7;
 
   /**
    * The feature id for the '<em><b>Issue Code</b></em>' attribute.
@@ -799,7 +826,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION__ISSUE_CODE = XbasePackage.XEXPRESSION_FEATURE_COUNT + 6;
+  int XISSUE_EXPRESSION__ISSUE_CODE = XbasePackage.XEXPRESSION_FEATURE_COUNT + 8;
 
   /**
    * The feature id for the '<em><b>Issue Data</b></em>' containment reference list.
@@ -808,7 +835,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION__ISSUE_DATA = XbasePackage.XEXPRESSION_FEATURE_COUNT + 7;
+  int XISSUE_EXPRESSION__ISSUE_DATA = XbasePackage.XEXPRESSION_FEATURE_COUNT + 9;
 
   /**
    * The number of structural features of the '<em>XIssue Expression</em>' class.
@@ -817,7 +844,7 @@ public interface CheckPackage extends EPackage
    * @generated
    * @ordered
    */
-  int XISSUE_EXPRESSION_FEATURE_COUNT = XbasePackage.XEXPRESSION_FEATURE_COUNT + 8;
+  int XISSUE_EXPRESSION_FEATURE_COUNT = XbasePackage.XEXPRESSION_FEATURE_COUNT + 10;
 
   /**
    * The meta object id for the '{@link com.avaloq.tools.ddk.check.check.SeverityKind <em>Severity Kind</em>}' enum.
@@ -1065,6 +1092,17 @@ public interface CheckPackage extends EPackage
    * @generated
    */
   EAttribute getCheck_Final();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.check.check.Check#isExternal <em>External</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>External</em>'.
+   * @see com.avaloq.tools.ddk.check.check.Check#isExternal()
+   * @see #getCheck()
+   * @generated
+   */
+  EAttribute getCheck_External();
 
   /**
    * Returns the meta object for the attribute '{@link com.avaloq.tools.ddk.check.check.Check#getKind <em>Kind</em>}'.
@@ -1444,6 +1482,17 @@ public interface CheckPackage extends EPackage
   EReference getXIssueExpression_MarkerFeature();
 
   /**
+   * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerFeatureExpression <em>Marker Feature Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Marker Feature Expression</em>'.
+   * @see com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerFeatureExpression()
+   * @see #getXIssueExpression()
+   * @generated
+   */
+  EReference getXIssueExpression_MarkerFeatureExpression();
+
+  /**
    * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerObject <em>Marker Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1464,6 +1513,17 @@ public interface CheckPackage extends EPackage
    * @generated
    */
   EReference getXIssueExpression_MarkerIndex();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerRegion <em>Marker Region</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Marker Region</em>'.
+   * @see com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerRegion()
+   * @see #getXIssueExpression()
+   * @generated
+   */
+  EReference getXIssueExpression_MarkerRegion();
 
   /**
    * Returns the meta object for the containment reference '{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMessage <em>Message</em>}'.
@@ -1729,6 +1789,14 @@ public interface CheckPackage extends EPackage
      * @generated
      */
     EAttribute CHECK__FINAL = eINSTANCE.getCheck_Final();
+
+    /**
+     * The meta object literal for the '<em><b>External</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CHECK__EXTERNAL = eINSTANCE.getCheck_External();
 
     /**
      * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
@@ -2027,6 +2095,14 @@ public interface CheckPackage extends EPackage
     EReference XISSUE_EXPRESSION__MARKER_FEATURE = eINSTANCE.getXIssueExpression_MarkerFeature();
 
     /**
+     * The meta object literal for the '<em><b>Marker Feature Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XISSUE_EXPRESSION__MARKER_FEATURE_EXPRESSION = eINSTANCE.getXIssueExpression_MarkerFeatureExpression();
+
+    /**
      * The meta object literal for the '<em><b>Marker Object</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2041,6 +2117,14 @@ public interface CheckPackage extends EPackage
      * @generated
      */
     EReference XISSUE_EXPRESSION__MARKER_INDEX = eINSTANCE.getXIssueExpression_MarkerIndex();
+
+    /**
+     * The meta object literal for the '<em><b>Marker Region</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XISSUE_EXPRESSION__MARKER_REGION = eINSTANCE.getXIssueExpression_MarkerRegion();
 
     /**
      * The meta object literal for the '<em><b>Message</b></em>' containment reference feature.

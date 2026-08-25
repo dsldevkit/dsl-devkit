@@ -28,6 +28,7 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckModelUtil;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
+
 /*
  * Tests for various check validations as implemented in the validation classes
  * <ul>
@@ -158,6 +159,7 @@ public class CheckValidationTest {
   }
 
   /* Tests org.eclipse.xtext.xbase.validation.EarlyExitValidator.checkDeadCode(XBlockExpression) */
+  @SuppressWarnings("restriction")
   @Test
   public void testDeadCode() throws Exception {
     // should not fail
@@ -190,6 +192,45 @@ public class CheckValidationTest {
     // should not fail
     model = parser.parse(modelUtil.modelWithContext() + "if (false) { issue ");
     helper.assertNoError(model, IssueCodes.MISSING_ISSUE_EXPRESSION);
+  }
+
+  /* Tests checkIssueExpressionExists(Context) for external checks, whose issues are raised by hand-written code. */
+  @Test
+  public void testIssueExpressionNotRequiredForExternalCheck() throws Exception {
+    final CheckCatalog model = parser.parse(modelUtil.modelWithExternalContext() + "null");
+    helper.assertNoError(model, IssueCodes.MISSING_ISSUE_EXPRESSION);
+  }
+
+  /* Tests checkExternalCheckHasNoIssue(Check) */
+  @Test
+  public void testIssueInExternalCheck() throws Exception {
+    // should not fail
+    CheckCatalog model = parser.parse(modelUtil.modelWithExternalContext() + "null");
+    helper.assertNoIssue(model, CheckPackage.Literals.CHECK, IssueCodes.ISSUE_IN_EXTERNAL_CHECK);
+
+    // should fail
+    model = parser.parse(modelUtil.modelWithExternalContext() + "issue");
+    helper.assertWarning(model, CheckPackage.Literals.CHECK, IssueCodes.ISSUE_IN_EXTERNAL_CHECK);
+  }
+
+  /* Tests checkMarkerRegionType(XIssueExpression) */
+  @Test
+  public void testMarkerRegionType() throws Exception {
+    final CheckCatalog model = parser.parse(modelUtil.modelWithContext() + "issue at 1");
+    helper.assertError(model, CheckPackage.Literals.XISSUE_EXPRESSION, IssueCodes.MARKER_REGION_TYPE);
+  }
+
+  /* Tests checkMarkerIndexNotCombinedWithRegion(XIssueExpression) */
+  @Test
+  public void testMarkerIndexNotCombinedWithRegion() throws Exception {
+    // The marker feature is required to terminate the marker object expression; without it Xbase parses "[0]" as a trailing closure.
+    // should not fail
+    CheckCatalog model = parser.parse(modelUtil.modelWithContext() + "issue on ctx#name [0]");
+    helper.assertNoError(model, IssueCodes.MARKER_INDEX_WITH_REGION);
+
+    // should fail
+    model = parser.parse(modelUtil.modelWithContext() + "issue on ctx#name [0] at 1");
+    helper.assertError(model, CheckPackage.Literals.XISSUE_EXPRESSION, IssueCodes.MARKER_INDEX_WITH_REGION);
   }
 
   /* Test checkCheckName(Check). ID is missing. */
@@ -274,71 +315,61 @@ public class CheckValidationTest {
   /* Tests checkSeverityRangeOrder(Check) */
   @Test
   public void testSeverityRangeOrder_1() throws Exception {
-    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(WARNING, ERROR)),
-        IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
+    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(WARNING, ERROR)), IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
   }
 
   /* Tests checkSeverityRangeOrder(Check) */
   @Test
   public void testSeverityRangeOrder_2() throws Exception {
-    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(IGNORE, WARNING)),
-        IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
+    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(IGNORE, WARNING)), IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
   }
 
   /* Tests checkSeverityRangeOrder(Check) */
   @Test
   public void testSeverityRangeOrder_3() throws Exception {
-    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(INFO, INFO)),
-        IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
+    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(INFO, INFO)), IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
   }
 
   /* Tests checkSeverityRangeOrder(Check) */
   @Test
   public void testSeverityRangeOrder_4() throws Exception {
-    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(INFO, IGNORE)),
-        CheckPackage.Literals.SEVERITY_RANGE, IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
+    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(INFO, IGNORE)), CheckPackage.Literals.SEVERITY_RANGE, IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
   }
 
   /* Tests checkSeverityRangeOrder(Check) */
   @Test
   public void testSeverityRangeOrder_5() throws Exception {
-    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, INFO)),
-        CheckPackage.Literals.SEVERITY_RANGE, IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
+    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, INFO)), CheckPackage.Literals.SEVERITY_RANGE, IssueCodes.ILLEGAL_SEVERITY_RANGE_ORDER);
   }
 
   /* Tests checkDefaultSeverityInRange(Check) */
   @Test
   public void testDefaultSeverityInRange_1() throws Exception {
-    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(WARNING, ERROR, INFO)),
-        CheckPackage.Literals.CHECK, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
+    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(WARNING, ERROR, INFO)), CheckPackage.Literals.CHECK, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
   }
 
   /* Tests checkDefaultSeverityInRange(Check) */
   @Test
   public void testDefaultSeverityInRange_2() throws Exception {
-    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, INFO, IGNORE)),
-        CheckPackage.Literals.CHECK, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
+    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, INFO, IGNORE)), CheckPackage.Literals.CHECK, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
   }
 
   /* Tests checkDefaultSeverityInRange(Check) */
   @Test
   public void testDefaultSeverityInRange_3() throws Exception {
-    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, ERROR, IGNORE)),
-        CheckPackage.Literals.CHECK, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
+    helper.assertError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, ERROR, IGNORE)), CheckPackage.Literals.CHECK, IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
   }
 
   /* Tests checkDefaultSeverityInRange(Check) */
   @Test
   public void testDefaultSeverityInRange_4() throws Exception {
-    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, ERROR, ERROR)),
-        IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
+    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(ERROR, ERROR, ERROR)), IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
   }
 
   /* Tests checkDefaultSeverityInRange(Check) */
   @Test
   public void testDefaultSeverityInRange_5() throws Exception {
-    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(INFO, ERROR, WARNING)),
-        IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
+    helper.assertNoError(parser.parse(modelUtil.modelWithSeverityRange(INFO, ERROR, WARNING)), IssueCodes.DEFAULT_SEVERITY_NOT_IN_RANGE);
   }
 
 }

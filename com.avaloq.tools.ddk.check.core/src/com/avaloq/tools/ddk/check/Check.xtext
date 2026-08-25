@@ -50,6 +50,8 @@ Category:
 Check:
   (severityRange=SeverityRange)?
   (final?='final')?
+  // An external check raises no issue itself; its markers are created by hand-written code. Its issue code and label are still generated.
+  (external?='external')?
   (kind=TriggerKind)?
   defaultSeverity=SeverityKind
   (id=ValidID)? label=STRING
@@ -112,17 +114,24 @@ ContextVariable:
 XGuardExpression returns xbase::XExpression:
   {XGuardExpression} 'guard' guard=XExpression;
 
+/*
+ * An issue expression creates a marker. The marker is placed on
+ * - a text region, if 'at <ITextRegion or INode>' is given; an absent or empty region falls back to the object and feature below,
+ * - otherwise on the given object and, if given, its structural feature. The feature may either be linked statically ('#name')
+ *   or computed at runtime ('#(<EStructuralFeature expression>)').
+ */
 XIssueExpression returns xbase::XExpression:
   {XIssueExpression}
   'issue'
   (=> check=[Check|QualifiedName])?
   (=> 'on'
     // we list the possible choices to help antlr
-    ( (=> '#' markerFeature=[ecore::EStructuralFeature|ValidID] )|
-     (markerObject=XExpression (=> '#' markerFeature=[ecore::EStructuralFeature|FeatureCallID])?)
+    ( (=> '#' (markerFeature=[ecore::EStructuralFeature|ValidID] | '(' markerFeatureExpression=XExpression ')') )|
+     (markerObject=XExpression (=> '#' (markerFeature=[ecore::EStructuralFeature|FeatureCallID] | '(' markerFeatureExpression=XExpression ')'))?)
     )
     (=> '[' markerIndex=XExpression ']')?
   )?
+  (=> 'at' markerRegion=XExpression)?
   (=> 'message' message=XExpression)?
   (=> 'bind' '('messageParameters+=XExpression (=> ',' messageParameters+=XExpression)* ')')?  //TODO rename as bindings
   (=> 'data' (issueCode=ValidID)? '(' issueData+=XExpression (=> ',' issueData+=XExpression)* ')' )?
@@ -157,6 +166,7 @@ FeatureCallID:
   | 'extends' | 'static' | 'import' | 'extension' // Inherited from xbase
   | 'catalog' | 'grammar' | 'with' | 'category' | 'message'
   | 'on' | 'bind' | 'data' | 'SeverityRange'
+  | 'at' | 'external'
   | 'error' | 'warning' | 'info' | 'ignore' // SeverityKind
   | 'live' | 'onSave' | 'onDemand' // TriggerKind
 ;

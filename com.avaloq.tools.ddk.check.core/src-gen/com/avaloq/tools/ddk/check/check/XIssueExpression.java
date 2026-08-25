@@ -19,8 +19,10 @@ import org.eclipse.xtext.xbase.XExpression;
  * <ul>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getCheck <em>Check</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerFeature <em>Marker Feature</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerFeatureExpression <em>Marker Feature Expression</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerObject <em>Marker Object</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerIndex <em>Marker Index</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerRegion <em>Marker Region</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMessage <em>Message</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMessageParameters <em>Message Parameters</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getIssueCode <em>Issue Code</em>}</li>
@@ -78,6 +80,28 @@ public interface XIssueExpression extends XExpression
   void setMarkerFeature(EStructuralFeature value);
 
   /**
+   * Returns the value of the '<em><b>Marker Feature Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Marker Feature Expression</em>' containment reference.
+   * @see #setMarkerFeatureExpression(XExpression)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXIssueExpression_MarkerFeatureExpression()
+   * @model containment="true"
+   * @generated
+   */
+  XExpression getMarkerFeatureExpression();
+
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerFeatureExpression <em>Marker Feature Expression</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Marker Feature Expression</em>' containment reference.
+   * @see #getMarkerFeatureExpression()
+   * @generated
+   */
+  void setMarkerFeatureExpression(XExpression value);
+
+  /**
    * Returns the value of the '<em><b>Marker Object</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -120,6 +144,28 @@ public interface XIssueExpression extends XExpression
    * @generated
    */
   void setMarkerIndex(XExpression value);
+
+  /**
+   * Returns the value of the '<em><b>Marker Region</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Marker Region</em>' containment reference.
+   * @see #setMarkerRegion(XExpression)
+   * @see com.avaloq.tools.ddk.check.check.CheckPackage#getXIssueExpression_MarkerRegion()
+   * @model containment="true"
+   * @generated
+   */
+  XExpression getMarkerRegion();
+
+  /**
+   * Sets the value of the '{@link com.avaloq.tools.ddk.check.check.XIssueExpression#getMarkerRegion <em>Marker Region</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Marker Region</em>' containment reference.
+   * @see #getMarkerRegion()
+   * @generated
+   */
+  void setMarkerRegion(XExpression value);
 
   /**
    * Returns the value of the '<em><b>Message</b></em>' containment reference.

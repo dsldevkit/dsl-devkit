@@ -24,6 +24,8 @@ public class Messages extends NLS {
   public static String CheckQuickfixProvider_ADD_ID_LABEL;
   public static String CheckQuickfixProvider_ADD_ISSUE_EXPR_DESCN;
   public static String CheckQuickfixProvider_ADD_ISSUE_EXPR_LABEL;
+  public static String CheckQuickfixProvider_MARK_CHECK_EXTERNAL_DESCN;
+  public static String CheckQuickfixProvider_MARK_CHECK_EXTERNAL_LABEL;
   public static String CheckQuickfixProvider_CORRECT_CATALOG_NAME_DESCN;
   public static String CheckQuickfixProvider_CORRECT_CATALOG_NAME_LABEL;
   public static String CheckQuickfixProvider_CORRECT_PKG_NAME_DESCN;

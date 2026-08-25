@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#getSeverityRange <em>Severity Range</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#isFinal <em>Final</em>}</li>
+ *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#isExternal <em>External</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#getDefaultSeverity <em>Default Severity</em>}</li>
  *   <li>{@link com.avaloq.tools.ddk.check.check.impl.CheckImpl#getId <em>Id</em>}</li>
@@ -90,6 +91,26 @@ public class CheckImpl extends DocumentedImplCustom implements Check
    * @ordered
    */
   protected boolean final_ = FINAL_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isExternal() <em>External</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExternal()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean EXTERNAL_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isExternal() <em>External</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExternal()
+   * @generated
+   * @ordered
+   */
+  protected boolean external = EXTERNAL_EDEFAULT;
 
   /**
    * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
@@ -336,6 +357,31 @@ public class CheckImpl extends DocumentedImplCustom implements Check
    * @generated
    */
   @Override
+  public boolean isExternal()
+  {
+    return external;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setExternal(boolean newExternal)
+  {
+    boolean oldExternal = external;
+    external = newExternal;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, CheckPackage.CHECK__EXTERNAL, oldExternal, external));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public TriggerKind getKind()
   {
     return kind;
@@ -534,6 +580,8 @@ public class CheckImpl extends DocumentedImplCustom implements Check
         return getSeverityRange();
       case CheckPackage.CHECK__FINAL:
         return isFinal();
+      case CheckPackage.CHECK__EXTERNAL:
+        return isExternal();
       case CheckPackage.CHECK__KIND:
         return getKind();
       case CheckPackage.CHECK__DEFAULT_SEVERITY:
@@ -570,6 +618,9 @@ public class CheckImpl extends DocumentedImplCustom implements Check
         return;
       case CheckPackage.CHECK__FINAL:
         setFinal((Boolean)newValue);
+        return;
+      case CheckPackage.CHECK__EXTERNAL:
+        setExternal((Boolean)newValue);
         return;
       case CheckPackage.CHECK__KIND:
         setKind((TriggerKind)newValue);
@@ -614,6 +665,9 @@ public class CheckImpl extends DocumentedImplCustom implements Check
       case CheckPackage.CHECK__FINAL:
         setFinal(FINAL_EDEFAULT);
         return;
+      case CheckPackage.CHECK__EXTERNAL:
+        setExternal(EXTERNAL_EDEFAULT);
+        return;
       case CheckPackage.CHECK__KIND:
         setKind(KIND_EDEFAULT);
         return;
@@ -655,6 +709,8 @@ public class CheckImpl extends DocumentedImplCustom implements Check
         return severityRange != null;
       case CheckPackage.CHECK__FINAL:
         return final_ != FINAL_EDEFAULT;
+      case CheckPackage.CHECK__EXTERNAL:
+        return external != EXTERNAL_EDEFAULT;
       case CheckPackage.CHECK__KIND:
         return kind != KIND_EDEFAULT;
       case CheckPackage.CHECK__DEFAULT_SEVERITY:
@@ -726,6 +782,8 @@ public class CheckImpl extends DocumentedImplCustom implements Check
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (final: ");
     result.append(final_);
+    result.append(", external: ");
+    result.append(external);
     result.append(", kind: ");
     result.append(kind);
     result.append(", defaultSeverity: ");
