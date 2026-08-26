@@ -159,10 +159,11 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-publish-
 
       - name: Scope SpotBugs to the PR's changed modules
-        # Injects <spotbugs.skip>true> into unchanged module poms so the per-module
-        # SpotBugs fork is skipped for them (the lever that actually scopes the cost).
-        # Full compile is preserved (correct aux-classpath); a build/config change ->
-        # full scan. pull_request only; master/snapshot run a full scan.
+        # Injects <spotbugs.skip>true> into unchanged module poms so their analysis is
+        # skipped, and exports SPOTBUGS_SCOPE_ARGS (-pl <changed> -am) so only the
+        # changed modules and their upstream deps build at all (skip-injected deps
+        # compile for the aux-classpath but are not analysed). A build/config change ->
+        # full scan, full reactor. pull_request only; master/snapshot run a full scan.
         run: bash .github/scripts/compute-spotbugs-skip.sh "${{ github.event.pull_request.base.sha }}"
 
       - name: SpotBugs report (SARIF)
@@ -171,11 +172,19 @@ jobs:
         # working tree is dirty here; this job releases nothing, so we tell Tycho's jgit
         # build-qualifier to use the last commit's timestamp instead of failing (the
         # repo keeps jgit.dirtyWorkingTree=error for maven-verify / releases).
+        # spotbugs.fork=false analyses in the Maven JVM instead of forking a fresh 2 GB
+        # JVM per module (59 forks); the shared heap is governed by MAVEN_OPTS above
+        # (the plugin's maxHeap applies to forks only).
+        # Skipped entirely when the scope step kept no modules (e.g. a docs-only
+        # PR): every module would carry spotbugs.skip, so the compile output
+        # would be unused. The gate below relaxes on the same condition.
+        if: env.SPOTBUGS_KEPT != '0'
         run: |
-          mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
+          mvn -T 2C -f ./ddk-parent/pom.xml ${SPOTBUGS_SCOPE_ARGS:-} --batch-mode --fail-never \
             compile \
             spotbugs:spotbugs \
             -Dspotbugs.sarifOutput=true \
+            -Dspotbugs.fork=false \
             -Djgit.dirtyWorkingTree=ignore
 
       - name: Merge per-module SpotBugs SARIFs
@@ -202,12 +211,20 @@ jobs:
         # suppresses even compile/resolution failures) — never a clean pass.
         # Exception: the scope step skip-injected every module (no reactor module
         # changed, e.g. a docs-only PR), where zero reports is the expected state.
+        # Each scanned source-bearing module must additionally have produced its
+        # own SARIF, so a partially-dead scoped build cannot hide either.
         run: |
           set -eu
           if [ "${SPOTBUGS_KEPT:-}" = "0" ]; then
             echo "All modules skip-injected (no reactor module changed) — nothing to scan."
             exit 0
           fi
+          for mod in ${SPOTBUGS_EXPECT_REPORTS:-}; do
+            if [ ! -s "${mod}/target/spotbugsSarif.json" ]; then
+              echo "::error::${mod} was scanned but produced no SpotBugs SARIF — a build failure was swallowed by --fail-never."
+              exit 1
+            fi
+          done
           if [ ! -s .sarif-merged/spotbugs.sarif ]; then
             echo "::error::No SpotBugs SARIF produced — the analysis silently failed."
             exit 1
