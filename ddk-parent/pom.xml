@@ -56,7 +56,7 @@
     <pmd.plugin.version>3.28.0</pmd.plugin.version>
     <pmd.version>7.26.0</pmd.version>
     <tycho.version>5.0.4</tycho.version>
-    <xtend.version>2.43.0</xtend.version>
+    <xtend.version>2.44.0</xtend.version>
 
     <!-- jgit qualifier: error in CI, warning for local dirty trees -->
     <jgit.dirtyWorkingTree>error</jgit.dirtyWorkingTree>
