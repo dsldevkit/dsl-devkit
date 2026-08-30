@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
@@ -28,7 +29,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.eclipse.swt.widgets.Table;
 
 import com.avaloq.tools.ddk.test.ui.swtbot.CoreSwtbotTools;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
@@ -39,8 +39,7 @@ import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals;
  * Utility class with handy methods for testing Problems view.
  */
 public final class ProblemsViewTestUtil {
-  /** Maximum time to wait for asynchronous Problems view and Quick Fix dialog updates. */
-  public static final long ASYNC_UPDATE_TIMEOUT = 30000;
+  private static final long ASYNC_UPDATE_TIMEOUT = 30000;
 
   public static final String GROUP_BY = "&Group By"; //$NON-NLS-1$
   public static final String NONE = "&None"; //$NON-NLS-1$
@@ -52,7 +51,6 @@ public final class ProblemsViewTestUtil {
   public static final String SELECT_A_FIX_TABLE_LABEL = "Select a fix:"; //$NON-NLS-1$
   public static final String PROBLEMS_TABLE_LABEL = "Problems:"; //$NON-NLS-1$
   public static final String LOCATION_COLUMN_NAME = "Location"; //$NON-NLS-1$
-  public static final String RESOURCE_COLUMN_NAME = "Resource"; //$NON-NLS-1$
   public static final String FINISH_BUTTON_LABEL = "Finish"; //$NON-NLS-1$
 
   /**
@@ -179,6 +177,9 @@ public final class ProblemsViewTestUtil {
     bot.waitUntil(Conditions.shellCloses(quickFixShell), ASYNC_UPDATE_TIMEOUT);
   }
 
+  /**
+   * Waits for the table with the given label inside the given shell.
+   */
   private static SWTBotTable waitForTable(final SwtWorkbenchBot bot, final SWTBotShell shell, final String label) {
     final WaitForObjectCondition<Table> tableAppears = Conditions.waitForWidget(allOf(widgetOfType(Table.class), withLabel(label)), shell.widget);
     bot.waitUntil(tableAppears, ASYNC_UPDATE_TIMEOUT);
