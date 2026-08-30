@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -50,12 +51,11 @@ import com.avaloq.tools.ddk.xtext.test.XtextTestSource;
 // CHECKSTYLE:CONSTANTS-OFF
 public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
 
-  private static final long ASYNC_UPDATE_TIMEOUT = 30000;
   private static final String PACKAGE_NAME = "com.avaloq.test";
   private static final String RESOURCE_COLUMN_NAME = "Resource";
 
   private final SwtWorkbenchBot bot = new SwtWorkbenchBot();
-  private boolean oldAutoBuildState;
+  private final AtomicBoolean oldAutoBuildState = new AtomicBoolean();
 
   public String getTestSourceFileName(final String catalogName) {
     return PACKAGE_NAME.replace(".", "/") + '/' + catalogName + '.' + getXtextTestUtil().getFileExtension();
@@ -78,13 +78,13 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
   @Override
   protected void beforeEachTest() {
     super.beforeEachTest();
-    oldAutoBuildState = getTestProjectManager().setAutobuild(true);
+    oldAutoBuildState.set(getTestProjectManager().setAutobuild(true));
     cleanUp();
   }
 
   @Override
   protected void afterEachTest() {
-    getTestProjectManager().setAutobuild(oldAutoBuildState);
+    getTestProjectManager().setAutobuild(oldAutoBuildState.get());
     cleanUp();
     super.afterEachTest();
   }
@@ -212,7 +212,7 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
     // ACT
     // Bulk-apply quickfixes on all markers, ensuring that all markers remain selected
     ProblemsViewTestUtil.bulkApplyQuickfix(bot, Messages.CheckQuickfixProvider_ADD_ID_LABEL, checkMarkers);
-    bot.waitUntil(new WaitForEquals<>("Not all markers are still selected.", () -> expectedMarkers, () -> markersTreeBot.selectionCount()), ASYNC_UPDATE_TIMEOUT);
+    bot.waitUntil(new WaitForEquals<>("Not all markers are still selected.", () -> expectedMarkers, () -> markersTreeBot.selectionCount()), ProblemsViewTestUtil.ASYNC_UPDATE_TIMEOUT);
 
     // Save all modified files and build the catalogs
     bot.editors().forEach(editor -> editor.save());
@@ -229,7 +229,7 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
    * Waits until the exact expected number of relevant workspace markers exists.
    */
   private void waitForWorkspaceMarkers(final List<XtextTestSource> catalogSources, final int expectedMarkers) {
-    final long deadline = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(ASYNC_UPDATE_TIMEOUT);
+    final long deadline = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(ProblemsViewTestUtil.ASYNC_UPDATE_TIMEOUT);
     int markerCount;
     do {
       markerCount = countWorkspaceMarkers(catalogSources);
@@ -269,7 +269,7 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
       final SWTBotTreeItem[] items = Arrays.stream(markersTreeBot.getAllItems()).filter(markerFilter).toArray(SWTBotTreeItem[]::new);
       matchingMarkers.set(items);
       return items.length;
-    }), ASYNC_UPDATE_TIMEOUT);
+    }), ProblemsViewTestUtil.ASYNC_UPDATE_TIMEOUT);
     return matchingMarkers.get();
   }
 }

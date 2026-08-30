@@ -39,7 +39,8 @@ import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals;
  * Utility class with handy methods for testing Problems view.
  */
 public final class ProblemsViewTestUtil {
-  private static final long ASYNC_UPDATE_TIMEOUT = 30000;
+  /** Maximum time to wait for asynchronous Problems view and Quick Fix dialog updates. */
+  public static final long ASYNC_UPDATE_TIMEOUT = 30000;
 
   public static final String GROUP_BY = "&Group By"; //$NON-NLS-1$
   public static final String NONE = "&None"; //$NON-NLS-1$
