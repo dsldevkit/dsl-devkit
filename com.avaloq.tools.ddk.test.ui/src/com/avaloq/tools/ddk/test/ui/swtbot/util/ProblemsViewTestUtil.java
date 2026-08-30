@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.WaitForObjectCondition;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
@@ -40,7 +39,8 @@ import com.avaloq.tools.ddk.test.ui.swtbot.condition.WaitForEquals;
  * Utility class with handy methods for testing Problems view.
  */
 public final class ProblemsViewTestUtil {
-  private static final long ASYNC_UI_TIMEOUT = 60000;
+  /** Maximum time to wait for asynchronous Problems view and Quick Fix dialog updates. */
+  public static final long ASYNC_UPDATE_TIMEOUT = 30000;
 
   public static final String GROUP_BY = "&Group By"; //$NON-NLS-1$
   public static final String NONE = "&None"; //$NON-NLS-1$
@@ -52,6 +52,7 @@ public final class ProblemsViewTestUtil {
   public static final String SELECT_A_FIX_TABLE_LABEL = "Select a fix:"; //$NON-NLS-1$
   public static final String PROBLEMS_TABLE_LABEL = "Problems:"; //$NON-NLS-1$
   public static final String LOCATION_COLUMN_NAME = "Location"; //$NON-NLS-1$
+  public static final String RESOURCE_COLUMN_NAME = "Resource"; //$NON-NLS-1$
   public static final String FINISH_BUTTON_LABEL = "Finish"; //$NON-NLS-1$
 
   /**
@@ -148,37 +149,39 @@ public final class ProblemsViewTestUtil {
     // Open the Quick Fix dialog
     final SWTBotTree markersTreeBot = getMarkersTree(bot);
     DynamicContextActionUiTestUtil.clickContextMenu(() -> {
-      // Select markers. Keep retrying if focus is lost at an inopportune moment.
-      do {
+      // Select markers. Keep retrying for a bounded time if focus is lost at an inopportune moment.
+      bot.waitUntil(new WaitForEquals<>("Could not select all markers in the Problems view.", () -> markers.length, () -> {
         markersTreeBot.select(markers);
-      } while (markersTreeBot.selectionCount() != markers.length);
+        return markersTreeBot.selectionCount();
+      }), ASYNC_UPDATE_TIMEOUT);
     }, markersTreeBot, DynamicMenuPredicate.ALWAYS_WAITING, QUICK_FIX_CONTEXT_MENU_ITEM_LABEL);
-    bot.waitUntil(Conditions.shellIsActive(QUICK_FIX_DIALOG_TEXT), ASYNC_UI_TIMEOUT);
+    bot.waitUntil(Conditions.shellIsActive(QUICK_FIX_DIALOG_TEXT), ASYNC_UPDATE_TIMEOUT);
     final SWTBotShell quickFixShell = bot.shell(QUICK_FIX_DIALOG_TEXT);
     final SWTBot quickFixBot = quickFixShell.bot();
 
     // Select the quickfix
     final SWTBotTable selectFixTable = waitForTable(bot, quickFixShell, SELECT_A_FIX_TABLE_LABEL);
-    bot.waitUntil(new WaitForEquals<>("Quick Fix dialog did not list the requested fix.", () -> true, () -> selectFixTable.containsItem(quickfixLabel)), ASYNC_UI_TIMEOUT); //$NON-NLS-1$
+    bot.waitUntil(new WaitForEquals<>("Quick Fix dialog did not list the requested fix.", () -> true, () -> selectFixTable.containsItem(quickfixLabel)), ASYNC_UPDATE_TIMEOUT); //$NON-NLS-1$
     selectFixTable.select(quickfixLabel);
 
     // Selecting the fix repopulates the Problems table asynchronously; tick every expected row and retry until all are
     // checked, tolerating the transient table resizes that happen while the table is still being repopulated.
     final int locationColumnIndex = markersTreeBot.columns().indexOf(LOCATION_COLUMN_NAME);
+    if (locationColumnIndex < 0) {
+      throw new IllegalStateException("Problems view has no Location column."); //$NON-NLS-1$
+    }
     final Set<String> markerLocations = Stream.of(markers).map(marker -> marker.cell(locationColumnIndex)).collect(Collectors.toSet());
     final SWTBotTable tableBot = waitForTable(bot, quickFixShell, PROBLEMS_TABLE_LABEL);
-    bot.waitUntil(new WaitForEquals<>("Quick Fix dialog did not list all expected markers.", () -> markers.length, () -> checkMatchingRows(tableBot, markerLocations)), ASYNC_UI_TIMEOUT); //$NON-NLS-1$
+    bot.waitUntil(new WaitForEquals<>("Quick Fix dialog did not list all expected markers.", () -> markers.length, () -> checkMatchingRows(tableBot, markerLocations)), ASYNC_UPDATE_TIMEOUT); //$NON-NLS-1$
 
-    final SWTBotButton finishButton = quickFixBot.button(FINISH_BUTTON_LABEL);
-    bot.waitUntil(Conditions.widgetIsEnabled(finishButton), ASYNC_UI_TIMEOUT);
-    finishButton.click();
+    bot.clickButton(quickFixBot.button(FINISH_BUTTON_LABEL), ASYNC_UPDATE_TIMEOUT);
     // Block until the wizard has actually closed, so callers do not save/build while the resolution is still being applied.
-    bot.waitUntil(Conditions.shellCloses(quickFixShell), ASYNC_UI_TIMEOUT);
+    bot.waitUntil(Conditions.shellCloses(quickFixShell), ASYNC_UPDATE_TIMEOUT);
   }
 
   private static SWTBotTable waitForTable(final SwtWorkbenchBot bot, final SWTBotShell shell, final String label) {
     final WaitForObjectCondition<Table> tableAppears = Conditions.waitForWidget(allOf(widgetOfType(Table.class), withLabel(label)), shell.widget);
-    bot.waitUntil(tableAppears, ASYNC_UI_TIMEOUT);
+    bot.waitUntil(tableAppears, ASYNC_UPDATE_TIMEOUT);
     return new SWTBotTable(tableAppears.get(0));
   }
 
