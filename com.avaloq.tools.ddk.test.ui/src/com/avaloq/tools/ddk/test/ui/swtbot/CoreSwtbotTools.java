@@ -26,14 +26,11 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
-import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferenceConstants;
-import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -69,95 +66,11 @@ public final class CoreSwtbotTools {
   private static final String ARGUMENT_BOT = "bot";
   // CHECKSTYLE:ON
   private static final int TIMEOUT_FOR_NODE_TO_COLLAPSE_EXPAND = 3000;
-  private static final int KEYBOARD_TYPE_INTERVAL = 50;
-  private static final int BOT_WIDGET_TIMEOUT = 20000;
-  private static final int BOT_PLAYBACK_DELAY = 100;
   private static final int MOUSE_POSITION_Y = 5;
   private static final int MOUSE_POSITION_X = 5;
-  private static final String PROPERTY_COM_AVALOQ_TEST_WORKBENCHFOCUSPOLICY = "com.avaloq.test.workbenchfocuspolicy";
-  private static WorkbenchFocusPolicy workbenchFocusPolicy = WorkbenchFocusPolicy.REFOCUS;
-  private static boolean preferencesInitialized;
 
   private CoreSwtbotTools() {
     // Utility Class
-  }
-
-  /**
-   * Sets common SWTBot preferences.
-   */
-  public static void initializePreferences() {
-    // -Dorg.eclipse.swtbot.playback.delay=2
-    SWTBotPreferences.PLAYBACK_DELAY = BOT_PLAYBACK_DELAY;
-
-    // System.setProperty("org.eclipse.swtbot.keyboardLayout", "EN_US");
-    SWTBotPreferences.KEYBOARD_LAYOUT = "org.eclipse.swtbot.swt.finder.keyboard.EN_US";
-
-    // SWTBot Keyboard strategies
-    SWTBotPreferences.KEYBOARD_STRATEGY = "org.eclipse.swtbot.swt.finder.keyboard.SWTKeyboardStrategy";
-
-    // keyboard type interval
-    SWTBotPreferences.TYPE_INTERVAL = KEYBOARD_TYPE_INTERVAL;
-
-    // Waiting for Widgets
-    SWTBotPreferences.TIMEOUT = BOT_WIDGET_TIMEOUT;
-
-    // screenshot directory
-    SWTBotPreferences.SCREENSHOTS_DIR = System.getProperty(SWTBotPreferenceConstants.KEY_SCREENSHOTS_DIR, "target/screenshots");
-
-    // test window focus policy
-    workbenchFocusPolicy = WorkbenchFocusPolicy.valueOf(System.getProperty(PROPERTY_COM_AVALOQ_TEST_WORKBENCHFOCUSPOLICY, WorkbenchFocusPolicy.REFOCUS.toString()));
-
-    preferencesInitialized = true;
-  }
-
-  /**
-   * The policy for how to react if the test window lost focus.
-   */
-  public enum WorkbenchFocusPolicy {
-    REFOCUS,
-    WAIT
-  }
-
-  /**
-   * Returns the policy for how to react if the test window lost focus.
-   *
-   * @return the workbench focus policy, never {@code null}
-   */
-  public static WorkbenchFocusPolicy getWorkbenchFocusPolicy() {
-    if (!preferencesInitialized) {
-      initializePreferences();
-    }
-    return workbenchFocusPolicy;
-  }
-
-  /**
-   * Enforces the workbench focus policy.
-   * <p>
-   * <em>Note</em>: Depending on {@link CoreSwtbotTools#getWorkbenchFocusPolicy()}, this method waits until the window under test has focus before returning, or
-   * else re-sets the focus on the window.
-   * </p>
-   *
-   * @param bot
-   *          the {@link SwtWorkbenchBot} for which to check the focus, must not be {@code null}
-   */
-  public static void enforceWorkbenchFocusPolicy(final SwtWorkbenchBot bot) {
-    Assert.isNotNull(bot, ARGUMENT_BOT);
-    if (bot.getFocusedWidget() == null) {
-      if (WorkbenchFocusPolicy.WAIT == getWorkbenchFocusPolicy()) {
-        bot.waitUntilFocused();
-      } else if (WorkbenchFocusPolicy.REFOCUS == getWorkbenchFocusPolicy()) {
-        PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-
-          @Override
-          public void run() {
-            final Shell[] shells = PlatformUI.getWorkbench().getDisplay().getShells();
-            if (shells.length > 0) {
-              shells[0].forceActive();
-            }
-          }
-        });
-      }
-    }
   }
 
   /**

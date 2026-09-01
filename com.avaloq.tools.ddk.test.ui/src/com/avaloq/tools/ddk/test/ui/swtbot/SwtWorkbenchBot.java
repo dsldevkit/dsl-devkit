@@ -37,6 +37,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.swt.finder.results.BoolResult;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferenceConstants;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.waits.ICondition;
 import org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot;
@@ -57,10 +58,26 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
  */
 @SuppressWarnings("nls")
 public class SwtWorkbenchBot extends SWTWorkbenchBot {
+  /** Widget timeout applied to every bot, outlasting the Problems view's 10 s deferred refresh. */
+  public static final long DEFAULT_TIMEOUT = 20000;
   private static final int DELAY_WIZARD_PAGE = 1000;
   private static final String TIMEOUT_MSG = "Timeout of {0} ms reached while waiting for Button {1} to become active";
 
   private ImpatientSwtWorkbenchBot impatientBot;
+
+  static {
+    initializePreferences();
+  }
+
+  /**
+   * Raises the SWTBot widget timeout to {@link #DEFAULT_TIMEOUT} unless it was set explicitly via the
+   * {@value SWTBotPreferenceConstants#KEY_TIMEOUT} system property.
+   */
+  private static void initializePreferences() {
+    if (System.getProperty(SWTBotPreferenceConstants.KEY_TIMEOUT) == null) {
+      SWTBotPreferences.TIMEOUT = DEFAULT_TIMEOUT;
+    }
+  }
 
   @Override
   public void closeAllShells() {
