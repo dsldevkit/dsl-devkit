@@ -1,30 +1,45 @@
-package com.avaloq.tools.ddk.xtext.expression.generator
+/*******************************************************************************
+ * Copyright (c) 2016 Avaloq Group AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Avaloq Group AG - initial API and implementation
+ *******************************************************************************/
+package com.avaloq.tools.ddk.xtext.expression.generator;
 
-import java.util.Set
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.Grammar
-import com.avaloq.tools.ddk.xtext.util.EObjectUtil
+import java.util.Set;
 
-class GeneratorUtilX {
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.Grammar;
 
-  def String xmlContributorComment(String source) {
-    '<!-- contributed by ' + source + ' -->'
+import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
+
+
+@SuppressWarnings("nls")
+public class GeneratorUtilX {
+
+  public String xmlContributorComment(final String source) {
+    return "<!-- contributed by " + source + " -->";
   }
 
-  def String javaContributorComment(String source) {
-    '// contributed by ' + source
+  public String javaContributorComment(final String source) {
+    return "// contributed by " + source;
   }
 
-  def String location(EObject obj) {
-    EObjectUtil.getFileLocation(obj)
+  public String location(final EObject obj) {
+    return EObjectUtil.getFileLocation(obj);
   }
 
-  def Set<EClass> allInstantiatedTypes(Grammar it) {
-    GeneratorUtil.allInstantiatedTypes(it)
+  public Set<EClass> allInstantiatedTypes(final Grammar grammar) {
+    return GeneratorUtil.allInstantiatedTypes(grammar);
   }
 
-  def boolean canContain(EClass it, Set<EClass> others, Grammar g) {
-    GeneratorUtil.canContain(it, others, g)
+  public boolean canContain(final EClass eClass, final Set<EClass> others, final Grammar g) {
+    return GeneratorUtil.canContain(eClass, others, g);
   }
+
 }
