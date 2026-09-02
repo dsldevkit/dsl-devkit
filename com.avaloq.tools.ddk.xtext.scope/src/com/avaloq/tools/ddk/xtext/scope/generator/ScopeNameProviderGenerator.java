@@ -43,6 +43,8 @@ import com.google.inject.Inject;
 @SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
 public class ScopeNameProviderGenerator {
 
+  // CPD-OFF — migrated Xtend generator code, kept faithful; de-dup is a migration follow-up (#1339)
+
   @Inject
   private GeneratorUtilX generatorUtilX;
 
