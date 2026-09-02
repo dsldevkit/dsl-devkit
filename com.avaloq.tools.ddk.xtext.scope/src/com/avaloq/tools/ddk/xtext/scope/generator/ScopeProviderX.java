@@ -1,194 +1,225 @@
 /*******************************************************************************
  * Copyright (c) 2016 Avaloq Group AG and others.
- * All rights reserved. it program and the accompanying materials
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies it distribution, and is available at
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
+package com.avaloq.tools.ddk.xtext.scope.generator;
 
-package com.avaloq.tools.ddk.xtext.scope.generator
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression
-import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
-import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions
-import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
-import com.avaloq.tools.ddk.xtext.expression.generator.Naming
-import com.avaloq.tools.ddk.xtext.scope.ScopeUtil
-import com.avaloq.tools.ddk.xtext.scope.scope.Extension
-import com.avaloq.tools.ddk.xtext.scope.scope.Injection
-import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression
-import com.avaloq.tools.ddk.xtext.scope.scope.NamingDefinition
-import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition
-import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel
-import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule
-import com.google.inject.Inject
-import java.util.Collection
-import java.util.List
-import java.util.Set
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.ENamedElement
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.xtext.util.Strings
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.xtext.util.Strings;
 
-class ScopeProviderX {
+import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
+import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall;
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions;
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX;
+import com.avaloq.tools.ddk.xtext.expression.generator.Naming;
+import com.avaloq.tools.ddk.xtext.scope.ScopeUtil;
+import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
+import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
+import com.avaloq.tools.ddk.xtext.scope.scope.NamedScopeExpression;
+import com.avaloq.tools.ddk.xtext.scope.scope.NamingDefinition;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeRule;
+import com.google.inject.Inject;
+
+
+@SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
+public class ScopeProviderX {
 
   @Inject
-  extension Naming
+  private Naming naming;
+
   @Inject
-  extension GeneratorUtilX
+  private GeneratorUtilX generatorUtilX;
 
   /*
    * CODE GENERATION
    */
-  def getScopeProvider(ScopeModel model) {
-    model.name.toJavaPackage() + ".scoping." + model.name.toSimpleName() + "ScopeProvider"
+  public String getScopeProvider(final ScopeModel model) {
+    return naming.toJavaPackage(model.getName()) + ".scoping." + naming.toSimpleName(model.getName()) + "ScopeProvider";
   }
 
-  def getScopeNameProvider(ScopeModel model) {
-    model.name.toJavaPackage() + ".scoping." + model.name.toSimpleName() + "ScopeNameProvider"
+  public String getScopeNameProvider(final ScopeModel model) {
+    return naming.toJavaPackage(model.getName()) + ".scoping." + naming.toSimpleName(model.getName()) + "ScopeNameProvider";
   }
 
   // returns the name of the scope method generated for the given scope definition
-  def String scopeMethodName(ScopeDefinition it) {
-    getScopeName() + '_' + (if (targetType !== null) targetType.EPackage.name + '_' + targetType.name else contextType.EPackage.name + '_' + contextType.name + '_' + reference.name)
+  public String scopeMethodName(final ScopeDefinition it) {
+    final String qualifier;
+    if (it.getTargetType() != null) {
+      qualifier = it.getTargetType().getEPackage().getName() + "_" + it.getTargetType().getName();
+    } else {
+      qualifier = it.getContextType().getEPackage().getName() + "_" + it.getContextType().getName() + "_" + it.getReference().getName();
+    }
+    return getScopeName(it) + "_" + qualifier;
   }
 
-  def String locatorString(EObject it) {
-    Strings.convertToJavaString(location().split('/').lastOrNull())
+  public String locatorString(final EObject it) {
+    final String[] segments = generatorUtilX.location(it).split("/");
+    return Strings.convertToJavaString(segments.length == 0 ? null : segments[segments.length - 1]);
   }
 
-  def String calledFeature(FeatureCall it) {
-    type.id.head
+  public String calledFeature(final FeatureCall it) {
+    final EList<String> id = it.getType().getId();
+    return id.isEmpty() ? null : id.get(0);
   }
 
-  def EStructuralFeature feature(FeatureCall it) {
-    scopeType().getEStructuralFeature(calledFeature())
+  public EStructuralFeature feature(final FeatureCall it) {
+    return scopeType(it).getEStructuralFeature(calledFeature(it));
   }
 
   /*
    * SCOPE RULES
    */
-  def dispatch List<ScopeRule> allScopeRules(Void it) {
-    newArrayList()
+  protected List<ScopeRule> _allScopeRules(final Void it) {
+    return new ArrayList<>();
   }
 
-  def dispatch List<ScopeRule> allScopeRules(ScopeDefinition it) {
-    getModel().collectAllScopeRules(it)
+  protected List<ScopeRule> _allScopeRules(final ScopeDefinition it) {
+    return collectAllScopeRules(getModel(it), it);
   }
 
-  def List<ScopeRule> collectAllScopeRules(ScopeModel it, ScopeDefinition ^def) {
-    val d = scopes.filter(d|d.isEqual(^def))
-    val myScopeRules = if (d === null) newArrayList else d.map[rules].flatten
-    val result =
-      if (includedScopes.isEmpty)
-        newArrayList
-       else
-        includedScopes.map[collectAllScopeRules(def)].flatten().toList
-    result.addAll(myScopeRules)
-    result
+  public List<ScopeRule> collectAllScopeRules(final ScopeModel it, final ScopeDefinition def) {
+    final List<ScopeRule> myScopeRules = new ArrayList<>();
+    for (final ScopeDefinition d : it.getScopes()) {
+      if (isEqual(d, def)) {
+        myScopeRules.addAll(d.getRules());
+      }
+    }
+    final List<ScopeRule> result = new ArrayList<>();
+    for (final ScopeModel included : it.getIncludedScopes()) {
+      result.addAll(collectAllScopeRules(included, def));
+    }
+    result.addAll(myScopeRules);
+    return result;
   }
 
-  def List<ScopeRule> sortedRules(Collection<ScopeRule> it) {
-    ScopingGeneratorUtil.sortedRules(it)
+  public List<ScopeRule> sortedRules(final Collection<ScopeRule> it) {
+    return ScopingGeneratorUtil.sortedRules(it);
   }
 
-  def Set<ScopeRule> filterUniqueRules(List<ScopeRule> it) {
-    map(r|findFirst(r2|r2.hasSameContext(r))).toSet()
+  public Set<ScopeRule> filterUniqueRules(final List<ScopeRule> it) {
+    final Set<ScopeRule> result = new LinkedHashSet<>();
+    for (final ScopeRule r : it) {
+      result.add(it.stream().filter(r2 -> hasSameContext(r2, r)).findFirst().orElse(null));
+    }
+    return result;
   }
 
-  def dispatch boolean isEqual(ScopeRule a, ScopeRule b) {
-    a.hasSameContext(b)
-    // && ((a.name === null) == (b.name === null)) && (a.name === null || a.name.matches (b.name))
-    && ExpressionExtensions.serialize(a.context.guard) == ExpressionExtensions.serialize(b.context.guard)
+  protected boolean _isEqual(final ScopeRule a, final ScopeRule b) {
+    return hasSameContext(a, b)
+        // && ((a.name === null) == (b.name === null)) && (a.name === null || a.name.matches (b.name))
+        && Objects.equals(ExpressionExtensions.serialize(a.getContext().getGuard()), ExpressionExtensions.serialize(b.getContext().getGuard()));
   }
 
-  def boolean hasSameContext(ScopeRule a, ScopeRule b) {
-    a.ruleSignature() == b.ruleSignature()
+  public boolean hasSameContext(final ScopeRule a, final ScopeRule b) {
+    return Objects.equals(ruleSignature(a), ruleSignature(b));
   }
 
   // Hrmph. Use naming here, otherwise we'll get strange (and wrong) results in the GenerateAllAPSLs workflow for netwStruct?!
-  def private /*cached*/ String ruleSignature(ScopeRule s) {
-    ScopeUtil.getSignature(s)
+  private /*cached*/ String ruleSignature(final ScopeRule s) {
+    return ScopeUtil.getSignature(s);
   }
 
   /*
    * SCOPE DEFINITIONS
    */
   // returns the list of all local and inherited scope definition (skipping any shadowed or extended scope definitions)
-  def dispatch List<ScopeDefinition> allScopes(ScopeModel it) {
-    val myScopes = it.scopes
-    val result = if (it.includedScopes.isEmpty) newArrayList else it.includedScopes.map[allScopes()].flatten.toList
-    result.removeIf(s|myScopes.hasScope(s))
-    result.addAll(myScopes)
-    result
+  protected List<ScopeDefinition> _allScopes(final ScopeModel it) {
+    final EList<ScopeDefinition> myScopes = it.getScopes();
+    final List<ScopeDefinition> result = new ArrayList<>();
+    for (final ScopeModel included : it.getIncludedScopes()) {
+      result.addAll(allScopes(included));
+    }
+    result.removeIf(s -> hasScope(myScopes, s));
+    result.addAll(myScopes);
+    return result;
   }
 
-  def dispatch List<ScopeDefinition> allScopes(Void it) {
-    newArrayList
+  protected List<ScopeDefinition> _allScopes(final Void it) {
+    return new ArrayList<>();
   }
 
-  def String getScopeName(ScopeDefinition it) {
-    if (it.name === null) 'scope' else it.name
+  public String getScopeName(final ScopeDefinition it) {
+    return it.getName() == null ? "scope" : it.getName();
   }
 
-  def boolean hasScope(List<ScopeDefinition> list, ScopeDefinition scope) {
-    if (list.isEmpty) false else !(list.filter(s|s.isEqual(scope)).isEmpty)
+  public boolean hasScope(final List<ScopeDefinition> list, final ScopeDefinition scope) {
+    return list.stream().anyMatch(s -> isEqual(s, scope));
   }
 
-  def dispatch boolean isEqual(ScopeDefinition a, ScopeDefinition b) {
-    a.getScopeName() == b.getScopeName() && a.targetType.isEqual(b.targetType) && a.reference.isEqual(b.reference)
+  protected boolean _isEqual(final ScopeDefinition a, final ScopeDefinition b) {
+    return Objects.equals(getScopeName(a), getScopeName(b)) && isEqual(a.getTargetType(), b.getTargetType())
+        && isEqual(a.getReference(), b.getReference());
   }
 
   /*
    * SCOPE TYPE
    */
-  def dispatch EClass scopeType(ScopeDefinition it) {
-    if (reference !== null) reference.EReferenceType else targetType
+  protected EClass _scopeType(final ScopeDefinition it) {
+    return it.getReference() != null ? it.getReference().getEReferenceType() : it.getTargetType();
   }
 
-  def dispatch EClass scopeType(ScopeRule it) {
-    getScope().scopeType()
+  protected EClass _scopeType(final ScopeRule it) {
+    return scopeType(getScope(it));
   }
 
-  def dispatch EClass scopeType(Expression it) {
-    if (getScope() !== null) getScope().scopeType() else getNamingDef().type
+  protected EClass _scopeType(final Expression it) {
+    return getScope(it) != null ? scopeType(getScope(it)) : getNamingDef(it).getType();
   }
 
-  def ENamedElement typeOrRef(ScopeDefinition it) {
-    if (reference !== null) reference else targetType
+  public ENamedElement typeOrRef(final ScopeDefinition it) {
+    return it.getReference() != null ? it.getReference() : it.getTargetType();
   }
 
-  def EReference contextRef(ScopeRule it) {
-    getScope().reference
+  public EReference contextRef(final ScopeRule it) {
+    return getScope(it).getReference();
   }
 
   /*
    * Injections
    */
   // returns the list of all local and inherited injections (skipping any shadowed injections)
-  def dispatch List<Injection> allInjections(ScopeModel it) {
-    val myInjections = it.injections
-    val result = if (it.includedScopes.isEmpty) newArrayList else it.includedScopes.map[allInjections()].flatten.toList
-    result.removeIf(i|myInjections.hasInjection(i))
-    result.addAll(myInjections)
-    result
+  protected List<Injection> _allInjections(final ScopeModel it) {
+    final EList<Injection> myInjections = it.getInjections();
+    final List<Injection> result = new ArrayList<>();
+    for (final ScopeModel included : it.getIncludedScopes()) {
+      result.addAll(allInjections(included));
+    }
+    result.removeIf(i -> hasInjection(myInjections, i));
+    result.addAll(myInjections);
+    return result;
   }
 
-  def dispatch List<Injection> allInjections(Void it) {
-    newArrayList
+  protected List<Injection> _allInjections(final Void it) {
+    return new ArrayList<>();
   }
 
-  def boolean hasInjection(List<Injection> list, Injection injection) {
-    if (list.isEmpty) false else !(list.filter(i|i.isEqual(injection)).isEmpty)
+  public boolean hasInjection(final List<Injection> list, final Injection injection) {
+    return list.stream().anyMatch(i -> isEqual(i, injection));
   }
 
-  def dispatch boolean isEqual(Injection a, Injection b) {
-    a.type == b.type && a.name == b.name
+  protected boolean _isEqual(final Injection a, final Injection b) {
+    return Objects.equals(a.getType(), b.getType()) && Objects.equals(a.getName(), b.getName());
   }
 
   /*
@@ -207,19 +238,19 @@ class ScopeProviderX {
    *          the scope model, must not be {@code null}
    * @return the visible extension declarations in resolution order, never {@code null}
    */
-  def dispatch List<Extension> allExtensions(ScopeModel it) {
-    val result = <Extension>newArrayList
-    val seen = <String>newLinkedHashSet
-    for (declaration : collectExtensions(<ScopeModel>newLinkedHashSet)) {
+  protected List<Extension> _allExtensions(final ScopeModel it) {
+    final List<Extension> result = new ArrayList<>();
+    final Set<String> seen = new LinkedHashSet<>();
+    for (final Extension declaration : collectExtensions(it, new LinkedHashSet<>())) {
       if (seen.add(declaration.getExtension())) {
-        result.add(declaration)
+        result.add(declaration);
       }
     }
-    result
+    return result;
   }
 
-  def dispatch List<Extension> allExtensions(Void it) {
-    newArrayList
+  protected List<Extension> _allExtensions(final Void it) {
+    return new ArrayList<>();
   }
 
   /**
@@ -232,69 +263,132 @@ class ScopeProviderX {
    *          the scope models already visited, must not be {@code null}
    * @return the collected extension declarations, never {@code null}
    */
-  def private List<Extension> collectExtensions(ScopeModel it, Set<ScopeModel> visited) {
-    val result = <Extension>newArrayList
+  private List<Extension> collectExtensions(final ScopeModel it, final Set<ScopeModel> visited) {
+    final List<Extension> result = new ArrayList<>();
     if (!visited.add(it)) {
-      return result
+      return result;
     }
-    result.addAll(it.extensions)
-    for (included : it.includedScopes) {
-      if (included !== null) {
-        result.addAll(included.collectExtensions(visited))
+    result.addAll(it.getExtensions());
+    for (final ScopeModel included : it.getIncludedScopes()) {
+      if (included != null) {
+        result.addAll(collectExtensions(included, visited));
       }
     }
-    result
+    return result;
   }
 
   /*
    * SCOPE EXPRESSIONS
    */
-  def boolean isCaseInsensitive(NamedScopeExpression it) {
-    ScopingGeneratorUtil.isCaseInsensitive(it)
+  public boolean isCaseInsensitive(final NamedScopeExpression it) {
+    return ScopingGeneratorUtil.isCaseInsensitive(it);
   }
 
   /*
    * ECONTAINER
    */
-  def ScopeModel getModel(EObject it) {
-    it.eResource().contents.head as ScopeModel
+  public ScopeModel getModel(final EObject it) {
+    final EList<EObject> contents = it.eResource().getContents();
+    return (ScopeModel) (contents.isEmpty() ? null : contents.get(0));
   }
 
-  def /*cached*/ ScopeDefinition getScope(EObject it) {
-    eContainer(ScopeDefinition)
+  public /*cached*/ ScopeDefinition getScope(final EObject it) {
+    return eContainer(it, ScopeDefinition.class);
   }
 
-  def /*cached*/ NamingDefinition getNamingDef(EObject it) {
-    eContainer(NamingDefinition)
+  public /*cached*/ NamingDefinition getNamingDef(final EObject it) {
+    return eContainer(it, NamingDefinition.class);
   }
 
-  def <T extends EObject> T eContainer(EObject it, Class<T> type) {
-    if (it === null) return null
-    else if (type.isInstance(it)) it as T
-    else eContainer().eContainer(type)
+  public <T extends EObject> T eContainer(final EObject it, final Class<T> type) {
+    if (it == null) {
+      return null;
+    } else if (type.isInstance(it)) {
+      return type.cast(it);
+    } else {
+      return eContainer(it.eContainer(), type);
+    }
   }
 
   /*
    * ECORE
    */
-  def dispatch boolean isEqual(EClass a, EClass b) {
-    a == b || (a !== null && b !== null && a.name == b.name && a.EPackage.nsURI == b.EPackage.nsURI)
+  protected boolean _isEqual(final EClass a, final EClass b) {
+    return Objects.equals(a, b) || haveSameName(a, b) && Objects.equals(a.getEPackage().getNsURI(), b.getEPackage().getNsURI());
   }
 
-  def dispatch boolean isEqual(Void a, Void b) {
-    true
+  protected boolean _isEqual(final Void a, final Void b) {
+    return true;
   }
 
-  def dispatch boolean isEqual(EObject a, Void b) {
-    false
+  protected boolean _isEqual(final EObject a, final Void b) {
+    return false;
   }
 
-  def dispatch boolean isEqual(Void a, EObject b) {
-    false
+  protected boolean _isEqual(final Void a, final EObject b) {
+    return false;
   }
 
-  def dispatch boolean isEqual(EReference a, EReference b) {
-    a == b || (a !== null && b !== null && a.name == b.name && a.EContainingClass.isEqual(b.EContainingClass))
+  protected boolean _isEqual(final EReference a, final EReference b) {
+    return Objects.equals(a, b) || haveSameName(a, b) && isEqual(a.getEContainingClass(), b.getEContainingClass());
+  }
+
+  /**
+   * Tests whether both given elements are non-{@code null} and carry the same name.
+   *
+   * @param a
+   *          the first element, may be {@code null}
+   * @param b
+   *          the second element, may be {@code null}
+   * @return {@code true} if both are non-{@code null} and equally named
+   */
+  private static boolean haveSameName(final ENamedElement a, final ENamedElement b) {
+    return a != null && b != null && Objects.equals(a.getName(), b.getName());
+  }
+
+  public List<ScopeRule> allScopeRules(final ScopeDefinition it) {
+    return it != null ? _allScopeRules(it) : _allScopeRules((Void) null);
+  }
+
+  public boolean isEqual(final EObject a, final EObject b) {
+    if (a instanceof EReference && b instanceof EReference) {
+      return _isEqual((EReference) a, (EReference) b);
+    } else if (a instanceof EClass && b instanceof EClass) {
+      return _isEqual((EClass) a, (EClass) b);
+    } else if (a instanceof Injection && b instanceof Injection) {
+      return _isEqual((Injection) a, (Injection) b);
+    } else if (a instanceof ScopeDefinition && b instanceof ScopeDefinition) {
+      return _isEqual((ScopeDefinition) a, (ScopeDefinition) b);
+    } else if (a instanceof ScopeRule && b instanceof ScopeRule) {
+      return _isEqual((ScopeRule) a, (ScopeRule) b);
+    } else if (a != null && b == null) {
+      return _isEqual(a, (Void) null);
+    } else if (a == null && b != null) {
+      return _isEqual((Void) null, b);
+    } else {
+      return _isEqual((Void) null, (Void) null);
+    }
+  }
+
+  public List<ScopeDefinition> allScopes(final ScopeModel it) {
+    return it != null ? _allScopes(it) : _allScopes((Void) null);
+  }
+
+  public EClass scopeType(final EObject it) {
+    return switch (it) {
+      case Expression expression -> _scopeType(expression);
+      case ScopeDefinition definition -> _scopeType(definition);
+      case ScopeRule rule -> _scopeType(rule);
+      case null, default -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it).toString());
+    };
+  }
+
+  public List<Injection> allInjections(final ScopeModel it) {
+    return it != null ? _allInjections(it) : _allInjections((Void) null);
+  }
+
+  public List<Extension> allExtensions(final ScopeModel it) {
+    return it != null ? _allExtensions(it) : _allExtensions((Void) null);
   }
 
 }
