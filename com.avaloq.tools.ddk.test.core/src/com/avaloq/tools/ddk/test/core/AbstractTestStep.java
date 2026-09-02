@@ -17,6 +17,7 @@ import java.util.Set;
 
 import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.avaloq.tools.ddk.test.core.TestStepListener.TestStepState;
+import org.opentest4j.TestAbortedException;
 
 
 /**
@@ -121,7 +122,7 @@ public abstract class AbstractTestStep extends AbstractStep {
     try {
       runTestStep();
       runAfter();
-    } catch (ContractViolation violation) {
+    } catch (TestAbortedException violation) {
       updateTestStepState(TestStepState.FAILED, violation);
       throw violation;
       // CHECKSTYLE:CHECK-OFF IllegalCatch // exception is still thrown
@@ -145,14 +146,8 @@ public abstract class AbstractTestStep extends AbstractStep {
    */
   protected void runBefore() {
     if (isCheckPreconditions()) {
-      try {
         updateTestStepState(TestStepState.CHECK_PRECONDITIONS);
         assertPreconditions();
-        // CHECKSTYLE:CHECK-OFF IllegalCatch // exception is wrapped
-      } catch (Throwable t) {
-        // CHECKSTYLE:CHECK-ON IllegalCatch
-        throw new PreconditionViolation(t);
-      }
     }
   }
 
@@ -161,17 +156,11 @@ public abstract class AbstractTestStep extends AbstractStep {
    * This method is only executed if the step logic succeeded.
    */
   protected void runAfter() {
-    try {
       returnResults();
       if (isCheckPostconditions()) {
         updateTestStepState(TestStepState.CHECK_POSTCONDITIONS);
         assertPostconditions();
       }
-      // CHECKSTYLE:CHECK-OFF IllegalCatch // exception is wrapped
-    } catch (final Throwable t) {
-      // CHECKSTYLE:CHECK-ON IllegalCatch
-      throw new PostconditionViolation(t);
-    }
   }
 
   /**
