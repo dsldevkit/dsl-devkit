@@ -65,35 +65,5 @@
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.pmd</locationURI>
 		</link>
-		<link>
-			<name>.settings/edu.umd.cs.findbugs.plugin.eclipse.prefs</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.settings/edu.umd.cs.findbugs.plugin.eclipse.prefs</locationURI>
-		</link>
-		<link>
-			<name>.settings/org.eclipse.core.resources.prefs</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.settings/org.eclipse.core.resources.prefs</locationURI>
-		</link>
-		<link>
-			<name>.settings/org.eclipse.core.runtime.prefs</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.settings/org.eclipse.core.runtime.prefs</locationURI>
-		</link>
-		<link>
-			<name>.settings/org.eclipse.jdt.core.prefs</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.settings/org.eclipse.jdt.core.prefs</locationURI>
-		</link>
-		<link>
-			<name>.settings/org.eclipse.jdt.ui.prefs</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.settings/org.eclipse.jdt.ui.prefs</locationURI>
-		</link>
-		<link>
-			<name>.settings/org.eclipse.pde.core.prefs</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/ddk-configuration/.settings/org.eclipse.pde.core.prefs</locationURI>
-		</link>
 	</linkedResources>
 </projectDescription>
