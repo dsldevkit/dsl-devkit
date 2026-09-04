@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.Assert;
 import com.avaloq.tools.ddk.test.core.jupiter.MultipleTestProblems;
 import com.google.common.collect.Lists;
 
+import org.opentest4j.TestAbortedException;
+
 
 /**
  * Reusable class that represents a compound step.
@@ -139,12 +141,12 @@ public class CompoundStep extends AbstractStep {
       MultipleTestProblems caughtMultipleTestProblems = (MultipleTestProblems) throwable;
       for (Throwable problem : caughtMultipleTestProblems.getProblems()) {
         // discard all precondition violations and continue with the undo operations.
-        if (!(problem instanceof PreconditionViolation)) {
+        if (!(problem instanceof TestAbortedException)) {
           multipleTestProblems.addProblem(problem);
           logError(step, problem);
         }
       }
-    } else if (!(throwable instanceof PreconditionViolation)) {
+    } else if (!(throwable instanceof TestAbortedException)) {
       multipleTestProblems.addProblem(throwable);
       logError(step, throwable);
     }
