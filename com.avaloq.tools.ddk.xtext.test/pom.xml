@@ -47,7 +47,32 @@
             <extraRequirements>
               <requirement>
                 <type>eclipse-feature</type>
-                <id>org.eclipse.xtext.sdk</id>
+                <id>org.eclipse.xtext.runtime</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.xtext.ui</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-feature</type>
+                <id>org.eclipse.xtext.xbase</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.xtext.xtext.ui</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.xtext.testing</id>
+                <versionRange>0.0.0</versionRange>
+              </requirement>
+              <requirement>
+                <type>eclipse-plugin</type>
+                <id>org.eclipse.xtext.ui.testing</id>
                 <versionRange>0.0.0</versionRange>
               </requirement>
               <requirement>

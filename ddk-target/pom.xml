@@ -29,6 +29,11 @@
                   <type>target</type>
                   <classifier>ddk</classifier>
                 </artifact>
+                <artifact>
+                  <file>ddk-ci.target</file>
+                  <type>target</type>
+                  <classifier>ddk-ci</classifier>
+                </artifact>
               </artifacts>
             </configuration>
           </execution>
