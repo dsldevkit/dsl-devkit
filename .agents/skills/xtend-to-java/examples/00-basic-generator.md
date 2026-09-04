@@ -1,6 +1,6 @@
 # Example: basic generator conversion
 
-A small generator with `@Inject extension`, `override`, null-safe navigation, `typeof`, template expression with `«FOR»` and `«IF»`, and a `static extension` import. Touches rules 01, 02, 03, 04, 06, 08, and 09.
+A small generator with `@Inject extension`, `override`, null-safe navigation, `typeof`, template expression with `«FOR»` and `«IF»`, and a `static extension` import. Touches rules 01, 02, 03, 04, 06, 08, and 09. Assume the illustrative `BaseGenerator` declares `doGenerate(Resource)`.
 
 ## Xtend input
 
@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import static org.eclipse.xtext.xbase.lib.IteratorExtensions.*
 import static extension com.example.NamingExtensions.*
 
-class MyGenerator {
+class MyGenerator extends BaseGenerator {
   @Inject extension MyHelper helper
 
   override void doGenerate(Resource resource) {
@@ -50,7 +50,7 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
 @SuppressWarnings("nls")
-public class MyGenerator {
+public class MyGenerator extends BaseGenerator {
 
   @Inject private MyHelper helper;
 

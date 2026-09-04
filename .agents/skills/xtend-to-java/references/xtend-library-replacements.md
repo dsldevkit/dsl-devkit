@@ -9,7 +9,7 @@ Use Guava **only** where it is genuinely more concise (marked with ★).
 | `IterableExtensions.filter(iter, fn)` | `iter.stream().filter(fn).toList()` |
 | `IterableExtensions.filter(iter, Type.class)` | ★ `Iterables.filter(iter, Type.class)` (Guava — type-safe, no cast needed) |
 | `IterableExtensions.toList(iter)` | `StreamSupport.stream(iter.spliterator(), false).toList()` or loop |
-| `IterableExtensions.toSet(iter)` | `StreamSupport.stream(iter.spliterator(), false).collect(Collectors.toSet())` |
+| `IterableExtensions.toSet(iter)` | `StreamSupport.stream(iter.spliterator(), false).collect(Collectors.toCollection(LinkedHashSet::new))` — preserves first-encounter order; if aliasing matters, note that Xtend returns `iter` unchanged when it is already a `Set` |
 | `IterableExtensions.head(iter)` | ★ `Iterables.getFirst(iter, null)` (Guava — null-safe one-liner) |
 | `IterableExtensions.join(iter, sep)` | `String.join(sep, iter)` (if `Iterable<String>`) or `StreamSupport.stream(...).map(Object::toString).collect(Collectors.joining(sep))` |
 | `IterableExtensions.join(iter, sep, fn)` | `iter.stream().map(fn).collect(Collectors.joining(sep))` |
