@@ -13,10 +13,19 @@ package com.avaloq.tools.ddk.check.resource;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl;
 import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.xbase.resource.BatchLinkableResource;
 import org.eclipse.xtext.xbase.resource.BatchLinkableResourceStorageWritable;
@@ -98,6 +107,81 @@ public class CheckBatchLinkableResourceStorageWritable extends BatchLinkableReso
         buffOut.flush();
         zipOut.closeEntry();
       }
+    }
+  }
+
+  /**
+   * Writes a {@link CheckModelPruner pruned} copy of the resource's check catalog instead of the resource contents themselves, so that the persisted model only
+   * exposes the public API of the catalog and neither the implementation of its checks nor the inferred JVM model.
+   * <p>
+   * The serialization itself replicates the base class implementation: cross resource references are written as portable URIs and the
+   * {@link #beforeSaveEObject(InternalEObject, BinaryResourceImpl.EObjectOutputStream) before} and
+   * {@link #handleSaveEObject(InternalEObject, BinaryResourceImpl.EObjectOutputStream) after} hooks are invoked for every object so that the stream stays
+   * symmetric with the one expected by {@link CheckBatchLinkableResourceStorageLoadable}.
+   * </p>
+   */
+  @Override
+  protected void writeContents(final StorageAwareResource resource, final OutputStream outputStream) throws IOException {
+    Resource prunedResource = CheckModelPruner.createPrunedResource(resource);
+    if (prunedResource == null) {
+      super.writeContents(resource, outputStream);
+      return;
+    }
+    PrunedObjectOutputStream out = new PrunedObjectOutputStream(resource, outputStream, Collections.emptyMap());
+    try {
+      out.saveResource(prunedResource);
+    } finally {
+      out.flush();
+    }
+  }
+
+  /**
+   * Writes an empty associations adapter.
+   * <p>
+   * The associations map the source elements of the catalog to the elements of the inferred JVM model, neither of which is persisted anymore. The written data
+   * is identical to what the base class writes for a resource without any associations, so that the format of the binary model remains unchanged.
+   * </p>
+   */
+  @Override
+  protected void writeAssociationsAdapter(final BatchLinkableResource resource, final OutputStream zipOut) throws IOException {
+    try (ObjectOutputStream objOut = new ObjectOutputStream(zipOut) {
+      @Override
+      public void close() throws IOException {
+        flush();
+      }
+    }) {
+      objOut.writeObject(new LinkedHashMap<String, String>()); // logicalContainerMap
+      objOut.writeObject(new LinkedHashMap<String, Set<String>>()); // sourceToTargetMap
+      objOut.writeObject(new LinkedHashMap<String, Set<String>>()); // targetToSourceMap
+    }
+  }
+
+  /**
+   * An output stream writing the contents of a resource other than the one being persisted, while still resolving portable URIs and computing the additional
+   * per-object data relative to the resource being persisted.
+   */
+  private class PrunedObjectOutputStream extends BinaryResourceImpl.EObjectOutputStream {
+
+    private final StorageAwareResource sourceResource;
+
+    PrunedObjectOutputStream(final StorageAwareResource sourceResource, final OutputStream outputStream, final Map<?, ?> options) throws IOException {
+      super(outputStream, options);
+      this.sourceResource = sourceResource;
+    }
+
+    @Override
+    public void writeURI(final URI uri, final String fragment) throws IOException {
+      URI fullURI = uri.appendFragment(fragment);
+      URI portableURI = sourceResource.getPortableURIs().toPortableURI(sourceResource, fullURI);
+      URI uriToWrite = portableURI == null ? fullURI : portableURI;
+      super.writeURI(uriToWrite.trimFragment(), uriToWrite.fragment());
+    }
+
+    @Override
+    public void saveEObject(final InternalEObject internalEObject, final BinaryResourceImpl.EObjectOutputStream.Check check) throws IOException {
+      beforeSaveEObject(internalEObject, this);
+      super.saveEObject(internalEObject, check);
+      handleSaveEObject(internalEObject, this);
     }
   }
 }
