@@ -12,7 +12,6 @@
 package com.avaloq.tools.ddk.checkcfg.ide.contentassist;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.StringJoiner;
 
 import org.eclipse.emf.ecore.EObject;
@@ -304,23 +303,15 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
    *          the catalog
    * @return true, if is catalog configured
    */
-  @SuppressWarnings("PMD.UnusedReturnValue") // Preserve the existing exception-based existence check.
   private boolean isCatalogConfigured(final CheckConfiguration conf, final CheckCatalog catalog) {
-    try {
-      Iterables.find(conf.getLegacyCatalogConfigurations(), new Predicate<ConfiguredCatalog>() {
-        @Override
-        public boolean apply(final ConfiguredCatalog input) {
-          if (input.getCatalog() == null || input.getCatalog().getName() == null || input.getCatalog().getPackageName() == null) {
-            return false;
-          }
-          return catalog == input.getCatalog()
-              || (input.getCatalog().getName().equals(catalog.getName()) && input.getCatalog().getPackageName().equals(catalog.getPackageName()));
-        }
-      });
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-    return true;
+    return Iterables.any(conf.getLegacyCatalogConfigurations(), input -> {
+      CheckCatalog configured = input.getCatalog();
+      if (configured == null || configured.getName() == null || configured.getPackageName() == null) {
+        return false;
+      }
+      return catalog == configured
+          || (configured.getName().equals(catalog.getName()) && configured.getPackageName().equals(catalog.getPackageName()));
+    });
   }
 
   private void addEmptyCheckConfig(final ContentAssistContext context, final IIdeContentProposalAcceptor acceptor) {

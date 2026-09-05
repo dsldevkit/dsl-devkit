@@ -13,7 +13,6 @@ package com.avaloq.tools.ddk.check.ui.builder.util;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -138,7 +137,6 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
   }
 
   @Override
-  @SuppressWarnings("PMD.UnusedReturnValue") // Preserve the existing exception-based existence check.
   public boolean isExtensionUpdateRequired(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) {
     // TODO should check if this check is too expensive; consider rewriting contents instead
     if (!super.isExtensionUpdateRequired(catalog, extension, elements)) {
@@ -179,20 +177,8 @@ public class CheckMarkerHelpExtensionHelper extends AbstractCheckDocumentationEx
       final Iterable<String> allModelIssueCodes = getIssueCodeValues(check);
       for (final String issueCode : allModelIssueCodes) {
         final String contextId = getQualifiedContextId(extension, check);
-        if (contextToValue.containsKey(contextId)) {
-          Set<Pair<String, String>> modeToValues = contextToValue.get(contextId);
-          try {
-            Iterables.find(modeToValues, new Predicate<Pair<String, String>>() {
-              @Override
-              public boolean apply(final Pair<String, String> input) {
-                return input.getFirst().equals(getCheckType(check)) && input.getSecond().equals(issueCode);
-              }
-            });
-          } catch (NoSuchElementException e) {
-            return true;
-          }
-        } else {
-          return true; // context id not present in extension model
+        if (!contextToValue.containsEntry(contextId, Tuples.create(getCheckType(check), issueCode))) {
+          return true;
         }
       }
     }
