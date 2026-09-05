@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.xtext.format.ui
 Require-Bundle: com.avaloq.tools.ddk.xtext.format,
+ com.avaloq.tools.ddk.xtext,
  com.google.inject,
  com.avaloq.tools.ddk.xtext.test.core,
  org.mockito.mockito-core,

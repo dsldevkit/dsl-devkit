@@ -11,6 +11,7 @@
 
 package com.avaloq.tools.ddk.check.core.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -90,12 +91,18 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
       }
     }
     assertNotNull(type, "Should have an inferred Jvm model");
-    // Run the generator using an in-memory file system access
+    // Run the generator using an in-memory file system access; member injection wires the
+    // IFilePostProcessor so the LF ILineSeparatorInformation binding is actually exercised
     InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
+    getInjector().injectMembers(fsa);
     for (OutputConfiguration output : outputConfigurationProvider.getOutputConfigurations()) {
       fsa.getOutputConfigurations().put(output.getName(), output);
     }
     generator.doGenerate(res, fsa);
+    // Generated content must be line-ending-deterministic (LF) on every platform.
+    for (java.util.Map.Entry<String, CharSequence> file : fsa.getTextFiles().entrySet()) {
+      assertEquals(-1, file.getValue().toString().indexOf('\r'), "generated file must not contain CR: " + file.getKey());
+    }
     // We now should have a number of files.
     String baseName = root.getPackageName() + '.' + root.getName();
     String basePath = baseName.replace('.', '/');

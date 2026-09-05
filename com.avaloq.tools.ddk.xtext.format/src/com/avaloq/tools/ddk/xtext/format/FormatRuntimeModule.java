@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.format;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.linking.LinkingScopeProviderBinding;
@@ -34,6 +35,7 @@ import com.avaloq.tools.ddk.xtext.format.resource.FormatResource;
 import com.avaloq.tools.ddk.xtext.format.resource.FormatResourceDescriptionStrategy;
 import com.avaloq.tools.ddk.xtext.format.scoping.FormatLinkingService;
 import com.avaloq.tools.ddk.xtext.format.scoping.FormatScopeProvider;
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.google.inject.Binder;
 import com.google.inject.name.Names;
 
@@ -41,6 +43,16 @@ import com.google.inject.name.Names;
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
 
   @Override
   public Class<? extends XtextResource> bindXtextResource() {
