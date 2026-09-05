@@ -55,19 +55,14 @@ public final class ValidExtension {
    * @return the top-level elements of this extension point
    */
   public ValidElement[] getTopLevelElements() {
-    ValidElement[] topLevelElements = null;
-    if (topLevelElements == null) {
-      IConfigurationElement[] configurationElements = extension.getConfigurationElements();
-      List<ValidElement> elements = new ArrayList<ValidElement>();
-      for (IConfigurationElement ce : configurationElements) {
-        if (XML_TOP_ELEMENT_NAME.equals(ce.getName())) {
-          ValidElement e = new ValidElement(ce);
-          elements.add(e);
-        }
+    IConfigurationElement[] configurationElements = extension.getConfigurationElements();
+    List<ValidElement> elements = new ArrayList<ValidElement>();
+    for (IConfigurationElement ce : configurationElements) {
+      if (XML_TOP_ELEMENT_NAME.equals(ce.getName())) {
+        elements.add(new ValidElement(ce));
       }
-      topLevelElements = elements.toArray(new ValidElement[elements.size()]);
     }
-    return topLevelElements;
+    return elements.toArray(new ValidElement[elements.size()]);
   }
 
   /**

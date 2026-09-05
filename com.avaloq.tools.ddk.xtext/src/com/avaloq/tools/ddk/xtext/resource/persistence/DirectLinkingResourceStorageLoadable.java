@@ -87,7 +87,7 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
     }
 
     @SuppressWarnings("PMD.UnusedFormalParameter")
-    protected void handleLoadEObject(final InternalEObject loaded, final BinaryResourceImpl.EObjectInputStream input) throws IOException {
+    private void handleLoadEObject(final InternalEObject loaded, final BinaryResourceImpl.EObjectInputStream input) throws IOException {
       if (modificationTrackingAdapter != null) {
         loaded.eAdapters().add(modificationTrackingAdapter);
       }

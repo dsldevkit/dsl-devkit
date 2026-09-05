@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 /**
  * Utility methods for inferred JVM models.
  */
+@SuppressWarnings("PMD.InstantiableUtilityClass") // Preserve subclass compatibility for this exported API.
 public class InferredJvmModelUtil {
 
   /**

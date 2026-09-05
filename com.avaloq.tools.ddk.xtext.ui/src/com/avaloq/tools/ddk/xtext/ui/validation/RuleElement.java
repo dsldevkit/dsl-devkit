@@ -31,7 +31,7 @@ public final class RuleElement extends AbstractValidElementBase {
   private final String severity;
   private final String evaluationMode;
 
-  protected RuleElement(final IConfigurationElement ce) {
+  RuleElement(final IConfigurationElement ce) {
     super(ce);
     final String bOptional = getAttribute(ce, OPTIONAL, false);
     optional = bOptional == null ? null : Boolean.valueOf(bOptional);
