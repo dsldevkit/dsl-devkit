@@ -24,6 +24,7 @@ import org.eclipse.xtext.resource.XtextResource;
 /**
  * Utility methods for inferred models.
  */
+@SuppressWarnings("PMD.InstantiableUtilityClass") // Preserve subclass compatibility for this exported API.
 public class InferredModelUtil {
 
   protected InferredModelUtil() { // No public constructor for utility class

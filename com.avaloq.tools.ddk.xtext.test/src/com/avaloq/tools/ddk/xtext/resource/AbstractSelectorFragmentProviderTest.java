@@ -121,19 +121,19 @@ public class AbstractSelectorFragmentProviderTest {
       return super.appendFragmentSegment(object, builder);
     }
 
-    protected boolean appendFragmentSegment(final Grammar obj, final StringBuilder builder) {
+    private boolean appendFragmentSegment(final Grammar obj, final StringBuilder builder) {
       return computeSelectorFragmentSegment(obj, XtextPackage.Literals.GRAMMAR__NAME, true, builder);
     }
 
-    protected boolean appendFragmentSegment(final AbstractRule obj, final StringBuilder builder) {
+    private boolean appendFragmentSegment(final AbstractRule obj, final StringBuilder builder) {
       return computeSelectorFragmentSegment(obj, XtextPackage.Literals.ABSTRACT_RULE__NAME, false, builder);
     }
 
-    protected boolean appendFragmentSegment(final AbstractElement obj, final StringBuilder builder) {
+    private boolean appendFragmentSegment(final AbstractElement obj, final StringBuilder builder) {
       return computeSelectorFragmentSegment(obj, XtextPackage.Literals.ABSTRACT_ELEMENT__CARDINALITY, false, builder);
     }
 
-    protected boolean appendFragmentSegment(final Keyword obj, final StringBuilder builder) {
+    private boolean appendFragmentSegment(final Keyword obj, final StringBuilder builder) {
       return computeSelectorFragmentSegment(obj, XtextPackage.Literals.KEYWORD__VALUE, false, builder);
     }
 
