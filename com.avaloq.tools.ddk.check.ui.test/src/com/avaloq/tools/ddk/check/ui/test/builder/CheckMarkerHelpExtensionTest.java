@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.check.ui.test.builder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -71,6 +72,62 @@ public class CheckMarkerHelpExtensionTest {
 
   @Inject
   private IWorkspace workspace;
+
+  @Test
+  public void testMatchingMarkerHelpNeedsNoUpdate() throws Exception {
+    CheckCatalog catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    IPluginExtension extension = createMarkerHelpExtension(catalog);
+    IPluginElement element = (IPluginElement) extension.getChildren()[0];
+    catalog.getChecks().get(0).setKind(null);
+    assertFalse(markerUtil.isExtensionUpdateRequired(catalog, extension, List.of(element)), "Matching marker help and default kind need no update");
+  }
+
+  @Test
+  public void testMissingContextWithEqualIssueCountNeedsUpdate() throws Exception {
+    CheckCatalog catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    IPluginExtension extension = createMarkerHelpExtension(catalog);
+    IPluginElement element = (IPluginElement) extension.getChildren()[0];
+    element.setAttribute(CheckMarkerHelpExtensionHelper.CONTEXT_ID_ATTRIBUTE_TAG, "null.c_missing");
+    assertTrue(markerUtil.isExtensionUpdateRequired(catalog, extension, List.of(element)), "An equal-sized entry for another context must not match");
+  }
+
+  @Test
+  public void testWrongMarkerTypeNeedsUpdate() throws Exception {
+    CheckCatalog catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    IPluginExtension extension = createMarkerHelpExtension(catalog);
+    IPluginElement element = (IPluginElement) extension.getChildren()[0];
+    element.setAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG, MARKERTYPE_EXPENSIVE);
+    assertTrue(markerUtil.isExtensionUpdateRequired(catalog, extension, List.of(element)), "The issue code alone must not match a different marker type");
+  }
+
+  @Test
+  public void testWrongIssueCodeNeedsUpdate() throws Exception {
+    CheckCatalog catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    IPluginExtension extension = createMarkerHelpExtension(catalog);
+    IPluginElement element = (IPluginElement) extension.getChildren()[0];
+    IPluginElement attribute = (IPluginElement) element.getChildren()[0];
+    attribute.setAttribute(CheckMarkerHelpExtensionHelper.ATTRIBUTE_VALUE_TAG, "wrong.issue.code");
+    assertTrue(markerUtil.isExtensionUpdateRequired(catalog, extension, List.of(element)), "The marker type alone must not match a different issue code");
+  }
+
+  @Test
+  public void testNullMarkerTypeNeedsUpdate() throws Exception {
+    CheckCatalog catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    IPluginExtension extension = createMarkerHelpExtension(catalog);
+    IPluginElement element = (IPluginElement) extension.getChildren()[0];
+    element.getAttribute(CheckMarkerHelpExtensionHelper.MARKERTYPE_ATTRIBUTE_TAG).setValue(null);
+    assertTrue(markerUtil.isExtensionUpdateRequired(catalog, extension, List.of(element)), "A null marker type must be treated as a non-match");
+  }
+
+  @Test
+  public void testNullIssueCodeNeedsUpdate() throws Exception {
+    CheckCatalog catalog = parser.parse(CATALOG_WITH_FIRST_CHECK_LIVE);
+    IPluginExtension extension = createMarkerHelpExtension(catalog);
+    IPluginElement element = (IPluginElement) extension.getChildren()[0];
+    IPluginElement attribute = (IPluginElement) element.getChildren()[0];
+    attribute.getAttribute(CheckMarkerHelpExtensionHelper.ATTRIBUTE_VALUE_TAG).setValue(null);
+    assertTrue(markerUtil.isExtensionUpdateRequired(catalog, extension, List.of(element)), "A null issue code must be treated as a non-match");
+  }
 
   /**
    * Tests if the marker help extension is correctly created.

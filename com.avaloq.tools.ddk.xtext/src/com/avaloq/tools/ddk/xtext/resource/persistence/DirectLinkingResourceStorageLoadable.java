@@ -86,18 +86,11 @@ public class DirectLinkingResourceStorageLoadable extends ResourceStorageLoadabl
       return super.readCompressedInt();
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    private void handleLoadEObject(final InternalEObject loaded, final BinaryResourceImpl.EObjectInputStream input) throws IOException {
-      if (modificationTrackingAdapter != null) {
-        loaded.eAdapters().add(modificationTrackingAdapter);
-      }
-    }
-
     @Override
     public InternalEObject loadEObject() throws IOException {
       final InternalEObject result = super.loadEObject();
-      if (result != null) {
-        handleLoadEObject(result, this);
+      if (result != null && modificationTrackingAdapter != null) {
+        result.eAdapters().add(modificationTrackingAdapter);
       }
       return result;
     }
