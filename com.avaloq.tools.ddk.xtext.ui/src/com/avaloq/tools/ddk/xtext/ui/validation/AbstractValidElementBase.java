@@ -57,19 +57,15 @@ public abstract class AbstractValidElementBase {
    * @return the child elements of this element
    */
   public AbstractValidElementBase[] getChildElements() {
-    AbstractValidElementBase[] childElements = null;
-    if (childElements == null) {
-      IConfigurationElement[] ce = getConfigurationElement().getChildren();
-      List<AbstractValidElementBase> elements = new ArrayList<AbstractValidElementBase>();
-      for (IConfigurationElement element : ce) {
-        AbstractValidElementBase e = createChildElement(element);
-        if (e != null) {
-          elements.add(e);
-        }
+    IConfigurationElement[] ce = getConfigurationElement().getChildren();
+    List<AbstractValidElementBase> elements = new ArrayList<AbstractValidElementBase>();
+    for (IConfigurationElement element : ce) {
+      AbstractValidElementBase e = createChildElement(element);
+      if (e != null) {
+        elements.add(e);
       }
-      childElements = elements.toArray(new AbstractValidElementBase[elements.size()]);
     }
-    return childElements;
+    return elements.toArray(new AbstractValidElementBase[elements.size()]);
   }
 
   /**
