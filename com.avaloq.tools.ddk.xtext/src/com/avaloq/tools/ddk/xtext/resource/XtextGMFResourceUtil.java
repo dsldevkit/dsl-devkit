@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Utility class for combined Xtext-GMF resources.
  */
+@SuppressWarnings("PMD.InstantiableUtilityClass") // Preserve subclass compatibility for this exported API.
 public class XtextGMFResourceUtil {
 
   /** Class-wide logger. */

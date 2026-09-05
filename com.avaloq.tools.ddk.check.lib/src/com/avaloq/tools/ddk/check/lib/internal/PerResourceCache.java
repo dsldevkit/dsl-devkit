@@ -28,7 +28,7 @@ import com.google.inject.Singleton;
 @Singleton
 public final class PerResourceCache implements IResourceCache {
 
-  protected PerResourceCache() {
+  PerResourceCache() {
     // Prevent explicit instantiations. All classes from this library shall be injected in check catalogs.
   }
 

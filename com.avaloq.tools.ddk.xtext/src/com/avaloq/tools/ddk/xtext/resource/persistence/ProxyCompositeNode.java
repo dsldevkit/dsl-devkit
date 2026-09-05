@@ -109,6 +109,8 @@ public class ProxyCompositeNode implements ICompositeNode, BidiTreeIterable<INod
    *          resource, must not be {@code null}
    * @return original EObject ID map or {@code null} if no proxied node model was present
    */
+  // PMD 7.27+: null is a sentinel; caller fills a fresh map when no proxy was present
+  @SuppressWarnings("PMD.ReturnEmptyCollectionRatherThanNull")
   static List<EObject> uninstallProxyNodeModel(final Resource resource) {
     List<EObject> result = null;
     if (!resource.getContents().isEmpty()) {

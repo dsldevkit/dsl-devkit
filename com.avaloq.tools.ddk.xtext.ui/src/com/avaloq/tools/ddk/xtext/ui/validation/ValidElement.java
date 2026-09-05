@@ -25,7 +25,7 @@ public final class ValidElement extends AbstractValidElementBase {
 
   private final String language;
 
-  protected ValidElement(final IConfigurationElement ce) {
+  ValidElement(final IConfigurationElement ce) {
     super(ce);
     language = getAttribute(ce, LANGUAGE, false);
   }

@@ -344,7 +344,7 @@ public final class CoreSwtbotTools {
     Assert.isNotNull(bot, ARGUMENT_BOT);
     Assert.isNotNull(table, ARGUMENT_TABLE);
     waitForTableItem(bot, table);
-    List<SWTBotTableItem> items = null;
+    List<SWTBotTableItem> items = new ArrayList<SWTBotTableItem>();
     for (int i = 0; i < table.rowCount(); i++) {
       items = new ArrayList<SWTBotTableItem>(Arrays.asList(table.getTableItem(i)));
     }

@@ -41,7 +41,7 @@ public final class Index implements IIndex {
   @Inject
   private IQualifiedNameConverter nameConverter;
 
-  protected Index() {
+  Index() {
     // Prevent explicit instantiations. To be used via injection.
   }
 
@@ -78,9 +78,8 @@ public final class Index implements IIndex {
      *          to use
      * @param type
      *          to look for
-     * @return a query object
      */
-    protected Query(final IDomain.Mapper mapper, final IQualifiedNameConverter nameConverter, final EClass type) {
+    private Query(final IDomain.Mapper mapper, final IQualifiedNameConverter nameConverter, final EClass type) {
       this.realQuery = ContainerQuery.newBuilder(mapper, type);
       this.nameConverter = nameConverter;
     }
@@ -155,7 +154,7 @@ public final class Index implements IIndex {
      * @param internalDescription
      *          to wrap
      */
-    protected Entry(final EObject context, final IQualifiedNameConverter nameConverter, final IEObjectDescription internalDescription) {
+    private Entry(final EObject context, final IQualifiedNameConverter nameConverter, final IEObjectDescription internalDescription) {
       this.context = context;
       this.nameConverter = nameConverter;
       this.delegate = internalDescription;

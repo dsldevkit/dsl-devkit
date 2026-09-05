@@ -230,7 +230,7 @@ class CheckExtensionGenerator {
      * A {@code PluginElement} that can be loaded from an xml file.
      */
     @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
-    protected class CheckPluginElement extends PluginElement {
+    class CheckPluginElement extends PluginElement {
 
       private static final long serialVersionUID = 1L;
 

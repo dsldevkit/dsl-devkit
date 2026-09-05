@@ -27,7 +27,7 @@ public final class CategoryElement extends AbstractValidElementBase {
   private final String label;
   private final String description;
 
-  protected CategoryElement(final IConfigurationElement ce) {
+  CategoryElement(final IConfigurationElement ce) {
     super(ce);
     name = getAttribute(ce, NAME, false);
     label = getAttribute(ce, LABEL, false);

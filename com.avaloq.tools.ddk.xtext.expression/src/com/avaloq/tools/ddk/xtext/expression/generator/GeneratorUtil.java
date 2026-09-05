@@ -35,6 +35,7 @@ import com.google.common.collect.Sets;
  * These utility methods make of for shortcomings in the xtext generator framework and will hopefully find an adequate replacement
  * inside xtext.
  */
+@SuppressWarnings("PMD.InstantiableUtilityClass") // Preserve subclass compatibility for this exported API.
 public class GeneratorUtil {
 
   public static final String ISO_8859_1 = "ISO-8859-1"; //$NON-NLS-1$

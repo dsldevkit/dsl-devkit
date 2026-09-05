@@ -304,6 +304,7 @@ public class CheckCfgIdeContentProposalProvider extends XbaseIdeContentProposalP
    *          the catalog
    * @return true, if is catalog configured
    */
+  @SuppressWarnings("PMD.UnusedReturnValue") // Preserve the existing exception-based existence check.
   private boolean isCatalogConfigured(final CheckConfiguration conf, final CheckCatalog catalog) {
     try {
       Iterables.find(conf.getLegacyCatalogConfigurations(), new Predicate<ConfiguredCatalog>() {
