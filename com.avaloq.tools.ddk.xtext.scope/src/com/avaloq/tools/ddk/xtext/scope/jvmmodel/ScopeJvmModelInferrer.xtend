@@ -16,13 +16,15 @@ import com.avaloq.tools.ddk.xtext.expression.generator.JavaBodyAppender
 import com.avaloq.tools.ddk.xtext.scope.generator.ScopeNameProviderGenerator
 import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderGenerator
 import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderX
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel
 import com.avaloq.tools.ddk.xtext.scoping.AbstractPolymorphicScopeProvider
 import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider
 import com.avaloq.tools.ddk.xtext.scoping.INameFunction
 import com.google.inject.Inject
+import com.google.inject.Provider
 import com.google.inject.Singleton
-import java.util.Map
+import java.util.Set
 import org.apache.logging.log4j.Logger
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
@@ -35,6 +37,7 @@ import org.eclipse.xtext.common.types.JvmAnnotationType
 import org.eclipse.xtext.common.types.JvmGenericType
 import org.eclipse.xtext.common.types.JvmVisibility
 import org.eclipse.xtext.common.types.TypesFactory
+import org.eclipse.xtext.common.types.xtext.JvmMemberInitializableResource
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
@@ -57,8 +60,8 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
   @Inject extension ScopeProviderX
 
   @Inject TypesFactory typesFactory
-  @Inject ScopeProviderGenerator providerGenerator
-  @Inject ScopeNameProviderGenerator nameProviderGenerator
+  @Inject Provider<ScopeProviderGenerator> providerGenerators
+  @Inject Provider<ScopeNameProviderGenerator> nameProviderGenerators
   @Inject GenModelUtilX genModelUtil
   @Inject GeneratorSupport generatorSupport
   @Inject JavaBodyAppender bodyAppender
@@ -77,26 +80,12 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
     if (isPreIndexingPhase) {
       return
     }
-    genModelUtil.resource = element.eResource
-    providerGenerator.configure(nameProviderGenerator, genModelUtil, element)
-    nameProviderGenerator.configure(genModelUtil, element)
-
-    // The method body strings are produced eagerly here (inside the project resource loader required by the
-    // expression compiler) rather than from within the deferred body closures, which run later during emission.
-    val Map<String, String> bodies = newHashMap
-    generatorSupport.executeWithProjectResourceLoader(element.projectOf, [
-      bodies.put('doGetScopeRef', providerGenerator.doGetScopeByReferenceBody(element).toString)
-      bodies.put('doGetScopeType', providerGenerator.doGetScopeByTypeBody(element).toString)
-      bodies.put('doGlobalCacheRef', providerGenerator.doGlobalCacheByReferenceBody(element).toString)
-      bodies.put('doGlobalCacheType', providerGenerator.doGlobalCacheByTypeBody(element).toString)
-      for (scope : element.allScopes) {
-        bodies.put('scope:' + scope.scopeMethodName, providerGenerator.scopeMethodBody(scope, element).toString)
-      }
-      bodies.put('nameFunctions', nameProviderGenerator.internalGetNameFunctionsBody(element).toString)
-    ])
-
     val providerName = element.scopeProvider
     acceptor.accept(element.toClass(providerName)) [
+      ScopeJvmModelGenerator.markIncomplete(element.eResource)
+      if (!hasResolvedModel(element, newHashSet)) {
+        return
+      }
       superTypes += typeRef(AbstractPolymorphicScopeProvider)
       addSuppressWarningsAll
       documentation = '''The scope provider for «element.name».'''
@@ -118,8 +107,7 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
         parameters += element.toParameter('reference', typeRef(EReference))
         parameters += element.toParameter('scopeName', typeRef(String))
         parameters += element.toParameter('originalResource', typeRef(Resource))
-        val text = bodies.get('doGetScopeRef')
-        body = [appendJava(text, element)]
+        body = [appendJava(renderBody(element, [provider, names | provider.doGetScopeByReferenceBody(element)]), element)]
       ]
       members += element.toMethod('doGetScope', typeRef(IScope)) [
         visibility = JvmVisibility.PROTECTED
@@ -128,8 +116,7 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
         parameters += element.toParameter('type', typeRef(EClass))
         parameters += element.toParameter('scopeName', typeRef(String))
         parameters += element.toParameter('originalResource', typeRef(Resource))
-        val text = bodies.get('doGetScopeType')
-        body = [appendJava(text, element)]
+        body = [appendJava(renderBody(element, [provider, names | provider.doGetScopeByTypeBody(element)]), element)]
       ]
       members += element.toMethod('doGlobalCache', typeRef(Boolean.TYPE)) [
         visibility = JvmVisibility.PROTECTED
@@ -138,8 +125,7 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
         parameters += element.toParameter('reference', typeRef(EReference))
         parameters += element.toParameter('scopeName', typeRef(String))
         parameters += element.toParameter('originalResource', typeRef(Resource))
-        val text = bodies.get('doGlobalCacheRef')
-        body = [appendJava(text, element)]
+        body = [appendJava(renderBody(element, [provider, names | provider.doGlobalCacheByReferenceBody(element)]), element)]
       ]
       members += element.toMethod('doGlobalCache', typeRef(Boolean.TYPE)) [
         visibility = JvmVisibility.PROTECTED
@@ -148,11 +134,9 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
         parameters += element.toParameter('type', typeRef(EClass))
         parameters += element.toParameter('scopeName', typeRef(String))
         parameters += element.toParameter('originalResource', typeRef(Resource))
-        val text = bodies.get('doGlobalCacheType')
-        body = [appendJava(text, element)]
+        body = [appendJava(renderBody(element, [provider, names | provider.doGlobalCacheByTypeBody(element)]), element)]
       ]
       for (scope : element.allScopes) {
-        val text = bodies.get('scope:' + scope.scopeMethodName)
         val hasReference = scope.reference !== null
         members += element.toMethod(scope.scopeMethodName, typeRef(IScope)) [
           visibility = JvmVisibility.PROTECTED
@@ -163,9 +147,10 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
             parameters += element.toParameter('type', typeRef(EClass))
           }
           parameters += element.toParameter('originalResource', typeRef(Resource))
-          body = [appendJava(text, element)]
+          body = [appendJava(renderBody(element, [provider, names | provider.scopeMethodBody(scope, element)]), element)]
         ]
       }
+      ScopeJvmModelGenerator.clearIncomplete(element.eResource)
     ]
 
     val nameProviderName = element.scopeNameProvider
@@ -178,10 +163,53 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
         visibility = JvmVisibility.PUBLIC
         annotations += typeOnlyAnnotation(Override)
         parameters += element.toParameter('eClass', typeRef(EClass))
-        val text = bodies.get('nameFunctions')
-        body = [appendJava(text, element)]
+        body = [appendJava(renderBody(element, [provider, names | names.internalGetNameFunctionsBody(element)]), element)]
       ]
     ]
+    // Acceptor initializers alone run before infer returns to resource loading. Register after both roots
+    // have been accepted so Xtext marks both types for demand-driven member initialization.
+    val resource = element.eResource
+    if (resource instanceof JvmMemberInitializableResource) {
+      resource.addJvmMemberInitializer([])
+    }
+  }
+
+  /** Checks includes and signatures before inheritance merging can dereference an unavailable EPackage. */
+  def private boolean hasResolvedModel(ScopeModel model, Set<ScopeModel> visited) {
+    if (model === null || model.eIsProxy) {
+      return false
+    }
+    if (!visited.add(model)) {
+      return true
+    }
+    model.scopes.forall[hasResolvedSignature] && model.includedScopes.forall[hasResolvedModel(visited)]
+  }
+
+  /** Returns whether the existing method name can be computed without unresolved model types. */
+  def private boolean hasResolvedSignature(ScopeDefinition scope) {
+    val type = if (scope.targetType !== null) scope.targetType else scope.contextType
+    val reference = scope.reference
+    type !== null && !type.eIsProxy && type.EPackage !== null && !type.EPackage.eIsProxy && type.EPackage.name !== null &&
+      type.name !== null && (scope.targetType !== null || (reference !== null && !reference.eIsProxy && reference.name !== null))
+  }
+
+  /** Renders only during emission, with fresh model-specific generators and a restored resource context. */
+  def private String renderBody(ScopeModel model, (ScopeProviderGenerator, ScopeNameProviderGenerator)=>CharSequence producer) {
+    val previousContext = genModelUtil.context
+    val result = newArrayList('')
+    try {
+      generatorSupport.executeWithProjectResourceLoader(model.projectOf, [
+        genModelUtil.resource = model.eResource
+        val provider = providerGenerators.get
+        val names = nameProviderGenerators.get
+        provider.configure(names, genModelUtil, model)
+        names.configure(genModelUtil, model)
+        result.set(0, producer.apply(provider, names).toString)
+      ])
+      result.get(0)
+    } finally {
+      genModelUtil.resource = previousContext
+    }
   }
 
   /**

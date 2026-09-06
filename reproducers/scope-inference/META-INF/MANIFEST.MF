@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Public Scope lifecycle reproducer
+Bundle-SymbolicName: repro.scope.lifecycle
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: com.avaloq.tools.ddk.xtext.scope,
+ org.eclipse.xtext.xbase,
+ org.eclipse.xtext,
+ org.eclipse.xtext.common.types,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.eclipse.emf.codegen.ecore,
+ org.eclipse.emf.mwe.utils,
+ org.eclipse.emf.mwe2.launch,
+ com.google.inject,
+ junit-jupiter-api,
+ junit-jupiter-engine

@@ -29,6 +29,12 @@ import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionStrateg
 public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
 
   @Override
+  public Class<? extends org.eclipse.xtext.generator.IGenerator> bindIGenerator() {
+    return com.avaloq.tools.ddk.xtext.scope.jvmmodel.ScopeJvmModelGenerator.class;
+  }
+
+
+  @Override
   public Class<? extends IValueConverterService> bindIValueConverterService() {
     return ScopeValueConverterService.class;
   }
