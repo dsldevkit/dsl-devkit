@@ -11,14 +11,26 @@
 package com.avaloq.tools.ddk.xtext.expression;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 
 import com.avaloq.tools.ddk.xtext.expression.conversion.ExpressionValueConverterService;
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class ExpressionRuntimeModule extends AbstractExpressionRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
 
   @Override
   public Class<? extends IValueConverterService> bindIValueConverterService() {

@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.check;
 
 import org.eclipse.xtext.documentation.IEObjectDocumentationProvider;
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
@@ -40,6 +41,7 @@ import com.avaloq.tools.ddk.check.scoping.CheckScopeProvider;
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.check.typing.CheckExpressionHelper;
 import com.avaloq.tools.ddk.check.typing.CheckTypeComputer;
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.google.inject.name.Names;
 
 
@@ -48,6 +50,17 @@ import com.google.inject.name.Names;
  */
 @SuppressWarnings({"PMD.CouplingBetweenObjects", "restriction"})
 public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheckRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
+
   @Override
   public Class<? extends XtextResource> bindXtextResource() {
     return CheckBatchLinkableResource.class;
