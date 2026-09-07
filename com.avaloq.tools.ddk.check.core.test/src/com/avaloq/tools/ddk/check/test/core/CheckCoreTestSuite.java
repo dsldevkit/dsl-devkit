@@ -19,6 +19,8 @@ import com.avaloq.tools.ddk.check.core.test.BugAig1314;
 import com.avaloq.tools.ddk.check.core.test.BugAig830;
 import com.avaloq.tools.ddk.check.core.test.BugDsl27;
 import com.avaloq.tools.ddk.check.core.test.CheckScopingTest;
+import com.avaloq.tools.ddk.check.core.test.CheckResourceStorageTest;
+import com.avaloq.tools.ddk.check.core.test.CheckStubCompilerTest;
 import com.avaloq.tools.ddk.check.core.test.IssueCodeToLabelMapGenerationTest;
 import com.avaloq.tools.ddk.check.core.test.IssueExpressionGenerationTest;
 import com.avaloq.tools.ddk.check.core.test.ProjectBasedTests;
@@ -46,6 +48,8 @@ import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
   BugAig1314.class,
   BugDsl27.class,
   CheckApiAccessValidationsTest.class,
+  CheckResourceStorageTest.class,
+  CheckStubCompilerTest.class,
   CheckFormattingTest.class
   // @Format-On
 })
