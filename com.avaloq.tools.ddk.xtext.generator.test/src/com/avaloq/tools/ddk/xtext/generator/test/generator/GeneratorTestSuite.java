@@ -29,6 +29,7 @@ import com.avaloq.tools.ddk.xtext.generator.xbase.test.XbaseGeneratorFragmentTes
 // @Format-Off
   ExportExpressionCodeGenerationTest.class,
   LfPrintWriterTest.class,
+  LineEndingDeterminismTest.class,
   ExpressionsExtentionsTest.class,
   ScopeExpressionCodeGenerationTest.class,
   EClassComparatorTest.class,

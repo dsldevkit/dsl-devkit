@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext.test.format;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
+import com.avaloq.tools.ddk.xtext.format.FormatLineSeparatorBindingTest;
 import com.avaloq.tools.ddk.xtext.format.FormatParsingTest;
 import com.avaloq.tools.ddk.xtext.format.builder.FormatBuilderParticipantTest;
 import com.avaloq.tools.ddk.xtext.format.formatting.FormatFormattingTest;
@@ -25,7 +26,7 @@ import com.avaloq.tools.ddk.xtext.format.validation.FormatValidationTest;
  * Empty class serving only as holder for JUnit5 annotations.
  */
 @Suite
-@SelectClasses({FormatParsingTest.class, FormatFormattingTest.class, FormatValidationTest.class, FormatScopingTest.class, FormatBuilderParticipantTest.class, FormatJvmModelInferrerTest.class})
+@SelectClasses({FormatParsingTest.class, FormatLineSeparatorBindingTest.class, FormatFormattingTest.class, FormatValidationTest.class, FormatScopingTest.class, FormatBuilderParticipantTest.class, FormatJvmModelInferrerTest.class})
 public class FormatTestSuite {
 
 }

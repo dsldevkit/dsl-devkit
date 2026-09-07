@@ -15,11 +15,9 @@ import java.util.Properties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractFileSystemAccess;
 import org.eclipse.xtext.generator.IFileSystemAccess;
-import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 
-import com.avaloq.tools.ddk.check.generator.LfNormalizingFileSystemAccess;
 import com.avaloq.tools.ddk.check.runtime.configuration.ICheckConfigurationStoreService;
 import com.avaloq.tools.ddk.checkcfg.checkcfg.CheckConfiguration;
 import com.google.common.collect.Iterables;
@@ -56,9 +54,8 @@ public class CheckCfgGenerator implements IGenerator {
     if (fsa instanceof AbstractFileSystemAccess abstractFsa) {
       abstractFsa.setOutputPath(outputPath());
     }
-    final LfNormalizingFileSystemAccess lfFsa = new LfNormalizingFileSystemAccess((IFileSystemAccess2) fsa);
     for (final CheckConfiguration configuration : Iterables.filter(IteratorExtensions.toIterable(resource.getAllContents()), CheckConfiguration.class)) {
-      lfFsa.generateFile(fileName(configuration), compile(configuration));
+      fsa.generateFile(fileName(configuration), compile(configuration));
     }
   }
 

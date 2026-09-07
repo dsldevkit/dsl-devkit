@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.checkcfg;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.generator.IGenerator;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
@@ -26,6 +27,7 @@ import com.avaloq.tools.ddk.checkcfg.naming.CheckCfgDeclarativeQualifiedNameProv
 import com.avaloq.tools.ddk.checkcfg.resource.CheckCfgLocationInFileProvider;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgBatchLinkingService;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgScopeProvider;
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.google.inject.name.Names;
 
 
@@ -33,6 +35,16 @@ import com.google.inject.name.Names;
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.AbstractCheckCfgRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
 
   /**
    * Custom location in file provider used for revealing and highlighting a model element in the editor.

@@ -21,7 +21,6 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.common.types.JvmField;
 import org.eclipse.xtext.generator.AbstractFileSystemAccess;
 import org.eclipse.xtext.generator.IFileSystemAccess;
-import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.OutputConfiguration;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfig;
 import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
@@ -59,8 +58,7 @@ public class CheckGenerator extends JvmModelGenerator {
 
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
-    final LfNormalizingFileSystemAccess lfFsa = new LfNormalizingFileSystemAccess((IFileSystemAccess2) fsa);
-    super.doGenerate(resource, lfFsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
+    super.doGenerate(resource, fsa); // Generate validator, catalog, and preference initializer from inferred Jvm models.
     URI uri = null;
     if (resource != null) {
       uri = resource.getURI();
@@ -68,18 +66,18 @@ public class CheckGenerator extends JvmModelGenerator {
     final CheckGeneratorConfig config = generatorConfigProvider.get(uri);
     final Iterable<CheckCatalog> catalogs = Iterables.filter(IteratorExtensions.toIterable(resource.getAllContents()), CheckCatalog.class);
     for (final CheckCatalog catalog : catalogs) {
-      lfFsa.generateFile(checkGeneratorNaming.issueCodesFilePath(catalog), compileIssueCodes(catalog));
-      lfFsa.generateFile(checkGeneratorNaming.standaloneSetupPath(catalog), compileStandaloneSetup(catalog));
+      fsa.generateFile(checkGeneratorNaming.issueCodesFilePath(catalog), compileIssueCodes(catalog));
+      fsa.generateFile(checkGeneratorNaming.standaloneSetupPath(catalog), compileStandaloneSetup(catalog));
 
       // change output path for service registry
-      lfFsa.generateFile(
+      fsa.generateFile(
         CheckUtil.serviceRegistryClassName(),
         CheckGeneratorConstants.CHECK_REGISTRY_OUTPUT,
         generateServiceRegistry(catalog, CheckUtil.serviceRegistryClassName(), fsa));
       // generate documentation for SCA-checks only
       if (config != null && (config.doGenerateDocumentationForAllChecks() || !config.isGenerateLanguageInternalChecks())) {
         // change output path for html files to docs/
-        lfFsa.generateFile(checkGeneratorNaming.docFileName(catalog), CheckGeneratorConstants.CHECK_DOC_OUTPUT, compileDoc(catalog));
+        fsa.generateFile(checkGeneratorNaming.docFileName(catalog), CheckGeneratorConstants.CHECK_DOC_OUTPUT, compileDoc(catalog));
       }
     }
   }

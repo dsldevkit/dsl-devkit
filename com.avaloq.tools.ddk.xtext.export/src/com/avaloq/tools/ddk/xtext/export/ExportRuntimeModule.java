@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.export;
 
+import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
@@ -18,12 +19,23 @@ import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportJvmModelGenerator;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
+import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.AbstractExportRuntimeModule {
+
+  /**
+   * Binds the generated-file line separator to LF so code generation is deterministic
+   * across platforms; headless builds otherwise fall back to the platform separator.
+   *
+   * @return the LF {@link ILineSeparatorInformation} implementation, never {@code null}
+   */
+  public Class<? extends ILineSeparatorInformation> bindILineSeparatorInformation() {
+    return LfLineSeparatorInformation.class;
+  }
 
   @Override
   public Class<? extends org.eclipse.xtext.conversion.IValueConverterService> bindIValueConverterService() {

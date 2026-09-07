@@ -9,6 +9,7 @@ Bundle-ActivationPolicy: lazy
 Fragment-Host: com.avaloq.tools.ddk.xtext.generator
 Require-Bundle: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.xtext.export,
+ com.avaloq.tools.ddk.xtext,
  com.avaloq.tools.ddk.xtext.expression,
  com.avaloq.tools.ddk.xtext.scope,
  com.avaloq.tools.ddk.xtext.test.core,
