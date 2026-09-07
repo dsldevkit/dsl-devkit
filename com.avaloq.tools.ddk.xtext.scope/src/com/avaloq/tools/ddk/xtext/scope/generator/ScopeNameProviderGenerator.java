@@ -43,8 +43,6 @@ import com.google.inject.Inject;
 @SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
 public class ScopeNameProviderGenerator {
 
-  // CPD-OFF — migrated Xtend generator code, kept faithful; de-dup is a migration follow-up (#1339)
-
   @Inject
   private GeneratorUtilX generatorUtilX;
 
@@ -79,63 +77,64 @@ public class ScopeNameProviderGenerator {
    * Produces the body of the {@code internalGetNameFunctions(EClass)} method. Extracted so the Xbase based
    * {@code ScopeJvmModelInferrer} can attach it directly as a method body.
    *
-   * @param it
+   * @param model
    *          the scope model, must not be {@code null}
    * @return the method body, never {@code null}
    */
-  public CharSequence internalGetNameFunctionsBody(final ScopeModel it) {
+  public CharSequence internalGetNameFunctionsBody(final ScopeModel model) {
     final StringConcatenation builder = new StringConcatenation();
-    if (it.getNaming() != null) {
+    if (model.getNaming() != null) {
       final Set<EPackage> packages = new LinkedHashSet<>();
-      for (final NamingDefinition naming : it.getNaming().getNamings()) {
-        packages.add(naming.getType().getEPackage());
+      for (final NamingDefinition definition : model.getNaming().getNamings()) {
+        packages.add(definition.getType().getEPackage());
       }
-      for (final EPackage p : packages) {
-        builder.append("if (");
-        builder.append(genModelUtil.qualifiedPackageInterfaceName(p));
-        builder.append(".eINSTANCE == eClass.getEPackage()) {");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("switch (eClass.getClassifierID()) {");
-        builder.newLine();
-        builder.newLine();
-        for (final NamingDefinition n : it.getNaming().getNamings()) {
-          if (!Objects.equals(n.getType().getEPackage(), p)) {
-            continue;
-          }
-          builder.append("  ");
-          builder.append("case ");
-          builder.append(genModelUtil.classifierIdLiteral(n.getType()), "  ");
-          builder.append(":");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append("  ");
-          builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(n)), "    ");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append("  ");
-          builder.append("return ");
-          builder.append(nameFunctions(n.getNaming(), it), "    ");
-          builder.append(";");
-          builder.newLineIfNotEmpty();
-        }
-        builder.newLine();
-        builder.append("  ");
-        builder.append("default:");
-        builder.newLine();
-        builder.append("    ");
-        builder.append("return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-        builder.newLine();
-        builder.append("}");
-        builder.newLine();
+      for (final EPackage ePackage : packages) {
+        appendPackageSwitch(builder, ePackage, model);
       }
     }
     builder.append("return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;");
     builder.newLine();
     return builder;
+  }
+
+  /** Emits naming cases for one package, retaining definition order. */
+  private void appendPackageSwitch(final StringConcatenation builder, final EPackage ePackage, final ScopeModel model) {
+    builder.append("if (");
+    builder.append(genModelUtil.qualifiedPackageInterfaceName(ePackage));
+    builder.append(".eINSTANCE == eClass.getEPackage()) {");
+    builder.newLineIfNotEmpty();
+    builder.append("""
+          switch (eClass.getClassifierID()) {
+
+        """);
+    for (final NamingDefinition definition : model.getNaming().getNamings()) {
+      if (!Objects.equals(definition.getType().getEPackage(), ePackage)) {
+        continue;
+      }
+      appendNamingCase(builder, definition, model);
+    }
+    builder.newLine();
+    builder.append("""
+          default:
+            return !eClass.getESuperTypes().isEmpty() ? getNameFunctions(eClass.getESuperTypes().get(0)) : null;
+          }
+        }
+        """);
+  }
+
+  /** Emits a classifier case, including indentation of multiline comments and name functions. */
+  private void appendNamingCase(final StringConcatenation builder, final NamingDefinition definition, final ScopeModel model) {
+    builder.append("  case ");
+    builder.append(genModelUtil.classifierIdLiteral(definition.getType()), "  ");
+    builder.append(":");
+    builder.newLineIfNotEmpty();
+    builder.append("    ");
+    builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(definition)), "    ");
+    builder.newLineIfNotEmpty();
+    builder.append("    return ");
+    builder.append(nameFunctions(definition.getNaming(), model), "    ");
+    builder.append(";");
+    builder.newLineIfNotEmpty();
   }
 
   public CharSequence nameFunctions(final Naming it, final ScopeModel model) {
@@ -189,8 +188,7 @@ public class ScopeNameProviderGenerator {
     return "com.avaloq.tools.ddk.xtext.scoping.NameFunctions.fromConstant(String.valueOf(" + it.getVal() + "))";
   }
 
-  protected String _nameFunction(final FeatureCall it, final ScopeModel model, final String contextName,
-      final EClass contextType) {
+  protected String _nameFunction(final FeatureCall it, final ScopeModel model, final String contextName, final EClass contextType) {
     final StringConcatenation builder = new StringConcatenation();
     final ScopeTranslationContext currentContext = newContext(it, contextName, contextType);
     builder.newLineIfNotEmpty();
@@ -200,23 +198,7 @@ public class ScopeNameProviderGenerator {
       builder.append(")");
     } else if (compiler.isSimpleNavigation(it, currentContext)) {
       builder.newLineIfNotEmpty();
-      builder.append("object -> {");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("final ");
-      builder.append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it)), "    ");
-      builder.append(" obj = (");
-      builder.append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it)), "    ");
-      builder.append(") object;");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("return toQualifiedName(");
-      builder.append(compiler.javaExpression(it, currentContext), "    ");
-      builder.append(");");
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append("}");
-      builder.newLine();
+      appendNameFunctionLambda(builder, it, currentContext);
     } else {
       builder.append("EXPRESSION_NOT_SUPPORTED(\"");
       builder.append(ExpressionExtensions.serialize(it));
@@ -225,29 +207,12 @@ public class ScopeNameProviderGenerator {
     return builder.toString();
   }
 
-  protected String _nameFunction(final OperationCall it, final ScopeModel model, final String contextName,
-      final EClass contextType) {
+  protected String _nameFunction(final OperationCall it, final ScopeModel model, final String contextName, final EClass contextType) {
     final StringConcatenation builder = new StringConcatenation();
     final ScopeTranslationContext currentContext = newContext(it, contextName, contextType);
     builder.newLineIfNotEmpty();
     if (compiler.isCompilable(it, currentContext)) {
-      builder.append("object -> {");
-      builder.newLine();
-      builder.append("    ");
-      builder.append("final ");
-      builder.append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it)), "    ");
-      builder.append(" obj = (");
-      builder.append(genModelUtil.instanceClassName(scopeProviderX.scopeType(it)), "    ");
-      builder.append(") object;");
-      builder.newLineIfNotEmpty();
-      builder.append("    ");
-      builder.append("return toQualifiedName(");
-      builder.append(compiler.javaExpression(it, currentContext), "    ");
-      builder.append(");");
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append("}");
-      builder.newLine();
+      appendNameFunctionLambda(builder, it, currentContext);
       builder.append("    ");
     } else {
       builder.append("EXPRESSION_NOT_SUPPORTED(\"");
@@ -255,6 +220,24 @@ public class ScopeNameProviderGenerator {
       builder.append("\")");
     }
     return builder.toString();
+  }
+
+  /** Emits a typed receiver lambda that converts the expression result to a qualified name. */
+  private void appendNameFunctionLambda(final StringConcatenation builder, final Expression expression, final ScopeTranslationContext context) {
+    builder.append("object -> {");
+    builder.newLine();
+    builder.append("    final ");
+    builder.append(genModelUtil.instanceClassName(scopeProviderX.scopeType(expression)), "    ");
+    builder.append(" obj = (");
+    builder.append(genModelUtil.instanceClassName(scopeProviderX.scopeType(expression)), "    ");
+    builder.append(") object;");
+    builder.newLineIfNotEmpty();
+    builder.append("    return toQualifiedName(");
+    builder.append(compiler.javaExpression(expression, context), "    ");
+    builder.append(");");
+    builder.newLineIfNotEmpty();
+    builder.append("  }");
+    builder.newLine();
   }
   // CHECKSTYLE:CONSTANTS-ON
 

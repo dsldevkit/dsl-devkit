@@ -18,9 +18,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -57,8 +59,6 @@ import com.google.inject.Inject;
 
 @SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
 public class ScopeProviderGenerator {
-
-  // CPD-OFF — migrated Xtend generator code, kept faithful; de-dup is a migration follow-up (#1339)
 
   @Inject
   private GeneratorUtilX generatorUtilX;
@@ -98,74 +98,36 @@ public class ScopeProviderGenerator {
    * Produces the body of the {@code doGetScope(EObject, EReference, String, Resource)} method. Extracted so the
    * Xbase based {@code ScopeJvmModelInferrer} can attach it directly as a method body.
    *
-   * @param it
+   * @param model
    *          the scope model, must not be {@code null}
    * @return the method body, never {@code null}
    */
-  public CharSequence doGetScopeByReferenceBody(final ScopeModel it) {
-    final StringConcatenation builder = new StringConcatenation();
-    final List<ScopeDefinition> scopes = scopesWithReference(it, true);
-    if (!scopes.isEmpty()) {
-      builder.append("if (scopeName == null) {");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("return null;");
-      builder.newLine();
-      builder.append("}");
-      builder.newLine();
-      builder.newLine();
-      builder.append("switch (scopeName) {");
-      builder.newLine();
-      for (final String name : scopeNames(scopes)) {
-        builder.append("case \"");
-        builder.append(name);
-        builder.append("\":");
-        builder.newLineIfNotEmpty();
-        for (final ScopeDefinition scope : namedScopes(scopes, name)) {
-          builder.append("  ");
-          builder.append("if (reference == ");
-          builder.append(genModelUtil.literalIdentifier(scope.getReference()), "  ");
-          builder.append(") return ");
-          builder.append(scopeProviderX.scopeMethodName(scope), "  ");
-          builder.append("(context, reference, originalResource);");
-          builder.newLineIfNotEmpty();
-        }
-        builder.append("  ");
-        builder.append("break;");
-        builder.newLine();
-      }
-      builder.append("  ");
-      builder.append("default: break;");
-      builder.newLine();
-      builder.append("}");
-      builder.newLine();
-    }
-    builder.append("return null;");
-    builder.newLine();
-    return builder;
+  public CharSequence doGetScopeByReferenceBody(final ScopeModel model) {
+    return renderScopeDispatch(scopesWithReference(model, true), "reference", ScopeDefinition::getReference);
   }
 
   /**
    * Produces the body of the {@code doGetScope(EObject, EClass, String, Resource)} method.
    *
-   * @param it
+   * @param model
    *          the scope model, must not be {@code null}
    * @return the method body, never {@code null}
    */
-  public CharSequence doGetScopeByTypeBody(final ScopeModel it) {
+  public CharSequence doGetScopeByTypeBody(final ScopeModel model) {
+    return renderScopeDispatch(scopesWithReference(model, false), "type", ScopeDefinition::getTargetType);
+  }
+
+  /** Emits the name switch while retaining the reference/type distinction at each case. */
+  private CharSequence renderScopeDispatch(final List<ScopeDefinition> scopes, final String argumentName, final Function<ScopeDefinition, ENamedElement> target) {
     final StringConcatenation builder = new StringConcatenation();
-    final List<ScopeDefinition> scopes = scopesWithReference(it, false);
     if (!scopes.isEmpty()) {
-      builder.append("if (scopeName == null) {");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("return null;");
-      builder.newLine();
-      builder.append("}");
-      builder.newLine();
-      builder.newLine();
-      builder.append("switch (scopeName) {");
-      builder.newLine();
+      builder.append("""
+          if (scopeName == null) {
+            return null;
+          }
+
+          switch (scopeName) {
+          """);
       for (final String name : scopeNames(scopes)) {
         builder.append("case \"");
         builder.append(name);
@@ -173,22 +135,20 @@ public class ScopeProviderGenerator {
         builder.newLineIfNotEmpty();
         for (final ScopeDefinition scope : namedScopes(scopes, name)) {
           builder.append("  ");
-          builder.append("if (type == ");
-          builder.append(genModelUtil.literalIdentifier(scope.getTargetType()), "  ");
+          builder.append("if (" + argumentName + " == ");
+          builder.append(genModelUtil.literalIdentifier(target.apply(scope)), "  ");
           builder.append(") return ");
           builder.append(scopeProviderX.scopeMethodName(scope), "  ");
-          builder.append("(context, type, originalResource);");
+          builder.append("(context, " + argumentName + ", originalResource);");
           builder.newLineIfNotEmpty();
         }
-        builder.append("  ");
-        builder.append("break;");
+        builder.append("  break;");
         builder.newLine();
       }
-      builder.append("  ");
-      builder.append("default: break;");
-      builder.newLine();
-      builder.append("}");
-      builder.newLine();
+      builder.append("""
+            default: break;
+          }
+          """);
     }
     builder.append("return null;");
     builder.newLine();
@@ -198,76 +158,35 @@ public class ScopeProviderGenerator {
   /**
    * Produces the body of the {@code doGlobalCache(EObject, EReference, String, Resource)} method.
    *
-   * @param it
+   * @param model
    *          the scope model, must not be {@code null}
    * @return the method body, never {@code null}
    */
-  public CharSequence doGlobalCacheByReferenceBody(final ScopeModel it) {
-    final StringConcatenation builder = new StringConcatenation();
-    final List<ScopeDefinition> scopes = scopesWithReference(it, true);
-    final List<ScopeDefinition> globalScopes = scopes.stream().filter(s -> !globalRules(s).isEmpty()).toList();
-    if (!globalScopes.isEmpty()) {
-      builder.append("if (scopeName != null && context.eContainer() == null) {");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("switch (scopeName) {");
-      builder.newLine();
-      builder.append("  ");
-      for (final String name : scopeNames(globalScopes)) {
-        builder.append("case \"");
-        builder.append(name, "  ");
-        builder.append("\":");
-        builder.newLineIfNotEmpty();
-        for (final ScopeDefinition scope : namedScopes(scopes, name)) {
-          builder.append("  ");
-          builder.append("  ");
-          final List<ScopeRule> globalRules = globalRules(scope);
-          builder.newLineIfNotEmpty();
-          if (!globalRules.isEmpty()) {
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("if (reference == ");
-            builder.append(genModelUtil.literalIdentifier(scope.getReference()), "    ");
-            builder.append(") return true;");
-            builder.newLineIfNotEmpty();
-          }
-        }
-        builder.append("  ");
-        builder.append("  ");
-        builder.append("break;");
-        builder.newLine();
-      }
-      builder.append("    ");
-      builder.append("default: break;");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("}");
-      builder.newLine();
-      builder.append("}");
-      builder.newLine();
-    }
-    builder.append("return false;");
-    builder.newLine();
-    return builder;
+  public CharSequence doGlobalCacheByReferenceBody(final ScopeModel model) {
+    return renderGlobalCache(scopesWithReference(model, true), "reference", ScopeDefinition::getReference, "scopeName != null && context.eContainer() == null");
   }
 
   /**
    * Produces the body of the {@code doGlobalCache(EObject, EClass, String, Resource)} method.
    *
-   * @param it
+   * @param model
    *          the scope model, must not be {@code null}
    * @return the method body, never {@code null}
    */
-  public CharSequence doGlobalCacheByTypeBody(final ScopeModel it) {
+  public CharSequence doGlobalCacheByTypeBody(final ScopeModel model) {
+    return renderGlobalCache(scopesWithReference(model, false), "type", ScopeDefinition::getTargetType, "context.eContainer() == null");
+  }
+
+  /** Emits cache eligibility using the entry condition and target of the selected variant. */
+  private CharSequence renderGlobalCache(final List<ScopeDefinition> scopes, final String argumentName, final Function<ScopeDefinition, ENamedElement> target, final String entryCondition) {
     final StringConcatenation builder = new StringConcatenation();
-    final List<ScopeDefinition> scopes = scopesWithReference(it, false);
     final List<ScopeDefinition> globalScopes = scopes.stream().filter(s -> !globalRules(s).isEmpty()).toList();
     if (!globalScopes.isEmpty()) {
-      builder.append("if (context.eContainer() == null) {");
+      builder.append("if (" + entryCondition + ") {");
       builder.newLine();
-      builder.append("  ");
-      builder.append("switch (scopeName) {");
-      builder.newLine();
+      builder.append("""
+            switch (scopeName) {
+          """);
       builder.append("  ");
       for (final String name : scopeNames(globalScopes)) {
         builder.append("case \"");
@@ -275,32 +194,23 @@ public class ScopeProviderGenerator {
         builder.append("\":");
         builder.newLineIfNotEmpty();
         for (final ScopeDefinition scope : namedScopes(scopes, name)) {
-          builder.append("  ");
-          builder.append("  ");
           final List<ScopeRule> globalRules = globalRules(scope);
-          builder.newLineIfNotEmpty();
           if (!globalRules.isEmpty()) {
-            builder.append("  ");
-            builder.append("  ");
-            builder.append("if (type == ");
-            builder.append(genModelUtil.literalIdentifier(scope.getTargetType()), "    ");
+            builder.append("    ");
+            builder.append("if (" + argumentName + " == ");
+            builder.append(genModelUtil.literalIdentifier(target.apply(scope)), "    ");
             builder.append(") return true;");
             builder.newLineIfNotEmpty();
           }
         }
-        builder.append("  ");
-        builder.append("  ");
-        builder.append("break;");
+        builder.append("    break;");
         builder.newLine();
       }
-      builder.append("    ");
-      builder.append("default: break;");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("}");
-      builder.newLine();
-      builder.append("}");
-      builder.newLine();
+      builder.append("""
+              default: break;
+            }
+          }
+          """);
     }
     builder.append("return false;");
     builder.newLine();
@@ -313,102 +223,108 @@ public class ScopeProviderGenerator {
    *
    * @param scope
    *          the scope definition the method is generated for, must not be {@code null}
-   * @param it
+   * @param model
    *          the scope model, must not be {@code null}
    * @return the method body, never {@code null}
    * @throws RuntimeException
    *           if the scope definition declares more than one global rule
    */
-  public CharSequence scopeMethodBody(final ScopeDefinition scope, final ScopeModel it) {
+  public CharSequence scopeMethodBody(final ScopeDefinition scope, final ScopeModel model) {
     final StringConcatenation builder = new StringConcatenation();
-    final List<ScopeRule> localRules = scopeProviderX.allScopeRules(scope).stream().filter(r -> !r.getContext().isGlobal()).toList();
-    builder.newLineIfNotEmpty();
+    final List<ScopeRule> localRules = scopeProviderX.allScopeRules(scope).stream().filter(rule -> !rule.getContext().isGlobal()).toList();
     final List<ScopeRule> globalRules = globalRules(scope);
-    builder.newLineIfNotEmpty();
     if (globalRules.size() > 1) {
       throw new RuntimeException("only one global rule allowed"); // NOPMD the raw type is the contract the generated scope providers were built against
     }
-    builder.newLineIfNotEmpty();
-    for (final ScopeRule r : scopeProviderX.sortedRules(scopeProviderX.filterUniqueRules(localRules))) {
-      final EClass ruleContextType = r.getContext().getContextType();
-      builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(r)));
-      builder.newLineIfNotEmpty();
-      builder.append("if (");
-      if (EClassComparator.isEObjectType(ruleContextType)) {
-        builder.append("true");
-      } else {
-        builder.append("context instanceof ");
-        builder.append(genModelUtil.instanceClassName(ruleContextType));
-      }
-      builder.append(") {");
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      builder.append("final ");
-      builder.append(genModelUtil.instanceClassName(ruleContextType), "  ");
-      builder.append(" ctx = (");
-      builder.append(genModelUtil.instanceClassName(ruleContextType), "  ");
-      builder.append(") context;");
-      builder.newLineIfNotEmpty();
-      builder.append(" ");
-      final List<ScopeRule> rulesForTypeAndContext = localRules.stream().filter(r2 -> scopeProviderX.hasSameContext(r2, r)).toList();
-      builder.newLineIfNotEmpty();
-      builder.append("  ");
-      final String typeOrRef = scopeProviderX.contextRef(r) != null ? "ref" : "type";
-      builder.append(scopeRuleBlock(rulesForTypeAndContext, it, typeOrRef, ruleContextType, r.getContext().isGlobal()), "  ");
-      builder.newLineIfNotEmpty();
-      builder.append("}");
-      builder.newLine();
+    for (final ScopeRule rule : scopeProviderX.sortedRules(scopeProviderX.filterUniqueRules(localRules))) {
+      appendLocalScopeRule(builder, rule, localRules, model);
     }
     if (!localRules.isEmpty() || !globalRules.isEmpty()) {
-      builder.newLine();
-      builder.append("final EObject eContainer = context.eContainer();");
-      builder.newLine();
-      builder.append("if (eContainer != null) {");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("return internalGetScope(");
-      if (!localRules.isEmpty()) {
-        builder.append("eContainer");
-      } else {
-        builder.append("getRootObject(eContainer)");
-      }
-      builder.append(", ");
-      if (scope.getReference() != null) {
-        builder.append("ref");
-      } else {
-        builder.append("type");
-      }
-      builder.append(", \"");
-      builder.append(scopeProviderX.getScopeName(scope), "  ");
-      builder.append("\", originalResource);");
-      builder.newLineIfNotEmpty();
-      builder.append("}");
-      builder.newLine();
-      builder.newLine();
+      appendContainerFallback(builder, scope, !localRules.isEmpty());
     }
     if (!globalRules.isEmpty()) {
-      final ScopeRule r = globalRules.get(0);
-      builder.newLineIfNotEmpty();
-      final List<ScopeRule> rulesForTypeAndContext = List.of(r);
-      builder.newLineIfNotEmpty();
-      builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(r)));
-      builder.newLineIfNotEmpty();
-      builder.append("if (context.eResource() != null) {");
-      builder.newLine();
-      builder.append("  ");
-      builder.append("final Resource ctx = context.eResource();");
-      builder.newLine();
-      builder.append("  ");
-      final String typeOrRef = scopeProviderX.contextRef(r) != null ? "ref" : "type";
-      builder.append(scopeRuleBlock(rulesForTypeAndContext, it, typeOrRef, r.getContext().getContextType(), r.getContext().isGlobal()), "  ");
-      builder.newLineIfNotEmpty();
-      builder.append("}");
-      builder.newLine();
-      builder.newLine();
+      appendGlobalScopeRule(builder, globalRules.get(0), model);
     }
     builder.append("return null;");
     builder.newLine();
     return builder;
+  }
+
+  /** Emits the matching local rules for one context type. */
+  private void appendLocalScopeRule(final StringConcatenation builder, final ScopeRule rule, final List<ScopeRule> localRules, final ScopeModel model) {
+    final EClass ruleContextType = rule.getContext().getContextType();
+    builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(rule)));
+    builder.newLineIfNotEmpty();
+    builder.append("if (");
+    if (EClassComparator.isEObjectType(ruleContextType)) {
+      builder.append("true");
+    } else {
+      builder.append("context instanceof ");
+      builder.append(genModelUtil.instanceClassName(ruleContextType));
+    }
+    builder.append(") {");
+    builder.newLineIfNotEmpty();
+    builder.append("  final ");
+    builder.append(genModelUtil.instanceClassName(ruleContextType), "  ");
+    builder.append(" ctx = (");
+    builder.append(genModelUtil.instanceClassName(ruleContextType), "  ");
+    builder.append(") context;");
+    builder.newLineIfNotEmpty();
+    final List<ScopeRule> rulesForTypeAndContext = localRules.stream().filter(candidate -> scopeProviderX.hasSameContext(candidate, rule)).toList();
+    builder.append("  ");
+    final String typeOrRef = scopeProviderX.contextRef(rule) != null ? "ref" : "type";
+    builder.append(scopeRuleBlock(rulesForTypeAndContext, model, typeOrRef, ruleContextType, rule.getContext().isGlobal()), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("}");
+    builder.newLine();
+  }
+
+  /** Emits the enclosing-object lookup before attempting a global rule. */
+  private void appendContainerFallback(final StringConcatenation builder, final ScopeDefinition scope, final boolean hasLocalRules) {
+    builder.newLine();
+    builder.append("""
+        final EObject eContainer = context.eContainer();
+        if (eContainer != null) {
+        """);
+    builder.append("  return internalGetScope(");
+    if (hasLocalRules) {
+      builder.append("eContainer");
+    } else {
+      builder.append("getRootObject(eContainer)");
+    }
+    builder.append(", ");
+    if (scope.getReference() != null) {
+      builder.append("ref");
+    } else {
+      builder.append("type");
+    }
+    builder.append(", \"");
+    builder.append(scopeProviderX.getScopeName(scope), "  ");
+    builder.append("\", originalResource);");
+    builder.newLineIfNotEmpty();
+    builder.append("""
+        }
+
+        """);
+  }
+
+  /** Emits the global rule in the resource context. */
+  private void appendGlobalScopeRule(final StringConcatenation builder, final ScopeRule rule, final ScopeModel model) {
+    final List<ScopeRule> rulesForTypeAndContext = List.of(rule);
+    builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(rule)));
+    builder.newLineIfNotEmpty();
+    builder.append("""
+        if (context.eResource() != null) {
+          final Resource ctx = context.eResource();
+        """);
+    builder.append("  ");
+    final String typeOrRef = scopeProviderX.contextRef(rule) != null ? "ref" : "type";
+    builder.append(scopeRuleBlock(rulesForTypeAndContext, model, typeOrRef, rule.getContext().getContextType(), rule.getContext().isGlobal()), "  ");
+    builder.newLineIfNotEmpty();
+    builder.append("""
+        }
+
+        """);
   }
 
   /**
@@ -447,82 +363,85 @@ public class ScopeProviderGenerator {
     return compiler.javaExpression(expr, translator.newCompilationContext("ctx", contextType, List.of(), expr));
   }
 
-  public CharSequence scopeRuleBlock(final List<ScopeRule> it, final ScopeModel model, final String typeOrRef, final EClass contextType,
-      final Boolean isGlobal) {
+  public CharSequence scopeRuleBlock(final List<ScopeRule> rules, final ScopeModel model, final String typeOrRef, final EClass contextType, final Boolean isGlobal) {
     final StringConcatenation builder = new StringConcatenation();
-    builder.append("IScope scope = IScope.NULLSCOPE;");
-    builder.newLine();
-    builder.append("try {");
-    builder.newLine();
-    if (it.stream().anyMatch(r -> r.getContext().getGuard() != null)) {
+    builder.append("""
+        IScope scope = IScope.NULLSCOPE;
+        try {
+        """);
+    if (rules.stream().anyMatch(rule -> rule.getContext().getGuard() != null)) {
+      appendGuardedScopeRules(builder, rules, model, typeOrRef, isGlobal);
+    } else if (rules.size() == 1) {
       builder.append("  ");
-      final List<ScopeRule> sorted = new ArrayList<>(it);
-      sorted.sort(Comparator.comparingInt((ScopeRule r) -> r.getContext().getGuard() == null ? it.size() : it.indexOf(r)));
-      boolean hasElements = false;
-      for (final ScopeRule r : sorted) {
-        if (hasElements) {
-          builder.appendImmediate(" else ", "  ");
-        } else {
-          hasElements = true;
-        }
-        if (r.getContext().getGuard() != null) {
-          builder.append("if (");
-          builder.append(guardExpression(r), "  ");
-          builder.append(") ");
-        }
-        builder.append("{");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("  ");
-        if (it.size() > 1) {
-          builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(r)), "    ");
-          builder.newLineIfNotEmpty();
-          builder.append("  ");
-          builder.append("  ");
-        }
-        for (final ScopeExpression e : reversed(r.getExprs())) {
-          builder.append(scopeExpression(e, model, typeOrRef, scopeProviderX.getScope(r), isGlobal), "    ");
-        }
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("}");
-      }
-      if (it.stream().noneMatch(r -> r.getContext().getGuard() == null)) {
-        builder.append(" else {");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("  ");
-        builder.append("throw new UnsupportedOperationException(); // continue matching other definitions");
-        builder.newLine();
-        builder.append("  ");
-        builder.append("}");
-      }
-      builder.newLineIfNotEmpty();
-    } else if (it.size() == 1) {
-      builder.append("  ");
-      for (final ScopeExpression e : reversed(it.get(0).getExprs())) {
-        builder.append(scopeExpression(e, model, typeOrRef, scopeProviderX.getScope(it.get(0)), isGlobal), "  ");
+      for (final ScopeExpression expression : reversed(rules.get(0).getExprs())) {
+        builder.append(scopeExpression(expression, model, typeOrRef, scopeProviderX.getScope(rules.get(0)), isGlobal), "  ");
       }
       builder.newLineIfNotEmpty();
     } else {
       builder.append("  ");
-      error("scope context not unique for definitions: " + it.stream().map(generatorUtilX::location).collect(Collectors.joining(", ")));
+      error("scope context not unique for definitions: " + rules.stream().map(generatorUtilX::location).collect(Collectors.joining(", ")));
       builder.newLineIfNotEmpty();
     }
+    appendScopeFailureHandler(builder, rules, contextType, isGlobal);
+    return builder;
+  }
+
+  /** Emits guarded rules in declaration order, with the unguarded fallback last. */
+  private void appendGuardedScopeRules(final StringConcatenation builder, final List<ScopeRule> rules, final ScopeModel model, final String typeOrRef, final Boolean isGlobal) {
+    builder.append("  ");
+    final List<ScopeRule> sorted = new ArrayList<>(rules);
+    sorted.sort(Comparator.comparingInt((ScopeRule rule) -> rule.getContext().getGuard() == null ? rules.size() : rules.indexOf(rule)));
+    boolean hasElements = false;
+    for (final ScopeRule rule : sorted) {
+      if (hasElements) {
+        // Keep the preceding closing-brace segment separate from trailing whitespace.
+        builder.appendImmediate(" else ", "  ");
+      } else {
+        hasElements = true;
+      }
+      if (rule.getContext().getGuard() != null) {
+        builder.append("if (");
+        builder.append(guardExpression(rule), "  ");
+        builder.append(") ");
+      }
+      builder.append("{");
+      builder.newLineIfNotEmpty();
+      builder.append("    ");
+      if (rules.size() > 1) {
+        builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(rule)), "    ");
+        builder.newLineIfNotEmpty();
+        builder.append("    ");
+      }
+      for (final ScopeExpression expression : reversed(rule.getExprs())) {
+        builder.append(scopeExpression(expression, model, typeOrRef, scopeProviderX.getScope(rule), isGlobal), "    ");
+      }
+      builder.newLineIfNotEmpty();
+      builder.append("  }");
+    }
+    if (rules.stream().noneMatch(rule -> rule.getContext().getGuard() == null)) {
+      builder.append(" else {");
+      builder.newLineIfNotEmpty();
+      builder.append("    throw new UnsupportedOperationException(); // continue matching other definitions");
+      builder.newLine();
+      builder.append("  }");
+    }
+    builder.newLineIfNotEmpty();
+  }
+
+  /** Emits the diagnostic handler and final scope return. */
+  private void appendScopeFailureHandler(final StringConcatenation builder, final List<ScopeRule> rules, final EClass contextType, final Boolean isGlobal) {
     builder.append("} catch (Exception e) {");
     builder.newLine();
-    builder.append("  ");
-    builder.append("LOGGER.error(\"Error calculating scope for ");
+    builder.append("  LOGGER.error(\"Error calculating scope for ");
     builder.append(isGlobal ? "Resource. Context:" : contextType.getName(), "  ");
     builder.append(" \" + com.avaloq.tools.ddk.xtext.util.EObjectUtil.getLocationString(context) + \" (");
-    builder.append(scopeProviderX.locatorString(it.get(0)), "  ");
+    builder.append(scopeProviderX.locatorString(rules.get(0)), "  ");
     builder.append(")\", e);");
     builder.newLineIfNotEmpty();
-    builder.append("}");
-    builder.newLine();
-    builder.append("return scope;");
-    builder.newLine();
-    return builder;
+    builder.append("""
+        }
+        return scope;
+        """);
   }
 
   protected CharSequence _scopeExpression(final ScopeExpression it, final ScopeModel model, final String typeOrRef, final ScopeDefinition scope,
