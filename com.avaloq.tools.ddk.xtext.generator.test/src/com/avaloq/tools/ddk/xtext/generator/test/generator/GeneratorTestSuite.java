@@ -28,6 +28,7 @@ import com.avaloq.tools.ddk.xtext.generator.xbase.test.XbaseGeneratorFragmentTes
 @SelectClasses({
 // @Format-Off
   ExportExpressionCodeGenerationTest.class,
+  LfPrintWriterTest.class,
   ExpressionsExtentionsTest.class,
   ScopeExpressionCodeGenerationTest.class,
   EClassComparatorTest.class,
