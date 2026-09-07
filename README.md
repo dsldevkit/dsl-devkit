@@ -81,7 +81,6 @@ You can find more detailed documentation and examples at [ddk.tools.avaloq.com](
 | com.avaloq.tools.ddk.xtext.checkcfg.\* | Check Configuration DSL                                    |
 | com.avaloq.tools.ddk.xtext.scope.\*    | Scope DSL                                                  |
 | com.avaloq.tools.ddk.xtext.export.\*   | Export DSL                                                 |
-| com.avaloq.tools.ddk.xtext.valid.\*    | obsolete and is replaced by Check DSL                      |
 | com.avaloq.tools.ddk.typesystem        | Basics for building a typesystem for a DSL                 |
 | com.avaloq.tools.ddk.test.\*           | Support for writing tests for DSLs                         |
 | com.avaloq.tools.ddk.xtextspy.\*       | View to support debugging a DSL                            |

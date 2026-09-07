@@ -10,9 +10,6 @@
 /com.avaloq.tools.ddk.check.*/**                       @dsldevkit/sca
 /com.avaloq.tools.ddk.checkcfg.*/**                    @dsldevkit/sca
 
-# Valid DSL (obsolete SCA)
-/com.avaloq.tools.ddk.xtext.valid*/**                  @dsldevkit/sca
-
 # Generating workflow
 /com.avaloq.tools.ddk.workflow/**                      @dsldevkit/codeowners
 
