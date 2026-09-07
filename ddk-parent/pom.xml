@@ -273,6 +273,8 @@
               <goal>compare-version-with-baselines</goal>
             </goals>
             <configuration>
+              <!-- Compare archive contents: ZIP timestamps and compression can differ on a rebuild. -->
+              <comparator>zip</comparator>
               <baselines>
                 <url>${baseline.repo.url}</url>
               </baselines>
