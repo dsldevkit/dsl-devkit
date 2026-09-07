@@ -153,12 +153,6 @@
           pattern="com.avaloq.tools.ddk.xtext.scope\..*"/>
     </workingSet>
     <workingSet
-        name="Valid DSL">
-      <predicate
-          xsi:type="predicates:NamePredicate"
-          pattern="com.avaloq.tools.ddk.xtext.valid\..*"/>
-    </workingSet>
-    <workingSet
         name="Expression DSL">
       <predicate
           xsi:type="predicates:NamePredicate"
