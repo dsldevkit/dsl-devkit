@@ -18,7 +18,6 @@ Workflow {
     component = @ Scope {}
     component = @ Check {}
     component = @ CheckCfg {}
-    component = @ Valid {}
     component = @ TypeModel {}
     component = @ ModelInference {}
 }
