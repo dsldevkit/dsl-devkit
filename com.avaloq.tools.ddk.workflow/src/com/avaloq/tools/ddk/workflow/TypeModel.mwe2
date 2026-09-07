@@ -31,10 +31,12 @@ Workflow {
   component = EcoreGenerator auto-inject {
     genModel = "platform:/resource/${projectName}/model/TypeModel.genmodel"
     generateEdit=true
+    lineDelimiter = "\n"
   }
 
   component = EcoreGenerator auto-inject {
     genModel = "platform:/resource/${projectName}/model/BuiltInTypeModel.genmodel"
     generateEdit=false
+    lineDelimiter = "\n"
   }
 }
