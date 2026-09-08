@@ -10,7 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.format.resource;
 
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.xtext.AbstractRule;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.Grammar;
@@ -35,25 +40,57 @@ import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
  * (not its name) would not trigger a cascade propagation of this change from the base format specification (.format file) to all dependent (child) format
  * specifications. Therefore, besides a standard export, all the objects are exported under their fingerprints. Therefore when the content (text, value) of the
  * object changes this would cause a proper invalidations of the dependent formats.
+ * <p>
+ * Invariant: the fingerprint of a {@link FormatConfiguration} is a function of the resource URI and source text of the configuration and of its resolved
+ * ancestors, and of nothing else. Object identity does not participate, so reloading unchanged sources yields identical exports, while any change to an
+ * inherited source (including comments and line endings, which move generated source locations) propagates to every dependent configuration. Renaming or
+ * moving an inherited source propagates as well, because the generated code records inherited source locations by file name.
  */
 @SuppressWarnings("nls")
 public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptionStrategy {
 
+  /** Initial profile capacity; whole source texts of the inheritance chain are appended. */
+  private static final int PROFILE_CAPACITY = 8192;
+
   /**
-   * A fingerprint computer that computes the hash using the content (text) and the parent container of the given {@link EObject}.
+   * A fingerprint computer that computes the hash using the source text of the given {@link EObject}; a {@link FormatConfiguration} is hashed together with
+   * the source text of its whole inheritance chain.
    */
   private final IFingerprintComputer fingerprintComputer = new AbstractFingerprintComputer() {
 
     @Override
     protected ExportItem fingerprint(final EObject obj) {
-      final StringBuilder profile = new StringBuilder();
-      if (obj != null) {
-        if (obj.eContainer() != null) {
-          addProfile(profile, obj.eContainer().toString());
-        }
+      final StringBuilder profile = new StringBuilder(PROFILE_CAPACITY);
+      if (obj instanceof FormatConfiguration configuration) {
+        addInheritanceChain(profile, configuration);
+      } else if (obj != null) {
         addProfile(profile, NodeModelUtils.getTokenText(NodeModelUtils.getNode(obj)));
       }
       return new ExportItem(profile);
+    }
+
+    /**
+     * Adds the resource URI and root node text of the given configuration and of each resolved ancestor; a proxy ancestor contributes its proxy URI and ends
+     * the chain.
+     *
+     * @param profile
+     *          the string builder building the fingerprint
+     * @param configuration
+     *          the configuration whose inheritance chain is walked
+     */
+    private void addInheritanceChain(final StringBuilder profile, final FormatConfiguration configuration) {
+      final Set<FormatConfiguration> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+      FormatConfiguration current = configuration;
+      while (current != null && visited.add(current)) {
+        if (current.eIsProxy()) {
+          addProfile(profile, ((InternalEObject) current).eProxyURI().toString());
+          return;
+        }
+        addProfile(profile, current.eResource() == null ? "" : current.eResource().getURI().toString());
+        final INode node = NodeModelUtils.getNode(current);
+        addProfile(profile, node == null ? "" : node.getRootNode().getText());
+        current = current.getExtendedFormatConfiguration();
+      }
     }
   };
 
@@ -65,13 +102,8 @@ public class FormatResourceDescriptionStrategy extends DefaultResourceDescriptio
     }
 
     boolean indexObject = false;
-    String objectFingerprint = null;
-    if (fingerprintComputer != null && eObject.eContainer() instanceof FormatConfiguration && NodeModelUtils.getNode(eObject) != null) {
-      objectFingerprint = fingerprintComputer.computeFingerprint(eObject);
-    }
-
-    if (objectFingerprint != null && !"".equals(objectFingerprint) && eObject.eContainer() instanceof FormatConfiguration) {
-      acceptor.accept(EObjectDescription.create(objectFingerprint, eObject));
+    if (eObject instanceof FormatConfiguration || (eObject.eContainer() instanceof FormatConfiguration && NodeModelUtils.getNode(eObject) != null)) {
+      acceptor.accept(EObjectDescription.create(fingerprintComputer.computeFingerprint(eObject), eObject));
       indexObject = true;
     }
     boolean indexDefault = createDescriptionsForNonXbaseFormalParameters(eObject, acceptor);
