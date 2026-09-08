@@ -94,7 +94,6 @@ public interface IXtextTargetPlatform {
    * Besides resource descriptions a platform may contain issues. For symmetry reasons,
    * these are managed through an {@link IIssueStore}, just as resource descriptions are
    * managed through an {@link IResourceDescriptionsData}.
-   * If a platform does not manage issues, it shall return {@code null}.
    *
    * @return the platform's issue store, or {@code null} if none.
    */
