@@ -11,14 +11,19 @@
 package com.avaloq.tools.ddk.xtext.layered;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.xtext.validation.Issue;
 
 import com.avaloq.tools.ddk.xtext.build.IBinaryModelStore;
 import com.avaloq.tools.ddk.xtext.resource.IDerivedObjectAssociationsStore;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptionsData;
 import com.avaloq.tools.ddk.xtext.resource.extensions.NullResourceDescriptionsData;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 
 
 /**
@@ -43,7 +48,21 @@ public class NullXtextTargetPlatform implements IXtextTargetPlatform {
 
   @Override
   public IIssueStore getIssueStore() {
-    return null;
+    return new IIssueStore() {
+      @Override
+      public Multimap<URI, Issue> getIssues() {
+        return ImmutableMultimap.of();
+      }
+
+      @Override
+      public Iterable<Issue> getIssues(final URI uri) {
+        return List.of();
+      }
+
+      @Override
+      public void storeIssues(final URI forUri, final Iterable<Issue> issues) {
+      }
+    };
   }
 
   @Override
@@ -58,7 +77,7 @@ public class NullXtextTargetPlatform implements IXtextTargetPlatform {
 
   @Override
   public Map<String, String> getMetadata(final Collection<String> keys, final IProgressMonitor monitor) {
-    return null; // NOPMD ReturnEmptyCollectionRatherThanNull
+    return Map.of();
   }
 
   @Override
