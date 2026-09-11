@@ -10,7 +10,7 @@ Convert the field, then rewrite every call site:
 
 - Field: `@Inject extension MyHelper helper` → `@Inject private MyHelper helper;`
 - Call site: `obj.extensionMethod(args)` → `helper.extensionMethod(obj, args)` (the implicit receiver `obj` moves to the first parameter).
-- If the extension field had no name (`@Inject extension CheckGeneratorNaming`), invent one following the convention: camelCase class name starting lowercase (`checkGeneratorNaming`).
+- If the extension field had no name (`@Inject extension MyGeneratorNaming`), invent one following the convention: camelCase class name starting lowercase (`myGeneratorNaming`).
 
 Tip: The `xtend-gen/` output shows exactly how the Xtend compiler resolved every extension call — use it as the reference.
 
