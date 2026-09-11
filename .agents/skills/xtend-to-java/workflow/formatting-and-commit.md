@@ -95,6 +95,19 @@ Known trade-offs (accepted):
 Do not split the translate step per file — every intermediate commit before the last file
 would be broken anyway, so per-file translate commits only multiply the broken range.
 
+## Tycho baseline bump
+
+When a migrated bundle's version still equals the latest release baseline, the Tycho baseline
+comparison fails: the bundle's content changed but its version did not. Add a **separate `build:`
+commit** bumping:
+
+- `Bundle-Version` in the bundle's `META-INF/MANIFEST.MF`, and `<version>` in the module `pom.xml`;
+- the containing features (`feature.xml` **and** their `pom.xml`) and the `ddk-repository/category.xml`
+  pins — **only if those also equal the baseline**; leave anything already ahead of it alone.
+
+The **sources** artifact is compared too, so even an annotation-only or comment-only change to a
+`.java` counts as a content change and needs the bump.
+
 ## Commit message format
 
 ```
