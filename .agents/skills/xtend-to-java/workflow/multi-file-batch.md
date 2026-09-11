@@ -34,9 +34,13 @@ Batch files within the **same module** together where possible — they share Ma
 
 After every batch:
 
-1. **Compile gate**: `mvn -pl :<module> -am -DskipTests compile -f ./ddk-parent/pom.xml` — must pass.
+1. **Compile gate**: `mvn -pl :ddk-target,:<module> -am -DskipTests compile -f ./ddk-parent/pom.xml` — must pass.
 2. **Test gate**: `mvn verify -f ./ddk-parent/pom.xml --batch-mode --fail-at-end` — must pass.
 3. **Static analysis gate**: `mvn checkstyle:check pmd:check spotbugs:check -f ./ddk-parent/pom.xml` — must pass.
+
+`:ddk-target` must be in every `-pl` list — the target artifact is not in `~/.m2`. Before the first
+compile after the rename commit, `rm -rf <module>/xtend-gen/com`: the stale generated twin masks
+duplicate-class errors. Compare `xtend-gen/` trees with `diff -r -x '.*'` to skip `._trace` sidecars.
 
 A red gate means you do not start the next batch. Diagnose first.
 
