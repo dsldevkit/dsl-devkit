@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.builder;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.xtext.builder.BuilderParticipant;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -21,6 +23,29 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 public class ConditionalBuilderParticipant extends BuilderParticipant {
 
   private static final String GENERATION_FILE_SRC_DIRECTORY = "src"; //$NON-NLS-1$
+
+  @Override
+  public void build(final IBuildContext context, final IProgressMonitor monitor) throws CoreException {
+    if (!isBuilderParticipantEnabled() && context.getBuildType() != BuildType.CLEAN) {
+      return;
+    }
+    super.build(context, monitor);
+  }
+
+  /**
+   * Determines whether DDK builder participants should regenerate their artifacts on workspace builds. Disabled workspace-wide for all DDK languages at once by
+   * the master switch on the languages' Compiler preference pages (see {@link BuilderParticipantSettings}); enabled by default.
+   * <p>
+   * Note that the switch governs every {@code ConditionalBuilderParticipant} descendant that delegates to {@code super.build(...)} — including participants of
+   * downstream languages built on this class. Subclasses overriding {@link #build(IBuildContext, IProgressMonitor)} without delegating to {@code super} must
+   * check this method themselves to be covered by the switch. Explicit {@code CLEAN} builds are exempt from the gate: while the switch disables regeneration, a
+   * Project &gt; Clean still deletes the generated artifacts (which then stay deleted until the switch is re-enabled).
+   *
+   * @return {@code true} if generation should run, {@code false} if the DDK-wide master switch disables it
+   */
+  protected boolean isBuilderParticipantEnabled() {
+    return !BuilderParticipantSettings.isGenerationDisabled();
+  }
 
   /**
    * Checks whether {@link BuilderParticipant} should run for a given {@link Delta} and it has no errors.

@@ -12,11 +12,13 @@ package com.avaloq.tools.ddk.xtext.format.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
+import org.eclipse.xtext.builder.preferences.BuilderConfigurationBlock;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.xtext.generator.model.project.IXtextProjectConfig;
 import org.eclipse.xtext.xtext.generator.model.project.XtextProjectConfig;
 
+import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderConfigurationBlock;
 import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.format.ui.hyperlinking.FormatHyperlinkHelper;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
@@ -25,6 +27,7 @@ import com.google.inject.Binder;
 /**
  * Use this class to register components to be used within the Eclipse IDE.
  */
+@SuppressWarnings("restriction")
 public class FormatUiModule extends AbstractFormatUiModule {
 
   public FormatUiModule(final AbstractUIPlugin plugin) {
@@ -53,6 +56,17 @@ public class FormatUiModule extends AbstractFormatUiModule {
   @Override
   public Class<? extends IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
     return FormatBuilderParticipant.class;
+  }
+
+  /**
+   * Binds the Format-specific builder configuration block, which contributes the "disable the builder participant on workspace build" checkbox to the Compiler
+   * page.
+   *
+   * @return the Format builder configuration block
+   */
+  @Override
+  public Class<? extends BuilderConfigurationBlock> bindBuilderConfigurationBlock() {
+    return FormatBuilderConfigurationBlock.class;
   }
 
   @Override

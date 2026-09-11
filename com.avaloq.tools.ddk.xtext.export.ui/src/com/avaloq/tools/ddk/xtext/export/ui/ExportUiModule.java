@@ -11,9 +11,13 @@
 package com.avaloq.tools.ddk.xtext.export.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.builder.IXtextBuilderParticipant;
+import org.eclipse.xtext.builder.preferences.BuilderConfigurationBlock;
 import org.eclipse.xtext.ui.editor.outline.impl.OutlineFilterAndSorter.IComparator;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 
+import com.avaloq.tools.ddk.xtext.export.ui.builder.ExportBuilderConfigurationBlock;
+import com.avaloq.tools.ddk.xtext.export.ui.builder.ExportBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.export.ui.outline.ExportOutlineNodeComparator;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
@@ -21,6 +25,7 @@ import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplat
 /**
  * Use this class to register components to be used within the IDE.
  */
+@SuppressWarnings("restriction")
 public class ExportUiModule extends com.avaloq.tools.ddk.xtext.export.ui.AbstractExportUiModule {
   public ExportUiModule(final AbstractUIPlugin plugin) {
     super(plugin);
@@ -40,5 +45,24 @@ public class ExportUiModule extends com.avaloq.tools.ddk.xtext.export.ui.Abstrac
   public Class<? extends IComparator> bindOutlineFilterAndSorter$IComparator() { // NOPMD
     // CHECKSTYLE:ON
     return ExportOutlineNodeComparator.class;
+  }
+
+  /**
+   * Binds the Export builder participant, which honors the per-language preference allowing regeneration to be disabled on a workspace build.
+   *
+   * @return the {@link ExportBuilderParticipant} class
+   */
+  @Override
+  public Class<? extends IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
+    return ExportBuilderParticipant.class;
+  }
+
+  /**
+   * Binds the Export builder configuration block, which contributes the "disable the builder participant on workspace build" checkbox to the Compiler page.
+   *
+   * @return the {@link ExportBuilderConfigurationBlock} class
+   */
+  public Class<? extends BuilderConfigurationBlock> bindBuilderConfigurationBlock() {
+    return ExportBuilderConfigurationBlock.class;
   }
 }
