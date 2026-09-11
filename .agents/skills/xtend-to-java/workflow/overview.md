@@ -181,6 +181,14 @@ See [`workflow/validation-checklist.md`](./validation-checklist.md) — every ru
 
 ## Step 5 — Build and verify
 
+**Always pass `-pl :ddk-target,:<module>`.** The target-platform artifact is not in `~/.m2`, so a gate
+command that lists only the migrated module fails to resolve it.
+
+**Delete `<module>/xtend-gen/com` before the first compile after a rename.** The stale generated twin
+of the class you just renamed masks the duplicate-class error you need to see.
+
+**Compare `xtend-gen/` trees with `diff -r -x '.*'`** so the `._trace` sidecars are skipped.
+
 Module-specific build first:
 ```bash
 mvn -pl <module1>,<module2> -am verify -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1

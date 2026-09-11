@@ -138,7 +138,11 @@ public class MyFormatter extends AbstractFormatter {
 Rules:
 - **Keep the `_` prefix** — the Xtext runtime resolves dispatch by name.
 - **Suppress at class level**: `@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})`
-- Order `instanceof` checks from most specific to least specific.
+- **Take the case ORDER from `xtend-gen/`, never from source order.** Xtend sorts dispatch cases by
+  type specificity, not by declaration order — e.g. `OperationCall` and `TypeSelectExpression` extend
+  both `Expression` and `FeatureCall`, so their relative position is not what the `.xtend` suggests.
+  Order `instanceof` checks most specific first, exactly as `xtend-gen/` did.
+- A terminal `throw` after an exhaustive `!= null` / `== null` pair is unreachable — drop it.
 - If the original `dispatch` had `override`, add `@Override` to the **dispatcher**, not the `_` methods.
 - The dispatcher parameter type should be the common supertype (often `Object` or `EObject`).
 - If the parent class has dispatch methods with the same name, the dispatcher must call `super._methodName()` for types not handled locally.

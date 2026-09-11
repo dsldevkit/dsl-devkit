@@ -111,6 +111,12 @@ for (final String k : properties.keySet()) {
 return builder;
 ```
 
+**Tier 4 does not apply to every control-flow template.** A template whose `xtend-gen/` chain contains
+`newLineIfNotEmpty()` after a dynamic value, a two-arg `append(value, indent)` of a possibly multi-line
+value, or `appendImmediate(...)` **stays on the reference `StringConcatenation` chain** — none of the
+three has a `StringBuilder`/text-block equivalent. Convert to `StringBuilder` (or a text block) only
+when every `newLineIfNotEmpty()` in the chain follows a static literal tail (§4.8, rule 35).
+
 ## 4.2 Template control flow patterns
 
 - `«IF condition»...«ENDIF»` → `if (condition) { builder.append(...); }`
@@ -242,6 +248,13 @@ these source-verified semantics decide what is safe:
   for values that are provably single-line (identifiers, rule names, accessor paths).
 - **Leave `appendImmediate(sep, indent)` loops untouched** — the separator insertion inspects
   trailing segments; keep its surrounding append sequence as-is.
+
+**When the chain stays as-is:** see the Tier 4 caveat above — `newLineIfNotEmpty()` after a dynamic value, two-arg `append(value, indent)` of a possibly multi-line value, or `appendImmediate(...)` keep the reference `StringConcatenation` chain (rule 35).
+
+**Null values:** `StringConcatenation.append(null)` appends nothing, while `"%s".formatted(null)`
+yields `"null"`. An interpolation of a nullable value converted to `.formatted()` must therefore wrap
+it: `"…%s…".formatted(Strings.emptyIfNull(value))` (`org.eclipse.xtext.util.Strings`) — precedent
+`FormatJvmModelInferrer.inferClass`.
 
 **Verification:** each coalesced run must be proven byte-identical with an executable old-vs-new
 harness over an input battery (empty / single-line / multi-line / newline-terminated / `%`-bearing
