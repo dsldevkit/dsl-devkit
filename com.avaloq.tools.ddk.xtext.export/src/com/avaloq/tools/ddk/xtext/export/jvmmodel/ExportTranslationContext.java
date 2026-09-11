@@ -8,16 +8,20 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.export.jvmmodel
+package com.avaloq.tools.ddk.xtext.export.jvmmodel;
 
-import com.avaloq.tools.ddk.xtext.expression.expression.Identifier
-import com.avaloq.tools.ddk.xtext.export.generator.ExportModelTypeResolver
-import java.util.List
-import java.util.Map
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.common.types.JvmFormalParameter
-import org.eclipse.xtext.common.types.JvmType
-import org.eclipse.xtext.xbase.lib.Functions.Function1
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.common.types.JvmFormalParameter;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+
+import com.avaloq.tools.ddk.xtext.export.generator.ExportModelTypeResolver;
+import com.avaloq.tools.ddk.xtext.expression.expression.Identifier;
 
 /**
  * Carries the information needed while translating an export expression AST into an Xbase
@@ -27,21 +31,21 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1
  * enclosing inferred operation) and the implicit variable that an unqualified ({@code this}) feature call refers to.
  * The source element the expression originates from is kept for JVM type resolution.
  */
-class ExportTranslationContext {
+public class ExportTranslationContext {
 
-  val Map<String, JvmFormalParameter> variables = newLinkedHashMap
+  private final Map<String, JvmFormalParameter> variables = new LinkedHashMap<>();
 
-  val List<String> extensionClassNames = newArrayList
+  private final List<String> extensionClassNames = new ArrayList<>();
 
-  Function1<? super Identifier, ? extends JvmType> typeResolver
+  private Function1<? super Identifier, ? extends JvmType> typeResolver;
 
-  JvmFormalParameter implicitVariable
+  private JvmFormalParameter implicitVariable;
 
-  String implicitVariableName
+  private String implicitVariableName;
 
-  ExportModelTypeResolver modelTypeResolver
+  private ExportModelTypeResolver modelTypeResolver;
 
-  EObject sourceElement
+  private EObject sourceElement;
 
   /**
    * Registers a variable that is in scope for the translated expression.
@@ -51,8 +55,8 @@ class ExportTranslationContext {
    * @param parameter
    *          the inferred formal parameter the variable resolves to, must not be {@code null}
    */
-  def void putVariable(String name, JvmFormalParameter parameter) {
-    variables.put(name, parameter)
+  public void putVariable(final String name, final JvmFormalParameter parameter) {
+    variables.put(name, parameter);
   }
 
   /**
@@ -62,8 +66,8 @@ class ExportTranslationContext {
    *          the source name of the variable, must not be {@code null}
    * @return the matching formal parameter, or {@code null} if no variable with that name is in scope
    */
-  def JvmFormalParameter getVariable(String name) {
-    variables.get(name)
+  public JvmFormalParameter getVariable(final String name) {
+    return variables.get(name);
   }
 
   /**
@@ -73,8 +77,8 @@ class ExportTranslationContext {
    * @param className
    *          the fully qualified Java class name, must not be {@code null}
    */
-  def void addExtensionClassName(String className) {
-    extensionClassNames.add(className)
+  public void addExtensionClassName(final String className) {
+    extensionClassNames.add(className);
   }
 
   /**
@@ -82,8 +86,8 @@ class ExportTranslationContext {
    *
    * @return the extension class names, never {@code null}
    */
-  def List<String> getExtensionClassNames() {
-    extensionClassNames
+  public List<String> getExtensionClassNames() {
+    return extensionClassNames;
   }
 
   /**
@@ -94,8 +98,8 @@ class ExportTranslationContext {
    * @param resolver
    *          the type resolver, may be {@code null}
    */
-  def void setTypeResolver(Function1<? super Identifier, ? extends JvmType> resolver) {
-    this.typeResolver = resolver
+  public void setTypeResolver(final Function1<? super Identifier, ? extends JvmType> resolver) {
+    this.typeResolver = resolver;
   }
 
   /**
@@ -105,8 +109,11 @@ class ExportTranslationContext {
    *          the source type identifier, may be {@code null}
    * @return the resolved JVM type, or {@code null} if it cannot be resolved or no resolver is set
    */
-  def JvmType resolveDslType(Identifier type) {
-    if (typeResolver === null || type === null) null else typeResolver.apply(type)
+  public JvmType resolveDslType(final Identifier type) {
+    if (typeResolver == null || type == null) {
+      return null;
+    }
+    return typeResolver.apply(type);
   }
 
   /**
@@ -114,8 +121,8 @@ class ExportTranslationContext {
    *
    * @return the implicit variable, or {@code null} if none is set
    */
-  def JvmFormalParameter getImplicitVariable() {
-    implicitVariable
+  public JvmFormalParameter getImplicitVariable() {
+    return implicitVariable;
   }
 
   /**
@@ -124,8 +131,8 @@ class ExportTranslationContext {
    * @param parameter
    *          the implicit variable, may be {@code null}
    */
-  def void setImplicitVariable(JvmFormalParameter parameter) {
-    this.implicitVariable = parameter
+  public void setImplicitVariable(final JvmFormalParameter parameter) {
+    this.implicitVariable = parameter;
   }
 
   /**
@@ -134,8 +141,8 @@ class ExportTranslationContext {
    *
    * @return the implicit variable name, or {@code null} if none is set
    */
-  def String getImplicitVariableName() {
-    implicitVariableName
+  public String getImplicitVariableName() {
+    return implicitVariableName;
   }
 
   /**
@@ -145,8 +152,8 @@ class ExportTranslationContext {
    * @param name
    *          the implicit variable name, may be {@code null}
    */
-  def void setImplicitVariableName(String name) {
-    this.implicitVariableName = name
+  public void setImplicitVariableName(final String name) {
+    this.implicitVariableName = name;
   }
 
   /**
@@ -154,8 +161,8 @@ class ExportTranslationContext {
    *
    * @return the model type resolver, or {@code null} if none is set
    */
-  def ExportModelTypeResolver getModelTypeResolver() {
-    modelTypeResolver
+  public ExportModelTypeResolver getModelTypeResolver() {
+    return modelTypeResolver;
   }
 
   /**
@@ -164,8 +171,8 @@ class ExportTranslationContext {
    * @param resolver
    *          the model type resolver, may be {@code null}
    */
-  def void setModelTypeResolver(ExportModelTypeResolver resolver) {
-    this.modelTypeResolver = resolver
+  public void setModelTypeResolver(final ExportModelTypeResolver resolver) {
+    this.modelTypeResolver = resolver;
   }
 
   /**
@@ -173,8 +180,8 @@ class ExportTranslationContext {
    *
    * @return the source element, or {@code null} if none is set
    */
-  def EObject getSourceElement() {
-    sourceElement
+  public EObject getSourceElement() {
+    return sourceElement;
   }
 
   /**
@@ -183,8 +190,8 @@ class ExportTranslationContext {
    * @param element
    *          the source element, may be {@code null}
    */
-  def void setSourceElement(EObject element) {
-    this.sourceElement = element
+  public void setSourceElement(final EObject element) {
+    this.sourceElement = element;
   }
 
 }
