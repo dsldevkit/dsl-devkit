@@ -8,58 +8,84 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.export.jvmmodel
+package com.avaloq.tools.ddk.xtext.export.jvmmodel;
 
-import com.avaloq.tools.ddk.xtext.export.export.Export
-import com.avaloq.tools.ddk.xtext.export.export.ExportModel
-import com.avaloq.tools.ddk.xtext.export.export.InterfaceExpression
-import com.avaloq.tools.ddk.xtext.export.export.InterfaceField
-import com.avaloq.tools.ddk.xtext.export.export.InterfaceItem
-import com.avaloq.tools.ddk.xtext.export.export.InterfaceNavigation
-import com.avaloq.tools.ddk.xtext.export.generator.ExportGeneratorX
-import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression
-import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
-import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport
-import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX
-import com.avaloq.tools.ddk.xtext.expression.generator.JavaBodyAppender
-import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider
-import com.avaloq.tools.ddk.xtext.naming.AbstractExportedNameProvider
-import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager
-import com.avaloq.tools.ddk.xtext.resource.AbstractExportFeatureExtension
-import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionStrategy
-import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider
-import com.avaloq.tools.ddk.xtext.resource.AbstractStreamingFingerprintComputer
-import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer
-import com.google.common.hash.Hasher
-import com.google.inject.Inject
-import com.google.inject.Singleton
-import java.util.Collection
-import java.util.Set
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.util.Switch
-import org.eclipse.xtext.common.types.JvmAnnotationReference
-import org.eclipse.xtext.common.types.JvmAnnotationType
-import org.eclipse.xtext.common.types.JvmGenericType
-import org.eclipse.xtext.common.types.JvmTypeReference
-import org.eclipse.xtext.common.types.JvmVisibility
-import org.eclipse.xtext.common.types.TypesFactory
-import org.eclipse.xtext.generator.IOutputConfigurationProvider
-import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.naming.QualifiedName
-import org.eclipse.xtext.resource.IEObjectDescription
-import org.eclipse.xtext.util.IAcceptor
-import org.eclipse.xtext.util.Strings
-import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
-import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
-import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
-import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
-import org.eclipse.xtext.xbase.lib.Pair
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Switch;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.Grammar;
+import org.eclipse.xtext.common.types.JvmAnnotationReference;
+import org.eclipse.xtext.common.types.JvmAnnotationType;
+import org.eclipse.xtext.common.types.JvmField;
+import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmStringAnnotationValue;
+import org.eclipse.xtext.common.types.JvmTypeReference;
+import org.eclipse.xtext.common.types.JvmVisibility;
+import org.eclipse.xtext.common.types.TypesFactory;
+import org.eclipse.xtext.generator.IOutputConfigurationProvider;
+import org.eclipse.xtext.generator.OutputConfiguration;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.util.IAcceptor;
+import org.eclipse.xtext.util.Strings;
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
+import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
+import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
+import org.eclipse.xtext.xbase.lib.Pair;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+
+import com.avaloq.tools.ddk.xtext.export.export.Export;
+import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
+import com.avaloq.tools.ddk.xtext.export.export.Interface;
+import com.avaloq.tools.ddk.xtext.export.export.InterfaceExpression;
+import com.avaloq.tools.ddk.xtext.export.export.InterfaceField;
+import com.avaloq.tools.ddk.xtext.export.export.InterfaceItem;
+import com.avaloq.tools.ddk.xtext.export.export.InterfaceNavigation;
+import com.avaloq.tools.ddk.xtext.export.export.UserData;
+import com.avaloq.tools.ddk.xtext.export.generator.ExportGeneratorX;
+import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
+import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorUtilX;
+import com.avaloq.tools.ddk.xtext.expression.generator.JavaBodyAppender;
+import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProvider;
+import com.avaloq.tools.ddk.xtext.naming.AbstractExportedNameProvider;
+import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManager;
+import com.avaloq.tools.ddk.xtext.resource.AbstractExportFeatureExtension;
+import com.avaloq.tools.ddk.xtext.resource.AbstractResourceDescriptionStrategy;
+import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProvider;
+import com.avaloq.tools.ddk.xtext.resource.AbstractStreamingFingerprintComputer;
+import com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
+import com.google.common.hash.Hasher;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * Infers a JVM model from an export model.
@@ -72,19 +98,40 @@ import org.eclipse.xtext.xbase.lib.Pair
  * shortens the framework types they reference while leaving the types of the language being generated fully
  * qualified.
  */
-class ExportJvmModelInferrer extends AbstractModelInferrer {
+@SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+public class ExportJvmModelInferrer extends AbstractModelInferrer {
+  // CHECKSTYLE:CONSTANTS-OFF the repeated literals are Java source fragments emitted by this generator, not nameable constants
+  // CHECKSTYLE:CHECK-OFF LambdaBodyLength the model-inference closures mirror the Xtext JvmTypesBuilder API and are kept whole
 
-  @Inject extension JvmTypesBuilder
-  @Inject extension ExportGeneratorX
-  @Inject extension GeneratorUtilX
+  @Inject
+  private JvmTypesBuilder jvmTypesBuilder;
 
-  @Inject GenModelUtilX genModelUtil
-  @Inject TypesFactory typesFactory
-  @Inject GeneratorSupport generatorSupport
-  @Inject ExportExpressionCompiler compiler
-  @Inject ExportExpressionTranslator translator
-  @Inject IOutputConfigurationProvider outputConfigurationProvider
-  @Inject JavaBodyAppender bodyAppender
+  @Inject
+  private ExportGeneratorX exportGeneratorX;
+
+  @Inject
+  private GeneratorUtilX generatorUtilX;
+
+  @Inject
+  private GenModelUtilX genModelUtil;
+
+  @Inject
+  private TypesFactory typesFactory;
+
+  @Inject
+  private GeneratorSupport generatorSupport;
+
+  @Inject
+  private ExportExpressionCompiler compiler;
+
+  @Inject
+  private ExportExpressionTranslator translator;
+
+  @Inject
+  private IOutputConfigurationProvider outputConfigurationProvider;
+
+  @Inject
+  private JavaBodyAppender bodyAppender;
 
   /**
    * Infers the export provider JVM types for the given export model.
@@ -96,22 +143,22 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * @param isPreIndexingPhase
    *          whether the method is called in the pre-indexing phase
    */
-  def dispatch void infer(ExportModel model, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+  protected void _infer(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
     if (isPreIndexingPhase) {
-      return
+      return;
     }
-    genModelUtil.resource = model.eResource
+    genModelUtil.setResource(model.eResource());
 
-    val namesProvider = inferExportedNamesProvider(model, acceptor)
-    if (!model.extension && !model.hasCustomResourceDescriptionManager) {
-      inferResourceDescriptionManager(model, acceptor)
+    final JvmGenericType namesProvider = inferExportedNamesProvider(model, acceptor);
+    if (!model.isExtension() && !hasCustomResourceDescriptionManager(model)) {
+      inferResourceDescriptionManager(model, acceptor);
     }
-    val strategy = inferResourceDescriptionStrategy(model, acceptor)
-    inferResourceDescriptionConstants(model, acceptor)
-    val fingerprintComputer = inferFingerprintComputer(model, acceptor)
-    val fragmentProvider = inferFragmentProvider(model, acceptor)
-    if (model.extension) {
-      inferExportFeatureExtension(model, acceptor, namesProvider, fingerprintComputer, fragmentProvider, strategy)
+    final JvmGenericType strategy = inferResourceDescriptionStrategy(model, acceptor);
+    inferResourceDescriptionConstants(model, acceptor);
+    final JvmGenericType fingerprintComputer = inferFingerprintComputer(model, acceptor);
+    final JvmGenericType fragmentProvider = inferFragmentProvider(model, acceptor);
+    if (model.isExtension()) {
+      inferExportFeatureExtension(model, acceptor, namesProvider, fingerprintComputer, fragmentProvider, strategy);
     }
   }
 
@@ -132,13 +179,13 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the producer for the body string, must not be {@code null}
    * @return the rendered body string, never {@code null}
    */
-  def private String renderBody(ExportModel model, ()=>CharSequence producer) {
-    val result = newArrayList('')
-    generatorSupport.executeWithProjectResourceLoader(model.projectOf, [
-      genModelUtil.resource = model.eResource
-      result.set(0, producer.apply.toString)
-    ])
-    result.get(0)
+  private String renderBody(final ExportModel model, final Supplier<CharSequence> producer) {
+    final AtomicReference<String> result = new AtomicReference<>("");
+    generatorSupport.executeWithProjectResourceLoader(projectOf(model), () -> {
+      genModelUtil.setResource(model.eResource());
+      result.set(producer.get().toString());
+    });
+    return result.get();
   }
 
   /**
@@ -152,8 +199,8 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * @param context
    *          the export model, used to resolve the referenced types against the classpath, must not be {@code null}
    */
-  def private void appendJava(ITreeAppendable it, String body, ExportModel context) {
-    bodyAppender.appendBody(it, body, context)
+  private void appendJava(final ITreeAppendable it, final String body, final ExportModel context) {
+    bodyAppender.appendBody(it, body, context);
   }
 
   /**
@@ -172,47 +219,57 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * @param context
    *          the export model, used to resolve the referenced types against the classpath, must not be {@code null}
    */
-  def private void appendJavaInitializer(ITreeAppendable it, String body, ExportModel context) {
-    decreaseIndentation
-    bodyAppender.appendBody(it, body, context)
-    increaseIndentation
+  private void appendJavaInitializer(final ITreeAppendable it, final String body, final ExportModel context) {
+    it.decreaseIndentation();
+    bodyAppender.appendBody(it, body, context);
+    it.increaseIndentation();
   }
 
   /**
    * Infers the {@code <Name>ExportedNamesProvider}.
    *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    * @return the inferred type, never {@code null}
    */
-  def private JvmGenericType inferExportedNamesProvider(ExportModel model, IJvmDeclaredTypeAcceptor acceptor) {
-    val providerName = model.exportedNamesProvider
-    val grammar = model.grammar
-    val inferredType = model.toClass(providerName)
-    acceptor.accept(inferredType) [
-      superTypes += typeRef(AbstractExportedNameProvider)
-      addSuppressWarningsAll
-      documentation = if (grammar !== null)
-          '''Qualified name provider for grammar «grammar.name» providing the qualified names for exported objects.'''
-        else
-          '''Qualified name provider providing the qualified names for exported objects.'''
-      if (!model.exports.isEmpty) {
-        members += model.toMethod('qualifiedName', typeRef(QualifiedName)) [
-          visibility = JvmVisibility.PUBLIC
-          annotations += typeOnlyAnnotation(Override)
-          parameters += model.toParameter('object', typeRef(EObject))
-          body = [appendJava(renderBody(model, [model.qualifiedNameDispatchBody]), model)]
-        ]
-        for (var i = 0; i < model.exports.size; i++) {
-          val c = model.exports.get(i)
-          members += model.toMethod('qualifiedName', typeRef(QualifiedName)) [
-            visibility = JvmVisibility.PROTECTED
-            documentation = c.qualifiedNameDocumentation
-            parameters += model.toParameter('obj', typeRef(genModelUtil.instanceClassName(c.type)))
-            body = [appendJava(renderBody(model, [model.qualifiedNameBody(c)]), model)]
-          ]
+  private JvmGenericType inferExportedNamesProvider(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor) {
+    final String providerName = exportGeneratorX.getExportedNamesProvider(model);
+    final Grammar grammar = exportGeneratorX.getGrammar(model);
+    final JvmGenericType inferredType = jvmTypesBuilder.toClass(model, providerName);
+    final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractExportedNameProvider.class));
+      addSuppressWarningsAll(it);
+      jvmTypesBuilder.setDocumentation(it, grammar != null
+          ? "Qualified name provider for grammar %s providing the qualified names for exported objects.".formatted(grammar.getName())
+          : "Qualified name provider providing the qualified names for exported objects.");
+      if (!model.getExports().isEmpty()) {
+        final Procedure1<JvmOperation> dispatchInitializer = (final JvmOperation method) -> {
+          method.setVisibility(JvmVisibility.PUBLIC);
+          method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+          method.getParameters().add(jvmTypesBuilder.toParameter(model, "object", _typeReferenceBuilder.typeRef(EObject.class)));
+          final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+              renderBody(model, () -> qualifiedNameDispatchBody(model)), model);
+          jvmTypesBuilder.setBody(method, body);
+        };
+        it.getMembers().add(jvmTypesBuilder.toMethod(model, "qualifiedName", _typeReferenceBuilder.typeRef(QualifiedName.class), dispatchInitializer));
+        for (final Export c : model.getExports()) {
+          final Procedure1<JvmOperation> caseInitializer = (final JvmOperation method) -> {
+            method.setVisibility(JvmVisibility.PROTECTED);
+            jvmTypesBuilder.setDocumentation(method, qualifiedNameDocumentation(c));
+            method.getParameters().add(
+                jvmTypesBuilder.toParameter(model, "obj", _typeReferenceBuilder.typeRef(genModelUtil.instanceClassName(c.getType()))));
+            final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+                renderBody(model, () -> qualifiedNameBody(model, c)), model);
+            jvmTypesBuilder.setBody(method, body);
+          };
+          it.getMembers().add(jvmTypesBuilder.toMethod(model, "qualifiedName", _typeReferenceBuilder.typeRef(QualifiedName.class), caseInitializer));
         }
       }
-    ]
-    inferredType
+    };
+    acceptor.<JvmGenericType> accept(inferredType, initializer);
+    return inferredType;
   }
 
   /**
@@ -222,211 +279,299 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the export declaration, must not be {@code null}
    * @return the documentation text, never {@code null}
    */
-  def private String qualifiedNameDocumentation(Export it) {
-    "Return the qualified name under which a " + type.name
-      + " object is exported, or <code>null</code> if the object should not be exported.\n"
-      + "\n"
-      + "@param obj\n"
-      + "         The object to be exported\n"
-      + "@return The object's qualified name, or <code>null</code> if the object is not to be exported"
+  private String qualifiedNameDocumentation(final Export it) {
+    return "Return the qualified name under which a " + it.getType().getName()
+        + " object is exported, or <code>null</code> if the object should not be exported.\n"
+        + "\n"
+        + "@param obj\n"
+        + "         The object to be exported\n"
+        + "@return The object's qualified name, or <code>null</code> if the object is not to be exported";
   }
 
   /**
    * Infers the {@code <Name>ResourceDescriptionManager}.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    */
-  def private void inferResourceDescriptionManager(ExportModel model, IJvmDeclaredTypeAcceptor acceptor) {
-    val grammar = model.grammar
-    val usedGrammars = if (grammar !== null) grammar.usedGrammars else newArrayList
-    val extendedGrammar = if (usedGrammars.isEmpty || usedGrammars.head.name.endsWith('.Terminals')) null else usedGrammars.head
-    val initializer = if (extendedGrammar !== null) {
-      '''com.google.common.collect.ImmutableSet.copyOf(com.google.common.collect.Sets.union(«extendedGrammar.resourceDescriptionManager».INTERESTING_EXTS, of(/*add extensions here*/)))'''
-    } else {
-      '''all()'''
-    }
-    acceptor.accept(model.toClass(model.resourceDescriptionManager)) [
-      superTypes += typeRef(AbstractCachingResourceDescriptionManager)
-      annotations += typeOnlyAnnotation(Singleton)
-      addSuppressWarningsAll
-      documentation = '''Resource description manager for «model.name» resources.'''
-      members += model.toField('INTERESTING_EXTS', typeRef(Set, typeRef(String))) [
-        visibility = JvmVisibility.PUBLIC
-        static = true
-        final = true
-        initializer = [appendJavaInitializer(initializer.toString, model)]
-      ]
-      members += model.toMethod('getInterestingExtensions', typeRef(Set, typeRef(String))) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        body = [append('return INTERESTING_EXTS;')]
-      ]
-    ]
+  private void inferResourceDescriptionManager(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor) {
+    final Grammar grammar = exportGeneratorX.getGrammar(model);
+    final List<Grammar> usedGrammars = grammar != null ? grammar.getUsedGrammars() : new ArrayList<>();
+    final Grammar extendedGrammar = usedGrammars.isEmpty() || usedGrammars.get(0).getName().endsWith(".Terminals") ? null : usedGrammars.get(0);
+    final String initializerBody = extendedGrammar != null
+        ? "com.google.common.collect.ImmutableSet.copyOf(com.google.common.collect.Sets.union(%s.INTERESTING_EXTS, of(/*add extensions here*/)))"
+            .formatted(exportGeneratorX.getResourceDescriptionManager(extendedGrammar))
+        : "all()";
+    final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractCachingResourceDescriptionManager.class));
+      it.getAnnotations().add(typeOnlyAnnotation(Singleton.class));
+      addSuppressWarningsAll(it);
+      jvmTypesBuilder.setDocumentation(it, "Resource description manager for %s resources.".formatted(model.getName()));
+      final Procedure1<JvmField> fieldInitializer = (final JvmField field) -> {
+        field.setVisibility(JvmVisibility.PUBLIC);
+        field.setStatic(true);
+        field.setFinal(true);
+        final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendJavaInitializer(appendable, initializerBody, model);
+        jvmTypesBuilder.setInitializer(field, value);
+      };
+      it.getMembers().add(jvmTypesBuilder.toField(model, "INTERESTING_EXTS",
+          _typeReferenceBuilder.typeRef(Set.class, _typeReferenceBuilder.typeRef(String.class)), fieldInitializer));
+      final Procedure1<JvmOperation> methodInitializer = (final JvmOperation method) -> {
+        method.setVisibility(JvmVisibility.PROTECTED);
+        method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+        final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendable.append("return INTERESTING_EXTS;");
+        jvmTypesBuilder.setBody(method, body);
+      };
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "getInterestingExtensions",
+          _typeReferenceBuilder.typeRef(Set.class, _typeReferenceBuilder.typeRef(String.class)), methodInitializer));
+    };
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionManager(model)), initializer);
   }
 
   /**
    * Infers the {@code <Name>ResourceDescriptionStrategy}.
    *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    * @return the inferred type, never {@code null}
    */
-  def private JvmGenericType inferResourceDescriptionStrategy(ExportModel model, IJvmDeclaredTypeAcceptor acceptor) {
-    val inferredType = model.toClass(model.resourceDescriptionStrategy)
-    acceptor.accept(inferredType) [
-      superTypes += typeRef(AbstractResourceDescriptionStrategy)
-      addSuppressWarningsAll
-      members += model.toField('EXPORTED_ECLASSES', typeRef(Set, typeRef(EClass))) [
-        visibility = JvmVisibility.PRIVATE
-        static = true
-        final = true
-        initializer = [appendJavaInitializer(renderBody(model, [model.exportedEClassesInitializer]), model)]
-      ]
-      members += model.toMethod('getExportedEClasses', typeRef(Set, typeRef(EClass))) [
-        visibility = JvmVisibility.PUBLIC
-        annotations += typeOnlyAnnotation(Override)
-        parameters += model.toParameter('resource', typeRef(Resource))
-        body = [append('return EXPORTED_ECLASSES;')]
-      ]
-      if (!model.exports.isEmpty) {
-        members += model.toField('acceptor', typeRef(ThreadLocal, typeRef(IAcceptor, typeRef(IEObjectDescription)))) [
-          visibility = JvmVisibility.PRIVATE
-          final = true
-          initializer = [appendJavaInitializer('new ThreadLocal<org.eclipse.xtext.util.IAcceptor<org.eclipse.xtext.resource.IEObjectDescription>>()', model)]
-        ]
-        for (p : model.strategyPackages) {
-          members += model.toField(p.name + 'ExportSwitch', typeRef(Switch, typeRef(Boolean))) [
-            visibility = JvmVisibility.PRIVATE
-            final = true
-            initializer = [appendJavaInitializer(renderBody(model, [model.strategySwitchInitializer(p)]), model)]
-          ]
+  private JvmGenericType inferResourceDescriptionStrategy(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor) {
+    final JvmGenericType inferredType = jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionStrategy(model));
+    final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractResourceDescriptionStrategy.class));
+      addSuppressWarningsAll(it);
+      final Procedure1<JvmField> eclassesField = (final JvmField field) -> {
+        field.setVisibility(JvmVisibility.PRIVATE);
+        field.setStatic(true);
+        field.setFinal(true);
+        final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendJavaInitializer(appendable,
+            renderBody(model, () -> exportedEClassesInitializer(model)), model);
+        jvmTypesBuilder.setInitializer(field, value);
+      };
+      it.getMembers().add(jvmTypesBuilder.toField(model, "EXPORTED_ECLASSES",
+          _typeReferenceBuilder.typeRef(Set.class, _typeReferenceBuilder.typeRef(EClass.class)), eclassesField));
+      final Procedure1<JvmOperation> getExportedEClasses = (final JvmOperation method) -> {
+        method.setVisibility(JvmVisibility.PUBLIC);
+        method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+        method.getParameters().add(jvmTypesBuilder.toParameter(model, "resource", _typeReferenceBuilder.typeRef(Resource.class)));
+        final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendable.append("return EXPORTED_ECLASSES;");
+        jvmTypesBuilder.setBody(method, body);
+      };
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "getExportedEClasses",
+          _typeReferenceBuilder.typeRef(Set.class, _typeReferenceBuilder.typeRef(EClass.class)), getExportedEClasses));
+      if (!model.getExports().isEmpty()) {
+        final Procedure1<JvmField> acceptorInitializer = (final JvmField field) -> {
+          field.setVisibility(JvmVisibility.PRIVATE);
+          field.setFinal(true);
+          final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendJavaInitializer(appendable,
+              "new ThreadLocal<org.eclipse.xtext.util.IAcceptor<org.eclipse.xtext.resource.IEObjectDescription>>()", model);
+          jvmTypesBuilder.setInitializer(field, value);
+        };
+        it.getMembers().add(jvmTypesBuilder.toField(model, "acceptor", _typeReferenceBuilder.typeRef(ThreadLocal.class,
+            _typeReferenceBuilder.typeRef(IAcceptor.class, _typeReferenceBuilder.typeRef(IEObjectDescription.class))), acceptorInitializer));
+        for (final EPackage p : strategyPackages(model)) {
+          final Procedure1<JvmField> switchInitializer = (final JvmField field) -> {
+            field.setVisibility(JvmVisibility.PRIVATE);
+            field.setFinal(true);
+            final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendJavaInitializer(appendable,
+                renderBody(model, () -> strategySwitchInitializer(model, p)), model);
+            jvmTypesBuilder.setInitializer(field, value);
+          };
+          it.getMembers().add(jvmTypesBuilder.toField(model, p.getName() + "ExportSwitch",
+              _typeReferenceBuilder.typeRef(Switch.class, _typeReferenceBuilder.typeRef(Boolean.class)), switchInitializer));
         }
-        members += model.toMethod('doCreateEObjectDescriptions', typeRef(Boolean.TYPE)) [
-          visibility = JvmVisibility.PROTECTED
-          annotations += typeOnlyAnnotation(Override)
-          parameters += model.toParameter('object', typeRef(EObject))
-          parameters += model.toParameter('acceptor', typeRef(IAcceptor, typeRef(IEObjectDescription)))
-          body = [appendJava(renderBody(model, [model.strategyDoCreateBody]), model)]
-        ]
+        final Procedure1<JvmOperation> doCreate = (final JvmOperation method) -> {
+          method.setVisibility(JvmVisibility.PROTECTED);
+          method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+          method.getParameters().add(jvmTypesBuilder.toParameter(model, "object", _typeReferenceBuilder.typeRef(EObject.class)));
+          method.getParameters().add(jvmTypesBuilder.toParameter(model, "acceptor",
+              _typeReferenceBuilder.typeRef(IAcceptor.class, _typeReferenceBuilder.typeRef(IEObjectDescription.class))));
+          final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+              renderBody(model, () -> strategyDoCreateBody(model)), model);
+          jvmTypesBuilder.setBody(method, body);
+        };
+        it.getMembers().add(jvmTypesBuilder.toMethod(model, "doCreateEObjectDescriptions", _typeReferenceBuilder.typeRef(Boolean.TYPE), doCreate));
       }
-    ]
-    inferredType
+    };
+    acceptor.<JvmGenericType> accept(inferredType, initializer);
+    return inferredType;
   }
 
   /**
    * Infers the {@code <Name>ResourceDescriptionConstants} interface.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    */
-  def private void inferResourceDescriptionConstants(ExportModel model, IJvmDeclaredTypeAcceptor acceptor) {
-    acceptor.accept(model.toClass(model.resourceDescriptionConstants)) [
-      ^interface = true
-      for (c : model.exports.filter[!it.type.abstract]) {
-        for (attr : c.allEAttributes) {
-          members += model.toField(constantName(attr, c.type), typeRef(String)) [
-            visibility = JvmVisibility.PUBLIC
-            static = true
-            final = true
-            initializer = [append('"' + Strings.convertToJavaString(attr.name) + '"')]
-          ]
+  private void inferResourceDescriptionConstants(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor) {
+    final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+      it.setInterface(true);
+      for (final Export c : model.getExports().stream().filter(export -> !export.getType().isAbstract()).toList()) {
+        for (final EAttribute attr : c.getAllEAttributes()) {
+          final Procedure1<JvmField> fieldInitializer = (final JvmField field) -> {
+            field.setVisibility(JvmVisibility.PUBLIC);
+            field.setStatic(true);
+            field.setFinal(true);
+            final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendable
+                .append("\"" + Strings.convertToJavaString(attr.getName()) + "\"");
+            jvmTypesBuilder.setInitializer(field, value);
+          };
+          it.getMembers().add(jvmTypesBuilder.toField(model, exportGeneratorX.constantName(attr, c.getType()),
+              _typeReferenceBuilder.typeRef(String.class), fieldInitializer));
         }
-        for (data : c.allUserData) {
-          members += model.toField(constantName(data, c.type), typeRef(String)) [
-            visibility = JvmVisibility.PUBLIC
-            static = true
-            final = true
-            initializer = [append('"' + Strings.convertToJavaString(data.name) + '"')]
-          ]
+        for (final UserData data : exportGeneratorX.allUserData(c)) {
+          final Procedure1<JvmField> fieldInitializer = (final JvmField field) -> {
+            field.setVisibility(JvmVisibility.PUBLIC);
+            field.setStatic(true);
+            field.setFinal(true);
+            final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendable
+                .append("\"" + Strings.convertToJavaString(data.getName()) + "\"");
+            jvmTypesBuilder.setInitializer(field, value);
+          };
+          it.getMembers().add(jvmTypesBuilder.toField(model, exportGeneratorX.constantName(data, c.getType()),
+              _typeReferenceBuilder.typeRef(String.class), fieldInitializer));
         }
       }
-    ]
+    };
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionConstants(model)), initializer);
   }
 
   /**
    * Infers the {@code <Name>FingerprintComputer}.
    *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    * @return the inferred type, never {@code null}
    */
-  def private JvmGenericType inferFingerprintComputer(ExportModel model, IJvmDeclaredTypeAcceptor acceptor) {
-    val inferredType = model.toClass(model.fingerprintComputer)
-    acceptor.accept(inferredType) [
-      superTypes += typeRef(AbstractStreamingFingerprintComputer)
-      addSuppressWarningsAll
-      if (model.interfaces.isEmpty) {
-        members += model.toMethod('computeFingerprint', typeRef(String)) [
-          visibility = JvmVisibility.PUBLIC
-          annotations += typeOnlyAnnotation(Override)
-          parameters += model.toParameter('resource', typeRef(Resource))
-          body = [append('// no fingerprint defined\nreturn null;')]
-        ]
+  private JvmGenericType inferFingerprintComputer(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor) {
+    final JvmGenericType inferredType = jvmTypesBuilder.toClass(model, exportGeneratorX.getFingerprintComputer(model));
+    final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractStreamingFingerprintComputer.class));
+      addSuppressWarningsAll(it);
+      if (model.getInterfaces().isEmpty()) {
+        final Procedure1<JvmOperation> computeFingerprint = (final JvmOperation method) -> {
+          method.setVisibility(JvmVisibility.PUBLIC);
+          method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+          method.getParameters().add(jvmTypesBuilder.toParameter(model, "resource", _typeReferenceBuilder.typeRef(Resource.class)));
+          final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendable
+              .append("// no fingerprint defined\nreturn null;");
+          jvmTypesBuilder.setBody(method, body);
+        };
+        it.getMembers().add(jvmTypesBuilder.toMethod(model, "computeFingerprint", _typeReferenceBuilder.typeRef(String.class), computeFingerprint));
       }
-      members += model.toField('hasherAccess', typeRef(ThreadLocal, typeRef(Hasher))) [
-        visibility = JvmVisibility.PRIVATE
-          initializer = [appendJavaInitializer('new ThreadLocal<com.google.common.hash.Hasher>()', model)]
-      ]
-      for (p : model.fingerprintPackages) {
-        members += model.toField(p.name + 'Switch', typeRef(Switch, typeRef(Hasher))) [
-          visibility = JvmVisibility.PRIVATE
-          final = true
-          initializer = [appendJavaInitializer(renderBody(model, [model.fingerprintSwitchInitializer(p)]), model)]
-        ]
+      final Procedure1<JvmField> hasherAccessField = (final JvmField field) -> {
+        field.setVisibility(JvmVisibility.PRIVATE);
+        final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendJavaInitializer(appendable,
+            "new ThreadLocal<com.google.common.hash.Hasher>()", model);
+        jvmTypesBuilder.setInitializer(field, value);
+      };
+      it.getMembers().add(jvmTypesBuilder.toField(model, "hasherAccess",
+          _typeReferenceBuilder.typeRef(ThreadLocal.class, _typeReferenceBuilder.typeRef(Hasher.class)), hasherAccessField));
+      for (final EPackage p : fingerprintPackages(model)) {
+        final Procedure1<JvmField> switchField = (final JvmField field) -> {
+          field.setVisibility(JvmVisibility.PRIVATE);
+          field.setFinal(true);
+          final Procedure1<ITreeAppendable> value = (final ITreeAppendable appendable) -> appendJavaInitializer(appendable,
+              renderBody(model, () -> fingerprintSwitchInitializer(model, p)), model);
+          jvmTypesBuilder.setInitializer(field, value);
+        };
+        it.getMembers().add(jvmTypesBuilder.toField(model, p.getName() + "Switch",
+            _typeReferenceBuilder.typeRef(Switch.class, _typeReferenceBuilder.typeRef(Hasher.class)), switchField));
       }
-      members += model.toMethod('fingerprint', typeRef(Void.TYPE)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        parameters += model.toParameter('object', typeRef(EObject))
-        parameters += model.toParameter('hasher', typeRef(Hasher))
-        body = [appendJava(renderBody(model, [model.fingerprintMethodBody]), model)]
-      ]
-    ]
-    inferredType
+      final Procedure1<JvmOperation> fingerprint = (final JvmOperation method) -> {
+        method.setVisibility(JvmVisibility.PROTECTED);
+        method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+        method.getParameters().add(jvmTypesBuilder.toParameter(model, "object", _typeReferenceBuilder.typeRef(EObject.class)));
+        method.getParameters().add(jvmTypesBuilder.toParameter(model, "hasher", _typeReferenceBuilder.typeRef(Hasher.class)));
+        final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+            renderBody(model, () -> fingerprintMethodBody(model)), model);
+        jvmTypesBuilder.setBody(method, body);
+      };
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "fingerprint", _typeReferenceBuilder.typeRef(Void.TYPE), fingerprint));
+    };
+    acceptor.<JvmGenericType> accept(inferredType, initializer);
+    return inferredType;
   }
 
   /**
    * Infers the {@code <Name>FragmentProvider} (full provider, short stub, or none, depending on the model).
    *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    * @return the inferred type, or {@code null} if the model needs no fragment provider
    */
-  def private JvmGenericType inferFragmentProvider(ExportModel model, IJvmDeclaredTypeAcceptor acceptor) {
-    val fingerprintedExports = model.exports.filter[fingerprint && fragmentAttribute !== null].toList
-    if (!fingerprintedExports.isEmpty || model.extension) {
-      val inferredType = model.toClass(model.fragmentProvider)
-      acceptor.accept(inferredType) [
-        superTypes += typeRef(AbstractSelectorFragmentProvider)
-        addSuppressWarningsAll
-        if (!fingerprintedExports.isEmpty) {
-          members += model.toMethod('appendFragmentSegment', typeRef(Boolean.TYPE)) [
-            visibility = JvmVisibility.PUBLIC
-            annotations += typeOnlyAnnotation(Override)
-            parameters += model.toParameter('object', typeRef(EObject))
-            parameters += model.toParameter('builder', typeRef(StringBuilder))
-            body = [appendJava(renderBody(model, [model.appendFragmentSegmentBody(fingerprintedExports)]), model)]
-          ]
+  private JvmGenericType inferFragmentProvider(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor) {
+    final List<Export> fingerprintedExports = model.getExports().stream()
+        .filter(export -> export.isFingerprint() && export.getFragmentAttribute() != null).toList();
+    if (!fingerprintedExports.isEmpty() || model.isExtension()) {
+      final JvmGenericType inferredType = jvmTypesBuilder.toClass(model, exportGeneratorX.getFragmentProvider(model));
+      final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+        it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractSelectorFragmentProvider.class));
+        addSuppressWarningsAll(it);
+        if (!fingerprintedExports.isEmpty()) {
+          final Procedure1<JvmOperation> appendFragmentSegment = (final JvmOperation method) -> {
+            method.setVisibility(JvmVisibility.PUBLIC);
+            method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+            method.getParameters().add(jvmTypesBuilder.toParameter(model, "object", _typeReferenceBuilder.typeRef(EObject.class)));
+            method.getParameters().add(jvmTypesBuilder.toParameter(model, "builder", _typeReferenceBuilder.typeRef(StringBuilder.class)));
+            final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+                renderBody(model, () -> appendFragmentSegmentBody(model, fingerprintedExports)), model);
+            jvmTypesBuilder.setBody(method, body);
+          };
+          it.getMembers().add(
+              jvmTypesBuilder.toMethod(model, "appendFragmentSegment", _typeReferenceBuilder.typeRef(Boolean.TYPE), appendFragmentSegment));
         }
-        if (model.extension) {
-          members += model.toMethod('appendFragmentSegmentFallback', typeRef(Boolean.TYPE)) [
-            visibility = JvmVisibility.PROTECTED
-            annotations += typeOnlyAnnotation(Override)
-            parameters += model.toParameter('object', typeRef(EObject))
-            parameters += model.toParameter('builder', typeRef(StringBuilder))
-            body = [append('// For export extension we must return false, so the logic will try other extensions\nreturn false;')]
-          ]
+        if (model.isExtension()) {
+          final Procedure1<JvmOperation> fallback = (final JvmOperation method) -> {
+            method.setVisibility(JvmVisibility.PROTECTED);
+            method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+            method.getParameters().add(jvmTypesBuilder.toParameter(model, "object", _typeReferenceBuilder.typeRef(EObject.class)));
+            method.getParameters().add(jvmTypesBuilder.toParameter(model, "builder", _typeReferenceBuilder.typeRef(StringBuilder.class)));
+            final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendable
+                .append("// For export extension we must return false, so the logic will try other extensions\nreturn false;");
+            jvmTypesBuilder.setBody(method, body);
+          };
+          it.getMembers().add(
+              jvmTypesBuilder.toMethod(model, "appendFragmentSegmentFallback", _typeReferenceBuilder.typeRef(Boolean.TYPE), fallback));
         }
-        for (e : fingerprintedExports) {
-          members += model.toMethod('appendFragmentSegment', typeRef(Boolean.TYPE)) [
-            visibility = JvmVisibility.PROTECTED
-            parameters += model.toParameter('obj', typeRef(genModelUtil.instanceClassName(e.type)))
-            parameters += model.toParameter('builder', typeRef(StringBuilder))
-            body = [appendJava(renderBody(model, [
-              '''return computeSelectorFragmentSegment(obj, «genModelUtil.literalIdentifier(e.fragmentAttribute)», «e.fragmentUnique», builder);'''
-            ]), model)]
-          ]
+        for (final Export e : fingerprintedExports) {
+          final Procedure1<JvmOperation> typedSegment = (final JvmOperation method) -> {
+            method.setVisibility(JvmVisibility.PROTECTED);
+            method.getParameters().add(
+                jvmTypesBuilder.toParameter(model, "obj", _typeReferenceBuilder.typeRef(genModelUtil.instanceClassName(e.getType()))));
+            method.getParameters().add(jvmTypesBuilder.toParameter(model, "builder", _typeReferenceBuilder.typeRef(StringBuilder.class)));
+            final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+                renderBody(model, () -> "return computeSelectorFragmentSegment(obj, %s, %s, builder);"
+                    .formatted(genModelUtil.literalIdentifier(e.getFragmentAttribute()), e.isFragmentUnique())),
+                model);
+            jvmTypesBuilder.setBody(method, body);
+          };
+          it.getMembers().add(
+              jvmTypesBuilder.toMethod(model, "appendFragmentSegment", _typeReferenceBuilder.typeRef(Boolean.TYPE), typedSegment));
         }
-      ]
-      return inferredType
-    } else if (!model.exports.isEmpty) {
-      val inferredType = model.toClass(model.fragmentProvider)
-      acceptor.accept(inferredType) [
-        superTypes += typeRef(ShortFragmentProvider)
-        addSuppressWarningsAll
-      ]
-      return inferredType
+      };
+      acceptor.<JvmGenericType> accept(inferredType, initializer);
+      return inferredType;
+    } else if (!model.getExports().isEmpty()) {
+      final JvmGenericType inferredType = jvmTypesBuilder.toClass(model, exportGeneratorX.getFragmentProvider(model));
+      final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+        it.getSuperTypes().add(_typeReferenceBuilder.typeRef(ShortFragmentProvider.class));
+        addSuppressWarningsAll(it);
+      };
+      acceptor.<JvmGenericType> accept(inferredType, initializer);
+      return inferredType;
     }
-    null
+    return null;
   }
 
   /**
@@ -437,6 +582,10 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * would yield an unknown type reference which the {@code JvmModelGenerator} emits fully qualified instead of
    * importing.
    *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param acceptor
+   *          the type acceptor, must not be {@code null}
    * @param namesProvider
    *          the inferred exported names provider, must not be {@code null}
    * @param fingerprintComputer
@@ -446,49 +595,56 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * @param resourceDescriptionStrategy
    *          the inferred resource description strategy, must not be {@code null}
    */
-  def private void inferExportFeatureExtension(ExportModel model, IJvmDeclaredTypeAcceptor acceptor,
-    JvmGenericType namesProvider, JvmGenericType fingerprintComputer, JvmGenericType fragmentProvider,
-    JvmGenericType resourceDescriptionStrategy) {
-    acceptor.accept(model.toClass(model.exportFeatureExtension)) [
-      superTypes += typeRef(AbstractExportFeatureExtension)
-      addSuppressWarningsAll
-      members += model.toField('namesProvider', typeRef(namesProvider)) [
-        visibility = JvmVisibility.PRIVATE
-        annotations += typeOnlyAnnotation(Inject)
-      ]
-      members += model.toField('fingerprintComputer', typeRef(fingerprintComputer)) [
-        visibility = JvmVisibility.PRIVATE
-        annotations += typeOnlyAnnotation(Inject)
-      ]
-      members += model.toField('fragmentProvider', fragmentProvider.typeRefOrName(model.fragmentProvider)) [
-        visibility = JvmVisibility.PRIVATE
-        annotations += typeOnlyAnnotation(Inject)
-      ]
-      members += model.toField('resourceDescriptionStrategy', typeRef(resourceDescriptionStrategy)) [
-        visibility = JvmVisibility.PRIVATE
-        annotations += typeOnlyAnnotation(Inject)
-      ]
-      members += model.toMethod('getNamesProvider', typeRef(IQualifiedNameProvider)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        body = [append('return namesProvider;')]
-      ]
-      members += model.toMethod('getFingerprintComputer', typeRef(IFingerprintComputer)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        body = [append('return fingerprintComputer;')]
-      ]
-      members += model.toMethod('getFragmentProvider', typeRef(AbstractSelectorFragmentProvider)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        body = [append('return fragmentProvider;')]
-      ]
-      members += model.toMethod('getResourceDescriptionStrategy', typeRef(AbstractResourceDescriptionStrategy)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        body = [append('return resourceDescriptionStrategy;')]
-      ]
-    ]
+  private void inferExportFeatureExtension(final ExportModel model, final IJvmDeclaredTypeAcceptor acceptor,
+      final JvmGenericType namesProvider, final JvmGenericType fingerprintComputer, final JvmGenericType fragmentProvider,
+      final JvmGenericType resourceDescriptionStrategy) {
+    final Procedure1<JvmGenericType> initializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractExportFeatureExtension.class));
+      addSuppressWarningsAll(it);
+      it.getMembers().add(jvmTypesBuilder.toField(model, "namesProvider", _typeReferenceBuilder.typeRef(namesProvider), injectedField()));
+      it.getMembers().add(jvmTypesBuilder.toField(model, "fingerprintComputer", _typeReferenceBuilder.typeRef(fingerprintComputer), injectedField()));
+      it.getMembers().add(jvmTypesBuilder.toField(model, "fragmentProvider",
+          typeRefOrName(fragmentProvider, exportGeneratorX.getFragmentProvider(model)), injectedField()));
+      it.getMembers().add(
+          jvmTypesBuilder.toField(model, "resourceDescriptionStrategy", _typeReferenceBuilder.typeRef(resourceDescriptionStrategy), injectedField()));
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "getNamesProvider", _typeReferenceBuilder.typeRef(IQualifiedNameProvider.class),
+          overriddenGetter("return namesProvider;")));
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "getFingerprintComputer", _typeReferenceBuilder.typeRef(IFingerprintComputer.class),
+          overriddenGetter("return fingerprintComputer;")));
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "getFragmentProvider", _typeReferenceBuilder.typeRef(AbstractSelectorFragmentProvider.class),
+          overriddenGetter("return fragmentProvider;")));
+      it.getMembers().add(jvmTypesBuilder.toMethod(model, "getResourceDescriptionStrategy",
+          _typeReferenceBuilder.typeRef(AbstractResourceDescriptionStrategy.class), overriddenGetter("return resourceDescriptionStrategy;")));
+    };
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getExportFeatureExtension(model)), initializer);
+  }
+
+  /**
+   * Returns the initializer of a {@code private} field annotated with {@code @Inject}.
+   *
+   * @return the field initializer, never {@code null}
+   */
+  private Procedure1<JvmField> injectedField() {
+    return (final JvmField field) -> {
+      field.setVisibility(JvmVisibility.PRIVATE);
+      field.getAnnotations().add(typeOnlyAnnotation(Inject.class));
+    };
+  }
+
+  /**
+   * Returns the initializer of a {@code protected} overriding method with the given body.
+   *
+   * @param body
+   *          the Java source of the method body, must not be {@code null}
+   * @return the method initializer, never {@code null}
+   */
+  private Procedure1<JvmOperation> overriddenGetter(final String body) {
+    return (final JvmOperation method) -> {
+      method.setVisibility(JvmVisibility.PROTECTED);
+      method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+      final Procedure1<ITreeAppendable> methodBody = (final ITreeAppendable appendable) -> appendable.append(body);
+      jvmTypesBuilder.setBody(method, methodBody);
+    };
   }
 
   /**
@@ -501,8 +657,8 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the fully qualified name to fall back to, must not be {@code null}
    * @return the type reference, never {@code null}
    */
-  def private JvmTypeReference typeRefOrName(JvmGenericType inferredType, String qualifiedName) {
-    if (inferredType === null) typeRef(qualifiedName) else typeRef(inferredType)
+  private JvmTypeReference typeRefOrName(final JvmGenericType inferredType, final String qualifiedName) {
+    return inferredType == null ? _typeReferenceBuilder.typeRef(qualifiedName) : _typeReferenceBuilder.typeRef(inferredType);
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -516,95 +672,290 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * {@code EPackage}. This happens during editor reconciliation when {@code _infer} runs before the
    * project's index has resolved the type. Skipping those entries keeps the inferred JVM model
    * well-formed; reconciliation re-runs once linking completes and produces the full set.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the EPackages, never {@code null}
    */
-  def private Iterable<EPackage> strategyPackages(ExportModel model) {
-    model.exports.filter[type !== null && !type.abstract].map[type.EPackage].filterNull.toSet.sortBy[nsURI]
+  private Iterable<EPackage> strategyPackages(final ExportModel model) {
+    return model.getExports().stream()
+        .filter(export -> export.getType() != null && !export.getType().isAbstract())
+        .map(export -> export.getType().getEPackage())
+        .filter(Objects::nonNull)
+        .collect(Collectors.toCollection(LinkedHashSet::new))
+        .stream()
+        .sorted(Comparator.comparing(EPackage::getNsURI))
+        .toList();
   }
 
   /**
    * Returns the EPackages of the fingerprint interfaces, sorted by namespace URI. See
    * {@link #strategyPackages} for the rationale on filtering nulls.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the EPackages, never {@code null}
    */
-  def private Iterable<EPackage> fingerprintPackages(ExportModel model) {
-    model.interfaces.filter[type !== null].map[type.EPackage].filterNull.toSet.sortBy[nsURI]
+  private Iterable<EPackage> fingerprintPackages(final ExportModel model) {
+    return model.getInterfaces().stream()
+        .filter(declaration -> declaration.getType() != null)
+        .map(declaration -> declaration.getType().getEPackage())
+        .filter(Objects::nonNull)
+        .collect(Collectors.toCollection(LinkedHashSet::new))
+        .stream()
+        .sorted(Comparator.comparing(EPackage::getNsURI))
+        .toList();
   }
 
-  def private CharSequence qualifiedNameDispatchBody(ExportModel model) {
-    val types = model.exports
-    val exportedEClasses = types.map[type].toSet
-    val exportsMap = types.sortedExportsByEPackage
-    '''
-      org.eclipse.emf.ecore.EClass eClass = object.eClass();
-      org.eclipse.emf.ecore.EPackage ePackage = eClass.getEPackage();
-      «FOR p : exportsMap.keySet.sortBy[nsURI]»
-        if (ePackage == «genModelUtil.qualifiedPackageInterfaceName(p)».eINSTANCE) {
-          int classifierID = eClass.getClassifierID();
-          switch (classifierID) {
-          «FOR c : p.EClassifiers.filter(EClass).filter[c|exportedEClasses.exists[e|e.isSuperTypeOf(c)]]»
-            case «genModelUtil.classifierIdLiteral(c)»: {
-              return qualifiedName((«genModelUtil.instanceClassName(c)») object);
-            }
-          «ENDFOR»
-          default:
-            return null;
-          }
+  /**
+   * Produces the body of the dispatching {@code qualifiedName} method.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence qualifiedNameDispatchBody(final ExportModel model) {
+    final List<Export> types = model.getExports();
+    final Set<EClass> exportedEClasses = types.stream().map(Export::getType).collect(Collectors.toCollection(LinkedHashSet::new));
+    final ListMultimap<EPackage, Export> exportsMap = exportGeneratorX.sortedExportsByEPackage(types);
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("org.eclipse.emf.ecore.EClass eClass = object.eClass();");
+    builder.newLine();
+    builder.append("org.eclipse.emf.ecore.EPackage ePackage = eClass.getEPackage();");
+    builder.newLine();
+    for (final EPackage p : exportsMap.keySet().stream().sorted(Comparator.comparing(EPackage::getNsURI)).toList()) {
+      builder.append("if (ePackage == ");
+      builder.append(genModelUtil.qualifiedPackageInterfaceName(p));
+      builder.append(".eINSTANCE) {");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("int classifierID = eClass.getClassifierID();");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("switch (classifierID) {");
+      builder.newLine();
+      for (final EClass c : Iterables.filter(p.getEClassifiers(), EClass.class)) {
+        if (exportedEClasses.stream().anyMatch(e -> e.isSuperTypeOf(c))) {
+          builder.append("  ");
+          builder.append("case ");
+          builder.append(genModelUtil.classifierIdLiteral(c), "  ");
+          builder.append(": {");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("  ");
+          builder.append("return qualifiedName((");
+          builder.append(genModelUtil.instanceClassName(c), "    ");
+          builder.append(") object);");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("}");
+          builder.newLine();
         }
-      «ENDFOR»
-      return null;
-    '''
+      }
+      builder.append("  ");
+      builder.append("default:");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("return null;");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("}");
+      builder.newLine();
+      builder.append("}");
+      builder.newLine();
+    }
+    builder.append("return null;");
+    builder.newLine();
+    return builder;
   }
 
-  def private CharSequence qualifiedNameBody(ExportModel model, Export c) {
-    '''
-      «javaContributorComment(c.location)»
-      «IF c.naming !== null»
-        final Object name = «javaExpr(c.naming, c.type, model)»;
-        return name != null ? «IF c.qualifiedName»getConverter().toQualifiedName(String.valueOf(name))«ELSE»qualifyWithContainerName(obj, String.valueOf(name))«ENDIF» : null;
-      «ELSE»
-        return «IF c.qualifiedName»getConverter().toQualifiedName(getResolver().apply(obj))«ELSE»qualifyWithContainerName(obj, getResolver().apply(obj))«ENDIF»; // "name" attribute by default
-      «ENDIF»
-    '''
+  /**
+   * Produces the body of the {@code qualifiedName} overload generated for a single export declaration.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param c
+   *          the export declaration, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence qualifiedNameBody(final ExportModel model, final Export c) {
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(c)));
+    builder.newLineIfNotEmpty();
+    if (c.getNaming() != null) {
+      builder.append("final Object name = ");
+      builder.append(javaExpr(c.getNaming(), c.getType(), model));
+      builder.append(";");
+      builder.newLineIfNotEmpty();
+      builder.append("return name != null ? ");
+      if (c.isQualifiedName()) {
+        builder.append("getConverter().toQualifiedName(String.valueOf(name))");
+      } else {
+        builder.append("qualifyWithContainerName(obj, String.valueOf(name))");
+      }
+      builder.append(" : null;");
+      builder.newLineIfNotEmpty();
+    } else {
+      builder.append("return ");
+      if (c.isQualifiedName()) {
+        builder.append("getConverter().toQualifiedName(getResolver().apply(obj))");
+      } else {
+        builder.append("qualifyWithContainerName(obj, getResolver().apply(obj))");
+      }
+      builder.append("; // \"name\" attribute by default");
+      builder.newLineIfNotEmpty();
+    }
+    return builder;
   }
 
-  def private CharSequence exportedEClassesInitializer(ExportModel model) {
-    val e = model.exports.typeMap(model.grammar)
-    '''
-      com.google.common.collect.ImmutableSet.copyOf(new org.eclipse.emf.ecore.EClass[] {
-        «FOR c : e.keySet.sortBy[genModelUtil.literalIdentifier(it)] SEPARATOR ',\n'»«genModelUtil.literalIdentifier(c)»«ENDFOR»
-      })'''
+  /**
+   * Produces the initializer of the {@code EXPORTED_ECLASSES} constant.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence exportedEClassesInitializer(final ExportModel model) {
+    final Map<EClass, Export> e = exportGeneratorX.typeMap(model.getExports(), exportGeneratorX.getGrammar(model));
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("com.google.common.collect.ImmutableSet.copyOf(new org.eclipse.emf.ecore.EClass[] {");
+    builder.newLine();
+    builder.append("  ");
+    boolean hasElements = false;
+    for (final EClass c : e.keySet().stream().sorted(Comparator.comparing(eClass -> genModelUtil.literalIdentifier(eClass))).toList()) {
+      if (hasElements) {
+        builder.appendImmediate(",\n", "  ");
+      } else {
+        hasElements = true;
+      }
+      builder.append(genModelUtil.literalIdentifier(c), "  ");
+    }
+    builder.newLineIfNotEmpty();
+    builder.append("})");
+    return builder;
   }
 
-  def private CharSequence strategySwitchInitializer(ExportModel model, EPackage p) {
-    val types = model.exports
-    '''
-      new «genModelUtil.qualifiedSwitchClassName(p)»<Boolean>() {
-
-        @Override
-        public Boolean defaultCase(final org.eclipse.emf.ecore.EObject obj) {
-          return true;
+  /**
+   * Produces the initializer of the export switch of a single EPackage.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param p
+   *          the EPackage, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence strategySwitchInitializer(final ExportModel model, final EPackage p) {
+    final List<Export> types = model.getExports();
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("new ");
+    builder.append(genModelUtil.qualifiedSwitchClassName(p));
+    builder.append("<Boolean>() {");
+    builder.newLineIfNotEmpty();
+    builder.newLine();
+    builder.append("  ");
+    builder.append("@Override");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("public Boolean defaultCase(final org.eclipse.emf.ecore.EObject obj) {");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("return true;");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("}");
+    builder.newLine();
+    for (final Export c : types.stream()
+        .filter(export -> !export.getType().isAbstract() && Objects.equals(export.getType().getEPackage(), p)).toList()) {
+      builder.newLine();
+      builder.append("  ");
+      builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(c)), "  ");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("@Override");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("public Boolean case");
+      builder.append(c.getType().getName(), "  ");
+      builder.append("(final ");
+      builder.append(genModelUtil.instanceClassName(c.getType()), "  ");
+      builder.append(" obj) {");
+      builder.newLineIfNotEmpty();
+      if (c.getGuard() == null) {
+        builder.append("  ");
+        builder.append("  ");
+        builder.append(generateCaseBody(model, c), "    ");
+        builder.newLineIfNotEmpty();
+      } else {
+        builder.append("  ");
+        builder.append("  ");
+        final String guard = javaExpr(c.getGuard(), c.getType(), model);
+        builder.newLineIfNotEmpty();
+        if (!"false".equalsIgnoreCase(guard)) {
+          builder.append("  ");
+          builder.append("  ");
+          builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(c.getGuard())), "    ");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("  ");
+          builder.append("if (");
+          builder.append(guard, "    ");
+          builder.append(") {");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("  ");
+          builder.append("  ");
+          builder.append(generateCaseBody(model, c), "      ");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("  ");
+          builder.append("}");
+          builder.newLine();
         }
-        «FOR c : types.filter[!type.abstract && type.EPackage == p]»
+      }
+      builder.newLine();
+      builder.append("  ");
+      builder.append("  ");
+      builder.append("// can ");
+      builder.append(c.getType().getName(), "    ");
+      builder.append(" contain any nested ");
+      builder.append(nonAbstractExportedTypeNames(types), "    ");
+      builder.append(" objects ?");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("  ");
+      builder.append("return ");
+      builder.append(generatorUtilX.canContain(c.getType(), nonAbstractExportedTypes(types), exportGeneratorX.getGrammar(model)), "    ");
+      builder.append(";");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("}");
+      builder.newLine();
+    }
+    builder.append("}");
+    return builder;
+  }
 
-          «javaContributorComment(c.location)»
-          @Override
-          public Boolean case«c.type.name»(final «genModelUtil.instanceClassName(c.type)» obj) {
-            «IF c.guard === null»
-              «generateCaseBody(model, c)»
-            «ELSE»
-              «val guard = javaExpr(c.guard, c.type, model)»
-              «IF !guard.equalsIgnoreCase("false")»
-                «javaContributorComment(c.guard.location)»
-                if («guard») {
-                  «generateCaseBody(model, c)»
-                }
-              «ENDIF»
-            «ENDIF»
+  /**
+   * Returns the non-abstract exported types, in declaration order.
+   *
+   * @param types
+   *          the export declarations, must not be {@code null}
+   * @return the non-abstract exported types, never {@code null}
+   */
+  private Set<EClass> nonAbstractExportedTypes(final List<Export> types) {
+    return types.stream().map(Export::getType).filter(type -> !type.isAbstract()).collect(Collectors.toCollection(LinkedHashSet::new));
+  }
 
-            // can «c.type.name» contain any nested «types.map[type].filter[!abstract].map[name].toSet» objects ?
-            return «c.type.canContain(types.map[type].filter[!abstract].toSet, model.grammar)»;
-          }
-        «ENDFOR»
-      }'''
+  /**
+   * Returns the names of the non-abstract exported types, in declaration order.
+   *
+   * @param types
+   *          the export declarations, must not be {@code null}
+   * @return the type names, never {@code null}
+   */
+  private Set<String> nonAbstractExportedTypeNames(final List<Export> types) {
+    return types.stream().map(Export::getType).filter(type -> !type.isAbstract()).map(EClass::getName)
+        .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
   /**
@@ -616,191 +967,444 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the export model, must not be {@code null}
    * @return the simple name of the constants interface, never {@code null}
    */
-  def private String resourceDescriptionConstantsName(ExportModel model) {
-    val qualifiedName = model.resourceDescriptionConstants
-    qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1)
+  private String resourceDescriptionConstantsName(final ExportModel model) {
+    final String qualifiedName = exportGeneratorX.getResourceDescriptionConstants(model);
+    return qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
   }
 
-  def private CharSequence generateCaseBody(ExportModel model, Export c) {
-    val a = c.allEAttributes
-    val d = c.allUserData
-    '''
-      «IF !a.isEmpty || !d.isEmpty || c.fingerprint || c.resourceFingerprint || c.lookup »
-        // Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts
-        java.util.Map<String, String> data = new com.avaloq.tools.ddk.xtext.resource.extensions.AbstractForwardingResourceDescriptionStrategyMap() {
-
-          @Override
-          protected void fill(final com.google.common.collect.ImmutableMap.Builder<String, String> builder) {
-            Object value = null;
-            «IF c.fingerprint»
-              // Fingerprint
-              value = getFingerprint(obj);
-              if (value != null) {
-                builder.put(com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer.OBJECT_FINGERPRINT, value.toString());
-              }
-            «ELSEIF c.resourceFingerprint»
-              // Resource fingerprint
-              value = getFingerprint(obj);
-              if (value != null) {
-                builder.put(com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer.RESOURCE_FINGERPRINT, value.toString());
-              }
-            «ENDIF»
-            «IF c.lookup»
-              // Allow lookups
-              «IF c.lookupPredicate !== null»
-                «javaContributorComment(c.lookupPredicate.location)»
-                if («javaExpr(c.lookupPredicate, c.type, model)») {
-                  builder.put(com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
-                }
-              «ELSE»
-                builder.put(com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());
-              «ENDIF»
-            «ENDIF»
-            «IF !a.isEmpty »
-              // Exported attributes
-              «FOR attr : a»
-                value = obj.eGet(«genModelUtil.literalIdentifier(attr)», false);
-                if (value != null) {
-                  builder.put(«model.resourceDescriptionConstantsName».«constantName(attr, c.type)», value.toString());
-                }
-              «ENDFOR»
-            «ENDIF»
-            «IF !d.isEmpty »
-              // User data
-              «FOR data : d»
-                value = «javaExpr(data.expr, c.type, model)»;
-                if (value != null) {
-                  builder.put(«model.resourceDescriptionConstantsName».«constantName(data, c.type)», value.toString());
-                }
-              «ENDFOR»
-            «ENDIF»
-          }
-        };
-        acceptEObjectDescription(obj, data, acceptor.get());
-      «ELSE»
-        acceptEObjectDescription(obj, acceptor.get());
-      «ENDIF»
-    '''
-  }
-
-  def private CharSequence strategyDoCreateBody(ExportModel model) {
-    '''
-      try {
-        this.acceptor.set(acceptor);
-        final org.eclipse.emf.ecore.EPackage ePackage = object.eClass().getEPackage();
-        «FOR p : model.strategyPackages»
-          if (ePackage == «genModelUtil.qualifiedPackageInterfaceName(p)».eINSTANCE) {
-            return «p.name»ExportSwitch.doSwitch(object);
-          }
-        «ENDFOR»
-        «IF model.extension»
-          // Extension does not have to cover all EPackages of the language
-          return false;
-        «ELSE»
-          // TODO: generate code for other possible epackages (as defined by grammar)
-          return true;
-        «ENDIF»
-      } finally {
-        this.acceptor.set(null);
+  /**
+   * Produces the body of a single {@code caseXyz} method of the export switch.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param c
+   *          the export declaration, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence generateCaseBody(final ExportModel model, final Export c) {
+    final List<EAttribute> a = c.getAllEAttributes();
+    final List<UserData> d = exportGeneratorX.allUserData(c);
+    final StringConcatenation builder = new StringConcatenation();
+    final boolean hasExportedData = !a.isEmpty() || !d.isEmpty();
+    final boolean hasFingerprintOrLookup = c.isFingerprint() || c.isResourceFingerprint() || c.isLookup();
+    if (hasExportedData || hasFingerprintOrLookup) {
+      builder.append("// Use a forwarding map to delay calculation as much as possible; otherwise we may get recursive EObject resolution attempts");
+      builder.newLine();
+      builder.append("java.util.Map<String, String> data = new com.avaloq.tools.ddk.xtext.resource.extensions.AbstractForwardingResourceDescriptionStrategyMap() {");
+      builder.newLine();
+      builder.newLine();
+      builder.append("  ");
+      builder.append("@Override");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("protected void fill(final com.google.common.collect.ImmutableMap.Builder<String, String> builder) {");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("Object value = null;");
+      builder.newLine();
+      if (c.isFingerprint()) {
+        builder.append("    ");
+        builder.append("// Fingerprint");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("value = getFingerprint(obj);");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("if (value != null) {");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("  ");
+        builder.append("builder.put(com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer.OBJECT_FINGERPRINT, value.toString());");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("}");
+        builder.newLine();
+      } else if (c.isResourceFingerprint()) {
+        builder.append("    ");
+        builder.append("// Resource fingerprint");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("value = getFingerprint(obj);");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("if (value != null) {");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("  ");
+        builder.append("builder.put(com.avaloq.tools.ddk.xtext.resource.IFingerprintComputer.RESOURCE_FINGERPRINT, value.toString());");
+        builder.newLine();
+        builder.append("    ");
+        builder.append("}");
+        builder.newLine();
       }
-    '''
-  }
-
-  def private CharSequence fingerprintSwitchInitializer(ExportModel model, EPackage p) {
-    '''
-      new «genModelUtil.qualifiedSwitchClassName(p)»<com.google.common.hash.Hasher>() {
-        «FOR f : model.interfaces.filter[type.EPackage == p]»
-
-          «javaContributorComment(f.location)»
-          @Override
-          public com.google.common.hash.Hasher case«f.type.name»(final «genModelUtil.instanceClassName(f.type)» obj) {
-            final com.google.common.hash.Hasher hasher = hasherAccess.get();
-            «IF f.guard !== null»
-              if (!(«javaExpr(f.guard, f.type, model)»)) {
-                return hasher;
-              }
-            «ENDIF»
-            hasher.putUnencodedChars(obj.eClass().getName()).putChar(ITEM_SEP);
-            «FOR superFingerprint : f.getSuperInterfaces(f.type)»
-              «FOR superItem : superFingerprint.items»
-                «doProfile(superItem, model, superFingerprint.type)»
-              «ENDFOR»
-            «ENDFOR»
-            «FOR item : f.items»
-              «doProfile(item, model, f.type)»
-            «ENDFOR»
-            return hasher;
-          }
-        «ENDFOR»
-      }'''
-  }
-
-  def private CharSequence fingerprintMethodBody(ExportModel model) {
-    '''
-      hasherAccess.set(hasher);
-      «IF !model.interfaces.isEmpty»
-        final org.eclipse.emf.ecore.EPackage ePackage = object.eClass().getEPackage();
-        «FOR p : model.fingerprintPackages»
-          if (ePackage == «genModelUtil.qualifiedPackageInterfaceName(p)».eINSTANCE) {
-            «p.name»Switch.doSwitch(object);
-          }
-        «ENDFOR»
-      «ENDIF»
-      hasherAccess.set(null);
-    '''
-  }
-
-  def private dispatch CharSequence doProfile(InterfaceItem it, ExportModel model, EClass type) {
-    'ERROR' + it.toString + ' ' + javaContributorComment(it.location)
-  }
-
-  def private dispatch CharSequence doProfile(InterfaceField it, ExportModel model, EClass type) '''
-    «IF field.many && (unordered == true) »
-      fingerprintFeature(obj, «genModelUtil.literalIdentifier(field)», FingerprintOrder.UNORDERED, hasher);
-    «ELSE»
-      fingerprintFeature(obj, «genModelUtil.literalIdentifier(field)», hasher);
-    «ENDIF»
-    hasher.putChar(ITEM_SEP);
-  '''
-
-  def private dispatch CharSequence doProfile(InterfaceNavigation it, ExportModel model, EClass type) '''
-    «IF ref.many && (unordered == true) »
-      fingerprintRef(obj, «genModelUtil.literalIdentifier(ref)», FingerprintOrder.UNORDERED, hasher);
-    «ELSE»
-      fingerprintRef(obj, «genModelUtil.literalIdentifier(ref)», hasher);
-    «ENDIF»
-    hasher.putChar(ITEM_SEP);
-  '''
-
-  def private dispatch CharSequence doProfile(InterfaceExpression it, ExportModel model, EClass type) '''
-    fingerprintExpr(«javaExpr(expr, type, model)», obj, FingerprintOrder.«if (unordered) "UNORDERED" else "ORDERED"», FingerprintIndirection.«if (ref) "INDIRECT" else "DIRECT"», hasher);
-    hasher.putChar(ITEM_SEP);
-  '''
-
-  def private CharSequence appendFragmentSegmentBody(ExportModel model, Collection<Export> fingerprintedExports) {
-    val typeMap = fingerprintedExports.typeMap(model.grammar)
-    val sortedExportsMap = fingerprintedExports.sortedExportsByEPackage
-    '''
-      org.eclipse.emf.ecore.EClass eClass = object.eClass();
-      org.eclipse.emf.ecore.EPackage ePackage = eClass.getEPackage();
-      «FOR p : sortedExportsMap.keySet»
-        if (ePackage == «genModelUtil.qualifiedPackageInterfaceName(p)».eINSTANCE) {
-          int classifierID = eClass.getClassifierID();
-          switch (classifierID) {
-          «FOR c : p.EClassifiers.filter(EClass).filter[c|fingerprintedExports.map[type].exists[e|e.isSuperTypeOf(c)]]»
-            «val e = typeMap.get(c)»
-            «javaContributorComment(e.location)»
-            case «genModelUtil.classifierIdLiteral(c)»: {
-              return appendFragmentSegment((«genModelUtil.instanceClassName(c)») object, builder);
-            }
-          «ENDFOR»
-          default:
-            return super.appendFragmentSegment(object, builder);
-          }
+      if (c.isLookup()) {
+        builder.append("    ");
+        builder.append("// Allow lookups");
+        builder.newLine();
+        if (c.getLookupPredicate() != null) {
+          builder.append("    ");
+          builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(c.getLookupPredicate())), "    ");
+          builder.newLineIfNotEmpty();
+          builder.append("    ");
+          builder.append("if (");
+          builder.append(javaExpr(c.getLookupPredicate(), c.getType(), model), "    ");
+          builder.append(") {");
+          builder.newLineIfNotEmpty();
+          builder.append("    ");
+          builder.append("  ");
+          builder.append("builder.put(com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());");
+          builder.newLine();
+          builder.append("    ");
+          builder.append("}");
+          builder.newLine();
+        } else {
+          builder.append("    ");
+          builder.append("builder.put(com.avaloq.tools.ddk.xtext.resource.DetachableEObjectDescription.ALLOW_LOOKUP, Boolean.TRUE.toString());");
+          builder.newLine();
         }
-      «ENDFOR»
-      return super.appendFragmentSegment(object, builder);
-    '''
+      }
+      if (!a.isEmpty()) {
+        builder.append("    ");
+        builder.append("// Exported attributes");
+        builder.newLine();
+        for (final EAttribute attr : a) {
+          builder.append("    ");
+          builder.append("value = obj.eGet(");
+          builder.append(genModelUtil.literalIdentifier(attr), "    ");
+          builder.append(", false);");
+          builder.newLineIfNotEmpty();
+          builder.append("    ");
+          builder.append("if (value != null) {");
+          builder.newLine();
+          builder.append("    ");
+          builder.append("  ");
+          builder.append("builder.put(");
+          builder.append(resourceDescriptionConstantsName(model), "      ");
+          builder.append(".");
+          builder.append(exportGeneratorX.constantName(attr, c.getType()), "      ");
+          builder.append(", value.toString());");
+          builder.newLineIfNotEmpty();
+          builder.append("    ");
+          builder.append("}");
+          builder.newLine();
+        }
+      }
+      if (!d.isEmpty()) {
+        builder.append("    ");
+        builder.append("// User data");
+        builder.newLine();
+        for (final UserData data : d) {
+          builder.append("    ");
+          builder.append("value = ");
+          builder.append(javaExpr(data.getExpr(), c.getType(), model), "    ");
+          builder.append(";");
+          builder.newLineIfNotEmpty();
+          builder.append("    ");
+          builder.append("if (value != null) {");
+          builder.newLine();
+          builder.append("    ");
+          builder.append("  ");
+          builder.append("builder.put(");
+          builder.append(resourceDescriptionConstantsName(model), "      ");
+          builder.append(".");
+          builder.append(exportGeneratorX.constantName(data, c.getType()), "      ");
+          builder.append(", value.toString());");
+          builder.newLineIfNotEmpty();
+          builder.append("    ");
+          builder.append("}");
+          builder.newLine();
+        }
+      }
+      builder.append("  ");
+      builder.append("}");
+      builder.newLine();
+      builder.append("};");
+      builder.newLine();
+      builder.append("acceptEObjectDescription(obj, data, acceptor.get());");
+      builder.newLine();
+    } else {
+      builder.append("acceptEObjectDescription(obj, acceptor.get());");
+      builder.newLine();
+    }
+    return builder;
+  }
+
+  /**
+   * Produces the body of {@code doCreateEObjectDescriptions}.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence strategyDoCreateBody(final ExportModel model) {
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("try {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("this.acceptor.set(acceptor);");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("final org.eclipse.emf.ecore.EPackage ePackage = object.eClass().getEPackage();");
+    builder.newLine();
+    for (final EPackage p : strategyPackages(model)) {
+      builder.append("  ");
+      builder.append("if (ePackage == ");
+      builder.append(genModelUtil.qualifiedPackageInterfaceName(p), "  ");
+      builder.append(".eINSTANCE) {");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("  ");
+      builder.append("return ");
+      builder.append(p.getName(), "    ");
+      builder.append("ExportSwitch.doSwitch(object);");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("}");
+      builder.newLine();
+    }
+    if (model.isExtension()) {
+      builder.append("  ");
+      builder.append("// Extension does not have to cover all EPackages of the language");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("return false;");
+      builder.newLine();
+    } else {
+      builder.append("  ");
+      builder.append("// TODO: generate code for other possible epackages (as defined by grammar)");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("return true;");
+      builder.newLine();
+    }
+    builder.append("} finally {");
+    builder.newLine();
+    builder.append("  ");
+    builder.append("this.acceptor.set(null);");
+    builder.newLine();
+    builder.append("}");
+    builder.newLine();
+    return builder;
+  }
+
+  /**
+   * Produces the initializer of the fingerprint switch of a single EPackage.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param p
+   *          the EPackage, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence fingerprintSwitchInitializer(final ExportModel model, final EPackage p) {
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("new ");
+    builder.append(genModelUtil.qualifiedSwitchClassName(p));
+    builder.append("<com.google.common.hash.Hasher>() {");
+    builder.newLineIfNotEmpty();
+    for (final Interface f : model.getInterfaces().stream()
+        .filter(declaration -> Objects.equals(declaration.getType().getEPackage(), p)).toList()) {
+      builder.newLine();
+      builder.append("  ");
+      builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(f)), "  ");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("@Override");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("public com.google.common.hash.Hasher case");
+      builder.append(f.getType().getName(), "  ");
+      builder.append("(final ");
+      builder.append(genModelUtil.instanceClassName(f.getType()), "  ");
+      builder.append(" obj) {");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("  ");
+      builder.append("final com.google.common.hash.Hasher hasher = hasherAccess.get();");
+      builder.newLine();
+      if (f.getGuard() != null) {
+        builder.append("  ");
+        builder.append("  ");
+        builder.append("if (!(");
+        builder.append(javaExpr(f.getGuard(), f.getType(), model), "    ");
+        builder.append(")) {");
+        builder.newLineIfNotEmpty();
+        builder.append("  ");
+        builder.append("  ");
+        builder.append("  ");
+        builder.append("return hasher;");
+        builder.newLine();
+        builder.append("  ");
+        builder.append("  ");
+        builder.append("}");
+        builder.newLine();
+      }
+      builder.append("  ");
+      builder.append("  ");
+      builder.append("hasher.putUnencodedChars(obj.eClass().getName()).putChar(ITEM_SEP);");
+      builder.newLine();
+      for (final Interface superFingerprint : exportGeneratorX.getSuperInterfaces(f, f.getType())) {
+        for (final InterfaceItem superItem : superFingerprint.getItems()) {
+          builder.append("  ");
+          builder.append("  ");
+          builder.append(doProfile(superItem, model, superFingerprint.getType()), "    ");
+          builder.newLineIfNotEmpty();
+        }
+      }
+      for (final InterfaceItem item : f.getItems()) {
+        builder.append("  ");
+        builder.append("  ");
+        builder.append(doProfile(item, model, f.getType()), "    ");
+        builder.newLineIfNotEmpty();
+      }
+      builder.append("  ");
+      builder.append("  ");
+      builder.append("return hasher;");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("}");
+      builder.newLine();
+    }
+    builder.append("}");
+    return builder;
+  }
+
+  /**
+   * Produces the body of the {@code fingerprint} method.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence fingerprintMethodBody(final ExportModel model) {
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("hasherAccess.set(hasher);");
+    builder.newLine();
+    if (!model.getInterfaces().isEmpty()) {
+      builder.append("final org.eclipse.emf.ecore.EPackage ePackage = object.eClass().getEPackage();");
+      builder.newLine();
+      for (final EPackage p : fingerprintPackages(model)) {
+        builder.append("if (ePackage == ");
+        builder.append(genModelUtil.qualifiedPackageInterfaceName(p));
+        builder.append(".eINSTANCE) {");
+        builder.newLineIfNotEmpty();
+        builder.append("  ");
+        builder.append(p.getName(), "  ");
+        builder.append("Switch.doSwitch(object);");
+        builder.newLineIfNotEmpty();
+        builder.append("}");
+        builder.newLine();
+      }
+    }
+    builder.append("hasherAccess.set(null);");
+    builder.newLine();
+    return builder;
+  }
+
+  private CharSequence _doProfile(final InterfaceItem it, final ExportModel model, final EClass type) {
+    return "ERROR" + it.toString() + " " + generatorUtilX.javaContributorComment(generatorUtilX.location(it));
+  }
+
+  private CharSequence _doProfile(final InterfaceField it, final ExportModel model, final EClass type) {
+    final boolean unorderedMany = it.getField().isMany() && it.isUnordered();
+    final StringBuilder builder = new StringBuilder(512);
+    builder.append("fingerprintFeature(obj, ").append(genModelUtil.literalIdentifier(it.getField()));
+    if (unorderedMany) {
+      builder.append(", FingerprintOrder.UNORDERED, hasher);\n");
+    } else {
+      builder.append(", hasher);\n");
+    }
+    builder.append("hasher.putChar(ITEM_SEP);\n");
+    return builder;
+  }
+
+  private CharSequence _doProfile(final InterfaceNavigation it, final ExportModel model, final EClass type) {
+    final boolean unorderedMany = it.getRef().isMany() && it.isUnordered();
+    final StringBuilder builder = new StringBuilder(512);
+    builder.append("fingerprintRef(obj, ").append(genModelUtil.literalIdentifier(it.getRef()));
+    if (unorderedMany) {
+      builder.append(", FingerprintOrder.UNORDERED, hasher);\n");
+    } else {
+      builder.append(", hasher);\n");
+    }
+    builder.append("hasher.putChar(ITEM_SEP);\n");
+    return builder;
+  }
+
+  private CharSequence _doProfile(final InterfaceExpression it, final ExportModel model, final EClass type) {
+    return """
+        fingerprintExpr(%s, obj, FingerprintOrder.%s, FingerprintIndirection.%s, hasher);
+        hasher.putChar(ITEM_SEP);
+        """.formatted(javaExpr(it.getExpr(), type, model), it.isUnordered() ? "UNORDERED" : "ORDERED", it.isRef() ? "INDIRECT" : "DIRECT");
+  }
+
+  /**
+   * Produces the body of the dispatching {@code appendFragmentSegment} method.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param fingerprintedExports
+   *          the fingerprinted export declarations, must not be {@code null}
+   * @return the Java source fragment, never {@code null}
+   */
+  private CharSequence appendFragmentSegmentBody(final ExportModel model, final Collection<Export> fingerprintedExports) {
+    final Map<EClass, Export> typeMap = exportGeneratorX.typeMap(fingerprintedExports, exportGeneratorX.getGrammar(model));
+    final ListMultimap<EPackage, Export> sortedExportsMap = exportGeneratorX.sortedExportsByEPackage(fingerprintedExports);
+    final StringConcatenation builder = new StringConcatenation();
+    builder.append("org.eclipse.emf.ecore.EClass eClass = object.eClass();");
+    builder.newLine();
+    builder.append("org.eclipse.emf.ecore.EPackage ePackage = eClass.getEPackage();");
+    builder.newLine();
+    for (final EPackage p : sortedExportsMap.keySet()) {
+      builder.append("if (ePackage == ");
+      builder.append(genModelUtil.qualifiedPackageInterfaceName(p));
+      builder.append(".eINSTANCE) {");
+      builder.newLineIfNotEmpty();
+      builder.append("  ");
+      builder.append("int classifierID = eClass.getClassifierID();");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("switch (classifierID) {");
+      builder.newLine();
+      for (final EClass c : Iterables.filter(p.getEClassifiers(), EClass.class)) {
+        if (fingerprintedExports.stream().map(Export::getType).anyMatch(e -> e.isSuperTypeOf(c))) {
+          builder.append("  ");
+          final Export e = typeMap.get(c);
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append(generatorUtilX.javaContributorComment(generatorUtilX.location(e)), "  ");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("case ");
+          builder.append(genModelUtil.classifierIdLiteral(c), "  ");
+          builder.append(": {");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("  ");
+          builder.append("return appendFragmentSegment((");
+          builder.append(genModelUtil.instanceClassName(c), "    ");
+          builder.append(") object, builder);");
+          builder.newLineIfNotEmpty();
+          builder.append("  ");
+          builder.append("}");
+          builder.newLine();
+        }
+      }
+      builder.append("  ");
+      builder.append("default:");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("return super.appendFragmentSegment(object, builder);");
+      builder.newLine();
+      builder.append("  ");
+      builder.append("}");
+      builder.newLine();
+      builder.append("}");
+      builder.newLine();
+    }
+    builder.append("return super.appendFragmentSegment(object, builder);");
+    builder.newLine();
+    return builder;
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -819,8 +1423,8 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the export model, must not be {@code null}
    * @return the Java expression, never {@code null}
    */
-  def private String javaExpr(Expression expression, EClass type, ExportModel model) {
-    compiler.javaExpression(expression, translator.newCompilationContext('obj', type, <Pair<String, String>>newArrayList, model)).toString
+  private String javaExpr(final Expression expression, final EClass type, final ExportModel model) {
+    return compiler.javaExpression(expression, translator.newCompilationContext("obj", type, new ArrayList<Pair<String, String>>(), model));
   }
 
   /**
@@ -829,13 +1433,13 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    * @param type
    *          the type to annotate, must not be {@code null}
    */
-  def private void addSuppressWarningsAll(JvmGenericType type) {
-    val annotation = typesFactory.createJvmAnnotationReference
-    annotation.annotation = typeRef(SuppressWarnings).type as JvmAnnotationType
-    val value = typesFactory.createJvmStringAnnotationValue
-    value.values += 'all'
-    annotation.explicitValues += value
-    type.annotations += annotation
+  private void addSuppressWarningsAll(final JvmGenericType type) {
+    final JvmAnnotationReference annotation = typesFactory.createJvmAnnotationReference();
+    annotation.setAnnotation((JvmAnnotationType) _typeReferenceBuilder.typeRef(SuppressWarnings.class).getType());
+    final JvmStringAnnotationValue value = typesFactory.createJvmStringAnnotationValue();
+    value.getValues().add("all");
+    annotation.getExplicitValues().add(value);
+    type.getAnnotations().add(annotation);
   }
 
   /**
@@ -845,10 +1449,10 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the annotation type, must not be {@code null}
    * @return the annotation reference, never {@code null}
    */
-  def private JvmAnnotationReference typeOnlyAnnotation(Class<?> annotationClass) {
-    val annotation = typesFactory.createJvmAnnotationReference
-    annotation.annotation = typeRef(annotationClass).type as JvmAnnotationType
-    annotation
+  private JvmAnnotationReference typeOnlyAnnotation(final Class<?> annotationClass) {
+    final JvmAnnotationReference annotation = typesFactory.createJvmAnnotationReference();
+    annotation.setAnnotation((JvmAnnotationType) _typeReferenceBuilder.typeRef(annotationClass).getType());
+    return annotation;
   }
 
   /**
@@ -858,15 +1462,15 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the export model, must not be {@code null}
    * @return the containing project, or {@code null} if it cannot be determined
    */
-  def private IProject projectOf(ExportModel model) {
-    val uri = model.eResource.URI
-    if (uri.isPlatformResource) {
-      val resource = ResourcesPlugin.workspace.root.findMember(uri.toPlatformString(true))
-      if (resource !== null) {
-        return resource.project
+  private IProject projectOf(final ExportModel model) {
+    final URI uri = model.eResource().getURI();
+    if (uri.isPlatformResource()) {
+      final IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
+      if (resource != null) {
+        return resource.getProject();
       }
     }
-    null
+    return null;
   }
 
   /**
@@ -883,15 +1487,47 @@ class ExportJvmModelInferrer extends AbstractModelInferrer {
    *          the export model, must not be {@code null}
    * @return {@code true} if a class with that name already exists in the stub source folder
    */
-  def private boolean hasCustomResourceDescriptionManager(ExportModel model) {
-    val project = model.projectOf
-    val stubDirectory = outputConfigurationProvider.outputConfigurations.findFirst [
-      name == ExportOutputConfigurationProvider.STUB_OUTPUT
-    ]?.outputDirectory
-    if (project === null || stubDirectory === null) {
-      return false
+  private boolean hasCustomResourceDescriptionManager(final ExportModel model) {
+    final IProject project = projectOf(model);
+    final OutputConfiguration stubConfiguration = outputConfigurationProvider.getOutputConfigurations().stream()
+        .filter(configuration -> Objects.equals(configuration.getName(), ExportOutputConfigurationProvider.STUB_OUTPUT))
+        .findFirst().orElse(null);
+    final String stubDirectory = stubConfiguration != null ? stubConfiguration.getOutputDirectory() : null;
+    if (project == null || stubDirectory == null) {
+      return false;
     }
-    project.getFile(stubDirectory + '/' + model.resourceDescriptionManager.replace('.', '/') + '.java').exists
+    return project.getFile(stubDirectory + "/" + exportGeneratorX.getResourceDescriptionManager(model).replace(".", "/") + ".java").exists();
   }
+
+  //////////////////////////////////////////////////
+  // DISPATCHERS
+  //////////////////////////////////////////////////
+  @Override
+  public void infer(final EObject model, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
+    if (model instanceof ExportModel exportModel) {
+      _infer(exportModel, acceptor, isPreIndexingPhase);
+    } else if (model != null) {
+      _infer(model, acceptor, isPreIndexingPhase);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(model, acceptor, isPreIndexingPhase));
+    }
+  }
+
+  private CharSequence doProfile(final InterfaceItem it, final ExportModel model, final EClass type) {
+    if (it instanceof InterfaceExpression interfaceExpression) {
+      return _doProfile(interfaceExpression, model, type);
+    } else if (it instanceof InterfaceField interfaceField) {
+      return _doProfile(interfaceField, model, type);
+    } else if (it instanceof InterfaceNavigation interfaceNavigation) {
+      return _doProfile(interfaceNavigation, model, type);
+    } else if (it != null) {
+      return _doProfile(it, model, type);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, model, type));
+    }
+  }
+
+  // CHECKSTYLE:CHECK-ON LambdaBodyLength
+  // CHECKSTYLE:CONSTANTS-ON
 
 }
