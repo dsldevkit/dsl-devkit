@@ -346,7 +346,7 @@ public final class CoreSwtbotTools {
     waitForTableItem(bot, table);
     List<SWTBotTableItem> items = new ArrayList<SWTBotTableItem>();
     for (int i = 0; i < table.rowCount(); i++) {
-      items = new ArrayList<SWTBotTableItem>(Arrays.asList(table.getTableItem(i)));
+      items.add(table.getTableItem(i));
     }
     return items;
   }
