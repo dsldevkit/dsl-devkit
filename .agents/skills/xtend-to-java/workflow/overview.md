@@ -1,6 +1,8 @@
 # Conversion workflow overview
 
-This is the full end-to-end workflow for migrating Xtend files to Java in dsl-devkit.
+This is the full end-to-end workflow for migrating Xtend files to Java in an Eclipse/Tycho repository.
+
+`<parent-pom>` is the reactor's parent POM, and `<target-module>` is the Maven module holding the target-platform definition.
 
 ## Step 0 — Establish scope
 
@@ -41,7 +43,7 @@ Before touching any files, establish:
    Collect the list of `.xtend` source files to migrate.
 
 2. **What should the branch be called?**
-   Convention: `migrate/xtend-to-java/<short-name>` (e.g., `migrate/xtend-to-java/check-core-test`).
+   Convention: `migrate/xtend-to-java/<short-name>`.
 
 3. **Is there an existing migration branch with pre-converted files?**
    If yes, you can pull already-converted `.java` files from it (Step 2 Option A).
@@ -60,8 +62,7 @@ git fetch upstream
 git checkout -b "$SLICE" upstream/master
 ```
 
-For stacked multi-slice migrations, suffix the branch name with `-step-N`
-(e.g. `migrate/xtend-to-java/check-core-step-1`, `...-step-2`) per the
+For stacked multi-slice migrations, suffix the branch name with `-step-N` per the
 project's stacked-PR convention.
 
 ---
@@ -106,7 +107,7 @@ Do not write the Java file first and then vet it — read the references first, 
 > first to (re)generate `xtend-gen/`:
 >
 > ```bash
-> mvn -f ./ddk-parent/pom.xml -pl :<module> -am -DskipTests -T 3C compile --batch-mode
+> mvn -f <parent-pom> -pl :<target-module>,:<module> -am -DskipTests -T 3C compile --batch-mode
 > ```
 >
 > The freshly built `xtend-gen/` is the **authoritative** ground truth: it is the Xtend compiler's
@@ -168,7 +169,7 @@ Xtend's template whitespace rules:
 After reading both references, write Java that:
 1. **Matches the `xtend-gen/` behavior exactly** for all string outputs, method signatures, and control flow
 2. **Uses idiomatic Java** (text blocks, `.formatted()`, concatenation) instead of `StringConcatenation`
-3. **Preserves the original class/member Javadoc exactly** — never invent. (Copyright header excepted: always normalise it to the Avaloq banner per [`formatting-and-commit.md`](./formatting-and-commit.md).)
+3. **Preserves the original class/member Javadoc exactly** — never invent. (Copyright header excepted: always normalise it to the repository's required header per [`formatting-and-commit.md`](./formatting-and-commit.md).)
 4. **Follows the quality checklist** in [`workflow/validation-checklist.md`](./validation-checklist.md)
 
 ---
@@ -181,25 +182,36 @@ See [`workflow/validation-checklist.md`](./validation-checklist.md) — every ru
 
 ## Step 5 — Build and verify
 
+**Include the target-platform module in every `-pl` list.** Its artifact is not in `~/.m2`, so a gate
+command that lists only the migrated module fails to resolve it.
+
+**Before the first compile after the rename commit, delete the generated files under
+`<module>/xtend-gen/` except its `.gitignore`**, e.g.
+`find <module>/xtend-gen -mindepth 1 ! -name .gitignore -delete`; otherwise the stale generated copy
+of the renamed class stays on the source path, collides with the new `.java` or hides a class you
+have not translated yet, and the compile result no longer tells you anything.
+
+**Compare `xtend-gen/` trees with `diff -r -x '.*'`** so the `._trace` sidecars are skipped.
+
 Module-specific build first:
 ```bash
-mvn -pl <module1>,<module2> -am verify -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
+mvn -pl :<target-module>,<module1>,<module2> -am verify -f <parent-pom> > mvn-output.txt 2>&1
 ```
 
 **PMD needs compiled classes** for type-resolution rules (`MissingOverride`, `UnnecessaryCast`,
 `LooseCoupling`, `UseCollectionIsEmpty`). Always compile first:
 ```bash
-mvn clean compile pmd:check -f ./ddk-parent/pom.xml -pl <modules> -am > mvn-output.txt 2>&1
+mvn clean compile pmd:check -f <parent-pom> -pl :<target-module>,<modules> -am > mvn-output.txt 2>&1
 ```
 
 Checkstyle works on source only:
 ```bash
-mvn checkstyle:check -f ./ddk-parent/pom.xml -pl <modules> > mvn-output.txt 2>&1
+mvn checkstyle:check -f <parent-pom> -pl :<target-module>,<modules> > mvn-output.txt 2>&1
 ```
 
 Full CI-equivalent:
 ```bash
-mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end > mvn-output.txt 2>&1
+mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f <parent-pom> --batch-mode --fail-at-end > mvn-output.txt 2>&1
 ```
 
 Always check the final `BUILD SUCCESS/FAILURE` line. With `--fail-at-end`, intermediate lines can

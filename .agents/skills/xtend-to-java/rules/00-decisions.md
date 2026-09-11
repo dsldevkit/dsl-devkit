@@ -88,9 +88,7 @@ LOGGER.info("Processing file: %s".formatted(path));
 
 Add at class level **only when the module's effective JDT settings have `nonExternalizedStringLiteral=warning`**.
 
-To check: look at `<module>/.settings/org.eclipse.jdt.core.prefs`. If absent (most modules), check the project's shared settings at `ddk-configuration/.settings/org.eclipse.jdt.core.prefs`.
-
-**Current DDK state:** all modules inherit `warning` from `ddk-configuration`, so all migrated classes currently need `@SuppressWarnings("nls")` at class level. If a test-specific settings profile is later added with `ignore` (as in ASMD), test classes would not need it.
+To check: look at `<module>/.settings/org.eclipse.jdt.core.prefs`. If absent, check the shared settings project's `.settings/org.eclipse.jdt.core.prefs`.
 
 ```java
 @SuppressWarnings("nls")

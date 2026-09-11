@@ -65,12 +65,14 @@ Generates a constructor taking all final fields as parameters. Write it manually
 
 ### `@Tag`
 
+Applies only if the project uses DDK's test framework (`@Tag` / `TagExtension` from `com.avaloq.tools.ddk.xtext.test.core`).
+
 Assigns sequential integers (starting at `TagCompilationParticipant.COUNTER_BASE = 10000`) to test
 marker fields at Xtend compile time via `TagCompilationParticipant`.
 
 Standard Java APT (`AbstractProcessor`) **cannot** replicate this — it can only generate new source
 files, not modify initializers of existing fields. Use `TagExtension` instead: a JUnit 5
-`BeforeEachCallback` in `com.avaloq.tools.ddk.xtext.test.core` that performs the same sequential
+`BeforeEachCallback` that performs the same sequential
 assignment at runtime via reflection.
 
 **Migration steps:**
@@ -84,10 +86,7 @@ assignment at runtime via reflection.
    ```java
    @ExtendWith({InjectionExtension.class, TagExtension.class})
    ```
-3. Add the import:
-   ```java
-   import com.avaloq.tools.ddk.xtext.test.TagExtension;
-   ```
+3. Import `TagExtension` from the test framework's package.
 
 **Why not `final`?** `TagExtension` uses `Field.setInt()` to write the value at runtime.
 `Field.setInt()` on a `final` field throws `IllegalAccessException` even after `setAccessible(true)`
@@ -138,7 +137,14 @@ public class MyFormatter extends AbstractFormatter {
 Rules:
 - **Keep the `_` prefix** — the Xtext runtime resolves dispatch by name.
 - **Suppress at class level**: `@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})`
-- Order `instanceof` checks from most specific to least specific.
+- **Take the case ORDER from `xtend-gen/`, never from source order.** Xtend sorts dispatch cases by
+  type specificity, not by declaration order — e.g. `OperationCall` and `TypeSelectExpression` extend
+  both `Expression` and `FeatureCall`, so their relative position is not what the `.xtend` suggests.
+  Order `instanceof` checks most specific first, exactly as `xtend-gen/` did.
+- **Keep the terminal `else { throw new IllegalArgumentException("Unhandled parameter types: …"); }`
+  exactly as `xtend-gen/` emits it**, even after a `!= null` / `== null` pair. Java's definite-return
+  analysis does not treat that pair as exhaustive; deleting the terminal throw leaves a non-void
+  dispatcher without a return on every path.
 - If the original `dispatch` had `override`, add `@Override` to the **dispatcher**, not the `_` methods.
 - The dispatcher parameter type should be the common supertype (often `Object` or `EObject`).
 - If the parent class has dispatch methods with the same name, the dispatcher must call `super._methodName()` for types not handled locally.
@@ -181,8 +187,8 @@ the **data contract** first:
 
 - if the API or format supplies an encoding, honour it — e.g. pass `file.getCharset()` when reading an Eclipse
   `IFile` (the `InputStreamReader(InputStream, String)` overload accepts that value);
-- for repository-owned text governed by `ddk-parent/pom.xml`'s UTF-8 project encoding, use
-  `java.nio.charset.StandardCharsets.UTF_8`:
+- for repository-owned text governed by the parent POM's `project.build.sourceEncoding`, use
+  the corresponding charset; for UTF-8, use `java.nio.charset.StandardCharsets.UTF_8`:
   `new InputStreamReader(stream, StandardCharsets.UTF_8)`;
 - for opaque external data with no documented encoding, do **not** guess UTF-8 from the Java source-encoding
   setting. Establish the contract. If platform-default encoding is genuinely part of that contract, use
@@ -190,5 +196,5 @@ the **data contract** first:
 
 This is a sanctioned divergence from `xtend-gen` only when the chosen charset follows a verified contract;
 call it out and test it. Do not use a lint warning as blanket permission for an unrelated behaviour change.
-Two legacy `// NOPMD` suppressions of this rule exist in hand-written code (`CheckPreferencesHelper`,
-`XtextGMFResourceUtil`); they are grandfathered, not a precedent for migrations.
+Any legacy `// NOPMD` suppressions of this rule in hand-written code are grandfathered,
+not a precedent for migrations.

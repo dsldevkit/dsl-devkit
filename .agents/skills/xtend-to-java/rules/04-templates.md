@@ -111,6 +111,12 @@ for (final String k : properties.keySet()) {
 return builder;
 ```
 
+**Tier 4 does not apply to every control-flow template.** A template whose `xtend-gen/` chain contains
+`newLineIfNotEmpty()` after a dynamic value, a two-arg `append(value, indent)` of a possibly multi-line
+value, or `appendImmediate(...)` **stays on the reference `StringConcatenation` chain** — none of the
+three has a `StringBuilder`/text-block equivalent. Convert to `StringBuilder` (or a text block) only
+when every `newLineIfNotEmpty()` in the chain follows a static literal tail (§4.8, rule 35).
+
 ## 4.2 Template control flow patterns
 
 - `«IF condition»...«ENDIF»` → `if (condition) { builder.append(...); }`
@@ -151,8 +157,8 @@ string must NOT end with `\n`, use a **line continuation** `\` on the last conte
 String s = """
 
     check configuration mdlc
-      for com.avaloq.tools.dsl.labeldef.LabelDef {
-        catalog com.avaloq.tools.dsl.labeldef.validation.LabelDefCoreChecks { }
+      for com.example.mydsl.MyDsl {
+        catalog com.example.mydsl.validation.MyDslCoreChecks { }
       }\
 """;
 ```
@@ -242,6 +248,17 @@ these source-verified semantics decide what is safe:
   for values that are provably single-line (identifiers, rule names, accessor paths).
 - **Leave `appendImmediate(sep, indent)` loops untouched** — the separator insertion inspects
   trailing segments; keep its surrounding append sequence as-is.
+
+**When the chain stays as-is:** see the Tier 4 caveat above — `newLineIfNotEmpty()` after a dynamic value, two-arg `append(value, indent)` of a possibly multi-line value, or `appendImmediate(...)` keep the reference `StringConcatenation` chain (rule 35).
+
+**Null values:** `StringConcatenation.append(null)` appends nothing, while `"%s".formatted(null)`
+yields `"null"`. Wrap a nullable `String` moved into `.formatted()` with `Strings.emptyIfNull(value)`
+(`org.eclipse.xtext.util.Strings`, String-only overload).
+**Keep any `StringConcatenationClient`-valued or otherwise specially-rendered interpolation on the
+`StringConcatenation` chain (rule 35)**; never convert it to `.formatted()`.
+For other nullable values, use `Objects.toString(value, "")` (`java.util.Objects`) **only when
+`toString()` is exactly what `append` would render** (boxed numbers, plain `CharSequence`); this
+preserves the "append nothing" semantics for null.
 
 **Verification:** each coalesced run must be proven byte-identical with an executable old-vs-new
 harness over an input battery (empty / single-line / multi-line / newline-terminated / `%`-bearing

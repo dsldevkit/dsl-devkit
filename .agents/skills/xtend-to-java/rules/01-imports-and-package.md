@@ -28,8 +28,8 @@ import java.util.List;
 import org.eclipse.xtext.testing.InjectWith;
 import org.junit.jupiter.api.Test;
 
-// Group 3: com.* (com.avaloq.* before com.google.*)
-import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil;
+// Group 3: com.* (com.example.* before com.google.*)
+import com.example.mydsl.test.util.MyTestUtil;
 import com.google.inject.Inject;
 ```
 
