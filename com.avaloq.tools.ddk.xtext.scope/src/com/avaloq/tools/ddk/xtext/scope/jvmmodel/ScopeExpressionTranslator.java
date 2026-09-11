@@ -8,42 +8,61 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.scope.jvmmodel
+package com.avaloq.tools.ddk.xtext.scope.jvmmodel;
 
-import com.avaloq.tools.ddk.xtext.expression.expression.BooleanLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation
-import com.avaloq.tools.ddk.xtext.expression.expression.CastedExpression
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression
-import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
-import com.avaloq.tools.ddk.xtext.expression.expression.Identifier
-import com.avaloq.tools.ddk.xtext.expression.expression.IfExpression
-import com.avaloq.tools.ddk.xtext.expression.expression.IntegerLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.ListLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.NullLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall
-import com.avaloq.tools.ddk.xtext.expression.expression.RealLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression
-import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
-import com.avaloq.tools.ddk.xtext.scope.generator.ScopeModelTypeResolver
-import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderX
-import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel
-import com.google.common.collect.Iterables
-import com.google.inject.Inject
-import java.util.List
-import java.util.Set
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.EcoreUtil2
-import org.eclipse.xtext.common.types.JvmDeclaredType
-import org.eclipse.xtext.common.types.JvmFormalParameter
-import org.eclipse.xtext.common.types.JvmOperation
-import org.eclipse.xtext.common.types.JvmType
-import org.eclipse.xtext.common.types.TypesFactory
-import org.eclipse.xtext.common.types.util.TypeReferences
-import org.eclipse.xtext.xbase.XExpression
-import org.eclipse.xtext.xbase.XbaseFactory
-import org.eclipse.xtext.xbase.lib.BooleanExtensions
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmFormalParameter;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.JvmTypeReference;
+import org.eclipse.xtext.common.types.TypesFactory;
+import org.eclipse.xtext.common.types.util.TypeReferences;
+import org.eclipse.xtext.xbase.XBinaryOperation;
+import org.eclipse.xtext.xbase.XBooleanLiteral;
+import org.eclipse.xtext.xbase.XCastedExpression;
+import org.eclipse.xtext.xbase.XExpression;
+import org.eclipse.xtext.xbase.XFeatureCall;
+import org.eclipse.xtext.xbase.XIfExpression;
+import org.eclipse.xtext.xbase.XInstanceOfExpression;
+import org.eclipse.xtext.xbase.XListLiteral;
+import org.eclipse.xtext.xbase.XMemberFeatureCall;
+import org.eclipse.xtext.xbase.XNumberLiteral;
+import org.eclipse.xtext.xbase.XStringLiteral;
+import org.eclipse.xtext.xbase.XTypeLiteral;
+import org.eclipse.xtext.xbase.XbaseFactory;
+import org.eclipse.xtext.xbase.lib.BooleanExtensions;
+import org.eclipse.xtext.xbase.lib.Pair;
+
+import com.avaloq.tools.ddk.xtext.expression.expression.BooleanLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation;
+import com.avaloq.tools.ddk.xtext.expression.expression.CastedExpression;
+import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
+import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall;
+import com.avaloq.tools.ddk.xtext.expression.expression.Identifier;
+import com.avaloq.tools.ddk.xtext.expression.expression.IfExpression;
+import com.avaloq.tools.ddk.xtext.expression.expression.IntegerLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.ListLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.NullLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall;
+import com.avaloq.tools.ddk.xtext.expression.expression.RealLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression;
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeModelTypeResolver;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderX;
+import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
+import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
 
 /**
  * Translates the custom {@link Expression} AST of the scope/export expression DSL into equivalent Xbase
@@ -65,10 +84,12 @@ import org.eclipse.xtext.xbase.lib.BooleanExtensions
  * Nodes that require resolving EMF feature getters, operators, operations, extensions, casts, collection
  * closures, constructor calls or global variables return {@code null} for now and are added in later increments.
  */
-class ScopeExpressionTranslator {
+@SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
+public class ScopeExpressionTranslator {
 
   /** Provides access to the {@code org.eclipse.xtext.xbase.lib} operator methods that back binary operations. */
-  @Inject extension TypeReferences
+  @Inject
+  private TypeReferences typeReferences;
 
   /**
    * Resolves an EMF type's Java instance class name. Called directly (rather than as {@code .instanceClassName})
@@ -76,10 +97,12 @@ class ScopeExpressionTranslator {
    * which returns {@code null} for EClasses whose Ecore model does not literally set the field; GenModelUtilX
    * falls back to the GenClass-derived qualified interface name.
    */
-  @Inject GenModelUtilX genModelUtil
+  @Inject
+  private GenModelUtilX genModelUtil;
 
   /** Collects the {@code extension} declarations of a scope model, including those of its included scope models. */
-  @Inject ScopeProviderX scopeProviderX
+  @Inject
+  private ScopeProviderX scopeProviderX;
 
   /**
    * The scope model currently being generated. Extension declarations and imported model packages are resolved
@@ -88,7 +111,7 @@ class ScopeExpressionTranslator {
    * in the context of that file - exactly as the legacy generator did, which built a single
    * {@code CompilationContext} for the model being generated.
    */
-  ScopeModel rootModel
+  private ScopeModel rootModel;
 
   /**
    * Sets the scope model currently being generated.
@@ -97,8 +120,8 @@ class ScopeExpressionTranslator {
    *          the scope model a scope provider is being generated for, may be {@code null} to fall back to the model
    *          containing the translated expression
    */
-  def void configure(ScopeModel model) {
-    this.rootModel = model
+  public void configure(final ScopeModel model) {
+    this.rootModel = model;
   }
 
   /**
@@ -109,8 +132,11 @@ class ScopeExpressionTranslator {
    *          the model element the expression originates from, may be {@code null}
    * @return the scope model, or {@code null} if none can be determined
    */
-  def private ScopeModel contextModel(EObject sourceElement) {
-    rootModel ?: EcoreUtil2.getContainerOfType(sourceElement, ScopeModel)
+  private ScopeModel contextModel(final EObject sourceElement) {
+    if (this.rootModel != null) {
+      return this.rootModel;
+    }
+    return EcoreUtil2.getContainerOfType(sourceElement, ScopeModel.class);
   }
 
   /**
@@ -122,11 +148,11 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the translated {@link XExpression}, or {@code null} if the expression cannot (yet) be translated
    */
-  def XExpression translate(Expression expression, ScopeTranslationContext context) {
-    if (expression === null) {
-      return null
+  public XExpression translate(final Expression expression, final ScopeTranslationContext context) {
+    if (expression == null) {
+      return null;
     }
-    return expression.doTranslate(context)
+    return doTranslate(expression, context);
   }
 
   /**
@@ -145,26 +171,24 @@ class ScopeExpressionTranslator {
    * @return the fully qualified static method ({@code type.method}), or {@code null} if the expression is not an
    *         operation call or the declaring type cannot be resolved
    */
-  def String resolveFactoryMethod(Expression expression, EObject sourceElement) {
-    if (!(expression instanceof OperationCall)) {
-      return null
+  public String resolveFactoryMethod(final Expression expression, final EObject sourceElement) {
+    if (!(expression instanceof OperationCall call)) {
+      return null;
     }
-    val call = expression as OperationCall
-    if (call.target === null) {
-      return resolveExtensionFactoryMethod(call, sourceElement)
+    if (call.getTarget() == null) {
+      return resolveExtensionFactoryMethod(call, sourceElement);
     }
-    if (!(call.target instanceof FeatureCall)) {
-      return null
+    if (!(call.getTarget() instanceof FeatureCall typeReference)) {
+      return null;
     }
-    val typeReference = call.target as FeatureCall
-    if (typeReference.name !== null || typeReference.type === null) {
-      return null
+    if (typeReference.getName() != null || typeReference.getType() == null) {
+      return null;
     }
-    val jvmType = findDeclaredType(typeReference.type.id.join('.'), sourceElement)
-    if (jvmType instanceof JvmDeclaredType) {
-      return jvmType.qualifiedName + '.' + call.name
+    final JvmType jvmType = typeReferences.findDeclaredType(qualifiedName(typeReference.getType().getId()), sourceElement);
+    if (jvmType instanceof JvmDeclaredType declaredType) {
+      return declaredType.getQualifiedName() + "." + call.getName();
     }
-    null
+    return null;
   }
 
   /**
@@ -180,15 +204,19 @@ class ScopeExpressionTranslator {
    * @return the fully qualified static method ({@code type.method}), or {@code null} if no declared extension class
    *         provides a matching {@code static} method
    */
-  def private String resolveExtensionFactoryMethod(OperationCall call, EObject sourceElement) {
-    val model = contextModel(sourceElement)
-    if (model === null) {
-      return null
+  private String resolveExtensionFactoryMethod(final OperationCall call, final EObject sourceElement) {
+    final ScopeModel model = contextModel(sourceElement);
+    if (model == null) {
+      return null;
     }
-    val className = scopeProviderX.allExtensions(model).map[getExtension().toJavaClassName].findFirst [ name |
-      declaresStaticOperation(name, call.name, sourceElement)
-    ]
-    if (className === null) null else className + '.' + call.name
+    final String className = scopeProviderX.allExtensions(model).stream()
+        .map(declaration -> toJavaClassName(declaration.getExtension()))
+        .filter(name -> declaresStaticOperation(name, call.getName(), sourceElement))
+        .findFirst().orElse(null);
+    if (className == null) {
+      return null;
+    }
+    return className + "." + call.getName();
   }
 
   /**
@@ -202,12 +230,17 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve the class against the classpath, must not be {@code null}
    * @return {@code true} if the class resolves and declares a matching {@code static} operation
    */
-  def private boolean declaresStaticOperation(String className, String operationName, EObject sourceElement) {
-    val type = findDeclaredType(className, sourceElement)
-    if (type instanceof JvmDeclaredType) {
-      return type.allFeatures.filter(JvmOperation).exists[isStatic && simpleName == operationName]
+  private boolean declaresStaticOperation(final String className, final String operationName, final EObject sourceElement) {
+    final JvmType type = typeReferences.findDeclaredType(className, sourceElement);
+    if (type instanceof JvmDeclaredType declaredType) {
+      for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+        if (operation.isStatic() && Objects.equals(operation.getSimpleName(), operationName)) {
+          return true;
+        }
+      }
+      return false;
     }
-    false
+    return false;
   }
 
   /**
@@ -224,9 +257,9 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve types against the classpath, must not be {@code null}
    * @return {@code true} if the expression can be extracted into a typed helper method
    */
-  def boolean canExtractAsValue(Expression expression, EClass contextType, EObject sourceElement) {
-    val context = newTrialContext(contextType, sourceElement)
-    translate(expression, context) !== null && resolveType(expression, context) !== null
+  public boolean canExtractAsValue(final Expression expression, final EClass contextType, final EObject sourceElement) {
+    final ScopeTranslationContext context = newTrialContext(contextType, sourceElement);
+    return translate(expression, context) != null && resolveType(expression, context) != null;
   }
 
   /**
@@ -243,13 +276,13 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve types against the classpath, must not be {@code null}
    * @return {@code true} if the expression can be extracted as a {@code String} valued helper method
    */
-  def boolean canExtractAsString(Expression expression, EClass contextType, EObject sourceElement) {
-    val context = newTrialContext(contextType, sourceElement)
-    if (translate(expression, context) === null) {
-      return false
+  public boolean canExtractAsString(final Expression expression, final EClass contextType, final EObject sourceElement) {
+    final ScopeTranslationContext context = newTrialContext(contextType, sourceElement);
+    if (translate(expression, context) == null) {
+      return false;
     }
-    val resolved = resolveType(expression, context)
-    resolved !== null && resolved.qualifiedName == String.name
+    final JvmType resolved = resolveType(expression, context);
+    return resolved != null && Objects.equals(resolved.getQualifiedName(), String.class.getName());
   }
 
   /**
@@ -267,13 +300,13 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve types against the classpath, must not be {@code null}
    * @return {@code true} if the expression can be extracted into a typed helper method
    */
-  def boolean canExtractAsValue(Expression expression, EClass contextType, List<Pair<String, String>> extraVariables,
-    EObject sourceElement) {
-    val context = newTrialContext(contextType, sourceElement)
-    for (extra : extraVariables) {
-      context.putVariable(extra.key, newTrialParameter(extra.key, extra.value, sourceElement))
+  public boolean canExtractAsValue(final Expression expression, final EClass contextType, final List<Pair<String, String>> extraVariables,
+      final EObject sourceElement) {
+    final ScopeTranslationContext context = newTrialContext(contextType, sourceElement);
+    for (final Pair<String, String> extra : extraVariables) {
+      context.putVariable(extra.getKey(), newTrialParameter(extra.getKey(), extra.getValue(), sourceElement));
     }
-    translate(expression, context) !== null && resolveType(expression, context) !== null
+    return translate(expression, context) != null && resolveType(expression, context) != null;
   }
 
   /**
@@ -286,15 +319,15 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve types against the classpath, must not be {@code null}
    * @return the trial context, never {@code null}
    */
-  def private ScopeTranslationContext newTrialContext(EClass contextType, EObject sourceElement) {
-    val parameter = newTrialParameter('ctx', genModelUtil.instanceClassName(contextType), sourceElement)
-    val context = new ScopeTranslationContext
-    context.sourceElement = sourceElement
-    context.putVariable('ctx', parameter)
-    context.implicitVariable = parameter
-    context.typeResolver = [Identifier identifier|findDeclaredType(identifier.id.join('.'), sourceElement)]
-    context.initExtensionClassNames(sourceElement)
-    context
+  private ScopeTranslationContext newTrialContext(final EClass contextType, final EObject sourceElement) {
+    final JvmFormalParameter parameter = newTrialParameter("ctx", genModelUtil.instanceClassName(contextType), sourceElement);
+    final ScopeTranslationContext context = new ScopeTranslationContext();
+    context.setSourceElement(sourceElement);
+    context.putVariable("ctx", parameter);
+    context.setImplicitVariable(parameter);
+    context.setTypeResolver((final Identifier identifier) -> typeReferences.findDeclaredType(qualifiedName(identifier.getId()), sourceElement));
+    initExtensionClassNames(context, sourceElement);
+    return context;
   }
 
   /**
@@ -308,11 +341,22 @@ class ScopeExpressionTranslator {
    * @param sourceElement
    *          the model element the translated expression originates from, must not be {@code null}
    */
-  def private void initExtensionClassNames(ScopeTranslationContext context, EObject sourceElement) {
-    val model = contextModel(sourceElement)
-    for (declaration : scopeProviderX.allExtensions(model)) {
-      context.addExtensionClassName(declaration.getExtension().toJavaClassName())
+  private void initExtensionClassNames(final ScopeTranslationContext context, final EObject sourceElement) {
+    final ScopeModel model = contextModel(sourceElement);
+    for (final Extension declaration : scopeProviderX.allExtensions(model)) {
+      context.addExtensionClassName(toJavaClassName(declaration.getExtension()));
     }
+  }
+
+  /**
+   * Joins the segments of a source DSL identifier into the corresponding fully qualified Java name.
+   *
+   * @param id
+   *          the identifier segments, must not be {@code null}
+   * @return the dot separated qualified name, never {@code null}
+   */
+  private String qualifiedName(final List<String> id) {
+    return String.join(".", id);
   }
 
   /**
@@ -322,8 +366,8 @@ class ScopeExpressionTranslator {
    *          the qualified extension ID, must not be {@code null}
    * @return the fully qualified Java class name, never {@code null}
    */
-  def private String toJavaClassName(String it) {
-    replace('::', '.').replace('^', '')
+  private String toJavaClassName(final String it) {
+    return it.replace("::", ".").replace("^", "");
   }
 
   /**
@@ -337,14 +381,14 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve the type against the classpath, must not be {@code null}
    * @return the trial parameter, never {@code null}
    */
-  def private JvmFormalParameter newTrialParameter(String name, String typeName, EObject sourceElement) {
-    val parameter = TypesFactory.eINSTANCE.createJvmFormalParameter
-    parameter.name = name
-    val jvmType = findDeclaredType(typeName, sourceElement)
-    if (jvmType !== null) {
-      parameter.parameterType = createTypeRef(jvmType)
+  private JvmFormalParameter newTrialParameter(final String name, final String typeName, final EObject sourceElement) {
+    final JvmFormalParameter parameter = TypesFactory.eINSTANCE.createJvmFormalParameter();
+    parameter.setName(name);
+    final JvmType jvmType = typeReferences.findDeclaredType(typeName, sourceElement);
+    if (jvmType != null) {
+      parameter.setParameterType(typeReferences.createTypeRef(jvmType));
     }
-    parameter
+    return parameter;
   }
 
   /**
@@ -363,24 +407,24 @@ class ScopeExpressionTranslator {
    *          a model element used to resolve types against the classpath, must not be {@code null}
    * @return the compilation context, never {@code null}
    */
-  def ScopeTranslationContext newCompilationContext(String implicitVariableName, EClass implicitType,
-    List<Pair<String, String>> extraVariables, EObject sourceElement) {
-    val context = new ScopeTranslationContext
-    context.sourceElement = sourceElement
-    context.implicitVariableName = implicitVariableName
-    val model = contextModel(sourceElement)
-    context.modelTypeResolver = if (model === null) null else new ScopeModelTypeResolver(model)
-    if (implicitType !== null) {
-      val parameter = newTrialParameter(implicitVariableName, genModelUtil.instanceClassName(implicitType), sourceElement)
-      context.implicitVariable = parameter
-      context.putVariable(implicitVariableName, parameter)
+  public ScopeTranslationContext newCompilationContext(final String implicitVariableName, final EClass implicitType,
+      final List<Pair<String, String>> extraVariables, final EObject sourceElement) {
+    final ScopeTranslationContext context = new ScopeTranslationContext();
+    context.setSourceElement(sourceElement);
+    context.setImplicitVariableName(implicitVariableName);
+    final ScopeModel model = contextModel(sourceElement);
+    context.setModelTypeResolver(model == null ? null : new ScopeModelTypeResolver(model));
+    if (implicitType != null) {
+      final JvmFormalParameter parameter = newTrialParameter(implicitVariableName, genModelUtil.instanceClassName(implicitType), sourceElement);
+      context.setImplicitVariable(parameter);
+      context.putVariable(implicitVariableName, parameter);
     }
-    for (extra : extraVariables) {
-      context.putVariable(extra.key, newTrialParameter(extra.key, extra.value, sourceElement))
+    for (final Pair<String, String> extra : extraVariables) {
+      context.putVariable(extra.getKey(), newTrialParameter(extra.getKey(), extra.getValue(), sourceElement));
     }
-    context.typeResolver = [Identifier identifier|findDeclaredType(identifier.id.join('.'), sourceElement)]
-    context.initExtensionClassNames(sourceElement)
-    context
+    context.setTypeResolver((final Identifier identifier) -> typeReferences.findDeclaredType(qualifiedName(identifier.getId()), sourceElement));
+    initExtensionClassNames(context, sourceElement);
+    return context;
   }
 
   /**
@@ -392,8 +436,8 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return {@code null}, indicating the expression cannot be translated yet
    */
-  def dispatch protected XExpression doTranslate(Expression it, ScopeTranslationContext context) {
-    null
+  protected XExpression _doTranslate(final Expression it, final ScopeTranslationContext context) {
+    return null;
   }
 
   /**
@@ -401,12 +445,14 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source literal, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XStringLiteral}, never {@code null}
    */
-  def dispatch protected XExpression doTranslate(StringLiteral it, ScopeTranslationContext context) {
-    val literal = XbaseFactory.eINSTANCE.createXStringLiteral
-    literal.value = getVal()
-    literal
+  protected XExpression _doTranslate(final StringLiteral it, final ScopeTranslationContext context) {
+    final XStringLiteral literal = XbaseFactory.eINSTANCE.createXStringLiteral();
+    literal.setValue(it.getVal());
+    return literal;
   }
 
   /**
@@ -414,12 +460,14 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source literal, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XBooleanLiteral}, never {@code null}
    */
-  def dispatch protected XExpression doTranslate(BooleanLiteral it, ScopeTranslationContext context) {
-    val literal = XbaseFactory.eINSTANCE.createXBooleanLiteral
-    literal.isTrue = 'true' == getVal()
-    literal
+  protected XExpression _doTranslate(final BooleanLiteral it, final ScopeTranslationContext context) {
+    final XBooleanLiteral literal = XbaseFactory.eINSTANCE.createXBooleanLiteral();
+    literal.setIsTrue(Objects.equals("true", it.getVal()));
+    return literal;
   }
 
   /**
@@ -427,12 +475,14 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source literal, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XNumberLiteral}, never {@code null}
    */
-  def dispatch protected XExpression doTranslate(IntegerLiteral it, ScopeTranslationContext context) {
-    val literal = XbaseFactory.eINSTANCE.createXNumberLiteral
-    literal.value = Integer.toString(getVal())
-    literal
+  protected XExpression _doTranslate(final IntegerLiteral it, final ScopeTranslationContext context) {
+    final XNumberLiteral literal = XbaseFactory.eINSTANCE.createXNumberLiteral();
+    literal.setValue(Integer.toString(it.getVal()));
+    return literal;
   }
 
   /**
@@ -440,12 +490,14 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source literal, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XNumberLiteral}, never {@code null}
    */
-  def dispatch protected XExpression doTranslate(RealLiteral it, ScopeTranslationContext context) {
-    val literal = XbaseFactory.eINSTANCE.createXNumberLiteral
-    literal.value = getVal()
-    literal
+  protected XExpression _doTranslate(final RealLiteral it, final ScopeTranslationContext context) {
+    final XNumberLiteral literal = XbaseFactory.eINSTANCE.createXNumberLiteral();
+    literal.setValue(it.getVal());
+    return literal;
   }
 
   /**
@@ -453,10 +505,12 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source literal, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XNullLiteral}, never {@code null}
    */
-  def dispatch protected XExpression doTranslate(NullLiteral it, ScopeTranslationContext context) {
-    XbaseFactory.eINSTANCE.createXNullLiteral
+  protected XExpression _doTranslate(final NullLiteral it, final ScopeTranslationContext context) {
+    return XbaseFactory.eINSTANCE.createXNullLiteral();
   }
 
   /**
@@ -465,18 +519,20 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source literal, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XListLiteral}, or {@code null} if an element cannot be translated
    */
-  def dispatch protected XExpression doTranslate(ListLiteral it, ScopeTranslationContext context) {
-    val literal = XbaseFactory.eINSTANCE.createXListLiteral
-    for (element : elements) {
-      val translated = element.translate(context)
-      if (translated === null) {
-        return null
+  protected XExpression _doTranslate(final ListLiteral it, final ScopeTranslationContext context) {
+    final XListLiteral literal = XbaseFactory.eINSTANCE.createXListLiteral();
+    for (final Expression element : it.getElements()) {
+      final XExpression translated = translate(element, context);
+      if (translated == null) {
+        return null;
       }
-      literal.elements += translated
+      literal.getElements().add(translated);
     }
-    literal
+    return literal;
   }
 
   /**
@@ -485,27 +541,29 @@ class ScopeExpressionTranslator {
    *
    * @param it
    *          the source conditional, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XIfExpression}, or {@code null} if a branch cannot be translated
    */
-  def dispatch protected XExpression doTranslate(IfExpression it, ScopeTranslationContext context) {
-    val xIf = XbaseFactory.eINSTANCE.createXIfExpression
-    val xCondition = condition.translate(context)
-    val xThen = thenPart.translate(context)
-    if (xCondition === null || xThen === null) {
-      return null
+  protected XExpression _doTranslate(final IfExpression it, final ScopeTranslationContext context) {
+    final XIfExpression xIf = XbaseFactory.eINSTANCE.createXIfExpression();
+    final XExpression xCondition = translate(it.getCondition(), context);
+    final XExpression xThen = translate(it.getThenPart(), context);
+    if (xCondition == null || xThen == null) {
+      return null;
     }
-    xIf.^if = xCondition
-    xIf.then = xThen
-    if (elsePart !== null) {
-      val xElse = elsePart.translate(context)
-      if (xElse === null) {
-        return null
+    xIf.setIf(xCondition);
+    xIf.setThen(xThen);
+    if (it.getElsePart() != null) {
+      final XExpression xElse = translate(it.getElsePart(), context);
+      if (xElse == null) {
+        return null;
       }
-      xIf.^else = xElse
+      xIf.setElse(xElse);
     } else {
-      xIf.^else = XbaseFactory.eINSTANCE.createXNullLiteral
+      xIf.setElse(XbaseFactory.eINSTANCE.createXNullLiteral());
     }
-    xIf
+    return xIf;
   }
 
   /**
@@ -520,21 +578,25 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the {@link org.eclipse.xtext.xbase.XBinaryOperation}, or {@code null} if it cannot (yet) be translated
    */
-  def dispatch protected XExpression doTranslate(BooleanOperation it, ScopeTranslationContext context) {
-    val xLeft = left.translate(context)
-    val xRight = right.translate(context)
-    if (xLeft === null || xRight === null) {
-      return null
+  protected XExpression _doTranslate(final BooleanOperation it, final ScopeTranslationContext context) {
+    final XExpression xLeft = translate(it.getLeft(), context);
+    final XExpression xRight = translate(it.getRight(), context);
+    if (xLeft == null || xRight == null) {
+      return null;
     }
-    val sourceElement = context.sourceElement
-    switch operator {
-      case '||': toBinaryOperation(xLeft, xRight, BooleanExtensions, 'operator_or', sourceElement)
-      case '&&': toBinaryOperation(xLeft, xRight, BooleanExtensions, 'operator_and', sourceElement)
+    final String operator = it.getOperator();
+    if (operator == null) {
+      return null;
+    }
+    final EObject sourceElement = context.getSourceElement();
+    return switch (operator) {
+      case "||" -> toBinaryOperation(xLeft, xRight, BooleanExtensions.class, "operator_or", sourceElement);
+      case "&&" -> toBinaryOperation(xLeft, xRight, BooleanExtensions.class, "operator_and", sourceElement);
       // Xbase equality is value-based, unlike the identity equality emitted by the legacy Java generator.
-      case '==': null
-      case '!=': null
-      default: null
-    }
+      case "==" -> null;
+      case "!=" -> null;
+      default -> null;
+    };
   }
 
   /**
@@ -552,11 +614,27 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the resolved expression, or {@code null} if it cannot (yet) be translated
    */
-  def dispatch protected XExpression doTranslate(OperationCall it, ScopeTranslationContext context) {
-    if (it.isImplicitReceiverCall) {
-      return it.translateInstanceOf(context) ?: it.translateMethodCall(context) ?: it.translateExtensionCall(context)
+  protected XExpression _doTranslate(final OperationCall it, final ScopeTranslationContext context) {
+    if (isImplicitReceiverCall(it)) {
+      final XExpression instanceOf = translateInstanceOf(it, context);
+      if (instanceOf != null) {
+        return instanceOf;
+      }
+      final XExpression methodCall = translateMethodCall(it, context);
+      if (methodCall != null) {
+        return methodCall;
+      }
+      return translateExtensionCall(it, context);
     }
-    it.translateInstanceOf(context) ?: it.translateExtensionCall(context) ?: it.translateMethodCall(context)
+    final XExpression instanceOf = translateInstanceOf(it, context);
+    if (instanceOf != null) {
+      return instanceOf;
+    }
+    final XExpression extensionCall = translateExtensionCall(it, context);
+    if (extensionCall != null) {
+      return extensionCall;
+    }
+    return translateMethodCall(it, context);
   }
 
   /**
@@ -568,19 +646,19 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the casted expression, or {@code null} if the type or target cannot be translated
    */
-  def dispatch protected XExpression doTranslate(CastedExpression it, ScopeTranslationContext context) {
-    val jvmType = context.resolveDslType(type)
-    if (jvmType === null) {
-      return null
+  protected XExpression _doTranslate(final CastedExpression it, final ScopeTranslationContext context) {
+    final JvmType jvmType = context.resolveDslType(it.getType());
+    if (jvmType == null) {
+      return null;
     }
-    val xTarget = target.translate(context)
-    if (xTarget === null) {
-      return null
+    final XExpression xTarget = translate(it.getTarget(), context);
+    if (xTarget == null) {
+      return null;
     }
-    val cast = XbaseFactory.eINSTANCE.createXCastedExpression
-    cast.type = createTypeRef(jvmType)
-    cast.target = xTarget
-    cast
+    final XCastedExpression cast = XbaseFactory.eINSTANCE.createXCastedExpression();
+    cast.setType(typeReferences.createTypeRef(jvmType));
+    cast.setTarget(xTarget);
+    return cast;
   }
 
   /**
@@ -593,26 +671,26 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the filter feature call, or {@code null} if the type, target or filter method cannot be resolved
    */
-  def dispatch protected XExpression doTranslate(TypeSelectExpression it, ScopeTranslationContext context) {
-    val jvmType = context.resolveDslType(type)
-    if (jvmType === null) {
-      return null
+  protected XExpression _doTranslate(final TypeSelectExpression it, final ScopeTranslationContext context) {
+    final JvmType jvmType = context.resolveDslType(it.getType());
+    if (jvmType == null) {
+      return null;
     }
-    val xTarget = target.translate(context)
-    if (xTarget === null) {
-      return null
+    final XExpression xTarget = translate(it.getTarget(), context);
+    if (xTarget == null) {
+      return null;
     }
-    val filter = findIterablesFilterByClass(context.sourceElement)
-    if (filter === null) {
-      return null
+    final JvmOperation filter = findIterablesFilterByClass(context.getSourceElement());
+    if (filter == null) {
+      return null;
     }
-    val call = XbaseFactory.eINSTANCE.createXFeatureCall
-    call.feature = filter
-    call.featureCallArguments += xTarget
-    val typeLiteral = XbaseFactory.eINSTANCE.createXTypeLiteral
-    typeLiteral.type = jvmType
-    call.featureCallArguments += typeLiteral
-    call
+    final XFeatureCall call = XbaseFactory.eINSTANCE.createXFeatureCall();
+    call.setFeature(filter);
+    call.getFeatureCallArguments().add(xTarget);
+    final XTypeLiteral typeLiteral = XbaseFactory.eINSTANCE.createXTypeLiteral();
+    typeLiteral.setType(jvmType);
+    call.getFeatureCallArguments().add(typeLiteral);
+    return call;
   }
 
   /**
@@ -627,20 +705,32 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the resolved feature call, or {@code null} if it cannot (yet) be translated
    */
-  def dispatch protected XExpression doTranslate(FeatureCall it, ScopeTranslationContext context) {
-    if (it.isThisReference) {
-      return context.implicitVariable.toFeatureCall
+  protected XExpression _doTranslate(final FeatureCall it, final ScopeTranslationContext context) {
+    if (isThisReference(it)) {
+      return toFeatureCall(context.getImplicitVariable());
     }
-    if (target === null && name === null && type !== null && type.id.size == 1) {
-      val parameter = context.getVariable(type.id.head)
-      if (parameter !== null) {
-        return parameter.toFeatureCall
+    if (isSingleSegmentFeature(it) && it.getTarget() == null) {
+      final JvmFormalParameter parameter = context.getVariable(it.getType().getId().get(0));
+      if (parameter != null) {
+        return toFeatureCall(parameter);
       }
     }
-    if (name === null && type !== null && type.id.size == 1) {
-      return it.translateGetter(context)
+    if (isSingleSegmentFeature(it)) {
+      return translateGetter(it, context);
     }
-    null
+    return null;
+  }
+
+  /**
+   * Tests whether the given feature call names a single unqualified feature, i.e. it has no explicit name and its
+   * type identifier consists of exactly one segment.
+   *
+   * @param call
+   *          the feature call, must not be {@code null}
+   * @return {@code true} if the call names a single feature segment
+   */
+  private boolean isSingleSegmentFeature(final FeatureCall call) {
+    return call.getName() == null && call.getType() != null && call.getType().getId().size() == 1;
   }
 
   /**
@@ -650,9 +740,12 @@ class ScopeExpressionTranslator {
    *          the feature call, must not be {@code null}
    * @return {@code true} if the call refers to {@code this}
    */
-  def private boolean isThisReference(FeatureCall call) {
-    call.name === null && call.target === null && call.type !== null && call.type.id.size == 1 &&
-      'this' == call.type.id.head
+  private boolean isThisReference(final FeatureCall call) {
+    if (call.getName() != null || call.getTarget() != null || call.getType() == null) {
+      return false;
+    }
+    final List<String> id = call.getType().getId();
+    return id.size() == 1 && Objects.equals("this", id.get(0));
   }
 
   /**
@@ -662,13 +755,13 @@ class ScopeExpressionTranslator {
    *          the formal parameter to reference, may be {@code null}
    * @return the feature call, or {@code null} if the parameter is {@code null}
    */
-  def private XExpression toFeatureCall(JvmFormalParameter parameter) {
-    if (parameter === null) {
-      return null
+  private XExpression toFeatureCall(final JvmFormalParameter parameter) {
+    if (parameter == null) {
+      return null;
     }
-    val featureCall = XbaseFactory.eINSTANCE.createXFeatureCall
-    featureCall.feature = parameter
-    featureCall
+    final XFeatureCall featureCall = XbaseFactory.eINSTANCE.createXFeatureCall();
+    featureCall.setFeature(parameter);
+    return featureCall;
   }
 
   /**
@@ -682,23 +775,23 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the member feature call, or {@code null} if the receiver type or getter cannot be resolved
    */
-  def private XExpression translateGetter(FeatureCall it, ScopeTranslationContext context) {
-    val receiverType = resolveType(target, context)
-    if (receiverType === null) {
-      return null
+  private XExpression translateGetter(final FeatureCall it, final ScopeTranslationContext context) {
+    final JvmType receiverType = resolveType(it.getTarget(), context);
+    if (receiverType == null) {
+      return null;
     }
-    val getter = findGetter(receiverType, type.id.head)
-    if (getter === null) {
-      return null
+    final JvmOperation getter = findGetter(receiverType, it.getType().getId().get(0));
+    if (getter == null) {
+      return null;
     }
-    val receiver = if (target === null) context.implicitVariable.toFeatureCall else target.translate(context)
-    if (receiver === null) {
-      return null
+    final XExpression receiver = it.getTarget() == null ? toFeatureCall(context.getImplicitVariable()) : translate(it.getTarget(), context);
+    if (receiver == null) {
+      return null;
     }
-    val memberCall = XbaseFactory.eINSTANCE.createXMemberFeatureCall
-    memberCall.memberCallTarget = receiver
-    memberCall.feature = getter
-    memberCall
+    final XMemberFeatureCall memberCall = XbaseFactory.eINSTANCE.createXMemberFeatureCall();
+    memberCall.setMemberCallTarget(receiver);
+    memberCall.setFeature(getter);
+    return memberCall;
   }
 
   /**
@@ -712,50 +805,107 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the resolved JVM type, or {@code null} if it cannot be determined
    */
-  def JvmType resolveType(Expression expression, ScopeTranslationContext context) {
-    if (expression === null) {
-      return context.implicitVariable?.parameterType?.type
+  public JvmType resolveType(final Expression expression, final ScopeTranslationContext context) {
+    if (expression == null) {
+      return typeOf(context.getImplicitVariable());
     }
-    switch expression {
-      CastedExpression:
-        context.resolveDslType(expression.type)
-      IntegerLiteral:
-        findDeclaredType(Integer, expression)
-      RealLiteral:
-        findDeclaredType(Float, expression)
-      StringLiteral:
-        findDeclaredType(String, expression)
-      TypeSelectExpression:
-        findDeclaredType(Iterable, context.sourceElement)
-      ListLiteral:
-        findDeclaredType(List, context.sourceElement)
-      OperationCall: {
-        // Resolve with the same precedence as doTranslate: an explicit receiver lets the declared extensions win,
-        // an implicit ("this") receiver resolves against its own operations first.
-        val receiverType = resolveType(expression.target, context)
-        val method = findMethod(receiverType, expression.name, expression.params.size)
-        if (expression.isImplicitReceiverCall && method !== null) {
-          method.returnType?.type
-        } else {
-          findExtensionOperation(expression, context)?.returnType?.type ?: method?.returnType?.type
-        }
-      }
-      FeatureCall: {
-        if (expression.isThisReference) {
-          context.implicitVariable?.parameterType?.type
-        } else if (expression.target === null && expression.name === null && expression.type !== null &&
-          expression.type.id.size == 1 && context.getVariable(expression.type.id.head) !== null) {
-          context.getVariable(expression.type.id.head).parameterType?.type
-        } else if (expression.name === null && expression.type !== null && expression.type.id.size == 1) {
-          val receiverType = resolveType(expression.target, context)
-          if (receiverType !== null) findGetter(receiverType, expression.type.id.head)?.returnType?.type else null
-        } else {
-          null
-        }
-      }
-      default:
-        null
+    if (expression instanceof CastedExpression castedExpression) {
+      return context.resolveDslType(castedExpression.getType());
+    } else if (expression instanceof IntegerLiteral) {
+      return typeReferences.findDeclaredType(Integer.class, expression);
+    } else if (expression instanceof RealLiteral) {
+      return typeReferences.findDeclaredType(Float.class, expression);
+    } else if (expression instanceof StringLiteral) {
+      return typeReferences.findDeclaredType(String.class, expression);
+    } else if (expression instanceof TypeSelectExpression) {
+      return typeReferences.findDeclaredType(Iterable.class, context.getSourceElement());
+    } else if (expression instanceof ListLiteral) {
+      return typeReferences.findDeclaredType(List.class, context.getSourceElement());
+    } else if (expression instanceof OperationCall operationCall) {
+      return resolveOperationCallType(operationCall, context);
+    } else if (expression instanceof FeatureCall featureCall) {
+      return resolveFeatureCallType(featureCall, context);
+    } else {
+      return null;
     }
+  }
+
+  /**
+   * Resolves the result type of an operation call with the same precedence as
+   * {@link #_doTranslate(OperationCall, ScopeTranslationContext)}: an explicit receiver lets the declared extensions
+   * win, an implicit ({@code this}) receiver resolves against its own operations first.
+   *
+   * @param expression
+   *          the source operation call, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
+   * @return the resolved JVM type, or {@code null} if it cannot be determined
+   */
+  private JvmType resolveOperationCallType(final OperationCall expression, final ScopeTranslationContext context) {
+    final JvmType receiverType = resolveType(expression.getTarget(), context);
+    final JvmOperation method = findMethod(receiverType, expression.getName(), expression.getParams().size());
+    if (isImplicitReceiverCall(expression) && method != null) {
+      return returnTypeOf(method);
+    }
+    final JvmType extensionReturnType = returnTypeOf(findExtensionOperation(expression, context));
+    if (extensionReturnType != null) {
+      return extensionReturnType;
+    }
+    return returnTypeOf(method);
+  }
+
+  /**
+   * Resolves the result type of a feature call: the implicit variable for a {@code this} reference, the declared
+   * type of an in-scope variable, or the return type of the resolved getter.
+   *
+   * @param expression
+   *          the source feature call, must not be {@code null}
+   * @param context
+   *          the translation context, must not be {@code null}
+   * @return the resolved JVM type, or {@code null} if it cannot be determined
+   */
+  private JvmType resolveFeatureCallType(final FeatureCall expression, final ScopeTranslationContext context) {
+    if (isThisReference(expression)) {
+      return typeOf(context.getImplicitVariable());
+    }
+    if (isSingleSegmentFeature(expression) && expression.getTarget() == null) {
+      final JvmFormalParameter variable = context.getVariable(expression.getType().getId().get(0));
+      if (variable != null) {
+        return typeOf(variable);
+      }
+    }
+    if (isSingleSegmentFeature(expression)) {
+      final JvmType receiverType = resolveType(expression.getTarget(), context);
+      if (receiverType == null) {
+        return null;
+      }
+      return returnTypeOf(findGetter(receiverType, expression.getType().getId().get(0)));
+    }
+    return null;
+  }
+
+  /**
+   * Returns the declared type of the given formal parameter.
+   *
+   * @param parameter
+   *          the formal parameter, may be {@code null}
+   * @return the declared type, or {@code null} if the parameter or its type reference is {@code null}
+   */
+  private JvmType typeOf(final JvmFormalParameter parameter) {
+    final JvmTypeReference parameterType = parameter != null ? parameter.getParameterType() : null;
+    return parameterType != null ? parameterType.getType() : null;
+  }
+
+  /**
+   * Returns the declared return type of the given operation.
+   *
+   * @param operation
+   *          the operation, may be {@code null}
+   * @return the return type, or {@code null} if the operation or its return type reference is {@code null}
+   */
+  private JvmType returnTypeOf(final JvmOperation operation) {
+    final JvmTypeReference returnType = operation != null ? operation.getReturnType() : null;
+    return returnType != null ? returnType.getType() : null;
   }
 
   /**
@@ -769,14 +919,17 @@ class ScopeExpressionTranslator {
    *          the source feature name, must not be {@code null}
    * @return the matching getter operation, or {@code null} if none is found
    */
-  def private JvmOperation findGetter(JvmType type, String feature) {
-    if (type instanceof JvmDeclaredType) {
-      val candidates = feature.getterCandidates
-      return type.allFeatures.filter(JvmOperation).findFirst [
-        parameters.empty && candidates.contains(simpleName)
-      ]
+  private JvmOperation findGetter(final JvmType type, final String feature) {
+    if (type instanceof JvmDeclaredType declaredType) {
+      final List<String> candidates = getterCandidates(feature);
+      for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+        if (operation.getParameters().isEmpty() && candidates.contains(operation.getSimpleName())) {
+          return operation;
+        }
+      }
+      return null;
     }
-    null
+    return null;
   }
 
   /**
@@ -786,10 +939,10 @@ class ScopeExpressionTranslator {
    *          the source feature name, must not be {@code null}
    * @return the list of candidate method names, never {@code null}
    */
-  def private getterCandidates(String feature) {
-    val name = if (feature.startsWith('^')) feature.substring(1) else feature
-    val upper = name.toFirstUpper
-    #[name, 'get' + upper, 'is' + upper]
+  private List<String> getterCandidates(final String feature) {
+    final String name = feature.startsWith("^") ? feature.substring(1) : feature;
+    final String upper = toFirstUpper(name);
+    return List.of(name, "get" + upper, "is" + upper);
   }
 
   /**
@@ -803,26 +956,28 @@ class ScopeExpressionTranslator {
    * @return the instance-of expression, or {@code null} if the call is not an {@code isInstance} type check or the
    *         type or value cannot be resolved
    */
-  def private XExpression translateInstanceOf(OperationCall it, ScopeTranslationContext context) {
-    if (name != 'isInstance' || params.size != 1 || !(target instanceof FeatureCall)) {
-      return null
+  private XExpression translateInstanceOf(final OperationCall it, final ScopeTranslationContext context) {
+    if (!Objects.equals(it.getName(), "isInstance") || it.getParams().size() != 1) {
+      return null;
     }
-    val typeReference = target as FeatureCall
-    if (typeReference.name !== null || typeReference.type === null) {
-      return null
+    if (!(it.getTarget() instanceof FeatureCall typeReference)) {
+      return null;
     }
-    val jvmType = context.resolveDslType(typeReference.type)
-    if (jvmType === null) {
-      return null
+    if (typeReference.getName() != null || typeReference.getType() == null) {
+      return null;
     }
-    val xValue = params.head.translate(context)
-    if (xValue === null) {
-      return null
+    final JvmType jvmType = context.resolveDslType(typeReference.getType());
+    if (jvmType == null) {
+      return null;
     }
-    val instanceOf = XbaseFactory.eINSTANCE.createXInstanceOfExpression
-    instanceOf.expression = xValue
-    instanceOf.type = createTypeRef(jvmType)
-    instanceOf
+    final XExpression xValue = translate(it.getParams().get(0), context);
+    if (xValue == null) {
+      return null;
+    }
+    final XInstanceOfExpression instanceOf = XbaseFactory.eINSTANCE.createXInstanceOfExpression();
+    instanceOf.setExpression(xValue);
+    instanceOf.setType(typeReferences.createTypeRef(jvmType));
+    return instanceOf;
   }
 
   /**
@@ -836,31 +991,31 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the member feature call, or {@code null} if the receiver type, method or an argument cannot be resolved
    */
-  def private XExpression translateMethodCall(OperationCall it, ScopeTranslationContext context) {
-    val receiverType = resolveType(target, context)
-    if (receiverType === null) {
-      return null
+  private XExpression translateMethodCall(final OperationCall it, final ScopeTranslationContext context) {
+    final JvmType receiverType = resolveType(it.getTarget(), context);
+    if (receiverType == null) {
+      return null;
     }
-    val operation = findMethod(receiverType, name, params.size)
-    if (operation === null) {
-      return null
+    final JvmOperation operation = findMethod(receiverType, it.getName(), it.getParams().size());
+    if (operation == null) {
+      return null;
     }
-    val receiver = if (target === null) context.implicitVariable.toFeatureCall else target.translate(context)
-    if (receiver === null) {
-      return null
+    final XExpression receiver = it.getTarget() == null ? toFeatureCall(context.getImplicitVariable()) : translate(it.getTarget(), context);
+    if (receiver == null) {
+      return null;
     }
-    val memberCall = XbaseFactory.eINSTANCE.createXMemberFeatureCall
-    memberCall.memberCallTarget = receiver
-    memberCall.feature = operation
-    memberCall.explicitOperationCall = true
-    for (param : params) {
-      val xParam = param.translate(context)
-      if (xParam === null) {
-        return null
+    final XMemberFeatureCall memberCall = XbaseFactory.eINSTANCE.createXMemberFeatureCall();
+    memberCall.setMemberCallTarget(receiver);
+    memberCall.setFeature(operation);
+    memberCall.setExplicitOperationCall(true);
+    for (final Expression param : it.getParams()) {
+      final XExpression xParam = translate(param, context);
+      if (xParam == null) {
+        return null;
       }
-      memberCall.memberCallArguments += xParam
+      memberCall.getMemberCallArguments().add(xParam);
     }
-    memberCall
+    return memberCall;
   }
 
   /**
@@ -874,13 +1029,16 @@ class ScopeExpressionTranslator {
    *          the number of arguments the call passes
    * @return the matching method, or {@code null} if none is found
    */
-  def private JvmOperation findMethod(JvmType type, String methodName, int parameterCount) {
-    if (type instanceof JvmDeclaredType) {
-      return type.allFeatures.filter(JvmOperation).findFirst [
-        simpleName == methodName && parameters.size == parameterCount
-      ]
+  private JvmOperation findMethod(final JvmType type, final String methodName, final int parameterCount) {
+    if (type instanceof JvmDeclaredType declaredType) {
+      for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+        if (Objects.equals(operation.getSimpleName(), methodName) && operation.getParameters().size() == parameterCount) {
+          return operation;
+        }
+      }
+      return null;
     }
-    null
+    return null;
   }
 
   /**
@@ -891,18 +1049,36 @@ class ScopeExpressionTranslator {
    *          the source element used to resolve the type against the classpath, may be {@code null}
    * @return the {@code filter} operation, or {@code null} if it cannot be resolved
    */
-  def private JvmOperation findIterablesFilterByClass(EObject context) {
-    if (context === null) {
-      return null
+  private JvmOperation findIterablesFilterByClass(final EObject context) {
+    if (context == null) {
+      return null;
     }
-    val type = findDeclaredType(Iterables, context)
-    if (type instanceof JvmDeclaredType) {
-      return type.allFeatures.filter(JvmOperation).findFirst [
-        isStatic && simpleName == 'filter' && parameters.size == 2 &&
-          parameters.get(1).parameterType?.type?.simpleName == 'Class'
-      ]
+    final JvmType type = typeReferences.findDeclaredType(Iterables.class, context);
+    if (type instanceof JvmDeclaredType declaredType) {
+      for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+        if (isIterablesFilterByClass(operation)) {
+          return operation;
+        }
+      }
+      return null;
     }
-    null
+    return null;
+  }
+
+  /**
+   * Tests whether the given operation is {@code Iterables.filter(Iterable, Class)}.
+   *
+   * @param operation
+   *          the candidate operation, must not be {@code null}
+   * @return {@code true} if the operation is the class based {@code filter} overload
+   */
+  private boolean isIterablesFilterByClass(final JvmOperation operation) {
+    if (!operation.isStatic() || !Objects.equals(operation.getSimpleName(), "filter") || operation.getParameters().size() != 2) {
+      return false;
+    }
+    final JvmTypeReference secondParameterType = operation.getParameters().get(1).getParameterType();
+    final JvmType secondType = secondParameterType != null ? secondParameterType.getType() : null;
+    return Objects.equals(secondType != null ? secondType.getSimpleName() : null, "Class");
   }
 
   /**
@@ -916,28 +1092,28 @@ class ScopeExpressionTranslator {
    *          the translation context, must not be {@code null}
    * @return the feature call, or {@code null} if no matching extension method exists or an argument cannot be translated
    */
-  def private XExpression translateExtensionCall(OperationCall it, ScopeTranslationContext context) {
-    val operation = findExtensionOperation(it, context)
-    if (operation === null) {
-      return null
+  private XExpression translateExtensionCall(final OperationCall it, final ScopeTranslationContext context) {
+    final JvmOperation operation = findExtensionOperation(it, context);
+    if (operation == null) {
+      return null;
     }
-    val featureCall = XbaseFactory.eINSTANCE.createXFeatureCall
-    featureCall.feature = operation
-    if (target !== null) {
-      val xTarget = target.translate(context)
-      if (xTarget === null) {
-        return null
+    final XFeatureCall featureCall = XbaseFactory.eINSTANCE.createXFeatureCall();
+    featureCall.setFeature(operation);
+    if (it.getTarget() != null) {
+      final XExpression xTarget = translate(it.getTarget(), context);
+      if (xTarget == null) {
+        return null;
       }
-      featureCall.featureCallArguments += xTarget
+      featureCall.getFeatureCallArguments().add(xTarget);
     }
-    for (param : params) {
-      val xParam = param.translate(context)
-      if (xParam === null) {
-        return null
+    for (final Expression param : it.getParams()) {
+      final XExpression xParam = translate(param, context);
+      if (xParam == null) {
+        return null;
       }
-      featureCall.featureCallArguments += xParam
+      featureCall.getFeatureCallArguments().add(xParam);
     }
-    featureCall
+    return featureCall;
   }
 
   /**
@@ -949,8 +1125,8 @@ class ScopeExpressionTranslator {
    *          the operation call, must not be {@code null}
    * @return {@code true} if the call has no explicit receiver
    */
-  def boolean isImplicitReceiverCall(OperationCall it) {
-    target === null || (target instanceof FeatureCall && (target as FeatureCall).isThisReference)
+  public boolean isImplicitReceiverCall(final OperationCall it) {
+    return it.getTarget() == null || (it.getTarget() instanceof FeatureCall call && isThisReference(call));
   }
 
   /**
@@ -971,21 +1147,49 @@ class ScopeExpressionTranslator {
    *          the source element used to resolve the type against the classpath, may be {@code null}
    * @return the matching {@code static} operation, or {@code null} if none is found
    */
-  def private JvmOperation findExtensionOperation(String className, OperationCall call, JvmType receiverType,
-    EObject context) {
-    if (context === null) {
-      return null
+  private JvmOperation findExtensionOperation(final String className, final OperationCall call, final JvmType receiverType,
+      final EObject context) {
+    if (context == null) {
+      return null;
     }
-    val operationName = call.name
-    val argumentCount = (if (call.target !== null) 1 else 0) + call.params.size
-    val type = findDeclaredType(className, context)
-    if (type instanceof JvmDeclaredType) {
-      return type.allFeatures.filter(JvmOperation).findFirst [
-        isStatic && simpleName == operationName && parameters.size == argumentCount &&
-          isCompatible(parameters.head?.parameterType?.type, receiverType)
-      ]
+    final String operationName = call.getName();
+    final int argumentCount = (call.getTarget() != null ? 1 : 0) + call.getParams().size();
+    final JvmType type = typeReferences.findDeclaredType(className, context);
+    if (type instanceof JvmDeclaredType declaredType) {
+      for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+        if (matchesExtension(operation, operationName, argumentCount, receiverType)) {
+          return operation;
+        }
+      }
+      return null;
     }
-    null
+    return null;
+  }
+
+  /**
+   * Tests whether the given operation is a {@code static} extension method matching the given name, argument count
+   * and receiver type.
+   *
+   * @param operation
+   *          the candidate operation, must not be {@code null}
+   * @param operationName
+   *          the source operation name, must not be {@code null}
+   * @param argumentCount
+   *          the number of arguments the call passes
+   * @param receiverType
+   *          the resolved type of the call's receiver, or {@code null} if there is none or it is unknown
+   * @return {@code true} if the operation matches the call
+   */
+  private boolean matchesExtension(final JvmOperation operation, final String operationName, final int argumentCount,
+      final JvmType receiverType) {
+    if (!operation.isStatic() || !Objects.equals(operation.getSimpleName(), operationName)) {
+      return false;
+    }
+    if (operation.getParameters().size() != argumentCount) {
+      return false;
+    }
+    final JvmFormalParameter first = operation.getParameters().isEmpty() ? null : operation.getParameters().get(0);
+    return isCompatible(typeOf(first), receiverType);
   }
 
   /**
@@ -1001,22 +1205,25 @@ class ScopeExpressionTranslator {
    *          the resolved argument type, may be {@code null}
    * @return {@code true} if the argument is compatible with the parameter
    */
-  def private boolean isCompatible(JvmType parameterType, JvmType argumentType) {
-    if (parameterType === null || argumentType === null || parameterType.qualifiedName == Object.name
-      || argumentType.qualifiedName == Object.name) {
-      return true
+  private boolean isCompatible(final JvmType parameterType, final JvmType argumentType) {
+    if (parameterType == null || argumentType == null) {
+      return true;
     }
-    if (parameterType.qualifiedName == argumentType.qualifiedName) {
-      return true
+    if (Objects.equals(parameterType.getQualifiedName(), Object.class.getName())
+        || Objects.equals(argumentType.getQualifiedName(), Object.class.getName())) {
+      return true;
     }
-    if (argumentType instanceof JvmDeclaredType
-      && (argumentType as JvmDeclaredType).isSubtypeOf(parameterType.qualifiedName, <String>newHashSet)) {
-      return true
+    if (Objects.equals(parameterType.getQualifiedName(), argumentType.getQualifiedName())) {
+      return true;
     }
-    if (parameterType instanceof JvmDeclaredType) {
-      return (parameterType as JvmDeclaredType).isSubtypeOf(argumentType.qualifiedName, <String>newHashSet)
+    if (argumentType instanceof JvmDeclaredType declaredArgumentType
+        && isSubtypeOf(declaredArgumentType, parameterType.getQualifiedName(), new HashSet<>())) {
+      return true;
     }
-    true
+    if (parameterType instanceof JvmDeclaredType declaredParameterType) {
+      return isSubtypeOf(declaredParameterType, argumentType.getQualifiedName(), new HashSet<>());
+    }
+    return true;
   }
 
   /**
@@ -1030,20 +1237,20 @@ class ScopeExpressionTranslator {
    *          the qualified names already visited, guarding against cycles, must not be {@code null}
    * @return {@code true} if the type is a subtype of the named type
    */
-  def private boolean isSubtypeOf(JvmDeclaredType it, String qualifiedTypeName, Set<String> visited) {
-    if (!visited.add(qualifiedName)) {
-      return false
+  private boolean isSubtypeOf(final JvmDeclaredType it, final String qualifiedTypeName, final Set<String> visited) {
+    if (!visited.add(it.getQualifiedName())) {
+      return false;
     }
-    for (superTypeReference : superTypes) {
-      val superType = superTypeReference?.type
-      if (superType !== null && superType.qualifiedName == qualifiedTypeName) {
-        return true
+    for (final JvmTypeReference superTypeReference : it.getSuperTypes()) {
+      final JvmType superType = superTypeReference != null ? superTypeReference.getType() : null;
+      if (superType != null && Objects.equals(superType.getQualifiedName(), qualifiedTypeName)) {
+        return true;
       }
-      if (superType instanceof JvmDeclaredType && (superType as JvmDeclaredType).isSubtypeOf(qualifiedTypeName, visited)) {
-        return true
+      if (superType instanceof JvmDeclaredType declaredSuperType && isSubtypeOf(declaredSuperType, qualifiedTypeName, visited)) {
+        return true;
       }
     }
-    false
+    return false;
   }
 
   /**
@@ -1056,11 +1263,12 @@ class ScopeExpressionTranslator {
    *          the translation context holding the declared extension classes, must not be {@code null}
    * @return the matching {@code static} operation, or {@code null} if no declared extension class provides one
    */
-  def JvmOperation findExtensionOperation(OperationCall call, ScopeTranslationContext context) {
-    val receiverType = if (call.target === null) null else resolveType(call.target, context)
-    context.extensionClassNames.map [ className |
-      findExtensionOperation(className, call, receiverType, context.sourceElement)
-    ].filterNull.head
+  public JvmOperation findExtensionOperation(final OperationCall call, final ScopeTranslationContext context) {
+    final JvmType receiverType = call.getTarget() == null ? null : resolveType(call.getTarget(), context);
+    return context.getExtensionClassNames().stream()
+        .map(className -> findExtensionOperation(className, call, receiverType, context.getSourceElement()))
+        .filter(Objects::nonNull)
+        .findFirst().orElse(null);
   }
 
   /**
@@ -1074,11 +1282,11 @@ class ScopeExpressionTranslator {
    *          the translation context holding the declared extension classes, must not be {@code null}
    * @return the fully qualified extension class name, or {@code null} if no declared extension class matches
    */
-  def String findExtensionClassName(OperationCall call, ScopeTranslationContext context) {
-    val receiverType = if (call.target === null) null else resolveType(call.target, context)
-    context.extensionClassNames.findFirst [ className |
-      findExtensionOperation(className, call, receiverType, context.sourceElement) !== null
-    ]
+  public String findExtensionClassName(final OperationCall call, final ScopeTranslationContext context) {
+    final JvmType receiverType = call.getTarget() == null ? null : resolveType(call.getTarget(), context);
+    return context.getExtensionClassNames().stream()
+        .filter(className -> findExtensionOperation(className, call, receiverType, context.getSourceElement()) != null)
+        .findFirst().orElse(null);
   }
 
   /**
@@ -1097,17 +1305,17 @@ class ScopeExpressionTranslator {
    *          the source element used to resolve the operator type, may be {@code null}
    * @return the binary operation, or {@code null} if the operator method cannot be resolved
    */
-  def private XExpression toBinaryOperation(XExpression left, XExpression right, Class<?> operatorClass,
-    String operatorName, EObject context) {
-    val operation = findOperator(operatorClass, operatorName, context)
-    if (operation === null) {
-      return null
+  private XExpression toBinaryOperation(final XExpression left, final XExpression right, final Class<?> operatorClass,
+      final String operatorName, final EObject context) {
+    final JvmOperation operation = findOperator(operatorClass, operatorName, context);
+    if (operation == null) {
+      return null;
     }
-    val binaryOperation = XbaseFactory.eINSTANCE.createXBinaryOperation
-    binaryOperation.leftOperand = left
-    binaryOperation.rightOperand = right
-    binaryOperation.feature = operation
-    binaryOperation
+    final XBinaryOperation binaryOperation = XbaseFactory.eINSTANCE.createXBinaryOperation();
+    binaryOperation.setLeftOperand(left);
+    binaryOperation.setRightOperand(right);
+    binaryOperation.setFeature(operation);
+    return binaryOperation;
   }
 
   /**
@@ -1121,17 +1329,43 @@ class ScopeExpressionTranslator {
    *          the source element used to resolve the type against the classpath, may be {@code null}
    * @return the operator {@link JvmOperation}, or {@code null} if it cannot be resolved
    */
-  def private JvmOperation findOperator(Class<?> operatorClass, String operatorName, EObject context) {
-    if (context === null) {
-      return null
+  private JvmOperation findOperator(final Class<?> operatorClass, final String operatorName, final EObject context) {
+    if (context == null) {
+      return null;
     }
-    val type = findDeclaredType(operatorClass, context)
-    if (type instanceof JvmDeclaredType) {
-      return type.allFeatures.filter(JvmOperation).findFirst [
-        simpleName == operatorName && parameters.size == 2
-      ]
+    final JvmType type = typeReferences.findDeclaredType(operatorClass, context);
+    if (type instanceof JvmDeclaredType declaredType) {
+      for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+        if (Objects.equals(operation.getSimpleName(), operatorName) && operation.getParameters().size() == 2) {
+          return operation;
+        }
+      }
+      return null;
     }
-    null
+    return null;
+  }
+
+  private static String toFirstUpper(final String value) {
+    return value == null || value.isEmpty() ? value : Character.toUpperCase(value.charAt(0)) + value.substring(1);
+  }
+
+  protected XExpression doTranslate(final Expression it, final ScopeTranslationContext context) {
+    return switch (it) {
+      case BooleanLiteral literal -> _doTranslate(literal, context);
+      case IntegerLiteral literal -> _doTranslate(literal, context);
+      case NullLiteral literal -> _doTranslate(literal, context);
+      case OperationCall call -> _doTranslate(call, context);
+      case RealLiteral literal -> _doTranslate(literal, context);
+      case StringLiteral literal -> _doTranslate(literal, context);
+      case TypeSelectExpression expression -> _doTranslate(expression, context);
+      case BooleanOperation operation -> _doTranslate(operation, context);
+      case CastedExpression expression -> _doTranslate(expression, context);
+      case FeatureCall call -> _doTranslate(call, context);
+      case IfExpression expression -> _doTranslate(expression, context);
+      case ListLiteral literal -> _doTranslate(literal, context);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, context).toString());
+      default -> _doTranslate(it, context);
+    };
   }
 
 }

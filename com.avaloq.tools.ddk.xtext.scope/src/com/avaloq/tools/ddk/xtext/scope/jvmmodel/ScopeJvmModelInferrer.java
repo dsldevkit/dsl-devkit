@@ -8,39 +8,55 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.scope.jvmmodel
+package com.avaloq.tools.ddk.xtext.scope.jvmmodel;
 
-import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
-import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport
-import com.avaloq.tools.ddk.xtext.expression.generator.JavaBodyAppender
-import com.avaloq.tools.ddk.xtext.scope.generator.ScopeNameProviderGenerator
-import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderGenerator
-import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderX
-import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel
-import com.avaloq.tools.ddk.xtext.scoping.AbstractPolymorphicScopeProvider
-import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider
-import com.avaloq.tools.ddk.xtext.scoping.INameFunction
-import com.google.inject.Inject
-import com.google.inject.Provider
-import com.google.inject.Singleton
-import org.apache.logging.log4j.Logger
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.common.types.JvmAnnotationReference
-import org.eclipse.xtext.common.types.JvmAnnotationType
-import org.eclipse.xtext.common.types.JvmGenericType
-import org.eclipse.xtext.common.types.JvmVisibility
-import org.eclipse.xtext.common.types.TypesFactory
-import org.eclipse.xtext.common.types.xtext.JvmMemberInitializableResource
-import org.eclipse.xtext.scoping.IScope
-import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
-import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
-import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
-import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiFunction;
+
+import org.apache.logging.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.common.types.JvmAnnotationReference;
+import org.eclipse.xtext.common.types.JvmAnnotationType;
+import org.eclipse.xtext.common.types.JvmField;
+import org.eclipse.xtext.common.types.JvmGenericType;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmStringAnnotationValue;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.common.types.JvmVisibility;
+import org.eclipse.xtext.common.types.TypesFactory;
+import org.eclipse.xtext.common.types.xtext.JvmMemberInitializableResource;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.util.Strings;
+import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
+import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
+import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
+import com.avaloq.tools.ddk.xtext.expression.generator.JavaBodyAppender;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeNameProviderGenerator;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderGenerator;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderX;
+import com.avaloq.tools.ddk.xtext.scope.scope.Injection;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeDefinition;
+import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
+import com.avaloq.tools.ddk.xtext.scoping.AbstractPolymorphicScopeProvider;
+import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProvider;
+import com.avaloq.tools.ddk.xtext.scoping.INameFunction;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 /**
  * Infers a JVM model from a scope model.
@@ -52,17 +68,34 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
  * imports and shortens the framework types they reference while leaving the types of the language being generated
  * fully qualified.
  */
-class ScopeJvmModelInferrer extends AbstractModelInferrer {
+@SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+public class ScopeJvmModelInferrer extends AbstractModelInferrer {
+  // CHECKSTYLE:CONSTANTS-OFF the repeated literals are names of the inferred members, not nameable constants
+  // CHECKSTYLE:CHECK-OFF LambdaBodyLength the model-inference closures mirror the Xtext JvmTypesBuilder API and are kept whole
 
-  @Inject extension JvmTypesBuilder
-  @Inject extension ScopeProviderX
+  @Inject
+  private JvmTypesBuilder jvmTypesBuilder;
 
-  @Inject TypesFactory typesFactory
-  @Inject Provider<ScopeProviderGenerator> providerGenerators
-  @Inject Provider<ScopeNameProviderGenerator> nameProviderGenerators
-  @Inject GenModelUtilX genModelUtil
-  @Inject GeneratorSupport generatorSupport
-  @Inject JavaBodyAppender bodyAppender
+  @Inject
+  private ScopeProviderX scopeProviderX;
+
+  @Inject
+  private TypesFactory typesFactory;
+
+  @Inject
+  private Provider<ScopeProviderGenerator> providerGenerators;
+
+  @Inject
+  private Provider<ScopeNameProviderGenerator> nameProviderGenerators;
+
+  @Inject
+  private GenModelUtilX genModelUtil;
+
+  @Inject
+  private GeneratorSupport generatorSupport;
+
+  @Inject
+  private JavaBodyAppender bodyAppender;
 
   /**
    * Infers the scope provider and scope name provider JVM types for the given scope model.
@@ -74,115 +107,136 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
    * @param isPreIndexingPhase
    *          whether the method is called in the pre-indexing phase
    */
-  def dispatch void infer(ScopeModel element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+  protected void _infer(final ScopeModel element, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
     if (isPreIndexingPhase) {
-      return
+      return;
     }
-    val providerName = element.scopeProvider
-    acceptor.accept(element.toClass(providerName)) [
-      superTypes += typeRef(AbstractPolymorphicScopeProvider)
-      addSuppressWarningsAll
-      documentation = '''The scope provider for «element.name».'''
-      members += element.toField('LOGGER', typeRef(Logger)) [
-        static = true
-        final = true
-        initializer = [appendJava('''org.apache.logging.log4j.LogManager.getLogger(«providerName.simpleName».class)'''.toString, element)]
-      ]
-      for (injection : element.allInjections) {
-        members += element.toField(injection.name, typeRef(injection.type)) [
-          visibility = JvmVisibility.PRIVATE
-          annotations += typeOnlyAnnotation(Inject)
-        ]
+    final String providerName = scopeProviderX.getScopeProvider(element);
+    final Procedure1<JvmGenericType> providerInitializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractPolymorphicScopeProvider.class));
+      addSuppressWarningsAll(it);
+      jvmTypesBuilder.setDocumentation(it, "The scope provider for %s.".formatted(Strings.emptyIfNull(element.getName())));
+      final Procedure1<JvmField> loggerInitializer = (final JvmField field) -> {
+        field.setStatic(true);
+        field.setFinal(true);
+        final Procedure1<ITreeAppendable> initializer = (final ITreeAppendable appendable) -> appendJava(appendable,
+            "org.apache.logging.log4j.LogManager.getLogger(%s.class)".formatted(simpleName(providerName)), element);
+        jvmTypesBuilder.setInitializer(field, initializer);
+      };
+      it.getMembers().add(jvmTypesBuilder.toField(element, "LOGGER", _typeReferenceBuilder.typeRef(Logger.class), loggerInitializer));
+      for (final Injection injection : scopeProviderX.allInjections(element)) {
+        final Procedure1<JvmField> injectionInitializer = (final JvmField field) -> {
+          field.setVisibility(JvmVisibility.PRIVATE);
+          field.getAnnotations().add(typeOnlyAnnotation(Inject.class));
+        };
+        final JvmField injectedField = jvmTypesBuilder.toField(element, injection.getName(),
+            _typeReferenceBuilder.typeRef(injection.getType()), injectionInitializer);
+        if (injectedField != null) { // toField returns null for an unnamed injection; the original Xtend += (operator_add) skipped nulls
+          it.getMembers().add(injectedField);
+        }
       }
-      members += element.toMethod('doGetScope', typeRef(IScope)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        parameters += element.toParameter('context', typeRef(EObject))
-        parameters += element.toParameter('reference', typeRef(EReference))
-        parameters += element.toParameter('scopeName', typeRef(String))
-        parameters += element.toParameter('originalResource', typeRef(Resource))
-        body = [appendJava(renderBody(element, [provider, names | provider.doGetScopeByReferenceBody(element)]), element)]
-      ]
-      members += element.toMethod('doGetScope', typeRef(IScope)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        parameters += element.toParameter('context', typeRef(EObject))
-        parameters += element.toParameter('type', typeRef(EClass))
-        parameters += element.toParameter('scopeName', typeRef(String))
-        parameters += element.toParameter('originalResource', typeRef(Resource))
-        body = [appendJava(renderBody(element, [provider, names | provider.doGetScopeByTypeBody(element)]), element)]
-      ]
-      members += element.toMethod('doGlobalCache', typeRef(Boolean.TYPE)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        parameters += element.toParameter('context', typeRef(EObject))
-        parameters += element.toParameter('reference', typeRef(EReference))
-        parameters += element.toParameter('scopeName', typeRef(String))
-        parameters += element.toParameter('originalResource', typeRef(Resource))
-        body = [appendJava(renderBody(element, [provider, names | provider.doGlobalCacheByReferenceBody(element)]), element)]
-      ]
-      members += element.toMethod('doGlobalCache', typeRef(Boolean.TYPE)) [
-        visibility = JvmVisibility.PROTECTED
-        annotations += typeOnlyAnnotation(Override)
-        parameters += element.toParameter('context', typeRef(EObject))
-        parameters += element.toParameter('type', typeRef(EClass))
-        parameters += element.toParameter('scopeName', typeRef(String))
-        parameters += element.toParameter('originalResource', typeRef(Resource))
-        body = [appendJava(renderBody(element, [provider, names | provider.doGlobalCacheByTypeBody(element)]), element)]
-      ]
-      for (scope : element.allScopes) {
-        val hasReference = scope.reference !== null
-        members += element.toMethod(scope.scopeMethodName, typeRef(IScope)) [
-          visibility = JvmVisibility.PROTECTED
-          parameters += element.toParameter('context', typeRef(EObject))
+      it.getMembers().add(jvmTypesBuilder.toMethod(element, "doGetScope", _typeReferenceBuilder.typeRef(IScope.class),
+          scopeEntryPoint(element, "reference", EReference.class, (provider, names) -> provider.doGetScopeByReferenceBody(element))));
+      it.getMembers().add(jvmTypesBuilder.toMethod(element, "doGetScope", _typeReferenceBuilder.typeRef(IScope.class),
+          scopeEntryPoint(element, "type", EClass.class, (provider, names) -> provider.doGetScopeByTypeBody(element))));
+      it.getMembers().add(jvmTypesBuilder.toMethod(element, "doGlobalCache", _typeReferenceBuilder.typeRef(Boolean.TYPE),
+          scopeEntryPoint(element, "reference", EReference.class, (provider, names) -> provider.doGlobalCacheByReferenceBody(element))));
+      it.getMembers().add(jvmTypesBuilder.toMethod(element, "doGlobalCache", _typeReferenceBuilder.typeRef(Boolean.TYPE),
+          scopeEntryPoint(element, "type", EClass.class, (provider, names) -> provider.doGlobalCacheByTypeBody(element))));
+      for (final ScopeDefinition scope : scopeProviderX.allScopes(element)) {
+        final boolean hasReference = scope.getReference() != null;
+        final Procedure1<JvmOperation> scopeMethodInitializer = (final JvmOperation method) -> {
+          method.setVisibility(JvmVisibility.PROTECTED);
+          method.getParameters().add(jvmTypesBuilder.toParameter(element, "context", _typeReferenceBuilder.typeRef(EObject.class)));
           if (hasReference) {
-            parameters += element.toParameter('ref', typeRef(EReference))
+            method.getParameters().add(jvmTypesBuilder.toParameter(element, "ref", _typeReferenceBuilder.typeRef(EReference.class)));
           } else {
-            parameters += element.toParameter('type', typeRef(EClass))
+            method.getParameters().add(jvmTypesBuilder.toParameter(element, "type", _typeReferenceBuilder.typeRef(EClass.class)));
           }
-          parameters += element.toParameter('originalResource', typeRef(Resource))
-          body = [appendJava(renderBody(element, [provider, names | provider.scopeMethodBody(scope, element)]), element)]
-        ]
+          method.getParameters().add(jvmTypesBuilder.toParameter(element, "originalResource", _typeReferenceBuilder.typeRef(Resource.class)));
+          final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+              renderBody(element, (provider, names) -> provider.scopeMethodBody(scope, element)), element);
+          jvmTypesBuilder.setBody(method, body);
+        };
+        it.getMembers().add(jvmTypesBuilder.toMethod(element, scopeProviderX.scopeMethodName(scope),
+            _typeReferenceBuilder.typeRef(IScope.class), scopeMethodInitializer));
       }
-    ]
+    };
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(element, providerName), providerInitializer);
 
-    val nameProviderName = element.scopeNameProvider
-    acceptor.accept(element.toClass(nameProviderName)) [
-      superTypes += typeRef(AbstractScopeNameProvider)
-      annotations += typeOnlyAnnotation(Singleton)
-      addSuppressWarningsAll
-      documentation = '''The scope name provider for «element.name».'''
-      members += element.toMethod('internalGetNameFunctions', typeRef(Iterable, typeRef(INameFunction))) [
-        visibility = JvmVisibility.PUBLIC
-        annotations += typeOnlyAnnotation(Override)
-        parameters += element.toParameter('eClass', typeRef(EClass))
-        body = [appendJava(renderBody(element, [provider, names | names.internalGetNameFunctionsBody(element)]), element)]
-      ]
-    ]
+    final String nameProviderName = scopeProviderX.getScopeNameProvider(element);
+    final Procedure1<JvmGenericType> nameProviderInitializer = (final JvmGenericType it) -> {
+      it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractScopeNameProvider.class));
+      it.getAnnotations().add(typeOnlyAnnotation(Singleton.class));
+      addSuppressWarningsAll(it);
+      jvmTypesBuilder.setDocumentation(it, "The scope name provider for %s.".formatted(Strings.emptyIfNull(element.getName())));
+      final Procedure1<JvmOperation> methodInitializer = (final JvmOperation method) -> {
+        method.setVisibility(JvmVisibility.PUBLIC);
+        method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+        method.getParameters().add(jvmTypesBuilder.toParameter(element, "eClass", _typeReferenceBuilder.typeRef(EClass.class)));
+        final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable,
+            renderBody(element, (provider, names) -> names.internalGetNameFunctionsBody(element)), element);
+        jvmTypesBuilder.setBody(method, body);
+      };
+      it.getMembers().add(jvmTypesBuilder.toMethod(element, "internalGetNameFunctions",
+          _typeReferenceBuilder.typeRef(Iterable.class, _typeReferenceBuilder.typeRef(INameFunction.class)), methodInitializer));
+    };
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(element, nameProviderName), nameProviderInitializer);
     // Acceptor initializers alone run before infer returns to resource loading. Register after both roots
     // have been accepted so Xtext marks both types for demand-driven member initialization.
-    val resource = element.eResource
-    if (resource instanceof JvmMemberInitializableResource) {
-      resource.addJvmMemberInitializer([])
+    final Resource resource = element.eResource();
+    if (resource instanceof JvmMemberInitializableResource initializableResource) {
+      initializableResource.addJvmMemberInitializer(() -> {
+        // Nothing to initialize eagerly; registering the (empty) initializer marks the types for demand-driven initialization.
+      });
     }
   }
 
+  /**
+   * Builds the initializer of one of the four {@code doGetScope}/{@code doGlobalCache} entry points. They differ only
+   * in the type of their second parameter and in the generator method that produces their body; every other
+   * structural call is identical.
+   *
+   * @param element
+   *          the scope model, must not be {@code null}
+   * @param secondParameterName
+   *          the name of the reference or type parameter, must not be {@code null}
+   * @param secondParameterType
+   *          the type of the reference or type parameter, must not be {@code null}
+   * @param producer
+   *          the producer of the method body, must not be {@code null}
+   * @return the method initializer, never {@code null}
+   */
+  private Procedure1<JvmOperation> scopeEntryPoint(final ScopeModel element, final String secondParameterName,
+      final Class<?> secondParameterType, final BiFunction<ScopeProviderGenerator, ScopeNameProviderGenerator, CharSequence> producer) {
+    return (final JvmOperation method) -> {
+      method.setVisibility(JvmVisibility.PROTECTED);
+      method.getAnnotations().add(typeOnlyAnnotation(Override.class));
+      method.getParameters().add(jvmTypesBuilder.toParameter(element, "context", _typeReferenceBuilder.typeRef(EObject.class)));
+      method.getParameters().add(jvmTypesBuilder.toParameter(element, secondParameterName, _typeReferenceBuilder.typeRef(secondParameterType)));
+      method.getParameters().add(jvmTypesBuilder.toParameter(element, "scopeName", _typeReferenceBuilder.typeRef(String.class)));
+      method.getParameters().add(jvmTypesBuilder.toParameter(element, "originalResource", _typeReferenceBuilder.typeRef(Resource.class)));
+      final Procedure1<ITreeAppendable> body = (final ITreeAppendable appendable) -> appendJava(appendable, renderBody(element, producer), element);
+      jvmTypesBuilder.setBody(method, body);
+    };
+  }
+
   /** Renders only during emission, with fresh model-specific generators and a restored resource context. */
-  def private String renderBody(ScopeModel model, (ScopeProviderGenerator, ScopeNameProviderGenerator)=>CharSequence producer) {
-    val previousContext = genModelUtil.context
-    val result = newArrayList('')
+  private String renderBody(final ScopeModel model, final BiFunction<ScopeProviderGenerator, ScopeNameProviderGenerator, CharSequence> producer) {
+    final Resource previousContext = genModelUtil.getContext();
+    final List<String> result = new ArrayList<>(List.of(""));
     try {
-      generatorSupport.executeWithProjectResourceLoader(model.projectOf, [
-        genModelUtil.resource = model.eResource
-        val provider = providerGenerators.get
-        val names = nameProviderGenerators.get
-        provider.configure(names, genModelUtil, model)
-        names.configure(genModelUtil, model)
-        result.set(0, producer.apply(provider, names).toString)
-      ])
-      result.get(0)
+      generatorSupport.executeWithProjectResourceLoader(projectOf(model), () -> {
+        genModelUtil.setResource(model.eResource());
+        final ScopeProviderGenerator provider = providerGenerators.get();
+        final ScopeNameProviderGenerator names = nameProviderGenerators.get();
+        provider.configure(names, genModelUtil, model);
+        names.configure(genModelUtil, model);
+        result.set(0, producer.apply(provider, names).toString());
+      });
+      return result.get(0);
     } finally {
-      genModelUtil.resource = previousContext
+      genModelUtil.setResource(previousContext);
     }
   }
 
@@ -196,8 +250,8 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
    * @param context
    *          the scope model, used to resolve the referenced types against the classpath, must not be {@code null}
    */
-  def private void appendJava(ITreeAppendable it, String body, ScopeModel context) {
-    bodyAppender.appendBody(it, body, context)
+  private void appendJava(final ITreeAppendable it, final String body, final ScopeModel context) {
+    bodyAppender.appendBody(it, body, context);
   }
 
   /**
@@ -206,13 +260,14 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
    * @param type
    *          the type to annotate, must not be {@code null}
    */
-  def private void addSuppressWarningsAll(JvmGenericType type) {
-    val annotation = typesFactory.createJvmAnnotationReference
-    annotation.annotation = typeRef(SuppressWarnings).type as JvmAnnotationType
-    val value = typesFactory.createJvmStringAnnotationValue
-    value.values += 'all'
-    annotation.explicitValues += value
-    type.annotations += annotation
+  private void addSuppressWarningsAll(final JvmGenericType type) {
+    final JvmAnnotationReference annotation = typesFactory.createJvmAnnotationReference();
+    final JvmType annotationType = _typeReferenceBuilder.typeRef(SuppressWarnings.class).getType();
+    annotation.setAnnotation((JvmAnnotationType) annotationType);
+    final JvmStringAnnotationValue value = typesFactory.createJvmStringAnnotationValue();
+    value.getValues().add("all");
+    annotation.getExplicitValues().add(value);
+    type.getAnnotations().add(annotation);
   }
 
   /**
@@ -222,10 +277,11 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
    *          the annotation type, must not be {@code null}
    * @return the annotation reference, never {@code null}
    */
-  def private JvmAnnotationReference typeOnlyAnnotation(Class<?> annotationClass) {
-    val annotation = typesFactory.createJvmAnnotationReference
-    annotation.annotation = typeRef(annotationClass).type as JvmAnnotationType
-    annotation
+  private JvmAnnotationReference typeOnlyAnnotation(final Class<?> annotationClass) {
+    final JvmAnnotationReference annotation = typesFactory.createJvmAnnotationReference();
+    final JvmType annotationType = _typeReferenceBuilder.typeRef(annotationClass).getType();
+    annotation.setAnnotation((JvmAnnotationType) annotationType);
+    return annotation;
   }
 
   /**
@@ -235,15 +291,15 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
    *          the scope model, must not be {@code null}
    * @return the containing project, or {@code null} if it cannot be determined
    */
-  def private IProject projectOf(ScopeModel element) {
-    val uri = element.eResource.URI
-    if (uri.isPlatformResource) {
-      val resource = ResourcesPlugin.workspace.root.findMember(uri.toPlatformString(true))
-      if (resource !== null) {
-        return resource.project
+  private IProject projectOf(final ScopeModel element) {
+    final URI uri = element.eResource().getURI();
+    if (uri.isPlatformResource()) {
+      final IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
+      if (resource != null) {
+        return resource.getProject();
       }
     }
-    null
+    return null;
   }
 
   /**
@@ -253,8 +309,19 @@ class ScopeJvmModelInferrer extends AbstractModelInferrer {
    *          the fully qualified name, must not be {@code null}
    * @return the simple name, never {@code null}
    */
-  def private String simpleName(String fqn) {
-    fqn.substring(fqn.lastIndexOf('.') + 1)
+  private String simpleName(final String fqn) {
+    return fqn.substring(fqn.lastIndexOf('.') + 1);
   }
 
+  @Override
+  public void infer(final EObject element, final IJvmDeclaredTypeAcceptor acceptor, final boolean isPreIndexingPhase) {
+    switch (element) {
+      case ScopeModel model -> _infer(model, acceptor, isPreIndexingPhase);
+      case null -> throw new IllegalArgumentException(
+          "Unhandled parameter types: " + Arrays.<Object>asList(element, acceptor, isPreIndexingPhase).toString());
+      default -> _infer(element, acceptor, isPreIndexingPhase);
+    }
+  }
+  // CHECKSTYLE:CHECK-ON LambdaBodyLength
+  // CHECKSTYLE:CONSTANTS-ON
 }
