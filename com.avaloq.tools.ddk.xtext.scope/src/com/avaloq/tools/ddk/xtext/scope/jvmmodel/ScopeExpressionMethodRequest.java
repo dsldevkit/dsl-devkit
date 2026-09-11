@@ -8,11 +8,14 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.scope.jvmmodel
+package com.avaloq.tools.ddk.xtext.scope.jvmmodel;
 
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression
-import java.util.List
-import org.eclipse.xtext.xbase.lib.Pair
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.xtext.xbase.lib.Pair;
+
+import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
 
 /**
  * Describes a private helper operation that the {@link ScopeJvmModelInferrer} has to contribute to the inferred
@@ -27,29 +30,29 @@ import org.eclipse.xtext.xbase.lib.Pair
  * is used when the translator cannot (yet) translate the expression, so behaviour is preserved while coverage is
  * migrated incrementally.
  */
-class ScopeExpressionMethodRequest {
+public class ScopeExpressionMethodRequest {
 
-  String methodName
+  private String methodName;
 
-  String returnTypeName
+  private String returnTypeName;
 
-  String variableName
+  private String variableName;
 
-  String variableTypeName
+  private String variableTypeName;
 
-  Expression expression
+  private Expression expression;
 
-  String fallbackBody
+  private String fallbackBody;
 
-  List<Pair<String, String>> extraParameters = newArrayList
+  private final List<Pair<String, String>> extraParameters = new ArrayList<>();
 
   /**
    * Returns the name of the helper method to generate.
    *
    * @return the method name, never {@code null}
    */
-  def String getMethodName() {
-    methodName
+  public String getMethodName() {
+    return this.methodName;
   }
 
   /**
@@ -58,8 +61,8 @@ class ScopeExpressionMethodRequest {
    * @param methodName
    *          the method name, must not be {@code null}
    */
-  def void setMethodName(String methodName) {
-    this.methodName = methodName
+  public void setMethodName(final String methodName) {
+    this.methodName = methodName;
   }
 
   /**
@@ -68,8 +71,8 @@ class ScopeExpressionMethodRequest {
    *
    * @return the return type name, never {@code null}
    */
-  def String getReturnTypeName() {
-    returnTypeName
+  public String getReturnTypeName() {
+    return this.returnTypeName;
   }
 
   /**
@@ -78,8 +81,8 @@ class ScopeExpressionMethodRequest {
    * @param returnTypeName
    *          the return type name, must not be {@code null}
    */
-  def void setReturnTypeName(String returnTypeName) {
-    this.returnTypeName = returnTypeName
+  public void setReturnTypeName(final String returnTypeName) {
+    this.returnTypeName = returnTypeName;
   }
 
   /**
@@ -87,8 +90,8 @@ class ScopeExpressionMethodRequest {
    *
    * @return the variable name, never {@code null}
    */
-  def String getVariableName() {
-    variableName
+  public String getVariableName() {
+    return this.variableName;
   }
 
   /**
@@ -97,8 +100,8 @@ class ScopeExpressionMethodRequest {
    * @param variableName
    *          the variable name, must not be {@code null}
    */
-  def void setVariableName(String variableName) {
-    this.variableName = variableName
+  public void setVariableName(final String variableName) {
+    this.variableName = variableName;
   }
 
   /**
@@ -106,8 +109,8 @@ class ScopeExpressionMethodRequest {
    *
    * @return the variable type name, never {@code null}
    */
-  def String getVariableTypeName() {
-    variableTypeName
+  public String getVariableTypeName() {
+    return this.variableTypeName;
   }
 
   /**
@@ -116,8 +119,8 @@ class ScopeExpressionMethodRequest {
    * @param variableTypeName
    *          the variable type name, must not be {@code null}
    */
-  def void setVariableTypeName(String variableTypeName) {
-    this.variableTypeName = variableTypeName
+  public void setVariableTypeName(final String variableTypeName) {
+    this.variableTypeName = variableTypeName;
   }
 
   /**
@@ -125,8 +128,8 @@ class ScopeExpressionMethodRequest {
    *
    * @return the source expression, never {@code null}
    */
-  def Expression getExpression() {
-    expression
+  public Expression getExpression() {
+    return this.expression;
   }
 
   /**
@@ -135,8 +138,8 @@ class ScopeExpressionMethodRequest {
    * @param expression
    *          the source expression, must not be {@code null}
    */
-  def void setExpression(Expression expression) {
-    this.expression = expression
+  public void setExpression(final Expression expression) {
+    this.expression = expression;
   }
 
   /**
@@ -145,8 +148,8 @@ class ScopeExpressionMethodRequest {
    *
    * @return the fallback body, never {@code null}
    */
-  def String getFallbackBody() {
-    fallbackBody
+  public String getFallbackBody() {
+    return this.fallbackBody;
   }
 
   /**
@@ -155,8 +158,8 @@ class ScopeExpressionMethodRequest {
    * @param fallbackBody
    *          the fallback body, must not be {@code null}
    */
-  def void setFallbackBody(String fallbackBody) {
-    this.fallbackBody = fallbackBody
+  public void setFallbackBody(final String fallbackBody) {
+    this.fallbackBody = fallbackBody;
   }
 
   /**
@@ -166,8 +169,8 @@ class ScopeExpressionMethodRequest {
    *
    * @return the extra parameters, never {@code null}
    */
-  def List<Pair<String, String>> getExtraParameters() {
-    extraParameters
+  public List<Pair<String, String>> getExtraParameters() {
+    return this.extraParameters;
   }
 
 }

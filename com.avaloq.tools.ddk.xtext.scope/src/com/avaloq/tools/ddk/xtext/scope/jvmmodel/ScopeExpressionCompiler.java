@@ -8,33 +8,42 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.xtext.scope.jvmmodel
+package com.avaloq.tools.ddk.xtext.scope.jvmmodel;
 
-import com.avaloq.tools.ddk.xtext.expression.expression.BooleanLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation
-import com.avaloq.tools.ddk.xtext.expression.expression.CastedExpression
-import com.avaloq.tools.ddk.xtext.expression.expression.CollectionExpression
-import com.avaloq.tools.ddk.xtext.expression.expression.Expression
-import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall
-import com.avaloq.tools.ddk.xtext.expression.expression.Identifier
-import com.avaloq.tools.ddk.xtext.expression.expression.IfExpression
-import com.avaloq.tools.ddk.xtext.expression.expression.IntegerLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.ListLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.Literal
-import com.avaloq.tools.ddk.xtext.expression.expression.NullLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall
-import com.avaloq.tools.ddk.xtext.expression.expression.RealLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral
-import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression
-import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions
-import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX
-import com.google.inject.Inject
-import java.util.List
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.common.types.JvmDeclaredType
-import org.eclipse.xtext.common.types.JvmOperation
-import org.eclipse.xtext.common.types.JvmType
-import org.eclipse.xtext.util.Strings
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
+import org.eclipse.xtext.common.types.JvmOperation;
+import org.eclipse.xtext.common.types.JvmType;
+import org.eclipse.xtext.util.Strings;
+
+import com.avaloq.tools.ddk.xtext.expression.expression.BooleanLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.BooleanOperation;
+import com.avaloq.tools.ddk.xtext.expression.expression.CastedExpression;
+import com.avaloq.tools.ddk.xtext.expression.expression.CollectionExpression;
+import com.avaloq.tools.ddk.xtext.expression.expression.Expression;
+import com.avaloq.tools.ddk.xtext.expression.expression.FeatureCall;
+import com.avaloq.tools.ddk.xtext.expression.expression.Identifier;
+import com.avaloq.tools.ddk.xtext.expression.expression.IfExpression;
+import com.avaloq.tools.ddk.xtext.expression.expression.IntegerLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.ListLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.Literal;
+import com.avaloq.tools.ddk.xtext.expression.expression.NullLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.OperationCall;
+import com.avaloq.tools.ddk.xtext.expression.expression.RealLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral;
+import com.avaloq.tools.ddk.xtext.expression.expression.SyntaxElement;
+import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression;
+import com.avaloq.tools.ddk.xtext.expression.generator.ExpressionExtensions;
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeModelTypeResolver;
+import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
 
 /**
  * Compiles the custom {@link Expression} AST of the scope/export expression DSL into equivalent Java source text.
@@ -51,13 +60,17 @@ import org.eclipse.xtext.util.Strings
  * branches of the legacy compiler are intentionally dropped: scope sources no longer reference Xtend extension
  * files.
  */
-class ScopeExpressionCompiler {
+@SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
+public class ScopeExpressionCompiler {
+  // CHECKSTYLE:CONSTANTS-OFF the repeated literals are fragments of the emitted Java source, not nameable constants
 
   /** Maps EMF model types to their generated Java instance class names. */
-  @Inject GenModelUtilX genModelUtil
+  @Inject
+  private GenModelUtilX genModelUtil;
 
   /** Reuses the translator's type/variable/getter resolution so both stay consistent. */
-  @Inject ScopeExpressionTranslator translator
+  @Inject
+  private ScopeExpressionTranslator translator;
 
   //////////////////////////////////////////////////
   // ENTRY POINTS
@@ -71,156 +84,190 @@ class ScopeExpressionCompiler {
    *          the compilation context, must not be {@code null}
    * @return {@code true} if a non-{@code null} fragment without the {@code NOT COMPILABLE} marker can be produced
    */
-  def boolean isCompilable(Expression expression, ScopeTranslationContext context) {
-    val expr = expression.javaExpression(context)
-    expr !== null && !expr.contains('/* NOT COMPILABLE: ')
+  public boolean isCompilable(final Expression expression, final ScopeTranslationContext context) {
+    final String expr = javaExpression(expression, context);
+    return expr != null && !expr.contains("/* NOT COMPILABLE: ");
   }
 
   /**
    * Compiles the given expression into the equivalent Java source text.
    *
-   * @param expression
+   * @param it
    *          the source expression, may be {@code null}
-   * @param context
+   * @param ctx
    *          the compilation context, must not be {@code null}
    * @return the Java source text, never {@code null}
    */
-  def dispatch String javaExpression(Void it, ScopeTranslationContext ctx) {
-    ''
+  protected String _javaExpression(final Void it, final ScopeTranslationContext ctx) {
+    return "";
   }
 
-  def dispatch String javaExpression(Expression it, ScopeTranslationContext ctx) {
-    notCompilable
+  protected String _javaExpression(final Expression it, final ScopeTranslationContext ctx) {
+    return notCompilable(it);
   }
 
-  def private String notCompilable(Expression it) {
-    '/* NOT COMPILABLE: Complex expressions like "' + serialize() + '" cannot be translated to Java. Consider rewriting the expression or using a JAVA extension. */'
+  private String notCompilable(final Expression it) {
+    return "/* NOT COMPILABLE: Complex expressions like \"" + serialize(it)
+        + "\" cannot be translated to Java. Consider rewriting the expression or using a JAVA extension. */";
   }
 
   //////////////////////////////////////////////////
   // LITERALS
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(StringLiteral it, ScopeTranslationContext ctx) {
-    '"' + javaEncode(getVal()) + '"'
+  protected String _javaExpression(final StringLiteral it, final ScopeTranslationContext ctx) {
+    return "\"" + javaEncode(it.getVal()) + "\"";
   }
 
-  def dispatch String javaExpression(BooleanLiteral it, ScopeTranslationContext ctx) {
-    getVal()
+  protected String _javaExpression(final BooleanLiteral it, final ScopeTranslationContext ctx) {
+    return it.getVal();
   }
 
-  def dispatch String javaExpression(IntegerLiteral it, ScopeTranslationContext ctx) {
-    getVal().toString()
+  protected String _javaExpression(final IntegerLiteral it, final ScopeTranslationContext ctx) {
+    return Integer.toString(it.getVal());
   }
 
-  def dispatch String javaExpression(NullLiteral it, ScopeTranslationContext ctx) {
-    "null"
+  protected String _javaExpression(final NullLiteral it, final ScopeTranslationContext ctx) {
+    return "null";
   }
 
-  def dispatch String javaExpression(RealLiteral it, ScopeTranslationContext ctx) {
-    getVal().toString()
+  protected String _javaExpression(final RealLiteral it, final ScopeTranslationContext ctx) {
+    return it.getVal();
   }
 
-  def dispatch String javaExpression(ListLiteral it, ScopeTranslationContext ctx) {
-    if (elements.empty) {
-      "java.util.Collections.<org.eclipse.emf.ecore.EObject> emptyList()"
-    } else if (elements.size == 1) {
-      "java.util.Collections.singletonList(" + elements.head.javaExpression(ctx) + ")"
+  protected String _javaExpression(final ListLiteral it, final ScopeTranslationContext ctx) {
+    if (it.getElements().isEmpty()) {
+      return "java.util.Collections.<org.eclipse.emf.ecore.EObject> emptyList()";
+    } else if (it.getElements().size() == 1) {
+      return "java.util.Collections.singletonList(" + javaExpression(it.getElements().get(0), ctx) + ")";
     } else {
-      "com.google.common.collect.Lists.newArrayList(" + ', '.join(elements.map[javaExpression(ctx)]) + ")"
+      return "com.google.common.collect.Lists.newArrayList(" + join(", ", javaExpressions(it.getElements(), ctx)) + ")";
     }
   }
 
   //////////////////////////////////////////////////
   // TYPES AND VARIABLES
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(Identifier it, ScopeTranslationContext ctx) {
-    if (isThis()) ctx.implicitVariableName else '::'.join(id)
+  protected String _javaExpression(final Identifier it, final ScopeTranslationContext ctx) {
+    if (isThis(it)) {
+      return ctx.getImplicitVariableName();
+    }
+    return join("::", it.getId());
   }
 
-  def private boolean isTypeRef(FeatureCall it, ScopeTranslationContext ctx) {
-    name === null && type !== null && (ctx.modelTypeResolver?.resolve(type.id) !== null || ctx.resolveDslType(type) !== null)
+  private boolean isTypeRef(final FeatureCall it, final ScopeTranslationContext ctx) {
+    if (it.getName() != null || it.getType() == null) {
+      return false;
+    }
+    final ScopeModelTypeResolver modelTypeResolver = ctx.getModelTypeResolver();
+    final EClassifier classifier = modelTypeResolver != null ? modelTypeResolver.resolve(it.getType().getId()) : null;
+    return classifier != null || ctx.resolveDslType(it.getType()) != null;
   }
 
-  def private boolean isVariableRef(Expression it, ScopeTranslationContext ctx) {
-    false
+  private boolean isVariableRef(final Expression it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def private boolean isVariableRef(FeatureCall it, ScopeTranslationContext ctx) {
-    target === null && name === null && type !== null && type.id.size == 1 && ctx.getVariable(type.id.head) !== null
+  private boolean isVariableRef(final FeatureCall it, final ScopeTranslationContext ctx) {
+    if (it.getTarget() != null || it.getName() != null || it.getType() == null) {
+      return false;
+    }
+    final List<String> id = it.getType().getId();
+    return id.size() == 1 && ctx.getVariable(id.get(0)) != null;
   }
 
-  def private String featureCallTarget(FeatureCall it, ScopeTranslationContext ctx) {
-    if (target === null || target.isThisCall())
-      ctx.implicitVariableName
-    else
-      target.javaExpression(ctx)
+  private String featureCallTarget(final FeatureCall it, final ScopeTranslationContext ctx) {
+    if (it.getTarget() == null || isThisCall(it.getTarget())) {
+      return ctx.getImplicitVariableName();
+    }
+    return javaExpression(it.getTarget(), ctx);
   }
 
   //////////////////////////////////////////////////
   // BOOLEAN OPERATIONS
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(BooleanOperation it, ScopeTranslationContext ctx) {
-    autoBracket(left.javaExpression(ctx) + ' ' + operator + ' ' + right.javaExpression(ctx), ctx)
+  protected String _javaExpression(final BooleanOperation it, final ScopeTranslationContext ctx) {
+    return autoBracket(it, javaExpression(it.getLeft(), ctx) + " " + it.getOperator() + " " + javaExpression(it.getRight(), ctx), ctx);
   }
 
   //////////////////////////////////////////////////
   // COLLECTION OPERATIONS
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(CollectionExpression it, ScopeTranslationContext ctx) {
-    if ('select' == name) {
-      'com.google.common.collect.Iterables.filter(' + target.javaExpression(ctx) +
-          ', new com.google.common.base.Predicate<Object>() { public boolean apply(Object ' +
-          (if (getVar() !== null) getVar() else 'e') + ') {return ' +
-          exp.javaExpression(ctx) + ';} })'
+  protected String _javaExpression(final CollectionExpression it, final ScopeTranslationContext ctx) {
+    if (Objects.equals("select", it.getName())) {
+      return "com.google.common.collect.Iterables.filter(" + javaExpression(it.getTarget(), ctx)
+          + ", new com.google.common.base.Predicate<Object>() { public boolean apply(Object "
+          + (it.getVar() != null ? it.getVar() : "e") + ") {return "
+          + javaExpression(it.getExp(), ctx) + ";} })";
     } else {
-      notCompilable()
+      return notCompilable(it);
     }
   }
 
-  def dispatch String javaExpression(TypeSelectExpression it, ScopeTranslationContext ctx) {
-    if (isSimpleNavigation(ctx))
-      'com.google.common.collect.Iterables.filter(' + target.javaExpression(ctx) + ', ' + ctx.javaType(type) + '.class)'
-    else notCompilable()
+  protected String _javaExpression(final TypeSelectExpression it, final ScopeTranslationContext ctx) {
+    if (isSimpleNavigation(it, ctx)) {
+      return "com.google.common.collect.Iterables.filter(" + javaExpression(it.getTarget(), ctx) + ", " + javaType(ctx, it.getType()) + ".class)";
+    } else {
+      return notCompilable(it);
+    }
   }
 
   //////////////////////////////////////////////////
   // TYPE CAST
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(CastedExpression it, ScopeTranslationContext ctx) {
-    '((' + ctx.javaType(type) + ') ' + target.javaExpression(ctx) + ')'
+  protected String _javaExpression(final CastedExpression it, final ScopeTranslationContext ctx) {
+    return "((" + javaType(ctx, it.getType()) + ") " + javaExpression(it.getTarget(), ctx) + ")";
   }
 
   //////////////////////////////////////////////////
   // IF EXPRESSIONS
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(IfExpression it, ScopeTranslationContext ctx) {
-    autoBracket(condition.javaExpression(ctx) + ' ? ' + thenPart.javaExpression(ctx) + ' : ' + elsePart.javaExpression(ctx), ctx)
+  protected String _javaExpression(final IfExpression it, final ScopeTranslationContext ctx) {
+    return autoBracket(it, javaExpression(it.getCondition(), ctx) + " ? " + javaExpression(it.getThenPart(), ctx) + " : "
+        + javaExpression(it.getElsePart(), ctx), ctx);
   }
 
   //////////////////////////////////////////////////
   // FEATURE CALLS
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(FeatureCall it, ScopeTranslationContext ctx) {
-    if (isThisCall()) {
-      ctx.implicitVariableName
-    } else if (isVariableRef(ctx)) {
-      type.javaExpression(ctx)
-    } else if (isTypeRef(ctx)) {
-      ctx.javaType(type)
-    } else if (isSimpleFeatureCall(ctx)) {
-      featureCallTarget(ctx) + '.' + (if (calledFeature() == 'eContainer') 'eContainer' else (if (calledFeature() == 'isEmpty') 'isEmpty' else calledFeature().toFirstUpper().featureCallName())) + '()'
-    } else if (isSimpleNavigation(ctx)) {
-      notCompilable()
+  protected String _javaExpression(final FeatureCall it, final ScopeTranslationContext ctx) {
+    if (isThisCall(it)) {
+      return ctx.getImplicitVariableName();
+    } else if (isVariableRef(it, ctx)) {
+      return javaExpression(it.getType(), ctx);
+    } else if (isTypeRef(it, ctx)) {
+      return javaType(ctx, it.getType());
+    } else if (isSimpleFeatureCall(it, ctx)) {
+      return featureCallTarget(it, ctx) + "." + accessorName(it) + "()";
+    } else if (isSimpleNavigation(it, ctx)) {
+      return notCompilable(it);
     } else {
-      featureCallTarget(ctx) + '.' + (if (calledFeature() == 'eContainer') 'eContainer' else (if (calledFeature() == 'isEmpty') 'isEmpty' else calledFeature().toFirstUpper().featureCallName())) + '()'
+      return featureCallTarget(it, ctx) + "." + accessorName(it) + "()";
     }
   }
 
-  def private String featureCallName(String it) {
-    if (it.startsWith('^'))
-      it.substring(1, it.length).toFirstUpper().featureCallName()
-    else
-     (if (it.startsWith('Is')) 'is' else 'get') + it
+  /**
+   * Returns the name of the accessor a feature call compiles to: {@code eContainer} and {@code isEmpty} are called
+   * literally, every other feature becomes its {@code getX()}/{@code isX()} accessor.
+   *
+   * @param it
+   *          the feature call, must not be {@code null}
+   * @return the accessor name, never {@code null}
+   */
+  private String accessorName(final FeatureCall it) {
+    if (Objects.equals(calledFeature(it), "eContainer")) {
+      return "eContainer";
+    } else if (Objects.equals(calledFeature(it), "isEmpty")) {
+      return "isEmpty";
+    } else {
+      return featureCallName(toFirstUpper(calledFeature(it)));
+    }
+  }
+
+  private String featureCallName(final String it) {
+    if (it.startsWith("^")) {
+      return featureCallName(toFirstUpper(it.substring(1, it.length())));
+    }
+    return (it.startsWith("Is") ? "is" : "get") + it;
   }
 
   /**
@@ -234,52 +281,79 @@ class ScopeExpressionCompiler {
    *          the compilation context, must not be {@code null}
    * @return {@code true} if the call is a simple feature access
    */
-  def dispatch boolean isSimpleFeatureCall(Expression it, ScopeTranslationContext ctx) {
-    false
+  protected boolean _isSimpleFeatureCall(final Expression it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def dispatch boolean isSimpleFeatureCall(FeatureCall it, ScopeTranslationContext ctx) {
-    eClass.name.contains('FeatureCall') && name === null && type.isFeature() && (target === null || target.isVariableRef(ctx) || target.isThisCall())
+  protected boolean _isSimpleFeatureCall(final FeatureCall it, final ScopeTranslationContext ctx) {
+    if (!it.eClass().getName().contains("FeatureCall") || it.getName() != null || !isFeature(it.getType())) {
+      return false;
+    }
+    final Expression target = it.getTarget();
+    return target == null || isVariableRef(target, ctx) || isThisCall(target);
   }
 
-  def dispatch boolean isSimpleNavigation(Expression it, ScopeTranslationContext ctx) {
-    false
+  protected boolean _isSimpleNavigation(final Expression it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def dispatch boolean isSimpleNavigation(TypeSelectExpression it, ScopeTranslationContext ctx) {
-    true
+  protected boolean _isSimpleNavigation(final TypeSelectExpression it, final ScopeTranslationContext ctx) {
+    return true;
   }
 
-  def dispatch boolean isSimpleNavigation(FeatureCall it, ScopeTranslationContext ctx) {
-    name === null && type.isFeature() && (target === null || target.isVariableRef(ctx) || target.isThisCall() || target.isSimpleNavigation(ctx))
+  protected boolean _isSimpleNavigation(final FeatureCall it, final ScopeTranslationContext ctx) {
+    if (it.getName() != null || !isFeature(it.getType())) {
+      return false;
+    }
+    final Expression target = it.getTarget();
+    return target == null || isVariableRef(target, ctx) || isThisCall(target) || isSimpleNavigation(target, ctx);
   }
 
   //////////////////////////////////////////////////
   // OPERATION CALLS
   //////////////////////////////////////////////////
-  def dispatch String javaExpression(OperationCall it, ScopeTranslationContext ctx) {
-    if ((target === null || target.isThisCall()) && targetHasOperation(ctx)) {
-      return (if (target !== null) target.javaExpression(ctx) + '.' else '') + name + '(' + ', '.join(params.map[javaExpression(ctx)]) + ')'
+  protected String _javaExpression(final OperationCall it, final ScopeTranslationContext ctx) {
+    if ((it.getTarget() == null || isThisCall(it.getTarget())) && targetHasOperation(it, ctx)) {
+      return (it.getTarget() != null ? javaExpression(it.getTarget(), ctx) + "." : "") + it.getName()
+          + "(" + join(", ", javaExpressions(it.getParams(), ctx)) + ")";
     }
-    val extensionClass = extensionClassName(ctx)
-    if (extensionClass !== null) {
-      return extensionClass + '.' + name + '(' + ', '.join(extensionArguments().map[javaExpression(ctx)]) + ')'
+    final String extensionClass = extensionClassName(it, ctx);
+    if (extensionClass != null) {
+      return extensionClass + "." + it.getName() + "(" + join(", ", javaExpressions(extensionArguments(it), ctx)) + ")";
     }
-    if (isArithmeticOperatorCall(ctx)) {
-      autoBracket((' ' + name + ' ').join(params.map(e|e.javaExpression(ctx))), ctx)
-    } else if (isSimpleConcatCall()) {
-      (' + ').join(params.map(e|e.javaExpression(ctx)))
-    } else if (isPrefixExpression()) {
-      autoBracket(name + params.head.javaExpression(ctx), ctx)
-    } else if ('first' == name && params.isEmpty && target !== null) {
-      target.javaExpression(ctx) + '.get(0)'
-    } else if ('isInstance' == name && params.size == 1 && target instanceof FeatureCall && (target as FeatureCall).isTypeRef(ctx)) {
-      autoBracket(params.head.javaExpression(ctx) + ' instanceof ' + target.javaExpression(ctx), ctx)
-    } else if ('eContainer' == name && params.isEmpty) {
-      target.javaExpression(ctx) + '.eContainer()'
+    if (isArithmeticOperatorCall(it, ctx)) {
+      return autoBracket(it, join(" " + it.getName() + " ", javaExpressions(it.getParams(), ctx)), ctx);
+    } else if (isSimpleConcatCall(it)) {
+      return join(" + ", javaExpressions(it.getParams(), ctx));
+    } else if (isPrefixExpression(it)) {
+      return autoBracket(it, it.getName() + javaExpression(it.getParams().get(0), ctx), ctx);
+    } else if (Objects.equals("first", it.getName()) && it.getParams().isEmpty() && it.getTarget() != null) {
+      return javaExpression(it.getTarget(), ctx) + ".get(0)";
+    } else if (isInstanceOfTypeCheck(it, ctx)) {
+      return autoBracket(it, javaExpression(it.getParams().get(0), ctx) + " instanceof " + javaExpression(it.getTarget(), ctx), ctx);
+    } else if (Objects.equals("eContainer", it.getName()) && it.getParams().isEmpty()) {
+      return javaExpression(it.getTarget(), ctx) + ".eContainer()";
     } else {
-      (if (target !== null) target.javaExpression(ctx) + '.' else '') + name + '(' + (if (params.isEmpty) '' else ', '.join(params.map[javaExpression(ctx)])) + ')'
+      return (it.getTarget() != null ? javaExpression(it.getTarget(), ctx) + "." : "") + it.getName()
+          + "(" + (it.getParams().isEmpty() ? "" : join(", ", javaExpressions(it.getParams(), ctx))) + ")";
     }
+  }
+
+  /**
+   * Tests whether the given operation call is an {@code isInstance} check on a resolvable type reference, which
+   * compiles to a Java {@code instanceof}.
+   *
+   * @param it
+   *          the operation call, must not be {@code null}
+   * @param ctx
+   *          the compilation context, must not be {@code null}
+   * @return {@code true} if the call is an {@code isInstance} type check
+   */
+  private boolean isInstanceOfTypeCheck(final OperationCall it, final ScopeTranslationContext ctx) {
+    if (!Objects.equals("isInstance", it.getName()) || it.getParams().size() != 1) {
+      return false;
+    }
+    return it.getTarget() instanceof FeatureCall typeReference && isTypeRef(typeReference, ctx);
   }
 
   /**
@@ -298,11 +372,11 @@ class ScopeExpressionCompiler {
    *          the compilation context, must not be {@code null}
    * @return the fully qualified extension class name, or {@code null} if no declared extension class matches
    */
-  def private String extensionClassName(OperationCall it, ScopeTranslationContext ctx) {
-    if ('isInstance' == name) {
-      return null
+  private String extensionClassName(final OperationCall it, final ScopeTranslationContext ctx) {
+    if (Objects.equals("isInstance", it.getName())) {
+      return null;
     }
-    translator.findExtensionClassName(it, ctx)
+    return translator.findExtensionClassName(it, ctx);
   }
 
   /**
@@ -314,13 +388,13 @@ class ScopeExpressionCompiler {
    *          the operation call, must not be {@code null}
    * @return the argument expressions, never {@code null}
    */
-  def private List<Expression> extensionArguments(OperationCall it) {
-    val result = <Expression>newArrayList
-    if (target !== null) {
-      result.add(target)
+  private List<Expression> extensionArguments(final OperationCall it) {
+    final List<Expression> result = new ArrayList<>();
+    if (it.getTarget() != null) {
+      result.add(it.getTarget());
     }
-    result.addAll(params)
-    result
+    result.addAll(it.getParams());
+    return result;
   }
 
   /**
@@ -333,126 +407,149 @@ class ScopeExpressionCompiler {
    *          the compilation context, must not be {@code null}
    * @return {@code true} if the implicit receiver type declares a matching operation
    */
-  def private boolean targetHasOperation(OperationCall it, ScopeTranslationContext ctx) {
-    val receiverType = translator.resolveType(target, ctx)
-    if (!(receiverType instanceof JvmDeclaredType)) {
-      return false
+  private boolean targetHasOperation(final OperationCall it, final ScopeTranslationContext ctx) {
+    final JvmType receiverType = translator.resolveType(it.getTarget(), ctx);
+    if (!(receiverType instanceof JvmDeclaredType declaredType)) {
+      return false;
     }
-    val operationName = name
-    val parameterCount = params.size
-    val declaredType = receiverType as JvmDeclaredType
-    declaredType.allFeatures.filter(JvmOperation).exists [
-      simpleName == operationName && parameters.size == parameterCount
-    ]
+    final String operationName = it.getName();
+    final int parameterCount = it.getParams().size();
+    for (final JvmOperation operation : Iterables.filter(declaredType.getAllFeatures(), JvmOperation.class)) {
+      if (Objects.equals(operation.getSimpleName(), operationName) && operation.getParameters().size() == parameterCount) {
+        return true;
+      }
+    }
+    return false;
   }
 
   //////////////////////////////////////////////////
   // EXPRESSION BRACKETING
   //////////////////////////////////////////////////
-  def private String autoBracket(Expression it, String javaCode, ScopeTranslationContext ctx) {
-    if (requiresBracketing(ctx)) '(' + javaCode + ')' else javaCode
+  private String autoBracket(final Expression it, final String javaCode, final ScopeTranslationContext ctx) {
+    if (requiresBracketing(it, ctx)) {
+      return "(" + javaCode + ")";
+    }
+    return javaCode;
   }
 
-  def private dispatch boolean requiresBracketing(Expression it, ScopeTranslationContext ctx) {
-    (isPrefixExpression() || isInfixExpression(ctx)) && eContainer() !== null && requiresBracketing(it, eContainer(), ctx)
+  private boolean _requiresBracketing(final Expression it, final ScopeTranslationContext ctx) {
+    if (!isPrefixExpression(it) && !isInfixExpression(it, ctx)) {
+      return false;
+    }
+    return it.eContainer() != null && requiresBracketing(it, it.eContainer(), ctx);
   }
 
-  def private dispatch boolean requiresBracketing(Literal it, ScopeTranslationContext ctx) {
-    false
+  private boolean _requiresBracketing(final Literal it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def private dispatch boolean requiresBracketing(Expression it, Object parent, ScopeTranslationContext ctx) {
-    false
+  private boolean _requiresBracketing(final Expression it, final Object parent, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def private dispatch boolean requiresBracketing(Expression it, Expression parent, ScopeTranslationContext ctx) {
-    isPrefixExpression() && parent.isPrefixExpression() ||
-    (isInfixExpression(ctx) && (parent.isPrefixExpression() || parent.isInfixExpression(ctx)))
+  private boolean _requiresBracketing(final Expression it, final Expression parent, final ScopeTranslationContext ctx) {
+    final boolean bothPrefix = isPrefixExpression(it) && isPrefixExpression(parent);
+    return bothPrefix || (isInfixExpression(it, ctx) && (isPrefixExpression(parent) || isInfixExpression(parent, ctx)));
   }
 
-  def private dispatch boolean requiresBracketing(OperationCall it, OperationCall parent, ScopeTranslationContext ctx) {
-    isPrefixExpression() && parent.isPrefixExpression() ||
-    (isInfixExpression(ctx) && (parent.isPrefixExpression() || (parent.isInfixExpression(ctx) && name != parent.name)))
+  private boolean _requiresBracketing(final OperationCall it, final OperationCall parent, final ScopeTranslationContext ctx) {
+    if (isPrefixExpression(it) && isPrefixExpression(parent)) {
+      return true;
+    }
+    if (!isInfixExpression(it, ctx)) {
+      return false;
+    }
+    return isPrefixExpression(parent) || (isInfixExpression(parent, ctx) && !Objects.equals(it.getName(), parent.getName()));
   }
 
-  def private dispatch boolean requiresBracketing(BooleanOperation it, BooleanOperation parent, ScopeTranslationContext ctx) {
-    operator != parent.operator
+  private boolean _requiresBracketing(final BooleanOperation it, final BooleanOperation parent, final ScopeTranslationContext ctx) {
+    return !Objects.equals(it.getOperator(), parent.getOperator());
   }
 
   //////////////////////////////////////////////////
   // OPERATOR CLASSIFICATION
   //////////////////////////////////////////////////
-  def private boolean isSimpleConcatCall(OperationCall it) {
-    name == '+' && type === null && target === null && !params.isEmpty
+  private boolean isSimpleConcatCall(final OperationCall it) {
+    if (!Objects.equals(it.getName(), "+") || it.getType() != null) {
+      return false;
+    }
+    return it.getTarget() == null && !it.getParams().isEmpty();
   }
 
-  def private boolean isNumber(Expression it, ScopeTranslationContext ctx) {
-    if (isArithmeticOperatorCall(ctx)) {
+  private boolean isNumber(final Expression it, final ScopeTranslationContext ctx) {
+    if (isArithmeticOperatorCall(it, ctx)) {
       // Arithmetic calls have no resolvable JVM method but still produce numeric values.
-      return true
+      return true;
     }
-    val type = translator.resolveType(it, ctx)
-    type !== null && type.isNumeric
+    final JvmType type = translator.resolveType(it, ctx);
+    return type != null && isNumeric(type);
   }
 
-  def private boolean isNumeric(JvmType it) {
-    val name = qualifiedName
-    switch name {
-      case 'int',
-      case 'long',
-      case 'short',
-      case 'byte',
-      case 'double',
-      case 'float',
-      case 'java.lang.Integer',
-      case 'java.lang.Long',
-      case 'java.lang.Short',
-      case 'java.lang.Byte',
-      case 'java.lang.Double',
-      case 'java.lang.Float',
-      case 'java.lang.Number',
-      case 'java.math.BigInteger',
-      case 'java.math.BigDecimal':
-        true
-      default:
-        false
+  private boolean isNumeric(final JvmType it) {
+    final String name = it.getQualifiedName();
+    if (name == null) {
+      return false;
     }
+    return switch (name) {
+      case "int", "long", "short", "byte", "double", "float", "java.lang.Integer", "java.lang.Long", "java.lang.Short",
+          "java.lang.Byte", "java.lang.Double", "java.lang.Float", "java.lang.Number", "java.math.BigInteger",
+          "java.math.BigDecimal" ->
+        true;
+      default -> false;
+    };
   }
 
-  def private dispatch boolean isArithmeticOperatorCall(OperationCall it, ScopeTranslationContext ctx) {
-    type === null && target === null && params.size > 1 && (name == '+' || name == '-' || name == '*' || name == '/') && params.forall[isNumber(ctx)]
+  private boolean _isArithmeticOperatorCall(final OperationCall it, final ScopeTranslationContext ctx) {
+    if (it.getType() != null || it.getTarget() != null || it.getParams().size() <= 1) {
+      return false;
+    }
+    final String operator = it.getName();
+    final boolean arithmetic = Objects.equals(operator, "+") || Objects.equals(operator, "-")
+        || Objects.equals(operator, "*") || Objects.equals(operator, "/");
+    if (!arithmetic) {
+      return false;
+    }
+    for (final Expression param : it.getParams()) {
+      if (!isNumber(param, ctx)) {
+        return false;
+      }
+    }
+    return true;
   }
 
-  def private dispatch boolean isArithmeticOperatorCall(Expression it, ScopeTranslationContext ctx) {
-    false
+  private boolean _isArithmeticOperatorCall(final Expression it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def private dispatch boolean isPrefixExpression(Expression it) {
-    false
+  private boolean _isPrefixExpression(final Expression it) {
+    return false;
   }
 
-  def private dispatch boolean isPrefixExpression(OperationCall it) {
-    type === null && target === null && params.size == 1 && (name == '-' || name == '!')
+  private boolean _isPrefixExpression(final OperationCall it) {
+    if (it.getType() != null || it.getTarget() != null || it.getParams().size() != 1) {
+      return false;
+    }
+    return Objects.equals(it.getName(), "-") || Objects.equals(it.getName(), "!");
   }
 
-  def private dispatch boolean isInfixExpression(Void it, ScopeTranslationContext ctx) {
-    false
+  private boolean _isInfixExpression(final Void it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def private dispatch boolean isInfixExpression(Expression it, ScopeTranslationContext ctx) {
-    false
+  private boolean _isInfixExpression(final Expression it, final ScopeTranslationContext ctx) {
+    return false;
   }
 
-  def private dispatch boolean isInfixExpression(OperationCall it, ScopeTranslationContext ctx) {
-    isArithmeticOperatorCall(ctx) || 'isInstance' == name
+  private boolean _isInfixExpression(final OperationCall it, final ScopeTranslationContext ctx) {
+    return isArithmeticOperatorCall(it, ctx) || Objects.equals("isInstance", it.getName());
   }
 
-  def private dispatch boolean isInfixExpression(IfExpression it, ScopeTranslationContext ctx) {
-    true
+  private boolean _isInfixExpression(final IfExpression it, final ScopeTranslationContext ctx) {
+    return true;
   }
 
-  def private dispatch boolean isInfixExpression(BooleanOperation it, ScopeTranslationContext ctx) {
-    true
+  private boolean _isInfixExpression(final BooleanOperation it, final ScopeTranslationContext ctx) {
+    return true;
   }
 
   //////////////////////////////////////////////////
@@ -470,64 +567,202 @@ class ScopeExpressionCompiler {
    *          the source type identifier, must not be {@code null}
    * @return the qualified Java class name (or the joined identifier when the type cannot be resolved)
    */
-  def private String javaType(ScopeTranslationContext ctx, Identifier type) {
-    val classifier = ctx.modelTypeResolver?.resolve(type.id)
-    if (classifier !== null) {
-      return genModelUtil.instanceClassName(classifier)
+  private String javaType(final ScopeTranslationContext ctx, final Identifier type) {
+    final ScopeModelTypeResolver modelTypeResolver = ctx.getModelTypeResolver();
+    final EClassifier classifier = modelTypeResolver != null ? modelTypeResolver.resolve(type.getId()) : null;
+    if (classifier != null) {
+      return genModelUtil.instanceClassName(classifier);
     }
-    val resolved = ctx.resolveDslType(type)
-    if (resolved === null) {
-      return '::'.join(type.id)
+    final JvmType resolved = ctx.resolveDslType(type);
+    if (resolved == null) {
+      return join("::", type.getId());
     }
-    val name = resolved.qualifiedName
-    if (name.startsWith('java.lang.') && !name.substring('java.lang.'.length).contains('.')) {
-      name.substring('java.lang.'.length)
-    } else {
-      name
+    final String name = resolved.getQualifiedName();
+    if (name.startsWith("java.lang.") && !name.substring("java.lang.".length()).contains(".")) {
+      return name.substring("java.lang.".length());
     }
+    return name;
   }
 
   //////////////////////////////////////////////////
   // HELPER FUNCTIONS
   //////////////////////////////////////////////////
-  def private dispatch boolean isThisCall(Expression it) {
-    false
+  private boolean _isThisCall(final Expression it) {
+    return false;
   }
 
-  def private dispatch boolean isThisCall(FeatureCall it) {
-    name === null && type.isThis()
+  private boolean _isThisCall(final FeatureCall it) {
+    return it.getName() == null && isThis(it.getType());
   }
 
-  def private boolean isFeature(Identifier it) {
-    id !== null && id.size == 1
+  private boolean isFeature(final Identifier it) {
+    return it.getId() != null && it.getId().size() == 1;
   }
 
-  def private dispatch boolean isThis(Expression it) {
-    false
+  private boolean _isThis(final Expression it) {
+    return false;
   }
 
-  def private dispatch boolean isThis(Identifier it) {
-    id !== null && id.size == 1 && id.head == "this"
+  private boolean _isThis(final Identifier it) {
+    return it.getId() != null && it.getId().size() == 1 && Objects.equals(it.getId().get(0), "this");
   }
 
-  def private String calledFeature(FeatureCall it) {
-    type.id.head
+  private String calledFeature(final FeatureCall it) {
+    return it.getType().getId().get(0);
   }
 
-  def private String serialize(EObject it) {
-    ExpressionExtensions.serialize(it)
+  private String serialize(final EObject it) {
+    return ExpressionExtensions.serialize(it);
   }
 
-  def private dispatch String javaEncode(Expression it) {
-    javaEncode(serialize())
+  private String _javaEncode(final Expression it) {
+    return javaEncode(serialize(it));
   }
 
-  def private dispatch String javaEncode(String it) {
-    Strings.convertToJavaString(it)
+  private String _javaEncode(final String it) {
+    return Strings.convertToJavaString(it);
   }
 
-  def private String join(String it, List<String> strings) {
-    if (strings.isEmpty) '' else Strings.concat(it, strings)
+  private String join(final String separator, final List<String> strings) {
+    if (strings.isEmpty()) {
+      return "";
+    }
+    return Strings.concat(separator, strings);
   }
 
+  /**
+   * Compiles each of the given expressions into its Java source text, preserving their order.
+   *
+   * @param expressions
+   *          the source expressions, must not be {@code null}
+   * @param ctx
+   *          the compilation context, must not be {@code null}
+   * @return the compiled Java fragments, never {@code null}
+   */
+  private List<String> javaExpressions(final List<Expression> expressions, final ScopeTranslationContext ctx) {
+    final List<String> result = new ArrayList<>();
+    for (final Expression expression : expressions) {
+      result.add(javaExpression(expression, ctx));
+    }
+    return result;
+  }
+
+  private static String toFirstUpper(final String value) {
+    return value == null || value.isEmpty() ? value : Character.toUpperCase(value.charAt(0)) + value.substring(1);
+  }
+
+  //////////////////////////////////////////////////
+  // DISPATCHERS
+  //////////////////////////////////////////////////
+  public String javaExpression(final SyntaxElement it, final ScopeTranslationContext ctx) {
+    return switch (it) {
+      case BooleanLiteral literal -> _javaExpression(literal, ctx);
+      case CollectionExpression expression -> _javaExpression(expression, ctx);
+      case IntegerLiteral literal -> _javaExpression(literal, ctx);
+      case NullLiteral literal -> _javaExpression(literal, ctx);
+      case OperationCall call -> _javaExpression(call, ctx);
+      case RealLiteral literal -> _javaExpression(literal, ctx);
+      case StringLiteral literal -> _javaExpression(literal, ctx);
+      case TypeSelectExpression expression -> _javaExpression(expression, ctx);
+      case BooleanOperation operation -> _javaExpression(operation, ctx);
+      case CastedExpression expression -> _javaExpression(expression, ctx);
+      case FeatureCall call -> _javaExpression(call, ctx);
+      case IfExpression expression -> _javaExpression(expression, ctx);
+      case ListLiteral literal -> _javaExpression(literal, ctx);
+      case Expression expression -> _javaExpression(expression, ctx);
+      case Identifier identifier -> _javaExpression(identifier, ctx);
+      case null -> _javaExpression((Void) null, ctx);
+      default -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, ctx).toString());
+    };
+  }
+
+  public boolean isSimpleFeatureCall(final Expression it, final ScopeTranslationContext ctx) {
+    return switch (it) {
+      case FeatureCall call -> _isSimpleFeatureCall(call, ctx);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, ctx).toString());
+      default -> _isSimpleFeatureCall(it, ctx);
+    };
+  }
+
+  public boolean isSimpleNavigation(final Expression it, final ScopeTranslationContext ctx) {
+    return switch (it) {
+      case TypeSelectExpression expression -> _isSimpleNavigation(expression, ctx);
+      case FeatureCall call -> _isSimpleNavigation(call, ctx);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, ctx).toString());
+      default -> _isSimpleNavigation(it, ctx);
+    };
+  }
+
+  private boolean requiresBracketing(final Expression it, final ScopeTranslationContext ctx) {
+    return switch (it) {
+      case Literal literal -> _requiresBracketing(literal, ctx);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, ctx).toString());
+      default -> _requiresBracketing(it, ctx);
+    };
+  }
+
+  private boolean requiresBracketing(final Expression it, final Object parent, final ScopeTranslationContext ctx) {
+    if (it instanceof OperationCall call && parent instanceof OperationCall parentCall) {
+      return _requiresBracketing(call, parentCall, ctx);
+    } else if (it instanceof BooleanOperation operation && parent instanceof BooleanOperation parentOperation) {
+      return _requiresBracketing(operation, parentOperation, ctx);
+    } else if (it != null && parent instanceof Expression parentExpression) {
+      return _requiresBracketing(it, parentExpression, ctx);
+    } else if (it != null && parent != null) {
+      return _requiresBracketing(it, parent, ctx);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, parent, ctx).toString());
+    }
+  }
+
+  private boolean isArithmeticOperatorCall(final Expression it, final ScopeTranslationContext ctx) {
+    return switch (it) {
+      case OperationCall call -> _isArithmeticOperatorCall(call, ctx);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it, ctx).toString());
+      default -> _isArithmeticOperatorCall(it, ctx);
+    };
+  }
+
+  private boolean isPrefixExpression(final Expression it) {
+    return switch (it) {
+      case OperationCall call -> _isPrefixExpression(call);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it).toString());
+      default -> _isPrefixExpression(it);
+    };
+  }
+
+  private boolean isInfixExpression(final Expression it, final ScopeTranslationContext ctx) {
+    return switch (it) {
+      case OperationCall call -> _isInfixExpression(call, ctx);
+      case BooleanOperation operation -> _isInfixExpression(operation, ctx);
+      case IfExpression expression -> _isInfixExpression(expression, ctx);
+      case null -> _isInfixExpression((Void) null, ctx);
+      default -> _isInfixExpression(it, ctx);
+    };
+  }
+
+  private boolean isThisCall(final Expression it) {
+    return switch (it) {
+      case FeatureCall call -> _isThisCall(call);
+      case null -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it).toString());
+      default -> _isThisCall(it);
+    };
+  }
+
+  private boolean isThis(final SyntaxElement it) {
+    return switch (it) {
+      case Expression expression -> _isThis(expression);
+      case Identifier identifier -> _isThis(identifier);
+      case null, default -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it).toString());
+    };
+  }
+
+  private String javaEncode(final Object it) {
+    return switch (it) {
+      case Expression expression -> _javaEncode(expression);
+      case String string -> _javaEncode(string);
+      case null, default -> throw new IllegalArgumentException("Unhandled parameter types: " + Arrays.<Object>asList(it).toString());
+    };
+  }
+  // CHECKSTYLE:CONSTANTS-ON
 }
