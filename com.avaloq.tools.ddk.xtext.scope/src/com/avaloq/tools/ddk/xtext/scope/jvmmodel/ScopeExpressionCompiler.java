@@ -608,7 +608,7 @@ public class ScopeExpressionCompiler {
   }
 
   private String calledFeature(final FeatureCall it) {
-    return it.getType().getId().get(0);
+    return it.getType().getId().isEmpty() ? null : it.getType().getId().get(0);
   }
 
   private String serialize(final EObject it) {
