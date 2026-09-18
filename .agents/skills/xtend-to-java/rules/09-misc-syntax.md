@@ -138,7 +138,14 @@ public class MyFormatter extends AbstractFormatter {
 Rules:
 - **Keep the `_` prefix** — the Xtext runtime resolves dispatch by name.
 - **Suppress at class level**: `@SuppressWarnings({"checkstyle:MethodName", "PMD.UnusedFormalParameter"})`
-- Order `instanceof` checks from most specific to least specific.
+- **Take the case ORDER from `xtend-gen/`, never from source order.** Xtend sorts dispatch cases by
+  type specificity, not by declaration order — e.g. `OperationCall` and `TypeSelectExpression` extend
+  both `Expression` and `FeatureCall`, so their relative position is not what the `.xtend` suggests.
+  Order `instanceof` checks most specific first, exactly as `xtend-gen/` did.
+- **Keep the terminal `else { throw new IllegalArgumentException("Unhandled parameter types: …"); }`
+  exactly as `xtend-gen/` emits it**, even after a `!= null` / `== null` pair. Java's definite-return
+  analysis does not treat that pair as exhaustive; deleting the terminal throw leaves a non-void
+  dispatcher without a return on every path. Shipped precedent: `ExportExpressionCompiler.javaExpression`.
 - If the original `dispatch` had `override`, add `@Override` to the **dispatcher**, not the `_` methods.
 - The dispatcher parameter type should be the common supertype (often `Object` or `EObject`).
 - If the parent class has dispatch methods with the same name, the dispatcher must call `super._methodName()` for types not handled locally.

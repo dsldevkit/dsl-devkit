@@ -75,6 +75,11 @@ argument does not by itself trigger a null return in the field/method/parameter/
 exact overload used rather than treating this list as a substitute for source inspection. Any local helper
 with a `return null` fall-through (a `switch`/`if` that doesn't match) is a trigger too.
 
+| Producer | Nullability | Add form |
+|---|---|---|
+| `JvmTypeReferenceBuilder.typeRef(Class, ...)` / `typeRef(String, ...)` | **Provably non-null** — a lookup miss returns `createUnknownTypeReference(name)` (bytecode: `findDeclaredType → ifnonnull → createUnknownTypeReference`, both paths `areturn`) | `superTypes += typeRef(X)` → plain `it.getSuperTypes().add(_typeReferenceBuilder.typeRef(X))` |
+| `toField` / `toMethod` / `toParameter` with a nullable **name** (e.g. a model element's `getName()`) | Nullable — the builders guard source element **and** name | Guarded add / `Objects::nonNull` filter |
+
 So the faithful Java of any `+=` whose right-hand side can be null is a guarded add:
 
 ```java

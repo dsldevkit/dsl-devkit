@@ -106,7 +106,7 @@ Do not write the Java file first and then vet it — read the references first, 
 > first to (re)generate `xtend-gen/`:
 >
 > ```bash
-> mvn -f ./ddk-parent/pom.xml -pl :<module> -am -DskipTests -T 3C compile --batch-mode
+> mvn -f ./ddk-parent/pom.xml -pl :ddk-target,:<module> -am -DskipTests -T 3C compile --batch-mode
 > ```
 >
 > The freshly built `xtend-gen/` is the **authoritative** ground truth: it is the Xtend compiler's
@@ -181,20 +181,28 @@ See [`workflow/validation-checklist.md`](./validation-checklist.md) — every ru
 
 ## Step 5 — Build and verify
 
+**Always pass `-pl :ddk-target,:<module>`.** The target-platform artifact is not in `~/.m2`, so a gate
+command that lists only the migrated module fails to resolve it.
+
+**Delete `<module>/xtend-gen/com` before the first compile after a rename.** The stale generated twin
+of the class you just renamed masks the duplicate-class error you need to see.
+
+**Compare `xtend-gen/` trees with `diff -r -x '.*'`** so the `._trace` sidecars are skipped.
+
 Module-specific build first:
 ```bash
-mvn -pl <module1>,<module2> -am verify -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
+mvn -pl :ddk-target,<module1>,<module2> -am verify -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
 ```
 
 **PMD needs compiled classes** for type-resolution rules (`MissingOverride`, `UnnecessaryCast`,
 `LooseCoupling`, `UseCollectionIsEmpty`). Always compile first:
 ```bash
-mvn clean compile pmd:check -f ./ddk-parent/pom.xml -pl <modules> -am > mvn-output.txt 2>&1
+mvn clean compile pmd:check -f ./ddk-parent/pom.xml -pl :ddk-target,<modules> -am > mvn-output.txt 2>&1
 ```
 
 Checkstyle works on source only:
 ```bash
-mvn checkstyle:check -f ./ddk-parent/pom.xml -pl <modules> > mvn-output.txt 2>&1
+mvn checkstyle:check -f ./ddk-parent/pom.xml -pl :ddk-target,<modules> > mvn-output.txt 2>&1
 ```
 
 Full CI-equivalent:

@@ -14,11 +14,11 @@ Use this when converting a single `.xtend` to its `.java` counterpart.
 8. **Commit as two steps** — a pure `git mv` rename commit, then an in-place translate commit; see [`formatting-and-commit.md`](./formatting-and-commit.md) §Commit structure. For a single file the `git mv` IS the removal; do not delete+re-add.
 9. **Verify the file compiles:**
    ```bash
-   mvn -pl :<module> -am -DskipTests compile -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
+   mvn -pl :ddk-target,:<module> -am -DskipTests compile -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
    ```
 10. **Run quality checks:**
     ```bash
-    mvn -pl :<module> -am checkstyle:check pmd:check -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
+    mvn -pl :ddk-target,:<module> -am checkstyle:check pmd:check -f ./ddk-parent/pom.xml > mvn-output.txt 2>&1
     ```
 
 ## Reference
