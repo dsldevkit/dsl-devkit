@@ -60,6 +60,9 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
 
   @Override
   public void build(final IBuildContext context, final IProgressMonitor monitor) throws CoreException {
+    if (!isBuilderParticipantEnabled() && context.getBuildType() != BuildType.CLEAN) {
+      return;
+    }
     if (!isEnabled(context)) {
       return;
     }
