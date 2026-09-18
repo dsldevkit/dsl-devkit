@@ -308,7 +308,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
       it.getSuperTypes().add(_typeReferenceBuilder.typeRef(AbstractCachingResourceDescriptionManager.class));
       it.getAnnotations().add(typeOnlyAnnotation(Singleton.class));
       addSuppressWarningsAll(it);
-      jvmTypesBuilder.setDocumentation(it, "Resource description manager for %s resources.".formatted(model.getName()));
+      jvmTypesBuilder.setDocumentation(it, "Resource description manager for %s resources.".formatted(Strings.emptyIfNull(model.getName())));
       final Procedure1<JvmField> fieldInitializer = (final JvmField field) -> {
         field.setVisibility(JvmVisibility.PUBLIC);
         field.setStatic(true);
