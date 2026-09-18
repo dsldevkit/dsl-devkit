@@ -14,6 +14,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.xtext.export.formatting.ExportFormattingTest;
+import com.avaloq.tools.ddk.xtext.export.jvmmodel.ExportJvmModelInferrerTest;
 import com.avaloq.tools.ddk.xtext.export.scoping.ExportScopingTest;
 import com.avaloq.tools.ddk.xtext.export.validation.ExportValidationOkTest;
 import com.avaloq.tools.ddk.xtext.export.validation.ExportValidationTest;
@@ -23,6 +24,6 @@ import com.avaloq.tools.ddk.xtext.export.validation.ExportValidationTest;
  * Empty class serving only as holder for JUnit 5 suite annotations.
  */
 @Suite
-@SelectClasses({ExportFormattingTest.class, ExportValidationTest.class, ExportValidationOkTest.class, ExportScopingTest.class})
+@SelectClasses({ExportFormattingTest.class, ExportValidationTest.class, ExportValidationOkTest.class, ExportScopingTest.class, ExportJvmModelInferrerTest.class})
 public class ExportTestSuite {
 }
