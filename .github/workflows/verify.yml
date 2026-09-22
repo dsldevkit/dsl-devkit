@@ -58,11 +58,13 @@ jobs:
       - name: CPD report (separate invocation — no SARIF support)
         # CPD has no SARIF renderer; emits cpd.xml only. Run standalone so the
         # PMD -Dformat flag isn't in scope.
+        # No `compile`: CPD is token-based over src/ and needs neither bytecode
+        # nor the target platform — cpd.xml is identical with and without a
+        # compile pass.
         # NOTE: the CPD token threshold is governed by pmd.cpd.min in
         # ddk-parent/pom.xml.
         run: |
           mvn -T 2C -f ./ddk-parent/pom.xml --batch-mode --fail-never \
-            compile \
             pmd:cpd-check
 
       - name: Merge per-module SARIFs (PMD + Checkstyle)
