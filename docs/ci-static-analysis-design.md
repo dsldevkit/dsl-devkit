@@ -91,9 +91,15 @@ the count-gate *stricter* than `:check` (over-fail, never under-fail), each guar
 
 ## Two operational rules
 
-- **`compile` must be full-reactor** (`-f ddk-parent/pom.xml`, no `-pl`). PMD's
-  type-resolving rules need the complete aux-classpath; a `-pl` subset produces
-  false positives (the trailing-`Throwable` case).
+- **A changed module must compile against its complete aux-classpath**, or PMD's
+  type-resolving rules false-positive (the trailing-`Throwable` case). A bare `-pl <module>`
+  subset breaks this, but `-pl <changed> -am` does not: `--also-make` restores the module's
+  dependency closure, which compiles for the classpath even though those deps carry the
+  analysis skip. Tycho adds each bundle's MANIFEST requirements (`Require-Bundle`,
+  `Import-Package`) to the Maven project model, so `-am` pulls in reactor siblings required
+  that way too. `ddk-target` is the one edge with no MANIFEST reference at all, so it is
+  pinned explicitly into every scoped reactor (a cold cache without it fails loudly rather
+  than resolving a stale target).
 - **Merge SARIFs from SARIF files only.** Code Scanning accepts one run per category,
   so per-module SARIFs are merged (jq) before upload. The `ddk-parent` aggregator emits
   plain-XML `checkstyle-result.xml`; the merge must filter to JSON-parseable files.
