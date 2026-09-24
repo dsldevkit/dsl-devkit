@@ -54,6 +54,8 @@ public class GenModelUtilX {
   private IGlobalScopeProvider globalScopeProvider;
   @Inject
   private ResourceDescriptionsProvider resourceDescriptionsProvider;
+  @Inject
+  private GeneratorSupport generatorSupport;
 
   /**
    * The current model resource used for GenPackage lookups. This utility is normally a Guice singleton, so
@@ -236,9 +238,51 @@ public class GenModelUtilX {
     return counterpart.getInstanceClassName();
   }
 
+  /**
+   * Returns the {@link GenPackage} of the {@link EPackage} containing the given element.
+   * <p>
+   * With a context resource set, the result depends only on that resource and the EPackage: it is looked up in the index
+   * and resolved in the context's resource set. It is therefore
+   * {@link GeneratorSupport#memoize(Object, java.util.function.Supplier) memoized} for the generation pass, so that the many literal and instance class names a generated file refers to do
+   * not each repeat the index lookup and the scan over all indexed GenPackages it can fall back to.
+   * </p>
+   *
+   * @param element
+   *          the model element, must not be {@code null}
+   * @return the GenPackage, or {@code null} if none is found
+   */
   public GenPackage genPackage(final EModelElement element) {
     final EPackage ePackage = EcoreUtil2.getContainerOfType(element, EPackage.class);
     final Resource ctx = context.get();
+    if (ctx == null || ePackage == null) {
+      return lookUpGenPackage(element, ePackage, ctx);
+    }
+    return generatorSupport.memoize(new GenPackageKey(ctx, ePackage), () -> lookUpGenPackage(element, ePackage, ctx));
+  }
+
+  /**
+   * Key under which the GenPackage of an EPackage is memoized for a context resource.
+   *
+   * @param context
+   *          the context resource
+   * @param ePackage
+   *          the EPackage
+   */
+  private record GenPackageKey(Resource context, EPackage ePackage) {
+  }
+
+  /**
+   * Looks up the {@link GenPackage} of the given EPackage.
+   *
+   * @param element
+   *          the model element, must not be {@code null}
+   * @param ePackage
+   *          the EPackage containing the element, may be {@code null}
+   * @param ctx
+   *          the context resource, may be {@code null}
+   * @return the GenPackage, or {@code null} if none is found
+   */
+  private GenPackage lookUpGenPackage(final EModelElement element, final EPackage ePackage, final Resource ctx) {
     if (globalScopeProvider != null && ctx != null) {
       final IScope scope = globalScopeProvider.getScope(ctx, GenModelPackage.Literals.GEN_MODEL__GEN_PACKAGES, null);
       if (scope != null && ePackage != null) {
