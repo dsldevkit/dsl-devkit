@@ -55,6 +55,8 @@ https://dsldevkit.github.io/dsl-devkit/p2/snapshots/<sha>/
 
 You can find more detailed documentation and examples at [ddk.tools.avaloq.com](https://ddk.tools.avaloq.com/).
 
+To generate the documentation of your Check catalogs in a Maven build, see [Generating Check catalog documentation](docs/check-doc-generation.md).
+
 # Installation
 
 * Take [Eclipse IDE for Java Developers](https://www.eclipse.org/downloads/packages/release/2022-12) (i.e. 2022-12)
