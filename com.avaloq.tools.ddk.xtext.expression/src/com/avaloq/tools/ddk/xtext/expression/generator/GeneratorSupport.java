@@ -17,15 +17,19 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.mwe.core.resources.ResourceLoader;
 import org.eclipse.emf.mwe.core.resources.ResourceLoaderFactory;
 import org.eclipse.emf.mwe.core.resources.ResourceLoaderImpl;
@@ -43,14 +47,34 @@ public class GeneratorSupport {
   /** Class-wide logger. */
   private static final Logger LOG = LogManager.getLogger(GeneratorSupport.class);
 
-  /** The values memoized by the innermost {@link #executeWithProjectResourceLoader} call running on the current thread. */
-  private static final ThreadLocal<Map<Object, Object>> MEMOIZED_VALUES = new ThreadLocal<>();
+  /** The innermost {@link #executeWithProjectResourceLoader} call running on the current thread, if any. */
+  private static final ThreadLocal<ProjectScope> CURRENT_SCOPE = new ThreadLocal<>();
+
+  /**
+   * One {@link #executeWithProjectResourceLoader} call: the project, the resource loader installed for it and the values
+   * memoized while it runs.
+   *
+   * @param project
+   *          the project, may be {@code null}
+   * @param resourceLoader
+   *          the resource loader installed for the project
+   * @param memoizedValues
+   *          the values memoized while the call runs
+   */
+  private record ProjectScope(IProject project, ResourceLoader resourceLoader, Map<Object, Object> memoizedValues) {
+  }
 
   /**
    * Executes a given operation using a custom resource loader which will load resources using the classpath of the given project, provided that it is a Java
    * project.
    * <p>
    * The operation can {@link #memoize(Object, Supplier) memoize} values for the duration of this call.
+   * </p>
+   * <p>
+   * If the current thread already executes an operation with the resource loader of the same project, the given operation
+   * runs directly within that call: it uses the resource loader already installed and shares the memoized values, instead
+   * of building another class loader from the project's resolved classpath. A generator can thus establish the resource
+   * loader once for a whole resource, and the method bodies it renders nested within that call reuse it.
    * </p>
    *
    * @param project
@@ -59,24 +83,60 @@ public class GeneratorSupport {
    *          operation to run
    */
   public void executeWithProjectResourceLoader(final IProject project, final Runnable runnable) {
+    ProjectScope enclosingScope = CURRENT_SCOPE.get();
+    if (enclosingScope != null && Objects.equals(enclosingScope.project(), project)
+        && enclosingScope.resourceLoader() == ResourceLoaderFactory.getCurrentThreadResourceLoader()) {
+      runnable.run();
+      return;
+    }
     ResourceLoader oldResourceLoader = ResourceLoaderFactory.getCurrentThreadResourceLoader();
     ResourceLoader resourceLoader = createResourceLoader(project);
-    Map<Object, Object> oldMemoizedValues = MEMOIZED_VALUES.get();
     try {
       ResourceLoaderFactory.setCurrentThreadResourceLoader(resourceLoader);
-      MEMOIZED_VALUES.set(new HashMap<>());
+      CURRENT_SCOPE.set(new ProjectScope(project, resourceLoader, new HashMap<>()));
       runnable.run();
     } finally {
-      if (oldMemoizedValues == null) {
-        MEMOIZED_VALUES.remove();
+      if (enclosingScope == null) {
+        CURRENT_SCOPE.remove();
       } else {
-        MEMOIZED_VALUES.set(oldMemoizedValues);
+        CURRENT_SCOPE.set(enclosingScope);
       }
       ResourceLoaderFactory.setCurrentThreadResourceLoader(oldResourceLoader);
       if (resourceLoader instanceof CustomResourceLoader) {
         ((CustomResourceLoader) resourceLoader).close();
       }
     }
+  }
+
+  /**
+   * Executes a given operation using a custom resource loader which will load resources using the classpath of the project
+   * containing the given resource, see {@link #executeWithProjectResourceLoader(IProject, Runnable)}.
+   *
+   * @param resource
+   *          context resource, must not be {@code null}; if it is not a workspace resource no project is used
+   * @param runnable
+   *          operation to run
+   */
+  public void executeWithProjectResourceLoaderOf(final Resource resource, final Runnable runnable) {
+    executeWithProjectResourceLoader(projectOf(resource), runnable);
+  }
+
+  /**
+   * Returns the workspace project containing the given resource, if any.
+   *
+   * @param resource
+   *          the resource, must not be {@code null}
+   * @return the containing project, or {@code null} if it cannot be determined
+   */
+  private IProject projectOf(final Resource resource) {
+    final URI uri = resource.getURI();
+    if (uri.isPlatformResource()) {
+      final IResource member = ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
+      if (member != null) {
+        return member.getProject();
+      }
+    }
+    return null;
   }
 
   /**
@@ -100,10 +160,11 @@ public class GeneratorSupport {
    */
   @SuppressWarnings("unchecked")
   public <T> T memoize(final Object key, final Supplier<? extends T> supplier) {
-    final Map<Object, Object> memoizedValues = MEMOIZED_VALUES.get();
-    if (memoizedValues == null) {
+    final ProjectScope scope = CURRENT_SCOPE.get();
+    if (scope == null) {
       return supplier.get();
     }
+    final Map<Object, Object> memoizedValues = scope.memoizedValues();
     if (memoizedValues.containsKey(key)) {
       return (T) memoizedValues.get(key);
     }
