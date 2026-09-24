@@ -12,9 +12,11 @@ package com.avaloq.tools.ddk.xtext.export.generator;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.common.types.JvmMember;
+import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.trace.LocationData;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.util.ITextRegionWithLineInformation;
@@ -23,6 +25,7 @@ import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
 import org.eclipse.xtext.xbase.compiler.TreeAppendableUtil;
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable;
 
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
 import com.google.inject.Inject;
 
 
@@ -38,6 +41,12 @@ import com.google.inject.Inject;
  * the sole interface contributed by
  * {@link com.avaloq.tools.ddk.xtext.export.jvmmodel.ExportJvmModelInferrer}, so classes keep the
  * default spacing.
+ * <p>
+ * All types of a resource are generated with one project resource loader: the inferrer renders every
+ * method body and field initializer during emission within
+ * {@link GeneratorSupport#executeWithProjectResourceLoader(org.eclipse.core.resources.IProject, Runnable)
+ * GeneratorSupport#executeWithProjectResourceLoader}, and establishing that resource loader once for the
+ * whole resource lets those nested calls reuse it instead of building a class loader for every body.
  */
 public class ExportJvmModelGenerator extends JvmModelGenerator {
 
@@ -49,6 +58,18 @@ public class ExportJvmModelGenerator extends JvmModelGenerator {
 
   @Inject
   private TreeAppendableUtil treeAppendableUtil;
+
+  @Inject
+  private GeneratorSupport generatorSupport;
+
+  @Override
+  public void doGenerate(final Resource input, final IFileSystemAccess fsa) {
+    if (input.getContents().stream().anyMatch(JvmDeclaredType.class::isInstance)) {
+      generatorSupport.executeWithProjectResourceLoaderOf(input, () -> super.doGenerate(input, fsa));
+    } else {
+      super.doGenerate(input, fsa); // no inferred type, hence no body to render: do not build a class loader
+    }
+  }
 
   /**
    * {@inheritDoc}
