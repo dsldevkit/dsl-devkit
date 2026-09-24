@@ -147,19 +147,58 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
     if (isPreIndexingPhase) {
       return;
     }
-    genModelUtil.setResource(model.eResource());
+    withModelContext(model, () -> {
+      final JvmGenericType namesProvider = inferExportedNamesProvider(model, acceptor);
+      if (!model.isExtension() && !hasCustomResourceDescriptionManager(model)) {
+        inferResourceDescriptionManager(model, acceptor);
+      }
+      final JvmGenericType strategy = inferResourceDescriptionStrategy(model, acceptor);
+      inferResourceDescriptionConstants(model, acceptor);
+      final JvmGenericType fingerprintComputer = inferFingerprintComputer(model, acceptor);
+      final JvmGenericType fragmentProvider = inferFragmentProvider(model, acceptor);
+      if (model.isExtension()) {
+        inferExportFeatureExtension(model, acceptor, namesProvider, fingerprintComputer, fragmentProvider, strategy);
+      }
+    });
+  }
 
-    final JvmGenericType namesProvider = inferExportedNamesProvider(model, acceptor);
-    if (!model.isExtension() && !hasCustomResourceDescriptionManager(model)) {
-      inferResourceDescriptionManager(model, acceptor);
+  /**
+   * Runs the given operation with the model's resource as the {@link GenModelUtilX} context, restoring the previous
+   * context afterwards.
+   * <p>
+   * The context is a thread-local on a shared {@link GenModelUtilX}. Leaving it set after inference would keep the
+   * model's resource, and through it the builder's whole resource set, reachable from a pooled builder thread until
+   * that thread happens to infer another export model.
+   * </p>
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param operation
+   *          the operation to run, must not be {@code null}
+   */
+  private void withModelContext(final ExportModel model, final Runnable operation) {
+    final Resource previous = genModelUtil.getContext();
+    genModelUtil.setResource(model.eResource());
+    try {
+      operation.run();
+    } finally {
+      genModelUtil.setResource(previous);
     }
-    final JvmGenericType strategy = inferResourceDescriptionStrategy(model, acceptor);
-    inferResourceDescriptionConstants(model, acceptor);
-    final JvmGenericType fingerprintComputer = inferFingerprintComputer(model, acceptor);
-    final JvmGenericType fragmentProvider = inferFragmentProvider(model, acceptor);
-    if (model.isExtension()) {
-      inferExportFeatureExtension(model, acceptor, namesProvider, fingerprintComputer, fragmentProvider, strategy);
-    }
+  }
+
+  /**
+   * Wraps a type initializer so that it runs {@link #withModelContext(ExportModel, Runnable) with the model's context}.
+   * Type initializers run after {@link #_infer} has returned, while the derived state is installed, and resolve model
+   * types through {@link GenModelUtilX}.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @param initializer
+   *          the type initializer, must not be {@code null}
+   * @return the wrapped initializer, never {@code null}
+   */
+  private Procedure1<JvmGenericType> inModelContext(final ExportModel model, final Procedure1<JvmGenericType> initializer) {
+    return (final JvmGenericType it) -> withModelContext(model, () -> initializer.apply(it));
   }
 
   /**
@@ -181,10 +220,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
    */
   private String renderBody(final ExportModel model, final Supplier<CharSequence> producer) {
     final AtomicReference<String> result = new AtomicReference<>("");
-    generatorSupport.executeWithProjectResourceLoader(projectOf(model), () -> {
-      genModelUtil.setResource(model.eResource());
-      result.set(producer.get().toString());
-    });
+    generatorSupport.executeWithProjectResourceLoader(projectOf(model), () -> withModelContext(model, () -> result.set(producer.get().toString())));
     return result.get();
   }
 
@@ -268,7 +304,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
         }
       }
     };
-    acceptor.<JvmGenericType> accept(inferredType, initializer);
+    acceptor.<JvmGenericType> accept(inferredType, inModelContext(model, initializer));
     return inferredType;
   }
 
@@ -327,7 +363,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
       it.getMembers().add(jvmTypesBuilder.toMethod(model, "getInterestingExtensions",
           _typeReferenceBuilder.typeRef(Set.class, _typeReferenceBuilder.typeRef(String.class)), methodInitializer));
     };
-    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionManager(model)), initializer);
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionManager(model)), inModelContext(model, initializer));
   }
 
   /**
@@ -397,7 +433,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
         it.getMembers().add(jvmTypesBuilder.toMethod(model, "doCreateEObjectDescriptions", _typeReferenceBuilder.typeRef(Boolean.TYPE), doCreate));
       }
     };
-    acceptor.<JvmGenericType> accept(inferredType, initializer);
+    acceptor.<JvmGenericType> accept(inferredType, inModelContext(model, initializer));
     return inferredType;
   }
 
@@ -439,7 +475,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
         }
       }
     };
-    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionConstants(model)), initializer);
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getResourceDescriptionConstants(model)), inModelContext(model, initializer));
   }
 
   /**
@@ -497,7 +533,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
       };
       it.getMembers().add(jvmTypesBuilder.toMethod(model, "fingerprint", _typeReferenceBuilder.typeRef(Void.TYPE), fingerprint));
     };
-    acceptor.<JvmGenericType> accept(inferredType, initializer);
+    acceptor.<JvmGenericType> accept(inferredType, inModelContext(model, initializer));
     return inferredType;
   }
 
@@ -560,7 +596,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
               jvmTypesBuilder.toMethod(model, "appendFragmentSegment", _typeReferenceBuilder.typeRef(Boolean.TYPE), typedSegment));
         }
       };
-      acceptor.<JvmGenericType> accept(inferredType, initializer);
+      acceptor.<JvmGenericType> accept(inferredType, inModelContext(model, initializer));
       return inferredType;
     } else if (!model.getExports().isEmpty()) {
       final JvmGenericType inferredType = jvmTypesBuilder.toClass(model, exportGeneratorX.getFragmentProvider(model));
@@ -568,7 +604,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
         it.getSuperTypes().add(_typeReferenceBuilder.typeRef(ShortFragmentProvider.class));
         addSuppressWarningsAll(it);
       };
-      acceptor.<JvmGenericType> accept(inferredType, initializer);
+      acceptor.<JvmGenericType> accept(inferredType, inModelContext(model, initializer));
       return inferredType;
     }
     return null;
@@ -616,7 +652,7 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
       it.getMembers().add(jvmTypesBuilder.toMethod(model, "getResourceDescriptionStrategy",
           _typeReferenceBuilder.typeRef(AbstractResourceDescriptionStrategy.class), overriddenGetter("return resourceDescriptionStrategy;")));
     };
-    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getExportFeatureExtension(model)), initializer);
+    acceptor.<JvmGenericType> accept(jvmTypesBuilder.toClass(model, exportGeneratorX.getExportFeatureExtension(model)), inModelContext(model, initializer));
   }
 
   /**
