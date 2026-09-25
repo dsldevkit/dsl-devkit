@@ -1,0 +1,166 @@
+--- a/com.avaloq.tools.ddk.xtext/src/com/avaloq/tools/ddk/xtext/naming/QualifiedNamePattern.java
++++ b/com.avaloq.tools.ddk.xtext/src/com/avaloq/tools/ddk/xtext/naming/QualifiedNamePattern.java
+@@ -98,7 +98,7 @@
+     pattern.globRegexps = Lists.transform(Lists.newArrayList(globs), new Function<String, Pattern>() {
+       @Override
+       public Pattern apply(final String from) {
+-        return Regexps.fromGlob(from);
++        return Regexps.fromGlob(from, false);
+       }
+     }).toArray(new Pattern[globs.length]);
+     return pattern;
+@@ -153,7 +153,7 @@
+    * @return returns {@code true} if this is a recursive wildcard pattern
+    */
+   public boolean isRecursivePattern() {
+-    return getLastSegment().endsWith(RECURSIVE_WILDCARD_SEGMENT);
++    return globRegexps != null || getLastSegment().endsWith(RECURSIVE_WILDCARD_SEGMENT);
+   }
+ 
+   @Override
+@@ -221,9 +221,7 @@
+       }
+       seg1 = this.getSegment(i);
+       seg2 = other.getSegment(i);
+-      if (seg1.length() == 0) {
+-        return -1;
+-      } else if ("*".equals(seg1)) { //$NON-NLS-1$
++      if ("*".equals(seg1)) { //$NON-NLS-1$
+         continue;
+       }
+       int wildcardIdx = seg1.indexOf(WILDCARD_CHAR);
+@@ -265,7 +263,7 @@
+     }
+     if (globRegexps != null) {
+       String lastSeg = getLastSegment();
+-      if (lastSeg.charAt(lastSeg.length() - 1) != WILDCARD_CHAR && other.getSegmentCount() > getSegmentCount()) {
++      if (!lastSeg.endsWith(String.valueOf(WILDCARD_CHAR)) && other.getSegmentCount() > getSegmentCount()) {
+         return false;
+       }
+       for (int i = 0; i < globRegexps.length; i++) {
+@@ -300,6 +298,7 @@
+           return false;
+         }
+       }
++      return other.getSegmentCount() == getSegmentCount();
+     }
+     return true;
+   }
+@@ -356,11 +355,11 @@
+         String lastSeg = lowerInclusive.getLastSegment();
+         if (lastSeg.length() == 0) {
+           if (lowerInclusive.getSegmentCount() == 1) {
+-            upperBound = QualifiedName.create("!"); //$NON-NLS-1$
++            upperBound = QualifiedName.create(String.valueOf(Character.MAX_VALUE));
+           } else {
+             lowerInclusive = lowerInclusive.skipLast(1);
+             lastSeg = lowerInclusive.getLastSegment();
+-            upperBound = lowerInclusive.skipLast(1).append(lastSeg + '!');
++            upperBound = lowerInclusive.skipLast(1).append(lastSeg + '\u0000');
+           }
+         } else {
+           int lastCharIdx = lastSeg.length() - 1;
+@@ -371,19 +370,14 @@
+         int wildcardIdx = lastSeg.lastIndexOf(WILDCARD_CHAR);
+         if (wildcardIdx == 0 || wildcardIdx == 1 && RECURSIVE_WILDCARD_SEGMENT.equals(lastSeg)) {
+           if (getSegmentCount() == 1) {
+-            upperBound = QualifiedName.create("!"); //$NON-NLS-1$
++            upperBound = QualifiedName.create(String.valueOf(Character.MAX_VALUE));
+           } else {
+             upperBound = super.skipLast(1);
+             lastSeg = upperBound.getLastSegment();
+-            if (lastSeg.length() > 0) {
+-              upperBound = upperBound.skipLast(1).append(lastSeg + '!');
+-            } else {
+-              // handle empty segment
+-              upperBound = upperBound.skipLast(1).append("!"); //$NON-NLS-1$
+-            }
++            upperBound = upperBound.skipLast(1).append(lastSeg + '\u0000');
+           }
+         } else if (wildcardIdx == -1) {
+-          upperBound = super.skipLast(1).append(lastSeg + '!');
++          upperBound = super.skipLast(1).append(lastSeg + '\u0000');
+         } else {
+           int lastCharIdx = lastSeg.charAt(wildcardIdx - 1) == WILDCARD_CHAR ? wildcardIdx - 2 : wildcardIdx - 1;
+           upperBound = super.skipLast(1).append(lastSeg.substring(0, lastCharIdx) + ((char) (lastSeg.charAt(lastCharIdx) + 1)));
+--- a/com.avaloq.tools.ddk.xtext/src/com/avaloq/tools/ddk/xtext/naming/QualifiedNameSegmentTreeLookup.java
++++ b/com.avaloq.tools.ddk.xtext/src/com/avaloq/tools/ddk/xtext/naming/QualifiedNameSegmentTreeLookup.java
+@@ -19,7 +19,6 @@
+ import java.util.Arrays;
+ import java.util.Collection;
+ import java.util.List;
+-import java.util.Set;
+ 
+ import org.eclipse.emf.common.util.URI;
+ import org.eclipse.xtext.naming.QualifiedName;
+@@ -292,9 +291,7 @@
+       if (children != null) {
+         for (SegmentNode node : children) {
+           for (List<String> mapping : node.getMappings(value)) {
+-            if (!segment.isBlank()) {
+-              mapping.add(0, segment);
+-            }
++            mapping.add(0, segment);
+             result.add(mapping);
+           }
+         }
+@@ -403,7 +400,7 @@
+     @SuppressWarnings("unchecked")
+     <T> Collection<T> matches(final QualifiedName lower, final int lowerIdx, final SegmentNode upper, final boolean recursive, final boolean excludeDuplicates) {
+       final Collection<T> result = excludeDuplicates ? Sets.<T> newHashSet() : Lists.<T> newArrayList();
+-      final Set<Object[]> arrays = Sets.newHashSet();
++      final Collection<Object[]> arrays = excludeDuplicates ? Sets.<Object[]> newHashSet() : Lists.<Object[]> newArrayList();
+       Visitor visitor = new Visitor() {
+         @Override
+         void visit(final SegmentNode node) {
+@@ -570,7 +567,12 @@
+       throw new IllegalArgumentException("QualifiedNameLookup does not support null values"); //$NON-NLS-1$
+     }
+ 
+-    List<List<String>> mappings = root.getMappings(value);
++    List<List<String>> mappings = new ArrayList<>();
++    if (root.children != null) {
++      for (SegmentNode child : root.children) {
++        mappings.addAll(child.getMappings(value));
++      }
++    }
+     List<QualifiedName> result = new ArrayList<>(mappings.size());
+     for (List<String> mapping : mappings) {
+       result.add(QualifiedName.create(mapping));
+@@ -587,7 +589,10 @@
+     }
+     Object[] values = ArrayUtils.newArray(1);
+     values[0] = value;
+-    size++;
++    SegmentNode node = root.find(name, 0, true);
++    if (node == null || ArrayUtils.find(node.values, value) < 0) {
++      size++;
++    }
+     root.merge(name, 0, values);
+   }
+ 
+@@ -598,7 +603,12 @@
+       String valuesAsString = values != null ? Iterables.toString(values) : "<null>"; //$NON-NLS-1$
+       throw new IllegalArgumentException("QualifiedNameLookup does not support null keys or values: putAll(" + name + ", " + valuesAsString + ")"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+     }
+-    size += values.size();
++    SegmentNode node = root.find(name, 0, true);
++    for (T value : values) {
++      if (node == null || ArrayUtils.find(node.values, value) < 0) {
++        size++;
++      }
++    }
+     root.merge(name, 0, values.toArray(ArrayUtils.newArray(values.size())));
+   }
+ 
+--- a/com.avaloq.tools.ddk.xtext/src/com/avaloq/tools/ddk/xtext/resource/PatternAwareEObjectDescriptionLookUp.java
++++ b/com.avaloq.tools.ddk.xtext/src/com/avaloq/tools/ddk/xtext/resource/PatternAwareEObjectDescriptionLookUp.java
+@@ -60,7 +60,7 @@
+       return Collections.emptyList();
+     }
+     Predicate<IEObjectDescription> predicate = ignoreCase ? input -> EcoreUtil2.isAssignableFrom(type, input.getEClass())
+-        : input -> isPattern ? EcoreUtil2.isAssignableFrom(type, input.getEClass()) && ((QualifiedNamePattern) name).matches(name)
++        : input -> isPattern ? EcoreUtil2.isAssignableFrom(type, input.getEClass()) && ((QualifiedNamePattern) name).matches(input.getName())
+             : name.equals(input.getName()) && EcoreUtil2.isAssignableFrom(type, input.getEClass());
+     return Collections2.filter(values, predicate);
+   }
