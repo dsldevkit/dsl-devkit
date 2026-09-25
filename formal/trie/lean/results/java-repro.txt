@@ -1,0 +1,38 @@
+REPRODUCED B1 upper(*) -> !
+REPRODUCED B1 matches(*, b) -> true
+REPRODUCED B1 tree get(*) -> []
+REPRODUCED B1 tsl get(*) -> []
+REPRODUCED B1 tree get(**) -> []
+REPRODUCED B2 tree get(a) returns 'a ' -> [a_]
+REPRODUCED B2 tsl get(a) returns 'a ' -> [a_]
+REPRODUCED B2 matches(a, 'a ') -> false
+REPRODUCED B2 tree get(a.*) with a present -> [a_x, ab]
+REPRODUCED B2 tree get(a.*) with a absent -> []
+REPRODUCED B2 tsl get(a.*) -> [a_x]
+REPRODUCED B3 matches(a, a.b) -> true
+REPRODUCED B3 tree get(a) -> [a]
+REPRODUCED B4 tsl get((""," ")) -> [ee]
+REPRODUCED B4 tree get((""," ")) -> []
+REPRODUCED B5 size after put twice -> 2
+REPRODUCED B5 size after remove -> 1
+REPRODUCED B5 get after remove -> null
+REPRODUCED B6 getMappings((' ','a')) -> [a]
+REPRODUCED B6 getMappings(('','a')) -> [a]
+REPRODUCED B7 share=true get(a**) -> [v]
+REPRODUCED B7 share=false get(a**) -> [v, v]
+REPRODUCED B8 case-sensitive Foo* -> []
+REPRODUCED B8 case-insensitive Foo* -> [Foo, FooBar]
+REPRODUCED B9 upper(\uFFFF*) -> 
+REPRODUCED B9 tsl get(\uFFFF*) -> IAE: fromKey > toKey
+REPRODUCED B9 tree get(pattern \uFFFF) -> []
+REPRODUCED B9 tree get(name \uFFFF) -> [m]
+REPRODUCED B10 glob * matches b -> true
+REPRODUCED B10 tree glob * -> []
+REPRODUCED B10 tree glob a*.b -> []
+REPRODUCED B10 tsl glob a*.b -> [ab]
+REPRODUCED B10 glob a* matches a.x -> true
+REPRODUCED B10 tree glob a* misses a.x -> []
+REPRODUCED B10 glob F* matches foo -> true
+REPRODUCED B10 tree glob F* misses foo -> []
+REPRODUCED B10 glob with empty last segment throws -> SIOOBE
+ALL REPRODUCED

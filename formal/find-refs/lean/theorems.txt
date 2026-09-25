@@ -1,0 +1,16 @@
+# <theorem> <kernel|native_decide>; checked by formal/check.sh via #print axioms
+FindRefs.Proof.addRef_inv kernel
+FindRefs.Proof.attachRef_cover kernel
+FindRefs.Proof.attachRef_frame kernel
+FindRefs.Proof.ensureScheduled_inv kernel
+FindRefs.Proof.init_inv kernel
+FindRefs.Proof.no_lost_root kernel
+FindRefs.Proof.reach_inv kernel
+FindRefs.Proof.rebuild_frame kernel
+FindRefs.Proof.rootsVals_clear kernel
+FindRefs.Proof.rootsVals_set kernel
+FindRefs.Proof.searchStarts_frame kernel
+FindRefs.Proof.step_inv kernel
+FindRefs.Theorems.buggy_verdicts native_decide
+FindRefs.Theorems.fixed_verdicts native_decide
+FindRefs.Theorems.planted_caught native_decide

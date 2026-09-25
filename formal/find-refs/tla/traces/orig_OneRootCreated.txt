@@ -1,0 +1,22 @@
+  1 Initial          pcS="sched"  pcU="idle"  provReg=TRUE  view="R"
+  2 UserToB          pcU="b_disp"  switches=1
+  3 UBDisp           pcU="b_lbl"
+  4 SJobStart        pcS="reset"
+  5 UBLabel          pcU="b_clear"
+  6 UBClear          clears=1  pcU="b_rm"
+  7 UBRemove         pcU="b_ref"  provReg=FALSE
+  8 SReset           epoch=1  matchMod=1  pcS="rlock"
+  9 UBRefresh        pcU="idle"  view="B"
+ 10 UserToR          pcU="r_disp"  switches=2
+ 11 SResetLock       lockL="S"  pcS="runlock"
+ 12 URDisp           pcU="r_lbl"
+ 13 SResetUnlock     iS=1  lockL="none"  pcS="acc"
+ 14 URLabel          pcU="r_clear"
+ 15 URClear          clears=2  pcU="r_add"  provEpoch=1
+ 16 SAccept          matchMod=2  matching=<<<<1, 1>>>>  pcS="lock"
+ 17 URAdd            pcU="r_iter"  provReg=TRUE
+ 18 URIter           pcU="r_next"  uExp=2
+ 19 SLock            lockL="S"  pcS="get"
+ 20 URNext           pcU="r_get"  uCur=1  uRef=<<1, 1>>
+ 21 URGet            nodes=<<[uri |-> "u1", ep |-> 1, kids |-> <<>>, gen |-> 2]>>  pcU="r_put"  uNode=1
+ 22 SGet             nodes=<< [uri |-> "u1", ep |-> 1, kids |-> <<>>, gen |-> 2], [uri |-> "u1", ep |-> 1, kids |-> <<>>, gen |-> 2] >>  pcS="put"  sNode=2

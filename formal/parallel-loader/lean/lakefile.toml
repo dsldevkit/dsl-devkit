@@ -1,0 +1,6 @@
+name = "ParallelLoader"
+version = "0.1.0"
+defaultTargets = ["ParallelLoader"]
+
+[[lean_lib]]
+name = "ParallelLoader"
