@@ -41,7 +41,7 @@ jobs:
       - name: Compute next version
         id: version
         run: |
-          LATEST=$(git tag --list 'v*' --sort=-version:refname | head -1)
+          LATEST=$(git tag --list 'v*' --merged HEAD --sort=-version:refname | head -1)
           if [ -z "$LATEST" ]; then
             LATEST="v0.0.0"
           fi
