@@ -1,0 +1,11 @@
+# <theorem> <kernel|native_decide>; checked by formal/check.sh via #print axioms
+faithful_keep1_verdicts native_decide
+faithful_verdicts native_decide
+fixA_only native_decide
+fixC_only native_decide
+fixCD native_decide
+fixD_only native_decide
+fixed_keep1_verdicts native_decide
+fixed_verdicts native_decide
+fixes_without_E native_decide
+planted_caught native_decide

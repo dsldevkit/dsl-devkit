@@ -1,0 +1,42 @@
+  1 Initial          pcS="sched"  pcU="idle"  provReg=TRUE  view="R"
+  2 SJobStart        pcS="reset"
+  3 UserToB          pcU="b_disp"  switches=1
+  4 UBDisp           pcU="b_lbl"
+  5 SReset           epoch=1  matchMod=1  pcS="rlock"
+  6 UBLabel          pcU="b_rm"
+  7 UBRemove         pcU="b_clear"  provReg=FALSE
+  8 SResetLock       lockL="S"  pcS="runlock"
+  9 UBClear          pcU="b_ref"
+ 10 UBRefresh        pcU="idle"  view="B"
+ 11 UserToR          pcU="r_disp"  switches=2
+ 12 URDisp           pcU="r_lbl"
+ 13 SResetUnlock     iS=1  lockL="none"  pcS="acc"
+ 14 URLabel          pcU="r_clear"
+ 15 URClear          pcU="r_add"  provEpoch=1
+ 16 SAccept          matchMod=2  matching=<<<<1, 1>>>>  pcS="lock"
+ 17 SLock            lockL="S"  pcS="unlock"
+ 18 SUnlock          iS=2  lockL="none"  pcS="acc"
+ 19 URAdd            pcU="r_iter"  provReg=TRUE  uSnap=<<<<1, 1>>>>
+ 20 SAccept          matchMod=3  matching=<<<<1, 1>>, <<1, 2>>>>  pcS="lock"
+ 21 SLock            lockL="S"  pcS="get"
+ 22 URIter           pcU="r_next"  uExp=3
+ 23 URNext           pcU="r_get"  uCur=1  uRef=<<1, 1>>
+ 24 URGet            nodes=<<[uri |-> "u1", ep |-> 1, kids |-> <<>>]>>  pcU="r_put"  uNode=1
+ 25 SGet             nodes=<< [uri |-> "u1", ep |-> 1, kids |-> <<>>], [uri |-> "u1", ep |-> 1, kids |-> <<>>] >>  pcS="put"  sNode=2
+ 26 SPut             pcS="batch"  rootNodes=[u1 |-> 2]
+ 27 SBatch           batch=<<2>>  pcS="child"
+ 28 SChild           nodes=<< [uri |-> "u1", ep |-> 1, kids |-> <<>>], [uri |-> "u1", ep |-> 1, kids |-> <<<<1, 2>>>>] >>  pcS="flag"
+ 29 SFlag            pcS="setflag"
+ 30 URPut            pcU="r_batch"  rootNodes=[u1 |-> 1]
+ 31 SSetFlag         flag=TRUE  pcS="sched2"
+ 32 URBatch          batch=<<2, 1>>  pcU="r_child"
+ 33 SSchedule        jobs=1  pcS="unlock"
+ 34 SUnlock          lockL="none"  pcS="fin"
+ 35 URChild          nodes=<< [uri |-> "u1", ep |-> 1, kids |-> <<<<1, 1>>>>], [uri |-> "u1", ep |-> 1, kids |-> <<<<1, 2>>>>] >>  pcU="r_next"
+ 36 SFinish          pcS="done"
+ 37 URNext           pcU="r_ref"
+ 38 URRefresh        pcU="idle"  shown={1}  view="R"
+ 39 UIJobStart       jobs=0  pcU="u_clr"
+ 40 UClear           flag=FALSE  pcU="u_drain"
+ 41 UDrain           batch=<<>>  pcU="u_refresh"  shown={1, 2}
+ 42 URefresh         pcU="idle"  shown={1}

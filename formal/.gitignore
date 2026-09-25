@@ -1,0 +1,27 @@
+# Tools fetched locally and harness output.
+.tools/
+.check/
+
+# Lean build output.
+**/.lake/
+
+# TLC state and metadirs.
+**/states/
+**/meta/
+**/meta-*/
+
+# Logs and generated run artefacts of the model-checking scripts.
+*.log
+*.out
+**/tla/runs/
+**/tla/out/
+**/tla/logs/
+
+# Compiled Java of the cross-checks.
+**/java-check/out/
+**/java-check/out-fixed/
+readonly/comparator/out/
+
+# Machine-specific classpaths and third-party source extracts
+**/classpath*.txt
+find-refs/.src/
