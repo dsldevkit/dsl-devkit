@@ -218,7 +218,6 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
         Triple<URI, Resource, Throwable> result = null;
         try {
           result = resourceQueue.poll(waitTime, TimeUnit.MILLISECONDS);
-          toProcess--;
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
@@ -227,8 +226,11 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           synchronized (currentlyProcessedUris) {
             currentUris = Joiner.on(", ").join(currentlyProcessedUris); //$NON-NLS-1$
           }
-          throw new LoadOperationException(null, new TimeoutException(String.format("Resource load job didn't return a result after %d ms. Resources being currently loaded: %s", waitTime, currentUris))); //$NON-NLS-1$
+          // a timeout or interrupt cannot be attributed to a URI and a hung load would never finish, so abandon the whole operation
+          cancel();
+          throw new LoadOperationException(null, new TimeoutException(String.format("Resource load job didn't return a result after %d ms. Resources being currently loaded: %s. The remaining loads are abandoned.", waitTime, currentUris))); //$NON-NLS-1$
         }
+        toProcess--;
 
         URI uri = result.getFirst();
         Throwable throwable = result.getThird();
