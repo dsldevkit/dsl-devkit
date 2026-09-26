@@ -13,18 +13,12 @@ package com.avaloq.tools.ddk.xtext.export.jvmmodel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.common.types.JvmGenericType;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -79,35 +73,15 @@ public class ExportJvmModelInferrerTest extends AbstractXtextTest {
   }
 
   /**
-   * Parses the header-less export model and installs its derived state.
-   * <p>
-   * The inferrer resolves the grammar belonging to an export model by loading the {@code .xtext} file next to it. An empty
-   * resource is registered under that URI so the lookup resolves without demand-loading a grammar; the documentation under
-   * test does not depend on the grammar. Both resources have to share one resource set, hence the explicit set up here
-   * instead of the usual test utility call, which creates a new resource set per invocation.
+   * Parses the header-less export model and installs its derived state; the documentation under test does not depend on the
+   * grammar, see {@link ExportTestUtil#parseWithoutGrammar(URI, String)}.
    *
    * @return the loaded resource, never {@code null}
    * @throws IOException
    *           if the model cannot be parsed
    */
   private Resource parseHeaderlessModel() throws IOException {
-    final URI modelUri = getTargetSourceUri(MODEL_NAME + ".export");
-    final URI grammarUri = modelUri.trimFileExtension().appendFileExtension("xtext");
-    final Resource grammarResource = new ResourceImpl(grammarUri) {
-      @Override
-      public boolean isLoaded() {
-        return true;
-      }
-    };
-    final XtextResourceSet resourceSet = getXtextTestUtil().getResourceSet();
-    resourceSet.getResources().add(grammarResource);
-    resourceSet.getURIResourceMap().put(grammarUri, grammarResource);
-
-    final XtextResource resource = (XtextResource) resourceSet.createResource(modelUri);
-    resourceSet.getResources().add(resource);
-    resource.load(new ByteArrayInputStream(MODEL_SOURCE.getBytes(StandardCharsets.UTF_8)), null);
-    EcoreUtil.resolveAll(resource);
-    return resource;
+    return getXtextTestUtil().parseWithoutGrammar(getTargetSourceUri(MODEL_NAME + ".export"), MODEL_SOURCE);
   }
 
   /**

@@ -15,6 +15,7 @@ import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
+import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
@@ -22,6 +23,7 @@ import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeLocationInFileProvider;
+import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionManager;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionStrategy;
 
 
@@ -83,6 +85,16 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
   @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
     return ScopeResourceDescriptionStrategy.class;
+  }
+
+  /**
+   * Binds the description manager which records the classes named in {@code extension} declarations as dependencies.
+   *
+   * @return the scope specific resource description manager
+   */
+  @Override
+  public Class<? extends IResourceDescription.Manager> bindIResourceDescription$Manager() { // NOPMD
+    return ScopeResourceDescriptionManager.class;
   }
 
   @Override
