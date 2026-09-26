@@ -11,23 +11,35 @@
 package com.avaloq.tools.ddk.xtext.export.jvmmodel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.common.types.JvmDeclaredType;
 import org.eclipse.xtext.common.types.JvmGenericType;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.junit.jupiter.api.Test;
 
+import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
+import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
 import com.avaloq.tools.ddk.xtext.test.export.util.ExportTestUtil;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
 
@@ -37,6 +49,11 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTest;
  * <p>
  * That header is optional, so {@code ExportModel.name} is {@code null} for such models. The documentation of the inferred
  * resource description manager must then be rendered with an empty name rather than with the string {@code "null"}.
+ * </p>
+ * <p>
+ * The inferrer must also leave the {@link GenModelUtilX} context as it found it, since a context left set keeps the
+ * model's resource reachable from the builder thread.
+ * </p>
  */
 @SuppressWarnings("nls")
 public class ExportJvmModelInferrerTest extends AbstractXtextTest {
@@ -76,6 +93,73 @@ public class ExportJvmModelInferrerTest extends AbstractXtextTest {
     final JvmTypesBuilder typesBuilder = getXtextTestUtil().get(JvmTypesBuilder.class);
     assertEquals(EXPECTED_DOCUMENTATION, typesBuilder.getDocumentation(manager),
         "A null export model name must render as an empty string, not as \"null\".");
+  }
+
+  @Test
+  public void testInferenceRestoresGenModelContext() throws IOException, ReflectiveOperationException {
+    final Resource resource = parseHeaderlessModel();
+    final ExportModel model = (ExportModel) resource.getContents().get(0);
+    final ExportJvmModelInferrer inferrer = getXtextTestUtil().get(ExportJvmModelInferrer.class);
+    final GenModelUtilX genModelUtil = genModelUtilOf(inferrer);
+    final Resource previousContext = new ResourceImpl(URI.createURI("memory:/previous-context"));
+    genModelUtil.setResource(previousContext);
+    try {
+      final RecordingAcceptor acceptor = new RecordingAcceptor(resource);
+      // as the JVM model associator does before inferring; setContext is package-private
+      final Method setContext = AbstractModelInferrer.class.getDeclaredMethod("setContext", Resource.class);
+      setContext.setAccessible(true);
+      setContext.invoke(inferrer, resource);
+      inferrer.infer(model, acceptor, false);
+      assertSame(previousContext, genModelUtil.getContext(), "Inference must restore the previous GenModelUtilX context.");
+      assertFalse(acceptor.initializers.isEmpty(), "The inferrer must register type initializers.");
+      acceptor.initializers.forEach(Runnable::run);
+      assertSame(previousContext, genModelUtil.getContext(), "Type initializers must restore the previous GenModelUtilX context.");
+    } finally {
+      genModelUtil.setResource(null);
+    }
+  }
+
+  /**
+   * Returns the {@link GenModelUtilX} the given inferrer sets its context on.
+   *
+   * @param inferrer
+   *          the inferrer, must not be {@code null}
+   * @return the inferrer's utility, never {@code null}
+   * @throws ReflectiveOperationException
+   *           if the field cannot be read
+   */
+  private static GenModelUtilX genModelUtilOf(final ExportJvmModelInferrer inferrer) throws ReflectiveOperationException {
+    final Field field = ExportJvmModelInferrer.class.getDeclaredField("genModelUtil");
+    field.setAccessible(true);
+    return (GenModelUtilX) field.get(inferrer);
+  }
+
+  /**
+   * Adds the accepted types to the resource, as the JVM model associator does, and records their initializers so that the
+   * test can run them after inference.
+   */
+  private static final class RecordingAcceptor implements IJvmDeclaredTypeAcceptor {
+
+    private final Resource resource;
+    private final List<Runnable> initializers = new ArrayList<>();
+
+    RecordingAcceptor(final Resource resource) {
+      this.resource = resource;
+    }
+
+    @Override
+    public <T extends JvmDeclaredType> IPostIndexingInitializing<T> accept(final T type) {
+      resource.getContents().add(type);
+      return initializer -> initializers.add(() -> initializer.apply(type));
+    }
+
+    @Override
+    public <T extends JvmDeclaredType> void accept(final T type, final Procedure1<? super T> lateInitialization) {
+      resource.getContents().add(type);
+      if (lateInitialization != null) {
+        initializers.add(() -> lateInitialization.apply(type));
+      }
+    }
   }
 
   /**
