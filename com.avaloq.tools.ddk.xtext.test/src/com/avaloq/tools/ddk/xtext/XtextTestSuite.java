@@ -14,13 +14,17 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
+import com.avaloq.tools.ddk.xtext.builder.resourceloader.ParallelResourceLoaderTest;
+import com.avaloq.tools.ddk.xtext.formatting.ExtendedFormattingConfigBasedStreamSortLocatorsTest;
 import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProviderTest;
+import com.avaloq.tools.ddk.xtext.naming.QualifiedNameLookupFormalTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePatternTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookupTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.resource.BugAig1084;
+import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
 import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
 
@@ -36,11 +40,15 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   AbstractSelectorFragmentProviderTest.class,
   ResourceDescriptionDeltaTest.class,
   XtextBuildTriggerTest.class,
+  ParallelResourceLoaderTest.class,
   FormatterTest.class,
   QualifiedNamePatternTest.class,
   BugAig1084.class,
   RuntimeProjectUtilTest.class,
-  QualifiedNameSegmentTreeLookupTest.class})
+  QualifiedNameSegmentTreeLookupTest.class,
+  QualifiedNameLookupFormalTest.class,
+  PatternAwareEObjectDescriptionLookUpTest.class,
+  ExtendedFormattingConfigBasedStreamSortLocatorsTest.class})
 // @Format-On
 public class XtextTestSuite {
 }

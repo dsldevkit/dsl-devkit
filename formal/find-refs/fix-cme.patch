@@ -1,0 +1,39 @@
+diff --git a/com.avaloq.tools.ddk.xtext.ui/META-INF/MANIFEST.MF b/com.avaloq.tools.ddk.xtext.ui/META-INF/MANIFEST.MF
+index 609ac5245..79e450c5d 100644
+--- a/com.avaloq.tools.ddk.xtext.ui/META-INF/MANIFEST.MF
++++ b/com.avaloq.tools.ddk.xtext.ui/META-INF/MANIFEST.MF
+@@ -2,7 +2,7 @@ Manifest-Version: 1.0
+ Bundle-ManifestVersion: 2
+ Bundle-Name: com.avaloq.tools.ddk.xtext.ui
+ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.ui;singleton:=true
+-Bundle-Version: 17.3.3.qualifier
++Bundle-Version: 17.3.4.qualifier
+ Bundle-Vendor: Avaloq Group AG
+ Bundle-RequiredExecutionEnvironment: JavaSE-21
+ Bundle-ActivationPolicy: lazy
+diff --git a/com.avaloq.tools.ddk.xtext.ui/pom.xml b/com.avaloq.tools.ddk.xtext.ui/pom.xml
+index c0672c774..46bec8091 100644
+--- a/com.avaloq.tools.ddk.xtext.ui/pom.xml
++++ b/com.avaloq.tools.ddk.xtext.ui/pom.xml
+@@ -6,7 +6,7 @@
+     <version>18.0.1-SNAPSHOT</version>
+     <relativePath>../ddk-parent</relativePath>
+   </parent>
+-  <version>17.3.3-SNAPSHOT</version>
++  <version>17.3.4-SNAPSHOT</version>
+   <groupId>com.avaloq.tools.ddk</groupId>
+   <artifactId>com.avaloq.tools.ddk.xtext.ui</artifactId>
+   <packaging>eclipse-plugin</packaging>
+diff --git a/com.avaloq.tools.ddk.xtext.ui/src/com/avaloq/tools/ddk/xtext/ui/editor/findrefs/FastReferenceSearchResultContentProvider.java b/com.avaloq.tools.ddk.xtext.ui/src/com/avaloq/tools/ddk/xtext/ui/editor/findrefs/FastReferenceSearchResultContentProvider.java
+index 657f03292..f6a8a46cd 100644
+--- a/com.avaloq.tools.ddk.xtext.ui/src/com/avaloq/tools/ddk/xtext/ui/editor/findrefs/FastReferenceSearchResultContentProvider.java
++++ b/com.avaloq.tools.ddk.xtext.ui/src/com/avaloq/tools/ddk/xtext/ui/editor/findrefs/FastReferenceSearchResultContentProvider.java
+@@ -115,7 +115,7 @@ public class FastReferenceSearchResultContentProvider extends ReferenceSearchRes
+       if (newInput instanceof ReferenceSearchResult && v instanceof TreeViewer) {
+         ((ReferenceSearchResult) newInput).addListener(this);
+         this.viewer = (TreeViewer) v;
+-        for (IReferenceDescription referenceDescription : ((ReferenceSearchResult) newInput).getMatchingReferences()) {
++        for (IReferenceDescription referenceDescription : Lists.newArrayList(((ReferenceSearchResult) newInput).getMatchingReferences())) {
+           addReference(referenceDescription);
+         }
+       }

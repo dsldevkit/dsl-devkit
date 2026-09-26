@@ -1,0 +1,366 @@
+=== faithful (code as written), push budget 2, keep 2: 254276 states, 2279698 edges, depth 39, 1497 ms
+  [VIOLATED] P1 TagHasReleaseRepo (at quiescence)
+      shortest trace (4 steps):
+        1. dispatch release branch=master bump=patch
+        2. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        3. release(master): create + push tag v19.0.1 ok
+        4. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+  [VIOLATED] P2 SnapshotsLatestFromMaster
+      shortest trace (3 steps):
+        1. dispatch snapshot branch=feature
+        2. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        3. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+  [VIOLATED] P3 NextVersionFromOwnLine
+      shortest trace (1 steps):
+        1. dispatch release branch=v18.x bump=patch
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [VIOLATED] R1 NoStuckDanglingTag (EF all tags published, from every state)
+      shortest trace (10 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=feature
+        3. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        4. release(master): create + push tag v19.0.1 ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+        6. push master (change)
+        7. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        8. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+        9. snapshot(master): checkout tip (sha 5) + mvn verify with baseline gate ok
+        10. snapshot(master): publish snapshot 5 ok; cleanup old snapshots ok
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [UNREACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [UNREACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [false, false, false, true, false, true, true, false, true, true, false, true, false, true, true]
+=== faithful, push budget 1, keep 1: 16991 states, 141811 edges, depth 28, 66 ms
+  [VIOLATED] P1 TagHasReleaseRepo (at quiescence)
+      shortest trace (4 steps):
+        1. dispatch release branch=master bump=patch
+        2. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        3. release(master): create + push tag v19.0.1 ok
+        4. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+  [VIOLATED] P2 SnapshotsLatestFromMaster
+      shortest trace (3 steps):
+        1. dispatch snapshot branch=feature
+        2. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        3. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+  [VIOLATED] P3 NextVersionFromOwnLine
+      shortest trace (1 steps):
+        1. dispatch release branch=v18.x bump=patch
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (3 steps):
+        1. dispatch snapshot branch=feature
+        2. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        3. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [VIOLATED] R1 NoStuckDanglingTag (EF all tags published, from every state)
+      shortest trace (7 steps):
+        1. dispatch release branch=master bump=patch
+        2. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        3. push master (change)
+        4. release(master): create + push tag v19.0.1 ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+        6. snapshot(master): checkout tip (sha 5) + mvn verify with baseline gate ok
+        7. snapshot(master): publish snapshot 5 ok; cleanup old snapshots ok
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [UNREACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [UNREACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [false, false, false, true, false, true, true, false, true, true, false, true, false, true, true]
+=== fixed (fixes A-F), push budget 1, keep 2: 316660 states, 3022860 edges, depth 29, 2743 ms
+  [holds] P1 TagHasReleaseRepo (at quiescence)
+  [holds] P2 SnapshotsLatestFromMaster
+  [holds] P3 NextVersionFromOwnLine
+  [holds] P4 NoLostReleaseRepo
+  [holds] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [holds] R1 NoStuckDanglingTag (EF all tags published, from every state)
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [REACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+=== fixed (fixes A-F), push budget 1, keep 1: 286825 states, 2740320 edges, depth 29, 2521 ms
+  [holds] P1 TagHasReleaseRepo (at quiescence)
+  [holds] P2 SnapshotsLatestFromMaster
+  [holds] P3 NextVersionFromOwnLine
+  [holds] P4 NoLostReleaseRepo
+  [holds] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [holds] R1 NoStuckDanglingTag (EF all tags published, from every state)
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [REACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+=== planted bug (fixed + blind force push), push budget 0: 316946 states, 3280494 edges, depth 33, 2852 ms
+  [VIOLATED] P1 TagHasReleaseRepo (at quiescence)
+      shortest trace (7 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=master
+        3. snapshot(master): checkout tip (sha 2) + mvn verify with baseline gate ok
+        4. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 ok
+        6. snapshot(master): publish snapshot 2 ok; cleanup old snapshots ok
+        7. release(master): create + push tag v19.0.1 ok; gh release create v19.0.1 ok
+  [holds] P2 SnapshotsLatestFromMaster
+  [holds] P3 NextVersionFromOwnLine
+  [VIOLATED] P4 NoLostReleaseRepo
+      shortest trace (6 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=master
+        3. snapshot(master): checkout tip (sha 2) + mvn verify with baseline gate ok
+        4. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 ok
+        6. snapshot(master): publish snapshot 2 ok; cleanup old snapshots ok
+  [holds] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [VIOLATED] R1 NoStuckDanglingTag (EF all tags published, from every state)
+      shortest trace (7 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=master
+        3. snapshot(master): checkout tip (sha 2) + mvn verify with baseline gate ok
+        4. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 ok
+        6. snapshot(master): publish snapshot 2 ok; cleanup old snapshots ok
+        7. release(master): create + push tag v19.0.1 ok; gh release create v19.0.1 ok
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [REACHABLE] W2 maintenance release v18.0.1 published
+  [UNREACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [UNREACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [false, true, true, false, true, true, true, false, true, true, true, false, true, false, true]
+=== faithful + fix D only (per-line baseline), push budget 1: 94522 states, 792912 edges, depth 31, 436 ms
+  [VIOLATED] P1 TagHasReleaseRepo (at quiescence)
+      shortest trace (4 steps):
+        1. dispatch release branch=master bump=patch
+        2. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        3. release(master): create + push tag v19.0.1 ok
+        4. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+  [VIOLATED] P2 SnapshotsLatestFromMaster
+      shortest trace (3 steps):
+        1. push v18.x (change)
+        2. snapshot(v18.x): checkout tip (sha 5) + mvn verify with baseline gate ok
+        3. snapshot(v18.x): publish snapshot 5 ok; cleanup old snapshots ok
+  [VIOLATED] P3 NextVersionFromOwnLine
+      shortest trace (1 steps):
+        1. dispatch release branch=v18.x bump=patch
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [VIOLATED] R1 NoStuckDanglingTag (EF all tags published, from every state)
+      shortest trace (10 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=v18.x
+        3. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        4. release(master): create + push tag v19.0.1 ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+        6. push master (change)
+        7. snapshot(v18.x): checkout tip (sha 3) + mvn verify with baseline gate ok
+        8. snapshot(v18.x): publish snapshot 3 ok; cleanup old snapshots ok
+        9. snapshot(master): checkout tip (sha 5) + mvn verify with baseline gate ok
+        10. snapshot(master): publish snapshot 5 ok; cleanup old snapshots ok
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [UNREACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [false, false, false, true, false, true, true, false, true, true, false, true, true, true, true]
+=== faithful + fix C only (--merged tags), push budget 1: 19849 states, 165776 edges, depth 28, 89 ms
+  [VIOLATED] P1 TagHasReleaseRepo (at quiescence)
+      shortest trace (4 steps):
+        1. dispatch release branch=master bump=patch
+        2. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        3. release(master): create + push tag v19.0.1 ok
+        4. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+  [VIOLATED] P2 SnapshotsLatestFromMaster
+      shortest trace (3 steps):
+        1. dispatch snapshot branch=feature
+        2. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        3. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+  [holds] P3 NextVersionFromOwnLine
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [VIOLATED] R1 NoStuckDanglingTag (EF all tags published, from every state)
+      shortest trace (10 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=feature
+        3. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        4. release(master): create + push tag v19.0.1 ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+        6. push master (change)
+        7. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        8. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+        9. snapshot(master): checkout tip (sha 5) + mvn verify with baseline gate ok
+        10. snapshot(master): publish snapshot 5 ok; cleanup old snapshots ok
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [UNREACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [UNREACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [false, false, true, true, false, true, true, false, true, true, false, true, false, true, true]
+=== faithful + fixes C+D, push budget 1: 1629536 states, 15404067 edges, depth 43, 11906 ms
+  [VIOLATED] P1 TagHasReleaseRepo (at quiescence)
+      shortest trace (4 steps):
+        1. dispatch release branch=master bump=patch
+        2. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        3. release(master): create + push tag v19.0.1 ok
+        4. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+  [VIOLATED] P2 SnapshotsLatestFromMaster
+      shortest trace (3 steps):
+        1. push v18.x (change)
+        2. snapshot(v18.x): checkout tip (sha 5) + mvn verify with baseline gate ok
+        3. snapshot(v18.x): publish snapshot 5 ok; cleanup old snapshots ok
+  [holds] P3 NextVersionFromOwnLine
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [VIOLATED] R1 NoStuckDanglingTag (EF all tags published, from every state)
+      shortest trace (10 steps):
+        1. dispatch release branch=master bump=patch
+        2. dispatch snapshot branch=v18.x
+        3. release(master): checkout tip (sha 2), next = v19.0.1, verify snapshot + feature.xml ok
+        4. release(master): create + push tag v19.0.1 ok
+        5. release(master): publish p2/releases/v19.0.1 from snapshot 2 fails (environment/flake)
+        6. push master (change)
+        7. snapshot(v18.x): checkout tip (sha 3) + mvn verify with baseline gate ok
+        8. snapshot(v18.x): publish snapshot 3 ok; cleanup old snapshots ok
+        9. snapshot(master): checkout tip (sha 5) + mvn verify with baseline gate ok
+        10. snapshot(master): publish snapshot 5 ok; cleanup old snapshots ok
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [REACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [false, false, true, true, false, true, true, false, true, true, true, true, true, true, true]
+=== faithful + fix A only (tag last + resume), push budget 2: 42351 states, 309579 edges, depth 27, 167 ms
+  [holds] P1 TagHasReleaseRepo (at quiescence)
+  [VIOLATED] P2 SnapshotsLatestFromMaster
+      shortest trace (3 steps):
+        1. dispatch snapshot branch=feature
+        2. snapshot(feature): checkout tip (sha 4) + mvn verify with baseline gate ok
+        3. snapshot(feature): publish snapshot 4 ok; cleanup old snapshots ok
+  [VIOLATED] P3 NextVersionFromOwnLine
+      shortest trace (1 steps):
+        1. dispatch release branch=v18.x bump=patch
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [holds] R1 NoStuckDanglingTag (EF all tags published, from every state)
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [UNREACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [UNREACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [true, false, false, true, false, true, true, true, true, true, false, true, false, true, true]
+=== fixes A-D,F without E (single group), push budget 2: 488098 states, 3048833 edges, depth 35, 2699 ms
+  [holds] P1 TagHasReleaseRepo (at quiescence)
+  [holds] P2 SnapshotsLatestFromMaster
+  [holds] P3 NextVersionFromOwnLine
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [holds] R1 NoStuckDanglingTag (EF all tags published, from every state)
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [REACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [true, true, true, true, false, true, true, true, true, true, true, true, true, true, true]
+=== fixes A-D,F without E (single group), push budget 3, keep 1: 5494784 states, 34339105 edges, depth 40, 38189 ms
+  [holds] P1 TagHasReleaseRepo (at quiescence)
+  [holds] P2 SnapshotsLatestFromMaster
+  [holds] P3 NextVersionFromOwnLine
+  [holds] P4 NoLostReleaseRepo
+  [VIOLATED] P5 MasterHeadSnapshotted (idle, no failed snapshot run)
+      shortest trace (5 steps):
+        1. dispatch release branch=master bump=patch
+        2. push master (change)
+        3. dispatch release branch=master bump=patch
+        4. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+        5. release(master): checkout tip (sha 5), next = v19.0.1, verify snapshot + feature.xml FAILS (check)
+  [holds] P6 TagAndRepoSameCommit
+  [holds] P7 LatestSnapshotNotDangling
+  [holds] R1 NoStuckDanglingTag (EF all tags published, from every state)
+  [holds] R2 MasterReleaseStillPossible (EF next master tag, push budget left)
+  [REACHABLE] W1 master patch release v19.0.1 published
+  [REACHABLE] W2 maintenance release v18.0.1 published
+  [REACHABLE] W4 latest moves to a new master snapshot
+  [REACHABLE] W5 a maintenance snapshot gets published
+  [REACHABLE] W6 second master release v19.0.2
+  [REACHABLE] W3 a half-finished release is completed by a rerun (from an idle state)
+  bits = [true, true, true, true, false, true, true, true, true, true, true, true, true, true, true]
+.lake/build/bin/report  62.83s user 1.12s system 98% cpu 1:04.84 total

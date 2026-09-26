@@ -1,0 +1,5 @@
+exit 1
+UNREACHABLE com.avaloq.tools.ddk.test.ui.test.logging.ErrorLogListenerTest
+UNREACHABLE com.avaloq.tools.ddk.test.ui.test.swtbot.DeChKeyboardLayoutTest
+UNREACHABLE com.avaloq.tools.ddk.test.ui.test.swtbot.SwtBotRadioTest
+selftest exit 0

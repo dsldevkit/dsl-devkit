@@ -1,0 +1,221 @@
+== buggy (as written): 635022 states, 1020263 edges, fixpoint=true
+  P1 no lost update (refs): VIOLATED, shortest trace (20 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. S  RSR.fireEvent(Added ref0) takes listeners lock -> FRS:170
+    3. S  FRS:158 rootNodes.get(uri0) = null
+    4. S  FRS:160-161 rootNodes.put(uri0, node0)
+    5. S  FRS:162-164 batchAddNodes.add(node0)
+    6. S  FRS:137 attach ref0 under node0
+    7. S  FRS:173 isUIUpdateScheduled == false
+    8. S  FRS:174 isUIUpdateScheduled = true
+    9. S  FRS:175 new UIUpdater().schedule(); release listeners lock
+    10. S  RSR.accept(ref1 in uri1): matchingReferences.add
+    11. S  RSR.fireEvent(Added ref1) takes listeners lock -> FRS:170
+    12. S  FRS:158 rootNodes.get(uri1) = null
+    13. UI UIUpdater starts: FRS:207-210 snapshot+clear batch [0]; FRS:212-215 viewer.add each
+    14. UI FRS:216 viewer.refresh() (root items := rootNodes.values)
+    15. S  FRS:160-161 rootNodes.put(uri1, node1)
+    16. UI FRS:217 batchAddNodes.isEmpty() = true
+    17. S  FRS:162-164 batchAddNodes.add(node1)
+    18. S  FRS:137 attach ref1 under node1
+    19. S  FRS:173 isUIUpdateScheduled == true -> skip schedule; release listeners lock
+    20. UI FRS:220 isUIUpdateScheduled = false
+    final: roots=[(some 0), (some 1)] batch=[1] flag=false jobs=0 viewer=[0] matching=[0, 1] attach=[(0, 0), (1, 1)] nodes=[(0, 0), (1, 0)] epoch=0 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P1' no lost update (roots): VIOLATED, shortest trace (20 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. S  RSR.fireEvent(Added ref0) takes listeners lock -> FRS:170
+    3. S  FRS:158 rootNodes.get(uri0) = null
+    4. S  FRS:160-161 rootNodes.put(uri0, node0)
+    5. S  FRS:162-164 batchAddNodes.add(node0)
+    6. S  FRS:137 attach ref0 under node0
+    7. S  FRS:173 isUIUpdateScheduled == false
+    8. S  FRS:174 isUIUpdateScheduled = true
+    9. S  FRS:175 new UIUpdater().schedule(); release listeners lock
+    10. S  RSR.accept(ref1 in uri1): matchingReferences.add
+    11. S  RSR.fireEvent(Added ref1) takes listeners lock -> FRS:170
+    12. S  FRS:158 rootNodes.get(uri1) = null
+    13. UI UIUpdater starts: FRS:207-210 snapshot+clear batch [0]; FRS:212-215 viewer.add each
+    14. UI FRS:216 viewer.refresh() (root items := rootNodes.values)
+    15. S  FRS:160-161 rootNodes.put(uri1, node1)
+    16. UI FRS:217 batchAddNodes.isEmpty() = true
+    17. S  FRS:162-164 batchAddNodes.add(node1)
+    18. S  FRS:137 attach ref1 under node1
+    19. S  FRS:173 isUIUpdateScheduled == true -> skip schedule; release listeners lock
+    20. UI FRS:220 isUIUpdateScheduled = false
+    final: roots=[(some 0), (some 1)] batch=[1] flag=false jobs=0 viewer=[0] matching=[0, 1] attach=[(0, 0), (1, 1)] nodes=[(0, 0), (1, 0)] epoch=0 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P2 one root per URI: holds
+  P3 no stale node: VIOLATED, shortest trace (12 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. S  RSR.fireEvent(Added ref0) takes listeners lock -> FRS:170
+    3. S  FRS:158 rootNodes.get(uri0) = null
+    4. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    5. S  FRS:160-161 rootNodes.put(uri0, node0)
+    6. S  FRS:162-164 batchAddNodes.add(node0)
+    7. S  FRS:137 attach ref0 under node0
+    8. S  FRS:173 isUIUpdateScheduled == false
+    9. S  FRS:174 isUIUpdateScheduled = true
+    10. S  FRS:175 new UIUpdater().schedule(); release listeners lock
+    11. UI FRS:113 A.removeListener(this)
+    12. UI FRS:116 B.addListener; ContentViewer.setInput(B) refresh
+    final: roots=[(some 0), none] batch=[0] flag=true jobs=1 viewer=[0] matching=[0] attach=[(0, 0)] nodes=[(0, 0)] epoch=0 input=FindRefs.Inp.B spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P4 no UI-thread CME: VIOLATED, shortest trace (8 steps):
+    1. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    2. UI FRS:113 A.removeListener(this)
+    3. UI FRS:116 B.addListener; ContentViewer.setInput(B) refresh
+    4. UI user shows result A again: setInput(A) -> inputChanged(B,A) FRS:111 rootNodes.clear
+    5. UI FRS:116 A.addListener(this)
+    6. UI FRS:118 matchingReferences.iterator()
+    7. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    8. UI FRS:118 iterator.next() throws ConcurrentModificationException
+    final: roots=[none, none] batch=[] flag=false jobs=0 viewer=[] matching=[0] attach=[] nodes=[] epoch=0 input=FindRefs.Inp.B spc=FindRefs.SPc.fire 0 upc=FindRefs.UPc.idle lockS=false syncReq=false
+  DL no deadlock: VIOLATED, shortest trace (3 steps):
+    1. S  RSR.reset(): matchingReferences.clear  [search (re)started]
+    2. S  RSR.fireEvent(Reset) takes listeners lock -> FRS:178 Display.syncExec (blocks)
+    3. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    final: roots=[none, none] batch=[] flag=false jobs=0 viewer=[] matching=[] attach=[] nodes=[] epoch=1 input=FindRefs.Inp.A spc=FindRefs.SPc.rwait upc=FindRefs.UPc.wRemove lockS=true syncReq=true
+== patch: lost: 523078 states, 832155 edges, fixpoint=true
+  P1 no lost update (refs): VIOLATED, shortest trace (28 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    3. UI FRS:113 A.removeListener(this)
+    4. S  RSR.fireEvent(Added ref0): FRS not a listener, dropped
+    5. S  RSR.accept(ref1 in uri0): matchingReferences.add
+    6. UI FRS:116 B.addListener; ContentViewer.setInput(B) refresh
+    7. UI user shows result A again: setInput(A) -> inputChanged(B,A) FRS:111 rootNodes.clear
+    8. UI FRS:116 A.addListener(this)
+    9. S  RSR.fireEvent(Added ref1) takes listeners lock -> FRS:170
+    10. S  FRS:158 rootNodes.get(uri0) = null
+    11. UI FRS:118 matchingReferences.iterator()
+    12. UI FRS:118 next() = ref0
+    13. UI FRS:119->158 rootNodes.get(uri0) = null
+    14. UI FRS:119->160-161 rootNodes.put(uri0, node0)
+    15. S  FRS:160-161 rootNodes.put(uri0, node1)
+    16. S  FRS:162-164 batchAddNodes.add(node1)
+    17. S  FRS:137 attach ref1 under node1
+    18. S  [patched] synchronized(batch){flag := true; schedule}; release listeners lock
+    19. UI FRS:119->162-164 batchAddNodes.add(node0)
+    20. UI FRS:119->137 attach ref0 under node0
+    21. UI FRS:118 next() = ref1
+    22. UI FRS:119->158 rootNodes.get(uri0) = node1
+    23. UI FRS:119->137 attach ref1 under node1
+    24. UI FRS:118 iterator.hasNext() = false
+    25. UI ContentViewer.setInput(A): input := A; refresh
+    26. UI UIUpdater starts: FRS:207-210 snapshot+clear batch [1, 0]; FRS:212-215 viewer.add each
+    27. UI FRS:216 viewer.refresh() (root items := rootNodes.values)
+    28. UI [patched] synchronized(batch){empty -> flag := false}
+    final: roots=[(some 1), none] batch=[] flag=false jobs=0 viewer=[1] matching=[0, 1] attach=[(1, 1), (0, 0), (1, 1)] nodes=[(0, 0), (0, 0)] epoch=0 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P1' no lost update (roots): holds
+  P2 one root per URI: holds
+  P3 no stale node: VIOLATED, shortest trace (10 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. S  RSR.fireEvent(Added ref0) takes listeners lock -> FRS:170
+    3. S  FRS:158 rootNodes.get(uri0) = null
+    4. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    5. S  FRS:160-161 rootNodes.put(uri0, node0)
+    6. S  FRS:162-164 batchAddNodes.add(node0)
+    7. S  FRS:137 attach ref0 under node0
+    8. S  [patched] synchronized(batch){flag := true; schedule}; release listeners lock
+    9. UI FRS:113 A.removeListener(this)
+    10. UI FRS:116 B.addListener; ContentViewer.setInput(B) refresh
+    final: roots=[(some 0), none] batch=[0] flag=true jobs=1 viewer=[0] matching=[0] attach=[(0, 0)] nodes=[(0, 0)] epoch=0 input=FindRefs.Inp.B spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P4 no UI-thread CME: VIOLATED, shortest trace (8 steps):
+    1. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    2. UI FRS:113 A.removeListener(this)
+    3. UI FRS:116 B.addListener; ContentViewer.setInput(B) refresh
+    4. UI user shows result A again: setInput(A) -> inputChanged(B,A) FRS:111 rootNodes.clear
+    5. UI FRS:116 A.addListener(this)
+    6. UI FRS:118 matchingReferences.iterator()
+    7. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    8. UI FRS:118 iterator.next() throws ConcurrentModificationException
+    final: roots=[none, none] batch=[] flag=false jobs=0 viewer=[] matching=[0] attach=[] nodes=[] epoch=0 input=FindRefs.Inp.B spc=FindRefs.SPc.fire 0 upc=FindRefs.UPc.idle lockS=false syncReq=false
+  DL no deadlock: VIOLATED, shortest trace (3 steps):
+    1. S  RSR.reset(): matchingReferences.clear  [search (re)started]
+    2. S  RSR.fireEvent(Reset) takes listeners lock -> FRS:178 Display.syncExec (blocks)
+    3. UI user shows other result B: setInput(B) -> inputChanged(A,B) FRS:111 rootNodes.clear
+    final: roots=[none, none] batch=[] flag=false jobs=0 viewer=[] matching=[] attach=[] nodes=[] epoch=1 input=FindRefs.Inp.A spc=FindRefs.SPc.rwait upc=FindRefs.UPc.wRemove lockS=true syncReq=true
+== patch: lost+order+snap: 403838 states, 700869 edges, fixpoint=true
+  P1 no lost update (refs): VIOLATED, shortest trace (25 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. UI [patched] user shows other result B: inputChanged(A,B) removeListener first
+    3. UI [patched] A.removeListener(this); rootNodes.clear
+    4. S  RSR.fireEvent(Added ref0): FRS not a listener, dropped
+    5. UI FRS:116 B.addListener; ContentViewer.setInput(B) refresh
+    6. UI user shows result A again: setInput(A) -> inputChanged(B,A) FRS:111 rootNodes.clear
+    7. UI FRS:116 A.addListener(this)
+    8. UI [patched] snapshot = copy of matchingReferences
+    9. S  RSR.accept(ref1 in uri0): matchingReferences.add
+    10. S  RSR.fireEvent(Added ref1) takes listeners lock -> FRS:170
+    11. S  FRS:158 rootNodes.get(uri0) = null
+    12. UI FRS:118 next() = ref0
+    13. UI FRS:119->158 rootNodes.get(uri0) = null
+    14. S  FRS:160-161 rootNodes.put(uri0, node0)
+    15. S  FRS:162-164 batchAddNodes.add(node0)
+    16. S  FRS:137 attach ref1 under node0
+    17. S  [patched] synchronized(batch){flag := true; schedule}; release listeners lock
+    18. UI FRS:119->160-161 rootNodes.put(uri0, node1)
+    19. UI FRS:119->162-164 batchAddNodes.add(node1)
+    20. UI FRS:119->137 attach ref0 under node1
+    21. UI FRS:118 iterator.hasNext() = false
+    22. UI ContentViewer.setInput(A): input := A; refresh
+    23. UI UIUpdater starts: FRS:207-210 snapshot+clear batch [0, 1]; FRS:212-215 viewer.add each
+    24. UI FRS:216 viewer.refresh() (root items := rootNodes.values)
+    25. UI [patched] synchronized(batch){empty -> flag := false}
+    final: roots=[(some 1), none] batch=[] flag=false jobs=0 viewer=[1] matching=[0, 1] attach=[(1, 0), (0, 1)] nodes=[(0, 0), (0, 0)] epoch=0 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P1' no lost update (roots): holds
+  P2 one root per URI: holds
+  P3 no stale node: holds
+  P4 no UI-thread CME: holds
+  DL no deadlock: VIOLATED, shortest trace (3 steps):
+    1. S  RSR.reset(): matchingReferences.clear  [search (re)started]
+    2. S  RSR.fireEvent(Reset) takes listeners lock -> FRS:178 Display.syncExec (blocks)
+    3. UI [patched] user shows other result B: inputChanged(A,B) removeListener first
+    final: roots=[none, none] batch=[] flag=false jobs=0 viewer=[] matching=[] attach=[] nodes=[] epoch=1 input=FindRefs.Inp.A spc=FindRefs.SPc.rwait upc=FindRefs.UPc.wRemove lockS=true syncReq=true
+== patch: lost+order+snap+async: 802778 states, 1421456 edges, fixpoint=true
+  P1 no lost update (refs): VIOLATED, shortest trace (13 steps):
+    1. S  RSR.reset(): matchingReferences.clear  [search (re)started]
+    2. S  [patched] RSR.fireEvent(Reset) -> Display.asyncExec (no wait)
+    3. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    4. S  RSR.fireEvent(Added ref0) takes listeners lock -> FRS:170
+    5. S  FRS:158 rootNodes.get(uri0) = null
+    6. S  FRS:160-161 rootNodes.put(uri0, node0)
+    7. S  FRS:162-164 batchAddNodes.add(node0)
+    8. S  FRS:137 attach ref0 under node0
+    9. S  [patched] synchronized(batch){flag := true; schedule}; release listeners lock
+    10. UI UIUpdater starts: FRS:207-210 snapshot+clear batch [0]; FRS:212-215 viewer.add each
+    11. UI FRS:216 viewer.refresh() (root items := rootNodes.values)
+    12. UI [patched] synchronized(batch){empty -> flag := false}
+    13. UI Reset runnable FRS:181-186: viewer.remove(rootNodes.values), rootNodes.clear, refresh
+    final: roots=[none, none] batch=[] flag=false jobs=0 viewer=[] matching=[0] attach=[(0, 0)] nodes=[(0, 1)] epoch=1 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P1' no lost update (roots): holds
+  P2 one root per URI: holds
+  P3 no stale node: holds
+  P4 no UI-thread CME: holds
+  DL no deadlock: holds
+== fixed: 9952 states, 16835 edges, fixpoint=true
+  P1 no lost update (refs): holds
+  P1' no lost update (roots): holds
+  P2 one root per URI: holds
+  P3 no stale node: holds
+  P4 no UI-thread CME: holds
+  DL no deadlock: holds
+== fixed + planted bug: 6472 states, 9311 edges, fixpoint=true
+  P1 no lost update (refs): VIOLATED, shortest trace (2 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. S  fireEvent(Added ref0) -> atomic addReference
+    final: roots=[(some 0), none] batch=[0] flag=true jobs=0 viewer=[] matching=[0] attach=[(0, 0)] nodes=[(0, 0)] epoch=0 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P1' no lost update (roots): VIOLATED, shortest trace (2 steps):
+    1. S  RSR.accept(ref0 in uri0): matchingReferences.add
+    2. S  fireEvent(Added ref0) -> atomic addReference
+    final: roots=[(some 0), none] batch=[0] flag=true jobs=0 viewer=[] matching=[0] attach=[(0, 0)] nodes=[(0, 0)] epoch=0 input=FindRefs.Inp.A spc=FindRefs.SPc.idle upc=FindRefs.UPc.idle lockS=false syncReq=false
+  P2 one root per URI: holds
+  P3 no stale node: holds
+  P4 no UI-thread CME: holds
+  DL no deadlock: holds
+== fixed, larger bound nU=3 adds=4 resets=2 switches=3: 1892441 states, 3418927 edges, fixpoint=true
+  P1 no lost update (refs): holds
+  P1' no lost update (roots): holds
+  P2 one root per URI: holds
+  P3 no stale node: holds
+  P4 no UI-thread CME: holds
+  DL no deadlock: holds
+lake env lean Report.lean  130.83s user 0.71s system 99% cpu 2:12.56 total

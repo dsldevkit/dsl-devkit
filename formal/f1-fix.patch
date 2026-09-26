@@ -1,0 +1,41 @@
+diff --git a/com.avaloq.tools.ddk.xtext.builder/META-INF/MANIFEST.MF b/com.avaloq.tools.ddk.xtext.builder/META-INF/MANIFEST.MF
+index ce944bfc6..7447b5500 100644
+--- a/com.avaloq.tools.ddk.xtext.builder/META-INF/MANIFEST.MF
++++ b/com.avaloq.tools.ddk.xtext.builder/META-INF/MANIFEST.MF
+@@ -2,7 +2,7 @@ Manifest-Version: 1.0
+ Bundle-ManifestVersion: 2
+ Bundle-Name: com.avaloq.tools.ddk.xtext.builder
+ Bundle-SymbolicName: com.avaloq.tools.ddk.xtext.builder;singleton:=true
+-Bundle-Version: 17.3.1.qualifier
++Bundle-Version: 17.3.2.qualifier
+ Bundle-Vendor: Avaloq Group AG
+ Require-Bundle: org.eclipse.xtext.builder,
+  org.eclipse.xtext.ui,
+diff --git a/com.avaloq.tools.ddk.xtext.builder/pom.xml b/com.avaloq.tools.ddk.xtext.builder/pom.xml
+index e5d12cee1..710f52ccb 100644
+--- a/com.avaloq.tools.ddk.xtext.builder/pom.xml
++++ b/com.avaloq.tools.ddk.xtext.builder/pom.xml
+@@ -6,7 +6,7 @@
+     <version>18.0.1-SNAPSHOT</version>
+     <relativePath>../ddk-parent</relativePath>
+   </parent>
+-  <version>17.3.1-SNAPSHOT</version>
++  <version>17.3.2-SNAPSHOT</version>
+   <groupId>com.avaloq.tools.ddk</groupId>
+   <artifactId>com.avaloq.tools.ddk.xtext.builder</artifactId>
+   <packaging>eclipse-plugin</packaging>
+diff --git a/com.avaloq.tools.ddk.xtext.builder/src/com/avaloq/tools/ddk/xtext/builder/resourceloader/ParallelResourceLoader.java b/com.avaloq.tools.ddk.xtext.builder/src/com/avaloq/tools/ddk/xtext/builder/resourceloader/ParallelResourceLoader.java
+index 26e570a79..86cf48c22 100644
+--- a/com.avaloq.tools.ddk.xtext.builder/src/com/avaloq/tools/ddk/xtext/builder/resourceloader/ParallelResourceLoader.java
++++ b/com.avaloq.tools.ddk.xtext.builder/src/com/avaloq/tools/ddk/xtext/builder/resourceloader/ParallelResourceLoader.java
+@@ -218,7 +218,9 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
+         Triple<URI, Resource, Throwable> result = null;
+         try {
+           result = resourceQueue.poll(waitTime, TimeUnit.MILLISECONDS);
+-          toProcess--;
++          if (result != null) {
++            toProcess--;
++          }
+         } catch (InterruptedException e) {
+           Thread.currentThread().interrupt();
+         }

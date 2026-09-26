@@ -1,0 +1,6 @@
+name = "BinaryStorage"
+version = "0.1.0"
+defaultTargets = ["BinaryStorage"]
+
+[[lean_lib]]
+name = "BinaryStorage"

@@ -1,0 +1,14 @@
+FAIL testTopLevelWildcardFindsSingleSegmentNames: org.opentest4j.AssertionFailedError: expected: <[b]> but was: <[]>
+FAIL testTopLevelRecursiveWildcardFindsAllNames: org.opentest4j.AssertionFailedError: expected: <[b, bc]> but was: <[]>
+FAIL testExactPatternExcludesNameWithLowCharSuffix: org.opentest4j.AssertionFailedError: expected: <[]> but was: <[a_]>
+FAIL testChildWildcardExcludesSiblingWithLowCharSuffix: org.opentest4j.AssertionFailedError: expected: <[ab]> but was: <[a_x, ab]>
+FAIL testExactPatternMatchesOnlyEqualLength: org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+FAIL testTreeSetLookupEmptySegmentPattern: org.opentest4j.AssertionFailedError: expected: <[]> but was: <[e]>
+FAIL testSizeCountsMappingsOnce: org.opentest4j.AssertionFailedError: expected: <1> but was: <2>
+FAIL testGetMappingsKeepsBlankSegments: org.opentest4j.AssertionFailedError: expected: <[ .a]> but was: <[a]>
+FAIL testValueSharingKeepsMultiplicity: org.opentest4j.AssertionFailedError: expected: <[v, v]> but was: <[v]>
+FAIL testCaseSensitivePatternQuery: org.opentest4j.AssertionFailedError: expected: <[Foo, FooBar]> but was: <[]>
+FAIL testGlobLookupsFindMatches: org.opentest4j.AssertionFailedError: expected: <[b]> but was: <[]>
+FAIL testGlobWithEmptyLastSegment: org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.StringIndexOutOfBoundsException: Index -1 out of bounds for length 0
+FAIL testMaxCharPattern: org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.IllegalArgumentException: fromKey > toKey
+13/13 failed
