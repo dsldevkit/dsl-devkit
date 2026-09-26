@@ -63,6 +63,7 @@ import com.google.inject.name.Names;
 public class ParallelResourceLoader extends AbstractResourceLoader {
 
   private static final long MAX_WAIT_TIME = TimeUnit.SECONDS.toMillis(300);
+  private static final int MAX_CONSECUTIVE_TIMEOUTS = 3;
   private static final long SLOW_LOADING_TIME_DEFAULT = TimeUnit.SECONDS.toMillis(60);
   private static final String SLOW_LOADING_TIME_PROPERTY = "resourceloader.slowloadingtime"; //$NON-NLS-1$
 
@@ -153,6 +154,7 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
     private final long waitTime;
 
     private int toProcess;
+    private int consecutiveTimeouts;
     private Collection<URI> workload;
 
     public ParallelLoadOperation(final ResourceSet parent, final IProject project) {
@@ -216,9 +218,18 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           throw new NoSuchElementException("The resource queue is empty or the execution was cancelled."); //$NON-NLS-1$
         }
         Triple<URI, Resource, Throwable> result = null;
+        boolean givenUp = false;
         try {
           result = resourceQueue.poll(waitTime, TimeUnit.MILLISECONDS);
-          toProcess--;
+          if (result != null) {
+            toProcess--;
+            consecutiveTimeouts = 0;
+          } else if (++consecutiveTimeouts >= MAX_CONSECUTIVE_TIMEOUTS) {
+            // the timed-out result is still owed; give up only after repeated timeouts so a hung load cannot stall the build
+            toProcess--;
+            consecutiveTimeouts = 0;
+            givenUp = true;
+          }
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
@@ -226,6 +237,9 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           String currentUris;
           synchronized (currentlyProcessedUris) {
             currentUris = Joiner.on(", ").join(currentlyProcessedUris); //$NON-NLS-1$
+          }
+          if (givenUp) {
+            LOGGER.error(String.format("Giving up on a resource load job after %d timeouts of %d ms. Resources being currently loaded: %s", MAX_CONSECUTIVE_TIMEOUTS, waitTime, currentUris)); //$NON-NLS-1$
           }
           throw new LoadOperationException(null, new TimeoutException(String.format("Resource load job didn't return a result after %d ms. Resources being currently loaded: %s", waitTime, currentUris))); //$NON-NLS-1$
         }
