@@ -14,6 +14,7 @@ package com.avaloq.tools.ddk.xtext.ui.test;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
+import com.avaloq.tools.ddk.xtext.ui.editor.findrefs.FastReferenceSearchResultContentProviderTest;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorRunTest;
 import com.avaloq.tools.ddk.xtext.ui.quickfix.WorkbenchResolutionAdaptorTest;
 import com.avaloq.tools.ddk.xtext.ui.templates.ResourceNameTemplateVariableResolverTest;
@@ -31,7 +32,8 @@ import com.avaloq.tools.ddk.xtext.ui.templates.TemplateProposalProviderHelperTes
   WorkbenchResolutionAdaptorTest.class,
   TemplateProposalProviderHelperTest.class,
   ResourceNameTemplateVariableResolverTest.class,
-  SimpleEnumTemplateVariableResolverTest.class
+  SimpleEnumTemplateVariableResolverTest.class,
+  FastReferenceSearchResultContentProviderTest.class
   // @Format-On
 })
 public class XtextUiTestSuite {
