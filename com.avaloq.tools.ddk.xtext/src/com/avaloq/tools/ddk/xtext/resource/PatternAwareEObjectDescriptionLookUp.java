@@ -60,7 +60,7 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
       return Collections.emptyList();
     }
     Predicate<IEObjectDescription> predicate = ignoreCase ? input -> EcoreUtil2.isAssignableFrom(type, input.getEClass())
-        : input -> isPattern ? EcoreUtil2.isAssignableFrom(type, input.getEClass()) && ((QualifiedNamePattern) name).matches(name)
+        : input -> isPattern ? EcoreUtil2.isAssignableFrom(type, input.getEClass()) && ((QualifiedNamePattern) name).matches(input.getName())
             : name.equals(input.getName()) && EcoreUtil2.isAssignableFrom(type, input.getEClass());
     return Collections2.filter(values, predicate);
   }
