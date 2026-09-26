@@ -47,7 +47,10 @@ public class GeneratorSupport {
   /** Class-wide logger. */
   private static final Logger LOG = LogManager.getLogger(GeneratorSupport.class);
 
-  /** The innermost {@link #executeWithProjectResourceLoader} call running on the current thread, if any. */
+  /**
+   * The {@link #executeWithProjectResourceLoader} call whose resource loader is installed on the current thread, if any.
+   * Nested calls for the same project and resource loader run within it and do not replace it.
+   */
   private static final ThreadLocal<ProjectScope> CURRENT_SCOPE = new ThreadLocal<>();
 
   /**
@@ -140,13 +143,16 @@ public class GeneratorSupport {
   }
 
   /**
-   * Returns the value memoized under the given key by the innermost {@link #executeWithProjectResourceLoader} call running
-   * on the current thread, computing and memoizing it on first request. Outside of such a call the value is computed on
-   * every request.
+   * Returns the value memoized under the given key by the {@link #executeWithProjectResourceLoader} call whose resource
+   * loader is installed on the current thread, computing and memoizing it on first request. That is the outermost call for
+   * the current project and resource loader, since nested calls for them run within it. Outside of such a call the value is
+   * computed on every request.
    * <p>
-   * The memoized values are discarded when that call returns, so they live for one generation pass at most and never
-   * outlive the index and classpath state they were computed from. Only memoize values that are fully determined by the
-   * key and by that state.
+   * The memoized values are discarded when that call returns. Callers of {@link #executeWithProjectResourceLoader} that
+   * use memoized values must therefore limit the call to one generation pass, so that the values never outlive the index
+   * and classpath state they were computed from. Only memoize values that are fully determined by the key and by that
+   * state. A {@code null} value is not memoized but computed again on the next request, so that a lookup which found
+   * nothing can succeed once more state has been loaded.
    * </p>
    *
    * @param <T>
@@ -159,17 +165,20 @@ public class GeneratorSupport {
    * @return the memoized or computed value, may be {@code null}
    */
   @SuppressWarnings("unchecked")
-  public <T> T memoize(final Object key, final Supplier<? extends T> supplier) {
+  public static <T> T memoize(final Object key, final Supplier<? extends T> supplier) {
     final ProjectScope scope = CURRENT_SCOPE.get();
     if (scope == null) {
       return supplier.get();
     }
     final Map<Object, Object> memoizedValues = scope.memoizedValues();
-    if (memoizedValues.containsKey(key)) {
-      return (T) memoizedValues.get(key);
+    final Object memoized = memoizedValues.get(key);
+    if (memoized != null) {
+      return (T) memoized;
     }
     final T value = supplier.get();
-    memoizedValues.put(key, value);
+    if (value != null) {
+      memoizedValues.put(key, value);
+    }
     return value;
   }
 

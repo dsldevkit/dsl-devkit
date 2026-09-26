@@ -57,7 +57,6 @@ import com.avaloq.tools.ddk.xtext.expression.expression.RealLiteral;
 import com.avaloq.tools.ddk.xtext.expression.expression.StringLiteral;
 import com.avaloq.tools.ddk.xtext.expression.expression.TypeSelectExpression;
 import com.avaloq.tools.ddk.xtext.expression.generator.GenModelUtilX;
-import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
 import com.avaloq.tools.ddk.xtext.scope.generator.ScopeModelTypeResolver;
 import com.avaloq.tools.ddk.xtext.scope.generator.ScopeProviderX;
 import com.avaloq.tools.ddk.xtext.scope.scope.Extension;
@@ -104,10 +103,6 @@ public class ScopeExpressionTranslator {
   /** Collects the {@code extension} declarations of a scope model, including those of its included scope models. */
   @Inject
   private ScopeProviderX scopeProviderX;
-
-  /** Memoizes the model type resolver of a scope model for the generation pass. */
-  @Inject
-  private GeneratorSupport generatorSupport;
 
   /**
    * The scope model currently being generated. Extension declarations and imported model packages are resolved
@@ -418,7 +413,7 @@ public class ScopeExpressionTranslator {
     context.setSourceElement(sourceElement);
     context.setImplicitVariableName(implicitVariableName);
     final ScopeModel model = contextModel(sourceElement);
-    context.setModelTypeResolver(model == null ? null : modelTypeResolver(model));
+    context.setModelTypeResolver(model == null ? null : ScopeModelTypeResolver.forModel(model));
     if (implicitType != null) {
       final JvmFormalParameter parameter = newTrialParameter(implicitVariableName, genModelUtil.instanceClassName(implicitType), sourceElement);
       context.setImplicitVariable(parameter);
@@ -430,28 +425,6 @@ public class ScopeExpressionTranslator {
     context.setTypeResolver((final Identifier identifier) -> typeReferences.findDeclaredType(qualifiedName(identifier.getId()), sourceElement));
     initExtensionClassNames(context, sourceElement);
     return context;
-  }
-
-  /**
-   * Returns the model type resolver of the given scope model. The resolver is immutable and determined by the model and
-   * the EPackages visible to it, so it is shared by all compilation contexts created for the model during one generation
-   * pass instead of being rebuilt - which resolves every visible EPackage - for each of them.
-   *
-   * @param model
-   *          the scope model, must not be {@code null}
-   * @return the resolver, never {@code null}
-   */
-  private ScopeModelTypeResolver modelTypeResolver(final ScopeModel model) {
-    return generatorSupport.memoize(new ModelTypeResolverKey(model), () -> new ScopeModelTypeResolver(model));
-  }
-
-  /**
-   * Key under which the model type resolver of a scope model is memoized.
-   *
-   * @param model
-   *          the scope model
-   */
-  private record ModelTypeResolverKey(ScopeModel model) {
   }
 
   /**

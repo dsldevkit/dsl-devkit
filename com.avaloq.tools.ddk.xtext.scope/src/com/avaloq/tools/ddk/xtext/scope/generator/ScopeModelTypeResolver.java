@@ -27,6 +27,7 @@ import org.eclipse.xtext.EcoreUtil2;
 import com.avaloq.tools.ddk.xtext.scope.scope.Import;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopeModel;
 import com.avaloq.tools.ddk.xtext.scope.scope.ScopePackage;
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
 
@@ -182,7 +183,30 @@ public final class ScopeModelTypeResolver {
    */
   public static ScopeModelTypeResolver forElement(final EObject element) {
     final ScopeModel scopeModel = EcoreUtil2.getContainerOfType(element, ScopeModel.class);
-    return scopeModel == null ? null : new ScopeModelTypeResolver(scopeModel);
+    return scopeModel == null ? null : forModel(scopeModel);
+  }
+
+  /**
+   * Returns the resolver for the given scope model. The resolver is immutable and determined by the model and the EPackages
+   * visible to it, so within a generation pass it is {@link GeneratorSupport#memoize(Object, java.util.function.Supplier)
+   * memoized} and shared by all expressions of the model instead of being rebuilt - which resolves every visible EPackage -
+   * for each of them.
+   *
+   * @param model
+   *          the scope model, must not be {@code null}
+   * @return the resolver, never {@code null}
+   */
+  public static ScopeModelTypeResolver forModel(final ScopeModel model) {
+    return GeneratorSupport.memoize(new Key(model), () -> new ScopeModelTypeResolver(model));
+  }
+
+  /**
+   * Key under which the resolver of a scope model is memoized.
+   *
+   * @param model
+   *          the scope model
+   */
+  private record Key(ScopeModel model) {
   }
 
 }
