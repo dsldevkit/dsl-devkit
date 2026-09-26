@@ -115,8 +115,11 @@ public class FastReferenceSearchResultContentProvider extends ReferenceSearchRes
       if (newInput instanceof ReferenceSearchResult && v instanceof TreeViewer) {
         ((ReferenceSearchResult) newInput).addListener(this);
         this.viewer = (TreeViewer) v;
-        for (IReferenceDescription referenceDescription : ((ReferenceSearchResult) newInput).getMatchingReferences()) {
-          addReference(referenceDescription);
+        // iterate a copy: the search job may still be appending to the live list
+        for (IReferenceDescription referenceDescription : Lists.newArrayList(((ReferenceSearchResult) newInput).getMatchingReferences())) {
+          if (referenceDescription != null) {
+            addReference(referenceDescription);
+          }
         }
       }
     }
