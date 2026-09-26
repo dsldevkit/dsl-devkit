@@ -1101,6 +1101,11 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
           }
         } catch (final WrappedException ex) {
           pollForCancellation(monitor);
+          if (isAbandonedByTimeout(ex, loadOperation)) {
+            // the remaining resources must not silently stay unindexed
+            LOGGER.warn(ex.getCause().getMessage());
+            throw new OperationCanceledException(); // NOPMD PreserveStackTrace - the timeout is logged above
+          }
           if (uri == null && ex instanceof LoadOperationException) {
             uri = ((LoadOperationException) ex).getUri();
           }
@@ -1328,6 +1333,19 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
         break;
       }
     }
+  }
+
+  /**
+   * Whether a load failure means the load operation timed out and abandoned all resources it had not delivered yet.
+   *
+   * @param exception
+   *          the exception thrown by {@link IResourceLoader.LoadOperation#next()}, must not be {@code null}
+   * @param loadOperation
+   *          the load operation that threw it, must not be {@code null}
+   * @return {@code true} if the operation was abandoned after a timeout
+   */
+  public static boolean isAbandonedByTimeout(final WrappedException exception, final IResourceLoader.LoadOperation loadOperation) {
+    return exception instanceof LoadOperationException && exception.getCause() instanceof TimeoutException && !loadOperation.hasNext();
   }
 
   /**
