@@ -16,12 +16,14 @@ import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
+import org.eclipse.xtext.resource.IResourceDescription;
 
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeLocationInFileProvider;
+import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionManager;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionStrategy;
 
 
@@ -83,6 +85,16 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
   @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
     return ScopeResourceDescriptionStrategy.class;
+  }
+
+  /**
+   * Binds the description manager which records the Java types the model names as its dependencies.
+   *
+   * @return the scope specific resource description manager
+   */
+  @Override
+  public Class<? extends IResourceDescription.Manager> bindIResourceDescription$Manager() { // NOPMD
+    return ScopeResourceDescriptionManager.class;
   }
 
   @Override

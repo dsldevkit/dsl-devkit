@@ -38,6 +38,7 @@ Export-Package: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext.export.formatting,
  com.avaloq.tools.ddk.xtext.export.serializer,
  com.avaloq.tools.ddk.xtext.export.generator,
- com.avaloq.tools.ddk.xtext.export.jvmmodel
+ com.avaloq.tools.ddk.xtext.export.jvmmodel,
+ com.avaloq.tools.ddk.xtext.export.resource
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.export
 Import-Package: org.apache.log4j
