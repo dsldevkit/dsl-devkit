@@ -166,9 +166,12 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
    * Runs the given operation with the model's resource as the {@link GenModelUtilX} context, restoring the previous
    * context afterwards.
    * <p>
-   * The context is a thread-local on a shared {@link GenModelUtilX}. Leaving it set after inference would keep the
-   * model's resource, and through it the builder's whole resource set, reachable from a pooled builder thread until
-   * that thread happens to infer another export model.
+   * The context is a thread-local of this inferrer's own {@link GenModelUtilX}; the utility is not a singleton, so every
+   * inferrer instance has a separate thread-local. Left set after inference, the context would keep the model's resource,
+   * and through it the builder's whole resource set, reachable from a pooled builder thread for as long as that thread
+   * lives: the resource's inferred types hold body closures referencing this inferrer, so the thread-local entry keeps its
+   * own weakly referenced key reachable and is never cleared. Inferring another export model does not overwrite it either,
+   * since that happens through another inferrer and thread-local.
    * </p>
    *
    * @param model
@@ -207,10 +210,10 @@ public class ExportJvmModelInferrer extends AbstractModelInferrer {
    * the inferrer's invocation; running them from inside a deferred body closure delays that work past the
    * Xtext linking phase, by which time the grammar's parser rules and the model's import packages are linked.
    * <p>
-   * The injected {@link GenModelUtilX} is shared across resources and carries the current model's resource as
-   * mutable state; the inferrer sets it on entry, but by the time deferred bodies fire another resource may have
-   * inferred and clobbered the field. Re-bind it to this body's model resource so the GenPackage lookup runs in
-   * the right context.
+   * Deferred bodies run during generation, after {@link #_infer} has restored the previous context, so the model's resource
+   * is set as the context of this inferrer's {@link GenModelUtilX} while the producer runs, see
+   * {@link #withModelContext(ExportModel, Runnable)}. Only that instance carries the context: the expression compiler and
+   * translator inject their own instances, which look GenPackages up in the element's resource set instead.
    *
    * @param model
    *          the export model the body belongs to, must not be {@code null}
