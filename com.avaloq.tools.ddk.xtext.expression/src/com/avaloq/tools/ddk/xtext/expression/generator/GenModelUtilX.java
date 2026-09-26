@@ -54,14 +54,11 @@ public class GenModelUtilX {
   private IGlobalScopeProvider globalScopeProvider;
   @Inject
   private ResourceDescriptionsProvider resourceDescriptionsProvider;
-  @Inject
-  private GeneratorSupport generatorSupport;
 
   /**
-   * The current model resource used for GenPackage lookups. This utility is normally a Guice singleton, so
-   * multiple Xtext workers (the editor reconciler, the workspace builder, content assist, etc.) share the same
-   * instance and would otherwise race on a single field. Storing the context per-thread isolates each worker's
-   * lookups from the others.
+   * The current model resource used for GenPackage lookups. This utility is not a singleton: every injection point gets
+   * its own instance, and only instances given a resource through {@link #setResource(Resource)} use one. The context is
+   * stored per thread so that callers sharing an instance on different threads do not see each other's context.
    */
   private final ThreadLocal<Resource> context = new ThreadLocal<>();
 
@@ -241,10 +238,12 @@ public class GenModelUtilX {
   /**
    * Returns the {@link GenPackage} of the {@link EPackage} containing the given element.
    * <p>
-   * With a context resource set, the result depends only on that resource and the EPackage: it is looked up in the index
-   * and resolved in the context's resource set. It is therefore
-   * {@link GeneratorSupport#memoize(Object, java.util.function.Supplier) memoized} for the generation pass, so that the many literal and instance class names a generated file refers to do
-   * not each repeat the index lookup and the scan over all indexed GenPackages it can fall back to.
+   * With a context resource set, a GenPackage found is
+   * {@link GeneratorSupport#memoize(Object, java.util.function.Supplier) memoized} for the generation pass, so that the many
+   * literal and instance class names a generated file refers to do not each repeat the index lookup and the scan over all
+   * indexed GenPackages it can fall back to. Once found, the GenPackage depends only on the context resource and the
+   * EPackage. A lookup that finds nothing is not memoized: its final fallback only searches the GenModels already loaded
+   * into the resource set, so it may succeed later in the same pass.
    * </p>
    *
    * @param element
@@ -257,7 +256,7 @@ public class GenModelUtilX {
     if (ctx == null || ePackage == null) {
       return lookUpGenPackage(element, ePackage, ctx);
     }
-    return generatorSupport.memoize(new GenPackageKey(ctx, ePackage), () -> lookUpGenPackage(element, ePackage, ctx));
+    return GeneratorSupport.memoize(new GenPackageKey(ctx, ePackage), () -> lookUpGenPackage(element, ePackage, ctx));
   }
 
   /**
