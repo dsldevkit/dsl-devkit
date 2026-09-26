@@ -413,7 +413,7 @@ public class ScopeExpressionTranslator {
     context.setSourceElement(sourceElement);
     context.setImplicitVariableName(implicitVariableName);
     final ScopeModel model = contextModel(sourceElement);
-    context.setModelTypeResolver(model == null ? null : new ScopeModelTypeResolver(model));
+    context.setModelTypeResolver(model == null ? null : ScopeModelTypeResolver.forModel(model));
     if (implicitType != null) {
       final JvmFormalParameter parameter = newTrialParameter(implicitVariableName, genModelUtil.instanceClassName(implicitType), sourceElement);
       context.setImplicitVariable(parameter);

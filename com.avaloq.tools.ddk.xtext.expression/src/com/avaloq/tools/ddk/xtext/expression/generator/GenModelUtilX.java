@@ -56,10 +56,9 @@ public class GenModelUtilX {
   private ResourceDescriptionsProvider resourceDescriptionsProvider;
 
   /**
-   * The current model resource used for GenPackage lookups. This utility is normally a Guice singleton, so
-   * multiple Xtext workers (the editor reconciler, the workspace builder, content assist, etc.) share the same
-   * instance and would otherwise race on a single field. Storing the context per-thread isolates each worker's
-   * lookups from the others.
+   * The current model resource used for GenPackage lookups. This utility is not a singleton: every injection point gets
+   * its own instance, and only instances given a resource through {@link #setResource(Resource)} use one. The context is
+   * stored per thread so that callers sharing an instance on different threads do not see each other's context.
    */
   private final ThreadLocal<Resource> context = new ThreadLocal<>();
 
@@ -236,9 +235,53 @@ public class GenModelUtilX {
     return counterpart.getInstanceClassName();
   }
 
+  /**
+   * Returns the {@link GenPackage} of the {@link EPackage} containing the given element.
+   * <p>
+   * With a context resource set, a GenPackage found is
+   * {@link GeneratorSupport#memoize(Object, java.util.function.Supplier) memoized} for the generation pass, so that the many
+   * literal and instance class names a generated file refers to do not each repeat the index lookup and the scan over all
+   * indexed GenPackages it can fall back to. Once found, the GenPackage depends only on the context resource and the
+   * EPackage. A lookup that finds nothing is not memoized: its final fallback only searches the GenModels already loaded
+   * into the resource set, so it may succeed later in the same pass.
+   * </p>
+   *
+   * @param element
+   *          the model element, must not be {@code null}
+   * @return the GenPackage, or {@code null} if none is found
+   */
   public GenPackage genPackage(final EModelElement element) {
     final EPackage ePackage = EcoreUtil2.getContainerOfType(element, EPackage.class);
     final Resource ctx = context.get();
+    if (ctx == null || ePackage == null) {
+      return lookUpGenPackage(element, ePackage, ctx);
+    }
+    return GeneratorSupport.memoize(new GenPackageKey(ctx, ePackage), () -> lookUpGenPackage(element, ePackage, ctx));
+  }
+
+  /**
+   * Key under which the GenPackage of an EPackage is memoized for a context resource.
+   *
+   * @param context
+   *          the context resource
+   * @param ePackage
+   *          the EPackage
+   */
+  private record GenPackageKey(Resource context, EPackage ePackage) {
+  }
+
+  /**
+   * Looks up the {@link GenPackage} of the given EPackage.
+   *
+   * @param element
+   *          the model element, must not be {@code null}
+   * @param ePackage
+   *          the EPackage containing the element, may be {@code null}
+   * @param ctx
+   *          the context resource, may be {@code null}
+   * @return the GenPackage, or {@code null} if none is found
+   */
+  private GenPackage lookUpGenPackage(final EModelElement element, final EPackage ePackage, final Resource ctx) {
     if (globalScopeProvider != null && ctx != null) {
       final IScope scope = globalScopeProvider.getScope(ctx, GenModelPackage.Literals.GEN_MODEL__GEN_PACKAGES, null);
       if (scope != null && ePackage != null) {

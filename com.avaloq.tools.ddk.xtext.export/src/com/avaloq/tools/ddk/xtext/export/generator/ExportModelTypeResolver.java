@@ -26,6 +26,7 @@ import org.eclipse.xtext.EcoreUtil2;
 import com.avaloq.tools.ddk.xtext.export.export.ExportModel;
 import com.avaloq.tools.ddk.xtext.export.export.ExportPackage;
 import com.avaloq.tools.ddk.xtext.export.export.Import;
+import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
 import com.avaloq.tools.ddk.xtext.util.EObjectUtil;
 
 
@@ -146,7 +147,30 @@ public final class ExportModelTypeResolver {
    */
   public static ExportModelTypeResolver forElement(final EObject element) {
     final ExportModel exportModel = EcoreUtil2.getContainerOfType(element, ExportModel.class);
-    return exportModel == null ? null : new ExportModelTypeResolver(exportModel);
+    return exportModel == null ? null : forModel(exportModel);
+  }
+
+  /**
+   * Returns the resolver for the given export model. The resolver is immutable and determined by the model and the EPackages
+   * visible to it, so within a generation pass it is {@link GeneratorSupport#memoize(Object, java.util.function.Supplier)
+   * memoized} and shared by all expressions of the model instead of being rebuilt - which resolves every visible EPackage -
+   * for each of them.
+   *
+   * @param model
+   *          the export model, must not be {@code null}
+   * @return the resolver, never {@code null}
+   */
+  public static ExportModelTypeResolver forModel(final ExportModel model) {
+    return GeneratorSupport.memoize(new Key(model), () -> new ExportModelTypeResolver(model));
+  }
+
+  /**
+   * Key under which the resolver of an export model is memoized.
+   *
+   * @param model
+   *          the export model
+   */
+  private record Key(ExportModel model) {
   }
 
 }

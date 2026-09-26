@@ -16,9 +16,11 @@ import org.eclipse.xtext.linking.ILinkingService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
+import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
 
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
+import com.avaloq.tools.ddk.xtext.scope.generator.ScopeJvmModelGenerator;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeLocationInFileProvider;
@@ -83,6 +85,15 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
   @Override
   public Class<? extends IDefaultResourceDescriptionStrategy> bindIDefaultResourceDescriptionStrategy() {
     return ScopeResourceDescriptionStrategy.class;
+  }
+
+  /**
+   * Binds the generator emitting the Java source of the inferred scope types.
+   *
+   * @return the scope specific JVM model generator
+   */
+  public Class<? extends JvmModelGenerator> bindJvmModelGenerator() {
+    return ScopeJvmModelGenerator.class;
   }
 
   @Override
