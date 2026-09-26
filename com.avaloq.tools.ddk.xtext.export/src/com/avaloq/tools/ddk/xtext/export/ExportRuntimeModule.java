@@ -13,12 +13,14 @@ package com.avaloq.tools.ddk.xtext.export;
 import org.eclipse.xtext.formatting.ILineSeparatorInformation;
 import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
+import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
 
 import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportJvmModelGenerator;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
+import com.avaloq.tools.ddk.xtext.export.resource.ExportResourceDescriptionManager;
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 
 
@@ -68,6 +70,16 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
    */
   public Class<? extends JvmModelGenerator> bindJvmModelGenerator() {
     return ExportJvmModelGenerator.class;
+  }
+
+  /**
+   * Binds the description manager which records the classes named in {@code extension} declarations as dependencies.
+   *
+   * @return the export specific resource description manager
+   */
+  @Override
+  public Class<? extends IResourceDescription.Manager> bindIResourceDescription$Manager() { // NOPMD
+    return ExportResourceDescriptionManager.class;
   }
 
   @Override
