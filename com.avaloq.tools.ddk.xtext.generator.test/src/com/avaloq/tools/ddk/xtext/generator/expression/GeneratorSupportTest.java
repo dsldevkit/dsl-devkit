@@ -18,6 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.mwe.core.resources.ResourceLoader;
+import org.eclipse.emf.mwe.core.resources.ResourceLoaderFactory;
+import org.eclipse.emf.mwe.core.resources.ResourceLoaderImpl;
 import org.junit.jupiter.api.Test;
 
 import com.avaloq.tools.ddk.xtext.expression.generator.GeneratorSupport;
@@ -50,36 +53,61 @@ public class GeneratorSupportTest {
 
   @Test
   void testMemoizeOutsideOfResourceLoaderComputesOnEveryRequest() {
-    assertEquals(1, generatorSupport.memoize(KEY, this::compute));
-    assertEquals(2, generatorSupport.memoize(KEY, this::compute));
+    assertEquals(1, GeneratorSupport.memoize(KEY, this::compute));
+    assertEquals(2, GeneratorSupport.memoize(KEY, this::compute));
   }
 
   @Test
   void testMemoizeWithinResourceLoaderComputesOnce() {
     generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> {
-      assertEquals(1, generatorSupport.memoize(KEY, this::compute));
-      assertEquals(1, generatorSupport.memoize(KEY, this::compute));
-      assertNull(generatorSupport.memoize(NULL_KEY, this::computeNull));
-      assertNull(generatorSupport.memoize(NULL_KEY, this::computeNull));
+      assertEquals(1, GeneratorSupport.memoize(KEY, this::compute));
+      assertEquals(1, GeneratorSupport.memoize(KEY, this::compute));
     });
-    assertEquals(2, computations.get());
+    assertEquals(1, computations.get());
+  }
+
+  @Test
+  void testNullIsNotMemoized() {
+    generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> {
+      assertNull(GeneratorSupport.memoize(NULL_KEY, this::computeNull));
+      assertNull(GeneratorSupport.memoize(NULL_KEY, this::computeNull));
+      assertEquals(3, GeneratorSupport.memoize(NULL_KEY, this::compute));
+      assertEquals(3, GeneratorSupport.memoize(NULL_KEY, this::compute));
+    });
+    assertEquals(3, computations.get());
   }
 
   @Test
   void testMemoizedValuesAreDroppedWhenResourceLoaderCallReturns() {
-    generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> generatorSupport.memoize(KEY, this::compute));
-    generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> assertEquals(2, generatorSupport.memoize(KEY, this::compute)));
-    assertEquals(3, generatorSupport.memoize(KEY, this::compute));
+    generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> GeneratorSupport.memoize(KEY, this::compute));
+    generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> assertEquals(2, GeneratorSupport.memoize(KEY, this::compute)));
+    assertEquals(3, GeneratorSupport.memoize(KEY, this::compute));
   }
 
   @Test
   void testNestedResourceLoaderCallForSameProjectSharesMemoizedValues() {
     generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> {
-      generatorSupport.memoize(KEY, this::compute);
-      generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> assertEquals(1, generatorSupport.memoize(KEY, this::compute)));
-      assertEquals(1, generatorSupport.memoize(KEY, this::compute));
+      GeneratorSupport.memoize(KEY, this::compute);
+      generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> assertEquals(1, GeneratorSupport.memoize(KEY, this::compute)));
+      assertEquals(1, GeneratorSupport.memoize(KEY, this::compute));
     });
     assertEquals(1, computations.get());
+  }
+
+  @Test
+  void testNestedResourceLoaderCallWithReplacedLoaderUsesOwnScopeAndRestoresEnclosingOne() {
+    generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> {
+      final ResourceLoader enclosingLoader = ResourceLoaderFactory.getCurrentThreadResourceLoader();
+      GeneratorSupport.memoize(KEY, this::compute);
+      ResourceLoaderFactory.setCurrentThreadResourceLoader(new ResourceLoaderImpl(getClass().getClassLoader()));
+      try {
+        generatorSupport.executeWithProjectResourceLoaderOf(resource, () -> assertEquals(2, GeneratorSupport.memoize(KEY, this::compute)));
+      } finally {
+        ResourceLoaderFactory.setCurrentThreadResourceLoader(enclosingLoader);
+      }
+      assertEquals(1, GeneratorSupport.memoize(KEY, this::compute));
+    });
+    assertEquals(2, computations.get());
   }
 
 }

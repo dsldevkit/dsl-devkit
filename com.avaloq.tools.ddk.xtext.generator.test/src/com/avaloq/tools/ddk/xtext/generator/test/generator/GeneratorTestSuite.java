@@ -16,6 +16,7 @@ import org.junit.platform.suite.api.Suite;
 import com.avaloq.tools.ddk.xtext.generator.expression.ExportExpressionCodeGenerationTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.ExpressionsExtentionsTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.GeneratorSupportTest;
+import com.avaloq.tools.ddk.xtext.generator.expression.JvmModelGeneratorBindingTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.ScopeExpressionCodeGenerationTest;
 import com.avaloq.tools.ddk.xtext.generator.expression.ScopeResourceDescriptionManagerTest;
 import com.avaloq.tools.ddk.xtext.generator.test.util.EClassComparatorTest;
@@ -34,6 +35,7 @@ import com.avaloq.tools.ddk.xtext.generator.xbase.test.XbaseGeneratorFragmentTes
   LineEndingDeterminismTest.class,
   ExpressionsExtentionsTest.class,
   GeneratorSupportTest.class,
+  JvmModelGeneratorBindingTest.class,
   ScopeExpressionCodeGenerationTest.class,
   ScopeResourceDescriptionManagerTest.class,
   EClassComparatorTest.class,
