@@ -216,9 +216,14 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           throw new NoSuchElementException("The resource queue is empty or the execution was cancelled."); //$NON-NLS-1$
         }
         Triple<URI, Resource, Throwable> result = null;
+        boolean timedOut = false;
         try {
           result = resourceQueue.poll(waitTime, TimeUnit.MILLISECONDS);
-          toProcess--;
+          if (result != null) {
+            toProcess--;
+          } else {
+            timedOut = true;
+          }
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
         }
@@ -227,7 +232,13 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
           synchronized (currentlyProcessedUris) {
             currentUris = Joiner.on(", ").join(currentlyProcessedUris); //$NON-NLS-1$
           }
-          throw new LoadOperationException(null, new TimeoutException(String.format("Resource load job didn't return a result after %d ms. Resources being currently loaded: %s", waitTime, currentUris))); //$NON-NLS-1$
+          String message = String.format("Resource load job didn't return a result after %d ms. Resources being currently loaded: %s", waitTime, currentUris); //$NON-NLS-1$
+          if (timedOut) {
+            // a timeout cannot be attributed to a URI and a hung load would never finish, so abandon the whole operation
+            cancel();
+            message += " The remaining loads are abandoned."; //$NON-NLS-1$
+          }
+          throw new LoadOperationException(null, new TimeoutException(message));
         }
 
         URI uri = result.getFirst();
