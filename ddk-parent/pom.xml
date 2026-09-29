@@ -62,7 +62,6 @@
 
     <!-- Baseline version validation -->
     <baseline.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/releases/latest/</baseline.repo.url>
-    <snapshot.repo.url>https://dsldevkit.github.io/dsl-devkit/p2/snapshots/latest/</snapshot.repo.url>
   </properties>
 
   <modules>
@@ -381,18 +380,6 @@
     </plugins>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.eclipse.tycho</groupId>
-          <artifactId>tycho-p2-plugin</artifactId>
-          <version>${tycho.version}</version>
-          <configuration>
-            <baselineRepositories>
-              <repository>
-                <url>${snapshot.repo.url}</url>
-              </repository>
-            </baselineRepositories>
-          </configuration>
-        </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>${clean.version}</version>
