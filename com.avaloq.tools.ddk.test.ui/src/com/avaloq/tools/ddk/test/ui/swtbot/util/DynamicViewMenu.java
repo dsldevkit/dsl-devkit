@@ -19,10 +19,10 @@ import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
-import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IViewSite;
 
 
@@ -31,8 +31,8 @@ import org.eclipse.ui.IViewSite;
  */
 public class DynamicViewMenu {
 
-  /** The reference to the view. */
-  private final IViewReference viewReference;
+  /** The view whose menu is searched. */
+  private final SWTBotView view;
 
   /**
    * Creates an instance of {@link DynamicViewMenu}.
@@ -52,7 +52,7 @@ public class DynamicViewMenu {
    *          the bot to work with
    */
   public DynamicViewMenu(final SWTWorkbenchBot bot) {
-    this.viewReference = bot.activeView().getViewReference();
+    this.view = bot.activeView();
   }
 
   /**
@@ -62,14 +62,19 @@ public class DynamicViewMenu {
    *          the menu path
    * @throws IllegalStateException
    *           if the menu manager is not a MenuManager
+   * @throws WidgetNotFoundException
+   *           if the menu item cannot be found
    */
   public void click(final String... menuPath) {
-    final IViewSite viewSite = (IViewSite) viewReference.getPart(false).getSite();
+    final IViewSite viewSite = (IViewSite) view.getViewReference().getPart(false).getSite();
     final IMenuManager m = viewSite.getActionBars().getMenuManager();
 
     if (!(m instanceof MenuManager)) {
       throw new IllegalStateException("cannot work with " + m); //$NON-NLS-1$
     }
+
+    // Since Eclipse 4.41 the Markers views only get their menu contributions once the view menu is opened.
+    view.viewMenu();
 
     MenuItem theItem = UIThreadRunnable.syncExec(() -> {
       MenuManager mgr = (MenuManager) m;
@@ -77,15 +82,13 @@ public class DynamicViewMenu {
       m.updateAll(true);
       MenuItem[] initialItems = ((MenuManager) m).getMenu().getItems();
       MenuItem item = findItem(initialItems, menuPath);
-
-      if (item == null || !item.getText().equals(menuPath[menuPath.length - 1])) {
-        throw new WidgetNotFoundException("Could not find menu " + Arrays.toString(menuPath)); //$NON-NLS-1$
-      }
-
-      return item;
-
+      return item != null && item.getText().equals(menuPath[menuPath.length - 1]) ? item : null;
     });
 
+    // thrown outside syncExec, which would otherwise mask it as an IndexOutOfBoundsException
+    if (theItem == null) {
+      throw new WidgetNotFoundException("Could not find menu " + Arrays.toString(menuPath)); //$NON-NLS-1$
+    }
     new SWTBotMenu(theItem).click();
   }
 
