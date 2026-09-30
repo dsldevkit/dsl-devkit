@@ -11,7 +11,6 @@
 package com.avaloq.tools.ddk.xtext.export.resource;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,7 +36,7 @@ public class ExportResourceDescriptionManager extends AbstractExpressionModelRes
     final Set<QualifiedName> names = new LinkedHashSet<>();
     for (final Extension declaration : model.getExtensions()) {
       if (declaration.getExtension() != null) {
-        names.add(javaName(List.of(declaration.getExtension().split("::")))); //$NON-NLS-1$
+        names.add(javaName(declaration.getExtension().split("::"))); //$NON-NLS-1$
       }
     }
     addExpressionTypeNames(model, names);

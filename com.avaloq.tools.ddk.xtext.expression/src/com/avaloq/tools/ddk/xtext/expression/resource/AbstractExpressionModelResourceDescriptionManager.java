@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.expression.resource;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -51,7 +51,7 @@ public abstract class AbstractExpressionModelResourceDescriptionManager extends 
   }
 
   /**
-   * Returns the names, as created by {@link #javaName(List)}, of the Java types the model in the given resource names.
+   * Returns the names, as created by {@link #javaName(String...)}, of the Java types the model in the given resource names.
    *
    * @param resource
    *          the resource, must not be {@code null}
@@ -71,7 +71,7 @@ public abstract class AbstractExpressionModelResourceDescriptionManager extends 
   protected static void addExpressionTypeNames(final EObject root, final Set<QualifiedName> names) {
     root.eAllContents().forEachRemaining(content -> {
       if (content instanceof Identifier identifier && identifier.getId().size() > 1) {
-        names.add(javaName(identifier.getId()));
+        names.add(javaName(identifier.getId().toArray(String[]::new)));
       }
     });
   }
@@ -84,7 +84,7 @@ public abstract class AbstractExpressionModelResourceDescriptionManager extends 
    *          the segments of the qualified type name, must not be {@code null}
    * @return the name, never {@code null}
    */
-  protected static QualifiedName javaName(final List<String> segments) {
-    return QualifiedName.create(segments.stream().map(segment -> segment.startsWith("^") ? segment.substring(1) : segment).toList()).toLowerCase(); //$NON-NLS-1$
+  protected static QualifiedName javaName(final String... segments) {
+    return QualifiedName.create(Arrays.stream(segments).map(segment -> segment.startsWith("^") ? segment.substring(1) : segment).toList()).toLowerCase(); //$NON-NLS-1$
   }
 }
