@@ -65,10 +65,12 @@ jobs:
         run: rm -rf ~/.m2/repository/.cache/tycho/https/dsldevkit.github.io ~/.m2/repository/.cache/tycho/https/ddk.tools.avaloq.com
 
       - name: Build p2 update site
+        # Fail rather than swap in a published artifact of the same version with different content.
         run: |
           xvfb-run ./mvnw clean verify \
             checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check \
             -f ./ddk-parent/pom.xml \
+            -Dtycho.baseline=failCommon \
             --batch-mode --fail-at-end
 
       - name: Fail on missing surefire reports
