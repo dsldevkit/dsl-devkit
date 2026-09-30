@@ -26,7 +26,6 @@
 <setAttribute key="selected_target_bundles">
 <setEntry value="com.google.guava@default:default"/>
 <setEntry value="com.google.inject@default:default"/>
-<setEntry value="com.ibm.icu@default:default"/>
 <setEntry value="com.jcraft.jsch@default:default"/>
 <setEntry value="com.sun.el@default:default"/>
 <setEntry value="javax.el@default:default"/>
