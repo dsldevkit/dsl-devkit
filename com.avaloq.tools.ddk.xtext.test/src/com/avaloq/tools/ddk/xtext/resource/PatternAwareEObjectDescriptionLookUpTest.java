@@ -35,13 +35,16 @@ public class PatternAwareEObjectDescriptionLookUpTest {
   private static final String FOO_BAR = "FooBar";
   private static final String FOO_PREFIX = "Foo*";
   private static final String OTHER = "Other";
+  private static final String OTHER_LOWER_CASE = "other";
 
   private final PatternAwareEObjectDescriptionLookUp lookUp = new PatternAwareEObjectDescriptionLookUp(List.of(//
-      description(FOO), description(FOO_BAR), description("foobar"), description(OTHER)));
+      description(FOO), description(FOO_BAR), description("foobar"), description(OTHER), description(OTHER_LOWER_CASE)));
+
   @Test
   public void testCaseSensitivePatternMatchesCandidateNames() {
     assertEquals(ImmutableSet.of(FOO, FOO_BAR), names(lookUp.getExportedObjects(EcorePackage.Literals.ECLASS, QualifiedNamePattern.create(FOO_PREFIX), false)));
   }
+
   @Test
   public void testCaseSensitiveExactPattern() {
     assertEquals(ImmutableSet.of(OTHER), names(lookUp.getExportedObjects(EcorePackage.Literals.ECLASS, QualifiedNamePattern.create(OTHER), false)));
