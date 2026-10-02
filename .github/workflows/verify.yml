@@ -1,6 +1,7 @@
 name: verify
 on:
   pull_request:
+  merge_group:
 jobs:
   pmd:
     runs-on: ubuntu-24.04
@@ -76,7 +77,10 @@ jobs:
       - name: Build with Maven  within a virtual X Server Environment
         # Run pmd:pmd and pmd:cpd first to generate reports for all modules, then run pmd:check and pmd:cpd-check
         # This ensures all violations are collected and reported before the build fails
-        run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+        # PR builds ignore the published snapshot; merge-queue builds use it exactly as the snapshot build does.
+        env:
+          BASELINE_ARGS: ${{ github.event_name == 'merge_group' && '-Dtycho.baseline=failCommon' || '-Dtycho.baseline=disable -Dtycho.baseline.replace=none' }}
+        run: xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end $BASELINE_ARGS
       - name: Fail on missing surefire reports
         if: always()
         run: bash .github/scripts/check-surefire-reports.sh
