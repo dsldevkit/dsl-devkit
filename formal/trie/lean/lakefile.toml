@@ -1,0 +1,9 @@
+name = "trie"
+defaultTargets = ["Trie", "trie-check"]
+
+[[lean_lib]]
+name = "Trie"
+
+[[lean_exe]]
+name = "trie-check"
+root = "Main"

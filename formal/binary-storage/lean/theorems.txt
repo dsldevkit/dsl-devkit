@@ -1,0 +1,20 @@
+# <theorem> <kernel|native_decide>; checked by formal/check.sh via #print axioms
+BinaryStorage.bug_minimal native_decide
+BinaryStorage.bug_p1 native_decide
+BinaryStorage.bug_p2 native_decide
+BinaryStorage.bug_p4 native_decide
+BinaryStorage.bug_partial native_decide
+BinaryStorage.bug_pEnd_iofail native_decide
+BinaryStorage.bug_pEnd_timeout native_decide
+BinaryStorage.bug_stale_no_timeout native_decide
+BinaryStorage.bug_terminates native_decide
+BinaryStorage.caller_runs_reachable_discard_unreachable native_decide
+BinaryStorage.fixed_caller_runs native_decide
+BinaryStorage.fixed_default native_decide
+BinaryStorage.fixed_no_old_binary native_decide
+BinaryStorage.fixed_two_workers_iofail native_decide
+BinaryStorage.Generic.buggy_unsafe kernel
+BinaryStorage.Generic.fixed_safe kernel
+BinaryStorage.Generic.inv_reach kernel
+BinaryStorage.Generic.inv_step kernel
+BinaryStorage.planted_caught native_decide

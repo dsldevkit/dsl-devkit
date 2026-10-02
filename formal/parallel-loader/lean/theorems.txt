@@ -1,0 +1,26 @@
+# <theorem> <kernel|native_decide>; checked by formal/check.sh via #print axioms
+ParallelLoader.afterExc_inv kernel
+ParallelLoader.builder_inv kernel
+ParallelLoader.consume_inv kernel
+ParallelLoader.count_set_consume kernel
+ParallelLoader.count_set_keep kernel
+ParallelLoader.env_inv kernel
+ParallelLoader.fixBoth_ok native_decide
+ParallelLoader.fixInterrupt_alone_still_aborts native_decide
+ParallelLoader.fixTimeout_alone_still_livelocks native_decide
+ParallelLoader.getElem?_of_findIdx kernel
+ParallelLoader.inv_init kernel
+ParallelLoader.inv_step kernel
+ParallelLoader.livelock_trace_kernel kernel
+ParallelLoader.original_clean_ok native_decide
+ParallelLoader.original_interrupt_sync_ok native_decide
+ParallelLoader.original_interrupt_violates_P3 native_decide
+ParallelLoader.original_timeout_violates_P1 native_decide
+ParallelLoader.original_timeout_violates_P2 native_decide
+ParallelLoader.original_timeout_violates_P2_all_queues native_decide
+ParallelLoader.P1_fixTimeout kernel
+ParallelLoader.P1_of_inv kernel
+ParallelLoader.planted_caught native_decide
+ParallelLoader.rq_set_other kernel
+ParallelLoader.timeout_trace_kernel kernel
+ParallelLoader.worker_inv kernel
