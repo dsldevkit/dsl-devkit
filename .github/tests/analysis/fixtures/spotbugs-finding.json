@@ -1,0 +1,155 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "extensions": [
+          {
+            "version": "4.10.4",
+            "name": "edu.umd.cs.findbugs.plugins.core",
+            "shortDescription": {
+              "text": "Core SpotBugs plugin"
+            },
+            "informationUri": "https://github.com/spotbugs",
+            "organization": "SpotBugs project"
+          }
+        ],
+        "driver": {
+          "name": "SpotBugs",
+          "version": "4.10.4",
+          "language": "en",
+          "informationUri": "https://spotbugs.github.io/",
+          "rules": [
+            {
+              "id": "NP_ALWAYS_NULL",
+              "shortDescription": {
+                "text": "Null pointer dereference."
+              },
+              "fullDescription": {
+                "text": "A null pointer is dereferenced here.\u00a0 This will lead to a NullPointerException \nwhen the code is executed."
+              },
+              "messageStrings": {
+                "default": {
+                  "text": "Null pointer dereference of {0} in {1}."
+                }
+              },
+              "helpUri": "https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NP_ALWAYS_NULL",
+              "properties": {
+                "tags": [
+                  "CORRECTNESS"
+                ]
+              }
+            },
+            {
+              "id": "NP_LOAD_OF_KNOWN_NULL_VALUE",
+              "shortDescription": {
+                "text": "Load of known null value."
+              },
+              "fullDescription": {
+                "text": "The variable referenced at this point is known to be null due to an earlier \ncheck against null. Although this is valid, it might be a mistake (perhaps you \nintended to refer to a different variable, or perhaps the earlier check to see \nif the variable is null should have been a check to see if it was non-null)."
+              },
+              "messageStrings": {
+                "default": {
+                  "text": "Load of known null value in {0}."
+                }
+              },
+              "helpUri": "https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#NP_LOAD_OF_KNOWN_NULL_VALUE",
+              "properties": {
+                "tags": [
+                  "STYLE"
+                ]
+              }
+            }
+          ],
+          "supportedTaxonomies": [
+            {
+              "name": "CWE",
+              "guid": "b8c54a32-de19-51d2-9a08-f0abfbaa7310"
+            }
+          ]
+        }
+      },
+      "invocations": [
+        {
+          "exitCode": 1,
+          "exitCodeDescription": "BUGS FOUND",
+          "executionSuccessful": true
+        }
+      ],
+      "results": [
+        {
+          "ruleId": "NP_ALWAYS_NULL",
+          "ruleIndex": 0,
+          "message": {
+            "id": "default",
+            "text": "Null pointer dereference",
+            "arguments": [
+              "s",
+              "com.example.Example.main(String[])"
+            ]
+          },
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "com/example/Example.java",
+                  "uriBaseId": "2139602823"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "name": "s",
+                  "kind": "variable",
+                  "fullyQualifiedName": "com.example.Example.main(String[])#s"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "NP_LOAD_OF_KNOWN_NULL_VALUE",
+          "ruleIndex": 1,
+          "message": {
+            "id": "default",
+            "text": "Load of known null value",
+            "arguments": [
+              "com.example.Example.main(String[])"
+            ]
+          },
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "com/example/Example.java",
+                  "uriBaseId": "2139602823"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "name": "s",
+                  "kind": "variable",
+                  "fullyQualifiedName": "com.example.Example.main(String[])#s"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "originalUriBaseIds": {
+        "2139602823": {
+          "uri": "file:///checkout/module/src/"
+        }
+      },
+      "taxonomies": []
+    }
+  ]
+}

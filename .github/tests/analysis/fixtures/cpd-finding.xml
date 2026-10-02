@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pmd-cpd xmlns:ns0="https://pmd-code.org/schema/cpd-report" ns0:pmdVersion="7.27.0" xmlns:ns1="https://pmd-code.org/schema/cpd-report" ns1:timestamp="2026-09-26T13:09:38.1622+02:00" xmlns:ns2="https://pmd-code.org/schema/cpd-report" ns2:version="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://pmd-code.org/schema/cpd-report https://pmd.github.io/schema/cpd-report_1_0_0.xsd" xmlns="https://pmd-code.org/schema/cpd-report">
+    <file ns0:path="/checkout/a/src/Example.java" ns1:totalNumberOfTokens="28"/>
+    <file ns0:path="/checkout/b/src/Example.java" ns1:totalNumberOfTokens="28"/>
+    <duplication ns0:lines="1" ns1:tokens="28">
+        <file ns0:begintoken="0" ns1:column="1" ns2:endcolumn="79" xmlns:ns3="https://pmd-code.org/schema/cpd-report" ns3:endline="1" xmlns:ns4="https://pmd-code.org/schema/cpd-report" ns4:endtoken="27" xmlns:ns5="https://pmd-code.org/schema/cpd-report" ns5:line="1" xmlns:ns6="https://pmd-code.org/schema/cpd-report" ns6:path="/checkout/a/src/Example.java"/>
+        <file ns0:begintoken="29" ns1:column="1" ns2:endcolumn="79" xmlns:ns3="https://pmd-code.org/schema/cpd-report" ns3:endline="1" xmlns:ns4="https://pmd-code.org/schema/cpd-report" ns4:endtoken="56" xmlns:ns5="https://pmd-code.org/schema/cpd-report" ns5:line="1" xmlns:ns6="https://pmd-code.org/schema/cpd-report" ns6:path="/checkout/b/src/Example.java"/>
+        <codefragment><![CDATA[class Example { void method() { int a=1; int b=2; System.out.println(a+b); } }]]></codefragment>
+    </duplication>
+</pmd-cpd>

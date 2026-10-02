@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pmd-cpd xmlns:ns0="https://pmd-code.org/schema/cpd-report" ns0:pmdVersion="7.27.0" xmlns:ns1="https://pmd-code.org/schema/cpd-report" ns1:timestamp="2026-09-26T13:09:38.170037+02:00" xmlns:ns2="https://pmd-code.org/schema/cpd-report" ns2:version="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://pmd-code.org/schema/cpd-report https://pmd.github.io/schema/cpd-report_1_0_0.xsd" xmlns="https://pmd-code.org/schema/cpd-report">
+    <file ns0:path="/checkout/a/src/Example.java" ns1:totalNumberOfTokens="28"/>
+    <error ns0:filename="/checkout/b/src/Bad.java" ns1:msg="LexException: Lexical error in file 'b/src/Bad.java' at line 1, column 38: &lt;EOF&gt; after : &quot;\&quot;unterminated; }&quot; (in lexical state DEFAULT)">net.sourceforge.pmd.lang.ast.LexException: Lexical error in file 'b/src/Bad.java' at line 1, column 38: &lt;EOF&gt; after : "\"unterminated; }" (in lexical state DEFAULT)
+	at net.sourceforge.pmd.lang.ast.InternalApiBridge.newLexException(InternalApiBridge.java:25)
+	at net.sourceforge.pmd.lang.java.ast.JavaParserImplTokenManager.getNextToken(JavaParserImplTokenManager.java:2386)
+	at net.sourceforge.pmd.lang.java.ast.JavaParserImplTokenManager.getNextToken(JavaParserImplTokenManager.java:22)
+	at net.sourceforge.pmd.cpd.impl.BaseTokenFilter.getNextToken(BaseTokenFilter.java:44)
+	at net.sourceforge.pmd.cpd.impl.CpdLexerBase.tokenize(CpdLexerBase.java:40)
+	at net.sourceforge.pmd.cpd.CpdLexer.tokenize(CpdLexer.java:29)
+	at net.sourceforge.pmd.cpd.CpdAnalysis.doTokenize(CpdAnalysis.java:150)
+	at net.sourceforge.pmd.cpd.CpdAnalysis.tokenizeFiles(CpdAnalysis.java:225)
+	at net.sourceforge.pmd.cpd.CpdAnalysis.findMatches(CpdAnalysis.java:198)
+	at net.sourceforge.pmd.cpd.CpdAnalysis.performAnalysis(CpdAnalysis.java:164)
+	at CpdProbe.main(CpdProbe.java:15)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:484)
+	at jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:208)
+	at jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:135)
+</error>
+</pmd-cpd>

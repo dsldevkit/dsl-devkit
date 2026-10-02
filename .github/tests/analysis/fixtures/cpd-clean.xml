@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pmd-cpd xmlns:ns0="https://pmd-code.org/schema/cpd-report" ns0:pmdVersion="7.27.0" xmlns:ns1="https://pmd-code.org/schema/cpd-report" ns1:timestamp="2026-09-26T13:09:38.091491+02:00" xmlns:ns2="https://pmd-code.org/schema/cpd-report" ns2:version="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://pmd-code.org/schema/cpd-report https://pmd.github.io/schema/cpd-report_1_0_0.xsd" xmlns="https://pmd-code.org/schema/cpd-report">
+    <file ns0:path="/checkout/a/src/Example.java" ns1:totalNumberOfTokens="28"/>
+</pmd-cpd>
