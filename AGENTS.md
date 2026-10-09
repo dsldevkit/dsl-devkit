@@ -34,23 +34,21 @@ This creates a local mirror of `.agents/skills/` at `.claude/skills/` (gitignore
 
 ## Build Commands
 
-Use the Maven Wrapper (`./mvnw`, or `mvnw.cmd` on Windows). It pins Maven 3.9.x: Maven 3.10 cannot build this project yet (eclipse-tycho/tycho#6399).
-
 ```bash
 # Full CI build (Linux - requires xvfb for UI tests)
-xvfb-run ./mvnw clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
+xvfb-run mvn clean verify checkstyle:check pmd:pmd pmd:cpd pmd:check pmd:cpd-check spotbugs:check -f ./ddk-parent/pom.xml --batch-mode --fail-at-end
 
 # Windows build
-mvnw.cmd clean verify -f ./ddk-parent/pom.xml
+mvn clean verify -f ./ddk-parent/pom.xml
 
 # Quick build without tests
-./mvnw clean verify -f ./ddk-parent/pom.xml -DskipTests
+mvn clean verify -f ./ddk-parent/pom.xml -DskipTests
 
 # Build specific module
-./mvnw clean verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext
+mvn clean verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext
 
 # Run only quality checks (after initial build)
-./mvnw checkstyle:check pmd:check spotbugs:check -f ./ddk-parent/pom.xml
+mvn checkstyle:check pmd:check spotbugs:check -f ./ddk-parent/pom.xml
 ```
 
 ## Quality Tools
@@ -124,19 +122,19 @@ These directories contain generated code - do not edit manually:
 ### Fixing PMD Violations
 1. Check ruleset at `ddk-configuration/pmd/ruleset.xml`
 2. Violations in generated code (`src-gen/`) are excluded
-3. Run `./mvnw pmd:check -f ./ddk-parent/pom.xml` to verify fixes
+3. Run `mvn pmd:check -f ./ddk-parent/pom.xml` to verify fixes
 
 ### Fixing Checkstyle Violations
 1. Check config at `ddk-configuration/checkstyle/avaloq.xml`
-2. Run `./mvnw checkstyle:check -f ./ddk-parent/pom.xml` to verify fixes
+2. Run `mvn checkstyle:check -f ./ddk-parent/pom.xml` to verify fixes
 
 ### Running Specific Tests
 ```bash
 # Run tests for a specific module
-./mvnw verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
+mvn verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
 
 # On Linux, wrap with xvfb for UI tests
-xvfb-run ./mvnw verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
+xvfb-run mvn verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
 ```
 
 ## CI/CD
