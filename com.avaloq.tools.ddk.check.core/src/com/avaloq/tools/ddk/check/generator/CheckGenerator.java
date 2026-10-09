@@ -83,89 +83,142 @@ public class CheckGenerator extends JvmModelGenerator {
   }
 
   // CHECKSTYLE:CONSTANTS-OFF the repeated literals are fragments of the emitted HTML/Java source, not nameable constants
-  /* Documentation compiler, generates HTML output. */
+  /**
+   * Documentation compiler, generates a self-contained HTML page per catalog.
+   *
+   * @param catalog
+   *          the catalog to document
+   * @return the HTML page contents
+   */
   public CharSequence compileDoc(final CheckCatalog catalog) {
     StringConcatenation builder = new StringConcatenation();
-    final CharSequence body = bodyDoc(catalog);
-    builder.newLineIfNotEmpty();
-    builder.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">");
+    builder.append("<!DOCTYPE html>");
     builder.newLine();
-    builder.append("<html>");
+    builder.append("<html lang=\"en\">");
     builder.newLine();
     builder.append("<head>");
     builder.newLine();
     builder.append("  ");
-    builder.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
+    builder.append("<meta charset=\"UTF-8\">");
     builder.newLine();
     builder.append("  ");
-    builder.append("<link rel=\"stylesheet\" href=\"PLUGINS_ROOT/com.avaloq.tools.ddk.check.runtime.ui/css/check.css\" type=\"text/css\">");
+    builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
     builder.newLine();
     builder.append("  ");
     builder.append("<title>");
     builder.append(catalog.getName(), "  ");
     builder.append("</title>");
     builder.newLineIfNotEmpty();
-    builder.append("</head>");
+    builder.append("  ");
+    builder.append("<style>");
     builder.newLine();
+    builder.append(CheckDocumentationTemplates.STYLE);
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("</style>");
+    builder.newLine();
+    builder.append("</head>");
     builder.newLine();
     builder.append("<body>");
     builder.newLine();
     builder.append("  ");
-    builder.append("<h1>Check Catalog ");
-    builder.append(catalog.getName(), "  ");
+    builder.append("<header class=\"catalog-header\">");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("<h1>");
+    builder.append(catalog.getName(), "    ");
     builder.append("</h1>");
     builder.newLineIfNotEmpty();
-    builder.append("  ");
+    builder.append("    ");
     final String formattedDescription = generatorExtensions.formatDescription(catalog.getDescription());
     builder.newLineIfNotEmpty();
     if (formattedDescription != null) {
-      builder.append("  ");
+      builder.append("    ");
       builder.append("<p>");
-      builder.append(formattedDescription, "  ");
+      builder.append(formattedDescription, "    ");
       builder.append("</p>");
       builder.newLineIfNotEmpty();
     }
+    if (!catalog.getChecks().isEmpty() || !catalog.getCategories().isEmpty()) {
+      builder.append("    ");
+      builder.append("<nav class=\"jump\">");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("  ");
+      builder.append("<strong>Jump to</strong>");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("  ");
+      builder.append("<ul>");
+      builder.newLine();
+      for (final Check check : catalog.getChecks()) {
+        builder.append("    ");
+        builder.append("    ");
+        builder.append("<li><a href=\"#");
+        builder.append(CheckDocumentationTemplates.htmlEscape(checkGeneratorNaming.getContextId(check)), "        ");
+        builder.append("\">");
+        builder.append(CheckDocumentationTemplates.htmlEscape(check.getLabel()), "        ");
+        builder.append("</a></li>");
+        builder.newLineIfNotEmpty();
+      }
+      for (final Category category : catalog.getCategories()) {
+        builder.append("    ");
+        builder.append("    ");
+        builder.append("<li><a href=\"#");
+        builder.append(CheckDocumentationTemplates.htmlEscape(checkGeneratorNaming.getContextId(category)), "        ");
+        builder.append("\">");
+        builder.append(CheckDocumentationTemplates.htmlEscape(category.getLabel()), "        ");
+        builder.append("</a></li>");
+        builder.newLineIfNotEmpty();
+      }
+      builder.append("    ");
+      builder.append("  ");
+      builder.append("</ul>");
+      builder.newLine();
+      builder.append("    ");
+      builder.append("</nav>");
+      builder.newLine();
+    }
     builder.append("  ");
-    builder.append(body, "  ");
-    builder.newLineIfNotEmpty();
-    builder.append("</body>");
+    builder.append("</header>");
     builder.newLine();
+    builder.append("  ");
+    builder.append("<main>");
+    builder.newLine();
+    builder.append("    ");
+    builder.append(bodyDoc(catalog), "    ");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("</main>");
+    builder.newLine();
+    builder.append("</body>");
     builder.newLine();
     builder.append("</html>");
     builder.newLine();
     return builder;
   }
 
+  /**
+   * Renders the body of the documentation page: one article per check, grouped by category.
+   *
+   * @param catalog
+   *          the catalog whose checks and categories are rendered
+   * @return the HTML body fragment
+   */
   public CharSequence bodyDoc(final CheckCatalog catalog) {
     StringConcatenation builder = new StringConcatenation();
     for (final Check check : catalog.getChecks()) {
-      builder.append("<div id=\"");
-      builder.append(checkGeneratorNaming.getContextId(check));
-      builder.append("\" class=\"description\"><h3>");
-      builder.append(check.getLabel());
-      builder.append(" <span class=\"thin\">(");
-      builder.append(check.getDefaultSeverity().name().toLowerCase());
-      builder.append(")</span></h3>");
-      builder.newLineIfNotEmpty();
-      final String formattedCheckDescription = generatorExtensions.formatDescription(check.getDescription());
-      builder.newLineIfNotEmpty();
-      if (formattedCheckDescription != null) {
-        builder.append(formattedCheckDescription);
-        builder.newLineIfNotEmpty();
-      }
-      builder.append("<p><i>Message: </i>");
-      builder.append(generatorExtensions.replacePlaceholder(check.getMessage()));
-      builder.append("</p><br></div>");
+      builder.append(checkArticle(check));
       builder.newLineIfNotEmpty();
     }
     for (final Category category : catalog.getCategories()) {
-      builder.append("<div class=\"category\">");
+      builder.append("<section class=\"category\">");
       builder.newLine();
       builder.append("  ");
       builder.append("<h2 id=\"");
-      builder.append(checkGeneratorNaming.getContextId(category), "  ");
+      builder.append(CheckDocumentationTemplates.htmlEscape(checkGeneratorNaming.getContextId(category)), "  ");
       builder.append("\">");
-      builder.append(category.getLabel(), "  ");
+      builder.append(CheckDocumentationTemplates.htmlEscape(category.getLabel()), "  ");
       builder.append("</h2>");
       builder.newLineIfNotEmpty();
       builder.append("  ");
@@ -173,46 +226,70 @@ public class CheckGenerator extends JvmModelGenerator {
       builder.newLineIfNotEmpty();
       if (formattedCategoryDescription != null) {
         builder.append("  ");
+        builder.append("<p>");
         builder.append(formattedCategoryDescription, "  ");
+        builder.append("</p>");
         builder.newLineIfNotEmpty();
       }
       for (final Check check : category.getChecks()) {
         builder.append("  ");
-        builder.append("<div id=\"");
-        builder.append(checkGeneratorNaming.getContextId(check), "  ");
-        builder.append("\" class=\"description\">");
+        builder.append(checkArticle(check), "  ");
         builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("  ");
-        builder.append("<h3>");
-        builder.append(check.getLabel(), "    ");
-        builder.append(" <span class=\"thin\">(");
-        builder.append(check.getDefaultSeverity().name().toLowerCase(), "    ");
-        builder.append(")</span></h3>");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("  ");
-        final String formattedCheckDescription = generatorExtensions.formatDescription(check.getDescription());
-        builder.newLineIfNotEmpty();
-        if (formattedCheckDescription != null) {
-          builder.append("  ");
-          builder.append("  ");
-          builder.append(formattedCheckDescription, "    ");
-          builder.newLineIfNotEmpty();
-        }
-        builder.append("  ");
-        builder.append("  ");
-        builder.append("<p><i>Message: </i>");
-        builder.append(generatorExtensions.replacePlaceholder(check.getMessage()), "    ");
-        builder.append("</p>");
-        builder.newLineIfNotEmpty();
-        builder.append("  ");
-        builder.append("</div>");
-        builder.newLine();
       }
-      builder.append("</div>");
+      builder.append("</section>");
       builder.newLine();
     }
+    return builder;
+  }
+
+  /**
+   * Renders a single check as an HTML {@code <article>} block.
+   *
+   * @param check
+   *          the check to render
+   * @return the HTML article fragment
+   */
+  private CharSequence checkArticle(final Check check) {
+    StringConcatenation builder = new StringConcatenation();
+    builder.append("<article class=\"check\" id=\"");
+    builder.append(CheckDocumentationTemplates.htmlEscape(checkGeneratorNaming.getContextId(check)));
+    builder.append("\">");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("<header>");
+    builder.newLine();
+    builder.append("    ");
+    builder.append("<h3>");
+    builder.append(CheckDocumentationTemplates.htmlEscape(check.getLabel()), "    ");
+    builder.append(" <a class=\"anchor\" href=\"#");
+    builder.append(CheckDocumentationTemplates.htmlEscape(checkGeneratorNaming.getContextId(check)), "    ");
+    builder.append("\">#</a></h3>");
+    builder.newLineIfNotEmpty();
+    builder.append("    ");
+    builder.append("<span class=\"severity sev-");
+    builder.append(check.getDefaultSeverity().name().toLowerCase(), "    ");
+    builder.append("\">");
+    builder.append(check.getDefaultSeverity().name().toLowerCase(), "    ");
+    builder.append("</span>");
+    builder.newLineIfNotEmpty();
+    builder.append("  ");
+    builder.append("</header>");
+    builder.newLine();
+    builder.append("  ");
+    final String formattedCheckDescription = generatorExtensions.formatDescription(check.getDescription());
+    builder.newLineIfNotEmpty();
+    if (formattedCheckDescription != null) {
+      builder.append("  ");
+      builder.append(formattedCheckDescription, "  ");
+      builder.newLineIfNotEmpty();
+    }
+    builder.append("  ");
+    builder.append("<pre class=\"message\">");
+    builder.append(generatorExtensions.replacePlaceholder(check.getMessage()), "  ");
+    builder.append("</pre>");
+    builder.newLineIfNotEmpty();
+    builder.append("</article>");
+    builder.newLine();
     return builder;
   }
 
