@@ -1,0 +1,30 @@
+asis_TagHasRepo VIOLATED:TagHasRepo
+asis_TagHasRepoOrLive VIOLATED:TagHasRepoOrLive
+asis_LatestFromMaster VIOLATED:LatestFromMaster
+asis_OwnLineVersion VIOLATED:OwnLineVersion
+asis_RelLatestIsMax OK
+asis_LatestExists OK
+asis_IndexNoDangling OK
+asis_NoLostContent OK
+asis_NoCrossRefCancel VIOLATED:NoCrossRefCancel
+asis_RerunProgress VIOLATED:RerunProgress
+asis_MaintOnOwnLine VIOLATED:MaintOnOwnLine
+fix_MaintOnOwnLine OK
+fix_safety OK
+fix_safety_maint OK
+fix_safety_wide OK [full]
+plant_relLatest VIOLATED:RelLatestIsMax
+fix_relLatest_ctrl OK
+plant_cleanup VIOLATED:LatestExists
+asis_W_MasterRelease VIOLATED:W_MasterRelease
+fix_W_MasterRelease VIOLATED:W_MasterRelease
+asis_W_MaintRelease VIOLATED:W_MaintRelease
+fix_W_MaintRelease VIOLATED:W_MaintRelease
+asis_W_Evicted VIOLATED:W_Evicted
+fix_W_Evicted VIOLATED:W_Evicted
+fix_W_CalmGoal_maint VIOLATED:W_CalmGoal
+fix_live_master OK [full]
+fix_live_maint OK [full]
+asis_live_maint VIOLATED:TEMPORAL [full]
+asis_live_tags VIOLATED:TEMPORAL [full]
+asis_live_master OK [full]

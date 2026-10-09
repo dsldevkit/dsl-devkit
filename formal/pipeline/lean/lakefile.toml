@@ -1,0 +1,13 @@
+name = "pipeline"
+defaultTargets = ["Pipeline", "Results", "report"]
+
+[[lean_lib]]
+name = "Pipeline"
+precompileModules = true
+
+[[lean_lib]]
+name = "Results"
+
+[[lean_exe]]
+name = "report"
+root = "Report"
