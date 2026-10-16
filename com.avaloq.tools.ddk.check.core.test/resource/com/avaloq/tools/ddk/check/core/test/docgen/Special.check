@@ -1,0 +1,25 @@
+package com.avaloq.tools.ddk.check.validation
+
+import com.avaloq.tools.ddk.check.testLanguage.Greeting
+
+catalog Special
+for grammar com.avaloq.tools.ddk.check.TestLanguage {
+
+  /** A check outside any category. */
+  live warning TopLevel "Naming & <style>"
+  message "Top level" {
+    for Greeting {
+      issue;
+    }
+  }
+
+  category Grouped "Tips & \"tricks\"" {
+
+    live error Nested "Nested 'quoted' check"
+    message "Nested" {
+      for Greeting {
+        issue;
+      }
+    }
+  }
+}
