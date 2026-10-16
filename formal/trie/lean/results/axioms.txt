@@ -1,0 +1,26 @@
+'Trie.Theorems.Cex.topStar_tree' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.bang_tree_sibling' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.emptySeg_tsl' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.size_drift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.mappings_blank' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.share_tree' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.consumer_cs' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.max_tsl_throws' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Cex.glob_case_miss' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ Cex.glob_case_miss._native.native_decide.ax_1_1]
+'Trie.Theorems.All.bang_not_successor' depends on axioms: [propext]
+'Trie.Theorems.All.nul_is_successor' depends on axioms: [propext]
+'Trie.Theorems.All.topStar_unsound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.All.exact_matches_extensions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.All.addAll_present' depends on axioms: [propext, Quot.sound]
+'Trie.Theorems.All.consumer_cs_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Trie.Theorems.Bounded.fixed_rangeSound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ Bounded.fixed_rangeSound._native.native_decide.ax_1_1]
+'Trie.Theorems.Bounded.planted_caught' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ Bounded.planted_caught._native.native_decide.ax_1_1]

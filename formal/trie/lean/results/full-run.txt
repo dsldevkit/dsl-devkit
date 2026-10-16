@@ -1,0 +1,341 @@
+  [2493 ms] E0  ladder base (no fixes) ≡ literal as-written model: PASS
+=== as-written ===
+  [2 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("!") but lower=("") upper=("!") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [0 ms] P1c range precision (in-range & right count ⇒ matched): FAIL  pattern(""): ("␠") is in [(""), ("!")) but not matched
+  [0 ms] P1g glob range soundness: FAIL  glob("a") matches ("A") but lower=("") upper=("!") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.gt)
+  [775 ms] P5  subMap predicates monotone: PASS
+  [0 ms] P2  tree = spec (20876 stores x 315 patterns): FAIL  tree≠spec: store={("", "")↦0} pattern(""): expected [0], got []
+  [0 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): FAIL  TreeSetLookup≠spec: store={("", "")↦0} pattern(""): expected [0], got []
+  [1 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): FAIL  tree≠TreeSetLookup: store={("", "")↦0} pattern("", "␠"): expected [0], got []
+  [28 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [1 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P3  ops≤4 share=false size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [277 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [1899 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [250 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [2 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("␠"),0), put(("␠", "a"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [0 ms] P4  consumer case-insensitive = spec: FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=true): expected ids [0], got []
+  [461 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5034, recursive=5956
+=== +F3 exactLen ===
+  [1 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("!") but lower=("") upper=("!") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [0 ms] P1c range precision (in-range & right count ⇒ matched): FAIL  pattern(""): ("␠") is in [(""), ("!")) but not matched
+  [0 ms] P1g glob range soundness: FAIL  glob("a") matches ("A") but lower=("") upper=("!") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.gt)
+  [786 ms] P5  subMap predicates monotone: PASS
+  [2 ms] P2  tree = spec (20876 stores x 315 patterns): FAIL  tree≠spec: store={("b")↦0} pattern("*"): expected [0], got []
+  [1 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): FAIL  TreeSetLookup≠spec: store={("", "")↦0} pattern("", "␠"): expected [], got [0]
+  [1 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): FAIL  tree≠TreeSetLookup: store={("", "")↦0} pattern("", "␠"): expected [0], got []
+  [34 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [1 ms] P3  ops≤4 share=false size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [327 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [2240 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [284 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [2 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("␠"),0), put(("␠", "a"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [0 ms] P4  consumer case-insensitive = spec: FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=true): expected ids [0], got []
+  [491 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5080, recursive=5956
+=== +F1 topUpper ===
+  [0 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [0 ms] P1c range precision (in-range & right count ⇒ matched): FAIL  pattern(""): ("␠") is in [(""), ("!")) but not matched
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [825 ms] P5  subMap predicates monotone: PASS
+  [4 ms] P2  tree = spec (20876 stores x 315 patterns): FAIL  tree≠spec: store={("␠")↦0} pattern(""): expected [], got [0]
+  [2 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): FAIL  TreeSetLookup≠spec: store={("", "")↦0} pattern("", "␠"): expected [], got [0]
+  [1 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): FAIL  tree≠TreeSetLookup: store={("", "")↦0} pattern("", "␠"): expected [0], got []
+  [35 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P3  ops≤4 share=false size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [277 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [2560 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [1 ms] P3  ops≤4 share=true size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [261 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [1 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("a"),0), put(("a", "b"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [393 ms] P4  consumer case-insensitive = spec: PASS
+  [453 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5274, recursive=7126
+=== +F2 nulSucc ===
+  [0 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [7 ms] P1c range precision (in-range & right count ⇒ matched): FAIL  pattern("", "␠"): ("", "") is in [("", "␠"), ("", "␠\u0000")) but not matched
+  [1 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [728 ms] P5  subMap predicates monotone: PASS
+  [7424 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [1 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): FAIL  TreeSetLookup≠spec: store={("", "")↦0} pattern("", "␠"): expected [], got [0]
+  [1 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): FAIL  tree≠TreeSetLookup: store={("", "")↦0} pattern("", "␠"): expected [0], got []
+  [34 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [1 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P3  ops≤4 share=false size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [278 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [1943 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [292 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [0 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("a"),0), put(("a", "b"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [468 ms] P4  consumer case-insensitive = spec: PASS
+  [490 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F4 cmpEmpty ===
+  [1 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [1577 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [1 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [913 ms] P5  subMap predicates monotone: PASS
+  [8227 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [7401 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [8061 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [33 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P3  ops≤4 share=false size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [305 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [1919 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [1 ms] P3  ops≤4 share=true size = #stored pairs (507 states): FAIL  [put(("a"),0), put(("a"),0)] → size=2 but stored pairs=1
+  [245 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [0 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("a"),0), put(("a", "b"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [369 ms] P4  consumer case-insensitive = spec: PASS
+  [428 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F5 size ===
+  [4 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [1280 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [724 ms] P5  subMap predicates monotone: PASS
+  [7175 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [7311 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [10621 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [134 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [1 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [280 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [843 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [1939 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [94 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [236 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (23 states): FAIL  [put(("␠", "a"),0)] → getMappings(0): tree=[("a")] TreeSetLookup=[("␠", "a")]; getMappings(1): tree=[] TreeSetLookup=[]
+  [0 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("a"),0), put(("a", "b"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [351 ms] P4  consumer case-insensitive = spec: PASS
+  [415 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F6 mappings ===
+  [0 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [1177 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [689 ms] P5  subMap predicates monotone: PASS
+  [6791 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [6798 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [6797 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [30 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): FAIL  share≠plain: store={("")↦0, ("", "")↦0} pattern("**"): shareValues=false gives [0, 0], shareValues=true gives [0]
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [96 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [233 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [162 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [1714 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [94 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [240 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [152 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (507 states): FAIL  [put(("a"),0), put(("a", "b"),0)] → pattern("**"): tree=[0] TreeSetLookup=[0, 0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [356 ms] P4  consumer case-insensitive = spec: PASS
+  [425 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F7 share ===
+  [0 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [1175 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [689 ms] P5  subMap predicates monotone: PASS
+  [6810 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [6782 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [6852 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [13437 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): PASS
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [104 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [252 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [158 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [1740 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [93 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [252 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [160 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [1829 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (245411 states): PASS
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b")↦0} getExportedObjects(type, pattern("*"), ignoreCase=false): expected ids [0], got []
+  [365 ms] P4  consumer case-insensitive = spec: PASS
+  [446 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F8 consumer ===
+  [0 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [1 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [1288 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [774 ms] P5  subMap predicates monotone: PASS
+  [7328 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [8557 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [7510 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [15814 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): PASS
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [118 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [279 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [182 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [1980 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [99 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [255 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [163 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [1842 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (245411 states): PASS
+  [315 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): PASS
+  [378 ms] P4  consumer case-insensitive = spec: PASS
+  [465 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F9 glob ===
+  [0 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [1315 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [774 ms] P5  subMap predicates monotone: PASS
+  [7651 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [7742 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [7897 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [21832 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): PASS
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [1 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("a", "")↦0} glob("A", "*"): expected [0], got []
+  [0 ms] P2g glob: TreeSetLookup ⊇ spec: FAIL  glob TreeSetLookup misses a match: store={("a", "")↦0} glob("A", "*"): expected [0], got []
+  [121 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [441 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [312 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [3377 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [112 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [539 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [333 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [3443 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (245411 states): PASS
+  [487 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): PASS
+  [728 ms] P4  consumer case-insensitive = spec: PASS
+  [826 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +F10 globCase ===
+  [1 ms] P1  range soundness (7353 patterns x 2235 names): FAIL  pattern("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [0 ms] P1b lower <= upper (no subMap IAE): FAIL  pattern("\uFFFF*"): lower=("\uFFFF") > upper=("\u0000")
+  [2636 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [0 ms] P1g glob range soundness: FAIL  glob("*") matches ("\uFFFF") but lower=("") upper=("\uFFFF") (cmp(n,lower)=Ordering.gt, cmp(n,upper)=Ordering.eq)
+  [969 ms] P5  subMap predicates monotone: PASS
+  [8179 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [8000 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [10308 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [15724 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): PASS
+  [0 ms] P2m tree = spec near U+FFFF (211 stores): FAIL  tree≠spec: store={("\uFFFF")↦0} pattern("*"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: FAIL  TreeSetLookup throws: store={} pattern("\uFFFF*"): expected [], got IllegalArgumentException(fromKey > toKey)
+  [105 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): PASS
+  [108 ms] P2g glob: TreeSetLookup ⊇ spec: PASS
+  [121 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [277 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [183 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [2111 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [115 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [300 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [175 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [1999 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (245411 states): PASS
+  [344 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): PASS
+  [404 ms] P4  consumer case-insensitive = spec: PASS
+  [489 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== +A1 noMax ===
+  [192 ms] P1  range soundness (7353 patterns x 2235 names): PASS
+  [2 ms] P1b lower <= upper (no subMap IAE): PASS
+  [410 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [6 ms] P1g glob range soundness: PASS
+  [233 ms] P5  subMap predicates monotone: PASS
+  [7875 ms] P2  tree = spec (20876 stores x 315 patterns): PASS
+  [13700 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [17227 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): PASS
+  [26037 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): PASS
+  [0 ms] P2m tree = spec near U+FFFF (4 stores): PASS
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: PASS
+  [261 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): PASS
+  [194 ms] P2g glob: TreeSetLookup ⊇ spec: PASS
+  [218 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [516 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [353 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [3863 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (245411 states): PASS
+  [114 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [718 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [441 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [3866 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (245411 states): PASS
+  [597 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): PASS
+  [717 ms] P4  consumer case-insensitive = spec: PASS
+  [1114 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=7222
+=== planted ===
+  [325 ms] P1  range soundness (7353 patterns x 2235 names): PASS
+  [2 ms] P1b lower <= upper (no subMap IAE): PASS
+  [869 ms] P1c range precision (in-range & right count ⇒ matched): PASS
+  [6 ms] P1g glob range soundness: PASS
+  [302 ms] P5  subMap predicates monotone: PASS
+  [1 ms] P2  tree = spec (20876 stores x 315 patterns): FAIL  tree≠spec: store={("", "")↦0} pattern("**"): expected [0], got []
+  [14507 ms] P2  TreeSetLookup = spec (20876 stores x 315 patterns): PASS
+  [1 ms] P2  tree = TreeSetLookup (20876 stores x 315 patterns): FAIL  tree≠TreeSetLookup: store={("", "")↦0} pattern("**"): expected [0], got []
+  [25938 ms] P2  shareValues=true multiset = shareValues=false (20876 stores x 315 patterns): PASS
+  [0 ms] P2m tree = spec near U+FFFF (4 stores): FAIL  tree≠spec: store={("a", "a")↦0} pattern("**"): expected [0], got []
+  [0 ms] P2m TreeSetLookup = spec near U+FFFF: PASS
+  [0 ms] P2g glob: tree ⊇ spec (1276 stores x 72 globs): FAIL  glob tree misses a match: store={("", "")↦0} glob("*"): expected [0], got []
+  [216 ms] P2g glob: TreeSetLookup ⊇ spec: PASS
+  [276 ms] P3  ops≤4 share=false size = #stored pairs (245411 states): PASS
+  [310 ms] P3  ops≤4 share=false get(name) = TreeSetLookup (245411 states): PASS
+  [426 ms] P3  ops≤4 share=false getMappings = TreeSetLookup (245411 states): PASS
+  [0 ms] P3  ops≤4 share=false get(pattern) = TreeSetLookup (23 states): FAIL  [put(("a", "b"),0)] → pattern("**"): tree=[] TreeSetLookup=[0]
+  [228 ms] P3  ops≤4 share=true size = #stored pairs (245411 states): PASS
+  [572 ms] P3  ops≤4 share=true get(name) = TreeSetLookup (245411 states): PASS
+  [211 ms] P3  ops≤4 share=true getMappings = TreeSetLookup (245411 states): PASS
+  [1 ms] P3  ops≤4 share=true get(pattern) = TreeSetLookup (23 states): FAIL  [put(("a", "b"),0)] → pattern("**"): tree=[] TreeSetLookup=[0]
+  [0 ms] P4  consumer case-sensitive = spec (4526 desc sets x 42 args): FAIL  descriptions={("b", "b")↦0} getExportedObjects(type, pattern("**"), ignoreCase=false): expected ids [0], got []
+  [0 ms] P4  consumer case-insensitive = spec: FAIL  descriptions={("b", "b")↦0} getExportedObjects(type, pattern("**"), ignoreCase=true): expected ids [0], got []
+  [866 ms] P4  consumer case-sensitive ⊆ case-insensitive: PASS
+  witnesses (store,pattern) with non-empty correct tree result: non-recursive=5356, recursive=3290
+total wall time 438625 ms
+./.lake/build/bin/trie-check 3 4  365.05s user 1.62s system 83% cpu 7:18.69 total

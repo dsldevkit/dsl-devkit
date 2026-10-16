@@ -1,0 +1,5 @@
+name = "findrefs"
+defaultTargets = ["FindRefs"]
+
+[[lean_lib]]
+name = "FindRefs"
