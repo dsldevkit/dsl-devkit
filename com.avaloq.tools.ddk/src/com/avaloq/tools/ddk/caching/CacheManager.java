@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.avaloq.tools.ddk.annotations.SuppressFBWarnings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
@@ -245,6 +246,7 @@ public class CacheManager {
     private int counter;
 
     @Override
+    @SuppressFBWarnings("AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE") // instances are local to the thread that fills and reads them
     void aggregate(final CacheStatistics statistics) {
       counter++;
       super.aggregate(statistics);
