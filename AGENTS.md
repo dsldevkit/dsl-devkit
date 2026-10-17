@@ -139,8 +139,19 @@ These directories contain generated code - do not edit manually:
 xvfb-run ./mvnw verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
 ```
 
+### Bumping Versions
+CI fails with "Only qualifier changed" when a published bundle or feature differs from the last release (`p2/releases/latest`) but keeps its version.
+1. Changing a published bundle (one included in the features, incl. `test.core`, `test.ui`, `xtext.test.core`): find the last release with `git tag --list 'v*' --merged HEAD --sort=-version:refname | head -1` and compare, `git show <tag>:<bundle>/META-INF/MANIFEST.MF`. Same version → bump the patch in `META-INF/MANIFEST.MF` (`x.y.z.qualifier`) and `pom.xml` (`x.y.z-SNAPSHOT`). Already higher → leave it.
+2. If both features still carry the last release's version, bump them to the next patch (e.g. 19.3.0 → 19.3.1) in `com.avaloq.tools.ddk.feature` and `com.avaloq.tools.ddk.runtime.feature` (`feature.xml`, `pom.xml`) and both entries in `ddk-repository/category.xml`.
+3. No bump for changes outside published bundles (`ddk-parent`, workflows, other `*.test` modules).
+4. Verify through the features:
+```bash
+./mvnw -f ./ddk-parent/pom.xml -pl :ddk-target,:com.avaloq.tools.ddk.runtime.feature,:com.avaloq.tools.ddk.feature,:ddk-repository -am -T 3C -DskipTests verify
+```
+
 ## CI/CD
 
 - **Platform**: GitHub Actions
-- **Workflow**: `.github/workflows/verify.yml`
-- Triggers on: push to master, pull requests
+- **Workflows**: `.github/workflows/verify.yml` (pull requests and the merge queue), `snapshot.yml` (pushes to `master`, publishes the p2 snapshot), `release.yml` (manual)
+- **Merging**: PRs merge through the merge queue on `master`.
+- **Releases**: run the `release` workflow (`version_bump`: patch/minor/major). It tags and republishes the head's snapshot, and fails unless every `feature.xml` already has the release version. For a minor/major release, first set both features and `category.xml` to it in a PR (e.g. "build: prepare DDK release 19.3.0").
