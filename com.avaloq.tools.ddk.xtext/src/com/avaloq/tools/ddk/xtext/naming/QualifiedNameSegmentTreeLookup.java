@@ -543,6 +543,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   public void removeMappings(final T value) {
     root.accept(new Visitor() {
       @Override
+      @SuppressFBWarnings({"AT_NONATOMIC_64BIT_PRIMITIVE", "AT_NONATOMIC_OPERATIONS_ON_SHARED_VARIABLE"})
       void visit(final SegmentNode node) {
         Object[] newValues = ArrayUtils.remove(node.values, value);
         if (newValues != node.values) {
