@@ -24,12 +24,16 @@ import org.eclipse.xtext.util.Tuples;
 
 /**
  * Optimized implementation of the LazyURIEncoder which uses custom string splitting logic.
+ * <p>
+ * <b>Note:</b> Instead use the {@code LazyURIEncoder}
  */
+@Deprecated(forRemoval = true)
 public class FastLazyURIEncoder extends LazyURIEncoder {
 
   private static final String SEP = "::"; //$NON-NLS-1$
   private static final int DECODE_START_IDX = 12;
 
+  @Deprecated(forRemoval = true)
   @Override
   public Triple<EObject, EReference, INode> decode(final Resource res, final String uriFragment) {
     if (isUseIndexFragment(res)) {
@@ -61,13 +65,16 @@ public class FastLazyURIEncoder extends LazyURIEncoder {
    * The exception is thrown when decoding fails catastrophically. It is caught in LazyLinkingResource2.getEObject().
    * See also https://bugs.eclipse.org/bugs/show_bug.cgi?id=378088
    */
+  @Deprecated(forRemoval = true)
   @SuppressWarnings({"serial", "PMD.DoNotExtendJavaLangError"})
   public static class DecodingError extends Error {
 
+    @Deprecated(forRemoval = true)
     public DecodingError(final RuntimeException cause) {
       super(cause);
     }
 
+    @Deprecated(forRemoval = true)
     @Override
     public RuntimeException getCause() {
       return (RuntimeException) super.getCause();
