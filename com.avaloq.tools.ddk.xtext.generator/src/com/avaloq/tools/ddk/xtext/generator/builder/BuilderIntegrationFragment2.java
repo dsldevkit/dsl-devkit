@@ -13,14 +13,12 @@ package com.avaloq.tools.ddk.xtext.generator.builder;
 
 import org.eclipse.xtend2.lib.StringConcatenationClient;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
-import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.xtext.generator.model.GuiceModuleAccess;
 import org.eclipse.xtext.xtext.generator.model.TypeReference;
 
-import com.avaloq.tools.ddk.xtext.linking.FastLazyURIEncoder;
 import com.avaloq.tools.ddk.xtext.linking.LazyLinkingResource2;
 import com.google.inject.name.Names;
 
@@ -36,10 +34,9 @@ public class BuilderIntegrationFragment2 extends org.eclipse.xtext.xtext.generat
   @Override
   protected void addRuntimeGuiceBindings() {
     super.addRuntimeGuiceBindings();
-    new GuiceModuleAccess.BindingFactory()
-        .addTypeToType(TypeReference.typeRef(IContainer.Manager.class), new TypeReference("com.avaloq.tools.ddk.xtext.builder.CachingStateBasedContainerManager"))
-        .addTypeToType(TypeReference.typeRef(LazyLinkingResource.class), TypeReference.typeRef(LazyLinkingResource2.class))
-        .addTypeToType(TypeReference.typeRef(LazyURIEncoder.class), TypeReference.typeRef(FastLazyURIEncoder.class))
+    new GuiceModuleAccess.BindingFactory()//
+        .addTypeToType(TypeReference.typeRef(IContainer.Manager.class), new TypeReference("com.avaloq.tools.ddk.xtext.builder.CachingStateBasedContainerManager"))//
+        .addTypeToType(TypeReference.typeRef(LazyLinkingResource.class), TypeReference.typeRef(LazyLinkingResource2.class))//
         .contributeTo(getLanguage().getRuntimeGenModule());
     if (getProjectConfig().getRuntime().getManifest() != null) {
       getProjectConfig().getRuntime().getManifest().getRequiredBundles().add(BUILDER_BUNDLE_NAME);
@@ -68,8 +65,8 @@ public class BuilderIntegrationFragment2 extends org.eclipse.xtext.xtext.generat
         target.newLineIfNotEmpty();
       }
     };
-    new GuiceModuleAccess.BindingFactory()
-        .addConfiguredBinding(IResourceDescriptions.class.getSimpleName() + "BuilderScope", statement1)
+    new GuiceModuleAccess.BindingFactory()//
+        .addConfiguredBinding(IResourceDescriptions.class.getSimpleName() + "BuilderScope", statement1)//
         .contributeTo(getLanguage().getEclipsePluginGenModule());
     if (getProjectConfig().getEclipsePlugin().getManifest() != null) {
       getProjectConfig().getEclipsePlugin().getManifest().getRequiredBundles().add(BUILDER_BUNDLE_NAME);

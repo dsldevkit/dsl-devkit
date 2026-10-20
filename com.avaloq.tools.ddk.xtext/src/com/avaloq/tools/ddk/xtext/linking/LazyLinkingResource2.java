@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.diagnostics.ExceptionDiagnostic;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.serialization.SerializationUtil;
 import org.eclipse.xtext.parser.IParser;
@@ -161,10 +160,6 @@ public class LazyLinkingResource2 extends DerivedStateAwareResource implements I
         }
       }
       return result;
-    } catch (FastLazyURIEncoder.DecodingError err) {
-      RuntimeException cause = err.getCause();
-      getErrors().add(new ExceptionDiagnostic(cause));
-      throw new WrappedException(cause); // NOPMD PreserveStackTrace - intentional unwrap of DecodingError transport wrapper
     } catch (WrappedException e) {
       boolean logged = false;
       try {
