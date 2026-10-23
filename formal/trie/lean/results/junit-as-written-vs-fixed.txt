@@ -1,0 +1,96 @@
+##### as-written
+--- naming.QualifiedNameLookupFormalTest
+FAIL testMaxCharPattern: org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.IllegalArgumentException: fromKey > toKey
+FAIL testGlobLookupsFindMatches: org.opentest4j.AssertionFailedError: expected: <[b]> but was: <[]>
+FAIL testGlobWithEmptyLastSegment: org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.StringIndexOutOfBoundsException: Index -1 out of bounds for length 0
+FAIL testSizeCountsMappingsOnce: org.opentest4j.AssertionFailedError: expected: <1> but was: <2>
+FAIL testGetMappingsKeepsBlankSegments: org.opentest4j.AssertionFailedError: expected: <[ .a]> but was: <[a]>
+FAIL testValueSharingKeepsMultiplicity: org.opentest4j.AssertionFailedError: expected: <[v, v]> but was: <[v]>
+FAIL testCaseSensitivePatternQuery: org.opentest4j.AssertionFailedError: expected: <[Foo, FooBar]> but was: <[]>
+FAIL testTopLevelWildcardFindsSingleSegmentNames: org.opentest4j.AssertionFailedError: expected: <[b]> but was: <[]>
+FAIL testTopLevelRecursiveWildcardFindsAllNames: org.opentest4j.AssertionFailedError: expected: <[b, bc]> but was: <[]>
+FAIL testExactPatternExcludesNameWithLowCharSuffix: org.opentest4j.AssertionFailedError: expected: <[]> but was: <[a_]>
+FAIL testChildWildcardExcludesSiblingWithLowCharSuffix: org.opentest4j.AssertionFailedError: expected: <[ab]> but was: <[a_x, ab]>
+FAIL testExactPatternMatchesOnlyEqualLength: org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+FAIL testTreeSetLookupEmptySegmentPattern: org.opentest4j.AssertionFailedError: expected: <[]> but was: <[e]>
+13/13 failed
+--- naming.QualifiedNameSegmentTreeLookupTest
+PASS testEmpty
+PASS testExact
+PASS testLoadStore
+PASS testGetMappings
+PASS testNestedPatternMatchesWithoutWildcard
+PASS testNestedPatternMatchesWithWildcard
+PASS testNestedPatternMatchesWithRecursiveWildcard
+PASS testTopLevelPatternWithoutWildcard
+PASS testTopLevelPatternWithWildcard
+PASS testUnmatchedNestedPattern
+PASS testOutOfOrderInsertion
+0/11 failed
+--- naming.QualifiedNamePatternTest
+PASS testSimpleQualifiedNamePattern
+PASS testQualifiedPrefixNamePattern
+PASS testRecursiveWildcardPattern
+PASS testRecursiveWildcardPatternError
+PASS testRecursiveWildcardPatternError2
+PASS testRecursiveWildcardPatternError3
+PASS testPatternWithoutWildcard
+PASS testRecursiveWildcardPatternWithPrefix
+PASS testAllPattern
+PASS testRegexpPatterns
+0/10 failed
+--- resource.PatternAwareEObjectDescriptionLookUpTest
+FAIL testCaseSensitiveExactPattern: org.opentest4j.AssertionFailedError: expected: <[Other]> but was: <[]>
+PASS testCaseInsensitivePattern
+PASS testCaseSensitivePlainName
+PASS testPatternRespectsType
+FAIL testCaseSensitivePatternMatchesCandidateNames: org.opentest4j.AssertionFailedError: expected: <[Foo, FooBar]> but was: <[]>
+2/5 failed
+##### fixed
+--- naming.QualifiedNameLookupFormalTest
+PASS testSizeCountsMappingsOnce
+PASS testGetMappingsKeepsBlankSegments
+PASS testValueSharingKeepsMultiplicity
+PASS testCaseSensitivePatternQuery
+PASS testGlobLookupsFindMatches
+PASS testGlobWithEmptyLastSegment
+FAIL testMaxCharPattern: org.opentest4j.AssertionFailedError: Unexpected exception thrown: java.lang.IllegalArgumentException: fromKey > toKey
+PASS testTopLevelWildcardFindsSingleSegmentNames
+PASS testTopLevelRecursiveWildcardFindsAllNames
+PASS testExactPatternExcludesNameWithLowCharSuffix
+PASS testChildWildcardExcludesSiblingWithLowCharSuffix
+PASS testExactPatternMatchesOnlyEqualLength
+PASS testTreeSetLookupEmptySegmentPattern
+1/13 failed
+--- naming.QualifiedNameSegmentTreeLookupTest
+PASS testTopLevelPatternWithoutWildcard
+PASS testTopLevelPatternWithWildcard
+PASS testUnmatchedNestedPattern
+PASS testOutOfOrderInsertion
+PASS testNestedPatternMatchesWithoutWildcard
+PASS testNestedPatternMatchesWithWildcard
+PASS testNestedPatternMatchesWithRecursiveWildcard
+PASS testEmpty
+PASS testExact
+PASS testLoadStore
+PASS testGetMappings
+0/11 failed
+--- naming.QualifiedNamePatternTest
+PASS testSimpleQualifiedNamePattern
+FAIL testQualifiedPrefixNamePattern: org.opentest4j.AssertionFailedError: expected: <foo!> but was: <foo0>
+FAIL testRecursiveWildcardPattern: org.opentest4j.AssertionFailedError: expected: <foo!> but was: <foo0>
+PASS testRecursiveWildcardPatternError
+PASS testRecursiveWildcardPatternError2
+PASS testRecursiveWildcardPatternError3
+FAIL testPatternWithoutWildcard: org.opentest4j.AssertionFailedError: expected: <foo!> but was: <foo0>
+FAIL testAllPattern: org.opentest4j.AssertionFailedError: expected: <!> but was: <?>
+FAIL testRegexpPatterns: org.opentest4j.AssertionFailedError: expected: <!> but was: <?>
+PASS testRecursiveWildcardPatternWithPrefix
+5/10 failed
+--- resource.PatternAwareEObjectDescriptionLookUpTest
+PASS testCaseSensitiveExactPattern
+PASS testCaseInsensitivePattern
+PASS testCaseSensitivePlainName
+PASS testPatternRespectsType
+PASS testCaseSensitivePatternMatchesCandidateNames
+0/5 failed

@@ -1,0 +1,31 @@
+  1 Initial          pcS="sched"  pcU="idle"  provReg=TRUE  view="R"
+  2 SJobStart        pcS="reset"
+  3 SReset           epoch=1  matchMod=1  pcS="rlock"
+  4 SResetLock       lockL="S"  pcS="rwait"  syncPending=TRUE
+  5 UIRunSyncReset   clears=1  provEpoch=1  syncPending=FALSE
+  6 SResetWait       pcS="runlock"
+  7 SResetUnlock     iS=1  lockL="none"  pcS="acc"
+  8 SAccept          matchMod=2  matching=<<<<1, 1>>>>  pcS="lock"
+  9 SLock            lockL="S"  pcS="get"
+ 10 SGet             nodes=<<[uri |-> "u1", ep |-> 1, kids |-> <<>>, gen |-> 1]>>  pcS="put"  sNode=1
+ 11 SPut             pcS="batch"  rootNodes=[u1 |-> 1, u2 |-> 0]
+ 12 SBatch           batch=<<1>>  pcS="child"
+ 13 SChild           nodes=<<[uri |-> "u1", ep |-> 1, kids |-> <<<<1, 1>>>>, gen |-> 1]>>  pcS="flag"
+ 14 SFlag            pcS="setflag"
+ 15 SSetFlag         flag=TRUE  pcS="sched2"
+ 16 SSchedule        jobs=1  pcS="unlock"
+ 17 SUnlock          iS=2  lockL="none"  pcS="acc"
+ 18 SAccept          matchMod=3  matching=<<<<1, 1>>, <<1, 2>>>>  pcS="lock"
+ 19 UIJobStart       jobs=0  pcU="u_drain"
+ 20 UDrain           batch=<<>>  pcU="u_refresh"  shown={1}
+ 21 SLock            lockL="S"  pcS="get"
+ 22 SGet             nodes=<< [uri |-> "u1", ep |-> 1, kids |-> <<<<1, 1>>>>, gen |-> 1], [uri |-> "u2", ep |-> 1, kids |-> <<>>, gen |-> 1] >>  pcS="put"  sNode=2
+ 23 URefresh         pcU="u_check"
+ 24 UCheck           pcU="u_end"
+ 25 SPut             pcS="batch"  rootNodes=[u1 |-> 1, u2 |-> 2]
+ 26 SBatch           batch=<<2>>  pcS="child"
+ 27 SChild           nodes=<< [uri |-> "u1", ep |-> 1, kids |-> <<<<1, 1>>>>, gen |-> 1], [uri |-> "u2", ep |-> 1, kids |-> <<<<1, 2>>>>, gen |-> 1] >>  pcS="flag"
+ 28 SFlag            pcS="unlock"
+ 29 UEnd             flag=FALSE  pcU="idle"
+ 30 SUnlock          lockL="none"  pcS="fin"
+ 31 SFinish          pcS="done"

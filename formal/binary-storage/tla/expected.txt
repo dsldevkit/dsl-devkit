@@ -1,0 +1,39 @@
+orig_TypeOK OK
+orig_NotSourceOnlyWhenStored VIOLATED:NotSourceOnlyWhenStored
+orig_StoresAccounted OK
+orig_LoaderNoPartialRead VIOLATED:LoaderNoPartialRead
+orig_MainNoPartialRead VIOLATED:MainNoPartialRead
+orig_NoStaleRead VIOLATED:NoStaleRead
+orig_SetThreadSafe VIOLATED:SetThreadSafe
+orig_NoDetachedStore VIOLATED:NoDetachedStore
+orig_live OK
+orig_live_M OK [full]
+happy_NotSourceOnlyWhenStored VIOLATED:NotSourceOnlyWhenStored
+happy_LoaderNoPartialRead OK
+happy_MainNoPartialRead OK
+happy_NoStaleRead OK
+happy_SetThreadSafe VIOLATED:SetThreadSafe
+happy_NoDetachedStore OK
+fixed_S OK
+fixed_M OK
+fixed_M2 OK [full]
+fixed_L OK [full]
+fixed_L2 OK
+fixed_R OK [full]
+ablateA VIOLATED:NotSourceOnlyWhenStored
+ablateB VIOLATED:SetThreadSafe
+ablateC VIOLATED:NoDetachedStore
+ablateD VIOLATED:NoDetachedStore
+planted VIOLATED:NotSourceOnlyWhenStored
+wit_orig_WitnessDone VIOLATED:WitnessDone
+wit_orig_WitnessSecondClust VIOLATED:WitnessSecondClust
+wit_orig_WitnessCallerRuns VIOLATED:WitnessCallerRuns
+wit_orig_WitnessTimeout VIOLATED:WitnessTimeout
+wit_orig_WitnessGoodRead VIOLATED:WitnessGoodRead
+wit_orig_WitnessStoreOk VIOLATED:WitnessStoreOk
+wit_fixed_WitnessDone VIOLATED:WitnessDone
+wit_fixed_WitnessSecondClust VIOLATED:WitnessSecondClust
+wit_fixed_WitnessCallerRuns VIOLATED:WitnessCallerRuns
+wit_fixed_WitnessTimeout VIOLATED:WitnessTimeout
+wit_fixed_WitnessGoodRead VIOLATED:WitnessGoodRead
+wit_fixed_WitnessStoreOk VIOLATED:WitnessStoreOk

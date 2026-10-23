@@ -1,0 +1,6 @@
+  1 Initial          pcS="sched"  pcU="idle"  provReg=TRUE  view="R"
+  2 SJobStart        pcS="reset"
+  3 UserToB          pcU="b_disp"  switches=1
+  4 SReset           epoch=1  matchMod=1  pcS="rlock"
+  5 SResetLock       lockL="S"  pcS="rwait"  syncPending=TRUE
+  6 UBDisp           pcU="b_lbl"
