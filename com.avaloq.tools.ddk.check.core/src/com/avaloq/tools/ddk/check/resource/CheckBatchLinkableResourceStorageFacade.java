@@ -33,6 +33,14 @@ public class CheckBatchLinkableResourceStorageFacade extends BatchLinkableResour
   }
 
   /**
+   * Never stores the node model: it holds the full catalog source, including the implementation, and does not match the pruned contents.
+   */
+  @Override
+  public boolean isStoreNodeModel() {
+    return false;
+  }
+
+  /**
    * Returns a generated URI corresponding to the location on disk of
    * the binary model associated with the provided {@param resource}.
    *

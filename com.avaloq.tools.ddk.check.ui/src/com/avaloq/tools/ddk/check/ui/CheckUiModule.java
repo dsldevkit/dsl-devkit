@@ -24,6 +24,7 @@ import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.ui.editor.templates.XtextTemplateContextType;
+import org.eclipse.xtext.ui.resource.IResourceUIServiceProvider;
 import org.eclipse.xtext.xbase.compiler.GeneratorConfigProvider;
 import org.eclipse.xtext.xbase.compiler.IGeneratorConfigProvider;
 
@@ -87,6 +88,15 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
   @Override
   public Class<? extends org.eclipse.xtext.builder.IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
     return CheckBuilderParticipant.class;
+  }
+
+  /**
+   * Binds a resource service provider which excludes generated catalog stubs from the build.
+   *
+   * @return the resource service provider to use, never {@code null}
+   */
+  public Class<? extends IResourceUIServiceProvider> bindIResourceUIServiceProvider() {
+    return CheckResourceUIServiceProvider.class;
   }
 
   @Override
