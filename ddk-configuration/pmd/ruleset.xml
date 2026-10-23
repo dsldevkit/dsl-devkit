@@ -17,7 +17,6 @@
     <exclude name="AvoidAccessibilityAlteration"/>
     <exclude name="AvoidBranchingStatementAsLastInLoop"/>
     <exclude name="AvoidCatchingGenericException"/><!--Checkstyle-->
-    <exclude name="AvoidCatchingThrowable"/><!--Checkstyle-->
     <exclude name="AvoidDuplicateLiterals"/><!--Checkstyle-->
     <exclude name="AvoidLiteralsInIfCondition"/><!--Checkstyle-->
     <exclude name="CloneMethodMustImplementCloneable"/>
@@ -25,7 +24,6 @@
     <exclude name="CompareObjectsWithEquals"/>
     <exclude name="ConstructorCallsOverridableMethod"/>
     <exclude name="DetachedTestCase"/>
-    <exclude name="DontImportSun"/><!--Checkstyle-->
     <exclude name="DoNotTerminateVM"/>
     <exclude name="JumbledIncrementer"/><!--Checkstyle-->
     <exclude name="EmptyCatchBlock"/><!--Checkstyle-->
@@ -64,7 +62,6 @@
     <exclude name="SimplifyBooleanExpressions"/><!--Checkstyle-->
     <exclude name="TooManyFields"/>
     <exclude name="TooManyMethods"/>
-    <exclude name="UseUtilityClass"/>
   </rule>
   <rule ref="category/java/bestpractices.xml">
     <exclude name="AbstractClassWithoutAbstractMethod"/>
@@ -121,7 +118,6 @@
     <exclude name="UnnecessaryAnnotationValueElement"/>
     <exclude name="UnnecessaryModifier"/><!--Checkstyle-->
     <exclude name="UnnecessaryFullyQualifiedName"/>
-    <exclude name="UnnecessaryLocalBeforeReturn"/>
     <exclude name="UselessParentheses"/><!--New after PMD 5.3 upgrade, impairs readability, not needed because of Formatter-->
     <exclude name="UselessQualifiedThis"/>
     <exclude name="UseDiamondOperator"/>
