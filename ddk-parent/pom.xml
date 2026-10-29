@@ -43,8 +43,8 @@
     <test.timeout>1800</test.timeout>
     <test.testClass>com.avaloq.tools.ddk.xtext.AllTests</test.testClass>
 
-    <!-- maven enforced version: Maven 3.10 rejects the nested-jar dependencies Tycho injects (eclipse-tycho/tycho#6399) -->
-    <maven-enforcer-rule.version>[3.9.0,3.10)</maven-enforcer-rule.version>
+    <!-- maven enforced version -->
+    <maven-enforcer-rule.version>[3.9.0,4)</maven-enforcer-rule.version>
 
     <!-- maven plugin versions -->
     <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
@@ -157,7 +157,6 @@
               <rules>
                 <requireMavenVersion>
                   <version>${maven-enforcer-rule.version}</version>
-                  <message>Build with ./mvnw: Maven 3.10 cannot resolve bundles with nested jars yet (eclipse-tycho/tycho#6399).</message>
                 </requireMavenVersion>
               </rules>
             </configuration>
