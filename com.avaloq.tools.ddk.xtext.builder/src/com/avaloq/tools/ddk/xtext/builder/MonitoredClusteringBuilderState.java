@@ -121,8 +121,13 @@ import com.google.inject.name.Named;
 public class MonitoredClusteringBuilderState extends ClusteringBuilderState
     implements IResourceDescriptions2, IXtextTargetPlatformManager.Listener, ILayeredResourceDescriptions {
 
+  /** Heap budgeted per queued binary storage task, which keeps its fully linked resource in memory until it is stored. */
+  private static final long HEAP_BYTES_PER_QUEUED_BINARY = 2L * 1024 * 1024;
+  private static final int MIN_BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY = 100;
+  private static final int MAX_BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY = 15_000;
   private static final int BINARY_STORAGE_EXECUTOR_PARALLELISM = Integer.getInteger("com.avaloq.tools.ddk.xtext.builder.binaryStorageExecutor.parallelDegree", 4); //$NON-NLS-1$
-  private static final int BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY = Integer.getInteger("com.avaloq.tools.ddk.xtext.builder.binaryStorageExecutor.queueCapacity", 15_000); //$NON-NLS-1$
+  private static final int BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY = Integer.getInteger("com.avaloq.tools.ddk.xtext.builder.binaryStorageExecutor.queueCapacity", //$NON-NLS-1$
+      defaultBinaryStorageQueueCapacity(Runtime.getRuntime().maxMemory()));
 
   public static final String PHASE_ONE_BUILD_SORTER = "com.avaloq.tools.ddk.xtext.builder.phaseOneBuildSorter"; //$NON-NLS-1$
   public static final String PHASE_TWO_BUILD_SORTER = "com.avaloq.tools.ddk.xtext.builder.phaseTwoBuildSorter"; //$NON-NLS-1$
@@ -176,6 +181,19 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
 
   private static final ThreadFactory makeThreadFactory() {
     return new ThreadFactoryBuilder().setNameFormat("binary-storage-executor-%d").build(); //$NON-NLS-1$
+  }
+
+  /**
+   * Computes the default capacity of the binary storage queue for the given maximum heap size. Every queued task keeps its resource in memory, so the
+   * capacity is derived from the heap: one entry per {@value #HEAP_BYTES_PER_QUEUED_BINARY} bytes, but at least
+   * {@value #MIN_BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY} and at most {@value #MAX_BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY} entries.
+   *
+   * @param maxHeapBytes
+   *          the maximum heap size in bytes, as returned by {@link Runtime#maxMemory()}
+   * @return the queue capacity
+   */
+  public static int defaultBinaryStorageQueueCapacity(final long maxHeapBytes) {
+    return Math.clamp(maxHeapBytes / HEAP_BYTES_PER_QUEUED_BINARY, MIN_BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY, MAX_BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY);
   }
 
   private static final ThreadPoolExecutor makeBinaryStorageExecutor() {
@@ -819,7 +837,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   protected void awaitBinaryStorageExecutorTermination(final int timeout, final TimeUnit unit, final int retryCount) {
     LOGGER.info("Waiting for binary resource storage tasks to complete: timeout {} {}, retryCount {}", timeout, unit, retryCount); //$NON-NLS-1$
     if (hwmTimeStamp != null) {
-      LOGGER.info("high water mark was {} at {}", binaryStorageHighWaterMark, hwmTimeStamp); //$NON-NLS-1$
+      LOGGER.info("high water mark was {} (capacity {}) at {}", binaryStorageHighWaterMark, BINARY_STORAGE_EXECUTOR_QUEUE_CAPACITY, hwmTimeStamp); //$NON-NLS-1$
     }
 
     // Stop accepting additional work

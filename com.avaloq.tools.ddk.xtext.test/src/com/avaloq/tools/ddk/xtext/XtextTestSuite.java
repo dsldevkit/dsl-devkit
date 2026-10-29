@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.xtext;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
+import com.avaloq.tools.ddk.xtext.builder.BinaryStorageQueueCapacityTest;
 import com.avaloq.tools.ddk.xtext.builder.BuilderLoadTimeoutTest;
 import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
 import com.avaloq.tools.ddk.xtext.builder.resourceloader.ParallelResourceLoaderTest;
@@ -41,6 +42,7 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   XtextBuildTriggerTest.class,
   BuilderLoadTimeoutTest.class,
   ParallelResourceLoaderTest.class,
+  BinaryStorageQueueCapacityTest.class,
   FormatterTest.class,
   QualifiedNamePatternTest.class,
   BugAig1084.class,
