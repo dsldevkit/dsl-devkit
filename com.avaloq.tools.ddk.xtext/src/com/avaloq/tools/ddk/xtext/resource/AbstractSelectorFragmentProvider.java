@@ -88,8 +88,9 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
       int selectorIndex = 0;
       final int objectIndex = containmentList.indexOf(obj);
       for (int i = 0; i < objectIndex; i++) {
-        final Object value = containmentList.get(i).eGet(selectorFeature);
-        if ((selectorValue == null && value == null) || (selectorValue != null && selectorValue.equals(value))) {
+        final EObject sibling = containmentList.get(i);
+        final Object value = sibling.eGet(selectorFeature);
+        if (selectorValue == null ? value == null : value != null && matches(sibling, value.toString(), selectorValue.toString())) {
           selectorIndex++;
         }
       }
@@ -133,6 +134,21 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     return caseSensitive;
   }
 
+  /**
+   * Returns whether the given selector value text matches the expected value, ignoring case unless the object's class is case sensitive.
+   *
+   * @param object
+   *          object whose selector value is matched
+   * @param text
+   *          text of the object's selector value
+   * @param expected
+   *          expected selector value, may be {@code null}
+   * @return {@code true} if the values match
+   */
+  private static boolean matches(final EObject object, final String text, final String expected) {
+    return text.equalsIgnoreCase(expected) && (!isCaseSensitive(object.eClass()) || text.equals(expected));
+  }
+
   @Override
   @SuppressWarnings({"unchecked", "PMD.NPathComplexity"})
   public EObject getEObjectFromSegment(final EObject container, final String segment) {
@@ -165,8 +181,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
             return object;
           }
         } else {
-          String text = value.toString();
-          if (text.equalsIgnoreCase(matchedValue) && (!isCaseSensitive(object.eClass()) || text.equals(matchedValue)) && index++ == matchedIndex) {
+          if (matches(object, value.toString(), matchedValue) && index++ == matchedIndex) {
             return object;
           }
         }
