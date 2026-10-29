@@ -125,7 +125,12 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
   }
 
   private static Boolean isCaseSensitive(final EClass eClass) {
-    return ECLASS_TO_CASE_SENSITIVE.computeIfAbsent(eClass, k -> k.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
+    // computeIfAbsent locks the bin even for a present key unless it is the bin's first node
+    Boolean caseSensitive = ECLASS_TO_CASE_SENSITIVE.get(eClass);
+    if (caseSensitive == null) {
+      caseSensitive = ECLASS_TO_CASE_SENSITIVE.computeIfAbsent(eClass, k -> k.getEAllSuperTypes().stream().map(EClass::getName).anyMatch(n -> "ICaseSensitiveNamedElement".equals(n))); //$NON-NLS-1$
+    }
+    return caseSensitive;
   }
 
   @Override
@@ -160,8 +165,8 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
             return object;
           }
         } else {
-          if ((isCaseSensitive(object.eClass()) ? value.toString().equals(matchedValue) : value.toString().equalsIgnoreCase(matchedValue))
-              && index++ == matchedIndex) {
+          String text = value.toString();
+          if (text.equalsIgnoreCase(matchedValue) && (!isCaseSensitive(object.eClass()) || text.equals(matchedValue)) && index++ == matchedIndex) {
             return object;
           }
         }
