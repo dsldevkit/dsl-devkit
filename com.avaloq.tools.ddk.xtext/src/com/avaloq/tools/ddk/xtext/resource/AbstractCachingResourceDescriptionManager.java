@@ -40,6 +40,8 @@ import org.eclipse.xtext.resource.impl.DefaultResourceDescriptionManager;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Tuples;
 
+import com.avaloq.tools.ddk.caching.CacheConfiguration;
+import com.avaloq.tools.ddk.caching.CacheManager;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2;
 import com.avaloq.tools.ddk.xtext.resource.extensions.IResourceDescriptions2.ReferenceMatchPolicy;
@@ -47,6 +49,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MapMaker;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -326,33 +329,56 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
    * @return true if the candidate is affected
    */
   protected boolean isReferencedBy(final Delta delta, final IResourceDescription candidate, final IResourceDescriptions context) {
-    URI candidateURI = candidate.getURI();
+    return getReferencingURIs(delta, context).contains(candidate.getURI());
+  }
 
-    if (delta instanceof ResourceDescriptionDelta && ((ResourceDescriptionDelta) delta).hasObjectFingerprints()) {
-      ResourceDescriptionDelta detailedDelta = (ResourceDescriptionDelta) delta;
+  /**
+   * Cache for the URIs of the resources referencing what a delta changed, per index they were looked up in. The result does not depend on the candidate,
+   * so it is computed once per delta and index instead of once per candidate.
+   */
+  private static final Map<Delta, Map<IResourceDescriptions, Set<URI>>> REFERENCING_URIS = CacheManager.getInstance().createMapCache("AbstractCachingResourceDescriptionManager#referencingURIs", new CacheConfiguration().useWeakKeys()); //$NON-NLS-1$
 
-      final Set<IEObjectDescription> changedOrDeletedObjects = Sets.newHashSet(Iterables.concat(detailedDelta.getChangedObjects(), detailedDelta.getDeletedObjects()));
-      for (IResourceDescription desc : ((IResourceDescriptions2) context).findExactReferencingResources(changedOrDeletedObjects, ReferenceMatchPolicy.REFERENCES)) {
-        if (desc.getURI().equals(candidateURI)) {
-          return true;
-        }
-      }
+  /**
+   * Returns the URIs of all resources in the given index which reference what the given delta changed, deleted or added.
+   * Assumes the content of the index does not change while the delta is in use, as within one pass computing the affected resources.
+   *
+   * @param delta
+   *          delta, must not be {@code null}
+   * @param context
+   *          context index, must not be {@code null}
+   * @return the URIs of the referencing resources, never {@code null}
+   */
+  private static Set<URI> getReferencingURIs(final Delta delta, final IResourceDescriptions context) {
+    Map<IResourceDescriptions, Set<URI>> byIndex = REFERENCING_URIS.computeIfAbsent(delta, d -> new MapMaker().weakKeys().makeMap());
+    return byIndex.computeIfAbsent(context, c -> computeReferencingURIs(delta, (IResourceDescriptions2) c));
+  }
 
-      for (IResourceDescription desc : ((IResourceDescriptions2) context).findExactReferencingResources(Sets.newHashSet(detailedDelta.getAddedObjects()), ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES)) {
-        if (desc.getURI().equals(candidateURI)) {
-          return true;
-        }
-      }
+  /**
+   * Queries the URIs of all resources in the given index which reference what the given delta changed, deleted or added.
+   *
+   * @param delta
+   *          delta, must not be {@code null}
+   * @param context
+   *          context index, must not be {@code null}
+   * @return the URIs of the referencing resources, never {@code null}
+   */
+  private static Set<URI> computeReferencingURIs(final Delta delta, final IResourceDescriptions2 context) {
+    ImmutableSet.Builder<URI> result = ImmutableSet.builder();
+    if (delta instanceof ResourceDescriptionDelta detailedDelta && detailedDelta.hasObjectFingerprints()) {
+      Set<IEObjectDescription> changedOrDeletedObjects = Sets.newHashSet(Iterables.concat(detailedDelta.getChangedObjects(), detailedDelta.getDeletedObjects()));
+      addURIs(result, context.findExactReferencingResources(changedOrDeletedObjects, ReferenceMatchPolicy.REFERENCES));
+      addURIs(result, context.findExactReferencingResources(Sets.newHashSet(detailedDelta.getAddedObjects()), ReferenceMatchPolicy.UNRESOLVED_IMPORTED_NAMES));
     } else {
       IResourceDescription resource = delta.getNew() != null ? delta.getNew() : delta.getOld();
-      for (IResourceDescription desc : ((IResourceDescriptions2) context).findAllReferencingResources(ImmutableSet.of(resource), ReferenceMatchPolicy.ALL)) {
-        if (desc.getURI().equals(candidateURI)) {
-          return true;
-        }
-      }
+      addURIs(result, context.findAllReferencingResources(ImmutableSet.of(resource), ReferenceMatchPolicy.ALL));
     }
+    return result.build();
+  }
 
-    return false;
+  private static void addURIs(final ImmutableSet.Builder<URI> uris, final Iterable<IResourceDescription> descriptions) {
+    for (IResourceDescription desc : descriptions) {
+      uris.add(desc.getURI());
+    }
   }
 
   /** Cache for the exported names from a delta. */
