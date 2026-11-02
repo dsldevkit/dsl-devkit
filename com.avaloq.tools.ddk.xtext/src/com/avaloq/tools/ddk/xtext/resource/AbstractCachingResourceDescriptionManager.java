@@ -155,21 +155,19 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
     for (final Delta delta : filteredDeltas) {
       final URI deltaURI = delta.getUri();// NOPMD - potentially could be lost due to call on getNew() after
       // deleted resources are no longer visible resources so we test them, too.
-      if (delta.getNew() == null && isReferencedBy(delta, candidate, context)) {
+      if ((delta.getNew() == null || isVisible(deltaURI, containers, containersState)) && isReferencedBy(delta, candidate, context)) {
         LOGGER.debug(LOG_AFFECTED_BY, candidate::getURI, delta::getUri);
         return true;
       }
+    }
+    return false;
+  }
 
-      String containerHandle = containersState.getContainerHandle(deltaURI);
-      if (overlap(containerHandle, containers)) {
-        for (IContainer container : containers) {
-          if (container.getResourceDescription(deltaURI) != null) {
-            if (isReferencedBy(delta, candidate, context)) {
-              LOGGER.debug(LOG_AFFECTED_BY, candidate::getURI, delta::getUri);
-              return true;
-            }
-            break;
-          }
+  private boolean isVisible(final URI uri, final List<IContainer> containers, final IAllContainersState containersState) {
+    if (overlap(containersState.getContainerHandle(uri), containers)) {
+      for (IContainer container : containers) {
+        if (container.getResourceDescription(uri) != null) {
+          return true;
         }
       }
     }
