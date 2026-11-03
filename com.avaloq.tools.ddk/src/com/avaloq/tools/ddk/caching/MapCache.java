@@ -12,7 +12,9 @@ package com.avaloq.tools.ddk.caching;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -167,7 +169,11 @@ public class MapCache<K, V> implements ICache<K, V>, Map<K, V> {
 
   @Override
   public V computeIfAbsent(final K key, final Function<? super K, ? extends V> mappingFunction) {
-    return backend.asMap().computeIfAbsent(key, mappingFunction);
+    Objects.requireNonNull(mappingFunction);
+    // Guava's computeIfAbsent takes the segment lock even on a hit, so try a lock-free read first.
+    ConcurrentMap<K, V> map = backend.asMap();
+    V value = map.get(key);
+    return value != null ? value : map.computeIfAbsent(key, mappingFunction);
   }
 
   @Override
