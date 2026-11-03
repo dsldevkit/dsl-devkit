@@ -15,6 +15,7 @@ import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.xtext.builder.BinaryStorageQueueCapacityTest;
 import com.avaloq.tools.ddk.xtext.builder.BuilderLoadTimeoutTest;
+import com.avaloq.tools.ddk.xtext.builder.ContainerStateTest;
 import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
 import com.avaloq.tools.ddk.xtext.builder.resourceloader.ParallelResourceLoaderTest;
 import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
@@ -60,7 +61,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   QualifiedNameConverterTest.class,
   ReferenceUriCachingTest.class,
   AbstractExportedNameProviderTest.class,
-  AbstractCachingResourceDescriptionManagerAffectedResourcesTest.class})
+  AbstractCachingResourceDescriptionManagerAffectedResourcesTest.class,
+  ContainerStateTest.class})
 // @Format-On
 public class XtextTestSuite {
 }
