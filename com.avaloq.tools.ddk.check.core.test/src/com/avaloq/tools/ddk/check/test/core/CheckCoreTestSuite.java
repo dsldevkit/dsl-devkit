@@ -15,9 +15,9 @@ import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.check.core.generator.IssueCodeValueTest;
 import com.avaloq.tools.ddk.check.core.test.BasicModelTest;
-import com.avaloq.tools.ddk.check.core.test.BugAig1314;
-import com.avaloq.tools.ddk.check.core.test.BugAig830;
-import com.avaloq.tools.ddk.check.core.test.BugDsl27;
+import com.avaloq.tools.ddk.check.core.test.BugAig1314Test;
+import com.avaloq.tools.ddk.check.core.test.BugAig830Test;
+import com.avaloq.tools.ddk.check.core.test.BugDsl27Test;
 import com.avaloq.tools.ddk.check.core.test.CheckLineSeparatorBindingTest;
 import com.avaloq.tools.ddk.check.core.test.CheckScopingTest;
 import com.avaloq.tools.ddk.check.core.test.IssueCodeToLabelMapGenerationTest;
@@ -38,15 +38,15 @@ import com.avaloq.tools.ddk.check.validation.CheckValidationTest;
   IssueCodeValueTest.class,
   BasicModelTest.class,
   CheckLineSeparatorBindingTest.class,
-  BugAig830.class,
+  BugAig830Test.class,
   CheckScopingTest.class,
   CheckValidationTest.class,
   CheckJavaValidatorUtilTest.class,
   IssueCodeToLabelMapGenerationTest.class,
   IssueExpressionGenerationTest.class,
   ProjectBasedTests.class,
-  BugAig1314.class,
-  BugDsl27.class,
+  BugAig1314Test.class,
+  BugDsl27Test.class,
   CheckApiAccessValidationsTest.class,
   CheckFormattingTest.class
   // @Format-On
