@@ -738,6 +738,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
   protected IScope newPrefixedContainerScope(final String id, final IScope outer, final EObject context, final ContainerQuery.Builder query, final Resource originalResource, final String prefix, final boolean recursive, final Iterable<INameFunction> nameFunctions, final boolean caseInsensitive) {
     IScope result = outer;
     final List<String> domains = query.getDomains();
+    final QualifiedName prefixName = QualifiedNames.safeQualifiedName(prefix);
     for (final IContainer container : Lists.reverse(getVisibleContainers(context, originalResource))) {
       if (!domains.isEmpty()) {
         final IDomain domain = domainMapper.map(container);
@@ -745,7 +746,7 @@ public abstract class AbstractPolymorphicScopeProvider extends AbstractScopeProv
           continue; // Query not applicable to this container.
         }
       }
-      result = new PrefixedContainerBasedScope(id, result, container, query, nameFunctions, QualifiedNames.safeQualifiedName(prefix), recursive, caseInsensitive);
+      result = new PrefixedContainerBasedScope(id, result, container, query, nameFunctions, prefixName, recursive, caseInsensitive);
     }
     return result;
   }
