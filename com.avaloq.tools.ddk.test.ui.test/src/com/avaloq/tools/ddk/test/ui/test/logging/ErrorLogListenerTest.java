@@ -27,6 +27,9 @@ import com.avaloq.tools.ddk.test.core.util.ErrorLogListener;
  * Tests the {@link ErrorLogListener}.
  */
 public class ErrorLogListenerTest {
+  private static final long LOG_TIMEOUT_MILLIS = 10_000;
+  private static final long POLL_MILLIS = 50;
+
   private ErrorLogListener errorLogListener;
 
   /**
@@ -56,7 +59,7 @@ public class ErrorLogListenerTest {
   @SuppressWarnings("nls")
   public void testIgnoringExceptionLocations() throws InterruptedException {
     assertFalse(errorLogListener.isExceptionLogged(NullPointerException.class), "NullPointerException must not have been logged.");
-    errorLogListener.ignoreException(NullPointerException.class, "com.avaloq.tools.ddk.test.core.util.ErrorLogListenerTest");
+    errorLogListener.ignoreException(NullPointerException.class, ErrorLogListenerTest.class.getName());
 
     final Job job = new Job("testIgnoringExceptionLocations") {
 
@@ -69,7 +72,24 @@ public class ErrorLogListenerTest {
     };
     job.schedule();
     job.join();
+    waitUntilLogged(NullPointerException.class);
 
     assertTrue(errorLogListener.isExceptionLogged(NullPointerException.class), "NullPointerException must have been logged.");
+    assertFalse(errorLogListener.isAnyExceptionLogged(), "NullPointerException thrown at an ignored location must be ignored.");
+  }
+
+  /**
+   * Waits until an exception of the given type was logged; the job manager logs failures asynchronously after the job has finished.
+   *
+   * @param exceptionType
+   *          the type of exception to wait for, must not be {@code null}
+   * @throws InterruptedException
+   *           if interrupted while waiting
+   */
+  private void waitUntilLogged(final Class<? extends Exception> exceptionType) throws InterruptedException {
+    final long deadline = System.currentTimeMillis() + LOG_TIMEOUT_MILLIS;
+    while (!errorLogListener.isExceptionLogged(exceptionType) && System.currentTimeMillis() < deadline) {
+      Thread.sleep(POLL_MILLIS);
+    }
   }
 }

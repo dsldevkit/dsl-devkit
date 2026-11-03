@@ -12,37 +12,28 @@ package com.avaloq.tools.ddk.test.ui.test.swtbot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
-import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
+import org.eclipse.swtbot.swt.finder.keyboard.KeyboardLayout;
 import org.junit.jupiter.api.Test;
-
-import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 
 
 /**
- * Checks if the DE_CH keyboard layout works correctly by typing special characters in a test Eclipse editor.
+ * Checks that the custom DE_CH keyboard layout maps all characters of a Swiss German keyboard.
+ * <p>
+ * The layout is checked directly instead of by typing, as SWTBot fixes its keyboard layout globally on first use, which would affect all later tests.
  */
 @SuppressWarnings("nls")
 public class DeChKeyboardLayoutTest {
-  private static final String EXPECTED_RESULT = "¨üöä$,.-<!èéà£;:_>[]ö{},.-\\'^+\"*ç%&/()=?`¦@#°§¬|¢´~zyZY";
+  private static final String DE_CH_LAYOUT = "com.avaloq.tools.ddk.test.ui.swtbot.DE_CH";
+  private static final String CHARACTERS = "¨üöä$,.-<!èéà£;:_>[]ö{},.-\\'^+\"*ç%&/()=?`¦@#°§¬|¢´~zyZY";
 
   /**
-   * Tests com.avaloq.test.swtbot.DE_CH.
+   * Tests that every character has a keystroke in the DE_CH layout which maps back to the same character.
    */
   @Test
   public void testDeChKeyboardLayout() {
-    SWTBotPreferences.KEYBOARD_LAYOUT = "com.avaloq.test.swtbot.DE_CH";
-    SWTBotPreferences.KEYBOARD_STRATEGY = "org.eclipse.swtbot.swt.finder.keyboard.MockKeyboardStrategy";
-    SwtWorkbenchBot bot = new SwtWorkbenchBot();
-
-    bot.closeWelcomePage();
-    bot.menu("File").menu("New").menu("Untitled Text File").click();
-    SWTBotEclipseEditor editor = bot.activeEditor().toTextEditor();
-    editor.setFocus();
-    editor.typeText(EXPECTED_RESULT);
-    String actualResult = editor.getText();
-    bot.closeAllEditors();
-
-    assertEquals(EXPECTED_RESULT, actualResult, "Written and read characters must exactly match");
+    KeyboardLayout layout = KeyboardLayout.getKeyboardLayout(DE_CH_LAYOUT);
+    for (char ch : CHARACTERS.toCharArray()) {
+      assertEquals(ch, layout.toCharacter(layout.keyStrokeFor(ch)), "Keystroke for '" + ch + "' must map back to the same character");
+    }
   }
 }
