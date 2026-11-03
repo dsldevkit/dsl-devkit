@@ -15,7 +15,5 @@ Require-Bundle: org.eclipse.xtext.ui,
  junit-jupiter-api,
  junit-jupiter-engine,
  net.bytebuddy.byte-buddy,
- org.objenesis,
- junit-platform-suite-api
-Export-Package: com.avaloq.tools.ddk.xtext.ui.test
+ org.objenesis
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.ui.test

@@ -13,8 +13,6 @@ Require-Bundle: com.avaloq.tools.ddk.xtext.export,
  com.avaloq.tools.ddk.xtext,
  junit-jupiter-api,
  junit-jupiter-engine,
- junit-platform-suite-api,
  org.eclipse.xtext.xbase,
  org.eclipse.xtext.common.types
-Export-Package: com.avaloq.tools.ddk.xtext.test.export
 Automatic-Module-Name: com.avaloq.tools.ddk.xtext.export.test

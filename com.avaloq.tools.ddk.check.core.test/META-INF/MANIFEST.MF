@@ -26,11 +26,9 @@ Require-Bundle: com.avaloq.tools.ddk.check.core,
  org.apache.commons.lang3,
  org.eclipse.xtext.xbase.testing,
  junit-jupiter-api,
- junit-jupiter-engine,
- junit-platform-suite-api
+ junit-jupiter-engine
 Export-Package: com.avaloq.tools.ddk.check.core.test,
  com.avaloq.tools.ddk.check.core.test.util,
- com.avaloq.tools.ddk.check.test.core,
  com.avaloq.tools.ddk.check
 Import-Package: org.hamcrest.core, org.apache.logging.log4j
 Automatic-Module-Name: com.avaloq.tools.ddk.check.core.test

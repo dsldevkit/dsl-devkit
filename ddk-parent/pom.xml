@@ -26,7 +26,7 @@
     <runtime.pluginCustomization></runtime.pluginCustomization>
     <!-- add the following to runtime.javaOptions to enable debugging: -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 -Xnoagent -Djava.compiler=NONE -->
     <runtime.javaOptions>-Xms256m -Xmx1g -Dfile.encoding=UTF-8</runtime.javaOptions>
-    <runtime.product>org.eclipse.sdk.ide</runtime.product>
+    <runtime.product>org.eclipse.platform.ide</runtime.product>
     <runtime.logbackConfig>${workspace}/ddk-configuration/logging/logback-config.xml</runtime.logbackConfig>
 
     <!-- analysis parameter -->
@@ -41,7 +41,6 @@
     <!-- test parameter-->
     <test.javaOptions>${runtime.javaOptions}</test.javaOptions>
     <test.timeout>1800</test.timeout>
-    <test.testClass>com.avaloq.tools.ddk.xtext.AllTests</test.testClass>
 
     <!-- maven enforced version: Maven 3.10 rejects the nested-jar dependencies Tycho injects (eclipse-tycho/tycho#6399) -->
     <maven-enforcer-rule.version>[3.9.0,3.10)</maven-enforcer-rule.version>
@@ -120,7 +119,6 @@
     <module>../com.avaloq.tools.ddk.checkcfg.ide</module>
     <module>../com.avaloq.tools.ddk.checkcfg.core.test</module>
     <module>../com.avaloq.tools.ddk.checkcfg.ui</module>
-    <module>../com.avaloq.tools.ddk.checkcfg.ui.test</module>
     <module>../com.avaloq.tools.ddk.sample.helloworld</module>
     <module>../com.avaloq.tools.ddk.sample.helloworld.ide</module>
     <module>../com.avaloq.tools.ddk.sample.helloworld.ui</module>
@@ -269,7 +267,44 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <skip>true</skip>          <!-- activated only in/for com.avaloq.tools.ddk.xtext.test bundle -->
+          <trimStackTrace>false</trimStackTrace>
+          <runOrder>alphabetical</runOrder>
+          <providerHint>junit6</providerHint>
+          <failIfNoTests>false</failIfNoTests>
+          <useUIThread>false</useUIThread>
+          <useUIHarness>true</useUIHarness>
+          <reactorConcurrencyLevel>1</reactorConcurrencyLevel> <!-- one test runtime at a time under -T -->
+          <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
+          <argLine>-Dslf4j.internal.verbosity=ERROR -Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
+          <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
+          <product>${runtime.product}</product>
+          <application>org.eclipse.ui.ide.workbench</application>
+          <dependencies>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.platform.feature.group</artifactId>
+            </dependency>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.xtext.sdk.feature.group</artifactId>
+            </dependency>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.pde.junit.runtime</artifactId>
+            </dependency>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.help.feature.group</artifactId>
+            </dependency>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.rcp.feature.group</artifactId>
+            </dependency>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.equinox.event</artifactId>
+            </dependency>
+          </dependencies>
         </configuration>
       </plugin>
       <plugin>
