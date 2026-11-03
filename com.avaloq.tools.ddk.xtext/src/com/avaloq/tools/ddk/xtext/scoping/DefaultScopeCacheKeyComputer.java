@@ -11,6 +11,8 @@
 
 package com.avaloq.tools.ddk.xtext.scoping;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -18,7 +20,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.util.Tuples;
 
-import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -32,14 +33,21 @@ public class DefaultScopeCacheKeyComputer implements IScopeCacheKeyComputer {
    * Cache key object for the caching of {@link org.eclipse.xtext.scoping.IScope scopes}.
    */
   protected static final class CacheKey {
+    private static final int HASH_MULTIPLIER = 31;
+
     private final Object context;
     private final ENamedElement referenceOrType;
     private final String scopeName;
+    private final int hash;
 
     private CacheKey(final Object context, final ENamedElement referenceOrType, final String scopeName) {
       this.context = context;
       this.referenceOrType = referenceOrType;
       this.scopeName = scopeName;
+      // same value as Arrays.hashCode(new Object[] {referenceOrType, scopeName, context})
+      int h = HASH_MULTIPLIER + Objects.hashCode(referenceOrType);
+      h = HASH_MULTIPLIER * h + Objects.hashCode(scopeName);
+      this.hash = HASH_MULTIPLIER * h + Objects.hashCode(context);
     }
 
     /**
@@ -74,7 +82,7 @@ public class DefaultScopeCacheKeyComputer implements IScopeCacheKeyComputer {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(referenceOrType, scopeName, context);
+      return hash;
     }
 
     @Override
