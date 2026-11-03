@@ -14,8 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.util.IResourceScopeCache;
-import org.eclipse.xtext.util.Tuples;
 
 import com.google.inject.Inject;
 
@@ -29,17 +27,14 @@ import com.google.inject.Inject;
 public abstract class AbstractExportedNameProvider extends IQualifiedNameProvider.AbstractImpl {
 
   @Inject
-  private static final IResourceScopeCache CACHE = IResourceScopeCache.NullImpl.INSTANCE;
-
-  @Inject
   private final IQualifiedNameConverter converter = new IQualifiedNameConverter.DefaultImpl();
 
   /**
-   * {@inheritDoc} The qualified name is computed by delegating to {@link #qualifiedName(EObject)}. The results are cached.
+   * {@inheritDoc} The qualified name is computed by delegating to {@link #qualifiedName(EObject)}.
    */
   @Override
   public QualifiedName getFullyQualifiedName(final EObject obj) {
-    return CACHE.get(Tuples.pair(obj, this.getClass()), obj.eResource(), () -> qualifiedName(obj));
+    return qualifiedName(obj);
   }
 
   /**
