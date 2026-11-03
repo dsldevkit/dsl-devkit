@@ -14,6 +14,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 import com.avaloq.tools.ddk.caching.test.LocalMapCacheTest;
+import com.avaloq.tools.ddk.caching.test.MapCacheTest;
 
 
 /**
@@ -22,7 +23,8 @@ import com.avaloq.tools.ddk.caching.test.LocalMapCacheTest;
 @Suite
 @SelectClasses({
 // @Format-Off
-  LocalMapCacheTest.class
+  LocalMapCacheTest.class,
+  MapCacheTest.class
   // @Format-On
 })
 public class DdkTestSuite {
