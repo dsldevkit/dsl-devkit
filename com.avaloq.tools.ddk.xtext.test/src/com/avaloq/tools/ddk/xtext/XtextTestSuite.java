@@ -32,6 +32,7 @@ import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpT
 import com.avaloq.tools.ddk.xtext.resource.ReferenceUriCachingTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceCacheTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
+import com.avaloq.tools.ddk.xtext.scoping.ContainerQueryBuilderTest;
 import com.avaloq.tools.ddk.xtext.scoping.DefaultScopeCacheKeyComputerTest;
 import com.avaloq.tools.ddk.xtext.scoping.NameFunctionsTest;
 import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
@@ -64,7 +65,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   AbstractExportedNameProviderTest.class,
   NameFunctionsTest.class,
   PatternAwareEObjectDescriptionLookUpConcurrencyTest.class,
-  ResourceCacheTest.class})
+  ResourceCacheTest.class,
+  ContainerQueryBuilderTest.class})
 // @Format-On
 public class XtextTestSuite {
 }
