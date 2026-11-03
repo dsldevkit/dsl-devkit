@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,14 +31,13 @@ import org.eclipse.xtext.validation.CheckMode;
 import com.avaloq.tools.ddk.tracing.ITraceSet;
 import com.avaloq.tools.ddk.xtext.tracing.ResourceValidationRuleSummaryEvent;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 
 /**
- * The class DefaultCheckImpl serves as the default parent implementation for generated
- * issue classes.
+ * Base class for hand-written check catalogs whose check methods are discovered reflectively by their {@code @Check} annotation.
+ * Catalogs generated from {@code .check} files extend {@link DispatchingCheckImpl} instead.
  */
 @SuppressWarnings({"checkstyle:AbstractClassName"})
 public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
@@ -48,7 +48,7 @@ public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
 
   private volatile Set<MethodWrapper> checkMethods; // NOPMD: may be modified by different threads; thread safety guaranteed by double-checked locking
 
-  private final Map<Class<?>, List<MethodWrapper>> methodsForType = Maps.newHashMap();
+  private final Map<Class<?>, List<MethodWrapper>> methodsForType = new ConcurrentHashMap<>();
 
   @Inject
   private ITraceSet traceSet;
@@ -103,15 +103,19 @@ public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
   protected final boolean internalValidate(final EClass class1, final EObject object, final DiagnosticChain diagnostics, final Map<Object, Object> context) {
     initCheckMethodCache();
 
-    List<MethodWrapper> methods = methodsForType.computeIfAbsent(object.getClass(), clazz -> {
-      List<MethodWrapper> result = Lists.newArrayList();
-      for (MethodWrapper mw : checkMethods) {
-        if (mw.isMatching(clazz)) {
-          result.add(mw);
+    // computeIfAbsent locks the bin even for a present key unless it is the bin's first node
+    List<MethodWrapper> methods = methodsForType.get(object.getClass());
+    if (methods == null) {
+      methods = methodsForType.computeIfAbsent(object.getClass(), clazz -> {
+        List<MethodWrapper> result = Lists.newArrayList();
+        for (MethodWrapper mw : checkMethods) {
+          if (mw.isMatching(clazz)) {
+            result.add(mw);
+          }
         }
-      }
-      return result;
-    });
+        return result;
+      });
+    }
 
     if (methods.isEmpty()) {
       return true;
@@ -158,7 +162,13 @@ public abstract class DefaultCheckImpl extends AbstractStatefulCheckImpl {
     }
 
     if (erroneousMethods != null) {
-      methodsForType.get(object.getClass()).removeAll(erroneousMethods);
+      final List<MethodWrapper> failedMethods = erroneousMethods;
+      // replace rather than mutate the cached list, which other threads may be iterating
+      methodsForType.computeIfPresent(object.getClass(), (clazz, current) -> {
+        List<MethodWrapper> remaining = Lists.newArrayList(current);
+        remaining.removeAll(failedMethods);
+        return remaining;
+      });
     }
 
     return !internalState.hasErrors;
