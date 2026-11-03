@@ -32,6 +32,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
   public static final char LIST_SEPARATOR = '#';
 
   private static final int FRAGMENT_BUFFER_CAPACITY = 8;
+  private static final int DECIMAL_RADIX = 10;
   private static final char ESCAPE_CHARACTER = '\\';
   private static final CharMatcher CHARACTERS_TO_ESCAPE = CharMatcher.anyOf(new String(new char[] {SEGMENT_SEPARATOR, ESCAPE_CHARACTER,
       REP_SEPARATOR})).precomputed();
@@ -86,7 +87,7 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       int idx = indexOfUnescapedChar(fragment, END_MATCHER, startIdx);
       int repIdx = idx < length && fragment.charAt(idx) == REP_SEPARATOR ? idx : -1;
       endIdx = repIdx == -1 ? idx : indexOfUnescapedChar(fragment, SEGMENT_SEPARATOR_MATCHER, repIdx);
-      reps = repIdx < startIdx ? 1 : Integer.parseUnsignedInt(fragment.substring(repIdx + 1, endIdx));
+      reps = repIdx < startIdx ? 1 : parseUnsignedInt(fragment, repIdx + 1, endIdx);
       return fragment.substring(startIdx, reps == 1 ? endIdx : repIdx);
     }
 
@@ -188,6 +189,25 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
       }
     }
     return true;
+  }
+
+  /**
+   * Parses the unsigned decimal integer in the given range of a URI fragment (segment) without creating a substring.
+   *
+   * @param text
+   *          text containing the integer, must not be {@code null}
+   * @param beginIndex
+   *          index of the first character of the integer, inclusive
+   * @param endIndex
+   *          index after the last character of the integer, exclusive
+   * @return the parsed integer
+   * @throws NumberFormatException
+   *           if the range does not contain a parsable unsigned integer
+   * @throws IndexOutOfBoundsException
+   *           if the range is not within {@code text}
+   */
+  protected static int parseUnsignedInt(final CharSequence text, final int beginIndex, final int endIndex) {
+    return Integer.parseUnsignedInt(text, beginIndex, endIndex, DECIMAL_RADIX);
   }
 
   /**
