@@ -1,0 +1,127 @@
+name: prepare-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to prepare release from'
+        required: false
+        default: master
+        type: string
+      version_bump:
+        description: 'Version component to bump'
+        required: false
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: prepare-release-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+
+      - name: Compute next version
+        id: version
+        # Must match the computation in release.yml.
+        run: |
+          LATEST=$(git tag --list 'v*' --merged HEAD --sort=-version:refname | head -1)
+          if [ -z "$LATEST" ]; then
+            LATEST="v0.0.0"
+          fi
+          VERSION="${LATEST#v}"
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+          case "${{ inputs.version_bump }}" in
+            major) MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR+1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH+1)) ;;
+          esac
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Previous version $LATEST → next version v$NEW_VERSION"
+
+      - name: Set feature and repository versions
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          while IFS= read -r -d '' FILE; do
+            sed -i -E '/<feature/,/>/ s/^([[:space:]]*)version="[^"]*"/\1version="'"$NEW_VERSION"'.qualifier"/' "$FILE"
+            sed -i -E '/<\/parent>/,/<version>/ s|<version>[^<]*</version>|<version>'"$NEW_VERSION"'-SNAPSHOT</version>|' "$(dirname "$FILE")/pom.xml"
+          done < <(find . -name feature.xml -print0)
+          sed -i -E 's#(<feature url="features/[^_"]+_)[^"]+(\.jar" id="[^"]+" version=")[^"]+(")#\1'"$NEW_VERSION"'.qualifier\2'"$NEW_VERSION"'.qualifier\3#' ddk-repository/category.xml
+          if git diff --quiet; then
+            echo "::error::The features and ddk-repository/category.xml already define version $NEW_VERSION; nothing to prepare"
+            exit 1
+          fi
+          git diff
+
+      - name: Verify feature.xml versions match release version
+        # Same check as in release.yml.
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          EXPECTED="$NEW_VERSION.qualifier"
+          ERRORS=0
+          while IFS= read -r -d '' FILE; do
+            FEATURE_ID=$(awk '/<feature/{f=1} f && /[[:space:]]id=/{match($0,/id="([^"]+)"/,a); print a[1]; exit}' "$FILE")
+            VERSION=$(awk '/<feature/{f=1} f && /[[:space:]]version=/{match($0,/version="([^"]+)"/,a); print a[1]; exit}' "$FILE")
+            if [ "$VERSION" != "$EXPECTED" ]; then
+              echo "::error file=$FILE::$FEATURE_ID: feature.xml version is '$VERSION', expected '$EXPECTED'"
+              ERRORS=$((ERRORS+1))
+            fi
+          done < <(find . -name feature.xml -print0)
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::$ERRORS feature.xml file(s) do not define version $EXPECTED"
+            exit 1
+          fi
+
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_VERSION: ${{ steps.version.outputs.version }}
+          BASE_BRANCH: ${{ inputs.branch }}
+          VERSION_BUMP: ${{ inputs.version_bump }}
+        run: |
+          PR_BRANCH="prepare-release-$NEW_VERSION"
+          TITLE="build: prepare DDK release $NEW_VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git switch -c "$PR_BRANCH"
+          git commit -a -m "$TITLE" -m "Set both features, their poms and ddk-repository/category.xml to $NEW_VERSION, as the release workflow requires."
+          git push origin "$PR_BRANCH"
+          BODY="$RUNNER_TEMP/pr-body.md"
+          {
+            echo "Prepares release $NEW_VERSION (\`$VERSION_BUMP\` bump from \`$BASE_BRANCH\`): sets both features, their poms and \`ddk-repository/category.xml\` to $NEW_VERSION."
+            echo ""
+            echo "The \`verify\` workflow runs of pull requests opened by GitHub Actions need approval: select **Approve workflows to run** to start the checks."
+            echo ""
+            echo "Once merged and the snapshot is published, run the \`release\` workflow with the same branch and version bump."
+          } > "$BODY"
+          URL=$(gh pr create --base "$BASE_BRANCH" --head "$PR_BRANCH" --title "$TITLE" --body-file "$BODY")
+          echo "::notice::Created $URL to prepare release $NEW_VERSION"
+          {
+            echo "## Release preparation pull request created"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **Version** | \`$NEW_VERSION\` |"
+            echo "| **Pull request** | $URL |"
+            echo "| **Branch** | \`$BASE_BRANCH\` |"
+            echo "| **Bump** | \`$VERSION_BUMP\` |"
+          } >> "$GITHUB_STEP_SUMMARY"

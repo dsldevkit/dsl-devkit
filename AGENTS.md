@@ -152,6 +152,6 @@ CI fails with "Only qualifier changed" when a published bundle or feature differ
 ## CI/CD
 
 - **Platform**: GitHub Actions
-- **Workflows**: `.github/workflows/verify.yml` (pull requests and the merge queue), `snapshot.yml` (pushes to `master`, publishes the p2 snapshot), `release.yml` (manual)
+- **Workflows**: `.github/workflows/verify.yml` (pull requests and the merge queue), `snapshot.yml` (pushes to `master`, publishes the p2 snapshot), `prepare-release.yml` and `release.yml` (manual)
 - **Merging**: PRs merge through the merge queue on `master`.
-- **Releases**: run the `release` workflow (`version_bump`: patch/minor/major). It tags and republishes the head's snapshot, and fails unless every `feature.xml` already has the release version. For a minor/major release, first set both features and `category.xml` to it in a PR (e.g. "build: prepare DDK release 19.3.0").
+- **Releases**: run the `release` workflow (`version_bump`: patch/minor/major). It tags and republishes the head's snapshot, and fails unless every `feature.xml` already has the release version. If the features do not have it yet, first run the `prepare-release` workflow with the same inputs: it sets both features, their poms and `category.xml` to the release version and opens a PR (e.g. "build: prepare DDK release 19.3.0"). The `verify` runs of a PR opened by GitHub Actions wait for approval ("Approve workflows to run" in the PR).
