@@ -10,7 +10,5 @@ Fragment-Host: com.avaloq.tools.ddk.typesystem
 Require-Bundle: com.google.inject,
  com.google.guava,
  junit-jupiter-api,
- junit-jupiter-engine,
- junit-platform-suite-api
-Export-Package: com.avaloq.tools.ddk.typesystem.test
+ junit-jupiter-engine
 Automatic-Module-Name: com.avaloq.tools.ddk.typesystem.test

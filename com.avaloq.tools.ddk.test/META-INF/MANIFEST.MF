@@ -8,7 +8,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk,
  junit-jupiter-api,
- junit-jupiter-engine,
- junit-platform-suite-api
-Export-Package: com.avaloq.tools.ddk.test
+ junit-jupiter-engine
 Automatic-Module-Name: com.avaloq.tools.ddk.test
