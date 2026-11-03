@@ -20,6 +20,7 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNames;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -106,7 +107,7 @@ public final class NameFunctions {
    * @return The name functions
    */
   public static Iterable<INameFunction> fromFeatures(final EStructuralFeature... nameFeatures) {
-    return Iterables.transform(Arrays.asList(nameFeatures), NameFunctions::fromFeature);
+    return ImmutableList.copyOf(Iterables.transform(Arrays.asList(nameFeatures), NameFunctions::fromFeature));
   }
 
   /**
