@@ -277,6 +277,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
             for (IContainer container : containers) {
               if (container.getResourceDescription(uri) != null) {
                 references.add(uri);
+                break;
               }
             }
           }
@@ -293,6 +294,7 @@ public abstract class AbstractCachingResourceDescriptionManager extends DerivedS
             for (IContainer container : containers) {
               if (container.getResourceDescription(uri) != null) {
                 references.add(uri);
+                break;
               }
             }
           }
