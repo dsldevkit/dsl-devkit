@@ -75,7 +75,7 @@ public class ImportedNamesTypesAdapter extends ImportedNamesAdapter {
     public IEObjectDescription getSingleElement(final QualifiedName name, final EReference reference) {
       final QualifiedName lowerCase = name.toLowerCase(); // NOPMD UseLocaleWithCaseConversions not a String!
       getImportedNames().add(lowerCase);
-      importedNamesTypes.computeIfAbsent(lowerCase, k -> new HashSet<>()).add(reference.getEReferenceType());
+      importedNamesTypes.computeIfAbsent(lowerCase, k -> new HashSet<>(2)).add(reference.getEReferenceType());
 
       return delegate.getSingleElement(name);
     }
