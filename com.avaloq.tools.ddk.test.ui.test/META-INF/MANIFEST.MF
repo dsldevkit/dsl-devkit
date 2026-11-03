@@ -7,6 +7,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.swtbot.swt.finder,
  org.eclipse.swt,
  com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.test.ui,
