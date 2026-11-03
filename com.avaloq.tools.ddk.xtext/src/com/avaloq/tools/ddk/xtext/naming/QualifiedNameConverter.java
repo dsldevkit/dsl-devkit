@@ -30,6 +30,9 @@ public class QualifiedNameConverter extends DefaultImpl {
     if (Strings.isEmpty(qualifiedNameAsString)) {
       return super.toQualifiedName(qualifiedNameAsString);
     }
+    if (qualifiedNameAsString.indexOf('.') < 0) {
+      return QualifiedName.create(qualifiedNameAsString);
+    }
     List<String> segs = com.avaloq.tools.ddk.util.Strings.split(qualifiedNameAsString, '.');
     return QualifiedName.create(segs);
   }
