@@ -10,8 +10,12 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.resource;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -25,6 +29,7 @@ import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.hash.Funnel;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
@@ -87,6 +92,134 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
   /** Marker for unresolved references in the fingerprint. */
   private static final String UNRESOLVED_STRING = "unresolved"; //$NON-NLS-1$
 
+  /**
+   * Hasher which caches the URIs of the referenced objects for one fingerprint computation, so that an object referenced several times gets its URI computed
+   * only once. The hashers for the items of unordered lists share the cache of the hasher they are created for.
+   */
+  private static final class UriCachingHasher implements Hasher {
+    private final Hasher delegate;
+    private final UriCachingHasher root;
+    private Map<EObject, URI> uris;
+
+    UriCachingHasher(final UriCachingHasher root) {
+      this.delegate = HASH_FUNCTION.newHasher();
+      this.root = root;
+    }
+
+    URI getURI(final EObject object) {
+      if (root != null) {
+        return root.getURI(object);
+      }
+      if (uris == null) {
+        uris = new IdentityHashMap<>();
+      }
+      return uris.computeIfAbsent(object, EcoreUtil::getURI);
+    }
+
+    @Override
+    public Hasher putByte(final byte b) {
+      delegate.putByte(b);
+      return this;
+    }
+
+    @Override
+    public Hasher putBytes(final byte[] bytes) {
+      delegate.putBytes(bytes);
+      return this;
+    }
+
+    @Override
+    public Hasher putBytes(final byte[] bytes, final int off, final int len) {
+      delegate.putBytes(bytes, off, len);
+      return this;
+    }
+
+    @Override
+    public Hasher putBytes(final ByteBuffer bytes) {
+      delegate.putBytes(bytes);
+      return this;
+    }
+
+    @Override
+    public Hasher putShort(final short s) {
+      delegate.putShort(s);
+      return this;
+    }
+
+    @Override
+    public Hasher putInt(final int i) {
+      delegate.putInt(i);
+      return this;
+    }
+
+    @Override
+    public Hasher putLong(final long l) {
+      delegate.putLong(l);
+      return this;
+    }
+
+    @Override
+    public Hasher putFloat(final float f) {
+      delegate.putFloat(f);
+      return this;
+    }
+
+    @Override
+    public Hasher putDouble(final double d) {
+      delegate.putDouble(d);
+      return this;
+    }
+
+    @Override
+    public Hasher putBoolean(final boolean b) {
+      delegate.putBoolean(b);
+      return this;
+    }
+
+    @Override
+    public Hasher putChar(final char c) {
+      delegate.putChar(c);
+      return this;
+    }
+
+    @Override
+    public Hasher putUnencodedChars(final CharSequence charSequence) {
+      delegate.putUnencodedChars(charSequence);
+      return this;
+    }
+
+    @Override
+    public Hasher putString(final CharSequence charSequence, final Charset charset) {
+      delegate.putString(charSequence, charset);
+      return this;
+    }
+
+    @Override
+    public <T> Hasher putObject(final T instance, final Funnel<? super T> funnel) {
+      delegate.putObject(instance, funnel);
+      return this;
+    }
+
+    @Override
+    public HashCode hash() {
+      return delegate.hash();
+    }
+  }
+
+  /**
+   * Creates a hasher for a nested fingerprint, e.g. of an item of an unordered list.
+   *
+   * @param hasher
+   *          hasher of the enclosing fingerprint, must not be {@code null}
+   * @return new hasher sharing the URI cache of {@code hasher}, if any, never {@code null}
+   */
+  private static Hasher newItemHasher(final Hasher hasher) {
+    if (hasher instanceof UriCachingHasher caching) {
+      return new UriCachingHasher(caching.root != null ? caching.root : caching);
+    }
+    return HASH_FUNCTION.newHasher();
+  }
+
   @Override
   public String computeFingerprint(final Resource resource) {
     return computeFingerprint(resource.getContents());
@@ -97,7 +230,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     if (object == null) {
       return null;
     }
-    Hasher hasher = HASH_FUNCTION.newHasher();
+    Hasher hasher = new UriCachingHasher(null);
     fingerprint(object, hasher);
     HashCode export = hasher.hash();
     if (export.equals(NO_EXPORT)) {
@@ -124,7 +257,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     if (objects == null || Iterables.isEmpty(objects)) {
       return null;
     }
-    Hasher hasher = HASH_FUNCTION.newHasher();
+    Hasher hasher = new UriCachingHasher(null);
     fingerprintIterable(objects, Iterables.get(objects, 0), FingerprintOrder.UNORDERED, FingerprintIndirection.INDIRECT, hasher);
     return hasher.hash().toString();
   }
@@ -152,7 +285,8 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       }
       hasher.putUnencodedChars(UNRESOLVED_STRING);
     } else {
-      hasher.putUnencodedChars(EcoreUtil.getURI(target).toString());
+      URI uri = hasher instanceof UriCachingHasher caching ? caching.getURI(target) : EcoreUtil.getURI(target);
+      hasher.putUnencodedChars(uri.toString());
     }
   }
 
@@ -221,7 +355,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     } else {
       final List<String> profiles = Lists.newArrayList();
       for (final EObject target : targets) {
-        Hasher itemHasher = HASH_FUNCTION.newHasher();
+        Hasher itemHasher = newItemHasher(hasher);
         fingerprintEReferenceValue(target, obj, itemHasher);
         profiles.add(itemHasher.hash().toString());
       }
@@ -381,7 +515,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     } else {
       final List<String> items = Lists.newArrayList();
       for (final EObject target : targets) {
-        Hasher itemHasher = HASH_FUNCTION.newHasher();
+        Hasher itemHasher = newItemHasher(hasher);
         fingerprintIndirection(target, obj, ref, itemHasher);
         items.add(itemHasher.hash().toString());
       }
@@ -457,7 +591,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     } else {
       final List<String> items = Lists.newArrayList();
       for (final Object o : objects) {
-        Hasher itemHasher = HASH_FUNCTION.newHasher();
+        Hasher itemHasher = newItemHasher(hasher);
         fingerprintExpr(o, context, order, indirection, itemHasher);
         items.add(itemHasher.hash().toString());
       }
