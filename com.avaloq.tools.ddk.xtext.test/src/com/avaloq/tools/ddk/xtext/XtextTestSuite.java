@@ -18,6 +18,7 @@ import com.avaloq.tools.ddk.xtext.builder.BuilderLoadTimeoutTest;
 import com.avaloq.tools.ddk.xtext.builder.ContainerStateTest;
 import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
 import com.avaloq.tools.ddk.xtext.builder.resourceloader.ParallelResourceLoaderTest;
+import com.avaloq.tools.ddk.xtext.jupiter.IssueAwareRuleTest;
 import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.linking.FragmentIndexParsingTest;
@@ -72,7 +73,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   PrefixedContainerScopeTest.class,
   FragmentIndexParsingTest.class,
   SelectorFragmentIndexTest.class,
-  PatternAwareEObjectDescriptionLookUpConcurrencyTest.class})
+  PatternAwareEObjectDescriptionLookUpConcurrencyTest.class,
+  IssueAwareRuleTest.class})
 // @Format-On
 public class XtextTestSuite {
 }

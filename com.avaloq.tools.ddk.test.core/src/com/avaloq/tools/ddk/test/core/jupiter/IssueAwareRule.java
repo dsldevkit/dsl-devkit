@@ -84,7 +84,7 @@ public final class IssueAwareRule implements InvocationInterceptor {
     if (issueAnnotation == null && extensionContext.getRequiredTestClass() != null) {
       issueAnnotation = extensionContext.getRequiredTestClass().getAnnotation(Issue.class);
     }
-    if (issueAnnotation != null && issueAnnotation.fixed()) {
+    if (issueAnnotation != null && !issueAnnotation.fixed()) {
       try {
         invocation.proceed();
       } catch (AssertionError exception) {
