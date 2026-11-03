@@ -30,7 +30,7 @@ import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookupTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManagerAffectedResourcesTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManagerTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProviderTest;
-import com.avaloq.tools.ddk.xtext.resource.BugAig1084;
+import com.avaloq.tools.ddk.xtext.resource.BugAig1084Test;
 import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpConcurrencyTest;
 import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpTest;
 import com.avaloq.tools.ddk.xtext.resource.ReferenceUriCachingTest;
@@ -60,7 +60,7 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   BinaryStorageQueueCapacityTest.class,
   FormatterTest.class,
   QualifiedNamePatternTest.class,
-  BugAig1084.class,
+  BugAig1084Test.class,
   RuntimeProjectUtilTest.class,
   QualifiedNameSegmentTreeLookupTest.class,
   PatternAwareEObjectDescriptionLookUpTest.class,
