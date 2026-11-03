@@ -46,7 +46,7 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
     if (listSeparatorIndex == -1) {
       featureId = Integer.parseUnsignedInt(segment);
     } else {
-      featureId = Integer.parseUnsignedInt(segment.substring(0, listSeparatorIndex));
+      featureId = parseUnsignedInt(segment, 0, listSeparatorIndex);
     }
     final EReference reference = (EReference) container.eClass().getEStructuralFeature(featureId);
     if (reference == null) {
@@ -59,7 +59,7 @@ public class ShortFragmentProvider extends AbstractFragmentProvider {
         return null;
       }
       final List<?> list = (List<?>) container.eGet(reference, false);
-      final int listIndex = Integer.parseUnsignedInt(segment.substring(listSeparatorIndex + 1));
+      final int listIndex = parseUnsignedInt(segment, listSeparatorIndex + 1, segment.length());
       // If the uri references an element outside of the list range return null (i.e. cannot find element)
       if (listIndex >= list.size()) {
         return null;

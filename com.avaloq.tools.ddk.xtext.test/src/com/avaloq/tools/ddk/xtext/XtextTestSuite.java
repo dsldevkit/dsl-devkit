@@ -20,6 +20,7 @@ import com.avaloq.tools.ddk.xtext.builder.XtextBuildTriggerTest;
 import com.avaloq.tools.ddk.xtext.builder.resourceloader.ParallelResourceLoaderTest;
 import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProviderTest;
+import com.avaloq.tools.ddk.xtext.linking.FragmentIndexParsingTest;
 import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.naming.AbstractExportedNameProviderTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameConverterTest;
@@ -34,6 +35,7 @@ import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpT
 import com.avaloq.tools.ddk.xtext.resource.ReferenceUriCachingTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceCacheTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
+import com.avaloq.tools.ddk.xtext.resource.SelectorFragmentIndexTest;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQueryBuilderTest;
 import com.avaloq.tools.ddk.xtext.scoping.DefaultScopeCacheKeyComputerTest;
 import com.avaloq.tools.ddk.xtext.scoping.NameFunctionsTest;
@@ -72,7 +74,9 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   ContainerQueryBuilderTest.class,
   AbstractCachingResourceDescriptionManagerAffectedResourcesTest.class,
   ContainerStateTest.class,
-  PrefixedContainerScopeTest.class})
+  PrefixedContainerScopeTest.class,
+  FragmentIndexParsingTest.class,
+  SelectorFragmentIndexTest.class})
 // @Format-On
 public class XtextTestSuite {
 }
