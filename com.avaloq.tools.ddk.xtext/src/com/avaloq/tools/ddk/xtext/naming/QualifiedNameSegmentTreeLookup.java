@@ -18,6 +18,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -400,24 +402,26 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "PMD.CompareObjectsWithEquals"})
     <T> Collection<T> matches(final QualifiedName lower, final int lowerIdx, final SegmentNode upper, final boolean recursive, final boolean excludeDuplicates) {
       final Collection<T> result = excludeDuplicates ? Sets.<T> newHashSet() : Lists.<T> newArrayList();
-      final Set<Object[]> arrays = Sets.newHashSet();
+      // A value array is shared by a node and its children, so it can be visited several times. Adding it again to a set changes nothing.
+      final Set<Object[]> arrays = excludeDuplicates ? null : Collections.newSetFromMap(new IdentityHashMap<>());
       Visitor visitor = new Visitor() {
+        private Object[] last;
+
         @Override
         void visit(final SegmentNode node) {
-          if (node.values != null) {
-            arrays.add(node.values);
+          Object[] nodeValues = node.values;
+          if (nodeValues != null && nodeValues != last && (arrays == null || arrays.add(nodeValues))) {
+            last = nodeValues;
+            for (Object value : nodeValues) {
+              result.add((T) value);
+            }
           }
         }
       };
       collectMatches(lower, lowerIdx, upper, recursive, visitor);
-      for (Object[] array : arrays) {
-        for (Object value : array) {
-          result.add((T) value);
-        }
-      }
       return result;
     }
 
