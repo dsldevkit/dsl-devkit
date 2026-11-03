@@ -367,7 +367,7 @@ public class ContainerQuery {
    */
   public static class Builder extends ContainerQuery {
 
-    private final IQualifiedNameConverter nameConverter = new QualifiedNameConverter();
+    private static final IQualifiedNameConverter NAME_CONVERTER = new QualifiedNameConverter();
 
     /**
      * Creator.
@@ -389,7 +389,6 @@ public class ContainerQuery {
      */
     public Builder copy() {
       Builder result = new Builder(getDomainMapper(), getType());
-      result.setType(getType());
       result.setNamePattern(getNamePattern());
       if (getUserData() != null) {
         result.setUserData(Maps.newHashMap(getUserData()));
@@ -427,10 +426,10 @@ public class ContainerQuery {
       if (pattern != null && pattern.length() > 0) {
         int idx = pattern.indexOf(ContainerQuery.WILDCARD);
         if (idx < 0) {
-          setNamePattern(nameConverter.toQualifiedName(pattern));
+          setNamePattern(NAME_CONVERTER.toQualifiedName(pattern));
         } else if (idx == pattern.length() - 1 || pattern.endsWith(QualifiedNamePattern.RECURSIVE_WILDCARD_SEGMENT)) {
-          setNamePattern(QualifiedNamePattern.create(nameConverter.toQualifiedName(pattern)));
-          // setNamePattern(new QualifiedNamePattern(nameConverter.toQualifiedName(pattern.substring(0, idx))));
+          setNamePattern(QualifiedNamePattern.create(NAME_CONVERTER.toQualifiedName(pattern)));
+          // setNamePattern(new QualifiedNamePattern(NAME_CONVERTER.toQualifiedName(pattern.substring(0, idx))));
         } else {
           throw new IllegalArgumentException("Query name pattern invalid: wildcard not at end"); //$NON-NLS-1$
         }
