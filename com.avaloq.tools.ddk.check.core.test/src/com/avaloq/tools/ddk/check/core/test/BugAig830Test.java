@@ -31,7 +31,7 @@ import com.google.inject.Inject;
 @InjectWith(CheckUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-public class BugAig830 {
+public class BugAig830Test {
 
   @Inject
   private ParseHelper<CheckCatalog> parser;
