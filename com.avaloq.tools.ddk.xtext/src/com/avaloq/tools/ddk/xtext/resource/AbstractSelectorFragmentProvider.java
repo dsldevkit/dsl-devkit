@@ -155,7 +155,7 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
     final int selectorEndOffset = segment.lastIndexOf(SELECTOR_END);
     if (selectorEndOffset != -1) {
       final int selectorOffset = segment.indexOf(SELECTOR_START);
-      final int containmentFeatureId = Integer.parseUnsignedInt(segment.substring(0, selectorOffset));
+      final int containmentFeatureId = parseUnsignedInt(segment, 0, selectorOffset);
       final EStructuralFeature containmentFeature = container.eClass().getEStructuralFeature(containmentFeatureId);
       if (containmentFeature == null) {
         return null;
@@ -164,9 +164,9 @@ public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentP
         return (EObject) container.eGet(containmentFeature);
       }
       final int eqOffset = segment.indexOf(EQ_OP, selectorOffset);
-      final int selectorFeatureId = Integer.parseUnsignedInt(segment.substring(selectorOffset + 1, eqOffset));
+      final int selectorFeatureId = parseUnsignedInt(segment, selectorOffset + 1, eqOffset);
       boolean uniqueMatch = segment.charAt(selectorEndOffset - 1) == UNIQUE;
-      int matchedIndex = uniqueMatch ? 0 : Integer.parseUnsignedInt(segment.substring(selectorEndOffset + 2));
+      int matchedIndex = uniqueMatch ? 0 : parseUnsignedInt(segment, selectorEndOffset + 2, segment.length());
       boolean isNull = segment.startsWith(NULL_VALUE, eqOffset + EQ_OP_LENGTH);
       String matchedValue = isNull ? null
           : unescape(segment.substring(eqOffset + EQ_OP_LENGTH + 1, uniqueMatch ? selectorEndOffset - 2 : selectorEndOffset - 1));
