@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 
 
@@ -38,7 +39,8 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
   private final Map<EClass, Iterable<INameFunction>> nameFunctionCache = new ConcurrentHashMap<>();
 
   /**
-   * Returns the list of name functions for a given type by calling {@link #internalGetNameFunctions(EClass)}. The result is cached for subsequent calls.
+   * Returns the list of name functions for a given type by calling {@link #internalGetNameFunctions(EClass)}. An immutable copy of the result is cached for
+   * subsequent calls, so a lazy result is evaluated only once.
    *
    * @param type
    *          the context type
@@ -48,10 +50,12 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
   public Iterable<INameFunction> getNameFunctions(final EClass type) {
     Iterable<INameFunction> result = nameFunctionCache.get(type);
     if (result == null) {
+      // Generated providers recurse into this method for the super type, so computeIfAbsent can't be used.
       result = internalGetNameFunctions(type);
       if (result == null) {
         result = getDefaultNames(type);
       }
+      result = ImmutableList.copyOf(result);
       Iterable<INameFunction> existing = nameFunctionCache.putIfAbsent(type, result);
       if (existing != null) {
         result = existing;
