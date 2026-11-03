@@ -37,6 +37,7 @@ import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQueryBuilderTest;
 import com.avaloq.tools.ddk.xtext.scoping.DefaultScopeCacheKeyComputerTest;
 import com.avaloq.tools.ddk.xtext.scoping.NameFunctionsTest;
+import com.avaloq.tools.ddk.xtext.scoping.PrefixedContainerScopeTest;
 import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
 
 
@@ -70,7 +71,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   ResourceCacheTest.class,
   ContainerQueryBuilderTest.class,
   AbstractCachingResourceDescriptionManagerAffectedResourcesTest.class,
-  ContainerStateTest.class})
+  ContainerStateTest.class,
+  PrefixedContainerScopeTest.class})
 // @Format-On
 public class XtextTestSuite {
 }
