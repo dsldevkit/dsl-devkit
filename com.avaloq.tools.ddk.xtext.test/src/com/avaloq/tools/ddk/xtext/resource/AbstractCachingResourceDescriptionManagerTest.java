@@ -112,7 +112,7 @@ public class AbstractCachingResourceDescriptionManagerTest {
    *          the exported objects as {@code name} or {@code name:fingerprint}
    * @return the resource description
    */
-  private static IResourceDescription description(final String uri, final String... objects) {
+  static IResourceDescription description(final String uri, final String... objects) {
     final URI resourceURI = URI.createURI(uri);
     final List<IEObjectDescription> exported = Arrays.stream(objects).map(object -> {
       String[] nameAndFingerprint = object.split(":");
