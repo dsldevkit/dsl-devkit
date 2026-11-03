@@ -34,6 +34,9 @@ import com.google.common.collect.ArrayListMultimap;
  */
 public class ResourceCache<K, V> implements ICache<K, V>, OnChangeEvictingCache.Listener {
 
+  /** Stateless factory of the per-resource cache adapters. */
+  private static final OnChangeEvictingCache EVICTING_CACHE = new OnChangeEvictingCache();
+
   private final OnChangeEvictingCache.CacheAdapter backend;
   private final Resource resource;
 
@@ -76,7 +79,7 @@ public class ResourceCache<K, V> implements ICache<K, V>, OnChangeEvictingCache.
 
   public ResourceCache(final Resource resource, final boolean addAsListener) {
     this.resource = resource;
-    backend = new OnChangeEvictingCache().getOrCreate(resource);
+    backend = EVICTING_CACHE.getOrCreate(resource);
     if (addAsListener) {
       backend.addCacheListener(this);
     }
