@@ -21,6 +21,7 @@ import com.avaloq.tools.ddk.check.ui.test.CheckUiTestSuite;
 import com.avaloq.tools.ddk.checkcfg.test.CheckCfgTestSuite;
 import com.avaloq.tools.ddk.checkcfg.ui.test.CheckCfgUiTestSuite;
 import com.avaloq.tools.ddk.sample.helloworld.test.HelloWorldSampleTestSuite;
+import com.avaloq.tools.ddk.test.DdkTestSuite;
 import com.avaloq.tools.ddk.typesystem.test.TypeSystemTestSuite;
 import com.avaloq.tools.ddk.xtext.generator.test.generator.GeneratorTestSuite;
 import com.avaloq.tools.ddk.xtext.test.export.ExportTestSuite;
@@ -49,7 +50,8 @@ import com.avaloq.tools.ddk.xtext.ui.test.XtextUiTestSuite;
   CheckUiTestSuite.class,
   CheckCfgUiTestSuite.class,
   CheckCfgTestSuite.class,
-  TypeSystemTestSuite.class
+  TypeSystemTestSuite.class,
+  DdkTestSuite.class
 })
 // @Format-On
 public class AllTests {

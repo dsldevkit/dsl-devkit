@@ -55,12 +55,12 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
   /**
    * Cache to avoid repeated lookups.
    */
-  private final Map<QualifiedName, IEObjectDescription> nameCache = CacheManager.getInstance().createMapCache("AbstractRecursiveScope#nameCache"); //$NON-NLS-1$
+  private Map<QualifiedName, IEObjectDescription> nameCache;
 
   /**
    * Inverse cache.
    */
-  private final Map<URI, IEObjectDescription> objectCache = CacheManager.getInstance().createMapCache("AbstractRecursiveScope#objectCache"); //$NON-NLS-1$
+  private Map<URI, IEObjectDescription> objectCache;
 
   /** Cached contents. */
   private Iterable<IEObjectDescription> contents;
@@ -120,6 +120,20 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
     }
   }
 
+  private Map<QualifiedName, IEObjectDescription> getNameCache() {
+    if (nameCache == null) {
+      nameCache = CacheManager.getInstance().createLocalMapCache("AbstractRecursiveScope#nameCache"); //$NON-NLS-1$
+    }
+    return nameCache;
+  }
+
+  private Map<URI, IEObjectDescription> getObjectCache() {
+    if (objectCache == null) {
+      objectCache = CacheManager.getInstance().createLocalMapCache("AbstractRecursiveScope#objectCache"); //$NON-NLS-1$
+    }
+    return objectCache;
+  }
+
   @Override
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) { // NOPMD NPathComplexity
     if (name == null) {
@@ -130,7 +144,8 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
         addInvocationTrace(name);
       }
       final QualifiedName lookupName = isIgnoreCase() ? name.toLowerCase() : name; // NOPMD UseLocaleWithCaseConversions
-      IEObjectDescription result = nameCache.get(lookupName);
+      final Map<QualifiedName, IEObjectDescription> cache = getNameCache();
+      IEObjectDescription result = cache.get(lookupName);
       if (result != null) {
         return result == NULL_DESCRIPTION ? null : result; // NOPMD CompareObjectsWithEquals
       }
@@ -143,10 +158,10 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
         result = contentsIterator.next();
         QualifiedName thisName = result.getName();
         if (!isIgnoreCase()) {
-          nameCache.put(thisName, result);
+          cache.put(thisName, result);
         } else {
           thisName = thisName.toLowerCase(); // NOPMD UseLocaleWithCaseConversions
-          nameCache.putIfAbsent(thisName, result);
+          cache.putIfAbsent(thisName, result);
         }
         if (!lookupName.equals(thisName)) {
           result = null; // NOPMD NullAssignment
@@ -159,7 +174,7 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
         // a lot.
       }
       if (result == null) {
-        nameCache.put(lookupName, NULL_DESCRIPTION);
+        cache.put(lookupName, NULL_DESCRIPTION);
       }
       return result;
     } catch (ConcurrentModificationException e) {
@@ -181,8 +196,12 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
    * Resets this scope by resetting all cached data.
    */
   private void reset() {
-    nameCache.clear();
-    objectCache.clear();
+    if (nameCache != null) {
+      nameCache.clear();
+    }
+    if (objectCache != null) {
+      objectCache.clear();
+    }
     contentsIterator = null; // NOPMD NullAssignment
     contents = null; // NOPMD NullAssignment
   }
@@ -195,15 +214,16 @@ public abstract class AbstractRecursiveScope extends AbstractScope {
       }
 
       final URI key = EcoreUtil.getURI(object);
-      IEObjectDescription result = objectCache.get(key);
+      final Map<URI, IEObjectDescription> cache = getObjectCache();
+      IEObjectDescription result = cache.get(key);
       if (result == NULL_DESCRIPTION) { // NOPMD CompareObjectsWithEquals
         return null;
       } else if (result == null) {
         result = super.getSingleElement(object);
         if (result == null) {
-          objectCache.put(key, NULL_DESCRIPTION);
+          cache.put(key, NULL_DESCRIPTION);
         } else {
-          objectCache.put(key, result);
+          cache.put(key, result);
         }
       }
       return result;

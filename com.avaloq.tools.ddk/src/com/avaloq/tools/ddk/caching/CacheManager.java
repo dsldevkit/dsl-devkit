@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.caching;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -80,6 +81,31 @@ public class CacheManager {
   @SuppressWarnings("PMD.LooseCoupling")
   public <K, V> MapCache<K, V> createMapCache(final String name) {
     return createMapCache(name, new CacheConfiguration());
+  }
+
+  /**
+   * Creates a new cache backed by a {@link HashMap}, for caches which are created in large numbers and whose owner synchronizes the access to them, where the
+   * fixed size of a {@link MapCache} would outweigh its content. If monitoring is enabled, the cache counts its hits and misses and is reported under the given
+   * name like a {@link MapCache}.
+   *
+   * @param <K>
+   *          the key type
+   * @param <V>
+   *          the value type
+   * @param name
+   *          the name of the cache, must not be {@code null}
+   * @return a new cache instance which is not thread-safe, never {@code null}
+   */
+  @SuppressWarnings("PMD.LooseCoupling")
+  public <K, V> Map<K, V> createLocalMapCache(final String name) {
+    if (!isMonitoringEnabled()) {
+      return new HashMap<>();
+    }
+    LocalMapCache<K, V> cache = new LocalMapCache<>();
+    synchronized (getCaches()) {
+      getCaches().put(name, new WeakReference<ICache<?, ?>>(cache));
+    }
+    return cache;
   }
 
   /**
