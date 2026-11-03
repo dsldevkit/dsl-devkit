@@ -27,6 +27,7 @@ import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookupTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractCachingResourceDescriptionManagerTest;
 import com.avaloq.tools.ddk.xtext.resource.AbstractSelectorFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.resource.BugAig1084;
+import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpConcurrencyTest;
 import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpTest;
 import com.avaloq.tools.ddk.xtext.resource.ReferenceUriCachingTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
@@ -60,7 +61,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   QualifiedNameConverterTest.class,
   ReferenceUriCachingTest.class,
   AbstractExportedNameProviderTest.class,
-  NameFunctionsTest.class})
+  NameFunctionsTest.class,
+  PatternAwareEObjectDescriptionLookUpConcurrencyTest.class})
 // @Format-On
 public class XtextTestSuite {
 }

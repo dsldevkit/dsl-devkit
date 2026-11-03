@@ -94,9 +94,8 @@ public class PatternAwareEObjectDescriptionLookUp extends EObjectDescriptionLook
     QualifiedNameLookup<IEObjectDescription> localMap = nameToObjectsLookup;
     if (localMap == null) {
       synchronized (this) {
-        // CHECKSTYLE:OFF with volatile it is ok
+        localMap = nameToObjectsLookup;
         if (localMap == null) {
-          // CHECKSTYLE:ON with volatile it is ok
           Iterable<IEObjectDescription> allDescriptions = getExportedObjects();
           localMap = QualifiedNameSegmentTreeLookup.createNameLookupCache("PatternAwareEObjectDescriptionLookUp#localMap", IEObjectDescription.class, false); //$NON-NLS-1$
           if (allDescriptions instanceof RandomAccess) {
