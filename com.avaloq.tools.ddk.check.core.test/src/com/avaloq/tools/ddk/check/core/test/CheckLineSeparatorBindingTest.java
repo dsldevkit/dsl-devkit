@@ -19,7 +19,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.google.inject.Inject;
 
@@ -30,7 +30,7 @@ import com.google.inject.Inject;
  * runtime modules declare the identical binding method; this test pins the Guice
  * module-convention wiring they all rely on.
  */
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class CheckLineSeparatorBindingTest {

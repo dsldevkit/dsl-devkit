@@ -23,13 +23,13 @@ import org.eclipse.xtext.xbase.testing.JavaSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 
 
 /**
  * Unit test for auto generation of check issue code to label map.
  */
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTestCase {
