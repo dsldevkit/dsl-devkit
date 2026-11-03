@@ -20,6 +20,7 @@ import com.avaloq.tools.ddk.xtext.builder.resourceloader.ParallelResourceLoaderT
 import com.avaloq.tools.ddk.xtext.jupiter.formatter.FormatterTest;
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProviderTest;
 import com.avaloq.tools.ddk.xtext.linking.ShortFragmentProviderTest;
+import com.avaloq.tools.ddk.xtext.naming.AbstractExportedNameProviderTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameConverterTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePatternTest;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNameSegmentTreeLookupTest;
@@ -56,7 +57,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   PatternAwareEObjectDescriptionLookUpTest.class,
   DefaultScopeCacheKeyComputerTest.class,
   QualifiedNameConverterTest.class,
-  ReferenceUriCachingTest.class})
+  ReferenceUriCachingTest.class,
+  AbstractExportedNameProviderTest.class})
 // @Format-On
 public class XtextTestSuite {
 }
