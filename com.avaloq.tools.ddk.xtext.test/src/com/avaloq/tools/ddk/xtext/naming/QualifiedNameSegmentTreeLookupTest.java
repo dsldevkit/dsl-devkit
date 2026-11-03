@@ -11,6 +11,8 @@
 package com.avaloq.tools.ddk.xtext.naming;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.ByteArrayInputStream;
@@ -18,9 +20,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +34,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableSet;
 
 
@@ -211,6 +218,76 @@ public class QualifiedNameSegmentTreeLookupTest {
     URI noSuchValue = URI.createURI("scheme:/anotherHost");
     expected = lookup.getMappings(noSuchValue);
     assertEquals(0, expected.size());
+  }
+
+  @Test
+  public void testPatternMatchesWithSharedValues() {
+    URI v1 = uri(name("v1"));
+    URI v2 = uri(name("v2"));
+    URI v3 = uri(name("v3"));
+    for (boolean shareValues : new boolean[] {true, false}) {
+      QualifiedNameSegmentTreeLookup<URI> tree = createTreeWithSharedValues(shareValues, v1, v2, v3);
+
+      // depth-first order below foo: bam [v2], bar [v1, v2], bar.baz [v1, v2], bar.qux [v3], baz [v1, v2]
+      List<URI> recursiveBelowFoo = shareValues ? List.of(v2, v1, v2, v3) : List.of(v2, v1, v2, v1, v2, v3, v1, v2);
+      assertMatches(tree, "foo.**", recursiveBelowFoo);
+      assertMatches(tree, "foo.*", shareValues ? List.of(v2, v1, v2) : List.of(v2, v1, v2, v1, v2));
+      assertMatches(tree, "foo.b*", shareValues ? List.of(v2, v1, v2) : List.of(v2, v1, v2, v1, v2));
+      assertMatches(tree, "foo.bar*", List.of(v1, v2));
+      assertMatches(tree, "foo.bar.*", List.of(v1, v2, v3));
+      assertMatches(tree, "foo.bar.**", List.of(v1, v2, v3));
+      assertMatches(tree, "foo", List.of(v1, v2));
+      assertMatches(tree, "f*", List.of(v1, v2, v1));
+      List<URI> recursiveF = new ArrayList<>(List.of(v1, v2));
+      recursiveF.addAll(shareValues ? List.of(v2, v3, v1) : List.of(v2, v1, v2, v1, v2, v3, v1, v2, v1));
+      assertMatches(tree, "f**", recursiveF);
+      assertMatches(tree, "g*", List.of());
+
+      // foo.bar gets an array of its own, foo, foo.bar.baz and foo.baz still share theirs
+      tree.remove(name("foo.bar"), v2);
+      assertMatches(tree, "foo.**", shareValues ? List.of(v2, v1, v1, v2, v3) : List.of(v2, v1, v1, v2, v3, v1, v2));
+      assertMatches(tree, "foo.*", List.of(v2, v1, v1, v2));
+
+      // removing a value from every node replaces each array by a new one with equal contents
+      tree.removeMappings(v2);
+      assertMatches(tree, "foo.**", List.of(v1, v1, v3, v1));
+      assertMatches(tree, "f**", List.of(v1, v1, v1, v3, v1, v1));
+    }
+  }
+
+  // when sharing values, foo, foo.bar, foo.bar.baz and foo.baz share one value array
+  private QualifiedNameSegmentTreeLookup<URI> createTreeWithSharedValues(final boolean shareValues, final URI v1, final URI v2, final URI v3) {
+    QualifiedNameSegmentTreeLookup<URI> tree = new QualifiedNameSegmentTreeLookup<URI>(URI.class, shareValues);
+    tree.putAll(name("foo"), Arrays.asList(v1, v2));
+    tree.putAll(name("foo.bar"), Arrays.asList(v1, v2));
+    tree.putAll(name("foo.bar.baz"), Arrays.asList(v1, v2));
+    tree.put(name("foo.bar.qux"), v3);
+    tree.putAll(name("foo.baz"), Arrays.asList(v1, v2));
+    tree.put(name("foo.bam"), v2);
+    tree.put(name("foo2"), v1);
+    return tree;
+  }
+
+  /**
+   * Asserts the result of a pattern lookup with and without duplicates.
+   *
+   * @param tree
+   *          lookup to query, must not be {@code null}
+   * @param pattern
+   *          pattern to look up, must not be {@code null}
+   * @param expected
+   *          expected values including duplicates, must not be {@code null}
+   */
+  private void assertMatches(final QualifiedNameLookup<URI> tree, final String pattern, final List<URI> expected) {
+    Collection<URI> withDuplicates = tree.get(pattern(pattern), false);
+    assertInstanceOf(ArrayList.class, withDuplicates, pattern);
+    assertEquals(ImmutableMultiset.copyOf(expected), ImmutableMultiset.copyOf(withDuplicates), pattern);
+
+    Collection<URI> withoutDuplicates = tree.get(pattern(pattern), true);
+    assertInstanceOf(HashSet.class, withoutDuplicates, pattern);
+    Set<URI> expectedSet = new HashSet<>();
+    expectedSet.addAll(expected);
+    assertIterableEquals(expectedSet, withoutDuplicates, pattern);
   }
 
   private QualifiedName name(final String str) {
