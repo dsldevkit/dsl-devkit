@@ -16,6 +16,7 @@ import org.junit.platform.suite.api.Suite;
 import com.avaloq.tools.ddk.check.runtime.context.CheckContextTest;
 import com.avaloq.tools.ddk.check.runtime.core.registry.CheckExtensionPointTests;
 import com.avaloq.tools.ddk.check.runtime.core.validation.CheckValidatorTest;
+import com.avaloq.tools.ddk.check.runtime.issue.DefaultCheckImplTest;
 import com.avaloq.tools.ddk.check.runtime.label.CheckRuleLabelProviderTest;
 
 
@@ -28,7 +29,8 @@ import com.avaloq.tools.ddk.check.runtime.label.CheckRuleLabelProviderTest;
   CheckContextTest.class,
   CheckExtensionPointTests.class,
   CheckValidatorTest.class,
-  CheckRuleLabelProviderTest.class
+  CheckRuleLabelProviderTest.class,
+  DefaultCheckImplTest.class
   // @Format-On
 })
 public class CheckRuntimeTestSuite {
