@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IContainer;
@@ -19,7 +20,6 @@ import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
 
 import com.avaloq.tools.ddk.caching.CacheManager;
-import com.avaloq.tools.ddk.caching.MapCache;
 import com.avaloq.tools.ddk.xtext.naming.QualifiedNamePattern;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -28,7 +28,6 @@ import com.google.common.collect.Iterables;
 /**
  * A scope whose contents are given by a ContainerQuery on some container.
  */
-@SuppressWarnings("PMD.LooseCoupling")
 public class ContainerBasedScope extends AbstractRecursiveScope {
 
   /** The container. */
@@ -39,7 +38,7 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
 
   private final Collection<INameFunction> nameFunctions;
 
-  private final MapCache<QualifiedName, IEObjectDescription> contentByNameCache = CacheManager.getInstance().createMapCache("ContainerBasedScope#contentByNameCache"); //$NON-NLS-1$
+  private Map<QualifiedName, IEObjectDescription> contentByNameCache;
 
   /**
    * Create a new scope with id, parent, container, query, and case-sensitivity.
@@ -71,6 +70,9 @@ public class ContainerBasedScope extends AbstractRecursiveScope {
     if (nameFunctions != null && nameFunctions.contains(NameFunctions.exportNameFunction())) {
       final boolean ignoreCase = isIgnoreCase();
       final QualifiedName lookupName = ignoreCase ? name.toLowerCase() : name;
+      if (contentByNameCache == null) {
+        contentByNameCache = CacheManager.getInstance().createLocalMapCache("ContainerBasedScope#contentByNameCache"); //$NON-NLS-1$
+      }
       final IEObjectDescription cachedResult = contentByNameCache.get(lookupName);
       if (cachedResult != null) {
         if (cachedResult != NULL_DESCRIPTION) {

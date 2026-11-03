@@ -39,7 +39,7 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
 
   private final Collection<INameFunction> nameFunctions;
 
-  private final Map<QualifiedName, IEObjectDescription> contentByNameCache = CacheManager.getInstance().createMapCache("PrefixedContainerBasedScope#contentByNameCache"); //$NON-NLS-1$
+  private Map<QualifiedName, IEObjectDescription> contentByNameCache;
 
   private final QualifiedName prefix;
 
@@ -80,6 +80,9 @@ public class PrefixedContainerBasedScope extends ContainerBasedScope {
   public synchronized IEObjectDescription getSingleElement(final QualifiedName name) {
     final boolean ignoreCase = isIgnoreCase();
     final QualifiedName lookupName = ignoreCase ? name.toLowerCase() : name;
+    if (contentByNameCache == null) {
+      contentByNameCache = CacheManager.getInstance().createLocalMapCache("PrefixedContainerBasedScope#contentByNameCache"); //$NON-NLS-1$
+    }
     final IEObjectDescription result = contentByNameCache.get(lookupName);
     if (result != null && result != NULL_DESCRIPTION) {
       return result;

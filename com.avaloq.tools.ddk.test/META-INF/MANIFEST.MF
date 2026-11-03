@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.avaloq.tools.ddk.test
+Bundle-SymbolicName: com.avaloq.tools.ddk.test;singleton:=true
+Bundle-Version: 17.3.3.qualifier
+Bundle-Vendor: Avaloq Group AG
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.avaloq.tools.ddk,
+ junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-platform-suite-api
+Export-Package: com.avaloq.tools.ddk.test
+Automatic-Module-Name: com.avaloq.tools.ddk.test
