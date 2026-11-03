@@ -221,9 +221,8 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   /**
    * Handle to index extension storing associations to derived objects.
    */
-  private IDerivedObjectAssociationsStore derivedObjectAssociationsStore;
-
-  private final Object associationsStoreLock = new Object();
+  @SuppressWarnings("PMD.AvoidUsingVolatile")
+  private volatile IDerivedObjectAssociationsStore derivedObjectAssociationsStore;
 
   /**
    * Copied handle to the plain ResourceDescriptionsData.
@@ -298,9 +297,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
    *          the new derived object associations store
    */
   protected void setDerivedObjectAssociationsStore(final IDerivedObjectAssociationsStore associationsStore) {
-    synchronized (associationsStoreLock) {
-      derivedObjectAssociationsStore = associationsStore;
-    }
+    derivedObjectAssociationsStore = associationsStore;
   }
 
   @Override
@@ -1042,9 +1039,7 @@ public class MonitoredClusteringBuilderState extends ClusteringBuilderState
   }
 
   private IDerivedObjectAssociationsStore getDerivedObjectAssociationsStore() {
-    synchronized (associationsStoreLock) {
-      return derivedObjectAssociationsStore;
-    }
+    return derivedObjectAssociationsStore;
   }
 
   /**
