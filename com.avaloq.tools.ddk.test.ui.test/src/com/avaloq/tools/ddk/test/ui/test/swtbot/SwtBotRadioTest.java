@@ -15,10 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
-import com.avaloq.tools.ddk.test.core.Issue;
-import com.avaloq.tools.ddk.test.core.jupiter.IssueAwareRule;
 import com.avaloq.tools.ddk.test.ui.swtbot.SwtWorkbenchBot;
 import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
 
@@ -28,11 +25,6 @@ import com.avaloq.tools.ddk.test.ui.swtbot.util.PreferenceUtil;
  */
 @SuppressWarnings("nls")
 public class SwtBotRadioTest {
-
-  @RegisterExtension
-  // CHECKSTYLE:CHECK-OFF VisibilityModifier
-  public final IssueAwareRule rule = IssueAwareRule.getInstance();
-  // CHECKSTYLE:CHECK-ON VisibilityModifier
 
   private static final String[] PREFERENCES_PATH = new String[] {"General", "Perspectives"};
 
@@ -69,7 +61,6 @@ public class SwtBotRadioTest {
    * Test if the method {@link org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio#click()} works correctly.
    */
   @Test
-  @Issue(value = "DSL-371", fixed = false)
   public void testSWTRadioButtonClick() {
     SWTWorkbenchBot bot = new SWTWorkbenchBot();
     bot.resetWorkbench();
