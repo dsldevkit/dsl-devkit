@@ -71,7 +71,7 @@ public class LinkingService extends DefaultLinkingService {
   private void registerNamedType(final EObject context, final QualifiedName name, final EClass type) {
     ImportedNamesTypesAdapter adapter = getImportedNamesAdapter(context);
     adapter.getImportedNames().add(name);
-    adapter.getImportedNamesTypes().computeIfAbsent(name, k -> new HashSet<>()).add(type);
+    adapter.getImportedNamesTypes().computeIfAbsent(name, k -> new HashSet<>(2)).add(type);
   }
 
   /**
