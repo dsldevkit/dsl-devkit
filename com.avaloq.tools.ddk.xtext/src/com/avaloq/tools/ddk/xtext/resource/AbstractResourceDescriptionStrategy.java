@@ -11,6 +11,7 @@
 package com.avaloq.tools.ddk.xtext.resource;
 
 import java.text.MessageFormat;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -136,6 +138,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
 
   @Override
   public boolean createReferenceDescriptions(final EObject from, final URI exportedContainerURI, final IAcceptor<IReferenceDescription> acceptor) {
+    final UriCache uris = new UriCache();
     for (EReference eReference : from.eClass().getEAllReferences()) {
       if (isIndexable(from, eReference)) {
         final Object val = from.eGet(eReference, false);
@@ -145,15 +148,15 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
             final EList<EObject> list = (EList<EObject>) val;
             if (val instanceof InternalEList internalList) {
               for (int i = 0; i < list.size(); i++) {
-                acceptResolvedReference(from, (EObject) internalList.basicGet(i), eReference, exportedContainerURI, i, acceptor);
+                acceptResolvedReference(from, (EObject) internalList.basicGet(i), eReference, exportedContainerURI, i, acceptor, uris);
               }
             } else {
               for (int i = 0; i < list.size(); i++) {
-                acceptResolvedReference(from, list.get(i), eReference, exportedContainerURI, i, acceptor);
+                acceptResolvedReference(from, list.get(i), eReference, exportedContainerURI, i, acceptor, uris);
               }
             }
           } else {
-            acceptResolvedReference(from, (EObject) val, eReference, exportedContainerURI, -1, acceptor);
+            acceptResolvedReference(from, (EObject) val, eReference, exportedContainerURI, -1, acceptor, uris);
           }
         }
       }
@@ -193,16 +196,59 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
    *          index in list (for multi valued references otherwise -1)
    * @param acceptor
    *          acceptor for accepted references
+   * @param uris
+   *          URIs of the objects already referenced in this run, must not be {@code null}
    */
-  private void acceptResolvedReference(final EObject from, final EObject to, final EReference eReference, final URI exportedContainerURI, final int indexInList, final IAcceptor<IReferenceDescription> acceptor) {
+  private void acceptResolvedReference(final EObject from, final EObject to, final EReference eReference, final URI exportedContainerURI, final int indexInList, final IAcceptor<IReferenceDescription> acceptor, final UriCache uris) {
     if (isResolvedAndExternal(from, eReference, to)) {
-      acceptor.accept(createReferenceDescription(from, exportedContainerURI, eReference, indexInList, to));
+      acceptor.accept(createReferenceDescription(uris.getURI(from), exportedContainerURI, eReference, indexInList, uris.getURI(to)));
     }
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @deprecated {@link #createReferenceDescriptions(EObject, URI, IAcceptor)} no longer calls this method; override
+   *             {@link #createReferenceDescription(URI, URI, EReference, int, URI)} instead
+   */
   @Override
+  @Deprecated
   protected IReferenceDescription createReferenceDescription(final EObject owner, final URI exportedContainerURI, final EReference eReference, final int indexInList, final EObject target) {
     return new ReferenceDescription(owner, target, eReference, exportedContainerURI, indexInList);
+  }
+
+  /**
+   * Creates a reference description for the given URIs. Used by {@link #createReferenceDescriptions(EObject, URI, IAcceptor)}, which computes the URI of each
+   * object only once.
+   *
+   * @param sourceUri
+   *          URI of the referencing object, must not be {@code null}
+   * @param exportedContainerURI
+   *          URI of the exported container, may be {@code null}
+   * @param eReference
+   *          the reference, must not be {@code null}
+   * @param indexInList
+   *          index in list for multi valued references, otherwise -1
+   * @param targetUri
+   *          URI of the referenced object, must not be {@code null}
+   * @return the reference description, never {@code null}
+   */
+  protected IReferenceDescription createReferenceDescription(final URI sourceUri, final URI exportedContainerURI, final EReference eReference, final int indexInList, final URI targetUri) {
+    return new ReferenceDescription(sourceUri, targetUri, eReference, exportedContainerURI, indexInList);
+  }
+
+  /**
+   * URIs of the objects referenced in one {@link #createReferenceDescriptions(EObject, URI, IAcceptor)} run.
+   */
+  private static final class UriCache {
+    private Map<EObject, URI> uris;
+
+    URI getURI(final EObject object) {
+      if (uris == null) {
+        uris = new IdentityHashMap<>();
+      }
+      return uris.computeIfAbsent(object, EcoreUtil::getURI);
+    }
   }
 
   /**
