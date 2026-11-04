@@ -90,4 +90,5 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7
         with:
           name: tycho-surefire-plugin
-          path: com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
+          path: com.avaloq.tools.ddk.*/target/work/data/.metadata/.log
+          include-hidden-files: true
