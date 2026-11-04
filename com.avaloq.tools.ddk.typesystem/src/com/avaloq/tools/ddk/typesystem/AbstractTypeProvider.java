@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.typesystem;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.Logger;
@@ -56,6 +57,13 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   // CHECKSTYL:OFF - code copied (with modifications) from org.eclipse.xtext.common.types.access.AbstractTypeProviderFactory
 
   private static final Logger LOGGER = LogManager.getLogger(AbstractTypeProvider.class);
+
+  private static final AtomicReferenceFieldUpdater<AbstractTypeProvider, Computers> COMPUTERS = //
+      AtomicReferenceFieldUpdater.newUpdater(AbstractTypeProvider.class, Computers.class, "computers"); //$NON-NLS-1$
+
+  /** Created on first use: many type providers are injected but never asked for a type. */
+  @SuppressWarnings("PMD.AvoidUsingVolatile")
+  private volatile Computers computers;
 
   /**
    * A linked list item whose hash depends on both the content and previous linked items.
@@ -348,8 +356,9 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
    * @return an indent corresponding to the depth of the current ongoing computations
    */
   protected String getDebugIndentation() {
-    int size = typeComputer.getOngoingComputationsSize() + expectedTypeComputer.getOngoingComputationsSize()
-        + typeForNamedElementComputer.getOngoingComputationsSize();
+    Computers current = getComputers();
+    int size = current.typeComputer.getOngoingComputationsSize() + current.expectedTypeComputer.getOngoingComputationsSize()
+        + current.typeForNamedElementComputer.getOngoingComputationsSize();
     char[] chars = new char[size];
     Arrays.fill(chars, '|');
     return String.valueOf(chars);
@@ -377,25 +386,91 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   }
 
   // --------------------------------------------------------------------------
-  // Fields and methods for getType.
+  // Cycle-handling computers.
   //
 
-  private final AbstractCyclicHandlingSupport<IExpression> typeComputer = new AbstractCyclicHandlingSupport<IExpression>() {
-    @Override
-    protected IType doComputation(final IExpression expression) {
-      return type(expression);
-    }
+  /**
+   * The cycle-handling computers of this type provider.
+   */
+  private final class Computers {
 
-    @Override
-    protected EObject getPrimaryEObject(final IExpression expression) {
-      return expression;
-    }
+    private final AbstractCyclicHandlingSupport<IExpression> typeComputer = new AbstractCyclicHandlingSupport<IExpression>() {
+      @Override
+      protected IType doComputation(final IExpression expression) {
+        return type(expression);
+      }
 
-    @Override
-    protected IType doHandleCyclicCall(final IExpression expression) {
-      return handleCyclicGetType(expression);
+      @Override
+      protected EObject getPrimaryEObject(final IExpression expression) {
+        return expression;
+      }
+
+      @Override
+      protected IType doHandleCyclicCall(final IExpression expression) {
+        return handleCyclicGetType(expression);
+      }
+    };
+
+    private final AbstractCyclicHandlingSupport<IExpression> expectedTypeComputer = new AbstractCyclicHandlingSupport<IExpression>() {
+      @Override
+      protected IType doComputation(final IExpression expression) {
+        Triple<EObject, EReference, Integer> triple = getContainingInfo(expression);
+        if (triple != null) {
+          return expectedType(triple.getFirst(), triple.getSecond(), triple.getThird());
+        } else {
+          return null;
+        }
+      }
+
+      @Override
+      protected IType doHandleCyclicCall(final IExpression expression) {
+        return handleCycleGetExpectedType(expression);
+      }
+
+      @Override
+      protected EObject getPrimaryEObject(final IExpression expression) {
+        return expression;
+      }
+    };
+
+    private final AbstractCyclicHandlingSupport<INamedElement> typeForNamedElementComputer = new AbstractCyclicHandlingSupport<INamedElement>() {
+      @Override
+      protected IType doComputation(final INamedElement element) {
+        return typeForNamedElement(element);
+      }
+
+      @Override
+      protected IType doHandleCyclicCall(final INamedElement element) {
+        return handleCycleGetTypeForNamedElement(element);
+      }
+
+      @Override
+      protected EObject getPrimaryEObject(final INamedElement element) {
+        return element;
+      }
+    };
+  }
+
+  /**
+   * Gets the cycle-handling computers, creating them on first use.
+   * <p>
+   * All threads must see the same computers: they key the type cache and track the ongoing computations for cycle detection.
+   * </p>
+   *
+   * @return the computers of this type provider, never {@code null}
+   */
+  private Computers getComputers() {
+    Computers result = computers;
+    if (result == null) {
+      COMPUTERS.compareAndSet(this, null, new Computers());
+      result = computers;
     }
-  };
+    return result;
+  }
+
+  // --------------------------------------------------------------------------
+  // Fields and methods for getType.
+  //
 
   /**
    * Handles the computation of getType when a cycle is encountered.
@@ -430,7 +505,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   @Override
   public IType getType(final IExpression expression) {
     if (providesTypeFor(expression)) {
-      return computeType("getType", expression, typeComputer); //$NON-NLS-1$
+      return computeType("getType", expression, getComputers().typeComputer); //$NON-NLS-1$
     }
     ITypeProvider provider = getTypeProviderFor(expression);
     if (provider != null && provider != this) {
@@ -442,28 +517,6 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   // --------------------------------------------------------------------------
   // Fields and methods for getExpectedType.
   //
-
-  private final AbstractCyclicHandlingSupport<IExpression> expectedTypeComputer = new AbstractCyclicHandlingSupport<IExpression>() {
-    @Override
-    protected IType doComputation(final IExpression expression) {
-      Triple<EObject, EReference, Integer> triple = getContainingInfo(expression);
-      if (triple != null) {
-        return expectedType(triple.getFirst(), triple.getSecond(), triple.getThird());
-      } else {
-        return null;
-      }
-    }
-
-    @Override
-    protected IType doHandleCyclicCall(final IExpression expression) {
-      return handleCycleGetExpectedType(expression);
-    }
-
-    @Override
-    protected EObject getPrimaryEObject(final IExpression expression) {
-      return expression;
-    }
-  };
 
   /**
    * Handles the computation of getExpectedType when a cycle is encountered.
@@ -503,7 +556,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   @Override
   public IType getExpectedType(final IExpression expression) {
     if (providesExpectedTypeFor(expression)) {
-      return computeType("getExpectedType", expression, expectedTypeComputer); //$NON-NLS-1$
+      return computeType("getExpectedType", expression, getComputers().expectedTypeComputer); //$NON-NLS-1$
     }
     ITypeProvider provider = getTypeProviderFor(expression);
     if (provider != null && provider != this) {
@@ -515,23 +568,6 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   // --------------------------------------------------------------------------
   // Fields and methods for getTypeForNamedElement.
   //
-
-  private final AbstractCyclicHandlingSupport<INamedElement> typeForNamedElementComputer = new AbstractCyclicHandlingSupport<INamedElement>() {
-    @Override
-    protected IType doComputation(final INamedElement element) {
-      return typeForNamedElement(element);
-    }
-
-    @Override
-    protected IType doHandleCyclicCall(final INamedElement element) {
-      return handleCycleGetTypeForNamedElement(element);
-    }
-
-    @Override
-    protected EObject getPrimaryEObject(final INamedElement element) {
-      return element;
-    }
-  };
 
   /**
    * Handles the computation of getTypeForNamedElement when a cycle is encountered.
@@ -566,7 +602,7 @@ public abstract class AbstractTypeProvider implements ITypeProvider {
   @Override
   public IType getTypeForNamedElement(final INamedElement element) {
     if (providesTypeForNamedElement(element)) {
-      return computeType("getTypeForNamedElement", element, typeForNamedElementComputer); //$NON-NLS-1$
+      return computeType("getTypeForNamedElement", element, getComputers().typeForNamedElementComputer); //$NON-NLS-1$
     }
     ITypeProvider provider = getTypeProviderFor(element);
     if (provider != null && provider != this) {

@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -151,6 +153,23 @@ public class AbstractTypeProviderTest {
   void testDelegatingTypeProvider() {
     delegateProvider = new PlainTypeProvider();
     testPlainProvider(new DelegatingTypeProvider());
+  }
+
+  @Test
+  void testTypeIsCachedAcrossCalls() {
+    Resource resource = new ResourceImpl();
+    resource.getContents().add(expression1Container);
+    int[] typeComputations = new int[1];
+    ITypeProvider provider = new PlainTypeProvider() {
+      @Override
+      protected IType type(final IExpression expression) {
+        typeComputations[0]++;
+        return super.type(expression);
+      }
+    };
+    assertEquals(type1, provider.getType(expression1), "first type for expression1 not type1");
+    assertEquals(type1, provider.getType(expression1), "cached type for expression1 not type1");
+    assertEquals(1, typeComputations[0], "type of expression1 not computed exactly once");
   }
 
   @Test
