@@ -2,6 +2,7 @@
 /*/bin-res/
 /*/target/
 **/.tycho-consumer-pom.xml
+.polyglot.*
 *.java._trace
 *.smap
 *.checkbin
