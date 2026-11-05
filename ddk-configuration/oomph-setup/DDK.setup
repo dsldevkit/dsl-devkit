@@ -69,9 +69,9 @@
     <requirement
         name="org.hamcrest.core"/>
     <repository
-        url="https://download.eclipse.org/technology/swtbot/releases/4.2.1/"/>
+        url="https://download.eclipse.org/technology/swtbot/releases/4.3.0/"/>
     <repository
-        url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.37.0"/>
+        url="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.41.0"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
   </setupTask>
   <setupTask

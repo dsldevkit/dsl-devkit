@@ -19,8 +19,8 @@
     </detail>
   </annotation>
   <version name="eclipse_2026"
-      label="DDK Eclipse 2026-03 Target"
-      requiredJavaVersion="1.21">
+      label="DDK Eclipse 2026-09 Target"
+      requiredJavaVersion="25">
     <setupTask
         xsi:type="setup.p2:P2Task"
         label="${scope.product.label} (${scope.product.version.label})">
@@ -36,10 +36,10 @@
           name="org.eclipse.pde.feature.group"/>
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"
-          versionRange="[2.42.0,3.0.0)"/>
+          versionRange="[2.43.0,3.0.0)"/>
       <requirement
           name="org.eclipse.xtend.sdk.feature.group"
-          versionRange="[2.42.0,3.0.0)"/>
+          versionRange="[2.43.0,3.0.0)"/>
       <requirement
           name="org.eclipse.emf.feature.group"/>
       <requirement
@@ -63,9 +63,9 @@
       <requirement
           name="org.eclipse.oomph.projectconfig.feature.group"/>
       <repository
-          url="https://download.eclipse.org/releases/2026-03/"/>
+          url="https://download.eclipse.org/releases/2026-09/"/>
       <repository
-          url="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.42.0/"/>
+          url="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.43.0/"/>
       <repository
           url="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.25.0/"/>
       <repository
@@ -150,7 +150,7 @@
             value="true"/>
       </setupTask>
     </setupTask>
-    <description>DDK Eclipse for Eclipse 2026-03</description>
+    <description>DDK Eclipse for Eclipse 2026-09</description>
   </version>
   <description>DDK Eclipse provides the IDE for DSL Developer Kit development.</description>
 </setup:Product>
