@@ -11,13 +11,13 @@
 package com.avaloq.tools.ddk.xtext.scoping;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.naming.QualifiedName;
 
-import com.google.common.collect.MapMaker;
 import com.google.inject.Inject;
 
 
@@ -35,7 +35,7 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
   /**
    * Cache for the name functions associated with a given {@link EClass type}.
    */
-  private final Map<EClass, Iterable<INameFunction>> nameFunctionCache = new MapMaker().weakKeys().makeMap();
+  private final Map<EClass, Iterable<INameFunction>> nameFunctionCache = new ConcurrentHashMap<>();
 
   /**
    * Returns the list of name functions for a given type by calling {@link #internalGetNameFunctions(EClass)}. The result is cached for subsequent calls.
@@ -46,13 +46,18 @@ public abstract class AbstractScopeNameProvider implements IScopeNameProvider {
    */
   @Override
   public Iterable<INameFunction> getNameFunctions(final EClass type) {
-    return nameFunctionCache.computeIfAbsent(type, eClass -> {
-      Iterable<INameFunction> result = internalGetNameFunctions(eClass);
+    Iterable<INameFunction> result = nameFunctionCache.get(type);
+    if (result == null) {
+      result = internalGetNameFunctions(type);
       if (result == null) {
-        result = getDefaultNames(eClass);
+        result = getDefaultNames(type);
       }
-      return result;
-    });
+      Iterable<INameFunction> existing = nameFunctionCache.putIfAbsent(type, result);
+      if (existing != null) {
+        result = existing;
+      }
+    }
+    return result;
   }
 
   /**
