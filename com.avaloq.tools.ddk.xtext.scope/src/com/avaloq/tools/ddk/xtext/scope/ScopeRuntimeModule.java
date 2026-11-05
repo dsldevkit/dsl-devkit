@@ -32,6 +32,7 @@ import com.avaloq.tools.ddk.xtext.scope.resource.ScopeResourceDescriptionStrateg
 /**
  * Use this class to register components to be used within the IDE.
  */
+@SuppressWarnings("restriction")
 public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
 
   /**

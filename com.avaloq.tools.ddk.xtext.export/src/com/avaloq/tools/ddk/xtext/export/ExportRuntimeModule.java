@@ -27,6 +27,7 @@ import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
+@SuppressWarnings("restriction")
 public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.AbstractExportRuntimeModule {
 
   /**

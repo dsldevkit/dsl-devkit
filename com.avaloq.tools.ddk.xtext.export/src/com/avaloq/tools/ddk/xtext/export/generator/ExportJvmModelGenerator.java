@@ -48,6 +48,7 @@ import com.google.inject.Inject;
  * GeneratorSupport#executeWithProjectResourceLoader}, and establishing that resource loader once for the
  * whole resource lets those nested calls reuse it instead of building a class loader for every body.
  */
+@SuppressWarnings("restriction")
 public class ExportJvmModelGenerator extends JvmModelGenerator {
 
   /** The Javadoc prefix of a line that carries text. */

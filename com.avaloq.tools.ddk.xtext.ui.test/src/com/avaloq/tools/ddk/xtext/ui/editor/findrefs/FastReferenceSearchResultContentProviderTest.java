@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link FastReferenceSearchResultContentProvider}.
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({"restriction", "nls"})
 public class FastReferenceSearchResultContentProviderTest {
 
   private static final URI FIRST_SOURCE = URI.createURI("platform:/resource/project/a.test#/0");

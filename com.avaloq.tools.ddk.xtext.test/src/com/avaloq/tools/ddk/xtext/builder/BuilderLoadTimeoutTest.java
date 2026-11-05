@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link MonitoredClusteringBuilderState#isAbandonedByTimeout(WrappedException, LoadOperation)}.
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({"restriction", "nls"})
 public class BuilderLoadTimeoutTest {
 
   private static final TimeoutException TIMEOUT = new TimeoutException("no result");

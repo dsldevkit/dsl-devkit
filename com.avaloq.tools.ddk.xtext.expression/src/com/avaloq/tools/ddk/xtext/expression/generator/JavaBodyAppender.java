@@ -35,6 +35,7 @@ import com.google.inject.Inject;
  * language being generated (its EMF model, generated switches, EPackage literals and hand written scoping or export
  * helpers) stay fully qualified, which is how the templates that preceded the JVM model inferrers emitted them.
  */
+@SuppressWarnings("restriction")
 public class JavaBodyAppender {
 
   /**

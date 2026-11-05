@@ -30,6 +30,7 @@ import com.avaloq.tools.ddk.xtext.expression.expression.Identifier;
  * Resource description manager whose descriptions also import the Java types a model names but only resolves while its Java
  * is generated, so that a change to such a type re-queues the model.
  */
+@SuppressWarnings("restriction")
 public abstract class AbstractExpressionModelResourceDescriptionManager extends XbaseResourceDescriptionManager {
 
   @Override
