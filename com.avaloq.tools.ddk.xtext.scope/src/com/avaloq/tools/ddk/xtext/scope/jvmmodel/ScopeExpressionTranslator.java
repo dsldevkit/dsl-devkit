@@ -84,7 +84,7 @@ import com.google.inject.Inject;
  * Nodes that require resolving EMF feature getters, operators, operations, extensions, casts, collection
  * closures, constructor calls or global variables return {@code null} for now and are added in later increments.
  */
-@SuppressWarnings({"checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"restriction", "checkstyle:MethodName", "nls", "PMD.UnusedFormalParameter"})
 public class ScopeExpressionTranslator {
 
   /** Provides access to the {@code org.eclipse.xtext.xbase.lib} operator methods that back binary operations. */

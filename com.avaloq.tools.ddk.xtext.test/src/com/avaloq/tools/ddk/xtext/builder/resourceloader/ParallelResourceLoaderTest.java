@@ -50,7 +50,7 @@ import com.google.inject.Guice;
 /**
  * Tests for {@link ParallelResourceLoader}.
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({"restriction", "nls"})
 public class ParallelResourceLoaderTest {
 
   private static final URI SLOW_URI = URI.createURI("platform:/resource/project/slow.test");

@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 /**
  * This class implements scoping for the export language.
  */
+@SuppressWarnings("restriction")
 public class ExportScopeProvider extends AbstractExportScopeProvider {
 
   @Inject

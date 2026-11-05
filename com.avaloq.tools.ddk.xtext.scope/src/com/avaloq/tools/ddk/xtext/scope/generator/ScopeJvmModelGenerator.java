@@ -29,6 +29,7 @@ import com.google.inject.Inject;
  * body.
  * </p>
  */
+@SuppressWarnings("restriction")
 public class ScopeJvmModelGenerator extends JvmModelGenerator {
 
   @Inject

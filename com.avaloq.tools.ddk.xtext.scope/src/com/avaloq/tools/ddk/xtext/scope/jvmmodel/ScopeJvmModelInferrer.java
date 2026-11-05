@@ -68,7 +68,7 @@ import com.google.inject.Singleton;
  * imports and shortens the framework types they reference while leaving the types of the language being generated
  * fully qualified.
  */
-@SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"restriction", "nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class ScopeJvmModelInferrer extends AbstractModelInferrer {
   // CHECKSTYLE:CONSTANTS-OFF the repeated literals are names of the inferred members, not nameable constants
   // CHECKSTYLE:CHECK-OFF LambdaBodyLength the model-inference closures mirror the Xtext JvmTypesBuilder API and are kept whole

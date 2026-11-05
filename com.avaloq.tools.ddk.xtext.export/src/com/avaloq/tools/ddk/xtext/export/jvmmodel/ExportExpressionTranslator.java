@@ -72,7 +72,7 @@ import com.google.inject.Inject;
  * {@code null}; the {@link ExportExpressionCompiler} is used as the string fallback that the export generators
  * splice into the inferred provider method bodies.
  */
-@SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"restriction", "nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class ExportExpressionTranslator {
 
   /** Separator between the segments of a qualified type name. */

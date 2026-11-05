@@ -40,6 +40,7 @@ import com.google.inject.Inject;
 /**
  * Scoping for the scoping language.
  */
+@SuppressWarnings("restriction")
 public class ScopeScopeProvider extends AbstractScopeScopeProvider {
 
   @Inject

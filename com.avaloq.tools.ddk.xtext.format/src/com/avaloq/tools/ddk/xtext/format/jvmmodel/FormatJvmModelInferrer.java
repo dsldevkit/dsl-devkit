@@ -108,7 +108,7 @@ import com.google.inject.Inject;
  * <p>The JVM model should contain all elements that would appear in the Java code
  * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>
  */
-@SuppressWarnings({"nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
+@SuppressWarnings({"restriction", "nls", "checkstyle:MethodName", "PMD.UnusedFormalParameter"})
 public class FormatJvmModelInferrer extends AbstractModelInferrer {
   // CPD-OFF — migrated Xtend dispatch/emission code, kept faithful; de-dup is a migration follow-up (#1339)
   // CHECKSTYLE:CONSTANTS-OFF the repeated literals are Java source fragments emitted by this generator, not nameable constants
