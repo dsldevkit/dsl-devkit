@@ -147,9 +147,9 @@ public class DefaultCheckImplTest {
         for (Future<Boolean> result : executor.invokeAll(tasks)) {
           assertTrue(result.get(), NO_ERROR_REPORTED);
         }
-        assertEquals(THREADS * CLASSIFIERS, impl.classifierChecks.get(), "Classifier checks");
-        assertEquals(THREADS * FEATURES, impl.featureChecks.get(), "Feature checks");
-        assertEquals(THREADS * NAMED_ELEMENTS, impl.namedElementChecks.get(), "Named element checks");
+        assertEquals(THREADS * CLASSIFIERS, impl.classifierChecks.get(), "Classifier checks"); //$NON-NLS-1$
+        assertEquals(THREADS * FEATURES, impl.featureChecks.get(), "Feature checks"); //$NON-NLS-1$
+        assertEquals(THREADS * NAMED_ELEMENTS, impl.namedElementChecks.get(), "Named element checks"); //$NON-NLS-1$
       }
     } finally {
       executor.shutdownNow();
@@ -179,13 +179,13 @@ public class DefaultCheckImplTest {
         for (Future<Boolean> result : executor.invokeAll(tasks)) {
           assertTrue(result.get(), NO_ERROR_REPORTED);
         }
-        assertEquals(THREADS * VALIDATIONS_PER_THREAD, impl.namedElementChecks.get(), "Every validation ran the healthy check");
+        assertEquals(THREADS * VALIDATIONS_PER_THREAD, impl.namedElementChecks.get(), "Every validation ran the healthy check"); //$NON-NLS-1$
         int failures = impl.failingChecks.get();
-        assertNotEquals(0, failures, "The failing check ran at least once");
+        assertNotEquals(0, failures, "The failing check ran at least once"); //$NON-NLS-1$
 
         EObject object = EcoreFactory.eINSTANCE.createEClass();
         impl.validate(object.eClass(), object, null, new HashMap<>());
-        assertEquals(failures, impl.failingChecks.get(), "The failing check was removed");
+        assertEquals(failures, impl.failingChecks.get(), "The failing check was removed"); //$NON-NLS-1$
       }
     } finally {
       executor.shutdownNow();

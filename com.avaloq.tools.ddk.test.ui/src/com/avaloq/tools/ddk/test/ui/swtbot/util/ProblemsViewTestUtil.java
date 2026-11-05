@@ -149,7 +149,7 @@ public final class ProblemsViewTestUtil {
     final SWTBotTree markersTreeBot = getMarkersTree(bot);
     DynamicContextActionUiTestUtil.clickContextMenu(() -> {
       // Select markers. Keep retrying for a bounded time if focus is lost at an inopportune moment.
-      bot.waitUntil(new WaitForEquals<>("Could not select all markers in the Problems view.", () -> markers.length, () -> {
+      bot.waitUntil(new WaitForEquals<>("Could not select all markers in the Problems view.", () -> markers.length, () -> { //$NON-NLS-1$
         markersTreeBot.select(markers);
         return markersTreeBot.selectionCount();
       }), ASYNC_UPDATE_TIMEOUT);

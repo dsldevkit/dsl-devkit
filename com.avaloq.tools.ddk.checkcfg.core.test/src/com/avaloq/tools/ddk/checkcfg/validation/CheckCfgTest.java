@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 
 @InjectWith(CheckCfgUiInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
+@SuppressWarnings("nls")
 public class CheckCfgTest {
 
   @Inject

@@ -33,6 +33,7 @@ import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(CheckCfgUiInjectorProvider.class)
+@SuppressWarnings("nls")
 public class CheckCfgContentAssistTest extends AbstractAcfContentAssistTest {
 
   private static final String SOURCE_TEMPLATE = """
