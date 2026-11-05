@@ -22,6 +22,7 @@ import com.avaloq.tools.ddk.checkcfg.util.CheckCfgTestUtil;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractValidationTest;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 
+@SuppressWarnings("nls")
 public class CheckCfgSyntaxTest extends AbstractValidationTest {
 
   private static final String CHECKCFG_SOURCE_FILE_NAME = "checkconfiguration.checkcfg";

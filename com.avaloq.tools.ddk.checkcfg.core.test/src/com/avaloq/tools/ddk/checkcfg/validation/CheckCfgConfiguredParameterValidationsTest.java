@@ -26,6 +26,7 @@ import com.avaloq.tools.ddk.test.core.mock.ExtensionRegistryMock;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractValidationTest;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 
+@SuppressWarnings("nls")
 public class CheckCfgConfiguredParameterValidationsTest extends AbstractValidationTest {
 
   // CPD-OFF — sibling test-class scaffolding, kept explicit (#1339)

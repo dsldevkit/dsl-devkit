@@ -25,6 +25,7 @@ import com.avaloq.tools.ddk.test.core.jupiter.BugTest;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractScopingTest;
 import com.avaloq.tools.ddk.xtext.test.jupiter.AbstractXtextTestUtil;
 
+@SuppressWarnings("nls")
 public final class CheckCfgScopeProviderTest extends AbstractScopingTest {
 
   private final IScopeProvider scopeProvider = getScopeProvider();
