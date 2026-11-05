@@ -11,4 +11,12 @@
 
   </extension>
 
+  <extension
+       id="docApplication"
+       point="org.eclipse.core.runtime.applications">
+    <application cardinality="singleton-global" thread="main" visible="true">
+       <run class="com.avaloq.tools.ddk.check.standalone.CheckDocApplication"/>
+    </application>
+  </extension>
+
 </plugin>
