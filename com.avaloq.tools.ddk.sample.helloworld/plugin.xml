@@ -34,10 +34,6 @@
     <initializer
           class="com.avaloq.tools.ddk.sample.helloworld.validation.ExecutionEnvironmentPreferenceInitializer">
     </initializer>
-    <scope
-          class="com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences"
-          name="checkcfgproject">
-    </scope>
  </extension>
  <extension
        id="com.avaloq.tools.ddk.sample.helloworld.validation.librarychecks.preference"
@@ -46,10 +42,6 @@
     <initializer
           class="com.avaloq.tools.ddk.sample.helloworld.validation.LibraryChecksPreferenceInitializer">
     </initializer>
-    <scope
-          class="com.avaloq.tools.targetdefinition.check.configuration.CheckConfigurationPreferences"
-          name="checkcfgproject">
-    </scope>
  </extension>
  <extension
        name="Context sensitive help for check"
