@@ -339,7 +339,7 @@
             point="org.eclipse.ui.ide.markerResolution">
         <markerResolutionGenerator
             class="com.avaloq.tools.ddk.check.ui.TestLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-            markerType="com.avaloq.tools.ddk.check.ui.testlanguage.check.fast">
+            markerType="com.avaloq.tools.ddk.check.test.runtime.ui.testlanguage.check.fast">
             <attribute
                 name="FIXABLE_KEY"
                 value="true">
@@ -347,7 +347,7 @@
         </markerResolutionGenerator>
         <markerResolutionGenerator
             class="com.avaloq.tools.ddk.check.ui.TestLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-            markerType="com.avaloq.tools.ddk.check.ui.testlanguage.check.normal">
+            markerType="com.avaloq.tools.ddk.check.test.runtime.ui.testlanguage.check.normal">
             <attribute
                 name="FIXABLE_KEY"
                 value="true">
@@ -355,7 +355,7 @@
         </markerResolutionGenerator>
         <markerResolutionGenerator
             class="com.avaloq.tools.ddk.check.ui.TestLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-            markerType="com.avaloq.tools.ddk.check.ui.testlanguage.check.expensive">
+            markerType="com.avaloq.tools.ddk.check.test.runtime.ui.testlanguage.check.expensive">
             <attribute
                 name="FIXABLE_KEY"
                 value="true">
