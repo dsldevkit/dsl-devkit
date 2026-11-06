@@ -143,6 +143,7 @@ public class ExportJvmModelInferrerTest extends AbstractXtextTest {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public <T extends JvmDeclaredType> IPostIndexingInitializing<T> accept(final T type) {
       resource.getContents().add(type);
       return initializer -> initializers.add(() -> initializer.apply(type));
