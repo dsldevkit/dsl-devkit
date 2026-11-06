@@ -91,7 +91,7 @@ therefore need `-XstartOnFirstThread`. There are two contexts:
 
 ### One JUnit run per test module
 
-Every test bundle (packaging `eclipse-test-plugin`) runs its own tests in its own Eclipse runtime. `tycho-surefire-plugin` is configured once in `ddk-parent/pom.xml`; individual test poms carry no test configuration. Surefire finds the tests by class name, so there are no test suites to maintain. Fragment test bundles work the same way, with their host in the runtime.
+Every test bundle (packaging `eclipse-test-plugin`) runs its own tests in its own Eclipse runtime. `tycho-surefire-plugin` is configured once in `ddk-parent/pom.xml`; individual test poms only set the properties below if they need a workbench. Surefire finds the tests by class name, so there are no test suites to maintain. Fragment test bundles work the same way, with their host in the runtime.
 
 **Consequences for agents:**
 
@@ -99,7 +99,8 @@ Every test bundle (packaging `eclipse-test-plugin`) runs its own tests in its ow
 - A new test bundle needs packaging `eclipse-test-plugin` and an entry in the `ddk-parent/pom.xml` modules list. With packaging `eclipse-plugin` its tests do not run.
 - A module's runtime holds only the dependency closure of its manifest. If a test needs a bundle at runtime, for example a language's UI bundle, declare it in that test bundle's `META-INF/MANIFEST.MF`.
 - Test classes run in alphabetical order within a module and must not depend on running after other classes.
-- With `-T`, test runtimes run one at a time (`reactorConcurrencyLevel` in `ddk-parent/pom.xml`), while everything else stays parallel. `CheckQuickfixTest` failed intermittently on macOS when they overlapped.
+- Test modules run headless by default, which is Tycho's default: no workbench starts, so `PlatformUI.getWorkbench()` and any Guice injector that needs `IWorkbench` fail. A module that needs a workbench sets `tycho.surefire.useUIHarness` to `true` and `test.reactorConcurrencyLevel` to `1` in its pom's `<properties>`.
+- With `-T`, headless modules run in parallel while modules with a workbench take turns (`test.reactorConcurrencyLevel`). `CheckQuickfixTest` has failed intermittently on macOS when workbenches overlapped; rerun serially before debugging such a failure.
 - A failed module's tests leave their log in `<module>/target/work/data/.metadata/.log`. CI archives these logs for failed builds.
 - To run the tests of one UI bundle from Eclipse, use its launch configuration (e.g. `com.avaloq.tools.ddk.check.ui.test/CheckUiTests.launch`), which runs all tests of the project via JUnit discovery in Eclipse.
 

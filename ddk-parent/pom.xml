@@ -41,6 +41,8 @@
     <!-- test parameter-->
     <test.javaOptions>${runtime.javaOptions}</test.javaOptions>
     <test.timeout>1800</test.timeout>
+    <!-- A test module that needs a workbench sets this to 1, and tycho.surefire.useUIHarness to true. -->
+    <test.reactorConcurrencyLevel>0</test.reactorConcurrencyLevel>
 
     <!-- maven enforced version: Maven 3.10 rejects the nested-jar dependencies Tycho injects (eclipse-tycho/tycho#6399) -->
     <maven-enforcer-rule.version>[3.9.0,3.10)</maven-enforcer-rule.version>
@@ -272,8 +274,7 @@
           <providerHint>junit6</providerHint>
           <failIfNoTests>false</failIfNoTests>
           <useUIThread>false</useUIThread>
-          <useUIHarness>true</useUIHarness>
-          <reactorConcurrencyLevel>1</reactorConcurrencyLevel> <!-- one test runtime at a time under -T -->
+          <reactorConcurrencyLevel>${test.reactorConcurrencyLevel}</reactorConcurrencyLevel>
           <forkedProcessTimeoutInSeconds>${test.timeout}</forkedProcessTimeoutInSeconds>
           <argLine>-Dslf4j.internal.verbosity=ERROR -Dlogback.configurationFile="${runtime.logbackConfig}" ${test.javaOptions}</argLine>
           <appArgLine>-pluginCustomization ${runtime.pluginCustomization}</appArgLine>
