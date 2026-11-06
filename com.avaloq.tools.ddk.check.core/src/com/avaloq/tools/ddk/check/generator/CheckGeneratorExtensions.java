@@ -263,8 +263,7 @@ public class CheckGeneratorExtensions {
     if (comment == null) {
       return null;
     }
-    try {
-      final JavaDoc2HTMLTextReader reader = new JavaDoc2HTMLTextReader(new StringReader(comment));
+    try (JavaDoc2HTMLTextReader reader = new JavaDoc2HTMLTextReader(new StringReader(comment))) {
       return reader.getString();
     } catch (final Exception e) {
       return null;
