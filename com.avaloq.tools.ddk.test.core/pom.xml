@@ -6,7 +6,7 @@
     <version>18.0.1-SNAPSHOT</version>
     <relativePath>../ddk-parent</relativePath>
   </parent>
-  <version>18.0.2-SNAPSHOT</version>
+  <version>18.0.3-SNAPSHOT</version>
 
   <artifactId>com.avaloq.tools.ddk.test.core</artifactId>
   <packaging>eclipse-plugin</packaging>
