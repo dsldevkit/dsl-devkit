@@ -121,7 +121,7 @@ public class IssueCodeToLabelMapGenerationTest extends AbstractCheckGenerationTe
     final String catalogClassName = CATALOG_NAME + CATALOG_NAME_SUFFIX;
 
     final String catalogClass = compiledClassesList.stream()
-        .filter(s -> s.getFileName().equals(catalogClassName))
+        .filter(s -> catalogClassName.equals(s.getFileName()))
         .findFirst()
         .orElseThrow()
         .getCode();
