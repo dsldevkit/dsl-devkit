@@ -94,7 +94,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
 
   /**
    * Hasher which caches resource URI strings and object fragments for one fingerprint computation, so that an object referenced several times gets its fragment
-   * computed only once. The hashers for the items of unordered lists share the cache of the hasher they are created for.
+   * computed only once. The hashers for the items of unordered lists share the cache and the character buffer of the hasher they are created for.
    */
   private static final class UriCachingHasher implements Hasher {
     private static final int INITIAL_CHARACTER_BUFFER_SIZE = 128;
@@ -103,7 +103,7 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
     private final UriCachingHasher root;
     private Map<EObject, String> uris;
     private Map<Resource, String> resourceUris;
-    private byte[] characters = new byte[INITIAL_CHARACTER_BUFFER_SIZE];
+    private byte[] characters;
 
     UriCachingHasher(final UriCachingHasher root) {
       this.delegate = HASH_FUNCTION.newHasher();
@@ -198,17 +198,19 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
 
     @Override
     public Hasher putUnencodedChars(final CharSequence charSequence) {
+      UriCachingHasher owner = root != null ? root : this;
       int length = charSequence.length();
       int byteLength = Math.multiplyExact(length, Character.BYTES);
-      if (characters.length < byteLength) {
-        characters = new byte[byteLength];
+      if (owner.characters == null || owner.characters.length < byteLength) {
+        owner.characters = new byte[Math.max(byteLength, INITIAL_CHARACTER_BUFFER_SIZE)];
       }
+      byte[] bytes = owner.characters;
       for (int index = 0; index < length; index++) {
         char character = charSequence.charAt(index);
-        characters[2 * index] = (byte) character;
-        characters[2 * index + 1] = (byte) (character >>> Byte.SIZE);
+        bytes[2 * index] = (byte) character;
+        bytes[2 * index + 1] = (byte) (character >>> Byte.SIZE);
       }
-      delegate.putBytes(characters, 0, byteLength);
+      delegate.putBytes(bytes, 0, byteLength);
       return this;
     }
 
