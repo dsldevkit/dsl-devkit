@@ -10,8 +10,6 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.xtext.naming;
 
-import java.util.List;
-
 import org.eclipse.xtext.naming.IQualifiedNameConverter.DefaultImpl;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.util.Strings;
@@ -30,11 +28,25 @@ public class QualifiedNameConverter extends DefaultImpl {
     if (Strings.isEmpty(qualifiedNameAsString)) {
       return super.toQualifiedName(qualifiedNameAsString);
     }
-    if (qualifiedNameAsString.indexOf('.') < 0) {
+    int firstDot = qualifiedNameAsString.indexOf('.');
+    if (firstDot < 0) {
       return QualifiedName.create(qualifiedNameAsString);
     }
-    List<String> segs = com.avaloq.tools.ddk.util.Strings.split(qualifiedNameAsString, '.');
-    return QualifiedName.create(segs);
+    int segmentCount = 2;
+    for (int dot = qualifiedNameAsString.indexOf('.', firstDot + 1); dot >= 0; dot = qualifiedNameAsString.indexOf('.', dot + 1)) {
+      segmentCount++;
+    }
+    // keeps all empty segments, like com.avaloq.tools.ddk.util.Strings.split
+    String[] segments = new String[segmentCount];
+    int start = 0;
+    int end = firstDot;
+    for (int i = 0; i < segmentCount - 1; i++) {
+      segments[i] = qualifiedNameAsString.substring(start, end);
+      start = end + 1;
+      end = qualifiedNameAsString.indexOf('.', start);
+    }
+    segments[segmentCount - 1] = qualifiedNameAsString.substring(start);
+    return QualifiedName.create(segments);
   }
 
   @Override
