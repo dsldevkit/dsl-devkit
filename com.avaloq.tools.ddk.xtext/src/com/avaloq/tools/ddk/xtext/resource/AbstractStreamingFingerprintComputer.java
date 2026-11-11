@@ -93,27 +93,41 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
   private static final String UNRESOLVED_STRING = "unresolved"; //$NON-NLS-1$
 
   /**
-   * Hasher which caches the URIs of the referenced objects for one fingerprint computation, so that an object referenced several times gets its URI computed
-   * only once. The hashers for the items of unordered lists share the cache of the hasher they are created for.
+   * Hasher which caches resource URI strings and object fragments for one fingerprint computation, so that an object referenced several times gets its fragment
+   * computed only once. The hashers for the items of unordered lists share the cache of the hasher they are created for.
    */
   private static final class UriCachingHasher implements Hasher {
+    private static final int INITIAL_CHARACTER_BUFFER_SIZE = 128;
+
     private final Hasher delegate;
     private final UriCachingHasher root;
-    private Map<EObject, URI> uris;
+    private Map<EObject, String> uris;
+    private Map<Resource, String> resourceUris;
+    private byte[] characters = new byte[INITIAL_CHARACTER_BUFFER_SIZE];
 
     UriCachingHasher(final UriCachingHasher root) {
       this.delegate = HASH_FUNCTION.newHasher();
       this.root = root;
     }
 
-    URI getURI(final EObject object) {
-      if (root != null) {
-        return root.getURI(object);
+    void putURI(final EObject object) {
+      UriCachingHasher cache = root != null ? root : this;
+      if (cache.uris == null) {
+        cache.uris = new IdentityHashMap<>();
+        cache.resourceUris = new IdentityHashMap<>();
       }
-      if (uris == null) {
-        uris = new IdentityHashMap<>();
+      Resource resource = object.eResource();
+      String resourceUri = resource == null ? null : cache.resourceUris.computeIfAbsent(resource, targetResource -> {
+        URI uri = targetResource.getURI();
+        return uri == null || uri.hasFragment() ? null : uri.toString();
+      });
+      if (resourceUri == null) {
+        putUnencodedChars(cache.uris.computeIfAbsent(object, target -> EcoreUtil.getURI(target).toString()));
+      } else {
+        putUnencodedChars(resourceUri);
+        putChar('#');
+        putUnencodedChars(cache.uris.computeIfAbsent(object, resource::getURIFragment));
       }
-      return uris.computeIfAbsent(object, EcoreUtil::getURI);
     }
 
     @Override
@@ -184,7 +198,17 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
 
     @Override
     public Hasher putUnencodedChars(final CharSequence charSequence) {
-      delegate.putUnencodedChars(charSequence);
+      int length = charSequence.length();
+      int byteLength = Math.multiplyExact(length, Character.BYTES);
+      if (characters.length < byteLength) {
+        characters = new byte[byteLength];
+      }
+      for (int index = 0; index < length; index++) {
+        char character = charSequence.charAt(index);
+        characters[2 * index] = (byte) character;
+        characters[2 * index + 1] = (byte) (character >>> Byte.SIZE);
+      }
+      delegate.putBytes(characters, 0, byteLength);
       return this;
     }
 
@@ -285,8 +309,11 @@ public abstract class AbstractStreamingFingerprintComputer implements IFingerpri
       }
       hasher.putUnencodedChars(UNRESOLVED_STRING);
     } else {
-      URI uri = hasher instanceof UriCachingHasher caching ? caching.getURI(target) : EcoreUtil.getURI(target);
-      hasher.putUnencodedChars(uri.toString());
+      if (hasher instanceof UriCachingHasher caching) {
+        caching.putURI(target);
+      } else {
+        hasher.putUnencodedChars(EcoreUtil.getURI(target).toString());
+      }
     }
   }
 

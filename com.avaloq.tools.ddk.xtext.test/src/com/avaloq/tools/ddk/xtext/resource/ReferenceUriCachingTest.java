@@ -27,18 +27,24 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
+import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.util.IAcceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 
 
 /**
@@ -47,6 +53,10 @@ import com.google.common.hash.Hasher;
  */
 @SuppressWarnings({"nls", "unchecked", "PMD.JUnitAssertionsShouldIncludeMessage"})
 public class ReferenceUriCachingTest {
+
+  // Own instances: the production constants are protected and the test bundle has a separate class loader.
+  private static final HashFunction REFERENCE_HASH_FUNCTION = Hashing.murmur3_128();
+  private static final HashCode REFERENCE_NO_EXPORT = REFERENCE_HASH_FUNCTION.hashBytes(new byte[0]);
 
   private EAttribute name;
   private EReference refs;
@@ -95,6 +105,24 @@ public class ReferenceUriCachingTest {
       fingerprintRef(eObject, main, hasher);
       fingerprintExpr(eObject.eGet(refs), eObject, FingerprintOrder.UNORDERED, FingerprintIndirection.DIRECT, hasher);
       fingerprintRef(eObject, children, hasher);
+    }
+  }
+
+  /**
+   * Fingerprints an expression through the production hasher, including nested unordered item hashers.
+   */
+  private static final class ExpressionFingerprintComputer extends AbstractStreamingFingerprintComputer {
+    private final Object expression;
+    private final boolean unordered;
+
+    ExpressionFingerprintComputer(final Object expression, final boolean unordered) {
+      this.expression = expression;
+      this.unordered = unordered;
+    }
+
+    @Override
+    protected void fingerprint(final EObject eObject, final Hasher hasher) {
+      fingerprintExpr(expression, eObject, unordered ? FingerprintOrder.UNORDERED : FingerprintOrder.ORDERED, FingerprintIndirection.DIRECT, hasher);
     }
   }
 
@@ -191,6 +219,101 @@ public class ReferenceUriCachingTest {
     assertEquals(1, resourceB.maxFragmentComputations());
     computer.computeFingerprint(resourceA);
     assertEquals(2, resourceB.maxFragmentComputations());
+  }
+
+  @Test
+  public void testCharacterBytesUnchanged() {
+    List<String> values = List.of("ASCII", "\u00e9\u4e2d", "\ud83d\ude00", "\ud800", "\udc00", "x\ud800y\udc00z", "", "\0\uffff", "x".repeat(8193));
+    for (String value : values) {
+      assertReferenceFingerprint(value, a);
+    }
+    assertReferenceFingerprint(values, a);
+    assertReferenceFingerprint(List.of(values, List.of("", "tail")), a);
+  }
+
+  @Test
+  public void testReferenceBytesUnchanged() {
+    EObject detached = createNode(a.eClass(), "detached", null);
+    EObject detachedChild = createNode(a.eClass(), "child", null);
+    ((EList<EObject>) detached.eGet(children)).add(detachedChild);
+    assertReferenceFingerprint(List.of(a1, a2, b1, b1, detached, detachedChild), a);
+    assertReferenceFingerprint(List.of(List.of(b1, a1), List.of(b1, detachedChild)), a);
+  }
+
+  @Test
+  public void testResourceUriBytesUnchanged() {
+    for (String uri : List.of("test:/b.sample", "relative.sample", "", "test:/\u00e9\u4e2d.sample", "test:/b%20c.sample?query", "test:/b.sample#fragment", "test:/b.sample#")) {
+      resourceB.setURI(URI.createURI(uri));
+      assertReferenceFingerprint(List.of(b1, b1), a);
+    }
+    resourceB.setURI(null);
+    assertReferenceFingerprint(List.of(b1, b1), a);
+  }
+
+  @Test
+  public void testProxyBytesUnchanged() {
+    EObject proxy = createNode(a.eClass(), "proxy", null);
+    ((InternalEObject) proxy).eSetProxyURI(URI.createURI("test:/missing.sample#/0"));
+    EObject crossLinkProxy = createNode(a.eClass(), "crossLinkProxy", null);
+    ((InternalEObject) crossLinkProxy).eSetProxyURI(URI.createURI("test:/a.sample#|0"));
+    List<EObject> targets = new ArrayList<>(List.of(proxy, crossLinkProxy, proxy));
+    targets.add(null);
+    assertReferenceFingerprint(targets, a);
+    LazyLinkingResource lazyResource = new LazyLinkingResource();
+    lazyResource.setEncoder(new LazyURIEncoder());
+    lazyResource.setURI(resourceA.getURI());
+    EObject lazyContext = createNode(a.eClass(), "lazy", lazyResource);
+    assertReferenceFingerprint(targets, lazyContext);
+  }
+
+  private void assertReferenceFingerprint(final Object expression, final EObject context) {
+    for (boolean unordered : List.of(false, true)) {
+      Hasher reference = REFERENCE_HASH_FUNCTION.newHasher();
+      referenceExpression(expression, context, unordered, reference);
+      HashCode hash = reference.hash();
+      String expected = hash.equals(REFERENCE_NO_EXPORT) ? null : hash.toString();
+      assertEquals(expected, new ExpressionFingerprintComputer(expression, unordered).computeFingerprint(context));
+    }
+  }
+
+  /**
+   * Reference implementation using Guava's character writes and EMF's complete object URIs, without the optimized hasher.
+   */
+  private void referenceExpression(final Object expression, final EObject context, final boolean unordered, final Hasher hasher) {
+    if (expression instanceof Iterable<?> values) {
+      hasher.putChar('[');
+      if (unordered) {
+        List<String> items = new ArrayList<>();
+        for (Object value : values) {
+          Hasher itemHasher = REFERENCE_HASH_FUNCTION.newHasher();
+          referenceExpression(value, context, true, itemHasher);
+          items.add(itemHasher.hash().toString());
+        }
+        items.sort(String::compareTo);
+        for (String item : items) {
+          hasher.putUnencodedChars(item).putChar(',');
+        }
+      } else {
+        for (Object value : values) {
+          referenceExpression(value, context, false, hasher);
+          hasher.putChar(',');
+        }
+      }
+      hasher.putChar(']');
+    } else if (expression instanceof EObject target) {
+      if (target.eIsProxy()) {
+        URI proxyUri = ((InternalEObject) target).eProxyURI();
+        if (context.eResource() instanceof LazyLinkingResource lazyResource && !lazyResource.getEncoder().isCrossLinkFragment(lazyResource, proxyUri.fragment())) {
+          hasher.putUnencodedChars(proxyUri.toString());
+        } else {
+          hasher.putUnencodedChars("unresolved");
+        }
+      } else {
+        hasher.putUnencodedChars(EcoreUtil.getURI(target).toString());
+      }
+    } else {
+      hasher.putUnencodedChars(String.valueOf(expression));
+    }
   }
 
   @Test
