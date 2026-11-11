@@ -108,6 +108,7 @@
     <exclude name="LinguisticNaming"/>
     <exclude name="LambdaCanBeMethodReference"/>
     <exclude name="LocalVariableCouldBeFinal"/> <!--  not sensible -->
+    <exclude name="LocalVariableDeclarationShouldBeAtStartOfBlock"/><!--New in PMD 7.29, contradicts declaring variables where they are used-->
     <exclude name="LongVariable"/> <!--  not sensible -->
     <exclude name="MethodNamingConventions"/>
     <exclude name="NoPackage"/><!--Checkstyle-->
