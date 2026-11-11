@@ -22,7 +22,10 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.EObjectDescription;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import com.avaloq.tools.ddk.util.Strings;
 import com.avaloq.tools.ddk.xtext.scoping.INameFunction;
 import com.avaloq.tools.ddk.xtext.scoping.NameFunctions;
 
@@ -53,9 +56,28 @@ public class QualifiedNameConverterTest {
     assertEquals(QualifiedName.create("", ""), converter.toQualifiedName("."));
   }
 
+  @ParameterizedTest
+  @ValueSource(strings = {"a", "foo", " ", "a.b", "a.b.c.d.e", "com.google.inject.Provider", ".", "..", "...", ".a", "..a", "a.", "a..", "a..b",
+      "a...b", ".a.", "..a..b..", "foo::bar.baz"})
+  public void testSameAsSplit(final String name) {
+    QualifiedName expected = QualifiedName.create(Strings.split(name, '.'));
+    QualifiedName actual = converter.toQualifiedName(name);
+    assertEquals(expected, actual);
+    assertEquals(expected.hashCode(), actual.hashCode());
+    assertEquals(expected.getSegments(), actual.getSegments());
+  }
+
+  @Test
+  public void testEmptySegments() {
+    assertEquals(QualifiedName.create("a", "", "b"), converter.toQualifiedName("a..b"));
+    assertEquals(QualifiedName.create("", "", "a", "", ""), converter.toQualifiedName("..a.."));
+    assertEquals(QualifiedName.create("", "", ""), converter.toQualifiedName(".."));
+  }
+
   @Test
   public void testEmpty() {
     assertThrows(IllegalArgumentException.class, () -> converter.toQualifiedName(""));
+    assertThrows(IllegalArgumentException.class, () -> converter.toQualifiedName(null));
     assertNull(QualifiedNames.safeQualifiedName(""));
     assertNull(QualifiedNames.safeQualifiedName(null));
   }
