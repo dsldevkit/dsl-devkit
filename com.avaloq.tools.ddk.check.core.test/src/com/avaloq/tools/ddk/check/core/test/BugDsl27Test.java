@@ -18,23 +18,23 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 
 
 /**
  * Tests that the java code generated from BugDsl27 has no errors.
  */
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
-public class BugDsl27 extends AbstractCheckGenerationTestCase {
+public class BugDsl27Test extends AbstractCheckGenerationTestCase {
 
   /**
    * Tests that our test source compiles fine.
    */
   @Test
   void testGeneratedCodeHasNoErrors() {
-    try (InputStream sourceStream = BugDsl27.class.getResourceAsStream("bugdsl27/BugDsl27")) {
+    try (InputStream sourceStream = BugDsl27Test.class.getResourceAsStream("bugdsl27/BugDsl27")) {
       generateAndCompile(sourceStream);
     } catch (IOException exception) {
       LOGGER.info("Failed to close the test file");

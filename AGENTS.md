@@ -71,8 +71,7 @@ mvnw.cmd clean verify -f ./ddk-parent/pom.xml
 ## Testing
 
 - **Framework**: JUnit 5 with Tycho Surefire
-- **Timeout**: 30 minutes (1800 seconds)
-- **Aggregator module**: `com.avaloq.tools.ddk.xtext.test`
+- **Timeout**: 30 minutes (1800 seconds) per test module
 - **UI tests**: Require virtual display (xvfb on Linux) or `-XstartOnFirstThread` (macOS)
 
 ### macOS developer setup
@@ -90,17 +89,19 @@ therefore need `-XstartOnFirstThread`. There are two contexts:
   option". This matches Eclipse Platform's own UI test launches (which omit
   the flag and rely on the same JRE-default-args mechanism).
 
-### Aggregator pattern — important
+### One JUnit run per test module
 
-The project runs **all tests through one aggregator module**, not per-`.test`-module. `ddk-parent/pom.xml` sets `<skip>true</skip>` on `tycho-surefire-plugin` globally; only `com.avaloq.tools.ddk.xtext.test` overrides it with its own full tycho-surefire configuration. Inside that module, `src/com/avaloq/tools/ddk/xtext/AllTests.java` is a JUnit 5 `@Suite` that `@SelectClasses` from ~14 per-module `*TestSuite` classes (`ExportTestSuite`, `CheckCoreTestSuite`, `TypeSystemTestSuite`, `CheckUiTestSuite`, etc.). Those other `.test` bundles are on `xtext.test`'s OSGi classpath via `Require-Bundle`, so their test classes get discovered and executed inside the single Eclipse runtime spun up for `xtext.test`.
+Every test bundle (packaging `eclipse-test-plugin`) runs its own tests in its own Eclipse runtime. `tycho-surefire-plugin` is configured once in `ddk-parent/pom.xml`; individual test poms carry no test configuration. Surefire finds the tests by class name, so there are no test suites to maintain. Fragment test bundles work the same way, with their host in the runtime.
 
 **Consequences for agents:**
 
-- Maven will emit `[INFO] Skipping tests` for every `.test` module except `xtext.test`. This is **correct**, not a bug. Don't "fix" it.
-- Flipping `<skip>false</skip>` in another `.test` module will **fail** — those bundles don't carry the tycho-surefire configuration (application, target-platform extras, UI harness) needed to spin up their own test runtime. "Cannot resolve dependencies" is the typical symptom.
-- Don't add per-module `tycho-surefire` configuration to individual `.test` poms. To register a new test, either add the test class to an existing `*TestSuite`, or create a new `*TestSuite` class and reference it from `AllTests.java`.
-- Why the aggregator design: one Eclipse OSGi runtime startup (~5–10s) instead of N. With ~14 test suites, per-module execution would add ~70–140s of pure startup overhead per run for no functional benefit.
-- Non-OSGi pure-POJO tests could theoretically run under plain Maven surefire without Tycho, but most tests depend on Xtext injectors, Eclipse resource APIs, or the UI workbench — so the aggregator is the right choice.
+- A new test needs no registration: name the class `*Test`, `*Tests`, `Test*` or `*TestCase`. Classes with other names are not run; CI fails if a concrete class declaring tests has no report (`.github/scripts/check-surefire-reports.sh`).
+- A new test bundle needs packaging `eclipse-test-plugin` and an entry in the `ddk-parent/pom.xml` modules list. With packaging `eclipse-plugin` its tests do not run.
+- A module's runtime holds only the dependency closure of its manifest. If a test needs a bundle at runtime, for example a language's UI bundle, declare it in that test bundle's `META-INF/MANIFEST.MF`.
+- Test classes run in alphabetical order within a module and must not depend on running after other classes.
+- With `-T`, test runtimes run one at a time (`reactorConcurrencyLevel` in `ddk-parent/pom.xml`), while everything else stays parallel. `CheckQuickfixTest` failed intermittently on macOS when they overlapped.
+- A failed module's tests leave their log in `<module>/target/work/data/.metadata/.log`. CI archives these logs for failed builds.
+- To run the tests of one UI bundle from Eclipse, use its launch configuration (e.g. `com.avaloq.tools.ddk.check.ui.test/CheckUiTests.launch`), which runs all tests of the project via JUnit discovery in Eclipse.
 
 ## Code Patterns
 

@@ -23,14 +23,14 @@ import org.eclipse.xtext.xbase.testing.JavaSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 
 
 /**
  * Unit tests for the code generated for the various forms of the {@code issue} expression: markers on a text region, markers on a dynamically
  * computed structural feature, and checks declared {@code external}.
  */
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class IssueExpressionGenerationTest extends AbstractCheckGenerationTestCase {

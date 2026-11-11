@@ -22,12 +22,12 @@ import org.eclipse.xtext.xbase.testing.JavaSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 import com.avaloq.tools.ddk.check.core.test.AbstractCheckGenerationTestCase;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class IssueCodeValueTest extends AbstractCheckGenerationTestCase {
