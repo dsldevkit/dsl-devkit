@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.xtext.util.OnChangeEvictingCache.CacheAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,7 @@ import com.avaloq.tools.ddk.typesystem.typemodel.INamedElement;
 import com.avaloq.tools.ddk.typesystem.typemodel.IType;
 import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelFactory;
 import com.avaloq.tools.ddk.typesystem.typemodel.TypeModelPackage;
+import com.avaloq.tools.ddk.xtext.resource.ResourceOnlyCacheAdapter;
 
 
 @SuppressWarnings("nls")
@@ -170,6 +172,29 @@ public class AbstractTypeProviderTest {
     assertEquals(type1, provider.getType(expression1), "first type for expression1 not type1");
     assertEquals(type1, provider.getType(expression1), "cached type for expression1 not type1");
     assertEquals(1, typeComputations[0], "type of expression1 not computed exactly once");
+  }
+
+  @Test
+  void testTypeCacheWithResourceOnlyCacheAdapter() {
+    Resource resource = new ResourceImpl();
+    resource.getContents().add(expression1Container);
+    final CacheAdapter cache = ResourceOnlyCacheAdapter.install(resource);
+    int[] typeComputations = new int[1];
+    ITypeProvider provider = new PlainTypeProvider() {
+      @Override
+      protected IType type(final IExpression expression) {
+        typeComputations[0]++;
+        return super.type(expression);
+      }
+    };
+    assertEquals(type1, provider.getType(expression1), "type with resource-only cache adapter not type1");
+    expression1Container.eUnset(expressionContainerReference);
+    expression1Container.eSet(expressionContainerReference, expression1);
+    assertEquals(type1, provider.getType(expression1), "type after object change not type1");
+    assertEquals(1, typeComputations[0], "object change evicted the cached type");
+    cache.clearValues();
+    assertEquals(type1, provider.getType(expression1), "type after clear not type1");
+    assertEquals(2, typeComputations[0], "explicit clear did not evict the cached type");
   }
 
   @Test

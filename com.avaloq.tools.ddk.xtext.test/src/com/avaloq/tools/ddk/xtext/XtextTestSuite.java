@@ -35,6 +35,7 @@ import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpC
 import com.avaloq.tools.ddk.xtext.resource.PatternAwareEObjectDescriptionLookUpTest;
 import com.avaloq.tools.ddk.xtext.resource.ReferenceUriCachingTest;
 import com.avaloq.tools.ddk.xtext.resource.ResourceDescriptionDeltaTest;
+import com.avaloq.tools.ddk.xtext.resource.ResourceOnlyCacheAdapterTest;
 import com.avaloq.tools.ddk.xtext.resource.SelectorFragmentIndexTest;
 import com.avaloq.tools.ddk.xtext.scoping.AbstractScopeNameProviderTest;
 import com.avaloq.tools.ddk.xtext.scoping.ContainerQueryBuilderTest;
@@ -76,7 +77,8 @@ import com.avaloq.tools.ddk.xtext.util.RuntimeProjectUtilTest;
   SelectorFragmentIndexTest.class,
   PatternAwareEObjectDescriptionLookUpConcurrencyTest.class,
   IssueAwareRuleTest.class,
-  AbstractScopeNameProviderTest.class})
+  AbstractScopeNameProviderTest.class,
+  ResourceOnlyCacheAdapterTest.class})
 // @Format-On
 public class XtextTestSuite {
 }

@@ -109,15 +109,15 @@ public class ResourceCache<K, V> implements ICache<K, V>, OnChangeEvictingCache.
   @SuppressWarnings("unchecked")
   public CacheStatistics getStatistics() {
     try {
-      Field hitsField = backend.getClass().getDeclaredField("hits"); //$NON-NLS-1$
+      Field hitsField = CacheAdapter.class.getDeclaredField("hits"); //$NON-NLS-1$
       hitsField.setAccessible(true);
       int hits = hitsField.getInt(backend);
 
-      Field missesField = backend.getClass().getDeclaredField("misses"); //$NON-NLS-1$
+      Field missesField = CacheAdapter.class.getDeclaredField("misses"); //$NON-NLS-1$
       missesField.setAccessible(true);
       int misses = missesField.getInt(backend);
 
-      Field valuesField = backend.getClass().getDeclaredField("values"); //$NON-NLS-1$
+      Field valuesField = CacheAdapter.class.getDeclaredField("values"); //$NON-NLS-1$
       valuesField.setAccessible(true);
       Map<Object, Object> values = (Map<Object, Object>) valuesField.get(backend);
 
