@@ -1,0 +1,31 @@
+package storage
+
+import com.avaloq.tools.ddk.check.check.Check
+import com.avaloq.tools.ddk.check.check.Documented
+
+/**
+ * Check catalog used to verify that no implementation details are persisted.
+ */
+catalog StorageChecks
+for grammar com.avaloq.tools.ddk.check.Check {
+
+  java.lang.String hiddenCatalogMember = "hidden-member-literal";
+
+  def hiddenImplementation for Check hiddenImplementationVariable {
+    "hidden-implementation-literal".length()
+  }
+
+  category PublicCategoryId "Public category label" {
+
+    @SeverityRange(warning .. error)
+    live error PublicCheckId "Public check label" (int publicParameter = 23 "Public parameter label")
+    message "Public message" {
+      for Documented publicContextVariable {
+        guard publicParameter > "hidden-guard-literal".length()
+        issue on publicContextVariable
+      }
+    }
+  }
+
+  external warning ExternalCheckId "External check label"
+}
