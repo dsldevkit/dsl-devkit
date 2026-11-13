@@ -29,7 +29,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.avaloq.tools.ddk.check.runtime.configuration.IModelLocation;
 import com.avaloq.tools.ddk.check.runtime.configuration.ModelLocation;
 import com.avaloq.tools.ddk.check.scoping.CatalogFromExtensionPointScope;
@@ -40,9 +40,9 @@ import com.google.common.collect.Iterables;
  * Some tests for AIG-1314, testing that the CatalogFromExtensionPointScope does not make the resource set grow more than expected.
  */
 @ExtendWith(InjectionExtension.class)
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @SuppressWarnings("nls")
-public class BugAig1314 {
+public class BugAig1314Test {
 
   /** Constructor of super class is protected... */
   private static class TestScope extends CatalogFromExtensionPointScope {
@@ -74,7 +74,7 @@ public class BugAig1314 {
     return new ModelLocation(url, TEST_CATALOG_FILE + TEST_CATALOG_EXTENSION) {
       @Override
       public InputStream getCatalogStream() {
-        return BugAig1314.class.getResourceAsStream(TEST_CATALOG_FILE);
+        return BugAig1314Test.class.getResourceAsStream(TEST_CATALOG_FILE);
       }
     };
   }

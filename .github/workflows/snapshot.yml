@@ -82,7 +82,8 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7
         with:
           name: test-logs-${{ github.sha }}
-          path: com.avaloq.tools.ddk.xtext.test/target/work/data/.metadata/.log
+          path: com.avaloq.tools.ddk.*/target/work/data/.metadata/.log
+          include-hidden-files: true
 
       - name: Upload p2 update site as artifact
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7

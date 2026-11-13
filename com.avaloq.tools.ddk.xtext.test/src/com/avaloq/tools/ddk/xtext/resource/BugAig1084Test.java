@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.Lists;
 
 
-public class BugAig1084 {
+public class BugAig1084Test {
 
   /**
    * Test that recursive calls to {@link ResourceDescription2#getLookUp()} by {@link ResourceDescription2#computeExportedObjects()} do not cause

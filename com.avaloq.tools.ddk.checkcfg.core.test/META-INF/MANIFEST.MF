@@ -6,6 +6,8 @@ Bundle-Version: 17.3.1.qualifier
 Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core.test; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.test.core,
+ com.avaloq.tools.ddk.check.test.runtime.ui,
+ com.avaloq.tools.ddk.check.ui,
  com.avaloq.tools.ddk.checkcfg.core,
  com.avaloq.tools.ddk.checkcfg.ui,
  com.avaloq.tools.ddk.xtext.test.core,
@@ -21,10 +23,8 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
  org.eclipse.ui.workbench;resolution:=optional,
  org.objectweb.asm;resolution:=optional,
  junit-jupiter-api,
- junit-jupiter-engine,
- junit-platform-suite-api
+ junit-jupiter-engine
 Import-Package: org.hamcrest.core
-Export-Package: com.avaloq.tools.ddk.checkcfg.test,
- com.avaloq.tools.ddk.checkcfg.util
+Export-Package: com.avaloq.tools.ddk.checkcfg.util
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.core.test
