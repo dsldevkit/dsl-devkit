@@ -229,6 +229,7 @@
         <configuration>
           <timestampProvider>jgit</timestampProvider>
           <jgit.dirtyWorkingTree>${jgit.dirtyWorkingTree}</jgit.dirtyWorkingTree>
+          <jgit.ignore>.project</jgit.ignore> <!-- not packaged, so it must not change the qualifier -->
           <format>'v'yyyyMMdd-HHmm</format>
           <archive>
             <manifestEntries>
