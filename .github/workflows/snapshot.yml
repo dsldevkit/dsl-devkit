@@ -17,6 +17,9 @@ concurrency:
 permissions:
   contents: write
 
+env:
+  PMD_JAVA_DISABLE_AUX_CLASSPATH_WARNINGS: 'true'
+
 jobs:
   publish:
     runs-on: ubuntu-24.04
