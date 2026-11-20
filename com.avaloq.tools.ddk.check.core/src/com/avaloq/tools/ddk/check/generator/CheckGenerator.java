@@ -54,6 +54,9 @@ public class CheckGenerator extends JvmModelGenerator {
   private CheckCompiler compiler;
 
   @Inject
+  private CheckStubCompiler stubCompiler;
+
+  @Inject
   private ICheckGeneratorConfigProvider generatorConfigProvider;
 
   @Override
@@ -68,6 +71,8 @@ public class CheckGenerator extends JvmModelGenerator {
     for (final CheckCatalog catalog : catalogs) {
       fsa.generateFile(checkGeneratorNaming.issueCodesFilePath(catalog), compileIssueCodes(catalog));
       fsa.generateFile(checkGeneratorNaming.standaloneSetupPath(catalog), compileStandaloneSetup(catalog));
+      // The stub is registered in place of the catalog source; it must therefore be generated next to the binary model of the catalog.
+      fsa.generateFile(checkGeneratorNaming.checkFilePath(catalog), stubCompiler.compile(catalog));
 
       // change output path for service registry
       fsa.generateFile(
