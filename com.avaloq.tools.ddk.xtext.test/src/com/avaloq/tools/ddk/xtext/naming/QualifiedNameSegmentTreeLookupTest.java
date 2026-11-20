@@ -18,14 +18,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputFilter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +46,8 @@ import com.google.common.collect.ImmutableSet;
 // CHECKSTYLE:CHECK-OFF MultipleStringLiteralsCheck
 public class QualifiedNameSegmentTreeLookupTest {
   private static final Logger LOGGER = LogManager.getLogger(QualifiedNameSegmentTreeLookupTest.class);
+
+  private static final URI SHARED = URI.createURI("scheme:/shared");
 
   private final QualifiedNameSegmentTreeLookup<URI> lookup = new QualifiedNameSegmentTreeLookup<URI>(URI.class, true);
 
@@ -252,6 +258,161 @@ public class QualifiedNameSegmentTreeLookupTest {
       tree.removeMappings(v2);
       assertMatches(tree, "foo.**", List.of(v1, v1, v3, v1));
       assertMatches(tree, "f**", List.of(v1, v1, v1, v3, v1, v1));
+    }
+  }
+
+  @Test
+  public void testLargeNodes() {
+    for (boolean shareValues : new boolean[] {true, false}) {
+      QualifiedNameSegmentTreeLookup<URI> tree = new QualifiedNameSegmentTreeLookup<URI>(URI.class, shareValues);
+      Map<QualifiedName, Set<URI>> expected = new HashMap<>();
+      putLargeNodes(tree, expected, 1);
+      assertLookup(tree, expected);
+
+      QualifiedNameSegmentTreeLookup<URI> copy = new QualifiedNameSegmentTreeLookup<URI>(URI.class, shareValues);
+      copy.initializeFrom(tree);
+      assertLookup(copy, expected);
+
+      Set<QualifiedName> shared = new HashSet<>();
+      expected.forEach((name, values) -> {
+        if (values.contains(SHARED)) {
+          shared.add(name);
+        }
+      });
+      assertEquals(shared, new HashSet<>(tree.getMappings(SHARED)));
+
+      QualifiedName removed = shared.iterator().next();
+      tree.remove(removed, SHARED);
+      expected.get(removed).remove(SHARED);
+      shared.remove(removed);
+      assertLookup(tree, expected);
+      assertEquals(shared, new HashSet<>(tree.getMappings(SHARED)));
+
+      tree.removeMappings(SHARED);
+      expected.values().forEach(values -> values.remove(SHARED));
+      assertLookup(tree, expected);
+      assertEquals(0, tree.getMappings(SHARED).size());
+    }
+  }
+
+  @Test
+  public void testLargeNodesLoadStore() throws IOException, ClassNotFoundException {
+    QualifiedNameSegmentTreeLookup<URI> tree = new QualifiedNameSegmentTreeLookup<URI>(URI.class, true);
+    Map<QualifiedName, Set<URI>> expected = new HashMap<>();
+    putLargeNodes(tree, expected, 1);
+
+    QualifiedNameLookup<URI> readBack = writeAndRead(tree);
+    assertLookup(readBack, expected);
+
+    // insert into the large nodes read back, and store them again
+    putLargeNodes(readBack, expected, 2);
+    assertLookup(readBack, expected);
+    assertLookup(writeAndRead(readBack), expected);
+  }
+
+  /**
+   * Serializes and deserializes the given lookup, accepting no other lists than {@link ArrayList} in the serialized form.
+   *
+   * @param tree
+   *          lookup to serialize, must not be {@code null}
+   * @return the deserialized lookup, never {@code null}
+   */
+  @SuppressWarnings("unchecked")
+  private QualifiedNameLookup<URI> writeAndRead(final QualifiedNameLookup<URI> tree) throws IOException, ClassNotFoundException {
+    ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+    try (ObjectOutputStream objectOutStream = new ObjectOutputStream(byteOutStream)) {
+      objectOutStream.writeObject(tree);
+    }
+    try (ObjectInputStream inStream = new ObjectInputStream(new ByteArrayInputStream(byteOutStream.toByteArray()))) {
+      inStream.setObjectInputFilter(info -> info.serialClass() != null && List.class.isAssignableFrom(info.serialClass())
+          && info.serialClass() != ArrayList.class ? ObjectInputFilter.Status.REJECTED : ObjectInputFilter.Status.UNDECIDED);
+      return (QualifiedNameLookup<URI>) inStream.readObject();
+    }
+  }
+
+  /**
+   * Puts names in random order which give the root and the node {@code big} several times more children than a node keeps in an array list. Every seventh
+   * name is also mapped to {@link #SHARED}.
+   *
+   * @param tree
+   *          lookup to fill, must not be {@code null}
+   * @param expected
+   *          expected mappings to update, must not be {@code null}
+   * @param seed
+   *          seed of the random names and order
+   */
+  private void putLargeNodes(final QualifiedNameLookup<URI> tree, final Map<QualifiedName, Set<URI>> expected, final long seed) {
+    Random random = new Random(seed);
+    List<QualifiedName> names = new ArrayList<>();
+    for (int i = 0; i < 20_000; i++) {
+      QualifiedName top = name("n" + token(random));
+      names.add(top);
+      if (i % 10 == 0) {
+        names.add(top.append("c" + token(random)));
+      }
+    }
+    for (int i = 0; i < 10_000; i++) {
+      names.add(name("big." + token(random)));
+    }
+    for (int i = 0; i < 100; i++) {
+      names.add(name("z" + token(random)));
+    }
+    Collections.shuffle(names, random);
+    for (int i = 0; i < names.size(); i++) {
+      QualifiedName qn = names.get(i);
+      tree.put(qn, uri(qn));
+      expected.computeIfAbsent(qn, k -> new HashSet<>()).add(uri(qn));
+      if (i % 7 == 0) {
+        tree.put(qn, SHARED);
+        expected.get(qn).add(SHARED);
+      }
+    }
+  }
+
+  private static String token(final Random random) {
+    return Integer.toString(random.nextInt(1_000_000_000), Character.MAX_RADIX);
+  }
+
+  /**
+   * Asserts that exact and pattern lookups find the expected values; the expected pattern matches are computed with {@link QualifiedNamePattern#matches}.
+   *
+   * @param tree
+   *          lookup to query, must not be {@code null}
+   * @param expected
+   *          expected mappings, must not be {@code null}
+   */
+  private void assertLookup(final QualifiedNameLookup<URI> tree, final Map<QualifiedName, Set<URI>> expected) {
+    for (Map.Entry<QualifiedName, Set<URI>> entry : expected.entrySet()) {
+      assertEquals(entry.getValue(), new HashSet<>(tree.get(entry.getKey())), entry.getKey().toString());
+    }
+    for (String missing : List.of("big", "n", "y", "zzzzzzzzzz", "big.zzzzzzzzzz", "big.0.0")) {
+      assertNull(tree.get(name(missing)), missing);
+    }
+
+    // z* and z** end at the upper bound node, y* and zzzzzzzzzz* match nothing
+    List<QualifiedNamePattern> patterns = new ArrayList<>();
+    for (String pattern : List.of("n*", "n**", "big.*", "big.**", "z*", "z**", "y*", "zzzzzzzzzz*", "big.zzzzzzzzzz*")) {
+      patterns.add(pattern(pattern));
+    }
+    for (char c : "05afkpuz".toCharArray()) {
+      for (String pattern : List.of("n" + c + "*", "n" + c + "**", "big." + c + "*", "big." + c + "**")) {
+        patterns.add(pattern(pattern));
+      }
+    }
+    expected.keySet().stream().limit(10).forEach(name -> {
+      patterns.add(pattern(name));
+      patterns.add(pattern(name.toString() + "*"));
+      patterns.add(pattern(name.toString() + "**"));
+    });
+    for (QualifiedNamePattern pattern : patterns) {
+      Set<URI> matches = new HashSet<>();
+      expected.forEach((name, values) -> {
+        if (pattern.matches(name)) {
+          matches.addAll(values);
+        }
+      });
+      assertEquals(matches, tree.get(pattern, true), pattern.toString());
+      assertEquals(matches, new HashSet<>(tree.get(pattern, false)), pattern.toString());
     }
   }
 
