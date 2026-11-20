@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.core.test;
+package com.avaloq.tools.ddk.check.ui.test;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -307,11 +307,11 @@ public abstract class AbstractCheckTestCase {
    * created.
    *
    * @param clazz
-   *          the clazz
+   *          a class in the package which holds the source files
    * @param sourceFileNames
    *          the source file names
    */
-  public void addSourcesToWorkspace(final Class<? extends AbstractCheckTestCase> clazz, final List<String> sourceFileNames) {
+  public void addSourcesToWorkspace(final Class<?> clazz, final List<String> sourceFileNames) {
     try {
       new WorkspaceModifyOperation() {
         @Override
@@ -359,7 +359,7 @@ public abstract class AbstractCheckTestCase {
    * @throws IOException
    *           if model could not be read
    */
-  private String getNormalizedContents(final Class<? extends AbstractCheckTestCase> clazz, final String modelName) throws IOException {
+  private String getNormalizedContents(final Class<?> clazz, final String modelName) throws IOException {
     try (InputStreamReader s = new InputStreamReader(clazz.getResourceAsStream(modelName), StandardCharsets.UTF_8)) {
       return CharStreams.toString(s);
     }

@@ -18,7 +18,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.google.inject.Inject;
 
 
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
  * Tests for com.avaloq.tools.ddk.check.validation.CheckJavaValidatorUtil.
  */
 
-@InjectWith(CheckUiInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class CheckJavaValidatorUtilTest {

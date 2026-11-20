@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.CheckPackage;
 import com.avaloq.tools.ddk.check.core.test.util.CheckModelUtil;
@@ -36,7 +36,7 @@ import com.google.inject.Inject;
  * <li>com.avaloq.tools.ddk.check.validation.ClasspathBasedChecks
  * </ul>
  */
-@InjectWith(CheckUiInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class CheckValidationTest {

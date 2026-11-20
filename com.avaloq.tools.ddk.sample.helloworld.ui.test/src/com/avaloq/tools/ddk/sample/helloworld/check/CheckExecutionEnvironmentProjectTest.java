@@ -17,7 +17,7 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase;
+import com.avaloq.tools.ddk.check.ui.test.AbstractCheckTestCase;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.HelloWorldPackage;
 import com.avaloq.tools.ddk.sample.helloworld.helloWorld.Model;
 import com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldUiInjectorProvider;
