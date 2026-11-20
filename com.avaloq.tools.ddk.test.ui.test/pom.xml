@@ -10,4 +10,9 @@
 
   <artifactId>com.avaloq.tools.ddk.test.ui.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
+
+  <properties>
+    <tycho.surefire.useUIHarness>true</tycho.surefire.useUIHarness>
+    <test.reactorConcurrencyLevel>1</test.reactorConcurrencyLevel>
+  </properties>
 </project>
