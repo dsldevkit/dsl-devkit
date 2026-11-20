@@ -21,9 +21,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,7 +62,12 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
   private static final int CHUNKS = 64;
   private static final int SPLIT_ROUNDS = 20;
 
+  /** More children than the smallest large node has, so that the nodes are large before the readers start. */
+  private static final int LARGE = 4200;
+  private static final int TRAVERSAL_ROUNDS = 5;
+
   private static final String CHILD = "c";
+  private static final String SHARED = "shared";
   private static final String NESTED = "big";
 
   /**
@@ -85,11 +92,7 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
    */
   @Test
   public void testLookupsWhileNodesBecomeLarge() throws InterruptedException {
-    String[] inserted = new String[INSERTS];
-    for (int i = 0; i < INSERTS; i++) {
-      // all between two prefilled names, in ascending order
-      inserted[i] = String.format("%s_%07d", prefilledName(INSERTION_POINT), i);
-    }
+    String[] inserted = insertedNames();
     for (int round = 0; round < ROUNDS; round++) {
       QualifiedNameLookup<String> lookup = new QualifiedNameSegmentTreeLookup<>(String.class, round % 2 == 0);
       for (int i = 0; i < PREFILLED; i++) {
@@ -153,6 +156,47 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
   }
 
   /**
+   * The root and a node below it, both large from the start, grow while readers visit all their children: to find the names mapped to a value, and to match
+   * a recursive pattern. Such a traversal works on the children which a large node has at one moment, so it does not fail, finds every name which was
+   * there before, and may or may not find a name inserted meanwhile. (Iterating over the children of a small node during an insertion fails.)
+   */
+  @Test
+  public void testTraversalsWhileLargeNodesGrow() throws InterruptedException {
+    String[] inserted = insertedNames();
+    for (int round = 0; round < TRAVERSAL_ROUNDS; round++) {
+      QualifiedNameLookup<String> lookup = new QualifiedNameSegmentTreeLookup<>(String.class, round % 2 == 0);
+      List<String> nested = new ArrayList<>();
+      for (int i = 0; i < LARGE; i++) {
+        put(lookup, QualifiedName.create(prefilledName(i), CHILD));
+        QualifiedName name = QualifiedName.create(NESTED, prefilledName(i), CHILD);
+        put(lookup, name);
+        nested.add(name.toString());
+      }
+      // before and after the insertion point
+      Set<QualifiedName> shared = Set.of(QualifiedName.create(prefilledName(1), CHILD), QualifiedName.create(prefilledName(LARGE - 1), CHILD), QualifiedName.create(NESTED, prefilledName(2), CHILD), QualifiedName.create(NESTED, prefilledName(LARGE - 2), CHILD));
+      for (QualifiedName name : shared) {
+        lookup.put(name, SHARED);
+      }
+      // matches the node "big" and all below it
+      QualifiedNamePattern pattern = QualifiedNamePattern.create(NESTED.substring(0, 2) + "**");
+      readDuring(INSERTS, (random, done) -> {
+        if (random.nextBoolean()) {
+          assertEquals(shared, Set.copyOf(lookup.getMappings(SHARED)), "names mapped to a value");
+        } else {
+          Collection<String> values = lookup.get(pattern, true);
+          assertTrue(values.containsAll(nested), "values of the names which were there before");
+        }
+      }, i -> {
+        put(lookup, QualifiedName.create(inserted[i]));
+        put(lookup, QualifiedName.create(NESTED, inserted[i]));
+      });
+
+      assertEquals(shared, Set.copyOf(lookup.getMappings(SHARED)), "names mapped to a value after the insertions");
+      assertEquals(nested.size() + INSERTS + 1, lookup.get(pattern, true).size(), "values below the nested node");
+    }
+  }
+
+  /**
    * Runs the given read in {@value #READERS} reader threads while this thread does the given insertions, and fails if a read failed.
    *
    * @param inserts
@@ -197,6 +241,15 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
     if (!failures.isEmpty()) {
       fail(failures.size() + " of " + READERS + " readers failed during the insertions, the first with " + failures.get(0), failures.get(0));
     }
+  }
+
+  /** The names to insert: all between two prefilled names, in ascending order. */
+  private static String[] insertedNames() {
+    String[] inserted = new String[INSERTS];
+    for (int i = 0; i < INSERTS; i++) {
+      inserted[i] = String.format("%s_%07d", prefilledName(INSERTION_POINT), i);
+    }
+    return inserted;
   }
 
   private static String prefilledName(final int i) {
