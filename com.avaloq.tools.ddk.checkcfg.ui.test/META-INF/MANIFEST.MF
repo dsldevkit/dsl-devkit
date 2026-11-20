@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: com.avaloq.tools.ddk.checkcfg.core.test
+Bundle-Name: com.avaloq.tools.ddk.checkcfg.ui.test
 Bundle-Vendor: Avaloq Group AG
 Bundle-Version: 17.3.1.qualifier
-Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.core.test; singleton:=true
+Bundle-SymbolicName: com.avaloq.tools.ddk.checkcfg.ui.test; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.test.core,
  com.avaloq.tools.ddk.check.test.runtime.ui,
@@ -27,4 +27,4 @@ Require-Bundle: com.avaloq.tools.ddk.test.core,
 Import-Package: org.hamcrest.core
 Export-Package: com.avaloq.tools.ddk.checkcfg.util
 Bundle-RequiredExecutionEnvironment: JavaSE-21
-Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.core.test
+Automatic-Module-Name: com.avaloq.tools.ddk.checkcfg.ui.test

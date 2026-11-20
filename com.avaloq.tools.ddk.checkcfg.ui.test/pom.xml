@@ -8,7 +8,7 @@
   </parent>
   <version>17.3.1-SNAPSHOT</version>
 
-  <artifactId>com.avaloq.tools.ddk.checkcfg.core.test</artifactId>
+  <artifactId>com.avaloq.tools.ddk.checkcfg.ui.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
 
   <properties>

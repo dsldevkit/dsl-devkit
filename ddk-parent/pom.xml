@@ -119,8 +119,8 @@
     <module>../com.avaloq.tools.ddk.check.test.runtime.ui</module>
     <module>../com.avaloq.tools.ddk.checkcfg.core</module>
     <module>../com.avaloq.tools.ddk.checkcfg.ide</module>
-    <module>../com.avaloq.tools.ddk.checkcfg.core.test</module>
     <module>../com.avaloq.tools.ddk.checkcfg.ui</module>
+    <module>../com.avaloq.tools.ddk.checkcfg.ui.test</module>
     <module>../com.avaloq.tools.ddk.sample.helloworld</module>
     <module>../com.avaloq.tools.ddk.sample.helloworld.ide</module>
     <module>../com.avaloq.tools.ddk.sample.helloworld.ui</module>
