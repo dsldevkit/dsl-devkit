@@ -75,7 +75,8 @@ public class ErrorLogListenerTest {
     waitUntilLogged(NullPointerException.class);
 
     assertTrue(errorLogListener.isExceptionLogged(NullPointerException.class), "NullPointerException must have been logged.");
-    assertFalse(errorLogListener.isAnyExceptionLogged(), "NullPointerException thrown at an ignored location must be ignored.");
+    assertFalse(errorLogListener.isAnyExceptionLogged(), () -> "Only the ignored NullPointerException may have been logged, but found: "
+        + errorLogListener.getLoggedExceptions());
   }
 
   /**
