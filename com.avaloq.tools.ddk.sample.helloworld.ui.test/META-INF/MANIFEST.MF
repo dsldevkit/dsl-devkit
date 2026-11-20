@@ -16,7 +16,7 @@ Require-Bundle: com.avaloq.tools.ddk.sample.helloworld,
  org.eclipse.ui.workbench;resolution:=optional,
  com.avaloq.tools.ddk.check.runtime.core,
  com.avaloq.tools.ddk.check.runtime.ui,
- com.avaloq.tools.ddk.check.core.test,
+ com.avaloq.tools.ddk.check.ui.test,
  org.eclipse.xtext.xbase.ui.testing,
  junit-jupiter-api,
  junit-jupiter-engine

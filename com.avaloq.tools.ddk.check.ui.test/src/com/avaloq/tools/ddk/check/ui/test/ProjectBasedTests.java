@@ -9,7 +9,7 @@
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
 
-package com.avaloq.tools.ddk.check.core.test;
+package com.avaloq.tools.ddk.check.ui.test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.BugDsl27Test;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("nls")
@@ -55,7 +56,7 @@ public class ProjectBasedTests extends AbstractCheckTestCase {
     if (!initialized) {
       initialized = true;
       // sources are copied into the project and then built by the Xtext builder
-      addSourcesToWorkspace(ProjectBasedTests.class, getRequiredSourceFileNames());
+      addSourcesToWorkspace(BugDsl27Test.class, getRequiredSourceFileNames());
 
       // wait for build to finish, otherwise included catalog may not be resolvable
       IResourcesSetupUtil.waitForBuild();

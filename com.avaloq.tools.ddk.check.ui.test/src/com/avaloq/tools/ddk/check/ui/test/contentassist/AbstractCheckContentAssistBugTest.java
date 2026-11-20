@@ -26,7 +26,7 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.ui.testing.ContentAssistProcessorTestBuilder;
 import org.eclipse.xtext.ui.testing.util.ResourceLoadHelper;
 
-import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase;
+import com.avaloq.tools.ddk.check.ui.test.AbstractCheckTestCase;
 import com.avaloq.tools.ddk.xtext.test.PluginTestProjectManager;
 
 
