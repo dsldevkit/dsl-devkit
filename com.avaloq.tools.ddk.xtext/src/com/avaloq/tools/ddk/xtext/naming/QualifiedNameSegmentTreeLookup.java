@@ -198,9 +198,9 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
           if (child == upper) {
             return false;
           }
-          visitor.visit(children.get(idx));
+          visitor.visit(child);
           if (recursive) {
-            children.get(idx).visitChildren(visitor, upper);
+            child.visitChildren(visitor, upper);
           }
         }
         return true;
@@ -232,7 +232,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       if (children == null) {
         return true;
       }
-      for (SegmentNode child : children) {
+      for (SegmentNode child : childrenToVisit()) {
         if (stopOn.equals(child)) {
           return false;
         }
@@ -296,6 +296,18 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     }
 
     /**
+     * Returns the children for visiting all of them. Those of a large node are a copy, since getting them one by one searches the chunks for each child. The
+     * copy is not affected by a concurrent insertion, while iterating over the children of a small node then fails.
+     *
+     * @return the children, must not be modified; {@link #children} must not be {@code null}
+     */
+    @SuppressWarnings({"unchecked", "PMD.LooseCoupling"}) // only a ChunkedList copies safely during an insertion
+    private List<SegmentNode> childrenToVisit() {
+      List<SegmentNode> list = children;
+      return list instanceof ChunkedList ? (List<SegmentNode>) (List<?>) Arrays.asList(list.toArray()) : list;
+    }
+
+    /**
      * Accepts the given visitor and uses it to visit all children in depth-first search order.
      *
      * @param visitor
@@ -304,7 +316,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     void accept(final Visitor visitor) {
       visitor.visit(this);
       if (children != null) {
-        for (SegmentNode child : children) {
+        for (SegmentNode child : childrenToVisit()) {
           child.accept(visitor);
         }
       }
@@ -313,7 +325,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     List<List<String>> getMappings(final Object value) {
       List<List<String>> result = new ArrayList<>();
       if (children != null) {
-        for (SegmentNode node : children) {
+        for (SegmentNode node : childrenToVisit()) {
           for (List<String> mapping : node.getMappings(value)) {
             if (!segment.isBlank()) {
               mapping.add(0, segment);
