@@ -64,6 +64,12 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
 
     protected static final int DEFAULT_CHILD_CAPACITY = 4;
 
+    /**
+     * Number of children from which a node keeps them in a {@link ChunkedList}. Inserting into an {@link ArrayList} shifts all following children, which makes
+     * filling nodes with several 100'000 children quadratic.
+     */
+    protected static final int LARGE_CHILD_COUNT = 4096;
+
     private String segment;
     protected Object[] values;
     protected List<SegmentNode> children;
@@ -260,7 +266,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       if (idx < 0) {
         SegmentNode child = new SegmentNode(seg);
         idx = -(idx + 1);
-        children.add(idx, child);
+        addChild(idx, child);
         if (name.getSegmentCount() == segIdx) {
           child.values = newValues;
           return;
@@ -272,6 +278,21 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       } else {
         children.get(idx).merge(name, segIdx, newValues);
       }
+    }
+
+    /**
+     * Inserts the given child, keeping the children in a {@link ChunkedList} once there are {@value #LARGE_CHILD_COUNT} of them.
+     *
+     * @param idx
+     *          index at which to insert the child
+     * @param child
+     *          child to insert, must not be {@code null}
+     */
+    protected void addChild(final int idx, final SegmentNode child) {
+      if (children.size() >= LARGE_CHILD_COUNT && !(children instanceof ChunkedList)) {
+        children = new ChunkedList<>(children);
+      }
+      children.add(idx, child);
     }
 
     /**
@@ -319,7 +340,11 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      *          key, corresponding to {@link SegmentNode#segment}, to search for
      * @return index of found node or (-(insertion point) - 1)
      */
+    @SuppressWarnings("PMD.LooseCoupling") // a ChunkedList searches faster itself than through get
     protected int binarySearch(final List<SegmentNode> list, final String key) {
+      if (list instanceof ChunkedList<SegmentNode> chunkedList) {
+        return chunkedList.binarySearch(node -> node.segment.compareTo(key));
+      }
       int low = 0;
       int high = list.size() - 1;
 
@@ -361,7 +386,8 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
           }
         }
       }
-      out.writeObject(children);
+      // the serialized form keeps a plain ArrayList
+      out.writeObject(children instanceof ChunkedList ? new ArrayList<>(children) : children);
     }
 
     @SuppressWarnings("unchecked")
@@ -382,7 +408,8 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
           }
         }
       }
-      children = (List<SegmentNode>) in.readObject();
+      List<SegmentNode> list = (List<SegmentNode>) in.readObject();
+      children = list != null && list.size() >= LARGE_CHILD_COUNT ? new ChunkedList<>(list) : list;
     }
   }
 
@@ -435,7 +462,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       if (idx < 0) {
         SegmentNode child = new ValueSharingSegmentNode(seg);
         idx = -(idx + 1);
-        children.add(idx, child);
+        addChild(idx, child);
         if (name.getSegmentCount() == segIdx) {
           child.values = Arrays.equals(values, newValues) ? values : newValues;
           return;
