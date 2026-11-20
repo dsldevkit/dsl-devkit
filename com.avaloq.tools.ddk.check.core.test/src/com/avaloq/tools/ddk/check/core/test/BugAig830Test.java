@@ -22,13 +22,13 @@ import org.eclipse.xtext.xbase.XbasePackage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
 import com.google.inject.Inject;
 
 
-@InjectWith(CheckUiInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class BugAig830Test {

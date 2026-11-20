@@ -7,7 +7,7 @@ Bundle-SymbolicName: com.avaloq.tools.ddk.check.test.runtime.tests; singleton:=t
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.avaloq.tools.ddk.check.runtime.core,
  com.avaloq.tools.ddk.check.test.runtime,
- com.avaloq.tools.ddk.check.core.test,
+ com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.test.runtime.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,

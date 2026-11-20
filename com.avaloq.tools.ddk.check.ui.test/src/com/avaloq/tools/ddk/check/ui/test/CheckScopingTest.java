@@ -8,7 +8,7 @@
  * Contributors:
  *     Avaloq Group AG - initial API and implementation
  *******************************************************************************/
-package com.avaloq.tools.ddk.check.core.test;
+package com.avaloq.tools.ddk.check.ui.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -27,6 +27,7 @@ import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.Implementation;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
+import com.avaloq.tools.ddk.check.core.test.BugAig1314Test;
 import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -54,7 +55,7 @@ public class CheckScopingTest extends AbstractCheckTestCase {
 
   public void initializeTestProject() {
     // sources are copied into the project and then built by the Xtext builder
-    addSourcesToWorkspace(CheckScopingTest.class, getRequiredSourceFileNames());
+    addSourcesToWorkspace(BugAig1314Test.class, getRequiredSourceFileNames());
     // wait for build to finish, otherwise included catalog may not be resolvable
     IResourcesSetupUtil.waitForBuild();
   }
