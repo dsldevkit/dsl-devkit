@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -44,10 +46,12 @@ import com.google.inject.Injector;
 
 
 /**
- * An abstract test class for tests on Check models. Allows creating a project, adding files, and generating and compiling the project.
+ * An abstract test class for tests which generate and compile Check models in memory.
  */
 @SuppressWarnings("nls")
-public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
+public class AbstractCheckGenerationTestCase {
+
+  protected static final Logger LOGGER = LogManager.getLogger(AbstractCheckGenerationTestCase.class);
 
   @Inject
   private CheckGenerator generator;
@@ -94,7 +98,7 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
     // Run the generator using an in-memory file system access; member injection wires the
     // IFilePostProcessor so the LF ILineSeparatorInformation binding is actually exercised
     InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
-    getInjector().injectMembers(fsa);
+    injector.injectMembers(fsa);
     for (OutputConfiguration output : outputConfigurationProvider.getOutputConfigurations()) {
       fsa.getOutputConfigurations().put(output.getName(), output);
     }
@@ -129,11 +133,6 @@ public class AbstractCheckGenerationTestCase extends AbstractCheckTestCase {
       fail("Java compilation failed: " + e.getMessage());
       return Collections.emptyList();
     }
-  }
-
-  @Override
-  protected Injector getInjector() {
-    return injector;
   }
 
 }

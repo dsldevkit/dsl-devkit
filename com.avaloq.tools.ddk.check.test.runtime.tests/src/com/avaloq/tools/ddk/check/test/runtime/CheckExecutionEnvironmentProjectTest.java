@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.avaloq.tools.ddk.check.TestLanguageUiInjectorProvider;
-import com.avaloq.tools.ddk.check.core.test.AbstractCheckTestCase;
+import com.avaloq.tools.ddk.check.ui.test.AbstractCheckTestCase;
 import com.avaloq.tools.ddk.check.testLanguage.Model;
 import com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage;
 import com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator;

@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.avaloq.tools.ddk.check.CheckUiInjectorProvider;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
@@ -32,7 +32,7 @@ import com.avaloq.tools.ddk.check.core.test.util.CheckTestUtil;
 import com.google.inject.Inject;
 
 
-@InjectWith(CheckUiInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class BasicModelTest {
