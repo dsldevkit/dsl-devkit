@@ -184,7 +184,9 @@ public abstract class AbstractQuickFixTest extends AbstractXtextEditorTest {
    *          the label of the quickfix, may be {@code null}
    */
   protected void assertQuickFixSuccessful(final String issueCode, final String quickfixLabel) {
-    for (final IssueResolution issueResolution : sortResolutionsByOffsetDecreasing(resolutionsFor(issueCode, quickfixLabel))) {
+    final List<IssueResolution> resolutions = sortResolutionsByOffsetDecreasing(resolutionsFor(issueCode, quickfixLabel));
+    assertFalse(resolutions.isEmpty(), "No resolutions to apply for issue " + issueCode + " with quickfix " + quickfixLabel);
+    for (final IssueResolution issueResolution : resolutions) {
       UiThreadDispatcher.dispatchAndWait(new Runnable() {
         @Override
         public void run() {
