@@ -125,7 +125,14 @@ public class CheckQuickfixTest extends AbstractCheckQuickfixTest {
     assertHasQuickFix(Diagnostic.LINKING_DIAGNOSTIC, quickfixLabel);
     assertQuickFixSuccessful(Diagnostic.LINKING_DIAGNOSTIC, quickfixLabel);
     final List<Issue> afterIssues = getXtextTestUtil().getIssues(getDocument());
-    assertTrue(afterIssues.size() < beforeIssues.size());
+    assertTrue(afterIssues.size() < beforeIssues.size(), () -> "Issues before: " + describe(beforeIssues) + ", after: " + describe(afterIssues));
+  }
+
+  /**
+   * Describes the given issues by code, line and message.
+   */
+  private static String describe(final List<Issue> issues) {
+    return issues.stream().map(issue -> issue.getCode() + " at line " + issue.getLineNumber() + ": " + issue.getMessage()).collect(Collectors.joining("; ", "[", "]"));
   }
 
   /**
