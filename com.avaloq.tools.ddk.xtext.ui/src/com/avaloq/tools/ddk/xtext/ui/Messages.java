@@ -21,6 +21,9 @@ public final class Messages extends NLS {
   // CHECKSTYLE:OFF
   public static String AbstractAcfLabelProvider_NULL;
   public static String AbstractAcfLabelProvider_NAME_FALLBACK;
+  public static String BreakpointRulerMenu_DISABLE;
+  public static String BreakpointRulerMenu_ENABLE;
+  public static String BreakpointRulerMenu_PROPERTIES;
 
   // CHECKSTYLE:ON
   static {

@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.format.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.builder.IXtextBuilderParticipant;
+import org.eclipse.xtext.ui.editor.actions.IActionContributor;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.templates.CrossReferenceTemplateVariableResolver;
 import org.eclipse.xtext.xtext.generator.model.project.IXtextProjectConfig;
@@ -19,8 +20,10 @@ import org.eclipse.xtext.xtext.generator.model.project.XtextProjectConfig;
 
 import com.avaloq.tools.ddk.xtext.format.ui.builder.FormatBuilderParticipant;
 import com.avaloq.tools.ddk.xtext.format.ui.hyperlinking.FormatHyperlinkHelper;
+import com.avaloq.tools.ddk.xtext.ui.editor.breakpoints.BreakpointRulerActionContributor;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 import com.google.inject.Binder;
+import com.google.inject.name.Names;
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
@@ -53,6 +56,16 @@ public class FormatUiModule extends AbstractFormatUiModule {
   @Override
   public Class<? extends IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
     return FormatBuilderParticipant.class;
+  }
+
+  /**
+   * Installs the breakpoint actions of the vertical ruler on the editor.
+   *
+   * @param binder
+   *          the binder
+   */
+  public void configureBreakpointRulerActions(final Binder binder) {
+    binder.bind(IActionContributor.class).annotatedWith(Names.named("breakpointRulerActions")).to(BreakpointRulerActionContributor.class); //$NON-NLS-1$
   }
 
   @Override

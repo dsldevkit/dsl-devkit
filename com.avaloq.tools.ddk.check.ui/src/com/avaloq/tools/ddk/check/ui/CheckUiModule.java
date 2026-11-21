@@ -18,6 +18,7 @@ import org.eclipse.xtext.ide.editor.syntaxcoloring.ISemanticHighlightingCalculat
 import org.eclipse.xtext.ui.LanguageSpecific;
 import org.eclipse.xtext.ui.editor.DirtyStateEditorSupport;
 import org.eclipse.xtext.ui.editor.IURIEditorOpener;
+import org.eclipse.xtext.ui.editor.actions.IActionContributor;
 import org.eclipse.xtext.ui.editor.contentassist.ITemplateProposalProvider;
 import org.eclipse.xtext.ui.editor.handler.ValidateActionHandler;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
@@ -43,6 +44,7 @@ import com.avaloq.tools.ddk.check.ui.templates.CheckTemplateContextType;
 import com.avaloq.tools.ddk.check.ui.templates.CheckTemplateProposalProvider;
 import com.avaloq.tools.ddk.xtext.common.types.ui.access.jdt.JdtFallbackTypeProviderFactory;
 import com.avaloq.tools.ddk.xtext.ui.editor.FixedDirtyStateEditorSupport;
+import com.avaloq.tools.ddk.xtext.ui.editor.breakpoints.BreakpointRulerActionContributor;
 import com.avaloq.tools.ddk.xtext.ui.templates.KeywordAwareCrossReferenceTemplateVariableResolver;
 
 
@@ -128,6 +130,16 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
   @Override
   public void configureLanguageSpecificURIEditorOpener(final com.google.inject.Binder binder) {
     binder.bind(IURIEditorOpener.class).annotatedWith(LanguageSpecific.class).to(PlatformPluginAwareEditorOpener.class);
+  }
+
+  /**
+   * Installs the breakpoint actions of the vertical ruler on the editor.
+   *
+   * @param binder
+   *          the binder
+   */
+  public void configureBreakpointRulerActions(final com.google.inject.Binder binder) {
+    binder.bind(IActionContributor.class).annotatedWith(com.google.inject.name.Names.named("breakpointRulerActions")).to(BreakpointRulerActionContributor.class); //$NON-NLS-1$
   }
 
   /**

@@ -387,42 +387,13 @@
          <adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
       </factory> 
    </extension>
-   <extension point="org.eclipse.ui.editorActions">
-      <editorContribution targetID="com.avaloq.tools.ddk.xtext.format.Format" 
-                          id="com.avaloq.tools.ddk.xtext.format.Format.rulerActions">
-	     <action
-	             label="Not Used"
-	             class="com.avaloq.tools.ddk.xtext.format.ui.FormatExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
-	             style="push"
-	             actionID="RulerDoubleClick"
-	             id="com.avaloq.tools.ddk.xtext.format.Format.doubleClickBreakpointAction"/>
-	  </editorContribution>
-   </extension>
-   <extension point="org.eclipse.ui.popupMenus">
-      <viewerContribution
-         targetID="com.avaloq.tools.ddk.xtext.format.Format.RulerContext"
-         id="com.avaloq.tools.ddk.xtext.format.Format.RulerPopupActions">
-         <action
-            label="Toggle Breakpoint"
-            class="com.avaloq.tools.ddk.xtext.format.ui.FormatExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
-            menubarPath="debug"
-            id="com.avaloq.tools.ddk.xtext.format.Format.rulerContextMenu.toggleBreakpointAction">
-         </action>
-         <action
-            label="Not used"
-            class="com.avaloq.tools.ddk.xtext.format.ui.FormatExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
-            menubarPath="debug"
-            id="com.avaloq.tools.ddk.xtext.format.Format.rulerContextMenu.enableDisableBreakpointAction">
-         </action>
-         <action
-           label="Breakpoint Properties"
-           helpContextId="breakpoint_properties_action_context"
-           class="com.avaloq.tools.ddk.xtext.format.ui.FormatExecutableExtensionFactory:org.eclipse.jdt.debug.ui.actions.JavaBreakpointPropertiesRulerActionDelegate"
-           menubarPath="group.properties"
-           id="com.avaloq.tools.ddk.xtext.format.Format.rulerContextMenu.openBreapointPropertiesAction">
-         </action>
-      </viewerContribution>
-   </extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:com.avaloq.tools.ddk.xtext.format.Format.RulerContext?after=debug">
+			<dynamic
+				class="com.avaloq.tools.ddk.xtext.ui.editor.breakpoints.BreakpointRulerMenu"
+				id="com.avaloq.tools.ddk.xtext.format.Format.rulerBreakpointActions"/>
+		</menuContribution>
+	</extension>
     <!-- Introduce Local Variable Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
 		<handler 
