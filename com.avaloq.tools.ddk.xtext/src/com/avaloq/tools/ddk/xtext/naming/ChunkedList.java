@@ -26,12 +26,13 @@ import java.util.function.ToIntFunction;
  * {@code n} elements thus takes O(B + n/B) instead of O(n) time, and building a large sorted list by binary search and insertion is no longer quadratic.
  * {@link #get(int)} takes O(log(n/B)) time.
  * <p>
- * Supports {@link #get(int)}, {@link #add(int, Object)}, {@link #size()}, {@link #clear()}, {@link #toArray()}, iteration and a
- * {@link #binarySearch(ToIntFunction) binary search} which is faster than one with {@link #get(int)}. Other modifications are not supported.
+ * Supports {@link #get(int)}, {@link #add(int, Object)}, {@link #size()}, {@link #clear()}, {@link #toArray()}, iteration, a
+ * {@link #binarySearch(ToIntFunction) binary search} which is faster than one with {@link #get(int)} and {@link #copy(Object[], int) copying a range}, which
+ * is faster than getting its elements one by one. Other modifications are not supported.
  * <p>
- * The list must be modified by one thread at a time. {@link #get(int)}, {@link #binarySearch(ToIntFunction)} and {@link #toArray()} may run concurrently
- * with a modification. They then see the list before or after it, never a half-done modification, so that they do not fail where reads of an
- * {@link ArrayList} in practice do not fail either.
+ * The list must be modified by one thread at a time. {@link #get(int)}, {@link #binarySearch(ToIntFunction)}, {@link #toArray()} and
+ * {@link #copy(Object[], int)} may run concurrently with a modification. They then see the list before or after it, never a half-done modification, so that
+ * they do not fail where reads of an {@link ArrayList} in practice do not fail either.
  *
  * @param <E>
  *          element type
@@ -292,6 +293,40 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
         System.arraycopy(chunks[c], 0, result, starts[c], chunkSize(c));
       }
       return result;
+    } finally {
+      lock.unlockRead(stamp);
+    }
+  }
+
+  /**
+   * Copies the elements from the given index on into the given array, as many as it holds and there are. Copies nothing if the index is not below the size,
+   * so that a reader which advances its index across a {@link #clear()} ends there.
+   *
+   * @param target
+   *          the array to copy into, from its start, must not be {@code null}
+   * @param from
+   *          the index of the first element to copy, must not be negative
+   * @return the number of elements copied
+   * @throws IndexOutOfBoundsException
+   *           if the index is negative
+   */
+  int copy(final Object[] target, final int from) {
+    if (from < 0) {
+      throw new IndexOutOfBoundsException(from);
+    }
+    long stamp = lock.readLock();
+    try {
+      int count = Math.max(0, Math.min(target.length, elementCount - from));
+      int copied = 0;
+      int c = count > 0 ? chunkIndex(from) : 0;
+      while (copied < count) {
+        int offset = from + copied - starts[c];
+        int length = Math.min(chunkSize(c) - offset, count - copied);
+        System.arraycopy(chunks[c], offset, target, copied, length);
+        copied += length;
+        c++;
+      }
+      return count;
     } finally {
       lock.unlockRead(stamp);
     }

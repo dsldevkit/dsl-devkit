@@ -193,8 +193,8 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
         return true;
       }
       if (lower.getSegmentCount() == lowerIdx) {
-        for (; idx < children.size(); idx++) {
-          SegmentNode child = children.get(idx);
+        ChildReader reader = new ChildReader(children, idx);
+        for (SegmentNode child = reader.next(); child != null; child = reader.next()) {
           if (child == upper) {
             return false;
           }
@@ -207,8 +207,8 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       } else {
         boolean collect = children.get(idx++).collectMatches(lower, lowerIdx, upper, recursive, visitor);
         if (collect) {
-          for (; idx < children.size(); idx++) {
-            SegmentNode child = children.get(idx);
+          ChildReader reader = new ChildReader(children, idx);
+          for (SegmentNode child = reader.next(); child != null; child = reader.next()) {
             if (child == upper || !child.visitChildren(visitor, upper)) {
               return false;
             }
@@ -493,6 +493,58 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   // CHECKSTYLE:CHECK-ON VisibilityModifier
   // CHECKSTYLE:CHECK-ON ParameterAssignmentCheck
   // CHECKSTYLE:CHECK-ON FinalParametersCheck
+
+  /**
+   * Reads the children of a node in order, from a given index on. Those of a large node are copied in batches with {@link ChunkedList#copy(Object[], int)},
+   * since getting them one by one searches the chunks for each; the batches grow, as a lookup often stops after a few children.
+   */
+  private static final class ChildReader {
+    private static final int FIRST_BATCH = 32;
+
+    private final List<SegmentNode> list;
+    @SuppressWarnings("PMD.LooseCoupling") // only a ChunkedList copies a range
+    private final ChunkedList<SegmentNode> chunkedList;
+    private Object[] batch;
+    private int index;
+    private int position;
+    private int count;
+
+    /**
+     * Creates a reader of the given children.
+     *
+     * @param list
+     *          the children, must not be {@code null}
+     * @param from
+     *          the index of the first child to read
+     */
+    @SuppressWarnings("unchecked")
+    ChildReader(final List<SegmentNode> list, final int from) {
+      this.list = list;
+      this.chunkedList = list instanceof ChunkedList ? (ChunkedList<SegmentNode>) list : null;
+      this.index = from;
+    }
+
+    /**
+     * Returns the next child.
+     *
+     * @return the next child, or {@code null} after the last one
+     */
+    SegmentNode next() {
+      if (chunkedList == null) {
+        return index < list.size() ? list.get(index++) : null;
+      }
+      if (position == count) {
+        batch = new Object[batch == null ? FIRST_BATCH : Math.min(batch.length * 2, ChunkedList.CHUNK_CAPACITY)];
+        count = chunkedList.copy(batch, index);
+        index += count;
+        position = 0;
+        if (count == 0) {
+          return null;
+        }
+      }
+      return (SegmentNode) batch[position++];
+    }
+  }
 
   /**
    * A visitor to visit the nodes of the tree in a {@link SegmentNode#accept(Visitor) depth-first order}.

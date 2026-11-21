@@ -65,10 +65,14 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
   /** More children than the smallest large node has, so that the nodes are large before the readers start. */
   private static final int LARGE = 4200;
   private static final int TRAVERSAL_ROUNDS = 5;
+  /** A lookup throws if a clear lands in the short window between searching a child and getting it; few clears with long reads in between keep that rare. */
+  private static final int CLEARS = 2;
+  private static final int CLEARED = 20_000;
 
   private static final String CHILD = "c";
   private static final String SHARED = "shared";
   private static final String NESTED = "big";
+  private static final String CLEARED_PREFIX = "k";
 
   /**
    * A read done repeatedly by every reader thread.
@@ -88,7 +92,7 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
 
   /**
    * The root and a node below it grow from just below the size of a large node while readers look up, exactly and by pattern, the names inserted last, which
-   * have no child {@value #CHILD} and so no values, and the prefilled names before the insertion point.
+   * have no child {@value #CHILD} and so no values, and, exactly and by recursive pattern, the prefilled names before the insertion point.
    */
   @Test
   public void testLookupsWhileNodesBecomeLarge() throws InterruptedException {
@@ -101,10 +105,17 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
       }
       readDuring(INSERTS, (random, done) -> {
         String recent = inserted[Math.max(0, done - random.nextInt(RECENT))];
-        switch (random.nextInt(4)) {
+        switch (random.nextInt(5)) {
         case 0 -> lookup.get(QualifiedName.create(recent, CHILD));
         case 1 -> lookup.get(QualifiedName.create(NESTED, recent, CHILD));
         case 2 -> lookup.get(QualifiedNamePattern.create(recent.substring(0, recent.length() - 1) + '*'), false);
+        case 3 -> {
+          // before the insertion point, so no inserted name matches
+          String kept = prefilledName(random.nextInt(INSERTION_POINT));
+          assertEquals(List.of(kept + '.' + CHILD), lookup.get(QualifiedNamePattern.create(kept + "**"), false), "values matching a recursive pattern");
+          assertEquals(List.of(NESTED + '.' + kept + '.' + CHILD), lookup.get(QualifiedNamePattern.create(NESTED, kept + "**"), false),
+              "values matching a nested recursive pattern");
+        }
         default -> {
           String kept = prefilledName(random.nextInt(INSERTION_POINT + 1));
           assertFound(lookup, QualifiedName.create(kept, CHILD));
@@ -128,8 +139,8 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
   }
 
   /**
-   * Every chunk of a large root is split once, in ascending order, while readers look up names of the upper half of the chunk being split which sort before
-   * the inserted name. The assertions do not depend on the size of a chunk, only how likely the readers are to search a chunk during its split.
+   * Every chunk of a large root is split once, in ascending order, while readers look up, exactly and by recursive pattern, names of the upper half of the
+   * chunk being split which sort before the inserted name. The assertions do not depend on the size of a chunk, only how likely the readers are to search a chunk during its split.
    */
   @Test
   public void testExactLookupsWhileChunksSplit() throws InterruptedException, IOException, ClassNotFoundException {
@@ -145,7 +156,12 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
     }
     for (int round = 0; round < SPLIT_ROUNDS; round++) {
       QualifiedNameLookup<String> lookup = read(serialized.toByteArray());
-      readDuring(CHUNKS, (random, done) -> assertFound(lookup, names[done * CHUNK_SIZE + CHUNK_SIZE / 2 + random.nextInt(CHUNK_SIZE / 4)]),
+      readDuring(CHUNKS, (random, done) -> {
+        QualifiedName name = names[done * CHUNK_SIZE + CHUNK_SIZE / 2 + random.nextInt(CHUNK_SIZE / 4)];
+        assertFound(lookup, name);
+        // reads the children from the name on in one go
+        assertEquals(List.of(name.toString()), lookup.get(QualifiedNamePattern.create(name.getFirstSegment() + "**"), false), "values matching a pattern");
+      },
           // after the names which the readers look up
           i -> put(lookup, QualifiedName.create(names[i * CHUNK_SIZE + CHUNK_SIZE * 3 / 4].getFirstSegment() + '_')));
 
@@ -194,6 +210,29 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
       assertEquals(shared, Set.copyOf(lookup.getMappings(SHARED)), "names mapped to a value after the insertions");
       assertEquals(nested.size() + INSERTS + 1, lookup.get(pattern, true).size(), "values below the nested node");
     }
+  }
+
+  /**
+   * A large root is cleared and refilled while readers match a pattern which reads all its children. A read across a clear may return any part of the names,
+   * but it does not fail.
+   */
+  @Test
+  public void testPatternLookupsWhileLargeNodeIsCleared() throws InterruptedException {
+    QualifiedNameLookup<String> lookup = new QualifiedNameSegmentTreeLookup<>(String.class, false);
+    IntConsumer fill = i -> {
+      for (int n = 0; n < CLEARED; n++) {
+        put(lookup, QualifiedName.create(String.format("%s%05d", CLEARED_PREFIX, n)));
+      }
+    };
+    // a large node stays large when it is cleared
+    fill.accept(0);
+    QualifiedNamePattern pattern = QualifiedNamePattern.create(CLEARED_PREFIX + "**");
+    readDuring(CLEARS, (random, done) -> lookup.get(pattern, false), i -> {
+      lookup.clear();
+      fill.accept(i);
+    });
+
+    assertEquals(CLEARED, lookup.get(pattern, false).size(), "values matching the pattern after the last refill");
   }
 
   /**
