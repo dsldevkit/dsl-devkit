@@ -440,49 +440,6 @@
       </command>
     </menuContribution>
   </extension>
-  <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.xtext.builder.smap.StratumBreakpointAdapterFactory"
-         adaptableType="org.eclipse.xtext.ui.editor.XtextEditor">
-         <adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget"/>
-      </factory>
-   </extension>
-   <extension point="org.eclipse.ui.editorActions">
-      <editorContribution targetID="com.avaloq.tools.ddk.checkcfg.CheckCfg"
-                          id="com.avaloq.tools.ddk.checkcfg.CheckCfg.rulerActions">
-       <action
-               label="Not Used"
-               class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
-               style="push"
-               actionID="RulerDoubleClick"
-               id="com.avaloq.tools.ddk.checkcfg.CheckCfg.doubleClickBreakpointAction"/>
-    </editorContribution>
-   </extension>
-   <extension point="org.eclipse.ui.popupMenus">
-      <viewerContribution
-         targetID="com.avaloq.tools.ddk.checkcfg.CheckCfg.RulerContext"
-         id="com.avaloq.tools.ddk.checkcfg.CheckCfg.RulerPopupActions">
-         <action
-            label="Toggle Breakpoint"
-            class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
-            menubarPath="debug"
-            id="com.avaloq.tools.ddk.checkcfg.CheckCfg.rulerContextMenu.toggleBreakpointAction">
-         </action>
-         <action
-            label="Not used"
-            class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
-            menubarPath="debug"
-            id="com.avaloq.tools.ddk.checkcfg.CheckCfg.rulerContextMenu.enableDisableBreakpointAction">
-         </action>
-         <action
-           label="Breakpoint Properties"
-           helpContextId="breakpoint_properties_action_context"
-           class="com.avaloq.tools.ddk.checkcfg.ui.CheckCfgExecutableExtensionFactory:org.eclipse.jdt.debug.ui.actions.JavaBreakpointPropertiesRulerActionDelegate"
-           menubarPath="group.properties"
-           id="com.avaloq.tools.ddk.checkcfg.CheckCfg.rulerContextMenu.openBreapointPropertiesAction">
-         </action>
-      </viewerContribution>
-   </extension>
     <!-- Introduce Local Variable Refactoring -->
   <extension point="org.eclipse.ui.handlers">
     <handler
