@@ -12,8 +12,10 @@ package com.avaloq.tools.ddk.xtext.expression;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.formatting.ILineSeparatorInformation;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 
 import com.avaloq.tools.ddk.xtext.expression.conversion.ExpressionValueConverterService;
+import com.avaloq.tools.ddk.xtext.expression.jvmmodel.ExpressionJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 
 
@@ -40,5 +42,14 @@ public class ExpressionRuntimeModule extends AbstractExpressionRuntimeModule {
   @Override
   public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
     return com.avaloq.tools.ddk.xtext.expression.formatting.ExpressionFormatter.class;
+  }
+
+  /**
+   * Binds the Java JVM model inferrer, which the Xbase generator fragment does not bind with {@code generateXtendInferrer = false}.
+   *
+   * @return the {@link ExpressionJvmModelInferrer} class, never {@code null}
+   */
+  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+    return ExpressionJvmModelInferrer.class;
   }
 }

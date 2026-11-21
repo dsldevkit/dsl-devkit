@@ -18,10 +18,12 @@ import org.eclipse.xtext.resource.IDefaultResourceDescriptionStrategy;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
 import com.avaloq.tools.ddk.xtext.scope.conversion.ScopeValueConverterService;
 import com.avaloq.tools.ddk.xtext.scope.generator.ScopeJvmModelGenerator;
+import com.avaloq.tools.ddk.xtext.scope.jvmmodel.ScopeJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.scope.linking.ScopeLinkingService;
 import com.avaloq.tools.ddk.xtext.scope.naming.ScopeQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.scope.resource.ScopeLocationInFileProvider;
@@ -112,5 +114,14 @@ public class ScopeRuntimeModule extends AbstractScopeRuntimeModule {
   @Override
   public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
     return com.avaloq.tools.ddk.xtext.scope.formatting.ScopeFormatter.class;
+  }
+
+  /**
+   * Binds the Java JVM model inferrer, which the Xbase generator fragment does not bind with {@code generateXtendInferrer = false}.
+   *
+   * @return the {@link ScopeJvmModelInferrer} class, never {@code null}
+   */
+  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+    return ScopeJvmModelInferrer.class;
   }
 }

@@ -40,7 +40,6 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.DefaultXbaseRuntimeModule;
 import org.eclipse.xtext.xbase.annotations.validation.DerivedStateAwareResourceValidator;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.JvmLocationInFileProvider;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.scoping.batch.IBatchScopeProvider;
@@ -51,7 +50,6 @@ import org.eclipse.xtext.xbase.typesystem.internal.LogicalContainerAwareReentran
 import org.eclipse.xtext.xbase.validation.FeatureNameValidator;
 import org.eclipse.xtext.xbase.validation.LogicalContainerAwareFeatureNameValidator;
 
-import com.avaloq.tools.ddk.xtext.export.jvmmodel.ExportJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.export.parser.antlr.ExportAntlrTokenFileProvider;
 import com.avaloq.tools.ddk.xtext.export.parser.antlr.ExportParser;
 import com.avaloq.tools.ddk.xtext.export.parser.antlr.internal.InternalExportLexer;
@@ -239,11 +237,6 @@ public abstract class AbstractExportRuntimeModule extends DefaultXbaseRuntimeMod
   // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
   public Class<? extends IResourceValidator> bindIResourceValidator() {
     return DerivedStateAwareResourceValidator.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
-    return ExportJvmModelInferrer.class;
   }
 
 }

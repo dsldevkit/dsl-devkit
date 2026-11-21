@@ -23,12 +23,14 @@ import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.resource.containers.ResourceSetBasedAllContainersStateProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xtext.generator.model.project.IXtextProjectConfig;
 import org.eclipse.xtext.xtext.generator.model.project.XtextProjectConfig;
 
 import com.avaloq.tools.ddk.xtext.format.conversion.FormatValueConverterService;
 import com.avaloq.tools.ddk.xtext.format.generator.FormatOutputConfigurationProvider;
+import com.avaloq.tools.ddk.xtext.format.jvmmodel.FormatJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.format.naming.FormatQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.format.naming.FormatQualifiedNameProvider;
 import com.avaloq.tools.ddk.xtext.format.resource.FormatResource;
@@ -133,5 +135,14 @@ public class FormatRuntimeModule extends AbstractFormatRuntimeModule {
   public void configure(final Binder binder) {
     super.configure(binder);
     binder.bind(IXtextProjectConfig.class).to(XtextProjectConfig.class);
+  }
+
+  /**
+   * Binds the Java JVM model inferrer, which the Xbase generator fragment does not bind with {@code generateXtendInferrer = false}.
+   *
+   * @return the {@link FormatJvmModelInferrer} class, never {@code null}
+   */
+  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+    return FormatJvmModelInferrer.class;
   }
 }

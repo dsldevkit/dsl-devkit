@@ -85,6 +85,9 @@ Workflow {
         generateStub = true
         generateXtendStub = false
       }
+      xbaseSupport = {
+        generateXtendInferrer = false
+      }
       validator = {
         // composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
       }

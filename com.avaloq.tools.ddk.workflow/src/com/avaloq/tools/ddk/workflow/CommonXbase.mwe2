@@ -191,7 +191,9 @@ Workflow {
       // Xbase support
       fragment = types.TypesGeneratorFragment2 {}
       fragment = xbase.XtypeGeneratorFragment2 {}
-      fragment = xbase.XbaseGeneratorFragment2 {}
+      fragment = xbase.XbaseGeneratorFragment2 {
+        generateXtendInferrer = false
+      }
 
       // Code generator
       fragment = generator.GeneratorFragment2 {

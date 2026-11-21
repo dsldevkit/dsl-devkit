@@ -131,7 +131,9 @@ Workflow {
             // Xbase support
             fragment = org.eclipse.xtext.xtext.generator.types.TypesGeneratorFragment2 {}
             fragment = org.eclipse.xtext.xtext.generator.xbase.XtypeGeneratorFragment2 {}
-            fragment = org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2 {}
+            fragment = org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2 {
+              generateXtendInferrer = false
+            }
 
             fragment = BundleVersionStripperFragment {
               bundle = "org.antlr.runtime"

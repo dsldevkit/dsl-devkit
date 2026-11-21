@@ -3,7 +3,6 @@
  */
 package com.avaloq.tools.ddk.xtext.expression;
 
-import com.avaloq.tools.ddk.xtext.expression.jvmmodel.ExpressionJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.expression.parser.antlr.ExpressionAntlrTokenFileProvider;
 import com.avaloq.tools.ddk.xtext.expression.parser.antlr.ExpressionParser;
 import com.avaloq.tools.ddk.xtext.expression.parser.antlr.internal.InternalExpressionLexer;
@@ -51,7 +50,6 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.DefaultXbaseRuntimeModule;
 import org.eclipse.xtext.xbase.annotations.validation.DerivedStateAwareResourceValidator;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.JvmLocationInFileProvider;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.scoping.batch.IBatchScopeProvider;
@@ -228,11 +226,6 @@ public abstract class AbstractExpressionRuntimeModule extends DefaultXbaseRuntim
 	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
 	public Class<? extends IResourceValidator> bindIResourceValidator() {
 		return DerivedStateAwareResourceValidator.class;
-	}
-	
-	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-	public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
-		return ExpressionJvmModelInferrer.class;
 	}
 	
 }
