@@ -3,7 +3,6 @@
  */
 package com.avaloq.tools.ddk.checkcfg;
 
-import com.avaloq.tools.ddk.checkcfg.jvmmodel.CheckCfgJvmModelInferrer;
 import com.avaloq.tools.ddk.checkcfg.parser.antlr.CheckCfgAntlrTokenFileProvider;
 import com.avaloq.tools.ddk.checkcfg.parser.antlr.CheckCfgParser;
 import com.avaloq.tools.ddk.checkcfg.parser.antlr.internal.InternalCheckCfgLexer;
@@ -46,7 +45,6 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.DefaultXbaseRuntimeModule;
 import org.eclipse.xtext.xbase.annotations.validation.DerivedStateAwareResourceValidator;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.JvmLocationInFileProvider;
 import org.eclipse.xtext.xbase.scoping.XbaseQualifiedNameProvider;
 import org.eclipse.xtext.xbase.typesystem.internal.DefaultBatchTypeResolver;
@@ -207,11 +205,6 @@ public abstract class AbstractCheckCfgRuntimeModule extends DefaultXbaseRuntimeM
 	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
 	public Class<? extends IResourceValidator> bindIResourceValidator() {
 		return DerivedStateAwareResourceValidator.class;
-	}
-	
-	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-	public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
-		return CheckCfgJvmModelInferrer.class;
 	}
 	
 }

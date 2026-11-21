@@ -23,6 +23,7 @@ import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
 import org.eclipse.xtext.xbase.util.XExpressionHelper;
@@ -31,6 +32,7 @@ import com.avaloq.tools.ddk.check.documentation.CheckEObjectDocumentationProvide
 import com.avaloq.tools.ddk.check.generator.CheckCompiler;
 import com.avaloq.tools.ddk.check.generator.CheckOutputConfigurationProvider;
 import com.avaloq.tools.ddk.check.imports.CheckRewritableImportSectionFactory;
+import com.avaloq.tools.ddk.check.jvmmodel.CheckJvmModelInferrer;
 import com.avaloq.tools.ddk.check.naming.CheckDeclarativeQualifiedNameProvider;
 import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResource;
 import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResourceStorageFacade;
@@ -195,4 +197,12 @@ public class CheckRuntimeModule extends com.avaloq.tools.ddk.check.AbstractCheck
     binder.bind(IPreferenceValuesProvider.class).annotatedWith(org.eclipse.xtext.formatting2.FormatterPreferences.class).to(org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider.class);
   }
 
+  /**
+   * Binds the Java JVM model inferrer, which the Xbase generator fragment does not bind with {@code generateXtendInferrer = false}.
+   *
+   * @return the {@link CheckJvmModelInferrer} class, never {@code null}
+   */
+  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+    return CheckJvmModelInferrer.class;
+  }
 }

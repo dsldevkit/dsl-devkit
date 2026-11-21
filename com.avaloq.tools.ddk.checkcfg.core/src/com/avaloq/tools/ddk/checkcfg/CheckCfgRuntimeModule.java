@@ -17,12 +17,14 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.scoping.IGlobalScopeProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.resource.BatchLinkingService;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 
 import com.avaloq.tools.ddk.check.scoping.ExtensionPointAwareScopeProvider;
 import com.avaloq.tools.ddk.checkcfg.conversion.CheckCfgValueConverterService;
 import com.avaloq.tools.ddk.checkcfg.generator.CheckCfgGenerator;
+import com.avaloq.tools.ddk.checkcfg.jvmmodel.CheckCfgJvmModelInferrer;
 import com.avaloq.tools.ddk.checkcfg.naming.CheckCfgDeclarativeQualifiedNameProvider;
 import com.avaloq.tools.ddk.checkcfg.resource.CheckCfgLocationInFileProvider;
 import com.avaloq.tools.ddk.checkcfg.scoping.CheckCfgBatchLinkingService;
@@ -107,4 +109,12 @@ public class CheckCfgRuntimeModule extends com.avaloq.tools.ddk.checkcfg.Abstrac
     return CheckCfgBatchLinkingService.class;
   }
 
+  /**
+   * Binds the Java JVM model inferrer, which the Xbase generator fragment does not bind with {@code generateXtendInferrer = false}.
+   *
+   * @return the {@link CheckCfgJvmModelInferrer} class, never {@code null}
+   */
+  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+    return CheckCfgJvmModelInferrer.class;
+  }
 }

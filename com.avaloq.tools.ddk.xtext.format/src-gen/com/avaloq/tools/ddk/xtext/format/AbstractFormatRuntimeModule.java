@@ -4,7 +4,6 @@
 package com.avaloq.tools.ddk.xtext.format;
 
 import com.avaloq.tools.ddk.xtext.format.formatting.FormatFormatter;
-import com.avaloq.tools.ddk.xtext.format.jvmmodel.FormatJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.format.parser.antlr.FormatAntlrTokenFileProvider;
 import com.avaloq.tools.ddk.xtext.format.parser.antlr.FormatParser;
 import com.avaloq.tools.ddk.xtext.format.parser.antlr.internal.InternalFormatLexer;
@@ -56,7 +55,6 @@ import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.xbase.annotations.DefaultXbaseWithAnnotationsRuntimeModule;
 import org.eclipse.xtext.xbase.annotations.validation.DerivedStateAwareResourceValidator;
 import org.eclipse.xtext.xbase.imports.RewritableImportSection;
-import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.JvmLocationInFileProvider;
 import org.eclipse.xtext.xbase.scoping.XImportSectionNamespaceScopeProvider;
 import org.eclipse.xtext.xbase.scoping.XbaseQualifiedNameProvider;
@@ -234,11 +232,6 @@ public abstract class AbstractFormatRuntimeModule extends DefaultXbaseWithAnnota
 	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
 	public Class<? extends IResourceValidator> bindIResourceValidator() {
 		return DerivedStateAwareResourceValidator.class;
-	}
-	
-	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-	public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
-		return FormatJvmModelInferrer.class;
 	}
 	
 	// contributed by com.avaloq.tools.ddk.xtext.generator.formatting.FormatterFragment2

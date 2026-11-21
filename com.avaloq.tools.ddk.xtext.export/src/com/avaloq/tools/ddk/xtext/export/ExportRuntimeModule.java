@@ -15,10 +15,12 @@ import org.eclipse.xtext.generator.IOutputConfigurationProvider;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.xbase.compiler.JvmModelGenerator;
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer;
 
 import com.avaloq.tools.ddk.xtext.export.conversion.ExportValueConverterService;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportJvmModelGenerator;
 import com.avaloq.tools.ddk.xtext.export.generator.ExportOutputConfigurationProvider;
+import com.avaloq.tools.ddk.xtext.export.jvmmodel.ExportJvmModelInferrer;
 import com.avaloq.tools.ddk.xtext.export.naming.ExportQualifiedNameConverter;
 import com.avaloq.tools.ddk.xtext.export.resource.ExportResourceDescriptionManager;
 import com.avaloq.tools.ddk.xtext.formatting.LfLineSeparatorInformation;
@@ -86,5 +88,14 @@ public class ExportRuntimeModule extends com.avaloq.tools.ddk.xtext.export.Abstr
   @Override
   public Class<? extends org.eclipse.xtext.formatting.IFormatter> bindIFormatter() {
     return com.avaloq.tools.ddk.xtext.export.formatting.ExportFormatter.class;
+  }
+
+  /**
+   * Binds the Java JVM model inferrer, which the Xbase generator fragment does not bind with {@code generateXtendInferrer = false}.
+   *
+   * @return the {@link ExportJvmModelInferrer} class, never {@code null}
+   */
+  public Class<? extends IJvmModelInferrer> bindIJvmModelInferrer() {
+    return ExportJvmModelInferrer.class;
   }
 }
