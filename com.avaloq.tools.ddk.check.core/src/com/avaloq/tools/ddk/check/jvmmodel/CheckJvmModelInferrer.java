@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -208,6 +209,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         jvmTypesBuilder.setBody(it1, appendable -> appendable.append("return " + checkGeneratorNaming.catalogClassName(catalog) + "." + checkGeneratorNaming.fieldGetterName(checkGeneratorNaming.issueCodeToLabelMapFieldName()) + "();"));
       }));
 
+      it.getMembers().add(createHasChecksForMethod(catalog));
       it.getMembers().add(createDispatcherMethod(catalog));
 
       // Create methods for contexts in checks
@@ -234,6 +236,76 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
   // CHECKSTYLE:CHECK-ON LambdaBodyLength
 
+  private JvmOperation createHasChecksForMethod(final CheckCatalog catalog) {
+    final JvmTypeReference objectBaseJavaTypeRef = checkedTypeRef(catalog, EObject.class);
+    return jvmTypesBuilder.toMethod(catalog, "hasChecksFor", _typeReferenceBuilder.typeRef("boolean"), it -> {
+      it.setVisibility(JvmVisibility.PUBLIC);
+      it.getParameters().add(jvmTypesBuilder.toParameter(catalog, "type", _typeReferenceBuilder.typeRef(Class.class, _typeReferenceBuilder.wildcard())));
+      Iterables.addAll(it.getAnnotations(), createAnnotation(checkedTypeRef(catalog, Override.class), it1 -> {
+      }));
+      jvmTypesBuilder.setBody(it, out -> emitHasChecksForMethodBody(out, catalog, objectBaseJavaTypeRef));
+    });
+  }
+
+  private void emitHasChecksForMethodBody(final ITreeAppendable out, final CheckCatalog catalog, final JvmTypeReference objectBaseJavaTypeRef) {
+    /*
+     * The dispatcher runs a context method if the object is an instance of the type of its context variable,
+     * so it suffices to test the base types of the context variable types.
+     */
+    final List<JvmTypeReference> contextVarTypes = new ArrayList<>();
+    final Map<String, JvmTypeReference> typesByName = new HashMap<>();
+    for (final Context context : getDispatchedContexts(catalog)) {
+      final JvmTypeReference type = context.getContextVariable().getType();
+      contextVarTypes.add(type);
+      typesByName.putIfAbsent(type.getQualifiedName(), type);
+    }
+    final Collection<String> baseTypes = InstanceOfCheckOrderer.orderTypes(contextVarTypes).getBaseTypes();
+
+    if (baseTypes.isEmpty()) {
+      out.append("return false;");
+    } else if (baseTypes.contains(objectBaseJavaTypeRef.getQualifiedName())) {
+      out.append("return true;");
+    } else {
+      out.append("return ");
+      out.increaseIndentation();
+      for (final Iterator<String> iterator = baseTypes.iterator(); iterator.hasNext();) {
+        out.append(typesByName.get(iterator.next()).getType());
+        out.append(".class.isAssignableFrom(type)");
+        if (iterator.hasNext()) {
+          out.newLine();
+          out.append("|| ");
+        }
+      }
+      out.append(";");
+      out.decreaseIndentation();
+    }
+  }
+
+  /**
+   * Returns the contexts dispatched to by the generated {@code validate} method.
+   * <p>
+   * A catalog may contain both Check and Implementation objects,
+   * which in turn may contain Context objects.
+   * Categories may optionally be used for grouping checks, and
+   * we can include categorized checks by using getAllChecks().
+   * We only consider Context objects with a typed contextVariable.
+   *
+   * @param catalog
+   *          the catalog
+   * @return the contexts with a typed context variable
+   */
+  private Iterable<Context> getDispatchedContexts(final CheckCatalog catalog) {
+    final Iterable<Context> checkContexts = Iterables.concat(ListExtensions.map(catalog.getAllChecks(), chk -> chk.getContexts()));
+    final Iterable<Context> implementationContexts = IterableExtensions.filterNull(ListExtensions.map(catalog.getImplementations(), impl -> impl.getContext()));
+    return IterableExtensions.filter(Iterables.concat(checkContexts, implementationContexts), ctx -> {
+      JvmTypeReference type = null;
+      if (ctx.getContextVariable() != null) {
+        type = ctx.getContextVariable().getType();
+      }
+      return type != null;
+    });
+  }
+
   private JvmOperation createDispatcherMethod(final CheckCatalog catalog) {
     final JvmTypeReference objectBaseJavaTypeRef = checkedTypeRef(catalog, EObject.class);
     return jvmTypesBuilder.toMethod(catalog, "validate", _typeReferenceBuilder.typeRef("void"), it -> {
@@ -248,22 +320,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
   }
 
   private void emitDispatcherMethodBody(final ITreeAppendable out, final CheckCatalog catalog, final JvmTypeReference objectBaseJavaTypeRef) {
-    /*
-     * A catalog may contain both Check and Implementation objects,
-     * which in turn may contain Context objects.
-     * Categories may optionally be used for grouping checks, and
-     * we can include categorized checks by using getAllChecks().
-     * We only consider Context objects with a typed contextVariable.
-     */
-    final Iterable<Context> checkContexts = Iterables.concat(ListExtensions.map(catalog.getAllChecks(), chk -> chk.getContexts()));
-    final Iterable<Context> implementationContexts = IterableExtensions.filterNull(ListExtensions.map(catalog.getImplementations(), impl -> impl.getContext()));
-    final Iterable<Context> allContexts = IterableExtensions.filter(Iterables.concat(checkContexts, implementationContexts), ctx -> {
-      JvmTypeReference type = null;
-      if (ctx.getContextVariable() != null) {
-        type = ctx.getContextVariable().getType();
-      }
-      return type != null;
-    });
+    final Iterable<Context> allContexts = getDispatchedContexts(catalog);
 
     /*
      * Contexts grouped by CheckType.

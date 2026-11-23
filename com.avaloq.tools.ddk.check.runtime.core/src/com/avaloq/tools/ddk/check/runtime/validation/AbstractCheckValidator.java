@@ -10,7 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.runtime.validation;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,8 @@ import com.google.inject.Injector;
 public abstract class AbstractCheckValidator extends AbstractInjectableValidator {
 
   private static final String VALIDATORS_CONTEXT_KEY = "CHECK_VALIDATORS"; //$NON-NLS-1$
+
+  private static final String VALIDATORS_BY_CLASS_CONTEXT_KEY = "CHECK_VALIDATORS_BY_CLASS"; //$NON-NLS-1$
 
   private static final Logger LOGGER = LogManager.getLogger(AbstractCheckValidator.class);
 
@@ -108,8 +112,42 @@ public abstract class AbstractCheckValidator extends AbstractInjectableValidator
   @Override
   protected boolean internalValidate(final EClass eClass, final EObject eObject, final DiagnosticChain diagnostics, final Map<Object, Object> context) {
     boolean result = true;
-    for (ICheckValidatorImpl v : getValidators(context, eObject)) {
+    for (ICheckValidatorImpl v : getValidatorsWithChecksFor(context, eObject)) {
       result &= v.validate(eClass, eObject, diagnostics, context);
+    }
+    return result;
+  }
+
+  /**
+   * Returns the validators of {@link #getValidators(Map, EObject)} which have checks for the class of the given object.
+   * <p>
+   * The result is cached per class in the validation context, so {@link #getValidators(Map, EObject)} and
+   * {@link ICheckValidatorImpl#hasChecksFor(Class)} are called once per class and context.
+   *
+   * @param context
+   *          validation context
+   * @param eObject
+   *          the object to be validated
+   * @return the validators to call for the object, never {@code null}
+   */
+  protected ICheckValidatorImpl[] getValidatorsWithChecksFor(final Map<Object, Object> context, final EObject eObject) {
+    @SuppressWarnings("unchecked")
+    Map<Class<?>, ICheckValidatorImpl[]> validatorsByClass = (Map<Class<?>, ICheckValidatorImpl[]>) context.get(VALIDATORS_BY_CLASS_CONTEXT_KEY);
+    if (validatorsByClass == null) {
+      validatorsByClass = new HashMap<>();
+      context.put(VALIDATORS_BY_CLASS_CONTEXT_KEY, validatorsByClass);
+    }
+    final Class<?> type = eObject.getClass();
+    ICheckValidatorImpl[] result = validatorsByClass.get(type);
+    if (result == null) {
+      final List<ICheckValidatorImpl> validators = new ArrayList<>();
+      for (ICheckValidatorImpl v : getValidators(context, eObject)) {
+        if (v.hasChecksFor(type)) {
+          validators.add(v);
+        }
+      }
+      result = validators.toArray(new ICheckValidatorImpl[0]);
+      validatorsByClass.put(type, result);
     }
     return result;
   }
