@@ -112,7 +112,13 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
    */
   protected List<IEObjectDescription> createDescriptions(final LazyLinkingResource resource) {
     final ImmutableList.Builder<IEObjectDescription> exportedEObjects = ImmutableList.builder();
-    IAcceptor<IEObjectDescription> acceptor = decorateExportedObjectsAcceptor(exportedEObjects::add);
+    final TraversalUris uris = new TraversalUris(resource);
+    IAcceptor<IEObjectDescription> acceptor = decorateExportedObjectsAcceptor(description -> {
+      if (description instanceof DetachableEObjectDescription detachable) {
+        detachable.initEObjectURI(uris.getURI(detachable.getEObjectOrProxy()));
+      }
+      exportedEObjects.add(description);
+    });
     TreeIterator<EObject> allProperContents = EcoreUtil.getAllProperContents(resource, false);
     while (allProperContents.hasNext()) {
       EObject content = allProperContents.next();
@@ -143,10 +149,17 @@ public class ResourceDescription2 extends DefaultResourceDescription implements 
     EcoreUtil2.resolveLazyCrossReferences(getResource(), CancelIndicator.NullImpl);
     Map<EObject, IEObjectDescription> eObject2exportedEObjects = createEObject2ExportedEObjectsMap(getExportedObjects());
     TreeIterator<EObject> contents = EcoreUtil.getAllProperContents(getResource(), true);
+    final TraversalUris sourceUris = new TraversalUris(getResource());
     while (contents.hasNext()) {
       EObject eObject = contents.next();
       URI exportedContainerURI = findExportedContainerURI(eObject, eObject2exportedEObjects);
-      if (!strategy.createReferenceDescriptions(eObject, exportedContainerURI, referenceDescriptions::add)) {
+      final boolean traverse;
+      if (strategy instanceof AbstractResourceDescriptionStrategy abstractStrategy) {
+        traverse = abstractStrategy.createReferenceDescriptions(eObject, exportedContainerURI, referenceDescriptions::add, sourceUris::getURI);
+      } else {
+        traverse = strategy.createReferenceDescriptions(eObject, exportedContainerURI, referenceDescriptions::add);
+      }
+      if (!traverse) {
         contents.prune();
       }
     }

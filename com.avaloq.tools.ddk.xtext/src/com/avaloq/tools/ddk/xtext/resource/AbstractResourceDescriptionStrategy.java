@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -136,9 +137,33 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
     return fingerprintComputer != null && !BuildPhases.isIndexing(object);
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Delegates to {@link #createReferenceDescriptions(EObject, URI, IAcceptor, Function)}, which {@link ResourceDescription2} calls directly; override that
+   * method instead.
+   * </p>
+   */
   @Override
-  public boolean createReferenceDescriptions(final EObject from, final URI exportedContainerURI, final IAcceptor<IReferenceDescription> acceptor) {
-    final UriCache uris = new UriCache();
+  public final boolean createReferenceDescriptions(final EObject from, final URI exportedContainerURI, final IAcceptor<IReferenceDescription> acceptor) {
+    return createReferenceDescriptions(from, exportedContainerURI, acceptor, EcoreUtil::getURI);
+  }
+
+  /**
+   * Creates the reference descriptions of the references held by the given object.
+   *
+   * @param from
+   *          the object holding the references, must not be {@code null}
+   * @param exportedContainerURI
+   *          URI of the closest exported container of {@code from}, may be {@code null}
+   * @param acceptor
+   *          acceptor for the reference descriptions, must not be {@code null}
+   * @param sourceUris
+   *          computes the URI of {@code from}, which must be the same as {@link EcoreUtil#getURI(EObject)}; called at most once, must not be {@code null}
+   * @return {@code true} if the contents of {@code from} should be processed
+   */
+  public boolean createReferenceDescriptions(final EObject from, final URI exportedContainerURI, final IAcceptor<IReferenceDescription> acceptor, final Function<EObject, URI> sourceUris) {
+    final UriCache uris = new UriCache(from, sourceUris);
     for (EReference eReference : from.eClass().getEAllReferences()) {
       if (isIndexable(from, eReference)) {
         final Object val = from.eGet(eReference, false);
@@ -208,7 +233,7 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   /**
    * {@inheritDoc}
    *
-   * @deprecated {@link #createReferenceDescriptions(EObject, URI, IAcceptor)} no longer calls this method; override
+   * @deprecated {@link #createReferenceDescriptions(EObject, URI, IAcceptor, Function)} no longer calls this method; override
    *             {@link #createReferenceDescription(URI, URI, EReference, int, URI)} instead
    */
   @Override
@@ -218,8 +243,8 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   }
 
   /**
-   * Creates a reference description for the given URIs. Used by {@link #createReferenceDescriptions(EObject, URI, IAcceptor)}, which computes the URI of each
-   * object only once.
+   * Creates a reference description for the given URIs. Used by {@link #createReferenceDescriptions(EObject, URI, IAcceptor, Function)}, which computes the URI
+   * of each object only once.
    *
    * @param sourceUri
    *          URI of the referencing object, must not be {@code null}
@@ -238,12 +263,26 @@ public abstract class AbstractResourceDescriptionStrategy extends DefaultResourc
   }
 
   /**
-   * URIs of the objects referenced in one {@link #createReferenceDescriptions(EObject, URI, IAcceptor)} run.
+   * URIs of the objects referenced in one {@link #createReferenceDescriptions(EObject, URI, IAcceptor, Function)} run.
    */
   private static final class UriCache {
+    private final EObject source;
+    private final Function<EObject, URI> sourceUris;
+    private URI sourceUri;
     private Map<EObject, URI> uris;
 
+    UriCache(final EObject source, final Function<EObject, URI> sourceUris) {
+      this.source = source;
+      this.sourceUris = sourceUris;
+    }
+
     URI getURI(final EObject object) {
+      if (object == source) {
+        if (sourceUri == null) {
+          sourceUri = sourceUris.apply(source);
+        }
+        return sourceUri;
+      }
       if (uris == null) {
         uris = new IdentityHashMap<>();
       }

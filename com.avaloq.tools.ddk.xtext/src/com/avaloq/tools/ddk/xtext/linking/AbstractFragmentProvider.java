@@ -11,8 +11,11 @@
 package com.avaloq.tools.ddk.xtext.linking;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -103,6 +106,145 @@ public abstract class AbstractFragmentProvider implements IFragmentProvider {
     @Override
     public void remove() {
       throw new UnsupportedOperationException();
+    }
+  }
+
+  /**
+   * Computes the fragments of the objects visited by a traversal of a resource's contents in containment pre-order. The fragment of each object is the same as
+   * the one returned by {@link AbstractFragmentProvider#getFragment(EObject, Fallback)}, but the segments of the ancestors it shares with the previously
+   * requested object are not computed again. Objects may be requested in any order, but only containment pre-order avoids recomputing segments.
+   * <p>
+   * Instances are not thread-safe and must only be used while the containment of the visited objects does not change.
+   * </p>
+   */
+  @SuppressWarnings("PMD.AvoidStringBufferField") // instances only live during one traversal
+  public final class FragmentPath {
+    private static final int INITIAL_DEPTH = 16;
+
+    /** Objects of the current path, from the topmost container down. */
+    private final List<EObject> objects = new ArrayList<>(INITIAL_DEPTH);
+    /** Fragment segment of each object of the current path. */
+    private final List<String> segments = new ArrayList<>(INITIAL_DEPTH);
+    /** Repetitions of each level's segment ending at that level; the run starts at level {@code level - repetitions + 1}. */
+    private int[] repetitions = new int[INITIAL_DEPTH];
+    /** Length of {@link #closedRuns} before the run containing each level. */
+    private int[] closedLengths = new int[INITIAL_DEPTH];
+    /** Encoded fragment of the runs of the current path which are followed by a different segment. */
+    private final StringBuilder closedRuns = new StringBuilder();
+    private final StringBuilder segment = new StringBuilder(FRAGMENT_BUFFER_CAPACITY);
+    private final List<EObject> containers = new ArrayList<>(INITIAL_DEPTH);
+
+    private FragmentPath() {
+      // created by AbstractFragmentProvider#createFragmentPath
+    }
+
+    /**
+     * Returns the fragment of the given object.
+     *
+     * @param object
+     *          the object, must not be {@code null}
+     * @return the same fragment as {@link AbstractFragmentProvider#getFragment(EObject, Fallback)}, or {@code null} if the topmost container of
+     *         {@code object} is not contained in a resource, in which case that method uses the fallback
+     */
+    public String getFragment(final EObject object) {
+      final EObject container = object.eContainer();
+      for (int level = objects.size() - 1; level >= 0; level--) {
+        final EObject current = objects.get(level);
+        if (current == object) {
+          truncate(level + 1);
+          return encode(level);
+        } else if (current == container) {
+          truncate(level + 1);
+          push(object);
+          return encode(level + 1);
+        }
+      }
+      containers.clear();
+      for (EObject current = object; current != null; current = current.eContainer()) {
+        containers.add(current);
+      }
+      final int depth = containers.size();
+      if (containers.get(depth - 1).eResource() == null) {
+        return null;
+      }
+      int common = 0;
+      final int maxCommon = Math.min(depth, objects.size());
+      while (common < maxCommon && objects.get(common) == containers.get(depth - 1 - common)) {
+        common++;
+      }
+      truncate(common);
+      for (int index = depth - 1 - common; index >= 0; index--) {
+        push(containers.get(index));
+      }
+      containers.clear();
+      return encode(depth - 1);
+    }
+
+    private void truncate(final int depth) {
+      for (int level = objects.size() - 1; level >= depth; level--) {
+        objects.remove(level);
+        segments.remove(level);
+      }
+      closedRuns.setLength(depth == 0 ? 0 : closedLengths[depth - 1]);
+    }
+
+    private void push(final EObject object) {
+      final int level = objects.size();
+      if (level == repetitions.length) {
+        repetitions = Arrays.copyOf(repetitions, level * 2);
+        closedLengths = Arrays.copyOf(closedLengths, level * 2);
+      }
+      segment.setLength(0);
+      internalAppendFragmentSegment(object, segment);
+      final String value = segment.toString();
+      if (level > 0 && value.equals(segments.get(level - 1))) {
+        repetitions[level] = repetitions[level - 1] + 1;
+        closedLengths[level] = closedLengths[level - 1];
+      } else {
+        if (level > 0) {
+          appendRun(closedRuns, segments.get(level - 1), repetitions[level - 1]);
+        }
+        repetitions[level] = 1;
+        closedLengths[level] = closedRuns.length();
+      }
+      objects.add(object);
+      segments.add(value);
+    }
+
+    private String encode(final int level) {
+      final String last = segments.get(level);
+      final StringBuilder result = new StringBuilder(closedLengths[level] + last.length() + FRAGMENT_BUFFER_CAPACITY);
+      result.append(closedRuns, 0, closedLengths[level]);
+      appendRun(result, last, repetitions[level]);
+      return result.toString();
+    }
+  }
+
+  /**
+   * Creates a {@link FragmentPath} computing the fragments of this provider for the objects of a traversal.
+   *
+   * @return new fragment path, never {@code null}
+   */
+  public FragmentPath createFragmentPath() {
+    return new FragmentPath();
+  }
+
+  /**
+   * Appends a run of equal segments in the format used by {@link #getFragment(EObject, Fallback)}.
+   *
+   * @param builder
+   *          builder to append to, must not be {@code null}
+   * @param segment
+   *          the repeated segment, must not be {@code null}
+   * @param reps
+   *          number of repetitions, at least 1
+   */
+  private static void appendRun(final StringBuilder builder, final CharSequence segment, final int reps) {
+    builder.append(SEGMENT_SEPARATOR).append(segment);
+    if (reps == 2 && segment.length() == 1) {
+      builder.append(SEGMENT_SEPARATOR).append(segment);
+    } else if (reps > 1) {
+      builder.append(REP_SEPARATOR).append(reps);
     }
   }
 
