@@ -54,4 +54,20 @@ public interface ICheckValidatorImpl {
    */
   boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context);
 
+  /**
+   * Returns whether this validator has checks for objects of the given class, i.e. whether {@link #validate} may do anything for them.
+   * {@link com.avaloq.tools.ddk.check.runtime.validation.AbstractCheckValidator AbstractCheckValidator} does not call {@link #validate} for
+   * objects of a class for which this returns {@code false}.
+   * <p>
+   * The default implementation returns {@code true}. Catalogs generated from {@code .check} files return whether the class is a subtype of
+   * the type of one of their context variables.
+   *
+   * @param type
+   *          the class of the objects to validate, must not be {@code null}
+   * @return {@code false} if {@link #validate} does nothing for objects of the given class
+   */
+  default boolean hasChecksFor(final Class<?> type) {
+    return true;
+  }
+
 }

@@ -27,6 +27,11 @@ public class ExecutionEnvironmentCheckImpl extends DispatchingCheckImpl {
   }
 
   @Override
+  public boolean hasChecksFor(final Class<?> type) {
+    return Greeting.class.isAssignableFrom(type);
+  }
+
+  @Override
   public void validate(final CheckMode checkMode, final EObject object, final DispatchingCheckImpl.DiagnosticCollector diagnosticCollector) {
     if (checkMode.shouldCheck(CheckType.NORMAL)) {
       diagnosticCollector.setCurrentCheckType(CheckType.NORMAL);
