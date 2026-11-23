@@ -31,8 +31,8 @@ public class ExecutionEnvironmentCheckImpl extends DispatchingCheckImpl {
     if (checkMode.shouldCheck(CheckType.NORMAL)) {
       diagnosticCollector.setCurrentCheckType(CheckType.NORMAL);
       if (object instanceof final com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting castObject) {
-        validate("greetingNameLengthGreeting", "ExecutionEnvironment.greetingNameLengthGreeting", object,
-                 () -> greetingNameLengthGreeting(castObject, diagnosticCollector), diagnosticCollector);
+        validate("greetingNameLengthGreeting", "ExecutionEnvironment.greetingNameLengthGreeting", object, castObject,
+                 (catalog, target, collector) -> ((ExecutionEnvironmentCheckImpl) catalog).greetingNameLengthGreeting(target, collector), diagnosticCollector);
       }
     }
   }
