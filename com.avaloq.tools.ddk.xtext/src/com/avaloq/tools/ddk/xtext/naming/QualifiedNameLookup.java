@@ -114,4 +114,12 @@ public interface QualifiedNameLookup<T> extends ICache<QualifiedName, T> {
    */
   void initializeFrom(QualifiedNameLookup<T> source);
 
+  /**
+   * Releases the room which this lookup keeps for further mappings, for example after filling it with many mappings. Later insertions make room again. Like
+   * {@link #put(QualifiedName, Object)}, it must not run concurrently with another modification. The default implementation does nothing.
+   */
+  default void trimToSize() {
+    // nothing to release
+  }
+
 }

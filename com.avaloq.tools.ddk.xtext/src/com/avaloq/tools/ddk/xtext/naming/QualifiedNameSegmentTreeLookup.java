@@ -308,6 +308,26 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     }
 
     /**
+     * Trims the children of this node and of the nodes below it to their number. The children of a small node are copied into a new list of their size
+     * instead of trimming their list, since that counts as a modification for its iterators and would fail a concurrent lookup which iterates over them.
+     */
+    @SuppressWarnings("PMD.LooseCoupling") // only a ChunkedList trims its chunks
+    void trimToSize() {
+      List<SegmentNode> list = children;
+      if (list == null) {
+        return;
+      }
+      if (list instanceof ChunkedList<SegmentNode> chunkedList) {
+        chunkedList.trimToSize();
+      } else {
+        children = new ArrayList<>(list);
+      }
+      for (SegmentNode child : childrenToVisit()) {
+        child.trimToSize();
+      }
+    }
+
+    /**
      * Accepts the given visitor and uses it to visit all children in depth-first search order.
      *
      * @param visitor
@@ -652,6 +672,16 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   @Override
   public void clear() {
     init();
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Trims the children of every node to their number. Lookups may run concurrently and do not fail because of it.
+   */
+  @Override
+  public void trimToSize() {
+    root.trimToSize();
   }
 
   @Override

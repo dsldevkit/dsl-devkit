@@ -310,6 +310,21 @@ public class QualifiedNameSegmentTreeLookupTest {
     assertLookup(writeAndRead(readBack), expected);
   }
 
+  @Test
+  public void testTrimToSize() throws IOException, ClassNotFoundException {
+    QualifiedNameSegmentTreeLookup<URI> tree = new QualifiedNameSegmentTreeLookup<URI>(URI.class, true);
+    Map<QualifiedName, Set<URI>> expected = new HashMap<>();
+    putLargeNodes(tree, expected, 1);
+    tree.trimToSize();
+    assertLookup(tree, expected);
+
+    // insert into the trimmed nodes, small and large, and trim them again
+    putLargeNodes(tree, expected, 2);
+    tree.trimToSize();
+    assertLookup(tree, expected);
+    assertLookup(writeAndRead(tree), expected);
+  }
+
   /**
    * Serializes and deserializes the given lookup, accepting no other lists than {@link ArrayList} in the serialized form.
    *
