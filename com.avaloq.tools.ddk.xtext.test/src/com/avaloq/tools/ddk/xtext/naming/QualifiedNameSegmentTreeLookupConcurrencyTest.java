@@ -69,6 +69,10 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
   private static final int CLEARS = 2;
   private static final int CLEARED = 20_000;
 
+  /** The number of children of each small node in the trimming test. */
+  private static final int TRIMMED_CHILDREN = 8;
+  private static final int TRIMS = 50;
+
   private static final String CHILD = "c";
   private static final String SHARED = "shared";
   private static final String NESTED = "big";
@@ -233,6 +237,25 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
     });
 
     assertEquals(CLEARED, lookup.get(pattern, false).size(), "values matching the pattern after the last refill");
+  }
+
+  /**
+   * A lookup with small nodes of several children and a large root is trimmed repeatedly while readers match recursive patterns, which iterate over the
+   * children of the small nodes, and look up names exactly. Trimming changes no mapping, so every read finds what was put before.
+   */
+  @Test
+  public void testLookupsWhileTrimming() throws InterruptedException {
+    QualifiedNameLookup<String> lookup = new QualifiedNameSegmentTreeLookup<>(String.class, false);
+    for (int i = 0; i < LARGE; i++) {
+      for (int c = 0; c < TRIMMED_CHILDREN; c++) {
+        put(lookup, QualifiedName.create(prefilledName(i), CHILD + c));
+      }
+    }
+    readDuring(TRIMS, (random, done) -> {
+      String name = prefilledName(random.nextInt(LARGE));
+      assertEquals(TRIMMED_CHILDREN, lookup.get(QualifiedNamePattern.create(name + "**"), false).size(), "values matching a recursive pattern while trimming");
+      assertFound(lookup, QualifiedName.create(name, CHILD + random.nextInt(TRIMMED_CHILDREN)));
+    }, i -> lookup.trimToSize());
   }
 
   /**

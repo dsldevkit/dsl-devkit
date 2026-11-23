@@ -26,7 +26,7 @@ import java.util.function.ToIntFunction;
  * {@code n} elements thus takes O(B + n/B) instead of O(n) time, and building a large sorted list by binary search and insertion is no longer quadratic.
  * {@link #get(int)} takes O(log(n/B)) time.
  * <p>
- * Supports {@link #get(int)}, {@link #add(int, Object)}, {@link #size()}, {@link #clear()}, {@link #toArray()}, iteration, a
+ * Supports {@link #get(int)}, {@link #add(int, Object)}, {@link #size()}, {@link #clear()}, {@link #toArray()}, {@link #trimToSize()}, iteration, a
  * {@link #binarySearch(ToIntFunction) binary search} which is faster than one with {@link #get(int)} and {@link #copy(Object[], int) copying a range}, which
  * is faster than getting its elements one by one. Other modifications are not supported.
  * <p>
@@ -329,6 +329,24 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
       return count;
     } finally {
       lock.unlockRead(stamp);
+    }
+  }
+
+  /**
+   * Trims every chunk to its elements; this counts as a modification. A later insertion into a full chunk which is smaller than {@value #CHUNK_CAPACITY}
+   * grows it to that size again.
+   */
+  void trimToSize() {
+    long stamp = lock.writeLock();
+    try {
+      for (int c = 0; c < chunkCount; c++) {
+        int chunkSize = chunkSize(c);
+        if (chunks[c].length > chunkSize) {
+          chunks[c] = Arrays.copyOf(chunks[c], chunkSize);
+        }
+      }
+    } finally {
+      lock.unlockWrite(stamp);
     }
   }
 
