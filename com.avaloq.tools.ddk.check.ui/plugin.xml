@@ -614,38 +614,6 @@
     </handler>
   </extension>
 
-   <!-- Check new project and file wizard -->
-   <extension
-         point="org.eclipse.ui.newWizards">
-      <category
-            id="com.avaloq.tools.ddk.check.ui.wizard"
-            name="Check">
-      </category>
-      <wizard
-            category="com.avaloq.tools.ddk.check.ui.wizard"
-            descriptionImage="icons/editor.gif"
-            icon="icons/editor.gif"
-            id="com.avaloq.tools.ddk.check.ui.wizard.NewCheckProjectWizard"
-            name="Check Project"
-            project="true">
-            <class class="com.avaloq.tools.ddk.check.ui.CheckExecutableExtensionFactory">
-              <parameter name="javatype" value="true" />
-              <parameter name="guicekey" value="com.avaloq.tools.ddk.check.ui.wizard.NewCheckProjectWizard" />
-            </class>
-      </wizard>
-      <wizard
-            category="com.avaloq.tools.ddk.check.ui.wizard"
-            descriptionImage="icons/editor.gif"
-            icon="icons/editor.gif"
-            id="com.avaloq.tools.ddk.check.ui.wizard.NewCheckCatalogWizard"
-            name="Check Catalog">
-            <class class="com.avaloq.tools.ddk.check.ui.CheckExecutableExtensionFactory">
-              <parameter name="javatype" value="true" />
-              <parameter name="guicekey" value="com.avaloq.tools.ddk.check.ui.wizard.NewCheckCatalogWizard" />
-            </class>
-      </wizard>
-   </extension>
-
    <!-- Check Nature -->
    <extension
       point="org.eclipse.core.resources.natures"
