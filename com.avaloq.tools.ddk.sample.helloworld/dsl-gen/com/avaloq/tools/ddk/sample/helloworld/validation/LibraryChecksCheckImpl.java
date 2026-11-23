@@ -40,14 +40,14 @@ public class LibraryChecksCheckImpl extends DispatchingCheckImpl {
     if (checkMode.shouldCheck(CheckType.FAST)) {
       diagnosticCollector.setCurrentCheckType(CheckType.FAST);
       if (object instanceof final com.avaloq.tools.ddk.sample.helloworld.helloWorld.Greeting castObject) {
-        validate("checkCatalogIsActiveGreeting", "LibraryChecks.checkCatalogIsActiveGreeting", object,
-                 () -> checkCatalogIsActiveGreeting(castObject, diagnosticCollector), diagnosticCollector);
-        validate("cacheInjectionFailedGreeting", "LibraryChecks.cacheInjectionFailedGreeting", object,
-                 () -> cacheInjectionFailedGreeting(castObject, diagnosticCollector), diagnosticCollector);
-        validate("cacheDoesntWorkGreeting", "LibraryChecks.cacheDoesntWorkGreeting", object,
-                 () -> cacheDoesntWorkGreeting(castObject, diagnosticCollector), diagnosticCollector);
-        validate("formalParametersGreeting", "LibraryChecks.formalParametersGreeting", object,
-                 () -> formalParametersGreeting(castObject, diagnosticCollector), diagnosticCollector);
+        validate("checkCatalogIsActiveGreeting", "LibraryChecks.checkCatalogIsActiveGreeting", object, castObject,
+                 (catalog, target, collector) -> ((LibraryChecksCheckImpl) catalog).checkCatalogIsActiveGreeting(target, collector), diagnosticCollector);
+        validate("cacheInjectionFailedGreeting", "LibraryChecks.cacheInjectionFailedGreeting", object, castObject,
+                 (catalog, target, collector) -> ((LibraryChecksCheckImpl) catalog).cacheInjectionFailedGreeting(target, collector), diagnosticCollector);
+        validate("cacheDoesntWorkGreeting", "LibraryChecks.cacheDoesntWorkGreeting", object, castObject,
+                 (catalog, target, collector) -> ((LibraryChecksCheckImpl) catalog).cacheDoesntWorkGreeting(target, collector), diagnosticCollector);
+        validate("formalParametersGreeting", "LibraryChecks.formalParametersGreeting", object, castObject,
+                 (catalog, target, collector) -> ((LibraryChecksCheckImpl) catalog).formalParametersGreeting(target, collector), diagnosticCollector);
       }
     }
   }

@@ -356,20 +356,23 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     final String jMethodName = toJavaLiteral(methodName);
     final String qMethodName = toJavaLiteral(catalog.getName(), methodName);
 
+    // The lambda captures nothing, so it is not allocated for every check and object.
     out.newLine();
     final StringConcatenation builder = new StringConcatenation();
     builder.append("validate(");
     builder.append(jMethodName);
     builder.append(", ");
     builder.append(qMethodName);
-    builder.append(", object,");
+    builder.append(", object, ");
+    builder.append(varName);
+    builder.append(",");
     builder.newLineIfNotEmpty();
     builder.append("         ");
-    builder.append("() -> ");
+    builder.append("(catalog, target, collector) -> ((");
+    builder.append(checkGeneratorNaming.validatorClassName(catalog), "         ");
+    builder.append(") catalog).");
     builder.append(methodName, "         ");
-    builder.append("(");
-    builder.append(varName, "         ");
-    builder.append(", diagnosticCollector), diagnosticCollector);");
+    builder.append("(target, collector), diagnosticCollector);");
     out.append(builder);
   }
 
