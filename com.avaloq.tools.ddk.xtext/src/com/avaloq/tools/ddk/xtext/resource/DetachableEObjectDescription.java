@@ -104,9 +104,27 @@ public class DetachableEObjectDescription extends EObjectDescription implements 
   /** We store the user data here in order to be able to copy it when detaching. */
   private final Map<String, String> userData;
 
+  /** URI of the described object if computed by the creator of this description, otherwise {@code null}. */
+  private URI eObjectURI;
+
   protected DetachableEObjectDescription(final QualifiedName qualifiedName, final EObject element, final Map<String, String> userData) {
     super(qualifiedName, element, userData);
     this.userData = userData;
+  }
+
+  /**
+   * Sets the URI of the described object, so that it is not computed on first access.
+   *
+   * @param uri
+   *          the URI of the described object, must be the same as {@link EcoreUtil#getURI(EObject)}, must not be {@code null}
+   */
+  void initEObjectURI(final URI uri) {
+    eObjectURI = normalize(getEObjectOrProxy(), uri);
+  }
+
+  @Override
+  public URI getEObjectURI() {
+    return eObjectURI != null ? eObjectURI : super.getEObjectURI();
   }
 
   /**
