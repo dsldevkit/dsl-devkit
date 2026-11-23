@@ -152,6 +152,9 @@ public class TraversalUrisTest {
     EObject z1 = addChild(y1, "z1");
     deepest = setChild(setChild(addChild(z1, "w1"), "v1"), "u1");
     setChild(setChild(c2, "p1"), "p2");
+    // second children in the middle of a run, visited after the run's deeper objects
+    addChild(x2, "x2b");
+    addChild(z1, "z2");
     EObject secondRoot = createNode("secondRoot", resourceA);
     secondLeaf = addChild(addChild(secondRoot, "q1"), "q2");
 
