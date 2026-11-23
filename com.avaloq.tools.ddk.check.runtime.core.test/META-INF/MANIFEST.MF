@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext,
  com.avaloq.tools.ddk.test.ui,
  com.avaloq.tools.ddk.check.runtime.core,
+ com.avaloq.tools.ddk.xtext,
  com.google.guava,
  junit-jupiter-api,
  junit-jupiter-engine

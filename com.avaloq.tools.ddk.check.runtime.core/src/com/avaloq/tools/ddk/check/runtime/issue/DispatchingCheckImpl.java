@@ -51,6 +51,10 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
   protected static class DisabledMethodTracker {
     private final Map<String, Boolean> disabled = new ConcurrentHashMap<>();
 
+    /** Set after the first entry in {@link #disabled}, so that lookups can be skipped until a check has failed. */
+    @SuppressWarnings("PMD.AvoidUsingVolatile")
+    private volatile boolean anyDisabled;
+
     /**
      * Marks the given method as disabled.
      *
@@ -59,6 +63,7 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
      */
     public void setDisabled(final String string) {
       disabled.putIfAbsent(string, Boolean.TRUE);
+      anyDisabled = true;
     }
 
     /**
@@ -69,7 +74,7 @@ public abstract class DispatchingCheckImpl extends AbstractCheckImpl {
      * @return {@code true} if disabled
      */
     public boolean isDisabled(final String string) {
-      return disabled.getOrDefault(string, Boolean.FALSE);
+      return anyDisabled && disabled.containsKey(string);
     }
   }
 
