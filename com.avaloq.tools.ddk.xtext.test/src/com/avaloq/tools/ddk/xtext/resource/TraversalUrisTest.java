@@ -41,6 +41,7 @@ import org.eclipse.xtext.linking.lazy.LazyURIEncoder;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.resource.IFragmentProvider;
 import org.eclipse.xtext.resource.IReferenceDescription;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.util.IAcceptor;
@@ -260,6 +261,45 @@ public class TraversalUrisTest {
       assertEquals(EcoreUtil.getURI(object), uris.getURI(object));
     }
     assertEquals(EcoreUtil.getURI(plain), new TraversalUris(plainResource).getURI(plain));
+  }
+
+  @Test
+  public void testFallsBackForOverriddenGetFragment() {
+    resourceA.setFragmentProvider(new ShortFragmentProvider() {
+      @Override
+      public String getFragment(final EObject object, final Fallback fallback) {
+        return "custom" + super.getFragment(object, fallback);
+      }
+    });
+    assertTrue(EcoreUtil.getURI(deepest).fragment().startsWith("custom"), "the override changes the fragments");
+    TraversalUris uris = new TraversalUris(resourceA);
+    for (EObject object : allContents(resourceA)) {
+      assertEquals(EcoreUtil.getURI(object), uris.getURI(object));
+    }
+  }
+
+  @Test
+  public void testFallsBackForOverriddenGetFragmentProvider() {
+    LazyLinkingResource resource = new LazyLinkingResource() {
+      @Override
+      public IFragmentProvider getFragmentProvider() {
+        return new ShortFragmentProvider();
+      }
+    };
+    resource.setURI(URI.createURI("test:/c.sample"));
+    resource.setFragmentProvider(new ShortFragmentProvider() {
+      @Override
+      public boolean appendFragmentSegment(final EObject object, final StringBuilder builder) {
+        builder.append('s');
+        return super.appendFragmentSegment(object, builder);
+      }
+    });
+    EObject leaf = setChild(addChild(addChild(createNode("root", resource), "a"), "b"), "c");
+    assertTrue(EcoreUtil.getURI(leaf).fragment().contains("s"), "the resource uses another provider than the one it returns");
+    TraversalUris uris = new TraversalUris(resource);
+    for (EObject object : allContents(resource)) {
+      assertEquals(EcoreUtil.getURI(object), uris.getURI(object));
+    }
   }
 
   @Test

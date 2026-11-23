@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.resource.IFragmentProvider.Fallback;
 import org.eclipse.xtext.resource.XtextResource;
 
 import com.avaloq.tools.ddk.xtext.linking.AbstractFragmentProvider;
@@ -41,7 +42,7 @@ public final class TraversalUris {
   public TraversalUris(final Resource resource) {
     this.resource = resource;
     if (resource instanceof XtextResource xtextResource && xtextResource.getFragmentProvider() instanceof AbstractFragmentProvider provider
-        && usesFragmentProvider(resource)) {
+        && usesFragmentProvider(xtextResource, provider)) {
       this.path = provider.createFragmentPath();
     } else {
       this.path = null;
@@ -49,16 +50,38 @@ public final class TraversalUris {
   }
 
   /**
-   * Returns whether the fragments of the given resource are those of its fragment provider, i.e. {@link XtextResource#getURIFragment(EObject)} is not
-   * overridden.
+   * Returns whether the fragments of the given resource are those computed by {@link FragmentPath}, i.e. neither
+   * {@link XtextResource#getURIFragment(EObject)}, {@link XtextResource#getFragmentProvider()} nor
+   * {@link AbstractFragmentProvider#getFragment(EObject, Fallback)} is overridden.
    *
    * @param resource
    *          the resource, must not be {@code null}
-   * @return {@code true} if the resource uses {@link XtextResource#getURIFragment(EObject)}
+   * @param provider
+   *          the fragment provider of the resource, must not be {@code null}
+   * @return {@code true} if the fragments of the resource are those of {@link AbstractFragmentProvider#getFragment(EObject, Fallback)}
    */
-  private static boolean usesFragmentProvider(final Resource resource) {
+  private static boolean usesFragmentProvider(final XtextResource resource, final AbstractFragmentProvider provider) {
+    return isDeclaredBy(resource.getClass(), XtextResource.class, "getURIFragment", EObject.class) //$NON-NLS-1$
+        && isDeclaredBy(resource.getClass(), XtextResource.class, "getFragmentProvider") //$NON-NLS-1$
+        && isDeclaredBy(provider.getClass(), AbstractFragmentProvider.class, "getFragment", EObject.class, Fallback.class); //$NON-NLS-1$
+  }
+
+  /**
+   * Returns whether the given public method of the given class is declared by the given class, i.e. not overridden by a subclass of it.
+   *
+   * @param type
+   *          the class, must not be {@code null}
+   * @param declaringClass
+   *          the expected declaring class, must not be {@code null}
+   * @param methodName
+   *          the name of the method, must not be {@code null}
+   * @param parameterTypes
+   *          the parameter types of the method, must not be {@code null}
+   * @return {@code true} if the method is declared by {@code declaringClass}
+   */
+  private static boolean isDeclaredBy(final Class<?> type, final Class<?> declaringClass, final String methodName, final Class<?>... parameterTypes) {
     try {
-      return resource.getClass().getMethod("getURIFragment", EObject.class).getDeclaringClass() == XtextResource.class; //$NON-NLS-1$
+      return type.getMethod(methodName, parameterTypes).getDeclaringClass() == declaringClass;
     } catch (NoSuchMethodException e) {
       return false;
     }

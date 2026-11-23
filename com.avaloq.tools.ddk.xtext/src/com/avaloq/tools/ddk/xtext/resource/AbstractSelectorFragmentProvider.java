@@ -26,8 +26,10 @@ import com.google.inject.Inject;
 /**
  * Fragment provider which understands fragments with selector path segments. E.g. <code>0/1/3(0=='foo')/0</code>.
  * <p>
- * Implementation classes should override {@link #getFragment(EObject, org.eclipse.xtext.resource.IFragmentProvider.Fallback)} and call
- * {@link #computeSelectorFragment(EObject, EStructuralFeature, boolean, org.eclipse.xtext.resource.IFragmentProvider.Fallback)} as appropriate.
+ * Implementation classes should override {@link #appendFragmentSegment(EObject, StringBuilder)} and call
+ * {@link #computeSelectorFragmentSegment(EObject, EStructuralFeature, boolean, StringBuilder)} as appropriate. Overriding
+ * {@link #getFragment(EObject, org.eclipse.xtext.resource.IFragmentProvider.Fallback)} is possible, but resource descriptions then compute each URI
+ * separately instead of along the containment path.
  */
 public abstract class AbstractSelectorFragmentProvider extends AbstractFragmentProvider {
 
