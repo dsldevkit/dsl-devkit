@@ -10,6 +10,9 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.jvmmodel;
 
+import static com.avaloq.tools.ddk.util.Strings.toFirstLower;
+import static com.avaloq.tools.ddk.util.Strings.toFirstUpper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -55,7 +59,6 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
-import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 import com.avaloq.tools.ddk.check.CheckConstants;
 import com.avaloq.tools.ddk.check.check.Check;
@@ -148,7 +151,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         }
         jvmTypesBuilder.setInitializer(it1, appendable -> {
           final StringConcatenation builder = new StringConcatenation();
-          builder.append("ImmutableMap.<String, String>builderWithExpectedSize(%d)\n".formatted(sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet().size()));
+          builder.append("ImmutableMap.<String, String>builderWithExpectedSize(" + sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet().size() + ")\n");
           for (final Map.Entry<String, String> qualifiedIssueCodeNameAndLabel : sortedUniqueQualifiedIssueCodeNamesAndLabels.entrySet()) {
             builder.append("  ");
             builder.append(".put(");
@@ -470,7 +473,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     // don't use them; we only need them for scoping based on this inferred model.
     final List<JvmMember> newMembers = Lists.newArrayList();
     // First the class
-    final JvmGenericType checkClass = jvmTypesBuilder.toClass(chk, StringExtensions.toFirstUpper(chk.getName()) + "Class", it -> {
+    final JvmGenericType checkClass = jvmTypesBuilder.toClass(chk, toFirstUpper(chk.getName(), Locale.ENGLISH) + "Class", it -> {
       it.getSuperTypes().add(_typeReferenceBuilder.typeRef(Object.class));
       it.setVisibility(JvmVisibility.PRIVATE);
       // Add a fields for the parameters, so that they can be linked. We suppress generation of these fields in the generator,
@@ -478,7 +481,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
       Iterables.addAll(it.getMembers(), IterableExtensions.map(IterableExtensions.filter(chk.getFormalParameters(), f -> f.getType() != null && f.getName() != null), f -> jvmTypesBuilder.toField(f, f.getName(), f.getType(), it1 -> it1.setFinal(true))));
     });
     newMembers.add(checkClass);
-    newMembers.add(jvmTypesBuilder.toField(chk, StringExtensions.toFirstLower(chk.getName()) + "Impl", _typeReferenceBuilder.typeRef(checkClass), it -> {
+    newMembers.add(jvmTypesBuilder.toField(chk, toFirstLower(chk.getName(), Locale.ENGLISH) + "Impl", _typeReferenceBuilder.typeRef(checkClass), it -> {
       jvmTypesBuilder.setInitializer(it, appendable -> appendable.append("new " + checkClass.getSimpleName() + "()"));
     }));
     Iterables.addAll(newMembers, IterableExtensions.filterNull(ListExtensions.map(chk.getContexts(), ctx -> createCheckCaller(ctx, chk))));
@@ -496,7 +499,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     if (contextVariableType != null) {
       simpleName = contextVariableType.getSimpleName();
     }
-    final String functionName = "run" + StringExtensions.toFirstUpper(simpleName);
+    final String functionName = "run" + toFirstUpper(simpleName, Locale.ENGLISH);
     // CPD-OFF — migrated Xtend generator code, kept faithful
     return jvmTypesBuilder.toMethod(ctx, functionName, _typeReferenceBuilder.typeRef("void"), it -> {
       final String parameterName = ctx.getContextVariable().getName() == null ? CheckConstants.IT : ctx.getContextVariable().getName();
@@ -543,7 +546,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     if (contextVariableType != null) {
       simpleName = contextVariableType.getSimpleName();
     }
-    final String functionName = StringExtensions.toFirstLower(chk.getName()) + simpleName;
+    final String functionName = toFirstLower(chk.getName(), Locale.ENGLISH) + simpleName;
     // To make the formal parameter visible, we have to generate quite a bit... I see no way to get the XVariableDeclaration for them
     // into the XBlockExpression of ctx.constraint. Just copying them doesn't work; modifies the source model!
     // Therefore, we generate something new: each check becomes a local class
@@ -559,7 +562,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         if (innerContextVariableType != null) {
           innerSimpleName = innerContextVariableType.getSimpleName();
         }
-        appendable.append(StringExtensions.toFirstLower(chk.getName()) + "Impl" + ".run" + StringExtensions.toFirstUpper(innerSimpleName) + "(context, diagnosticCollector);");
+        appendable.append(toFirstLower(chk.getName(), Locale.ENGLISH) + "Impl" + ".run" + toFirstUpper(innerSimpleName, Locale.ENGLISH) + "(context, diagnosticCollector);");
       });
     });
   }
@@ -596,7 +599,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     if (contextVariableType != null) {
       simpleName = contextVariableType.getSimpleName();
     }
-    return StringExtensions.toFirstLower(baseName) + simpleName;
+    return toFirstLower(baseName, Locale.ENGLISH) + simpleName;
   }
 
   // CheckCatalog
@@ -626,7 +629,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         final String parameterKey = CheckPropertiesGenerator.parameterKey(parameter, check);
         String defaultName = "null";
         if (parameter.getRight() != null) {
-          defaultName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase() + "_DEFAULT";
+          defaultName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase(Locale.ENGLISH) + "_DEFAULT";
           // Is generated into the PreferenceInitializer. Actually, since we do have it in the initializer, passing it here again
           // as default value is just a safety measure if something went wrong and the property shouldn't be set.
         }
@@ -662,7 +665,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
         }));
       } // end if
     } // end for
-    members.add(jvmTypesBuilder.toMethod(check, "get" + StringExtensions.toFirstUpper(check.getName()) + "Message", _typeReferenceBuilder.typeRef(String.class), it -> {
+    members.add(jvmTypesBuilder.toMethod(check, "get" + toFirstUpper(check.getName(), Locale.ENGLISH) + "Message", _typeReferenceBuilder.typeRef(String.class), it -> {
       jvmTypesBuilder.setDocumentation(it, CheckJvmModelInferrerUtil.GET_MESSAGE_DOCUMENTATION);
       // Generate one parameter "Object... bindings"
       it.setVarArgs(true);
@@ -672,7 +675,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     }));
     final JvmTypeReference severityType = checkedTypeRef(check, SeverityKind.class);
     if (severityType != null) {
-      members.add(jvmTypesBuilder.toMethod(check, "get" + StringExtensions.toFirstUpper(check.getName()) + "SeverityKind", severityType, it -> {
+      members.add(jvmTypesBuilder.toMethod(check, "get" + toFirstUpper(check.getName(), Locale.ENGLISH) + "SeverityKind", severityType, it -> {
         final StringConcatenation builder = new StringConcatenation();
         builder.append("Gets the {@link SeverityKind severity kind} of check");
         builder.newLine();
@@ -738,7 +741,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
     for (final Check c : allChecks) {
       for (final FormalParameter parameter : c.getFormalParameters()) {
         if (parameter.getType() != null && parameter.getRight() != null) {
-          final String defaultName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase() + "_DEFAULT";
+          final String defaultName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase(Locale.ENGLISH) + "_DEFAULT";
           result.add(jvmTypesBuilder.toField(parameter, defaultName, parameter.getType(), it -> {
             it.setVisibility(JvmVisibility.PUBLIC);
             it.setFinal(true);
@@ -791,7 +794,7 @@ public class CheckJvmModelInferrer extends AbstractModelInferrer {
             for (final FormalParameter parameter : c.getFormalParameters()) {
               if (parameter.getRight() != null) {
                 final String key = CheckPropertiesGenerator.parameterKey(parameter, c);
-                final String defaultFieldName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase() + "_DEFAULT";
+                final String defaultFieldName = CheckGeneratorExtensions.splitCamelCase(checkGeneratorNaming.formalParameterGetterName(parameter)).toUpperCase(Locale.ENGLISH) + "_DEFAULT";
                 final JvmTypeReference jvmType = parameter.getType();
                 final String typeName = jvmType.getQualifiedName();
                 if (typeName != null && typeName.startsWith("java.util.List<")) {

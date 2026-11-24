@@ -208,7 +208,7 @@ public final class Index implements IIndex {
       if (name != null) {
         final String extension = uri.fileExtension();
         final String result = URI.decode(extension != null ? name + '.' + extension : name);
-        return result.toUpperCase(Locale.getDefault());
+        return result.toUpperCase(Locale.ENGLISH);
       }
       return null;
     }

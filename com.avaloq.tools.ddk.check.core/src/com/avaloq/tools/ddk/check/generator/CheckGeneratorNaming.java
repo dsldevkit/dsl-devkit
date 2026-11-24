@@ -10,11 +10,15 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.generator;
 
+import static com.avaloq.tools.ddk.util.Strings.toFirstLower;
+import static com.avaloq.tools.ddk.util.Strings.toFirstUpper;
+
+import java.util.Locale;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.naming.QualifiedName;
-import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
@@ -132,19 +136,19 @@ public class CheckGeneratorNaming {
   public String formalParameterGetterName(final FormalParameter p) {
     final Check check = (Check) p.eContainer();
     return "get"
-      + StringExtensions.toFirstUpper(check.getName())
+      + toFirstUpper(check.getName(), Locale.ENGLISH)
       + "_"
-      + StringExtensions.toFirstUpper(p.getName());
+      + toFirstUpper(p.getName(), Locale.ENGLISH);
   }
 
   /* Gets the name of the getter method generated for a field. */
   public String fieldGetterName(final String fieldName) {
-    return "get" + StringExtensions.toFirstUpper(fieldName);
+    return "get" + toFirstUpper(fieldName, Locale.ENGLISH);
   }
 
   /* Check catalog instance name in the validator */
   public String catalogInstanceName(final EObject object) {
-    return StringExtensions.toFirstLower(EcoreUtil2.getContainerOfType(object, CheckCatalog.class).getName()) + "Catalog";
+    return toFirstLower(EcoreUtil2.getContainerOfType(object, CheckCatalog.class).getName(), Locale.ENGLISH) + "Catalog";
   }
 
   /* Check issue code to label map field name in the catalog */
@@ -164,21 +168,21 @@ public class CheckGeneratorNaming {
 
   /* Gets the prefix for the context id (used in contexts.xml) */
   public String getContextIdPrefix(final QualifiedName catalog) {
-    return catalog.getLastSegment().toLowerCase() + "_"; // TODO make context id use fully qualified catalog names
+    return catalog.getLastSegment().toLowerCase(Locale.ENGLISH) + "_"; // TODO make context id use fully qualified catalog names
   }
 
   /* Gets the full context id (used in contexts.xml) */
   public String getContextId(final Check check) {
     final CheckCatalog catalog = parent(check, CheckCatalog.class);
     return getContextIdPrefix(nameProvider.apply(catalog))
-      + check.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase();
+      + check.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase(Locale.ENGLISH);
   }
 
   /* Gets the full context id (used in contexts.xml) */
   public String getContextId(final Category category) {
     final CheckCatalog catalog = parent(category, CheckCatalog.class);
     return getContextIdPrefix(nameProvider.apply(catalog))
-      + category.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase();
+      + category.getLabel().replaceAll(" ", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase(Locale.ENGLISH);
   }
 
 }

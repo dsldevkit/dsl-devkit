@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: com.avaloq.tools.ddk.check.core
 Bundle-SymbolicName: com.avaloq.tools.ddk.check.core;singleton:=true
-Bundle-Version: 17.3.5.qualifier
+Bundle-Version: 17.3.6.qualifier
 Bundle-Vendor: Avaloq Group AG
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
@@ -25,6 +25,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.jface.text,
  org.eclipse.xtext.xbase.lib,
  com.avaloq.tools.ddk.xtext,
+ com.avaloq.tools.ddk,
  org.apache.commons.lang3,
  org.apache.commons.text,
  org.objectweb.asm;resolution:=optional

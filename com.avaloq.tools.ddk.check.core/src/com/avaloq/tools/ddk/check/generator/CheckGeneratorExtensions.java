@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,7 +77,7 @@ public class CheckGeneratorExtensions {
   /* Gets the simple issue code name for a check. */
   protected static String _issueCode(final Check check) {
     if (null != check.getName()) {
-      return splitCamelCase(check.getName()).toUpperCase();
+      return splitCamelCase(check.getName()).toUpperCase(Locale.ENGLISH);
     } else {
       return "ERROR_ISSUE_CODE_NAME_CHECK"; // should only happen if the ID is missing, which will fail a validation
     }
@@ -85,7 +86,7 @@ public class CheckGeneratorExtensions {
   /* Gets the simple issue code name for an issue expression. */
   protected static String _issueCode(final XIssueExpression issue) {
     if (issue.getIssueCode() != null) {
-      return splitCamelCase(issue.getIssueCode()).toUpperCase();
+      return splitCamelCase(issue.getIssueCode()).toUpperCase(Locale.ENGLISH);
     } else if (issue.getCheck() != null && !issue.getCheck().eIsProxy()) {
       return issueCode(issue.getCheck());
     } else if (parent(issue, Check.class) != null) {

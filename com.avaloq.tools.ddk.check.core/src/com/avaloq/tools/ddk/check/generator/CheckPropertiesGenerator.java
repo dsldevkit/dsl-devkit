@@ -10,6 +10,8 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.generator;
 
+import java.util.Locale;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
 
@@ -37,7 +39,7 @@ public final class CheckPropertiesGenerator {
    * @return the severity key
    */
   public static String checkSeverityKey(final Check check) {
-    return issueCodeKeyPrefix(check).toUpperCase() + "$SEVERITY";
+    return issueCodeKeyPrefix(check).toUpperCase(Locale.ENGLISH) + "$SEVERITY";
   }
 
   /**
@@ -76,7 +78,7 @@ public final class CheckPropertiesGenerator {
    * @return the parameter key
    */
   public static String parameterKey(final String parameterName, final String issueCode) {
-    return (issueCode + '.' + parameterName).toUpperCase() + "$PARAMETER";
+    return (issueCode + '.' + parameterName).toUpperCase(Locale.ENGLISH) + "$PARAMETER";
   }
 
   /**

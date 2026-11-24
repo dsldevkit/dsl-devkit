@@ -10,8 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.generator;
 
+import static com.avaloq.tools.ddk.util.Strings.toFirstUpper;
+
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -21,7 +24,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmIdentifiableElement;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.util.ITextRegion;
-import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
 import org.eclipse.xtext.xbase.XAbstractFeatureCall;
 import org.eclipse.xtext.xbase.XCollectionLiteral;
@@ -359,7 +361,7 @@ public class CheckCompiler extends XbaseCompiler {
     }
 
     // message
-    b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(Strings.toFirstUpper(check.getName())).append("Message(");
+    b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(toFirstUpper(check.getName(), Locale.ENGLISH)).append("Message(");
     boolean first = true;
     for (XExpression param : expr.getMessageParameters()) {
       if (!first) {
@@ -372,7 +374,7 @@ public class CheckCompiler extends XbaseCompiler {
 
     b.append(", // Message").newLine();
     // severity kind
-    b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(Strings.toFirstUpper(check.getName()));
+    b.append(generatorNaming.catalogInstanceName(check)).append(".get").append(toFirstUpper(check.getName(), Locale.ENGLISH));
     b.append("SeverityKind(");
     appendMarkerObject(expr, b, eObjectType);
     b.append(")");
@@ -439,7 +441,7 @@ public class CheckCompiler extends XbaseCompiler {
     final EStructuralFeature markerFeature = expr.getMarkerFeature();
     if (markerFeature != null) {
       b.append(findEPackageInterfaceType(markerFeature, expr));
-      b.append(".eINSTANCE.get").append(markerFeature.getEContainingClass().getName()).append("_").append(Strings.toFirstUpper(markerFeature.getName())).append("()");
+      b.append(".eINSTANCE.get").append(markerFeature.getEContainingClass().getName()).append("_").append(toFirstUpper(markerFeature.getName(), Locale.ENGLISH)).append("()");
     } else {
       b.append("null");
     }
@@ -451,7 +453,7 @@ public class CheckCompiler extends XbaseCompiler {
 
   private String getLoggerString(final XIssueExpression expr) {
     Check check = generatorExtensions.issuedCheck(expr);
-    return "\"An issue was found in " + generatorNaming.catalogInstanceName(check) + "." + Strings.toFirstUpper(check.getName()) //
+    return "\"An issue was found in " + generatorNaming.catalogInstanceName(check) + "." + toFirstUpper(check.getName(), Locale.ENGLISH) //
         + " for \" + " + getContextImplicitVariableName(expr) + ".eResource().getURI() + \" at \" + stackTraceElements[1].toString()";
   }
 
