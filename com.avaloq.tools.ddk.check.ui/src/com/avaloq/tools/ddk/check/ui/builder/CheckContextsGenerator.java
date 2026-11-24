@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.ui.builder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -94,7 +95,7 @@ public class CheckContextsGenerator {
 
     // all context ids belonging to the catalog
     Set<String> ids = Sets.newHashSet();
-    String contextIdPrefix = projectHelper.getCatalog(buildContext, uri).getName().toLowerCase() + "_";
+    String contextIdPrefix = projectHelper.getCatalog(buildContext, uri).getName().toLowerCase(Locale.ENGLISH) + "_";
     for (CtxHelpContext context : contexts) {
       if (context.getId().startsWith(contextIdPrefix)) {
         ids.add(context.getId());
@@ -200,7 +201,7 @@ public class CheckContextsGenerator {
       for (CtxHelpContext context : contexts) {
         Iterable<IEObjectDescription> catalogs = delta.getOld().getExportedObjectsByType(CheckPackage.Literals.CHECK_CATALOG);
         for (IEObjectDescription catalog : catalogs) {
-          if (context.getId().startsWith(catalog.getName().getLastSegment().toLowerCase() + "_")) {
+          if (context.getId().startsWith(catalog.getName().getLastSegment().toLowerCase(Locale.ENGLISH) + "_")) {
             root.removeChild(context);
           }
         }

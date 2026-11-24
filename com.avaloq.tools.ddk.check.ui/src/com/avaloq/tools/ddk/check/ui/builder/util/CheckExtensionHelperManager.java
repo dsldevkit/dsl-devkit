@@ -13,6 +13,7 @@ package com.avaloq.tools.ddk.check.ui.builder.util;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -146,7 +147,7 @@ public class CheckExtensionHelperManager {
     default: // ALL
       break;
     }
-    return result.toString().toLowerCase();
+    return result.toString().toLowerCase(Locale.ENGLISH);
   }
 
   /**

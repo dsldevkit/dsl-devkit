@@ -10,8 +10,11 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.contentassist;
 
+import static com.avaloq.tools.ddk.util.Strings.toFirstUpper;
+
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +33,6 @@ import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider.Filter;
 import org.eclipse.xtext.common.ui.contentassist.TerminalsProposalProvider;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
-import org.eclipse.xtext.util.Strings;
 import org.eclipse.xtext.xbase.conversion.XbaseQualifiedNameValueConverter;
 
 import com.avaloq.tools.ddk.check.CheckConstants;
@@ -124,7 +126,7 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
     public void complete_ID(final EObject model, final RuleCall ruleCall, final ContentAssistContext context, final ICompletionProposalAcceptor acceptor) {
       // CHECKSTYLE:ON
       if (CheckConstants.IT.equalsIgnoreCase(getAssignedFeature(ruleCall))) { // TODO this is ugly
-        acceptor.accept(createCompletionProposal(getAssignedFeature(ruleCall).toLowerCase(), getAssignedFeature(ruleCall).toLowerCase(), null, context));
+        acceptor.accept(createCompletionProposal(getAssignedFeature(ruleCall).toLowerCase(Locale.ENGLISH), getAssignedFeature(ruleCall).toLowerCase(Locale.ENGLISH), null, context));
         return;
       }
       super.complete_ID(model, ruleCall, context, acceptor);
@@ -141,8 +143,8 @@ public class CheckProposalProvider extends AbstractCheckProposalProvider {
       Assignment ass = GrammarUtil.containingAssignment(call);
       if (ass != null) {
         String result = ass.getFeature();
-        if (result.equals(result.toLowerCase())) { // NOPMD
-          result = Strings.toFirstUpper(result);
+        if (result.equals(result.toLowerCase(Locale.ENGLISH))) { // NOPMD
+          result = toFirstUpper(result, Locale.ENGLISH);
         }
         return result;
       }
