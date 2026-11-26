@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.concurrent.locks.StampedLock;
-import java.util.function.ToIntFunction;
+import java.util.function.ToIntBiFunction;
 
 
 /**
@@ -27,10 +27,10 @@ import java.util.function.ToIntFunction;
  * {@link #get(int)} takes O(log(n/B)) time.
  * <p>
  * Supports {@link #get(int)}, {@link #add(int, Object)}, {@link #size()}, {@link #clear()}, {@link #toArray()}, {@link #trimToSize()}, iteration, a
- * {@link #binarySearch(ToIntFunction) binary search} which is faster than one with {@link #get(int)} and {@link #copy(Object[], int) copying a range}, which
+ * {@link #binarySearch(Object, ToIntBiFunction) binary search} which is faster than one with {@link #get(int)} and {@link #copy(Object[], int) copying a range}, which
  * is faster than getting its elements one by one. Other modifications are not supported.
  * <p>
- * The list must be modified by one thread at a time. {@link #get(int)}, {@link #binarySearch(ToIntFunction)}, {@link #toArray()} and
+ * The list must be modified by one thread at a time. {@link #get(int)}, {@link #binarySearch(Object, ToIntBiFunction)}, {@link #toArray()} and
  * {@link #copy(Object[], int)} may run concurrently with a modification. They then see the list before or after it, never a half-done modification, so that
  * they do not fail where reads of an {@link ArrayList} in practice do not fail either.
  *
@@ -152,16 +152,23 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
    * The search reads without a lock first and validates once, at the end, that no modification ran meanwhile; else it searches again. So the comparison may
    * be called on an element which a concurrent {@link #add(int, Object)} is still publishing, and which it may see partly initialized. It must not fail then;
    * whatever it returns, the search discards the result.
+   * <p>
+   * The key is passed to the comparison, so that a caller does not have to allocate a comparison which captures it for every search, but can pass one which
+   * captures nothing.
    *
+   * @param <K>
+   *          key type
+   * @param key
+   *          the searched key, passed to the comparison
    * @param comparison
-   *          compares an element with the searched key: negative if the element is smaller, zero if equal and positive if greater, must not be {@code null},
-   *          and must not fail on an element seen partly initialized
+   *          compares an element with the key: negative if the element is smaller, zero if equal and positive if greater, must not be {@code null}, and must
+   *          not fail on an element seen partly initialized
    * @return index of an element equal to the key, or {@code (-(insertion point) - 1)}
    */
-  int binarySearch(final ToIntFunction<? super E> comparison) {
+  <K> int binarySearch(final K key, final ToIntBiFunction<? super E, ? super K> comparison) {
     for (int attempt = 0; attempt < OPTIMISTIC_READ_ATTEMPTS; attempt++) {
       long stamp = lock.tryOptimisticRead();
-      int result = search(comparison);
+      int result = search(key, comparison);
       if (lock.validate(stamp)) {
         return result;
       }
@@ -169,24 +176,28 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
     }
     long stamp = lock.readLock();
     try {
-      return search(comparison);
+      return search(key, comparison);
     } finally {
       lock.unlockRead(stamp);
     }
   }
 
   /**
-   * Implements {@link #binarySearch(ToIntFunction)}. Since that calls this without a lock first, it must not fail on a state which a concurrent modification
+   * Implements {@link #binarySearch(Object, ToIntBiFunction)}. Since that calls this without a lock first, it must not fail on a state which a concurrent modification
    * left inconsistent: it bounds every index by the arrays it reads and ends at a {@code null} element, which a consistent state does not have. It does not
    * validate the read before comparing an element, since a validation per comparison costs a load fence and a volatile read; the caller validates the read
    * once after the search and discards its result if a modification ran meanwhile.
    *
+   * @param <K>
+   *          key type
+   * @param key
+   *          the searched key
    * @param comparison
-   *          compares an element with the searched key, must not be {@code null}
+   *          compares an element with the key, must not be {@code null}
    * @return index of an element equal to the key, or {@code (-(insertion point) - 1)}, or any value if the state is inconsistent
    */
   @SuppressWarnings("unchecked")
-  private int search(final ToIntFunction<? super E> comparison) {
+  private <K> int search(final K key, final ToIntBiFunction<? super E, ? super K> comparison) {
     Object[][] currentChunks = chunks;
     int[] currentStarts = starts;
     int count = Math.min(chunkCount, Math.min(currentChunks.length, currentStarts.length));
@@ -203,7 +214,7 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
       if (first == null) {
         return -1;
       }
-      int cmp = comparison.applyAsInt((E) first);
+      int cmp = comparison.applyAsInt((E) first, key);
       if (cmp < 0) {
         low = mid;
       } else if (cmp > 0) {
@@ -226,7 +237,7 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
       if (element == null) {
         return -1;
       }
-      int cmp = comparison.applyAsInt((E) element);
+      int cmp = comparison.applyAsInt((E) element, key);
       if (cmp < 0) {
         lowIdx = mid + 1;
       } else if (cmp > 0) {
