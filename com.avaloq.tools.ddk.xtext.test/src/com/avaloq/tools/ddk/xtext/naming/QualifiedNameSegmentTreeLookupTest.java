@@ -326,6 +326,83 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   /**
+   * Visits all children of small and large nodes: to match recursive and prefix patterns, to find the names mapped to a value and to remove a value from all
+   * names, before and after trimming. Pattern matches come in depth-first order, which for small and large nodes alike is the order of the names.
+   */
+  @Test
+  public void testTraversalsOfSmallAndLargeNodes() {
+    List<QualifiedName> names = new ArrayList<>();
+    // the root and big are large, small and the children of both are small
+    for (int i = 0; i < 5000; i++) {
+      names.add(name(String.format("t%04d", i)));
+      names.add(name(String.format("big.c%04d", i)));
+      if (i % 100 == 0) {
+        names.add(name(String.format("big.c%04d.g1", i)));
+        names.add(name(String.format("big.c%04d.g2", i)));
+      }
+    }
+    for (int i = 0; i < 20; i++) {
+      names.add(name(String.format("small.c%02d", i)));
+      names.add(name(String.format("small.c%02d.g1", i)));
+      names.add(name(String.format("small.c%02d.g2", i)));
+    }
+    Collections.shuffle(names, new Random(1));
+    QualifiedNameSegmentTreeLookup<URI> tree = new QualifiedNameSegmentTreeLookup<URI>(URI.class, false);
+    Map<QualifiedName, List<URI>> expected = new HashMap<>();
+    for (int i = 0; i < names.size(); i++) {
+      QualifiedName qn = names.get(i);
+      tree.put(qn, uri(qn));
+      expected.put(qn, new ArrayList<>(List.of(uri(qn))));
+      if (i % 3 == 0) {
+        tree.put(qn, SHARED);
+        expected.get(qn).add(SHARED);
+      }
+    }
+    assertTraversals(tree, expected);
+    tree.trimToSize();
+    assertTraversals(tree, expected);
+
+    // visits all nodes to remove the value
+    tree.removeMappings(SHARED);
+    expected.values().forEach(values -> values.remove(SHARED));
+    assertTraversals(tree, expected);
+    for (Map.Entry<QualifiedName, List<URI>> entry : expected.entrySet()) {
+      assertEquals(entry.getValue(), tree.get(entry.getKey()), entry.getKey().toString());
+    }
+  }
+
+  /**
+   * Asserts that pattern matches and the names mapped to {@link #SHARED} are the expected ones.
+   *
+   * @param tree
+   *          lookup to traverse, must not be {@code null}
+   * @param expected
+   *          expected values of each name, must not be {@code null}
+   */
+  private void assertTraversals(final QualifiedNameLookup<URI> tree, final Map<QualifiedName, List<URI>> expected) {
+    List<QualifiedName> sorted = new ArrayList<>(expected.keySet());
+    Collections.sort(sorted);
+    for (String pattern : List.of("t*", "t**", "t00*", "t49**", "big.*", "big.**", "big.c00*", "big.c01**", "big.c0100.*", "small.*", "small.**", "small.c1*",
+        "small.c01.*")) {
+      QualifiedNamePattern qnPattern = pattern(pattern);
+      List<URI> matches = new ArrayList<>();
+      for (QualifiedName qn : sorted) {
+        if (qnPattern.matches(qn)) {
+          matches.addAll(expected.get(qn));
+        }
+      }
+      assertEquals(matches, tree.get(qnPattern, false), pattern);
+    }
+    List<QualifiedName> shared = new ArrayList<>();
+    expected.forEach((qn, values) -> {
+      if (values.contains(SHARED)) {
+        shared.add(qn);
+      }
+    });
+    assertEquals(ImmutableMultiset.copyOf(shared), ImmutableMultiset.copyOf(tree.getMappings(SHARED)));
+  }
+
+  /**
    * Serializes and deserializes the given lookup, accepting no other lists than {@link ArrayList} in the serialized form.
    *
    * @param tree

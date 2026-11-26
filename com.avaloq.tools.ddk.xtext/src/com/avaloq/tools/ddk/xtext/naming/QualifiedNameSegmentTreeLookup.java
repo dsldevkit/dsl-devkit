@@ -72,6 +72,14 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
 
     private String segment;
     protected Object[] values;
+    /**
+     * The children, sorted by segment: an {@link ArrayList} for a small node, a {@link ChunkedList} for a large one.
+     * <p>
+     * Loops over all children iterate over those of a small node through a variable of type {@link ArrayList}: the call of its iterator then has one
+     * receiver type, so that escape analysis keeps the iterator off the heap, which it does not when the call sees several list types. Such a loop fails on a
+     * concurrent insertion, as iterating over an {@link ArrayList} does. The loops visit a {@link ChunkedList#toArray() copy} of the children of a large node
+     * instead, since getting them one by one searches the chunks for each; the copy is not affected by a concurrent insertion.
+     */
     protected List<SegmentNode> children;
 
     @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public no-arg constructor required by Externalizable
@@ -228,20 +236,42 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      *          node to stop visit process on when found, must not be {@code null}
      * @return {@code false} when the search should stop because the marker {@code stopOn} node was found
      */
+    @SuppressWarnings("PMD.LooseCoupling") // see children
     private boolean visitChildren(final Visitor visitor, final SegmentNode stopOn) {
-      if (children == null) {
-        return true;
-      }
-      for (SegmentNode child : childrenToVisit()) {
-        if (stopOn.equals(child)) {
-          return false;
+      List<SegmentNode> list = children;
+      if (list instanceof ArrayList<SegmentNode> arrayList) {
+        for (SegmentNode child : arrayList) {
+          if (!visitChild(child, visitor, stopOn)) {
+            return false;
+          }
         }
-        visitor.visit(child);
-        if (!child.visitChildren(visitor, stopOn)) {
-          return false;
+      } else if (list != null) {
+        for (Object child : list.toArray()) {
+          if (!visitChild((SegmentNode) child, visitor, stopOn)) {
+            return false;
+          }
         }
       }
       return true;
+    }
+
+    /**
+     * Visits the given child and its children, see {@link #visitChildren(Visitor, SegmentNode)}.
+     *
+     * @param child
+     *          child to visit, must not be {@code null}
+     * @param visitor
+     *          visitor to use, must not be {@code null}
+     * @param stopOn
+     *          node to stop visit process on when found, must not be {@code null}
+     * @return {@code false} when the search should stop because the marker {@code stopOn} node was found
+     */
+    private static boolean visitChild(final SegmentNode child, final Visitor visitor, final SegmentNode stopOn) {
+      if (stopOn.equals(child)) {
+        return false;
+      }
+      visitor.visit(child);
+      return child.visitChildren(visitor, stopOn);
     }
 
     /**
@@ -296,34 +326,23 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     }
 
     /**
-     * Returns the children for visiting all of them. Those of a large node are a copy, since getting them one by one searches the chunks for each child. The
-     * copy is not affected by a concurrent insertion, while iterating over the children of a small node then fails.
-     *
-     * @return the children, must not be modified; {@link #children} must not be {@code null}
-     */
-    @SuppressWarnings({"unchecked", "PMD.LooseCoupling"}) // only a ChunkedList copies safely during an insertion
-    private List<SegmentNode> childrenToVisit() {
-      List<SegmentNode> list = children;
-      return list instanceof ChunkedList ? (List<SegmentNode>) (List<?>) Arrays.asList(list.toArray()) : list;
-    }
-
-    /**
      * Trims the children of this node and of the nodes below it to their number. The children of a small node are copied into a new list of their size
      * instead of trimming their list, since that counts as a modification for its iterators and would fail a concurrent lookup which iterates over them.
      */
-    @SuppressWarnings("PMD.LooseCoupling") // only a ChunkedList trims its chunks
+    @SuppressWarnings("PMD.LooseCoupling") // only a ChunkedList trims its chunks; see children
     void trimToSize() {
       List<SegmentNode> list = children;
-      if (list == null) {
-        return;
-      }
       if (list instanceof ChunkedList<SegmentNode> chunkedList) {
         chunkedList.trimToSize();
-      } else {
-        children = new ArrayList<>(list);
-      }
-      for (SegmentNode child : childrenToVisit()) {
-        child.trimToSize();
+        for (Object child : chunkedList.toArray()) {
+          ((SegmentNode) child).trimToSize();
+        }
+      } else if (list != null) {
+        ArrayList<SegmentNode> trimmed = new ArrayList<>(list);
+        children = trimmed;
+        for (SegmentNode child : trimmed) {
+          child.trimToSize();
+        }
       }
     }
 
@@ -333,25 +352,32 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
      * @param visitor
      *          visitor to visit this node with, must not be {@code null}
      */
+    @SuppressWarnings("PMD.LooseCoupling") // see children
     void accept(final Visitor visitor) {
       visitor.visit(this);
-      if (children != null) {
-        for (SegmentNode child : childrenToVisit()) {
+      List<SegmentNode> list = children;
+      if (list instanceof ArrayList<SegmentNode> arrayList) {
+        for (SegmentNode child : arrayList) {
           child.accept(visitor);
+        }
+      } else if (list != null) {
+        for (Object child : list.toArray()) {
+          ((SegmentNode) child).accept(visitor);
         }
       }
     }
 
+    @SuppressWarnings("PMD.LooseCoupling") // see children
     List<List<String>> getMappings(final Object value) {
       List<List<String>> result = new ArrayList<>();
-      if (children != null) {
-        for (SegmentNode node : childrenToVisit()) {
-          for (List<String> mapping : node.getMappings(value)) {
-            if (!segment.isBlank()) {
-              mapping.add(0, segment);
-            }
-            result.add(mapping);
-          }
+      List<SegmentNode> list = children;
+      if (list instanceof ArrayList<SegmentNode> arrayList) {
+        for (SegmentNode child : arrayList) {
+          addMappings(child, value, result);
+        }
+      } else if (list != null) {
+        for (Object child : list.toArray()) {
+          addMappings((SegmentNode) child, value, result);
         }
       }
       if (ArrayUtils.find(values, value) >= 0) {
@@ -361,6 +387,25 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
       }
 
       return result;
+    }
+
+    /**
+     * Adds the names, as lists of segments from this node on, which the given child and the nodes below it map to the given value.
+     *
+     * @param child
+     *          child of this node, must not be {@code null}
+     * @param value
+     *          the value
+     * @param result
+     *          the names to add to, must not be {@code null}
+     */
+    private void addMappings(final SegmentNode child, final Object value, final List<List<String>> result) {
+      for (List<String> mapping : child.getMappings(value)) {
+        if (!segment.isBlank()) {
+          mapping.add(0, segment);
+        }
+        result.add(mapping);
+      }
     }
 
     /**
