@@ -420,7 +420,7 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
     @SuppressWarnings("PMD.LooseCoupling") // a ChunkedList searches faster itself than through get
     protected int binarySearch(final List<SegmentNode> list, final String key) {
       if (list instanceof ChunkedList<SegmentNode> chunkedList) {
-        return chunkedList.binarySearch(node -> node.segment.compareTo(key));
+        return chunkedList.binarySearch(node -> compareSegment(node, key));
       }
       int low = 0;
       int high = list.size() - 1;
@@ -439,6 +439,22 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
         }
       }
       return -(low + 1); // key not found
+    }
+
+    /**
+     * Compares the segment of the given node with the given key. A {@link ChunkedList#binarySearch(java.util.function.ToIntFunction) search} without a lock
+     * may compare a node which a concurrent insertion is still publishing and see its segment as {@code null}, since it is not final; the search then
+     * discards the result.
+     *
+     * @param node
+     *          node to compare, must not be {@code null}
+     * @param key
+     *          key, corresponding to {@link SegmentNode#segment}, must not be {@code null}
+     * @return negative if the segment of the node is smaller than the key, zero if equal or {@code null}, and positive if greater
+     */
+    private static int compareSegment(final SegmentNode node, final String key) {
+      String nodeSegment = node.segment;
+      return nodeSegment == null ? 0 : nodeSegment.compareTo(key);
     }
 
     @Override
