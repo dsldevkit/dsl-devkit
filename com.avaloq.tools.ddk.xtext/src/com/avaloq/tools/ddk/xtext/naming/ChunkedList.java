@@ -148,15 +148,20 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
    * Searches this list, which must be sorted consistently with the given comparison, in O(log(n)) time like
    * {@link java.util.Collections#binarySearch(java.util.List, Object, java.util.Comparator)}. Unlike a search with {@link #get(int)}, it searches the chunks
    * first and then one chunk, instead of the chunks again for every element it compares.
+   * <p>
+   * The search reads without a lock first and validates once, at the end, that no modification ran meanwhile; else it searches again. So the comparison may
+   * be called on an element which a concurrent {@link #add(int, Object)} is still publishing, and which it may see partly initialized. It must not fail then;
+   * whatever it returns, the search discards the result.
    *
    * @param comparison
-   *          compares an element with the searched key: negative if the element is smaller, zero if equal and positive if greater, must not be {@code null}
+   *          compares an element with the searched key: negative if the element is smaller, zero if equal and positive if greater, must not be {@code null},
+   *          and must not fail on an element seen partly initialized
    * @return index of an element equal to the key, or {@code (-(insertion point) - 1)}
    */
   int binarySearch(final ToIntFunction<? super E> comparison) {
     for (int attempt = 0; attempt < OPTIMISTIC_READ_ATTEMPTS; attempt++) {
       long stamp = lock.tryOptimisticRead();
-      int result = search(comparison, stamp);
+      int result = search(comparison);
       if (lock.validate(stamp)) {
         return result;
       }
@@ -164,7 +169,7 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
     }
     long stamp = lock.readLock();
     try {
-      return search(comparison, stamp);
+      return search(comparison);
     } finally {
       lock.unlockRead(stamp);
     }
@@ -172,17 +177,16 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
 
   /**
    * Implements {@link #binarySearch(ToIntFunction)}. Since that calls this without a lock first, it must not fail on a state which a concurrent modification
-   * left inconsistent. In a consistent state, no element is {@code null}. It validates the stamp before comparing an element, so that the comparison sees
-   * the element as it was added, and not an element which a concurrent modification is adding.
+   * left inconsistent: it bounds every index by the arrays it reads and ends at a {@code null} element, which a consistent state does not have. It does not
+   * validate the read before comparing an element, since a validation per comparison costs a load fence and a volatile read; the caller validates the read
+   * once after the search and discards its result if a modification ran meanwhile.
    *
    * @param comparison
    *          compares an element with the searched key, must not be {@code null}
-   * @param stamp
-   *          the stamp of the optimistic read or the read lock
    * @return index of an element equal to the key, or {@code (-(insertion point) - 1)}, or any value if the state is inconsistent
    */
   @SuppressWarnings("unchecked")
-  private int search(final ToIntFunction<? super E> comparison, final long stamp) {
+  private int search(final ToIntFunction<? super E> comparison) {
     Object[][] currentChunks = chunks;
     int[] currentStarts = starts;
     int count = Math.min(chunkCount, Math.min(currentChunks.length, currentStarts.length));
@@ -196,7 +200,7 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
       int mid = (low + high + 1) >>> 1;
       Object[] chunk = currentChunks[mid];
       Object first = chunk != null && chunk.length > 0 ? chunk[0] : null;
-      if (first == null || !lock.validate(stamp)) {
+      if (first == null) {
         return -1;
       }
       int cmp = comparison.applyAsInt((E) first);
@@ -219,7 +223,7 @@ final class ChunkedList<E> extends AbstractList<E> implements RandomAccess {
     while (lowIdx <= highIdx) {
       int mid = (lowIdx + highIdx) >>> 1;
       Object element = chunk[mid];
-      if (element == null || !lock.validate(stamp)) {
+      if (element == null) {
         return -1;
       }
       int cmp = comparison.applyAsInt((E) element);

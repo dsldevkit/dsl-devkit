@@ -12,6 +12,7 @@ package com.avaloq.tools.ddk.xtext.naming;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -23,6 +24,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -68,6 +70,13 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
   /** A lookup throws if a clear lands in the short window between searching a child and getting it; few clears with long reads in between keep that rare. */
   private static final int CLEARS = 2;
   private static final int CLEARED = 20_000;
+
+  /** The number of names before those inserted by the test of searches in a growing node; only every other one is put. */
+  private static final int LOWER = 12_000;
+  private static final int SEARCH_ROUNDS = 5;
+  /** The name of a growing node which sorts between the inserted ones. */
+  private static final char ABSENT_SUFFIX = '~';
+  private static final String NEVER_PUT_BETWEEN = "values of a name between inserted ones which was never put";
 
   /** The number of children of each small node in the trimming test. */
   private static final int TRIMMED_CHILDREN = 8;
@@ -171,6 +180,48 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
 
       for (QualifiedName name : names) {
         assertFound(lookup, name);
+      }
+    }
+  }
+
+  /**
+   * A large root grows by names in random order, which splits its chunks all over its upper part and shifts the chunks after them, while readers search it
+   * for names below the inserted ones, which keep their index, and for names which are never inserted, below them and between them. A search does not fail,
+   * finds a name below the inserted ones with its own values, and does not match a name which was never inserted.
+   */
+  @Test
+  public void testSearchesWhileLargeNodeGrows() throws InterruptedException {
+    for (int round = 0; round < SEARCH_ROUNDS; round++) {
+      Random names = new Random(round);
+      Set<String> unique = new LinkedHashSet<>();
+      while (unique.size() < INSERTS) {
+        // after all lower names, which start with p
+        unique.add('q' + Integer.toString(names.nextInt(1_000_000_000), Character.MAX_RADIX));
+      }
+      String[] inserted = unique.toArray(new String[0]);
+      QualifiedNameLookup<String> lookup = new QualifiedNameSegmentTreeLookup<>(String.class, round % 2 == 0);
+      for (int i = 0; i < LOWER; i += 2) {
+        put(lookup, QualifiedName.create(lowerName(i)));
+      }
+      readDuring(INSERTS, (random, done) -> {
+        int i = random.nextInt(LOWER);
+        QualifiedName lower = QualifiedName.create(lowerName(i));
+        if (i % 2 == 0) {
+          assertFound(lookup, lower);
+        } else {
+          assertNull(lookup.get(lower), "values of a lower name which was never put");
+        }
+        // sorts after the inserted name and before the next one, which a search may compare it with
+        QualifiedName absent = QualifiedName.create(inserted[random.nextInt(INSERTS)] + ABSENT_SUFFIX);
+        assertNull(lookup.get(absent), NEVER_PUT_BETWEEN);
+      }, i -> put(lookup, QualifiedName.create(inserted[i])));
+
+      for (int i = 0; i < LOWER; i += 2) {
+        assertFound(lookup, QualifiedName.create(lowerName(i)));
+      }
+      for (String name : inserted) {
+        assertFound(lookup, QualifiedName.create(name));
+        assertNull(lookup.get(QualifiedName.create(name + ABSENT_SUFFIX)), NEVER_PUT_BETWEEN);
       }
     }
   }
@@ -312,6 +363,10 @@ public class QualifiedNameSegmentTreeLookupConcurrencyTest {
       inserted[i] = String.format("%s_%07d", prefilledName(INSERTION_POINT), i);
     }
     return inserted;
+  }
+
+  private static String lowerName(final int i) {
+    return String.format("p%05d", i);
   }
 
   private static String prefilledName(final int i) {
