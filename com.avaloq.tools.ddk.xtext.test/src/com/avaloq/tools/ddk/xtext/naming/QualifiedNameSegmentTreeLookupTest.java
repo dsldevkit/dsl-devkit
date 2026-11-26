@@ -403,6 +403,86 @@ public class QualifiedNameSegmentTreeLookupTest {
   }
 
   /**
+   * Searches a large node for names around the boundaries of its chunks and before and after all of its names, both names it has and names between two of
+   * them, and compares the matches of prefix patterns with those of lookups holding the same names in small nodes. The large node is read back from its
+   * serialized form, so that its chunks are full and their boundaries known, then grown, which splits the chunks, and cleared.
+   */
+  @Test
+  public void testSearchInLargeNode() throws IOException, ClassNotFoundException {
+    final int chunk = 1024;
+    final int count = 5 * chunk;
+    final int small = 64;
+    QualifiedNameSegmentTreeLookup<URI> large = new QualifiedNameSegmentTreeLookup<URI>(URI.class, false);
+    List<QualifiedNameSegmentTreeLookup<URI>> smalls = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      // even numbers only, so that the odd ones fall between two names
+      QualifiedName qn = name(String.format("s%05d", 2 * i));
+      large.put(qn, uri(qn));
+      if (i % small == 0) {
+        smalls.add(new QualifiedNameSegmentTreeLookup<URI>(URI.class, false));
+      }
+      smalls.get(i / small).put(qn, uri(qn));
+    }
+    QualifiedNameLookup<URI> readBack = writeAndRead(large);
+    List<Integer> probes = new ArrayList<>(List.of(-1, 0, 1, 2 * count - 2, 2 * count - 1, 2 * count));
+    for (int c = 1; c < count / chunk; c++) {
+      // around the first name of a chunk
+      for (int d = -3; d <= 3; d++) {
+        probes.add(2 * c * chunk + d);
+      }
+    }
+    for (int probe : probes) {
+      assertSearch(readBack, smalls, probe, count);
+    }
+
+    // splits the full chunks
+    for (int c = 0; c < count / chunk; c++) {
+      QualifiedName qn = name(String.format("s%05d_", 2 * (c * chunk + chunk / 2)));
+      readBack.put(qn, uri(qn));
+      assertEquals(List.of(uri(qn)), readBack.get(qn), qn.toString());
+    }
+    for (int i = 0; i < 2 * count; i += 7) {
+      QualifiedName qn = name(String.format("s%05d", i));
+      assertEquals(i % 2 == 0 ? List.of(uri(qn)) : null, readBack.get(qn), qn.toString());
+    }
+
+    // a cleared large root keeps its chunked list, with only the node of the upper bound
+    readBack.clear();
+    assertNull(readBack.get(name("s00000")));
+    assertEquals(0, readBack.get(pattern("s*"), false).size());
+    QualifiedName qn = name("s00001");
+    readBack.put(qn, uri(qn));
+    assertEquals(List.of(uri(qn)), readBack.get(qn));
+    assertEquals(List.of(uri(qn)), readBack.get(pattern("s*"), false));
+  }
+
+  /**
+   * Asserts that a large node finds the name with the given number if it is even and below twice the count, and the same names as small nodes for a
+   * pattern of its prefix.
+   *
+   * @param large
+   *          lookup whose root is large, must not be {@code null}
+   * @param smalls
+   *          lookups which hold the same names in small roots, in order, must not be {@code null}
+   * @param probe
+   *          the number of the name, may be outside of the names
+   * @param count
+   *          the number of names
+   */
+  private void assertSearch(final QualifiedNameLookup<URI> large, final List<QualifiedNameSegmentTreeLookup<URI>> smalls, final int probe, final int count) {
+    String segment = probe < 0 ? "r" : String.format("s%05d", probe);
+    QualifiedName qn = name(segment);
+    assertEquals(probe >= 0 && probe < 2 * count && probe % 2 == 0 ? List.of(uri(qn)) : null, large.get(qn), segment);
+    // the prefix is not a name, so the search ends at its insertion point
+    String prefix = probe < 0 ? segment : segment.substring(0, segment.length() - 1);
+    List<URI> matches = new ArrayList<>();
+    for (QualifiedNameSegmentTreeLookup<URI> small : smalls) {
+      matches.addAll(small.get(pattern(prefix + "*"), false));
+    }
+    assertEquals(matches, large.get(pattern(prefix + "*"), false), prefix + "*");
+  }
+
+  /**
    * Serializes and deserializes the given lookup, accepting no other lists than {@link ArrayList} in the serialized form.
    *
    * @param tree
