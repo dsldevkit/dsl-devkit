@@ -280,8 +280,13 @@ public class InferredModelAssociator implements IInferredModelAssociations, IInf
       unloader.unloadRoot(eObject);
       derived.add(eObject);
     }
-    getSourceToInferredModelMap(resource).clear();
-    getInferredModelToSourceMap(resource).clear();
+    // Clear only the adapter installed on this resource: a subclass may let getOrInstall(Resource) return the adapter of another resource,
+    // whose associations must survive the discarding of this one.
+    Adapter adapter = (Adapter) EcoreUtil.getAdapter(resource.eAdapters(), Adapter.class);
+    if (adapter != null) {
+      adapter.getSourceToInferredModelMap().clear();
+      adapter.getInferredModelToSourceMap().clear();
+    }
     resourcesContentsList.removeAll(derived);
   }
 
