@@ -34,6 +34,7 @@ import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderConfigurationBlock;
 import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderParticipant;
 import com.avaloq.tools.ddk.check.ui.builder.CheckBuilderPreferenceAccess;
 import com.avaloq.tools.ddk.check.ui.builder.CheckEclipseGeneratorConfigProvider;
+import com.avaloq.tools.ddk.check.ui.builder.CheckFileSystemAccess;
 import com.avaloq.tools.ddk.check.ui.editor.handler.CheckValidateActionHandler;
 import com.avaloq.tools.ddk.check.ui.highlighting.CheckAntlrTokenToAttributeIdMapper;
 import com.avaloq.tools.ddk.check.ui.highlighting.CheckHighlightingCalculator;
@@ -89,6 +90,16 @@ public class CheckUiModule extends com.avaloq.tools.ddk.check.ui.AbstractCheckUi
   @Override
   public Class<? extends org.eclipse.xtext.builder.IXtextBuilderParticipant> bindIXtextBuilderParticipant() {
     return CheckBuilderParticipant.class;
+  }
+
+  /**
+   * Touches unchanged generated files only if their trace file changed.
+   *
+   * @return {@link CheckFileSystemAccess}
+   */
+  @Override
+  public Class<? extends org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2> bindEclipseResourceFileSystemAccess2() {
+    return CheckFileSystemAccess.class;
   }
 
   @Override
