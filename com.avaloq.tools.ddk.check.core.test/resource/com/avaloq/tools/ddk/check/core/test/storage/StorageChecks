@@ -18,7 +18,7 @@ for grammar com.avaloq.tools.ddk.check.Check {
   category PublicCategoryId "Public category label" {
 
     @SeverityRange(warning .. error)
-    live error PublicCheckId "Public check label" (int publicParameter = 23 "Public parameter label")
+    onSave error PublicCheckId "Public check label" (int publicParameter = 23 "Public parameter label")
     message "Public message" {
       for Documented publicContextVariable {
         guard publicParameter > "hidden-guard-literal".length()
