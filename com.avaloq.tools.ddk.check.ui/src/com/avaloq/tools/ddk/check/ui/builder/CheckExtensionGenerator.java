@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -535,7 +536,8 @@ class CheckExtensionGenerator {
       PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
         @Override
         public void run() {
-          PDEModelUtility.modifyModel(modification, monitor);
+          // The write interrupts a running auto-build, whose monitor then reports cancellation and would cancel the write.
+          PDEModelUtility.modifyModel(modification, new NullProgressMonitor());
         }
       });
     } catch (SWTException e) {
