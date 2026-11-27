@@ -125,7 +125,7 @@ public class CheckContextsGenerator {
 
     sortAllContexts(model);
 
-    model.save();
+    ModelSaver.saveIfChanged(model);
     model.dispose();
   }
 
@@ -206,7 +206,7 @@ public class CheckContextsGenerator {
           }
         }
       }
-      model.save();
+      ModelSaver.saveIfChanged(model);
       model.dispose();
     }
   }
