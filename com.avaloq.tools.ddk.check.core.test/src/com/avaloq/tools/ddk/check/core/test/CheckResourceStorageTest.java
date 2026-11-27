@@ -29,6 +29,7 @@ import java.util.zip.ZipInputStream;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.types.JvmType;
 import org.eclipse.xtext.common.types.access.IJvmTypeProvider;
@@ -42,14 +43,15 @@ import org.eclipse.xtext.xbase.XNumberLiteral;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.avaloq.tools.ddk.check.CheckInjectorProvider;
 import com.avaloq.tools.ddk.check.check.Category;
 import com.avaloq.tools.ddk.check.check.Check;
 import com.avaloq.tools.ddk.check.check.CheckCatalog;
 import com.avaloq.tools.ddk.check.check.Context;
 import com.avaloq.tools.ddk.check.check.FormalParameter;
 import com.avaloq.tools.ddk.check.check.SeverityKind;
+import com.avaloq.tools.ddk.check.check.TriggerKind;
 import com.avaloq.tools.ddk.check.check.XIssueExpression;
+import com.avaloq.tools.ddk.check.core.test.util.RegistryIsolatingCheckInjectorProvider;
 import com.avaloq.tools.ddk.check.generator.CheckPropertiesGenerator;
 import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResourceStorageLoadable;
 import com.avaloq.tools.ddk.check.resource.CheckBatchLinkableResourceStorageWritable;
@@ -60,7 +62,7 @@ import com.google.inject.Injector;
 /**
  * Tests that the binary model of a check catalog only contains the publicly visible API of the catalog and none of the implementation details of its checks.
  */
-@InjectWith(CheckInjectorProvider.class)
+@InjectWith(RegistryIsolatingCheckInjectorProvider.class)
 @ExtendWith(InjectionExtension.class)
 @SuppressWarnings("nls")
 public class CheckResourceStorageTest {
@@ -166,7 +168,8 @@ public class CheckResourceStorageTest {
 
     assertEquals("storage", catalog.getPackageName(), "Package name");
     assertEquals("StorageChecks", catalog.getName(), "Catalog name");
-    assertNotNull(catalog.getGrammar(), "Grammar reference");
+    String grammarFragment = EcoreUtil.getURI(catalog.getGrammar()).fragment(); // portable URI ending in the grammar's name
+    assertEquals("com:avaloq:tools:ddk:check:Check", grammarFragment.substring(grammarFragment.lastIndexOf('#') + 1), "Grammar");
     assertEquals("Public category label", catalog.getCategories().get(0).getLabel(), "Category label");
     assertEquals(2, catalog.getAllChecks().size(), "Number of checks");
 
@@ -177,7 +180,8 @@ public class CheckResourceStorageTest {
     assertEquals(SeverityKind.ERROR, check.getDefaultSeverity(), "Default severity");
     assertNotNull(check.getSeverityRange(), "Severity range");
     assertEquals(SeverityKind.WARNING, check.getSeverityRange().getMinSeverity(), "Minimum severity");
-    assertNotNull(check.getKind(), "Trigger kind");
+    assertEquals(SeverityKind.ERROR, check.getSeverityRange().getMaxSeverity(), "Maximum severity");
+    assertEquals(TriggerKind.NORMAL, check.getKind(), "Trigger kind");
     assertFalse(check.isExternal(), "Categorized check is not external");
     assertTrue(catalog.getChecks().get(0).isExternal(), "Second check is external");
   }
