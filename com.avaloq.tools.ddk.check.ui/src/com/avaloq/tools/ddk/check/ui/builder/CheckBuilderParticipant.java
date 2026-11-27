@@ -10,17 +10,24 @@
  *******************************************************************************/
 package com.avaloq.tools.ddk.check.ui.builder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.resource.IResourceDescription.Delta;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.resource.persistence.SourceLevelURIsAdapter;
+import org.eclipse.xtext.resource.persistence.StorageAwareResource;
 import org.eclipse.xtext.ui.resource.IStorage2UriMapper;
 import org.eclipse.xtext.util.CancelIndicator;
 
@@ -75,7 +82,7 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
   @Override
   protected void handleChangedContents(final Delta delta, final IBuildContext context, final EclipseResourceFileSystemAccess2 fileSystemAccess) throws CoreException {
     if (hasCorrectExtension(delta, resourceServiceProvider)) {
-      super.handleChangedContents(delta, context, fileSystemAccess);
+      generateFromSource(delta, context, fileSystemAccess);
       IProject project = RuntimeProjectUtil.getProject(delta.getUri(), mapper);
       if (project == null || !project.isAccessible() || RuntimeProjectUtil.getProject(delta.getUri(), mapper).isHidden()) {
         return; // do nothing, the catalog to be updated might be in a closed and potentially linked project
@@ -100,6 +107,41 @@ public class CheckBuilderParticipant extends ConditionalBuilderParticipant {
           LOGGER.error(e.getMessage(), e);
         }
       }
+    }
+  }
+
+  /**
+   * Stores and generates the catalog of the given delta from its source, since a catalog loaded from binary storage can neither be stored nor generated.
+   *
+   * @param delta
+   *          the delta of the catalog
+   * @param context
+   *          the build context
+   * @param fileSystemAccess
+   *          the file system access
+   * @throws CoreException
+   *           if storing or generating fails
+   */
+  private void generateFromSource(final Delta delta, final IBuildContext context, final EclipseResourceFileSystemAccess2 fileSystemAccess) throws CoreException {
+    URI uri = delta.getUri();
+    ResourceSet resourceSet = context.getResourceSet();
+    Resource resource = resourceSet.getResource(uri, false);
+    if (resource instanceof StorageAwareResource storageAwareResource && storageAwareResource.isLoadedFromStorage()) {
+      resource.unload();
+    }
+    SourceLevelURIsAdapter adapter = SourceLevelURIsAdapter.findInstalledAdapter(resourceSet);
+    Set<URI> sourceLevelURIs = adapter == null ? null : adapter.getSourceLevelURIs();
+    if (sourceLevelURIs == null || sourceLevelURIs.contains(uri)) {
+      super.handleChangedContents(delta, context, fileSystemAccess);
+      return;
+    }
+    Set<URI> withCatalog = new HashSet<>(sourceLevelURIs);
+    withCatalog.add(uri);
+    adapter.setSourceLevelURIs(withCatalog);
+    try {
+      super.handleChangedContents(delta, context, fileSystemAccess);
+    } finally {
+      adapter.setSourceLevelURIs(sourceLevelURIs); // the builder may hold the original set
     }
   }
 

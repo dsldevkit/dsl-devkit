@@ -32,7 +32,8 @@ Require-Bundle: com.avaloq.tools.ddk.check.ui,
  junit-jupiter-engine,
  com.avaloq.tools.ddk.xtext.ui,
  com.avaloq.tools.ddk.check.runtime.core,
- org.hamcrest
+ org.hamcrest,
+ org.eclipse.xtext.builder
 Export-Package: com.avaloq.tools.ddk.check.ui.test,
  com.avaloq.tools.ddk.check.ui.test.util,
  com.avaloq.tools.ddk.check
