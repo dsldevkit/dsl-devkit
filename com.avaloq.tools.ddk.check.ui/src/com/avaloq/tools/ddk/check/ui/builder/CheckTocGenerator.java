@@ -67,7 +67,7 @@ public class CheckTocGenerator {
     if (RuntimeProjectUtil.getProject(uri, mapper) != null) {
       TocModel model = loadTocModel(uri);
       removeTopicFromTocFile(model, topicFieldReference);
-      model.save();
+      ModelSaver.saveIfChanged(model);
       model.dispose();
     }
   }
@@ -127,7 +127,7 @@ public class CheckTocGenerator {
     removeTopicFromTocFile(model, topicFieldReference);
     addTopicToToc(model, topicFieldLabel, topicFieldReference, uri, buildContext);
 
-    model.save();
+    ModelSaver.saveIfChanged(model);
     model.dispose();
   }
 
@@ -213,7 +213,7 @@ public class CheckTocGenerator {
     toc.setFieldLabel(TOC_LABEL);
     toc.setFieldAnchorTo(ANCHOR_ID);
     toc.setXMLAttribute(SORT_KEY, "true");
-    model.save();
+    ModelSaver.saveIfChanged(model);
   }
 
   /**

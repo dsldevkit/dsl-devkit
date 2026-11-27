@@ -403,7 +403,7 @@ class CheckExtensionGenerator {
       manager.updateExtensions(catalog, pluginModel, monitor);
       manager.addExtensions(catalog, pluginModel, monitor);
       manager.sortAllExtensions(pluginModel, monitor);
-      pluginModel.save();
+      ModelSaver.saveIfChanged(pluginModel);
     } else {
       final ModelModification modification = new ModelModification(pluginXmlFile) {
         @Override
@@ -458,7 +458,7 @@ class CheckExtensionGenerator {
       } else if (object instanceof CheckCatalog) {
         manager.removeExtensions((CheckCatalog) object, pluginModel, monitor); // called in order to remove extensions in an invalid model
       }
-      pluginModel.save();
+      ModelSaver.saveIfChanged(pluginModel);
     } else {
       final ModelModification mod = new ModelModification(file) {
         @Override
