@@ -292,6 +292,11 @@ public class QualifiedNameSegmentTreeLookupTest {
       expected.values().forEach(values -> values.remove(SHARED));
       assertLookup(tree, expected);
       assertEquals(0, tree.getMappings(SHARED).size());
+
+      // clearing a copy leaves the tree it was initialized from
+      copy.clear();
+      assertNull(copy.get(expected.keySet().iterator().next()));
+      assertLookup(tree, expected);
     }
   }
 

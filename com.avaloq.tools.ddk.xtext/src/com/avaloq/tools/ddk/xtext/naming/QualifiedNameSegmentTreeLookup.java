@@ -680,21 +680,21 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   public QualifiedNameSegmentTreeLookup(final Class<T> elementType, final boolean shareValues) { // NOPMD
-    root = shareValues ? new ValueSharingSegmentNode("") : new SegmentNode(""); //$NON-NLS-1$ //$NON-NLS-2$
-    init();
+    root = createRoot(shareValues);
   }
 
   /**
-   * Initiailizes the tree by clearing it (if not empty) and adding a dummy upper bound node.
+   * Creates an empty tree, with a dummy upper bound node.
+   *
+   * @param shareValues
+   *          whether the value array of a node should be shared with its parent if they're equal
+   * @return the root of the tree, never {@code null}
    */
-  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
-  private void init() {
-    if (root.children != null) {
-      root.children.clear();
-    }
+  private static SegmentNode createRoot(final boolean shareValues) {
+    SegmentNode node = shareValues ? new ValueSharingSegmentNode("") : new SegmentNode(""); //$NON-NLS-1$ //$NON-NLS-2$
     // add dummy serving as last upper bound
-    root.merge(QualifiedName.create(new String(new char[] {Character.MAX_VALUE})), 0, null);
-    size = 0;
+    node.merge(QualifiedName.create(new String(new char[] {Character.MAX_VALUE})), 0, null);
+    return node;
   }
 
   @SuppressWarnings("unchecked")
@@ -731,8 +731,11 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
   }
 
   @Override
+  @SuppressFBWarnings("AT_NONATOMIC_64BIT_PRIMITIVE")
   public void clear() {
-    init();
+    // replaces the tree, so that a lookup under way finishes on the old one, which is not modified any more
+    root = createRoot(root instanceof ValueSharingSegmentNode);
+    size = 0;
   }
 
   /**
@@ -747,7 +750,9 @@ public class QualifiedNameSegmentTreeLookup<T> implements QualifiedNameLookup<T>
 
   @Override
   public Collection<T> get(final QualifiedNamePattern pattern, final boolean excludeDuplicates) {
-    return root.matches(pattern.lowerInclusive(), 0, root.find(pattern.upperExclusive(), 0, false), pattern.isRecursivePattern(), excludeDuplicates);
+    // the upper bound must be a node of the tree which is searched, also across a clear
+    SegmentNode tree = root;
+    return tree.matches(pattern.lowerInclusive(), 0, tree.find(pattern.upperExclusive(), 0, false), pattern.isRecursivePattern(), excludeDuplicates);
   }
 
   @Override
