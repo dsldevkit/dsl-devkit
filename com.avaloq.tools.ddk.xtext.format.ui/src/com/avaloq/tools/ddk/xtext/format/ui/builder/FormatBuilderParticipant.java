@@ -36,11 +36,27 @@ public class FormatBuilderParticipant extends ConditionalBuilderParticipant {
 
   @Override
   public void build(final IBuildContext context, final IProgressMonitor monitor) throws CoreException {
-    if (!isEnabled(context)) {
+    if (!isEnabled(context) || !hasFormatDelta(context)) {
       return;
     }
     clearResourceSet(context.getResourceSet());
     super.build(context, monitor);
+  }
+
+  /**
+   * Checks whether the build has a changed or removed resource that this participant handles.
+   *
+   * @param context
+   *          the build context, must not be {@code null}
+   * @return {@code true} if at least one delta of the build is a format resource
+   */
+  private boolean hasFormatDelta(final IBuildContext context) {
+    for (Delta delta : context.getDeltas()) {
+      if (getResourceServiceProvider().canHandle(delta.getUri())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
