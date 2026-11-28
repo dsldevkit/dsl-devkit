@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Checks that every tracked MWE2 workflow has an Eclipse launch, then runs the workflows headless, without Eclipse,
-# except those listed below. In Eclipse, run a workflow's launch instead; this script must reproduce its output.
+# except those listed below, then the Check builder: a clean build, in an Eclipse workbench started by Maven, of the projects
+# with Check settings (com.avaloq.tools.ddk.check.regenerate). In Eclipse, run a workflow's launch, or clean the projects
+# in a runtime workbench, instead; this script must reproduce their output. On Linux without a display, use xvfb-run.
 # Build first, on JDK 21, and again after changing a grammar or generator:
 #   ./mvnw install -DskipTests -f ddk-parent/pom.xml -pl ":ddk-target,$(.github/scripts/regenerate.sh --owners)" -am -Dtycho.baseline=disable -Dtycho.baseline.replace=none
 # Arguments are passed to Maven, e.g. -Dmaven.repo.local=...; --owners prints the owning bundles as a -pl list, --list the workflows it runs.
@@ -57,8 +59,9 @@ for wf in "${WORKFLOWS[@]}"; do
 done
 
 projects=$(printf ',:%s' "${bundles[@]}")
+check_build=com.avaloq.tools.ddk.check.regenerate
 if [[ ${1-} == --owners ]]; then
-  echo "${projects:1}"
+  echo "${projects:1},:$check_build"
   exit 0
 fi
 if [[ ${1-} == --list ]]; then
@@ -103,3 +106,7 @@ if (( ${#failed[@]} )); then
   printf 'regenerate.sh: workflow failed: %s\n' "${failed[@]}" >&2
   exit 1
 fi
+
+# Runs after the workflows, as the Check output depends on the grammars, so the tree may already be dirty.
+./mvnw -f ddk-parent/pom.xml --batch-mode -pl ":$check_build" "$@" \
+  -Dcheck.regenerate.skip=false -Djgit.dirtyWorkingTree=warning verify

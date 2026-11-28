@@ -156,6 +156,8 @@ git status
 ```
 A new workflow is checked automatically, and the job builds its owning bundle from `--owners`. Add to `KNOWN_DRIFT` only with an issue that removes the entry again.
 
+The Check builder writes the output of `.check` catalogs (Java in `dsl-gen/`, `docs/content/`, `META-INF/services/`, `plugin.xml` extensions) when Eclipse builds a project with the Xtext nature. Regenerate it in a runtime workbench (`ddk-configuration/launches/devkit-run.launch`): import the project and clean it. `regenerate.sh` reproduces this after the workflows: the test of `com.avaloq.tools.ddk.check.regenerate` imports every project with `.settings/com.avaloq.tools.ddk.check.Check.prefs` into a workbench at its location in the repository, cleans and builds it, and fails on build errors. It needs a display (`xvfb-run` on Linux) and runs only with `-Dcheck.regenerate.skip=false`, which the script sets. A project with Check catalogs needs the Xtext nature and builder, and the bundles it requires in that module's manifest.
+
 ### Bumping Versions
 CI fails with "Only qualifier changed" when a published bundle or feature differs from the last release (`p2/releases/latest`) but keeps its version.
 1. Changing a published bundle (one included in the features, incl. `test.core`, `test.ui`, `xtext.test.core`): its version on `master` must reflect the strongest change since the last release, so it is bumped at most once per level between releases, not once per PR.
