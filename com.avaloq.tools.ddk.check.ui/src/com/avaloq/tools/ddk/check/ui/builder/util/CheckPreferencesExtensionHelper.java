@@ -12,7 +12,13 @@ package com.avaloq.tools.ddk.check.ui.builder.util;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.xtext.util.Strings;
@@ -62,11 +68,39 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
    */
   @Override
   protected void doUpdateExtension(final CheckCatalog catalog, final IPluginExtension extension, final Iterable<IPluginElement> elements) throws CoreException {
-    // The preference extension must define an initializer and a scope plugin element
+    // The preference extension defines an initializer, and the check configuration scope if its class is available
     extension.setName(getExtensionPointName(catalog));
     updateInitializerElement(catalog, Iterables.get(elements, 0));
+    boolean scopeAvailable = isScopeAvailable(catalog);
     if (Iterables.size(elements) == 2) {
-      updateScopeElement(Iterables.get(elements, 1));
+      if (scopeAvailable) {
+        updateScopeElement(Iterables.get(elements, 1));
+      } else {
+        extension.remove(Iterables.get(elements, 1));
+      }
+    } else if (scopeAvailable) {
+      extension.add(updateScopeElement(extension.getModel().getFactory().createElement(extension)));
+    }
+  }
+
+  /**
+   * Whether the check configuration scope class is on the Java build path of the catalog's project.
+   *
+   * @param catalog
+   *          the check catalog
+   * @return {@code true} if the preferences extension can declare the check configuration scope
+   */
+  private boolean isScopeAvailable(final CheckCatalog catalog) {
+    URI uri = catalog.eResource() == null ? null : catalog.eResource().getURI();
+    if (uri == null || !uri.isPlatformResource()) {
+      return false;
+    }
+    IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(URI.decode(uri.segment(1)));
+    IJavaProject javaProject = JavaCore.create(project);
+    try {
+      return javaProject.exists() && javaProject.findType(CHECK_CONFIGURATION_PREFS) != null;
+    } catch (JavaModelException e) {
+      return false;
     }
   }
 
@@ -134,11 +168,9 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
   public Iterable<IPluginElement> getElements(final CheckCatalog catalog, final IPluginExtension extension) throws CoreException {
     List<IPluginElement> result = Lists.newArrayList();
     result.add(updateInitializerElement(catalog, extension.getModel().getFactory().createElement(extension)));
-
-    // if (CheckProjectUtil.typeExists(catalog, CHECK_CONFIGURATION_PREFS)) {
-    // TODO should only use the check configuration scope if corresponding class is available
-    result.add(updateScopeElement(extension.getModel().getFactory().createElement(extension)));
-    // }
+    if (isScopeAvailable(catalog)) {
+      result.add(updateScopeElement(extension.getModel().getFactory().createElement(extension)));
+    }
 
     return result;
   }
@@ -186,7 +218,7 @@ public final class CheckPreferencesExtensionHelper extends AbstractCheckExtensio
     // @Format-Off
     return PREFERENCES_EXTENSION_POINT_ID.equals(extension.getPoint())
         && (!extensionNameMatches(extension, catalog)
-        || Iterables.size(elements) != 2
+        || Iterables.size(elements) != (isScopeAvailable(catalog) ? 2 : 1)
         || !initializerClassMatches(getInitializerElement(elements), getTargetClassName(catalog)));
     // @Format-On
   }
