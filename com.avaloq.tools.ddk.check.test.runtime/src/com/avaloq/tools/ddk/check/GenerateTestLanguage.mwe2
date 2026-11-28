@@ -65,8 +65,6 @@ Workflow {
         // Java API to access grammar elements (required by several other fragments)
         fragment = grammarAccess.GrammarAccessFragment2 {}
 
-        fragment = ecore.EcoreGeneratorFragment2 {}
-
         // a custom ResourceFactory for use with EM
         fragment = ResourceFactoryFragment2 {
           fileExtensions = file.extensions
