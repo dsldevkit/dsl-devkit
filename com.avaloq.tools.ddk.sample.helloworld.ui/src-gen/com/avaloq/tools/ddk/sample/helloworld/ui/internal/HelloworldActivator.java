@@ -5,10 +5,10 @@ package com.avaloq.tools.ddk.sample.helloworld.ui.internal;
 
 import com.avaloq.tools.ddk.sample.helloworld.HelloWorldRuntimeModule;
 import com.avaloq.tools.ddk.sample.helloworld.ui.HelloWorldUiModule;
-import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -29,7 +29,7 @@ public class HelloworldActivator extends AbstractUIPlugin {
 	
 	private static HelloworldActivator INSTANCE;
 	
-	private Map<String, Injector> injectors = Collections.synchronizedMap(Maps.<String, Injector> newHashMapWithExpectedSize(1));
+	private Map<String, Injector> injectors = Collections.synchronizedMap(new HashMap<>(2));
 	
 	@Override
 	public void start(BundleContext context) throws Exception {

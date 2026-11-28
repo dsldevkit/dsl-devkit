@@ -15,12 +15,6 @@ EXCLUDE=(
 
 # Workflows whose committed output still differs from what they generate, with the issue that fixes each.
 KNOWN_DRIFT=(
-  com.avaloq.tools.ddk.workflow/src/com/avaloq/tools/ddk/workflow/GenerateExport.mwe2                 # #1671
-  com.avaloq.tools.ddk.workflow/src/com/avaloq/tools/ddk/workflow/GenerateFormat.mwe2                 # #1671
-  com.avaloq.tools.ddk.workflow/src/com/avaloq/tools/ddk/workflow/GenerateFormatterTestLanguage.mwe2  # #1671
-  com.avaloq.tools.ddk.workflow/src/com/avaloq/tools/ddk/workflow/GenerateCheck.mwe2                  # #1671
-  com.avaloq.tools.ddk.workflow/src/com/avaloq/tools/ddk/workflow/GenerateCheckCfg.mwe2               # #1671
-  com.avaloq.tools.ddk.sample.helloworld/src/com/avaloq/tools/ddk/sample/helloworld/GenerateHelloWorld.mwe2  # #1671
   com.avaloq.tools.ddk.check.test.runtime/src/com/avaloq/tools/ddk/check/GenerateTestLanguage.mwe2          # #1672
 )
 
