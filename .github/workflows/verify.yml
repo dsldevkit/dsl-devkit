@@ -96,3 +96,38 @@ jobs:
           name: tycho-surefire-plugin
           path: com.avaloq.tools.ddk.*/target/work/data/.metadata/.log
           include-hidden-files: true
+  generated-sources:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          # Full history for Tycho's jgit build-qualifier, as in maven-verify.
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880  # v6.3.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Restore Maven dependency cache
+        # Path and key must mirror maven-verify and snapshot.yml exactly.
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-publish-${{ hashFiles('**/pom.xml', '**/*.target') }}
+          restore-keys: ${{ runner.os }}-maven-publish-
+      - name: Drop cached p2 metadata for the DDK update site
+        # See maven-verify.
+        run: rm -rf ~/.m2/repository/.cache/tycho/https/dsldevkit.github.io ~/.m2/repository/.cache/tycho/https/ddk.tools.avaloq.com
+      - name: Build the bundles owning the workflows
+        # Maven must finish before the workflows dirty the tree.
+        run: ./mvnw install -DskipTests -f ./ddk-parent/pom.xml -pl ":ddk-target,$(bash .github/scripts/regenerate.sh --owners)" -am --batch-mode -T 2 -Dtycho.baseline=disable -Dtycho.baseline.replace=none
+      - name: Regenerate sources
+        run: bash .github/scripts/regenerate.sh
+      - name: Fail on generated sources out of sync
+        run: |
+          git status --porcelain --untracked-files=all
+          if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
+            git diff
+            echo "::error::Generated sources differ from their generators; run the workflow's .mwe2.launch in Eclipse (or .github/scripts/regenerate.sh) and commit the result."
+            exit 1
+          fi
