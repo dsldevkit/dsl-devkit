@@ -128,6 +128,6 @@ jobs:
           git status --porcelain --untracked-files=all
           if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
             git diff
-            echo "::error::Generated sources differ from their generators; run .github/scripts/regenerate.sh and commit the result."
+            echo "::error::Generated sources differ from their generators; run the workflow's .mwe2.launch in Eclipse (or .github/scripts/regenerate.sh) and commit the result."
             exit 1
           fi

@@ -146,7 +146,9 @@ xvfb-run ./mvnw verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.t
 ```
 
 ### Regenerating Sources
-`.github/scripts/regenerate.sh` runs every tracked MWE2 workflow without Eclipse, except those in its `EXCLUDE` (not standalone) and `KNOWN_DRIFT` (output not yet in sync, each with its issue) arrays; `--list` prints the ones it runs. The `generated-sources` job in `verify.yml` runs it and fails if the result differs from the committed files. The workflows read grammars and generators from `target/classes`, so build the owning bundles with `install` first, on JDK 21, and again after changing a grammar or generator. `install` writes DDK snapshots to the local Maven repository; add `-Dmaven.repo.local=...` to both commands to keep them out of `~/.m2`. Script arguments are passed to Maven:
+Regenerate in Eclipse: every tracked MWE2 workflow has an MWE2 launch (`git ls-files '*.launch'`); run it from the IDE and commit the result. Eclipse output is the reference: `.github/scripts/regenerate.sh` must reproduce it, and when the two differ, fix the script, not the committed files.
+
+`.github/scripts/regenerate.sh` fails if a workflow has no launch, then runs every tracked workflow without Eclipse, except those in its `EXCLUDE` (not standalone) and `KNOWN_DRIFT` (output not yet in sync, each with its issue) arrays; `--list` prints the ones it runs. The `generated-sources` job in `verify.yml` runs it and fails if the result differs from the committed files. The workflows read grammars and generators from `target/classes`, so build the owning bundles with `install` first, on JDK 21, and again after changing a grammar or generator. `install` writes DDK snapshots to the local Maven repository; add `-Dmaven.repo.local=...` to both commands to keep them out of `~/.m2`. Script arguments are passed to Maven:
 ```bash
 ./mvnw install -DskipTests -f ./ddk-parent/pom.xml -pl ":ddk-target,$(.github/scripts/regenerate.sh --owners)" -am -Dtycho.baseline=disable -Dtycho.baseline.replace=none
 .github/scripts/regenerate.sh

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Regenerates sources by running every tracked MWE2 workflow headless, without Eclipse, except those listed below.
+# Checks that every tracked MWE2 workflow has an Eclipse launch, then runs the workflows headless, without Eclipse,
+# except those listed below. In Eclipse, run a workflow's launch instead; this script must reproduce its output.
 # Build first, on JDK 21, and again after changing a grammar or generator:
 #   ./mvnw install -DskipTests -f ddk-parent/pom.xml -pl ":ddk-target,$(.github/scripts/regenerate.sh --owners)" -am -Dtycho.baseline=disable -Dtycho.baseline.replace=none
 # Arguments are passed to Maven, e.g. -Dmaven.repo.local=...; --owners prints the owning bundles as a -pl list, --list the workflows it runs.
@@ -36,6 +37,25 @@ WORKFLOWS=()
 while read -r wf; do
   [[ $skip == *" $wf "* ]] || WORKFLOWS+=("$wf")
 done < <(git ls-files '*.mwe2')
+
+# Every workflow, drifting or not, needs a tracked Eclipse launch: an MWE2 launch of its owning bundle whose
+# argument is the workflow's path in that bundle or its module name.
+launches=$(git ls-files -z '*.launch' | xargs -0 grep -l Mwe2LaunchConfigurationType)
+missing=()
+for wf in "${WORKFLOWS[@]}" ${KNOWN_DRIFT[@]+"${KNOWN_DRIFT[@]}"}; do
+  b=${wf%%/*}
+  module=$(sed -n 's/^module \([A-Za-z0-9_.]*\).*/\1/p' "$wf")
+  found=
+  while read -r l; do
+    [[ -n $l ]] && grep -q "PROJECT_ATTR\" value=\"$b\"" "$l" \
+      && grep -q -e "PROGRAM_ARGUMENTS\" value=\"${wf#*/}\"" -e "PROGRAM_ARGUMENTS\" value=\"$module\"" "$l" && { found=1; break; }
+  done <<< "$launches"
+  [[ -n $found ]] || missing+=("$wf")
+done
+if (( ${#missing[@]} )); then
+  printf 'regenerate.sh: no Eclipse launch runs %s\n' "${missing[@]}" >&2
+  exit 1
+fi
 
 bundles=()
 for wf in "${WORKFLOWS[@]}"; do
