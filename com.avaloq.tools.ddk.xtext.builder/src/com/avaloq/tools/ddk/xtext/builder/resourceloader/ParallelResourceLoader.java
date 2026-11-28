@@ -12,7 +12,9 @@ package com.avaloq.tools.ddk.xtext.builder.resourceloader;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -31,8 +33,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.xtext.builder.resourceloader.AbstractResourceLoader;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.resource.XtextPlatformResourceURIHandler;
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider;
 import org.eclipse.xtext.resource.persistence.SourceLevelURIsAdapter;
 import org.eclipse.xtext.ui.resource.IResourceSetProvider;
@@ -140,6 +144,17 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
   }
 
   /**
+   * Whether the given load option value is the URI handler that every {@link org.eclipse.xtext.resource.XtextResourceSet} registers by default.
+   *
+   * @param uriHandler
+   *          value of {@link XMLResource#OPTION_URI_HANDLER}, may be {@code null}
+   * @return {@code true} for the stock handler, {@code false} for any other handler including subclasses
+   */
+  private static boolean isStockUriHandler(final Object uriHandler) {
+    return uriHandler != null && XtextPlatformResourceURIHandler.class.equals(uriHandler.getClass());
+  }
+
+  /**
    * Parallel load operation implementation.
    */
   @SuppressWarnings("PMD.PublicMemberInNonPublicType") // Public methods needed for subclass access in other packages
@@ -166,15 +181,24 @@ public class ParallelResourceLoader extends AbstractResourceLoader {
       }
       final boolean parentIsIndexing = BuildPhases.isIndexing(parent);
       final Set<URI> parentSourceLevelUris = SourceLevelURIsAdapter.findInstalledAdapter(parent).getSourceLevelURIs();
+      // copied on the calling thread, which keeps changing the parent's options while the workers start
+      final Map<Object, Object> inheritedOptions = new HashMap<>(parent.getLoadOptions());
+      // we are not loading as part of a build
+      inheritedOptions.remove(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE);
+      // the stock handler keeps the base URI of the resource being loaded, so workers must not share the parent's
+      final Object parentStockUriHandler = isStockUriHandler(inheritedOptions.get(XMLResource.OPTION_URI_HANDLER))
+          ? inheritedOptions.remove(XMLResource.OPTION_URI_HANDLER)
+          : null;
       this.resourceSetProvider = new ThreadLocal<ResourceSet>() {
         @Override
         protected ResourceSet initialValue() {
           ResourceSet resourceSet = getResourceSetProvider().get(project);
           BuildPhases.setIndexing(resourceSet, parentIsIndexing);
           SourceLevelURIsAdapter.setSourceLevelUrisWithoutCopy(resourceSet, parentSourceLevelUris);
-          resourceSet.getLoadOptions().putAll(parent.getLoadOptions());
-          // we are not loading as part of a build
-          resourceSet.getLoadOptions().remove(ResourceDescriptionsProvider.NAMED_BUILDER_SCOPE);
+          resourceSet.getLoadOptions().putAll(inheritedOptions);
+          if (parentStockUriHandler != null) {
+            resourceSet.getLoadOptions().putIfAbsent(XMLResource.OPTION_URI_HANDLER, parentStockUriHandler);
+          }
           resourceSet.setURIConverter(parent.getURIConverter());
           return resourceSet;
         }
