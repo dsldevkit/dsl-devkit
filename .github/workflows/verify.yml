@@ -122,7 +122,8 @@ jobs:
         # Maven must finish before the workflows dirty the tree.
         run: ./mvnw install -DskipTests -f ./ddk-parent/pom.xml -pl ":ddk-target,$(bash .github/scripts/regenerate.sh --owners)" -am --batch-mode -T 2 -Dtycho.baseline=disable -Dtycho.baseline.replace=none
       - name: Regenerate sources
-        run: bash .github/scripts/regenerate.sh
+        # The Check builder runs in an Eclipse workbench, which needs a display.
+        run: xvfb-run bash .github/scripts/regenerate.sh
       - name: Fail on generated sources out of sync
         run: |
           git status --porcelain --untracked-files=all

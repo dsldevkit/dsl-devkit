@@ -12,6 +12,10 @@ while IFS= read -r source; do
   if grep -qE 'abstract[[:space:]]+class|@interface' "$source"; then
     continue
   fi
+  # Runs only from regenerate.sh, as it rewrites committed Check output.
+  if [[ $source == com.avaloq.tools.ddk.check.regenerate/* ]]; then
+    continue
+  fi
   expected=$((expected + 1))
   module=${source%%/*}
   class=${source#*/src/}

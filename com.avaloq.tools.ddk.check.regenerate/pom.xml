@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>ddk-parent</artifactId>
+    <groupId>com.avaloq.tools.ddk</groupId>
+    <version>18.0.1-SNAPSHOT</version>
+    <relativePath>../ddk-parent</relativePath>
+  </parent>
+  <version>17.3.1-SNAPSHOT</version>
+
+  <artifactId>com.avaloq.tools.ddk.check.regenerate</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+
+  <properties>
+    <tycho.surefire.useUIHarness>true</tycho.surefire.useUIHarness>
+    <test.reactorConcurrencyLevel>1</test.reactorConcurrencyLevel>
+    <!-- Rewrites committed Check output in place; .github/scripts/regenerate.sh sets it to false. -->
+    <check.regenerate.skip>true</check.regenerate.skip>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <skipTests>${check.regenerate.skip}</skipTests>
+          <systemProperties>
+            <ddk.root>${project.basedir}/..</ddk.root>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
