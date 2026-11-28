@@ -134,6 +134,7 @@
     <module>../com.avaloq.tools.ddk.sample.helloworld.ui.test</module>
     <module>../com.avaloq.tools.ddk.typesystem</module>
     <module>../com.avaloq.tools.ddk.typesystem.test</module>
+    <module>../com.avaloq.tools.ddk.workflow</module>
   </modules>
 
   <distributionManagement>
