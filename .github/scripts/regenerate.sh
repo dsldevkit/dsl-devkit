@@ -15,7 +15,6 @@ EXCLUDE=(
 
 # Workflows whose committed output still differs from what they generate, with the issue that fixes each.
 KNOWN_DRIFT=(
-  com.avaloq.tools.ddk.check.test.runtime/src/com/avaloq/tools/ddk/check/GenerateTestLanguage.mwe2          # #1672
 )
 
 root=$(git rev-parse --show-toplevel)

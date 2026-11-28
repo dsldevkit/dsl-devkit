@@ -19,10 +19,10 @@ import com.avaloq.tools.ddk.check.testLanguage.TestLanguagePackage;
 
 
 /**
- * The Class TestLanguageJavaValidator.
+ * Custom validation rules of the test language.
  */
 @SuppressWarnings("nls")
-public class TestLanguageJavaValidator extends AbstractTestLanguageJavaValidator {
+public class TestLanguageValidator extends AbstractTestLanguageValidator {
 
   @Check
   public void checkGreetingStartsWithCapital(final Greeting greeting) {

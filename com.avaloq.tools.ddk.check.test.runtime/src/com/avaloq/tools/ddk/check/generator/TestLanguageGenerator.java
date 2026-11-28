@@ -11,14 +11,18 @@
 package com.avaloq.tools.ddk.check.generator;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.generator.IFileSystemAccess;
-import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.generator.AbstractGenerator;
+import org.eclipse.xtext.generator.IFileSystemAccess2;
+import org.eclipse.xtext.generator.IGeneratorContext;
 
 
-public class TestLanguageGenerator implements IGenerator {
+/**
+ * Code generator of the test language, which generates nothing.
+ */
+public class TestLanguageGenerator extends AbstractGenerator {
 
   @Override
-  public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
-    // TODO implement me
+  public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    // nothing to generate
   }
 }

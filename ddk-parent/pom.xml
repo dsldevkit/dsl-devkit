@@ -122,6 +122,7 @@
     <module>../com.avaloq.tools.ddk.check.runtime.core.test</module>
     <module>../com.avaloq.tools.ddk.check.ui.test</module>
     <module>../com.avaloq.tools.ddk.check.test.runtime</module>
+    <module>../com.avaloq.tools.ddk.check.test.runtime.ide</module>
     <module>../com.avaloq.tools.ddk.check.test.runtime.tests</module>
     <module>../com.avaloq.tools.ddk.check.test.runtime.ui</module>
     <module>../com.avaloq.tools.ddk.checkcfg.core</module>

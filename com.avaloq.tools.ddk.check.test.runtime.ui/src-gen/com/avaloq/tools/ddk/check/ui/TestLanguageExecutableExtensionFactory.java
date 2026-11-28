@@ -3,12 +3,11 @@
  */
 package com.avaloq.tools.ddk.check.ui;
 
+import com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator;
+import com.google.inject.Injector;
 import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
 import org.osgi.framework.Bundle;
-
-import com.google.inject.Injector;
-
-import com.avaloq.tools.ddk.check.ui.internal.TestLanguageActivator;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  * This class was generated. Customizations should only happen in a newly
@@ -18,12 +17,13 @@ public class TestLanguageExecutableExtensionFactory extends AbstractGuiceAwareEx
 
 	@Override
 	protected Bundle getBundle() {
-		return TestLanguageActivator.getInstance().getBundle();
+		return FrameworkUtil.getBundle(TestLanguageActivator.class);
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return TestLanguageActivator.getInstance().getInjector(TestLanguageActivator.COM_AVALOQ_TOOLS_DDK_CHECK_TESTLANGUAGE);
+		TestLanguageActivator activator = TestLanguageActivator.getInstance();
+		return activator != null ? activator.getInjector(TestLanguageActivator.COM_AVALOQ_TOOLS_DDK_CHECK_TESTLANGUAGE) : null;
 	}
-	
+
 }

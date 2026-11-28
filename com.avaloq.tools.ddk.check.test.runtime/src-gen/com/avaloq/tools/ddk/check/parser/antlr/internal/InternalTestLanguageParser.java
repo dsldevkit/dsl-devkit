@@ -1,4 +1,4 @@
-package com.avaloq.tools.ddk.check.parser.antlr.internal; 
+package com.avaloq.tools.ddk.check.parser.antlr.internal;
 
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.parser.*;
@@ -53,18 +53,18 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
      	private TestLanguageGrammarAccess grammarAccess;
-     	
+
         public InternalTestLanguageParser(TokenStream input, TestLanguageGrammarAccess grammarAccess) {
             this(input);
             this.grammarAccess = grammarAccess;
             registerRules(grammarAccess.getGrammar());
         }
-        
+
         @Override
         protected String getFirstRuleName() {
-        	return "Model";	
+        	return "Model";
        	}
-       	
+
        	@Override
        	protected TestLanguageGrammarAccess getGrammarAccess() {
        		return grammarAccess;
@@ -72,8 +72,9 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
 
+
     // $ANTLR start "entryRuleModel"
-    // InternalTestLanguage.g:67:1: entryRuleModel returns [EObject current=null] : iv_ruleModel= ruleModel EOF ;
+    // InternalTestLanguage.g:64:1: entryRuleModel returns [EObject current=null] : iv_ruleModel= ruleModel EOF ;
     public final EObject entryRuleModel() throws RecognitionException {
         EObject current = null;
 
@@ -81,8 +82,8 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalTestLanguage.g:68:2: (iv_ruleModel= ruleModel EOF )
-            // InternalTestLanguage.g:69:2: iv_ruleModel= ruleModel EOF
+            // InternalTestLanguage.g:64:46: (iv_ruleModel= ruleModel EOF )
+            // InternalTestLanguage.g:65:2: iv_ruleModel= ruleModel EOF
             {
              newCompositeNode(grammarAccess.getModelRule()); 
             pushFollow(FOLLOW_1);
@@ -96,11 +97,11 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -109,20 +110,21 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleModel"
-    // InternalTestLanguage.g:76:1: ruleModel returns [EObject current=null] : ( (lv_greetings_0_0= ruleGreeting ) )* ;
+    // InternalTestLanguage.g:71:1: ruleModel returns [EObject current=null] : ( (lv_greetings_0_0= ruleGreeting ) )* ;
     public final EObject ruleModel() throws RecognitionException {
         EObject current = null;
 
         EObject lv_greetings_0_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // InternalTestLanguage.g:79:28: ( ( (lv_greetings_0_0= ruleGreeting ) )* )
-            // InternalTestLanguage.g:80:1: ( (lv_greetings_0_0= ruleGreeting ) )*
+            // InternalTestLanguage.g:77:2: ( ( (lv_greetings_0_0= ruleGreeting ) )* )
+            // InternalTestLanguage.g:78:2: ( (lv_greetings_0_0= ruleGreeting ) )*
             {
-            // InternalTestLanguage.g:80:1: ( (lv_greetings_0_0= ruleGreeting ) )*
+            // InternalTestLanguage.g:78:2: ( (lv_greetings_0_0= ruleGreeting ) )*
             loop1:
             do {
                 int alt1=2;
@@ -135,30 +137,30 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalTestLanguage.g:81:1: (lv_greetings_0_0= ruleGreeting )
+            	    // InternalTestLanguage.g:79:3: (lv_greetings_0_0= ruleGreeting )
             	    {
-            	    // InternalTestLanguage.g:81:1: (lv_greetings_0_0= ruleGreeting )
-            	    // InternalTestLanguage.g:82:3: lv_greetings_0_0= ruleGreeting
+            	    // InternalTestLanguage.g:79:3: (lv_greetings_0_0= ruleGreeting )
+            	    // InternalTestLanguage.g:80:4: lv_greetings_0_0= ruleGreeting
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); 
-            	    	    
+
+            	    				newCompositeNode(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0());
+            	    			
             	    pushFollow(FOLLOW_3);
             	    lv_greetings_0_0=ruleGreeting();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getModelRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"greetings",
-            	            		lv_greetings_0_0, 
-            	            		"com.avaloq.tools.ddk.check.TestLanguage.Greeting");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    				if (current==null) {
+            	    					current = createModelElementForParent(grammarAccess.getModelRule());
+            	    				}
+            	    				add(
+            	    					current,
+            	    					"greetings",
+            	    					lv_greetings_0_0,
+            	    					"com.avaloq.tools.ddk.check.TestLanguage.Greeting");
+            	    				afterParserOrEnumRuleCall();
+            	    			
 
             	    }
 
@@ -174,13 +176,15 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -189,7 +193,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleGreeting"
-    // InternalTestLanguage.g:106:1: entryRuleGreeting returns [EObject current=null] : iv_ruleGreeting= ruleGreeting EOF ;
+    // InternalTestLanguage.g:100:1: entryRuleGreeting returns [EObject current=null] : iv_ruleGreeting= ruleGreeting EOF ;
     public final EObject entryRuleGreeting() throws RecognitionException {
         EObject current = null;
 
@@ -197,8 +201,8 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalTestLanguage.g:107:2: (iv_ruleGreeting= ruleGreeting EOF )
-            // InternalTestLanguage.g:108:2: iv_ruleGreeting= ruleGreeting EOF
+            // InternalTestLanguage.g:100:49: (iv_ruleGreeting= ruleGreeting EOF )
+            // InternalTestLanguage.g:101:2: iv_ruleGreeting= ruleGreeting EOF
             {
              newCompositeNode(grammarAccess.getGreetingRule()); 
             pushFollow(FOLLOW_1);
@@ -212,11 +216,11 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -225,7 +229,7 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleGreeting"
-    // InternalTestLanguage.g:115:1: ruleGreeting returns [EObject current=null] : (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) ;
+    // InternalTestLanguage.g:107:1: ruleGreeting returns [EObject current=null] : (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) ;
     public final EObject ruleGreeting() throws RecognitionException {
         EObject current = null;
 
@@ -233,39 +237,40 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
         Token lv_name_1_0=null;
         Token otherlv_2=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // InternalTestLanguage.g:118:28: ( (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) )
-            // InternalTestLanguage.g:119:1: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
+            // InternalTestLanguage.g:113:2: ( (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' ) )
+            // InternalTestLanguage.g:114:2: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
             {
-            // InternalTestLanguage.g:119:1: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
-            // InternalTestLanguage.g:119:3: otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!'
+            // InternalTestLanguage.g:114:2: (otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!' )
+            // InternalTestLanguage.g:115:3: otherlv_0= 'Hello' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '!'
             {
             otherlv_0=(Token)match(input,11,FOLLOW_4); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
-                
-            // InternalTestLanguage.g:123:1: ( (lv_name_1_0= RULE_ID ) )
-            // InternalTestLanguage.g:124:1: (lv_name_1_0= RULE_ID )
+            			newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
+            		
+            // InternalTestLanguage.g:119:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalTestLanguage.g:120:4: (lv_name_1_0= RULE_ID )
             {
-            // InternalTestLanguage.g:124:1: (lv_name_1_0= RULE_ID )
-            // InternalTestLanguage.g:125:3: lv_name_1_0= RULE_ID
+            // InternalTestLanguage.g:120:4: (lv_name_1_0= RULE_ID )
+            // InternalTestLanguage.g:121:5: lv_name_1_0= RULE_ID
             {
             lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_5); 
 
-            			newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
-            		
+            					newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0());
+            				
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getGreetingRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"org.eclipse.xtext.common.Terminals.ID");
-            	    
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getGreetingRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
@@ -274,21 +279,23 @@ public class InternalTestLanguageParser extends AbstractInternalAntlrParser {
 
             otherlv_2=(Token)match(input,12,FOLLOW_2); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
-                
+            			newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
+            		
 
             }
 
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;

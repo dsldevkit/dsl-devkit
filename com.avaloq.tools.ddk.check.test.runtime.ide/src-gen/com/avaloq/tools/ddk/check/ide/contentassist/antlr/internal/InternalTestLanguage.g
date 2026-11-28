@@ -5,19 +5,18 @@ grammar InternalTestLanguage;
 
 options {
 	superClass=AbstractInternalContentAssistParser;
-	
 }
 
 @lexer::header {
-package com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal;
+package com.avaloq.tools.ddk.check.ide.contentassist.antlr.internal;
 
 // Hack: Use our own Lexer superclass by means of import. 
 // Currently there is no other way to specify the superclass for the lexer.
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.Lexer;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 }
 
 @parser::header {
-package com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal; 
+package com.avaloq.tools.ddk.check.ide.contentassist.antlr.internal;
 
 import java.io.InputStream;
 import org.eclipse.xtext.*;
@@ -27,37 +26,31 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.DFA;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
 import com.avaloq.tools.ddk.check.services.TestLanguageGrammarAccess;
 
 }
-
 @parser::members {
- 
- 	private TestLanguageGrammarAccess grammarAccess;
- 	
-    public void setGrammarAccess(TestLanguageGrammarAccess grammarAccess) {
-    	this.grammarAccess = grammarAccess;
-    }
-    
-    @Override
-    protected Grammar getGrammar() {
-    	return grammarAccess.getGrammar();
-    }
-    
-    @Override
-    protected String getValueForTokenName(String tokenName) {
-    	return tokenName;
-    }
+	private TestLanguageGrammarAccess grammarAccess;
 
+	public void setGrammarAccess(TestLanguageGrammarAccess grammarAccess) {
+		this.grammarAccess = grammarAccess;
+	}
+
+	@Override
+	protected Grammar getGrammar() {
+		return grammarAccess.getGrammar();
+	}
+
+	@Override
+	protected String getValueForTokenName(String tokenName) {
+		return tokenName;
+	}
 }
 
-
-
-
 // Entry rule entryRuleModel
-entryRuleModel 
+entryRuleModel
 :
 { before(grammarAccess.getModelRule()); }
 	 ruleModel
@@ -66,26 +59,23 @@ entryRuleModel
 ;
 
 // Rule Model
-ruleModel
-    @init {
+ruleModel 
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 	:
-(
-{ before(grammarAccess.getModelAccess().getGreetingsAssignment()); }
-(rule__Model__GreetingsAssignment)*
-{ after(grammarAccess.getModelAccess().getGreetingsAssignment()); }
-)
-
+	(
+		{ before(grammarAccess.getModelAccess().getGreetingsAssignment()); }
+		(rule__Model__GreetingsAssignment)*
+		{ after(grammarAccess.getModelAccess().getGreetingsAssignment()); }
+	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-
-
 // Entry rule entryRuleGreeting
-entryRuleGreeting 
+entryRuleGreeting
 :
 { before(grammarAccess.getGreetingRule()); }
 	 ruleGreeting
@@ -94,31 +84,25 @@ entryRuleGreeting
 ;
 
 // Rule Greeting
-ruleGreeting
-    @init {
+ruleGreeting 
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 	:
-(
-{ before(grammarAccess.getGreetingAccess().getGroup()); }
-(rule__Greeting__Group__0)
-{ after(grammarAccess.getGreetingAccess().getGroup()); }
-)
-
+	(
+		{ before(grammarAccess.getGreetingAccess().getGroup()); }
+		(rule__Greeting__Group__0)
+		{ after(grammarAccess.getGreetingAccess().getGroup()); }
+	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-
-
-
-
-
 rule__Greeting__Group__0
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
 	rule__Greeting__Group__0__Impl
 	rule__Greeting__Group__1
@@ -128,28 +112,24 @@ finally {
 }
 
 rule__Greeting__Group__0__Impl
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
 (
-{ before(grammarAccess.getGreetingAccess().getHelloKeyword_0()); }
-
-	'Hello' 
-
-{ after(grammarAccess.getGreetingAccess().getHelloKeyword_0()); }
+	{ before(grammarAccess.getGreetingAccess().getHelloKeyword_0()); }
+	'Hello'
+	{ after(grammarAccess.getGreetingAccess().getHelloKeyword_0()); }
 )
-
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-
 rule__Greeting__Group__1
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
 	rule__Greeting__Group__1__Impl
 	rule__Greeting__Group__2
@@ -159,26 +139,24 @@ finally {
 }
 
 rule__Greeting__Group__1__Impl
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
 (
-{ before(grammarAccess.getGreetingAccess().getNameAssignment_1()); }
-(rule__Greeting__NameAssignment_1)
-{ after(grammarAccess.getGreetingAccess().getNameAssignment_1()); }
+	{ before(grammarAccess.getGreetingAccess().getNameAssignment_1()); }
+	(rule__Greeting__NameAssignment_1)
+	{ after(grammarAccess.getGreetingAccess().getNameAssignment_1()); }
 )
-
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-
 rule__Greeting__Group__2
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
 	rule__Greeting__Group__2__Impl
 ;
@@ -187,61 +165,50 @@ finally {
 }
 
 rule__Greeting__Group__2__Impl
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
 (
-{ before(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); }
-
-	'!' 
-
-{ after(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); }
+	{ before(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); }
+	'!'
+	{ after(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); }
 )
-
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
 
-
-
-
-
-
-
-
 rule__Model__GreetingsAssignment
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
-(
-{ before(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); }
-	ruleGreeting{ after(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); }
-)
-
+	(
+		{ before(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); }
+		ruleGreeting
+		{ after(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); }
+	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
 rule__Greeting__NameAssignment_1
-    @init {
+	@init {
 		int stackSize = keepStackSize();
-    }
+	}
 :
-(
-{ before(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); }
-	RULE_ID{ after(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); }
-)
-
+	(
+		{ before(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); }
+		RULE_ID
+		{ after(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); }
+	)
 ;
 finally {
 	restoreStackSize(stackSize);
 }
-
 
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 
@@ -256,5 +223,3 @@ RULE_SL_COMMENT : '//' ~(('\n'|'\r'))* ('\r'? '\n')?;
 RULE_WS : (' '|'\t'|'\r'|'\n')+;
 
 RULE_ANY_OTHER : .;
-
-

@@ -1,4 +1,4 @@
-package com.avaloq.tools.ddk.check.ui.contentassist.antlr.internal; 
+package com.avaloq.tools.ddk.check.ide.contentassist.antlr.internal;
 
 import java.io.InputStream;
 import org.eclipse.xtext.*;
@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.DFA;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.AbstractInternalContentAssistParser;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.DFA;
 import com.avaloq.tools.ddk.check.services.TestLanguageGrammarAccess;
 
 
@@ -52,32 +52,30 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
     public String getGrammarFileName() { return "InternalTestLanguage.g"; }
 
 
-     
-     	private TestLanguageGrammarAccess grammarAccess;
-     	
-        public void setGrammarAccess(TestLanguageGrammarAccess grammarAccess) {
-        	this.grammarAccess = grammarAccess;
-        }
-        
-        @Override
-        protected Grammar getGrammar() {
-        	return grammarAccess.getGrammar();
-        }
-        
-        @Override
-        protected String getValueForTokenName(String tokenName) {
-        	return tokenName;
-        }
+    	private TestLanguageGrammarAccess grammarAccess;
 
+    	public void setGrammarAccess(TestLanguageGrammarAccess grammarAccess) {
+    		this.grammarAccess = grammarAccess;
+    	}
+
+    	@Override
+    	protected Grammar getGrammar() {
+    		return grammarAccess.getGrammar();
+    	}
+
+    	@Override
+    	protected String getValueForTokenName(String tokenName) {
+    		return tokenName;
+    	}
 
 
 
     // $ANTLR start "entryRuleModel"
-    // InternalTestLanguage.g:60:1: entryRuleModel : ruleModel EOF ;
+    // InternalTestLanguage.g:53:1: entryRuleModel : ruleModel EOF ;
     public final void entryRuleModel() throws RecognitionException {
         try {
-            // InternalTestLanguage.g:61:1: ( ruleModel EOF )
-            // InternalTestLanguage.g:62:1: ruleModel EOF
+            // InternalTestLanguage.g:54:1: ( ruleModel EOF )
+            // InternalTestLanguage.g:55:1: ruleModel EOF
             {
              before(grammarAccess.getModelRule()); 
             pushFollow(FOLLOW_1);
@@ -103,20 +101,20 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "ruleModel"
-    // InternalTestLanguage.g:69:1: ruleModel : ( ( rule__Model__GreetingsAssignment )* ) ;
+    // InternalTestLanguage.g:62:1: ruleModel : ( ( rule__Model__GreetingsAssignment )* ) ;
     public final void ruleModel() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:73:2: ( ( ( rule__Model__GreetingsAssignment )* ) )
-            // InternalTestLanguage.g:74:1: ( ( rule__Model__GreetingsAssignment )* )
+            // InternalTestLanguage.g:66:2: ( ( ( rule__Model__GreetingsAssignment )* ) )
+            // InternalTestLanguage.g:67:2: ( ( rule__Model__GreetingsAssignment )* )
             {
-            // InternalTestLanguage.g:74:1: ( ( rule__Model__GreetingsAssignment )* )
-            // InternalTestLanguage.g:75:1: ( rule__Model__GreetingsAssignment )*
+            // InternalTestLanguage.g:67:2: ( ( rule__Model__GreetingsAssignment )* )
+            // InternalTestLanguage.g:68:3: ( rule__Model__GreetingsAssignment )*
             {
              before(grammarAccess.getModelAccess().getGreetingsAssignment()); 
-            // InternalTestLanguage.g:76:1: ( rule__Model__GreetingsAssignment )*
+            // InternalTestLanguage.g:69:3: ( rule__Model__GreetingsAssignment )*
             loop1:
             do {
                 int alt1=2;
@@ -129,7 +127,7 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalTestLanguage.g:76:2: rule__Model__GreetingsAssignment
+            	    // InternalTestLanguage.g:69:4: rule__Model__GreetingsAssignment
             	    {
             	    pushFollow(FOLLOW_3);
             	    rule__Model__GreetingsAssignment();
@@ -168,11 +166,11 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "entryRuleGreeting"
-    // InternalTestLanguage.g:88:1: entryRuleGreeting : ruleGreeting EOF ;
+    // InternalTestLanguage.g:78:1: entryRuleGreeting : ruleGreeting EOF ;
     public final void entryRuleGreeting() throws RecognitionException {
         try {
-            // InternalTestLanguage.g:89:1: ( ruleGreeting EOF )
-            // InternalTestLanguage.g:90:1: ruleGreeting EOF
+            // InternalTestLanguage.g:79:1: ( ruleGreeting EOF )
+            // InternalTestLanguage.g:80:1: ruleGreeting EOF
             {
              before(grammarAccess.getGreetingRule()); 
             pushFollow(FOLLOW_1);
@@ -198,21 +196,21 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "ruleGreeting"
-    // InternalTestLanguage.g:97:1: ruleGreeting : ( ( rule__Greeting__Group__0 ) ) ;
+    // InternalTestLanguage.g:87:1: ruleGreeting : ( ( rule__Greeting__Group__0 ) ) ;
     public final void ruleGreeting() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:101:2: ( ( ( rule__Greeting__Group__0 ) ) )
-            // InternalTestLanguage.g:102:1: ( ( rule__Greeting__Group__0 ) )
+            // InternalTestLanguage.g:91:2: ( ( ( rule__Greeting__Group__0 ) ) )
+            // InternalTestLanguage.g:92:2: ( ( rule__Greeting__Group__0 ) )
             {
-            // InternalTestLanguage.g:102:1: ( ( rule__Greeting__Group__0 ) )
-            // InternalTestLanguage.g:103:1: ( rule__Greeting__Group__0 )
+            // InternalTestLanguage.g:92:2: ( ( rule__Greeting__Group__0 ) )
+            // InternalTestLanguage.g:93:3: ( rule__Greeting__Group__0 )
             {
              before(grammarAccess.getGreetingAccess().getGroup()); 
-            // InternalTestLanguage.g:104:1: ( rule__Greeting__Group__0 )
-            // InternalTestLanguage.g:104:2: rule__Greeting__Group__0
+            // InternalTestLanguage.g:94:3: ( rule__Greeting__Group__0 )
+            // InternalTestLanguage.g:94:4: rule__Greeting__Group__0
             {
             pushFollow(FOLLOW_2);
             rule__Greeting__Group__0();
@@ -245,14 +243,14 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__0"
-    // InternalTestLanguage.g:118:1: rule__Greeting__Group__0 : rule__Greeting__Group__0__Impl rule__Greeting__Group__1 ;
+    // InternalTestLanguage.g:102:1: rule__Greeting__Group__0 : rule__Greeting__Group__0__Impl rule__Greeting__Group__1 ;
     public final void rule__Greeting__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:122:1: ( rule__Greeting__Group__0__Impl rule__Greeting__Group__1 )
-            // InternalTestLanguage.g:123:2: rule__Greeting__Group__0__Impl rule__Greeting__Group__1
+            // InternalTestLanguage.g:106:1: ( rule__Greeting__Group__0__Impl rule__Greeting__Group__1 )
+            // InternalTestLanguage.g:107:2: rule__Greeting__Group__0__Impl rule__Greeting__Group__1
             {
             pushFollow(FOLLOW_4);
             rule__Greeting__Group__0__Impl();
@@ -283,17 +281,17 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__0__Impl"
-    // InternalTestLanguage.g:130:1: rule__Greeting__Group__0__Impl : ( 'Hello' ) ;
+    // InternalTestLanguage.g:114:1: rule__Greeting__Group__0__Impl : ( 'Hello' ) ;
     public final void rule__Greeting__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:134:1: ( ( 'Hello' ) )
-            // InternalTestLanguage.g:135:1: ( 'Hello' )
+            // InternalTestLanguage.g:118:1: ( ( 'Hello' ) )
+            // InternalTestLanguage.g:119:1: ( 'Hello' )
             {
-            // InternalTestLanguage.g:135:1: ( 'Hello' )
-            // InternalTestLanguage.g:136:1: 'Hello'
+            // InternalTestLanguage.g:119:1: ( 'Hello' )
+            // InternalTestLanguage.g:120:2: 'Hello'
             {
              before(grammarAccess.getGreetingAccess().getHelloKeyword_0()); 
             match(input,11,FOLLOW_2); 
@@ -320,14 +318,14 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__1"
-    // InternalTestLanguage.g:149:1: rule__Greeting__Group__1 : rule__Greeting__Group__1__Impl rule__Greeting__Group__2 ;
+    // InternalTestLanguage.g:129:1: rule__Greeting__Group__1 : rule__Greeting__Group__1__Impl rule__Greeting__Group__2 ;
     public final void rule__Greeting__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:153:1: ( rule__Greeting__Group__1__Impl rule__Greeting__Group__2 )
-            // InternalTestLanguage.g:154:2: rule__Greeting__Group__1__Impl rule__Greeting__Group__2
+            // InternalTestLanguage.g:133:1: ( rule__Greeting__Group__1__Impl rule__Greeting__Group__2 )
+            // InternalTestLanguage.g:134:2: rule__Greeting__Group__1__Impl rule__Greeting__Group__2
             {
             pushFollow(FOLLOW_5);
             rule__Greeting__Group__1__Impl();
@@ -358,21 +356,21 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__1__Impl"
-    // InternalTestLanguage.g:161:1: rule__Greeting__Group__1__Impl : ( ( rule__Greeting__NameAssignment_1 ) ) ;
+    // InternalTestLanguage.g:141:1: rule__Greeting__Group__1__Impl : ( ( rule__Greeting__NameAssignment_1 ) ) ;
     public final void rule__Greeting__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:165:1: ( ( ( rule__Greeting__NameAssignment_1 ) ) )
-            // InternalTestLanguage.g:166:1: ( ( rule__Greeting__NameAssignment_1 ) )
+            // InternalTestLanguage.g:145:1: ( ( ( rule__Greeting__NameAssignment_1 ) ) )
+            // InternalTestLanguage.g:146:1: ( ( rule__Greeting__NameAssignment_1 ) )
             {
-            // InternalTestLanguage.g:166:1: ( ( rule__Greeting__NameAssignment_1 ) )
-            // InternalTestLanguage.g:167:1: ( rule__Greeting__NameAssignment_1 )
+            // InternalTestLanguage.g:146:1: ( ( rule__Greeting__NameAssignment_1 ) )
+            // InternalTestLanguage.g:147:2: ( rule__Greeting__NameAssignment_1 )
             {
              before(grammarAccess.getGreetingAccess().getNameAssignment_1()); 
-            // InternalTestLanguage.g:168:1: ( rule__Greeting__NameAssignment_1 )
-            // InternalTestLanguage.g:168:2: rule__Greeting__NameAssignment_1
+            // InternalTestLanguage.g:148:2: ( rule__Greeting__NameAssignment_1 )
+            // InternalTestLanguage.g:148:3: rule__Greeting__NameAssignment_1
             {
             pushFollow(FOLLOW_2);
             rule__Greeting__NameAssignment_1();
@@ -405,14 +403,14 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__2"
-    // InternalTestLanguage.g:178:1: rule__Greeting__Group__2 : rule__Greeting__Group__2__Impl ;
+    // InternalTestLanguage.g:156:1: rule__Greeting__Group__2 : rule__Greeting__Group__2__Impl ;
     public final void rule__Greeting__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:182:1: ( rule__Greeting__Group__2__Impl )
-            // InternalTestLanguage.g:183:2: rule__Greeting__Group__2__Impl
+            // InternalTestLanguage.g:160:1: ( rule__Greeting__Group__2__Impl )
+            // InternalTestLanguage.g:161:2: rule__Greeting__Group__2__Impl
             {
             pushFollow(FOLLOW_2);
             rule__Greeting__Group__2__Impl();
@@ -438,17 +436,17 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__Group__2__Impl"
-    // InternalTestLanguage.g:189:1: rule__Greeting__Group__2__Impl : ( '!' ) ;
+    // InternalTestLanguage.g:167:1: rule__Greeting__Group__2__Impl : ( '!' ) ;
     public final void rule__Greeting__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:193:1: ( ( '!' ) )
-            // InternalTestLanguage.g:194:1: ( '!' )
+            // InternalTestLanguage.g:171:1: ( ( '!' ) )
+            // InternalTestLanguage.g:172:1: ( '!' )
             {
-            // InternalTestLanguage.g:194:1: ( '!' )
-            // InternalTestLanguage.g:195:1: '!'
+            // InternalTestLanguage.g:172:1: ( '!' )
+            // InternalTestLanguage.g:173:2: '!'
             {
              before(grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2()); 
             match(input,12,FOLLOW_2); 
@@ -475,17 +473,17 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Model__GreetingsAssignment"
-    // InternalTestLanguage.g:215:1: rule__Model__GreetingsAssignment : ( ruleGreeting ) ;
+    // InternalTestLanguage.g:183:1: rule__Model__GreetingsAssignment : ( ruleGreeting ) ;
     public final void rule__Model__GreetingsAssignment() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:219:1: ( ( ruleGreeting ) )
-            // InternalTestLanguage.g:220:1: ( ruleGreeting )
+            // InternalTestLanguage.g:187:1: ( ( ruleGreeting ) )
+            // InternalTestLanguage.g:188:2: ( ruleGreeting )
             {
-            // InternalTestLanguage.g:220:1: ( ruleGreeting )
-            // InternalTestLanguage.g:221:1: ruleGreeting
+            // InternalTestLanguage.g:188:2: ( ruleGreeting )
+            // InternalTestLanguage.g:189:3: ruleGreeting
             {
              before(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); 
             pushFollow(FOLLOW_2);
@@ -516,17 +514,17 @@ public class InternalTestLanguageParser extends AbstractInternalContentAssistPar
 
 
     // $ANTLR start "rule__Greeting__NameAssignment_1"
-    // InternalTestLanguage.g:230:1: rule__Greeting__NameAssignment_1 : ( RULE_ID ) ;
+    // InternalTestLanguage.g:198:1: rule__Greeting__NameAssignment_1 : ( RULE_ID ) ;
     public final void rule__Greeting__NameAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
-            
+        	
         try {
-            // InternalTestLanguage.g:234:1: ( ( RULE_ID ) )
-            // InternalTestLanguage.g:235:1: ( RULE_ID )
+            // InternalTestLanguage.g:202:1: ( ( RULE_ID ) )
+            // InternalTestLanguage.g:203:2: ( RULE_ID )
             {
-            // InternalTestLanguage.g:235:1: ( RULE_ID )
-            // InternalTestLanguage.g:236:1: RULE_ID
+            // InternalTestLanguage.g:203:2: ( RULE_ID )
+            // InternalTestLanguage.g:204:3: RULE_ID
             {
              before(grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
             match(input,RULE_ID,FOLLOW_2); 
