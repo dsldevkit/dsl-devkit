@@ -145,6 +145,15 @@ These directories contain generated code - do not edit manually:
 xvfb-run ./mvnw verify -f ./ddk-parent/pom.xml -pl :com.avaloq.tools.ddk.xtext.test
 ```
 
+### Regenerating Sources
+`.github/scripts/regenerate.sh` runs every tracked MWE2 workflow without Eclipse, except those in its `EXCLUDE` (not standalone) and `KNOWN_DRIFT` (output not yet in sync, each with its issue) arrays; `--list` prints the ones it runs. The `generated-sources` job in `verify.yml` runs it and fails if the result differs from the committed files. The workflows read grammars and generators from `target/classes`, so build the owning bundles with `install` first, on JDK 21, and again after changing a grammar or generator. `install` writes DDK snapshots to the local Maven repository; add `-Dmaven.repo.local=...` to both commands to keep them out of `~/.m2`. Script arguments are passed to Maven:
+```bash
+./mvnw install -DskipTests -f ./ddk-parent/pom.xml -pl ":ddk-target,$(.github/scripts/regenerate.sh --owners)" -am -Dtycho.baseline=disable -Dtycho.baseline.replace=none
+.github/scripts/regenerate.sh
+git status
+```
+A new workflow is checked automatically, and the job builds its owning bundle from `--owners`. Add to `KNOWN_DRIFT` only with an issue that removes the entry again.
+
 ### Bumping Versions
 CI fails with "Only qualifier changed" when a published bundle or feature differs from the last release (`p2/releases/latest`) but keeps its version.
 1. Changing a published bundle (one included in the features, incl. `test.core`, `test.ui`, `xtext.test.core`): its version on `master` must reflect the strongest change since the last release, so it is bumped at most once per level between releases, not once per PR.
