@@ -3,8 +3,18 @@
  */
 package com.avaloq.tools.ddk.xtext.export;
 
+import com.avaloq.tools.ddk.xtext.export.parser.antlr.ExportAntlrTokenFileProvider;
+import com.avaloq.tools.ddk.xtext.export.parser.antlr.ExportParser;
+import com.avaloq.tools.ddk.xtext.export.parser.antlr.internal.InternalExportLexer;
+import com.avaloq.tools.ddk.xtext.export.scoping.ExportScopeProvider;
+import com.avaloq.tools.ddk.xtext.export.serializer.ExportSemanticSequencer;
+import com.avaloq.tools.ddk.xtext.export.serializer.ExportSyntacticSequencer;
+import com.avaloq.tools.ddk.xtext.export.services.ExportGrammarAccess;
+import com.avaloq.tools.ddk.xtext.export.validation.ExportValidator;
+import com.google.inject.Binder;
+import com.google.inject.Provider;
+import com.google.inject.name.Names;
 import java.util.Properties;
-
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.common.types.xtext.TypesAwareDefaultGlobalScopeProvider;
@@ -50,193 +60,172 @@ import org.eclipse.xtext.xbase.typesystem.internal.LogicalContainerAwareReentran
 import org.eclipse.xtext.xbase.validation.FeatureNameValidator;
 import org.eclipse.xtext.xbase.validation.LogicalContainerAwareFeatureNameValidator;
 
-import com.avaloq.tools.ddk.xtext.export.parser.antlr.ExportAntlrTokenFileProvider;
-import com.avaloq.tools.ddk.xtext.export.parser.antlr.ExportParser;
-import com.avaloq.tools.ddk.xtext.export.parser.antlr.internal.InternalExportLexer;
-import com.avaloq.tools.ddk.xtext.export.scoping.ExportScopeProvider;
-import com.avaloq.tools.ddk.xtext.export.serializer.ExportSemanticSequencer;
-import com.avaloq.tools.ddk.xtext.export.serializer.ExportSyntacticSequencer;
-import com.avaloq.tools.ddk.xtext.export.services.ExportGrammarAccess;
-import com.avaloq.tools.ddk.xtext.export.validation.ExportValidator;
-import com.google.inject.Binder;
-import com.google.inject.Provider;
-import com.google.inject.name.Names;
-
-
 /**
  * Manual modifications go to {@link ExportRuntimeModule}.
  */
 @SuppressWarnings("all")
 public abstract class AbstractExportRuntimeModule extends DefaultXbaseRuntimeModule {
 
-  protected Properties properties = null;
+	protected Properties properties = null;
 
-  @Override
-  public void configure(final Binder binder) {
-    properties = tryBindProperties(binder, "com/avaloq/tools/ddk/xtext/export/Export.properties");
-    super.configure(binder);
-  }
-
-  public void configureLanguageName(final Binder binder) {
-    binder.bind(String.class).annotatedWith(Names.named(Constants.LANGUAGE_NAME)).toInstance("com.avaloq.tools.ddk.xtext.export.Export");
-  }
-
-  public void configureFileExtensions(final Binder binder) {
-    if (properties == null || properties.getProperty(Constants.FILE_EXTENSIONS) == null) {
-      binder.bind(String.class).annotatedWith(Names.named(Constants.FILE_EXTENSIONS)).toInstance("export");
-    }
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessFragment2
-  @Override
-  public ClassLoader bindClassLoaderToInstance() {
-    return getClass().getClassLoader();
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessFragment2
-  public Class<? extends IGrammarAccess> bindIGrammarAccess() {
-    return ExportGrammarAccess.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.serializer.SerializerFragment2
-  @Override
-  public Class<? extends ISemanticSequencer> bindISemanticSequencer() {
-    return ExportSemanticSequencer.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.serializer.SerializerFragment2
-  public Class<? extends ISyntacticSequencer> bindISyntacticSequencer() {
-    return ExportSyntacticSequencer.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.serializer.SerializerFragment2
-  @Override
-  public Class<? extends ISerializer> bindISerializer() {
-    return Serializer.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  public Class<? extends IParser> bindIParser() {
-    return ExportParser.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  @Override
-  public Class<? extends ITokenToStringConverter> bindITokenToStringConverter() {
-    return AntlrTokenToStringConverter.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  public Class<? extends IAntlrTokenFileProvider> bindIAntlrTokenFileProvider() {
-    return ExportAntlrTokenFileProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  public Class<? extends Lexer> bindLexer() {
-    return InternalExportLexer.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  @Override
-  public Class<? extends ITokenDefProvider> bindITokenDefProvider() {
-    return AntlrTokenDefProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  public Provider<? extends InternalExportLexer> provideInternalExportLexer() {
-    return LexerProvider.create(InternalExportLexer.class);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
-  public void configureRuntimeLexer(final Binder binder) {
-    binder.bind(Lexer.class).annotatedWith(Names.named(LexerBindings.RUNTIME)).to(InternalExportLexer.class);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.validation.ValidatorFragment2
-  @SingletonBinding(eager = true)
-  public Class<? extends ExportValidator> bindExportValidator() {
-    return ExportValidator.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
-  public Class<? extends IBatchScopeProvider> bindIBatchScopeProvider() {
-    return ExportScopeProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
-  @Override
-  public void configureIScopeProviderDelegate(final Binder binder) {
-    binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
-  public void configureIgnoreCaseLinking(final Binder binder) {
-    binder.bindConstant().annotatedWith(IgnoreCaseLinking.class).to(false);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.exporting.SimpleNamesFragment2
-  @Override
-  public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
-    return SimpleNameProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
-  @Override
-  public Class<? extends IContainer.Manager> bindIContainer$Manager() {
-    return StateBasedContainerManager.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
-  public Class<? extends IAllContainersState.Provider> bindIAllContainersState$Provider() {
-    return ResourceSetBasedAllContainersStateProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
-  @Override
-  public void configureIResourceDescriptions(final Binder binder) {
-    binder.bind(IResourceDescriptions.class).to(ResourceSetBasedResourceDescriptions.class);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
-  public void configureIResourceDescriptionsPersisted(final Binder binder) {
-    binder.bind(IResourceDescriptions.class).annotatedWith(Names.named(ResourceDescriptionsProvider.PERSISTED_DESCRIPTIONS)).to(ResourceSetBasedResourceDescriptions.class);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  public void configureRewritableImportSectionEnablement(final Binder binder) {
-    binder.bind(Boolean.TYPE).annotatedWith(Names.named(RewritableImportSection.Factory.REWRITABLEIMPORTSECTION_ENABLEMENT)).toInstance(Boolean.FALSE);
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  @Override
-  public Class<? extends ILocationInFileProvider> bindILocationInFileProvider() {
-    return JvmLocationInFileProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  @Override
-  public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
-    return TypesAwareDefaultGlobalScopeProvider.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  public Class<? extends FeatureNameValidator> bindFeatureNameValidator() {
-    return LogicalContainerAwareFeatureNameValidator.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  public Class<? extends DefaultBatchTypeResolver> bindDefaultBatchTypeResolver() {
-    return LogicalContainerAwareBatchTypeResolver.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  public Class<? extends DefaultReentrantTypeResolver> bindDefaultReentrantTypeResolver() {
-    return LogicalContainerAwareReentrantTypeResolver.class;
-  }
-
-  // contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
-  public Class<? extends IResourceValidator> bindIResourceValidator() {
-    return DerivedStateAwareResourceValidator.class;
-  }
-
+	@Override
+	public void configure(Binder binder) {
+		properties = tryBindProperties(binder, "com/avaloq/tools/ddk/xtext/export/Export.properties");
+		super.configure(binder);
+	}
+	
+	public void configureLanguageName(Binder binder) {
+		binder.bind(String.class).annotatedWith(Names.named(Constants.LANGUAGE_NAME)).toInstance("com.avaloq.tools.ddk.xtext.export.Export");
+	}
+	
+	public void configureFileExtensions(Binder binder) {
+		if (properties == null || properties.getProperty(Constants.FILE_EXTENSIONS) == null)
+			binder.bind(String.class).annotatedWith(Names.named(Constants.FILE_EXTENSIONS)).toInstance("export");
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessFragment2
+	public ClassLoader bindClassLoaderToInstance() {
+		return getClass().getClassLoader();
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.grammarAccess.GrammarAccessFragment2
+	public Class<? extends IGrammarAccess> bindIGrammarAccess() {
+		return ExportGrammarAccess.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.serializer.SerializerFragment2
+	public Class<? extends ISemanticSequencer> bindISemanticSequencer() {
+		return ExportSemanticSequencer.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.serializer.SerializerFragment2
+	public Class<? extends ISyntacticSequencer> bindISyntacticSequencer() {
+		return ExportSyntacticSequencer.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.serializer.SerializerFragment2
+	public Class<? extends ISerializer> bindISerializer() {
+		return Serializer.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Class<? extends IParser> bindIParser() {
+		return ExportParser.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Class<? extends ITokenToStringConverter> bindITokenToStringConverter() {
+		return AntlrTokenToStringConverter.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Class<? extends IAntlrTokenFileProvider> bindIAntlrTokenFileProvider() {
+		return ExportAntlrTokenFileProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Class<? extends Lexer> bindLexer() {
+		return InternalExportLexer.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Class<? extends ITokenDefProvider> bindITokenDefProvider() {
+		return AntlrTokenDefProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public Provider<? extends InternalExportLexer> provideInternalExportLexer() {
+		return LexerProvider.create(InternalExportLexer.class);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.parser.antlr.XtextAntlrGeneratorFragment2
+	public void configureRuntimeLexer(Binder binder) {
+		binder.bind(Lexer.class)
+			.annotatedWith(Names.named(LexerBindings.RUNTIME))
+			.to(InternalExportLexer.class);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.validation.ValidatorFragment2
+	@SingletonBinding(eager=true)
+	public Class<? extends ExportValidator> bindExportValidator() {
+		return ExportValidator.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
+	public Class<? extends IBatchScopeProvider> bindIBatchScopeProvider() {
+		return ExportScopeProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
+	public void configureIScopeProviderDelegate(Binder binder) {
+		binder.bind(IScopeProvider.class).annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(XImportSectionNamespaceScopeProvider.class);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.scoping.ImportNamespacesScopingFragment2
+	public void configureIgnoreCaseLinking(Binder binder) {
+		binder.bindConstant().annotatedWith(IgnoreCaseLinking.class).to(false);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.exporting.SimpleNamesFragment2
+	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
+		return SimpleNameProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
+	public Class<? extends IContainer.Manager> bindIContainer$Manager() {
+		return StateBasedContainerManager.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
+	public Class<? extends IAllContainersState.Provider> bindIAllContainersState$Provider() {
+		return ResourceSetBasedAllContainersStateProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
+	public void configureIResourceDescriptions(Binder binder) {
+		binder.bind(IResourceDescriptions.class).to(ResourceSetBasedResourceDescriptions.class);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
+	public void configureIResourceDescriptionsPersisted(Binder binder) {
+		binder.bind(IResourceDescriptions.class).annotatedWith(Names.named(ResourceDescriptionsProvider.PERSISTED_DESCRIPTIONS)).to(ResourceSetBasedResourceDescriptions.class);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public void configureRewritableImportSectionEnablement(Binder binder) {
+		binder.bind(Boolean.TYPE)
+			.annotatedWith(Names.named(RewritableImportSection.Factory.REWRITABLEIMPORTSECTION_ENABLEMENT))
+			.toInstance(Boolean.FALSE);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends ILocationInFileProvider> bindILocationInFileProvider() {
+		return JvmLocationInFileProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IGlobalScopeProvider> bindIGlobalScopeProvider() {
+		return TypesAwareDefaultGlobalScopeProvider.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends FeatureNameValidator> bindFeatureNameValidator() {
+		return LogicalContainerAwareFeatureNameValidator.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends DefaultBatchTypeResolver> bindDefaultBatchTypeResolver() {
+		return LogicalContainerAwareBatchTypeResolver.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends DefaultReentrantTypeResolver> bindDefaultReentrantTypeResolver() {
+		return LogicalContainerAwareReentrantTypeResolver.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+	public Class<? extends IResourceValidator> bindIResourceValidator() {
+		return DerivedStateAwareResourceValidator.class;
+	}
+	
 }
