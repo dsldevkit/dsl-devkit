@@ -3,33 +3,33 @@
  */
 package com.avaloq.tools.ddk.check.ui.internal;
 
+import com.avaloq.tools.ddk.check.TestLanguageRuntimeModule;
+import com.avaloq.tools.ddk.check.ui.TestLanguageUiModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.eclipse.xtext.util.Modules2;
 import org.osgi.framework.BundleContext;
 
-import com.google.common.collect.Maps;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
  */
 public class TestLanguageActivator extends AbstractUIPlugin {
-	
+
+	public static final String PLUGIN_ID = "com.avaloq.tools.ddk.check.test.runtime.ui";
 	public static final String COM_AVALOQ_TOOLS_DDK_CHECK_TESTLANGUAGE = "com.avaloq.tools.ddk.check.TestLanguage";
 	
 	private static final Logger logger = Logger.getLogger(TestLanguageActivator.class);
 	
 	private static TestLanguageActivator INSTANCE;
 	
-	private Map<String, Injector> injectors = Collections.synchronizedMap(Maps.<String, Injector> newHashMapWithExpectedSize(1));
+	private Map<String, Injector> injectors = Collections.synchronizedMap(new HashMap<>(2));
 	
 	@Override
 	public void start(BundleContext context) throws Exception {
@@ -60,10 +60,10 @@ public class TestLanguageActivator extends AbstractUIPlugin {
 	
 	protected Injector createInjector(String language) {
 		try {
-			Module runtimeModule = getRuntimeModule(language);
-			Module sharedStateModule = getSharedStateModule();
-			Module uiModule = getUiModule(language);
-			Module mergedModule = Modules2.mixin(runtimeModule, sharedStateModule, uiModule);
+			com.google.inject.Module runtimeModule = getRuntimeModule(language);
+			com.google.inject.Module sharedStateModule = getSharedStateModule();
+			com.google.inject.Module uiModule = getUiModule(language);
+			com.google.inject.Module mergedModule = Modules2.mixin(runtimeModule, sharedStateModule, uiModule);
 			return Guice.createInjector(mergedModule);
 		} catch (Exception e) {
 			logger.error("Failed to create injector for " + language);
@@ -71,25 +71,24 @@ public class TestLanguageActivator extends AbstractUIPlugin {
 			throw new RuntimeException("Failed to create injector for " + language, e);
 		}
 	}
-
-	protected Module getRuntimeModule(String grammar) {
+	
+	protected com.google.inject.Module getRuntimeModule(String grammar) {
 		if (COM_AVALOQ_TOOLS_DDK_CHECK_TESTLANGUAGE.equals(grammar)) {
-			return new com.avaloq.tools.ddk.check.TestLanguageRuntimeModule();
+			return new TestLanguageRuntimeModule();
 		}
-		
 		throw new IllegalArgumentException(grammar);
 	}
 	
-	protected Module getUiModule(String grammar) {
+	protected com.google.inject.Module getUiModule(String grammar) {
 		if (COM_AVALOQ_TOOLS_DDK_CHECK_TESTLANGUAGE.equals(grammar)) {
-			return new com.avaloq.tools.ddk.check.ui.TestLanguageUiModule(this);
+			return new TestLanguageUiModule(this);
 		}
-		
 		throw new IllegalArgumentException(grammar);
 	}
 	
-	protected Module getSharedStateModule() {
+	protected com.google.inject.Module getSharedStateModule() {
 		return new SharedStateModule();
 	}
+	
 	
 }
