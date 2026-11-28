@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -141,6 +142,20 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
   }
 
   /**
+   * Tests that a build with a format resource clears the build's resource set before the generation of the inherited build starts, so that format models
+   * are linked against freshly loaded models.
+   *
+   * @throws CoreException
+   *           if the build fails
+   */
+  @Test
+  public void buildClearsResourceSetBeforeGeneration() throws CoreException {
+    List<Integer> resourcesAtGeneration = new ArrayList<>();
+    build(resourcesAtGeneration, changedDelta(FORMAT_URI));
+    assertEquals(List.of(0), resourcesAtGeneration, "The resource set must be cleared before the inherited build collects the deltas to generate");
+  }
+
+  /**
    * Runs an enabled participant on a build with the given deltas and a resource set holding one resource.
    *
    * @param deltas
@@ -150,12 +165,37 @@ public class FormatBuilderParticipantTest extends AbstractXtextTest {
    *           if the build fails
    */
   private ResourceSet build(final Delta... deltas) throws CoreException {
+    return build(new ArrayList<>(), deltas);
+  }
+
+  /**
+   * Runs an enabled participant on a build with the given deltas and a resource set holding one resource.
+   * <p>
+   * The inherited build starts by collecting the deltas to generate ({@code getRelevantDeltas}); the participant records the size of the resource set at
+   * that point and returns no deltas, so that the build stops before generating.
+   * </p>
+   *
+   * @param resourcesAtGeneration
+   *          receives the number of resources in the resource set each time the inherited build starts
+   * @param deltas
+   *          the deltas of the build
+   * @return the resource set of the build
+   * @throws CoreException
+   *           if the build fails
+   */
+  private ResourceSet build(final List<Integer> resourcesAtGeneration, final Delta... deltas) throws CoreException {
     IResourceServiceProvider resourceServiceProvider = mock(IResourceServiceProvider.class);
     when(resourceServiceProvider.canHandle(any())).thenAnswer(invocation -> FORMAT_FILE_EXTENSION.equals(invocation.<URI> getArgument(0).fileExtension()));
     FormatBuilderParticipant buildParticipant = new FormatBuilderParticipant() {
       @Override
       public IResourceServiceProvider getResourceServiceProvider() {
         return resourceServiceProvider;
+      }
+
+      @Override
+      protected List<Delta> getRelevantDeltas(final IBuildContext context) {
+        resourcesAtGeneration.add(context.getResourceSet().getResources().size());
+        return List.of();
       }
     };
     BuilderPreferenceAccess preferenceAccess = mock(BuilderPreferenceAccess.class);
